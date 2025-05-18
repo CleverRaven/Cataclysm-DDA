@@ -75,7 +75,7 @@
       "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_items": [
-        { "item": "fridgesnacks", "x": 21, "y": 15, "chance": 20 },
+        { "item": "SUS_fridge_breakroom", "x": 21, "y": 15, "chance": 20 },
         { "item": "elecsto_cameras", "x": [ 3, 6 ], "y": 8, "chance": 20 },
         { "item": "bionics_common", "x": [ 9, 12 ], "y": 8, "chance": 20 },
         { "item": "elecsto_lights", "x": 2, "y": [ 9, 12 ], "chance": 20 },

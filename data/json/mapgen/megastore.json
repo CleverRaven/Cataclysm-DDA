@@ -70,7 +70,7 @@
       "Á": { "item": "cash_register_random", "chance": 100 },
       "l": { "item": "jackets", "chance": 5 },
       "L": { "item": "home_hw", "chance": 50 },
-      "o": { "item": "oven", "chance": 70 },
+      "o": { "item": "SUS_oven", "chance": 70 },
       "t": { "item": "SUS_trash_trashcan_public", "chance": 60 },
       "U": { "item": "kitchen", "chance": 40 },
       "D": { "item": "SUS_office_desk", "chance": 30 },
@@ -85,7 +85,7 @@
     "items": {
       "b": { "item": "novels", "chance": 65, "repeat": [ 4, 12 ] },
       "f": { "item": "produce", "chance": 65, "repeat": [ 2, 10 ] },
-      "F": { "item": "fridgesnacks", "chance": 65, "repeat": [ 2, 10 ] },
+      "F": { "item": "SUS_fridge_breakroom", "chance": 65, "repeat": [ 2, 4 ] },
       "k": { "item": "shirts", "chance": 65, "repeat": [ 1, 4 ] },
       "K": { "item": "shoes", "chance": 65, "repeat": [ 1, 4 ] },
       "r": { "item": "pants", "chance": 65, "repeat": [ 1, 4 ] },
@@ -99,8 +99,8 @@
     "id": "mega_goods_b",
     "items": {
       "b": { "item": "homebooks", "chance": 70, "repeat": [ 2, 10 ] },
-      "f": { "item": "fridgesnacks", "chance": 65, "repeat": [ 2, 10 ] },
-      "F": { "item": "fridge", "chance": 65, "repeat": [ 2, 10 ] },
+      "f": { "item": "SUS_fridge_breakroom", "chance": 65, "repeat": [ 2, 4 ] },
+      "F": { "item": "SUS_fridge", "chance": 65, "repeat": [ 2, 10 ] },
       "k": { "item": "shoes", "chance": 65, "repeat": [ 1, 4 ] },
       "K": { "item": "cannedfood", "chance": 65, "repeat": [ 2, 10 ] },
       "r": { "item": "hardware", "chance": 65, "repeat": [ 1, 4 ] },
@@ -114,7 +114,7 @@
     "id": "mega_goods_c",
     "items": {
       "b": { "item": "waitingroom", "chance": 60, "repeat": [ 1, 4 ] },
-      "f": { "item": "fridge", "chance": 65, "repeat": [ 2, 10 ] },
+      "f": { "item": "SUS_fridge", "chance": 65, "repeat": [ 2, 10 ] },
       "F": { "item": "produce", "chance": 65, "repeat": [ 1, 4 ] },
       "k": { "item": "cannedfood", "chance": 65, "repeat": [ 2, 10 ] },
       "K": { "item": "pasta", "chance": 65, "repeat": [ 2, 10 ] },
@@ -159,7 +159,7 @@
     "id": "mega_goods_f",
     "items": {
       "b": { "item": "novels", "chance": 65, "repeat": [ 4, 12 ] },
-      "f": { "item": "fridgesnacks", "chance": 65, "repeat": [ 4, 12 ] },
+      "f": { "item": "SUS_fridge_breakroom", "chance": 65, "repeat": [ 1, 4 ] },
       "F": { "item": "vending_drink_items", "chance": 65, "repeat": [ 4, 12 ] },
       "k": { "item": "shirts", "chance": 65, "repeat": [ 1, 4 ] },
       "K": { "item": "shoes", "chance": 65, "repeat": [ 1, 4 ] },

@@ -162,6 +162,7 @@ static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_steel_chunk( "steel_chunk" );
 static const itype_id itype_wire( "wire" );
 
+static const json_character_flag json_flag_ONE_STORY_FALL( "ONE_STORY_FALL" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 
 static const material_id material_glass( "glass" );
@@ -2351,13 +2352,7 @@ int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, cons
 
     if( veh != nullptr ) {
         const vpart_position vp( const_cast<vehicle &>( *veh ), vpart );
-        if( vp.obstacle_at_part() ) {
-            return 0;
-        } else if( vp.part_with_feature( VPFLAG_AISLE, true ) ) {
-            return 2;
-        } else {
-            return 8;
-        }
+        return vp.get_movecost();
     }
     int movecost = std::max( terrain.movecost + field.total_move_cost(), 0 );
 
@@ -2420,7 +2415,8 @@ int map::move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle,
     vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
     const int part = veh ? vp->part_index() : -1;
 
-    return move_cost_internal( furniture, terrain, ( !ignore_fields ? field : nofield ), veh, part );
+    return move_cost_internal( furniture, terrain,
+                               ( !ignore_fields ? field : nofield ), veh, part );
 }
 
 bool map::impassable( const tripoint_bub_ms &p ) const
@@ -10026,6 +10022,10 @@ bool map::try_fall( const tripoint_bub_ms &p, Creature *c )
     }
 
     if( you->get_size() == creature_size::tiny ) {
+        height = std::max( 0, height - 1 );
+    }
+
+    if( you->has_flag( json_flag_ONE_STORY_FALL ) ) {
         height = std::max( 0, height - 1 );
     }
 

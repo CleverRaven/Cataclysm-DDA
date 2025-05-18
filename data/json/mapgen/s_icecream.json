@@ -73,7 +73,7 @@
       "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true }, "v": { "item_group": "vending_food", "lootable": true } },
       "place_items": [
         { "item": "clothing_work_gloves", "x": 20, "y": 20, "chance": 35 },
-        { "item": "oven", "x": 12, "y": 17, "chance": 45 },
+        { "item": "SUS_oven", "x": 12, "y": 17, "chance": 45 },
         { "item": "coffee_dishes", "x": 20, "y": 15, "chance": 25 },
         { "item": "groce_frozen", "x": 15, "y": 15, "chance": 35, "repeat": [ 1, 8 ] },
         { "item": "dessert", "x": 15, "y": 15, "chance": 50, "repeat": [ 1, 8 ] },
@@ -82,7 +82,7 @@
         { "item": "SUS_trash_trashcan", "x": 12, "y": 15, "chance": 65 },
         { "item": "SUS_trash_trashcan", "x": 21, "y": 8, "chance": 65 },
         { "item": "dessert", "x": 14, "y": 15, "chance": 75, "repeat": [ 1, 4 ] },
-        { "item": "fridgesnacks", "x": 14, "y": 15, "chance": 75, "repeat": [ 1, 8 ] },
+        { "item": "SUS_fridge_snacks", "x": 14, "y": 15, "chance": 75, "repeat": [ 1, 4 ] },
         { "item": "SUS_trash_floor", "x": [ 9, 10 ], "y": 21, "chance": 35 },
         { "item": "SUS_trash_floor", "x": 16, "y": 17, "chance": 35 },
         { "item": "SUS_trash_floor", "x": 18, "y": 12, "chance": 35 },

@@ -105,7 +105,8 @@
       [ [ "matrix_crystal_electrokin_dust_refined", 2 ] ],
       [ [ "psionic_serum_base", 1 ] ],
       [ [ "cable", 10 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",

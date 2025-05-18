@@ -253,106 +253,6 @@
     "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
   },
   {
-    "id": "dinosuit",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "dinosaur suit" },
-    "description": "A full-body costume in the form of an anthropomorphic dinosaur.  It is quite encumbering and has little storage but is very warm.",
-    "weight": "7033 g",
-    "volume": "12 L",
-    "price": "2 kUSD 500 USD",
-    "price_postapoc": "10 USD",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "wolfsuit",
-    "color": "light_green",
-    "armor": [
-      { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 26, 30 ] },
-      { "covers": [ "mouth", "eyes" ], "coverage": 95, "encumbrance": [ 26, 26 ] },
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
-    ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 } ],
-    "warmth": 50,
-    "material_thickness": 3,
-    "environmental_protection": 2,
-    "flags": [ "OUTER" ]
-  },
-  {
-    "id": "sharksuit",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "shark suit" },
-    "description": "A full-body costume in the form of an anthropomorphic bull shark.  It is quite encumbering and has little storage but is very warm.",
-    "weight": "6033 g",
-    "volume": "12 L",
-    "price": "2 kUSD 500 USD",
-    "price_postapoc": "10 USD",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "wolfsuit",
-    "color": "light_blue",
-    "armor": [
-      { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 26, 30 ] },
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
-    ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 } ],
-    "warmth": 50,
-    "material_thickness": 3,
-    "environmental_protection": 2,
-    "flags": [ "OUTER" ]
-  },
-  {
-    "id": "dragonsuit",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "dragon suit" },
-    "description": "A cartoonish recreation of a western dragon remade into a suit.  Effectively useless nowadays, unless you think the mutants will treat you as one of their own if you wear this.  The wings really get in the way.",
-    "weight": "7033 g",
-    "volume": "12 L",
-    "price": "2 kUSD 500 USD",
-    "price_postapoc": "10 USD",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "dinosuit",
-    "color": "light_green",
-    "armor": [
-      { "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 26, 30 ] },
-      { "covers": [ "mouth", "eyes" ], "coverage": 95, "encumbrance": [ 26, 26 ] },
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 26, 26 ] },
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 36, 40 ] }
-    ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 } ],
-    "warmth": 50,
-    "material_thickness": 3,
-    "environmental_protection": 2,
-    "flags": [ "OUTER" ]
-  },
-  {
-    "id": "felinesuit",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "feline suit" },
-    "description": "A fursuit made to resemble an anthropomorphic feline of indistinguishable breed.  It's a decent source of faux fur if you need it.",
-    "weight": "7033 g",
-    "volume": "12 L",
-    "price": "2 kUSD 500 USD",
-    "price_postapoc": "10 USD",
-    "material": [ "cotton", "faux_fur" ],
-    "symbol": "[",
-    "looks_like": "wolfsuit",
-    "color": "light_green",
-    "armor": [
-      { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 26, 30 ] },
-      { "covers": [ "mouth", "eyes" ], "coverage": 95, "encumbrance": [ 26, 26 ] },
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
-    ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 } ],
-    "warmth": 50,
-    "material_thickness": 2,
-    "environmental_protection": 2,
-    "flags": [ "OUTER" ]
-  },
-  {
     "id": "flag_jumpsuit",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -405,24 +305,51 @@
     "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
   },
   {
-    "id": "jumpsuit",
+    "id": "jumpsuit_pocketless",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "jumpsuit" },
-    "description": "A thin, short-sleeved jumpsuit similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
+    "name": { "str": "pocketless jumpsuit" },
+    "description": "A thin, short-sleeved jumpsuit without pockets, similar to those worn by prisoners.  Not very encumbering.",
     "weight": "610 g",
     "volume": "3500 ml",
     "price": "89 USD",
     "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
-    "looks_like": "touring_suit",
-    "color": "yellow",
+    "looks_like": "jumpsuit",
     "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 1, 1 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }
     ],
+    "warmth": 15,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white",
+        "name": { "str": "white jumpsuit" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white"
+      },
+      {
+        "id": "orange",
+        "name": { "str": "orange jumpsuit" },
+        "append": true,
+        "description": "This one is orange.",
+        "color": "yellow"
+      }
+    ]
+  },
+  {
+    "copy-from": "jumpsuit_pocketless",
+    "id": "jumpsuit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "jumpsuit" },
+    "description": "A thin, short-sleeved jumpsuit similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -453,9 +380,30 @@
         "moves": 100
       }
     ],
-    "warmth": 15,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "extend": { "flags": [ "POCKETS" ] },
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white",
+        "name": { "str": "white jumpsuit" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white"
+      },
+      {
+        "id": "green",
+        "name": { "str": "green jumpsuit" },
+        "append": true,
+        "description": "This one is green.",
+        "color": "green"
+      },
+      {
+        "id": "robofac",
+        "name": { "str": "Hub 01 jumpsuit" },
+        "description": "A brown jumpsuit worn by the staff of Hub 01.",
+        "color": "brown"
+      }
+    ]
   },
   {
     "id": "jumpsuit_xl",
@@ -583,16 +531,6 @@
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] }
     ]
-  },
-  {
-    "id": "robofac_jumpsuit",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "copy-from": "jumpsuit",
-    "looks_like": "jumpsuit",
-    "name": { "str": "Hub 01 jumpsuit" },
-    "description": "A brown jumpsuit worn by the staff of Hub 01.",
-    "color": "brown"
   },
   {
     "id": "mummy_jumpsuit",
@@ -803,33 +741,6 @@
     "warmth": 30,
     "material_thickness": 1.0,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
-  },
-  {
-    "id": "subsuit_xl",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "subject suit" },
-    "description": "A thin, short-sleeved and short-legged one-piece suit.  Judging by the odd tailoring and adjustment points… maybe you don't want to know who wore it.  Provides nominal storage and is not very encumbering.",
-    "weight": "810 g",
-    "volume": "5 L",
-    "price": "110 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton", "plastic" ],
-    "symbol": "[",
-    "looks_like": "jumpsuit",
-    "color": "yellow",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 3, 7 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 2, 2 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 60, "encumbrance": [ 2, 5 ] }
-    ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
-    ],
-    "warmth": 15,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE", "SOFT" ]
   },
   {
     "id": "union_suit",

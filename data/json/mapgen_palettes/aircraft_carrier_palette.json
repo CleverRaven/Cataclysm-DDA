@@ -198,7 +198,7 @@
         { "item": "electronics", "chance": 55, "repeat": [ 0, 2 ] },
         { "item": "supplies_electronics", "chance": 45, "repeat": [ 0, 8 ] }
       ],
-      "F": [ { "item": "file_room", "chance": 70, "repeat": [ 5, 12 ] } ],
+      "F": [ { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 4 ] } ],
       "Y": [ { "item": "clothing_work_set", "chance": 45, "repeat": [ 2, 11 ] } ],
       "r": [
         { "item": "clothing_work_set", "chance": 25, "repeat": [ 0, 2 ] },
@@ -251,7 +251,7 @@
         { "item": "snacks", "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "softdrinks_canned", "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "snacks_fancy", "chance": 50, "repeat": [ 0, 2 ] },
-        { "item": "fridgesnacks", "chance": 50, "repeat": [ 0, 2 ] },
+        { "item": "SUS_fridge_breakroom", "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "SUS_kitchen_sink", "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "gym_school", "chance": 15, "repeat": [ 0, 1 ] }
       ],

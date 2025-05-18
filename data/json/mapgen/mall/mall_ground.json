@@ -310,7 +310,7 @@
         "U": { "item": "cleaning", "chance": 20, "repeat": [ 1, 2 ] },
         "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
         "J": { "item": "snacks", "chance": 10 },
-        "i": { "item": "oven", "chance": 80, "repeat": [ 2, 4 ] },
+        "i": { "item": "SUS_oven", "chance": 80, "repeat": [ 2, 4 ] },
         "B": [ { "item": "bags", "chance": 5 }, { "item": "snacks", "chance": 5 }, { "item": "vending_food_items", "chance": 10 } ],
         "K": { "item": "snacks", "chance": 5 },
         "Q": { "item": "fast_kitchen", "chance": 30, "repeat": [ 2, 4 ] },
@@ -454,7 +454,7 @@
         "U": { "item": "cleaning", "chance": 20, "repeat": [ 1, 2 ] },
         "J": { "item": "restaur_kitchen", "chance": 20 },
         "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
-        "i": { "item": "oven", "chance": 80, "repeat": [ 2, 4 ] },
+        "i": { "item": "SUS_oven", "chance": 80, "repeat": [ 2, 4 ] },
         "B": [ { "item": "bags", "chance": 1 } ],
         "Q": [
           { "item": "restaur_kitchen", "chance": 20, "repeat": [ 1, 2 ] },
@@ -464,7 +464,7 @@
         "l": [
           { "item": "restaur_fridge", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "baked_goods", "chance": 20 },
-          { "item": "fridge", "chance": 10, "repeat": [ 1, 2 ] }
+          { "item": "SUS_fridge", "chance": 10, "repeat": [ 1, 2 ] }
         ],
         "Ħ": { "item": "baked_goods", "chance": 30, "repeat": [ 2, 4 ] }
       },
@@ -627,7 +627,7 @@
         "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
         "*": { "item": "SUS_trash_floor", "chance": 20, "repeat": [ 1, 2 ] },
         "J": { "item": "snacks", "chance": 5 },
-        "i": { "item": "oven", "chance": 80, "repeat": [ 2, 4 ] },
+        "i": { "item": "SUS_oven", "chance": 80, "repeat": [ 2, 4 ] },
         "4": { "item": "bags", "chance": 1 },
         "K": { "item": "snacks", "chance": 5 },
         "n": { "item": "restaur_sink", "chance": 20, "repeat": [ 1, 2 ] },
@@ -820,7 +820,7 @@
         "*": { "item": "SUS_trash_floor", "chance": 20, "repeat": [ 1, 2 ] },
         "4": { "item": "bags", "chance": 1 },
         "0": { "item": "pizza_display", "chance": 40 },
-        "i": { "item": "oven", "chance": 80, "repeat": [ 0, 2 ] },
+        "i": { "item": "SUS_oven", "chance": 80, "repeat": [ 0, 2 ] },
         "K": { "item": "pizza_table", "chance": 50 },
         "n": { "item": "restaur_sink", "chance": 20, "repeat": [ 1, 2 ] },
         "l": { "item": "pizza_fridge", "chance": 30, "repeat": [ 2, 4 ] },
@@ -997,7 +997,7 @@
         "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
         "*": { "item": "SUS_trash_floor", "chance": 20, "repeat": [ 1, 2 ] },
         "J": { "item": "snacks", "chance": 5 },
-        "i": { "item": "oven", "chance": 80, "repeat": [ 2, 4 ] },
+        "i": { "item": "SUS_oven", "chance": 80, "repeat": [ 2, 4 ] },
         "n": { "item": "restaur_sink", "chance": 20, "repeat": [ 1, 2 ] },
         "l": { "item": "fast_fridge", "chance": 30, "repeat": [ 2, 4 ] },
         "Q": [
@@ -1752,16 +1752,16 @@
         ],
         ":": { "item": "bed", "chance": 60, "repeat": [ 1, 2 ] },
         "Ʉ": { "item": "bed", "chance": 60, "repeat": [ 1, 2 ] },
-        "i": { "item": "oven", "chance": 80, "repeat": [ 2, 4 ] },
+        "i": { "item": "SUS_oven", "chance": 80, "repeat": [ 2, 4 ] },
         "4": { "item": "restaur_kitchen", "chance": 20 },
         "l": [
           { "item": "restaur_fridge", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "baked_goods", "chance": 20 },
-          { "item": "fridge", "chance": 10, "repeat": [ 1, 2 ] }
+          { "item": "SUS_fridge", "chance": 10, "repeat": [ 1, 2 ] }
         ],
         "m": [
           { "item": "restaur_fridge", "chance": 20, "repeat": [ 1, 2 ] },
-          { "item": "fridge", "chance": 10, "repeat": [ 1, 2 ] }
+          { "item": "SUS_fridge", "chance": 10, "repeat": [ 1, 2 ] }
         ],
         "n": { "item": "restaur_sink", "chance": 20, "repeat": [ 1, 2 ] },
         "W": { "item": "hatstore_hats", "chance": 60, "repeat": [ 1, 2 ] },
@@ -2027,7 +2027,7 @@
         { "group": "cash_register_random", "x": [ 52, 53 ], "y": 2 }
       ],
       "items": {
-        "i": { "item": "oven", "chance": 80, "repeat": [ 2, 4 ] },
+        "i": { "item": "SUS_oven", "chance": 80, "repeat": [ 2, 4 ] },
         "4": [
           { "item": "coffee_dishes", "chance": 20 },
           { "item": "coffee_condiments", "chance": 20 },

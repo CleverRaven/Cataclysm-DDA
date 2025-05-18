@@ -70,9 +70,10 @@
     "extend": { "items": [ [ "afs_atompot", 1 ], [ "atomic_butterchurn", 1 ] ] }
   },
   {
-    "id": "oven",
+    "id": "SUS_oven",
     "type": "item_group",
-    "copy-from": "oven",
+    "subtype": "collection",
+    "copy-from": "SUS_oven",
     "extend": { "items": [ [ "afs_atompot", 3 ] ] }
   },
   {
@@ -337,7 +338,7 @@
       { "group": "exoticplants", "count": [ 1, 3 ], "prob": 30 },
       { "group": "science", "count": [ 1, 3 ], "prob": 30 },
       { "group": "afs_exo_basic_accessories", "count": 1, "prob": 15 },
-      { "item": "subsuit_xl" }
+      { "item": "jumpsuit_pocketless", "variant": "orange" }
     ]
   },
   {
