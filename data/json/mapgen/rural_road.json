@@ -84,7 +84,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "rural_road2" ],
       "place_nested": [
-        { "chunks": [ "1x1_farm_vehicles" ], "x": 5, "y": 8, "neighbors": { "east": [ "paddock_end_UR" ] } },
+        { "chunks": [ "4x4_farm_vehicles" ], "x": 5, "y": 8, "neighbors": { "east": [ "paddock_end_UR" ] } },
         {
           "chunks": [ "24x24_dirt_road_turnback_paddock" ],
           "x": 0,
@@ -94,7 +94,7 @@
         { "chunks": [ "24x24_fence_gate" ], "x": 0, "y": 0, "neighbors": { "west": [ "splitrail_fence" ] } },
         { "chunks": [ "24x24_fence_gate" ], "x": 0, "y": 0, "neighbors": { "east": [ "splitrail_fence" ] } },
         {
-          "chunks": [ "1x1_farm_house_parking" ],
+          "chunks": [ "4x4_farm_house_parking" ],
           "x": 15,
           "y": 11,
           "neighbors": { "east": [ "farm_horse_house_1" ] }

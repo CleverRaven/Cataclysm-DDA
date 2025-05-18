@@ -694,7 +694,7 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_nested": [
-        { "chunks": [ "24x24_road_vehicles_city_parked_north_north_facing" ], "x": [ -2, -1 ], "y": 0 },
+        { "chunks": [ "24x24_road_vehicles_city_parked_north_north_facing" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_vehicles_city_parked_north_north_facing" ], "x": [ 1, 2 ], "y": 2 },
         { "chunks": [ "24x24_road_vehicles_city_parked_north_north_facing" ], "x": 0, "y": [ 0, 2 ] }
       ]
@@ -708,7 +708,7 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_nested": [
-        { "chunks": [ "24x24_road_vehicles_city_parked_north_south_facing" ], "x": [ -2, -1 ], "y": 0 },
+        { "chunks": [ "24x24_road_vehicles_city_parked_north_south_facing" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_vehicles_city_parked_north_south_facing" ], "x": [ 1, 2 ], "y": 2 },
         { "chunks": [ "24x24_road_vehicles_city_parked_north_south_facing" ], "x": 0, "y": [ 0, 2 ] }
       ]
@@ -722,7 +722,7 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_nested": [
-        { "chunks": [ "24x24_road_vehicles_city_parked_east_east_facing" ], "x": 0, "y": [ -2, -1 ] },
+        { "chunks": [ "24x24_road_vehicles_city_parked_east_east_facing" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_vehicles_city_parked_east_east_facing" ], "x": 2, "y": [ 1, 2 ] },
         { "chunks": [ "24x24_road_vehicles_city_parked_east_east_facing" ], "x": [ 0, 2 ], "y": 0 }
       ]
@@ -736,7 +736,7 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_nested": [
-        { "chunks": [ "24x24_road_vehicles_city_parked_east_west_facing" ], "x": 0, "y": [ -2, -1 ] },
+        { "chunks": [ "24x24_road_vehicles_city_parked_east_west_facing" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_vehicles_city_parked_east_west_facing" ], "x": 2, "y": [ 1, 2 ] },
         { "chunks": [ "24x24_road_vehicles_city_parked_east_west_facing" ], "x": [ 0, 2 ], "y": 0 }
       ]
@@ -750,9 +750,8 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_nested": [
-        { "chunks": [ "24x24_road_vehicles_city_parked_south_north_facing" ], "x": [ -2, -1 ], "y": 0 },
-        { "chunks": [ "24x24_road_vehicles_city_parked_south_north_facing" ], "x": [ 1, 2 ], "y": -2 },
-        { "chunks": [ "24x24_road_vehicles_city_parked_south_north_facing" ], "x": 0, "y": [ -2, 0 ] }
+        { "chunks": [ "24x24_road_vehicles_city_parked_south_north_facing" ], "x": [ 1, 2 ], "y": 0 },
+        { "chunks": [ "24x24_road_vehicles_city_parked_south_north_facing" ], "x": 0, "y": 0 }
       ]
     }
   },
@@ -764,9 +763,8 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_nested": [
-        { "chunks": [ "24x24_road_vehicles_city_parked_south_south_facing" ], "x": [ -2, -1 ], "y": 0 },
-        { "chunks": [ "24x24_road_vehicles_city_parked_south_south_facing" ], "x": [ 1, 2 ], "y": -2 },
-        { "chunks": [ "24x24_road_vehicles_city_parked_south_south_facing" ], "x": 0, "y": [ -2, 0 ] }
+        { "chunks": [ "24x24_road_vehicles_city_parked_south_south_facing" ], "x": [ 1, 2 ], "y": 0 },
+        { "chunks": [ "24x24_road_vehicles_city_parked_south_south_facing" ], "x": 0, "y": 0 }
       ]
     }
   },
@@ -778,9 +776,8 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_nested": [
-        { "chunks": [ "24x24_road_vehicles_city_parked_west_east_facing" ], "x": 0, "y": [ -2, -1 ] },
-        { "chunks": [ "24x24_road_vehicles_city_parked_west_east_facing" ], "x": -2, "y": [ 1, 2 ] },
-        { "chunks": [ "24x24_road_vehicles_city_parked_west_east_facing" ], "x": [ -2, 0 ], "y": 0 }
+        { "chunks": [ "24x24_road_vehicles_city_parked_west_east_facing" ], "x": 0, "y": [ 1, 2 ] },
+        { "chunks": [ "24x24_road_vehicles_city_parked_west_east_facing" ], "x": 0, "y": 0 }
       ]
     }
   },
@@ -792,9 +789,8 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_nested": [
-        { "chunks": [ "24x24_road_vehicles_city_parked_west_west_facing" ], "x": 0, "y": [ -2, -1 ] },
-        { "chunks": [ "24x24_road_vehicles_city_parked_west_west_facing" ], "x": -2, "y": [ 1, 2 ] },
-        { "chunks": [ "24x24_road_vehicles_city_parked_west_west_facing" ], "x": [ -2, 0 ], "y": 0 }
+        { "chunks": [ "24x24_road_vehicles_city_parked_west_west_facing" ], "x": 0, "y": [ 1, 2 ] },
+        { "chunks": [ "24x24_road_vehicles_city_parked_west_west_facing" ], "x": 0, "y": 0 }
       ]
     }
   },

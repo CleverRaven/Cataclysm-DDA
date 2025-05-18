@@ -1467,8 +1467,6 @@
         { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 144, 156 ], "y": [ 2, 18 ], "repeat": [ 4, 5 ] },
         { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 5, 23 ], "y": [ 27, 43 ], "repeat": [ 4, 5 ] },
         { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 25, 47 ], "y": [ 27, 43 ], "repeat": [ 4, 5 ] },
-        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 25, 47 ], "y": [ 49, 70 ], "repeat": [ 5, 7 ] },
-        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 95, 112 ], "y": [ 49, 70 ], "repeat": [ 5, 7 ] },
         { "group": "GROUP_ZOMBIE", "x": [ 120, 143 ], "y": [ 28, 43 ], "repeat": [ 7, 8 ] },
         { "group": "GROUP_ZOMBIE", "x": [ 145, 160 ], "y": [ 28, 43 ], "repeat": [ 6, 7 ] }
       ],

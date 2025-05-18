@@ -60,9 +60,7 @@
         { "id": "wasteland_scavengers", "x": [ 1, 23 ], "y": [ 1, 23 ] },
         { "id": "wasteland_scavengers", "x": [ 1, 23 ], "y": [ 24, 47 ] },
         { "id": "wasteland_scavengers", "x": [ 24, 47 ], "y": [ 1, 23 ] },
-        { "id": "wasteland_scavengers", "x": [ 24, 47 ], "y": [ 24, 47 ] },
-        { "id": "wasteland_scavengers", "x": [ 48, 71 ], "y": [ 24, 47 ] },
-        { "id": "wasteland_scavengers", "x": [ 48, 71 ], "y": [ 48, 71 ] }
+        { "id": "wasteland_scavengers", "x": [ 24, 47 ], "y": [ 24, 47 ] }
       ],
       "place_npcs": [
         { "class": "NPC_lumbermill_logger", "x": 18, "y": 2 },
@@ -77,7 +75,7 @@
         { "class": "NPC_lumbermill_logger", "x": 36, "y": 20 },
         { "class": "NPC_lumbermill_logger", "x": 33, "y": 23 },
         { "class": "NPC_lumbermill_logger", "x": 41, "y": 25 },
-        { "class": "NPC_lumbermill_logger", "x": 48, "y": 33 },
+        { "class": "NPC_lumbermill_logger", "x": 47, "y": 33 },
         { "class": "NPC_lumbermill_logger", "x": 31, "y": 40 },
         { "class": "NPC_lumbermill_logger", "x": 45, "y": 46 },
         { "class": "NPC_lumbermill_merchant", "x": 26, "y": 43 }

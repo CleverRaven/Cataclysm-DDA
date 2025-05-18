@@ -74,7 +74,7 @@
         "1": { "chunks": [ [ "null", 30 ], [ "3x3_woodcrafts_crates", 70 ] ] },
         "2": { "chunks": [ [ "null", 70 ], [ "3x3_woodcrafts_crates", 30 ] ] },
         "3": { "chunks": [ [ "null", 10 ], [ "4x4_woodcrafts_table_vertical", 60 ], [ "4x4_woodcrafts_table_horizontal", 30 ] ] },
-        "4": { "chunks": [ [ "4x4_woodcrafts_display_nocanoe", 70 ], [ "1x1_woodcrafts_display_canoe", 30 ] ] }
+        "4": { "chunks": [ [ "4x4_woodcrafts_display_nocanoe", 70 ], [ "3x3_woodcrafts_display_canoe", 30 ] ] }
       },
       "items": {
         "π": { "item": "woodcrafts", "chance": 85, "repeat": [ 1, 10 ] },

@@ -5,7 +5,7 @@
     "nested_mapgen_id": "solar_farm_spawn",
     "object": {
       "mapgensize": [ 1, 1 ],
-      "faction_owner": [ { "id": "gods_community", "x": [ 1, 1 ], "y": [ 1, 1 ] } ],
+      "faction_owner": [ { "id": "gods_community", "x": 0, "y": 0 } ],
       "place_furniture": [ { "furn": "f_solar_unit", "x": 0, "y": 0 } ]
     }
   },

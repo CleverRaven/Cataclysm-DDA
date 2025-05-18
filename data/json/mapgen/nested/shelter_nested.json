@@ -188,7 +188,7 @@
       ],
       "palettes": [ "shelter_unfinished" ],
       "furniture": { "!": "f_crate_o", "2": "f_crate_o" },
-      "place_item": [ { "item": "pot", "x": 1, "y": 4, "amount": 1 } ],
+      "place_item": [ { "item": "pot", "x": 1, "y": 3, "amount": 1 } ],
       "items": {
         "!": [
           { "item": "faction_camp_tools", "chance": 95, "repeat": [ 2, 3 ], "faction": "your_followers" },

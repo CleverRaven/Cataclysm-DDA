@@ -83,7 +83,7 @@
     "nested_mapgen_id": "isherwood_barry_chris_spawn",
     "object": {
       "mapgensize": [ 1, 1 ],
-      "place_npcs": [ { "class": "isherwood_chris_copy", "unique_id": "CHRIS_MISSION", "x": 1, "y": 1 } ]
+      "place_npcs": [ { "class": "isherwood_chris_copy", "unique_id": "CHRIS_MISSION", "x": 0, "y": 0 } ]
     }
   },
   {
@@ -92,7 +92,7 @@
     "nested_mapgen_id": "isherwood_barry_chris_swat_spawn",
     "object": {
       "mapgensize": [ 1, 1 ],
-      "place_npcs": [ { "class": "isherwood_chris_swat_copy", "unique_id": "CHRIS_MISSION", "x": 1, "y": 1 } ]
+      "place_npcs": [ { "class": "isherwood_chris_swat_copy", "unique_id": "CHRIS_MISSION", "x": 0, "y": 0 } ]
     }
   },
   {
@@ -101,7 +101,7 @@
     "nested_mapgen_id": "isherwood_barry_lisa_spawn",
     "object": {
       "mapgensize": [ 1, 1 ],
-      "place_npcs": [ { "class": "isherwood_lisa_copy", "unique_id": "LISA_MISSION", "x": 1, "y": 1 } ]
+      "place_npcs": [ { "class": "isherwood_lisa_copy", "unique_id": "LISA_MISSION", "x": 0, "y": 0 } ]
     }
   },
   {
@@ -110,7 +110,7 @@
     "nested_mapgen_id": "isherwood_barry_lisa_swat_spawn",
     "object": {
       "mapgensize": [ 1, 1 ],
-      "place_npcs": [ { "class": "isherwood_lisa_swat_copy", "unique_id": "LISA_MISSION", "x": 1, "y": 1 } ]
+      "place_npcs": [ { "class": "isherwood_lisa_swat_copy", "unique_id": "LISA_MISSION", "x": 0, "y": 0 } ]
     }
   },
   {

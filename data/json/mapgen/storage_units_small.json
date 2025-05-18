@@ -153,7 +153,7 @@
         "d": { "item": "dresser", "chance": 50 },
         "L": { "item": "cleaning", "chance": 70 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 1, "y": 24, "chance": 5 } ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 1, "y": 22, "chance": 5 } ]
     }
   },
   {

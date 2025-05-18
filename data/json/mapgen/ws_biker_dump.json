@@ -185,7 +185,6 @@
       ],
       "palettes": [ "regional_dump" ],
       "place_npcs": [
-        { "class": "thug", "x": 25, "y": 41 },
         { "class": "thug", "x": 40, "y": 6 },
         { "class": "thug", "x": 40, "y": 16 },
         { "class": "bandit", "x": 47, "y": 13 },

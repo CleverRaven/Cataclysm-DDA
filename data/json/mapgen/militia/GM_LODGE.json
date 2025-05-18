@@ -169,12 +169,8 @@
       "faction_owner": [
         { "id": "GM_militia_faction", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "id": "GM_militia_faction", "x": [ 24, 47 ], "y": [ 0, 23 ] },
-        { "id": "GM_militia_faction", "x": [ 48, 71 ], "y": [ 0, 23 ] },
-        { "id": "GM_militia_faction", "x": [ 72, 95 ], "y": [ 0, 23 ] },
         { "id": "GM_militia_faction", "x": [ 0, 23 ], "y": [ 24, 47 ] },
-        { "id": "GM_militia_faction", "x": [ 24, 47 ], "y": [ 24, 47 ] },
-        { "id": "GM_militia_faction", "x": [ 48, 71 ], "y": [ 24, 47 ] },
-        { "id": "GM_militia_faction", "x": [ 72, 95 ], "y": [ 24, 47 ] }
+        { "id": "GM_militia_faction", "x": [ 24, 47 ], "y": [ 24, 47 ] }
       ],
       "rows": [
         "                                                ",

@@ -323,8 +323,7 @@
         { "group": "GROUP_MALL", "x": [ 2, 15 ], "y": [ 5, 11 ], "repeat": [ 2, 4 ] },
         { "group": "GROUP_MALL", "x": [ 25, 40 ], "y": [ 15, 22 ], "repeat": [ 4, 6 ] },
         { "group": "GROUP_MALL", "x": [ 25, 40 ], "y": [ 0, 8 ], "repeat": [ 2, 4 ] },
-        { "group": "GROUP_MALL", "x": [ 78, 95 ], "y": [ 13, 23 ], "repeat": [ 4, 6 ] },
-        { "group": "GROUP_MALL", "x": [ 96, 119 ], "y": [ 2, 23 ], "repeat": [ 4, 6 ] }
+        { "group": "GROUP_MALL", "x": [ 78, 95 ], "y": [ 13, 23 ], "repeat": [ 4, 6 ] }
       ]
     }
   },

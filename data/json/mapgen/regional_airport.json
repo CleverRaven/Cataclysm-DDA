@@ -216,7 +216,7 @@
       "terrain": { " ": "t_open_air", "s": "t_grate" },
       "place_monster": [
         { "group": "GROUP_CIVILIAN", "x": [ 4, 19 ], "y": [ 4, 19 ], "chance": 65, "repeat": [ 4, 8 ] },
-        { "group": "GROUP_CIVILIAN", "x": [ 4, 19 ], "y": [ 52, 67 ], "chance": 50, "repeat": [ 1, 3 ] }
+        { "group": "GROUP_CIVILIAN", "x": [ 28, 43 ], "y": [ 4, 19 ], "chance": 50, "repeat": [ 1, 3 ] }
       ]
     }
   },
