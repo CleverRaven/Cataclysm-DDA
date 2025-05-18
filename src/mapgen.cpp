@@ -1455,7 +1455,7 @@ mapgen_function_json_base::mapgen_function_json_base(
     , is_ready( false )
     , mapgensize( SEEX * 2, SEEY * 2 )
     , total_size( mapgensize )
-    , objects( m_offset, mapgensize )
+    , objects( m_offset, mapgensize, total_size )
 {
 }
 
@@ -1476,7 +1476,7 @@ mapgen_function_json::mapgen_function_json( JsonObject &&jsobj,
     m_offset.z() = 0;
     total_size.x() = grid_total.x() * mapgensize.x();
     total_size.y() = grid_total.y() * mapgensize.y();
-    objects = jmapgen_objects( m_offset, mapgensize );
+    objects = jmapgen_objects( m_offset, mapgensize, total_size );
 }
 
 mapgen_function_json_nested::mapgen_function_json_nested(
@@ -4494,9 +4494,11 @@ class jmapgen_nested : public jmapgen_piece
         }
 };
 
-jmapgen_objects::jmapgen_objects( const tripoint_rel_ms &offset, const point_rel_ms &mapsize )
+jmapgen_objects::jmapgen_objects( const tripoint_rel_ms &offset, const point_rel_ms &mapsize,
+                                  const point_rel_ms &tot_size )
     : m_offset( offset )
     , mapgensize( mapsize )
+    , total_size( tot_size )
 {}
 
 bool jmapgen_objects::check_bounds( const jmapgen_place &place, const JsonObject &jso )
