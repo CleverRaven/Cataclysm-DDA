@@ -79,7 +79,7 @@
         "max_contains_volume": "200 L",
         "max_contains_weight": "200 kg",
         "moves": 1000,
- 	"volume_encumber_modifier": 0,
+        "volume_encumber_modifier": 0,
         "max_item_length": "100 cm",
         "holster": true
       }
