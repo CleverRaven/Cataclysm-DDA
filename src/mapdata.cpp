@@ -1023,6 +1023,27 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "curtain_transform", curtain_transform );
     optional( jo, was_loaded, "emissions", emissions );
 
+    if( jo.has_array( "harvest_by_season" ) ) {
+        for( JsonObject harvest_jo : jo.get_array( "harvest_by_season" ) ) {
+            auto season_strings = harvest_jo.get_tags( "seasons" );
+            std::set<season_type> seasons;
+            std::transform( season_strings.begin(), season_strings.end(), std::inserter( seasons,
+                            seasons.begin() ), io::string_to_enum<season_type> );
+
+            harvest_id hl;
+            harvest_jo.read( "id", hl );
+
+            for( season_type s : seasons ) {
+                harvest_by_season[ s ] = hl;
+            }
+        }
+    } else if( was_loaded && has_any_harvest( harvest_by_season ) ) {
+        // Explicitly don't inherit harvest_by_season so _harvested versions don't need to override it
+        harvest_by_season.fill( harvest_id::NULL_ID() );
+        examine_actor = nullptr;
+        examine_func = iexamine_functions_from_string( "none" );
+    }
+
     if( jo.has_string( "examine_action" ) ) {
         examine_actor = nullptr;
         examine_func = iexamine_functions_from_string( jo.get_string( "examine_action" ) );
@@ -1071,27 +1092,6 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
         if( jod.has_member( "rotates_to" ) ) {
             unset_connect_groups( jod.get_as_string_array( "rotates_to" ) );
         }
-    }
-
-    if( jo.has_array( "harvest_by_season" ) ) {
-        for( JsonObject harvest_jo : jo.get_array( "harvest_by_season" ) ) {
-            auto season_strings = harvest_jo.get_tags( "seasons" );
-            std::set<season_type> seasons;
-            std::transform( season_strings.begin(), season_strings.end(), std::inserter( seasons,
-                            seasons.begin() ), io::string_to_enum<season_type> );
-
-            harvest_id hl;
-            harvest_jo.read( "id", hl );
-
-            for( season_type s : seasons ) {
-                harvest_by_season[ s ] = hl;
-            }
-        }
-    } else if( was_loaded && has_any_harvest( harvest_by_season ) ) {
-        // Explicitly don't inherit harvest_by_season so _harvested versions don't need to override it
-        harvest_by_season.fill( harvest_id::NULL_ID() );
-        examine_actor = nullptr;
-        examine_func = iexamine_functions_from_string( "none" );
     }
 
     if( jo.has_object( "liquid_source" ) ) {
