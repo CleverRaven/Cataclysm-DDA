@@ -673,17 +673,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "A nested map for mutagen research areas.  Science crate loot.",
-    "nested_mapgen_id": "lab_small_animals_1x1",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "rotation": [ 0, 3 ],
-      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "surface_sub_f_crate", 50 ] ], "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 2, 10 ] } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  Rats for cages.",
     "nested_mapgen_id": "lab_black_rats_1x1",
     "object": {
