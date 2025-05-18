@@ -1,0 +1,558 @@
+[
+  {
+    "id": "ModuCoat_Base",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Modular Debug Jacket" },
+    "description": "A jacket stripped of all it's parts, just an empty hollow. Insert your desired parts, & create a nice jacket. This one feels debuggy.",
+    "weight": "1450 g",
+    "volume": "2000 ml",
+    "price": "179 USD",
+    "price_postapoc": "15 USD 50 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "jacket_windbreaker",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 2 },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": 2 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 2 }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "//": "Utility pocket, should be able to hold the ABSOLUTE max that the inserts can hold. No less, no more. Huge values are temporary, for now",
+        "description": "Stitching for a special utility slot",
+	"volume_encumber_modifier": 0,
+        "flag_restriction": [ "COAT_UTILITY" ],
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "200 kg",
+        "moves": 60000,
+        "max_item_length": "100 cm",
+        "holster": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "//": "Liner pocket, should be able to hold the ABSOLUTE max that the inserts can hold. No less, no more. Huge values are temporary, for now",
+        "description": "Stitching for a liner",
+	"volume_encumber_modifier": 0,
+        "flag_restriction": [ "COAT_LINER" ],
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "200 kg",
+        "moves": 60000,
+        "max_item_length": "100 cm",
+        "holster": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "//": "Filler pocket, should be able to hold the ABSOLUTE max that the inserts can hold. No less, no more. Huge values are temporary, for now",
+        "description": "Stitching for a filler",
+	"volume_encumber_modifier": 0,
+        "flag_restriction": [ "COAT_FILLER" ],
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "200 kg",
+        "moves": 60000,
+        "max_item_length": "100 cm",
+        "holster": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "//": "Backing pocket, should be able to hold the ABSOLUTE max that the inserts can hold. No less, no more. Huge values are temporary, for now",
+        "description": "Stitching for the backing of the coat",
+	"volume_encumber_modifier": 0,
+        "flag_restriction": [ "COAT_BACKER" ],
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "200 kg",
+        "moves": 60000,
+        "max_item_length": "100 cm",
+        "holster": true
+      }
+    ],
+    "warmth": 5,
+    "material_thickness": 1.0,
+    "environmental_protection": 2,
+    "flags": [ "OUTER" ]
+  },
+  {
+    "id": "ModuCoatMut_Base",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "ModuCoat_Base",
+    "name": { "str": "Modular Da Bug Mutant Jacket" },
+    "description": "A jacket stripped of all it's parts, just an empty hollow for your new, beautiful form to go into. Insert your desired cloth, & create a nice jacket. This one feels more debuggy than the other one.",
+    "flags": [ "POCKETS", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "ModuBomb_Base",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Modular Debug Nomad Bomber" },
+    "copy-from": "ModuCoat_Base",
+    "description": "A jacket stripped of all it's parts, but also some additional thickness, waterproofing, & environmental protection, at the cost of weight & encumbrance. Insert your desired parts, & create a nice bomber, fit for a nomad. This one feels debuggy.",
+    "weight": "2000 g",
+    "volume": "3250 ml",
+    "price": "340 USD",
+    "price_postapoc": "20 USD 50 cent",
+    "material": [ "cotton" ],
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 4 },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": 4 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 4 }
+    ],
+    "warmth": 10,
+    "material_thickness": 0.375,
+    "environmental_protection": 3,
+    "flags": [ "POCKETS", "OUTER", "RAINPROOF", "COLLAR" ]
+  },
+  {
+    "id": "ModuBombMut_Base",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "ModuBomb_Base",
+    "name": { "str": "Modular Da Bug Mutant Jacket" },
+    "description": "A jacket stripped of all it's parts, but also some additional waterproofing, breathability, & environmental protection, at the cost of weight & encumbrance. Insert your desired parts, & create a nice bomber, perfectly fit for a beautiful critter like yourself.",
+    "flags": [ "POCKETS", "OUTER", "RAINPROOF", "COLLAR", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "CoatBack_Stripped",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": "Buggy Bare Back",
+    "description": "The empty backing for jacket, made from BUGS.",
+    "weight": "1500 g",
+    "volume": "2000 ml",
+    "price": "5 USD",
+    "price_postapoc": "10 USD 50 cent",
+    "symbol": "#",
+    "material": [ "cotton" ],
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 2, 2 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 2, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 2, 2 ] }
+    ],
+    "flags": [ "OUTER", "STURDY", "COAT_BACKER", "CANT_WEAR" ],
+    "warmth": 5,
+    "material_thickness": 1.0,
+    "environmental_protection": 2
+  },
+  {
+    "id": "CoatBack_Base",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "CoatBack_Stripped",
+    "name": "Buggy back",
+    "description": "The backing for jacket, made from BUGS.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "//": "Armor pocket, should be able to hold the ABSOLUTE max that the inserts can hold. No less, no more. Huge values are temporary, for now",
+        "description": "Stitching for putting in a left forearm protector",
+        "flag_restriction": [ "BACK_FORE" ],
+	"volume_encumber_modifier": 0,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "200 kg",
+        "moves": 60000,
+        "max_item_length": "100 cm",
+        "holster": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "//": "Armband pocket, should be able to hold the ABSOLUTE max that the inserts can hold. No less, no more. Huge values are temporary, for now",
+        "flag_restriction": [ "ARMBAND" ],
+	"volume_encumber_modifier": 0,
+        "description": "Stitching for putting on an armband or your own choosing.",
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "200 kg",
+        "moves": 200,
+        "max_item_length": "100 cm",
+        "holster": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "//": "Armor pocket, should be able to hold the ABSOLUTE max that the inserts can hold. No less, no more. Huge values are temporary, for now",
+        "description": "Stitching for putting in a design of your own choosing.",
+        "flag_restriction": [ "BACK_ART" ],
+	"volume_encumber_modifier": 0,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "200 kg",
+        "moves": 60000,
+        "max_item_length": "100 cm",
+        "holster": true
+      }
+    ]
+  },
+  {
+    "id": "CoatBackThick_Base",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "CoatBack_Base",
+    "name": "Thick Buggy Back",
+    "description": "Another backing for a jacket, made from LOCUSTS.",
+    "warmth": 7.5,
+    "material_thickness": 1.5,
+    "weight": "2250 g",
+    "volume": "2500 ml"
+  },
+  {
+    "id": "CoatBackThin_Base",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "CoatBack_Base",
+    "name": "Thin Buggy Back",
+    "description": "Another backing for a jacket, made from ANTS.",
+    "warmth": 0.25,
+    "material_thickness": 0.5,
+    "weight": "750 g",
+    "volume": "1500 ml"
+  },
+  {
+    "id": "CoatFill_Base",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Debug Coat Fur" },
+    "description": "Some thick fur insulation, keeps you from being cold. This one is made from FURRY BUGS.",
+    "symbol": "@",
+    "weight": "1677 g",
+    "volume": "5750 ml",
+    "price": "5 kUSD",
+    "price_postapoc": "5 USD",
+    "material": [ "cotton" ],
+    "armor": [
+       { "covers": [ "torso" ], "coverage": 100, "encumbrance": 5 },
+       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 5 } ],
+    "warmth": 15,
+    "material_thickness": 0.5,
+    "environmental_protection": 2,
+    "flags": [ "COAT_FILLER", "CANT_WEAR" ]
+  },
+   {
+    "id": "CoatLine_Base",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Debug Coat Liner" },
+    "description": "A simple liner, mainly keeps the stitches from rubbing on your skin. This one is made from BUGS.",
+    "symbol": "O",
+    "weight": "1677 g",
+    "volume": "5750 ml",
+    "price": "5 kUSD",
+    "price_postapoc": "5 USD",
+    "material": [ "cotton" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 1 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 1 }
+    ],
+    "warmth": 5,
+    "material_thickness": 0.25,
+    "environmental_protection": 2,
+    "flags": [ "OUTER", "COAT_LINER", "CANT_WEAR" ]
+   },
+   {
+    "id": "CoatLinePock_Base",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "CoatLine_Base",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 2, 6 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 2 }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+	"volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "10 cm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+	"volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "10 cm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+	"volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "10 cm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+	"volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "10 cm"
+      }
+    ],
+    "flags": [ "OUTER", "COAT_LINER", "CANT_WEAR", "POCKETS" ]
+   },
+  {
+    "id": "ModuPants_Base",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": "Modular Debug Pants",
+    "description": "A pair of pants that've been ripped of most of it's contents. Stitch in fabric according to needs & haves. You're not supposed to have this!",
+    "weight": "560 g",
+    "volume": "2 L",
+    "price": "100 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "jeans",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "//": "Filler pocket, should be able to hold the ABSOLUTE max that the inserts can hold. No less, no more. Huge values are temporary, for now",
+        "description": "Stitching for a filler",
+        "flag_restriction": [ "PANTS_FILLER" ],
+	"volume_encumber_modifier": 0,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "200 kg",
+        "moves": 60000,
+        "max_item_length": "100 cm",
+        "holster": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "//": "Liner pocket, should be able to hold the ABSOLUTE max that the inserts can hold. No less, no more. Huge values are temporary, for now",
+        "description": "Stitching for the lining of the trousers",
+        "flag_restriction": [ "PANTS_LINER" ],
+	"volume_encumber_modifier": 0,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "200 kg",
+        "moves": 60000,
+        "max_item_length": "100 cm",
+        "holster": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "//": "Utility pocket, should be able to hold the ABSOLUTE max that the inserts can hold. No less, no more. Huge values are temporary, for now",
+        "description": "Stitching for putting utility features",
+        "flag_restriction": [ "PANTS_UTILITY" ],
+	"volume_encumber_modifier": 0,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "200 kg",
+        "moves": 60000,
+        "max_item_length": "100 cm",
+        "holster": true
+      }
+    ],
+    "warmth": 5,
+    "material_thickness": 0.5,
+    "flags": [ "NORMAL" ],
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "ModuPantsMut_Base",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "ModuPants_Base",
+    "name": "Modular BUG Pants",
+    "description": "A pair of pants that've been ripped of most of it's contents, they fit your new legs *perfectly*. Stitch in fabric according to needs & haves. These ones are made of bugs, & you're not supposed to have them.",
+    "flags": [ "POCKETS", "NORMAL", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+   {
+    "id": "PantLine_Base",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Debug Trouser Pocketless Liner" },
+    "description": "A simple liner, mainly keeps the stitches from rubbing on your skin. This one is made from BUGS.",
+    "symbol": "O",
+    "weight": "1677 g",
+    "volume": "5750 ml",
+    "price": "5 kUSD",
+    "price_postapoc": "5 USD",
+    "material": [ "cotton" ],
+    "armor": [ { "encumbrance": [ 2, 2 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
+    "warmth": 5,
+    "material_thickness": 0.25,
+    "environmental_protection": 2,
+    "flags": ["PANTS_LINER", "CANT_WEAR"]
+   },
+   {
+    "id": "PantLine_Pock_Base",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "PantLine_Base",
+    "name": { "str": "Debug Trouser Liner" },
+    "description": "A simple liner, mainly keeps the stitches from rubbing on your skin. This one is made from BUGS, & the pockets are full of ANTS.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "flags": ["PANTS_LINER", "CANT_WEAR", "POCKETS"],
+    "proportional": { "encumbrance": 1.25 }
+   },
+   {
+    "id": "PantLine_PockPlus_Base",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "PantLine_Base",
+    "name": { "str": "Debug Cargo Liner" },
+    "description": "A simple liner, mainly keeps the stitches from rubbing on your skin. This one is made from BUGS, & the pockets are full of LOCUSTS.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "flags": ["PANTS_LINER", "CANT_WEAR", "POCKETS"],
+    "proportional": { "encumbrance": 1.5 }
+  },
+  {
+    "id": "PantFur_Base",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Debug Trouser Fur" },
+    "description": "Some thick fur insulation, keeps you from being cold. This one is made from FURRY BUGS.",
+    "symbol": "@",
+    "weight": "1677 g",
+    "volume": "5750 ml",
+    "price": "5 kUSD",
+    "price_postapoc": "5 USD",
+    "material": [ "cotton" ],
+    "armor": [ { "encumbrance": [ 5, 5 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
+    "warmth": 15,
+    "material_thickness": 0.5,
+    "environmental_protection": 2,
+    "flags": [ "PANTS_FILLER", "CANT_WEAR" ]
+  },
+  {
+    "id": "ModuUtil_Base",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Debug Utility" },
+    "description": "An unknowable, impossible to discern object. It is limitless potential. Well, limitless to the flag.",
+    "weight": "450 g",
+    "volume": "200 ml",
+    "price": "20 USD",
+    "price_postapoc": "15 USD 50 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "flags": [ "OUTER", "COAT_UTILITY", "CANT_WEAR" ]
+  },
+  {
+   "id": "ModuArmor_Fore_Base",
+   "type": "ITEM",
+   "weight": "350 g",
+   "volume": "2 L",
+   "symbol": "=",
+   "subtypes": [ "ARMOR" ],
+   "name": "Debuggy Modular Forearm protectors",
+   "description": "Forearm protectors meant to be inserted into a modular backing. These ones protect you from BUGS",
+   "flags": [ "OUTER", "BLOCK_WHILE_WORN", "BACK_FORE", "CANT_WEAR" ],
+   "material": [ "chitin" ],
+   "armor": [
+     {
+      "covers": [ "arm_l", "arm_r" ],
+      "encumbrance": 5,
+      "specifically_covers": [ "arm_lower_r", "arm_lower_l" ],
+      "coverage": 85,
+      "cover_vitals": 80
+     }
+   ]
+  },
+  {
+   "id": "ModuArmor_Shin_Base",
+   "type": "ITEM",
+   "weight": "350 g",
+   "volume": "2 L",
+   "symbol": "=",
+   "subtypes": [ "ARMOR" ],
+   "name": "Debuggy Modular Shin protectors",
+   "description": "Shin protectors meant to be inserted into a modular filler. These ones protect you from BUGS",
+   "flags": [ "OUTER", "BLOCK_WHILE_WORN", "PANTS_SHIN", "CANT_WEAR" ],
+   "material": [ "chitin" ],
+   "armor": [
+     {
+      "covers": [ "leg_l", "leg_r" ],
+      "encumbrance": 4,
+      "coverage": 90,
+      "cover_melee": 90,
+      "cover_ranged": 95,
+      "cover_vitals": 90,
+      "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
+     }
+   ]
+  }
+]

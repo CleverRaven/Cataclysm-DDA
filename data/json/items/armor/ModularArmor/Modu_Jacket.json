@@ -1,0 +1,38 @@
+[
+  {
+    "id": "ModuCoat_Cott",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "ModuCoat_Base",
+    "name": { "str": "Modular Standard Scav Jacket" },
+    "description": "An average cotton jacket stripped of all it's parts, just an empty hollow. Insert your desired cloth, & create a nice jacket.",
+    "material": [ "cotton" ]
+  },
+  {
+    "id": "ModuCoatMut_Cott", 
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "ModuCoatMut_Base",
+    "name": { "str": "Modular Standard Mutant Jacket" },
+    "description": "An average cotton jacket stripped of all it's parts, just an empty hollow for your new, beautiful form to crawl into. Insert your desired cloth, & create a nice jacket.",
+    "material": [ "cotton" ]
+  },
+  {
+    "id": "ModuBomb_Cott",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "ModuBomb_Base",
+    "name": { "str": "Modular Standard Nomad Bomber" },
+    "description": "A standard cotton bomber stripped of all it's parts, but also some additional waterproofing, breathability, & environmental protection, at the cost of weight & encumbrance. Insert your desired parts, & create a nice bomber, perfectly fit to your needs.",
+    "material": [ "cotton" ]
+  },
+  {
+    "id": "ModuBombMut_Cott",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "ModuBombMut_Base",
+    "name": { "str": "Modular Standard Mutant Bomber" },
+    "description": "A standard cotton bomber stripped of all it's parts, but also some additional waterproofing, breathability, & environmental protection, at the cost of weight & encumbrance. Insert your desired parts, & create a nice bomber, perfectly fit for a beautiful critter like yourself.",
+    "material": [ "cotton" ]
+  }
+]
