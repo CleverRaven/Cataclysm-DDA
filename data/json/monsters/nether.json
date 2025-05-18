@@ -12,6 +12,7 @@
     "weight": "120 kg",
     "hp": 200,
     "speed": 50,
+    "move_skills": { "swim": 10 },
     "material": [ "flesh" ],
     "symbol": "V",
     "color": "white",
@@ -30,7 +31,7 @@
     "anger_triggers": [ "HURT", "FRIEND_DIED", "FRIEND_ATTACKED" ],
     "harvest": "mutant_bird_flightless",
     "dissect": "dissect_bird_sample_large",
-    "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "SWIMS", "SUNDEATH" ],
+    "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "SUNDEATH" ],
     "armor": { "bash": 6, "cut": 2, "bullet": 2 }
   },
   {
@@ -1372,6 +1373,7 @@
     "weight": "40750 g",
     "hp": 40,
     "speed": 90,
+    "move_skills": { "swim": 6 },
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "dark_gray",
@@ -1387,7 +1389,7 @@
     "harvest": "exempt",
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "flags": [ "SEES", "SMELLS", "WARM", "SWIMS", "PLASTIC", "SUNDEATH", "NOGIB" ]
+    "flags": [ "SEES", "SMELLS", "WARM", "PLASTIC", "SUNDEATH", "NOGIB" ]
   },
   {
     "id": "mon_shoggoth",
@@ -1401,6 +1403,7 @@
     "weight": "200 kg",
     "hp": 400,
     "speed": 90,
+    "move_skills": { "swim": 2 },
     "symbol": "&",
     "color": "dark_gray",
     "aggression": 100,
@@ -1421,7 +1424,7 @@
     "split_move_cost": 180,
     "absorb_move_cost_max": 300,
     "absorb_move_cost_per_ml": 0.025,
-    "flags": [ "SEES", "SMELLS", "HAS_MIND", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB" ],
+    "flags": [ "SEES", "SMELLS", "HAS_MIND", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB" ],
     "armor": { "bash": 10, "cut": 30, "bullet": 24, "electric": 4 },
     "no_absorb_material": [ "anomaly", "monolith", "monolith_heavy" ]
   },
@@ -1438,7 +1441,7 @@
     "weight": "120 kg",
     "hp": 160,
     "speed": 140,
-    "move_skills": { "climb": 8 },
+    "move_skills": { "climb": 8, "swim": 4 },
     "material": [ "flesh" ],
     "symbol": "&",
     "color": "dark_gray",
@@ -1455,19 +1458,7 @@
     "harvest": "exempt",
     "special_attacks": [ { "id": "tentacle" } ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "flags": [
-      "SMELLS",
-      "HEARS",
-      "HAS_MIND",
-      "NOHEAD",
-      "BASHES",
-      "GROUP_BASH",
-      "SWIMS",
-      "ATTACKMON",
-      "PLASTIC",
-      "ACIDPROOF",
-      "NOGIB"
-    ],
+    "flags": [ "SMELLS", "HEARS", "HAS_MIND", "NOHEAD", "BASHES", "GROUP_BASH", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB" ],
     "armor": { "bash": 8, "electric": 1 }
   },
   {
@@ -2268,6 +2259,7 @@
     "weight": "1000 g",
     "hp": 25,
     "speed": 100,
+    "move_skills": { "swim": 10 },
     "material": [ "flesh" ],
     "symbol": "^",
     "color": "white_magenta",
@@ -2284,7 +2276,7 @@
     "harvest": "fish_small",
     "looks_like": "mon_fish_brown_trout",
     "fear_triggers": [ "FIRE" ],
-    "flags": [ "HEARS", "WARM", "SWIMS", "AQUATIC", "NO_BREATHE", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD", "GOODHEARING", "ANIMAL" ]
+    "flags": [ "HEARS", "WARM", "AQUATIC", "NO_BREATHE", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD", "GOODHEARING", "ANIMAL" ]
   },
   {
     "id": "mon_nether_unviable_butterfly",

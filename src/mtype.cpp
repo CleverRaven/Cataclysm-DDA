@@ -613,7 +613,7 @@ void mtype::faction_display( catacurses::window &w, const point &top_left, const
     trim_and_print( w, top_left + point( 0, ++y ), width, c_light_gray,
                     string_format( "%s: %s", colorize( _( "Senses" ), c_white ), enumerate_as_string( senses_str ) ) );
     // Abilities
-    if( has_flag( mon_flag_SWIMS ) ) {
+    if( has_flag( mon_flag_SWIMS ) || move_skills.swim.has_value() ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can swim." ) );
     }
     if( has_flag( mon_flag_FLIES ) ) {
