@@ -2425,7 +2425,7 @@
     "id": "mon_nether_crowned",
     "type": "MONSTER",
     "name": { "str": "crowned one" },
-    "description": "A bipedal creature the size and build of an adult gorilla, covered in a thick coat of silvery white fur.  Instead of a head, a metallic, trapezoidal obelisk sits atop its shoulders, featureless apart from a circular indent on the front.",
+    "description": "A bipedal creature the size and build of an adult gorilla, walking on its knuckles and covered in a thick coat of silvery white fur.  Instead of a head, a metallic, trapezoidal obelisk sits atop its shoulders, featureless apart from a circular indent on the front.",
     "species": "NETHER",
     "diff": 8,
     "hp": 300,
