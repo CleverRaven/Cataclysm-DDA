@@ -619,10 +619,10 @@ void mtype::faction_display( catacurses::window &w, const point &top_left, const
     if( has_flag( mon_flag_FLIES ) ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can fly." ) );
     }
-    if( has_flag( mon_flag_DIGS ) ) {
+    if( has_flag( mon_flag_DIGS )   || move_skills.dig.has_value() ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can burrow underground." ) );
     }
-    if( has_flag( mon_flag_CLIMBS ) ) {
+    if( has_flag( mon_flag_CLIMBS ) || move_skills.climb.has_value() ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can climb." ) );
     }
     if( has_flag( mon_flag_GRABS ) ) {
