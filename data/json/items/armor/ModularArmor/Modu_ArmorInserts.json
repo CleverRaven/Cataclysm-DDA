@@ -1,13 +1,13 @@
 [
   {
-   "id": "ModuArmor_Fore_Kevlar",
-   "type": "ITEM",
-   "subtypes": [ "ARMOR" ],
-   "copy-from": "ModuArmor_Fore_Base",
-   "name": "Modular Kevlar Forearm Protectors",
-   "description": "Forearm protectors meant to be inserted into a modular backing. These are made from kevlar & should protect quite well. Less encumbering thanks to it being flush in a packet.",
-   "material": [ "kevlar" ],
-   "material_thickness": 1
+    "id": "ModuArmor_Fore_Kevlar",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "ModuArmor_Fore_Base",
+    "name": "Modular Kevlar Forearm Protectors",
+    "description": "Forearm protectors meant to be inserted into a modular backing. These are made from kevlar & should protect quite well. Less encumbering thanks to it being flush in a packet.",
+    "material": [ "kevlar" ],
+    "material_thickness": 1
   },
   {
    "id": "ModuArmor_Shin_Kevlar",
