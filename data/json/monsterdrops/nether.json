@@ -52,10 +52,10 @@
     "subtype": "collection",
     "id": "nether_crowned_drops",
     "entries": [
-      { "item": "stone_chisel", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "stone_chopper", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "hand_axe", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "coat_gut", "count": [ 0, 1 ], "prob": 5 }
+      { "item": "stone_chisel", "count": [ 0, 1 ], "prob": 20, "damage": [ 0, 2 ] },
+      { "item": "stone_chopper", "count": [ 0, 1 ], "prob": 20, "damage": [ 0, 2 ] },
+      { "item": "hand_axe", "count": [ 0, 1 ], "prob": 20, "damage": [ 0, 2 ] },
+      { "item": "coat_gut", "count": [ 0, 1 ], "prob": 5, "damage": [ 0, 2 ] }
     ]
   }
 ]
