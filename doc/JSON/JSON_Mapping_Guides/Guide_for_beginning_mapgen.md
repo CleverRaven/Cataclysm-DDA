@@ -61,11 +61,10 @@ the mapgen file has some meta data tags and the `"object"` data which defines ev
 Sample:
 ```
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_restaurant_coffee",
     "weight": 250,
 ```
-1. `"type"` will always be mapgen (we'll cover other map types in future tutorials), the `"method"` will always be JSON.  This data tells the program how to treat this file.
+1. `"type"` will always be mapgen (we'll cover other map types in future tutorials).  This data tells the program how to treat this file.
 
 2. `"om_terrain"`: this is basically your internal name for the map (not the name that shows up on the overmap).  It should usually be unique unless you plan on having multiple variants of the same map which **share the same building foundation shape** (note: I mean the actual shape of the building's foundation).
 
@@ -331,7 +330,6 @@ sample roof:
 ```
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_01_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
