@@ -253,6 +253,9 @@
     "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
   },
   {
+    "copy-from": "jumpsuit",
+    "extend": { "flags": [ "HOOD" ] },
+    "relative": { "weight": "50 g" },
     "id": "flag_jumpsuit",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
