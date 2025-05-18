@@ -111,6 +111,7 @@
         "coverage": 50,
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_upper_r", "arm_upper_l" ]
-    } ]
-   }
+      }
+    ]
+  }
 ]
