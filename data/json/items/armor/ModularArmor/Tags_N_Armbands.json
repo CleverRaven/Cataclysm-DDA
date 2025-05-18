@@ -181,89 +181,89 @@
     ]
   },
   {
-   "id": "BackArt",
-   "type": "ITEM",
-   "subtypes": [ "ARMOR" ],
-   "name": { "str": "Indistinct back design", "str_pl": "Insdistinct back design" },
-   "description": "A mural that can be material that can be stitched onto a jacket, this one is completely unreadable.",
+    "id": "BackArt",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Indistinct back design", "str_pl": "Insdistinct back design" },
+    "description": "A mural that can be material that can be stitched onto a jacket, this one is completely unreadable.",
     "symbol": "#",
-   "weight": "205 g",
-   "volume": "550 ml",
-   "price": "30 USD",
-   "price_postapoc": "2 USD 50 cent",
-   "material": [ "canvas", "plastic" ],
-   "material_thickness": 1,
-   "flags": [ "OVERSIZE", "WATER_FRIENDLY", "BACK_ART", "CANT_WEAR" ],
-   "armor": [
+    "weight": "205 g",
+    "volume": "550 ml",
+    "price": "30 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "canvas", "plastic" ],
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "BACK_ART", "CANT_WEAR" ],
+    "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 90 },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 90 }
-   ],
-   "//": "We are NOT adding *that* kind of art. You ought to be ashamed of yourself.",
-   "variants": [
-     {
-      "id": "BackArt_pride",
-      "name": "Pride flag Back Mural",
-      "description": "A mural that can be material that can be stitched onto a jacket, this one is of the LGBTQA+ flag.",
-      "weight": 10,
-      "color": "yellow",
-      "append": true
-     },
-     {
-      "id": "BackArt_Murica",
-      "name": "American Back Mural",
-      "description": "A mural that can be material that can be stitched onto a jacket, this one is of the American flag. Wear it with pride.",
-      "weight": 10,
-      "color": "yellow",
-      "append": true
-     },
-     {
-      "id": "BackArt_Catholic",
-      "name": "Catholic Back Mural",
-      "description": "A mural that can be material that can be stitched onto a jacket, this one is of anCatholic mural. Hopefully the pope is alive.",
-      "weight": 10,
-      "color": "yellow",
-      "append": true
-     },
-     {
-      "id": "BackArt_Protestant",
-      "name": "Protestant Back Mural",
-      "description": "A mural that can be material that can be stitched onto a jacket, this one is of a Protestant mural. Maybe Martin Luther's back up?",
-      "weight": 10,
-      "color": "yellow",
-      "append": true
-     },
-     {
-      "id": "BackArt_Orthodox",
-      "name": "Orthodox Back Mural",
-      "description": "A mural that can be material that can be stitched onto a jacket, this one is of an Orthodox mural. The Patriach might still be kickin' around.",
-      "weight": 10,
-      "color": "yellow",
-      "append": true
-     },
-     {
-      "id": "BackArt_Disco_UnJour",
-      "name": "Elysium Back Mural",
-      "description": "A mural that can be material that can be stitched onto a jacket, it reads \"UN JOUR JE SERAI DE RETOUR PRÈS DE TOI\".",
-      "weight": 10,
-      "color": "red",
-      "append": true
-     },
-     {
-      "id": "BackArt_Disco_Volition",
-      "name": "Volition Back Mural",
-      "description": "A mural that can be material that can be stitched onto a jacket, it shows a black, gray, & purple artwork of some sort of head that turns into a crown at the top. Writing on the bottom reads \"The road to healing is going to be a long one. Stay the course, you will make it someday. Just remember that you've made it this far, & it's just a bit farther now\". It makes you feel better, somehow.",
-      "weight": 10,
-      "color": "black",
-      "append": true
-     },
-     {
-      "id": "BackArt_Disco_Kim",
-      "name": "Kitsuragi Back Mural",
-      "description": "A mural that can be material that can be stitched onto a jacket, it shows art of a thin, vaguely asian man, wearing a bomber jacket & glasses. There's a sort of halo around his head, & in the back of your mind, if the skies came crashing down, & the whole wasteland descended upon you, this man would hurl himself in death's way to save you. You are sure of this--But why?",
-      "weight": 10,
-      "color": "yellow",
-      "append": true
-     }
-  ]
- }
+    ],
+    "//": "We are NOT adding *that* kind of art. You ought to be ashamed of yourself.",
+    "variants": [
+      {
+        "id": "BackArt_pride",
+        "name": "Pride flag Back Mural",
+        "description": "A mural that can be material that can be stitched onto a jacket, this one is of the LGBTQA+ flag.",
+        "weight": 10,
+        "color": "yellow",
+        "append": true
+      },
+      {
+        "id": "BackArt_Murica",
+        "name": "American Back Mural",
+        "description": "A mural that can be material that can be stitched onto a jacket, this one is of the American flag. Wear it with pride.",
+        "weight": 10,
+        "color": "yellow",
+        "append": true
+      },
+      {
+        "id": "BackArt_Catholic",
+        "name": "Catholic Back Mural",
+        "description": "A mural that can be material that can be stitched onto a jacket, this one is of anCatholic mural. Hopefully the pope is alive.",
+        "weight": 10,
+        "color": "yellow",
+        "append": true
+      },
+      {
+        "id": "BackArt_Protestant",
+        "name": "Protestant Back Mural",
+        "description": "A mural that can be material that can be stitched onto a jacket, this one is of a Protestant mural. Maybe Martin Luther's back up?",
+        "weight": 10,
+        "color": "yellow",
+        "append": true
+      },
+      {
+        "id": "BackArt_Orthodox",
+        "name": "Orthodox Back Mural",
+        "description": "A mural that can be material that can be stitched onto a jacket, this one is of an Orthodox mural. The Patriach might still be kickin' around.",
+        "weight": 10,
+        "color": "yellow",
+        "append": true
+      },
+      {
+        "id": "BackArt_Disco_UnJour",
+        "name": "Elysium Back Mural",
+        "description": "A mural that can be material that can be stitched onto a jacket, it reads \"UN JOUR JE SERAI DE RETOUR PRÈS DE TOI\".",
+        "weight": 10,
+        "color": "red",
+        "append": true
+      },
+      {
+        "id": "BackArt_Disco_Volition",
+        "name": "Volition Back Mural",
+        "description": "A mural that can be material that can be stitched onto a jacket, it shows a black, gray, & purple artwork of some sort of head that turns into a crown at the top. Writing on the bottom reads \"The road to healing is going to be a long one. Stay the course, you will make it someday. Just remember that you've made it this far, & it's just a bit farther now\". It makes you feel better, somehow.",
+        "weight": 10,
+        "color": "black",
+        "append": true
+      },
+      {
+        "id": "BackArt_Disco_Kim",
+        "name": "Kitsuragi Back Mural",
+        "description": "A mural that can be material that can be stitched onto a jacket, it shows art of a thin, vaguely asian man, wearing a bomber jacket & glasses. There's a sort of halo around his head, & in the back of your mind, if the skies came crashing down, & the whole wasteland descended upon you, this man would hurl himself in death's way to save you. You are sure of this--But why?",
+        "weight": 10,
+        "color": "yellow",
+        "append": true
+      }
+    ]
+  }
 ]
