@@ -9,7 +9,7 @@
     "material": [ "cotton" ]
   },
   {
-    "id": "ModuCoatMut_Cott", 
+    "id": "ModuCoatMut_Cott",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "ModuCoatMut_Base",

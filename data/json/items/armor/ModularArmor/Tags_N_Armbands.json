@@ -1,184 +1,184 @@
 [
   {
-   "id": "Armband",
-   "type": "ITEM",
-   "subtypes": [ "ARMOR" ],
-   "name": { "str": "Indistinct armband", "str_pl": "Insdistinct armbands" },
-   "description": "An armband that can be worn by simply tying it on, this one is completely unreadable.",
-   "weight": "205 g",
-   "volume": "550 ml",
-   "price": "30 USD",
-   "price_postapoc": "2 USD 50 cent",
-   "material": [ "canvas", "plastic" ],
-   "symbol": "[",
-   "looks_like": "armguard_soft",
-   "color": "dark_gray",
-   "sided": true,
-   "material_thickness": 1,
-   "flags": [ "OVERSIZE", "WATER_FRIENDLY", "BELTED", "ARMBAND" ],
-   "armor": [
-     {
-      "encumbrance": 0,
-      "volume_encumber_modifier": 0.35,
-      "coverage": 50,
-      "covers": [ "arm_l", "arm_r" ],
-      "specifically_covers": [ "arm_upper_r", "arm_upper_l" ]
-     }
-   ],
-   "//": "We are NOT adding *those* armbands. You ought to be ashamed of yourself.",
-   "variants": [
-     {
-      "id": "Armband_pride_default",
-      "name": { "str": "Pride flag Armband", "str_pl": "Pride flag Armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one advocates for LGBTQA+ pride.",
-      "weight": 10,
-      "color": "yellow",
-      "append": true
-     },
-     {
-      "id": "Armband_pride_lesbian",
-      "name": { "str": "Lesbian flag Armband", "str_pl": "Lesbian flag Armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one advocates for lesbian pride.",
-      "weight": 10,
-      "color": "red",
-      "append": true
-     },
-     {
-      "id": "Armband_pride_bisexual",
-      "name": { "str": "Bisexual flag Armband", "str_pl": "Bisexual flag Armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one advocates for bisexual pride.",
-      "weight": 10,
-      "color": "magenta",
-      "append": true
-     },
-     {
-      "id": "Armband_pride_transgender",
-      "name": { "str": "Transgender flag Armband", "str_pl": "Transgender flag Armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one advocates for transgender pride.",
-      "weight": 10,
-      "color": "blue",
-      "append": true
-     },
-     {
-      "id": "Armband_pride_asexual",
-      "name": { "str": "Asexual flag Armband", "str_pl": "Asexual flag Armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one advocates for asexual pride.",
-      "weight": 10,
-      "color": "magenta",
-      "append": true
-     },
-     {
-      "id": "Armband_pride_aromantic",
-      "name": { "str": "Aromantic flag Armband", "str_pl": "Aromantic flag Armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one advocates for aromantic pride.",
-      "weight": 10,
-      "color": "green",
-      "append": true
-     },
-     {
-      "id": "Armband_pride_pansexual",
-      "name": { "str": "Pansexual flag Armband", "str_pl": "Pansexual flag Armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one advocates for pansexual pride.",
-      "weight": 10,
-      "color": "blue",
-      "append": true
-     },
-     {
-      "id": "Armband_pride_genderqueer",
-      "name": { "str": "Genderqueer flag Armband", "str_pl": "Genderqueer flag Armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one advocates for genderqueer pride.",
-      "weight": 10,
-      "color": "magenta",
-      "append": true
-     },
-     {
-      "id": "Armband_pride_genderfluid",
-      "name": { "str": "Gender-fluid flag Armband", "str_pl": "Gender-fluid flag Armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one advocates for gender-fluid pride.",
-      "weight": 10,
-      "color": "magenta",
-      "append": true
-     },
-     {
-      "id": "Armband_pride_agender",
-      "name": { "str": "Agender flag Armband", "str_pl": "Agender flag Armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one advocates for agender pride.",
-      "weight": 10,
-      "color": "dark_gray",
-      "append": true
-     },
-     {
-      "id": "Armband_pride_nonbinary",
-      "name": { "str": "Nonbinary flag Armband", "str_pl": "Nonbinary flag Armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one advocates for non-binary pride.",
-      "weight": 10,
-      "color": "yellow",
-      "append": true
-     },
-     {
-      "id": "Armband_pride_intersex",
-      "name": { "str": "Intersex flag Armband", "str_pl": "Intersex flag Armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one advocates for intersex pride.",
-      "weight": 10,
-      "color": "yellow",
-      "append": true
-     },
-     {
-      "id": "Armband_pride_polysexual",
-      "name": { "str": "Polysexual flag Armband", "str_pl": "Polysexual flag Armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one advocates for polysexual pride.",
-      "weight": 10,
-      "color": "green",
-      "append": true
-     },
-     {
-      "id": "Armband_Bratan",
-      "name": { "str": "Horrific armtie", "str_pl": "Horrific armties" },
-      "description": "An armband that can be worn by simply tying it on, this one is actually an absolutely hideous necktie. Putting it around your arm feels like a tourniquet, & a voice in the very back of your mine yells \"BRATAAN!\"",
-      "color": "red",
-      "append": true,
-      "weight": 10
-     },
-     {
-      "id": "Armband_Communism",
-      "name": { "str": "Communistic armband", "str_pl": "Communistic armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one advocates for Communism. You should wear it, comerade.",
-      "color": "red",
-      "append": true,
-      "weight": 10
-     },
-     {
-      "id": "Armband_Union",
-      "name": { "str": "UMWA armband", "str_pl": "UMWA armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one advocates for unionization of coal mines. You ain't a scab, are ye?.",
-      "color": "red",
-      "append": true,
-      "weight": 10
-     },
-     {
-      "id": "Armband_MA_Union",
-      "name": { "str": "Union armband", "str_pl": "Union armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one advocates for unionization of workplaces. After all, Joe Hill never died.",
-      "color": "red",
-      "append": true,
-      "weight": 10
-     },
-     {
-      "id": "Armband_Murica",
-      "name": { "str": "American armband", "str_pl": "American armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one brings out the patriotism in you.",
-      "color": "red",
-      "append": true,
-      "weight": 10
-     },
-     {
-      "id": "Armband_Greek",
-      "name": { "str": "Greek armband", "str_pl": "Greek armbands" },
-      "description": "An armband that can be worn by simply tying it on, this one is of the Greek flag. Κρεμάσαμε τον σπαγγετοφάγο!",
-      "weight": 10,
-      "append": true
-     }
-   ]
+    "id": "Armband",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Indistinct armband", "str_pl": "Insdistinct armbands" },
+    "description": "An armband that can be worn by simply tying it on, this one is completely unreadable.",
+    "weight": "205 g",
+    "volume": "550 ml",
+    "price": "30 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "canvas", "plastic" ],
+    "symbol": "[",
+    "looks_like": "armguard_soft",
+    "color": "dark_gray",
+    "sided": true,
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "BELTED", "ARMBAND" ],
+    "armor": [
+      {
+        "encumbrance": 0,
+        "volume_encumber_modifier": 0.35,
+        "coverage": 50,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_r", "arm_upper_l" ]
+      }
+    ],
+    "//": "We are NOT adding *those* armbands. You ought to be ashamed of yourself.",
+    "variants": [
+      {
+        "id": "Armband_pride_default",
+        "name": { "str": "Pride flag Armband", "str_pl": "Pride flag Armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one advocates for LGBTQA+ pride.",
+        "weight": 10,
+        "color": "yellow",
+        "append": true
+      },
+      {
+        "id": "Armband_pride_lesbian",
+        "name": { "str": "Lesbian flag Armband", "str_pl": "Lesbian flag Armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one advocates for lesbian pride.",
+        "weight": 10,
+        "color": "red",
+        "append": true
+      },
+      {
+        "id": "Armband_pride_bisexual",
+        "name": { "str": "Bisexual flag Armband", "str_pl": "Bisexual flag Armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one advocates for bisexual pride.",
+        "weight": 10,
+        "color": "magenta",
+        "append": true
+      },
+      {
+        "id": "Armband_pride_transgender",
+        "name": { "str": "Transgender flag Armband", "str_pl": "Transgender flag Armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one advocates for transgender pride.",
+        "weight": 10,
+        "color": "blue",
+        "append": true
+      },
+      {
+        "id": "Armband_pride_asexual",
+        "name": { "str": "Asexual flag Armband", "str_pl": "Asexual flag Armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one advocates for asexual pride.",
+        "weight": 10,
+        "color": "magenta",
+        "append": true
+      },
+      {
+        "id": "Armband_pride_aromantic",
+        "name": { "str": "Aromantic flag Armband", "str_pl": "Aromantic flag Armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one advocates for aromantic pride.",
+        "weight": 10,
+        "color": "green",
+        "append": true
+      },
+      {
+        "id": "Armband_pride_pansexual",
+        "name": { "str": "Pansexual flag Armband", "str_pl": "Pansexual flag Armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one advocates for pansexual pride.",
+        "weight": 10,
+        "color": "blue",
+        "append": true
+      },
+      {
+        "id": "Armband_pride_genderqueer",
+        "name": { "str": "Genderqueer flag Armband", "str_pl": "Genderqueer flag Armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one advocates for genderqueer pride.",
+        "weight": 10,
+        "color": "magenta",
+        "append": true
+      },
+      {
+        "id": "Armband_pride_genderfluid",
+        "name": { "str": "Gender-fluid flag Armband", "str_pl": "Gender-fluid flag Armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one advocates for gender-fluid pride.",
+        "weight": 10,
+        "color": "magenta",
+        "append": true
+      },
+      {
+        "id": "Armband_pride_agender",
+        "name": { "str": "Agender flag Armband", "str_pl": "Agender flag Armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one advocates for agender pride.",
+        "weight": 10,
+        "color": "dark_gray",
+        "append": true
+      },
+      {
+        "id": "Armband_pride_nonbinary",
+        "name": { "str": "Nonbinary flag Armband", "str_pl": "Nonbinary flag Armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one advocates for non-binary pride.",
+        "weight": 10,
+        "color": "yellow",
+        "append": true
+      },
+      {
+        "id": "Armband_pride_intersex",
+        "name": { "str": "Intersex flag Armband", "str_pl": "Intersex flag Armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one advocates for intersex pride.",
+        "weight": 10,
+        "color": "yellow",
+        "append": true
+      },
+      {
+        "id": "Armband_pride_polysexual",
+        "name": { "str": "Polysexual flag Armband", "str_pl": "Polysexual flag Armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one advocates for polysexual pride.",
+        "weight": 10,
+        "color": "green",
+        "append": true
+      },
+      {
+        "id": "Armband_Bratan",
+        "name": { "str": "Horrific armtie", "str_pl": "Horrific armties" },
+        "description": "An armband that can be worn by simply tying it on, this one is actually an absolutely hideous necktie. Putting it around your arm feels like a tourniquet, & a voice in the very back of your mine yells \"BRATAAN!\"",
+        "color": "red",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "Armband_Communism",
+        "name": { "str": "Communistic armband", "str_pl": "Communistic armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one advocates for Communism. You should wear it, comerade.",
+        "color": "red",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "Armband_Union",
+        "name": { "str": "UMWA armband", "str_pl": "UMWA armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one advocates for unionization of coal mines. You ain't a scab, are ye?.",
+        "color": "red",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "Armband_MA_Union",
+        "name": { "str": "Union armband", "str_pl": "Union armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one advocates for unionization of workplaces. After all, Joe Hill never died.",
+        "color": "red",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "Armband_Murica",
+        "name": { "str": "American armband", "str_pl": "American armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one brings out the patriotism in you.",
+        "color": "red",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "Armband_Greek",
+        "name": { "str": "Greek armband", "str_pl": "Greek armbands" },
+        "description": "An armband that can be worn by simply tying it on, this one is of the Greek flag. Κρεμάσαμε τον σπαγγετοφάγο!",
+        "weight": 10,
+        "append": true
+      }
+    ]
   },
   {
    "id": "BackArt",
