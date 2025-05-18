@@ -301,7 +301,7 @@
       "mapgensize": [ 5, 5 ],
       "place_furniture": [ { "furn": "f_camp_chair", "x": 1, "y": 0 }, { "furn": "f_makeshift_bed", "x": 1, "y": 1 } ],
       "place_loot": [ { "group": "wasp_lair", "x": 1, "y": 1, "repeat": [ 0, 2 ] }, { "group": "human_parts", "x": 1, "y": 1 } ],
-      "place_monster": [ { "group": "GROUP_WASP_QUEEN", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
+      "place_monster": [ { "group": "GROUP_WASP_QUEEN", "x": [ 0, 4 ], "y": [ 0, 4 ] } ],
       "place_nested": [ { "chunks": [ "wasp_gibs" ], "x": [ 0, 2 ], "y": [ 0, 2 ], "repeat": [ 5, 7 ] } ]
     }
   },

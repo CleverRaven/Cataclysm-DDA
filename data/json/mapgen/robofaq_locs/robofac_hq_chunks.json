@@ -99,7 +99,7 @@
     "method": "json",
     "nested_mapgen_id": "robofac_hq_surface_merc_1",
     "object": {
-      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 4 ], "y": [ 0, 4 ] } ],
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 1 ], "y": [ 0, 1 ] } ],
       "mapgensize": [ 2, 2 ],
       "place_npcs": [ { "class": "robofac_merc_1", "x": 1, "y": 1 } ]
     }

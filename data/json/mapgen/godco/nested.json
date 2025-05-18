@@ -484,7 +484,7 @@
     "nested_mapgen_id": "godco_permanent_trader_predatory_roof",
     "object": {
       "mapgensize": [ 5, 5 ],
-      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
+      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 4 ], "y": [ 0, 4 ] } ],
       "rows": [
         "#####",
         "#####",
@@ -501,7 +501,7 @@
     "nested_mapgen_id": "godco_permanent_trader_predatory",
     "object": {
       "mapgensize": [ 5, 5 ],
-      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
+      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 4 ], "y": [ 0, 4 ] } ],
       "rows": [
         "#####",
         "#CCC#",

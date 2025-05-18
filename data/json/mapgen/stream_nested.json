@@ -218,7 +218,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "-": "t_water_sh", "~": "t_water_moving_sh", ",": "t_grass_long", "^": "t_stump" },
       "furniture": { "#": "f_beaver_dam" },
-      "place_monster": [ { "monster": "mon_beaver", "x": [ 0, 8 ], "y": [ 0, 8 ], "repeat": 8 } ]
+      "place_monster": [ { "monster": "mon_beaver", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": 8 } ]
     }
   },
   {

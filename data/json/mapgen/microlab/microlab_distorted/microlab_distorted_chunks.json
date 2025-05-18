@@ -239,8 +239,8 @@
         { "monster": "mon_structural_spur", "x": 0, "y": 4, "repeat": [ 2, 4 ] },
         {
           "monster": "mon_shrapnel_swarm",
-          "x": [ 0, 6 ],
-          "y": [ 0, 6 ],
+          "x": [ 0, 5 ],
+          "y": [ 0, 5 ],
           "spawn_data": {
             "patrol": [
               { "x": 6, "y": 6 },
