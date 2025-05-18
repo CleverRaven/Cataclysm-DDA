@@ -294,7 +294,7 @@ void worldfactory::set_active_world( WORLD *world )
     }
 }
 
-bool WORLD::save( const bool is_conversion ) const
+bool WORLD::save() const
 {
     if( !assure_dir_exist( folder_path() ) ) {
         debugmsg( "Unable to create or open world[%s] directory for saving", world_name );
@@ -307,32 +307,30 @@ bool WORLD::save( const bool is_conversion ) const
         return false;
     }
 
-    if( !is_conversion ) {
-        const cata_path savefile = folder_path() / PATH_INFO::worldoptions();
-        const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
-            JsonOut jout( fout );
+    const cata_path savefile = folder_path() / PATH_INFO::worldoptions();
+    const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
+        JsonOut jout( fout );
 
-            jout.start_array();
+        jout.start_array();
 
-            for( const auto &elem : WORLD_OPTIONS ) {
-                // Skip hidden option because it is set by mod and should not be saved
-                if( !elem.second.getDefaultText().empty() ) {
-                    jout.start_object();
+        for( const auto &elem : WORLD_OPTIONS ) {
+            // Skip hidden option because it is set by mod and should not be saved
+            if( !elem.second.getDefaultText().empty() ) {
+                jout.start_object();
 
-                    jout.member( "info", elem.second.getTooltip() );
-                    jout.member( "default", elem.second.getDefaultText( false ) );
-                    jout.member( "name", elem.first );
-                    jout.member( "value", elem.second.getValue( true ) );
+                jout.member( "info", elem.second.getTooltip() );
+                jout.member( "default", elem.second.getDefaultText( false ) );
+                jout.member( "name", elem.first );
+                jout.member( "value", elem.second.getValue( true ) );
 
-                    jout.end_object();
-                }
+                jout.end_object();
             }
-
-            jout.end_array();
-        }, _( "world data" ) );
-        if( !saved ) {
-            return false;
         }
+
+        jout.end_array();
+    }, _( "world data" ) );
+    if( !saved ) {
+        return false;
     }
 
     world_generator->get_mod_manager().save_mods_list( this );
@@ -407,40 +405,6 @@ void worldfactory::init()
             continue;
         }
         add_existing_world( dir );
-    }
-
-    // In old versions, there was only one world, stored directly in the "save" directory.
-    // If that directory contains the expected files, it's an old save and must be converted.
-    if( is_save_dir( "save" ) ) {
-        // @TODO import directly into the new world instead of having this dummy "save" world.
-        add_existing_world( "save" );
-
-        const WORLD &old_world = *all_worlds["save"];
-
-        std::unique_ptr<WORLD> newworld = std::make_unique<WORLD>();
-        newworld->world_name = get_next_valid_worldname();
-
-        // save world as conversion world
-        if( newworld->save( true ) ) {
-            const cata_path origin_path = old_world.folder_path();
-            // move files from origin_path into new world path
-            for( cata_path &origin_file : get_files_from_path( ".", origin_path, false ) ) {
-                std::string filename = origin_file.get_relative_path().filename().generic_u8string();
-
-                if( rename_file( origin_file, ( newworld->folder_path() / filename ) ) ) {
-                    debugmsg( "Error while moving world files: %s.  World may have been corrupted",
-                              strerror( errno ) );
-                }
-            }
-            newworld->world_saves = old_world.world_saves;
-            newworld->WORLD_OPTIONS = old_world.WORLD_OPTIONS;
-
-            all_worlds.erase( "save" );
-
-            all_worlds[newworld->world_name] = std::move( newworld );
-        } else {
-            debugmsg( "worldfactory::convert_to_world -- World Conversion Failed!" );
-        }
     }
 }
 
