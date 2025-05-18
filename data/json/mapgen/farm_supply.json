@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_supply_1", "farm_supply_2" ], [ "farm_supply_3", "farm_supply_4" ] ],
     "//": "Fully stocked, unlooted variant.",
     "object": {
@@ -363,7 +362,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_supply_roof_1", "farm_supply_roof_2" ], [ "farm_supply_roof_3", "farm_supply_roof_4" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -444,7 +442,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_supply_looted_1", "farm_supply_looted_2" ], [ "farm_supply_looted_3", "farm_supply_looted_4" ] ],
     "//": "Looted variant. Guns, some camping supplies, and some other equipment is missing.",
     "object": {
@@ -843,7 +840,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "farm_supply_fence_destruction",
     "object": {
       "mapgensize": [ 24, 24 ],

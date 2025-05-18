@@ -77,7 +77,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "foodperson_break_room",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -87,7 +86,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "3x3_foodplace_stairwell",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -103,7 +101,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_chef_survivor",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -162,7 +159,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_angry_diners",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -197,7 +193,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "13x13_checkered_floor",
     "object": {
       "mapgensize": [ 13, 13 ],
@@ -222,13 +217,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_GROUP_GROCERY",
     "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "group": "GROUP_GROCERY", "x": 0, "y": 0, "chance": 100 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_kitchen_roach_infestation",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -240,7 +233,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_restaurant",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -297,7 +289,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -348,7 +339,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "foodperson_break_room",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -358,7 +348,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "foodperson_barred_bathroom",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -405,7 +394,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_foodplace_roof" ],
     "object": {
       "fill_ter": "t_floor",
@@ -486,7 +474,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_foodplace_upper_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -540,7 +527,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_1" ],
     "object": {
       "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
@@ -653,7 +639,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_roof_1" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -703,7 +688,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_2" ],
     "//": "Buffet or family-style restaurant with a soup and salad bar.",
     "object": {
@@ -805,7 +789,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_roof_2" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -860,7 +843,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_upper_roof_2" ],
     "object": {
       "fill_ter": "t_flat_roof",

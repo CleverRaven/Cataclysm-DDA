@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "icecream_shop" ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
@@ -104,7 +103,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "icecream_shop_roof",
     "object": {
       "fill_ter": "t_flat_roof",

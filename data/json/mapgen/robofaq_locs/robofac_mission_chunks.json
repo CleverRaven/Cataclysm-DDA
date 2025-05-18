@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "robofac_mi2_convoy_ambush_chunk",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -48,7 +47,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "robofac_mi3_photonics_chunk",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -60,7 +58,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "robofac_radio_leech",
     "object": {
       "mapgensize": [ 24, 24 ],

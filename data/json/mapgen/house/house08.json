@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_08" ],
     "//": "Standard variant",
     "weight": 300,
@@ -63,7 +62,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_08" ],
     "//": "Child birthday party variant",
     "weight": 15,
@@ -140,7 +138,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_08_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -176,7 +173,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_08_basement",
     "object": {
       "fill_ter": "t_thconc_floor",

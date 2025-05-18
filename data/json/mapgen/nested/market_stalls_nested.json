@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "market_6x6_roof",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -18,7 +17,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "market_meat",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -44,7 +42,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "market_grocery",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -68,7 +65,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "market_fish",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -93,7 +89,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "market_confectionery",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -117,7 +112,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "market_4x4_roof",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -132,7 +126,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "market_bees",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -155,7 +148,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "market_clothes",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -195,7 +187,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "market_5x5_roof",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -211,7 +202,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "market_botanical",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -231,7 +221,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "market_7x7_roof",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -249,7 +238,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "market_misc",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -275,7 +263,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "market_books",
     "object": {
       "mapgensize": [ 6, 6 ],

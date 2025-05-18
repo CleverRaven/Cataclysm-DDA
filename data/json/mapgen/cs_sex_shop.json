@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cs_sex_shop" ],
     "//": "Sex shop selling illegal drugs under the counter, with cops and police car",
     "weight": 1000,
@@ -101,7 +100,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cs_sex_shop" ],
     "//": "Same as the first sex shop but without drugs and no cops or a police car",
     "weight": 1000,
@@ -199,7 +197,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cs_sex_shop_roof",
     "object": {
       "fill_ter": "t_flat_roof",

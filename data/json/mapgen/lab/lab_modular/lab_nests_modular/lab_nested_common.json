@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general lab variety.",
     "nested_mapgen_id": "lab_generic_3x3_EW_open",
     "object": {
@@ -17,7 +16,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general lab variety.",
     "nested_mapgen_id": "lab_generic_3x3_EW_open",
     "object": {
@@ -33,7 +31,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general lab variety.",
     "nested_mapgen_id": "lab_generic_3x3_EW_open",
     "object": {
@@ -49,7 +46,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general lab security areas.",
     "nested_mapgen_id": "lab_generic_6x6_open",
     "object": {
@@ -68,7 +64,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general lab security areas.",
     "nested_mapgen_id": "lab_generic_6x6_open",
     "object": {
@@ -87,7 +82,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general lab area.",
     "nested_mapgen_id": "lab_common_5x5_open",
     "object": {
@@ -108,7 +102,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general office areas.",
     "nested_mapgen_id": "lab_generic_7x7_open",
     "object": {
@@ -128,7 +121,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general office areas.",
     "nested_mapgen_id": "lab_generic_7x7_open",
     "object": {
@@ -148,7 +140,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general office areas.",
     "nested_mapgen_id": "lab_generic_7x7_open",
     "object": {
@@ -168,7 +159,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general office areas.",
     "nested_mapgen_id": "lab_generic_7x7_open",
     "object": {
@@ -188,7 +178,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general office areas.",
     "nested_mapgen_id": "lab_generic_7x7_N",
     "object": {
@@ -208,7 +197,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general office areas.",
     "nested_mapgen_id": "lab_generic_7x7_S",
     "object": {
@@ -228,7 +216,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general office areas.",
     "nested_mapgen_id": "lab_generic_7x7_N",
     "object": {
@@ -248,7 +235,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general office areas.",
     "nested_mapgen_id": "lab_generic_7x7_S",
     "object": {
@@ -268,7 +254,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general office areas.",
     "nested_mapgen_id": "lab_generic_7x7_open",
     "object": {
@@ -288,7 +273,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for recreational areas.",
     "weight": 500,
     "nested_mapgen_id": "lab_recreational_3x3_open",
@@ -313,7 +297,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for recreational areas.",
     "weight": 300,
     "nested_mapgen_id": "lab_recreational_3x3_open",
@@ -331,7 +314,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for recreational areas.",
     "nested_mapgen_id": "lab_recreational_3x3_open",
     "weight": 300,
@@ -348,7 +330,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for recreational areas.",
     "nested_mapgen_id": "lab_recreational_3x3_open",
     "weight": 300,
@@ -365,7 +346,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for recreational areas.",
     "nested_mapgen_id": "lab_recreational_3x3_open",
     "weight": 100,
@@ -382,7 +362,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for recreational areas.",
     "nested_mapgen_id": "lab_recreational_3x3_open",
     "weight": 50,
@@ -400,7 +379,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for recreational areas.",
     "nested_mapgen_id": "lab_recreational_3x3_open",
     "weight": 50,

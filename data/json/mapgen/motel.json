@@ -131,7 +131,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "9x9_motel_room_twin_E",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -153,7 +152,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "9x9_motel_room_single_E",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -175,7 +173,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "9x9_motel_room_single_1_E",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -197,7 +194,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "9x9_motel_room_twin_N",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -219,7 +215,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "9x9_motel_room_single_N",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -241,7 +236,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "9x9_motel_room_single_1_N",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -263,7 +257,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "10x10_road_crossing",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -285,7 +278,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "2x2_sidewalk_right",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -299,7 +291,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "motel_1_no_sidewalk", "motel_entrance_no_sidewalk" ], [ "motel_2_no_sidewalk", "motel_3_no_sidewalk" ] ],
     "//": "Used by both out of city specials",
     "object": {
@@ -368,7 +359,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "motel_1", "motel_entrance" ], [ "motel_2", "motel_3" ] ],
     "//": "Used by both the city buildings",
     "object": {
@@ -440,7 +430,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "motel_1_roof", "motel_entrance_roof" ], [ "motel_2_roof", "motel_3_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -549,7 +538,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "2fmotel_1_f2", "2fmotel_entrance_f2" ], [ "2fmotel_2_f2", "2fmotel_3_f2" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -609,7 +597,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "2fmotel_1_r", "null" ], [ "2fmotel_2_r", "2fmotel_3_r" ] ],
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -794,7 +781,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "corpse_crossbow_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -808,7 +794,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_motel_twd_1_overrun",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -848,7 +833,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_motel_twd_2_overrun",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -891,7 +875,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_motel_twd_1_f1_overrun",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -904,7 +887,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_motel_twd_2_f1_overrun",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -917,7 +899,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_motel_twd_1",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -939,7 +920,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_motel_twd_2",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -958,7 +938,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_motel_twd_1_f1",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -971,7 +950,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "motel_twd_1", "motel_twd_2" ] ],
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1030,7 +1008,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "motel_twd_1_f1", "motel_twd_2_f1" ] ],
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1098,7 +1075,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "motel_twd_1_f2",
     "object": {
       "fill_ter": "t_open_air",

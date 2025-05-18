@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_fast" ],
     "object": {
       "fill_ter": "t_floor",
@@ -103,7 +102,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_fast_roof" ],
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -152,7 +150,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_fast_1" ],
     "object": {
       "fill_ter": "t_floor",
@@ -247,7 +244,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_fast_roof_1" ],
     "object": {
       "fill_ter": "t_flat_roof",

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_electronics" ],
     "weight": 150,
     "//": "It's not as valuable as the gunsmithing shops are, but it's based on the same model and should be a figurative silver mine, if not a gold mine.",
@@ -111,7 +110,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_electronics_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -161,7 +159,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_electronics_1" ],
     "weight": 1000,
     "object": {
@@ -257,7 +254,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_electronics_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

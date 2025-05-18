@@ -3,7 +3,6 @@
     "//": "Top level 'lab_spawn_XXXXX' templates are for use in floorplans.",
     "//2": "Spawn for a room at least 7x7, walls often but not guaranteed.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_spawn_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -16,7 +15,6 @@
   {
     "//": "Spawn for a room exactly 7x7 with doors only in the center of each wall.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_spawn_7x7_crossdoors",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -29,7 +27,6 @@
   {
     "//": "Spawn for a room at least 9x9, walls often but not guaranteed.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_spawn_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -42,7 +39,6 @@
   {
     "//": "Spawn for a room exactly 9x9 with doors only in the center of each wall.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_spawn_9x9_crossdoors",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -55,7 +51,6 @@
   {
     "//": "9x9 blob room inactive",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -67,7 +62,6 @@
   {
     "//": "9x9 blob room active",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -79,7 +73,6 @@
   {
     "//": "7x7 cyborg & dissector",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -115,7 +108,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7_turret",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -136,7 +128,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -160,7 +151,6 @@
   {
     "//": "7x7 teleporter room",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -171,7 +161,6 @@
   {
     "//": "9x9 teleporter room",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -182,7 +171,6 @@
   {
     "//": "2x2 counter with teleporter loot on it",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_telepad_counter_2x2",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -197,7 +185,6 @@
   {
     "//": "7x7 desks",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7_crossdoors",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -228,7 +215,6 @@
   {
     "//": "9x9 desks",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -261,7 +247,6 @@
   {
     "//": "9x9 centrifuge room",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -283,7 +268,6 @@
   {
     "//": "9x9 cloning vats ",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -306,7 +290,6 @@
   {
     "//": "9x9 cloning mutagen lab ",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -333,7 +316,6 @@
   {
     "//": "9x9 cloning mutagen lab",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9_crossdoors",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -360,7 +342,6 @@
   {
     "//": "7x7 bulk chemical storage",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7_rare",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -370,39 +351,33 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_filltank_chem",
     "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 200, 800 ], "x": 0, "y": 0, "liquid": "bleach" } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_filltank_chem",
     "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 100, 400 ], "x": 0, "y": 0, "liquid": "water_clean" } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_filltank_chem",
     "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 100, 400 ], "x": 0, "y": 0, "liquid": "salt_water" } ] }
   },
   {
     "//": "7x7 glass monster cage",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7_rare",
     "object": { "mapgensize": [ 7, 7 ], "place_nested": [ { "chunks": [ "glass_monster_cage" ], "x": 1, "y": 1 } ] }
   },
   {
     "//": "9x9 glass monster cage",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9_rare",
     "object": { "mapgensize": [ 9, 9 ], "place_nested": [ { "chunks": [ "glass_monster_cage" ], "x": 2, "y": 2 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "glass_monster_cage",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -428,7 +403,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "glass_monster_cage",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -455,7 +429,6 @@
   {
     "//": "7x7 chem_storage",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7_crossdoors",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -475,7 +448,6 @@
   {
     "//": "7x7 chem_storage",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7_crossdoors",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -495,7 +467,6 @@
   {
     "//": "7x7 hydroponics",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -517,7 +488,6 @@
   {
     "//": "9x9 hydroponics",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -541,7 +511,6 @@
   {
     "//": "7x7 chem_storage and office",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -561,7 +530,6 @@
   {
     "//": "9x9 chem_storage",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -583,7 +551,6 @@
   {
     "//": "7x7 u-conference room",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -604,7 +571,6 @@
   {
     "//": "9x9 u-conference room",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -630,7 +596,6 @@
   {
     "//": "9x9 circle-conference room",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -653,7 +618,6 @@
   {
     "//": "7x7 security desk",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -674,7 +638,6 @@
   {
     "//": "7x7 crate room",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -684,7 +647,6 @@
   {
     "//": "9x9 crate room",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -693,7 +655,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sub_f_crate",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -706,7 +667,6 @@
   {
     "//": "7x7 machine room",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -719,7 +679,6 @@
   {
     "//": "9x9 machine room",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -731,7 +690,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sub_t_machinery",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -751,7 +709,6 @@
   {
     "//": "7x7 bathrooms",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7_crossdoors",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -775,7 +732,6 @@
   {
     "//": "7x7 vr mat, using safety glasses to suggest vr goggles",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -797,7 +753,6 @@
   {
     "//": "7x7 barracks",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -817,7 +772,6 @@
   {
     "//": "9x9 bedrooms",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9_crossdoors",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -840,7 +794,6 @@
   {
     "//": "7x7 kennel",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7_crossdoors",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -881,7 +834,6 @@
   {
     "//": "library",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9_rare",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -903,7 +855,6 @@
   {
     "//": "water tank 9x9",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -926,7 +877,6 @@
   {
     "//": "Elevator lobby and bathroom",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9_crossdoors",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -949,7 +899,6 @@
   {
     "//": "broken computer chamber",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9_crossdoors",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -972,7 +921,6 @@
   {
     "//": "gym",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -1005,7 +953,6 @@
   {
     "//": "kitchen and dining area",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9_crossdoors",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -1036,7 +983,6 @@
   {
     "//": "incinerated room - using crossdoors to ensure no extra space in the room not covered in ash",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_7x7_crossdoors",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -1057,7 +1003,6 @@
   {
     "//": "incinerated room - using crossdoors to ensure no extra space in the room not covered in ash",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_room_9x9_crossdoors",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -1080,7 +1025,6 @@
   {
     "//": "big ash pile (shovel-needed) with a chance of science gear",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sub_f_ash",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -1092,7 +1036,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_maybe_effects_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -1101,7 +1044,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_maybe_effects_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -1111,7 +1053,6 @@
   {
     "//": "7x7 spider overlay",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_add_spiders_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -1122,7 +1063,6 @@
   {
     "//": "9x9 spider overlay",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_add_spiders_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],

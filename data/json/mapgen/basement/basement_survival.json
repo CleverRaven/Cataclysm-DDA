@@ -16,7 +16,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "basement_survival" ],
     "//": "matches house_26",
     "object": {

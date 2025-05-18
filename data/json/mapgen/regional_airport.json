@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "null", "null", "airport_lot_0", "airport_lot_1", "waiting_area" ],
       [ "runway_start", "runway_hangar", "runway_hangar2", "runway", "runway_carts" ]
@@ -73,7 +72,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "hangar",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -109,7 +107,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "null", "fuel_station", "control_tower_0", "null" ],
       [ "runway_wild", "runway_fuel", "runway_fuel2", "runway_end" ]
@@ -182,7 +179,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "control_tower_1", "control_tower_2" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -222,7 +218,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "waiting_area_roof", "fuel_station_roof", "control_tower_roof", "hangar_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",

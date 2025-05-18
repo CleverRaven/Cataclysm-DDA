@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_lake",
     "object": {
       "fill_ter": "t_floor",
@@ -101,7 +100,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_lake_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -137,7 +135,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_cabin_boathouse",
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -210,7 +207,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_cabin_boathouse_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -246,7 +242,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_cabin_water",
     "object": {
       "rows": [

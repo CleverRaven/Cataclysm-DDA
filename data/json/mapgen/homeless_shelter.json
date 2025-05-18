@@ -108,7 +108,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "homeless_0_0_0" ], [ "homeless_1_0_0" ] ],
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -177,7 +176,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "homeless_0_0_1" ], [ "homeless_1_0_1" ] ],
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -238,7 +236,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "homeless_0_0_2" ], [ "homeless_1_0_2" ] ],
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -301,7 +298,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "homeless_0_0_roof" ], [ "homeless_1_0_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -399,7 +395,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "homeless_0_0_4" ],
     "object": {
       "rows": [

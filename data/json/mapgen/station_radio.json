@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "station_radio" ],
     "//": "Eventually the exterior shed will house the main breaker or generator that must be activated prior to transmitting.",
     "object": {
@@ -99,7 +98,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "station_radio_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -136,7 +134,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "station_radio_tower_even",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -172,7 +169,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "station_radio_tower_odd",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -208,7 +204,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "station_radio_tower_top",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -257,7 +252,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "station_radio_1" ],
     "//": "Eventually the exterior shed will house the main breaker or generator that must be activated prior to transmitting.",
     "object": {
@@ -355,7 +349,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "station_radio_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -392,7 +385,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "station_radio_1_tower_even",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -428,7 +420,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "station_radio_1_tower_odd",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -464,7 +455,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "station_radio_1_tower_top",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",

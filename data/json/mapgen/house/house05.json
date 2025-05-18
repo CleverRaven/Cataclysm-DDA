@@ -11,7 +11,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_05",
     "object": {
       "fill_ter": "t_region_groundcover_urban",
@@ -48,7 +47,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "house_05_normal",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -94,7 +92,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "house_05_construction",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -131,7 +128,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_05_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -152,7 +148,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "house_05_basement_normal",
     "//": "basic basement with a utility room, 2-3 bedrooms, possibly an office, and a large tv/rec room.",
     "object": {
@@ -224,7 +219,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "house_05_basement_empty",
     "//": "Mostly empty basement used for construction variant.",
     "object": {

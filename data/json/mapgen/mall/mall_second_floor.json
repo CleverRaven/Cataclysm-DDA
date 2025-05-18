@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mall_b_3", "mall_b_4", "mall_b_5" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -82,7 +81,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_10",
     "object": {
       "fill_ter": "t_floor",
@@ -123,7 +121,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_11",
     "object": {
       "fill_ter": "t_floor",
@@ -167,7 +164,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_12",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -246,7 +242,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_13",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -305,7 +300,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_14",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -387,7 +381,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_19",
     "object": {
       "fill_ter": "t_floor",
@@ -428,7 +421,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_20",
     "object": {
       "fill_ter": "t_floor",
@@ -482,7 +474,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_21",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -599,7 +590,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_22",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -642,7 +632,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_23",
     "object": {
       "fill_ter": "t_floor",
@@ -703,7 +692,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_24",
     "object": {
       "fill_ter": "t_floor",
@@ -758,7 +746,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_25",
     "object": {
       "fill_ter": "t_floor",
@@ -819,7 +806,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_26",
     "object": {
       "fill_ter": "t_floor",
@@ -861,7 +847,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_29",
     "object": {
       "fill_ter": "t_floor",
@@ -909,7 +894,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_30",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -975,7 +959,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_31",
     "object": {
       "fill_ter": "t_floor",
@@ -1047,7 +1030,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_32",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -1135,7 +1117,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_33",
     "object": {
       "fill_ter": "t_floor",
@@ -1209,7 +1190,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_34",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -1303,7 +1283,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_35",
     "object": {
       "fill_ter": "t_floor",
@@ -1349,7 +1328,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_38",
     "object": {
       "fill_ter": "t_floor",
@@ -1417,7 +1395,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_39",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -1512,7 +1489,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_40",
     "object": {
       "fill_ter": "t_floor",
@@ -1587,7 +1563,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_41",
     "object": {
       "fill_ter": "t_floor",
@@ -1639,7 +1614,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_42",
     "object": {
       "fill_ter": "t_floor",
@@ -1692,7 +1666,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_43",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -1766,7 +1739,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_44",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -1820,7 +1792,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_47",
     "object": {
       "fill_ter": "t_floor",
@@ -1884,7 +1855,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_48",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -1952,7 +1922,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_49",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -2029,7 +1998,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_50",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -2083,7 +2051,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_51",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -2146,7 +2113,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_52",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -2203,7 +2169,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_53",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -2256,7 +2221,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_56",
     "object": {
       "fill_ter": "t_floor",
@@ -2329,7 +2293,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_57",
     "object": {
       "fill_ter": "t_floor",
@@ -2400,7 +2363,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_58",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -2472,7 +2434,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_59",
     "object": {
       "fill_ter": "t_carpet_green",
@@ -2526,7 +2487,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_60",
     "object": {
       "fill_ter": "t_carpet_green",
@@ -2586,7 +2546,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_61",
     "object": {
       "fill_ter": "t_carpet_concrete_yellow",
@@ -2645,7 +2604,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_62",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -2718,7 +2676,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_65",
     "object": {
       "fill_ter": "t_floor",
@@ -2781,7 +2738,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_66",
     "object": {
       "fill_ter": "t_floor",
@@ -2843,7 +2799,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_67",
     "object": {
       "fill_ter": "t_floor",
@@ -2897,7 +2852,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_68",
     "object": {
       "fill_ter": "t_floor",
@@ -2942,7 +2896,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_69",
     "object": {
       "fill_ter": "t_floor",
@@ -3010,7 +2963,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_70",
     "object": {
       "fill_ter": "t_carpet_concrete_yellow",
@@ -3047,7 +2999,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mall_b_71",
     "object": {
       "fill_ter": "t_thconc_floor",

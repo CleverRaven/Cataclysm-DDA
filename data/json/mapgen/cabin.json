@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin" ],
     "object": {
       "fill_ter": "t_floor",
@@ -38,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -74,7 +72,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_1" ],
     "object": {
       "fill_ter": "t_floor",
@@ -126,7 +123,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_1",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -162,7 +158,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_2" ],
     "object": {
       "fill_ter": "t_floor",
@@ -201,7 +196,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_2",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -236,7 +230,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_3",
     "type": "mapgen",
     "object": {
@@ -273,7 +266,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_3",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -308,7 +300,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_4",
     "type": "mapgen",
     "object": {
@@ -345,7 +336,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_4",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -380,7 +370,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_5",
     "type": "mapgen",
     "object": {
@@ -416,7 +405,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_5",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -451,7 +439,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_6",
     "type": "mapgen",
     "object": {
@@ -487,7 +474,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_6",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -522,7 +508,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_7",
     "type": "mapgen",
     "object": {
@@ -559,7 +544,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_7",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -595,7 +579,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_strange" ],
     "//": "Strange Cabin",
     "object": {
@@ -670,7 +653,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_strange_b" ],
     "//": "Strange Cabin (basement)",
     "object": {
@@ -733,7 +715,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_strange_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -768,7 +749,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_lapin",
     "type": "mapgen",
     "object": {
@@ -808,7 +788,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_lapin",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -844,7 +823,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_prepper" ],
     "object": {
       "fill_ter": "t_floor",
@@ -897,7 +875,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_prepper_shelter" ],
     "//": "A lmoe shelter replica refitted for the cabin's dug-out basement.",
     "//2": "This particular 4-bed shelter is definitely homemade, mostly carved out of bare rock, and seems to be incomplete.",

@@ -31,14 +31,12 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "rubble",
     "object": { "mapgensize": [ 1, 1 ], "place_rubble": [ { "x": 0, "y": 0 } ] }
   },
   {
     "om_terrain": "crater_core_large",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [
@@ -90,7 +88,6 @@
   {
     "om_terrain": "crater_core_small",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [
@@ -140,7 +137,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "crater",
     "object": {
       "fallback_predecessor_mapgen": "field",
@@ -213,7 +209,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_north",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -250,7 +245,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -287,7 +281,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_south",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -324,7 +317,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -361,7 +353,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_north_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -398,7 +389,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_south_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -435,7 +425,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_south_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -472,7 +461,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_north_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -509,7 +497,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_outer_north",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -546,7 +533,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_outer_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -583,7 +569,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_outer_south",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -620,7 +605,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_outer_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -657,7 +641,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_outer_north_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -694,7 +677,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_outer_south_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -731,7 +713,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_outer_south_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -768,7 +749,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_outer_north_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -805,7 +785,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_small_north",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -842,7 +821,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_small_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -879,7 +857,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_small_south",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -916,7 +893,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_small_west",
     "object": {
       "mapgensize": [ 24, 24 ],

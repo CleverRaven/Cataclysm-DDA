@@ -5,7 +5,6 @@
     "monsters": [ { "monster": "mon_null", "weight": 1 }, { "monster": "mon_zombie_swimmer_base", "weight": 4 } ]
   },
   {
-    "method": "json",
     "object": {
       "furniture": {
         "#": "f_bench",
@@ -85,7 +84,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "pool_roof",
     "object": {
       "fill_ter": "t_open_air",
@@ -119,7 +117,6 @@
     }
   },
   {
-    "method": "json",
     "object": {
       "furniture": { "b": "f_bench", "&": "f_toilet", "S": "f_sink", "t": "f_trashcan", "{": "f_locker" },
       "vendingmachines": {
@@ -192,7 +189,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "pool_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -226,7 +222,6 @@
     }
   },
   {
-    "method": "json",
     "object": {
       "furniture": {
         "B": "f_bench",
@@ -321,7 +316,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "pool_roof_2",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -355,7 +349,6 @@
     }
   },
   {
-    "method": "json",
     "object": {
       "furniture": { "B": "f_bench", "&": "f_toilet", "P": "f_sign", "S": "f_sink", "b": "f_bench", "t": "f_trashcan", "{": "f_locker" },
       "place_items": [
@@ -423,7 +416,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "pool_roof_3",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -457,7 +449,6 @@
     }
   },
   {
-    "method": "json",
     "object": {
       "furniture": {
         "B": "f_bench",
@@ -541,7 +532,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "pool_roof_4",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -576,7 +566,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "pool_5",
     "//": "Outdoor pool",
     "object": {
@@ -613,7 +602,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "pool_6",
     "//": "Outdoor pool",
     "object": {

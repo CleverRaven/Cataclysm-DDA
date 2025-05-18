@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "bunker_roof",
     "object": {
       "fill_ter": "t_open_air",
@@ -36,7 +35,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "bunker" ],
     "object": {
       "fill_ter": "t_floor",
@@ -104,7 +102,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "bunker_basement_1" ],
     "weight": 250,
     "object": {

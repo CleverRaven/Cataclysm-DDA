@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lab_surface_brick_basementD1_hidden_lab_stairs", "lab_surface_brick_basementE1" ] ],
     "object": {
       "fill_ter": "t_strconc_floor",

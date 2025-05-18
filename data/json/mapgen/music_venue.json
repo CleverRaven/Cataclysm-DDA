@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "music_venue",
     "object": {
       "fill_ter": "t_floor",
@@ -107,7 +106,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "music_venue_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -150,7 +148,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "music_venue_1",
     "object": {
       "fill_ter": "t_floor",
@@ -252,7 +249,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "music_venue_1_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -293,7 +289,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "music_venue_1_roof_top",
     "object": {
       "fill_ter": "t_flat_roof",

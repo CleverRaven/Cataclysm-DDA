@@ -98,7 +98,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "animalshelter" ],
     "weight": 300,
     "object": {
@@ -233,7 +232,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "animalshelter" ],
     "//": "Survivor",
     "weight": 30,
@@ -377,7 +375,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "animalshelter_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",

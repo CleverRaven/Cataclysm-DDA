@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_isherwood",
     "object": {
       "fill_ter": "t_floor",
@@ -65,7 +64,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cabin_isherwood_update",
     "object": {
       "mapgensize": [ 20, 20 ],

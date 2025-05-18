@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "s_lightindustry_scen_10", "s_lightindustry_scen_11" ],
       [ "s_lightindustry_scen_road_0", "s_lightindustry_scen_road_1" ],
@@ -226,7 +225,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_lightindustry_scen_10_roof", "s_lightindustry_scen_11_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -261,7 +259,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_lightindustry_scen_00_roof", "s_lightindustry_scen_01_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",

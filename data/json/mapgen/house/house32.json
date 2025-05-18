@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_32",
     "//": "used by lab basements.",
     "object": {
@@ -51,7 +50,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_32_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

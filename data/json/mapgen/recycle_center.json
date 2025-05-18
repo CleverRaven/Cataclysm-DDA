@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "recyclecenter",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -79,7 +78,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "recyclecenter_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -127,7 +125,6 @@
     }
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
       "furniture": {
@@ -222,7 +219,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "recyclecenter_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -270,7 +266,6 @@
     }
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
       "furniture": {
@@ -363,7 +358,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "recyclecenter_roof_2",
     "object": {
       "fill_ter": "t_tar_flat_roof",

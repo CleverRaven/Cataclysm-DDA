@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "basement_hidden_lab_stairs" ],
     "//": "used by house_31 and house_32",
     "weight": 100,
@@ -54,7 +53,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "basement_hidden_lab_stairs" ],
     "weight": 100,
     "//": "used by house_31 and house_32",

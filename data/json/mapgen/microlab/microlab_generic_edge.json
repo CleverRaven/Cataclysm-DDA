@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "concrete_wall_ew",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -10,7 +9,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "concrete_wall_hole_ew",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -19,13 +17,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "concrete_corner",
     "object": { "mapgensize": [ 1, 1 ], "set": [ { "point": "terrain", "id": "t_concrete_wall", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "concrete_wall_ns",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -34,7 +30,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "concrete_wall_hole_ns",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -43,7 +38,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "microlab_generic_edge" ],
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -90,7 +84,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_edge_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -125,7 +118,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_edge_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -160,7 +152,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_edge_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -195,7 +186,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_edge_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -230,7 +220,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_edge_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -265,7 +254,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_edge_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -300,7 +288,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_edge_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -335,7 +322,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_edge_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -370,7 +356,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_edge_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -405,7 +390,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_edge_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -440,7 +424,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_edge_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -475,7 +458,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_edge_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [

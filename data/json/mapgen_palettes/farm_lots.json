@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "seedling_corn",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -11,7 +10,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "seedling_wheat",
     "object": {
       "mapgensize": [ 1, 1 ],

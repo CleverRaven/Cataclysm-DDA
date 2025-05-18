@@ -1,13 +1,11 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "manhole_1x1",
     "object": { "mapgensize": [ 1, 1 ], "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ], "terrain": { " ": "t_manhole_cover" } }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "manhole_open_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -18,7 +16,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ladder_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -29,7 +26,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sewer_blockage_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -46,7 +42,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sewer_bridge_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -63,7 +58,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sewer_pump_10x10_R",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -86,7 +80,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sewer_pump_10x10_R",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -109,7 +102,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sewer_pump_10x10_R",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -132,7 +124,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sewer_pump_10x10_R",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -155,7 +146,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sewer_maint_10x10_R",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -179,7 +169,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sewer_pump_10x10_L",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -202,7 +191,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sewer_pump_10x10_L",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -225,7 +213,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sewer_pump_10x10_L",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -248,7 +235,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sewer_maint_10x10_L",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -272,7 +258,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sewer_pump_10x10_L",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -295,7 +280,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_straight" ],
     "weight": 1000000,
     "object": {
@@ -338,7 +322,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_straight" ],
     "weight": 125000,
     "object": {
@@ -381,7 +364,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_straight" ],
     "weight": 20000,
     "object": {
@@ -423,7 +405,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_straight" ],
     "weight": 20000,
     "object": {
@@ -465,7 +446,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_straight" ],
     "weight": 10000,
     "object": {
@@ -506,7 +486,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_straight" ],
     "weight": 10000,
     "object": {
@@ -543,7 +522,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_straight" ],
     "weight": 50000,
     "object": {
@@ -586,7 +564,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_straight" ],
     "weight": 50000,
     "object": {
@@ -629,7 +606,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_straight" ],
     "weight": 20000,
     "object": {
@@ -672,7 +648,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_straight" ],
     "weight": 80000,
     "object": {
@@ -714,7 +689,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_straight" ],
     "weight": 20000,
     "object": {
@@ -757,7 +731,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_straight" ],
     "weight": 80000,
     "object": {
@@ -799,7 +772,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_end" ],
     "weight": 1000000,
     "object": {
@@ -841,7 +813,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_end" ],
     "weight": 100000,
     "object": {
@@ -883,7 +854,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_curved" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -919,7 +889,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_tee" ],
     "weight": 750000,
     "object": {
@@ -962,7 +931,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_tee" ],
     "weight": 250000,
     "object": {
@@ -1005,7 +973,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_tee" ],
     "weight": 500000,
     "object": {
@@ -1042,7 +1009,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_tee" ],
     "weight": 500000,
     "object": {
@@ -1079,7 +1045,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_four_way" ],
     "weight": 1000000,
     "object": {
@@ -1121,7 +1086,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_four_way" ],
     "weight": 1000000,
     "object": {

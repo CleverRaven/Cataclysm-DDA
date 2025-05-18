@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_rock_roof",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -12,7 +11,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_region_groundcover_forest",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -23,7 +21,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_rock_wall_roof",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -35,7 +32,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_rock_floor_roof",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -47,7 +43,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_region_soil_rock_roof",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -59,7 +54,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_slope_down_rock_roof",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -86,7 +80,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -124,7 +117,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -162,7 +154,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -201,7 +192,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -239,7 +229,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -278,7 +267,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -318,7 +306,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -357,7 +344,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -396,7 +382,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -436,7 +421,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 50,
     "object": {
@@ -481,7 +465,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 1000,
     "object": {
@@ -520,7 +503,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 800,
     "object": {
@@ -558,7 +540,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 500,
     "object": {
@@ -601,7 +582,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 250,
     "object": {
@@ -671,7 +651,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 700,
     "object": {
@@ -712,7 +691,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_rat_underground" ],
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -755,7 +733,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_rat" ],
     "object": {
       "fill_ter": "t_rock_floor",

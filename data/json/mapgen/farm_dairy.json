@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "dairy_farm_NW", "dairy_farm_NE" ] ],
     "weight": 250,
     "object": {
@@ -37,7 +36,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "dairy_farm_SW", "dairy_farm_SE" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -160,7 +158,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "dairy_farm_SW_roof", "dairy_farm_SE_roof" ] ],
     "object": {
       "fill_ter": "t_shingle_flat_roof",

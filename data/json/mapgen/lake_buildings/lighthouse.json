@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_ground",
     "object": {
       "fill_ter": "t_floor",
@@ -92,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_z1",
     "object": {
       "fill_ter": "t_floor",
@@ -176,7 +174,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_z2",
     "object": {
       "fill_ter": "t_floor",
@@ -249,7 +246,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_z3",
     "object": {
       "fill_ter": "t_floor",
@@ -297,7 +293,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_z4",
     "object": {
       "fill_ter": "t_floor",
@@ -359,7 +354,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_z5",
     "object": {
       "fill_ter": "t_floor",
@@ -404,7 +398,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_roof",
     "object": {
       "fill_ter": "t_flat_roof",

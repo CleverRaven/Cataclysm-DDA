@@ -69,7 +69,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "dumpsite",
     "object": {
       "predecessor_mapgen": "forest",
@@ -183,7 +182,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "dumpsite_edge",
     "object": {
       "predecessor_mapgen": "field",

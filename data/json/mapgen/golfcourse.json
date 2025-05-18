@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "golfcourse_00", "golfcourse_10", "golfcourse_20", "golfcourse_30" ],
       [ "golfcourse_01", "golfcourse_11", "golfcourse_21", "golfcourse_31" ],
@@ -193,7 +192,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "golfcourse_31_2ndfloor",
     "object": {
       "fill_ter": "t_floor",
@@ -264,7 +262,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "golfcourse_31_roof",
     "object": {
       "fill_ter": "t_flat_roof",
