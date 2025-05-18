@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_electronics",
     "//": "Adds CBMs",
     "weight": 15000,
@@ -106,7 +105,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_electronics_1",
     "//": "Adds CBMs",
     "weight": 100000,

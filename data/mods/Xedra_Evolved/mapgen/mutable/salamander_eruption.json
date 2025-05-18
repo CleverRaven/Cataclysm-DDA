@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "salamander_eruption_ground",
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -51,7 +50,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "salamander_eruption_roof",
     "object": {
       "fill_ter": "t_open_air",
@@ -86,7 +84,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "salamander_eruption_entrance",
     "object": {
       "fill_ter": "t_obsidian_floor",
@@ -163,7 +160,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "salamander_tunnel_straight",
     "object": {
       "fill_ter": "t_obsidian_floor",
@@ -231,7 +227,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "salamander_tunnel_end",
     "object": {
       "fill_ter": "t_obsidian_floor",
@@ -291,7 +286,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "salamander_tunnel_curved",
     "object": {
       "fill_ter": "t_obsidian_floor",
@@ -369,7 +363,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "salamander_tunnel_tee",
     "object": {
       "fill_ter": "t_obsidian_floor",
@@ -444,7 +437,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "salamander_tunnel_four_way",
     "object": {
       "fill_ter": "t_obsidian_floor",
@@ -516,7 +508,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "salamander_finale",
     "weight": 100,
     "object": {
@@ -556,7 +547,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "salamander_finale",
     "weight": 30,
     "object": {

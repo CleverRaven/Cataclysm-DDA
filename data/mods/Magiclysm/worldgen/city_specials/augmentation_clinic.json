@@ -72,7 +72,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "magiclysm_augmentation_clinic_ground" ],
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -161,7 +160,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magiclysm_augmentation_clinic_top",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -227,7 +225,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magiclysm_augmentation_clinic_roof",
     "object": {
       "fill_ter": "t_flat_roof",

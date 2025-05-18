@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_gene_clinic_1_a1",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -65,7 +64,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_gene_clinic_1_a2",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -140,7 +138,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_gene_clinic_1_a3",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -207,7 +204,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_gene_clinic_1_a4",
     "object": {
       "fill_ter": "t_metal_floor",
@@ -243,7 +239,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_gene_clinic_1_a2_unlooted",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -281,7 +276,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_gene_clinic_1_a2_looted",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -318,7 +312,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_gene_clinic_1_a3_unlooted",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -375,7 +368,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_gene_clinic_1_a3_looted",
     "object": {
       "mapgensize": [ 24, 24 ],

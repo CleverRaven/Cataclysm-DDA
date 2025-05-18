@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left. This is a meeting room.",
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
     "object": {
@@ -35,7 +34,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right. This is a meeting room.",
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
     "object": {
@@ -69,7 +67,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left. This is a presentation room.",
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
     "object": {
@@ -100,7 +97,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right. This is a presentation room.",
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
     "object": {
@@ -131,7 +127,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the upper left.  This is a general office room for writing reports",
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
     "object": {
@@ -167,7 +162,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This is a general office room for writing reports",
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
     "object": {
@@ -203,7 +197,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left. This is a matrix crystal analysis room.",
     "weight": 900,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
@@ -239,7 +232,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right. This is a matrix crystal analysis room.",
     "weight": 900,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
@@ -275,7 +267,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left.  This is a manufactory.",
     "weight": 800,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
@@ -321,7 +312,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This is a manufactory.",
     "weight": 800,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
@@ -367,7 +357,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left.  This is a bedroom for crashing in.",
     "weight": 750,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
@@ -407,7 +396,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This is a bedroom for crashing in.",
     "weight": 750,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
@@ -447,7 +435,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left.  This room is for biokinetic testing.",
     "weight": 750,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
@@ -494,7 +481,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This room is for biokinetic testing.",
     "weight": 750,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
@@ -541,7 +527,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left.  This room is for clairsentient/telepathic testing.",
     "weight": 750,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
@@ -584,7 +569,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This room is for clairsentient/telepathic testing.",
     "weight": 750,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
@@ -626,7 +610,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left.  This is a telepathic amplifier.",
     "weight": 650,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
@@ -657,7 +640,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This is a telepathic amplifier.",
     "weight": 650,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
@@ -688,7 +670,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left.  This is a weapons lab",
     "weight": 450,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
@@ -728,7 +709,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This is a weapons lab",
     "weight": 450,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
@@ -768,7 +748,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left.  This is an anomalous materials lab",
     "weight": 500,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
@@ -808,7 +787,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This is an anomalous materials lab",
     "weight": 500,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
@@ -848,7 +826,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab security room, near the keylocked entrance, door to the south.",
     "nested_mapgen_id": "office_phavian_security_DS8x8",
     "object": {

@@ -311,7 +311,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "remove_refugee_center_traitor_because_banished",
     "object": { "remove_npcs": [ { "class": "evac_guard3", "x": 0, "y": 0 } ] }
   }

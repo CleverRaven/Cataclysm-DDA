@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "afs_pwr_large_3", "afs_pwr_large_4" ], [ "afs_pwr_large_2", "afs_pwr_large_entrance" ] ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -106,7 +105,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "afs_pwr_large_2_roof", "afs_pwr_large_entrance_roof" ] ],
     "object": {
       "fill_ter": "t_tar_flat_roof",

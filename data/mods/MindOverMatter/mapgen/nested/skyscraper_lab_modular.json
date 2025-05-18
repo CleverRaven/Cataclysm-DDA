@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the lower right. This is a meeting room.",
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lrdoor",
     "object": {
@@ -38,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the lower left. This is a meeting room.",
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lldoor",
     "object": {
@@ -75,7 +73,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the lower right. This is a general office room for writing reports",
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lrdoor",
     "object": {
@@ -111,7 +108,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room on the north side, door in the lower left.  This is a general office room for writing reports",
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lldoor",
     "object": {
@@ -151,7 +147,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the lower right. This is clairsentient location scout testing.",
     "weight": 850,
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lrdoor",
@@ -190,7 +185,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the lower left. This is clairsentient location scout testing.",
     "weight": 850,
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lldoor",
@@ -230,7 +224,6 @@
   {
     "//": "room for controlled awakening, doors in the lower right",
     "type": "mapgen",
-    "method": "json",
     "weight": 750,
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lrdoor",
     "object": {
@@ -264,7 +257,6 @@
   {
     "//": "room for controlled awakening, doors in the lower left",
     "type": "mapgen",
-    "method": "json",
     "weight": 750,
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lldoor",
     "object": {
@@ -298,7 +290,6 @@
   {
     "//": "room for testing blocking telepathy or clairsentience, doors in the lower left",
     "type": "mapgen",
-    "method": "json",
     "weight": 450,
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lldoor",
     "object": {
@@ -359,7 +350,6 @@
   {
     "//": "room for testing blocking telepathy or clairsentience, doors in the lower right",
     "type": "mapgen",
-    "method": "json",
     "weight": 450,
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lrdoor",
     "object": {
@@ -420,7 +410,6 @@
   {
     "//": "room for creating matrix technology prototypes, doors in the lower left",
     "type": "mapgen",
-    "method": "json",
     "weight": 600,
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lldoor",
     "object": {
@@ -469,7 +458,6 @@
   {
     "//": "room for creating matrix technology prototypes, doors in the lower right",
     "type": "mapgen",
-    "method": "json",
     "weight": 600,
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lrdoor",
     "object": {
@@ -518,7 +506,6 @@
   {
     "//": "generic office room, door in the upper left",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_south_uldoor",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -552,7 +539,6 @@
   {
     "//": "generic office room, door in the upper right",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_south_urdoor",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -585,7 +571,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room on the south side, door in the upper right.  This room is for clairsentient/telepathic blind testing.",
     "weight": 850,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_urdoor",
@@ -628,7 +613,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room on the south side, door in the upper left.  This room is for clairsentient/telepathic blind testing.",
     "weight": 850,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_uldoor",
@@ -671,7 +655,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room on the south side, door in the upper right.  This is a telepathic amplifier.",
     "weight": 750,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_urdoor",
@@ -710,7 +693,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room on the south side, door in the upper left.  This is a telepathic amplifier.",
     "weight": 750,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_uldoor",
@@ -751,7 +733,6 @@
   {
     "//": "room for researching the PATIENT MOSAIC personality-editing process, doors in the upper left",
     "type": "mapgen",
-    "method": "json",
     "weight": 400,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_uldoor",
     "object": {
@@ -789,7 +770,6 @@
   {
     "//": "room for researching the PATIENT MOSAIC personality-editing process, doors in the upper right",
     "type": "mapgen",
-    "method": "json",
     "weight": 400,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_urdoor",
     "object": {
@@ -826,7 +806,6 @@
   {
     "//": "psionic research lab, with possible matrix crystal, doors in the upper right",
     "type": "mapgen",
-    "method": "json",
     "weight": 650,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_urdoor",
     "object": {
@@ -865,7 +844,6 @@
   {
     "//": "psionic research lab, with possible matrix crystal, doors in the upper right",
     "type": "mapgen",
-    "method": "json",
     "weight": 650,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_urdoor",
     "object": {
@@ -903,7 +881,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "weight": 500,
     "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the upper right. This is a server room.",
     "nested_mapgen_id": "phavian_skyscraper_lab_south_urdoor",
@@ -928,7 +905,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "weight": 500,
     "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the upper left. This is a server room.",
     "nested_mapgen_id": "phavian_skyscraper_lab_south_uldoor",
@@ -954,7 +930,6 @@
   {
     "//": "psionic lab for artificial ascension-level awakening with osiris chamber, doors on the upper right",
     "type": "mapgen",
-    "method": "json",
     "weight": 400,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_urdoor",
     "object": {
@@ -997,7 +972,6 @@
   {
     "//": "psionic lab for artificial ascension-level awakening with osiris chamber, doors on the upper left",
     "type": "mapgen",
-    "method": "json",
     "weight": 400,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_uldoor",
     "object": {
@@ -1039,7 +1013,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_osiris_chamber",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1064,7 +1037,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_osiris_chamber",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1090,7 +1062,6 @@
   {
     "//": "4x4 upstairs office with SW wall door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Wdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1125,7 +1096,6 @@
   {
     "//": "4x4 upstairs office with SW wall door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Wdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1160,7 +1130,6 @@
   {
     "//": "4x4 upstairs office with SW wall door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Wdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1195,7 +1164,6 @@
   {
     "//": "4x4 upstairs office with south wall door on west side",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Wdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1230,7 +1198,6 @@
   {
     "//": "4x4 upstairs office with SW door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Wdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1265,7 +1232,6 @@
   {
     "//": "4x4 upstairs office with SW door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Wdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1300,7 +1266,6 @@
   {
     "//": "4x4 upstairs office with SW door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Wdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1335,7 +1300,6 @@
   {
     "//": "4x4 upstairs office with SW door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Wdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1369,7 +1333,6 @@
   {
     "//": "4x4 upstairs office with SE wall door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Edoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1404,7 +1367,6 @@
   {
     "//": "4x4 upstairs office with SE wall door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Edoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1439,7 +1401,6 @@
   {
     "//": "4x4 upstairs office with SE wall door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Edoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1474,7 +1435,6 @@
   {
     "//": "4x4 upstairs office with SE wall door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Edoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1509,7 +1469,6 @@
   {
     "//": "4x4 upstairs office with SE door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Edoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1544,7 +1503,6 @@
   {
     "//": "4x4 upstairs office with SE door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Edoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1579,7 +1537,6 @@
   {
     "//": "4x4 upstairs office with SE door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Edoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1614,7 +1571,6 @@
   {
     "//": "4x4 upstairs office with SE door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Edoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1647,7 +1603,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_store_room_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1664,7 +1619,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_store_room_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1682,7 +1636,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_store_room_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1699,7 +1652,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_store_room_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1721,7 +1673,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_store_room_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1743,7 +1694,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_break_area_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1777,7 +1727,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_break_area_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1810,7 +1759,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_break_area_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1842,7 +1790,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_break_area_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1874,7 +1821,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_break_area_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1901,7 +1847,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_break_area_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
