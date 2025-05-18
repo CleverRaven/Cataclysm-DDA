@@ -2446,6 +2446,7 @@
     "harvest": "nether_crowned",
     "death_drops": "nether_crowned_drops",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
+    "aggro_character": false,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body_headless" ],
     "flags": [ "HEARS", "SEES", "NOHEAD", "NO_BREATHE", "CAN_OPEN_DOORS", "CORNERED_FIGHTER", "WARM", "GRABS" ],
