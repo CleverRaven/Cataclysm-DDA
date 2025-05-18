@@ -10,14 +10,14 @@
     "material_thickness": 1
   },
   {
-   "id": "ModuArmor_Shin_Kevlar",
-   "type": "ITEM",
-   "subtypes": [ "ARMOR" ],
-   "copy-from": "ModuArmor_Shin_Base",
-   "name": "Modular Kevlar Shin Protectors",
-   "description": "Shin protectors meant to be inserted into a modular filler. These are made from kevlar & should protect quite well. Less encumbering thanks to it being flush in a packet.",
-   "material": [ "kevlar" ],
-   "material_thickness": 1
+    "id": "ModuArmor_Shin_Kevlar",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "ModuArmor_Shin_Base",
+    "name": "Modular Kevlar Shin Protectors",
+    "description": "Shin protectors meant to be inserted into a modular filler. These are made from kevlar & should protect quite well. Less encumbering thanks to it being flush in a packet.",
+    "material": [ "kevlar" ],
+    "material_thickness": 1
   },
   {
    "id": "ModuArmor_Fore_SheetMetal",
