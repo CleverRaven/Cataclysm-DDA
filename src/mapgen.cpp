@@ -1395,10 +1395,22 @@ size_t mapgen_function_json_base::calc_index( const point_rel_ms &p ) const
 }
 
 static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
-                                 const point_rel_ms &mapgensize, const JsonObject &jso )
+                                 const point_rel_ms &size, const JsonObject &jso, bool error_on_out_of_bounds )
 {
-    half_open_rectangle<point_rel_ms> bounds( point_rel_ms::zero, mapgensize );
+    half_open_rectangle<point_rel_ms> bounds( point_rel_ms::zero, size );
     if( !bounds.contains( point_rel_ms( x.val, y.val ) ) ) {
+        if (error_on_out_of_bounds) {
+            try {
+                std::string msg = string_format( "coordinate range cannot be outside mapgen boundaries (%d,%d)", size.x(), size.y() );
+                if (!bounds.contains( point_rel_ms( x.val, static_cast<int16_t>( 0 ) ) )) {
+                    jso.throw_error_at( "x", msg );
+                } else {
+                    jso.throw_error_at( "y", msg );
+                }
+            } catch( const JsonError &e ) {
+                debugmsg( "(json-error)\n%s", e.what() );
+            }
+        }
         return false;
     }
 
@@ -1414,17 +1426,17 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y, con
         jso.throw_error( "z maximum has to be identical to z minimum" );
     }
 
-    if( x.valmax > mapgensize.x() - 1 ) {
+    if( x.valmax > size.x() - 1 ) {
         try {
-            jso.throw_error_at( "x", "coordinate range cannot cross grid boundaries or mapgensize boundaries" );
+            jso.throw_error_at( "x", string_format( "coordinate range cannot cross OMT grid or mapgen size boundaries (%d,%d)", size.x(), size.y() ) );
         } catch( const JsonError &e ) {
             debugmsg( "(json-error)\n%s", e.what() );
         }
     }
 
-    if( y.valmax > mapgensize.y() - 1 ) {
+    if( y.valmax > size.y() - 1 ) {
         try {
-            jso.throw_error_at( "y", "coordinate range cannot cross grid boundaries or mapgensize boundaries" );
+            jso.throw_error_at( "y", string_format( "coordinate range cannot cross OMT grid or mapgen size boundaries (%d,%d)", size.x(), size.y() ) );
         } catch( const JsonError &e ) {
             debugmsg( "(json-error)\n%s", e.what() );
         }
@@ -1445,7 +1457,7 @@ bool mapgen_function_json_base::check_inbounds( const jmapgen_int &x, const jmap
         const jmapgen_int &z,
         const JsonObject &jso ) const
 {
-    return common_check_bounds( x, y, z, mapgensize, jso );
+    return common_check_bounds( x, y, z, mapgensize, jso, false );
 }
 
 mapgen_function_json_base::mapgen_function_json_base(
@@ -4503,7 +4515,7 @@ jmapgen_objects::jmapgen_objects( const tripoint_rel_ms &offset, const point_rel
 
 bool jmapgen_objects::check_bounds( const jmapgen_place &place, const JsonObject &jso )
 {
-    return common_check_bounds( place.x, place.y, place.z, mapgensize, jso );
+    return common_check_bounds( place.x, place.y, place.z, mapgensize, jso, false );
 }
 
 void jmapgen_objects::add( const jmapgen_place &place,
@@ -4518,6 +4530,14 @@ void jmapgen_objects::load_objects( const JsonArray &parray, std::string_view co
     for( JsonObject jsi : parray ) {
         jmapgen_place where( jsi );
         where.offset( m_offset );
+
+        // HACK: For large omt mapgens, objects are loaded repeatedly for each instance in the matrix,
+        //       and the same error will appear multiple times. To avoid that, we only throw the error
+        //       if this mapgen is the one at (0,0) coord in the matrix
+        //       (for nested and update, this will be the only mapgen as there is no matrix).
+        if ( m_offset.xy() == point_rel_ms::zero ) {
+            common_check_bounds( where.x, where.y, where.z, total_size, jsi, true );
+        }
 
         if( check_bounds( where, jsi ) ) {
             add( where, make_shared_fast<PieceType>( jsi, context ) );
@@ -4534,6 +4554,14 @@ void jmapgen_objects::load_objects<jmapgen_loot>(
     for( JsonObject jsi : parray ) {
         jmapgen_place where( jsi );
         where.offset( m_offset );
+
+        // HACK: For large omt mapgens, objects are loaded repeatedly for each instance in the matrix,
+        //       and the same error will appear multiple times. To avoid that, we only throw the error
+        //       if this mapgen is the one at (0,0) coord in the matrix
+        //       (for nested and update, this will be the only mapgen as there is no matrix).
+        if ( m_offset.xy() == point_rel_ms::zero ) {
+            common_check_bounds( where.x, where.y, where.z, total_size, jsi, true );
+        }
 
         if( !check_bounds( where, jsi ) ) {
             jsi.allow_omitted_members();
@@ -5069,6 +5097,7 @@ bool mapgen_function_json_nested::setup_internal( const JsonObject &jo )
             jo.throw_error( "\"mapgensize\" must be an array of two identical, positive numbers" );
         }
         total_size = mapgensize;
+        objects.set_total_size(total_size);
         objects.set_mapgensize(mapgensize);
     } else {
         jo.throw_error( "Nested mapgen must have \"mapgensize\" set" );

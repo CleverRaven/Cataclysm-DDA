@@ -421,6 +421,10 @@ struct jmapgen_objects {
         void set_mapgensize(const point_rel_ms& value) {
             mapgensize = value;
         }
+
+        void set_total_size(const point_rel_ms& value) {
+            total_size = value;
+        }
     private:
         /**
          * Combination of where to place something and what to place.
