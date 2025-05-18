@@ -1757,6 +1757,22 @@ monster_attitude monster::attitude( const Character *u ) const
         return MATT_FLEE;
     }
 
+        bool target_has_anger_relation = false;
+if( u != nullptr ) {
+    for( const trait_id &mut : u->get_functioning_mutations() ) {
+        const mutation_branch &branch = *mut;
+        for( const std::pair<const species_id, int> &elem : branch.anger_relations ) {
+            if( type->in_species( elem.first ) ) {
+                target_has_anger_relation = true;
+                break;
+            }
+        }
+        if( target_has_anger_relation ) {
+            break;
+        }
+    }
+}
+
     int effective_anger  = anger;
     int effective_morale = morale;
 
@@ -1867,22 +1883,6 @@ monster_attitude monster::attitude( const Character *u ) const
         rl_dist( pos_abs(), get_dest() ) < type->tracking_distance ) {
         return MATT_FLEE;
     }
-
-    bool target_has_anger_relation = false;
-if( u != nullptr ) {
-    for( const trait_id &mut : u->get_functioning_mutations() ) {
-        const mutation_branch &branch = *mut;
-        for( const std::pair<const species_id, int> &elem : branch.anger_relations ) {
-            if( type->in_species( elem.first ) ) {
-                target_has_anger_relation = true;
-                break;
-            }
-        }
-        if( target_has_anger_relation ) {
-            break;
-        }
-    }
-}
 
 if( u != nullptr && !aggro_character && !u->is_monster() && !target_has_anger_relation ) {
     return MATT_IGNORE;
