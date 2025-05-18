@@ -1143,10 +1143,9 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "allowed_template_ids", allowed_template_id );
 
     // Doesn't make any sense to inherit
-    //TODO: It'd probably be better if open/close was one ter_str_id with a bool for the difference and was inherited unless we support things that both open and close?
-    optional( jo, true, "open", open, ter_str_id::NULL_ID() );
-    optional( jo, true, "close", close, ter_str_id::NULL_ID() );
-    optional( jo, true, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
+    optional( jo, false, "open", open, ter_str_id::NULL_ID() );
+    optional( jo, false, "close", close, ter_str_id::NULL_ID() );
+    optional( jo, false, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
 
     optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
 

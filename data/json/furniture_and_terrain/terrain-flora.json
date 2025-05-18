@@ -1669,14 +1669,25 @@
   },
   {
     "type": "terrain",
-    "id": "t_shrub",
+    "id": "t_shrub_abstract",
+    "looks_like": "t_shrub",
     "name": "shrub",
     "description": "A small shrub.",
     "symbol": "#",
     "color": "green",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT", "SMALL_HIDE" ],
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "FLAMMABLE_ASH",
+      "THIN_OBSTACLE",
+      "PLACE_ITEM",
+      "SHRUB",
+      "SHORT",
+      "SMALL_HIDE",
+      "BROWSABLE"
+    ],
     "bash": {
       "str_min": 4,
       "str_max": 30,
@@ -1692,745 +1703,322 @@
   },
   {
     "type": "terrain",
+    "id": "t_shrub",
+    "copy-from": "t_shrub_abstract",
+    "delete": { "flags": [ "BROWSABLE" ] }
+  },
+  {
+    "type": "terrain",
     "id": "t_shrub_peanut",
+    "copy-from": "t_shrub_abstract",
     "name": "peanut bush",
-    "looks_like": "t_shrub",
     "description": "A small bush of crunchy peanuts.",
     "//": "Peanut bushes are not a local native so this is for use in specific locations like farms and gardens.",
-    "symbol": "#",
     "color": "brown_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
     "transforms_into": "t_shrub_peanut_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_peanut_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_peanut_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_peanut_harvested",
-    "name": "peanut bush",
-    "looks_like": "t_shrub",
+    "copy-from": "t_shrub_peanut",
     "description": "A small peanut bush that's fruitless.",
-    "symbol": "#",
     "color": "light_gray_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_peanut",
-    "examine_action": "harvested_plant",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvested_plant"
   },
   {
     "type": "terrain",
     "id": "t_shrub_autumn_olive",
+    "copy-from": "t_shrub_abstract",
     "name": "autumn olive",
     "looks_like": "t_shrub_raspberry",
     "description": "An invasive species from Japan which is also called silverberry.  Widely planted in the 1940s to combat erosion, it spread far and wide, often even displacing native plants.  As it name says, it bears fruits in autumn, which are quite unlike olives.",
-    "symbol": "#",
     "color": "light_blue_green",
     "move_cost": 9,
     "coverage": 60,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
     "transforms_into": "t_shrub_autumn_olive_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_autumn_olive_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_autumn_olive_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_autumn_olive_harvested",
-    "name": "autumn olive",
-    "looks_like": "t_shrub",
+    "copy-from": "t_shrub_autumn_olive",
     "description": "An invasive species from Japan which is also called silverberry.  Widely planted in the 1940s to combat erosion, it spread far and wide, often even displacing native plants.  As it name says, it bears fruits in autumn, which are quite unlike olives, but this particular plant has been harvested already.",
-    "symbol": "#",
     "color": "blue_green",
-    "move_cost": 9,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_autumn_olive",
-    "examine_action": "harvested_plant",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvested_plant"
   },
   {
     "type": "terrain",
     "id": "t_shrub_hobblebush",
+    "copy-from": "t_shrub_abstract",
     "name": "hobblebush",
     "looks_like": "t_shrub_blueberry",
     "description": "Called hobblebush because it may hinder and trip, hobbles, unwary hikers with its branches bending over and taking root.  It also bears surprisingly sweet berries in autumn.",
-    "symbol": "#",
     "color": "light_blue_green",
     "move_cost": 9,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
     "transforms_into": "t_shrub_hobblebush_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_hobblebush_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_hobblebush_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_hobblebush_harvested",
-    "name": "hobblebush",
-    "looks_like": "t_shrub",
+    "copy-from": "t_shrub_hobblebush",
     "description": "Called hobblebush because it may hinder and trip, hobbles, unwary hikers with its branches bending over and taking root.  It also bears surprisingly sweet berries in autumn, if it hadn't been picked clean already.",
-    "symbol": "#",
     "color": "blue_green",
-    "move_cost": 9,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_hobblebush",
-    "examine_action": "harvested_plant",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvested_plant"
   },
   {
     "type": "terrain",
     "id": "t_shrub_blueberry",
+    "copy-from": "t_shrub_abstract",
     "name": "blueberry bush",
-    "looks_like": "t_shrub",
     "description": "A small bush of sweet blueberries.",
-    "symbol": "#",
     "color": "light_blue_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
     "transforms_into": "t_shrub_blueberry_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_blueberry_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_blueberry_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_blueberry_harvested",
-    "name": "blueberry bush",
-    "looks_like": "t_shrub",
+    "copy-from": "t_shrub_blueberry",
     "description": "A small blueberry bush that's fruitless.",
-    "symbol": "#",
     "color": "blue_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_blueberry",
-    "examine_action": "harvested_plant",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvested_plant"
   },
   {
     "type": "terrain",
     "id": "t_shrub_strawberry",
+    "copy-from": "t_shrub_abstract",
     "name": "strawberry bush",
-    "looks_like": "t_shrub",
     "description": "A small bush of juicy strawberries.",
-    "symbol": "#",
     "color": "light_red_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "BROWSABLE" ],
     "transforms_into": "t_shrub_strawberry_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_strawberry_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_strawberry_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_strawberry_harvested",
-    "name": "strawberry bush",
-    "looks_like": "t_shrub",
+    "copy-from": "t_shrub_strawberry",
     "description": "A small strawberry bush that's fruitless.",
-    "symbol": "#",
     "color": "red_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_strawberry",
-    "examine_action": "harvested_plant",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvested_plant"
   },
   {
     "type": "terrain",
     "id": "t_shrub_blackberry",
+    "copy-from": "t_shrub_abstract",
     "name": "blackberry bush",
     "description": "A small bush of delicious blackberries.  Watch out for its thorns!",
-    "symbol": "#",
     "color": "black_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP", "BROWSABLE" ],
     "transforms_into": "t_shrub_blackberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_blueberry",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_blackberry_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_blackberry_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_blackberry_harvested",
-    "name": "blackberry bush",
+    "copy-from": "t_shrub_blackberry",
     "description": "A small blackberry bush that's fruitless.  Watch out for its thorns!",
-    "symbol": "#",
     "color": "white_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP", "HARVESTED" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_blackberry",
     "examine_action": "harvested_plant",
-    "looks_like": "t_shrub_blueberry_harvested",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "looks_like": "t_shrub_blueberry_harvested"
   },
   {
     "type": "terrain",
     "id": "t_shrub_huckleberry",
+    "copy-from": "t_shrub_abstract",
     "name": "huckleberry bush",
     "description": "A small bush of huckleberries, often mistaken for blueberries.",
-    "symbol": "#",
     "color": "light_blue_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
     "transforms_into": "t_shrub_huckleberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_blueberry",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_huckleberry_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_huckleberry_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_huckleberry_harvested",
-    "name": "huckleberry bush",
+    "copy-from": "t_shrub_huckleberry",
     "description": "A small huckleberry bush that's fruitless.",
-    "symbol": "#",
     "color": "blue_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_huckleberry",
     "examine_action": "harvested_plant",
-    "looks_like": "t_shrub_blueberry_harvested",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "looks_like": "t_shrub_blueberry_harvested"
   },
   {
     "type": "terrain",
     "id": "t_shrub_raspberry",
+    "copy-from": "t_shrub_abstract",
     "name": "raspberry bush",
     "description": "A small bush of delicious raspberries.  Watch out for its thorns!",
-    "symbol": "#",
     "color": "light_red_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP", "BROWSABLE" ],
     "transforms_into": "t_shrub_raspberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_strawberry",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_raspberry_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_raspberry_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_raspberry_harvested",
-    "name": "raspberry bush",
+    "copy-from": "t_shrub_raspberry",
     "description": "A small raspberry bush that's fruitless.  Watch out for its thorns!",
-    "symbol": "#",
     "color": "red_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP", "HARVESTED" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_raspberry",
     "examine_action": "harvested_plant",
-    "looks_like": "t_shrub_strawberry_harvested",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "looks_like": "t_shrub_strawberry_harvested"
   },
   {
     "type": "terrain",
     "id": "t_shrub_grape",
+    "copy-from": "t_shrub_abstract",
     "name": "grape bush",
     "description": "A bush of a different species invaded by grape vines.",
-    "symbol": "#",
     "color": "light_green_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
     "transforms_into": "t_shrub_grape_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_blueberry",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_grape_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_grape_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_grape_harvested",
-    "name": "grape bush",
+    "copy-from": "t_shrub_grape",
     "description": "A bush of a different species invaded by grape vines, but they're fruitless.",
-    "symbol": "#",
     "color": "green_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_grape",
     "examine_action": "harvested_plant",
-    "looks_like": "t_shrub_blueberry_harvested",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "looks_like": "t_shrub_blueberry_harvested"
   },
   {
     "type": "terrain",
     "id": "t_shrub_spicebush",
+    "copy-from": "t_shrub_abstract",
     "name": "spicebush",
     "description": "A bush that features small, red berries.",
-    "symbol": "#",
     "color": "light_green_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
     "transforms_into": "t_shrub_spicebush_harvested",
     "examine_action": "harvest_ter_nectar",
-    "looks_like": "t_shrub_blueberry",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_spicebush_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "looks_like": "t_shrub_raspberry",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_spicebush_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_spicebush_harvested",
-    "name": "spicebush",
+    "copy-from": "t_shrub_spicebush",
     "description": "A bush that usually features small, red berries but it was picked clean.",
-    "symbol": "#",
     "color": "green_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_spicebush",
     "examine_action": "harvested_plant",
-    "looks_like": "t_shrub_blueberry_harvested",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "looks_like": "t_shrub_blueberry_harvested"
   },
   {
     "type": "terrain",
     "id": "t_shrub_chokeberry",
+    "copy-from": "t_shrub_abstract",
     "name": "black chokeberry bush",
     "description": "Drooping black berries adorn the shrub during autumn.  These have a distinctive star-shaped fold and look quite juicy.",
-    "symbol": "#",
     "color": "light_green_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
     "transforms_into": "t_shrub_chokeberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_blueberry",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_chokeberry_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_chokeberry_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_chokeberry_harvested",
-    "name": "black chokeberry bush",
+    "copy-from": "t_shrub_chokeberry",
     "description": "Drooping black berries adorned this shrub, but the shrub was picked clean.",
-    "symbol": "#",
     "color": "green_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_chokeberry",
     "examine_action": "harvested_plant",
-    "looks_like": "t_shrub_blueberry_harvested",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "looks_like": "t_shrub_blueberry_harvested"
   },
   {
     "type": "terrain",
     "id": "t_shrub_rose",
+    "copy-from": "t_shrub_abstract",
     "name": "rose bush",
     "description": "A fat bush of beautiful red roses, if only you could get a date!  Watch out for its thorns!",
-    "symbol": "#",
     "color": "light_red_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP", "BROWSABLE" ],
     "transforms_into": "t_shrub_rose_harvested",
     "examine_action": "harvest_ter_nectar",
-    "looks_like": "t_shrub_strawberry",
     "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_rose_harv" } ],
-    "//": "Insert rose (flower) harvest in summer once flowers have a use (same for other generic flowers).",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "//": "Insert rose (flower) harvest in summer once flowers have a use (same for other generic flowers)."
   },
   {
     "type": "terrain",
     "id": "t_shrub_rose_harvested",
-    "name": "rose bush",
+    "copy-from": "t_shrub_rose",
     "description": "A fat rose bush that currently has no blooms.  Watch out for its thorns!",
-    "symbol": "#",
     "color": "red_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP", "HARVESTED" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_rose",
-    "examine_action": "harvested_plant",
-    "looks_like": "t_shrub_strawberry_harvested",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvested_plant"
   },
   {
     "type": "terrain",
     "id": "t_shrub_hydrangea",
+    "copy-from": "t_shrub_abstract",
     "name": "hydrangea bush",
     "description": "A dense bush of fragrant blue hydrangeas.",
-    "symbol": "#",
     "color": "light_blue",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE" ],
+    "delete": { "flags": [ "BROWSABLE" ] },
     "transforms_into": "t_shrub_hydrangea_harvested",
-    "examine_action": "harvest_ter_nectar",
-    "looks_like": "t_shrub",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvest_ter_nectar"
   },
   {
     "type": "terrain",
     "id": "t_shrub_hydrangea_harvested",
-    "name": "hydrangea bush",
+    "copy-from": "t_shrub_hydrangea",
     "description": "A fat hydrangea bush that currently has no blooms.",
-    "symbol": "#",
     "color": "blue_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_hydrangea",
-    "examine_action": "harvested_plant",
-    "looks_like": "t_shrub",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvested_plant"
   },
   {
     "type": "terrain",
     "id": "t_shrub_lilac",
+    "copy-from": "t_shrub_abstract",
     "name": "lilac bush",
     "description": "A wide bush of bright pinkish-purple lilacs.",
-    "symbol": "#",
     "color": "magenta",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE" ],
+    "delete": { "flags": [ "BROWSABLE" ] },
     "transforms_into": "t_shrub_lilac_harvested",
-    "examine_action": "harvest_ter_nectar",
-    "looks_like": "t_shrub",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvest_ter_nectar"
   },
   {
     "type": "terrain",
     "id": "t_shrub_lilac_harvested",
-    "name": "lilac bush",
+    "copy-from": "t_shrub_lilac",
     "description": "A wide lilac bush that currently has no blooms.",
-    "symbol": "#",
     "color": "magenta_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_lilac",
-    "examine_action": "harvested_plant",
-    "looks_like": "t_shrub",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvested_plant"
   },
   {
     "type": "terrain",

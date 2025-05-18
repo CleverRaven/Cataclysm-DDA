@@ -2144,9 +2144,7 @@ const harvest_id &map::get_harvest( const tripoint_bub_ms &pos ) const
     if( !furn_harvest.is_null() ) {
         return furn_harvest;
     }
-
-    const harvest_id &ter_harvest = ter( pos )->get_harvest();
-    return !ter_harvest.is_null() ? ter_harvest : harvest_id::NULL_ID();
+    return ter( pos )->get_harvest();
 }
 
 const std::set<std::string> &map::get_harvest_names( const tripoint_bub_ms &pos ) const
