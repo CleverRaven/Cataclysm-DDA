@@ -1247,7 +1247,7 @@
     "stim": -10,
     "healthy": -5,
     "fun": 50,
-    "vitamins": [ [ "vit_mme", 1000 ] ],
+    "vitamins": [ [ "vit_mme", 3000 ] ],
     "//": "Heroin due to being cut is at best 50% its weight equivalent in morphine.",
     "addiction_potential": 75,
     "addiction_type": "opiate",
