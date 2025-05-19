@@ -26,6 +26,7 @@
 #include "character.h"
 #include "character_id.h"
 #include "contents_change_handler.h"
+#include "crafting.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
