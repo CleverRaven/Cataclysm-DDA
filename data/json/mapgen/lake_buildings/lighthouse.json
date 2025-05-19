@@ -154,8 +154,8 @@
       },
       "items": {
         "b": { "item": "homebooks", "chance": 20, "repeat": [ 2, 4 ] },
-        "o": { "item": "oven", "chance": 25, "repeat": [ 1, 2 ] },
-        "f": { "item": "fridge", "chance": 25, "repeat": [ 1, 2 ] },
+        "o": { "item": "SUS_oven", "chance": 25, "repeat": [ 1, 2 ] },
+        "f": { "item": "SUS_fridge", "chance": 25, "repeat": [ 1, 2 ] },
         "S": { "item": "shower", "chance": 25, "repeat": [ 1, 2 ] },
         "R": { "item": "SUS_trash_trashcan", "chance": 25, "repeat": [ 1, 2 ] },
         "W": { "item": "stash_wood", "chance": 25, "repeat": [ 1, 2 ] },

@@ -673,7 +673,7 @@
     "id": "blood_rice_pudding",
     "name": { "str_sp": "blood rice pudding" },
     "weight": "60 g",
-    "color": "black",
+    "color": "dark_gray",
     "spoils_in": "2 days",
     "comestible_type": "FOOD",
     "symbol": "%",

@@ -532,7 +532,7 @@
       ".": { "item": "school", "chance": 1 },
       "d": { "item": "school", "chance": 50 },
       "D": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
-      "e": [ { "item": "fridge", "chance": 65, "repeat": [ 1, 3 ] }, { "item": "fridgesnacks", "chance": 15 } ],
+      "e": [ { "item": "SUS_fridge", "chance": 65, "repeat": [ 1, 3 ] }, { "item": "SUS_fridge_snacks", "chance": 45 } ],
       "g": { "item": "cleaning", "chance": 80, "repeat": [ 1, 3 ] },
       "k": { "item": "chem_school", "chance": 80, "repeat": [ 1, 4 ] },
       "l": { "item": "school", "chance": 60 },

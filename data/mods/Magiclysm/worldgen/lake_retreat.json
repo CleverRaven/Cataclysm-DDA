@@ -170,8 +170,8 @@
           { "item": "SUS_junk_drawer", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "SUS_cookware", "chance": 20 }
         ],
-        "s": { "item": "oven", "chance": 20, "repeat": [ 2, 4 ] },
-        "m": { "item": "fridge", "chance": 20, "repeat": [ 2, 4 ] },
+        "s": { "item": "SUS_oven", "chance": 20, "repeat": [ 2, 4 ] },
+        "m": { "item": "SUS_fridge", "chance": 20, "repeat": [ 1, 2 ] },
         "R": { "item": "SUS_trash_floor", "chance": 25, "repeat": [ 1, 2 ] },
         "W": { "item": "stash_wood", "chance": 25, "repeat": [ 1, 2 ] },
         "t": { "item": "condiments", "chance": 25, "repeat": [ 1, 2 ] },

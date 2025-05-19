@@ -175,7 +175,7 @@
     "description": "These thick rubber pads can clamp securely onto a vehicle's gas and brake pedals, allowing even very short people to drive a car.",
     "weight": "1200 g",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
-    "color": "black",
+    "color": "dark_gray",
     "symbol": ",",
     "material": [ "rubber", "lc_steel" ],
     "volume": "740 ml",

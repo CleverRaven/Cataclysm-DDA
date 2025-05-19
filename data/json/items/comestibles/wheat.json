@@ -349,7 +349,7 @@
     "name": { "str": "blodplättar" },
     "weight": "80 g",
     "spoils_in": "2 days 12 hours",
-    "color": "black",
+    "color": "dark_gray",
     "calories": 243,
     "description": "Blodplättar is not your average pancake.  It does not taste of blood at all and it tastes like a crispier black pudding.",
     "price": "5 USD 50 cent",

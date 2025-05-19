@@ -150,7 +150,7 @@
     "id": "crate_kitchen",
     "type": "item_group",
     "subtype": "collection",
-    "groups": [ [ "kitchen_nonfood", 10 ], [ "kitchen_nonfood", 70 ], [ "oven", 90 ], [ "oven", 40 ] ]
+    "groups": [ [ "kitchen_nonfood", 10 ], [ "kitchen_nonfood", 70 ], [ "SUS_oven", 90 ], [ "SUS_oven", 40 ] ]
   },
   {
     "id": "crate_toys",
@@ -749,6 +749,10 @@
       [ "headgear", 20 ],
       [ "mask_hockey", 25 ],
       [ "hockey_stick", 45 ],
+      [ "throat_guard_nylon", 5 ],
+      [ "throat_guard_canvas", 5 ],
+      [ "throat_guard_plastic", 2 ],
+      [ "throat_guard_cut_resistant", 1 ],
       [ "puck", 30 ],
       [ "golf_club", 80 ],
       [ "roller_blades", 20 ],
@@ -1497,7 +1501,7 @@
       [ "hat_newsboy", 20 ],
       [ "cloak_wool", 5 ],
       [ "tux", 5 ],
-      [ "gown", 5 ],
+      { "item": "dress", "variant": "gown", "prob": 5 },
       [ "long_glove_white", 5 ],
       [ "veil_wedding", 1 ],
       [ "dress_wedding", 1 ],

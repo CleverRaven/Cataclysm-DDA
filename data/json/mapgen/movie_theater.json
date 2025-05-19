@@ -91,7 +91,7 @@
         "&": [ { "item": "alcohol", "chance": 10 }, { "item": "SUS_toilet", "chance": 50 } ],
         "T": { "item": "snacks", "chance": 5 },
         "X": { "item": "snacks", "chance": 30, "repeat": [ 6, 12 ] },
-        "g": { "item": "fridgesnacks", "chance": 70, "repeat": [ 6, 12 ] },
+        "g": { "item": "SUS_fridge_snacks", "chance": 70, "repeat": [ 1, 3 ] },
         "G": { "item": "SUS_trash_trashcan_public", "chance": 20, "repeat": [ 2, 4 ] },
         "t": [
           { "item": "snacks", "chance": 3 },

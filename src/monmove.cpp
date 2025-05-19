@@ -1564,9 +1564,9 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
 
 
 
-    add_msg_debug( debugmode::DF_MONMOVE, "\n%s movecost from: (%i, %i, %i) to (%i, %i, %i)", name(),
-                   from.x(), from.y(), from.z(),
-                   to.x(), to.y(), to.z() );
+    add_msg_debug( debugmode::DF_MONMOVE, "moveskills: swim: %i, dig: %i, climb: %i",
+                   type->move_skills.swim.value_or( -1 ), type->move_skills.dig.value_or( -1 ),
+                   type->move_skills.climb.value_or( -1 ) );
     const vehicle *ignored_vehicle = nullptr;
 
     std::map<tripoint_bub_ms, int> tilecosts = {{from, 0}, {to, 0}};
@@ -1577,9 +1577,9 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
         add_msg_debug( debugmode::DF_MONMOVE, "%s calculating: (%i, %i, %i)", name(),
                        where.x(), where.y(), where.z() );
 
-        // flying creatures ignore all terrain/furniture.
-        // TODO: field efefcts?
-        if( flies() ) {
+        // flying creatures ignore all terrain/furniture. Birds that swim prefer to swim if possible.
+        if( flies() &&
+            !( swims() && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIMMABLE, where ) ) ) {
             cost += 2;
             continue;
         }
