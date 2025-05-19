@@ -1260,7 +1260,8 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base,
         jio.throw_error( R"(mapgen must define key "object" or "builtin")" );
     }
     JsonObject jo = jio.get_object( "object" );
-    return std::make_shared<mapgen_function_json>( std::move( jo ), std::move( weight ), "mapgen " + id_base, offset,
+    return std::make_shared<mapgen_function_json>( std::move( jo ), std::move( weight ),
+            "mapgen " + id_base, offset,
             total );
 }
 
