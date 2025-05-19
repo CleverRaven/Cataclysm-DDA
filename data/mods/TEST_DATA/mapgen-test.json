@@ -32,31 +32,26 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mapgen_test_nested",
     "object": { "mapgensize": [ 1, 1 ], "place_terrain": [ { "ter": "t_pillar", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mapgen_test_nested",
     "object": { "mapgensize": [ 2, 2 ], "terrain": { " ": "t_region_groundcover" }, "furniture": { " ": "f_armchair" } }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "test_nested_remove_shopping_cart",
     "object": { "mapgensize": [ 24, 24 ], "remove_vehicles": [ { "vehicles": [ "shopping_cart" ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "test_update_remove_shopping_cart",
     "object": { "remove_vehicles": [ { "vehicles": [ "shopping_cart" ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "test_nested_place_shopping_cart",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -67,7 +62,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "test_update_place_shopping_cart",
     "object": {
       "set": [ { "point": "terrain", "id": "t_dirt", "x": 0, "y": 0 } ],
@@ -77,7 +71,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "test_update_place_npc",
     "object": {
       "set": [ { "point": "terrain", "id": "t_dirt", "x": 0, "y": 0 } ],
@@ -87,7 +80,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "test_update_place_npc_thug",
     "object": {
       "set": [ { "point": "terrain", "id": "t_dirt", "x": 1, "y": 0 } ],
@@ -97,7 +89,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "test_update_remove_npc",
     "object": { "remove_npcs": [ { "class": "test_npc_trader", "x": 0, "y": 0 } ] }
   },
@@ -108,13 +99,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "test_nested_remove_all_1x1",
     "object": { "mapgensize": [ 1, 1 ], "rows": [ "Z" ], "palettes": [ "test_pallete_remove_all" ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mapgen-test" ],
     "object": {
       "//": "Some of the squares should have a frame, but not all.",
@@ -302,7 +291,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "auto_wl_test",
     "object": {
       "mapgensize": [ 2, 2 ],

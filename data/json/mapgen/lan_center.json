@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "lancenter",
     "type": "mapgen",
     "object": {
@@ -80,7 +79,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lancenter_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -128,7 +126,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lancenter_1",
     "type": "mapgen",
     "object": {
@@ -199,7 +196,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lancenter_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

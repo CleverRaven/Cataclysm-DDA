@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "2StoryModern03_basement",
-    "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette", "parametrized_carpets_palette" ],
       "fill_ter": "t_floor",
@@ -54,7 +53,6 @@
   {
     "type": "mapgen",
     "om_terrain": "2StoryModern03_1",
-    "method": "json",
     "object": {
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom", "parametrized_carpets_palette" ],
       "fill_ter": "t_floor_waxed",
@@ -105,7 +103,6 @@
   {
     "type": "mapgen",
     "om_terrain": "2StoryModern03_2",
-    "method": "json",
     "object": {
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom" ],
       "fill_ter": "t_floor_waxed",
@@ -143,7 +140,6 @@
   {
     "type": "mapgen",
     "om_terrain": "2StoryModern03_roof",
-    "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
       "fill_ter": "t_flat_roof",

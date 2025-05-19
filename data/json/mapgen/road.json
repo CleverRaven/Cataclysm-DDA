@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "road_end",
     "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
@@ -45,7 +44,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_end_straight",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -118,7 +116,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_end_cul_de_sac",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -161,7 +158,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "road_straight",
     "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
@@ -255,7 +251,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "road_curved",
     "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
@@ -305,7 +300,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "road_curved_bend",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -329,7 +323,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "road_curved_bend_not_connected_bend_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -352,7 +345,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_curved_curvy",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -422,7 +414,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_curved_diagonal",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -477,7 +468,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_curved_layby",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -535,7 +525,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "road_tee",
     "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
@@ -749,7 +738,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "road_four_way", "road_nesw_manhole" ],
     "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
@@ -808,7 +796,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_four_way_crossroad",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -1081,7 +1068,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_four_way_rotary",
     "object": {
       "mapgensize": [ 24, 24 ],

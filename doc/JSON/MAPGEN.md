@@ -8,7 +8,6 @@
     * [Embedded mapgen](#embedded-mapgen)
     * [Standalone mapgen](#standalone-mapgen)
   * [Format and variables](#format-and-variables)
-    * [Define mapgen "method"](#define-mapgen-method)
     * [Define overmap terrain with "om_terrain" value, array, or nested array](#define-overmap-terrain-with-om_terrain-value-array-or-nested-array)
     * [Define mapgen "weight"](#define-mapgen-weight)
   * [How "overmap_terrain" variables affect mapgen](#how-overmap_terrain-variables-affect-mapgen)
@@ -126,10 +125,10 @@ Mapgen definitions can be added in 2 places:
 
 ### Embedded mapgen
 
-As `"mapgen": { ... }` only used in combination with the 'builtin' method:
+As `"mapgen": { ... }` only used in combination with the 'builtin' method that refers to hardcoded functions:
 
 ```jsonc
-"mapgen": [ { "method": "builtin", "name": "parking_lot" } ]
+"mapgen": [ { "builtin": "forest" } ]
 ```
 
 Do not use this, use standalone instead.
@@ -145,7 +144,6 @@ As standalone `{ "type": "mapgen", ... }` objects in a .json inside data/json. B
         "type": "mapgen",
         "om_terrain": "s_restaurant_fast",
         "weight": 250,
-        "method": "json",
         "object": {
             "//": "(see below)"
         }
@@ -164,16 +162,6 @@ variables impact where and how often stuff gets applied:
 - method
 - om_terrain
 - weight
-
-
-### Define mapgen "method"
-
-**required**
-Values: *json* - required
-
-```
-"object": { (more json here) }
-```
 
 ### Define overmap terrain with "om_terrain" value, array, or nested array
 
@@ -1622,7 +1610,6 @@ In this case the `generator_id` points to a `mapgen` definition that establishes
 ```jsonc
 {
   "type": "mapgen",
-  "method": "json",
   "update_mapgen_id": "mx_science",
   "object": {
     "rows": [
@@ -1668,7 +1655,6 @@ The nested chunks define the items and fields that may spawn:
 ```jsonc
 {
   "type": "mapgen",
-  "method": "json",
   "nested_mapgen_id": "corpse_blood_gibs_science_3x3",
   "object": {
     "mapgensize": [ 3, 3 ],

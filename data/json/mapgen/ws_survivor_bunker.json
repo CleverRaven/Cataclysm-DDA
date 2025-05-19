@@ -10,7 +10,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_survivor_bunker_f0" ],
     "object": {
       "predecessor_mapgen": "forest",
@@ -46,7 +45,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_survivor_bunker_f-1" ],
     "object": {
       "fill_ter": "t_dirt_underground",

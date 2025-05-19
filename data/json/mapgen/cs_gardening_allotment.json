@@ -19,7 +19,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "cs_gardening_allotment" ],
-    "method": "json",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -107,7 +106,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cs_gardening_allotment_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

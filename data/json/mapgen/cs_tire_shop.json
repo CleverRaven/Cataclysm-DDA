@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "cs_tire_shop" ],
-    "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -84,7 +83,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cs_tire_shop_roof",
     "object": {
       "fill_ter": "t_flat_roof",

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mortuary" ],
     "weight": 100,
     "object": {
@@ -94,7 +93,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mortuary_roof",
     "object": {
       "fill_ter": "t_flat_roof",

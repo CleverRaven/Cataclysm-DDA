@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_kitchen_room_construction",
     "object": {
       "parameters": {
@@ -39,7 +38,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_kitchen_room_roof_construction",
     "object": {
       "parameters": {
@@ -77,7 +75,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_canteen_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmk_kitchen_room_construction" ], "x": 9, "y": 7, "z": 0 },
@@ -87,7 +84,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_kitchen_room2_construction",
     "object": {
       "parameters": {
@@ -125,7 +121,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_kitchen_room2_roof_construction",
     "object": {
       "parameters": {
@@ -163,7 +158,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_canteen2_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmk_kitchen_room2_construction" ], "x": 9, "y": 7, "z": 0 },
@@ -173,7 +167,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_canteen_smoking_area_construction",
     "object": {
       "parameters": {
@@ -211,7 +204,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_canteen_smoking_area_roof_construction",
     "object": {
       "parameters": {
@@ -249,7 +241,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_smoking_area_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmk_canteen_smoking_area_construction" ], "x": 16, "y": 7, "z": 0 },
@@ -259,7 +250,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_canteen_pantry_construction",
     "object": {
       "parameters": {
@@ -297,7 +287,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_canteen_pantry_roof_construction",
     "object": {
       "parameters": {
@@ -335,7 +324,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_canteen_pantry_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmk_canteen_pantry_construction" ], "x": 3, "y": 7, "z": 0 },
@@ -345,7 +333,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_canteen_dining_west_construction",
     "object": {
       "parameters": {
@@ -383,7 +370,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_canteen_dining_west_roof_construction",
     "object": {
       "parameters": {
@@ -422,7 +408,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_canteen_dining_west_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmk_canteen_dining_west_construction" ], "x": 3, "y": 14, "z": 0 },
@@ -432,7 +417,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_canteen_dining_east_construction",
     "object": {
       "parameters": {
@@ -470,7 +454,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_canteen_dining_east_roof_construction",
     "object": {
       "parameters": {
@@ -508,7 +491,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_canteen_dining_east_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmk_canteen_dining_east_construction" ], "x": 14, "y": 14, "z": 0 },
@@ -518,7 +500,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_canteen_dining_center_construction",
     "object": {
       "parameters": {
@@ -556,7 +537,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_canteen_dining_center_roof_construction",
     "object": {
       "parameters": {
@@ -594,7 +574,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_canteen_dining_center_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmk_canteen_dining_center_construction" ], "x": 8, "y": 14, "z": 0 },

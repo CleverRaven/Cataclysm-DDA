@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "house_detatched1",
     "type": "mapgen",
     "object": {
@@ -84,7 +83,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_detatched1_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -120,7 +118,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_detatched1_basement",
     "object": {
       "fill_ter": "t_thconc_floor",

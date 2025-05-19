@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_air_parking", "s_air_term", "s_air_atc", "s_air_hangars" ] ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
@@ -142,7 +141,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_air_hangars_roof",
     "object": {
       "fill_ter": "t_metal_flat_roof",
@@ -178,7 +176,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_air_term_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -213,7 +210,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_air_atc_2" ],
     "object": {
       "fill_ter": "t_open_air",
@@ -249,7 +245,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_air_atc_3" ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
@@ -294,7 +289,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_air_atc_4" ],
     "object": {
       "fill_ter": "t_flat_roof",

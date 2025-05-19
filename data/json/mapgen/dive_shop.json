@@ -69,7 +69,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_dive_shop",
     "weight": 200,
     "object": {
@@ -111,7 +110,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_dive_shop",
     "weight": 500,
     "object": {
@@ -152,7 +150,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_dive_shop_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "bar" ],
     "object": {
       "fill_ter": "t_floor",
@@ -92,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "bar_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -136,7 +134,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "bar_1" ],
     "object": {
       "fill_ter": "t_floor",
@@ -234,7 +231,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "bar_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

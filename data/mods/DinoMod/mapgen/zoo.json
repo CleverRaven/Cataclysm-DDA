@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": [
       [ "dinozoo_0_0", "dinozoo_1_0", "dinozoo_2_0", "dinozoo_3_0" ],
       [ "dinozoo_0_1", "dinozoo_1_1", "dinozoo_2_1", "dinozoo_3_1" ],
@@ -253,7 +252,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [
       [ "dinozoo_0_0_roof", "dinozoo_1_0_roof", "dinozoo_2_0_roof", "dinozoo_3_0_roof" ],
       [ "dinozoo_0_1_roof", "dinozoo_1_1_roof", "dinozoo_2_1_roof", "dinozoo_3_1_roof" ],
@@ -366,7 +364,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "dinozoo_3_2_basement" ], [ "dinozoo_3_3_basement" ] ],
     "type": "mapgen",
     "object": {

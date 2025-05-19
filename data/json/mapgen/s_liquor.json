@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_liquor" ],
     "weight": 100,
     "object": {
@@ -87,7 +86,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_liquor" ],
     "weight": 1000,
     "object": {
@@ -195,7 +193,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_liquor" ],
     "weight": 500,
     "object": {
@@ -281,7 +278,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_liquor_roof",
     "object": {
       "fill_ter": "t_flat_roof",

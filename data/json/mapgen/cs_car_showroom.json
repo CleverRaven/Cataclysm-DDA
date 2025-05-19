@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "cs_car_showroom" ],
-    "method": "json",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -89,7 +88,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cs_car_showroom_2ndfloor",
     "object": {
       "fill_ter": "t_floor",
@@ -156,7 +154,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cs_car_showroom_roof",
     "object": {
       "fill_ter": "t_flat_roof",

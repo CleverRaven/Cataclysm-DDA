@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_north_nest",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -28,7 +27,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_north_nest",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -56,7 +54,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_north_nest",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -85,7 +82,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_north_nest",
     "weight": 750,
     "object": {
@@ -114,7 +110,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_north_nest",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -145,7 +140,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_north_nest",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -171,7 +165,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_center_nest_west",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -206,7 +199,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_center_nest_west",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -234,7 +226,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_center_nest_west",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -261,7 +252,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_center_nest_west",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -289,7 +279,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_center_nest_west",
     "weight": 750,
     "object": {
@@ -318,7 +307,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_center_nest_west",
     "weight": 750,
     "object": {
@@ -345,7 +333,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_center_nest_east",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -373,7 +360,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_center_nest_east",
     "weight": 750,
     "object": {
@@ -409,7 +395,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_center_nest_east",
     "weight": 750,
     "object": {
@@ -445,7 +430,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_center_nest_east",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -473,7 +457,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_center_nest_east",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -500,7 +483,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_center_nest_east",
     "weight": 750,
     "object": {
@@ -529,7 +511,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_center_nest_east",
     "weight": 650,
     "object": {
@@ -556,7 +537,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_south_nest",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -589,7 +569,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_south_nest",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -617,7 +596,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_south_nest",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -645,7 +623,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_south_nest",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -673,7 +650,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_south_nest",
     "weight": 450,
     "object": {
@@ -700,7 +676,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "goblin campfire",
     "nested_mapgen_id": "goblin_campfire",
     "object": {
@@ -720,7 +695,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "goblin campfire",
     "nested_mapgen_id": "goblin_campfire",
     "object": {
@@ -740,7 +714,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "goblin campfire",
     "nested_mapgen_id": "goblin_campfire",
     "object": {
@@ -760,7 +733,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "goblin campfire",
     "nested_mapgen_id": "goblin_campfire",
     "object": {
@@ -780,7 +752,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "goblin campfire",
     "nested_mapgen_id": "goblin_campfire",
     "object": {
@@ -800,7 +771,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "goblin campfire",
     "nested_mapgen_id": "goblin_campfire",
     "object": {

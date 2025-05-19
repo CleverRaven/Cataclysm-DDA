@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "ground level",
     "om_terrain": [
       [ "exodii_base_x0y0z0", "exodii_base_x1y0z0", "exodii_base_x2y0z0", "exodii_base_x3y0z0" ],
@@ -170,7 +169,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "z1 level",
     "om_terrain": [
       [ "exodii_base_x0y0z1", "exodii_base_x1y0z1", "exodii_base_x2y0z1", "exodii_base_x3y0z1" ],
@@ -354,7 +352,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "z2 level",
     "om_terrain": [
       [ "exodii_base_x0y0z2", "exodii_base_x1y0z2", "exodii_base_x2y0z2", "exodii_base_x3y0z2" ],
@@ -536,7 +533,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "z3 level",
     "om_terrain": [
       [ "exodii_base_x0y0z3", "exodii_base_x1y0z3", "exodii_base_x2y0z3", "exodii_base_x3y0z3" ],
@@ -717,7 +713,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "z4 level",
     "om_terrain": [
       [ "exodii_base_x0y0z4", "exodii_base_x1y0z4", "exodii_base_x2y0z4", "exodii_base_x3y0z4" ],
