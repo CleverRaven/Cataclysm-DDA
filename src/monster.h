@@ -611,7 +611,7 @@ class monster : public Creature
         void on_unload();
         /**
          * Retroactively update monster.
-         * Call this after a preexisting monster has been placed on map and after monster initialisation.
+         * Call this after a preexisting monster has been placed on map.
          */
         void on_load();
 
