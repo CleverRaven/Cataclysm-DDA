@@ -1212,8 +1212,8 @@
     "effect": "recover_energy",
     "effect_str": "PAIN",
     "extra_effects": [ { "id": "vomit" } ],
-    "min_damage": 50,
-    "max_damage": 50,
+    "min_damage": -200,
+    "max_damage": -200,
     "ignored_monster_species": [ "NETHER" ]
   },
   {
