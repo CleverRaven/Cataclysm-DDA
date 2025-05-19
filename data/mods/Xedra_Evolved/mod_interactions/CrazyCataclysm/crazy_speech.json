@@ -120,7 +120,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
-    "//": "Trackhawk is the name of the vehicle, and shoult not be translated."
+    "//": "Trackhawk is the name of the vehicle, and shoult not be translated.",
     "sound": "I tied the opps to the back of a Trackhawk and dragged them around the block for 24 hours.  Motherfucker looked like a Resident Evil 5 campaign extra after we was done with em.",
     "volume": 10
   },
@@ -314,7 +314,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
-    "//": "Translation note: The Toronto Blue Jays are a baseball team."
+    "//": "Translation note: The Toronto Blue Jays are a baseball team.",
     "sound": "They want to drive a wood stake into my heart for pulling my cock out at the Toronto Blue Jays game.  All I'm sayin' is that I paid for the ticket!",
     "volume": 10
   },
@@ -328,7 +328,7 @@
   
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
-    "//": "Ivory Coast refers to Côte d'Ivoire, a country in Southern Africa."
+    "//": "Ivory Coast refers to Côte d'Ivoire, a country in Southern Africa.",
     "sound": "I'm on the Ivory Coast, eating Vermillion Snapper.  War is all I think about.",
     "volume": 10
   },
