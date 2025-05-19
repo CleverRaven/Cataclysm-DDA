@@ -25,7 +25,6 @@
   {
     "type": "monstergroup",
     "id": "GROUP_LAB",
-    "auto_total": true,
     "monsters": [
       { "monster": "mon_utilibot", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_secubot", "weight": 0, "cost_multiplier": 10 },
@@ -38,7 +37,6 @@
   {
     "type": "monstergroup",
     "id": "GROUP_CENTRAL_LAB",
-    "auto_total": true,
     "monsters": [
       { "monster": "mon_secubot", "weight": 0, "cost_multiplier": 10 },
       { "monster": "mon_utilibot", "weight": 5, "cost_multiplier": 0 },
@@ -51,7 +49,6 @@
   {
     "type": "monstergroup",
     "id": "GROUP_ROBOT",
-    "auto_total": true,
     "monsters": [
       { "monster": "mon_medibot", "weight": 3, "cost_multiplier": 0 },
       { "monster": "mon_skitterbot", "weight": 100, "cost_multiplier": 0 },
