@@ -2559,6 +2559,12 @@
   },
   {
     "type": "MIGRATION",
+    "id": "balaclava_skull",
+    "replace": "balclava",
+    "variant": "skull"
+  },
+  {
+    "type": "MIGRATION",
     "id": "robofac_head_rig_ir",
     "replace": "robofac_head_rig_nv"
   }

@@ -399,7 +399,7 @@
       },
       "items": {
         "á": [ { "item": "SUS_trash_trashcan", "chance": 30 }, { "item": "stripclub_dirty", "chance": 5 } ],
-        "Á": [ { "item": "SUS_trash_dumpster", "chance": 75, "repeat": [ 1, 3 ] }, { "item": "stripclub_dirty", "chance": 5 } ],
+        "Á": [ { "item": "SUS_trash_dumpster", "chance": 75 }, { "item": "stripclub_dirty", "chance": 5 } ],
         "{": [
           { "item": "dresser_female", "chance": 60, "repeat": [ 1, 2 ] },
           { "item": "beauty", "chance": 20, "repeat": [ 1, 2 ] },

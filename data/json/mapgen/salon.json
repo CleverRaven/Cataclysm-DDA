@@ -71,7 +71,7 @@
         "A": { "item": "SUS_hair_drawer", "chance": 100, "repeat": [ 1 ] },
         "B": { "item": "SUS_dishes", "chance": 100 },
         "D": { "item": "SUS_silverware", "chance": 100 },
-        "d": { "item": "SUS_trash_dumpster", "chance": 100, "repeat": [ 2, 4 ] },
+        "d": { "item": "SUS_trash_dumpster", "chance": 75 },
         "e": { "item": "waitingroom", "chance": 100, "repeat": [ 2, 4 ] },
         "f": { "item": "SUS_fridge_partial_empty", "chance": 100 },
         "K": { "item": "SUS_bathroom_sink", "chance": 100 },

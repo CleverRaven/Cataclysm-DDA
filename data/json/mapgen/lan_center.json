@@ -73,7 +73,7 @@
         "S": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "R": { "item": "softdrugs", "chance": 30 },
         "T": { "item": "SUS_toilet", "chance": 50 },
-        "U": { "item": "SUS_trash_dumpster", "chance": 20, "repeat": [ 2, 4 ] },
+        "U": { "item": "SUS_trash_dumpster", "chance": 50 },
         "{": { "item": "SUS_fridge", "chance": 80 }
       }
     }
