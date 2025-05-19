@@ -1,8 +1,8 @@
 [
   {
     "type": "speech",
-     "//": "Many of these lines make obscure references and/or use slang.  For the sake of our translators, I will be including notes outlining terms/turns of phrase that I feel may be confusing.",
-     "//2": "Common terms that appear throughout the text: 'Perc'-short for Percocet, which is a synthetic Opioid.  'Opp'-stands for opposition, means enemy. 'Weed, zaza, runt, sherm'-various slang terms for Marijuana.  'Brick'-A brick of a drug, such as Cocaine or Marijuana,",
+    "//": "Many of these lines make obscure references and/or use slang.  For the sake of our translators, I will be including notes outlining terms/turns of phrase that I feel may be confusing.",
+    "//2": "Common terms that appear throughout the text: 'Perc'-short for Percocet, which is a synthetic Opioid.  'Opp'-stands for opposition, means enemy. 'Weed, zaza, runt, sherm'-various slang terms for Marijuana.  'Brick'-A brick of a drug, such as Cocaine or Marijuana,",
     "speaker": [ "mon_vampire_feral" ],
     "sound": "This shit ain't nothing to me, man",
     "volume": 10
@@ -325,7 +325,7 @@
     "sound": "My Ducati leather trenchcoat; bright red.  I look like 10 million crawdads fuckin'.",
     "volume": 10
   },
-  
+  {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
     "//": "Ivory Coast refers to Côte d'Ivoire, a country in Southern Africa.",
@@ -399,7 +399,7 @@
     "speaker": [ "mon_vampire_feral" ],
     "sound": "I'll air this bitch out like I shit in it.",
     "volume": 10
-  }, 
+  },
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
@@ -412,7 +412,7 @@
     "//": "Translation note: A calzone is a pizza that is fully enclosed by crust.  The joke here is that since he has so much cheese (a slang term for money), in his pockets, people thought he was a pizza.",
     "sound": "I got so much cheese in my pocket, they thought I was a fucking calzone!",
     "volume": 10
-  },  
+  },
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
