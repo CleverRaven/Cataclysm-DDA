@@ -418,11 +418,11 @@ struct jmapgen_objects {
          **/
         ret_val<void> has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &offset ) const;
 
-        void set_mapgensize(const point_rel_ms& value) {
+        void set_mapgensize( const point_rel_ms &value ) {
             mapgensize = value;
         }
 
-        void set_total_size(const point_rel_ms& value) {
+        void set_total_size( const point_rel_ms &value ) {
             total_size = value;
         }
     private:

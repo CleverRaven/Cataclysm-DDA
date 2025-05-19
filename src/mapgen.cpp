@@ -1357,15 +1357,15 @@ void load_mapgen( const JsonObject &jo )
     } else if( jo.has_string( "nested_mapgen_id" ) ) {
         std::string id_base = jo.get_string( "nested_mapgen_id" );
         JsonObject jo_copy = jo;
-        jo_copy.copy_visited_members(jo);
+        jo_copy.copy_visited_members( jo );
         jo.allow_omitted_members();
-        load_nested_mapgen( std::move(jo_copy), nested_mapgen_id( id_base ) );
+        load_nested_mapgen( std::move( jo_copy ), nested_mapgen_id( id_base ) );
     } else if( jo.has_string( "update_mapgen_id" ) ) {
         std::string id_base = jo.get_string( "update_mapgen_id" );
         JsonObject jo_copy = jo;
-        jo_copy.copy_visited_members(jo);
+        jo_copy.copy_visited_members( jo );
         jo.allow_omitted_members();
-        load_update_mapgen( std::move(jo_copy), update_mapgen_id( id_base ) );
+        load_update_mapgen( std::move( jo_copy ), update_mapgen_id( id_base ) );
     } else {
         debugmsg( "mapgen entry requires \"om_terrain\" or \"nested_mapgen_id\"(string, array of strings, or array of array of strings)\n%s\n",
                   jo.str() );
@@ -1399,10 +1399,11 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y, con
 {
     half_open_rectangle<point_rel_ms> bounds( point_rel_ms::zero, size );
     if( !bounds.contains( point_rel_ms( x.val, y.val ) ) ) {
-        if (error_on_out_of_bounds) {
+        if( error_on_out_of_bounds ) {
             try {
-                std::string msg = string_format( "coordinate range cannot be outside mapgen boundaries (%d,%d)", size.x(), size.y() );
-                if (!bounds.contains( point_rel_ms( x.val, static_cast<int16_t>( 0 ) ) )) {
+                std::string msg = string_format( "coordinate range cannot be outside mapgen boundaries (%d,%d)",
+                                                 size.x(), size.y() );
+                if( !bounds.contains( point_rel_ms( x.val, static_cast<int16_t>( 0 ) ) ) ) {
                     jso.throw_error_at( "x", msg );
                 } else {
                     jso.throw_error_at( "y", msg );
@@ -1428,7 +1429,9 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y, con
 
     if( x.valmax > size.x() - 1 ) {
         try {
-            jso.throw_error_at( "x", string_format( "coordinate range cannot cross OMT grid or mapgen size boundaries (%d,%d)", size.x(), size.y() ) );
+            jso.throw_error_at( "x",
+                                string_format( "coordinate range cannot cross OMT grid or mapgen size boundaries (%d,%d)", size.x(),
+                                               size.y() ) );
         } catch( const JsonError &e ) {
             debugmsg( "(json-error)\n%s", e.what() );
         }
@@ -1436,7 +1439,9 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y, con
 
     if( y.valmax > size.y() - 1 ) {
         try {
-            jso.throw_error_at( "y", string_format( "coordinate range cannot cross OMT grid or mapgen size boundaries (%d,%d)", size.x(), size.y() ) );
+            jso.throw_error_at( "y",
+                                string_format( "coordinate range cannot cross OMT grid or mapgen size boundaries (%d,%d)", size.x(),
+                                               size.y() ) );
         } catch( const JsonError &e ) {
             debugmsg( "(json-error)\n%s", e.what() );
         }
@@ -1471,7 +1476,8 @@ mapgen_function_json_base::mapgen_function_json_base(
 {
 }
 
-mapgen_function_json_base::~mapgen_function_json_base() {
+mapgen_function_json_base::~mapgen_function_json_base()
+{
     jsobj.allow_omitted_members();
 }
 
@@ -3082,7 +3088,7 @@ class jmapgen_monster : public jmapgen_piece
                 if( sd.has_array( "patrol" ) ) {
                     const JsonArray &patrol_pts = sd.get_array( "patrol" );
                     for( const JsonObject p_pt : patrol_pts ) {
-                        data.patrol_points_rel_ms.emplace_back( point_rel_ms( p_pt.get_int("x"), p_pt.get_int("y") ) );
+                        data.patrol_points_rel_ms.emplace_back( point_rel_ms( p_pt.get_int( "x" ), p_pt.get_int( "y" ) ) );
                     }
                 }
             }
@@ -4535,7 +4541,7 @@ void jmapgen_objects::load_objects( const JsonArray &parray, std::string_view co
         //       and the same error will appear multiple times. To avoid that, we only throw the error
         //       if this mapgen is the one at (0,0) coord in the matrix
         //       (for nested and update, this will be the only mapgen as there is no matrix).
-        if ( m_offset.xy() == point_rel_ms::zero ) {
+        if( m_offset.xy() == point_rel_ms::zero ) {
             common_check_bounds( where.x, where.y, where.z, total_size, jsi, true );
         }
 
@@ -4559,7 +4565,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>(
         //       and the same error will appear multiple times. To avoid that, we only throw the error
         //       if this mapgen is the one at (0,0) coord in the matrix
         //       (for nested and update, this will be the only mapgen as there is no matrix).
-        if ( m_offset.xy() == point_rel_ms::zero ) {
+        if( m_offset.xy() == point_rel_ms::zero ) {
             common_check_bounds( where.x, where.y, where.z, total_size, jsi, true );
         }
 
@@ -5097,8 +5103,8 @@ bool mapgen_function_json_nested::setup_internal( const JsonObject &jo )
             jo.throw_error( "\"mapgensize\" must be an array of two identical, positive numbers" );
         }
         total_size = mapgensize;
-        objects.set_total_size(total_size);
-        objects.set_mapgensize(mapgensize);
+        objects.set_total_size( total_size );
+        objects.set_mapgensize( mapgensize );
     } else {
         jo.throw_error( "Nested mapgen must have \"mapgensize\" set" );
     }
