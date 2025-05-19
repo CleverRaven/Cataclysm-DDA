@@ -404,6 +404,15 @@ void overmap::unserialize( const cata_path &file_name, std::istream &fin )
     unserialize( jsin.get_object() );
 }
 
+void overmap::unserialize( std::istream &fin )
+{
+    chkversion( fin );
+    std::string s = std::string( std::istreambuf_iterator<char>( fin ),
+                                 std::istreambuf_iterator<char>() );
+    JsonValue jsin = json_loader::from_string( std::move( s ) );
+    unserialize( jsin.get_object() );
+}
+
 void overmap::unserialize( const JsonObject &jsobj )
 {
     // These must be read in this order.

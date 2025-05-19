@@ -810,6 +810,36 @@ std::shared_ptr<zzip> zzip::create_from_folder( const std::filesystem::path &pat
         const std::filesystem::path &folder,
         const std::filesystem::path &dictionary )
 {
+    uint64_t total_file_size = 0;
+    std::unordered_set<std::string> files_to_insert;
+    std::vector<compressed_entry> new_entries;
+    for( const std::filesystem::directory_entry &entry : std::filesystem::recursive_directory_iterator(
+             folder ) ) {
+        if( !entry.is_regular_file() ) {
+            continue;
+        }
+        total_file_size += entry.file_size();
+        files_to_insert.emplace( entry.path().generic_u8string() );
+    }
+    std::vector<std::filesystem::path> file_paths_to_insert;
+    file_paths_to_insert.reserve( files_to_insert.size() );
+    for( const std::string &file : files_to_insert ) {
+        file_paths_to_insert.push_back( std::filesystem::u8path( file ) );
+    }
+
+    return create_from_folder_with_files( path,
+                                          folder,
+                                          file_paths_to_insert,
+                                          total_file_size,
+                                          dictionary );
+}
+
+std::shared_ptr<zzip> zzip::create_from_folder_with_files( const std::filesystem::path &path,
+        const std::filesystem::path &folder,
+        const std::vector<std::filesystem::path> &files,
+        uint64_t total_file_size,
+        const std::filesystem::path &dictionary )
+{
     std::shared_ptr<zzip> zip = zzip::load( path, dictionary );
     JsonObject original_footer = zip->copy_footer();
     zzip_footer footer{ original_footer };
@@ -818,25 +848,24 @@ std::shared_ptr<zzip> zzip::create_from_folder( const std::filesystem::path &pat
     if( meta_opt.has_value() ) {
         content_end = meta_opt->content_end;
     }
-    size_t raw_input_remaining = 0;
-    std::unordered_set<std::string> files_to_insert;
     std::vector<compressed_entry> new_entries;
-    for( const std::filesystem::directory_entry &entry : std::filesystem::recursive_directory_iterator(
-             folder ) ) {
-        if( !entry.is_regular_file() ) {
-            continue;
+
+    if( total_file_size == 0 ) {
+        std::error_code ec;
+        for( const std::filesystem::path &file : files ) {
+            uint64_t file_size = std::filesystem::file_size( file, ec );
+            if( !ec ) {
+                total_file_size += file_size;
+            }
         }
-        raw_input_remaining += entry.file_size();
-        files_to_insert.emplace( entry.path().generic_u8string() );
     }
 
     // Conservatively estimate 10x compression ratio
     size_t input_consumed = 0;
     size_t bytes_written = 0;
-    zip->ensure_capacity_for( ( raw_input_remaining / 10 ) + kFixedSizeOverhead );
+    zip->ensure_capacity_for( ( total_file_size / 10 ) + kFixedSizeOverhead );
 
-    for( const std::string &file_path_string : files_to_insert ) {
-        std::filesystem::path file_path = std::filesystem::u8path( file_path_string );
+    for( const std::filesystem::path &file_path : files ) {
         std::shared_ptr<const mmap_file> file = mmap_file::map_file( file_path );
         std::string file_relative_path = file_path.lexically_relative( folder ).generic_u8string();
         size_t compressed_size = 0;
@@ -852,7 +881,8 @@ std::shared_ptr<zzip> zzip::create_from_folder( const std::filesystem::path &pat
                     // Possibly ran out of file space. Figure out how much is left to insert.
                     // Estimate based on compression ratio of data so far.
                     // If we hit this again we need to add even more space.
-                    needed += raw_input_remaining * ( static_cast<double>( bytes_written ) / input_consumed );
+                    needed += total_file_size * ( input_consumed > 0 ? ( static_cast<double>
+                                                  ( bytes_written ) / input_consumed ) : 1 );
                     if( !zip->ensure_capacity_for( content_end + needed + kFixedSizeOverhead ) ) {
                         return nullptr;
                     }
@@ -866,7 +896,7 @@ std::shared_ptr<zzip> zzip::create_from_folder( const std::filesystem::path &pat
         bytes_written += compressed_size;
         input_consumed += file->len();
         content_end += compressed_size;
-        raw_input_remaining -= file->len();
+        total_file_size -= file->len();
     }
     zip->update_footer( original_footer, content_end, new_entries, /* shrink_to_fit = */ true );
     return zip;
