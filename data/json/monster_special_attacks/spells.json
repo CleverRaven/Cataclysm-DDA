@@ -1200,16 +1200,21 @@
     "false_effect": { "u_message": "You manage to avoid staring at the horrendous <npc_name>." }
   },
   {
-	"id": "crowned_speaking",
-	"type": "SPELL",
-	"name": { "str": "Telepathic Communication", "//~": "NO_I18N" },
-	"description": { "str": "A creature attempting to contact your mind and causing dehabilitating pain in the process.  Only dealt to nonhostiles.", "//~": "NO_I18N" },
-	"shape": "blast",
-	"valid_targets": [ "ally" ],
-	"flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-	"min_range": 8,
-	"max_range": 8,
-	"effect": 
+    "id": "crowned_speaking",
+    "type": "SPELL",
+    "name": { "str": "Telepathic Communication", "//~": "NO_I18N" },
+    "description": { "str": "Causes pain and vomiting, stackable.", "//~": "NO_I18N" },
+    "shape": "blast",
+    "valid_targets": [ "ally" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "min_range": 8,
+    "max_range": 8,
+    "effect": "recover_energy",
+    "effect_str": "PAIN",
+    "extra_effects": "vomit",
+    "min_damage": 50,
+    "max_damage": 50,
+    "ignored_monster_species": [ "NETHER" ]
   },
   {
     "id": "stare",
