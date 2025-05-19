@@ -6219,10 +6219,15 @@
   {
     "type": "overmap_special",
     "id": "basement_hidden_lab_entrance",
-    "overmaps": [ { "point": [ 0, 0, -1 ], "overmap": "basement_hidden_lab_stairs" } ],
-    "connections": [ { "point": [ 0, 0, -1 ], "connection": "hidden_lab_basement", "terrain": "basement", "existing": true } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "locations": [ "potential_basement_lab_house" ] },
+      {
+        "point": [ 0, 0, -1 ],
+        "overmap": "basement_hidden_lab_stairs",
+        "locations": [ "potential_basement_lab_entrance" ]
+      }
+    ],
     "rotate": false,
-    "locations": [ "potential_basement_lab_entrance" ],
     "//": "Low chance to find a matching location, so always try to place it",
     "occurrences": [ 99, 100 ],
     "priority": 1,

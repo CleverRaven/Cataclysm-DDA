@@ -162,6 +162,11 @@
   },
   {
     "type": "overmap_location",
+    "id": "potential_basement_lab_house",
+    "terrains": [ "house_31", "house_32" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "potential_basement_lab_entrance",
     "terrains": [ "basement" ]
   },
