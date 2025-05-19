@@ -9,7 +9,6 @@
 #include "cata_assert.h"
 #include "coords_fwd.h"
 #include "type_id.h"
-#include "cata_assert.h"
 
 class JsonObject;
 
