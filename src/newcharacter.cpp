@@ -5014,6 +5014,7 @@ void Character::add_default_background()
     for( const profession_group &prof_grp : profession_group::get_all() ) {
         if( prof_grp.get_id() == profession_group_adult_basic_background ) {
             for( const profession_id &hobb : prof_grp.get_professions() ) {
+               hobbies.insert( &hobb.obj() );
             }
         }
     }
