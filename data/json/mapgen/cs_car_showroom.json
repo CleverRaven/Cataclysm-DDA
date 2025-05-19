@@ -83,7 +83,7 @@
         { "item": "SUS_trash_dumpster", "chance": 80, "x": 18, "y": 22 },
         { "item": "SUS_fridge_breakroom", "chance": 70, "repeat": [ 1, 3 ], "x": 3, "y": 4 }
       ],
-      "add": [ { "item": "microwave", "x": 4, "y": 4, "chance": 1 }, { "item": "coffeemaker", "x": 5, "y": 4, "chance": 1 } ],
+      "place_item": [ { "item": "microwave", "x": 4, "y": 4, "chance": 1 }, { "item": "coffeemaker", "x": 5, "y": 4, "chance": 1 } ],
       "toilets": { "t": {  } }
     }
   },

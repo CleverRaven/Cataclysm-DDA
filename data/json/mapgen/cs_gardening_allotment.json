@@ -95,7 +95,7 @@
         { "item": "ga_items_1", "chance": 80, "x": 13, "y": 21 },
         { "item": "ga_items_1", "chance": 80, "x": 14, "y": 21 }
       ],
-      "add": [
+      "place_item": [
         { "item": "shovel", "x": [ 13, 17 ], "y": [ 19, 20 ], "chance": 20 },
         { "item": "stepladder", "x": 11, "y": 21, "chance": 40 },
         { "item": "gloves_work", "x": [ 14, 16 ], "y": 19, "chance": 45 },
