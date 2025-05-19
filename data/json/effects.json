@@ -4284,7 +4284,14 @@
     "type": "effect_type",
     "id": "opiate_eff",
     "//": "Gives Status warnings of danger levels only.  Significant chance that death occurs well before or after this scale suggests.  As Pkill is vitaminized move opiates to this scale for effects.",
-    "name": [ "Mild Opiate Euphoria", "Moderate Opiate Euphoria", "Significant Opiate Euphoria", "Opiate Intoxication", "Opiate Debilitation", "Death" ],
+    "name": [
+      "Mild Opiate Euphoria",
+      "Moderate Opiate Euphoria",
+      "Significant Opiate Euphoria",
+      "Opiate Intoxication",
+      "Opiate Debilitation",
+      "Death"
+    ],
     "desc": [
       "Mild euphoric feelings from the Opiates you've taken.",
       "Moderate euphoria, likely sedative effects.",
