@@ -83,6 +83,10 @@ struct WORLD {
         bool save_timestamp() const;
         bool load_timestamp();
         bool create_timestamp();
+
+        bool has_compression_enabled() const;
+        bool set_compression_enabled( bool enabled ) const;
+
 };
 
 class mod_manager;
