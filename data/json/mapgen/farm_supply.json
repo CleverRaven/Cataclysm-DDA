@@ -311,7 +311,7 @@
           "chance": 100
         },
         "g": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 0, 2 ] },
-        "D": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 0, 3 ] },
+        "D": { "item": "SUS_trash_dumpster", "chance": 70 },
         "$": { "item": "cash_register_random", "chance": 100 },
         "V": { "item": "vending_drink_items", "chance": 70, "repeat": [ 3, 10 ] },
         "c": {
@@ -754,7 +754,7 @@
           "chance": 100
         },
         "g": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 0, 2 ] },
-        "D": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 0, 3 ] },
+        "D": { "item": "SUS_trash_dumpster", "chance": 70 },
         "$": { "item": "cash_register_looted", "chance": 50 },
         "V": { "item": "vending_drink_items", "chance": 20, "repeat": [ 0, 8 ] },
         "c": {

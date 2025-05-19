@@ -307,6 +307,7 @@ Improves/adds missions, rewards and interactions with the New England Community 
 Military outposts have been revamped
 Adds a new nether monster
 Snippetize Tshirt variants
+Exodii Ceramics
 
 
 ## Interface:
@@ -804,6 +805,10 @@ Mod Conflicts
 [Xedra Evolved] Add design docs for easier collaboration
 [Xedra Evolved] Add feral vampires, put them in house nests + caves
 [The Backrooms] Expand the Backrooms to multiple Z-levels, add stairs
+[MoM] Nether Attunement Spoilers document
+[MoM] Add Noetic resonance detector
+[Xedra Evolved] Remove vampires' free bite, vampires take more mutagen
+[MoM] Hostile NPC dialogue updates
 
 
 ## Balance:
@@ -1251,6 +1256,7 @@ Fix 0.5 L I1 Diesel engine not consuming fuel
 'None'-skill crafting counts as max level, not level 0
 [Sky Island] Fix possible painkiller death loop
 Can't craft batches so big that they vanish when the game has nowhere to put them
+[Xedra Evolved] Fix werewolf biting
 
 
 ## Performance:
@@ -1411,6 +1417,7 @@ add some AIM tests
 Warn on load if files have been modified
 standardize query_int()
 Always Display Spell Tabs
+Allow monsters to have different climb/swim/dig speeds
 
 
 ## Build:

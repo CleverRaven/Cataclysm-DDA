@@ -76,7 +76,7 @@
       "i": { "item": "SUS_office_filing_cabinet", "chance": 25 },
       "a": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 3 ] },
       "A": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 3 ] },
-      "D": { "item": "SUS_trash_dumpster", "chance": 80, "repeat": [ 4, 8 ] },
+      "D": { "item": "SUS_trash_dumpster", "chance": 80 },
       "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "toilets": { "T": {  } },

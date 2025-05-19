@@ -209,10 +209,7 @@
         { "item": "SUS_office_mess", "chance": 15, "repeat": [ 1, 2 ] }
       ],
       "z": { "item": "SUS_trash_floor", "chance": 90, "repeat": [ 0, 8 ] },
-      "µ": [
-        { "item": "SUS_trash_trashcan", "chance": 90, "repeat": [ 5, 15 ] },
-        { "item": "SUS_trash_dumpster", "chance": 90, "repeat": [ 2, 10 ] }
-      ],
+      "µ": [ { "item": "SUS_trash_trashcan", "chance": 90 }, { "item": "SUS_trash_dumpster", "chance": 90 } ],
       "S": { "item": "SUS_bathroom_sink", "chance": 80, "repeat": [ 0, 2 ] },
       "d": [
         { "item": "SUS_dresser_mens", "chance": 90, "repeat": [ 0, 5 ] },

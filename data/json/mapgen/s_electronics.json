@@ -245,7 +245,7 @@
         "G": { "item": "elecsto_diy", "chance": 75, "repeat": [ 1, 4 ] },
         "t": { "item": "elecsto_homapl", "chance": 75, "repeat": [ 1, 4 ] },
         "L": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ],
-        "U": { "item": "SUS_trash_dumpster", "chance": 25, "repeat": [ 1, 4 ] },
+        "U": { "item": "SUS_trash_dumpster", "chance": 45 },
         "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_monsters": [ { "monster": "GROUP_ELECTRO", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ],

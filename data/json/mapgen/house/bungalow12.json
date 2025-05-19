@@ -15,7 +15,7 @@
         ".-------p...............",
         ".------!!!!!..!!!!!.....",
         ".-!###o###oo##oo####~~~.",
-        ".-!#J4666,y h y  +Z#`&~.",
+        ".-!#J4666=y h y  +Z#`&~.",
         ".-!oO===== hffh  +W#`&~.",
         ".-!oJ=3JA=  ff  y###`&~.",
         ".-!#5=2J== hffh y:````~.",
@@ -51,6 +51,7 @@
         "₸": "t_concrete",
         "~": "t_glass_railing",
         "A": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "=": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }

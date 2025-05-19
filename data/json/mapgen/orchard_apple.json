@@ -89,7 +89,7 @@
       "place_items": [
         { "item": "SUS_fridge", "x": 20, "y": [ 15, 17 ], "chance": 60 },
         { "item": "orchard_tools", "x": [ 19, 20 ], "y": 19, "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "SUS_trash_dumpster", "x": [ 20, 21 ], "y": 22, "chance": 65, "repeat": [ 1, 2 ] },
+        { "item": "SUS_trash_dumpster", "x": [ 20, 21 ], "y": 22, "chance": 65 },
         { "item": "SUS_trash_trashcan", "x": 15, "y": 15, "chance": 75 },
         { "item": "stored_pulp", "x": [ 13, 14 ], "y": [ 19, 20 ], "chance": 75 },
         { "item": "cash_register_random", "x": 13, "y": [ 14, 16 ], "chance": 100 }

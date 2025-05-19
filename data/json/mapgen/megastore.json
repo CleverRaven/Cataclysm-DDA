@@ -257,7 +257,7 @@
         "T": "t_region_tree_shade"
       },
       "furniture": { "D": "f_dumpster" },
-      "items": { "D": { "item": "SUS_trash_dumpster", "chance": 66, "repeat": [ 2, 5 ] } },
+      "items": { "D": { "item": "SUS_trash_dumpster", "chance": 66 } },
       "vehicles": {
         ">": { "vehicle": "truck_trailer", "chance": 50, "rotation": 330 },
         "<": { "vehicle": "parking_garage_short", "chance": 33, "rotation": 180 }

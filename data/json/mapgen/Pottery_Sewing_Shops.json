@@ -86,7 +86,7 @@
       "toilets": { "t": {  } },
       "items": {
         "L": { "item": "SUS_janitors_closet", "chance": 90 },
-        "U": { "item": "SUS_trash_dumpster", "chance": 75, "repeat": [ 1, 5 ] },
+        "U": { "item": "SUS_trash_dumpster", "chance": 75 },
         "R": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 3 ] },
         "t": { "item": "SUS_toilet", "chance": 50 }
       },

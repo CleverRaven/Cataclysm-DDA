@@ -90,7 +90,7 @@
         { "item": "fast_locker", "x": 7, "y": 15, "chance": 70, "repeat": [ 1, 3 ] },
         { "item": "SUS_trash_trashcan", "x": 7, "y": 11, "chance": 75, "repeat": [ 1, 3 ] },
         { "item": "fast_bath", "x": 14, "y": 15, "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "SUS_trash_dumpster", "x": [ 3, 4 ], "y": 23, "chance": 60, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_dumpster", "x": [ 3, 4 ], "y": 23, "chance": 60, "repeat": [ 1, 2 ] },
         { "item": "SUS_trash_floor", "x": [ 3, 4 ], "y": 23, "chance": 30, "repeat": [ 1, 3 ] }
       ],
       "place_monster": [
@@ -227,7 +227,7 @@
       "items": {
         "T": { "item": "fast_table", "chance": 20, "repeat": [ 1, 2 ] },
         "P": { "item": "SUS_toilet", "chance": 50 },
-        "d": { "item": "SUS_trash_dumpster", "chance": 60, "repeat": [ 1, 3 ] },
+        "d": { "item": "SUS_trash_dumpster", "chance": 60 },
         "c": { "item": "fast_kitchen", "chance": 75, "repeat": [ 1, 6 ] },
         "l": { "item": "fast_locker", "chance": 70, "repeat": [ 1, 2 ] },
         "e": { "item": "fast_fridge", "chance": 70, "repeat": [ 2, 8 ] },

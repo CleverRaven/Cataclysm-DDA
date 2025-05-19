@@ -55,6 +55,7 @@
         "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "z": "t_thconc_floor",
+        "=": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "/": "t_dirtmound"
       },
       "furniture": { "$": "f_rack", "&": "f_treadmill", "?": "f_exercise", "/": "f_region_flower", "¤": "f_table" },

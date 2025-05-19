@@ -80,7 +80,7 @@
       "l": { "item": "SUS_janitors_closet", "chance": 80 },
       "L": [ { "item": "farming_seeds", "chance": 75, "repeat": [ 1, 4 ] }, { "item": "farming_tools", "chance": 35 } ],
       "r": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 2 ] },
-      "D": { "item": "SUS_trash_dumpster", "chance": 60, "repeat": [ 1, 8 ] },
+      "D": { "item": "SUS_trash_dumpster", "chance": 60 },
       "o": [ { "item": "book_school", "chance": 66, "repeat": [ 4, 8 ] } ],
       "e": [ { "item": "SUS_fridge_stocked", "chance": 80 } ],
       "O": { "item": "SUS_oven", "chance": 100 },

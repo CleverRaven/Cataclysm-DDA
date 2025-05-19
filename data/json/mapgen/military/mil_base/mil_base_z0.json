@@ -443,7 +443,7 @@
         { "item": "webbing_belt", "x": 39, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "boots_combat", "x": 38, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "helmet_liner", "x": 37, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "balclava", "x": 36, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
+        { "item": "balclava", "variant": "black", "x": 36, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "gloves_liner", "x": 46, "y": 66, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "winter_gloves_army", "x": 45, "y": 66, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "emer_blanket", "x": 44, "y": 66, "chance": 75, "repeat": [ 50, 150 ] },

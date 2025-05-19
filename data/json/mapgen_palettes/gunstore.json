@@ -123,7 +123,7 @@
         "repeat": [ 3, 6 ],
         "chance": 60
       },
-      "w": { "item": "SUS_trash_dumpster", "repeat": 30, "chance": 45 },
+      "w": { "item": "SUS_trash_dumpster", "chance": 45 },
       "Y": { "item": "SUS_gunstore_gear", "chance": 90, "repeat": [ 1, 4 ] },
       "=": { "item": "casings", "repeat": 100, "chance": 10 },
       "`": { "item": "ammo_casings_gunsmith", "repeat": [ 4, 6 ] },
@@ -264,7 +264,7 @@
         "repeat": [ 3, 6 ],
         "chance": 60
       },
-      "w": { "item": "SUS_trash_dumpster", "repeat": 30, "chance": 45 },
+      "w": { "item": "SUS_trash_dumpster", "chance": 45 },
       "Y": { "item": "SUS_gunstore_gear", "chance": 60, "repeat": [ 1, 4 ] },
       "y": {
         "item": {
@@ -403,7 +403,6 @@
             { "item": "can_medium", "prob": 30 }
           ]
         },
-        "repeat": 30,
         "chance": 45
       },
       ".": {
