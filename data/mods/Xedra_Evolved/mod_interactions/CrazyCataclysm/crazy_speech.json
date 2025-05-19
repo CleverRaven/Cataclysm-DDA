@@ -196,12 +196,14 @@
     "//": "Rigor Mortis is latin, do not translate",
     "sound": "That Fentanyl gave me Vitruvian Man flexibility.  Got me in a state of Rigor Mortis.",
     "volume": 10
-  },  {
+  },
+  {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
     "sound": "Caught a broke boy coming up on my Amazon package, so I skinned his ass alive.  Aaaah!",
     "volume": 12
-  },  {
+  },
+  {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
     "//": "Hibachi is a type of stirfrying done in front of the guests, as a method of entertainment during the meal. Konnichiwa should not be translated",
@@ -257,7 +259,8 @@
     "speaker": [ "mon_vampire_feral" ],
     "sound": "Ops was talking crazy; shot him in the mouth.",
     "volume": 10
-  },  {
+  },
+  {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
     "//": "Translation note: Audermars Piguet is the name of a luxury watch, and thus should not be translated",
@@ -321,7 +324,8 @@
     "//": "A crawdad, also known as a Crayfish, is a small semi-aquatic crustacean.  It looks like a small lobster.",
     "sound": "My Ducati leather trenchcoat; bright red.  I look like 10 million crawdads fuckin'.",
     "volume": 10
-  },  {
+  },
+  
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
     "//": "Ivory Coast refers to Côte d'Ivoire, a country in Southern Africa."
