@@ -4996,25 +4996,16 @@ void avatar::character_to_template( const std::string &name )
 
 void Character::add_default_background()
 {
-    if( scenario.has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
-        return;
-    }
-
-    if( prof && prof->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
-        return;
-    }
-
-    for( const profession_id &hobby_id : hobbies ) {
-        const profession *hobby_prof = &hobby_id.obj();
-        if( hobby_prof && hobby_prof->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
-            return;
-        }
+    // Check if profession or scenario has the SKIP_DEFAULT_BACKGROUND flag
+    if( get_profession()->has_flag( "SKIP_DEFAULT_BACKGROUND" ) ||
+        get_scenario()->has_flag( "SKIP_DEFAULT_BACKGROUND" ) ) {
+        return; // Skip adding default background hobbies
     }
 
     for( const profession_group &prof_grp : profession_group::get_all() ) {
         if( prof_grp.get_id() == profession_group_adult_basic_background ) {
-            for( const profession *hobb : prof_grp.get_professions() ) {
-                hobbies.insert( hobb );
+            for( const profession_id &hobb : prof_grp.get_professions() ) {
+                hobbies.insert( &hobb.obj() );
             }
         }
     }
