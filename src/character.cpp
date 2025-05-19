@@ -7512,7 +7512,7 @@ void Character::signal_nemesis()
 
 void Character::vomit()
 {
-    const units::volume stomach_contents_before_vomit = stomach.contains();
+    const units::volume stomach_contents_before_vomit = stomach.contains(); 
     get_event_bus().send<event_type::throws_up>( getID() );
 
     if( stomach_contents_before_vomit != 0_ml ) {
