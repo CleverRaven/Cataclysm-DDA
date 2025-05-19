@@ -335,6 +335,7 @@ monster::monster( const mtype_id &id ) : monster()
         }
     }
     aggro_character = type->aggro_character;
+    on_load();
 }
 
 monster::monster( const mtype_id &id, const tripoint_bub_ms &p ) : monster( id )
