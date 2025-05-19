@@ -69,7 +69,7 @@
           "f_crate_o"
         ]
       },
-      "items": { "X": { "item": "SUS_trash_dumpster", "chance": 100 } },
+      "items": { "X": { "item": "SUS_trash_dumpster", "chance": 75 } },
       "place_vehicles": [
         { "vehicle": "pickup", "x": 11, "y": 5, "rotation": 270, "chance": 30 },
         { "vehicle": "bicycle", "x": 5, "y": 3, "rotation": 0, "chance": 40 }

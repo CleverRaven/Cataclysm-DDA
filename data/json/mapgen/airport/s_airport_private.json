@@ -122,10 +122,7 @@
         { "group": "tools_mechanic", "chance": 50, "repeat": 4, "x": 88, "y": 21 },
         { "group": "tools_mechanic", "chance": 50, "repeat": 4, "x": 81, "y": 8 }
       ],
-      "items": {
-        "q": { "item": "SUS_trash_dumpster", "chance": 30, "repeat": [ 2, 3 ] },
-        "I": { "item": "office", "chance": 30, "repeat": [ 2, 3 ] }
-      },
+      "items": { "q": { "item": "SUS_trash_dumpster", "chance": 30 }, "I": { "item": "office", "chance": 30, "repeat": [ 2, 3 ] } },
       "place_monster": [
         { "group": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 35, "repeat": [ 2, 8 ] },
         { "group": "GROUP_ZOMBIE", "x": [ 24, 46 ], "y": [ 0, 23 ], "chance": 65, "repeat": [ 8, 15 ] },

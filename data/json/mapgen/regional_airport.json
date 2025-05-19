@@ -350,7 +350,7 @@
       "l": { "item": "clothing_work_set", "chance": 70 },
       "r": { "item": "mechanics", "chance": 30, "repeat": [ 1, 2 ] },
       "k": { "item": "mechanics", "chance": 40, "repeat": [ 1, 3 ] },
-      "D": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 3, 6 ] },
+      "D": { "item": "SUS_trash_dumpster", "chance": 70 },
       "O": [
         { "item": "supplies_electronics", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "mechanics", "chance": 20, "repeat": [ 1, 2 ] }
