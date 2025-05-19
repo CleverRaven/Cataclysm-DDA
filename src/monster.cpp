@@ -2844,6 +2844,9 @@ void monster::process_turn()
             }
             here.emit_field( pos_bub(), emid );
         }
+        if( calendar::once_every( 1_days ) ) {
+            try_upgrade();
+        }
     }
 
     // Special attack cooldowns are updated here.
