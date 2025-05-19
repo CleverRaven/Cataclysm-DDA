@@ -300,21 +300,21 @@ static void test_multi_spawn( const mtype_id &old_mon, int range, int min, int m
     for( int i = 0; i < upgrade_attempts; i++ ) {
         clear_map();
         map &m = get_map();
-        calendar::turn = start;
+        calendar::turn = calendar::turn_zero; // Prevent immediate upgrading
         const tripoint_bub_ms ground_zero = get_player_character().pos_bub() - tripoint( 5, 5, 0 );
 
         monster *orig = g->place_critter_at( old_mon, ground_zero );
         REQUIRE( orig );
         REQUIRE( orig->type->id == old_mon );
-        REQUIRE( orig->pos_bub() == ground_zero );
-        REQUIRE( orig->can_upgrade() );
-
-        // monster::next_upgrade_time has a ~3% chance to outright fail
-        // so keep trying until we succeed
-        orig->try_upgrade();
-        if( orig->type->id == old_mon ) {
-            continue;
+        if( orig->never_upgrade ) {
+            continue; // Failed to evolve over UPGRADE_MAX_ITERS half lifes, skip it
         }
+        REQUIRE( orig->pos_bub() == ground_zero );
+        REQUIRE( orig->upgrades );
+
+        calendar::turn = start; // Now let it upgrade
+
+        orig->try_upgrade();
 
         REQUIRE( new_mons.count( orig->type->id ) > 0 );
         int total_spawns = 0;

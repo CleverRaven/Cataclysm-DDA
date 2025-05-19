@@ -291,7 +291,8 @@ monster::monster( const mtype_id &id ) : monster()
     morale = type->morale;
     stomach_size = type->stomach_size;
     faction = type->default_faction;
-    upgrades = type->upgrades && ( type->half_life > 0 || type->age_grow > 0 );
+    upgrades = type->upgrades && ( type->half_life >= 0 || type->age_grow >= 0 );
+    never_upgrade = false;
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( mon_flag_NO_BREED );
     if( reproduces && type->baby_timer ) {
         baby_timer.emplace( calendar::turn + *type->baby_timer );
@@ -390,6 +391,7 @@ void monster::poly( const mtype_id &id )
     }
     faction = type->default_faction;
     upgrades = type->upgrades;
+    never_upgrade = false;
     reproduces = type->reproduces;
     biosignatures = type->biosignatures;
     aggro_character = type->aggro_character;
@@ -397,7 +399,7 @@ void monster::poly( const mtype_id &id )
 
 bool monster::can_upgrade() const
 {
-    return upgrades && get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" ) > 0.0;
+    return upgrades && !never_upgrade && get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" ) > 0.0;
 }
 
 void monster::gravity_check()
@@ -457,7 +459,7 @@ int monster::next_upgrade_time()
         }
     }
     // didn't manage to upgrade, shouldn't ever then
-    upgrades = false;
+    never_upgrade = true;
     return -1;
 }
 
@@ -542,8 +544,8 @@ void monster::try_upgrade()
         }
 
         const int next_upgrade = next_upgrade_time();
-        if( !upgrades ) {
-            // Upgraded into a non-upgradeable monster (poly() updates upgrades) or hit the max half life attempts without evolving
+        if( !can_upgrade() ) {
+            // Upgraded into a non-upgradeable monster (poly() updates upgrades) or hit the max half life attempts for next evolution
             return;
         }
         upgrade_time += next_upgrade;
