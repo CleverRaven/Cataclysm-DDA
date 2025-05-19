@@ -734,7 +734,8 @@
       { "item": "armguard_cut_resistant", "prob": 60 },
       { "item": "chaps_cut_resistant", "prob": 50 },
       { "item": "apron_cut_resistant", "prob": 45 },
-      { "item": "balaclava_cut_resistant", "prob": 10 }
+      { "item": "balaclava_cut_resistant", "prob": 10 },
+      { "item": "throat_guard_cut_resistant", "prob": 5 }
     ]
   },
   {
@@ -766,6 +767,7 @@
       [ "chaps_cut_resistant", 5 ],
       [ "armguard_cut_resistant", 5 ],
       [ "balaclava_cut_resistant", 2 ],
+      [ "throat_guard_cut_resistant", 2 ],
       [ "apron_leather", 10 ],
       [ "tool_belt", 30 ],
       [ "knee_pads", 20 ],
@@ -3318,6 +3320,10 @@
       [ "mask_h20survivor", 1 ],
       [ "mask_bal", 14 ],
       [ "mask_hockey", 26 ],
+      [ "throat_guard_nylon", 2 ],
+      [ "throat_guard_canvas", 2 ],
+      [ "throat_guard_plastic", 1 ],
+      [ "throat_guard_cut_resistant", 1 ],
       { "group": "gasmask_bag_full", "prob": 24 },
       { "item": "mask_gas_half", "prob": 24, "charges": [ 0, 100 ] },
       { "item": "mask_filter", "prob": 12, "charges": [ 0, 100 ] },

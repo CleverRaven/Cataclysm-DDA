@@ -1026,10 +1026,10 @@
       "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
       "mapping": {
         "t": { "items": [ { "item": "vending_food_items", "chance": 10 } ] },
-        "f": { "items": [ { "item": "fridge", "chance": 80 } ] },
+        "f": { "items": [ { "item": "SUS_fridge", "chance": 80 } ] },
         "C": { "items": [ { "item": "kitchen", "chance": 80 } ] },
         "c": { "items": [ { "item": "kitchen", "chance": 50 } ] },
-        "O": { "items": [ { "item": "oven", "chance": 70 } ] }
+        "O": { "items": [ { "item": "SUS_oven", "chance": 70 } ] }
       }
     }
   },

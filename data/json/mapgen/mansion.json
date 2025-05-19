@@ -1394,7 +1394,7 @@
         "-": { "item": "clutter_mansion", "chance": 1 },
         ".": { "item": "clutter_basement", "chance": 1 },
         "x": { "item": "a_television", "chance": 100 },
-        "J": { "item": "fridgesnacks", "chance": 45 },
+        "J": { "item": "SUS_fridge_snacks", "chance": 45 },
         "!": { "item": "crate_stack", "chance": 100 },
         "m": { "item": "vending_food", "chance": 40 },
         "s": { "item": "snacks_fancy", "chance": 35 },
@@ -1511,7 +1511,7 @@
       "place_loot": [ { "item": "microwave", "x": 8, "y": 2, "chance": 100 }, { "item": "television", "x": 4, "y": 12, "chance": 100 } ],
       "items": {
         "-": { "item": "clutter_mansion", "chance": 3 },
-        "F": { "item": "fridgesnacks", "chance": 45 },
+        "F": { "item": "SUS_fridge_snacks", "chance": 45 },
         "f": { "item": "wetbar_stack", "chance": 100 }
       },
       "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 8 ], "y": [ 2, 11 ], "density": 0.1 } ]
@@ -2006,7 +2006,7 @@
         "t": { "item": "harddrugs", "chance": 30 },
         ".": { "item": "clutter_basement", "chance": 1 },
         "J": { "item": "vending_food", "chance": 25 },
-        "?": { "item": "fridgesnacks", "chance": 45 },
+        "?": { "item": "SUS_fridge_snacks", "chance": 45 },
         "!": { "item": "crate_stack", "chance": 100 }
       },
       "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 8 ], "density": 0.1 } ]
@@ -2179,8 +2179,7 @@
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "K": { "item": "crate_stack", "chance": 100 },
-        "m": { "item": "hardware_plumbing", "chance": 40 },
-        "r": { "item": "pantry", "chance": 25 }
+        "m": { "item": "hardware_plumbing", "chance": 40 }
       }
     }
   },

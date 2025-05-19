@@ -377,7 +377,7 @@
         { "item": "mutagen_kits", "chance": 4 },
         { "item": "virology_lab_fridge", "chance": 30 },
         { "item": "supplies_samples_lab", "chance": 30 },
-        { "item": "fridgesnacks", "chance": 15 },
+        { "item": "SUS_fridge_snacks", "chance": 15 },
         { "item": "cloning_vat", "chance": 10 }
       ],
       "b": { "item": "hospital_bed", "chance": 20 },
@@ -401,7 +401,7 @@
         { "item": "mutagen_kits", "chance": 4 },
         { "item": "virology_lab_fridge", "chance": 30 },
         { "item": "supplies_samples_lab", "chance": 30 },
-        { "item": "fridgesnacks", "chance": 15 },
+        { "item": "SUS_fridge_snacks", "chance": 15 },
         { "item": "cloning_vat", "chance": 10 }
       ],
       "q": [
@@ -507,7 +507,7 @@
       "a": [
         { "item": "virology_lab_fridge", "chance": 30 },
         { "item": "supplies_samples_lab", "chance": 30 },
-        { "item": "fridgesnacks", "chance": 15 }
+        { "item": "SUS_fridge_snacks", "chance": 15 }
       ],
       "b": { "item": "hospital_bed", "chance": 20 },
       "c": [
@@ -528,7 +528,7 @@
       "m": [
         { "item": "virology_lab_fridge", "chance": 30 },
         { "item": "supplies_samples_lab", "chance": 30 },
-        { "item": "fridgesnacks", "chance": 15 }
+        { "item": "SUS_fridge_snacks", "chance": 15 }
       ],
       "q": [
         { "item": "tools_home", "chance": 10 },

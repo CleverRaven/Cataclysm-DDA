@@ -84,7 +84,7 @@
         { "chance": 15, "item": "bags", "x": 5, "y": 9 },
         { "chance": 45, "item": "dining", "x": 22, "y": 7 },
         { "chance": 45, "item": "dining", "x": 18, "y": 4 },
-        { "chance": 55, "item": "fridge", "x": [ 21, 22 ], "y": 20 },
+        { "chance": 80, "item": "SUS_fridge", "x": [ 21, 22 ], "y": 20 },
         { "chance": 45, "item": "jackets", "x": 10, "y": 19 },
         { "chance": 45, "item": "jackets", "x": 4, "y": 12 },
         { "chance": 55, "item": "misc_smoking", "x": 7, "y": 22 },

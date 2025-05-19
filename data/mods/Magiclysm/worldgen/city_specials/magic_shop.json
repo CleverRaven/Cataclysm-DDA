@@ -193,8 +193,8 @@
         "@": { "item": "bed", "chance": 20, "repeat": [ 1, 2 ] },
         "C": { "item": "kitchen_counters", "chance": 20, "repeat": [ 1, 2 ] },
         "t": { "item": "dishes_dining", "chance": 30 },
-        "F": { "item": "fridge", "chance": 20, "repeat": [ 1, 2 ] },
-        "O": { "item": "oven", "chance": 20, "repeat": [ 1, 2 ] },
+        "F": { "item": "SUS_fridge", "chance": 20, "repeat": [ 1, 2 ] },
+        "O": { "item": "SUS_oven", "chance": 20, "repeat": [ 1, 2 ] },
         "K": { "item": "allclothes", "chance": 20, "repeat": [ 1, 2 ] },
         "B": { "item": "magic_shop_books", "chance": 20, "repeat": [ 1, 2 ] }
       },

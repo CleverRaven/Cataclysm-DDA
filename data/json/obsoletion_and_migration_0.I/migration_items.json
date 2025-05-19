@@ -2552,6 +2552,11 @@
     "variant": "gown"
   },
   {
+    "id": "robofac_jumpsuit",
+    "replace": "jumpsuit",
+    "variant": "robofac"
+  },
+  {
     "type": "MIGRATION",
     "id": "robofac_head_rig_ir",
     "replace": "robofac_head_rig_nv"

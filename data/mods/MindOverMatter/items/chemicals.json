@@ -16,7 +16,7 @@
     "container": "flask_glass",
     "flags": [ "TRADER_AVOID" ],
     "symbol": "~",
-    "color": "black",
+    "color": "dark_gray",
     "freezing_point": -8,
     "use_action": [ "POISON" ]
   }
