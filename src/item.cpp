@@ -190,7 +190,7 @@ static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 
-static const flag_id json_flag_IRREPLACEABLE_CONSUMABLE( "IRREPLACEABLE_CONSUMABLE" );
+static const flag_id json_flag_IRREPLACEABLE_CONSUMABLE( "irreplaceable_consumeable" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
