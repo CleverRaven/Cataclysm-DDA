@@ -2071,6 +2071,7 @@ bool WORLD::set_compression_enabled( bool enabled ) const
     static_popup popup;
     if( enabled ) {
         cata_path maps_dict = PATH_INFO::compression_folder_path() / "maps.dict";
+        cata_path mmr_dict = PATH_INFO::compression_folder_path() / "mmr.dict";
         cata_path overmaps_dict = PATH_INFO::compression_folder_path() / "overmaps.dict";
 
         std::vector<cata_path> folders_to_clean;
@@ -2091,7 +2092,6 @@ bool WORLD::set_compression_enabled( bool enabled ) const
             }
             folders_to_clean = std::move( maps_folders );
         }
-
         {
             std::vector<cata_path> overmaps;
             size_t done = 0;
@@ -2123,8 +2123,39 @@ bool WORLD::set_compression_enabled( bool enabled ) const
                 files_to_clean.push_back( overmap );
             }
         }
+        {
+            std::vector<cata_path> character_map_memories;
+            size_t done = 0;
+            // Each of these is a folder for per-character map memory.
+            // Each map memory region file inside the folders is compressed separately.
+            character_map_memories = get_files_from_path( ".mm1", folder_path(), false, true );
+            for( const cata_path &character_map_memory_folder : character_map_memories ) {
+                popup.message( _( "Compressing map memory [%d/%d]" ), done++, character_map_memories.size() );
+                ui_manager::redraw();
+                refresh_display();
+                inp_mngr.pump_events();
+
+                std::vector<cata_path> character_map_memory_files = get_files_from_path( ".mmr",
+                        character_map_memory_folder, false, true );
+                std::filesystem::path mmr_path = character_map_memory_folder.get_unrelative_path();
+                for( const cata_path &map_memory : character_map_memory_files ) {
+                    std::filesystem::path map_memory_filename = map_memory.get_unrelative_path().filename();
+                    std::shared_ptr map_memory_zzip = zzip::create_from_folder_with_files( (
+                                                          character_map_memory_folder / map_memory_filename + ".zzip" ).get_unrelative_path(),
+                                                      mmr_path, { mmr_path / map_memory_filename }, 0,
+                                                      mmr_dict.get_unrelative_path() );
+                    if( !map_memory_zzip ) {
+                        return false;
+                    }
+                }
+
+                files_to_clean.insert( files_to_clean.end(), character_map_memory_files.begin(),
+                                       character_map_memory_files.end() );
+            }
+        }
         copy_file( maps_dict, folder_path() / "maps.dict" );
         copy_file( overmaps_dict, folder_path() / "overmaps.dict" );
+        copy_file( mmr_dict, folder_path() / "mmr.dict" );
         size_t done = 0;
         size_t to_do = folders_to_clean.size() + files_to_clean.size();
         for( const cata_path &folder : folders_to_clean ) {
@@ -2146,27 +2177,47 @@ bool WORLD::set_compression_enabled( bool enabled ) const
     } else {
         cata_path maps_dict = folder_path() / "maps.dict";
         cata_path overmaps_dict = folder_path() / "overmaps.dict";
+        cata_path mmr_dict = folder_path() / "mmr.dict";
+        std::vector<cata_path> zzips_to_clean;
 
-        std::filesystem::path maps_dict_path = maps_dict.get_unrelative_path();
-        std::vector<cata_path> zzips = get_files_from_path( "zzip", folder_path() / "maps", false, true );
         size_t done = 0;
-        for( const cata_path &map_zzip : zzips ) {
-            popup.message( _( "Decompressing maps [%d/%d]" ), done++, zzips.size() );
-            ui_manager::redraw();
-            refresh_display();
-            inp_mngr.pump_events();
-            std::filesystem::path zzip_path = map_zzip.get_unrelative_path();
-            std::filesystem::path dest_folder_name = zzip_path.parent_path() / zzip_path.stem();
-            if( !zzip::extract_to_folder( zzip_path, dest_folder_name, maps_dict_path ) ) {
-                return false;
+
+        std::vector<cata_path> maps_zzips = get_files_from_path( "zzip", folder_path() / "maps", false,
+                                            true );
+        std::vector<cata_path> overmap_zzips = get_files_from_path( "zzip", folder_path() / "overmaps",
+                                               false, true );
+        std::vector<cata_path> character_map_memory_folders = get_files_from_path( ".mm1",
+                folder_path(), false, true );
+        std::vector<cata_path> character_map_memory_zzips;
+        for( const cata_path &character_map_memory_folder : character_map_memory_folders ) {
+            std::vector<cata_path> mmr_zzips = get_files_from_path( "zzip", character_map_memory_folder, false,
+                                               true );
+            character_map_memory_zzips.insert( character_map_memory_zzips.end(), mmr_zzips.begin(),
+                                               mmr_zzips.end() );
+        }
+
+        zzips_to_clean.reserve( maps_zzips.size() + overmap_zzips.size() +
+                                character_map_memory_zzips.size() );
+
+        {
+            std::filesystem::path maps_dict_path = maps_dict.get_unrelative_path();
+            for( const cata_path &map_zzip : maps_zzips ) {
+                popup.message( _( "Decompressing maps [%d/%d]" ), done++, maps_zzips.size() );
+                ui_manager::redraw();
+                refresh_display();
+                inp_mngr.pump_events();
+                std::filesystem::path zzip_path = map_zzip.get_unrelative_path();
+                std::filesystem::path dest_folder_name = zzip_path.parent_path() / zzip_path.stem();
+                if( !zzip::extract_to_folder( zzip_path, dest_folder_name, maps_dict_path ) ) {
+                    return false;
+                }
             }
             zzips_to_clean.insert( zzips_to_clean.end(), maps_zzips.begin(), maps_zzips.end() );
         }
         {
+            size_t done = 0;
             std::filesystem::path overmaps_dict_path = overmaps_dict.get_unrelative_path();
-            std::vector<cata_path> overmap_zzips = get_files_from_path( "zzip", folder_path() / "overmaps",
-                                                   false, true );
-            zzips.reserve( zzips.size() + overmap_zzips.size() );
+            std::filesystem::path dest_folder_name = folder_path().get_unrelative_path();
             for( cata_path &overmap_zzip : overmap_zzips ) {
 
                 popup.message( _( "Decompressing overmaps [%d/%d]" ), done++, overmap_zzips.size() );
@@ -2175,7 +2226,6 @@ bool WORLD::set_compression_enabled( bool enabled ) const
                 inp_mngr.pump_events();
 
                 std::filesystem::path zzip_path = overmap_zzip.get_unrelative_path();
-                std::filesystem::path dest_folder_name = folder_path().get_unrelative_path();
                 if( !zzip::extract_to_folder( zzip_path, dest_folder_name, overmaps_dict_path ) ) {
                     return false;
                 }
@@ -2183,11 +2233,30 @@ bool WORLD::set_compression_enabled( bool enabled ) const
             }
             zzips_to_clean.push_back( folder_path() / "overmaps" );
         }
+        {
+            size_t done = 0;
+            std::filesystem::path mmr_dict_path = mmr_dict.get_unrelative_path();
+            for( const cata_path &character_map_memory_zzip : character_map_memory_zzips ) {
+                popup.message( _( "Decompressing map memory [%d/%d]" ), done++, character_map_memory_zzips.size() );
+                ui_manager::redraw();
+                refresh_display();
+                inp_mngr.pump_events();
+
+                std::filesystem::path zzip_path = character_map_memory_zzip.get_unrelative_path();
+                std::filesystem::path dest_folder_name = zzip_path.parent_path();
+                if( !zzip::extract_to_folder( zzip_path, dest_folder_name, mmr_dict_path ) ) {
+                    return false;
+                }
+            }
+            zzips_to_clean.insert( zzips_to_clean.end(), character_map_memory_zzips.begin(),
+                                   character_map_memory_zzips.end() );
+        }
         remove_file( maps_dict );
         remove_file( overmaps_dict );
+        remove_file( mmr_dict );
         done = 0;
-        for( const cata_path &zzip : zzips ) {
-            popup.message( _( "Cleaning up [%d/%d]" ), done++, zzips.size() );
+        for( const cata_path &zzip : zzips_to_clean ) {
+            popup.message( _( "Cleaning up [%d/%d]" ), done++, zzips_to_clean.size() );
             ui_manager::redraw();
             refresh_display();
             inp_mngr.pump_events();
