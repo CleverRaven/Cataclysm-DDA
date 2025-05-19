@@ -1535,6 +1535,106 @@
   },
   {
     "type": "item_group",
+    "id": "SUS_freezer",
+    "//": "Select a freezer from several available options.",
+    "subtype": "distribution",
+    "items": [
+      { "group": "SUS_freezer_stocked", "prob": 30 },
+      { "group": "SUS_freezer_partial_empty", "prob": 50 },
+      { "group": "SUS_freezer_feral", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SUS_freezer_stocked",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a freezer which is well stocked.",
+    "subtype": "collection",
+    "items": [
+      { "group": "toasterpastryfrozen_box_snack_2", "prob": 75, "count": [ 1, 3 ] },
+      { "group": "hotdogs_frozen_bag_plastic_10", "prob": 75, "count": [ 1, 4 ] },
+      { "group": "frozen_dinner_box_small_2", "prob": 75, "count": [ 2, 5 ] },
+      { "group": "cheese_bag_plastic", "prob": 75, "count": [ 1, 2 ] },
+      { "group": "corndogs_frozen_bag_plastic_2", "prob": 75, "count": [ 1, 3 ] },
+      { "group": "pizza_veggy_box_small_4", "prob": 75 },
+      { "group": "pizza_meat_box_small_4", "prob": 75 },
+      { "item": "milkshake", "prob": 20 },
+      { "item": "milkshake_deluxe", "prob": 15 },
+      { "item": "frozen_lemonade", "prob": 15 },
+      { "item": "milkshake_choc", "prob": 15 },
+      { "item": "milkshake_deluxe_choc", "prob": 15 },
+      { "item": "icecream", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "icecream_choc", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "icecream_candy", "prob": 25, "count": [ 1, 2 ] },
+      { "item": "icecream_custard", "prob": 25, "count": [ 1, 2 ] },
+      { "item": "icecream_sorbet", "prob": 25 },
+      { "item": "icecream_gelato", "prob": 25 },
+      { "item": "icecream_artificial", "prob": 25, "count": [ 1, 2 ] },
+      { "item": "sausage_raw", "prob": 75, "count": [ 1, 10 ] },
+      { "item": "bacon", "prob": 75, "count": [ 1, 8 ] },
+      { "item": "fish", "prob": 75, "count": [ 1, 4 ] },
+      { "item": "meat", "prob": 75, "count": [ 2, 12 ] },
+      { "item": "porkbelly", "prob": 75, "count": [ 1, 4 ] },
+      { "item": "bacon_uncut", "prob": 75, "count": [ 1, 8 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SUS_freezer_partial_empty",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a freezer which is running low on food.",
+    "subtype": "collection",
+    "items": [
+      { "group": "toasterpastryfrozen_box_snack_2", "prob": 25 },
+      { "group": "hotdogs_frozen_bag_plastic_10", "prob": 25 },
+      { "group": "frozen_dinner_box_small_2", "prob": 50 },
+      { "group": "cheese_bag_plastic", "prob": 25 },
+      { "group": "corndogs_frozen_bag_plastic_2", "prob": 25 },
+      { "group": "pizza_veggy_box_small_4", "prob": 25 },
+      { "group": "pizza_meat_box_small_4", "prob": 25 },
+      { "item": "milkshake", "prob": 10 },
+      { "item": "milkshake_deluxe", "prob": 5 },
+      { "item": "frozen_lemonade", "prob": 5 },
+      { "item": "milkshake_choc", "prob": 5 },
+      { "item": "milkshake_deluxe_choc", "prob": 5 },
+      { "item": "icecream", "prob": 15 },
+      { "item": "icecream_choc", "prob": 15 },
+      { "item": "icecream_candy", "prob": 10 },
+      { "item": "icecream_custard", "prob": 10 },
+      { "item": "icecream_sorbet", "prob": 10 },
+      { "item": "icecream_gelato", "prob": 10 },
+      { "item": "icecream_artificial", "prob": 5 },
+      { "item": "sausage_raw", "prob": 50 },
+      { "item": "bacon", "prob": 25 },
+      { "item": "fish", "prob": 25 },
+      { "item": "meat", "prob": 50, "count": [ 1, 3 ] },
+      { "item": "porkbelly", "prob": 25 },
+      { "item": "bacon_uncut", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SUS_freezer_feral",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a freezer that a feral might have tried stocking.",
+    "subtype": "distribution",
+    "items": [
+      { "group": "corpses_verydead_no_items", "prob": 75 },
+      {
+        "collection": [
+          { "item": "brain", "prob": 75 },
+          { "item": "meat_tainted", "prob": 75, "count": [ 5, 25 ] },
+          { "item": "arm", "prob": 50 },
+          { "item": "leg", "prob": 50 },
+          { "item": "fat_tainted", "prob": 75, "count": [ 1, 10 ] },
+          { "item": "bone_tainted", "prob": 75, "count": [ 1, 10 ] }
+        ],
+        "prob": 25
+      }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "salsa_jar_glass_sealed_1_inf",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
