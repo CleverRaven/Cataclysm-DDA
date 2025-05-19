@@ -18,7 +18,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "refcenter_nunez_departure",
     "//": "removes pablo and dana nunez from the refugee center",
     "object": {
@@ -28,13 +27,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "tacoma_nunez_trailer_arrive",
-    "method": "json",
     "//": "In addition to basic mapgen, adds some point variables in the hopes that I can add some passive movement animations for pablo and dana.",
     "object": { "flags": [ "NO_UNDERLYING_ROTATE" ], "place_nested": [ { "chunks": [ "nunez_trailer" ], "x": 5, "y": 15 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nunez_trailer",
     "//": "Nunez bakery inside a silver bullet trailer.",
     "object": {
@@ -104,7 +101,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nunez_trailer_roof",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],

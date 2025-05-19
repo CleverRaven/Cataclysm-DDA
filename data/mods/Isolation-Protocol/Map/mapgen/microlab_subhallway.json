@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "mlb_generic_subhallway",
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -38,7 +37,6 @@
   {
     "type": "mapgen",
     "om_terrain": "mlb_generic_subhallway",
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -74,7 +72,6 @@
   {
     "type": "mapgen",
     "om_terrain": "mlb_generic_subhallway",
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [

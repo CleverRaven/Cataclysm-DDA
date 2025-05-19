@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_prepper" ],
     "weight": 100,
     "//": "very low weight due to the awesomeness within",
@@ -70,7 +69,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_prepper" ],
     "weight": 10,
     "//": "extremely low weight due to the awesomeness within",
@@ -143,7 +141,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_prepper_basement",
     "object": {
       "fill_ter": "t_thconc_floor",

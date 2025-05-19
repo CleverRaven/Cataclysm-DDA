@@ -171,7 +171,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "megastore_parking_0_4" ], [ "megastore_parking_0_3" ], [ "megastore_parking_0_2" ] ],
     "object": {
       "fill_ter": "t_pavement",
@@ -267,7 +266,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "megastore_parking_3_1", "megastore_parking_2_1", "megastore_parking_1_1", "megastore_parking_0_1" ],
       [ "megastore_parking_3_0", "megastore_parking_2_0", "megastore_parking_1_0", "megastore_parking_0_0" ]
@@ -339,7 +337,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "megastore_0_0_0", "megastore_1_0_0", "megastore_2_0_0" ],
       [ "megastore_0_1_0", "null", "megastore_2_1_0" ],
@@ -432,7 +429,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "megastore_0_0_0", "megastore_1_0_0", "megastore_2_0_0" ],
       [ "megastore_0_1_0", "null", "megastore_2_1_0" ],
@@ -527,7 +523,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "megastore_0_0_0", "megastore_1_0_0", "megastore_2_0_0" ],
       [ "megastore_0_1_0", "null", "megastore_2_1_0" ],
@@ -621,7 +616,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "megastore_0_0_0", "megastore_1_0_0", "megastore_2_0_0" ],
       [ "megastore_0_1_0", "null", "megastore_2_1_0" ],
@@ -715,7 +709,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "megastore_0_0_0", "megastore_1_0_0", "megastore_2_0_0" ],
       [ "megastore_0_1_0", "null", "megastore_2_1_0" ],
@@ -809,7 +802,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "megastore_1_1_0",
     "//": "ground floor middle area, variant a",
     "weight": 100,
@@ -847,7 +839,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "megastore_1_1_0",
     "//": "ground floor middle area, variant b",
     "weight": 100,
@@ -885,7 +876,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "megastore_1_1_0",
     "//": "ground floor middle area, variant d",
     "weight": 100,
@@ -923,7 +913,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "megastore_1_1_0",
     "//": "ground floor middle area, variant d",
     "weight": 100,
@@ -961,7 +950,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "megastore_1_1_0",
     "//": "ground floor middle area, variant e",
     "weight": 100,
@@ -999,7 +987,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "megastore_1_2_0",
     "//": "ground floor entrance, variant 1",
     "weight": 10,
@@ -1037,7 +1024,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "megastore_1_2_0",
     "//": "ground floor entrance, variant 2",
     "weight": 100,
@@ -1074,7 +1060,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "megastore_0_0_1", "megastore_1_0_1", "megastore_2_0_1" ],
       [ "megastore_0_1_1", "megastore_1_1_1", "megastore_2_1_1" ],
@@ -1164,7 +1149,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "megastore_0_0_roof", "megastore_1_0_roof", "megastore_2_0_roof" ],
       [ "megastore_0_1_roof", "megastore_1_1_roof", "megastore_2_1_roof" ],

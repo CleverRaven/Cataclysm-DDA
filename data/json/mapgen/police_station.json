@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "police" ],
     "object": {
       "fill_ter": "t_floor",
@@ -101,7 +100,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "police_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -151,7 +149,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "police_1" ],
     "object": {
       "fill_ter": "t_floor",
@@ -256,7 +253,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "police_2ndfloor_1",
     "object": {
       "fill_ter": "t_floor",
@@ -376,7 +372,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "police_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -411,7 +406,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "police_2" ],
     "object": {
       "fill_ter": "t_floor",
@@ -532,7 +526,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "police_roof_2",
     "object": {
       "fill_ter": "t_floor",
@@ -589,7 +582,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "police_upper_roof_2",
     "object": {
       "fill_ter": "t_flat_roof",

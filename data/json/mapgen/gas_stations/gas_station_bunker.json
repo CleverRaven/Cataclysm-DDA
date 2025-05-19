@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_gas_g0_roof" ], [ "s_gas_g1_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -62,7 +61,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_gas_g0" ], [ "s_gas_g1" ] ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
@@ -190,7 +188,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "s_gas_g1_bunker_below",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -209,7 +206,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_gas_b11",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -276,7 +272,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_gas_b20" ], [ "s_gas_b21" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",

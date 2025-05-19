@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "11x11_forest_trail_intersection_south_fire_lookout",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -26,7 +25,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_base" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -97,7 +95,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_f1" ],
     "object": {
       "rows": [
@@ -139,7 +136,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_f2" ],
     "object": {
       "rows": [
@@ -180,7 +176,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_f3" ],
     "object": {
       "rows": [
@@ -221,7 +216,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_f4" ],
     "object": {
       "fill_ter": "t_floor",
@@ -275,7 +269,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_f5" ],
     "object": {
       "fill_ter": "t_shingle_flat_roof",

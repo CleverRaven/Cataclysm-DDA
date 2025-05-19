@@ -58,7 +58,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "pile_bodybag_corpses",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -67,7 +66,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "hospital_3", "hospital_2", "hospital_1" ],
       [ "hospital_6", "hospital_5", "hospital_4" ],
@@ -172,7 +170,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "hospital_3_roof", "hospital_2_roof", "hospital_1_roof" ],
       [ "hospital_6_roof", "hospital_5_roof", "hospital_4_roof" ],

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "whately_lmoe" ],
     "//": "Above ground",
     "object": {
@@ -38,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "whately_lmoe_roof" ],
     "//": "Above ground",
     "object": {
@@ -75,7 +73,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "whately_lmoe_under_first_floor" ],
     "//": "Residence of Cyrus Whately and his clan",
     "object": {
@@ -113,7 +110,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "whately_lmoe_under_second_floor" ],
     "//": "Whately clan dwellings.",
     "//2": "This is a commercially built 4-bed LMOE shelter based on IRL plans.",

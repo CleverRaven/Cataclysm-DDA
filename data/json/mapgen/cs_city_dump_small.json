@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "cs_city_dump_small" ],
-    "method": "json",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [

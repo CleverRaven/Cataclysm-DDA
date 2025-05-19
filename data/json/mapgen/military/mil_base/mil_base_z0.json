@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "mil_base_1a", "mil_base_2a", "mil_base_3a", "mil_base_4a" ],
       [ "mil_base_1b", "mil_base_2b", "mil_base_3b", "mil_base_4b" ],
@@ -155,7 +154,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "mil_base_5a", "mil_base_6a", "mil_base_7a", "mil_base_8a" ],
       [ "mil_base_5b", "mil_base_6b", "mil_base_7b", "mil_base_8b" ],
@@ -307,7 +305,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "mil_base_1e", "mil_base_2e", "mil_base_3e", "mil_base_4e" ],
       [ "mil_base_1f", "mil_base_2f", "mil_base_3f", "mil_base_4f" ],
@@ -581,7 +578,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "mil_base_5e", "mil_base_6e", "mil_base_7e", "mil_base_8e" ],
       [ "mil_base_5f", "mil_base_6f", "mil_base_7f", "mil_base_8f" ],
@@ -857,7 +853,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "mil_base_1h", "mil_base_2h", "mil_base_3h", "mil_base_4h" ],
       [ "mil_base_1i", "mil_base_2i", "mil_base_3i", "mil_base_4i" ],
@@ -1007,7 +1002,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "mil_base_5h", "mil_base_6h", "mil_base_7h", "mil_base_8h" ],
       [ "mil_base_5i", "mil_base_6i", "mil_base_7i", "mil_base_8i" ],
@@ -1310,7 +1304,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_base_road_entrance" ],
     "object": {
       "fill_ter": "t_region_soil",
@@ -1351,7 +1344,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_base_minefield_n" ],
     "object": {
       "fill_ter": "t_region_soil",
@@ -1388,7 +1380,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_base_minefield_ne" ],
     "object": {
       "fill_ter": "t_region_soil",
@@ -1430,7 +1421,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_base_minefield_e" ],
     "object": {
       "fill_ter": "t_region_soil",
@@ -1467,7 +1457,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_base_minefield_se" ],
     "object": {
       "fill_ter": "t_region_soil",
@@ -1509,7 +1498,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_base_minefield_s" ],
     "object": {
       "fill_ter": "t_region_soil",
@@ -1546,7 +1534,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_base_minefield_sw" ],
     "object": {
       "fill_ter": "t_region_soil",
@@ -1588,7 +1575,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_base_minefield_w" ],
     "object": {
       "fill_ter": "t_region_soil",
@@ -1625,7 +1611,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_base_minefield_nw" ],
     "object": {
       "fill_ter": "t_region_soil",

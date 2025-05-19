@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_w_6",
     "object": {
       "fill_ter": "t_floor",
@@ -68,7 +67,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_w_6_2ndfloor",
     "object": {
       "fill_ter": "t_floor",
@@ -142,7 +140,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_w_6_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -178,7 +175,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_w_6_basement",
     "object": {
       "fill_ter": "t_thconc_floor",

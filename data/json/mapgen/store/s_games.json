@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_games" ],
     "object": {
       "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
@@ -99,7 +98,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_games_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",

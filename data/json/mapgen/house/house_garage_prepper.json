@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_prepper2" ],
     "object": {
       "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_concrete_red" },
@@ -108,7 +107,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_prepper2_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -157,7 +155,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_prepper2_basement",
     "object": {
       "fill_ter": "t_thconc_floor",

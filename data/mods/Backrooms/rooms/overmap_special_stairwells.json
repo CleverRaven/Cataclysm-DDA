@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "backroom_stairs_bottom",
     "object": {
       "rows": [
@@ -36,7 +35,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "backroom_stairs_top",
     "object": {
       "rows": [

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_laundromat" ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
@@ -97,7 +96,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_laundromat_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -134,7 +132,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_laundromat_1" ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
@@ -226,7 +223,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_laundromat_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

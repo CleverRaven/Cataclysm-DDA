@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_grocery" ],
     "weight": 100,
     "object": {
@@ -75,7 +74,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_grocery" ],
     "weight": 500,
     "object": {
@@ -199,7 +197,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_grocery" ],
     "weight": 300,
     "object": {
@@ -273,7 +270,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_grocery_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -316,7 +312,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_grocery_1" ],
     "weight": 100,
     "object": {
@@ -385,7 +380,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_grocery_1" ],
     "weight": 500,
     "object": {
@@ -496,7 +490,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_grocery_1" ],
     "weight": 300,
     "object": {
@@ -566,7 +559,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_grocery_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

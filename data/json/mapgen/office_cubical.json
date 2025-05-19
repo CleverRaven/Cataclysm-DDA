@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "office_cubical" ],
     "object": {
       "fill_ter": "t_floor",
@@ -76,7 +75,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "office_cubical_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -129,7 +127,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "office_cubical_1" ],
     "object": {
       "fill_ter": "t_floor",
@@ -206,7 +203,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "office_cubical_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

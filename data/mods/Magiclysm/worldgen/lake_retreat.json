@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_retreat_ground",
     "object": {
       "fill_ter": "t_floor",
@@ -108,7 +107,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_retreat_z1",
     "object": {
       "fill_ter": "t_floor",
@@ -189,7 +187,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_retreat_z2",
     "object": {
       "fill_ter": "t_floor",
@@ -270,7 +267,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_retreat_z3",
     "object": {
       "fill_ter": "t_concrete",
@@ -319,7 +315,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_retreat_z4",
     "object": {
       "fill_ter": "t_concrete",
@@ -360,7 +355,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_retreat_boathouse",
     "object": {
       "fill_ter": "t_grass",
@@ -451,7 +445,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_retreat_boathouse_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",

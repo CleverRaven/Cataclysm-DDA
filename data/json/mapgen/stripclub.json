@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "stripclub",
     "object": {
       "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
@@ -109,7 +108,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "stripclub_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -156,7 +154,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "stripclub_1",
     "type": "mapgen",
     "object": {
@@ -282,7 +279,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "stripclub_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -330,7 +326,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "stripclub_2",
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
@@ -432,7 +427,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "stripclub_roof_2",
     "object": {
       "fill_ter": "t_flat_roof",
