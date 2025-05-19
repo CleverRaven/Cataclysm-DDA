@@ -198,7 +198,7 @@
         "h": { "item": "SUS_bathroom_sink", "chance": 50 },
         "S": { "item": "SUS_bathroom_sink", "chance": 90 },
         "L": { "item": "army_personal_locker", "repeat": [ 0, 4 ], "chance": 50 },
-        "=": { "item": "roof_trash", "chance": 2 },
+        "=": { "item": "SUS_trash_roof", "chance": 2 },
         "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_monster": [

@@ -1,11 +1,12 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pine_nuts",
     "name": { "str_sp": "pine nuts" },
     "weight": "15 g",
     "color": "brown",
-    "spoils_in": 1080,
+    "spoils_in": "45 days",
     "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -21,7 +22,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "juniper",
     "name": { "str_sp": "junipers" },
     "weight": "122 g",
@@ -39,7 +41,8 @@
     "vitamins": [ [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "pistachio_shelled",
     "name": { "str_sp": "shelled pistachios" },
     "weight": "30 g",
@@ -59,10 +62,12 @@
     "smoking_result": "pistachio_roasted",
     "vitamins": [ [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ], [ "nut_allergen", 1 ] ],
     "fun": 1,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "pistachio_roasted",
     "name": { "str_sp": "roasted pistachios" },
     "copy-from": "pistachio_shelled",
@@ -70,10 +75,12 @@
     "price": "1 USD 50 cent",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 3,
-    "milling": { "into": "null", "recipe": "" }
+    "into": "null",
+    "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "almond_shelled",
     "name": { "str_sp": "shelled almonds" },
     "weight": "30 g",
@@ -93,10 +100,12 @@
     "smoking_result": "almond_roasted",
     "vitamins": [ [ "calcium", 6 ], [ "iron", 6 ], [ "nut_allergen", 1 ] ],
     "fun": 1,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "almond_pulp",
     "name": { "str_sp": "almond pulp" },
     "looks_like": "granola",
@@ -116,7 +125,8 @@
     "fun": -8
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "almond_roasted",
     "name": { "str_sp": "roasted almonds" },
     "copy-from": "almond_shelled",
@@ -125,10 +135,12 @@
     "price_postapoc": "6 USD",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 3,
-    "milling": { "into": "null", "recipe": "" }
+    "into": "null",
+    "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "cashews",
     "name": { "str_sp": "cashews" },
     "weight": "30 g",
@@ -147,10 +159,12 @@
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ], [ "nut_allergen", 1 ] ],
     "fun": 3,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "pecan_shelled",
     "name": { "str_sp": "shelled pecans" },
     "weight": "30 g",
@@ -170,10 +184,12 @@
     "smoking_result": "pecan_roasted",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": 1,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "pecan_roasted",
     "name": { "str_sp": "roasted pecans" },
     "copy-from": "pecan_shelled",
@@ -181,10 +197,12 @@
     "price": "1 USD 50 cent",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 3,
-    "milling": { "into": "null", "recipe": "" }
+    "into": "null",
+    "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "peanut_shelled",
     "name": { "str_sp": "shelled peanuts" },
     "weight": "30 g",
@@ -203,10 +221,12 @@
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ], [ "nut_allergen", 1 ] ],
     "fun": 3,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "beech_nuts",
     "name": { "str_sp": "beechnuts" },
     "weight": "30 g",
@@ -223,10 +243,12 @@
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
     "vitamins": [ [ "vitC", 5 ], [ "iron", 9 ], [ "nut_allergen", 1 ] ],
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "walnut_shelled",
     "name": { "str_sp": "shelled walnuts" },
     "weight": "30 g",
@@ -245,10 +267,12 @@
     "smoking_result": "walnut_roasted",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": -1,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "walnut_pulp",
     "name": { "str_sp": "walnut pulp" },
     "looks_like": "granola",
@@ -268,7 +292,8 @@
     "fun": -8
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "butternut_shelled",
     "name": { "str_sp": "shelled butternuts" },
     "weight": "30 g",
@@ -289,7 +314,8 @@
     "fun": -1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "walnut_roasted",
     "name": { "str_sp": "roasted walnuts" },
     "copy-from": "walnut_shelled",
@@ -297,10 +323,12 @@
     "price": "90 cent",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 1,
-    "milling": { "into": "null", "recipe": "" }
+    "into": "null",
+    "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "butternut_roasted",
     "name": { "str_sp": "roasted butternuts" },
     "copy-from": "butternut_shelled",
@@ -310,7 +338,8 @@
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "chestnut_shelled",
     "name": { "str_sp": "shelled chestnuts" },
     "weight": "30 g",
@@ -329,21 +358,25 @@
     "smoking_result": "chestnut_roasted",
     "vitamins": [ [ "vitC", 13 ], [ "iron", 1 ], [ "nut_allergen", 1 ] ],
     "fun": -10,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "chestnut_roasted",
     "name": { "str_sp": "roasted chestnuts" },
     "copy-from": "chestnut_shelled",
     "description": "A handful of roasted nuts from a chestnut tree.",
     "price": "90 cent",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_4_5" },
-    "fun": 3
+    "fun": 3,
+    "into": "flour_wheat_free",
+    "recipe": "flour_wheat_free_mill_4_5"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "hazelnut_shelled",
     "name": { "str_sp": "shelled hazelnuts" },
     "weight": "30 g",
@@ -362,10 +395,12 @@
     "smoking_result": "hazelnut_roasted",
     "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ], [ "iron", 7 ], [ "nut_allergen", 1 ] ],
     "fun": -1,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "edamame_roasted",
     "name": { "str_sp": "roasted edamame" },
     "weight": "30 g",
@@ -385,7 +420,8 @@
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "soy_nuts",
     "name": { "str_sp": "roasted soy nuts" },
     "weight": "30 g",
@@ -405,7 +441,8 @@
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "hazelnut_roasted",
     "name": { "str_sp": "roasted hazelnuts" },
     "copy-from": "hazelnut_shelled",
@@ -413,10 +450,12 @@
     "price": "90 cent",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 1,
-    "milling": { "into": "null", "recipe": "" }
+    "into": "null",
+    "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hazelnut_pulp",
     "name": { "str_sp": "hazelnut pulp" },
     "looks_like": "granola",
@@ -436,7 +475,8 @@
     "fun": -8
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "hickory_nut_shelled",
     "name": { "str_sp": "shelled hickory nuts" },
     "weight": "30 g",
@@ -455,10 +495,12 @@
     "smoking_result": "hickory_nut_roasted",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 8 ], [ "nut_allergen", 1 ] ],
     "fun": -10,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "hickory_nut_roasted",
     "name": { "str_sp": "roasted hickory nuts" },
     "copy-from": "hickory_nut_shelled",
@@ -467,10 +509,12 @@
     "price_postapoc": "5 USD",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 1,
-    "milling": { "into": "null", "recipe": "" }
+    "into": "null",
+    "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hickory_nut_ambrosia",
     "name": { "str_sp": "hickory nut ambrosia" },
     "weight": "64 g",
@@ -496,7 +540,8 @@
   },
   {
     "id": "peanutbutter",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "symbol": "~",
     "color": "brown",
     "spoils_in": "180 days",
@@ -546,7 +591,8 @@
   },
   {
     "id": "spread_peanutbutter",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "symbol": "%",
     "name": { "str": "peanut butter spread" },
     "description": "Processed peanut butter spread.",
@@ -570,7 +616,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "acorns",
     "name": { "str_sp": "acorns" },
     "weight": "30 g",
@@ -590,7 +637,8 @@
     "fun": -20
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "acorns_cooked",
     "name": { "str_sp": "cooked acorns" },
     "copy-from": "acorns",
@@ -601,12 +649,14 @@
     "price": "22 cent",
     "price_postapoc": "75 cent",
     "flags": [ "EDIBLE_FROZEN", "SMOKABLE" ],
-    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_2_3" },
     "smoking_result": "acorn_roasted",
-    "fun": 0
+    "fun": 0,
+    "into": "flour_wheat_free",
+    "recipe": "flour_wheat_free_mill_2_3"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "acorn_roasted",
     "name": { "str_sp": "roasted acorns" },
     "copy-from": "acorns",
@@ -620,7 +670,8 @@
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "acorns_blanched",
     "name": { "str_sp": "blanched acorns" },
     "copy-from": "acorns",
@@ -631,10 +682,12 @@
     "flags": [ "EDIBLE_FROZEN", "SMOKABLE" ],
     "smoking_result": "acorns_cooked",
     "fun": -1,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "acorns_blanching",
     "name": { "str_sp": "blanching acorns" },
     "copy-from": "acorns",
@@ -657,5 +710,27 @@
       "transform_age": 518400,
       "not_ready_msg": "The acorns are still bitter."
     }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "vegan_butter",
+    "name": { "str_sp": "vegan butter" },
+    "weight": "14180 mg",
+    "color": "brown",
+    "spoils_in": "18 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -1,
+    "calories": 101,
+    "container": "wrapper",
+    "description": "A light brown butter substitute made from nuts.  Differs from other nut butters in that the fats are removed from the meat and only the fats retained.",
+    "price": "9 cent",
+    "price_postapoc": "23 cent",
+    "material": [ "nut" ],
+    "volume": "15 ml",
+    "flags": [ "NO_AUTO_CONSUME" ],
+    "fun": -1,
+    "vitamins": [ [ "nut_allergen", 1 ] ]
   }
 ]

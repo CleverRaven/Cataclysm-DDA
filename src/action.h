@@ -7,11 +7,13 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "coords_fwd.h"
 
 class input_context;
+class map;
 struct input_event;
 
 /**
@@ -525,7 +527,7 @@ std::optional<tripoint_rel_ms> choose_direction( const std::string &message,
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  * @param[in] allow_autoselect Automatically select location if there's only one valid option and the appropriate setting is enabled
  */
-std::optional<tripoint_bub_ms> choose_adjacent_highlight( const std::string &message,
+std::optional<tripoint_bub_ms> choose_adjacent_highlight( map &here, const std::string &message,
         const std::string &failure_message, action_id action,
         bool allow_vertical = false, bool allow_autoselect = true );
 
@@ -546,10 +548,10 @@ std::optional<tripoint_bub_ms> choose_adjacent_highlight( const std::string &mes
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  * @param[in] allow_autoselect Automatically select location if there's only one valid option and the appropriate setting is enabled
  */
-std::optional<tripoint_bub_ms> choose_adjacent_highlight( const std::string &message,
+std::optional<tripoint_bub_ms> choose_adjacent_highlight( map &here, const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint_bub_ms & )> &allowed,
         bool allow_vertical = false, bool allow_autoselect = true );
-std::optional<tripoint_bub_ms> choose_adjacent_highlight( const tripoint_bub_ms &pos,
+std::optional<tripoint_bub_ms> choose_adjacent_highlight( map &here, const tripoint_bub_ms &pos,
         const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint_bub_ms & )> &allowed,
         bool allow_vertical = false, bool allow_autoselect = true );
@@ -599,7 +601,7 @@ point_rel_ms get_delta_from_movement_action( action_id act, iso_rotate rot );
  *
  * @returns action_id ID of action requested by user at menu.
  */
-action_id handle_action_menu();
+action_id handle_action_menu( map &here );
 
 /**
  * Show in-game main menu
@@ -624,7 +626,7 @@ action_id handle_main_menu();
  * @param p Point to perform test at
  * @returns true if movement is possible in the indicated direction
  */
-bool can_interact_at( action_id action, const tripoint_bub_ms &p );
+bool can_interact_at( action_id action, map &here, const tripoint_bub_ms &p );
 
 /**
  * Test whether it is possible to perform butcher action
@@ -638,7 +640,7 @@ bool can_interact_at( action_id action, const tripoint_bub_ms &p );
  * @param p Point to perform the test at
  * @returns true if there is a corpse or item that can be disassembled at a point, otherwise false
  */
-bool can_butcher_at( const tripoint_bub_ms &p );
+bool can_butcher_at( map &here, const tripoint_bub_ms &p );
 
 /**
  * Test whether vertical movement is possible
@@ -654,7 +656,7 @@ bool can_butcher_at( const tripoint_bub_ms &p );
  * @param movez Direction to move. -1 for down, all other values for up
  * @returns true if movement is possible in the indicated direction, otherwise false
  */
-bool can_move_vertical_at( const tripoint_bub_ms &p, int movez );
+bool can_move_vertical_at( const map &here, const tripoint_bub_ms &p, int movez );
 
 /**
  * Test whether examine is possible
@@ -668,6 +670,6 @@ bool can_move_vertical_at( const tripoint_bub_ms &p, int movez );
  * @param with_pickup True if the presence of items to pick up is sufficient eligibility
  * @returns true if the examine action is possible at this point, otherwise false
  */
-bool can_examine_at( const tripoint_bub_ms &p, bool with_pickup = false );
+bool can_examine_at( map &here,  const tripoint_bub_ms &p, bool with_pickup = false );
 
 #endif // CATA_SRC_ACTION_H

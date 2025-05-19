@@ -1,41 +1,44 @@
 #include "trap.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <cmath>
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <utility>
 
-#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_assert.h"
 #include "character.h"
-#include "colony.h"
+#include "condition.h"
 #include "coordinates.h"
 #include "creature.h"
-#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "dialogue_helpers.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
 #include "game.h"
-#include "game_constants.h"
 #include "item.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapdata.h"
+#include "map_scale_constants.h"
 #include "mapgen_functions.h"
+#include "mapgendata.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
 #include "point.h"
+#include "ranged.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
-#include "teleport.h"
+#include "string_formatter.h"
+#include "talker.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "units.h"
@@ -166,7 +169,7 @@ bool trapfunc::glass( const tripoint_bub_ms &p, Creature *c, item * )
                         damage_instance( damage_cut, dmg ) );
     }
     sounds::sound( p, 8, sounds::sound_t::combat, _( "glass cracking!" ), false, "trap", "glass" );
-    get_map().remove_trap( p );
+    here.remove_trap( p );
     c->check_dead_state( &here );
     return true;
 }
@@ -384,10 +387,10 @@ bool trapfunc::eocs( const tripoint_bub_ms &p, Creature *critter, item * )
     }
     map &here = get_map();
     trap tr = here.tr_at( p );
-    const tripoint_abs_ms trap_location = get_map().get_abs( p );
+    const tripoint_abs_ms trap_location = here.get_abs( p );
     for( const effect_on_condition_id &eoc : tr.eocs ) {
         dialogue d( get_talker_for( critter ), nullptr );
-        write_var_value( var_type::context, "trap_location", &d, trap_location.to_string() );
+        write_var_value( var_type::context, "trap_location", &d, trap_location );
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );
         } else {
@@ -425,8 +428,8 @@ bool trapfunc::tripwire( const tripoint_bub_ms &p, Creature *c, item * )
                 }
             }
             if( !valid.empty() ) {
-                player_character.setpos( random_entry( valid ) );
-                z->setpos( player_character.pos_bub() );
+                player_character.setpos( here, random_entry( valid ) );
+                z->setpos( player_character.pos_abs() );
             }
             player_character.mod_moves( -z->get_speed() * 1.5 );
             g->update_map( player_character );
@@ -445,7 +448,7 @@ bool trapfunc::tripwire( const tripoint_bub_ms &p, Creature *c, item * )
             }
         }
         if( !valid.empty() ) {
-            you->setpos( random_entry( valid ) );
+            you->setpos( here, random_entry( valid ) );
         }
         you->mod_moves( -you->get_speed() * 1.5 );
         if( c->is_avatar() ) {
@@ -515,7 +518,7 @@ bool trapfunc::crossbow( const tripoint_bub_ms &p, Creature *c, item * )
                                             _( "<npcname> dodges the shot!" ) );
             }
         } else if( z != nullptr ) {
-            bool seen = get_player_view().sees( *z );
+            bool seen = get_player_view().sees( here, *z );
             int chance = 0;
             // adapted from shotgun code - chance of getting hit depends on size
             switch( z->type->size ) {
@@ -620,7 +623,7 @@ bool trapfunc::shotgun( const tripoint_bub_ms &p, Creature *c, item * )
                                             _( "<npcname> dodges the shot!" ) );
             }
         } else if( z != nullptr ) {
-            bool seen = get_player_view().sees( *z );
+            bool seen = get_player_view().sees( here,  *z );
             int chance = 0;
             switch( z->type->size ) {
                 case creature_size::tiny:
@@ -830,6 +833,8 @@ bool trapfunc::landmine( const tripoint_bub_ms &p, Creature *c, item * )
 
 bool trapfunc::boobytrap( const tripoint_bub_ms &p, Creature *c, item * )
 {
+    map &here = get_map();
+
     if( c != nullptr ) {
         c->add_msg_player_or_npc( m_bad, _( "You trigger a booby trap!" ),
                                   _( "<npcname> triggers a booby trap!" ) );
@@ -837,9 +842,9 @@ bool trapfunc::boobytrap( const tripoint_bub_ms &p, Creature *c, item * )
 
     item grenade( itype_grenade_act );
     grenade.active = true;
-    get_map().add_item( p, grenade );
+    here.add_item( p, grenade );
 
-    get_map().remove_trap( p );
+    here.remove_trap( p );
     return true;
 }
 
@@ -900,7 +905,7 @@ bool trapfunc::dissector( const tripoint_bub_ms &p, Creature *c, item * )
         return false;
     }
     monster *z = dynamic_cast<monster *>( c );
-    bool player_sees = get_player_view().sees( p );
+    bool player_sees = get_player_view().sees( here, p );
     if( z != nullptr ) {
         if( z->type->in_species( species_ROBOT ) ) {
             //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
@@ -1190,7 +1195,7 @@ bool trapfunc::lava( const tripoint_bub_ms &p, Creature *c, item * )
         return false;
     }
     c->add_msg_player_or_npc( m_bad, _( "The %s burns you horribly!" ), _( "The %s burns <npcname>!" ),
-                              get_map().tername( p ) );
+                              here.tername( p ) );
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
     if( you != nullptr ) {
@@ -1259,7 +1264,7 @@ static bool sinkhole_safety_roll( Character &you, const itype_id &itemname, cons
 
     std::vector<tripoint_bub_ms> safe;
     for( const tripoint_bub_ms &tmp : here.points_in_radius( you.pos_bub(), 1 ) ) {
-        if( here.passable( tmp ) && here.tr_at( tmp ) != tr_pit ) {
+        if( here.passable_through( tmp ) && here.tr_at( tmp ) != tr_pit ) {
             safe.push_back( tmp );
         }
     }
@@ -1271,7 +1276,7 @@ static bool sinkhole_safety_roll( Character &you, const itype_id &itemname, cons
     } else {
         you.add_msg_player_or_npc( m_good, _( "You pull yourself to safety!" ),
                                    _( "<npcname> steps on a sinkhole, but manages to pull themselves to safety." ) );
-        you.setpos( random_entry( safe ) );
+        you.setpos( here, random_entry( safe ) );
         if( you.is_avatar() ) {
             g->update_map( you );
         }
@@ -1569,17 +1574,6 @@ bool trapfunc::cast_spell( const tripoint_bub_ms &p, Creature *critter, item * )
         npc dummy;
         if( !tr.has_flag( json_flag_UNCONSUMED ) ) {
             here.remove_trap( p );
-        }
-        if( tr.has_flag( json_flag_PROXIMITY ) ) {
-            // remove all traps in 3-3 area area
-            for( int x = p.x() - 1; x <= p.x() + 1; x++ ) {
-                for( int y = p.y() - 1; y <= p.y() + 1; y++ ) {
-                    tripoint_bub_ms pt( x, y, p.z() );
-                    if( here.tr_at( pt ).loadid == tr.loadid ) {
-                        here.remove_trap( pt );
-                    }
-                }
-            }
         }
         // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
         trap_spell.cast_all_effects( dummy, p );

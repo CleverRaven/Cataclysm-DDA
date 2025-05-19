@@ -1,6 +1,7 @@
 #include "path_info.h"
 
 #include <cstdlib>
+#include <filesystem>
 #include <string>
 
 #include "debug.h"
@@ -10,6 +11,7 @@
 #include "options.h"
 #include "rng.h"
 #include "system_locale.h"
+#include "translations.h"
 
 #if defined(_WIN32)
 #include <windows.h>

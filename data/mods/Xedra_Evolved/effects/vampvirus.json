@@ -3,22 +3,24 @@
     "type": "effect_on_condition",
     "id": "EOC_CONSUMED_BLOOD_TREATMENT",
     "//": "Should resist and reverse some of the early stages of the vampire virus.",
-    "condition": { "u_has_effect": "blood_treatment" },
+    "condition": { "not": { "u_has_effect": "blood_treatment" } },
     "effect": [
-      { "u_add_effect": "blood_treatment", "duration": "16 hours" },
-      { "u_message": "You take a blood treatment.", "type": "info" }
-    ],
-    "false_effect": [
-      { "u_add_effect": "blood_treatment", "duration": "16 hours" },
+      { "u_add_effect": "blood_treatment", "duration": "1 hours" },
       { "u_message": "You take a blood treatment.", "type": "info" },
       {
         "run_eocs": [
           {
             "id": "EOC_REDUCE_VAMPVIRUS",
-            "condition": { "math": [ "u_effect_intensity('vampire_virus') == 1" ] },
+            "condition": {
+              "and": [
+                { "math": [ "u_effect_intensity('vampire_virus') >= 1" ] },
+                { "not": { "math": [ "u_effect_intensity('vampire_virus_ascendant') == 1" ] } }
+              ]
+            },
             "effect": [
               { "u_lose_effect": "vampire_virus" },
               { "u_lose_trait": "VAMPIRE" },
+              { "u_lose_trait": "VAMPIRE_BLOOD_ARTS" },
               { "u_lose_trait": "EYEGLEAM" },
               { "u_lose_trait": "BLOOD_FUN" },
               { "u_lose_trait": "STAMINAFORBLOOD" },
@@ -29,35 +31,19 @@
               { "u_lose_trait": "VAMPIRE_SILENT_MOVE" },
               { "math": [ "u_spell_level('vampire_smell_nearby_blood_spell') = -1" ] },
               { "math": [ "u_spell_level('vampire_stamina_for_blood_spell') = -1" ] },
-              { "u_message": "The light seems less bright and the air fresher.", "type": "good" }
-            ]
-          },
-          {
-            "id": "EOC_REDUCE_VAMPVIRUS1",
-            "condition": { "math": [ "u_effect_intensity('vampire_virus') == 2" ] },
-            "effect": [
-              { "u_add_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" },
               { "u_lose_trait": "VAMPIRE2" },
               { "u_lose_trait": "COAGULANTWEAVE" },
               { "u_lose_trait": "BLOODHEAL" },
               { "u_lose_trait": "VAMPIRIC_DODGE" },
+              { "u_lose_trait": "VAMPIRIC_STEALTH_BONUS" },
               { "u_lose_trait": "VAMPIRE_FEAR_GAZE" },
               { "u_lose_trait": "VAMPIRE_WALK_ON_WALLS" },
               { "u_lose_trait": "VAMPIRE_BEAST_CLAWS" },
               { "u_lose_trait": "VAMPIRE_SEE_HEAT" },
+              { "u_lose_trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST" },
+              { "u_lose_trait": "VAMPIRE_FEIGN_DEATH" },
               { "math": [ "u_spell_level('spell_blood_heal') = -1" ] },
               { "math": [ "u_spell_level('vampire_fear_gaze_spell') = -1" ] },
-              {
-                "u_message": "You seem to be feeling a little better, but the thirst for blood remains.",
-                "type": "good"
-              }
-            ]
-          },
-          {
-            "id": "EOC_REDUCE_VAMPVIRUS2",
-            "condition": { "math": [ "u_effect_intensity('vampire_virus') == 3" ] },
-            "effect": [
-              { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" },
               { "u_lose_trait": "VAMPIRE3" },
               { "u_lose_trait": "BLOODBANK" },
               { "u_lose_trait": "HYPNOTIC_GAZE" },
@@ -65,13 +51,24 @@
               { "u_lose_trait": "MAGICFORBLOOD" },
               { "u_lose_trait": "VAMPIRE_COMMAND_BEAST" },
               { "u_lose_trait": "VAMPIRE_EARTH_SLUMBER" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_MORE_BLOOD" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_GROTESQUE" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_EARTH_SLEEP" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_HOLY_BURN" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_VAST_WATER_BURN" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_ANIMAL_HATE" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_FIRE_VULNERABLE" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_COLD_BLOODED" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_BLOOD_CRAVING" },
+              { "u_lose_effect": "vampire_need_living_blood" },
               { "math": [ "u_spell_level('vampire_magic_for_blood_spell') = -1" ] },
               { "math": [ "u_spell_level('spell_hypnotic_gaze') = -1" ] },
               { "math": [ "u_spell_level('vampire_command_beast_spell') = -1" ] },
-              {
-                "u_message": "You no longer instantly turn red in sunlight, but your skin is still concerningly pale.",
-                "type": "good"
-              }
+              { "u_message": "The light seems less bright and the air fresher.", "type": "good" },
+              { "u_add_effect": "curevamp", "duration": "72 days" },
+              { "math": [ "u_vitamin('human_blood_vitamin') = 0" ] }
             ]
           },
           {
@@ -199,7 +196,9 @@
                           "VAMPIRIC_STRENGTH",
                           "VAMPIRIC_RESILIENCE",
                           "VAMPIRE_HEIGHTENED_SENSES",
-                          "VAMPIRE_SILENT_MOVE"
+                          "VAMPIRE_SILENT_MOVE",
+                          "VAMPIRE_HEALTH_BONUS",
+                          "VAMPIRE_SENSE_CHILDREN_OF_THE_NIGHT"
                         ],
                         "type": "mutation",
                         "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
@@ -209,6 +208,7 @@
                     ],
                     "false_effect": [
                       { "u_add_trait": "VAMPIRE" },
+                      { "u_add_trait": "VAMPIRE_BLOOD_ARTS" },
                       {
                         "u_message": "You suddenly understand that drinking someones blood will make you feel better than you've ever felt before in your life."
                       }
@@ -238,10 +238,13 @@
                         "BLOODHEAL",
                         "COAGULANTWEAVE",
                         "VAMPIRIC_DODGE",
+                        "VAMPIRIC_STEALTH_BONUS",
                         "VAMPIRE_FEAR_GAZE",
+                        "VAMPIRE_FEIGN_DEATH",
                         "VAMPIRE_WALK_ON_WALLS",
                         "VAMPIRE_BEAST_CLAWS",
-                        "VAMPIRE_SEE_HEAT"
+                        "VAMPIRE_SEE_HEAT",
+                        "VAMPIRE_BLOOD_TEMPORARY_BOOST"
                       ],
                       "type": "mutation",
                       "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
@@ -275,7 +278,17 @@
                   "condition": { "u_has_trait": "VAMPIRE3" },
                   "effect": [
                     {
-                      "u_roll_remainder": [ "BLOODHASTE", "MAGICFORBLOOD", "HYPNOTIC_GAZE", "BLOODBANK", "VAMPIRE_COMMAND_BEAST", "VAMPIRE_EARTH_SLUMBER" ],
+                      "u_roll_remainder": [
+                        "BLOODHASTE",
+                        "MAGICFORBLOOD",
+                        "HYPNOTIC_GAZE",
+                        "BLOODBANK",
+                        "VAMPIRE_COMMAND_BEAST",
+                        "VAMPIRE_EARTH_SLUMBER",
+                        "VAMPIRE_CARDIO_BONUS",
+                        "VAMPIRE_MOTION_ALARM",
+                        "VAMPIRE_BONUS_HP"
+                      ],
                       "type": "mutation",
                       "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
                       "false_eocs": [ "EOC_COMPLETED_VAMPIRE3" ]
@@ -283,6 +296,7 @@
                   ],
                   "false_effect": [
                     { "u_add_trait": "VAMPIRE3" },
+                    { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
                     {
                       "u_message": "You feel the absence of your heart beating for several seconds and then it resumes at this new rhythm."
                     }
@@ -385,5 +399,249 @@
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONSUMED_BLOOD_ANATHEMA",
+    "//": "Gives the trait allowing to gain power from consuming vampire blood if the player is Tier 5 and lacks a threshold.",
+    "condition": { "and": [ { "u_has_trait": "BLOOD_DRINKER" }, { "not": { "u_has_flag": "MUTATION_THRESHOLD" } } ] },
+    "effect": [
+      {
+        "u_message": "Your hunger for blood submerges you for a moment, as the blood of the Anathema combines with your own.  Vampires, mortals, what's the difference?  You'll drink them all dry anyway.",
+        "type": "mixed"
+      },
+      { "u_add_trait": "VAMPIRE_ANATHEMA" },
+      { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
+      { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] }
+    ],
+    "false_effect": [
+      {
+        "if": { "u_has_flag": "MUTATION_THRESHOLD" },
+        "then": {
+          "u_message": "The blood's power tries to take hold, but another sinister power prevents it from doing so!",
+          "type": "bad"
+        },
+        "else": {
+          "u_message": "The blood's power tries to take hold, but you lack the vampiric potency it requires to do so!",
+          "type": "bad"
+        }
+      }
+    ]
+  },
+  {
+    "id": "EOC_VAMPIRE_ANATHEMA_GAIN_POWERS",
+    "type": "effect_on_condition",
+    "condition": { "u_has_trait": "VAMPIRE_ANATHEMA" },
+    "deactivate_condition": { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
+    "recurrence": [ "3 hours", "4 hours" ],
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_VAMPIRE_ANATHEMA_GAINING",
+          "condition": { "x_in_y_chance": { "x": { "math": [ "u_vitamin('vampire_blood_vitamin') - 600" ] }, "y": 100 } },
+          "effect": [
+            {
+              "run_eocs": {
+                "id": "EOC_VAMPIRE_ANATHEMA_CHECK_IF_THRESHOLD",
+                "condition": { "u_has_trait": "THRESH_VAMPIRE_ANATHEMA" },
+                "effect": [
+                  { "math": [ "u_vitamin('vampire_blood_vitamin') -= 600" ] },
+                  {
+                    "u_roll_remainder": [
+                      "VAMPIRE_STORE_MORE_BLOOD",
+                      "EYEGLEAM_UPGRADE",
+                      "VAMPIRE_INSTANT_BLEED",
+                      "VAMPIRE_DETECT_VAMPIRES",
+                      "VAMPIRE_BIG_STOMACH",
+                      "VAMPIRE_SEE_THROUGH_NIGHT_EYES",
+                      "BLOOD_FUN_UPGRADE",
+                      "VAMPIRE_SILENT_MOVE_UPGRADE",
+                      "VAMPIRE_STORE_MORE_BLOOD_UPGRADE",
+                      "VAMPIRE_INVISIBLE_IN_DARK",
+                      "VAMPIRE_HEAL_IN_DARK",
+                      "VAMPIRE_BLOOD_FOR_POTENCY",
+                      "VAMPIRE_NO_ILLNESS_UPGRADE",
+                      "VAMPIRE_FORM_UPGRADE",
+                      "VAMPIRE_LAST_BREATH_MIST_UPGRADE",
+                      "VAMPIRE_DRINK_VAMPIRE_BLOOD",
+                      "VAMPIRE_GAIN_BLOOD_GIFTS",
+                      "VAMPIRE_MASTER_MORTAL_MIND_UPGRADE"
+                    ],
+                    "type": "mutation",
+                    "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ANATHEMA" ],
+                    "false_eocs": [ "EOC_VAMPIRE_ANATHEMA_GAIN_POTENCY" ]
+                  }
+                ]
+              }
+            },
+            {
+              "run_eocs": {
+                "id": "EOC_VAMPIRE_ANATHEMA_ROLL_FOR_THRESHOLD",
+                "condition": {
+                  "and": [
+                    { "not": { "u_has_trait": "THRESH_VAMPIRE_ANATHEMA" } },
+                    {
+                      "x_in_y_chance": { "x": { "math": [ "vampire_anathema_pre_threshold_traits() - 3" ] }, "y": 4 }
+                    }
+                  ]
+                },
+                "effect": [
+                  { "math": [ "u_vitamin('vampire_blood_vitamin') -= 600" ] },
+                  {
+                    "u_message": "Like the Anathema before you, there is no more limit to how powerful you can be.  Only your limited supply of vampire blood stand in your way.  Will this power be worth the heavy cost?",
+                    "type": "mixed"
+                  },
+                  { "u_add_trait": "THRESH_VAMPIRE_ANATHEMA" },
+                  { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
+                  { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
+                  { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
+                  { "run_eocs": [ "EOC_VAMPIRE_ANATHEMA_ADD_WEAKNESS" ] }
+                ],
+                "false_effect": [
+                  {
+                    "run_eocs": {
+                      "id": "EOC_VAMPIRE_ANATHEMA_GIVE_PRE_THRESHOLD",
+                      "condition": { "not": { "u_has_trait": "THRESH_VAMPIRE_ANATHEMA" } },
+                      "effect": [
+                        { "math": [ "u_vitamin('vampire_blood_vitamin') -= 600" ] },
+                        {
+                          "u_roll_remainder": [
+                            "VAMPIRE_STORE_MORE_BLOOD",
+                            "EYEGLEAM_UPGRADE",
+                            "VAMPIRE_INSTANT_BLEED",
+                            "VAMPIRE_DETECT_VAMPIRES",
+                            "VAMPIRE_BIG_STOMACH",
+                            "VAMPIRE_SEE_THROUGH_NIGHT_EYES",
+                            "BLOOD_FUN_UPGRADE",
+                            "VAMPIRE_SILENT_MOVE_UPGRADE"
+                          ],
+                          "type": "mutation",
+                          "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ANATHEMA" ]
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUCCESFUL_ROLL_REMAINDER_ANATHEMA",
+    "effect": [
+      { "u_message": "Suddenly you feel your blood boiling and you realize a new ability." },
+      { "run_eocs": "EOC_VAMPIRE_ANATHEMA_UPGRADE_ORDER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_ANATHEMA_UPGRADE_ORDER",
+    "//": "Ensures the player cannot gain a mutation without its prerequisite.",
+    "effect": [
+      {
+        "if": {
+          "and": [ { "u_has_trait": "VAMPIRE_STORE_MORE_BLOOD_UPGRADE" }, { "not": { "u_has_trait": "VAMPIRE_STORE_MORE_BLOOD" } } ]
+        },
+        "then": [ { "u_lose_trait": "VAMPIRE_STORE_MORE_BLOOD_UPGRADE" }, { "u_add_trait": "VAMPIRE_STORE_MORE_BLOOD" } ]
+      },
+      {
+        "if": {
+          "and": [ { "u_has_trait": "VAMPIRE_STORE_MORE_BLOOD" }, { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } } ]
+        },
+        "then": [ { "u_lose_trait": "VAMPIRE_STORE_MORE_BLOOD" }, { "u_add_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } ]
+      },
+      {
+        "if": { "and": [ { "u_has_trait": "EYEGLEAM_UPGRADE" }, { "not": { "u_has_trait": "EYEGLEAM" } } ] },
+        "then": [ { "u_lose_trait": "EYEGLEAM_UPGRADE" }, { "u_add_trait": "EYEGLEAM" } ]
+      },
+      {
+        "if": { "and": [ { "u_has_trait": "BLOOD_FUN_UPGRADE" }, { "not": { "u_has_trait": "BLOOD_FUN" } } ] },
+        "then": [ { "u_lose_trait": "BLOOD_FUN_UPGRADE" }, { "u_add_trait": "BLOOD_FUN" } ]
+      },
+      {
+        "if": { "and": [ { "u_has_trait": "VAMPIRE_SILENT_MOVE_UPGRADE" }, { "not": { "u_has_trait": "VAMPIRE_SILENT_MOVE" } } ] },
+        "then": [ { "u_lose_trait": "VAMPIRE_SILENT_MOVE_UPGRADE" }, { "u_add_trait": "VAMPIRE_SILENT_MOVE" } ]
+      },
+      {
+        "if": { "and": [ { "u_has_trait": "VAMPIRE_NO_ILLNESS_UPGRADE" }, { "not": { "u_has_trait": "VAMPIRE_NO_ILLNESS" } } ] },
+        "then": [ { "u_lose_trait": "VAMPIRE_NO_ILLNESS_UPGRADE" }, { "u_add_trait": "VAMPIRE_NO_ILLNESS" } ]
+      },
+      {
+        "if": {
+          "and": [
+            { "u_has_trait": "VAMPIRE_FORM_UPGRADE" },
+            { "not": { "u_has_trait": "VAMPIRE_BAT_FORM" } },
+            { "not": { "u_has_trait": "VAMPIRE_WOLF_FORM" } },
+            { "not": { "u_has_trait": "VAMPIRE_MIST_FORM" } },
+            { "not": { "u_has_trait": "VAMPIRE_SHADOW_FORM" } }
+          ]
+        },
+        "then": [
+          { "u_lose_trait": "VAMPIRE_FORM_UPGRADE" },
+          {
+            "u_roll_remainder": [ "VAMPIRE_BAT_FORM", "VAMPIRE_WOLF_FORM", "VAMPIRE_MIST_FORM", "VAMPIRE_SHADOW_FORM" ],
+            "type": "mutation"
+          }
+        ]
+      },
+      {
+        "if": {
+          "and": [ { "u_has_trait": "VAMPIRE_LAST_BREATH_MIST_UPGRADE" }, { "not": { "u_has_trait": "VAMPIRE_LAST_BREATH_MIST" } } ]
+        },
+        "then": [
+          { "u_lose_trait": "VAMPIRE_LAST_BREATH_MIST_UPGRADE" },
+          { "u_add_trait": "VAMPIRE_LAST_BREATH_MIST" },
+          { "run_eocs": "EOC_MIST_FORM_BEFORE_LAST_BREATH" }
+        ]
+      },
+      {
+        "if": {
+          "and": [ { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND_UPGRADE" }, { "not": { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND" } } ]
+        },
+        "then": [ { "u_lose_trait": "VAMPIRE_MASTER_MORTAL_MIND_UPGRADE" }, { "u_add_trait": "VAMPIRE_MASTER_MORTAL_MIND" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_ANATHEMA_ADD_WEAKNESS",
+    "//": "The message can be removed once roll_remainder can trigger gain_mutation EOCs, as each of these has a custom message ready.",
+    "effect": [
+      { "u_message": "A vampiric curse far more dire than any other has manifested within you.", "type": "bad" },
+      {
+        "u_roll_remainder": [ "ANATHEMA_WEAKNESS_SUN_BURN", "ANATHEMA_WEAKNESS_MIND_CHAOS", "ANATHEMA_WEAKNESS_NEED_VAMPIRE_BLOOD" ],
+        "type": "mutation"
+      },
+      {
+        "run_eocs": {
+          "id": "EOC_VAMPIRE_ANATHEMA_ADD_SUN_GRACE_PERIOD",
+          "//": "As suddenly gaining this weakness in the wild or otherwise away from shelter is a death sentence, its effects won't trigger instantly after gaining the weakness.",
+          "condition": { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
+          "effect": [
+            {
+              "u_message": "You have a sudden feeling of dread.  In a few hours, the sun will burn you to a crisp if you ever stand under its unblocked rays.",
+              "type": "bad"
+            },
+            { "u_add_effect": "effect_sun_burn_grace_period", "intensity": 1, "duration": "5 hours" }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_ANATHEMA_GAIN_POTENCY",
+    "effect": [
+      {
+        "u_add_effect": "effect_player_anathema_potency_boost",
+        "intensity": { "math": [ "u_effect_intensity('effect_player_anathema_potency_boost') + 1" ] },
+        "duration": "PERMANENT"
+      },
+      { "u_message": "Your power has grown a little more thanks to all the vampire blood you drank." }
+    ]
   }
 ]

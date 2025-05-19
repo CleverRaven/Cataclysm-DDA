@@ -14,7 +14,7 @@
     "grab_strength": 30,
     "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid", "cooldown": 5, "min_mul": 0.8 } ],
     "death_drops": "mon_zombie_soldier_death_drops",
-    "upgrades": { "half_life": 42, "into_group": "GROUP_SOLDIER_UPGRADE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "armor": { "bash": 12, "cut": 25, "bullet": 20, "electric": 3 },
     "extend": { "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ], "families": [ "prof_wp_syn_armored" ] }
   },
@@ -54,7 +54,7 @@
       }
     ],
     "death_drops": "mon_zombie_soldier_death_drops",
-    "upgrades": { "half_life": 45, "into": "mon_zombie_soldier_blackops_2" },
+    "upgrades": { "half_life": 180, "into": "mon_zombie_soldier_blackops_2" },
     "armor": { "bash": 12, "cut": 25, "bullet": 20, "electric": 3 },
     "extend": {
       "flags": [ "SMELLS", "NIGHT_INVISIBILITY" ],
@@ -161,7 +161,7 @@
       { "id": "scratch_humanoid" }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
-    "upgrades": { "half_life": 42, "into": "mon_zombie_kevlar_1" },
+    "upgrades": { "half_life": 168, "into": "mon_zombie_kevlar_1" },
     "armor": { "bash": 18, "cut": 28, "bullet": 22, "electric": 3 },
     "extend": {
       "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
@@ -189,7 +189,7 @@
       { "id": "smash", "throw_strength": 36, "cooldown": 30 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
-    "upgrades": { "half_life": 42, "into": "mon_zombie_kevlar_2" },
+    "upgrades": { "half_life": 168, "into": "mon_zombie_kevlar_2" },
     "armor": { "bash": 20, "cut": 30, "bullet": 24, "electric": 3 },
     "extend": {
       "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
@@ -248,7 +248,7 @@
     "description": "This undead soldier is adorned in standard military fatigues.  It carries itself rather steadily for a zombie.",
     "copy-from": "mon_zombie_military_pilot",
     "looks_like": "mon_zombie",
-    "upgrades": { "half_life": 32, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 128, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "death_drops": "mon_zombie_milbase_personnel_death_drops",
     "armor": { "bash": 2, "cut": 2, "bullet": 2 },
     "extend": { "flags": [ "HEARS" ] },
@@ -282,7 +282,7 @@
     "melee_skill": 6,
     "melee_dice": 3,
     "melee_dice_sides": 4,
-    "upgrades": { "half_life": 38, "into": "mon_zombie_marine_upgrade" },
+    "upgrades": { "half_life": 152, "into": "mon_zombie_marine_upgrade" },
     "death_drops": "mon_zombie_marine_death_drops"
   },
   {
@@ -345,6 +345,6 @@
     "death_drops": "mon_zombie_armored_death_drops",
     "burn_into": "mon_zombie_scorched",
     "armor": { "bash": 64, "cut": 64, "acid": 20, "heat": 20, "bullet": 51, "electric": 10 },
-    "extend": { "families": [ "prof_wp_syn_armored" ] }
+    "extend": { "families": [ "prof_wp_syn_armored" ], "flags": [ "PULP_PRYING" ] }
   }
 ]

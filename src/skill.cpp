@@ -2,19 +2,19 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstddef>
+#include <cstdlib>
 #include <iterator>
 #include <utility>
 
-#include "cata_utility.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "item.h"
-#include "json.h"
 #include "options.h"
 #include "recipe.h"
 #include "rng.h"
-#include "translations.h"
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_bashing( "bashing" );
@@ -129,6 +129,18 @@ void Skill::load_skill( const JsonObject &jsobj )
     for( JsonObject jo_csp : jsobj.get_array( "companion_skill_practice" ) ) {
         companion_skill_practice.emplace( jo_csp.get_string( "skill" ), jo_csp.get_int( "weight" ) );
     }
+    std::map<int, translation> level_descriptions_theory;
+    std::map<int, translation> level_descriptions_practice;
+    for( JsonObject jo : jsobj.get_array( "level_descriptions_theory" ) ) {
+        translation desc;
+        jo.read( "description", desc );
+        level_descriptions_theory.emplace( jo.get_int( "level" ), desc );
+    }
+    for( JsonObject jo : jsobj.get_array( "level_descriptions_practice" ) ) {
+        translation desc;
+        jo.read( "description", desc );
+        level_descriptions_practice.emplace( jo.get_int( "level" ), desc );
+    }
     time_info_t time_to_attack;
     if( jsobj.has_object( "time_to_attack" ) ) {
         JsonObject jso_tta = jsobj.get_object( "time_to_attack" );
@@ -150,6 +162,8 @@ void Skill::load_skill( const JsonObject &jsobj )
     sk._companion_survival_rank_factor = jsobj.get_int( "companion_survival_rank_factor", 0 );
     sk._companion_industry_rank_factor = jsobj.get_int( "companion_industry_rank_factor", 0 );
     sk._companion_skill_practice = companion_skill_practice;
+    sk._level_descriptions_theory = level_descriptions_theory;
+    sk._level_descriptions_practice = level_descriptions_practice;
     sk._obsolete = jsobj.get_bool( "obsolete", false );
     sk._teachable = jsobj.get_bool( "teachable", true );
 
@@ -243,6 +257,25 @@ bool Skill::is_contextual_skill() const
 {
     static const std::string contextual_skill( "contextual_skill" );
     return _tags.count( contextual_skill ) > 0;
+}
+
+std::string Skill::get_level_description( int skill_lvl, bool practical ) const
+{
+    std::map<int, translation> description_map;
+
+    if( practical ) {
+        description_map = _level_descriptions_practice;
+    } else {
+        description_map = _level_descriptions_theory;
+    }
+
+    auto it = description_map.upper_bound( skill_lvl );
+    if( it != description_map.begin() ) {
+        --it;
+    } else {
+        return "";
+    }
+    return it->second.translated();
 }
 
 void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modifier,

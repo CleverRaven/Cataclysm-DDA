@@ -38,6 +38,7 @@
 #include "sdltiles.h" // IWYU pragma: keep
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "unicode.h"
 #include "units_utility.h"
@@ -183,7 +184,7 @@ std::vector<std::string> foldstring( const std::string &str, int width, const ch
     return lines;
 }
 
-std::vector<std::string> split_by_color( const std::string_view s )
+std::vector<std::string> split_by_color( std::string_view s )
 {
     std::vector<std::string> ret;
     std::vector<size_t> tag_positions = get_tag_positions( s );
@@ -197,7 +198,7 @@ std::vector<std::string> split_by_color( const std::string_view s )
     return ret;
 }
 
-std::string remove_color_tags( const std::string_view s )
+std::string remove_color_tags( std::string_view s )
 {
     std::string ret;
     std::vector<size_t> tag_positions = get_tag_positions( s );
@@ -216,7 +217,7 @@ std::string remove_color_tags( const std::string_view s )
 }
 
 color_tag_parse_result::tag_type update_color_stack(
-    std::stack<nc_color> &color_stack, const std::string_view seg,
+    std::stack<nc_color> &color_stack, std::string_view seg,
     const report_color_error color_error )
 {
     color_tag_parse_result tag = get_color_from_tag( seg, color_error );
@@ -237,7 +238,7 @@ color_tag_parse_result::tag_type update_color_stack(
 }
 
 void print_colored_text( const catacurses::window &w, const point &p, nc_color &color,
-                         const nc_color &base_color, const std::string_view text,
+                         const nc_color &base_color, std::string_view text,
                          const report_color_error color_error )
 {
     if( p.y > -1 && p.x > -1 ) {
@@ -908,20 +909,20 @@ query_ynq_result query_ynq( const std::string &text )
     return query_ynq_result::quit;
 }
 
-bool query_int( int &result, const std::string &text )
+bool query_int( int &result, bool show_default, const std::string &text )
 {
     string_input_popup popup;
     popup.title( text );
-    popup.text( "" ).only_digits( true );
-    int temp = popup.query_int();
-    if( popup.canceled() ) {
+    popup.text( show_default ? std::to_string( result ) : "" ).only_digits( true );
+    std::optional<int> temp = popup.query_int();
+    if( popup.canceled() || !temp ) {
         return false;
     }
-    result = temp;
+    result = *temp;
     return true;
 }
 
-std::vector<std::string> get_hotkeys( const std::string_view s )
+std::vector<std::string> get_hotkeys( std::string_view s )
 {
     std::vector<std::string> hotkeys;
     size_t start = s.find_first_of( '<' );
@@ -1494,7 +1495,7 @@ static std::string trim( std::string_view s, Predicate pred )
 }
 
 template<typename Prep>
-std::string trim_trailing( const std::string_view s, Prep prep )
+std::string trim_trailing( std::string_view s, Prep prep )
 {
     return std::string( s.begin(), std::find_if_not(
     s.rbegin(), s.rend(), [&prep]( int c ) {
@@ -1502,14 +1503,14 @@ std::string trim_trailing( const std::string_view s, Prep prep )
     } ).base() );
 }
 
-std::string trim( const std::string_view s )
+std::string trim( std::string_view s )
 {
     return trim( s, []( int c ) {
         return isspace( c );
     } );
 }
 
-std::string trim_trailing_punctuations( const std::string_view s )
+std::string trim_trailing_punctuations( std::string_view s )
 {
     return trim_trailing( s, []( int c ) {
         // '<' and '>' are used for tags and should not be removed
@@ -1538,7 +1539,7 @@ std::string to_upper_case( const std::string &s )
 }
 
 // find the position of each non-printing tag in a string
-std::vector<size_t> get_tag_positions( const std::string_view s )
+std::vector<size_t> get_tag_positions( std::string_view s )
 {
     std::vector<size_t> ret;
     size_t pos = s.find( "<color_", 0, 7 );
@@ -1635,7 +1636,7 @@ std::string word_rewrap( const std::string &in, int width, const uint32_t split 
     return o;
 }
 
-void draw_tab( const catacurses::window &w, int iOffsetX, const std::string_view sText,
+void draw_tab( const catacurses::window &w, int iOffsetX, std::string_view sText,
                bool bSelected )
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText, true ) + 1;
@@ -3348,7 +3349,7 @@ std::string wildcard_trim_rule( const std::string &pattern_in )
 }
 
 // find substring (case insensitive)
-int ci_find_substr( const std::string_view str1, const std::string_view str2,
+int ci_find_substr( std::string_view str1, std::string_view str2,
                     const std::locale &loc )
 {
     std::string_view::const_iterator it =

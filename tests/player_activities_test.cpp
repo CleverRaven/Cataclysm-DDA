@@ -1,21 +1,46 @@
-#include "catch/catch.hpp"
-#include "map_helpers.h"
-#include "monster_helpers.h"
-#include "player_helpers.h"
-#include "activity_scheduling_helper.h"
+#include <algorithm>
+#include <functional>
+#include <map>
+#include <memory>
+#include <optional>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
+#include "enums.h"
 #include "flag.h"
-#include "game.h"
+#include "handle_liquid.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_group.h"
+#include "item_location.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "map.h"
+#include "map_helpers.h"
+#include "mapdata.h"
 #include "monster.h"
+#include "monster_helpers.h"
 #include "options_helpers.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
+#include "proficiency.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
+#include "weather_type.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
@@ -184,43 +209,43 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
     }
 
     SECTION( "safecracking tools test" ) {
+        map &here = get_map();
         clear_avatar();
         clear_map();
 
         tripoint_bub_ms safe;
-        dummy.setpos( safe + tripoint::east );
+        dummy.setpos( here, safe + tripoint::east );
 
-        map &mp = get_map();
         dummy.activity = player_activity( safecracking_activity_actor( safe ) );
         dummy.activity.start_or_resume( dummy, false );
 
         GIVEN( "player without the required tools" ) {
-            mp.furn_set( safe, furn_f_safe_l );
+            here.furn_set( safe, furn_f_safe_l );
             REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( !dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
-            REQUIRE( mp.furn( safe ) == furn_f_safe_l );
+            REQUIRE( here.furn( safe ) == furn_f_safe_l );
 
             WHEN( "player tries safecracking" ) {
                 process_activity( dummy );
                 THEN( "activity is canceled" ) {
-                    CHECK( mp.furn( safe ) == furn_f_safe_l );
+                    CHECK( here.furn( safe ) == furn_f_safe_l );
                 }
             }
         }
 
         GIVEN( "player has a stethoscope" ) {
             dummy.i_add( item( itype_stethoscope ) );
-            mp.furn_set( safe, furn_f_safe_l );
+            here.furn_set( safe, furn_f_safe_l );
             REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( !dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
-            REQUIRE( mp.furn( safe ) == furn_f_safe_l );
+            REQUIRE( here.furn( safe ) == furn_f_safe_l );
 
             WHEN( "player completes the safecracking activity" ) {
                 process_activity( dummy );
                 THEN( "safe is unlocked" ) {
-                    CHECK( mp.furn( safe ) == furn_f_safe_c );
+                    CHECK( here.furn( safe ) == furn_f_safe_c );
                 }
             }
         }
@@ -229,16 +254,16 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             dummy.clear_worn();
             dummy.remove_weapon();
             dummy.add_bionic( bio_ears );
-            mp.furn_set( safe, furn_f_safe_l );
+            here.furn_set( safe, furn_f_safe_l );
             REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
-            REQUIRE( mp.furn( safe ) == furn_f_safe_l );
+            REQUIRE( here.furn( safe ) == furn_f_safe_l );
 
             WHEN( "player completes the safecracking activity" ) {
                 process_activity( dummy );
                 THEN( "safe is unlocked" ) {
-                    CHECK( mp.furn( safe ) == furn_f_safe_c );
+                    CHECK( here.furn( safe ) == furn_f_safe_c );
                 }
             }
         }
@@ -246,11 +271,11 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         GIVEN( "player has a stethoscope" ) {
             dummy.clear_bionics();
             dummy.i_add( item( itype_stethoscope ) );
-            mp.furn_set( safe, furn_f_safe_l );
+            here.furn_set( safe, furn_f_safe_l );
             REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( !dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
-            REQUIRE( mp.furn( safe ) == furn_f_safe_l );
+            REQUIRE( here.furn( safe ) == furn_f_safe_l );
 
             WHEN( "player is safecracking" ) {
                 dummy.mod_moves( dummy.get_speed() );
@@ -265,7 +290,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
 
                     process_activity( dummy );
                     THEN( "activity is canceled" ) {
-                        CHECK( mp.furn( safe ) == furn_f_safe_l );
+                        CHECK( here.furn( safe ) == furn_f_safe_l );
                     }
                 }
             }
@@ -273,6 +298,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
     }
 
     SECTION( "safecracking proficiency test" ) {
+        map &here = get_map();
 
         auto get_safecracking_time = [&dummy]() -> time_duration {
             const std::vector<display_proficiency> profs = dummy.display_proficiencies();
@@ -291,18 +317,17 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         clear_map();
 
         tripoint_bub_ms safe;
-        dummy.setpos( safe + tripoint::east );
+        dummy.setpos( here, safe + tripoint::east );
 
-        map &mp = get_map();
         dummy.activity = player_activity( safecracking_activity_actor( safe ) );
         dummy.activity.start_or_resume( dummy, false );
 
         GIVEN( "player cracks one safe" ) {
             dummy.i_add( item( itype_stethoscope ) );
-            mp.furn_set( safe, furn_f_safe_l );
+            here.furn_set( safe, furn_f_safe_l );
             REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
-            REQUIRE( mp.furn( safe ) == furn_f_safe_l );
+            REQUIRE( here.furn( safe ) == furn_f_safe_l );
 
             REQUIRE( !dummy.has_proficiency( proficiency_prof_safecracking ) );
 
@@ -312,7 +337,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             const time_duration time_before = get_safecracking_time();
 
             process_activity( dummy );
-            REQUIRE( mp.furn( safe ) == furn_f_safe_c );
+            REQUIRE( here.furn( safe ) == furn_f_safe_c );
             THEN( "proficiency given is less than 90 minutes" ) {
                 const time_duration time_after = get_safecracking_time();
                 REQUIRE( time_after > 0_seconds );
@@ -461,7 +486,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
                     dummy.process_items( &here );
                 }
 
-                CHECK( dummy.get_wielded_item()->ammo_remaining() == 0 );
+                CHECK( dummy.get_wielded_item()->ammo_remaining( ) == 0 );
                 REQUIRE( dummy.get_wielded_item()->typeId().str() == itype_test_shears_off.str() );
 
                 CHECK( dummy.max_quality( qual_SHEAR ) <= 0 );
@@ -1867,9 +1892,9 @@ TEST_CASE( "edevice", "[activity][edevice]" )
     SECTION( "slow move between incompatible devices" ) {
         add_edevices( Item_spawn_data_test_edevices_incompat, false );
         time_point before = calendar::turn;
-        int battery_start = laptop_with_files->ammo_remaining();
+        int battery_start = laptop_with_files->ammo_remaining( );
         do_activity( laptop_with_files, vector_edevice_without_files, efile_locs, EF_MOVE_FROM_THIS );
-        REQUIRE( battery_start - laptop_with_files->ammo_remaining() ==
+        REQUIRE( battery_start - laptop_with_files->ammo_remaining( ) ==
                  100 ); //400 minutes / 1 charge per 4 min
         REQUIRE( calendar::turn - ( before + 1_seconds ) == 24010_seconds ); // 24GB / 1MB per sec
     }
@@ -1899,6 +1924,8 @@ TEST_CASE( "edevice", "[activity][edevice]" )
     }
 }
 
+static liquid_dest_opt dest_opt; // Defaults to LD_NULL, which is good enough when not used.
+
 /**
 * Helper method to create activity stubs that aren't meant to be processed.
 * The activities here still need to be able to pass activity_actor::start and
@@ -1908,6 +1935,7 @@ TEST_CASE( "edevice", "[activity][edevice]" )
 * Activity actors that use ui functionality in their start methods cannot work at all,
 * only affects workout_activity_actor right now
 */
+
 static const std::vector<std::function<player_activity()>> test_activities {
     //player_activity( autodrive_activity_actor() ),
     //player_activity( bikerack_racking_activity_actor() ),
@@ -1937,7 +1965,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     //player_activity( longsalvage_activity_actor() ),
     [] { return player_activity( meditate_activity_actor() ); },
     [] { return player_activity( migration_cancel_activity_actor() ); },
-    [] { return player_activity( milk_activity_actor( 1, {get_avatar().pos_abs()}, {std::string()} ) ); },
+    [] { return player_activity( milk_activity_actor( 1, 3000, get_avatar().pos_abs(), dest_opt, false ) ); },
     [] { return player_activity( mop_activity_actor( 1 ) ); },
     //player_activity( move_furniture_activity_actor( p, false ) ),
     [] { return player_activity( move_items_activity_actor( {}, {}, false, tripoint_rel_ms::north ) ); },
@@ -2037,7 +2065,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
             monster &zombie = spawn_test_monster( mon_zombie.str(), zombie_pos_far );
             update_cache( m );
 
-            REQUIRE( dummy.sees( zombie ) );
+            REQUIRE( dummy.sees( m, zombie ) );
 
             std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
 
@@ -2064,7 +2092,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
             monster &zombie = spawn_test_monster( mon_zombie.str(), zombie_pos_near );
             update_cache( m );
 
-            REQUIRE( !dummy.sees( zombie ) );
+            REQUIRE( !dummy.sees( m, zombie ) );
 
             std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
 

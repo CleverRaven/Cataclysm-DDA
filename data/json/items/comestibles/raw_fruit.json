@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "apple",
     "name": { "str": "apple" },
     "weight": "182 g",
@@ -12,7 +13,7 @@
     "calories": 94,
     "description": "An iconic and delicious fruit grown and enjoyed across the world, used for generations in folk medicine as doctor repellant.",
     "price": "40 cent",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "40 cent",
     "material": [ "fruit" ],
     "volume": "232 ml",
     "fun": 3,
@@ -21,7 +22,8 @@
     "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "200 μg" ], [ "calcium", "10900 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "crabapple",
     "name": { "str": "crabapple" },
     "weight": "50 g",
@@ -33,7 +35,7 @@
     "calories": 38,
     "description": "A term used to describe both wild apples native to North America as well as less appetizing feral varieties, these are rather small and far too sour.",
     "price": "40 cent",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "40 cent",
     "material": [ "fruit" ],
     "volume": "64 ml",
     "fun": -1,
@@ -42,7 +44,8 @@
     "vitamins": [ [ "vitC", "4 mg" ], [ "iron", "200 μg" ], [ "calcium", "9 mg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "banana",
     "name": { "str": "banana" },
     "weight": "118 g",
@@ -62,7 +65,8 @@
     "vitamins": [ [ "vitC", "10300 μg" ], [ "iron", "300 μg" ], [ "calcium", "5900 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "orange",
     "name": { "str": "orange" },
     "weight": "131 g",
@@ -83,7 +87,8 @@
     "vitamins": [ [ "vitC", "69700 μg" ], [ "iron", "100 μg" ], [ "calcium", "52400 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lemon",
     "name": { "str": "lemon" },
     "weight": "108 g",
@@ -104,7 +109,8 @@
     "fun": -4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "blueberries",
     "name": { "str": "handful of blueberries", "str_pl": "handfuls of blueberries" },
     "weight": "148 g",
@@ -116,7 +122,7 @@
     "calories": 84,
     "description": "A handful of tasty sweet-tart berries.  They're blue, but that doesn't mean they're sad.",
     "price": "2 USD 21 cent",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "21 cent",
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 2,
@@ -125,16 +131,18 @@
     "vitamins": [ [ "vitC", "14400 μg" ], [ "iron", "400 μg" ], [ "calcium", "8900 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hobbleberries",
     "name": { "str": "handful of hobbleberries", "str_pl": "handfuls of hobbleberries" },
     "copy-from": "blueberries",
-    "color": "black",
+    "color": "dark_gray",
     "description": "Some black hobbleberries.  They are quite sweet.  Before they ripened, they were deceptively red and utterly bitter.",
     "fun": 3
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "autumn_olive",
     "name": { "str": "handful of autumn olives", "str_pl": "handfuls of autumn olives" },
     "//": "Below is times 1.48 as reference is 100g and blueberries (closest comparable plant) is 148g, so density matches <https://www.researchgate.net/figure/Proximate-composition-and-nutritive-value-of-Elaeagnus-umbellata-fruit_tbl1_284071971>, <https://www.sciencedirect.com/science/article/abs/pii/S1756464615002017>",
@@ -144,7 +152,8 @@
     "vitamins": [ [ "vitC", "22200 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "strawberries",
     "name": { "str": "handful of strawberries", "str_pl": "handfuls of strawberries" },
     "weight": "144 g",
@@ -156,7 +165,7 @@
     "calories": 46,
     "description": "A handful of tasty, juicy red berries with visible seeds on the outside of the skin.  Often found growing wild in fields.",
     "price": "69 cent",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "69 cent",
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 5,
@@ -165,19 +174,20 @@
     "vitamins": [ [ "vitC", "84700 μg" ], [ "iron", "600 μg" ], [ "calcium", "23 mg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cranberries",
     "name": { "str": "handful of cranberries", "str_pl": "handfuls of cranberries" },
     "weight": "100 g",
     "color": "red",
-    "spoils_in": 640,
+    "spoils_in": "27 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 2,
     "calories": 46,
     "description": "A handful of very bitter red berries, probably grown locally in Massachusetts.  Good for urinary tract health.",
     "price": "17 cent",
-    "price_postapoc": "33 cent",
+    "price_postapoc": "17 cent",
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": -10,
@@ -186,7 +196,8 @@
     "vitamins": [ [ "vitC", "13300 μg" ], [ "iron", "300 μg" ], [ "calcium", "8 mg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "raspberries",
     "name": { "str": "handful of raspberries", "str_pl": "handfuls of raspberries" },
     "weight": "123 g",
@@ -198,7 +209,7 @@
     "calories": 64,
     "description": "A handful of sweet red berries, each with a hollow core.",
     "price": "1 USD 73 cent",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "73 cent",
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 4,
@@ -207,7 +218,8 @@
     "vitamins": [ [ "vitC", "32200 μg" ], [ "iron", "800 μg" ], [ "calcium", "30800 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "huckleberries",
     "name": { "str": "handful of huckleberries", "str_pl": "handfuls of huckleberries" },
     "weight": "148 g",
@@ -219,7 +231,7 @@
     "calories": 84,
     "description": "A handful of huckleberries, often times confused for blueberries.",
     "price": "4 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "25 cent",
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 2,
@@ -228,7 +240,8 @@
     "vitamins": [ [ "vitC", "4100 μg" ], [ "iron", "400 μg" ], [ "calcium", "8900 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "//": "abbreviated Latin name because the id would get too long otherwise",
     "id": "m_stellatum_berries",
     "name": { "str_sp": "starry false Solomon's seal berries" },
@@ -248,7 +261,8 @@
     "vitamins": [ [ "vitC", 8 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mayapple",
     "name": { "str": "mayapple" },
     "weight": "15 g",
@@ -269,7 +283,8 @@
     "vitamins": [ [ "vitC", 3 ], [ "mutant_toxin", 15 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "wintergreen_berry",
     "name": { "str_sp": "wintergreen berries" },
     "weight": "15 g",
@@ -280,7 +295,7 @@
     "calories": 70,
     "description": "A handful of sweet, brilliant red berries of the wintergreen shrub.",
     "price": "4 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "23 cent",
     "material": [ "fruit" ],
     "volume": "40 ml",
     "fun": 2,
@@ -289,7 +304,8 @@
     "vitamins": [ [ "vitC", 4 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mulberries",
     "name": { "str": "handful of mulberries", "str_pl": "handfuls of mulberries" },
     "weight": "140 g",
@@ -301,7 +317,7 @@
     "calories": 60,
     "description": "This red variety of mulberries is unique to eastern North America, and is said to have the strongest flavor of any variety in the world.",
     "price": "4 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "73 cent",
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 4,
@@ -310,7 +326,8 @@
     "vitamins": [ [ "vitC", "51 mg" ], [ "iron", "2600 μg" ], [ "calcium", "54600 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "elderberries",
     "name": { "str": "handful of elderberries", "str_pl": "handfuls of elderberries" },
     "weight": "145 g",
@@ -323,7 +340,7 @@
     "calories": 106,
     "description": "A handful of elderberries, toxic when eaten raw but great when cooked.",
     "price": "45 cent",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "45 cent",
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": -2,
@@ -332,7 +349,8 @@
     "vitamins": [ [ "vitC", "52200 μg" ], [ "iron", "2300 μg" ], [ "calcium", "55100 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "nannyberries",
     "name": { "str": "handful of nannyberries", "str_pl": "handfuls of nannyberries" },
     "description": "Some dark blue nannyberries, tasting like prunes mixed with banana.",
@@ -341,10 +359,11 @@
     "use_action": [  ],
     "quench": 0,
     "fun": 2,
-    "color": "black"
+    "color": "dark_gray"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "tupelo_fruit",
     "name": { "str": "handful of tupelo fruits", "str_pl": "handfuls of tupelo fruits" },
     "description": "Some dark blue tupelo fruits.  They are tart and feature a hard seed but are still enjoyable.",
@@ -352,19 +371,21 @@
     "copy-from": "nannyberries"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chokeberries",
     "name": { "str": "handful of chokeberries", "str_pl": "handfuls of chokeberries" },
     "description": "A handful of black chokeberries.  They look similar to blackcurrant.  Big and juicy but actually exceedingly sour.",
     "copy-from": "cranberries",
     "calories": 46,
-    "color": "black",
+    "color": "dark_gray",
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "vitamins": [ [ "vitC", "21000 μg" ], [ "iron", "600 μg" ], [ "calcium", "30 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "rose_hips",
     "name": { "str": "handful of rose hips", "str_pl": "handfuls of rose hips" },
     "weight": "128 g",
@@ -385,7 +406,8 @@
     "vitamins": [ [ "vitC", "272640 μg" ], [ "iron", "678 μg" ], [ "calcium", "108160 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "rose_hips_cut",
     "name": { "str_sp": "cut rose hips" },
     "weight": "64 g",
@@ -406,7 +428,8 @@
     "vitamins": [ [ "vitC", "272640 μg" ], [ "iron", "678 μg" ], [ "calcium", "108160 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "juice_pulp",
     "name": { "str_sp": "juice pulp" },
     "weight": "20 g",
@@ -427,7 +450,8 @@
     "vitamins": [ [ "vitC", 8 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pear",
     "name": { "str": "pear" },
     "weight": "178 g",
@@ -439,7 +463,7 @@
     "calories": 101,
     "description": "A juicy, bell-shaped pear.  Yum!",
     "price": "36 cent",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "36 cent",
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 4,
@@ -448,7 +472,8 @@
     "vitamins": [ [ "vitC", "7700 μg" ], [ "iron", "300 μg" ], [ "calcium", "16 mg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "guayaba",
     "name": { "str": "guava" },
     "weight": "55 g",
@@ -469,7 +494,8 @@
     "vitamins": [ [ "vitC", "125600 μg" ], [ "iron", "100 μg" ], [ "calcium", "9900 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "maracuya",
     "name": { "str": "handful of passionfruit", "str_pl": "handfuls of passionfruit" },
     "weight": "236 g",
@@ -490,7 +516,8 @@
     "fun": 3
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lulo",
     "name": { "str": "lulo" },
     "weight": "120 g",
@@ -511,12 +538,13 @@
     "vitamins": [ [ "vitC", "3800 μg" ], [ "iron", "400 μg" ], [ "calcium", "9600 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "grapefruit",
     "name": { "str": "grapefruit" },
     "weight": "246 g",
     "color": "yellow",
-    "spoils_in": 336,
+    "spoils_in": "14 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 18,
@@ -532,7 +560,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cherries",
     "name": { "str": "handful of cherries", "str_pl": "handfuls of cherries" },
     "weight": "138 g",
@@ -544,7 +573,7 @@
     "calories": 87,
     "description": "A sweet red fruit that grows on trees.  If you have some time on your hands, maybe you could figure out how to do that trick where you tie a knot in the stem with your tongue.",
     "price": "65 cent",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "65 cent",
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 3,
@@ -553,7 +582,8 @@
     "vitamins": [ [ "vitC", "9700 μg" ], [ "iron", "500 μg" ], [ "calcium", "17900 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "plums",
     "name": { "str": "plum" },
     "weight": "66 g",
@@ -565,7 +595,7 @@
     "calories": 30,
     "description": "A large purple plum.  Tasty and good for your digestion.",
     "price": "19 cent",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "19 cent",
     "material": [ "fruit" ],
     "volume": "82 ml",
     "fun": 3,
@@ -574,7 +604,8 @@
     "vitamins": [ [ "vitC", "6300 μg" ], [ "iron", "100 μg" ], [ "calcium", "4 mg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "grapes",
     "name": { "str": "handful of grapes", "str_pl": "handfuls of grapes" },
     "weight": "151 g",
@@ -586,7 +617,7 @@
     "calories": 104,
     "description": "A handful of juicy grapes.  Quite calorie-dense compared to most fruit, and you might be able to make them into wine if you're ambitious enough.",
     "price": "29 cent",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "29 cent",
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 4,
@@ -595,7 +626,8 @@
     "vitamins": [ [ "vitC", "4800 μg" ], [ "iron", "500 μg" ], [ "calcium", "15100 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pineapple",
     "name": { "str": "pineapple" },
     "weight": "905 g",
@@ -617,7 +649,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pineapple_chunks",
     "name": { "str": "handful of pineapple chunks", "str_pl": "handfuls of pineapple chunks" },
     "weight": "165 g",
@@ -638,7 +671,8 @@
     "vitamins": [ [ "vitC", "78900 μg" ], [ "iron", "500 μg" ], [ "calcium", "21500 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "coconut",
     "name": { "str": "coconut" },
     "weight": "680 g",
@@ -657,7 +691,8 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "coconut_flesh",
     "name": { "str": "handful of coconut flesh", "str_pl": "handfuls of coconut flesh" },
     "weight": "80 g",
@@ -678,7 +713,8 @@
     "vitamins": [ [ "vitC", "2600 μg" ], [ "iron", "1900 μg" ], [ "calcium", "11200 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "peach",
     "name": { "str": "peach", "str_pl": "peaches" },
     "weight": "150 g",
@@ -690,7 +726,7 @@
     "calories": 58,
     "description": "This fruit's large pit is surrounded by its tasty flesh.",
     "price": "38 cent",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "38 cent",
     "material": [ "fruit" ],
     "volume": "180 ml",
     "fun": 4,
@@ -699,7 +735,8 @@
     "vitamins": [ [ "vitC", "9900 μg" ], [ "iron", "400 μg" ], [ "calcium", "9 mg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "watermelon",
     "name": { "str": "watermelon" },
     "weight": "4518 g",
@@ -712,7 +749,7 @@
     "calories": 1355,
     "description": "A deep green melon, bigger than your head.  It is very juicy!  You should be able to take it apart with a knife.",
     "price": "7 USD 58 cent",
-    "price_postapoc": "6 USD",
+    "price_postapoc": "2 USD",
     "material": [ "fruit" ],
     "volume": "7150 ml",
     "flags": [ "EATEN_COLD", "FREEZERBURN", "INEDIBLE" ],
@@ -720,7 +757,8 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "watermelon_wedge",
     "name": { "str": "watermelon wedge" },
     "weight": "286 g",
@@ -732,7 +770,7 @@
     "calories": 85,
     "description": "A yummy wedge of watermelon.  A handheld snack that tastes like summer.",
     "price": "48 cent",
-    "price_postapoc": "40 cent",
+    "price_postapoc": "10 cent",
     "material": [ "fruit" ],
     "volume": "445 ml",
     "flags": [ "EATEN_COLD", "FREEZERBURN", "SMOKABLE" ],
@@ -741,7 +779,8 @@
     "vitamins": [ [ "vitC", "23200 μg" ], [ "iron", "700 μg" ], [ "calcium", "20 mg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "melon",
     "name": { "str": "cantaloupe melon" },
     "weight": "552 g",
@@ -762,7 +801,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "melon_chunks",
     "name": { "str": "handful of cantaloupe melon chunks", "str_pl": "handfuls of cantaloupe melon chunks" },
     "weight": "138 g",
@@ -783,7 +823,8 @@
     "vitamins": [ [ "vitC", "50650 μg" ], [ "iron", "300 μg" ], [ "calcium", "12425 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "blackberries",
     "name": { "str": "handful of blackberries", "str_pl": "handfuls of blackberries" },
     "weight": "144 g",
@@ -795,7 +836,7 @@
     "calories": 62,
     "description": "A darker cousin of the raspberry.  The color isn't actually what sets them apart - the identifying characteristic is whether the stem stays connected to the fruit when it's first picked.",
     "price": "1 USD 78 cent",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "38 cent",
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 4,
@@ -804,7 +845,8 @@
     "vitamins": [ [ "vitC", "30200 μg" ], [ "iron", "900 μg" ], [ "calcium", "41800 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mango",
     "name": { "str": "mango" },
     "weight": "207 g",
@@ -825,12 +867,13 @@
     "vitamins": [ [ "vitC", "75300 μg" ], [ "iron", "300 μg" ], [ "calcium", "22800 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pomegranate",
     "name": { "str": "pomegranate" },
     "weight": "282 g",
     "color": "red",
-    "spoils_in": 336,
+    "spoils_in": "14 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 12,
@@ -846,7 +889,8 @@
     "vitamins": [ [ "vitC", "28800 μg" ], [ "iron", "800 μg" ], [ "calcium", "28200 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "papaya",
     "name": { "str": "papaya" },
     "weight": "304 g",
@@ -867,7 +911,8 @@
     "vitamins": [ [ "vitC", "185100 μg" ], [ "iron", "800 μg" ], [ "calcium", "60800 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "kiwi",
     "name": { "str": "kiwi" },
     "weight": "69 g",
@@ -888,7 +933,8 @@
     "vitamins": [ [ "vitC", "64 mg" ], [ "iron", "200 μg" ], [ "calcium", "23500 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "apricot",
     "name": { "str": "handful of apricots", "str_pl": "handfuls of apricots" },
     "//": "a handful of apricots is about 4.6 apricots - rounded down to 4 since you're not picking off half an apricot off a tree",
@@ -901,7 +947,7 @@
     "calories": 67,
     "description": "A handful of smooth-skinned fruits related to the peach.",
     "price": "52 cent",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "52 cent",
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 3,
@@ -910,7 +956,8 @@
     "vitamins": [ [ "vitC", "14 mg" ], [ "iron", "500 μg" ], [ "calcium", "18200 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cholla_bud",
     "name": { "str": "cholla bud" },
     "weight": "92 g",
@@ -931,7 +978,8 @@
     "vitamins": [ [ "vitC", 18 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cactus_pad",
     "name": { "str": "handful of nopales", "str_pl": "handfuls of nopales" },
     "weight": "86 g",

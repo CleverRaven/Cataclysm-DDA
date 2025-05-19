@@ -33,7 +33,7 @@
       ],
       "palettes": [ "farm_horse" ],
       "terrain": { "p": "t_grass" },
-      "items": { "k": { "item": "office", "chance": 30 }, "D": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] } },
+      "items": { "k": { "item": "office", "chance": 30 }, "D": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 2, 4 ] } },
       "place_loot": [ { "item": "television", "x": 21, "y": 6, "chance": 100 } ]
     }
   },
@@ -71,7 +71,7 @@
       ],
       "palettes": [ "farm_horse" ],
       "terrain": { "_": "t_shingle_flat_roof", "*": "t_floor", " ": "t_open_air", ">": "t_stairs_down" },
-      "items": { "k": { "item": "bedroom", "chance": 60, "repeat": [ 2, 4 ] }, "D": { "item": "trash_cart", "chance": 50 } }
+      "items": { "k": { "item": "bedroom", "chance": 60, "repeat": [ 2, 4 ] }, "D": { "item": "SUS_trash_floor_light", "chance": 50 } }
     }
   },
   {
@@ -1266,10 +1266,10 @@
       ],
       "palettes": [ "paddock" ],
       "place_vehicles": [
-        { "vehicle": "disconnected_floodlight", "chance": 100, "x": [ 1 ], "y": [ 16 ] },
-        { "vehicle": "disconnected_floodlight", "chance": 100, "x": [ 1 ], "y": [ 31 ] },
-        { "vehicle": "disconnected_floodlight", "chance": 100, "rotation": 180, "x": [ 45 ], "y": [ 16 ] },
-        { "vehicle": "disconnected_floodlight", "chance": 100, "rotation": 180, "x": [ 45 ], "y": [ 31 ] }
+        { "vehicle": "disconnected_floodlight", "x": [ 1 ], "y": [ 16 ] },
+        { "vehicle": "disconnected_floodlight", "x": [ 1 ], "y": [ 31 ] },
+        { "vehicle": "disconnected_floodlight", "rotation": 180, "x": [ 45 ], "y": [ 16 ] },
+        { "vehicle": "disconnected_floodlight", "rotation": 180, "x": [ 45 ], "y": [ 31 ] }
       ]
     }
   },

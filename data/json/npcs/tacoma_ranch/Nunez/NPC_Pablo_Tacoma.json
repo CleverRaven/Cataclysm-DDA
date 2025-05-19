@@ -57,7 +57,7 @@
       { "item": "boxer_briefs" },
       { "item": "socks" },
       { "item": "tank_top" },
-      { "item": "striped_shirt" },
+      { "item": "buttonshirt", "variant": "striped" },
       { "item": "pants" },
       { "item": "armor_scrapsuit" },
       { "item": "helmet_scrap" },
@@ -175,10 +175,7 @@
     "id": "TALK_TACOMA_Pablo_Bakery-Firebricks1",
     "dynamic_line": { "gendered_line": "Seriously?  You've already done so much.  I won't say no, though.", "relevant_genders": [ "u" ] },
     "speaker_effect": {
-      "effect": [
-        { "assign_mission": "MISSION_TACOMA_Pablo_Firebricks" },
-        { "u_add_var": "firebricks_tacoma_bakery", "value": "helped" }
-      ]
+      "effect": [ { "add_mission": "MISSION_TACOMA_Pablo_Firebricks" }, { "u_add_var": "firebricks_tacoma_bakery", "value": "helped" } ]
     },
     "responses": [
       { "text": "No problem.  <done_conversation_section>", "topic": "TALK_NONE" },

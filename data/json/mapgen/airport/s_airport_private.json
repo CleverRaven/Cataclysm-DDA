@@ -108,10 +108,10 @@
         { "group": "bags_trip", "chance": 80, "repeat": 1, "x": 38, "y": [ 4, 8 ] },
         { "group": "bags_trip", "chance": 80, "repeat": 1, "x": [ 26, 29 ], "y": 8 },
         { "group": "bags_trip", "chance": 80, "repeat": 2, "x": [ 34, 38 ], "y": 11 },
-        { "group": "bar_trash", "chance": 50, "repeat": 5, "x": 45, "y": 4 },
-        { "group": "bar_trash", "chance": 50, "repeat": 5, "x": 38, "y": 3 },
-        { "group": "bar_trash", "chance": 50, "repeat": 5, "x": 35, "y": 3 },
-        { "group": "bar_trash", "chance": 50, "repeat": 5, "x": 39, "y": 11 },
+        { "group": "SUS_trash_trashcan_public", "chance": 50, "repeat": 5, "x": 45, "y": 4 },
+        { "group": "SUS_trash_trashcan_public", "chance": 50, "repeat": 5, "x": 38, "y": 3 },
+        { "group": "SUS_trash_trashcan_public", "chance": 50, "repeat": 5, "x": 35, "y": 3 },
+        { "group": "SUS_trash_trashcan_public", "chance": 50, "repeat": 5, "x": 39, "y": 11 },
         { "group": "office", "chance": 50, "repeat": 5, "x": 33, "y": [ 10, 14 ] },
         { "group": "road", "chance": 50, "repeat": 10, "x": [ 75, 80 ], "y": [ 7, 20 ] },
         { "group": "road", "chance": 50, "repeat": 10, "x": [ 87, 92 ], "y": [ 7, 20 ] },
@@ -123,7 +123,7 @@
         { "group": "tools_mechanic", "chance": 50, "repeat": 4, "x": 81, "y": 8 }
       ],
       "items": {
-        "q": { "item": "trash", "chance": 30, "repeat": [ 2, 3 ] },
+        "q": { "item": "SUS_trash_dumpster", "chance": 30, "repeat": [ 2, 3 ] },
         "I": { "item": "office", "chance": 30, "repeat": [ 2, 3 ] }
       },
       "place_monster": [
@@ -292,7 +292,7 @@
         "h": "t_metal_floor"
       },
       "furniture": { "f": "f_console_broken", "e": "f_table", "E": "f_chair" },
-      "place_loot": [ { "group": "office_mess", "chance": 80, "repeat": [ 5 ], "x": [ 10, 13 ], "y": [ 2, 5 ] } ]
+      "place_loot": [ { "group": "SUS_office_mess", "chance": 80, "repeat": [ 5 ], "x": [ 10, 13 ], "y": [ 2, 5 ] } ]
     }
   },
   {

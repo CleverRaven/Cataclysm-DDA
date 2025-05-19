@@ -682,5 +682,36 @@
     "min_dot": 5,
     "max_dot": 10,
     "targeted_monster_species": [ "ZOMBIE" ]
+  },
+  {
+    "id": "seeker_bolts_levinbolt_spell",
+    "type": "SPELL",
+    "name": { "str": "Zombie Seeker Bolts", "//~": "NO_I18N" },
+    "description": { "str": "I cast seeker bolts at the living.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_DAMAGE", "NO_LEGS", "SILENT", "NO_PROJECTILE" ],
+    "min_damage": 10,
+    "max_damage": 30,
+    "damage_type": "nether",
+    "multiple_projectiles": 3,
+    "min_range": 8,
+    "shape": "blast",
+    "effect": "attack"
+  },
+  {
+    "id": "manastorm_zombie_spell",
+    "type": "SPELL",
+    "name": { "str": "Zombie Mana Blast", "//~": "NO_I18N" },
+    "description": { "str": "A magical explosion that leyspark zombies use.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "flags": [ "RANDOM_DAMAGE", "NO_LEGS", "SILENT", "NO_PROJECTILE", "SPLIT_DAMAGE" ],
+    "min_damage": 50,
+    "max_damage": 150,
+    "damage_type": "nether",
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "min_range": 12,
+    "shape": "blast",
+    "effect": "attack"
   }
 ]

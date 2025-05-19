@@ -1,0 +1,48 @@
+[
+  {
+    "id": "emit_clairvoyant",
+    "type": "emit",
+    "field": "fd_clairvoyant",
+    "intensity": 1,
+    "qty": 27,
+    "chance": 100
+  },
+  {
+    "id": "afs_emit_geovent",
+    "type": "emit",
+    "field": "fd_hot_air3",
+    "intensity": 3,
+    "qty": 60,
+    "chance": 100
+  },
+  {
+    "id": "afs_emit_AC",
+    "type": "emit",
+    "field": "fd_hot_airAC",
+    "qty": 60,
+    "chance": 100
+  },
+  {
+    "id": "afs_emit_survival_heater",
+    "type": "emit",
+    "field": "fd_hot_airAC",
+    "qty": 60,
+    "chance": 100
+  },
+  {
+    "id": "heavy_rad_glimmer",
+    "type": "emit",
+    "field": "fd_rad_glimmer",
+    "intensity": 3,
+    "chance": 70,
+    "qty": 70
+  },
+  {
+    "id": "weak_rad_glimmer",
+    "type": "emit",
+    "field": "fd_rad_glimmer",
+    "intensity": 3,
+    "chance": 100,
+    "qty": 12
+  }
+]

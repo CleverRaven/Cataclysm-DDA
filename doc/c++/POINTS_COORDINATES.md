@@ -157,7 +157,7 @@ the `invalid` constant.
 To change the scale of a point without changing its origin, use `project_to`.
 For example:
 
-```c++
+```cpp
 point_abs_ms pos_ms = get_avatar()->global_square_location().xy();
 point_abs_omt pos_omt = project_to<coords::omt>( pos_ms );
 assert( pos_omt == get_avatar()->global_omt_location().xy() );
@@ -175,7 +175,7 @@ the two parts of the result.  For example, suppose you want to know which
 overmap the avatar is in, and which overmap terrain they are in within that
 overmap.
 
-```c++
+```cpp
 point_abs_omt abs_pos = get_avatar()->global_omt_location().xy();
 point_abs_om overmap;
 point_om_omt omt_within_overmap;
@@ -191,7 +191,7 @@ a `tripoint`.  In the example above, z-coordinates do not have much meaning at
 the overmap scale, so you probably want the z-coordinate in
 `omt_within_overmap`.  Than can be done as follows:
 
-```c++
+```cpp
 tripoint_abs_omt abs_pos = get_avatar()->global_omt_location();
 point_abs_om overmap;
 tripoint_om_omt omt_within_overmap;
@@ -204,7 +204,7 @@ the origin of the second matches the scale of the first, you can combine them
 into a single value.  As you might expect from the above discussion, one of
 these two can be a `tripoint`, but not both.
 
-```c++
+```cpp
 tripoint_abs_omt abs_pos = get_avatar()->global_omt_location();
 point_abs_om overmap;
 tripoint_om_omt omt_within_overmap;
@@ -220,7 +220,7 @@ only those origins specifically related to rescaling.  To convert to or from
 local or vehicle coordinates requires a specific `map` or `vehicle` object.
 
 For example, to convert between global to local coordinates:
-```c++
+```cpp
 tripoint_bub_ms local_pos = get_map().bub_from_abs( global_pos );
 tripoint_abs_ms global_pos = get_map().getglobal( local_pos );
 ```

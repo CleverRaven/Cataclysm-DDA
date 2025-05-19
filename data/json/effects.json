@@ -405,6 +405,14 @@
   },
   {
     "type": "effect_type",
+    "id": "maimed_huntsman_arm",
+    "name": [ "Broken Appendage" ],
+    "//": "Disables javelin throwing.",
+    "desc": [ { "str": "Your long grotesque throwing appendage has been compromised.", "//~": "NO_I18N" } ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "elec_charged",
     "name": [ { "str": "Charged Capacitor", "//~": "NO_I18N" } ],
     "desc": [ { "str": "Your capacitors sizzle with bioelectricity.", "//~": "NO_I18N" } ]
@@ -2721,6 +2729,12 @@
     "name": [ "Spore Dusted", "Spore Covered", "Spore Coated" ],
     "speed_name": "Spore Covered",
     "desc": [ "You can feel the tiny spores sinking directly into your flesh." ],
+    "apply_message": [
+      [
+        "You feel your skin prickle with an uncomfortable feeling, and as you try to rub away the specks of dust you realize they've started to embed themselves, sinking into your skin.",
+        "bad"
+      ]
+    ],
     "max_intensity": 3,
     "int_decay_tick": 720,
     "int_add_val": 1,
@@ -3594,8 +3608,11 @@
   {
     "type": "effect_type",
     "id": "cig",
-    "name": [ "Nicotine" ],
-    "desc": [ "You had a puff or two.", "You smoked too much." ],
+    "name": [ "Nicotine Buzz", "Nic Sick" ],
+    "desc": [
+      "You had a reasonable amount of nicotine and are experiencing a pleasant buzz.",
+      "You had way too much nicotine and feel awful."
+    ],
     "max_intensity": 2,
     "int_dur_factor": "10 m",
     "scaling_mods": { "vomit_chance": [ 500 ] },
@@ -4909,11 +4926,7 @@
     "rating": "bad",
     "show_intensity": false,
     "enchantments": [
-      {
-        "values": [
-          { "value": "CARRY_WEIGHT", "add": { "global_val": "var", "var_name": "portal_dungeon_carry_strength", "default": -1 } }
-        ]
-      }
+      { "values": [ { "value": "CARRY_WEIGHT", "add": { "global_val": "portal_dungeon_carry_strength", "default": -1 } } ] }
     ]
   },
   {
@@ -4925,11 +4938,7 @@
     "remove_message": "Reality reasserts itself and your time returns to normal.",
     "rating": "bad",
     "show_intensity": false,
-    "enchantments": [
-      {
-        "values": [ { "value": "SPEED", "add": { "global_val": "var", "var_name": "portal_dungeon_slow_strength", "default": -1 } } ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "global_val": "portal_dungeon_slow_strength", "default": -1 } } ] } ]
   },
   {
     "type": "effect_type",
@@ -5221,5 +5230,31 @@
     "id": "eff_mind_seeing_bonus_30",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "aimed_60mm",
+    "max_duration": "3 m",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "triffid_fiber_indigestion",
+    "name": [ "Uneasy stomach", "Bloated stomach", "Strained stomach", "Overloaded stomach" ],
+    "desc": [ "Your stomach constantly feels like it's full, even when you haven't eaten in awhile." ],
+    "apply_message": "Your stomach starts to feel strange and bloated.",
+    "remove_message": "Your stomach feels normal again.",
+    "decay_messages": [ [ "Your gut feels less bloated.", "good" ], [ "You feel the strain in your stomach lessen.", "good" ] ],
+    "max_intensity": 4,
+    "base_mods": { "vomit_chance": [ 6000 ] },
+    "scaling_mods": { "vomit_chance": [ -300 ], "pain_min": [ 1 ], "pain_max_val": [ 4 ] },
+    "enchantments": [
+      {
+        "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": { "math": [ "u_vitamin('triffid_fiber') / -275" ] } } ]
+      },
+      { "condition": "ALWAYS", "values": [ { "value": "THIRST", "multiply": 0.2 } ] }
+    ],
+    "rating": "bad"
   }
 ]

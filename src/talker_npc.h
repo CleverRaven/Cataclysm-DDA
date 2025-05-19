@@ -2,18 +2,13 @@
 #ifndef CATA_SRC_TALKER_NPC_H
 #define CATA_SRC_TALKER_NPC_H
 
-#include <vector>
+#include <memory>
+#include <string>
 
-#include "faction.h"
 #include "npc.h"
+#include "talker.h"
 #include "talker_character.h"
 #include "type_id.h"
-
-class Character;
-class item;
-class mission;
-class map;
-class talker;
 
 /*
  */

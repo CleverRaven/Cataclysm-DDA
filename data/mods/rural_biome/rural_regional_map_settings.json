@@ -339,12 +339,7 @@
             "clear_types": false,
             "types": { "t_trunk": 1, "f_boulder_small": 2, "f_boulder_medium": 1 }
           },
-          "water": {
-            "sequence": 3,
-            "chance": 2,
-            "clear_types": false,
-            "types": { "t_swater_sh": 6, "t_swater_dp": 1, "t_water_murky": 12 }
-          }
+          "water": { "sequence": 3, "chance": 2, "clear_types": false, "types": { "t_water_sh": 6, "t_water_dp": 1, "t_water_murky": 12 } }
         },
         "clear_terrain_furniture": false,
         "terrain_furniture": { "t_water_murky": { "chance": 2, "clear_furniture": false, "furniture": { "f_region_water_plant": 1 } } }
@@ -425,8 +420,6 @@
           "mx_grass": 20,
           "mx_grass2": 20,
           "mx_pond": 125,
-          "mx_pond_swamp": 240,
-          "mx_pond_swamp_2": 240,
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
@@ -592,7 +585,7 @@
         "motel_city": 5
       },
       "parks": {
-        "s_gas": 200,
+        "Gas Station": 200,
         "s_gas_1": 200,
         "church": 100,
         "church_1": 100,
@@ -609,7 +602,7 @@
         "cs_city_dump_small": 100
       },
       "shops": {
-        "s_gas": 700,
+        "Gas Station": 700,
         "s_gas_1": 700,
         "garage_gas_city": 700,
         "s_grocery": 200,

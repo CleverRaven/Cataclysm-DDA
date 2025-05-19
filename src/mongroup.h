@@ -2,13 +2,13 @@
 #ifndef CATA_SRC_MONGROUP_H
 #define CATA_SRC_MONGROUP_H
 
-#include <iosfwd>
 #include <map>
 #include <set>
+#include <string>
 #include <vector>
 
 #include "calendar.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "io_tags.h"
 #include "mapgen.h"
@@ -21,6 +21,7 @@ class JsonOut;
 // from overmap.h
 class overmap;
 struct MonsterGroupEntry;
+template <typename T> struct enum_traits;
 
 using FreqDef = std::vector<MonsterGroupEntry>;
 using FreqDef_iter = FreqDef::iterator;
@@ -249,7 +250,6 @@ class MonsterGroupManager
         static const mongroup_id &Monster2Group( const mtype_id &monster );
         static std::vector<mtype_id> GetMonstersFromGroup( const mongroup_id &group, bool from_subgroups );
         static const MonsterGroup &GetMonsterGroup( const mongroup_id &group );
-        static const MonsterGroup &GetUpgradedMonsterGroup( const mongroup_id &group );
         /**
          * Gets a random monster, weighted by frequency.
          * Ignores cost multiplier.

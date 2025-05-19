@@ -140,7 +140,7 @@
       ],
       [ [ "any_wire", 6, "LIST" ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
-      [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
+      [ [ "rebar", 2 ], [ "steel_chunk_any", 4, "LIST" ] ],
       [ [ "rock", 40 ] ]
     ]
   },
@@ -179,7 +179,7 @@
       ],
       [ [ "any_wire", 6, "LIST" ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
-      [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
+      [ [ "rebar", 2 ], [ "steel_chunk_any", 4, "LIST" ] ],
       [ [ "rock", 40 ] ]
     ]
   },
@@ -859,7 +859,7 @@
       { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ] ]
+    "components": [ [ [ "steel_lump_any", 1, "LIST" ], [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -889,7 +889,10 @@
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -120 ], [ "water_clean", -120 ] ]
     ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 22 ], [ "charcoal", 19 ] ] ]
+    "components": [
+      [ [ "steel_lump_any", 1, "LIST" ], [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 20 ] ],
+      [ [ "coal_lump", 22 ], [ "charcoal", 19 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -964,7 +967,7 @@
     "time": "60 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ]
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ]
   },
   {
     "type": "recipe",
@@ -992,7 +995,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "sheet_metal", 1 ] ] ],
-    "byproducts": [ [ "steel_chunk", 6 ] ]
+    "byproducts": [ [ "lc_steel_chunk", 6 ] ]
   },
   {
     "type": "recipe",
@@ -1198,7 +1201,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
       [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
-      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
+      [ [ "steel_lump_any", 1, "LIST" ], [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ],
       [ [ "cable", 4 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "fire_brick", 8 ] ]
@@ -1396,7 +1399,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
       [ [ "pilot_light", 1 ] ],
-      [ [ "steel_lump", 3 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
+      [ [ "steel_lump_any", 3, "LIST" ], [ "steel_chunk_any", 12, "LIST" ], [ "scrap", 36 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 3 ] ],
       [ [ "pipe_fittings", 2 ] ]
@@ -1690,7 +1693,7 @@
     "time": "1 h 30 m",
     "reversible": true,
     "book_learn": [ [ "mag_survival", 4 ], [ "atomic_survival", 3 ], [ "textbook_survival", 2 ] ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_tiny", 8 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_chunk_any", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "rope_natural", 1, "LIST" ] ] ]
@@ -1724,7 +1727,7 @@
         [ "integrated_electrokit", 150 ]
       ]
     ],
-    "components": [ [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "pipe", 2 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 6, "LIST" ], [ "scrap", 18 ] ], [ [ "pipe", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1994,7 +1997,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "steel_chunk_any", 3, "LIST" ], [ "scrap", 9 ] ] ]
   },
   {
     "type": "recipe",
@@ -2937,9 +2940,9 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "angle_grinder", 220 ] ], [ [ "drill_press_tool", 20 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking", "required": true }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "railroad_track_item_half", 1 ] ] ],
-    "byproducts": [ [ "steel_lump", 15 ] ]
+    "byproducts": [ [ "mc_steel_lump", 15 ] ]
   },
   {
     "result": "anvil_bronze",
@@ -2953,7 +2956,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 45 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "DIG", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking", "required": true }, { "proficiency": "prof_redsmithing", "required": true } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "scrap_bronze", 90 ] ] ]
   },

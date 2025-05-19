@@ -76,15 +76,7 @@
     "update_mapgen_id": "nest_RandEnc_campervan_traveler_add",
     "object": {
       "place_vehicles": [
-        {
-          "vehicle": "traveler_van_motorhome",
-          "chance": 100,
-          "fuel": 85,
-          "rotation": 270,
-          "faction": "no_faction",
-          "x": [ 1 ],
-          "y": [ 2 ]
-        }
+        { "vehicle": "traveler_van_motorhome", "fuel": 85, "rotation": 270, "faction": "no_faction", "x": [ 1 ], "y": [ 2 ] }
       ],
       "place_npcs": [ { "class": "traveler_camper_van", "x": 1, "y": 2, "unique_id": "TRAVELER" } ]
     }

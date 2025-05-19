@@ -1,7 +1,8 @@
 [
   {
     "id": "changeling_thrown_knife",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "%",
     "color": "red",
     "name": { "str": "thrown knife" },
@@ -64,7 +65,8 @@
     "id": "renfield_glock",
     "copy-from": "pistol_base",
     "looks_like": "glock_19",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": "Glock 19", "//~": "NO_I18N" },
     "description": { "str": "A poorly maintained and inaccurate version of the Glock 19 for renfields.", "//~": "NO_I18N" },
     "ascii_picture": "glock_19",
@@ -94,7 +96,8 @@
   },
   {
     "id": "renfield_remington",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "R",
     "color": "dark_gray",
     "name": { "str_sp": "renfield Remington", "//~": "NO_I18N" },
@@ -117,7 +120,8 @@
     "id": "feral_57",
     "copy-from": "pistol_base",
     "looks_like": "fn57",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": "FN Five-seveN", "//~": "NO_I18N" },
     "description": { "str": "A poorly maintained and inaccurate version of the Five-seveN for feral agents.", "//~": "NO_I18N" },
     "ascii_picture": "FN_five_seven",
@@ -142,7 +146,8 @@
   {
     "id": "feral_p90",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "P90 automatic PDW", "//~": "NO_I18N" },
     "description": {
@@ -177,12 +182,12 @@
       [ "stock accessory", 2 ]
     ],
     "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
+      { "fault": "fault_gun_blackpowder" },
+      { "fault": "fault_gun_dirt" },
+      { "fault": "fault_gun_chamber_spent" },
+      { "fault": "fault_fail_to_feed" },
+      { "fault": "fault_stovepipe" },
+      { "fault": "fault_double_feed" }
     ],
     "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fnp90mag" ] } ],
     "melee_damage": { "bash": 10 }
@@ -343,5 +348,27 @@
     "max_duration": 100000,
     "min_range": 0,
     "max_range": 0
+  },
+  {
+    "id": "xedra_death_boomer_monochrome",
+    "type": "SPELL",
+    "name": { "str": "Monochrome Boomer Death", "//~": "NO_I18N" },
+    "description": { "str": "Time explosion.", "//~": "NO_I18N" },
+    "valid_targets": [ "ground", "hostile", "ally", "self" ],
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "min_aoe": 1,
+    "max_aoe": 2,
+    "aoe_increment": 1,
+    "max_level": 1,
+    "min_duration": 180000,
+    "max_duration": 180000,
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "effect_xedra_time_freeze",
+    "field_chance": 1,
+    "field_id": "fd_frozen_time",
+    "min_field_intensity": 10,
+    "max_field_intensity": 10,
+    "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
   }
 ]

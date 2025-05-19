@@ -1,22 +1,28 @@
 #include "mtype.h"
 
 #include <algorithm>
-#include <array>
 #include <cmath>
 #include <unordered_map>
 
 #include "behavior_strategy.h"
 #include "creature.h"
+#include "enums.h"
 #include "field_type.h"
+#include "game_constants.h"
 #include "item.h"
 #include "itype.h"
 #include "mod_manager.h"
-#include "mondeath.h"
 #include "monstergenerator.h"
 #include "output.h"
+#include "point.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
-#include "weakpoint.h"
+
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 
 static const harvest_id harvest_list_human( "human" );
 
@@ -63,6 +69,8 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_COMBAT_MOUNT,
             mon_flag_CONSOLE_DESPAWN,
             mon_flag_CONVERSATION,
+            mon_flag_COPY_SUMMONER_LOOK,
+            mon_flag_COPY_AVATAR_LOOK,
             mon_flag_CORNERED_FIGHTER,
             mon_flag_DEADLY_VIRUS,
             mon_flag_DESTROYS,
@@ -131,6 +139,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_PLASTIC,
             mon_flag_POISON,
             mon_flag_PRIORITIZE_TARGETS,
+            mon_flag_PULP_PRYING,
             mon_flag_PUSH_MON,
             mon_flag_PUSH_VEH,
             mon_flag_QUEEN,
@@ -189,6 +198,8 @@ void set_mon_flag_ids()
     mon_flag_COMBAT_MOUNT = mon_flag_id( "COMBAT_MOUNT" );
     mon_flag_CONSOLE_DESPAWN = mon_flag_id( "CONSOLE_DESPAWN" );
     mon_flag_CONVERSATION = mon_flag_id( "CONVERSATION" );
+    mon_flag_COPY_AVATAR_LOOK = mon_flag_id( "COPY_AVATAR_LOOK" );
+    mon_flag_COPY_SUMMONER_LOOK = mon_flag_id( "COPY_SUMMONER_LOOK" );
     mon_flag_CORNERED_FIGHTER = mon_flag_id( "CORNERED_FIGHTER" );
     mon_flag_DEADLY_VIRUS = mon_flag_id( "DEADLY_VIRUS" );
     mon_flag_DESTROYS = mon_flag_id( "DESTROYS" );
@@ -257,6 +268,7 @@ void set_mon_flag_ids()
     mon_flag_PLASTIC = mon_flag_id( "PLASTIC" );
     mon_flag_POISON = mon_flag_id( "POISON" );
     mon_flag_PRIORITIZE_TARGETS = mon_flag_id( "PRIORITIZE_TARGETS" );
+    mon_flag_PULP_PRYING = mon_flag_id( "PULP_PRYING" );
     mon_flag_PUSH_MON = mon_flag_id( "PUSH_MON" );
     mon_flag_PUSH_VEH = mon_flag_id( "PUSH_VEH" );
     mon_flag_QUEEN = mon_flag_id( "QUEEN" );
@@ -601,16 +613,16 @@ void mtype::faction_display( catacurses::window &w, const point &top_left, const
     trim_and_print( w, top_left + point( 0, ++y ), width, c_light_gray,
                     string_format( "%s: %s", colorize( _( "Senses" ), c_white ), enumerate_as_string( senses_str ) ) );
     // Abilities
-    if( has_flag( mon_flag_SWIMS ) ) {
+    if( has_flag( mon_flag_SWIMS ) || move_skills.swim.has_value() ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can swim." ) );
     }
     if( has_flag( mon_flag_FLIES ) ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can fly." ) );
     }
-    if( has_flag( mon_flag_DIGS ) ) {
+    if( has_flag( mon_flag_DIGS )   || move_skills.dig.has_value() ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can burrow underground." ) );
     }
-    if( has_flag( mon_flag_CLIMBS ) ) {
+    if( has_flag( mon_flag_CLIMBS ) || move_skills.climb.has_value() ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can climb." ) );
     }
     if( has_flag( mon_flag_GRABS ) ) {

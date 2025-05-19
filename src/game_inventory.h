@@ -3,26 +3,29 @@
 #define CATA_SRC_GAME_INVENTORY_H
 
 #include <functional>
-#include <list>
+#include <optional>
+#include <set>
+#include <string>
 #include <utility>
+#include <vector>
 
-#include "activity_actor_definitions.h"
+#include "bodypart.h"
 #include "cata_imgui.h"
+#include "coordinates.h"
+#include "input_context.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_location.h"
 #include "type_id.h"
+#include "units_fwd.h"
 
 class Character;
-struct tripoint;
-
 class repair_item_actor;
 class salvage_actor;
+enum efile_action : int;
 
 using item_filter = std::function<bool( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
 
 /**
 * A boiled-down shortcut for inventory_selector_preset.

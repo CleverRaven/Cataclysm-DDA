@@ -71,9 +71,9 @@
         { "vehicle": "police_pileup", "x": 39, "y": 43, "chance": 20, "rotation": 90 },
         { "vehicle": "police_pileup", "x": 34, "y": 43, "chance": 20, "rotation": 90 },
         { "vehicle": "police_pileup", "x": 29, "y": 43, "chance": 20, "rotation": 90 },
-        { "vehicle": "swivel_chair", "x": 42, "y": [ 26, 27 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "swivel_chair", "x": [ 10, 16 ], "y": [ 16, 18 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "swivel_chair", "x": [ 10, 16 ], "y": [ 16, 18 ], "chance": 100, "rotation": 90 }
+        { "vehicle": "swivel_chair", "x": 42, "y": [ 26, 27 ], "rotation": 90 },
+        { "vehicle": "swivel_chair", "x": [ 10, 16 ], "y": [ 16, 18 ], "rotation": 90 },
+        { "vehicle": "swivel_chair", "x": [ 10, 16 ], "y": [ 16, 18 ], "rotation": 90 }
       ],
       "place_monsters": [
         { "monster": "GROUP_POLICE", "x": [ 0, 23 ], "y": [ 0, 23 ] },
@@ -183,11 +183,11 @@
         "0": "t_gutter_drop"
       },
       "place_vehicles": [
-        { "vehicle": "swivel_chair", "x": [ 36, 37 ], "y": [ 29, 31 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "swivel_chair", "x": [ 28, 29 ], "y": [ 5, 7 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "swivel_chair", "x": 44, "y": [ 6, 8 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "swivel_chair", "x": 45, "y": [ 6, 8 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "swivel_chair", "x": 46, "y": [ 6, 8 ], "chance": 100, "rotation": 90 }
+        { "vehicle": "swivel_chair", "x": [ 36, 37 ], "y": [ 29, 31 ], "rotation": 90 },
+        { "vehicle": "swivel_chair", "x": [ 28, 29 ], "y": [ 5, 7 ], "rotation": 90 },
+        { "vehicle": "swivel_chair", "x": 44, "y": [ 6, 8 ], "rotation": 90 },
+        { "vehicle": "swivel_chair", "x": 45, "y": [ 6, 8 ], "rotation": 90 },
+        { "vehicle": "swivel_chair", "x": 46, "y": [ 6, 8 ], "rotation": 90 }
       ],
       "place_monsters": [
         { "monster": "GROUP_POLICE", "x": [ 0, 23 ], "y": [ 0, 23 ] },
@@ -447,7 +447,7 @@
         "o": "t_thconc_floor",
         "!": "t_thconc_floor"
       },
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 36, 39 ], "y": [ 20, 21 ], "chance": 100, "rotation": 90 } ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 36, 39 ], "y": [ 20, 21 ], "rotation": 90 } ],
       "place_monsters": [
         { "monster": "GROUP_POLICE", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "monster": "GROUP_POLICE", "x": [ 24, 47 ], "y": [ 0, 23 ] },
@@ -572,8 +572,8 @@
         { "item": "analytical_set_basic", "x": 24, "y": [ 7, 12 ], "chance": 6 }
       ],
       "place_vehicles": [
-        { "vehicle": "swivel_chair", "x": 19, "y": [ 7, 12 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "swivel_chair", "x": 25, "y": [ 7, 12 ], "chance": 100, "rotation": 90 }
+        { "vehicle": "swivel_chair", "x": 19, "y": [ 7, 12 ], "rotation": 90 },
+        { "vehicle": "swivel_chair", "x": 25, "y": [ 7, 12 ], "rotation": 90 }
       ],
       "place_monsters": [
         { "monster": "GROUP_POLICE", "x": [ 0, 23 ], "y": [ 0, 23 ] },

@@ -1,6 +1,10 @@
 #include "generic_factory.h"
 
-bool one_char_symbol_reader( const JsonObject &jo, const std::string_view member_name, int &sym,
+#include "catacharset.h"
+#include "output.h"
+#include "wcwidth.h"
+
+bool one_char_symbol_reader( const JsonObject &jo, std::string_view member_name, int &sym,
                              bool )
 {
     std::string sym_as_string;
@@ -25,7 +29,7 @@ bool one_char_symbol_reader( const JsonObject &jo, const std::string_view member
 }
 
 bool unicode_codepoint_from_symbol_reader( const JsonObject &jo,
-        const std::string_view member_name, uint32_t &member, bool )
+        std::string_view member_name, uint32_t &member, bool )
 {
     int sym_as_int;
     std::string sym_as_string;
@@ -44,4 +48,16 @@ bool unicode_codepoint_from_symbol_reader( const JsonObject &jo,
     }
     member = sym_as_codepoint;
     return true;
+}
+
+float read_proportional_entry( const JsonObject &jo, std::string_view key )
+{
+    if( jo.has_float( key ) ) {
+        float scalar = jo.get_float( key );
+        if( scalar == 1 || scalar < 0 ) {
+            jo.throw_error_at( key, "Proportional multiplier must be a positive number other than 1.0" );
+        }
+        return scalar;
+    }
+    return 1.0f;
 }

@@ -114,10 +114,10 @@
       "terrain": { "π": "t_tile_flat_roof", "È": "t_tile_flat_roof" },
       "items": {
         "K": [
-          { "item": "office_mess", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "SUS_office_mess", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "office", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "consumer_electronics", "chance": 15 },
-          { "item": "office_supplies", "chance": 15 }
+          { "item": "SUS_office_desk", "chance": 15 }
         ],
         "p": { "item": "clothing_work_set", "chance": 85, "repeat": [ 0, 4 ] }
       }

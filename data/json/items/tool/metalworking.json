@@ -1,7 +1,7 @@
 [
   {
     "id": "crude_bronze_nail",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "crude bronze nail" },
     "description": "A crude bronze nail.  Probably not useful for many things due to its size and shape.",
@@ -17,7 +17,8 @@
   },
   {
     "id": "anvil",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "anvil" },
     "description": "A heavy block of oddly-shaped steel complete with a pritchel hole and hardy hole.  Once installed, it can be used in most metalworking fabrication recipes.",
     "weight": "26 kg",
@@ -33,7 +34,8 @@
   },
   {
     "id": "anvil_bronze",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "bronze anvil" },
     "description": "A block of oddly-shaped bronze complete with a pritchel hole and hardy hole.  Once installed, it can be used in most metalworking fabrication recipes.",
     "weight": "26 kg",
@@ -49,7 +51,8 @@
   },
   {
     "id": "anvil_heavy",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "heavy anvil" },
     "description": "An absolutely enormous block of oddly-shaped steel with all the bells and whistles a blacksmith could ask for on an anvil.  Necessary for heavy-duty metalworking or dropping on roadrunners.",
     "weight": "225 kg",
@@ -65,7 +68,8 @@
   },
   {
     "id": "anvil_crude",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "small anvil" },
     "description": "A proper, albeit small, anvil.  Pretty handy.",
     "//": "30 cm of railroad track, minus roughly 400 ml for different chunks of metal.",
@@ -83,7 +87,8 @@
   },
   {
     "id": "boltcutters",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pair of bolt cutters", "str_pl": "pairs of bolt cutters" },
     "description": "A large pair of bolt cutters.  You could use them to cut padlocks or heavy gauge wire.",
     "weight": "1560 g",
@@ -102,7 +107,8 @@
   },
   {
     "id": "char_forge",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "charcoal forge" },
     "description": "A portable, charcoal-fired metalworking forge.  With the right tools, you could use this for metalworking.",
     "weight": "8600 g",
@@ -113,15 +119,15 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": [ "charcoal", "coal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 500, "coal": 2500 } } ],
     "sub": "forge",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 9 },
+    "tool_ammo": [ "charcoal", "coal" ]
   },
   {
     "id": "char_kiln",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "portable charcoal kiln" },
     "description": "A somewhat portable drum kiln to produce charcoal via pyrolysis: the incomplete burning of organic materials in the absence of oxygen.  Needs to be deployed before use.",
@@ -138,7 +144,8 @@
   },
   {
     "id": "chisel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "metalworking chisel" },
     "description": "A short, stout metalworking chisel.  It's used in some metalworking fabrication recipes.",
     "weight": "660 g",
@@ -155,7 +162,8 @@
   },
   {
     "id": "chisel_bronze",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "chisel",
     "name": { "str": "bronze chisel" },
     "description": "A short, stout metalworking chisel made of bronze.  It's used in some metalworking fabrication recipes.  Bronze chisels spark less than their steel counterparts, but are less durable.",
@@ -166,7 +174,8 @@
   },
   {
     "id": "crucible",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "crucible" },
     "description": "A small metalworking crucible.  Looks like a stout drink tumbler.  It's used in some metalworking fabrication recipes.",
     "weight": "1400 g",
@@ -192,7 +201,8 @@
   },
   {
     "id": "crucible_clay",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "clay crucible" },
     "description": "A primitive metalworking crucible made of clay.  Looks like a stout drink tumbler.  You could use it for metalworking.",
     "weight": "1642 g",
@@ -218,7 +228,8 @@
   },
   {
     "id": "forge",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "electric forge" },
     "description": "An electric metalworking forge, powered by your electric grid.  With the right tools, you could use this for metalworking.",
     "weight": "10000 g",
@@ -228,14 +239,16 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "1400 W" },
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "link_sheet",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "chainmail sheet" },
     "description": "A sheet of riveted chainmail.  With some skill, several of these sheets could be connected to make effective armor.",
@@ -250,7 +263,8 @@
   },
   {
     "id": "lc_link_sheet",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "mild steel chainmail sheet" },
     "description": "A sheet of riveted chainmail.  With some skill, several of these sheets could be connected to make effective armor.",
@@ -265,35 +279,40 @@
   },
   {
     "id": "mc_link_sheet",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "lc_link_sheet",
     "name": { "str": "medium steel chainmail sheet" },
     "material": [ "mc_steel" ]
   },
   {
     "id": "hc_link_sheet",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "lc_link_sheet",
     "name": { "str": "high steel chainmail sheet" },
     "material": [ "hc_steel" ]
   },
   {
     "id": "ch_link_sheet",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "lc_link_sheet",
     "name": { "str": "hardened steel chainmail sheet" },
     "material": [ "ch_steel" ]
   },
   {
     "id": "qt_link_sheet",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "lc_link_sheet",
     "name": { "str": "tempered steel chainmail sheet" },
     "material": [ "qt_steel" ]
   },
   {
     "id": "swage",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "swage and die set" },
     "description": "A set of swages and dies for metalsmithing.  These loops and metal blocks are used in some metalworking fabrication recipes.",
     "weight": "2620 g",
@@ -309,14 +328,16 @@
   },
   {
     "id": "hotcut_bronze",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "hotcut",
     "name": { "str": "hotcut" },
     "material": [ "bronze" ]
   },
   {
     "id": "hotcut",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hotcut" },
     "description": "A hardened chisel-like object for metalsmithing.  It's used to cut lengths of metal in some metalworking fabrication recipes.",
     "weight": "800 g",
@@ -332,7 +353,8 @@
   },
   {
     "id": "drift",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "drift" },
     "description": "A hardened spike-like object for metalsmithing.  It's used to make holes in metal in some metalworking fabrication recipes.",
     "weight": "1200 g",
@@ -348,7 +370,8 @@
   },
   {
     "id": "tongs",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pair of kitchen tongs", "str_pl": "pairs of kitchen tongs" },
     "description": "A pair of long, metal tongs.  They are commonly used for cooking.",
     "weight": "167 g",
@@ -366,14 +389,16 @@
   },
   {
     "id": "metalworking_tongs_bronze",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "metalworking_tongs",
     "name": { "str": "pair of flatjaw bronze tongs", "str_pl": "pairs of flatjaw bronze tongs" },
     "material": [ "bronze" ]
   },
   {
     "id": "metalworking_tongs",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pair of flatjaw tongs", "str_pl": "pairs of flatjaw tongs" },
     "description": "A pair of flatjaw tongs.  They are commonly used for metalworking, fabrication, or forging recipes.",
     "weight": "730 g",
@@ -393,7 +418,8 @@
   },
   {
     "id": "sandpaper",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "sandpaper", "str_pl": "sheets of sandpaper" },
     "description": "A sheet of rough paper.  It is commonly used in metalworking and carpentry.",
     "weight": "10 g",
@@ -407,7 +433,8 @@
   },
   {
     "id": "leather_filing",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "sandleather" },
     "description": "A patch of leather paired with a handful of sand.  Works as a substitute for sandpaper.",
     "weight": "25160 mg",
@@ -421,7 +448,8 @@
   },
   {
     "id": "draw_plate",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "draw plate" },
     "description": "A piece of metal with holes of varying size drilled into it.  Used as part of wire drawing.",
     "weight": "200 g",
@@ -436,7 +464,8 @@
   },
   {
     "id": "casting_mold_small",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "casting_mold",
     "name": { "str": "small sandcasting mold" },
     "description": "A small mold for casting molten metals into different shapes.",
@@ -447,7 +476,8 @@
   },
   {
     "id": "casting_mold_large",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "casting_mold",
     "name": { "str": "large sandcasting mold" },
     "description": "A large mold for casting molten metals into different shapes.",
@@ -458,7 +488,8 @@
   },
   {
     "id": "casting_mold_long",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "casting_mold",
     "name": { "str": "long sandcasting mold" },
     "description": "A large, long, mold for casting molten metals into different shapes.",
@@ -469,7 +500,8 @@
   },
   {
     "id": "casting_mold",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "sandcasting mold" },
     "description": "A medium mold for casting molten metals into different shapes.",
     "weight": "19200 g",
@@ -486,7 +518,8 @@
   },
   {
     "id": "stone_polishing",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "polishing stone" },
     "description": "A large natural stone with a flat surface to grind against.",
     "weight": "8 kg",
@@ -503,7 +536,8 @@
   },
   {
     "id": "pedal_grindstone",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pedal powered grindstone" },
     "description": "A round, pedal-powered grindstone, useful for grinding metal.",
     "weight": "15 kg",
@@ -519,7 +553,8 @@
   },
   {
     "id": "scraper_steel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "steel scraper" },
     "description": "A hardened steel tool similar to a drawknife, but for metal.",
     "weight": "500 g",
@@ -536,7 +571,8 @@
   },
   {
     "id": "gas_forge",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "gas forge" },
     "//": "Based on the Whisper Daddy 3 Burner Forge, large enough to craft tools and small weapons.",
     "description": "A gas-fueled metalworking forge.  With the right tools, you could use this for metalworking.",
@@ -548,10 +584,10 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": [ "propane" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GAS_TANK" ], "default_magazine": "large_propane_tank" } ],
     "sub": "forge",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 20 }
+    "melee_damage": { "bash": 20 },
+    "tool_ammo": [ "propane" ]
   }
 ]

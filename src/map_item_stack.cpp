@@ -1,13 +1,14 @@
 #include "map_item_stack.h"
 
 #include <algorithm>
+#include <cctype>
 #include <functional>
 #include <iterator>
 
 #include "item.h"
 #include "item_category.h"
 #include "item_search.h"
-#include "line.h"
+#include "item_tname.h"
 #include "localized_comparator.h"
 
 map_item_stack::item_group::item_group() : count( 0 ), it( nullptr )
@@ -115,7 +116,7 @@ int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::st
             tempstack.push_back( *it );
             it = stack.erase( it );
         } else {
-            it++;
+            ++it;
         }
     }
 
@@ -137,7 +138,7 @@ int list_filter_low_priority( std::vector<map_item_stack> &stack, const int star
             tempstack.push_back( *it );
             it = stack.erase( it );
         } else {
-            it++;
+            ++it;
         }
     }
 

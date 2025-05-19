@@ -2,17 +2,16 @@
 #ifndef CATA_SRC_WEATHER_GEN_H
 #define CATA_SRC_WEATHER_GEN_H
 
-#include <iosfwd>
-#include <map>
+#include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "coordinates.h"
+#include "point.h"
 #include "type_id.h"
 #include "units.h"
 
 class JsonObject;
-struct tripoint;
 
 struct w_point {
     units::temperature temperature = 0_K;

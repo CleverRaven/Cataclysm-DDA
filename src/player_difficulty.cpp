@@ -1,12 +1,29 @@
+#include <algorithm>
+#include <list>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
+
 #include "avatar.h"
+#include "bodypart.h"
+#include "character.h"
 #include "character_martial_arts.h"
-#include "make_static.h"
-#include "martialarts.h"
+#include "inventory.h"
+#include "item.h"
 #include "mutation.h"
+#include "npc_opinion.h"
 #include "options.h"
+#include "pimpl.h"
+#include "player_activity.h"
 #include "player_difficulty.h"
 #include "profession.h"
+#include "proficiency.h"
 #include "skill.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "type_id.h"
 
 static const damage_type_id damage_bash( "bash" );
 

@@ -6,34 +6,36 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        ".........sG.............",
-        "..$.....psp......$....$.",
-        ".......MsssM............",
-        "...##ooo#*##oo#o#...$...",
-        "...#5     |R 7  #.......",
-        "...#      |R    oM..$...",
-        "...#            oM......",
-        "...#      |6    oM......",
+        ".........`p.............",
+        "..[.....ù`ù......[....[.",
+        ".......%```%............",
+        "...##ooo#*##oo#o#...[...",
+        "...#è     |R à  #.......",
+        "...#      |R    o%..[...",
+        "...#            o%......",
+        "...#      |ç    o%......",
         "...#      |     #.......",
         ".#o#||||||||| |##.......",
-        ".#4    |KKlKy J#........",
-        "Mo            iop.......",
-        "Mo        AAA nop.......",
-        "Mo     |a JJJ  #........",
+        ".#§    |12F3y 3#........",
+        "%o            Ooù.......",
+        "%o        AAA 5où.......",
+        "%o     |T 412  #........",
         ".#     ||+||||+#........",
-        ".#o#|+||y RR|Q #........",
-        "..^#W Z|>  R|QQ#........",
+        ".#o#|+||y RR|6 #........",
+        "..^#W Z|>  R|66#........",
         "...#||||||  |||####.....",
-        ".$.#1    +  +2    #.....",
+        ".[.#&    +  +é    #.....",
         "...o     ||+|     o.....",
         "...#     |t |     #.....",
-        ".$.#     |T |     o.....",
-        "...#     |Tj|     #.....",
-        "$..####o###o##o####....."
+        ".[.#     |B |     o.....",
+        "...#     |BS|     #.....",
+        "[..####o###o##o####....."
       ],
-      "palettes": [ "house_w_foundation_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette" ],
+      "terrain": { "ù": "t_region_groundcover_urban" },
+      "furniture": { "ù": "f_region_weed" },
       "nested": {
-        "1": {
+        "&": {
           "chunks": [
             [ "bedroom_5x5_adult_W_1", 50 ],
             [ "bedroom_5x5_adult_N_2", 50 ],
@@ -42,7 +44,7 @@
             [ "bedroom_5x5_adult_W_2", 50 ]
           ]
         },
-        "2": {
+        "é": {
           "chunks": [
             [ "bedroom_5x5_adult_N_1", 50 ],
             [ "bedroom_5x5_adult_S_1", 50 ],
@@ -53,12 +55,12 @@
             [ "bedroom_5x5_adult_W_2", 50 ]
           ]
         },
-        "4": { "chunks": [ [ "diningroom_5x5_N_S", 50 ], [ "diningroom_5x5_E_W", 50 ] ] },
-        "5": { "chunks": [ [ "livingroom_5x5_S_1", 20 ], [ "livingroom_5x5_E_1", 20 ], [ "livingroom_5x5_W_1", 20 ] ] },
-        "6": {
+        "§": { "chunks": [ [ "diningroom_5x5_N_S", 50 ], [ "diningroom_5x5_E_W", 50 ] ] },
+        "è": { "chunks": [ [ "livingroom_5x5_S_1", 20 ], [ "livingroom_5x5_E_1", 20 ], [ "livingroom_5x5_W_1", 20 ] ] },
+        "ç": {
           "chunks": [ [ "bonus_room_2x2_1", 50 ], [ "bonus_room_2x2_2", 50 ], [ "bonus_room_2x2_4_S", 50 ], [ "bonus_room_2x2_4_W", 50 ] ]
         },
-        "7": {
+        "à": {
           "chunks": [
             [ "bonus_room_3x3_4", 40 ],
             [ "bonus_room_3x3_E_6", 20 ],
@@ -148,7 +150,7 @@
         " |.............|        ",
         " |.............|        ",
         " |.............|        ",
-        " |||F.........U|        ",
+        " |||â.........U|        ",
         "   |....<.....g|        ",
         "   |...........||||     ",
         "   |....1.........|     ",
@@ -158,7 +160,7 @@
         "   |..............|     ",
         "   ||||||||||||||||     "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "2": {
           "chunks": [ [ "null", 50 ], [ "11x11_gym_open", 10 ], [ "11x11_recroom_open", 30 ], [ "room_11x11_apartment_S", 10 ] ]

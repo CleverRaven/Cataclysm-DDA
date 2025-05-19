@@ -1,37 +1,37 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_turret_rifle",
     "name": { "str_sp": "broken CROWS II" },
     "copy-from": "broken_turret_rifle"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_turret_artisans",
     "name": { "str_sp": "broken CROWS II" },
     "copy-from": "broken_turret_artisans"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_crows_m240",
     "name": { "str_sp": "broken CROWS II" },
     "copy-from": "broken_crows_m240"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_turret_bmg",
     "name": { "str_sp": "broken CROWS II Heavy" },
     "copy-from": "broken_turret_bmg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_talon_m202a1",
     "copy-from": "broken_talon_m202a1",
     "name": { "str": "broken launcher TALON UGV" },
     "description": "A broken TALON UGV, with its casing broken and fluid drained.  Could be gutted for parts."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_secubot",
     "copy-from": "broken_secubot",
     "name": { "str": "broken rifle TALON UGV" },

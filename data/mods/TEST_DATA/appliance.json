@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_standing_lamp",
     "name": { "str": "standing lamp" },
     "description": "An electrical device containing an electric lamp that provides illumination once plugged into a power outlet.",
@@ -40,7 +40,8 @@
     "variants": [ { "symbols": "*", "symbols_broken": "-" } ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "test_power_cord",
     "name": { "str": "power cord" },
     "description": "A power cord, like you've seen many times before: it's a short multi-stranded copper cord with power outlet at the end.",
@@ -76,7 +77,8 @@
     "variants": [ { "symbols": "{", "symbols_broken": "s" } ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "test_extension_cable",
     "name": { "str": "extension cord" },
     "description": "A long 30-ft (or about 10 m) orange extension cord for connecting appliances.  Could be used on any appliance or other household electrical system.",
@@ -104,7 +106,8 @@
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "test_power_cord_25_loss",
     "name": { "str": "test_power_cord_25_loss item" },
     "description": "test 25% loss extension cord.",
@@ -143,7 +146,8 @@
   },
   {
     "id": "test_storage_battery",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "veh_parts",
     "name": { "str": "large storage battery", "str_pl": "large storage batteries" },
     "description": "A large storage battery containing many lithium-ion cells.  Could be installed into a storage battery case for easy removal from a vehicle, or just welded straight in.",

@@ -105,15 +105,31 @@
           { "value": "LEARNING_FOCUS", "add": -10 },
           { "value": "OBTAIN_COST_MULTIPLIER", "multiply": 2 }
         ],
-        "mutations": [ "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
+        "mutations": [ "WEREWOLF_HEAD", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
       },
       {
         "condition": { "and": [ { "not": "is_day" }, { "math": [ "moon_phase() == 4" ] } ] },
         "values": [ { "value": "DEXTERITY", "add": 2 }, { "value": "STRENGTH", "add": 2 }, { "value": "SPEED", "multiply": 0.05 } ]
       }
     ],
+    "integrated_armor": [ "integrated_claws_werewolf" ],
     "flags": [ "NO_SPELLCASTING", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],
     "override_look": { "id": "mon_loup_garou", "tile_category": "monster" }
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_HEAD",
+    "name": { "str": "Werewolf Hybrid Form Head", "//~": "NO_I18N" },
+    "points": 99,
+    "description": { "str": "You are a hybrid of wolf and human, and this is your head.  Should not be player-visible", "//~": "NO_I18N" },
+    "visibility": 0,
+    "ugliness": 0,
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "types": [ "TEETH" ],
+    "integrated_armor": [ "integrated_werewolf_teeth" ]
   },
   {
     "type": "effect_on_condition",

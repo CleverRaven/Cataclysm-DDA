@@ -1,22 +1,26 @@
 #include "regional_settings.h"
 
 #include <algorithm>
+#include <cstddef>
 #include <map>
 #include <memory>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <utility>
 
 #include "debug.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "map_extras.h"
 #include "options.h"
 #include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "translations.h"
+#include "translation.h"
+
+class mapgendata;
 
 ter_furn_id::ter_furn_id() : ter( ter_str_id::NULL_ID().id() ),
     furn( furn_str_id::NULL_ID().id() ) { }
@@ -734,7 +738,7 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     cityjo.read( "park_radius", region.city_spec.park_radius );
     cityjo.read( "park_sigma", region.city_spec.park_sigma );
 
-    const auto load_building_types = [&cityjo]( const std::string_view type, building_bin & dest ) {
+    const auto load_building_types = [&cityjo]( std::string_view type, building_bin & dest ) {
         for( const JsonMember member : cityjo.get_object( type ) ) {
             if( member.is_comment() ) {
                 continue;

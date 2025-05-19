@@ -1,6 +1,41 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_PARALYSIS",
+    "//": "Complicated formula here is to produce diminishing returns, since stunning for too long might as well just kill the target.  Level 1 minimum is .4615 seconds moves lost, level 20 maximum is 6.25 seconds, all before Intelligence scaling",
+    "effect": [
+      {
+        "if": {
+          "not": {
+            "u_has_any_effect": [ "effect_electrokinetic_speed_boost", "effect_monster_neuro_acceleration", "effect_monster_neuro_acceleration" ]
+          }
+        },
+        "then": [
+          { "math": [ "u_paralysis_electrokin_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+          { "math": [ "u_paralysis_electrokin_power_level = n_spell_level('electrokinetic_paralysis')" ] },
+          { "math": [ "u_nether_attunement_paralysis_scaling = n_nether_attunement_power_scaling" ] },
+          {
+            "math": [
+              "_minimum_duration = min( ( ( (u_paralysis_electrokin_power_level * 0.2) + 1) * u_paralysis_electrokin_intelligence * u_nether_attunement_paralysis_scaling),5 )"
+            ]
+          },
+          {
+            "math": [
+              "_maximum_duration = min( ( ( (u_paralysis_electrokin_power_level * 0.35) + 3) * u_paralysis_electrokin_intelligence * u_nether_attunement_paralysis_scaling),5 )"
+            ]
+          },
+          { "math": [ "_duration = rng(_minimum_duration, _maximum_duration)" ] },
+          { "u_add_effect": "downed", "duration": { "math": [ "_duration" ] } },
+          { "u_add_effect": "psi_dazed", "duration": { "math": [ "_duration" ] } },
+          { "u_add_effect": "effect_electrokin_paralysis", "duration": { "math": [ "_duration" ] } },
+          { "npc_message": "You overload the target's neurons!", "type": "good" }
+        ],
+        "else": { "npc_message": "You attempt to overload the target's neurons but nothing happens!", "type": "bad" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_PAIN_IMMUNE_ON",
     "condition": { "not": { "u_has_effect": "effect_electrokinetic_pain_immune" } },
     "effect": [

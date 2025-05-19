@@ -4,6 +4,7 @@
     "type": "mapgen",
     "om_terrain": [ [ "shootingrange_1a" ], [ "shootingrange_2a" ] ],
     "object": {
+      "fill_ter": "t_region_groundcover_barren",
       "rows": [
         "........................",
         "........................",
@@ -64,7 +65,8 @@
         "c": "f_counter",
         "d": "f_desk",
         "s": "f_sign",
-        "/": "f_wooden_flagpole"
+        "/": "f_wooden_flagpole",
+        "O": "f_dirtmound_tall"
       },
       "terrain": {
         "-": "t_thconc_floor",
@@ -84,22 +86,21 @@
         "c": "t_thconc_floor",
         "d": "t_floor",
         "f": "t_floor",
-        "w": "t_thconc_floor",
-        "O": "t_dirtmound"
+        "w": "t_thconc_floor"
       },
       "place_items": [
-        { "chance": 10, "item": "ammo_pistol_common", "x": 6, "y": 9 },
-        { "chance": 5, "item": "ammo_pistol_common", "x": 3, "y": 9 },
+        { "chance": 10, "item": "ammo_common_boxed_used", "x": 6, "y": 9 },
+        { "chance": 5, "item": "ammo_common_boxed_used", "x": 3, "y": 9 },
         { "chance": 5, "item": "guns_rifle_common", "x": 21, "y": 9 },
         { "chance": 5, "item": "guns_rifle_common", "x": 17, "y": 9 },
-        { "chance": 5, "item": "ammo_shotgun_common", "x": 15, "y": 9 },
-        { "chance": 5, "item": "ammo_rifle_common", "x": 20, "y": 9 },
-        { "chance": 5, "item": "ammo_rifle_common", "x": 18, "y": 9 },
+        { "chance": 5, "item": "ammo_common_boxed_used", "x": 15, "y": 9 },
+        { "chance": 5, "item": "ammo_common_boxed_used", "x": 20, "y": 9 },
+        { "chance": 5, "item": "ammo_common_boxed_used", "x": 18, "y": 9 },
         { "chance": 5, "item": "guns_shotgun_common", "x": 14, "y": 9 },
-        { "chance": 30, "repeat": 2, "item": "trash", "x": 3, "y": 3 },
+        { "chance": 30, "repeat": 2, "item": "SUS_trash_trashcan", "x": 3, "y": 3 },
         { "chance": 75, "item": "guns_milspec", "x": 5, "y": 4 },
-        { "chance": 5, "item": "ammo_smg_common", "x": 12, "y": 9 },
-        { "chance": 5, "item": "ammo_smg_common", "x": 9, "y": 9 },
+        { "chance": 5, "item": "ammo_common_boxed_used", "x": 12, "y": 9 },
+        { "chance": 5, "item": "ammo_common_boxed_used", "x": 9, "y": 9 },
         { "chance": 15, "item": "guns_pistol_common", "x": 5, "y": 9 },
         { "chance": 10, "item": "guns_pistol_common", "x": 2, "y": 9 },
         { "chance": 25, "item": "office", "x": [ 3, 4 ], "y": 4 }

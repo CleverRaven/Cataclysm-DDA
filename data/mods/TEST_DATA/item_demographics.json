@@ -336,7 +336,7 @@
         {
           "type": "762",
           "weight": 34,
-          "items": { "762_m43": 1, "762_m87": 1, "bp_762_m43": 1, "bp_762_m87": 1, "reloaded_762_m43": 1, "reloaded_762_m87": 1 }
+          "items": { "762_jhp": 1, "762_m87": 1, "bp_762_jhp": 1, "bp_762_m87": 1, "reloaded_762_jhp": 1, "reloaded_762_m87": 1 }
         },
         {
           "type": "357mag",
@@ -398,12 +398,14 @@
           "items": {
             "38_fmj": 1,
             "38_special": 1,
+            "38_special_p": 1,
             "bp_38_fmj": 1,
             "bp_38_special": 1,
             "matchhead_38_fmj": 1,
             "matchhead_38_special": 1,
             "reloaded_38_fmj": 1,
-            "reloaded_38_special": 1
+            "reloaded_38_special": 1,
+            "reloaded_38_special_p": 1
           }
         },
         {
@@ -417,30 +419,75 @@
           "items": {
             "3006": 1,
             "3006fmj": 1,
+            "3006_jsp": 1,
             "3006_incendiary": 1,
             "bp_3006": 1,
             "bp_3006fmj": 1,
             "bp_3006_incendiary": 1,
+            "bp_3006_jsp": 1,
             "reloaded_3006": 1,
             "reloaded_3006fmj": 1,
-            "reloaded_3006_incendiary": 1
+            "reloaded_3006_incendiary": 1,
+            "reloaded_3006_jsp": 1
           }
         },
         {
           "type": "45colt",
           "weight": 8,
-          "items": { "45colt_jhp": 1, "bp_45colt_jhp": 1, "matchhead_45colt_jhp": 1, "reloaded_45colt_jhp": 1 }
+          "items": {
+            "reloaded_45colt_fmj": 1,
+            "45colt_jhp": 1,
+            "reloaded_45colt_jhp": 1,
+            "bp_45colt_fmj": 1,
+            "matchhead_45colt_fmj": 1,
+            "bp_45colt_jhp": 1,
+            "matchhead_45colt_jhp": 1,
+            "45colt_cowboy": 1,
+            "bp_45colt_cowboy": 1,
+            "matchhead_45colt_cowboy": 1,
+            "reloaded_45colt_cowboy": 1
+          }
         },
         { "type": "762R", "weight": 4, "items": { "762_54R": 1, "bp_762_54R": 1, "reloaded_762_54R": 1 } },
-        { "type": "10mm", "weight": 1, "items": { "10mm_fmj": 1 } },
-        { "type": "270win", "weight": 3, "items": { "270win_jsp": 1, "bp_270win_jsp": 1, "reloaded_270win_jsp": 1 } },
-        { "type": "410shot", "weight": 3, "items": { "410shot_000": 1, "reloaded_410shot_000": 1 } },
-        { "type": "123ln", "weight": 1, "items": { "123ln": 1, "bp_123ln": 1, "reloaded_123ln": 1 } },
         {
           "type": "10mm",
           "weight": 1,
-          "items": { "bp_10mm_fmj": 1, "matchhead_10mm_fmj": 1, "10mm reloaded_10mm_fmj": 1 }
+          "items": {
+            "10mmP": 1,
+            "reloaded_10mmP": 1,
+            "10mm_fmj": 1,
+            "bp_10mm_fmj": 1,
+            "matchhead_10mm_fmj": 1,
+            "reloaded_10mm_fmj": 1,
+            "10mm_jhp": 1,
+            "bp_10mm_jhp": 1,
+            "matchhead_10mm_jhp": 1,
+            "reloaded_10mm_jhp": 1
+          }
         },
+        {
+          "type": "270win",
+          "weight": 3,
+          "items": { "270win_jsp": 1, "bp_270win_jsp": 1, "reloaded_270win_jsp": 1, "bp_270win_fmj": 1, "reloaded_270win_fmj": 1 }
+        },
+        {
+          "type": "410shot",
+          "weight": 3,
+          "items": {
+            "reloaded_410shot_slug": 1,
+            "bp_410shot_bird": 1,
+            "reloaded_410shot_bird": 1,
+            "410shot_scrap": 1,
+            "bp_410shot_scrap": 1,
+            "410shot_slug": 1,
+            "bp_410shot_slug": 1,
+            "410shot_000": 1,
+            "bp_410shot_000": 1,
+            "reloaded_410shot_000": 1,
+            "410shot_bird": 1
+          }
+        },
+        { "type": "123ln", "weight": 1, "items": { "123ln": 1, "bp_123ln": 1, "reloaded_123ln": 1 } },
         { "type": "300", "weight": 1, "items": { "300_winmag": 1, "bp_300_winmag": 1, "reloaded_300_winmag": 1 } },
         {
           "type": "303",
@@ -460,7 +507,16 @@
         {
           "type": "30carbine",
           "weight": 1,
-          "items": { "30carbine": 1, "bp_30carbine": 1, "matchhead_30carbine": 1, "reloaded_30carbine": 1 }
+          "items": {
+            "30carbine": 1,
+            "bp_30carbine": 1,
+            "matchhead_30carbine": 1,
+            "reloaded_30carbine": 1,
+            "reloaded_30carbine_jsp": 1,
+            "30carbine_jsp": 1,
+            "bp_30carbine_jsp": 1,
+            "matchhead_30carbine_jsp": 1
+          }
         },
         {
           "type": "32",
@@ -500,30 +556,27 @@
         {
           "type": "38super",
           "weight": 1,
-          "items": { "38_super": 1, "38super_fmj": 1, "reloaded_38_super": 1, "reloaded_38super_fmj": 1 }
+          "items": {
+            "38_super": 1,
+            "38super_fmj": 1,
+            "reloaded_38_super": 1,
+            "reloaded_38super_fmj": 1,
+            "bp_38super_fmj": 1,
+            "matchhead_38_super_fmj": 1,
+            "bp_38super": 1,
+            "matchhead_38_super": 1
+          }
         },
         {
           "type": "40x46mm",
           "weight": 1,
           "items": {
-            "40x46mm_buckshot_m118": 1,
-            "40x46mm_buckshot_m199": 1,
-            "40x46mm_flechette_m118": 1,
-            "40x46mm_flechette_m199": 1,
             "40x46mm_hornets_nest_22lr": 1,
             "40x46mm_hornets_nest_410": 1,
             "40x46mm_m1006": 1,
             "40x46mm_m433": 1,
             "40x46mm_m576": 1,
-            "40x46mm_m651": 1,
-            "40x46mm_slug_m118": 1,
-            "40x46mm_slug_m199": 1,
-            "bp_40x46mm_buckshot_m118": 1,
-            "bp_40x46mm_buckshot_m199": 1,
-            "bp_40x46mm_flechette_m118": 1,
-            "bp_40x46mm_flechette_m199": 1,
-            "bp_40x46mm_slug_m118": 1,
-            "bp_40x46mm_slug_m199": 1
+            "40x46mm_m651": 1
           }
         },
         {
@@ -633,6 +686,7 @@
             "m9": 1,
             "px4": 1,
             "rifle_9mm": 1,
+            "rugerpcc": 1,
             "smg_9mm": 1,
             "sten": 1,
             "tec9": 1,
@@ -642,6 +696,7 @@
             "m11": 1,
             "m17": 1,
             "p226_9mm": 1,
+            "p365": 1,
             "sp2022": 1,
             "hi_power_9mm": 1,
             "walther_p38": 1,
@@ -661,6 +716,7 @@
             "1911-22": 1,
             "henry_golden_boy": 1,
             "marlin_9a": 1,
+            "marlin60": 1,
             "rifle_22": 1,
             "ruger_1022": 1,
             "ruger_lcr_22": 1,
@@ -674,7 +730,9 @@
             "ruger_mk4": 1,
             "rough_rider_pistol": 1,
             "rough_rider_pistol_9": 1,
-            "rossi_gallery": 1
+            "rossi_gallery": 1,
+            "sr22": 1,
+            "sw617": 1
           }
         },
         {
@@ -693,6 +751,7 @@
             "m4_carbine": 1,
             "modular_ar_pistol": 1,
             "ruger_mini": 1,
+            "scar_16s": 1,
             "sig_assault_rifle": 1,
             "sl8": 1,
             "steyr_aug": 1,
@@ -724,7 +783,7 @@
         {
           "type": "380",
           "weight": 48,
-          "items": { "mac_11": 1, "rugerlcp": 1, "hptcf380": 1, "rifle_380": 1, "hpt3895": 1 }
+          "items": { "mac_11": 1, "rugerlcp": 1, "hptcf380": 1, "rifle_380": 1, "hpt3895": 1, "swbodyguard": 1 }
         },
         {
           "type": "40",
@@ -805,6 +864,7 @@
             "m240": 1,
             "m60": 1,
             "savage_111f": 1,
+            "scar_17s": 1,
             "scar_h": 1,
             "M24": 1,
             "hk417_13": 1,
@@ -817,7 +877,7 @@
         {
           "type": "38",
           "weight": 19,
-          "items": { "2_shot_special": 1, "model_10_revolver": 1, "rifle_38": 1, "ruger_lcr_38": 1 }
+          "items": { "2_shot_special": 1, "model_10_revolver": 1, "rifle_38": 1, "ruger_lcr_38": 1, "sw642": 1 }
         },
         {
           "type": "44",
@@ -976,6 +1036,7 @@
             "p220_10": 1,
             "p226_357sig": 1,
             "p226_9mm": 1,
+            "p365": 1,
             "p50": 1,
             "pistol_flintlock": 1,
             "pressin": 1,
@@ -999,10 +1060,14 @@
             "sp2022": 1,
             "surv_hand_cannon": 1,
             "surv_six_shooter": 1,
+            "sr22": 1,
             "sw_500": 1,
             "sw_610": 1,
+            "sw617": 1,
             "sw_619": 1,
             "sw629": 1,
+            "sw642": 1,
+            "swbodyguard": 1,
             "TDI_10": 1,
             "tokarev": 1,
             "usp_45": 1,
@@ -1097,6 +1162,7 @@
             "m4_cqbr": 1,
             "m60": 1,
             "m60_semi": 1,
+            "marlin60": 1,
             "marlin_9a": 1,
             "mdrx": 1,
             "mdrx_223": 1,
@@ -1150,9 +1216,12 @@
             "ruger_arr": 1,
             "ruger_m77": 1,
             "ruger_mini": 1,
+            "rugerpcc": 1,
             "ruger_pr": 1,
             "savage_111f": 1,
             "savage112": 1,
+            "scar_16s": 1,
+            "scar_17s": 1,
             "scar_h": 1,
             "scar_l": 1,
             "sharps": 1,
@@ -1230,7 +1299,6 @@
             "slamfire_shotgun_d": 1,
             "tavor_12": 1,
             "u_shotgun": 1,
-            "u_shotgun_mod": 1,
             "winchester_1897": 1
           }
         }

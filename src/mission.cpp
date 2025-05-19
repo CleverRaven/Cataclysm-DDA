@@ -6,14 +6,13 @@
 #include <iterator>
 #include <list>
 #include <memory>
-#include <new>
 #include <numeric>
 #include <set>
 #include <unordered_map>
 #include <utility>
 
 #include "avatar.h"
-#include "colony.h"
+#include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
@@ -29,12 +28,12 @@
 #include "map_iterator.h"
 #include "monster.h"
 #include "npc.h"
-#include "overmap.h"
+#include "omdata.h"
 #include "overmapbuffer.h"
+#include "player_activity.h"
 #include "point.h"
 #include "requirements.h"
-#include "string_formatter.h"
-#include "translations.h"
+#include "talker.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -555,7 +554,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
                 }
             };
             for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 5 ) ) {
-                if( player_character.sees( p ) ) {
+                if( player_character.sees( here, p ) ) {
                     if( here.has_items( p ) && here.accessible_items( p ) ) {
                         count_items( here.i_at( p ) );
                     }

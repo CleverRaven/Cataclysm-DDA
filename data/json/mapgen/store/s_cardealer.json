@@ -50,11 +50,12 @@
       },
       "furniture": { "j": "f_sink", "k": "f_table", "l": "f_chair", "m": "f_locker" },
       "vendingmachines": { "n": { "lootable": true } },
+      "items": { "i": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "i": {  } },
       "place_loot": [
         { "group": "office", "chance": 50, "repeat": [ 5 ], "x": [ 7, 7 ], "y": [ 22, 22 ] },
         { "group": "office", "chance": 50, "repeat": [ 5 ], "x": [ 2, 2 ], "y": [ 21, 22 ] },
-        { "group": "office_mess", "chance": 50, "repeat": [ 10 ], "x": [ 3, 8 ], "y": [ 18, 22 ] },
+        { "group": "SUS_office_mess", "chance": 50, "repeat": [ 10 ], "x": [ 3, 8 ], "y": [ 18, 22 ] },
         { "group": "cleaning", "chance": 50, "repeat": [ 2 ], "x": [ 10, 10 ], "y": [ 21, 21 ] },
         { "group": "vending_drink", "chance": 50, "repeat": [ 1 ], "x": [ 2, 2 ], "y": [ 18, 18 ] },
         { "group": "road", "chance": 50, "repeat": [ 2 ], "x": [ 14, 21 ], "y": [ 16, 22 ] },

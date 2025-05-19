@@ -14,7 +14,7 @@
         " #+|||-c-c-c-c-c||||..# ",
         " #.....l.l.l.l.l|s.+..w ",
         " #..............|..|..# ",
-        " #..ccccccccp...|t.|..# ",
+        " #..ccccccccp...|£.|..# ",
         " #|||||||||||||+||||%%# ",
         " #.....*..............# ",
         " w.....|..............# ",
@@ -23,60 +23,16 @@
         " #||||||....|...CT.|.c# ",
         " #RRRRR|....|..CTC.|cc# ",
         " #R$$$R|....||||||||||# ",
-        " #R...R|....|........p# ",
-        " #R...R|....|..C.C.C..# ",
-        " #Rc..MM....|..TTTTTC.# ",
-        " #Rc..MM...|||.C.C.C..w ",
+        " #R___R|....|........p# ",
+        " #R___R|....|..C.C.C..# ",
+        " #Rt__MM....|..TTTTTC.# ",
+        " #Rt__MM...|||.C.C.C..w ",
         "4#RRRRR|6..+<|p......p# ",
         " ###############w####w# ",
         "                        "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
-      "terrain": {
-        " ": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub_decorative" ],
-        "$": "t_metal_floor",
-        "%": [ [ "t_door_c", 2 ], "t_door_locked_interior" ],
-        "*": [ [ "t_door_c", 3 ], "t_door_locked_interior" ],
-        "+": "t_door_c",
-        "-": "t_window",
-        ".": "t_floor",
-        "G": "t_door_glass_c",
-        "M": "t_door_metal_locked",
-        "R": "t_wall_metal",
-        "S": "t_sidewalk",
-        "g": "t_wall_glass_alarm",
-        "4": "t_gutter_downspout",
-        "<": "t_ladder_up",
-        "w": "t_window_alarm"
-      },
-      "furniture": {
-        "6": "f_console",
-        "$": "f_safe_l",
-        "A": "f_atm_off",
-        "C": "f_chair",
-        "T": "f_table",
-        "c": "f_counter",
-        "l": "f_stool",
-        "p": [ "f_indoor_plant", "f_null" ],
-        "s": "f_sink",
-        "t": "f_toilet"
-      },
-      "toilets": { "t": {  } },
-      "place_items": [
-        { "item": "office", "x": [ 4, 9 ], "y": 8, "chance": 30 },
-        { "item": "office", "x": [ 3, 5 ], "y": 12, "chance": 30 },
-        { "item": "office", "x": 16, "y": [ 14, 15 ], "chance": 70 },
-        { "item": "vault", "x": 3, "y": [ 19, 20 ], "chance": 30, "repeat": 5 },
-        { "item": "vault", "x": [ 3, 5 ], "y": 16, "chance": 90, "repeat": 5 }
-      ],
-      "computers": {
-        "6": {
-          "name": "Consolidated Computerized Bank of the Treasury",
-          "security": 3,
-          "options": [ { "name": "Open Vault", "action": "unlock" } ],
-          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
-        }
-      }
+      "palettes": [ "bank_palette" ],
+      "terrain": { " ": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub_decorative" ] }
     }
   },
   {
@@ -124,6 +80,43 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "bank_office_nest_no_safe",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "oooo  ",
+        ".a..  ",
+        ".dd.  ",
+        ".CC.  ",
+        "....  ",
+        "...y  "
+      ],
+      "palettes": [ "bank_palette" ],
+      "terrain": { ".": "t_floor", "a": "t_floor", "o": "t_floor", "C": "t_floor", "y": "t_floor", "d": "t_floor" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bank_office_nest_safe",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "___$  ",
+        "M|||  ",
+        ".6oo  ",
+        "....  ",
+        ".Cda  ",
+        ".Cdy  "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "bank_palette" ],
+      "terrain": { "6": "t_floor", ".": "t_floor", "a": "t_floor", "o": "t_floor", "C": "t_floor", "y": "t_floor", "d": "t_floor" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ "bank_1" ],
     "object": {
       "fill_ter": "t_floor",
@@ -138,80 +131,24 @@
         " #..%.C-...C-C..|.....Dw",
         " #LL|xx-....%...|ee...##",
         " #||||||hGh|||||||||%|# ",
-        " #t.*..+...|___$|dx...# ",
-        " #|||.s|...|iiii|dC...# ",
-        " #t.*.s|...|oooo|d..Cx# ",
-        "##||||||...h....||.ddd# ",
-        "#RRRRRR|...G.Cda|..||## ",
-        "#R$$$$R|...h.Cd.|..xd#  ",
+        " #£.*..+...|1   |dx...# ",
+        " #|||.s|...|    |dC...# ",
+        " #£.*.s|...|    |d..Cx# ",
+        "##||||||...h    ||.ddd# ",
+        "#RRRRRR|...G    |..||## ",
+        "#R$$$$R|...h    |..xd#  ",
         "#R____R||%||+||||..Cd#  ",
-        "#R_TT_R|...|.ddd|..pd#  ",
-        "#R_TT_R|...|.pCx|..||#  ",
-        "#R_TT_MM...%.........#  ",
+        "#R_tt_R|...|.ddd|..pd#  ",
+        "#R_tt_R|...|.pCx|..||#  ",
+        "#R_tt_MM...%.........#  ",
         "#R____MM...|..C..|xCp#  ",
         "#R$$$$R|6..|pddxp|ddd#  ",
         "#RRRRRR###############  ",
         "########4               "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
-      "terrain": {
-        " ": "t_region_groundcover_urban",
-        "_": "t_metal_floor",
-        "i": { "param": "interior_wall_type", "fallback": "t_wall_w" },
-        "$": "t_metal_floor",
-        "%": [ [ "t_door_c", 2 ], "t_door_locked_interior" ],
-        "*": [ [ "t_door_c", 3 ], "t_door_locked_interior" ],
-        "+": "t_door_c",
-        "-": "t_window",
-        ".": "t_floor",
-        "G": "t_door_glass_c",
-        "M": "t_door_metal_locked",
-        "R": "t_wall_metal",
-        "S": "t_sidewalk",
-        ">": "t_stairs_down",
-        "T": "t_metal_floor",
-        "g": "t_wall_glass_alarm",
-        "h": "t_wall_glass",
-        "4": "t_gutter_downspout",
-        "w": "t_window_alarm"
-      },
-      "furniture": {
-        "x": "f_console_broken",
-        "6": "f_console",
-        "a": "f_armchair",
-        "A": "f_atm_off",
-        "D": "f_sofa",
-        "o": "f_bookcase",
-        "e": "f_fridge",
-        "$": "f_safe_l",
-        "C": "f_chair",
-        "T": "f_table",
-        "c": "f_counter",
-        "l": "f_stool",
-        "p": [ "f_indoor_plant", "f_null" ],
-        "s": "f_sink",
-        "L": "f_locker",
-        "d": "f_desk",
-        "t": "f_toilet"
-      },
-      "toilets": { "t": {  } },
-      "items": {
-        "o": { "item": "novels", "chance": 70 },
-        "$": { "item": "vault", "chance": 95, "repeat": 5 },
-        "T": { "item": "vault", "chance": 20, "repeat": 5 },
-        "e": { "item": "SUS_fridge_breakroom", "chance": 70 },
-        "d": { "item": "office", "chance": 50 },
-        "L": { "item": "cop_weapons", "chance": 40 }
-      },
-      "computers": {
-        "6": {
-          "name": "High Security Consolidated Computerized Bank of the Treasury",
-          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
-          "security": 4,
-          "options": [ { "name": "Open Vault", "action": "unlock" } ],
-          "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]
-        }
-      }
+      "palettes": [ "bank_palette" ],
+      "terrain": { " ": "t_region_groundcover_urban" },
+      "nested": { "1": { "chunks": [ [ "bank_office_nest_no_safe", 3 ], [ "bank_office_nest_safe", 7 ] ] } }
     }
   },
   {

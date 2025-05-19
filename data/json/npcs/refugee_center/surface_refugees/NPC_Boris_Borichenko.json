@@ -505,7 +505,7 @@
     "id": "MISSION_REFUGEE_Boris_CLEANUP",
     "type": "mission_definition",
     "name": { "str": "Find someone to clean up the back bay." },
-    "description": "Boris in the refugee center is looking for at least five people to help clean up the back bay",
+    "description": "Boris in the refugee center is looking for at least five people to help clean up the back bay.",
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_CONDITION",
@@ -610,7 +610,8 @@
   {
     "id": "laptop_boris",
     "copy-from": "laptop",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Ash's laptop computer" },
     "description": "A small, somewhat worn-out laptop computer.  The flip-top is decorated with various stickers."
   },

@@ -289,7 +289,7 @@
         "S": { "item": "clothing_outdoor_set", "chance": 50 },
         "c": { "item": "repair_storage", "chance": 80 },
         "j": { "item": "cleaning", "chance": 80, "repeat": [ 1, 3 ] },
-        "]": { "item": "file_room", "chance": 80 },
+        "]": { "item": "SUS_office_filing_cabinet", "chance": 80 },
         "q": { "item": "supplies_electronics", "chance": 70, "repeat": [ 1, 4 ] },
         "K": { "item": "pre_irradiated_food", "chance": 20, "repeat": [ 1, 4 ] },
         "[": { "item": "pre_irradiated_food", "chance": 10, "repeat": [ 1, 4 ] },
@@ -304,24 +304,25 @@
         "B": { "item": "radiation_meds", "chance": 50 },
         "{": { "item": "decontamination", "chance": 15 },
         "%": { "item": "decontamination", "chance": 15 },
-        "g": { "item": "decontamination", "chance": 15 }
+        "g": { "item": "decontamination", "chance": 15 },
+        "?": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [
-        { "group": "guns_pistol_common", "x": 34, "y": 26, "chance": 100, "ammo": 0, "magazine": 100, "repeat": [ 1, 2 ] },
-        { "group": "ammo_pistol_common", "x": 39, "y": 26, "chance": 100, "repeat": [ 1, 5 ] },
+        { "group": "police_armory_glock_19", "x": 34, "y": 26, "chance": 100 },
+        { "group": "police_armory_glock_19", "x": 39, "y": 26, "chance": 100 },
         { "group": "prison_armor", "x": 39, "y": 26, "chance": 50, "repeat": [ 1, 2 ] }
       ],
       "liquids": { "T": { "liquid": "water_clean", "amount": [ 200, 600 ] } },
-      "fields": { "U": { "field": "fd_nuke_gas", "intensity": 3, "age": 990 }, "/": { "field": "fd_shock_vent" } },
-      "monster": { "!": { "monster": "mon_hazmatbot", "chance": 5 } },
+      "fields": { "U": { "field": "fd_nuke_gas", "intensity": 3, "age": 990 } },
+      "monster": { "!": { "monster": "mon_hazmatbot", "chance": 1 } },
       "monsters": {
-        "h": { "monster": "GROUP_ZOMBIE", "chance": 50 },
-        "o": { "monster": "GROUP_ZOMBIE", "chance": 50 },
-        "#": { "monster": "GROUP_ZOMBIE", "chance": 50 },
-        "_": { "monster": "GROUP_ZOMBIE", "chance": 99 },
-        " ": { "monster": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY", "chance": 50 },
-        "%": { "monster": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY", "chance": 50 },
-        "g": { "monster": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY", "chance": 50 }
+        "h": { "monster": "GROUP_ZOMBIE", "chance": 20, "density": 0.0003 },
+        "o": { "monster": "GROUP_ZOMBIE", "chance": 10, "density": 0.0003 },
+        "#": { "monster": "GROUP_ZOMBIE", "chance": 10, "density": 0.0003 },
+        "_": { "monster": "GROUP_ZOMBIE", "chance": 2, "density": 0.0003 },
+        " ": { "monster": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY", "chance": 1, "density": 0.0003 },
+        "%": { "monster": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY", "chance": 25, "density": 0.0003 },
+        "g": { "monster": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY", "chance": 15, "density": 0.0003 }
       },
       "place_item": [ { "item": "cobalt_60", "x": [ 57, 61 ], "y": [ 6, 7 ], "amount": [ 1, 5 ], "chance": 50, "repeat": [ 1, 15 ] } ],
       "place_graffiti": [

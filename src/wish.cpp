@@ -1,62 +1,72 @@
-#include "debug_menu.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cstddef>
+#include <cstdint>
+#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
 #include <optional>
 #include <set>
+#include <sstream>
 #include <string>
+#include <tuple>
 #include <utility>
 #include <vector>
 
 #include "bionics.h"
+#include "bodypart.h"
 #include "calendar.h"
-#include "catacharset.h"
 #include "cata_imgui.h"
 #include "character.h"
 #include "color.h"
-#include "cursesdef.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "effect.h"
 #include "enums.h"
 #include "game.h"
+#include "game_constants.h"
 #include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "input_popup.h"
 #include "item.h"
-#include "item_group.h"
 #include "item_factory.h"
+#include "item_group.h"
 #include "itype.h"
 #include "localized_comparator.h"
-#include "overmap.h"
-#include "overmapbuffer.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "pimpl.h"
 #include "point.h"
 #include "proficiency.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
+#include "value_ptr.h"
+
+class uilist_impl;
 
 static const efftype_id effect_pet( "pet" );
 
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
-
-class ui_adaptor;
 
 class wish_mutate_callback: public uilist_callback
 {
@@ -222,7 +232,7 @@ class wish_mutate_callback: public uilist_callback
                              mdata.visibility,
                              mdata.ugliness );
                 ImGui::NewLine();
-                ImGui::TextWrapped( "%s", mdata.desc().c_str() );
+                ImGui::TextWrapped( "%s", you->mutation_desc( mdata.id ).c_str() );
             }
 
             float y = ImGui::GetContentRegionMax().y - 3 * ImGui::GetTextLineHeightWithSpacing();
@@ -414,7 +424,7 @@ void debug_menu::wishbionics( Character *you )
             }
             case 3: {
                 int new_value = 0;
-                if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
+                if( query_int( new_value, false, _( "Set the value to (in kJ)?  Currently: %s" ),
                                units::display( power_max ) ) ) {
                     you->set_max_power_level( units::from_kilojoule( static_cast<std::int64_t>( new_value ) ) );
                     you->set_power_level( you->get_power_level() );
@@ -423,7 +433,7 @@ void debug_menu::wishbionics( Character *you )
             }
             case 4: {
                 int new_value = 0;
-                if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
+                if( query_int( new_value, false, _( "Set the value to (in J)?  Currently: %s" ),
                                units::display( power_max ) ) ) {
                     you->set_max_power_level( units::from_joule( static_cast<std::int64_t>( new_value ) ) );
                     you->set_power_level( you->get_power_level() );
@@ -432,7 +442,7 @@ void debug_menu::wishbionics( Character *you )
             }
             case 5: {
                 int new_value = 0;
-                if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
+                if( query_int( new_value, false, _( "Set the value to (in kJ)?  Currently: %s" ),
                                units::display( power_level ) ) ) {
                     you->set_power_level( units::from_kilojoule( static_cast<std::int64_t>( new_value ) ) );
                 }
@@ -440,7 +450,7 @@ void debug_menu::wishbionics( Character *you )
             }
             case 6: {
                 int new_value = 0;
-                if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
+                if( query_int( new_value, false, _( "Set the value to (in J)?  Currently: %s" ),
                                units::display( power_level ) ) ) {
                     you->set_power_level( units::from_joule( static_cast<std::int64_t>( new_value ) ) );
                 }
@@ -488,6 +498,7 @@ void debug_menu::wisheffect( Creature &p )
         {
             descstr << eff.disp_desc( false ) << '\n';
         }
+        descstr << eff.disp_mod_source_info() << '\n';
 
         return descstr.str();
     };
@@ -573,7 +584,7 @@ void debug_menu::wisheffect( Creature &p )
             effect &eff = effects[efmenu.ret - offset];
 
             int duration = to_seconds<int>( eff.get_duration() );
-            query_int( duration, _( "Set duration (current %1$d): " ), duration );
+            query_int( duration, false, _( "Set duration (current %1$d): " ), duration );
             if( duration < 0 ) {
                 continue;
             }
@@ -763,7 +774,8 @@ void debug_menu::wishmonstergroup( tripoint_abs_omt &loc )
         const mongroup_id selected_group( possible_groups[selected] );
         new_group.type = selected_group;
         int new_value = new_group.population; // default value if query declined
-        query_int( new_value, _( "Set population to what value?  Currently %d" ), new_group.population );
+        query_int( new_value, false, _( "Set population to what value?  Currently %d" ),
+                   new_group.population );
         new_group.population = new_value;
         overmap &there = overmap_buffer.get( project_to<coords::om>( loc ).xy() );
         there.debug_force_add_group( new_group );
@@ -816,7 +828,7 @@ void debug_menu::wishmonster( const std::optional<tripoint_bub_ms> &p )
         wmenu.query();
         if( wmenu.ret >= 0 ) {
             const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
-            if( std::optional<tripoint_bub_ms> spawn = p ? p.value() : g->look_around() ) {
+            if( std::optional<tripoint_bub_ms> spawn = p.has_value() ? p : g->look_around() ) {
                 int num_spawned = 0;
                 for( const tripoint_bub_ms &destination : closest_points_first( *spawn, cb.group ) ) {
                     monster *const mon = g->place_critter_at( mon_type, destination );

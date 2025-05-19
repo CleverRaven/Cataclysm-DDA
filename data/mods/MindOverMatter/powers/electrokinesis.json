@@ -201,7 +201,7 @@
     "id": "electrokinetic_personal_battery",
     "type": "SPELL",
     "name": "[Ψ]Electron Overflow (C)",
-    "description": "Generate power for UPS compatible devices on your person.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "description": "Generate power for battery-powered devices on your person.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -240,8 +240,8 @@
     "id": "electrokinetic_paralysis",
     "type": "SPELL",
     "name": "[Ψ]Neural Spasms",
-    "description": "Cause an electrical burst in the target's nervous system (or the remains of it), stunning them briefly.  It will only work on targets that have, or had, a nervous system.",
-    "message": "You overload the target's neurons!",
+    "description": "Cause an electrical burst in the target's nervous system (or the remains of it), incapacitating them briefly.  It will only work on targets that have, or had, a nervous system.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
     "spell_class": "ELECTROKINETIC",
@@ -250,18 +250,17 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "stunned",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_PARALYSIS",
     "shape": "blast",
-    "//": "Complicated formula here is to produce diminishing returns, since stunning for too long might as well just kill the target.  Level 1 minimum is 46.15 moves lost, level 20 maximum is 625, all before Intelligence scaling",
     "min_duration": {
       "math": [
-        "( ( ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) * 6 ) /  ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "min( ( ( (u_spell_level('electrokinetic_paralysis') * 20) + 100) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling),500 )"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) * 10 ) /  ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "min( ( ( (u_spell_level('electrokinetic_paralysis') * 35) + 300) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling),1000 )"
       ]
     },
     "min_range": {

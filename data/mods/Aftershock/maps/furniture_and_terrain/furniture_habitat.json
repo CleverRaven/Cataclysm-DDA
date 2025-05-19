@@ -18,7 +18,7 @@
       "items": [
         { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
         { "item": "afs_heat_2_salvage", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 2 ] },
         { "item": "reinforced_glass_pane", "count": [ 1, 2 ] },
         { "item": "plastic_sheet", "count": [ 10, 15 ] },
         { "item": "cotton_patchwork", "count": [ 20, 30 ] },
@@ -35,7 +35,7 @@
       "items": [
         { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
         { "item": "afs_heat_2_salvage", "count": [ 0, 2 ] },
-        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 6 ] },
         { "item": "glass_shard", "count": [ 3, 6 ] },
         { "item": "plastic_chunk", "count": [ 20, 30 ] },
         { "item": "cotton_patchwork", "count": [ 20, 30 ] },
@@ -62,7 +62,7 @@
       "items": [
         { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
         { "item": "afs_heat_2_salvage", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 2 ] },
         { "item": "reinforced_glass_pane", "count": [ 1, 2 ] },
         { "item": "plastic_sheet", "count": [ 10, 15 ] },
         { "item": "cotton_patchwork", "count": [ 20, 30 ] },
@@ -79,7 +79,7 @@
       "items": [
         { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
         { "item": "afs_heat_2_salvage", "count": [ 0, 2 ] },
-        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 6 ] },
         { "item": "glass_shard", "count": [ 3, 6 ] },
         { "item": "plastic_chunk", "count": [ 20, 30 ] },
         { "item": "cotton_patchwork", "count": [ 20, 30 ] },
@@ -104,7 +104,7 @@
     "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT" ],
     "deconstruct": {
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 2 ] },
         { "item": "reinforced_glass_pane", "count": [ 1, 2 ] },
         { "item": "plastic_sheet", "count": [ 10, 15 ] },
         { "item": "cotton_patchwork", "count": [ 20, 30 ] },
@@ -117,7 +117,7 @@
       "sound": "clang!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 6 ] },
         { "item": "glass_shard", "count": [ 3, 6 ] },
         { "item": "plastic_chunk", "count": [ 20, 30 ] },
         { "item": "cotton_patchwork", "count": [ 20, 30 ] },
@@ -224,7 +224,7 @@
         { "item": "afs_circuitry_1", "count": [ 0, 1 ] },
         { "item": "plastic_chunk", "count": [ 5, 10 ] },
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] }
+        { "item": "lc_steel_chunk", "count": [ 0, 3 ] }
       ]
     }
   },
@@ -248,7 +248,7 @@
         { "item": "cable", "charges": [ 1, 2 ] },
         { "item": "plastic_chunk", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 0, 1 ] }
+        { "item": "lc_steel_chunk", "count": [ 0, 1 ] }
       ]
     }
   },
@@ -283,7 +283,7 @@
       "sound_fail": "whack!",
       "items": [
         { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] },
         { "item": "small_lcd_screen", "count": 1, "prob": 50 },
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },
@@ -325,7 +325,7 @@
       "sound_fail": "whack!",
       "items": [
         { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] },
         { "item": "small_lcd_screen", "count": 1, "prob": 50 },
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },
@@ -353,7 +353,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "afs_circuitry_1", "count": [ 1, 2 ] }
       ]
@@ -393,7 +393,32 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sealed_intermodal_crate_locked",
+    "name": "powered down intermodal crate",
+    "description": "A sealed metal crate used to ferry cargo to and from orbit.  This one appears to be secured with an electric lock that has shut down.",
+    "looks_like": "f_sealed_intermodal_crate",
+    "required_str": 12,
+    "symbol": "O",
+    "bgcolor": "brown",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "oxytorch": { "result": "f_intermodal_crate_open", "duration": "14 seconds" },
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "SMALL_HIDE", "PLACE_ITEM", "CONTAINER", "SEALED" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "afs_circuitry_1", "count": [ 1, 2 ] }
       ]
@@ -428,6 +453,31 @@
         }
       ]
     },
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "furn_set": "f_displaycase_b",
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+    },
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 0, 7 ], "destroy_damage": [ 40, 120 ], "no_laser_destroy": true }
+  },
+  {
+    "type": "furniture",
+    "id": "f_reinforced_displaycase_locked",
+    "name": "powered down reinforced display case",
+    "looks_like": "f_rack",
+    "description": "A secure metal case at about waist-height, with reinforced glass paneling on top.  Useful for storing valuable things while still showing them off.  Secured with an electronic lock.",
+    "symbol": "#",
+    "color": "light_cyan",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM" ],
+    "rotates_to": "INDOORFLOOR",
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -572,7 +622,52 @@
         { "item": "cable", "charges": [ 1, 2 ] },
         { "item": "plastic_chunk", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 0, 1 ] }
+        { "item": "mc_steel_chunk", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_security_panel_10",
+    "name": "security override panel",
+    "copy-from": "f_security_panel",
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_unlock_afs_security_panel_10",
+          "effect": [
+            { "math": [ "_t_delay = time('20 m')" ] },
+            {
+              "run_eocs": "EOC_start_lock_hack",
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "10" },
+              "alpha_talker": "avatar"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_security_panel_locked",
+    "name": "burnt out security override panel",
+    "symbol": "e",
+    "description": "A slim wall mounted metal panel covering an electronic interface to manually override nearby security systems.",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 1, 2 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 1 ] }
       ]
     }
   },
@@ -597,7 +692,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -639,7 +734,33 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_e_safe_l_down",
+    "name": "powered down safe",
+    "looks_like": "f_e_safe_c",
+    "symbol": "X",
+    "description": "A small, heavy, and near-unbreachable metal box with an electronic lock.  With a hacking tool and the right skills you might be able to crack it.",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 14,
+    "max_volume": "250 L",
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "oxytorch": { "result": "f_e_safe_o", "duration": "14 seconds" },
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -665,7 +786,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]

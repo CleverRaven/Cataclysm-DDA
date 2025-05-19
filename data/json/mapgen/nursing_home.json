@@ -149,8 +149,8 @@
         ],
         "j": [
           { "item": "cleaning", "chance": 50 },
-          { "item": "hardware_trash", "chance": 75 },
-          { "item": "office_supplies", "chance": 50, "repeat": [ 0, 1 ] },
+          { "item": "SUS_trash_hardware", "chance": 75 },
+          { "item": "SUS_office_supplies", "chance": 50, "repeat": [ 0, 1 ] },
           { "item": "softdrugs", "chance": 50, "repeat": [ 0, 1 ] },
           { "item": "SUS_janitors_closet", "chance": 50, "repeat": [ 0, 1 ] }
         ],
@@ -158,8 +158,8 @@
           { "item": "cleaning", "chance": 50 },
           { "item": "dinnerware", "chance": 50 },
           { "item": "tools_common", "chance": 50 },
-          { "item": "hardware_trash", "chance": 50 },
-          { "item": "office_supplies", "chance": 50 },
+          { "item": "SUS_trash_hardware", "chance": 50 },
+          { "item": "SUS_office_supplies", "chance": 50 },
           { "item": "donated_clothes", "chance": 25, "repeat": [ 1, 3 ] },
           { "item": "drugs_analgesic", "chance": 25, "repeat": [ 0, 1 ] },
           { "item": "drugs_heal_simple", "chance": 50, "repeat": [ 0, 1 ] },
@@ -181,7 +181,7 @@
         ],
         "9": [
           { "item": "donated_clothes", "chance": 20 },
-          { "item": "office_mess", "chance": 10, "repeat": [ 0, 2 ] },
+          { "item": "SUS_office_mess", "chance": 10, "repeat": [ 0, 2 ] },
           { "item": "softdrugs", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "restaur_bath", "chance": 10, "repeat": [ 1, 2 ] },
@@ -189,7 +189,7 @@
         ],
         "m": [
           { "item": "games", "chance": 20, "repeat": [ 0, 1 ] },
-          { "item": "office_mess", "chance": 20, "repeat": [ 0, 1 ] },
+          { "item": "SUS_office_mess", "chance": 20, "repeat": [ 0, 1 ] },
           { "item": "magazines", "chance": 20, "repeat": [ 0, 1 ] }
         ]
       },
@@ -337,7 +337,7 @@
         "3": { "item": "bed", "chance": 80 },
         "8": { "item": "bed", "chance": 80 },
         "T": { "item": "games", "chance": 5 },
-        "P": { "item": "trash", "chance": 100, "repeat": [ 3, 6 ] },
+        "P": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 3, 6 ] },
         "r": { "item": "groce_frozen", "chance": 100, "repeat": [ 3, 4 ] },
         "a": { "item": "office", "chance": 10 },
         "5": { "item": "nursing_home_clothes", "chance": 80, "repeat": [ 0, 1 ] },
@@ -367,8 +367,8 @@
         ],
         "j": [
           { "item": "cleaning", "chance": 50 },
-          { "item": "hardware_trash", "chance": 75 },
-          { "item": "office_supplies", "chance": 50, "repeat": [ 0, 1 ] },
+          { "item": "SUS_trash_hardware", "chance": 75 },
+          { "item": "SUS_office_supplies", "chance": 50, "repeat": [ 0, 1 ] },
           { "item": "softdrugs", "chance": 50, "repeat": [ 0, 1 ] },
           { "item": "SUS_janitors_closet", "chance": 50, "repeat": [ 0, 1 ] }
         ],
@@ -376,8 +376,8 @@
           { "item": "cleaning", "chance": 50 },
           { "item": "dinnerware", "chance": 50 },
           { "item": "tools_common", "chance": 50 },
-          { "item": "hardware_trash", "chance": 50 },
-          { "item": "office_supplies", "chance": 50 },
+          { "item": "SUS_trash_hardware", "chance": 50 },
+          { "item": "SUS_office_supplies", "chance": 50 },
           { "item": "donated_clothes", "chance": 25, "repeat": [ 1, 3 ] },
           { "item": "drugs_analgesic", "chance": 25, "repeat": [ 0, 1 ] },
           { "item": "drugs_heal_simple", "chance": 50, "repeat": [ 0, 1 ] },
@@ -399,7 +399,7 @@
         ],
         "9": [
           { "item": "donated_clothes", "chance": 20 },
-          { "item": "office_mess", "chance": 10, "repeat": [ 0, 2 ] },
+          { "item": "SUS_office_mess", "chance": 10, "repeat": [ 0, 2 ] },
           { "item": "softdrugs", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "meth_ingredients", "chance": 10, "repeat": [ 0, 1 ] },
@@ -409,10 +409,10 @@
         ],
         "m": [
           { "item": "games", "chance": 20, "repeat": [ 0, 1 ] },
-          { "item": "office_mess", "chance": 20, "repeat": [ 0, 1 ] },
+          { "item": "SUS_office_mess", "chance": 20, "repeat": [ 0, 1 ] },
           { "item": "magazines", "chance": 20, "repeat": [ 0, 1 ] }
         ],
-        ".": [ { "item": "trash", "chance": 2 }, { "item": "office_mess", "chance": 3 } ]
+        ".": [ { "item": "SUS_trash_floor", "chance": 2 }, { "item": "SUS_office_mess", "chance": 3 } ]
       },
       "vendingmachines": { "?": { "item_group": "vending_drink", "lootable": true }, ",": { "item_group": "vending_food", "lootable": true } },
       "palettes": [ "nursing_home_sh_palette" ],

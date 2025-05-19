@@ -1,15 +1,21 @@
 #include "recipe_groups.h"
 
-#include <set>
 #include <string>
+#include <string_view>
+#include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "cata_variant.h"
 #include "debug.h"
+#include "enum_conversions.h"
+#include "enums.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
+#include "mapgendata.h"
 #include "overmap.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 // recipe_groups namespace
@@ -43,7 +49,7 @@ generic_factory<recipe_group_data> recipe_groups_data( "recipe group type" );
 
 } // namespace
 
-void recipe_group_data::load( const JsonObject &jo, const std::string_view )
+void recipe_group_data::load( const JsonObject &jo, std::string_view )
 {
     building_type = jo.get_string( "building_type" );
     for( JsonObject ordering : jo.get_array( "recipes" ) ) {

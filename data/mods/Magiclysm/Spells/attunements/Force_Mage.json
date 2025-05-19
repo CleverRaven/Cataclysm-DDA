@@ -26,7 +26,8 @@
   },
   {
     "id": "force_magical_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "Force Shield" },
     "description": "A shield of pure force that protects you from most types of physical damage.",
     "weight": "1 g",
@@ -36,35 +37,25 @@
     "color": "brown",
     "material": [ "magical_material" ],
     "environmental_protection": 2,
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "incoming_damage_mod": [
-            { "type": "bash", "multiply": -0.3 },
-            { "type": "stab", "multiply": -0.3 },
-            { "type": "cut", "multiply": -0.3 },
-            { "type": "bullet", "multiply": -0.3 }
-          ]
-        }
-      ]
-    },
-    "flags": [
-      "WATERPROOF",
-      "TRADER_AVOID",
-      "SEMITANGIBLE",
-      "ONLY_ONE",
-      "OVERSIZE",
-      "AURA",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
+    "flags": [ "WATERPROOF", "TRADER_AVOID", "SEMITANGIBLE", "OVERSIZE", "AURA", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 0,
         "coverage": 100,
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.3 },
+          { "type": "stab", "multiply": -0.3 },
+          { "type": "cut", "multiply": -0.3 },
+          { "type": "bullet", "multiply": -0.3 }
+        ]
       }
     ]
   },

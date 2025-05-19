@@ -4,33 +4,32 @@
 #include <cstddef>
 #include <map>
 #include <memory>
-#include <new>
 #include <string>
 #include <utility>
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catacharset.h"
+#include "cata_imgui.h"
+#include "cata_utility.h"
 #include "character.h"
-#include "color.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
-#include "cursesdef.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "imgui/imgui.h"
 #include "json.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "output.h"
 #include "panels.h"
 #include "point.h"
-#include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 
 static const efftype_id effect_ignore_fall_damage( "ignore_fall_damage" );
 
@@ -202,7 +201,7 @@ std::optional<tripoint_abs_omt> teleporter_list::choose_teleport_location()
     }
     teleporter_callback cb( index_pairs );
     teleport_selector.callback = &cb;
-    teleport_selector.text = _( "Choose Translocator Gate" );
+    teleport_selector.text = _( "Choose Translocation Location" );
 
     teleport_selector.query();
 

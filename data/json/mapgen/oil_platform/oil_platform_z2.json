@@ -151,18 +151,18 @@
           { "item": "home_hw", "chance": 5, "repeat": [ 0, 1 ] },
           { "item": "hardware", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "tools_science", "chance": 1, "repeat": [ 0, 1 ] },
-          { "item": "hardware_trash", "chance": 15 },
+          { "item": "SUS_trash_hardware", "chance": 15 },
           { "item": "hospital_lab", "chance": 2, "repeat": [ 0, 1 ] },
-          { "item": "trash", "chance": 10, "repeat": [ 0, 2 ] },
+          { "item": "SUS_trash_floor", "chance": 10, "repeat": [ 0, 2 ] },
           { "item": "metal_workshop", "chance": 2 }
         ],
         "K": [
-          { "item": "office_mess", "chance": 5, "repeat": [ 1, 2 ] },
+          { "item": "SUS_office_mess", "chance": 5, "repeat": [ 1, 2 ] },
           { "item": "office", "chance": 5, "repeat": [ 1, 2 ] },
           { "item": "consumer_electronics", "chance": 5 },
           { "item": "tools_common", "chance": 10 },
           { "item": "tools_electronics", "chance": 5, "repeat": [ 0, 2 ] },
-          { "item": "office_supplies", "chance": 5 }
+          { "item": "SUS_office_desk", "chance": 5 }
         ],
         "N": [
           { "item": "drugs_pharmacy", "chance": 90, "repeat": [ 1, 3 ] },

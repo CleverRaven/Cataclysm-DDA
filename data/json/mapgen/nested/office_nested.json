@@ -513,7 +513,7 @@
         "     "
       ],
       "palettes": [ "office_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": 2, "y": 2, "chance": 100 } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": 2, "y": 2 } ]
     }
   },
   {
@@ -546,7 +546,7 @@
         "     "
       ],
       "palettes": [ "office_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": 2, "y": 1, "chance": 100 } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": 2, "y": 1 } ]
     }
   },
   {
@@ -580,7 +580,7 @@
         "      "
       ],
       "palettes": [ "office_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ], "chance": 100 } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ] } ]
     }
   },
   {
@@ -598,7 +598,7 @@
         "      "
       ],
       "palettes": [ "office_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 4 ], "y": [ 1, 2 ], "repeat": [ 1, 2 ], "chance": 100 } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 4 ], "y": [ 1, 2 ], "repeat": [ 1, 2 ] } ]
     }
   },
   {
@@ -648,7 +648,7 @@
         "cxddd",
         "     "
       ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 4 ], "y": [ 1, 2 ], "chance": 100 } ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 4 ], "y": [ 1, 2 ] } ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -698,7 +698,7 @@
         "     "
       ],
       "palettes": [ "office_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": [ 1, 2 ], "chance": 100 } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": [ 1, 2 ] } ]
     }
   },
   {
@@ -1004,7 +1004,7 @@
         "Vffff|"
       ],
       "palettes": [ "office_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 2, 3 ], "y": [ 0, 1 ], "chance": 100 } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 2, 3 ], "y": [ 0, 1 ] } ]
     }
   },
   {

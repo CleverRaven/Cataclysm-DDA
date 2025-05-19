@@ -60,9 +60,9 @@
         ";;fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffrrrrrrrrrrrrrrrrrrrrrrrIIIIIIIffffffffffffffffffffffffffffffffffffffffffffffffffffff;;;;;;;;;;;;;;;;;;;;;",
         ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrIl + LIrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
         ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrIIII  Irrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
-        ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrI^^I> Irrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
-        ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrI^^I> irrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
-        ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrI  &  +rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
+        ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrI^^I >Irrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
+        ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrI^^I >irrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
+        ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrI     +rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
         ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrIIIIIIIrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
         ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrR___Rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
         ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrr_____rrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
@@ -77,8 +77,8 @@
         ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrR___Rrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
         ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrIIIIIIIrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
         ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr+     Irrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
-        ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrri> I^^Irrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
-        ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrI> I^^Irrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
+        ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrri >I^^Irrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
+        ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrI >I^^Irrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
         ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrI  IIIIrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
         ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrIL +%lIrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
         ";;ffffffffffffffffffffffffffffffffffffffffffffffffffffffIIIIIIIrrrrrrrrrrrrrrrrrrrrrrrfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff;;;;;;;;;;;;;;;;;;;;;",
@@ -109,8 +109,8 @@
       ],
       "terrain": {  },
       "furniture": {  },
-      "palettes": [ "nuclear_plant_palette" ],
-      "set": [ { "square": "radiation", "amount": [ 0, 10 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ]
+      "set": [ { "square": "radiation", "amount": [ 1, 10 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
+      "palettes": [ "nuclear_plant_palette" ]
     }
   }
 ]

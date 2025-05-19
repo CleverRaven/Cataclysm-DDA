@@ -185,11 +185,11 @@
         "X": [ { "item": "electronics", "chance": 70 } ],
         "b": [ { "item": "chem_home", "chance": 30 } ],
         "D": [ { "item": "chem_home", "chance": 60 } ],
-        "i": [ { "item": "trash", "chance": 60 } ],
+        "i": [ { "item": "SUS_trash_floor", "chance": 60 } ],
         "F": [ { "item": "chem_home", "chance": 50 }, { "item": "supplies_reagents_lab", "chance": 20 } ],
         "T": [ { "item": "chem_home", "chance": 30 }, { "item": "electronics", "chance": 50 } ],
-        "f": [ { "item": "file_room", "chance": 70, "repeat": [ 1, 5 ] } ],
-        "G": [ { "item": "office_paper", "chance": 30 } ],
+        "f": [ { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 3 ] } ],
+        "G": [ { "item": "SUS_office_desk", "chance": 30 } ],
         "H": [ { "item": "magazines", "chance": 40, "repeat": [ 1, 2 ] }, { "item": "lab_bookshelves", "chance": 20 } ]
       },
       "toilets": { "&": { "amount": [ 0, 50 ] } }
@@ -291,7 +291,8 @@
           { "item": "supplies_electronics", "chance": 50 }
         ],
         "B": [ { "item": "exotic_books", "chance": 70 } ],
-        "T": [ { "item": "SUS_office_filing_cabinet", "chance": 70 } ]
+        "T": [ { "item": "SUS_office_filing_cabinet", "chance": 70 } ],
+        "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_npcs": [ { "class": "millyficent_whately", "x": 17, "y": 14 } ]
     }

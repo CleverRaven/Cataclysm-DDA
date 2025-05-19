@@ -7,6 +7,12 @@
     "items": [
       { "group": "nested_glock_17", "prob": 73 },
       { "group": "nested_glock_19", "prob": 100 },
+      { "group": "nested_glock_26", "prob": 14 },
+      { "group": "nested_glock_34", "prob": 11 },
+      { "group": "nested_glock_43", "prob": 13 },
+      { "group": "nested_glock_43x", "prob": 51 },
+      { "group": "nested_glock_48", "prob": 19 },
+      { "group": "nested_p365", "prob": 161 },
       { "group": "nested_m9", "prob": 22 },
       { "group": "nested_px4", "prob": 5 },
       { "group": "nested_hi_power_9mm", "prob": 9 },
@@ -30,6 +36,7 @@
     "id": "guns_pistol_common_22",
     "items": [
       { "group": "nested_walther_p22", "prob": 45 },
+      { "group": "nested_sr22", "prob": 405 },
       { "group": "nested_ruger_lcr_22", "prob": 2 },
       { "group": "nested_rough_rider_pistol", "prob": 61 },
       { "group": "nested_rough_rider_pistol_9", "prob": 14 },
@@ -37,7 +44,9 @@
       { "group": "nested_cp33", "prob": 16 },
       { "group": "nested_ruger_mk4", "prob": 113 },
       { "group": "nested_ruger_charger", "prob": 16 },
-      { "group": "nested_1911_22", "prob": 100 }
+      { "group": "nested_1911_22", "prob": 100 },
+      { "group": "nested_sw617", "prob": 46 },
+      { "group": "nested_glock_44", "prob": 13 }
     ]
   },
   {
@@ -45,6 +54,8 @@
     "id": "guns_pistol_common_45",
     "items": [
       { "group": "nested_glock_21", "prob": 14 },
+      { "group": "nested_glock_30", "prob": 10 },
+      { "group": "nested_glock_36", "prob": 3 },
       { "group": "nested_m1911", "prob": 100 },
       { "group": "nested_walther_ppq_45", "prob": 1 },
       { "group": "nested_hptjhp", "prob": 2 },
@@ -54,13 +65,20 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_380",
-    "items": [ { "group": "nested_rugerlcp", "prob": 231 }, { "group": "nested_hptcf380", "prob": 100 } ]
+    "items": [
+      { "group": "nested_rugerlcp", "prob": 231 },
+      { "group": "nested_hptcf380", "prob": 100 },
+      { "group": "nested_swbodyguard", "prob": 1673 },
+      { "group": "nested_glock_42", "prob": 439 }
+    ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_40",
     "items": [
       { "group": "nested_glock_22", "prob": 100 },
+      { "group": "nested_glock_23", "prob": 61 },
+      { "group": "nested_glock_27", "prob": 75 },
       { "group": "nested_px4_40", "prob": 20 },
       { "group": "nested_hi_power_40", "prob": 3 },
       { "group": "nested_hptjcp", "prob": 29 }
@@ -80,7 +98,11 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_38",
-    "items": [ { "group": "nested_ruger_lcr_38", "prob": 66 }, { "group": "nested_model_10_revolver", "prob": 100 } ]
+    "items": [
+      { "group": "nested_ruger_lcr_38", "prob": 66 },
+      { "group": "nested_model_10_revolver", "prob": 100 },
+      { "group": "nested_sw642", "prob": 81 }
+    ]
   },
   {
     "type": "item_group",
@@ -136,6 +158,11 @@
   },
   {
     "type": "item_group",
+    "id": "guns_pistol_common_460",
+    "items": [ { "group": "nested_460_xvr", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_pistol_common_32",
     "items": [ { "group": "nested_kp32", "prob": 100 }, { "group": "nested_walther_ppk", "prob": 71 } ]
   },
@@ -176,6 +203,12 @@
     "items": [
       { "item": "glock_17", "prob": 7, "charges": [ 0, -1 ] },
       { "item": "glock_19", "prob": 100, "charges": [ 0, -1 ] },
+      { "item": "glock_26", "prob": 14, "charges": [ 0, -1 ] },
+      { "item": "glock_34", "prob": 1, "charges": [ 0, -1 ] },
+      { "item": "glock_43", "prob": 13, "charges": [ 0, -1 ] },
+      { "item": "glock_43x", "prob": 51, "charges": [ 0, -1 ] },
+      { "item": "glock_48", "prob": 19, "charges": [ 0, -1 ] },
+      { "item": "p365", "prob": 161, "charges": [ 0, -1 ] },
       { "item": "m9", "variant": "m9", "prob": 2, "charges": [ 0, -1 ] },
       { "item": "px4", "prob": 5, "charges": [ 0, -1 ] },
       { "item": "hi_power_9mm", "prob": 2, "charges": [ 0, -1 ] },
@@ -197,11 +230,14 @@
     "id": "guns_pistol_common_everyday_carry_22",
     "items": [
       { "item": "sig_mosquito", "prob": 6, "charges": [ 0, -1 ] },
+      { "item": "sr22", "prob": 80, "charges": [ 0, -1 ] },
       { "item": "walther_p22", "prob": 45, "charges": [ 0, -1 ] },
       { "item": "ruger_lcr_22", "prob": 2, "charges": [ 0, -1 ] },
       { "item": "ruger_mk4", "prob": 16, "charges": [ 0, -1 ] },
       { "item": "1911_22", "prob": 20, "charges": [ 0, -1 ] },
-      { "item": "cp33", "prob": 3, "charges": [ 0, -1 ] }
+      { "item": "cp33", "prob": 3, "charges": [ 0, -1 ] },
+      { "item": "glock_44", "prob": 13, "charges": [ 0, -1 ] },
+      { "item": "sw617", "prob": 8, "charges": [ 0, -1 ] }
     ]
   },
   {
@@ -209,6 +245,8 @@
     "id": "guns_pistol_common_everyday_carry_45",
     "items": [
       { "item": "glock_21", "prob": 2, "charges": [ 0, -1 ] },
+      { "item": "glock_30", "prob": 10, "charges": [ 0, -1 ] },
+      { "item": "glock_36", "prob": 3, "charges": [ 0, -1 ] },
       { "item": "m1911", "prob": 13, "charges": [ 0, -1 ] },
       { "item": "walther_ppq_45", "prob": 1, "charges": [ 0, -1 ] },
       { "item": "hptjhp", "prob": 1, "charges": [ 0, -1 ] },
@@ -218,13 +256,20 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_380",
-    "items": [ { "item": "rugerlcp", "prob": 231, "charges": [ 0, -1 ] }, { "item": "hptcf380", "prob": 15, "charges": [ 0, -1 ] } ]
+    "items": [
+      { "item": "rugerlcp", "prob": 231, "charges": [ 0, -1 ] },
+      { "item": "hptcf380", "prob": 15, "charges": [ 0, -1 ] },
+      { "item": "swbodyguard", "prob": 1673, "charges": [ 0, -1 ] },
+      { "item": "glock_42", "prob": 439, "charges": [ 0, -1 ] }
+    ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_40",
     "items": [
       { "item": "glock_22", "prob": 10, "charges": [ 0, -1 ] },
+      { "item": "glock_23", "prob": 61, "charges": [ 0, -1 ] },
+      { "item": "glock_27", "prob": 75, "charges": [ 0, -1 ] },
       { "item": "px4_40", "prob": 20, "charges": [ 0, -1 ] },
       { "item": "hi_power_40", "prob": 1, "charges": [ 0, -1 ] },
       { "item": "hptjcp", "prob": 3, "charges": [ 0, -1 ] }
@@ -245,6 +290,7 @@
     "id": "guns_pistol_common_everyday_carry_38",
     "items": [
       { "item": "ruger_lcr_38", "prob": 66, "charges": [ 0, -1 ] },
+      { "item": "sw642", "prob": 100, "charges": [ 0, -1 ] },
       { "item": "model_10_revolver", "prob": 10, "charges": [ 0, -1 ] }
     ]
   },
@@ -301,6 +347,12 @@
     "items": [
       { "item": "glock_17", "prob": 73 },
       { "item": "glock_19", "prob": 100 },
+      { "item": "glock_26", "prob": 14 },
+      { "item": "glock_34", "prob": 11 },
+      { "item": "glock_43", "prob": 13 },
+      { "item": "glock_43x", "prob": 51 },
+      { "item": "glock_48", "prob": 19 },
+      { "item": "p365", "prob": 161 },
       { "item": "m9", "variant": "m9", "prob": 22 },
       { "item": "px4", "prob": 5 },
       { "item": "hi_power_9mm", "prob": 9 },
@@ -324,6 +376,7 @@
     "id": "guns_pistol_common_display_22",
     "items": [
       { "item": "walther_p22", "prob": 45 },
+      { "item": "sr22", "prob": 405 },
       { "item": "ruger_lcr_22", "prob": 2 },
       { "item": "rough_rider_pistol", "prob": 61 },
       { "item": "rough_rider_pistol_9", "prob": 14 },
@@ -331,7 +384,9 @@
       { "item": "cp33", "prob": 16 },
       { "item": "ruger_mk4", "prob": 113 },
       { "item": "ruger_charger", "prob": 16 },
-      { "item": "1911_22", "prob": 100 }
+      { "item": "1911_22", "prob": 100 },
+      { "item": "sw617", "prob": 46 },
+      { "item": "glock_44", "prob": 13 }
     ]
   },
   {
@@ -339,6 +394,8 @@
     "id": "guns_pistol_common_display_45",
     "items": [
       { "item": "glock_21", "prob": 14 },
+      { "item": "glock_21", "prob": 10 },
+      { "item": "glock_36", "prob": 3 },
       { "item": "m1911", "prob": 100 },
       { "item": "walther_ppq_45", "prob": 1 },
       { "item": "hptjhp", "prob": 2 },
@@ -348,13 +405,20 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_380",
-    "items": [ { "item": "rugerlcp", "prob": 231 }, { "item": "hptcf380", "prob": 100 } ]
+    "items": [
+      { "item": "rugerlcp", "prob": 231 },
+      { "item": "hptcf380", "prob": 100 },
+      { "item": "swbodyguard", "prob": 1673 },
+      { "item": "glock_42", "prob": 439 }
+    ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_40",
     "items": [
       { "item": "glock_22", "prob": 100 },
+      { "item": "glock_23", "prob": 61 },
+      { "item": "glock_27", "prob": 75 },
       { "item": "px4_40", "prob": 20 },
       { "item": "hi_power_40", "prob": 3 },
       { "item": "hptjcp", "prob": 29 }
@@ -374,7 +438,11 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_38",
-    "items": [ { "item": "ruger_lcr_38", "prob": 66 }, { "item": "model_10_revolver", "prob": 100 } ]
+    "items": [
+      { "item": "ruger_lcr_38", "prob": 66 },
+      { "item": "model_10_revolver", "prob": 100 },
+      { "item": "sw642", "prob": 81 }
+    ]
   },
   {
     "type": "item_group",
@@ -416,6 +484,11 @@
     "type": "item_group",
     "id": "guns_pistol_common_display_57",
     "items": [ { "item": "ruger_57", "prob": 100 }, { "item": "fn57", "prob": 13 }, { "item": "p50", "prob": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_display_460",
+    "items": [ { "item": "460_xvr", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -489,7 +562,8 @@
       { "group": "nested_rossi_gallery", "prob": 11 },
       { "group": "nested_ar15_retool_22", "prob": 2 },
       { "group": "nested_rio_bravo", "prob": 15 },
-      { "group": "nested_henry_golden_boy", "prob": 31 }
+      { "group": "nested_henry_golden_boy", "prob": 31 },
+      { "group": "nested_marlin60", "prob": 20 }
     ]
   },
   {
@@ -505,6 +579,7 @@
       { "group": "nested_cz600", "prob": 13 },
       { "group": "nested_sl8", "prob": 3 },
       { "group": "nested_sig_assault_rifle", "prob": 1 },
+      { "group": "nested_scar_16s", "prob": 14 },
       { "group": "nested_iwi_tavor_x95", "prob": 27 }
     ]
   },
@@ -513,6 +588,7 @@
     "id": "guns_rifle_common_308",
     "items": [
       { "group": "nested_ar10", "prob": 89 },
+      { "group": "nested_scar_17s", "prob": 20 },
       { "group": "nested_m1a", "prob": 100 },
       { "group": "nested_rfb_308", "prob": 6 },
       { "group": "nested_fn_fal", "prob": 5 },
@@ -541,7 +617,7 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common_9mm",
-    "items": [ { "group": "nested_ksub2000", "prob": 100 } ]
+    "items": [ { "group": "nested_ksub2000", "prob": 84 }, { "group": "nested_rugerpcc", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -664,7 +740,8 @@
       { "item": "marlin_9a", "prob": 3 },
       { "group": "ar15_22", "prob": 2 },
       { "item": "rio_bravo", "prob": 15 },
-      { "item": "henry_golden_boy", "prob": 31 }
+      { "item": "henry_golden_boy", "prob": 31 },
+      { "item": "marlin60", "prob": 20 }
     ]
   },
   {
@@ -681,6 +758,7 @@
       { "group": "cz600", "prob": 13 },
       { "item": "sl8", "prob": 3 },
       { "item": "sig_assault_rifle", "prob": 1 },
+      { "item": "scar_16s", "prob": 14 },
       { "item": "iwi_tavor_x95_300blk", "prob": 27 }
     ]
   },
@@ -689,6 +767,7 @@
     "id": "guns_rifle_common_display_308",
     "items": [
       { "item": "ar10", "prob": 89 },
+      { "item": "scar_17s", "prob": 20 },
       { "item": "m1a", "prob": 100 },
       { "item": "rfb_308", "prob": 7 },
       { "item": "fn_fal_semi", "prob": 5 },
@@ -717,7 +796,7 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common_display_9mm",
-    "items": [ { "item": "ksub2000", "prob": 100 } ]
+    "items": [ { "item": "ksub2000", "prob": 84 }, { "item": "rugerpcc", "prob": 100 } ]
   },
   {
     "type": "item_group",

@@ -1,30 +1,38 @@
 #include "veh_type.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstddef>
-#include <limits>
+#include <functional>
+#include <iterator>
+#include <list>
 #include <memory>
 #include <numeric>
-#include <tuple>
-#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 
 #include "ammo.h"
 #include "assign.h"
 #include "cata_assert.h"
+#include "catacharset.h"
 #include "character.h"
+#include "clzones.h"
 #include "color.h"
+#include "damage.h"
 #include "debug.h"
+#include "enums.h"
 #include "flag.h"
+#include "flat_set.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "init.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "map.h"
 #include "output.h"
 #include "pocket_type.h"
 #include "requirements.h"
@@ -36,9 +44,9 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 #include "wcwidth.h"
-
-class npc;
 
 namespace
 {
@@ -208,7 +216,7 @@ static void parse_vp_reqs( const JsonObject &obj, const vpart_id &id, const std:
 }
 
 static void parse_vp_control_reqs( const JsonObject &obj, const vpart_id &id,
-                                   const std::string_view &key,
+                                   std::string_view key,
                                    vp_control_req &req )
 {
     if( !obj.has_object( key ) ) {
@@ -1021,7 +1029,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     }
     if( has_flag( "TURRET" ) ) {
         class::item base( base_item );
-        if( base.ammo_required() && !base.ammo_remaining() ) {
+        if( base.ammo_required() && !base.ammo_remaining( ) ) {
             itype_id default_ammo = base.magazine_current() ? base.common_ammo_default() : base.ammo_default();
             if( !default_ammo.is_null() ) {
                 base.ammo_set( default_ammo );
@@ -1381,7 +1389,8 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
     }
 }
 
-void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &json )
+void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh,
+        JsonOut &json )
 {
     static const std::string part_location_structure( "structure" );
     json.start_object();
@@ -1450,14 +1459,14 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
         json.member( "parts" );
         json.start_array();
         for( const vehicle_part *vp : vp_pos.second ) {
-            if( vp->is_tank() && vp->ammo_remaining() ) {
+            if( vp->is_tank() && vp->ammo_remaining( ) ) {
                 json.start_object();
                 json.member( "part" );
                 print_vp_with_variant( *vp );
                 json.member( "fuel", vp->ammo_current().str() );
                 json.end_object();
                 continue;
-            } else if( vp->is_turret() && vp->ammo_remaining() ) {
+            } else if( vp->is_turret() && vp->ammo_remaining( ) ) {
                 json.start_object();
                 json.member( "part" );
                 print_vp_with_variant( *vp );
@@ -1465,7 +1474,7 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
                 json.member( "ammo_types", vp->ammo_current().str() );
                 json.member( "ammo_qty" );
                 json.start_array();
-                int ammo_qty = vp->ammo_remaining();
+                int ammo_qty = vp->ammo_remaining( );
                 json.write( ammo_qty );
                 json.write( ammo_qty );
                 json.end_array();
@@ -1535,6 +1544,7 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
  */
 void vehicles::finalize_prototypes()
 {
+    map &here = get_map(); // TODO: Determine if this is good enough.
     vehicle_prototype_factory.finalize();
     for( const vehicle_prototype &const_proto : vehicles::get_all_prototypes() ) {
         vehicle_prototype &proto = const_cast<vehicle_prototype &>( const_proto );
@@ -1560,7 +1570,7 @@ void vehicles::finalize_prototypes()
                 continue;
             }
 
-            const int part_idx = blueprint.install_part( pt.pos, pt.part );
+            const int part_idx = blueprint.install_part( here, pt.pos, pt.part );
             if( part_idx < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name, pt.part.c_str(),

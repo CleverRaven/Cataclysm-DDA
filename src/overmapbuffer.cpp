@@ -1,9 +1,10 @@
 #include "overmapbuffer.h"
 
 #include <algorithm>
-#include <climits>
+#include <cmath>
+#include <cstdlib>
 #include <iterator>
-#include <list>
+#include <limits>
 #include <map>
 #include <optional>
 #include <string>
@@ -17,13 +18,11 @@
 #include "character_id.h"
 #include "city.h"
 #include "color.h"
-#include "common_types.h"
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
-#include "game_constants.h"
 #include "line.h"
 #include "map.h"
 #include "memory_fast.h"
@@ -31,6 +30,7 @@
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
+#include "omdata.h"
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_types.h"
@@ -41,8 +41,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "vehicle.h"
-
-class map_extra;
 
 static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
 static const oter_type_str_id oter_type_bridgehead_ramp( "bridgehead_ramp" );
@@ -821,7 +819,7 @@ const oter_id &overmapbuffer::ter_existing( const tripoint_abs_omt &p )
 void overmapbuffer::ter_set( const tripoint_abs_omt &p, const oter_id &id )
 {
     const overmap_with_local_coords om_loc = get_om_global( p );
-    return om_loc.om->ter_set( om_loc.local, id );
+    om_loc.om->ter_set( om_loc.local, id );
 }
 
 std::optional<mapgen_arguments> *overmapbuffer::mapgen_args( const tripoint_abs_omt &p )
@@ -840,6 +838,18 @@ std::vector<oter_id> overmapbuffer::predecessors( const tripoint_abs_omt &p )
 {
     const overmap_with_local_coords om_loc = get_om_global( p );
     return om_loc.om->predecessors( om_loc.local );
+}
+
+int overmapbuffer::highest_omt_point( tripoint_abs_omt loc )
+{
+    for( int i = OVERMAP_HEIGHT; i >= OVERMAP_DEPTH * -1; i-- ) {
+        loc.z() = i;
+        if( !ter( loc )->can_see_down_through() ) {
+            return i;
+        }
+    }
+
+    return 0;
 }
 
 bool overmapbuffer::reveal( const point_abs_omt &center, int radius, int z )
@@ -1606,7 +1616,7 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal
     [&]( std::pair<const tripoint_om_sm, monster> &monster_entry ) {
         monster &this_monster = monster_entry.second;
         map &here = get_map();
-        const tripoint_bub_ms local = this_monster.pos_bub( &here );
+        const tripoint_bub_ms local = this_monster.pos_bub( here );
         // The monster position must be local to the main map when added to the game
         if( !spawn_nonlocal ) {
             cata_assert( here.inbounds( local ) );
@@ -1637,7 +1647,7 @@ void overmapbuffer::despawn_monster( const monster &critter )
     }
 }
 
-overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string_view pattern )
+overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, std::string_view pattern )
 {
     t_notes_vector result;
     for( auto &it : overmaps ) {
@@ -1663,7 +1673,7 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
     return result;
 }
 
-overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::string_view pattern )
+overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, std::string_view pattern )
 {
     overmapbuffer::t_extras_vector result;
     for( auto &it : overmaps ) {

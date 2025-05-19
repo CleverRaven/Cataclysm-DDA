@@ -1,7 +1,8 @@
 [
   {
     "id": "brazier",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "brazier" },
     "description": "A large metal stand used to contain a fire.  Fires set in a brazier will not spread to surrounding flammable objects.",
     "weight": "4459 g",
@@ -21,9 +22,10 @@
   },
   {
     "id": "makeshift_brazier",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "makeshift brazier" },
-    "description": "A portable brazier fashioned from a steel bucket by punching small holes on the sides to improve the air supply.  It is too small to fit any fuel item larger than some splintered wood.  Fires set in this bucket will not spread to surrounding flammable objects",
+    "description": "A portable brazier fashioned from a steel bucket by punching small holes on the sides to improve the air supply.  It is too small to fit any fuel item larger than some splintered wood.  Fires set in this bucket will not spread to surrounding flammable objects.",
     "copy-from": "bucket",
     "pocket_data": [
       {
@@ -40,7 +42,8 @@
   },
   {
     "id": "hobo_stove",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hobo stove" },
     "description": "A small, improvised wood stove, made from a metal can or similar container of the right size.  It's too small to fit anything much larger than splintered wood.  Activate it to deploy.",
     "copy-from": "can_medium",
@@ -61,7 +64,8 @@
   },
   {
     "id": "portable_stove",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "symbol": "_",
     "color": "light_gray",
     "container": "nylon_bag",
@@ -73,7 +77,8 @@
   },
   {
     "id": "55gal_firebarrel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "fire barrel (200 L)", "str_pl": "fire barrels (200 L)" },
     "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
     "weight": "20 kg",
@@ -92,7 +97,8 @@
   },
   {
     "id": "30gal_firebarrel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "fire barrel (100 L)", "str_pl": "fire barrels (100 L)" },
     "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
     "weight": "15 kg",
@@ -111,7 +117,8 @@
   },
   {
     "id": "camp_chair",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "camp chair" },
     "description": "A folded chair for camping.  Activate it to set it down for a place to sit.",
     "weight": "2200 g",
@@ -131,7 +138,8 @@
   },
   {
     "id": "deck_chair",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "deck chair" },
     "description": "Folded deck chair, deploy to sit down.",
     "weight": "6 kg",
@@ -149,7 +157,8 @@
   },
   {
     "id": "chair_folding",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "folding chair" },
     "description": "Folded plastic chair on a metal frame, deploy to sit down.",
     "weight": "2900 g",
@@ -167,7 +176,8 @@
   },
   {
     "id": "xedra_antenna",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "deployable antenna" },
     "description": "A directional antenna and accompanying tripod, folded into a shape vaguely resembling an umbrella.",
     "weight": "3200 g",
@@ -185,7 +195,8 @@
   },
   {
     "id": "cot",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "cot" },
     "description": "A military-style folding cot.  While it may not be quite as comfortable as a bed, it's better than slumming it on the ground.",
     "weight": "7500 g",
@@ -210,7 +221,8 @@
   },
   {
     "id": "metal_butcher_rack",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "metal butchering rack" },
     "description": "A metal butchering rack designed to hang a carcass in the air.  It is folded for easy transportation.",
     "weight": "5 kg",
@@ -227,7 +239,8 @@
   },
   {
     "id": "metal_smoking_rack",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "metal smoking rack" },
     "description": "A metal rack designed to smoke food for better preservation and taste.  It is folded for easy transportation.",
     "weight": "5 kg",
@@ -244,7 +257,8 @@
   },
   {
     "id": "tourist_table",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "folding table" },
     "description": "A metal folding table for off-road trips.  It is currently folded for easy transportation.",
     "weight": "4500 g",
@@ -262,7 +276,8 @@
   },
   {
     "id": "leather_tarp",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "leather tarp" },
     "description": "A large sheet of leather.  You could use it as a picnic blanket, but it's more valuable as a surface for butchering as it does not soak up blood.  It's rolled and ready for carrying.",
     "weight": "2 kg",
@@ -277,7 +292,8 @@
   },
   {
     "id": "fiber_mat",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "fiber mat" },
     "description": "A large mat woven from fibrous material.  You could use it as a picnic blanket, but it's more valuable as a surface for butchering.  Too thin to be used as a comfortable sleeping mat.  It's rolled and ready for carrying.",
     "weight": "1 kg",
@@ -292,7 +308,8 @@
   },
   {
     "id": "churn",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "folded butter churn" },
     "description": "A large wooden container used to turn raw milk into butter and buttermilk.  This model uses a foot crank and holds three gallons of raw milk.",
     "weight": "6464 g",
@@ -309,7 +326,8 @@
   },
   {
     "id": "water_mill",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "water mill" },
     "description": "A small water-powered mill that can convert starchy products into flour.  Needs to be placed via the construction menu.",
     "weight": "120 kg",
@@ -323,7 +341,8 @@
   },
   {
     "id": "wind_mill",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "wind mill" },
     "description": "A small wind-powered mill that can convert starchy products into flour.  Needs to be placed via the construction menu.",
     "weight": "120 kg",
@@ -337,7 +356,8 @@
   },
   {
     "id": "screw_press_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "screw press", "str_pl": "screw presses" },
     "description": "A large screw press for manually pressing oil out of fruit or seed paste.  Needs to be placed via the construction menu.",
     "weight": "70 kg",
@@ -351,7 +371,8 @@
   },
   {
     "id": "beverly_shear",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Beverly shear" },
     "description": "A massive bench-mounted device with a short guillotine blade mounted to a long lever.  Designed for making straight or curved cuts through sheet metal up to 3 millimeters thick.",
     "//": "Based on the Beverly B-2 Throatless Shear, 10 gauge capacity - as was furniture - values based on real world Beverly B-2 Throatless Shear",
@@ -369,7 +390,8 @@
   },
   {
     "id": "manual_tire_changer",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "manual tire changer" },
     "description": "A floor-mounted machine containing all the levers, clamps, and mounts required to remove or fit a tire, plus an integrated foot pump to inflate it.",
     "//": "Based on the Redline TC500M Manual Tire Changer",

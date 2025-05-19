@@ -664,7 +664,7 @@
           { "item": "dress_shoes" },
           { "item": "tie_clipon" },
           { "item": "tieclip" },
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "item": "knit_scarf" },
           { "item": "sf_watch" },
           { "item": "mbag" },
@@ -786,7 +786,9 @@
       "bio_power_storage"
     ],
     "items": {
-      "both": { "entries": [ { "item": "subsuit_xl" }, { "item": "footrags" }, { "item": "hat_noise_cancelling" } ] },
+      "both": {
+        "entries": [ { "item": "jumpsuit_pocketless", "variant": "orange" }, { "item": "footrags" }, { "item": "hat_noise_cancelling" } ]
+      },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },

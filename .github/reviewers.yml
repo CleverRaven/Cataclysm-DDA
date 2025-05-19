@@ -36,10 +36,12 @@ files:
     - Termineitor244
   'data/mods/Limb_WIP/**':
     - Venera3
+  'data/mods/alt_map_key/**':
+    - thaelina
+  'data/json/overmap/overmap_terrain/**':
+    - thaelina
   'tools/json_tools/gun_variant_validator.py':
     - anothersimulacrum
-  'data/changelog.txt':
-    - Procyonae
 
   '**/.clang-tidy':
     - jbytheway

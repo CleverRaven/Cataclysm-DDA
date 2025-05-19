@@ -17,39 +17,33 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_id.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
+#include "item_location.h"
 #include "magic_teleporter_list.h"
 #include "mdarray.h"
-#include "point.h"
+#include "memory_fast.h"
 #include "type_id.h"
 #include "units.h"
 
+class JsonObject;
+class JsonOut;
 class advanced_inv_area;
 class advanced_inv_listitem;
 class advanced_inventory_pane;
 class cata_path;
 class diary;
-class faction;
-class item_location;
-class JsonObject;
-class JsonOut;
 class map_memory;
 class memorized_tile;
 class mission;
 class monster;
-class nc_color;
 class npc;
 class talker;
 struct bionic;
 struct mtype;
 
-namespace catacurses
-{
-class window;
-} // namespace catacurses
 namespace debug_menu
 {
 class mission_debug;
@@ -308,9 +302,9 @@ class avatar : public Character
         // Activate crouch mode if not in crouch mode.
         void activate_crouch_mode();
 
-        bool wield( item_location target );
-        bool wield( item &target ) override;
-        bool wield( item &target, int obtain_cost );
+        bool wield( item &it );
+        bool wield( item_location loc, bool remove_old = true );
+
 
         item::reload_option select_ammo( const item_location &base, bool prompt = false,
                                          bool empty = true ) override;

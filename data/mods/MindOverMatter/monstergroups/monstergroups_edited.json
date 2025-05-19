@@ -160,6 +160,38 @@
   },
   {
     "type": "monstergroup",
+    "id": "GROUP_MEATLAB",
+    "//": "Add additional base spawns so psionic amalgamations are rarer",
+    "monsters": [
+      { "monster": "mon_null", "weight": 9 },
+      { "monster": "mon_amalgamation_swarmer", "weight": 5, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_meat_cocoon_tiny", "weight": 5, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_meat_cocoon_small", "weight": 2 },
+      { "monster": "mon_amalgamation_spotter", "weight": 2 },
+      { "monster": "mon_amalgamation_corroder", "weight": 2 },
+      { "monster": "mon_amalgamation_jumper", "pack_size": [ 1, 2 ], "weight": 1 },
+      { "monster": "mon_amalgamation_soldier", "weight": 1, "starts": "28 days" },
+      { "monster": "mon_amalgamation_zapper", "weight": 1, "starts": "56 days" },
+      { "monster": "mon_jabberwock", "weight": 1, "starts": "28 days" },
+      { "monster": "mon_amalgamation_telepathic_distractor", "weight": 1, "starts": "112 days" },
+      { "monster": "mon_amalgamation_telekinetic_shielder", "weight": 1, "starts": "112 days" }
+    ]
+  },
+  {
+    "id": "GROUP_AMALGAMATION_SMALL",
+    "type": "monstergroup",
+    "//": "Add additional base spawns so psionic amalgamations are rarer",
+    "monsters": [
+      { "monster": "mon_amalgamation_swarmer", "weight": 6, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_amalgamation_spotter", "weight": 2, "starts": "28 days" },
+      { "monster": "mon_amalgamation_corroder", "weight": 4, "starts": "112 days" },
+      { "monster": "mon_amalgamation_corroder", "weight": 6, "starts": "224 days" },
+      { "monster": "mon_amalgamation_telepathic_distractor", "weight": 1, "starts": "112 days" },
+      { "monster": "mon_amalgamation_telekinetic_shielder", "weight": 1, "starts": "112 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "id": "GROUP_NETHER_REALITY_TEAR_FIELD",
     "monsters": [ { "monster": "mon_nether_eater", "weight": 100, "cost_multiplier": 0 } ]
   },
@@ -181,36 +213,36 @@
   {
     "id": "GROUP_BEARS",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_bandersnatch", "weight": 20, "starts": "2 days", "cost_multiplier": 5 } ]
+    "monsters": [ { "monster": "mon_bandersnatch", "weight": 20, "starts": "8 days", "cost_multiplier": 5 } ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_CAVE",
-    "monsters": [ { "monster": "mon_hidebehind", "weight": 10, "starts": "2 days", "cost_multiplier": 5 } ]
+    "monsters": [ { "monster": "mon_hidebehind", "weight": 10, "starts": "8 days", "cost_multiplier": 5 } ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
     "monsters": [
-      { "monster": "mon_hidebehind", "weight": 1, "starts": "2 days", "cost_multiplier": 10 },
-      { "monster": "mon_psi_gremlin", "weight": 1, "starts": "2 days", "cost_multiplier": 10 }
+      { "monster": "mon_hidebehind", "weight": 1, "starts": "8 days", "cost_multiplier": 10 },
+      { "monster": "mon_psi_gremlin", "weight": 1, "starts": "8 days", "cost_multiplier": 10 }
     ]
   },
   {
     "id": "GROUP_COWS",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_hodag_calf", "weight": 10, "starts": "7 days", "cost_multiplier": 5 },
-      { "monster": "mon_hodag", "weight": 10, "starts": "180 days", "cost_multiplier": 8 }
+      { "monster": "mon_hodag_calf", "weight": 10, "starts": "28 days", "cost_multiplier": 5 },
+      { "monster": "mon_hodag", "weight": 10, "starts": "720 days", "cost_multiplier": 8 }
     ]
   },
   {
     "id": "GROUP_COWS_DAIRY",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_cow_biokinetic", "weight": 10, "starts": "2 days", "cost_multiplier": 5 },
-      { "monster": "mon_hodag_calf", "weight": 10, "starts": "7 days", "cost_multiplier": 5 },
-      { "monster": "mon_hodag", "weight": 10, "starts": "180 days", "cost_multiplier": 20 }
+      { "monster": "mon_cow_biokinetic", "weight": 10, "starts": "8 days", "cost_multiplier": 5 },
+      { "monster": "mon_hodag_calf", "weight": 10, "starts": "28 days", "cost_multiplier": 5 },
+      { "monster": "mon_hodag", "weight": 10, "starts": "720 days", "cost_multiplier": 20 }
     ]
   },
   {
@@ -220,9 +252,9 @@
     "is_animal": true,
     "monsters": [
       { "group": "GROUP_ANIMAL_PSIONS", "weight": 15, "cost_multiplier": 5 },
-      { "group": "GROUP_ANIMAL_PSIONS", "weight": 15, "starts": "14 days", "cost_multiplier": 5 },
-      { "group": "GROUP_ANIMAL_PSIONS", "weight": 15, "starts": "28 days", "cost_multiplier": 5 },
-      { "group": "GROUP_ANIMAL_PSIONS", "weight": 15, "starts": "90 days", "cost_multiplier": 5 }
+      { "group": "GROUP_ANIMAL_PSIONS", "weight": 15, "starts": "56 days", "cost_multiplier": 5 },
+      { "group": "GROUP_ANIMAL_PSIONS", "weight": 15, "starts": "112 days", "cost_multiplier": 5 },
+      { "group": "GROUP_ANIMAL_PSIONS", "weight": 15, "starts": "360 days", "cost_multiplier": 5 }
     ]
   },
   {
@@ -231,8 +263,8 @@
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_hodag", "weight": 1, "cost_multiplier": 10, "starts": "180 days" },
-      { "monster": "mon_cockatrice", "weight": 5, "starts": "21 days", "cost_multiplier": 10, "pack_size": [ 3, 5 ] }
+      { "monster": "mon_hodag", "weight": 1, "cost_multiplier": 10, "starts": "720 days" },
+      { "monster": "mon_cockatrice", "weight": 5, "starts": "84 days", "cost_multiplier": 10, "pack_size": [ 3, 5 ] }
     ]
   },
   {
@@ -241,13 +273,13 @@
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_cockatrice", "weight": 2, "starts": "21 days", "cost_multiplier": 2 },
-      { "monster": "mon_cockatrice", "weight": 10, "starts": "21 days", "cost_multiplier": 10, "pack_size": [ 3, 5 ] },
-      { "monster": "mon_pigeon_passenger", "weight": 2, "starts": "21 days", "cost_multiplier": 2 },
+      { "monster": "mon_cockatrice", "weight": 2, "starts": "84 days", "cost_multiplier": 2 },
+      { "monster": "mon_cockatrice", "weight": 10, "starts": "84 days", "cost_multiplier": 10, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_pigeon_passenger", "weight": 2, "starts": "84 days", "cost_multiplier": 2 },
       {
         "monster": "mon_pigeon_passenger",
         "weight": 10,
-        "starts": "21 days",
+        "starts": "84 days",
         "cost_multiplier": 10,
         "pack_size": [ 3, 5 ]
       }
@@ -258,7 +290,7 @@
     "id": "GROUP_SAFE",
     "default": "mon_null",
     "is_animal": true,
-    "monsters": [ { "monster": "mon_cockatrice", "weight": 2, "starts": "21 days" }, { "monster": "mon_psi_gremlin", "weight": 2 } ]
+    "monsters": [ { "monster": "mon_cockatrice", "weight": 2, "starts": "84 days" }, { "monster": "mon_psi_gremlin", "weight": 2 } ]
   },
   {
     "id": "GROUP_PET_DOGS",
@@ -266,7 +298,7 @@
     "default": "mon_dog",
     "monsters": [
       { "monster": "mon_hellhound", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_hellhound", "weight": 25, "starts": "90 days", "cost_multiplier": 0 }
+      { "monster": "mon_hellhound", "weight": 25, "starts": "360 days", "cost_multiplier": 0 }
     ]
   },
   {
@@ -275,49 +307,49 @@
     "default": "mon_dog",
     "monsters": [
       { "monster": "mon_hellhound", "weight": 3, "cost_multiplier": 0 },
-      { "monster": "mon_hellhound", "weight": 15, "starts": "90 days", "cost_multiplier": 0 },
-      { "monster": "mon_dire_hound", "weight": 1, "starts": "58 days", "cost_multiplier": 0 }
+      { "monster": "mon_hellhound", "weight": 15, "starts": "360 days", "cost_multiplier": 0 },
+      { "monster": "mon_dire_hound", "weight": 1, "starts": "232 days", "cost_multiplier": 0 }
     ]
   },
   {
     "id": "GROUP_MUTANT_PET_DOGS",
     "type": "monstergroup",
     "default": "mon_dog_mutant_mongrel",
-    "monsters": [ { "monster": "mon_dire_hound", "weight": 1, "starts": "58 days", "cost_multiplier": 0 } ]
+    "monsters": [ { "monster": "mon_dire_hound", "weight": 1, "starts": "232 days", "cost_multiplier": 0 } ]
   },
   {
     "id": "GROUP_ANIMALPOUND_DOGS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_hellhound", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_hellhound", "weight": 15, "starts": "90 days", "cost_multiplier": 0 }
+      { "monster": "mon_hellhound", "weight": 15, "starts": "360 days", "cost_multiplier": 0 }
     ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_MI-GO_CAMP_OM",
     "monsters": [
-      { "monster": "mon_mi_go_telepath", "weight": 50, "cost_multiplier": 20, "starts": "210 hours" },
-      { "monster": "mon_mi_go_photokinetic", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" },
-      { "monster": "mon_mi_go_biokinetic", "weight": 20, "cost_multiplier": 70, "starts": "210 hours" }
+      { "monster": "mon_mi_go_telepath", "weight": 50, "cost_multiplier": 20, "starts": "35 days" },
+      { "monster": "mon_mi_go_photokinetic", "weight": 50, "cost_multiplier": 2, "starts": "35 days" },
+      { "monster": "mon_mi_go_biokinetic", "weight": 20, "cost_multiplier": 70, "starts": "35 days" }
     ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_MI-GO_BASE_COMMON",
     "monsters": [
-      { "monster": "mon_mi_go_telepath", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" },
-      { "monster": "mon_mi_go_photokinetic", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" },
-      { "monster": "mon_mi_go_biokinetic", "weight": 15, "cost_multiplier": 8, "starts": "210 hours" }
+      { "monster": "mon_mi_go_telepath", "weight": 50, "cost_multiplier": 2, "starts": "35 days" },
+      { "monster": "mon_mi_go_photokinetic", "weight": 50, "cost_multiplier": 2, "starts": "35 days" },
+      { "monster": "mon_mi_go_biokinetic", "weight": 15, "cost_multiplier": 8, "starts": "35 days" }
     ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_MI-GO_BASE_CAPTORS",
     "monsters": [
-      { "monster": "mon_mi_go_telepath", "weight": 300, "cost_multiplier": 2, "starts": "210 hours" },
-      { "monster": "mon_mi_go_photokinetic", "weight": 300, "cost_multiplier": 2, "starts": "210 hours" },
-      { "monster": "mon_mi_go_biokinetic", "weight": 50, "cost_multiplier": 8, "starts": "210 hours" }
+      { "monster": "mon_mi_go_telepath", "weight": 300, "cost_multiplier": 2, "starts": "35 days" },
+      { "monster": "mon_mi_go_photokinetic", "weight": 300, "cost_multiplier": 2, "starts": "35 days" },
+      { "monster": "mon_mi_go_biokinetic", "weight": 50, "cost_multiplier": 8, "starts": "35 days" }
     ]
   },
   {

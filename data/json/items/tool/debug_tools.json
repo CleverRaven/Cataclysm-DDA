@@ -1,10 +1,11 @@
 [
   {
     "id": "debug_lux_meter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "debug lux meter" },
-    "description": "This debug tool will tell you about light",
+    "description": "This debug tool will tell you about light.",
     "weight": "1 g",
     "volume": "1 ml",
     "material": [ "plastic" ],
@@ -14,7 +15,8 @@
   },
   {
     "id": "debug_item_damager",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str_sp": "debug item damager (simple)" },
     "description": "Deals 1 full bar of damage to an item you wield.",
@@ -48,7 +50,8 @@
   },
   {
     "id": "debug_item_damager_adv",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str_sp": "debug item damager (advanced)" },
     "description": "Deals damage to items you pick.",
@@ -70,6 +73,99 @@
               "effect": [
                 { "math": [ "n_hp('ALL')", "-=", "num_input('Amount of damage, 1000 is one bar of damage.', 1000)" ] },
                 { "u_message": "Dealt damage to all items." }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "debug_mortar",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "tools",
+    "name": { "str_sp": "debug explosion generator" },
+    "description": "Causes explosion at overmap you pick.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Cause explosion",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_CAUSE_EXPLOSION",
+          "effect": [
+            { "u_query_omt": { "context_val": "pos" }, "message": "Select point." },
+            {
+              "if": { "math": [ "has_var(_pos)" ] },
+              "then": {
+                "u_explosion": { "power": { "math": [ "num_input('explosion power', 25000)" ] } },
+                "target_var": { "context_val": "pos" }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "debug_apply_fault",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "tools",
+    "name": { "str_sp": "debug fault applier" },
+    "description": "Applies the fault on item by id.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Damage item",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_FIND_ITEM_fault",
+          "effect": {
+            "u_run_inv_eocs": "manual_mult",
+            "true_eocs": {
+              "id": "EOC_APPLY_FAULT",
+              "effect": [
+                {
+                  "set_string_var": "",
+                  "string_input": { "title": "", "description": "fault_id or fault_type_id", "identifier": "debug_apply_fault", "width": 30 },
+                  "target_var": { "context_val": "str" }
+                },
+                {
+                  "if": { "u_query": "Provided id is fault_type or fault?  \"Yes\" for fault_type, \"No\" for fault_id", "default": false },
+                  "then": { "math": [ "_is_group = 1" ] }
+                },
+                { "if": { "u_query": "Forced?", "default": false }, "then": { "math": [ "_is_force = 1" ] } },
+                {
+                  "if": { "math": [ "_is_group" ] },
+                  "then": [
+                    {
+                      "if": { "math": [ "_is_force" ] },
+                      "then": { "u_set_random_fault_of_type": { "context_val": "str" }, "force": true },
+                      "else": { "u_set_random_fault_of_type": { "context_val": "str" } }
+                    },
+                    {
+                      "u_message": "<npc_name> has random fault from fault_type \"<context_val:str>\" added, if such group exists."
+                    }
+                  ],
+                  "else": [
+                    {
+                      "if": { "math": [ "_is_force" ] },
+                      "then": { "npc_set_fault": { "context_val": "str" }, "force": true },
+                      "else": { "npc_set_fault": { "context_val": "str" } }
+                    },
+                    { "u_message": "<npc_name> has \"<context_val:str>\" fault added, if such id exists." }
+                  ]
+                }
               ]
             }
           }

@@ -1,13 +1,35 @@
 #include "npctrade_utils.h"
 
+#include <algorithm>
+#include <functional>
+#include <iterator>
 #include <list>
 #include <map>
+#include <optional>
+#include <ostream>
+#include <string>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "clzones.h"
+#include "coordinates.h"
+#include "debug.h"
+#include "game_constants.h"
+#include "item.h"
+#include "item_location.h"
+#include "map.h"
+#include "mapdata.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "pathfinding.h"
+#include "pocket_type.h"
+#include "point.h"
 #include "rng.h"
+#include "shop_cons_rate.h"
+#include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -67,8 +89,10 @@ bool _to_map( item const &it, map &here, tripoint_bub_ms const &dpoint_here )
 
 bool _to_veh( item const &it, std::optional<vpart_reference> const &vp )
 {
+    map &here = get_map();
+
     if( vp->items().free_volume() >= it.volume() ) {
-        std::optional<vehicle_stack::iterator> const ret = vp->vehicle().add_item( vp->part(), it );
+        std::optional<vehicle_stack::iterator> const ret = vp->vehicle().add_item( here, vp->part(), it );
         return !ret.has_value();
     }
     return true;
@@ -90,14 +114,13 @@ void add_fallback_zone( npc &guy )
     std::vector<tripoint_abs_ms> points;
     for( tripoint_abs_ms const &t : closest_points_first( loc, PICKUP_RANGE ) ) {
         tripoint_bub_ms const t_here = here.get_bub( t );
+        const pathfinding_target pf_t = pathfinding_target::point( t_here );
         const furn_id &f = here.furn( t_here );
         if( f != furn_str_id::NULL_ID() &&
             ( f->max_volume > ter_t_floor->max_volume ||
               f->has_flag( ter_furn_flag::TFLAG_CONTAINER ) ) &&
             here.can_put_items_ter_furn( t_here ) &&
-            !here.route( guy.pos_bub(), t_here, guy.get_pathfinding_settings(),
-                         guy.get_path_avoid() )
-            .empty() ) {
+            !here.route( guy, pf_t ).empty() ) {
             points.emplace_back( t );
         }
     }

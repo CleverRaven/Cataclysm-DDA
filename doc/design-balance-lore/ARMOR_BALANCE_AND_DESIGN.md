@@ -48,7 +48,7 @@ All armors need:
 * ```"material_thickness"``` this is measured in mm, this is **the most important value to get right when designing armor**
 
 here is an example armor to look at:
-```json
+```jsonc
 {
   "id": "dress_shirt",
   "type": "ARMOR",
@@ -81,7 +81,7 @@ Each subsection of this will consist of an **explanation of the feature**, an **
 Some items will use an old way of defining armor where their coverage and thickness are loose in the json. This is likely to be phased out. As such I would recommend **always using an advanced armor definition**. Each piece of this will be explained in detail further below but the simplest thing you can do is just define an array of objects containing a coverage value, encumbrance, and the covered locations.
 
 #### Example
-```json
+```jsonc
 "armor": [
   { "covers": [ "torso" ], "coverage": 95, "encumbrance": 4 },
   { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 2 }
@@ -104,7 +104,7 @@ Layers are a system in Cataclysm used to differentiate different types of clothe
 Items can also be on multiple layers by including additional flags. The best example of this is an OUTER armor with a lot of pouches would also be BELTED.
 
 #### Example
-```json
+```jsonc
 "flags": [ "OUTER", "BELTED" ]
 ```
 
@@ -117,7 +117,7 @@ The Nomad Plate is an example of an item that is NORMAL + OUTER.
 Aside from a specific armor taking up multiple layers, different *parts* of an armor can take up different layers. This for example would be useful for a spacesuit, where the helmet is a large glass dome and would be OUTER but the suit itself is form fitting NORMAL layer so that you could wear armor over it. Another use case is for armor that has pouches on the torso but not on the limbs, you could specify OUTER + BELTED for torso and just OUTER for everywhere else. This is done by including the layer info in the advanced armor definition instead of with flags. If an entry doesn't have layers described it falls back to the item flags and if it doesn't have flags it falls back to NORMAL.
 
 #### Example
-```json
+```jsonc
 "flags": [ "STURDY", "OUTER" ],
 "armor": [
   { "encumbrance": [ 4, 6 ], "coverage": 100, "cover_vitals": 90, "covers": [ "torso" ], "layers": [ "OUTER", "BELTED" ] },
@@ -155,7 +155,7 @@ The strapped layer also has additional sub-limbs that are used for hanging items
 This will play more and more of a role as armor gets further developed.
 
 #### Example
-```json
+```jsonc
 "armor": [
   {
     "covers": [ "leg_l", "leg_r" ],
@@ -174,7 +174,7 @@ Heavy Ballistic Vest uses this for different limb bits well.
 Sided armor is armor that even though it describes covering, both legs, both arms, both hands, etc. actually only covers one "side" at a time but can be moved back and forth between sides at will by the player. This works by setting ```"sided": true```
 
 #### Example
-```json
+```jsonc
 {
   "id": "bootsheath",
   "type": "ARMOR",
@@ -222,7 +222,7 @@ lots of holsters. The new plate armor is also sided per piece.
 #### Explanation
 Materials inform a lot of the information for an armor. What something is made of determines how likely it is to break, how much it protects you, how well it breaths (when you sweat). Materials can be defined in a number of ways going up in complexity. The simplest way is to specify an array of materials. When you do this it is assumed that each of the given materials is equally represented in the armor meaning if you had a 2mm thick armor and it was 2 materials it would be assumed each material was 1mm thick. You can expand this further and give each a portion value. So if you had 9 portion material A and 1 portion material B for a 1mm thick armor than it would be .9mm A and .1mm B.
 #### Example
-```json
+```jsonc
   "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "nomex", "portion": 2 } ],
 ```
 #### Further Reading
@@ -233,7 +233,7 @@ Kevlar Gambeson hood and sleeves.
 This is a trick you can do to shorten the amount of work you need. Once you have an abstract for an armor defined, with all of the coverage and encumbrance info, you could create variants with different materials by using proportional coverage and thickness. This can be a powerful and convenient short hand.
 
 #### Example
-```json
+```jsonc
 {
   "//": "Tier 2 mantle",
   "id": "robofac_nomex_mantle",
@@ -255,7 +255,7 @@ Clothing repairs are inherited from their material type.  Needed materials and r
 
 #### Example
 The leather belt repairs like a leather patch because steel is more difficult to repair than leather, but the steel belt buckle is exceedingly unlikely to sustain damage compared to the leather majority of the belt.
-```json
+```jsonc
 {
   "id": "belt_leather",
   "repairs_like": "leather"
@@ -267,7 +267,7 @@ The leather belt repairs like a leather patch because steel is more difficult to
 It is possible to be more verbose and specific with materials and armor. To do this you can specify an array of materials for each advanced armor definition array. Each material needs at least an id and thickness (in mm) however you can also optionally specify a covered_by_mat which is how much of the armor is covered by the material. that way for example if an armor was steel but had leather straps that only covered 5% of the armor you could represent the straps as well. **At least 1 material on any armor should have 100 proportional coverage**.
 
 #### Example
-```json
+```jsonc
 "armor": [
   {
     "material": [
@@ -292,7 +292,7 @@ In the case of melee and ranged coverage they can be specified to differentiate 
 Vitals Coverage does not behave like normal coverage and a is a % reduction to the amount of bonus damage a character takes from critical hits. If you have 100% vitals protection you take no additional damage from critical hits. If you have 50% vitals protection you take half the additional damage.
 
 #### Example
-```json
+```jsonc
 {
   "material": [
     { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
@@ -327,12 +327,12 @@ You can represent a better volume / encumbrance in 3 ways:
 
 #### Example
 simple:
-```json
+```jsonc
   "encumbrance": [4, 6]
 ```
 
 complex:
-```json
+```jsonc
 {
   "material": [
     { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
@@ -346,7 +346,7 @@ complex:
 }
 ```
 
-```json
+```jsonc
 {
   "pocket_type": "CONTAINER",
   "ablative": true,
@@ -375,7 +375,7 @@ Keep in mind **plates need to have less or equal coverage to the armor they are 
 
 #### Example
 pocket:
-```json
+```jsonc
 "pocket_data": [
   {
     "pocket_type": "CONTAINER",
@@ -391,7 +391,7 @@ pocket:
 ```
 
 plate definition:
-```json
+```jsonc
 {
   "id": "esapi_plate",
   "type": "ARMOR",
@@ -423,7 +423,7 @@ Normally armor degrades with use. This degradation is incremental and decreases 
 Transforming items can also specify a custom destruction message with ```"damage_verb"``` which is what will be said when it is damaged.
 
 #### Example
-```json
+```jsonc
 {
   "id": "esapi_plate",
   "type": "ARMOR",
@@ -453,7 +453,7 @@ The MIGO ablative plates use this to slag off and grow back. As well as all othe
 Items with actions can be worn as armor. Usually you need to swap the type to ```TOOL_ARMOR```. Actions are outside the scope of this doc but a simple thing possible is a transform. The basic use case for this is something like a headlamp that can be turned on to provide light. Usually on versions of items will drain power but have additional flags and effects.
 
 #### Example
-```json
+```jsonc
 {
   "id": "survivor_light",
   "type": "TOOL_ARMOR",
@@ -518,11 +518,11 @@ Basically any "TOOL_ARMOR"
 Some armor with custom abilities can be handled as enchantments. This is a new way of handling stuff that is more JSON friendly and doesn't require hard coded flags in C++. The best way to implement an effect on armor is to **not add the effect directly** instead it is for the armor to provide a trait which provides the effect. **this is so if you wear two of the armor it won't give double the effect**. As well it makes it obvious to the player that they have a new trait giving them power.
 
 #### Example
-```json
+```jsonc
 "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] }
 ```
 
-```json
+```jsonc
 {
   "type": "mutation",
   "id": "well_distributed",
@@ -567,10 +567,7 @@ HOOD             | Keeps head warm if nothing on it
 POCKETS          | Keeps hands warm if they are free
 BLOCK_WHILE_WORN | Can be used to block with while worn
 COLLAR           | Keeps mouth warm if not heavily encumbered
-ONLY_ONE         | Only one of this item can be worn
 ONE_PER_LAYER    | Only one item can be worn on this clothing layer
-FANCY            | Clothing is impractically fancy, (like a top hat)
-SUPER_FANCY      | Even more fancy than fancy
 FILTHY           | Disgusting dirty clothes
 FRAGILE          | Breaks fast
 

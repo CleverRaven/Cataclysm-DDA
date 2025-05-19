@@ -1,10 +1,12 @@
 #include <filesystem>
+#include <fstream>
+#include <string>
 
 #include "cata_catch.h"
 #include "coordinates.h"
-#include "filesystem.h"
-#include "game_constants.h"
+#include "map_scale_constants.h"
 #include "overmap_noise.h"
+#include "point.h"
 
 static void export_raw_noise( const std::string &filename, const om_noise::om_noise_layer &noise,
                               int width, int height )

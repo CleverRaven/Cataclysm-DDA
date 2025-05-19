@@ -1,8 +1,13 @@
 #include "ui_iteminfo.h"
 
-#include "messages.h"
+#include <imgui/imgui.h>
+#include <string>
+#include <vector>
+
+#include "color.h"
+#include "input_enums.h"
+#include "translations.h"
 #include "ui_manager.h"
-#include "imgui/imgui_internal.h"
 
 
 iteminfo_window::iteminfo_window( item_info_data &info, point pos, int width, int height,

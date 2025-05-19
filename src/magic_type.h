@@ -4,11 +4,17 @@
 
 
 #include <optional>
+#include <set>
+#include <string>
+#include <string_view>
 #include <vector>
 
 #include "dialogue_helpers.h"
-#include "enum_bitset.h"
 #include "type_id.h"
+
+class JsonObject;
+class JsonOut;
+template <typename T> struct enum_traits;
 
 enum class magic_energy_type : int {
     hp,

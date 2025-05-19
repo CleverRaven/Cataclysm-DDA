@@ -1,5 +1,6 @@
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -9,6 +10,7 @@
 #include "flag.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
 #include "item_pocket.h"
 #include "item_tname.h"
 #include "itype.h"
@@ -17,6 +19,11 @@
 #include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
+
+#if defined(LOCALIZE)
+#include "translation_manager.h"
+#include "translations.h"
+#endif
 
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
@@ -620,7 +627,7 @@ TEST_CASE( "weapon_fouling", "[item][tname][fouling][dirt]" )
         }
 
         WHEN( "it is fouled" ) {
-            gun.faults.insert( fault_gun_dirt );
+            gun.set_fault( fault_gun_dirt );
             REQUIRE( gun.has_fault( fault_gun_dirt ) );
 
             // Max dirt is 10,000

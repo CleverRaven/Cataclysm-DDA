@@ -2,14 +2,16 @@
 
 #include <algorithm>
 #include <cmath>
+#include <functional>
 #include <memory>
 #include <optional>
 #include <set>
+#include <string>
 #include <utility>
 #include <vector>
 
-#include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
@@ -23,6 +25,7 @@
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
@@ -30,6 +33,7 @@
 #include "options.h"
 #include "point.h"
 #include "projectile.h"
+#include "ranged.h"
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
@@ -83,7 +87,7 @@ static void drop_or_embed_projectile( map *here, const dealt_projectile_attack &
         // TODO: Non-glass breaking
         // TODO: Wine glass breaking vs. entire sheet of glass breaking
         // TODO: Refine logic to allow for overlapping maps.
-        if( here == &get_map() ) {
+        if( here == &reality_bubble() ) {
             sounds::sound( pt, 16, sounds::sound_t::combat, _( "glass breaking!" ), false, "bullet_hit",
                            "hit_glass" );
         }
@@ -107,7 +111,7 @@ static void drop_or_embed_projectile( map *here, const dealt_projectile_attack &
 
     if( effects.count( ammo_effect_BURST ) ) {
         // Drop the contents, not the thrown item
-        add_msg_if_player_sees( get_map().get_bub( here->get_abs( pt ) ), _( "The %s bursts!" ),
+        add_msg_if_player_sees( reality_bubble().get_bub( here->get_abs( pt ) ), _( "The %s bursts!" ),
                                 drop_item.tname() );
 
         // copies the drop item to spill the contents
@@ -339,8 +343,8 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
         range = rl_dist( source, target );
         extend_to_range = range;
 
-        if( get_map().inbounds( here->get_abs( target ) ) ) {
-            const tripoint_bub_ms bub_target = get_map().get_bub( here->get_abs( target ) );
+        if( reality_bubble().inbounds( here->get_abs( target ) ) ) {
+            const tripoint_bub_ms bub_target = reality_bubble().get_bub( here->get_abs( target ) );
             sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( bub_target ),
                                      sfx::get_heard_angle( bub_target ) );
         }
@@ -472,7 +476,7 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                 // TODO: Make this draw thrown item/launched grenade/arrow
                 if( projectile_skip_current_frame >= projectile_skip_calculation ) {
                     // TODO: Refine so overlapping maps are handled.
-                    if( here == &get_map() ) {
+                    if( here == &reality_bubble() ) {
                         g->draw_bullet( tp, static_cast<int>( i ), trajectory, bullet );
                     }
                     projectile_skip_current_frame = 0;
@@ -562,7 +566,7 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                         }
                     }
                     // TODO: Refine to account for overlapping maps
-                    if( here == &get_map() ) {
+                    if( here == &reality_bubble() ) {
                         sfx::do_projectile_hit( *attack.last_hit_critter );
                     }
                     has_momentum = false;
@@ -635,8 +639,8 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                 return false;
             }
             // search for creatures in radius 4 around impact site
-            if( rl_dist( z.pos_bub( here ), tp ) <= 4 &&
-                here->sees( z.pos_bub( here ), tp, -1 ) ) {
+            if( rl_dist( z.pos_bub( *here ), tp ) <= 4 &&
+                here->sees( z.pos_bub( *here ), tp, -1 ) ) {
                 // don't hit targets that have already been hit
                 for( auto it : attack.targets_hit ) {
                     if( &z == it.first ) {
@@ -653,7 +657,7 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
             add_msg( _( "The attack bounced to %s!" ), z.get_name() );
             projectile_attack( attack, proj, here, tp, z.pos_bub(), dispersion, origin, in_veh );
             // TODO: Refine to handle overlapping maps
-            if( here == &get_map() ) {
+            if( here == &reality_bubble() ) {
                 sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",
                                          sfx::get_heard_volume( z.pos_bub() ), sfx::get_heard_angle( z.pos_bub() ) );
             }

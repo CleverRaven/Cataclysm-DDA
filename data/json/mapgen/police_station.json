@@ -64,7 +64,7 @@
       "items": {
         "N": { "item": "bulletin_police", "chance": 50, "repeat": [ 1, 3 ] },
         ".": { "item": "badge_deputy", "chance": 5 },
-        "t": { "item": "trash_cart", "chance": 50 },
+        "t": { "item": "SUS_trash_floor_light", "chance": 50 },
         "c": { "item": "kitchen", "chance": 40, "repeat": [ 2, 4 ] },
         "1": { "item": "cop_items", "chance": 80, "repeat": [ 5, 8 ] },
         "l": { "item": "cop_armory", "chance": 70, "repeat": [ 2, 4 ] },
@@ -72,7 +72,8 @@
         "}": { "item": "police_armory_any_assaultrifle", "chance": 90 },
         "[": { "item": "police_armory_any_pistol", "chance": 100, "repeat": 2 },
         "]": { "item": "police_armory_any_shotgun", "chance": 5 },
-        "L": { "item": "cop_evidence", "chance": 60, "repeat": [ 2, 4 ] }
+        "L": { "item": "cop_evidence", "chance": 60, "repeat": [ 2, 4 ] },
+        "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "item": { "/": { "item": "american_flag" } },
       "toilets": { "&": {  } },
@@ -131,7 +132,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 3, 17 ], "y": [ 7, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 3, 17 ], "y": [ 7, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [
@@ -223,7 +224,7 @@
       "items": {
         "N": { "item": "bulletin_police", "chance": 50, "repeat": [ 1, 3 ] },
         ".": { "item": "badge_deputy", "chance": 5 },
-        "t": { "item": "trash_cart", "chance": 50 },
+        "t": { "item": "SUS_trash_floor_light", "chance": 50 },
         "c": { "item": "kitchen", "chance": 40 },
         "1": { "item": "cop_items", "chance": 70 },
         "l": { "item": "cop_armory", "chance": 70 },
@@ -231,7 +232,8 @@
         "}": { "item": "police_armory_any_assaultrifle", "chance": 90 },
         "[": { "item": "police_armory_any_pistol", "chance": 95 },
         "]": { "item": "police_armory_any_shotgun", "chance": 85 },
-        "L": { "item": "cop_evidence", "chance": 60 }
+        "L": { "item": "cop_evidence", "chance": 60 },
+        "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "item": { "/": { "item": "american_flag" } },
       "toilets": { "&": {  } },
@@ -328,6 +330,7 @@
       "toilets": { "&": {  } },
       "place_loot": [ { "item": "television", "x": 14, "y": 12, "chance": 100 }, { "item": "family_photo", "x": 5, "y": 4, "chance": 100 } ],
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "3": { "item": "police_armory_any_pistol", "chance": 100 },
         "[": { "item": "police_armory_any_pistol", "chance": 90 },
         "9": { "item": "police_armory_any_assaultrifle", "chance": 100 },
@@ -340,7 +343,7 @@
           { "item": "jewelry_safe", "chance": 20 }
         ],
         "F": [ { "item": "office", "chance": 50 }, { "item": "consumer_electronics", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "t": { "item": "trash_cart", "chance": 30, "repeat": [ 1, 2 ] },
+        "t": { "item": "SUS_trash_floor_light", "chance": 30, "repeat": [ 1, 2 ] },
         "d": { "item": "office", "chance": 30, "repeat": [ 1, 2 ] },
         "B": { "item": "bed", "chance": 30 },
         "b": { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] },
@@ -482,11 +485,12 @@
         "/": "f_flagpole"
       },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "N": { "item": "bulletin_police", "chance": 50, "repeat": [ 1, 3 ] },
         ".": { "item": "badge_deputy", "chance": 2 },
         "$": { "item": "cleaning", "chance": 50, "repeat": [ 2, 3 ] },
         "!": { "item": "alcohol_bottled_canned", "chance": 95, "repeat": [ 2, 3 ] },
-        "t": { "item": "trash_cart", "chance": 50, "repeat": [ 2, 3 ] },
+        "t": { "item": "SUS_trash_floor_light", "chance": 50, "repeat": [ 2, 3 ] },
         "1": { "item": "cop_items", "chance": 90, "repeat": [ 2, 4 ] },
         "l": { "item": "cop_armory", "chance": 70, "repeat": [ 2, 3 ] },
         "{": { "item": "police_armory_any_sniperrifle", "chance": 50 },

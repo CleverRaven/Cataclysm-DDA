@@ -20,7 +20,7 @@
         "monster_message": "%1$s flickers and all of its injuries disappear!"
       }
     ],
-    "upgrades": { "half_life": 25, "into_group": "GROUP_ZOMBIE_MONOCHROME_UPGRADE" }
+    "upgrades": { "half_life": 100, "into_group": "GROUP_ZOMBIE_MONOCHROME_UPGRADE" }
   },
   {
     "id": "mon_zombie_monochrome_2",
@@ -44,8 +44,8 @@
         "monster_message": "%1$s flickers and all of its injuries disappear!"
       }
     ],
-    "upgrades": { "half_life": 25, "into": "mon_zombie_monochrome_3" },
-    "extend": { "flags": [ "STABILIZED_TIMELINE" ] }
+    "upgrades": { "half_life": 100, "into": "mon_zombie_monochrome_3" },
+    "extend": { "flags": [ "PULP_PRYING", "STABILIZED_TIMELINE" ] }
   },
   {
     "id": "mon_zombie_monochrome_3",
@@ -77,6 +77,25 @@
         "monster_message": "The ground around %1$s starts eroding into nothingness."
       }
     ],
+    "extend": { "flags": [ "STABILIZED_TIMELINE", "PULP_PRYING" ] },
+    "upgrades": false
+  },
+  {
+    "id": "mon_boomer_monochrome",
+    "type": "MONSTER",
+    "name": { "str": "monochrome boomer" },
+    "description": "A rotund human body, bloated beyond belief.  Its entire body is tainted gray, and it seems to emit a pulsating distortion that saps color from the world around it.  Every few seconds the world around it seems to freeze, and its likely that any damage will easily detonate the distorted time the zombie barely holds within itself.",
+    "copy-from": "mon_boomer",
+    "symbol": "B",
+    "color": "light_gray",
+    "proportional": { "speed": 1.1 },
+    "death_function": {
+      "effect": { "id": "xedra_death_boomer_monochrome", "hit_self": true },
+      "message": "Everything around the %s suddenly stops!",
+      "corpse_type": "NO_CORPSE"
+    },
+    "emit_fields": [ { "emit_id": "xedra_monochrome_boomer_frozen_time", "delay": "1 s" } ],
+    "delete": { "special_attacks": [ "BOOMER" ] },
     "extend": { "flags": [ "STABILIZED_TIMELINE" ] },
     "upgrades": false
   }

@@ -70,7 +70,7 @@
       [ "bandana", 10 ],
       [ "cig", 5 ],
       { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 18, "charges": [ 0, -1 ] },
+      { "group": "civilian_phones", "prob": 18, "charges": [ 0, -1 ] },
       [ "gloves_fingerless", 5 ],
       [ "holster", 5 ],
       [ "hatchet", 5 ],
@@ -320,7 +320,7 @@
         "H": "f_armchair"
       },
       "toilets": { ";": {  } },
-      "place_items": [ { "item": "trash_forest", "x": [ 2, 21 ], "y": [ 5, 19 ], "chance": 80, "repeat": [ 0, 20 ] } ]
+      "place_items": [ { "item": "SUS_trash_forest_manmade", "x": [ 2, 21 ], "y": [ 5, 19 ], "chance": 80, "repeat": [ 0, 20 ] } ]
     }
   },
   {
@@ -444,7 +444,7 @@
         "G": "f_oven",
         "H": "f_armchair"
       },
-      "place_items": [ { "item": "trash_forest", "x": [ 2, 21 ], "y": [ 5, 19 ], "chance": 80, "repeat": [ 0, 2 ] } ],
+      "place_items": [ { "item": "SUS_trash_forest_manmade", "x": [ 2, 21 ], "y": [ 5, 19 ], "chance": 80, "repeat": [ 0, 2 ] } ],
       "place_item": [ { "item": "teddy_bear", "x": 14, "y": 2 }, { "item": "silver_locket", "x": 14, "y": 2 } ],
       "place_vehicles": [ { "vehicle": "car", "x": 5, "y": 7, "chance": 80, "fuel": 0, "status": 1, "rotation": 0 } ]
     }

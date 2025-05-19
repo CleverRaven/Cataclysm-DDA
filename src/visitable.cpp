@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <climits>
-#include <iosfwd>
 #include <limits>
 #include <map>
 #include <memory>
@@ -13,26 +12,28 @@
 #include "active_item_cache.h"
 #include "bionics.h"
 #include "character.h"
+#include "character_attire.h"
 #include "colony.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "flag.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_pocket.h"
+#include "itype.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
-#include "memory_fast.h"
-#include "monster.h"
-#include "mtype.h"
+#include "mapdata.h"
 #include "mutation.h"
 #include "pimpl.h"
+#include "pocket_type.h"
 #include "point.h"
+#include "stomach.h"
 #include "submap.h"
 #include "temp_crafting_inventory.h"
 #include "units.h"
-#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -819,6 +820,8 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                                 const std::function<bool( const item & )> &filter,
                                 const std::function<void( int )> &visitor, bool in_tools )
 {
+    map &here = get_map();
+
     int qty = 0;
 
     bool found_tool_with_UPS = false;
@@ -832,7 +835,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                 if( e->count_by_charges() ) {
                     qty = sum_no_wrap( qty, e->charges );
                 } else {
-                    qty = sum_no_wrap( qty, e->ammo_remaining( nullptr, true ) );
+                    qty = sum_no_wrap( qty, e->ammo_remaining_linked( here, nullptr ) );
                 }
                 if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
                     found_tool_with_UPS = true;
@@ -840,7 +843,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                     found_bionic_tool = true;
                 }
             } else if( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) {
-                qty = sum_no_wrap( qty, e->ammo_remaining( nullptr, true ) );
+                qty = sum_no_wrap( qty, e->ammo_remaining_linked( here, nullptr ) );
             }
         }
         if( qty >= limit ) {

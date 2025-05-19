@@ -60,7 +60,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_null",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+      "items": [ { "item": "lc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
     }
   },
   {
@@ -524,6 +524,7 @@
       "MOUNTABLE",
       "SHORT",
       "AUTO_WALL_SYMBOL",
+      "CLIMBABLE",
       "BURROWABLE",
       "PERMEABLE"
     ],
@@ -767,7 +768,7 @@
     "symbol": "$",
     "color": "blue",
     "move_cost": 4,
-    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT", "EASY_DECONSTRUCT", "BURROWABLE", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT", "EASY_DECONSTRUCT", "CLIMBABLE", "BURROWABLE", "PERMEABLE" ],
     "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "lc_wire", "count": 2 } ] },
     "boltcut": {
       "result": "t_fence_post",
@@ -798,7 +799,7 @@
       "sound": "Snick, snick, gachunk!",
       "byproducts": [ { "item": "wire_barbed", "count": 2 } ]
     },
-    "flags": [ "TRANSPARENT", "SHARP", "THIN_OBSTACLE", "SHORT", "EASY_DECONSTRUCT", "BURROWABLE", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "SHARP", "THIN_OBSTACLE", "SHORT", "EASY_DECONSTRUCT", "CLIMBABLE", "BURROWABLE", "PERMEABLE" ],
     "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "wire_barbed", "count": 2 } ] },
     "bash": {
       "str_min": 8,
@@ -817,7 +818,7 @@
     "symbol": "$",
     "color": "brown",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "EASY_DECONSTRUCT", "BURROWABLE", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "EASY_DECONSTRUCT", "CLIMBABLE", "BURROWABLE", "PERMEABLE" ],
     "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "rope_6", "count": 2 } ] },
     "bash": {
       "str_min": 8,
@@ -1176,6 +1177,7 @@
       "MOUNTABLE",
       "SHORT",
       "AUTO_WALL_SYMBOL",
+      "CLIMBABLE",
       "BURROWABLE",
       "PERMEABLE"
     ],
@@ -1203,7 +1205,17 @@
     "symbol": "#",
     "color": "cyan",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "BURROWABLE", "PERMEABLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "THIN_OBSTACLE",
+      "MOUNTABLE",
+      "SHORT",
+      "AUTO_WALL_SYMBOL",
+      "CLIMBABLE",
+      "BURROWABLE",
+      "PERMEABLE"
+    ],
     "connect_groups": "RAILING",
     "connects_to": "RAILING",
     "deconstruct": { "ter_set": "t_rock_floor", "items": [ { "item": "glass_sheet", "count": 2 }, { "item": "pipe", "count": 4 } ] },
@@ -1228,7 +1240,17 @@
     "symbol": "#",
     "color": "dark_gray",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "BURROWABLE", "PERMEABLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "THIN_OBSTACLE",
+      "MOUNTABLE",
+      "SHORT",
+      "AUTO_WALL_SYMBOL",
+      "CLIMBABLE",
+      "BURROWABLE",
+      "PERMEABLE"
+    ],
     "connect_groups": "RAILING",
     "connects_to": "RAILING",
     "deconstruct": { "ter_set": "t_rock_floor", "items": [ { "item": "sheet_metal", "count": 2 }, { "item": "pipe", "count": 4 } ] },
@@ -1262,6 +1284,7 @@
       "SHORT",
       "AUTO_WALL_SYMBOL",
       "MINEABLE",
+      "CLIMBABLE",
       "BURROWABLE",
       "PERMEABLE"
     ],
@@ -1289,7 +1312,18 @@
     "color": "light_gray",
     "looks_like": "t_guardrail_bg_dp",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD", "BURROWABLE", "PERMEABLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "REDUCE_SCENT",
+      "MOUNTABLE",
+      "SHORT",
+      "THIN_OBSTACLE",
+      "ROAD",
+      "CLIMBABLE",
+      "BURROWABLE",
+      "PERMEABLE"
+    ],
     "bash": {
       "str_min": 8,
       "str_max": 150,
@@ -1307,7 +1341,18 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD", "BURROWABLE", "PERMEABLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "REDUCE_SCENT",
+      "MOUNTABLE",
+      "SHORT",
+      "THIN_OBSTACLE",
+      "ROAD",
+      "CLIMBABLE",
+      "BURROWABLE",
+      "PERMEABLE"
+    ],
     "bash": {
       "str_min": 8,
       "str_max": 150,
@@ -1325,7 +1370,18 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD", "BURROWABLE", "PERMEABLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "REDUCE_SCENT",
+      "MOUNTABLE",
+      "SHORT",
+      "THIN_OBSTACLE",
+      "ROAD",
+      "CLIMBABLE",
+      "BURROWABLE",
+      "PERMEABLE"
+    ],
     "looks_like": "t_guardrail_bg_dp",
     "bash": {
       "str_min": 8,

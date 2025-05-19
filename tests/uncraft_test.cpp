@@ -1,12 +1,20 @@
+#include <map>
+#include <string>
+#include <vector>
+
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "item.h"
 #include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
+#include "type_id.h"
 
 // Tests for disassembling items from an "uncraft" recipe.
 //

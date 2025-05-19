@@ -15,10 +15,10 @@
     "bleed_rate": 50,
     "harvest": "mr_bones",
     "special_attacks": [ { "id": "grab", "cooldown": 21 }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid", "cooldown": 5 } ],
-    "upgrades": { "half_life": 32, "into_group": "GROUP_SKELETON_UPGRADE" },
+    "upgrades": { "half_life": 128, "into_group": "GROUP_SKELETON_UPGRADE" },
     "fungalize_into": "mon_skeleton_dusted",
     "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 24, "electric": 3 },
-    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ] }
+    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ], "flags": [ "PULP_PRYING" ] }
   },
   {
     "id": "mon_skeleton_brute",
@@ -49,10 +49,10 @@
         "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ]
       }
     ],
-    "upgrades": { "half_life": 45, "into": "mon_skeleton_hulk" },
+    "upgrades": { "half_life": 180, "into": "mon_skeleton_hulk" },
     "fungalize_into": "mon_skeleton_brute_dusted",
     "armor": { "bash": 12, "cut": 30, "acid": 1, "bullet": 30, "electric": 4 },
-    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ] }
+    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ], "flags": [ "PULP_PRYING" ] }
   },
   {
     "id": "mon_skeleton_electric",
@@ -83,7 +83,7 @@
     "extend": {
       "weakpoint_sets": [ "wps_bone_armor" ],
       "families": [ "prof_wp_skeleton", "prof_electromagnetics" ],
-      "flags": [ "ELECTRIC" ]
+      "flags": [ "ELECTRIC", "PULP_PRYING" ]
     }
   },
   {
@@ -115,7 +115,7 @@
     ],
     "fungalize_into": "mon_skeleton_hulk_dusted",
     "armor": { "bash": 20, "cut": 45, "bullet": 36, "electric": 8 },
-    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ] }
+    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ], "flags": [ "PULP_PRYING" ] }
   },
   {
     "id": "mon_skeleton_slasher",
@@ -144,7 +144,7 @@
         "cooldown": 10
       }
     ],
-    "upgrades": { "half_life": 32, "into": "mon_skeleton_executioner" },
+    "upgrades": { "half_life": 128, "into": "mon_skeleton_executioner" },
     "armor": { "bash": 5, "cut": 30, "stab": 25, "acid": 3, "bullet": 20, "electric": 3 },
     "extend": { "flags": [ "SMELLS" ] }
   },
@@ -166,7 +166,7 @@
     "bleed_rate": 0,
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "special_attacks": [ { "id": "cut_throat", "damage_max_instance": [ { "damage_type": "cut", "amount": 40 } ], "cooldown": 15 } ],
-    "upgrades": { "half_life": 32, "into": "mon_skeleton_reaper" },
+    "upgrades": { "half_life": 128, "into": "mon_skeleton_reaper" },
     "fungalize_into": "mon_skeleton_brute_dusted",
     "burn_into": "mon_zombie_scorched_brute",
     "armor": { "bash": 10, "cut": 35, "stab": 30, "acid": 4, "bullet": 25, "electric": 5 },

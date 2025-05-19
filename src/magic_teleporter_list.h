@@ -2,17 +2,16 @@
 #ifndef CATA_SRC_MAGIC_TELEPORTER_LIST_H
 #define CATA_SRC_MAGIC_TELEPORTER_LIST_H
 
-#include <iosfwd>
 #include <map>
 #include <optional>
 #include <set>
+#include <string>
 
 #include "coordinates.h"
 
 class Character;
 class JsonObject;
 class JsonOut;
-struct tripoint;
 
 class teleporter_list
 {

@@ -1,0 +1,66 @@
+[
+  {
+    "type": "palette",
+    "id": "bank_palette",
+    "palettes": [ "parametrized_walls_palette" ],
+    "terrain": {
+      "$": "t_metal_floor",
+      "_": "t_metal_floor",
+      "%": [ [ "t_door_c", 2 ], "t_door_locked_interior" ],
+      "*": [ [ "t_door_c", 3 ], "t_door_locked_interior" ],
+      "+": "t_door_c",
+      "-": "t_window",
+      ".": "t_floor",
+      "G": "t_door_glass_c",
+      "M": "t_door_metal_locked",
+      "R": "t_wall_metal",
+      "S": "t_sidewalk",
+      "t": "t_metal_floor",
+      "g": "t_wall_glass_alarm",
+      "h": "t_wall_glass",
+      "w": "t_window_alarm",
+      "4": "t_gutter_downspout",
+      ">": "t_stairs_down",
+      "<": "t_ladder_up"
+    },
+    "furniture": {
+      "6": "f_console",
+      "$": "f_safe_l",
+      "A": "f_atm_off",
+      "C": "f_chair",
+      "D": "f_sofa",
+      "L": "f_locker",
+      "T": "f_table",
+      "a": "f_armchair",
+      "c": "f_counter",
+      "d": "f_desk",
+      "e": "f_fridge",
+      "l": "f_stool",
+      "o": "f_bookcase",
+      "p": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "s": "f_sink",
+      "t": "f_table",
+      "x": "f_console_broken"
+    },
+    "items": {
+      "o": { "item": "novels", "chance": 70, "repeat": [ 1, 3 ] },
+      "$": { "item": "vault", "chance": 95, "repeat": [ 2, 7 ] },
+      "e": { "item": "SUS_fridge_breakroom", "chance": 70 },
+      "d": { "item": "office", "chance": 50, "repeat": [ 1, 2 ] },
+      "L": { "item": "cop_weapons", "chance": 40 },
+      "c": { "item": "office", "chance": 70, "repeat": [ 1, 4 ] },
+      "t": { "item": "vault", "chance": 25, "repeat": [ 2, 7 ] },
+      "£": { "item": "SUS_toilet", "chance": 50 }
+    },
+    "toilets": { "£": {  } },
+    "computers": {
+      "6": {
+        "name": "High Security Consolidated Computerized Bank of the Treasury",
+        "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
+        "security": 4,
+        "options": [ { "name": "Open Vault", "action": "unlock" } ],
+        "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]
+      }
+    }
+  }
+]

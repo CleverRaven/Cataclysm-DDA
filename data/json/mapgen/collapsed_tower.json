@@ -91,8 +91,8 @@
       ],
       "palettes": [ "collapsed_tower" ],
       "place_items": [
-        { "item": "office_mess", "x": [ 8, 23 ], "y": [ 4, 23 ], "chance": 100, "repeat": [ 20, 70 ] },
-        { "item": "office_mess", "x": [ 8, 23 ], "y": [ 24, 44 ], "chance": 100, "repeat": [ 30, 70 ] },
+        { "item": "SUS_office_mess", "x": [ 8, 23 ], "y": [ 4, 23 ], "chance": 100, "repeat": [ 5, 10 ] },
+        { "item": "SUS_office_mess", "x": [ 8, 23 ], "y": [ 24, 44 ], "chance": 100, "repeat": [ 6, 12 ] },
         { "item": "cleaning", "x": [ 11, 11 ], "y": [ 21, 22 ], "chance": 60 },
         { "item": "cleaning", "x": [ 15, 15 ], "y": [ 21, 22 ], "chance": 60 }
       ],
@@ -185,10 +185,11 @@
         "p": "t_metal_floor"
       },
       "mapping": { "r": { "item": { "item": "standard_template_construct" } }, "R": { "item": { "item": "nanomaterial" } } },
+      "items": { ";": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { ";": {  } },
       "place_items": [
-        { "item": "office_mess", "x": [ 8, 23 ], "y": [ 4, 23 ], "chance": 100, "repeat": [ 20, 70 ] },
-        { "item": "office_mess", "x": [ 8, 23 ], "y": [ 24, 44 ], "chance": 100, "repeat": [ 30, 70 ] },
+        { "item": "SUS_office_mess", "x": [ 8, 23 ], "y": [ 4, 23 ], "chance": 100, "repeat": [ 5, 10 ] },
+        { "item": "SUS_office_mess", "x": [ 8, 23 ], "y": [ 24, 44 ], "chance": 100, "repeat": [ 6, 12 ] },
         { "item": "cleaning", "x": [ 11, 11 ], "y": [ 21, 22 ], "chance": 60 },
         { "item": "cleaning", "x": [ 15, 15 ], "y": [ 21, 22 ], "chance": 60 }
       ],

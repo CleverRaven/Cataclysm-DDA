@@ -1,9 +1,11 @@
 #include "magic_type.h"
 
 #include "condition.h"
-#include "effect_on_condition.h"
 #include "debug.h"
+#include "effect_on_condition.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "json.h"
 #include "math_parser_jmath.h"
 
 // LOADING
@@ -32,7 +34,7 @@ void magic_type::load_magic_type( const JsonObject &jo, const std::string &src )
 }
 
 
-void magic_type::load( const JsonObject &jo, const std::string_view src )
+void magic_type::load( const JsonObject &jo, std::string_view src )
 {
     src_mod = mod_id( src );
 

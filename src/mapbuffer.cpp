@@ -3,30 +3,36 @@
 #include <chrono>
 #include <exception>
 #include <filesystem>
+#include <functional>
 #include <set>
 #include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "input.h"
 #include "json.h"
 #include "map.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
+#include "point.h"
 #include "popup.h"
 #include "string_formatter.h"
 #include "submap.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui_manager.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 class game;
+
 // NOLINTNEXTLINE(cata-static-declarations)
 extern std::unique_ptr<game> g;
 // NOLINTNEXTLINE(cata-static-declarations)
@@ -329,14 +335,16 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
         // If it doesn't exist, trigger generating it.
         return nullptr;
     }
-    // fill in uniform submaps that were not serialized
+
+    // fill in uniform submaps that were not serialized. Note that failure as a result of it
+    // not being uniform is OK and results in any missing uniform submaps being generated.
     oter_id const oid = overmap_buffer.ter( om_addr );
     generate_uniform_omt( project_to<coords::sm>( om_addr ), oid );
     if( submaps.count( p ) == 0 ) {
         debugmsg( "file %s did not contain the expected submap %s for non-uniform terrain %s",
                   quad_path.generic_u8string(), p.to_string(), oid.id().str() );
-        return nullptr;
     }
+
     return submaps[ p ].get();
 }
 

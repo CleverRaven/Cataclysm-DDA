@@ -98,7 +98,7 @@
           { "item": "knit_scarf" },
           { "item": "leather_belt" },
           { "item": "primitive_knife", "container-item": "sheath" },
-          { "item": "tshirt", "variant": "start_a_cult_tshirt" },
+          { "item": "tshirt" },
           { "item": "onyx_silver_bracelet", "variant": "dark_bracelet" },
           { "item": "onyx_silver_ring", "variant": "dark_ring" }
         ]
@@ -311,7 +311,7 @@
           { "item": "chaps_leather" },
           { "item": "halter_top" },
           { "item": "jacket_leather" },
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "item": "dance_shoes" },
           { "item": "socks" },
           { "item": "purse" },
@@ -376,7 +376,7 @@
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "pants" },
-          { "item": "striped_shirt" },
+          { "item": "buttonshirt", "variant": "striped" },
           { "item": "hoodie" },
           { "item": "gloves_light" },
           { "item": "swag_bag" },
@@ -797,7 +797,7 @@
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "PR24-retracted", "container-item": "police_belt" },
-          { "item": "sheriffshirt", "variant": "sheriff" }
+          { "item": "postman_shirt", "variant": "sheriff" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -1003,8 +1003,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "striped_shirt" },
-          { "item": "striped_pants" },
+          { "item": "jumpsuit_pocketless", "variant": "orange" },
           { "item": "sneakers" },
           { "item": "socks" },
           { "item": "sugar" }
@@ -1036,7 +1035,14 @@
     ],
     "traits": [ "DRUID", "PSYCHOPATH" ],
     "items": {
-      "both": { "entries": [ { "item": "striped_shirt" }, { "item": "striped_pants" }, { "item": "sneakers" }, { "item": "socks" } ] },
+      "both": {
+        "entries": [
+          { "item": "buttonshirt", "variant": "striped" },
+          { "item": "striped_pants" },
+          { "item": "sneakers" },
+          { "item": "socks" }
+        ]
+      },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },

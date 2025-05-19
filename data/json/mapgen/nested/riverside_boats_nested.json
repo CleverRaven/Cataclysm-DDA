@@ -5,7 +5,7 @@
     "nested_mapgen_id": "riverside_boat",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "place_vehicles": [ { "vehicle": "boats_shore", "x": 12, "y": 1, "chance": 100, "rotation": 90, "status": -1 } ]
+      "place_vehicles": [ { "vehicle": "boats_shore", "x": 12, "y": 1, "rotation": 90, "status": -1 } ]
     }
   }
 ]

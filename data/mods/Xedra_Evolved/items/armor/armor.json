@@ -1,7 +1,8 @@
 [
   {
     "id": "boots_glimmer_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of glimmer fur boots", "str_pl": "pairs of glimmer fur boots" },
     "description": "Boots lined with glimmer fur for warmth.",
     "copy-from": "boots_fur",
@@ -42,7 +43,8 @@
   },
   {
     "id": "xl_boots_glimmer_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of glimmer fur boots", "str_pl": "pairs of glimmer fur boots" },
     "copy-from": "boots_glimmer_fur",
     "proportional": { "weight": 1.15, "volume": 1.15 },
@@ -50,7 +52,8 @@
   },
   {
     "id": "xs_boots_glimmer_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "boots_glimmer_fur",
     "name": { "str": "pair of glimmer fur boots", "str_pl": "pairs of glimmer fur boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -58,7 +61,8 @@
   },
   {
     "id": "pants_glimmer_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of glimmer fur pants", "str_pl": "pairs of glimmer fur pants" },
     "description": "A hefty pair of fae fur-lined pants.",
     "weight": "920 g",
@@ -108,7 +112,8 @@
   },
   {
     "id": "xl_pants_glimmer_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of glimmer fur pants", "str_pl": "pairs of glimmer fur pants" },
     "copy-from": "pants_glimmer_fur",
     "proportional": { "weight": 1.15, "volume": 1.15 },
@@ -116,7 +121,8 @@
   },
   {
     "id": "xs_pants_glimmer_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "pants_glimmer_fur",
     "name": { "str": "pair of glimmer fur pants", "str_pl": "pairs of glimmer fur pants" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -124,7 +130,8 @@
   },
   {
     "id": "cloak_glimmer_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "glimmer fur cloak" },
     "description": "A heavy glimmer fur cloak meant to be thrown over your body.  The shimmering nature of the fur made these garments coveted before the Cataclysm.",
     "copy-from": "cloak_fur",
@@ -132,12 +139,13 @@
     "price_postapoc": "27 USD 50 cent",
     "material": [ "fae_fur" ],
     "color": "brown_red",
-    "flags": [ "OVERSIZE", "HOOD", "BELTED", "RAINPROOF", "FANCY" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "RAINPROOF" ],
     "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "coat_glimmer_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "glimmer fur coat" },
     "description": "A glimmer fur coat with a couple small pockets.  Extremely warm and very rare before the Cataclysm.",
     "copy-from": "coat_fur",
@@ -169,11 +177,12 @@
     "material_thickness": 2,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
     "id": "xl_coat_glimmer_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "glimmer fur coat" },
     "copy-from": "coat_glimmer_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -181,7 +190,8 @@
   },
   {
     "id": "xs_coat_glimmer_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "coat_glimmer_fur",
     "name": { "str": "glimmer fur coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -189,7 +199,8 @@
   },
   {
     "id": "trenchcoat_glimmer_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "glimmer fur trenchcoat" },
     "description": "A thick glimmer fur trenchcoat, lined with pockets.  Great for storage.",
     "weight": "1750 g",
@@ -233,7 +244,8 @@
   },
   {
     "id": "sleeveless_trenchcoat_glimmer_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "sleeveless glimmer fur trenchcoat" },
     "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "description": "A thick glimmer fur trenchcoat without sleeves, leaving your arms unencumbered.  Has plenty of storage space due to its many pockets.",
@@ -283,7 +295,8 @@
   },
   {
     "id": "duster_glimmer_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "glimmer fur duster" },
     "description": "A thick glimmer fur full-length duster.  Has many pockets for storage.  Shimmers in direct sunlight and would have been fancy clothing prior to the Cataclysm.",
     "copy-from": "duster_fur",
@@ -349,11 +362,12 @@
     "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "sleeveless_duster_glimmer_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "sleeveless glimmer fur duster" },
     "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "description": "A thick glimmer fur full-length duster without sleeves, leaving your arms unencumbered.  Has plenty of storage space due to its many pockets.",
@@ -433,7 +447,8 @@
   },
   {
     "id": "xl_duster_glimmer_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "glimmer fur duster" },
     "copy-from": "duster_glimmer_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -441,7 +456,8 @@
   },
   {
     "id": "xs_duster_glimmer_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "duster_glimmer_fur",
     "name": { "str": "glimmer fur duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -449,7 +465,8 @@
   },
   {
     "id": "gambeson_gossamer",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gambeson",
     "looks_like": "gambeson",
     "name": { "str": "gossamer gambeson" },
@@ -487,12 +504,12 @@
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
-    ],
-    "extend": { "flags": [ "FANCY" ] }
+    ]
   },
   {
     "id": "gambeson_pants_gossamer",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gambeson_pants",
     "name": { "str_sp": "gossamer arming pants" },
     "description": "Thick pants made of gossamer, meant to be worn alongside a gambeson under or without armor.  Stylish and as comfortable as armor can be.",
@@ -509,12 +526,12 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ],
-    "extend": { "flags": [ "FANCY" ] }
+    ]
   },
   {
     "id": "gambeson_hood_gossamer",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gambeson_hood",
     "looks_like": "gambeson_hood",
     "name": { "str": "gossamer gambeson coif" },
@@ -533,12 +550,12 @@
         "coverage": 100,
         "encumbrance_modifiers": [ "WELL_SUPPORTED" ]
       }
-    ],
-    "extend": { "flags": [ "FANCY" ] }
+    ]
   },
   {
     "id": "mt_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_arms",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "pair of moon tears chainmail sleeves", "str_pl": "pairs of moon tears chainmail sleeves" },
@@ -554,7 +571,8 @@
   },
   {
     "id": "xl_mt_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_arms",
     "name": { "str": "pair of moon tears chainmail sleeves", "str_pl": "pairs of moon tears chainmail sleeves" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
@@ -562,7 +580,8 @@
   },
   {
     "id": "xs_mt_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_arms",
     "name": { "str": "pair of moon tears chainmail sleeves", "str_pl": "pairs of moon tears chainmail sleeves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -570,7 +589,8 @@
   },
   {
     "id": "mt_chainmail_feet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_feet",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "pair of moon tears chainmail chausses", "str_pl": "pairs of moon tears chainmail chausses" },
@@ -586,7 +606,8 @@
   },
   {
     "id": "xl_mt_chainmail_feet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_feet",
     "name": { "str": "pair of moon tears chainmail chausses", "str_pl": "pairs of moon tears chainmail chausses" },
     "proportional": { "weight": 2, "volume": 2 },
@@ -595,7 +616,8 @@
   },
   {
     "id": "xs_mt_chainmail_feet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_feet",
     "name": { "str": "pair of moon tears chainmail chausses", "str_pl": "pairs of moon tears chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -604,7 +626,8 @@
   },
   {
     "id": "mt_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_hands",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "pair of moon tears chainmail gloves", "str_pl": "pairs of moon tears chainmail gloves" },
@@ -620,7 +643,8 @@
   },
   {
     "id": "xl_mt_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_hands",
     "name": { "str": "pair of moon tears chainmail gloves", "str_pl": "pairs of moon tears chainmail gloves" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -628,7 +652,8 @@
   },
   {
     "id": "xs_mt_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_hands",
     "name": { "str": "pair of moon tears chainmail gloves", "str_pl": "pairs of moon tears chainmail gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -636,7 +661,8 @@
   },
   {
     "id": "mt_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_hood",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "moon tears chainmail coif" },
@@ -652,7 +678,8 @@
   },
   {
     "id": "xl_mt_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_hood",
     "name": { "str": "moon tears chainmail coif" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -660,7 +687,8 @@
   },
   {
     "id": "xs_mt_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_hood",
     "name": { "str": "moon tears chainmail coif" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -668,7 +696,8 @@
   },
   {
     "id": "mt_chainmail_legs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_legs",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "moon tears chainmail leggings", "str_pl": "pairs of moon tears chainmail leggings" },
@@ -684,7 +713,8 @@
   },
   {
     "id": "xl_mt_chainmail_legs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_legs",
     "name": { "str": "moon tears chainmail leggings", "str_pl": "pairs of moon tears chainmail leggings" },
     "description": "Moon tears chainmail leggings for the largest of redcaps.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
@@ -693,7 +723,8 @@
   },
   {
     "id": "xs_mt_chainmail_legs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_legs",
     "name": { "str": "moon tears chainmail leggings", "str_pl": "pairs of moon tears chainmail leggings" },
     "description": "Moon tears chainmail leggings for the smallest of pooka.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
@@ -702,7 +733,8 @@
   },
   {
     "id": "mt_chainmail_hauberk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_hauberk",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "moon tears chainmail hauberk" },
@@ -718,7 +750,8 @@
   },
   {
     "id": "xl_mt_chainmail_hauberk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "moon tears chainmail hauberk" },
     "copy-from": "mt_chainmail_hauberk",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -726,7 +759,8 @@
   },
   {
     "id": "mt_chainmail_hauberk_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_hauberk",
     "name": { "str": "moon tears chainmail hauberk" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -734,7 +768,8 @@
   },
   {
     "id": "mt_chainmail_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_suit",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "moon tears chainmail armor" },
@@ -750,7 +785,8 @@
   },
   {
     "id": "xl_mt_chainmail_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "moon tears chainmail armor" },
     "copy-from": "mt_chainmail_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -758,7 +794,8 @@
   },
   {
     "id": "mt_chainmail_suit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mt_chainmail_suit",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "moon tears chainmail armor" },
@@ -767,7 +804,8 @@
   },
   {
     "id": "mt_chainmail_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_vest",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "moon tears chainmail vest" },
@@ -783,7 +821,8 @@
   },
   {
     "id": "xl_mt_chainmail_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "moon tears chainmail vest" },
     "copy-from": "mt_chainmail_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -791,7 +830,8 @@
   },
   {
     "id": "xs_mt_chainmail_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_vest",
     "name": { "str": "moon tears chainmail vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -799,7 +839,8 @@
   },
   {
     "id": "dreamforged_ballistic_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "dreamforged ballistic plate" },
     "copy-from": "steel_ballistic_plate",
     "description": "Manually forged ballistic plate, made to fit the common ballistic plate.  Probably not as good as steel one, but lightweight, and additionally hardened with magic.",
@@ -819,7 +860,8 @@
   },
   {
     "id": "dreamforged_ballistic_plate_small",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "small dreamforged ballistic plate" },
     "copy-from": "steel_ballistic_plate",
     "description": "Manually forged ballistic plate, made to fit the common ballistic plate.  Probably not as good as steel one, but lightweight, and additionally hardened with magic.  Smaller in size, and can fit a side pocket of plate carrier.",
@@ -842,7 +884,8 @@
   {
     "id": "dreamforged_fullhelmet",
     "copy-from": "tac_fullhelmet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "dreamforged full helmet" },
     "description": "Manually forged helmet, that resemble the shape of modern army helmets.  This one protect both face and eyes, using a special forged mask, but has no visor, and not so comfortable.  The dreamdross grant it some small magical properties, but you can't control their effects.",
@@ -866,7 +909,8 @@
   {
     "id": "dreamforged_helmet",
     "copy-from": "helmet_army",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "dreamforged helmet" },
     "description": "Manually forged helmet in the that resemble the shape of modern army helmets.",
@@ -883,7 +927,8 @@
   },
   {
     "id": "dreamforged_plate_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "dreamforged plate armor" },
     "description": "Lightweight armor, forged using dreamdross.  The only reason it feels soft enough is the magic.  It also has few MOLLE-compatible strips that you can utilize.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
@@ -898,7 +943,8 @@
     "longest_side": "60 cm",
     "material_thickness": 2,
     "use_action": [ { "type": "attach_molle", "size": 4 }, { "type": "detach_molle" } ],
-    "flags": [ "OUTER", "STURDY", "ONLY_ONE", "BLOCK_WHILE_WORN", "PADDED", "MORPHIC" ],
+    "flags": [ "OUTER", "STURDY", "BLOCK_WHILE_WORN", "PADDED", "MORPHIC" ],
+    "max_worn": 1,
     "armor": [
       {
         "material": [ { "type": "forged_dreamstuff", "covered_by_mat": 100, "thickness": 2 } ],
@@ -923,7 +969,8 @@
   {
     "id": "dreamforged_armguard_plate",
     "copy-from": "armguard_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of dreamforged arm guards", "str_pl": "pairs of dreamforged arm guards" },
     "description": "Pair of arm protectors, forged entirely from dreamdross.  Instead of straps this one uses a pretty smart locking mechanism, which allows you to adjust it to your hands.  The dreamdross grants it some minor magical properties, but you can't control their effects.",
     "weight": "706 g",
@@ -951,7 +998,8 @@
   {
     "id": "dreamforged_boots",
     "copy-from": "boots_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of dreamforged boots", "str_pl": "pairs of dreamforged boots" },
     "description": "Light set of boots, forged from dreamdross.  Surprisingly comfortable for clothing that has no physical padding.  The dreamdross grants it some minor magical properties, but you can't control their effects.",
     "weight": "490 g",
@@ -992,31 +1040,33 @@
   {
     "id": "dreamforged_helmet_berserker",
     "copy-from": "dreamforged_helmet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "berserk helmet" },
     "description": "Thin, smooth helmet, that cover your head, with a wide, sharp two-teeth blade from the forehead.  Fueled by damage of berserk knuckles, your feel the helmet pump the tension right into your veins.",
     "warmth": 5,
     "material_thickness": 0.7,
-    "relic_data": { "passive_effects": [ { "id": "BERSERKER_REGEN_STAMINA" } ] },
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ],
+    "passive_effects": [ { "id": "BERSERKER_REGEN_STAMINA" } ]
   },
   {
     "id": "dreamforged_armguard_plate_berserk",
     "copy-from": "dreamforged_armguard_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "pair of dreamforged berserk guards", "str_pl": "pairs of dreamforged berserk guards" },
     "description": "Pair of fiery red armguards, they glow red the more damage you deal, using berserk knuckles, and your physical strength grows respectively.",
-    "relic_data": { "passive_effects": [ { "id": "BERSERKER_STR" } ] },
-    "material_thickness": 0.6
+    "material_thickness": 0.6,
+    "passive_effects": [ { "id": "BERSERKER_STR" } ]
   },
   {
     "id": "dreamforged_boots_berserk",
     "copy-from": "dreamforged_boots",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "pair of berserker boots", "str_pl": "pairs of berserker boots" },
     "description": "Pair of fiery red boots, they are fueled by damage you deal with berserk knuckles, and increase your speed respectively.",
-    "relic_data": { "passive_effects": [ { "id": "BERSERKER_SPEED" } ] },
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -1040,45 +1090,47 @@
         "material": [ { "type": "forged_dreamstuff", "covered_by_mat": 100, "thickness": 1 } ],
         "coverage": 100
       }
-    ]
+    ],
+    "passive_effects": [ { "id": "BERSERKER_SPEED" } ]
   },
   {
     "id": "dreamforged_fullhelmet_arcane",
     "copy-from": "dreamforged_fullhelmet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "arcane helmet" },
     "description": "Dreamforged helmet with side protection, and carved runes outside.  It grant you an ability to understand more, and with better world investigation your mana regeneration grows.  Runes are just decorations actually.",
     "weight": "581 g",
     "color": "dark_gray",
-    "relic_data": { "passive_effects": [ { "id": "DEDUCTION_REGEN_MANA" } ] },
     "armor": [ { "covers": [ "head" ], "coverage": 80, "encumbrance_modifiers": [ "WELL_SUPPORTED", "RESTRICTS_NECK" ] } ],
     "warmth": 5,
     "material_thickness": 0.7,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "PADDED" ]
+    "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "PADDED" ],
+    "passive_effects": [ { "id": "DEDUCTION_REGEN_MANA" } ]
   },
   {
     "id": "dreamforged_armguard_plate_gunslinger",
     "copy-from": "dreamforged_armguard_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "\"Gunslinger\"" },
     "description": "Pair of flat armguards, fully carved with numbers and crosses.  Inside the left guard there is a text, cut with something sharp, that starts from \"Sent onto those that escaped limbo's clutches, and unleash the rage of all hell…\".",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.4 }, { "value": "RECOIL_MODIFIER", "multiply": -0.4 } ]
-        }
-      ]
-    },
-    "material_thickness": 0.1
+    "material_thickness": 0.1,
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.4 }, { "value": "RECOIL_MODIFIER", "multiply": -0.4 } ]
+      }
+    ]
   },
   {
     "id": "helmet_verdant",
     "//": "Derived from chitinous helmet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "verdant helmet" },
     "description": "A helmet made from the of living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
@@ -1133,12 +1185,13 @@
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 60, "encumbrance": 5 }
     ],
     "melee_damage": { "bash": 1 },
-    "relic_data": { "passive_effects": [ { "id": "ench_verdant_helmet" } ] }
+    "passive_effects": [ { "id": "ench_verdant_helmet" } ]
   },
   {
     "id": "armor_verdant_cuirass",
     "//": "Derived from chitinous armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "//2": "The idea for this is that it's basically plate-and-mail, but with bark and a kind of mossy, viney connective tissue",
     "name": { "str": "verdant cuirass", "str_pl": "verdant cuirasses" },
     "description": "A cuirass made of living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
@@ -1190,12 +1243,13 @@
       }
     ],
     "melee_damage": { "bash": 2 },
-    "relic_data": { "passive_effects": [ { "id": "ench_verdant_body" } ] }
+    "passive_effects": [ { "id": "ench_verdant_body" } ]
   },
   {
     "id": "gauntlets_verdant",
     "//": "Derived from chitinous gauntlets",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "pair of verdant gauntlets", "str_pl": "pairs of verdant gauntlets" },
     "description": "A pair of fingerless gauntlets made from living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
@@ -1256,12 +1310,13 @@
       }
     ],
     "melee_damage": { "bash": 2 },
-    "relic_data": { "passive_effects": [ { "id": "ench_verdant_gauntlets" } ] }
+    "passive_effects": [ { "id": "ench_verdant_gauntlets" } ]
   },
   {
     "id": "leg_guards_verdant",
     "//": "Derived from chitin leg guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "pair of verdant leg guards", "str_pl": "pairs of verdant leg guards" },
     "description": "A pair of leg guards made from living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
@@ -1290,12 +1345,13 @@
         "encumbrance": 3
       }
     ],
-    "relic_data": { "passive_effects": [ { "id": "ench_verdant_legs" } ] }
+    "passive_effects": [ { "id": "ench_verdant_legs" } ]
   },
   {
     "id": "boots_verdant",
     "//": "Derived from chitinous boots",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "pair of verdant boots", "str_pl": "pairs of verdant boots" },
     "description": "Boots made from living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
@@ -1345,11 +1401,12 @@
       }
     ],
     "melee_damage": { "bash": 4 },
-    "relic_data": { "passive_effects": [ { "id": "ench_verdant_boots" } ] }
+    "passive_effects": [ { "id": "ench_verdant_boots" } ]
   },
   {
     "id": "sevenoclock_coat",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "coat of the timely sleeper" },
     "description": "A old-fashioned padded coat with deep pockets.  As you touch it, you feel that this coat could allow you to fall asleep whenever and wherever you want.",
     "weight": "1340 g",
@@ -1398,6 +1455,6 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "COLLAR", "ALARMCLOCK", "OUTER" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_sevenoclock_coat" } ] }
+    "passive_effects": [ { "id": "ench_sevenoclock_coat" } ]
   }
 ]

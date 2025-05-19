@@ -2,16 +2,11 @@
 
 #include <algorithm>
 #include <climits>
-#include <set>
 #include <vector>
 
 #include "coordinates.h"
 #include "debug.h"
-#include "flexbuffer_json-inl.h"
-#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
-#include "json_error.h"
 #include "options.h"
 #include "rng.h"
 #include "text_snippets.h"
@@ -71,7 +66,7 @@ void city::reset()
     get_city_factory().reset();
 }
 
-void city::load( const JsonObject &jo, const std::string_view )
+void city::load( const JsonObject &jo, std::string_view )
 {
 
     mandatory( jo, was_loaded, "id", id );

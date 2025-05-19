@@ -442,6 +442,21 @@
     ]
   },
   {
+    "id": "handaxes_axes",
+    "type": "requirement",
+    "//": "A one-handed weapon with an axe head.",
+    "tools": [
+      [
+        [ "copper_ax", -1 ],
+        [ "throwing_axe", -1 ],
+        [ "iceaxe", -1 ],
+        [ "hatchet", -1 ],
+        [ "crash_axe", -1 ],
+        [ "primitive_axe", -1 ]
+      ]
+    ]
+  },
+  {
     "id": "real_great_axes",
     "type": "requirement",
     "//": "Any real, cutting weapons that can be used like an axe; large, heavy head with two sharp sides on a pole.",
@@ -568,6 +583,7 @@
         [ "nailbat", -1 ],
         [ "nailboard", -1 ],
         [ "bwirebat", -1 ],
+        [ "nutboltbat", -1 ],
         [ "bat", -1 ],
         [ "bat_metal", -1 ],
         [ "bat_nerf", -1 ]

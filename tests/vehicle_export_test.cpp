@@ -1,12 +1,22 @@
-#include <optional>
+#include <set>
+#include <sstream>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
+#include "flexbuffer_json.h"
+#include "json.h"
 #include "json_loader.h"
+#include "map.h"
 #include "map_helpers.h"
-#include "vehicle.h"
+#include "point.h"
+#include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
+#include "vehicle.h"
 
 static const vproto_id vehicle_prototype_veh_export_test( "veh_export_test" );
 
@@ -42,7 +52,7 @@ TEST_CASE( "export_vehicle_test" )
     // To ensure the zones get placed.
     veh_ptr->set_owner( get_player_character() );
     veh_ptr->place_zones( here );
-    veh_ptr->refresh( &here );
+    veh_ptr->refresh( );
     veh_ptr->refresh_zones();
 
     std::ostringstream os;

@@ -24,7 +24,6 @@
     "traits": [
       { "trait": "TOUGH" },
       { "trait": "QUICK" },
-      { "trait": "STYLISH" },
       { "trait": "OPTIMISTIC" },
       { "trait": "FORGETFUL" },
       { "trait": "PACIFIST" },
@@ -279,7 +278,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_robofac_merc_1_HWP" } ] },
-            { "compare_string": [ "1", { "u_val": "favor_owed_to_u_robofac_merc_1_favor" } ] },
+            { "math": [ "u_favor_owed_to_u_robofac_merc_1_favor == 1 " ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_can_research_rifle" } ] } }
           ]
         },
@@ -290,7 +289,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_robofac_merc_1_HWP" } ] },
-            { "not": { "compare_string": [ "1", { "u_val": "favor_owed_to_u_robofac_merc_1_favor" } ] } },
+            { "math": [ "u_favor_owed_to_u_robofac_merc_1_favor != 1 " ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_can_research_rifle" } ] } }
           ]
         },
@@ -458,7 +457,7 @@
       { "text": "Damn.  Where can I get one of those?", "topic": "TALK_ROBOFAC_MERC_1_HWP_EXPLANATION_WHERE" },
       {
         "text": "I've helped you out now.  Do you think you could vouch for me with our employers?",
-        "condition": { "compare_string": [ "1", { "u_val": "favor_owed_to_u_robofac_merc_1_favor" } ] },
+        "condition": { "math": [ "u_favor_owed_to_u_robofac_merc_1_favor == 1 " ] },
         "topic": "TALK_ROBOFAC_MERC_1_HWP_YES"
       },
       { "text": "I see.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" }

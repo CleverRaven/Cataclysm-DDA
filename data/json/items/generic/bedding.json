@@ -1,7 +1,7 @@
 [
   {
     "id": "pillowcase",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "pillowcase" },
     "looks_like": "pillow",
@@ -18,7 +18,7 @@
     "//": "Based on https://www.amazon.com/dp/B01MUDQUN9"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hammock",
     "name": { "str": "hammock" },
     "category": "tools",
@@ -32,7 +32,7 @@
     "volume": "2 L"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hammock_net",
     "name": { "str": "net hammock" },
     "category": "tools",
@@ -47,7 +47,8 @@
   },
   {
     "id": "sheet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "sheet" },
     "description": "A 72 by 24 inch two-layer-thick fabric sheet.  It could be used as a curtain or bedsheet, or cut up for a bunch of smaller sheets.",
     "category": "other",
@@ -73,7 +74,8 @@
   },
   {
     "id": "blanket",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "blanket" },
     "description": "Hiding under here will not protect you from the monsters.",
     "weight": "848 g",
@@ -152,7 +154,8 @@
   },
   {
     "id": "blanket_weighted",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "weighted blanket" },
     "description": "A thick, layered blanket with glass microbeads added to increase the weight.",
     "weight": "5670 g",
@@ -187,7 +190,8 @@
   },
   {
     "id": "down_blanket",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "down-filled blanket" },
     "description": "Hiding under here will not protect you from the monsters, but it'll keep you warm.",
     "weight": "3500 g",
@@ -212,7 +216,8 @@
   },
   {
     "id": "fur_blanket",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "fur blanket" },
     "description": "A heavy fur blanket that covers most of your body.",
     "weight": "3500 g",
@@ -237,7 +242,8 @@
   },
   {
     "id": "quilt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "quilt" },
     "description": "A big, comfy quilt made of thick wool in a triangle pattern.  Extremely cozy!",
     "weight": "1814 g",
@@ -262,7 +268,8 @@
   },
   {
     "id": "quilt_patchwork",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "quilt",
     "name": { "str": "patchwork quilt" },
     "description": "A huge, patchwork wool quilt.  Very, very warm.",
@@ -278,7 +285,8 @@
   },
   {
     "id": "emer_blanket",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -287,12 +295,13 @@
     "price": "4 USD 25 cent",
     "price_postapoc": "10 cent",
     "material": [ "plastic" ],
-    "weight": "500 g",
-    "volume": "500 ml",
+    "//": "https://www.lomo.co.uk/products/emergency-foil-blanket-sliver-10-pack/",
+    "weight": "50 g",
+    "volume": "200 ml",
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "SOFT" ],
     "warmth": 50,
     "environmental_protection": 1,
-    "material_thickness": 0.1,
+    "material_thickness": 0.01,
     "armor": [
       {
         "encumbrance": 50,
@@ -303,7 +312,8 @@
   },
   {
     "id": "sleeping_bag",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "sleeping bag" },
     "description": "A large sleeping bag that covers you head to toe, with a strap for carrying it on your back when not in use.  This one is medium weight.  It is currently unrolled; activate it to roll it up for easy storage.",
     "weight": "1600 g",
@@ -334,7 +344,8 @@
   },
   {
     "id": "sleeping_bag_improvised",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "improvised sleeping bag" },
     "description": "You might think it is bizarre to sleep in a body bag stuffed with dead plants.  However, the thought of sleeping in the cold is far more uncomfortable.",
     "weight": "4700 g",
@@ -359,7 +370,8 @@
   },
   {
     "id": "grass_sheet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "grass sheet" },
     "description": "Some grass yarn woven into a crude sheet.",
     "weight": "500 g",
@@ -383,7 +395,8 @@
   },
   {
     "id": "grass_blanket",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "grass blanket" },
     "description": "Some grass sheets sewn together.  Itchy, but more comfortable than the cold.",
     "weight": "1020 g",

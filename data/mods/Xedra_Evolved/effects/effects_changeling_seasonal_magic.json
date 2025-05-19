@@ -1,0 +1,536 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_using_glamour_removes_checker",
+    "//": "Hidden effect, used to prevent the initial use of a glamour that's not supposed to be used with other glamours from removing itself",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_spring_reduce_scent",
+    "name": [ "Scent of Fresh Flowers" ],
+    "desc": [ "A sweet scent fills the air." ],
+    "remove_message": "The scent of flowers fades away.",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SCENT_MASK",
+            "multiply": {
+              "math": [
+                "( -0.15 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.015) - (u_skill('deduction') * 0.035) ) * (global_what_is_the_season == 3 ? 0.5 : 1)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_spring_prevent_bad_conditions",
+    "name": [ "Spring Cleansing" ],
+    "desc": [ "You feel like you've just come outside after a long winter." ],
+    "apply_message": "You feel refreshed.",
+    "remove_message": "The refreshing feeling fades away.",
+    "max_duration": "12 hours",
+    "removes_effects": [
+      "poison",
+      "badpoison",
+      "venom_dmg",
+      "venom_weaken",
+      "venom_blind",
+      "venom_pain",
+      "paralyzepoison",
+      "pre_common_cold",
+      "common_cold",
+      "pre_flu",
+      "flu"
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_spring_protective_plant_armor",
+    "name": [ "Viridian Cuirass" ],
+    "desc": [ "You are covered in a set of living bark armor." ],
+    "apply_message": "Bark and leaves quickly grow over your skin.",
+    "remove_message": "The bark armor cracks and falls away.",
+    "max_duration": "12 hours",
+    "enchantments": [
+      { "mutations": [ "ARVORE_MOSS", "BARK" ] },
+      {
+        "condition": { "not": { "is_season": "autumn" } },
+        "incoming_damage_mod": [ { "type": "cold", "multiply": -0.5 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_spring_healing_increase_while_outside",
+    "name": [ "New Growth" ],
+    "desc": [ "You are drawing on the energy of life to increase your healing rate." ],
+    "apply_message": "",
+    "remove_message": "The warmth fades away.",
+    "max_duration": "12 hours",
+    "enchantments": [
+      {
+        "condition": { "and": [ "u_is_outside", "u_is_avatar" ] },
+        "values": [
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 },
+          {
+            "value": "REGEN_HP",
+            "multiply": {
+              "math": [
+                "( 10 + u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') + (u_skill('deduction') * 2) ) * (global_what_is_the_season == 3 ? 0.5 : 1)"
+              ]
+            }
+          },
+          {
+            "value": "MENDING_MODIFIER",
+            "multiply": {
+              "math": [
+                "(3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') / 3) + u_skill('deduction') ) * (global_what_is_the_season == 3 ? 0.5 : 1)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ "u_is_outside", "u_is_npc" ] },
+        "values": [
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 },
+          {
+            "value": "REGEN_HP",
+            "multiply": {
+              "math": [
+                "(10 + u_spring_magic_spell_count + (u_spring_magic_deduction_level * 2) ) * (global_what_is_the_season == 3 ? 0.5 : 1)"
+              ]
+            }
+          },
+          {
+            "value": "MENDING_MODIFIER",
+            "multiply": {
+              "math": [
+                "(3 + (u_spring_magic_spell_count / 3) + u_spring_magic_deduction_level) * (global_what_is_the_season == 3 ? 0.5 : 1)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_spring_charm_control_target",
+    "name": [ "Ishtar's Folly" ],
+    "desc": [ "Your devotion is stronger than adamant." ],
+    "max_duration": "1 hours",
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "incoming_damage_mod": [ { "type": "bash", "multiply": -0.1 }, { "type": "cut", "multiply": -0.1 }, { "type": "stab", "multiply": -0.1 } ],
+        "values": [ { "value": "SPEED", "multiply": 0.05 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_light",
+    "name": [ "Bonefire's Light" ],
+    "desc": [ "A wisp of flickering insubstantial fire hovers near your shoulder." ],
+    "apply_message": "",
+    "remove_message": "The wisp winks out.",
+    "max_duration": "12 hours",
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 10 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_sun_glasses",
+    "name": [ "Shading Your Eyes" ],
+    "desc": [ "Nearby lights don't seem quite as bright now." ],
+    "apply_message": "",
+    "remove_message": "You blink as nearby lights grow brighter.",
+    "max_duration": "12 hours",
+    "flags": [ "GLARE_RESIST" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_protect_from_hot_weather",
+    "name": [ "Gift of Warm Blood" ],
+    "desc": [ "The essence of summer protects you from excessive heat." ],
+    "apply_message": "",
+    "remove_message": "Your blood loses its glamoured warmth.",
+    "max_duration": "12 hours",
+    "enchantments": [
+      { "condition": { "is_season": "summer" }, "incoming_damage_mod": [ { "type": "heat", "multiply": -0.33 } ] },
+      {
+        "values": [
+          {
+            "value": "CLIMATE_CONTROL_CHILL",
+            "add": { "math": [ "10 + (u_summer_spell_count * 2) + (u_deduction_for_spells * 4)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_fire_melee_damage",
+    "name": [ "Burning Solar Grasp" ],
+    "desc": [ "Ethereal flames flicker around your hands" ],
+    "apply_message": "",
+    "remove_message": "The flames gutter out.",
+    "max_duration": "12 hours",
+    "enchantments": [
+      {
+        "condition": "u_has_weapon",
+        "melee_damage_bonus": [
+          {
+            "type": "heat",
+            "add": {
+              "math": [
+                "rng( (1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') / 2) ), (5 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') ) ) ) / 2.5"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": { "not": "u_has_weapon" },
+        "melee_damage_bonus": [
+          {
+            "type": "heat",
+            "add": {
+              "math": [
+                "rng( (1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') / 2) ), (5 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') ) ) )"
+              ]
+            }
+          }
+        ]
+      },
+      { "values": [ { "value": "LUMINATION", "add": 2 } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_slow_and_sweat_debuff",
+    "name": [ "Sun-struck" ],
+    "desc": [ "You need to sit down in the shade." ],
+    "show_in_info": true,
+    "rating": "bad",
+    "enchantments": [
+      {
+        "condition": { "not": { "is_season": "winter" } },
+        "values": [ { "value": "SPEED", "multiply": -0.15 }, { "value": "SWEAT_MULTIPLIER", "multiply": 0.5 } ]
+      },
+      {
+        "condition": { "and": [ { "is_season": "winter" }, "u_is_outside", "is_day" ] },
+        "values": [ { "value": "SPEED", "multiply": -0.15 }, { "value": "SWEAT_MULTIPLIER", "multiply": 0.5 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_run_for_long_periods",
+    "name": [ "Outracing the Sun" ],
+    "desc": [ "You are filled with burning energy." ],
+    "apply_message": "You are filled with burning energy.",
+    "remove_message": "The burning energy filling your muscles dissipates.",
+    "max_duration": "12 hours",
+    "enchantments": [
+      {
+        "condition": { "or": [ { "not": { "is_season": "winter" } }, { "and": [ { "is_season": "winter" }, "u_is_outside" ] } ] },
+        "values": [ { "value": "REGEN_STAMINA", "add": 200 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_bonus_stamina_near_enemies",
+    "name": [ "A Fire in the Blood" ],
+    "desc": [ "The light of the summer sun gives you strength to fight." ],
+    "apply_message": "You're fired up and ready for battle.",
+    "remove_message": "The energy of the sun leaves you.",
+    "enchantments": [
+      {
+        "condition": {
+          "or": [ { "math": [ "u_monsters_nearby('radius': 1) > 0" ] }, { "math": [ "u_characters_nearby('radius': 1) > 0" ] } ]
+        },
+        "values": [
+          {
+            "value": "REGEN_STAMINA",
+            "add": {
+              "math": [
+                "( (u_monsters_nearby('radius': 1) + u_characters_nearby('radius': 1) ) * 75) * (global_what_is_the_season == 4 ? 0.6 : 1)"
+              ]
+            }
+          },
+          {
+            "value": "BONUS_DODGE",
+            "add": { "math": [ "max( ( (u_monsters_nearby('radius': 1) + u_characters_nearby('radius': 1) ) / 3), 1)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_powerful_sunlight",
+    "name": [ "Helios's Wrath" ],
+    "desc": [ "You blaze with the pure light of the summer sun." ],
+    "apply_message": "",
+    "remove_message": "The blinding light fades away.",
+    "show_in_info": true,
+    "max_duration": "12 hours",
+    "enchantments": [
+      {
+        "values": [ { "value": "LUMINATION", "add": 8000 } ],
+        "intermittent_activation": {
+          "effects": [
+            { "frequency": "4 seconds", "spell_effects": [ { "id": "changeling_summer_powerful_sunlight_spell_aura_effects" } ] }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_detect_magic_user",
+    "name": [ "Witch's Warning" ],
+    "desc": [ "You can sense nearby uses of magick." ],
+    "apply_message": "",
+    "remove_message": "Your awareness of sorcerers fades away.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "or": [ { "npc_has_flag": "MAGIC_USER" }, { "and": [ "npc_is_character", { "math": [ "n_spell_count() >= 6" ] } ] } ]
+            },
+            "distance": {
+              "math": [
+                "min( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.2) + (u_skill('deduction') * 0.5)), 25)"
+              ]
+            },
+            "descriptions": [ { "id": "wizard_sense", "symbol": "?", "color": "cyan", "text": "You sense a sorcerer here." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_touch_of_frailty_character",
+    "name": [ "Touch of Frailty" ],
+    "desc": [ "A glamour is prematurely aging you." ],
+    "apply_message": "",
+    "remove_message": "Your vigor returns.",
+    "show_in_info": true,
+    "max_duration": "12 hours",
+    "enchantments": [
+      {
+        "values": [ { "value": "STRENGTH", "add": -3 }, { "value": "DEXTERITY", "add": -2 }, { "value": "SPEED", "add": -5 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_touch_of_frailty_monster",
+    "name": [ "Touch of Frailty" ],
+    "desc": [ "A glamour is prematurely aging you." ],
+    "apply_message": "",
+    "remove_message": "Your vigor returns.",
+    "show_in_info": true,
+    "max_duration": "12 hours",
+    "base_mods": { "hit_mod": [ -1 ], "dodge_mod": [ -1 ], "speed_mod": [ -5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_scare_animals",
+    "//": "Tracker to prevent spell from being re-used back to back",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_scare_humans",
+    "name": [ "Scarecrow's Mien" ],
+    "desc": [ "Now they shall know fear." ],
+    "remove_message": "The terrifying illusions fade away.",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SOCIAL_INTIMIDATE", "multiply": { "math": [ "45 * (global_what_is_the_season == 1 ? 0.6 : 1)" ] } },
+          { "value": "SOCIAL_PERSUADE", "multiply": { "math": [ "-45" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_protection_from_ranged",
+    "name": [ "Swirl of Autumn Leaves" ],
+    "desc": [ "A chill wind is whirling around you." ],
+    "apply_message": "",
+    "remove_message": "The autumn leaves fall to the ground.",
+    "show_in_info": true,
+    "max_duration": "12 hours",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "RANGE_DODGE",
+            "multiply": {
+              "math": [
+                "min( ( 15 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.75) + (u_skill('deduction') * 1.5) ), 50 )"
+              ]
+            }
+          }
+        ]
+      },
+      { "condition": { "is_season": "autumn" }, "values": [ { "value": "STEALTH_MODIFIER", "add": 33 } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_freeze_in_place_target",
+    "name": [ "Baleful Gaze" ],
+    "desc": [ "You cannot move!" ],
+    "remove_message": "You can move again.",
+    "show_in_info": true,
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_freeze_in_place_self",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_freeze_target_in_place_not_winter",
+    "name": [ "Grip of Winter" ],
+    "desc": [ "Ice coats your lower limbs, freezing you in place." ],
+    "apply_message": "",
+    "remove_message": "You can move again.",
+    "show_in_info": true,
+    "max_duration": "20 minutes",
+    "flags": [ "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_freeze_target_in_place_during_winter",
+    "name": [ "Grip of Winter" ],
+    "desc": [ "Ice coats your lower limbs, freezing you in place." ],
+    "apply_message": "",
+    "remove_message": "The chill around your feet fades away.",
+    "show_in_info": true,
+    "max_duration": "20 minutes",
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_walk_in_silence",
+    "name": [ "Footsteps in the Snow" ],
+    "desc": [ "Like an animal in winter, you are moving in almost complete silence." ],
+    "apply_message": "",
+    "remove_message": "The sound of your footsteps intrudes in your perceptions.",
+    "max_duration": "12 hours",
+    "enchantments": [
+      { "condition": { "not": { "is_season": "winter" } }, "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.9 } ] },
+      { "condition": { "is_season": "winter" }, "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_walk_on_water",
+    "name": [ "Path of Rime" ],
+    "desc": [ "Each step you take leaves a tracing of frost on the ground, and liquids freeze at your touch." ],
+    "apply_message": "",
+    "remove_message": "The chill around your feet fades away.",
+    "max_duration": "12 hours",
+    "flags": [ "WATERWALKING", "ITEM_WATERPROOFING", "SLUDGEPROOF" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_feign_death",
+    "name": [ "Stillness of the Tomb" ],
+    "desc": [ "You do not move, or breathe, or think, or live.  For now." ],
+    "apply_message": "",
+    "remove_message": "Life returns to your limbs.",
+    "show_in_info": true,
+    "max_duration": "6 hours",
+    "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ] } ],
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 0.2 },
+      { "limb_score": "block", "modifier": 0.0 },
+      { "limb_score": "swim", "modifier": 0.0 },
+      { "limb_score": "manip", "modifier": 0.1 },
+      { "limb_score": "grip", "modifier": 0.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_feign_death_limiter",
+    "name": [ "Definitely Alive" ],
+    "desc": [ "You can fool them once, but you can't fool them twice." ],
+    "max_duration": "1 minutes",
+    "blocks_effects": [ "effect_changeling_winter_feign_death" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_silence",
+    "name": [ "Frozen Tongue" ],
+    "desc": [ "Your tongue feels like solid ice." ],
+    "remove_message": "The icy feeling on your tongue vanishes.",
+    "flags": [ "MUTE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_frozen_breath",
+    "name": [ "Chilled" ],
+    "desc": [ "Your movements are slowed." ],
+    "apply_message": "",
+    "remove_message": "The bone-deep chill fades away.",
+    "show_in_info": true,
+    "max_duration": "20 minutes",
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.1 } ] } ],
+    "base_mods": { "hit_mod": [ -1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_neutralize_morale",
+    "name": [ "Frozen Heart" ],
+    "desc": [ "All emotions are frozen out." ],
+    "enchantments": [ { "mutations": [ "PSYCHOPATH" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_see_craft_darkness",
+    "name": [ "By Moon or By Starlight" ],
+    "desc": [ "You are at home in the dark." ],
+    "//": "flags can't be conditional so here we are",
+    "enchantments": [
+      {
+        "condition": { "not": { "is_season": "summer" } },
+        "ench_effects": [ { "effect": "effect_changeling_winter_see_craft_darkness_actual", "intensity": 1 } ]
+      },
+      {
+        "condition": { "and": [ { "is_season": "summer" }, "u_is_outside" ] },
+        "ench_effects": [ { "effect": "effect_changeling_winter_see_craft_darkness_actual", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_see_craft_darkness_actual",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ]
+  }
+]

@@ -36,5 +36,43 @@
     "show_intensity": false,
     "limb_score_mods": [ { "limb_score": "lift", "modifier": 0.51 }, { "limb_score": "grip", "modifier": 0.25 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_IMPEDING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_light_spell",
+    "name": [ "Bonefire's Light" ],
+    "desc": [ "A wisp of flickering insubstantial fire hovers near your shoulder." ],
+    "apply_message": "",
+    "remove_message": "The wisp winks out.",
+    "max_duration": "12 hours"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_sun_glasses_spell",
+    "name": [ "Shading Your Eyes" ],
+    "desc": [ "Nearby lights don't seem quite as bright now." ],
+    "apply_message": "",
+    "remove_message": "You blink as nearby lights grow brighter.",
+    "max_duration": "12 hours"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_fire_melee_damage_spell",
+    "name": [ "Burning Solar Grasp" ],
+    "desc": [ "Ethereal flames flicker around your hands" ],
+    "apply_message": "",
+    "remove_message": "The flames gutter out.",
+    "max_duration": "12 hours"
+  },
+  {
+    "type": "effect_type",
+    "id": "haste",
+    "name": [ "Hasted" ],
+    "desc": [ "Your speed is boosted enormously." ],
+    "apply_message": "Your speed is boosted to superhuman levels!",
+    "remove_message": "You return to your normal speed.",
+    "rating": "good",
+    "max_duration": "2 minutes",
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.7 }, { "value": "ATTACK_SPEED", "multiply": -0.7 } ] } ]
   }
 ]

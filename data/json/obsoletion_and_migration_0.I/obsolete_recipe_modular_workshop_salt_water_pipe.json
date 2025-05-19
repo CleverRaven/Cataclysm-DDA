@@ -1,0 +1,501 @@
+[
+  {
+    "//00": "OBSOLETION NOTE: when this file is deleted, C++ faction camp code from #55026 that generates pipelines can also be deleted.",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_swamp",
+    "description": "Construct a pipe to bring salt water from a nearby swamp to the Workshop, which will become available once a pump is built to connect to it.  This job just adds the first bit (in a swamp).",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_swamp_N",
+    "//": "The blueprint is a template that will be rotated and mirrored to match its placement. Note that this does NOT",
+    "//0": "have anything to do with the flags provided: they serve a different purpose. Also note that the name is hard",
+    "//1": "coded to be picked up by code specific to this functionality. Also note that the non orthogonal orientations",
+    "//2": "use the blueprint faction_expansion_salt_water_pipe_swamp_NE instead.",
+    "blueprint_name": "salt water pipe construction",
+    "blueprint_requires": [ { "id": "nonexistent_id_to_hide_construction" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_swamp" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_swamp" } ],
+    "//3": "1 salt water well, 4 pits, and filling up 3 pits (the last one is for the well). 6 h, 40 m * 3, 30 m * 4, 150 m * 4",
+    "blueprint_needs": {
+      "time": "20 h",
+      "skills": [ [ "fabrication", 4 ], [ "survival", 4 ] ],
+      "inline": {
+        "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "DIG", "level": 2 } ],
+        "components": [ [ [ "rock", 40 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ], [ [ "pipe", 6 ] ], [ [ "pipe_fittings", 6 ] ] ]
+      }
+    },
+    "check_blueprint_needs": false,
+    "//4": "Abuse of the flags. Since the referenced blueprint isn't actually used, they don't have any actual effect",
+    "//5": "on it, but they're used to tell the code specific to this pipe functionality which overmap tile the pipe",
+    "//6": "should end at, with N(orth) being the default assumption. The pipe then connects to expansion tile at index",
+    "//7": "12 (the index being X or Y depending on the rotation). This allows for an expansion blueprint to connect at",
+    "//8": "11 or 12, which you can get with mirroring and rotation of those indices.",
+    "flags": [
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_1",
+    "description": "The first continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "//": "The blueprint is a template that will be rotated and mirrored to match its placement. Also note that the",
+    "//1": "name is hard coded to be picked up by code specific to this functionality. For diagonal pipes the hard",
+    "//2": "blueprint faction_expansion_salt_water_pipe_NE is used as a base for rotation/mirroring.",
+    "blueprint_name": "salt water pipe continuation 1",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_1_scheduled" } ],
+    "//3": "The second requires token above is added by code that determines how many construction segments are needed",
+    "//4": "to construct the pipe. Thus, this id is hard coded.",
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_1" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_1" } ],
+    "//5": "24 pits dug and filled up again. 40 m * 24, 30 m * 24, 150 m * 24",
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": {
+        "qualities": [ { "id": "DIG", "level": 2 } ],
+        "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ],
+        "//6": "We'll ignore that we'd need longer pipes when the line is diagonal."
+      }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_2",
+    "description": "The second continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 2",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_2_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_2" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_2" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_3",
+    "description": "The third continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 3",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_3_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_3" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_3" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_4",
+    "description": "The fourth continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 4",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_4_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_4" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_4" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_5",
+    "description": "The fifth continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 5",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_5_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_5" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_5" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_6",
+    "description": "The sixth continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 6",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_6_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_6" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_6" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_7",
+    "description": "The seventh continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 7",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_7_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_7" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_7" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_8",
+    "description": "The eighth continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 8",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_8_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_8" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_8" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_9",
+    "description": "The ninth continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 9",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_9_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_9" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_9" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_10",
+    "description": "The tenth continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 10",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_10_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_10" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_10" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_11",
+    "description": "The eleventh continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 11",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_11_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_11" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_11" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_12",
+    "description": "The twelfth continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 12",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_12_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_12" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_12" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_13",
+    "description": "The thirteenth continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 13",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_13_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_13" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_13" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_14",
+    "description": "The fourteenth continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 14",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_14_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_14" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_14" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_15",
+    "description": "The fifteenth continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 15",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_15_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_15" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_15" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_16",
+    "description": "The sixteenth continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 16",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_16_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_16" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_16" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_17",
+    "description": "The seventeenth continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 17",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_17_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_17" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_17" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_18",
+    "description": "The eighteenth continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 18",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_18_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_18" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_18" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pipe_19",
+    "description": "The nineteenth continuation section of the salt water pipe.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_expansion_salt_water_pipe_N",
+    "blueprint_name": "salt water pipe continuation 19",
+    "blueprint_requires": [ { "id": "fbmw_2" }, { "id": "salt_water_pipe_19_scheduled" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_19" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_19" } ],
+    "blueprint_needs": {
+      "time": "88 h",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 1 ] ],
+      "inline": { "qualities": [ { "id": "DIG", "level": 2 } ], "components": [ [ [ "pipe", 48 ] ], [ [ "pipe_fittings", 48 ] ] ] }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_salt_water_pump",
+    "description": "Construct a pump and connect it to the salt water pipe.  You have to add the pump to a storage zone to access the salt water for camp crafting!",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_2_salt_water_pump",
+    "blueprint_name": "construct a salt water pump",
+    "blueprint_requires": [ { "id": "salt_water_pipe_0_scheduled" } ],
+    "//": "Have to use hard coded requires condition as the result of the swamp",
+    "//1": "construction has to be set as provided to block the recipe from",
+    "//2": "reappearing when it fails because the geography doesn't allow it",
+    "blueprint_provides": [ { "id": "fbmw_2_salt_water_pump" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pump" } ],
+    "//3": "(salt) water pump + 2 deep pits + 2 filled pits",
+    "blueprint_needs": {
+      "time": "24 h 20 m",
+      "skills": [ [ "fabrication", 4 ], [ "survival", 4 ], [ "mechanics", 2 ] ],
+      "inline": {
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+        "components": [
+          [ [ "rock", 40 ] ],
+          [ [ "2x4", 4 ] ],
+          [ [ "nail", 8 ] ],
+          [ [ "well_pump", 1 ] ],
+          [ [ "pipe", 28 ] ],
+          [ [ "pipe_fittings", 28 ] ]
+        ]
+      }
+    },
+    "check_blueprint_needs": false,
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  }
+]

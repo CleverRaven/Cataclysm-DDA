@@ -1,13 +1,21 @@
+#include <algorithm>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "monster.h"
+#include "point.h"
 #include "rng.h"
-
-#include <vector>
+#include "type_id.h"
 
 // The area of the whole map from two below to one above ground level.
 static const tripoint_bub_ms p1( 0, 0, -2 );

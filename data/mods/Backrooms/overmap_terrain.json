@@ -16,6 +16,17 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "backroom_stairs_bottom", "backroom_stairs_top" ],
+    "name": "backroom stairs",
+    "sym": "S",
+    "color": "white",
+    "see_cost": "full_high",
+    "spawns": { "group": "GROUP_BACKROOMS", "population": [ 2, 15 ], "chance": 40 },
+    "extras": "backrooms",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "backroom_border",
     "name": "",
     "sym": ".",

@@ -1,18 +1,27 @@
 #include "recipe_dictionary.h"
 
 #include <algorithm>
+#include <array>
+#include <cctype>
 #include <chrono>
+#include <climits>
 #include <iterator>
+#include <list>
 #include <memory>
+#include <optional>
 #include <unordered_map>
 #include <utility>
 
+#include "bodypart.h"
+#include "calendar.h"
 #include "cata_algo.h"
 #include "cata_utility.h"
 #include "crafting_gui.h"
-#include "display.h"
 #include "debug.h"
+#include "display.h"
+#include "enums.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
 #include "init.h"
 #include "input.h"
 #include "item.h"
@@ -20,11 +29,16 @@
 #include "itype.h"
 #include "make_static.h"
 #include "mapgen.h"
-#include "math_parser.h"
-#include "mod_manager.h"
+#include "math_parser_type.h"
+#include "mod_tracker.h"
 #include "output.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "skill.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
+#include "translation.h"
+#include "translations.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -91,7 +105,7 @@ const recipe &recipe_dictionary::get_craft( const itype_id &id )
 
 // searches for left-anchored partial match in the relevant recipe requirements set
 template <class group>
-bool search_reqs( const group &gp, const std::string_view txt )
+bool search_reqs( const group &gp, std::string_view txt )
 {
     return std::any_of( gp.begin(), gp.end(), [&]( const typename group::value_type & opts ) {
         return std::any_of( opts.begin(),
@@ -103,7 +117,7 @@ bool search_reqs( const group &gp, const std::string_view txt )
 // template specialization to make component searches easier
 template<>
 bool search_reqs( const std::vector<std::vector<item_comp> > &gp,
-                  const std::string_view txt )
+                  std::string_view txt )
 {
     return std::any_of( gp.begin(), gp.end(), [&]( const std::vector<item_comp> &opts ) {
         return std::any_of( opts.begin(), opts.end(), [&]( const item_comp & ic ) {
@@ -215,7 +229,7 @@ static Unit can_contain_filter( std::string_view hint, std::string_view txt, Uni
 }
 
 std::vector<const recipe *> recipe_subset::search(
-    const std::string_view txt, const search_type key,
+    std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
     auto predicate = [&]( const recipe * r ) {
@@ -360,7 +374,7 @@ std::vector<const recipe *> recipe_subset::search(
         case search_type::length: {
             units::length len = can_contain_filter(
                                     "Failed to convert '%s' to length.\nValid examples:\n122 cm\n1101mm\n2   meter",
-                                    txt, units::length_max, units::length_units );
+                                    txt, units::length::max(), units::length_units );
 
             filtered_fake_itype.longest_side = len;
             filtered_fake_item = item( &filtered_fake_itype );
@@ -371,7 +385,7 @@ std::vector<const recipe *> recipe_subset::search(
         case search_type::volume: {
             units::volume vol = can_contain_filter(
                                     "Failed to convert '%s' to volume.\nValid examples:\n750 ml\n4L",
-                                    txt, units::volume_max, units::volume_units );
+                                    txt, units::volume::max(), units::volume_units );
 
             filtered_fake_itype.volume = vol;
             filtered_fake_item = item( &filtered_fake_itype );
@@ -380,7 +394,7 @@ std::vector<const recipe *> recipe_subset::search(
         case search_type::mass: {
             units::mass mas = can_contain_filter(
                                   "Failed to convert '%s' to mass.\nValid examples:\n12 mg\n400g\n25  kg",
-                                  txt, units::mass_max, units::mass_units );
+                                  txt, units::mass::max(), units::mass_units );
 
             filtered_fake_itype.weight = mas;
             filtered_fake_item = item( &filtered_fake_itype );
@@ -449,7 +463,7 @@ recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const 
 }
 
 recipe_subset recipe_subset::reduce(
-    const std::string_view txt, const search_type key,
+    std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
     return recipe_subset( *this, search( txt, key, progress_callback ) );

@@ -4,7 +4,7 @@
     "id": "mon_renfield",
     "type": "MONSTER",
     "name": { "str": "renfield" },
-    "upgrades": { "half_life": 50, "into_group": "GROUP_RENFIELD_UPGRADE_INNAWOOD" }
+    "upgrades": { "half_life": 200, "into_group": "GROUP_RENFIELD_UPGRADE_INNAWOOD" }
   },
   {
     "copy-from": "mon_fetch_child",

@@ -1,16 +1,22 @@
 #include "string_input_popup.h"
 
 #include <cctype>
+#include <climits>
 
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
+#include "condition.h"
+#include "flexbuffer_json.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "output.h"
 #include "point.h"
+#include "ret_val.h"
+#include "translation.h"
 #include "translations.h"
 #include "try_parse_integer.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "wcwidth.h"
@@ -328,12 +334,13 @@ void string_input_popup::query( const bool loop, const bool draw_only )
 }
 
 template<typename T>
-T query_int_impl( string_input_popup &p, const bool loop, const bool draw_only )
+std::optional<T> query_int_impl( string_input_popup &p, const bool loop, const bool draw_only )
 {
     do {
-        ret_val<T> result = try_parse_integer<T>( p.query_string( loop, draw_only ), true );
-        if( p.canceled() ) {
-            return 0;
+        const std::string &queried_string = p.query_string( loop, draw_only );
+        ret_val<T> result = try_parse_integer<T>( queried_string, true );
+        if( p.canceled() || queried_string.empty() ) {
+            return std::nullopt;
         }
         if( result.success() ) {
             return result.value();
@@ -344,12 +351,12 @@ T query_int_impl( string_input_popup &p, const bool loop, const bool draw_only )
     return 0;
 }
 
-int string_input_popup::query_int( const bool loop, const bool draw_only )
+std::optional<int> string_input_popup::query_int( const bool loop, const bool draw_only )
 {
     return query_int_impl<int>( *this, loop, draw_only );
 }
 
-int64_t string_input_popup::query_int64_t( const bool loop, const bool draw_only )
+std::optional<int64_t> string_input_popup::query_int64_t( const bool loop, const bool draw_only )
 {
     return query_int_impl<int64_t>( *this, loop, draw_only );
 }
@@ -692,9 +699,6 @@ string_input_params string_input_params::parse_string_input_params( const JsonOb
     if( jo.has_member( "identifier" ) ) {
         const JsonValue &jv_identifier = jo.get_member( "identifier" );
         p.identifier = get_str_or_var( jv_identifier, "" );
-    }
-    if( jo.has_bool( "only_digits" ) ) {
-        p.only_digits = jo.get_bool( "only_digits" );
     }
     return p;
 }

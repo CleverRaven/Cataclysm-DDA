@@ -1,14 +1,18 @@
 #include "main_menu.h"
 
 #include <algorithm>
+#include <array>
+#include <chrono>
 #include <cmath>
 #include <cstdint>
-#include <cstdio>
+#include <cstdlib>
 #include <cstring>
-#include <ctime>
 #include <exception>
 #include <functional>
+#include <initializer_list>
 #include <istream>
+#include <locale>
+#include <map>
 #include <memory>
 #include <optional>
 #include <string>
@@ -19,20 +23,20 @@
 
 #include "auto_pickup.h"
 #include "avatar.h"
-#include "cata_imgui.h"
+#include "cata_path.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_id.h"
 #include "color.h"
 #include "debug.h"
-#include "imgui_demo.h"
 #include "enums.h"
 #include "filesystem.h"
 #include "game.h"
 #include "gamemode.h"
 #include "get_version.h"
 #include "help.h"
+#include "imgui_demo.h"
 #include "localized_comparator.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
@@ -49,12 +53,13 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "wcwidth.h"
 #include "worldfactory.h"
-
-#include "imgui/imgui.h"
 
 static const mod_id MOD_INFORMATION_dda( "dda" );
 static const mod_id MOD_INFORMATION_dda_tutorial( "dda_tutorial" );

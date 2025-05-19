@@ -5,9 +5,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
@@ -17,13 +15,15 @@
 #include "build_reqs.h"
 #include "calendar.h"
 #include "requirements.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
 class Character;
 class JsonObject;
+class cata_variant;
 class item;
+class item_components;
 template <typename E> struct enum_traits;
 
 enum class recipe_filter_flags : int {

@@ -100,7 +100,7 @@
         "    ---------------5    "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 5, 17 ], "y": [ 9, 22 ], "chance": 50, "repeat": [ 1, 3 ] } ]
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 5, 17 ], "y": [ 9, 22 ], "chance": 50, "repeat": [ 1, 3 ] } ]
     }
   },
   {
@@ -172,7 +172,7 @@
         "    ----------------    "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 5, 17 ], "y": [ 11, 22 ], "chance": 50, "repeat": [ 1, 3 ] } ]
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 5, 17 ], "y": [ 11, 22 ], "chance": 50, "repeat": [ 1, 3 ] } ]
     }
   },
   {
@@ -244,7 +244,7 @@
         "            ---------   "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 8, 15 ], "y": [ 7, 22 ], "chance": 50, "repeat": [ 1, 3 ] } ]
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 8, 15 ], "y": [ 7, 22 ], "chance": 50, "repeat": [ 1, 3 ] } ]
     }
   },
   {

@@ -28,7 +28,8 @@
   },
   {
     "id": "aura_cold_energy",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "Ice Orbit",
     "//": "dirty hack till emit spell would be fixed",
     "description": "Small particles of ice orbit around your body, as a beacon for a giant field of frozen energy.",
@@ -37,17 +38,9 @@
     "symbol": "o",
     "color": "blue",
     "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "OVERSIZE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "emitter": "emit_cold_energy_strong" } ] }
+    "flags": [ "AURA", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
+    "max_worn": 1,
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "emitter": "emit_cold_energy_strong" } ]
   },
   {
     "id": "permafrost_mage_ice_age",

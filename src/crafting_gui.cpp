@@ -13,7 +13,7 @@
 #include <sstream>
 #include <string>
 #include <string_view>
-#include <type_traits>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -30,10 +30,10 @@
 #include "display.h"
 #include "flag.h"
 #include "flat_set.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "game_inventory.h"
+#include "generic_factory.h"
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
@@ -44,11 +44,14 @@
 #include "item_location.h"
 #include "itype.h"
 #include "localized_comparator.h"
+#include "magic_enchantment.h"
 #include "options.h"
 #include "output.h"
+#include "pimpl.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -57,7 +60,7 @@
 #include "translation_cache.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_iteminfo.h"
 #include "ui_manager.h"
 #include "uistate.h"
@@ -138,7 +141,7 @@ static int related_menu_fill( uilist &rmenu,
 static item get_recipe_result_item( const recipe &rec, Character &crafter );
 static void compare_recipe_with_item( const item &recipe_item, Character &crafter );
 
-static std::string get_cat_unprefixed( const std::string_view prefixed_name )
+static std::string get_cat_unprefixed( std::string_view prefixed_name )
 {
     return std::string( prefixed_name.substr( 3, prefixed_name.size() - 3 ) );
 }
@@ -148,7 +151,7 @@ void load_recipe_category( const JsonObject &jsobj, const std::string &src )
     craft_cat_list.load( jsobj, src );
 }
 
-void crafting_category::load( const JsonObject &jo, const std::string_view )
+void crafting_category::load( const JsonObject &jo, std::string_view )
 {
     // Ensure id is correct
     if( id.str().find( "CC_" ) != 0 ) {
@@ -179,7 +182,7 @@ void crafting_category::load( const JsonObject &jo, const std::string_view )
     }
 }
 
-static std::string get_subcat_unprefixed( const std::string_view cat,
+static std::string get_subcat_unprefixed( std::string_view cat,
         const std::string &prefixed_name )
 {
     std::string prefix = "CSC_" + get_cat_unprefixed( cat ) + "_";
@@ -394,7 +397,7 @@ static std::vector<std::string> recipe_info(
     const recipe &recp,
     const availability &avail,
     Character &guy,
-    const std::string_view qry_comps,
+    std::string_view qry_comps,
     const int batch_size,
     const int fold_width,
     const nc_color &color,
@@ -941,7 +944,7 @@ struct item_info_cache {
 };
 
 static recipe_subset filter_recipes( const recipe_subset &available_recipes,
-                                     const std::string_view qry,
+                                     std::string_view qry,
                                      const Character &crafter,
                                      const std::function<void( size_t, size_t )> &progress_callback )
 {
@@ -2033,8 +2036,14 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         } else if( action == "TOGGLE_RECIPE_UNREAD" && selection_ok( current, line, true ) ) {
             const recipe_id rcp = current[line]->ident();
             if( uistate.read_recipes.count( rcp ) ) {
+                for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                    uistate.read_recipes.erase( nested_rcp );
+                }
                 uistate.read_recipes.erase( rcp );
             } else {
+                for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                    uistate.read_recipes.insert( nested_rcp );
+                }
                 uistate.read_recipes.insert( rcp );
             }
             recalc_unread = highlight_unread_recipes;
@@ -2042,6 +2051,15 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         } else if( action == "MARK_ALL_RECIPES_READ" ) {
             bool current_list_has_unread = false;
             for( const recipe *const rcp : current ) {
+                for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                    if( !uistate.read_recipes.count( nested_rcp->ident() ) ) {
+                        current_list_has_unread = true;
+                        break;
+                    }
+                    if( current_list_has_unread ) {
+                        break;
+                    }
+                }
                 if( !uistate.read_recipes.count( rcp->ident() ) ) {
                     current_list_has_unread = true;
                     break;
@@ -2064,10 +2082,16 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             if( query_yn( query_str ) ) {
                 if( current_list_has_unread ) {
                     for( const recipe *const rcp : current ) {
+                        for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                            uistate.read_recipes.insert( nested_rcp->ident() );
+                        }
                         uistate.read_recipes.insert( rcp->ident() );
                     }
                 } else {
                     for( const recipe *const rcp : available_recipes ) {
+                        for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                            uistate.read_recipes.insert( nested_rcp->ident() );
+                        }
                         uistate.read_recipes.insert( rcp->ident() );
                     }
                 }
@@ -2314,7 +2338,7 @@ static void compare_recipe_with_item( const item &recipe_item, Character &crafte
     } while( true );
 }
 
-static bool query_is_yes( const std::string_view query )
+static bool query_is_yes( std::string_view query )
 {
     const std::string_view subquery = query.substr( 2 );
 

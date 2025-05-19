@@ -1,6 +1,7 @@
 [
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "//": "The C7A1 is semi or full-auto with a 20 in. barrel, which it shares with the M16A3 it overrides.",
     "id": "modular_m16_auto_rifle",
     "copy-from": "modular_m16_auto_rifle",
@@ -23,7 +24,8 @@
     ]
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "modular_m4_carbine",
     "copy-from": "modular_m4_carbine",
     "looks_like": "ar15",
@@ -45,7 +47,8 @@
     ]
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "hi_power_9mm",
     "name": { "str": "Browning Hi-Power" },
     "copy-from": "hi_power_9mm",
@@ -56,7 +59,8 @@
     "id": "m1911a1",
     "copy-from": "m1911",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "M1911A1" },
     "description": "This is a semi-automatic pistol, chambered in .45 ACP and accepting M1911 magazines.",
     "variant_type": "gun",
@@ -77,21 +81,24 @@
     "ascii_picture": "m1911"
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "m249",
     "name": { "str": "C9" },
     "copy-from": "m249",
     "description": "A mountable machine gun used by Canadian infantry, feeding from a belt or STANAG magazines in a pinch.  Quite inaccurate and difficult to control, the C9 is designed to fire many rounds very quickly."
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "m60",
     "name": { "str": "C6" },
     "copy-from": "m60",
     "description": "The Colt Canada C6 is a general-purpose machine gun developed to replace the .30-caliber C5 GPMG.  Heavy and difficult to handle fired from the shoulder, as most people aren't action-movie heroes."
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "rossi_gallery",
     "name": { "str": "pump action varmint rifle" },
     "copy-from": "rossi_gallery",

@@ -170,6 +170,11 @@
     "info": "This item enables you to keep track of calorie intake."
   },
   {
+    "id": "CALORIE_BURN",
+    "type": "json_flag",
+    "info": "This item enables you to keep track of calorie consumption.  Includes CALORIES_INTAKE."
+  },
+  {
     "id": "CASELESS_ROUNDS",
     "type": "json_flag",
     "info": "Being caseless rounds, these <bad>cannot be disassembled or reloaded</bad>."
@@ -445,21 +450,9 @@
     "type": "json_flag"
   },
   {
-    "id": "ONLY_ONE",
-    "type": "json_flag",
-    "info": "You can wear <info>only one</info>."
-  },
-  {
     "id": "ONE_PER_LAYER",
     "type": "json_flag",
     "info": "<info>Only one</info> item can be worn on this clothing layer."
-  },
-  {
-    "id": "FANCY",
-    "type": "json_flag",
-    "//": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
-    "info": "This clothing is <info>fancy</info>.",
-    "conflicts": [ "SUPER_FANCY" ]
   },
   {
     "id": "FIRE",
@@ -939,13 +932,6 @@
     "type": "json_flag",
     "//": "Prevents glaring when in sunlight.",
     "info": "This clothing keeps the <info>glare</info> out of your eyes."
-  },
-  {
-    "id": "SUPER_FANCY",
-    "type": "json_flag",
-    "//": "Gives an additional moral bonus over FANCY if the player has the Stylish trait.",
-    "info": "This clothing is <info>very fancy</info>.",
-    "conflicts": [ "FANCY" ]
   },
   {
     "id": "SWIM_GOGGLES",
@@ -1712,6 +1698,10 @@
   },
   {
     "id": "NO_TAKEOFF",
+    "type": "json_flag"
+  },
+  {
+    "id": "NO_TEMP",
     "type": "json_flag"
   },
   {
@@ -2691,5 +2681,20 @@
     "id": "BANK_NETWORKED",
     "type": "json_flag",
     "//": "Vending machines with this flag will allow purchasing items with your bank balance."
+  },
+  {
+    "id": "NATURAL_UNDERGROUND",
+    "type": "json_flag",
+    "//": "Wall tiles with this flag occur naturally underground and are not manmade."
+  },
+  {
+    "id": "INSTANT_BLEED",
+    "type": "json_flag",
+    "//": "Having this flag makes the player bleed corpses in 1 second each.  Used for a XE vampire power."
+  },
+  {
+    "id": "ONE_STORY_FALL",
+    "type": "json_flag",
+    "//": "When the character falls, the height is reduced by 1 Z level before calculating damage."
   }
 ]

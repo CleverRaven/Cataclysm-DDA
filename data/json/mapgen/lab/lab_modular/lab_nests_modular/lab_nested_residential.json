@@ -202,7 +202,7 @@
         "A     "
       ],
       "palettes": [ "lab_common_palette", "lab_residential_palette" ],
-      "items": { "J": { "item": "wetbar_stack", "chance": 30 }, "s": { "item": "office_paper", "chance": 30 } }
+      "items": { "J": { "item": "wetbar_stack", "chance": 30 }, "s": { "item": "SUS_office_desk", "chance": 30 } }
     }
   },
   {
@@ -224,8 +224,7 @@
       "palettes": [ "lab_common_palette", "lab_residential_palette" ],
       "items": {
         "s": { "item": "wetbar_stack", "chance": 30 },
-        "S": { "item": "office_paper", "chance": 30 },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 2, 4 ] }
       }
     }
   },

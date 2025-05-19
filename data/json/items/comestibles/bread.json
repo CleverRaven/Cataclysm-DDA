@@ -1,7 +1,8 @@
 [
   {
     "id": "donut_holes",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "donut holes" },
     "material": [ "wheat" ],
     "weight": "62 g",
@@ -22,7 +23,8 @@
   },
   {
     "id": "sourdough_young_uncovered",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "category": "food",
     "name": { "str_sp": "juvenile sourdough starter" },
     "description": "A floury paste that is slowly going bad.  Someday it will be sourdough.",
@@ -49,7 +51,8 @@
   },
   {
     "id": "sourdough_split_uncovered",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "category": "food",
     "name": { "str_sp": "freshly fed sourdough starter" },
     "description": "A floury paste with sourdough starter mixed in.  It needs a day to recover its strength before it can be used again.",
@@ -76,7 +79,8 @@
   },
   {
     "id": "sourdough_starter_uncovered",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "category": "food",
     "name": { "str_sp": "sourdough starter" },
     "description": "A precious mix of flour, water, molds, and bacteria from the air.  When you add flour and water to it, after a few hours it froths and rises.",
@@ -94,7 +98,8 @@
     "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sourdough_bread",
     "name": { "str_sp": "sourdough bread" },
     "weight": "56 g",
@@ -110,12 +115,13 @@
     "material": [ "wheat" ],
     "looks_like": "bread",
     "volume": "75 ml",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 2,
-    "vitamins": [ [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "flatbread",
     "name": { "str_sp": "flatbread" },
     "weight": "15 g",
@@ -134,7 +140,8 @@
     "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "frybread",
     "name": { "str_sp": "frybread" },
     "weight": "15 g",
@@ -153,7 +160,8 @@
     "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "bread",
     "name": { "str_sp": "bread" },
     "description": "A humble piece of bread, one of the single most important staple foods of human civilization since the dawn of agriculture.",
@@ -173,7 +181,8 @@
     "vitamins": [ [ "calcium", 3 ], [ "iron", 6 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "bread_garlic",
     "looks_like": "bread",
     "name": { "str_sp": "garlic bread" },
@@ -195,7 +204,8 @@
     "vitamins": [ [ "calcium", 2 ], [ "iron", 14 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "toast",
     "name": { "str_sp": "toast" },
     "copy-from": "bread",
@@ -205,18 +215,20 @@
     "quench": -2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "buttered_toast",
     "name": { "str_sp": "buttered toast" },
     "copy-from": "toast",
     "description": "A slice of toast with butter spread on top to make it taste better.",
     "material": [ "milk", "wheat" ],
     "primary_material": "wheat",
-    "relative": { "calories": 101, "fun": 4 },
+    "relative": { "fun": 4 },
     "vitamins": [ [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "jam_toast",
     "name": { "str_sp": "jam toast" },
     "copy-from": "toast",
@@ -224,41 +236,45 @@
     "material": [ "fruit", "wheat" ],
     "primary_material": "wheat",
     "spoils_in": "7 days",
-    "relative": { "calories": 35, "fun": 3, "quench": 2, "vitamins": [ [ "vitC", "20 mg" ] ] },
+    "relative": { "fun": 3 },
     "vitamins": [ [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "peanut_butter_toast",
     "name": { "str_sp": "peanut butter toast" },
     "copy-from": "toast",
     "description": "A slathering of peanut butter gives more heartiness and calories to a slice of toast.",
-    "relative": { "calories": 190, "fun": 3, "quench": -2, "vitamins": [ [ "iron", 6 ] ] }
+    "relative": { "fun": 3, "quench": -2 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "toad_in_a_hole",
     "name": { "str_sp": "toad in a hole" },
     "copy-from": "toast",
     "description": "A cooked egg served inside a piece of toast, not to be confused with the English recipe of the same name.",
     "extend": { "flags": [ "EATEN_HOT", "FREEZERBURN" ] },
     "material": [ "wheat", "egg" ],
-    "relative": { "calories": 207, "fun": 4, "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] },
+    "relative": { "fun": 4 },
     "vitamins": [ [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "PBJ_Toast",
     "name": { "str_sp": "PBJ toast" },
     "copy-from": "toast",
     "description": "A slice of toast with peanut butter and jelly on top, with added butter for flavor.",
     "material": [ "fruit", "milk", "wheat" ],
     "primary_material": "wheat",
-    "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitC", 2 ] ] },
+    "relative": { "fun": 7 },
     "vitamins": [ [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cornbread",
     "name": { "str_sp": "cornbread" },
     "weight": "15 g",
@@ -279,7 +295,8 @@
     "vitamins": [ [ "calcium", 8 ], [ "iron", 6 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "johnnycake",
     "name": { "str": "johnnycake" },
     "weight": "49 g",
@@ -299,7 +316,8 @@
     "vitamins": [ [ "calcium", 4 ], [ "iron", 7 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "tortilla_corn",
     "name": { "str": "corn tortilla" },
     "weight": "24 g",
@@ -320,7 +338,8 @@
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "tortilla_flour",
     "name": { "str": "flour tortilla" },
     "weight": "18 g",
@@ -341,7 +360,8 @@
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hardtack_cracker",
     "name": { "str_sp": "hardtack cracker" },
     "weight": "72 g",
@@ -361,7 +381,8 @@
     "fun": -4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hardtack",
     "name": { "str_sp": "hardtack" },
     "weight": "12 g",
@@ -381,7 +402,8 @@
     "fun": -4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "soggy_hardtack",
     "name": { "str_sp": "soggy hardtack" },
     "weight": "12 g",
@@ -400,7 +422,8 @@
     "fun": -1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "biscuit",
     "name": { "str": "biscuit" },
     "weight": "30 g",
@@ -420,13 +443,14 @@
     "vitamins": [ [ "calcium", 11 ], [ "iron", 9 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "wastebread",
     "name": { "str_sp": "wastebread" },
     "weight": "15 g",
     "//1": "avg bread density is 0.25",
     "color": "white",
-    "spoils_in": 990,
+    "spoils_in": "41 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -3,
@@ -443,7 +467,8 @@
     "//": "this item will generally inherit its values, so it is essentially a copy of bread"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "brown_bread",
     "name": { "str_sp": "brown bread" },
     "weight": "45 g",
@@ -463,7 +488,8 @@
     "vitamins": [ [ "calcium", 4 ], [ "iron", 4 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hallula",
     "name": { "str_sp": "hallula" },
     "weight": "45 g",

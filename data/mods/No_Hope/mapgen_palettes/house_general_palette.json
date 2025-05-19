@@ -1,116 +1,77 @@
 [
   {
     "type": "palette",
+    "id": "domestic_general_construction_and_variant_palette",
+    "//": "This palette is split from domestic_general_and_variant_palette because the construction palette needs more consideration than the other palettes",
+    "parameters": {
+      "construction_palette": {
+        "type": "palette_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [ [ "standard_domestic_construction_palette", 100 ], [ "domestic_general_and_variant_palette", 9900 ] ]
+        }
+      }
+    },
+    "palettes": [ { "param": "construction_palette" } ]
+  },
+  {
+    "type": "palette",
+    "id": "domestic_general_and_variant_palette",
+    "//": "Standard variant distribution for homes: General: 90%, Abandoned: 5%, Construction: 1.00%, Survivor: 2%, Hoarder: 2%",
+    "//2": "Changes to standard_domestic_palette may also need applying to standard_domestic_abandoned_palette & standard_domestic_construction_palette.",
+    "parameters": {
+      "variant_palette": {
+        "type": "palette_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "standard_domestic_migration_palette", 9000 ],
+            [ "standard_domestic_abandoned_palette", 200 ],
+            [ "house_hoarder_palette", 200 ],
+            [ "house_survivor_palette", 200 ]
+          ]
+        }
+      }
+    },
+    "palettes": [ { "param": "variant_palette" }, "parametrized_walls_palette", "no_hope_damage_palette" ]
+  },
+  {
+    "type": "palette",
     "id": "standard_domestic_migration_palette",
-    "//": "Adjusts vanilla weights to make houses messier and more damaged.",
+    "//": "Palette to replace most standard_domestic_palette use that adds a random level of pre-cata tidyness and post-cata damage.",
     "parameters": {
       "tidyness_palette": {
         "type": "palette_id",
         "scope": "overmap_special",
-        "//": "Null here represents tidy",
-        "default": {
-          "distribution": [ [ "null_palette", 1 ], [ "standard_domestic_untidy_palette", 39 ], [ "standard_domestic_messy_palette", 60 ] ]
-        }
+        "default": { "distribution": [ [ "standard_domestic_untidy_palette", 40 ], [ "standard_domestic_messy_palette", 60 ] ] }
       },
       "damage_palette": {
         "type": "palette_id",
         "scope": "overmap_special",
-        "//": "Null here represents untouched",
-        "default": {
-          "distribution": [ [ "null_palette", 1 ], [ "standard_domestic_damage_palette", 39 ], [ "standard_domestic_damage_large_palette", 60 ] ]
-        }
+        "default": { "distribution": [ [ "standard_domestic_damage_palette", 40 ], [ "standard_domestic_damage_large_palette", 60 ] ] }
+      },
+      "alarm_palette": {
+        "type": "palette_id",
+        "scope": "overmap_special",
+        "//": "Determines if house has alarm",
+        "default": { "distribution": [ [ "domestic_alarm_palette", 1 ], [ "domestic_locked_palette", 3 ] ] }
       }
     },
     "palettes": [
       "standard_domestic_palette",
       { "param": "damage_palette" },
+      { "param": "alarm_palette" },
       { "param": "tidyness_palette" },
       "parametrized_walls_palette"
     ]
   },
   {
     "type": "palette",
-    "id": "standard_domestic_palette",
+    "id": "standard_domestic_palette_no_items",
+    "extending": true,
     "palettes": [ "parametrized_walls_palette" ],
     "//": "Adjusts vanilla palette to make houses not using the above more damaged.",
-    "//1": "TODO: Would ideally copy-from the vanilla palette and only override what it changes if #73299 is resolved",
-    "toilets": { "t": {  } },
-    "furniture": {
-      "a": "f_fireplace",
-      "b": "f_bigmirror",
-      "c": "f_statue",
-      "d": "f_dresser",
-      "e": "f_pool_table",
-      "f": "f_table",
-      "g": [ "f_water_heater", "f_water_heater_family" ],
-      "h": "f_chair",
-      "i": "f_bench",
-      "j": "f_bench",
-      "k": "f_woodstove",
-      "l": "f_coffee_table",
-      "m": "f_glass_fridge",
-      "n": "f_dishwasher",
-      "p": "f_mailbox",
-      "q": "f_rack",
-      "r": "f_desk",
-      "s": "f_table",
-      "u": "f_rotary_clothesline",
-      "v": [ "f_gun_safe_el", "f_safe_l" ],
-      "w": "f_rack_wood",
-      "x": "f_entertainment_center",
-      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
-      "z": "f_cardboard_box",
-      "A": "f_stool",
-      "B": "f_bathtub",
-      "C": "f_cupboard",
-      "D": "f_wardrobe",
-      "E": "f_armchair",
-      "F": "f_fridge",
-      "G": "f_camp_chair",
-      "H": "f_sofa",
-      "I": "f_desk",
-      "J": "f_counter",
-      "K": "f_tourist_table",
-      "L": "f_rack_coat",
-      "M": "f_displaycase",
-      "N": "f_workbench",
-      "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
-      "P": "f_filing_cabinet",
-      "Q": "f_rack_wood",
-      "R": "f_bookcase",
-      "S": "f_sink",
-      "T": "f_floor_lamp",
-      "U": "f_utility_shelf",
-      "V": "f_glass_cabinet",
-      "W": "f_washer",
-      "X": "f_birdbath",
-      "Y": "f_trashcan",
-      "Z": "f_dryer",
-      "1": "f_cupboard",
-      "2": "f_cupboard",
-      "3": "f_cupboard",
-      "4": "f_cupboard",
-      "5": "f_sink",
-      "6": "f_rack_wood",
-      "7": "f_cupboard",
-      "8": "f_counter",
-      "9": "f_shower",
-      "@": "f_bed",
-      "¤": "f_table",
-      "₸": "f_deckchair",
-      "∞": "f_foot_locker",
-      "≠": "f_chest",
-      "Ø": "f_pinball_machine",
-      "Æ": "f_arcade_machine",
-      "ʭ": "f_ladder"
-    },
     "terrain": {
-      "a": "t_thconc_floor",
-      "j": "t_region_groundcover_urban",
-      "p": "t_region_groundcover_urban",
-      "u": "t_region_groundcover_urban",
-      "X": "t_region_groundcover_urban",
-      ".": "t_region_groundcover_urban",
       "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
       "*": [
         [ "t_door_b_peep", 20 ],
@@ -121,10 +82,6 @@
         [ "t_door_locked", 5 ],
         "t_door_c"
       ],
-      "^": "t_gutter_downspout",
-      ":": "t_wall_glass",
-      "¶": "t_door_glass_c",
-      "-": "t_sidewalk",
       "o": [
         [ "t_window_frame", 5 ],
         [ "t_window_domestic", 5 ],
@@ -132,10 +89,13 @@
         "t_window_open",
         "t_window_no_curtains_open",
         [ "t_curtains", 5 ]
-      ],
-      "<": "t_wood_stairs_up",
-      ">": "t_wood_stairs_down"
-    },
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_palette",
+    "palettes": [ "standard_domestic_palette_no_items" ],
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
     "items": {
       "a": { "item": "fireplace_fill", "chance": 30, "repeat": [ 2, 5 ] },
@@ -170,7 +130,7 @@
         { "item": "camping", "chance": 10 },
         { "item": "tools_survival", "chance": 5, "repeat": [ 1, 2 ] }
       ],
-      "r": [ { "item": "office_paper", "chance": 5 }, { "item": "office", "chance": 25 } ],
+      "r": [ { "item": "SUS_office_desk", "chance": 25 } ],
       "t": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] },
       "v": [
         { "item": "art", "chance": 5 },
@@ -202,7 +162,7 @@
         { "item": "cleaning", "chance": 10, "repeat": [ 1, 2 ] }
       ],
       "O": { "item": "SUS_oven", "chance": 50 },
-      "P": { "item": "office_paper", "chance": 80 },
+      "P": { "item": "SUS_office_filing_cabinet", "chance": 80 },
       "Q": [
         { "item": "shower", "chance": 20 },
         { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
@@ -216,7 +176,7 @@
         { "item": "camping", "chance": 5, "repeat": [ 1, 2 ] }
       ],
       "V": { "item": "home_display_case", "chance": 20 },
-      "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] },
       "1": [ { "item": "SUS_dishes", "chance": 20 }, { "item": "SUS_silverware", "chance": 20 } ],
       "2": { "item": "SUS_cookware", "chance": 20 },
       "3": [ { "item": "SUS_utensils", "chance": 20 }, { "item": "SUS_knife_drawer", "chance": 20 } ],
@@ -242,16 +202,11 @@
         { "item": "maps", "chance": 7 }
       ],
       "≠": [
-        { "item": "toy_box", "chance": 80, "repeat": [ 1, 2 ] },
-        { "item": "toy_store", "chance": 60, "repeat": [ 1, 2 ] },
-        { "item": "games", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "toy_box", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "games", "chance": 5, "repeat": [ 1, 2 ] },
         { "item": "allsporting", "chance": 5 }
       ]
     },
-    "nested": {
-      "o": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
-      ":": { "chunks": [ [ "destroyed_glass_door_wall", 80 ], [ "null", 20 ] ] },
-      " ": { "chunks": [ [ "bile_field", 5 ], [ "trash", 5 ], [ "null", 90 ] ] }
-    }
+    "mapping": { "÷": { "item": { "item": "doormat", "chance": 55 } } }
   }
 ]

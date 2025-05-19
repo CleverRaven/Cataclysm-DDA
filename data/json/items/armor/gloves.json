@@ -1,7 +1,8 @@
 [
   {
     "id": "beekeeping_gloves",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of beekeeping gloves", "str_pl": "pairs of beekeeping gloves" },
     "description": "A pair of white beekeeping gloves made out of smooth leather.",
     "weight": "120 g",
@@ -20,7 +21,8 @@
   },
   {
     "id": "boxing_gloves",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of boxing gloves", "str_pl": "pairs of boxing gloves" },
     "description": "A pair of big, red, 8 oz. boxing gloves made from thick leather.",
     "weight": "453 g",
@@ -39,7 +41,8 @@
   },
   {
     "id": "chainmail_junk_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of chainmail gloves", "str_pl": "pairs of chainmail gloves" },
     "description": "A pair of customized chainmail gloves that fully enclose the hands.  The metal shows signs of rust and corrosion.",
@@ -63,7 +66,8 @@
   },
   {
     "id": "lc_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of mild steel chainmail gloves", "str_pl": "pairs of mild steel chainmail gloves" },
     "description": "A pair of customized steel chainmail gloves that fully enclose the hands.",
@@ -87,7 +91,8 @@
   },
   {
     "id": "xl_lc_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_hands",
     "name": { "str": "pair of mild steel chainmail gloves", "str_pl": "pairs of mild steel chainmail gloves" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -95,7 +100,8 @@
   },
   {
     "id": "xs_lc_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_hands",
     "name": { "str": "pair of mild steel chainmail gloves", "str_pl": "pairs of mild steel chainmail gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -103,14 +109,16 @@
   },
   {
     "id": "mc_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_hands",
     "name": { "str": "pair of medium steel chainmail gloves", "str_pl": "pairs of medium steel chainmail gloves" },
     "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_mc_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_chainmail_hands",
     "name": { "str": "pair of medium steel chainmail gloves", "str_pl": "pairs of medium steel chainmail gloves" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -118,7 +126,8 @@
   },
   {
     "id": "xs_mc_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_chainmail_hands",
     "name": { "str": "pair of medium steel chainmail gloves", "str_pl": "pairs of medium steel chainmail gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -126,14 +135,16 @@
   },
   {
     "id": "hc_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_hands",
     "name": { "str": "pair of high steel chainmail gloves", "str_pl": "pairs of high steel chainmail gloves" },
     "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_hc_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_hands",
     "name": { "str": "pair of high steel chainmail gloves", "str_pl": "pairs of high steel chainmail gloves" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -141,7 +152,8 @@
   },
   {
     "id": "xs_hc_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_hands",
     "name": { "str": "pair of high steel chainmail gloves", "str_pl": "pairs of high steel chainmail gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -149,14 +161,16 @@
   },
   {
     "id": "ch_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_hands",
     "name": { "str": "pair of hardened steel chainmail gloves", "str_pl": "pairs of hardened steel chainmail gloves" },
     "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_ch_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_chainmail_hands",
     "name": { "str": "pair of hardened steel chainmail gloves", "str_pl": "pairs of hardened steel chainmail gloves" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -164,7 +178,8 @@
   },
   {
     "id": "xs_ch_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_chainmail_hands",
     "name": { "str": "pair of hardened steel chainmail gloves", "str_pl": "pairs of hardened steel chainmail gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -172,7 +187,8 @@
   },
   {
     "id": "qt_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_hands",
     "material": [ "qt_steel_chain" ],
     "name": { "str": "pair of tempered steel chainmail gloves", "str_pl": "pairs of tempered steel chainmail gloves" },
@@ -180,7 +196,8 @@
   },
   {
     "id": "xl_qt_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_chainmail_hands",
     "name": { "str": "pair of tempered steel chainmail gloves", "str_pl": "pairs of tempered steel chainmail gloves" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -188,7 +205,8 @@
   },
   {
     "id": "xs_qt_chainmail_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_chainmail_hands",
     "name": { "str": "pair of tempered steel chainmail gloves", "str_pl": "pairs of tempered steel chainmail gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -196,7 +214,8 @@
   },
   {
     "id": "fire_gauntlets",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of fire gauntlets", "str_pl": "pairs of fire gauntlets" },
     "description": "A heavy pair of gloves, used by firefighters and metalworkers for heat protection.",
@@ -216,7 +235,8 @@
   },
   {
     "id": "gauntlets_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of chitinous gauntlets", "str_pl": "pairs of chitinous gauntlets" },
     "description": "A pair of gauntlets made from the exoskeletons of insects.",
@@ -249,7 +269,8 @@
   },
   {
     "id": "xl_gauntlets_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of chitinous gauntlets", "str_pl": "pairs of chitinous gauntlets" },
     "copy-from": "gauntlets_chitin",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -257,7 +278,8 @@
   },
   {
     "id": "xs_gauntlets_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gauntlets_chitin",
     "name": { "str": "pair of chitinous gauntlets", "str_pl": "pairs of chitinous gauntlets" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -266,7 +288,8 @@
   {
     "id": "gauntlets_acidchitin",
     "copy-from": "gauntlets_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of biosilicified chitin gauntlets", "str_pl": "pairs of biosilicified chitin gauntlets" },
     "description": "A pair of gauntlets crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "material": [ "acidchitin" ],
@@ -275,7 +298,8 @@
   },
   {
     "id": "xl_gauntlets_acidchitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of biosilicified chitin gauntlets", "str_pl": "pairs of biosilicified chitin gauntlets" },
     "copy-from": "gauntlets_acidchitin",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -283,7 +307,8 @@
   },
   {
     "id": "xs_gauntlets_acidchitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gauntlets_acidchitin",
     "name": { "str": "pair of biosilicified chitin gauntlets", "str_pl": "pairs of biosilicified chitin gauntlets" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -291,7 +316,8 @@
   },
   {
     "id": "gloves_claws",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of claw gloves", "str_pl": "pairs of claw gloves" },
     "description": "A pair of well-made black stretch vinyl gloves, with black steel claws connected to the fingers.  Used in BDSM performances or as part of a costume.",
     "weight": "160 g",
@@ -310,7 +336,9 @@
   },
   {
     "id": "gauntlet_fencing",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
     "name": { "str": "fencing gauntlet" },
     "description": "A single suede glove with a sturdy cotton wrist, padded back, and well-fitting fingers.",
     "weight": "175 g",
@@ -328,7 +356,9 @@
   },
   {
     "id": "gauntlet_fencing_l",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
     "name": { "str": "fencing gauntlet (left)", "str_pl": "fencing gauntlets (left)" },
     "description": "A single suede glove with a sturdy cotton wrist, padded back, and well-fitting fingers.  This one is left-handed.",
     "weight": "175 g",
@@ -346,7 +376,8 @@
   },
   {
     "id": "gauntlets_larmor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of leather armor gauntlets", "str_pl": "pairs of leather armor gauntlets" },
     "description": "A pair of heavy fingerless leather gloves.",
@@ -386,7 +417,8 @@
   },
   {
     "id": "xl_gauntlets_larmor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of leather armor gauntlets", "str_pl": "pairs of leather armor gauntlets" },
     "copy-from": "gauntlets_larmor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -394,7 +426,8 @@
   },
   {
     "id": "xs_gauntlets_larmor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gauntlets_larmor",
     "looks_like": "gauntlets_larmor",
     "name": { "str": "pair of leather armor gauntlets", "str_pl": "pairs of leather armor gauntlets" },
@@ -403,7 +436,8 @@
   },
   {
     "id": "gloves_bag",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of bag gloves", "str_pl": "pairs of bag gloves" },
     "description": "A pair of disposable plastic bags, adapted to be used as gloves.",
     "weight": "6 g",
@@ -420,7 +454,8 @@
   },
   {
     "id": "gloves_fingerless",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of fingerless leather gloves", "str_pl": "pairs of fingerless leather gloves" },
     "description": "A pair of leather gloves without fingers.",
     "weight": "100 g",
@@ -450,7 +485,8 @@
   },
   {
     "id": "gloves_fingerless_mod",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of armored fingerless leather gloves", "str_pl": "pairs of armored fingerless leather gloves" },
     "description": "A pair of leather gloves without fingers.  These have been crudely reinforced with steel guards across the back.",
@@ -500,7 +536,8 @@
   },
   {
     "id": "mitten_gaunt_metal_sheets",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of sheet metal gauntlets", "str_pl": "pairs of sheet metal gauntlets" },
     "description": "A pair of small sheets of metal, one attached to the back of the hand, and one tied to the back of your fingers, leaving the index finger untied for trigger pulling.  Your handwriting will suffer, but they'll keep your fingers attached.",
@@ -531,7 +568,8 @@
   },
   {
     "id": "ch_mitten_gaunt_metal_sheets",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mitten_gaunt_metal_sheets",
     "name": { "str": "pair of hardened steel sheet metal gauntlets", "str_pl": "pairs of hardened steel sheet metal gauntlets" },
     "description": "These crude mitten gauntlets have been hardened to keep the zombie dogs from biting your fingers off.",
@@ -549,7 +587,8 @@
   },
   {
     "id": "gloves_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of fur gloves", "str_pl": "pairs of fur gloves" },
     "description": "A pair of warm fur gloves.",
     "weight": "410 g",
@@ -566,7 +605,8 @@
   },
   {
     "id": "xl_gloves_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of fur gloves", "str_pl": "pairs of fur gloves" },
     "copy-from": "gloves_fur",
     "proportional": { "weight": 1.6, "volume": 1.6 },
@@ -574,7 +614,8 @@
   },
   {
     "id": "xs_gloves_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_fur",
     "looks_like": "gloves_fur",
     "name": { "str": "pair of fur gloves", "str_pl": "pairs of fur gloves" },
@@ -583,7 +624,8 @@
   },
   {
     "id": "gloves_faux_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of faux fur gloves", "str_pl": "pairs of faux fur gloves" },
     "description": "A pair of warm faux fur gloves.",
     "weight": "410 g",
@@ -600,7 +642,8 @@
   },
   {
     "id": "xl_gloves_faux_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of faux fur gloves", "str_pl": "pairs of faux fur gloves" },
     "copy-from": "gloves_faux_fur",
     "proportional": { "weight": 1.6, "volume": 1.6 },
@@ -608,7 +651,8 @@
   },
   {
     "id": "xs_gloves_faux_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_faux_fur",
     "name": { "str": "pair of faux fur gloves", "str_pl": "pairs of faux fur gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -616,7 +660,8 @@
   },
   {
     "id": "glove_jackson",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "white glove" },
     "description": "A single white glove covered with hundreds of rhinestones.",
     "weight": "59 g",
@@ -629,7 +674,7 @@
     "color": "white",
     "warmth": 20,
     "material_thickness": 0.5,
-    "flags": [ "WATER_FRIENDLY", "FANCY" ],
+    "flags": [ "WATER_FRIENDLY" ],
     "armor": [
       {
         "coverage": 100,
@@ -641,7 +686,8 @@
   },
   {
     "id": "gloves_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of leather gloves", "str_pl": "pairs of leather gloves" },
     "description": "A thin pair of black leather gloves.",
     "weight": "160 g",
@@ -660,7 +706,8 @@
   },
   {
     "id": "xl_gloves_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of leather gloves", "str_pl": "pairs of leather gloves" },
     "copy-from": "gloves_leather",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -668,7 +715,8 @@
   },
   {
     "id": "xs_gloves_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_leather",
     "looks_like": "gloves_leather",
     "name": { "str": "pair of leather gloves", "str_pl": "pairs of leather gloves" },
@@ -677,7 +725,8 @@
   },
   {
     "id": "gloves_denim",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of denim gloves", "str_pl": "pairs of denim gloves" },
     "description": "A pair of denim gloves.  Not very comfortable but slightly warmer and more sturdier than ones that would be made from cotton.",
     "//": "10 oz.",
@@ -696,9 +745,10 @@
   },
   {
     "id": "gloves_denim_fingerless",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of fingerless denim gloves", "str_pl": "pairs of fingerless denim gloves" },
-    "description": "A pair of fingerless denim gloves.  Much less cumbersome this way, but not as protective or warm",
+    "description": "A pair of fingerless denim gloves.  Much less cumbersome this way, but not as protective or warm.",
     "weight": "122 g",
     "volume": "270 ml",
     "price_postapoc": "3 USD 50 cent",
@@ -725,7 +775,8 @@
   },
   {
     "id": "gloves_light",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of light gloves", "str_pl": "pairs of light gloves" },
     "description": "A pair of cotton gloves.",
     "weight": "118 g",
@@ -743,7 +794,8 @@
   },
   {
     "id": "xl_gloves_light",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of light gloves", "str_pl": "pairs of light gloves" },
     "copy-from": "gloves_light",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -751,7 +803,8 @@
   },
   {
     "id": "xs_gloves_light",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_light",
     "looks_like": "gloves_light",
     "name": { "str": "pair of light gloves", "str_pl": "pairs of light gloves" },
@@ -760,7 +813,8 @@
   },
   {
     "id": "gloves_liner",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of glove liners", "str_pl": "pairs of glove liners" },
     "description": "A pair of thin cotton gloves.  Often used as a liner beneath other gloves.",
     "weight": "63 g",
@@ -778,7 +832,8 @@
   },
   {
     "id": "xl_gloves_liner",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of glove liners", "str_pl": "pairs of glove liners" },
     "copy-from": "gloves_liner",
     "proportional": { "weight": 2, "volume": 2 },
@@ -786,7 +841,8 @@
   },
   {
     "id": "xs_gloves_liner",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_liner",
     "looks_like": "gloves_liner",
     "name": { "str": "pair of glove liners", "str_pl": "pairs of glove liners" },
@@ -795,7 +851,8 @@
   },
   {
     "id": "gloves_medical",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of medical gloves", "str_pl": "pairs of medical gloves" },
     "description": "A pair of thin latex gloves, designed to limit the spread of disease.  Too fragile to protect you from much else.",
     "weight": "3 g",
@@ -813,7 +870,8 @@
   },
   {
     "id": "gloves_black",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of black gloves", "str_pl": "pairs of black gloves" },
     "description": "A pair of black cotton gloves.",
     "weight": "118 g",
@@ -831,7 +889,8 @@
   },
   {
     "id": "gloves_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of armored gauntlets", "str_pl": "pairs of armored gauntlets" },
     "description": "An extremely heavy set of armor-plated leather gloves.",
@@ -887,7 +946,8 @@
   },
   {
     "id": "xl_gloves_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of armored gauntlets", "str_pl": "pairs of armored gauntlets" },
     "copy-from": "gloves_plate",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -895,7 +955,8 @@
   },
   {
     "id": "xs_gloves_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_plate",
     "looks_like": "gloves_plate",
     "name": { "str": "pair of armored gauntlets", "str_pl": "pairs of armored gauntlets" },
@@ -904,7 +965,8 @@
   },
   {
     "id": "gloves_rubber",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of rubber gloves", "str_pl": "pairs of rubber gloves" },
     "description": "A pair of rubber gloves, often used while cleaning with caustic materials.",
     "weight": "20 g",
@@ -923,7 +985,8 @@
   },
   {
     "id": "gloves_tactical",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of tactical gloves", "str_pl": "pairs of tactical gloves" },
     "description": "A pair of flame- and cut-resistant aramid fabric gloves.  Commonly used by police and military units.",
@@ -943,7 +1006,8 @@
   },
   {
     "id": "gloves_winter",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of winter gloves", "str_pl": "pairs of winter gloves" },
     "description": "A pair of padded cotton gloves.  Toasty!",
     "weight": "218 g",
@@ -960,7 +1024,8 @@
   },
   {
     "id": "gloves_wool",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of wool gloves", "str_pl": "pairs of wool gloves" },
     "description": "A warm pair of wool gloves.",
     "weight": "100 g",
@@ -977,7 +1042,8 @@
   },
   {
     "id": "xl_gloves_wool",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of wool gloves", "str_pl": "pairs of wool gloves" },
     "copy-from": "gloves_wool",
     "proportional": { "weight": 1.4, "volume": 1.4 },
@@ -985,7 +1051,8 @@
   },
   {
     "id": "xs_gloves_wool",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_wool",
     "looks_like": "gloves_wool",
     "name": { "str": "pair of wool gloves", "str_pl": "pairs of wool gloves" },
@@ -994,7 +1061,8 @@
   },
   {
     "id": "gloves_wool_fingerless",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of fingerless wool gloves", "str_pl": "pairs of fingerless wool gloves" },
     "description": "A warm pair of wool gloves without fingers.  Less encumbering, but provides significantly less warmth.",
     "weight": "75 g",
@@ -1024,7 +1092,8 @@
   },
   {
     "id": "xl_gloves_wool_fingerless",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of fingerless wool gloves", "str_pl": "pairs of fingerless wool gloves" },
     "copy-from": "gloves_wool_fingerless",
     "proportional": { "weight": 1.4, "volume": 1.4 },
@@ -1032,7 +1101,8 @@
   },
   {
     "id": "xs_gloves_wool_fingerless",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_wool_fingerless",
     "name": { "str": "pair of fingerless wool gloves", "str_pl": "pairs of fingerless wool gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75 },
@@ -1040,7 +1110,8 @@
   },
   {
     "id": "gloves_work",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of work gloves", "str_pl": "pairs of work gloves" },
     "description": "A tough pair of gloves, for tough everyday work.",
     "weight": "195 g",
@@ -1059,7 +1130,8 @@
   },
   {
     "id": "gloves_cut_resistant",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of cut-resistant gloves", "str_pl": "pairs of cut-resistant gloves" },
     "description": "A pair of cut-resistant gloves, useful for butchery or routine work with bladed objects.",
@@ -1079,7 +1151,8 @@
   },
   {
     "id": "gloves_wraps",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of hand wraps", "str_pl": "pairs of hand wraps" },
     "description": "Long pieces of cloth that are meant to be wrapped around your hands.  They provide small amounts of protection while punching and performing other general mischief.",
     "weight": "100 g",
@@ -1097,7 +1170,8 @@
   },
   {
     "id": "gloves_wraps_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of fur hand wraps", "str_pl": "pairs of fur hand wraps" },
     "description": "Pieces of animal pelt that are meant to be wrapped around your hands.  They provide small amounts of protection while punching and performing other general mischief.",
     "weight": "250 g",
@@ -1115,7 +1189,8 @@
   },
   {
     "id": "gloves_wraps_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of leather hand wraps", "str_pl": "pairs of leather hand wraps" },
     "description": "Pieces of leather that are meant to be wrapped around your hands.  They provide small amounts of protection while punching and performing other general mischief.",
     "weight": "200 g",
@@ -1133,7 +1208,8 @@
   },
   {
     "id": "gloves_wraps_wool",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of wool hand wraps", "str_pl": "pairs of wool hand wraps" },
     "description": "Long pieces of wool that are meant to be wrapped around your hands.  They provide small amounts of protection while punching and performing other general mischief.",
     "weight": "100 g",
@@ -1151,7 +1227,8 @@
   },
   {
     "id": "long_glove_white",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of extra long white gloves", "str_pl": "pairs of extra long white gloves" },
     "description": "Long white costume gloves.",
     "weight": "400 g",
@@ -1174,11 +1251,12 @@
     ],
     "warmth": 10,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "SKINTIGHT", "FANCY" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
     "id": "mittens",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of mittens", "str_pl": "pairs of mittens" },
     "description": "A pair of warm but cumbersome mittens.",
     "weight": "364 g",
@@ -1196,7 +1274,8 @@
   },
   {
     "id": "nomex_gloves",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of flame-resistant gloves", "str_pl": "pairs of flame-resistant gloves" },
     "description": "A snug-fitting pair of gloves made from thin and lightweight Nomex fabric.",
     "weight": "190 g",
@@ -1215,7 +1294,8 @@
   },
   {
     "id": "santa_gloves",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of Santa gloves", "str_pl": "pairs of Santa gloves" },
     "description": "A pair of red gloves with white faux fur trim.  Keeps your hands warm and your holiday spirit bright.",
     "weight": "400 g",
@@ -1232,7 +1312,8 @@
   },
   {
     "id": "sockmitts",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of sock mitts", "str_pl": "pairs of sock mitts" },
     "description": "A pair of improvised gloves made from socks with holes poked through them.",
     "weight": "32 g",
@@ -1256,7 +1337,8 @@
   },
   {
     "id": "wool_sockmitts",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "sockmitts",
     "name": { "str": "pair of wool sock mitts", "str_pl": "pairs of wool sock mitts" },
     "description": "A pair of improvised gloves made from wool socks with holes poked through them.",
@@ -1275,7 +1357,8 @@
   },
   {
     "id": "nomex_sockmitts",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "sockmitts",
     "name": { "str": "pair of Nomex sock mitts", "str_pl": "pairs of Nomex sock mitts" },
     "description": "A pair of improvised gloves made from Nomex socks with holes poked through them.",
@@ -1297,7 +1380,8 @@
   },
   {
     "id": "stockings_tent_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of tentacle sleeves", "str_pl": "pairs of tentacle sleeves" },
     "description": "Long cotton tubes sized to fit over tentacles and help protect them from the cold.",
     "weight": "360 g",
@@ -1315,7 +1399,8 @@
   },
   {
     "id": "winter_gloves_army",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of army winter gloves", "str_pl": "pairs of army winter gloves" },
     "description": "A pair of padded gloves.  Favored by the military.",
     "weight": "218 g",
@@ -1332,7 +1417,8 @@
   },
   {
     "id": "gloves_white",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of white gloves", "str_pl": "pairs of white gloves" },
     "description": "A pair of white costume gloves made out of cotton.",
     "copy-from": "gloves_liner",
@@ -1343,7 +1429,8 @@
   },
   {
     "id": "gloves_skeleton",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of skeleton gloves", "str_pl": "pairs of skeleton gloves" },
     "description": "A pair of black costume gloves with a skeletal hand pattern printed on them.",
     "copy-from": "gloves_liner",
@@ -1356,7 +1443,8 @@
   },
   {
     "id": "gloves_golf",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of golfing gloves", "str_pl": "pairs of golfing gloves" },
     "description": "A thin pair of black leather golfing gloves.",
     "weight": "150 g",
@@ -1382,7 +1470,8 @@
   },
   {
     "id": "gloves_eod",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of EOD overhand protectors", "str_pl": "pairs of EOD overhand protectors" },
     "description": "A pair of fragmentation resistant pads for wearing over the backs of one's hands, providing protection from shrapnel in case things go wrong.  Sold as an accessory for explosive ordnance disposal suits, but not often used due to the difficulty in armoring the entire hand and retaining dexterity.",
@@ -1394,7 +1483,8 @@
     "material": [ "kevlar_layered" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "STURDY", "OUTER", "ONLY_ONE", "NO_SALVAGE" ],
+    "flags": [ "STURDY", "OUTER", "NO_SALVAGE" ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 10,
@@ -1407,7 +1497,8 @@
   },
   {
     "id": "lc_demi_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of mild steel demi-gauntlets", "str_pl": "pairs of mild steel demi-gauntlets" },
     "description": "A pair of leather gloves with chainmail protecting the fingers and palm, and plating over the back of the hand and wrist.",
@@ -1457,7 +1548,8 @@
   },
   {
     "id": "xl_lc_demi_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_demi_gaunt",
     "name": { "str": "pair of mild steel demi-gauntlets", "str_pl": "pairs of mild steel demi-gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -1465,14 +1557,16 @@
   },
   {
     "id": "mc_demi_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_demi_gaunt",
     "name": { "str": "pair of medium steel demi-gauntlets", "str_pl": "pairs of medium steel demi-gauntlets" },
     "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_mc_demi_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_demi_gaunt",
     "name": { "str": "pair of medium steel demi-gauntlets", "str_pl": "pairs of medium steel demi-gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -1480,14 +1574,16 @@
   },
   {
     "id": "hc_demi_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_demi_gaunt",
     "name": { "str": "pair of high steel demi-gauntlets", "str_pl": "pairs of high steel demi-gauntlets" },
     "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_hc_demi_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of high steel demi-gauntlets", "str_pl": "pairs of high steel demi-gauntlets" },
     "copy-from": "hc_demi_gaunt",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -1495,14 +1591,16 @@
   },
   {
     "id": "ch_demi_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_demi_gaunt",
     "name": { "str": "pair of hardened steel demi-gauntlets", "str_pl": "pairs of hardened steel demi-gauntlets" },
     "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_ch_demi_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of hardened steel demi-gauntlets", "str_pl": "pairs of hardened steel demi-gauntlets" },
     "copy-from": "ch_demi_gaunt",
     "material": [ "qt_steel", "qt_steel_chain" ],
@@ -1511,14 +1609,16 @@
   },
   {
     "id": "qt_demi_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_demi_gaunt",
     "name": { "str": "pair of tempered steel demi-gauntlets", "str_pl": "pairs of tempered steel demi-gauntlets" },
     "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_qt_demi_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of tempered steel demi-gauntlets", "str_pl": "pairs of tempered steel demi-gauntlets" },
     "copy-from": "qt_demi_gaunt",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -1526,7 +1626,8 @@
   },
   {
     "id": "lc_mitten_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of mild steel mitten gauntlets", "str_pl": "pairs of mild steel mitten gauntlets" },
     "description": "A pair of leather mittens with chainmail protecting the fingers and palm, and steel plating over the back of the hand, fingers, and wrist for additional protection.",
@@ -1577,7 +1678,8 @@
   },
   {
     "id": "xl_lc_mitten_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_mitten_gaunt",
     "name": { "str": "pair of mild steel mitten gauntlets", "str_pl": "pairs of mild steel mitten gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -1585,14 +1687,16 @@
   },
   {
     "id": "mc_mitten_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_mitten_gaunt",
     "name": { "str": "pair of medium steel mitten gauntlets", "str_pl": "pairs of medium steel mitten gauntlets" },
     "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_mc_mitten_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_mitten_gaunt",
     "name": { "str": "pair of medium steel mitten gauntlets", "str_pl": "pairs of medium steel mitten gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -1600,14 +1704,16 @@
   },
   {
     "id": "hc_mitten_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_mitten_gaunt",
     "name": { "str": "pair of high steel mitten gauntlets", "str_pl": "pairs of high steel mitten gauntlets" },
     "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_hc_mitten_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_mitten_gaunt",
     "name": { "str": "pair of high steel mitten gauntlets", "str_pl": "pairs of high steel mitten gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -1615,14 +1721,16 @@
   },
   {
     "id": "ch_mitten_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_mitten_gaunt",
     "name": { "str": "pair of hardened steel mitten gauntlets", "str_pl": "pairs of hardened steel mitten gauntlets" },
     "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_ch_mitten_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_mitten_gaunt",
     "name": { "str": "pair of hardened steel mitten gauntlets", "str_pl": "pairs of hardened steel mitten gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -1630,14 +1738,16 @@
   },
   {
     "id": "qt_mitten_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_mitten_gaunt",
     "name": { "str": "pair of tempered steel mitten gauntlets", "str_pl": "pairs of tempered steel mitten gauntlets" },
     "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_qt_mitten_gaunt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_mitten_gaunt",
     "name": { "str": "pair of tempered steel mitten gauntlets", "str_pl": "pairs of tempered steel mitten gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -1645,7 +1755,8 @@
   },
   {
     "id": "gloves_airsoft",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of airsoft gloves", "str_pl": "pairs of airsoft gloves" },
     "description": "A pair of fingerless gloves with hard plastic reinforcing the backs of the hands to protect against BB pellets and other light projectiles.",

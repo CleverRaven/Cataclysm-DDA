@@ -1,18 +1,21 @@
-#include <cstddef>
-#include <iosfwd>
-#include <utility>
-#include <vector>
+#include <optional>
+#include <string>
 
 #include "basecamp.h"
 #include "cata_catch.h"
+#include "character.h"
 #include "clzones.h"
 #include "coordinates.h"
 #include "faction.h"
+#include "item.h"
+#include "item_components.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "stomach.h"
+#include "type_id.h"
 
 static const itype_id itype_test_100_kcal( "test_100_kcal" );
 static const itype_id itype_test_200_kcal( "test_200_kcal" );

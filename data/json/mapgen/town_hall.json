@@ -67,13 +67,14 @@
       "B": [ { "item": "magazines", "chance": 10 }, { "item": "jackets", "chance": 5 } ],
       "Y": { "item": "jackets", "chance": 55, "repeat": [ 1, 6 ] },
       "l": { "item": "SUS_janitors_closet", "chance": 100 },
-      "r": { "item": "trash", "chance": 60, "repeat": [ 1, 2 ] },
+      "r": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 2 ] },
       "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] },
       "e": { "item": "SUS_fridge_breakroom", "chance": 55, "repeat": [ 2, 3 ] },
       "O": { "item": "SUS_oven", "chance": 100 },
       "u": [ { "item": "SUS_coffee_cupboard", "chance": 50 }, { "item": "dining", "chance": 30 } ],
-      "R": { "item": "office_supplies", "chance": 50, "repeat": [ 1, 2 ] },
-      "I": { "item": "SUS_office_filing_cabinet", "chance": 80 }
+      "R": { "item": "SUS_office_supplies", "chance": 75, "repeat": [ 1, 2 ] },
+      "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
+      "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "item": {
       "]": { "item": "american_flag" },

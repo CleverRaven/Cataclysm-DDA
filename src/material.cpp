@@ -1,16 +1,16 @@
 #include "material.h"
 
 #include <algorithm>
-#include <iterator>
+#include <cmath>
 #include <map>
 #include <set>
+#include <unordered_map>
 
 #include "assign.h"
-#include "calendar.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "json.h"
 #include "make_static.h"
 
 namespace
@@ -78,7 +78,7 @@ static mat_burn_data load_mat_burn_data( const JsonObject &jsobj )
     return bd;
 }
 
-void material_type::load( const JsonObject &jsobj, const std::string_view )
+void material_type::load( const JsonObject &jsobj, std::string_view )
 {
     mandatory( jsobj, was_loaded, "name", _name );
 
@@ -109,7 +109,6 @@ void material_type::load( const JsonObject &jsobj, const std::string_view )
 
     assign( jsobj, "salvaged_into", _salvaged_into );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, itype_id::NULL_ID() );
-    optional( jsobj, was_loaded, "edible", _edible, false );
     optional( jsobj, was_loaded, "rotting", _rotting, false );
     optional( jsobj, was_loaded, "soft", _soft, false );
     optional( jsobj, was_loaded, "uncomfortable", _uncomfortable, false );
@@ -326,11 +325,6 @@ int material_type::breathability() const
 std::optional<int> material_type::wind_resist() const
 {
     return _wind_resist;
-}
-
-bool material_type::edible() const
-{
-    return _edible;
 }
 
 bool material_type::rotting() const

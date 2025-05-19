@@ -155,6 +155,7 @@
       "C": "t_thconc_floor",
       "P": "t_thconc_floor"
     },
+    "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "T": {  } }
   },
   {

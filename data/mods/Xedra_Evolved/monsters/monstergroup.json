@@ -48,16 +48,22 @@
     "id": "GROUP_FOREST",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_xe_unicorn", "weight": 10, "cost_multiplier": 10, "starts": 240, "pack_size": [ 1, 5 ] },
-      { "monster": "mon_goblin_spider", "weight": 15, "cost_multiplier": 15, "starts": 780, "pack_size": [ 3, 12 ] },
-      { "monster": "mon_mi_go_stalking_warper", "weight": 5, "cost_multiplier": 2, "starts": "240 hours" }
+      { "monster": "mon_xe_unicorn", "weight": 10, "cost_multiplier": 10, "starts": "40 days", "pack_size": [ 1, 5 ] },
+      {
+        "monster": "mon_goblin_spider",
+        "weight": 15,
+        "cost_multiplier": 15,
+        "starts": "130 days",
+        "pack_size": [ 3, 12 ]
+      },
+      { "monster": "mon_mi_go_stalking_warper", "weight": 5, "cost_multiplier": 2, "starts": "40 days" }
     ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_RIVER",
     "is_animal": true,
-    "monsters": [ { "monster": "mon_xe_mavka", "weight": 1, "cost_multiplier": 10, "starts": 500, "pack_size": [ 1, 5 ] } ]
+    "monsters": [ { "monster": "mon_xe_mavka", "weight": 1, "cost_multiplier": 10, "starts": "83 days", "pack_size": [ 1, 5 ] } ]
   },
   {
     "id": "GROUP_PARK_SCENIC",
@@ -70,7 +76,7 @@
     "monsters": [
       { "monster": "mon_vampire_moroi", "weight": 10 },
       { "monster": "mon_vampire_strigoi", "weight": 1 },
-      { "monster": "mon_mi_go_stalking_warper", "weight": 5, "cost_multiplier": 2, "starts": "240 hours" }
+      { "monster": "mon_mi_go_stalking_warper", "weight": 5, "cost_multiplier": 2, "starts": "40 days" }
     ]
   },
   {
@@ -128,6 +134,14 @@
       { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_vampire_moroi", "weight": 25 },
       { "monster": "mon_vampire_strigoi", "weight": 15 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_CAVE_FERAL_VAMPIRE",
+    "monsters": [
+      { "monster": "mon_vampire_feral", "weight": 10 },
+      { "monster": "mon_vampire_feral", "weight": 1, "pack_size": [ 2, 5 ] }
     ]
   },
   {
@@ -328,17 +342,17 @@
   {
     "type": "monstergroup",
     "id": "GROUP_MI-GO_CAMP_OM",
-    "monsters": [ { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 20, "starts": "210 hours" } ]
+    "monsters": [ { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 20, "starts": "35 days" } ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_MI-GO_BASE_COMMON",
-    "monsters": [ { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" } ]
+    "monsters": [ { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 2, "starts": "35 days" } ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_MI-GO_BASE_CAPTORS",
-    "monsters": [ { "monster": "mon_mi_go_stalking_warper", "weight": 300, "cost_multiplier": 2, "starts": "210 hours" } ]
+    "monsters": [ { "monster": "mon_mi_go_stalking_warper", "weight": 300, "cost_multiplier": 2, "starts": "35 days" } ]
   },
   {
     "type": "monstergroup",
@@ -401,6 +415,12 @@
     "type": "monstergroup",
     "id": "GROUP_ZOMBIE_UPGRADE",
     "monsters": [ { "monster": "mon_zombie_monochrome", "weight": 30 } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_ZOMBIE_BOOMER_UPGRADE",
+    "default": "mon_boomer",
+    "monsters": [ { "monster": "mon_boomer_monochrome", "weight": 50 } ]
   },
   {
     "type": "monstergroup",

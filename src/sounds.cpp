@@ -459,6 +459,8 @@ static int get_signal_for_hordes( const centroid &centr )
 
 void sounds::process_sounds()
 {
+    map &here = get_map();
+
     std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
     const int weather_vol = get_weather().weather_id->sound_attn;
     for( const centroid &this_centroid : sound_clusters ) {
@@ -472,7 +474,7 @@ void sounds::process_sounds()
         int sig_power = get_signal_for_hordes( this_centroid );
         if( sig_power > 0 ) {
 
-            const point_abs_ms abs_ms = get_map().get_abs( source ).xy();
+            const point_abs_ms abs_ms = here.get_abs( source ).xy();
             const point_abs_sm abs_sm( coords::project_to<coords::sm>( abs_ms ) );
             const tripoint_abs_sm target( abs_sm, source.z() );
             overmap_buffer.signal_hordes( target, sig_power );
@@ -488,9 +490,9 @@ void sounds::process_sounds()
         }
         // Trigger sound-triggered traps and ensure they are still valid
         for( const trap *trapType : trap::get_sound_triggered_traps() ) {
-            for( const tripoint_bub_ms &tp : get_map().trap_locations( trapType->id ) ) {
+            for( const tripoint_bub_ms &tp : here.trap_locations( trapType->id ) ) {
                 const int dist = sound_distance( source, tp );
-                const trap &tr = get_map().tr_at( tp );
+                const trap &tr = here.tr_at( tp );
                 // Exclude traps that certainly won't hear the sound
                 if( vol * 2 > dist ) {
                     if( tr.triggered_by_sound( vol, dist ) ) {
@@ -555,6 +557,8 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
 
 void sounds::process_sound_markers( Character *you )
 {
+    const map &here = get_map();
+
     bool is_deaf = you->is_deaf();
     const float volume_multiplier = you->hearing_ability();
     const int weather_vol = get_weather().weather_id->sound_attn;
@@ -618,7 +622,7 @@ void sounds::process_sound_markers( Character *you )
 
         // Noises from vehicle player is in.
         if( you->controlling_vehicle ) {
-            vehicle *veh = veh_pointer_or_null( get_map().veh_at( you->pos_bub() ) );
+            vehicle *veh = veh_pointer_or_null( here.veh_at( you->pos_abs() ) );
             const int noise = veh ? static_cast<int>( veh->vehicle_noise ) : 0;
 
             you->volume = std::max( you->volume, noise );
@@ -655,7 +659,7 @@ void sounds::process_sound_markers( Character *you )
         }
 
         // don't print our own noise or things without descriptions
-        if( !sound.ambient && ( pos != you->pos_bub() ) && !get_map().pl_sees( pos, distance_to_sound ) ) {
+        if( !sound.ambient && ( pos != you->pos_bub() ) && !here.pl_sees( pos, distance_to_sound ) ) {
             if( uistate.distraction_noise &&
                 !you->activity.is_distraction_ignored( distraction_type::noise ) &&
                 !get_safemode().is_sound_safe( sound.description, distance_to_sound, you->controlling_vehicle ) ) {
@@ -674,9 +678,9 @@ void sounds::process_sound_markers( Character *you )
                 severity = m_warning;
             }
             // if we can see it, don't print a direction
-            if( pos == you->pos_bub() ) {
+            if( pos == you->pos_bub( here ) ) {
                 add_msg( severity, _( "From your position you hear %1$s" ), description );
-            } else if( you->sees( pos ) ) {
+            } else if( you->sees( here, pos ) ) {
                 add_msg( severity, _( "You hear %1$s" ), description );
             } else {
                 std::string direction = direction_name( direction_from( you->pos_bub(), pos ) );
@@ -715,7 +719,8 @@ void sounds::process_sound_markers( Character *you )
         }
 
         // Place footstep markers.
-        if( pos == you->pos_bub() || ( you->sees( pos ) && ( sound.category != sound_t::sensory ) ) ) {
+        if( pos == you->pos_bub() || ( you->sees( here, pos ) &&
+                                       ( sound.category != sound_t::sensory ) ) ) {
             // If we are or can see the source, don't draw a marker, except for sonar etc
             continue;
         }
@@ -753,8 +758,8 @@ void sounds::process_sound_markers( Character *you )
         // Unless the source is on a different z-level, then any point is fine
         // Also show sensory sounds like SONAR even if we can see the point.
         std::vector<tripoint_bub_ms> unseen_points;
-        for( const tripoint_bub_ms &newp : get_map().points_in_radius( pos, err_offset ) ) {
-            if( diff_z || sound.category == sound_t::sensory || !you->sees( newp ) ) {
+        for( const tripoint_bub_ms &newp : here.points_in_radius( pos, err_offset ) ) {
+            if( diff_z || sound.category == sound_t::sensory || !you->sees( here,  newp ) ) {
                 unseen_points.emplace_back( newp );
             }
         }
@@ -881,6 +886,8 @@ int sfx::set_channel_volume( channel channel, int volume )
 
 void sfx::do_vehicle_engine_sfx()
 {
+    map &here = get_map();
+
     if( test_mode ) {
         return;
     }
@@ -899,7 +906,7 @@ void sfx::do_vehicle_engine_sfx()
     } else if( player_character.in_sleep_state() && audio_muted ) {
         return;
     }
-    optional_vpart_position vpart_opt = get_map().veh_at( player_character.pos_bub() );
+    optional_vpart_position vpart_opt = here.veh_at( player_character.pos_bub( here ) );
     vehicle *veh;
     if( vpart_opt.has_value() ) {
         veh = &vpart_opt->vehicle();
@@ -955,9 +962,9 @@ void sfx::do_vehicle_engine_sfx()
     // Getting the safe speed for a stationary vehicle is expensive and unnecessary, so the calculation
     // is delayed until it is needed.
     std::optional<int> safe_speed_cached;
-    auto safe_speed = [veh, &safe_speed_cached]() {
+    auto safe_speed = [veh, &safe_speed_cached, &here]() {
         if( !safe_speed_cached ) {
-            safe_speed_cached = veh->safe_velocity();
+            safe_speed_cached = veh->safe_velocity( here );
         }
         return *safe_speed_cached;
     };
@@ -1017,6 +1024,7 @@ void sfx::do_vehicle_engine_sfx()
 
 void sfx::do_vehicle_exterior_engine_sfx()
 {
+    map &here = get_map();
     if( test_mode ) {
         return;
     }
@@ -1038,7 +1046,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
         return;
     }
 
-    VehicleList vehs = get_map().get_vehicles();
+    VehicleList vehs = here.get_vehicles();
     unsigned char noise_factor = 0;
     unsigned char vol = 0;
     vehicle *veh = nullptr;
@@ -1046,10 +1054,10 @@ void sfx::do_vehicle_exterior_engine_sfx()
     for( wrapped_vehicle vehicle : vehs ) {
         if( vehicle.v->vehicle_noise > 0 &&
             vehicle.v->vehicle_noise -
-            sound_distance( player_character.pos_bub(), vehicle.v->pos_bub() ) > noise_factor ) {
+            sound_distance( player_character.pos_bub( here ), vehicle.v->pos_bub( here ) ) > noise_factor ) {
 
-            noise_factor = vehicle.v->vehicle_noise - sound_distance( player_character.pos_bub(),
-                           vehicle.v->pos_bub() );
+            noise_factor = vehicle.v->vehicle_noise - sound_distance( player_character.pos_bub( here ),
+                           vehicle.v->pos_bub( here ) );
             veh = vehicle.v;
         }
     }
@@ -1088,7 +1096,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
 
     if( is_channel_playing( ch ) ) {
         if( engine_external_id_and_variant == id_and_variant ) {
-            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub() ) ), 0 );
+            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub( here ) ) ), 0 );
             set_channel_volume( ch, vol );
             add_msg_debug( debugmode::DF_SOUND, "PLAYING exterior_engine_sound, vol: ex:%d true:%d", vol,
                            Mix_Volume( ch_int, -1 ) );
@@ -1098,7 +1106,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
             add_msg_debug( debugmode::DF_SOUND, "STOP exterior_engine_sound, change id/var" );
             play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
                                         seas_str, indoors, night, 128, ch, 0 );
-            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub() ) ), 0 );
+            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub( here ) ) ), 0 );
             set_channel_volume( ch, vol );
             add_msg_debug( debugmode::DF_SOUND, "START exterior_engine_sound %s %s vol: %d",
                            id_and_variant.first,
@@ -1109,7 +1117,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
                                     seas_str, indoors, night, 128, ch, 0 );
         add_msg_debug( debugmode::DF_SOUND, "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
-        Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub() ) ), 0 );
+        Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub( here ) ) ), 0 );
         add_msg_debug( debugmode::DF_SOUND, "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
         set_channel_volume( ch, vol );
         add_msg_debug( debugmode::DF_SOUND, "START exterior_engine_sound NEW %s %s vol: ex:%d true:%d",
@@ -1722,6 +1730,8 @@ void sfx::remove_hearing_loss()
 
 void sfx::do_footstep()
 {
+    map &here = get_map();
+
     if( test_mode ) {
         return;
     }
@@ -1731,7 +1741,7 @@ void sfx::do_footstep()
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
         const Character &player_character = get_player_character();
         int heard_volume = sfx::get_heard_volume( player_character.pos_bub() );
-        const auto terrain = get_map().ter( player_character.pos_bub() ).id();
+        const auto terrain = here.ter( player_character.pos_bub() ).id();
         static const std::set<ter_str_id> grass = {
             ter_t_grass,
             ter_t_shrub,
@@ -1823,7 +1833,7 @@ void sfx::do_footstep()
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
         };
 
-        auto veh_displayed_part = get_map().veh_at( player_character.pos_bub() ).part_displayed();
+        auto veh_displayed_part = here.veh_at( player_character.pos_bub() ).part_displayed();
 
         const season_type seas = season_of_year( calendar::turn );
         const std::string seas_str = season_str( seas );

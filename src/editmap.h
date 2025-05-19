@@ -13,12 +13,12 @@
 #include "coordinates.h"
 #include "cursesdef.h"
 #include "memory_fast.h"
-#include "input_context.h"
 #include "point.h"
 #include "type_id.h"
 
 class Creature;
 class field;
+class input_context;
 class map;
 class smallmap;
 class tinymap;
@@ -113,6 +113,8 @@ class editmap
         const int infoHeight = 20;
 
         point tmax;
+
+        bool run_post_process = true;
 
         void draw_main_ui_overlay();
         void do_ui_invalidation();

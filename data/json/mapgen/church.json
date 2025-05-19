@@ -286,7 +286,7 @@
       "items": {
         "d": { "item": "SUS_office_desk", "chance": 50 },
         "H": { "item": "religious_books", "chance": 50, "repeat": [ 1, 4 ] },
-        "f": { "item": "office_paper", "chance": 70, "repeat": [ 2, 4 ] }
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 2, 4 ] }
       },
       "nested": {
         "U": {
@@ -361,7 +361,6 @@
         ],
         "e": { "item": "SUS_oven", "chance": 100 },
         "j": { "item": "bed", "chance": 70, "repeat": [ 2, 4 ] },
-        "f": { "item": "office_paper", "chance": 70, "repeat": [ 2, 4 ] },
         "F": { "item": "SUS_fridge", "chance": 60, "repeat": [ 2, 4 ] },
         "0": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
         "d": { "item": "SUS_cookware", "chance": 100 },

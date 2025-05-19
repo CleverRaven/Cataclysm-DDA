@@ -9,7 +9,7 @@
     "difficulty": 1,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
@@ -119,7 +119,8 @@
     "skill_used": "fabrication",
     "time": "2 h",
     "autolearn": true,
-    "byproducts": [ [ "splinter", 7 ], [ "wood_panel", 3 ] ],
+    "result_mult": 4,
+    "byproducts": [ [ "splinter", 7 ] ],
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "wood_beam", 1 ] ] ],
     "//": "I am assuming here that you actually get more than 4 smaller-than-represented wood panels, but any application that requires panels means you'll be putting these side by side to get the effect of a single panel."
@@ -134,7 +135,7 @@
     "skill_used": "fabrication",
     "time": "10 m",
     "autolearn": true,
-    "byproducts": [ [ "wood_panel", 1 ] ],
+    "result_mult": 2,
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "wood_sheet", 1 ] ] ]
   },
@@ -458,7 +459,7 @@
     "difficulty": 4,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
@@ -472,7 +473,7 @@
     "difficulty": 2,
     "time": "1 h 30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
@@ -486,7 +487,7 @@
     "difficulty": 5,
     "time": "210 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -563,7 +564,7 @@
     "difficulty": 5,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -674,10 +675,9 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
-    "difficulty": 2,
     "time": "10 m",
     "autolearn": false,
-    "book_learn": [ [ "concrete_book", 2 ] ],
+    "book_learn": [ [ "concrete_book", 2 ], [ "bag_durasack_cement", 1 ] ],
     "tools": [ [ [ "concrete_mix_tool", 50 ] ] ],
     "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ] ]
   },

@@ -44,6 +44,12 @@
     }
   },
   {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "almond_water_sealed",
+    "entries": [ { "item": "almond_water", "container-item": "bottle_almond_water", "count": 1, "prob": 1 } ]
+  },
+  {
     "id": "backrooms_crate",
     "type": "item_group",
     "//": "These crates are packed full of all kinds of supplies, but mostly hardware, tools, electronics, chems, and rarely, weapons. Books, food, meds, and clothes are usually found elsewhere.",
@@ -100,12 +106,7 @@
       { "group": "bionics", "prob": 20 },
       { "group": "bionics_mil", "prob": 10 },
       { "group": "robots", "prob": 50 },
-      { "group": "ammo_pistol_common", "prob": 100 },
-      { "group": "ammo_pistol_reloaded", "prob": 150 },
-      { "group": "ammo_rifle_common", "prob": 75 },
-      { "group": "ammo_rifle_reloaded", "prob": 100 },
-      { "group": "ammo_shotgun_common", "prob": 75 },
-      { "group": "ammo_shotgun_reloaded", "prob": 100 },
+      { "group": "ammo_common_boxed", "prob": 300 },
       { "group": "mags_common", "prob": 130 },
       { "group": "guns_pistol_common", "prob": 35 },
       { "group": "guns_smg_improvised", "prob": 10 },
@@ -147,10 +148,9 @@
       { "group": "alcohol", "prob": 25 },
       { "item": "water_clean", "prob": 100 },
       { "group": "misc_smoking", "prob": 20 },
-      { "group": "office_supplies", "prob": 5 },
+      { "group": "SUS_office_supplies", "prob": 15 },
       { "group": "car_misc", "prob": 5 },
-      { "group": "file_room", "prob": 15 },
-      { "group": "office_mess", "prob": 15 },
+      { "group": "SUS_office_filing_cabinet", "prob": 15 },
       { "group": "chem_home", "prob": 20 },
       { "group": "supplies_electronics", "prob": 25 },
       { "group": "dollar_food", "prob": 100 },
@@ -166,9 +166,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_pistol_common", "prob": 200 },
-      { "group": "ammo_rifle_common", "prob": 175 },
-      { "group": "ammo_shotgun_common", "prob": 200 },
+      { "group": "ammo_common_boxed", "prob": 300 },
       { "group": "guns_pistol_common", "prob": 120 },
       { "group": "guns_rifle_common", "prob": 100 },
       { "group": "guns_shotgun_common", "prob": 85 },
@@ -186,12 +184,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_pistol_common", "prob": 100 },
-      { "group": "ammo_pistol_reloaded", "prob": 150 },
-      { "group": "ammo_rifle_common", "prob": 75 },
-      { "group": "ammo_rifle_reloaded", "prob": 100 },
-      { "group": "ammo_shotgun_common", "prob": 90 },
-      { "group": "ammo_shotgun_reloaded", "prob": 125 },
+      { "group": "ammo_common_boxed", "prob": 300 },
       { "group": "guns_pistol_common", "prob": 90 },
       { "group": "guns_smg_improvised", "prob": 30 },
       { "group": "guns_rifle_common", "prob": 15 },
@@ -271,9 +264,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_pistol_common", "prob": 100 },
-      { "group": "ammo_rifle_common", "prob": 100 },
-      { "group": "ammo_shotgun_common", "prob": 100 },
+      { "group": "ammo_common_boxed", "prob": 300 },
       { "group": "guns_pistol_milspec", "prob": 25 },
       { "group": "guns_smg_milspec", "prob": 15 },
       { "group": "guns_rifle_milspec", "prob": 20 },
@@ -489,7 +480,8 @@
       { "group": "SUS_pantry", "prob": 25 },
       { "group": "SUS_breakfast_cupboard", "prob": 20 },
       { "group": "baked_goods", "count": [ 1, 3 ], "prob": 10 },
-      { "group": "groce_condiment", "count": [ 1, 3 ], "prob": 50 }
+      { "group": "groce_condiment", "count": [ 1, 3 ], "prob": 50 },
+      { "item": "almond_water", "prob": 1 }
     ]
   },
   {
@@ -613,9 +605,8 @@
     "entries": [
       { "group": "cubical_office", "count": [ 1, 6 ], "prob": 100 },
       { "group": "office", "count": [ 1, 5 ], "prob": 100 },
-      { "group": "office_mess", "count": [ 1, 6 ], "prob": 35 },
-      { "group": "office_paper", "prob": 50 },
-      { "group": "office_supplies", "count": [ 2, 6 ], "prob": 50 }
+      { "group": "SUS_office_mess", "count": [ 1, 2 ], "prob": 35 },
+      { "group": "SUS_office_desk", "prob": 50 }
     ]
   },
   {
@@ -627,8 +618,6 @@
       { "group": "cubical_office", "count": [ 1, 6 ], "prob": 250 },
       { "group": "SUS_office_desk", "prob": 250 },
       { "group": "bedroom", "count": [ 1, 3 ], "prob": 25 },
-      { "group": "office_mess", "count": [ 1, 6 ], "prob": 125 },
-      { "group": "office_supplies", "count": [ 2, 6 ], "prob": 250 },
       { "group": "npc_hacker", "prob": 50 },
       { "group": "school", "count": [ 1, 4 ], "prob": 100 },
       { "group": "backrooms_artifacts", "prob": 1 }
@@ -640,8 +629,8 @@
     "//": "Any generic trashcan. For trash.",
     "subtype": "distribution",
     "entries": [
-      { "group": "trash", "count": [ 1, 5 ], "prob": 1000 },
-      { "group": "trash_forest", "count": [ 1, 4 ], "prob": 100 },
+      { "group": "SUS_trash_trashcan", "count": [ 1, 5 ], "prob": 1000 },
+      { "group": "SUS_trash_forest_manmade", "count": [ 1, 4 ], "prob": 100 },
       { "group": "backrooms_artifacts", "prob": 1 }
     ]
   },
@@ -652,10 +641,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "SUS_office_filing_cabinet", "prob": 100 },
-      { "group": "office_paper", "prob": 50 },
-      { "group": "file_room", "count": [ 2, 10 ], "prob": 25 },
-      { "group": "office_mess", "count": [ 2, 8 ], "prob": 10 },
-      { "group": "office_supplies", "count": [ 1, 2 ], "prob": 10 },
+      { "group": "SUS_office_supplies", "count": [ 2, 10 ], "prob": 25 },
       { "group": "stash_drugs", "count": [ 1, 3 ], "prob": 5 }
     ]
   },
@@ -673,22 +659,15 @@
     "subtype": "distribution",
     "entries": [
       { "group": "forage_broad", "count": [ 1, 2 ], "prob": 100 },
-      { "group": "trash_junkyard", "count": [ 1, 3 ], "prob": 50 },
-      { "group": "wreckage", "count": [ 1, 3 ], "prob": 25 }
+      { "group": "SUS_trash_metal", "count": [ 1, 3 ], "prob": 50 },
+      { "group": "SUS_trash_hardware", "count": [ 1, 3 ], "prob": 10 }
     ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "vending_ammo",
-    "entries": [
-      { "group": "ammo_pistol_common", "count": [ 3, 8 ] },
-      { "group": "ammo_rifle_common", "prob": 50, "count": [ 2, 6 ] },
-      { "group": "ammo_shotgun_common", "prob": 50, "count": [ 2, 6 ] },
-      { "group": "ammo_pistol_rare", "prob": 20, "count": [ 1, 2 ] },
-      { "group": "ammo_rifle_rare", "prob": 20, "count": [ 1, 2 ] },
-      { "group": "ammo_shotgun_rare", "prob": 20, "count": [ 1, 2 ] }
-    ]
+    "entries": [ { "group": "ammo_common_boxed", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",

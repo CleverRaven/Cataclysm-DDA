@@ -55,5 +55,17 @@
       { "u_roll_remainder": [ "dreamdross_bo", "dreamdross_knife", "dreamdross_club" ], "type": "recipe" },
       { "u_roll_remainder": [ "dreamdross_lump", "forged_dreamstuff_ingot" ], "type": "recipe" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_THE_EXODII_HATE_JOTUNN_HUNTERS",
+    "condition": { "u_has_trait": "XEDRA_CYBORG" },
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "effect": [
+      { "math": [ "faction_like('exodii') = -100" ] },
+      { "math": [ "faction_respect('exodii') = -100" ] },
+      { "math": [ "faction_trust('exodii') = -100" ] }
+    ]
   }
 ]

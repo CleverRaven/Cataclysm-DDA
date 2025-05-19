@@ -32,7 +32,7 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 3 } ],
     "death_drops": "feral_humans_death_drops_bio",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_bio2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_bio2" },
     "extend": {
       "special_attacks": [
         {
@@ -59,7 +59,7 @@
     "attack_cost": 80,
     "death_drops": "feral_humans_death_drops_bio",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_bio3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_bio3" },
     "extend": {
       "special_attacks": [
         {
@@ -204,7 +204,7 @@
     "symbol": "@",
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_clair2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_clair2" },
     "extend": { "special_attacks": [ { "id": "feral_weapon_pipe" } ], "flags": [ "GOODHEARING", "HARDTOSHOOT", "WIELDED_WEAPON" ] }
   },
   {
@@ -222,7 +222,7 @@
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
     "starting_ammo": { "rock": 6 },
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_clair3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_clair3" },
     "extend": {
       "special_attacks": [
         {
@@ -299,7 +299,7 @@
     "armor": { "electric": 15 },
     "death_drops": "feral_humans_death_drops_electro",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_electrokin2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_electrokin2" },
     "extend": {
       "special_attacks": [
         {
@@ -327,7 +327,7 @@
     "emit_fields": [ { "emit_id": "emit_shock_cloud", "delay": "15 s" } ],
     "death_drops": "feral_humans_death_drops_electro",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_electrokin3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_electrokin3" },
     "special_when_hit": [ "ZAPBACK", 80 ],
     "extend": {
       "special_attacks": [
@@ -437,7 +437,7 @@
     "death_drops": "feral_humans_death_drops_photo",
     "zombify_into": "mon_zombie_survivor",
     "death_function": { "effect": { "id": "death_blind_oneineight", "hit_self": true } },
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_photokin2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_photokin2" },
     "extend": {
       "special_attacks": [
         {
@@ -479,7 +479,7 @@
     "zombify_into": "mon_zombie_survivor",
     "death_function": { "effect": { "id": "death_blind_oneinfour", "hit_self": true } },
     "luminance": 50,
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_photokin3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_photokin3" },
     "extend": {
       "special_attacks": [
         [ "PARROT_AT_DANGER", 10 ],
@@ -603,7 +603,7 @@
     "death_drops": "feral_humans_death_drops_pyro",
     "zombify_into": "mon_zombie_survivor",
     "death_function": { "effect": { "id": "death_explosion_oneineight", "hit_self": true } },
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_pyrokin2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_pyrokin2" },
     "extend": {
       "special_attacks": [
         {
@@ -653,7 +653,7 @@
     "zombify_into": "mon_zombie_survivor",
     "death_function": { "effect": { "id": "death_explosion_oneinfour", "hit_self": true } },
     "luminance": 50,
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_pyrokin3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_pyrokin3" },
     "extend": {
       "special_attacks": [
         [ "PARROT_AT_DANGER", 10 ],
@@ -776,7 +776,7 @@
       "effect": { "id": "death_telekeinetic_hit_oneinfive", "hit_self": true },
       "message": "As the %1$s dies, a wave of force explodes outward!"
     },
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_telekin2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_telekin2" },
     "starting_ammo": { "rock": 6 },
     "extend": {
       "special_attacks": [
@@ -852,7 +852,7 @@
       "effect": { "id": "death_telekeinetic_hit_oneinthree", "hit_self": true },
       "message": "As the %1$s dies, a wave of force explodes outward!"
     },
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_telekin3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_telekin3" },
     "extend": {
       "special_attacks": [
         {
@@ -1051,7 +1051,7 @@
       "effect": { "id": "death_psychic_scream", "hit_self": true, "min_level": 5 },
       "message": "As the %1$s dies, a scream fills your mind!"
     },
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_teep2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_teep2" },
     "extend": {
       "special_attacks": [
         {
@@ -1088,7 +1088,7 @@
       "effect": { "id": "death_psychic_scream", "hit_self": true, "min_level": 10 },
       "message": "As the %1$s dies, a scream fills your mind!"
     },
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_teep3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_teep3" },
     "extend": {
       "special_attacks": [
         [ "PARROT_AT_DANGER", 10 ],
@@ -1135,7 +1135,7 @@
       "effect": { "id": "death_psychic_scream", "hit_self": true, "min_level": 15 },
       "message": "As the %1$s dies, a scream fills your mind!"
     },
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_teep3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_teep3" },
     "extend": {
       "special_attacks": [
         [ "PARROT_AT_DANGER", 10 ],
@@ -1180,7 +1180,7 @@
     "id": "mon_feral_human_porter",
     "type": "MONSTER",
     "name": "feral jumper",
-    "description": "What was once empty air suddenly contains this feral human.  They have the same crazed expression as their fellows, but their gaze is focused on more distant locations.",
+    "description": "What was once empty air suddenly contains this feral human.  They have the same crazed expression as their fellows, but their gaze is focused on more distant locations.  A sturdy piece of debris from some ruin dangles from one of their hands.",
     "copy-from": "mon_feral_psion_default",
     "relative": { "dodge": 2 },
     "color": "blue",
@@ -1188,9 +1188,18 @@
     "morale": 25,
     "death_drops": "feral_humans_death_drops_porter",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_porter2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_porter2" },
     "extend": {
       "special_attacks": [
+        {
+          "id": "feral_weapon_pipe",
+          "hit_dmg_u": "%1$s hits your %2$s with their weapon!",
+          "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their weapon!",
+          "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+          "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+          "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+          "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+        },
         {
           "id": "psi_teleport1_slow",
           "type": "spell",
@@ -1208,14 +1217,14 @@
           "message": "%1$s vanishes and reappears elsewhere!"
         }
       ],
-      "flags": [ "CLIMBS", "HARDTOSHOOT", "TELEPORT_IMMUNE" ]
+      "flags": [ "CLIMBS", "HARDTOSHOOT", "TELEPORT_IMMUNE", "WIELDED_WEAPON" ]
     }
   },
   {
     "id": "mon_feral_human_porter2",
     "type": "MONSTER",
     "name": "feral slider",
-    "description": "Every time you blink, this feral human is in a different place.  They are always in motion without actually crossing the intervening space.",
+    "description": "Every time you blink, this debris-wielding feral is in a different place.  They are always in motion without actually crossing the intervening space.",
     "copy-from": "mon_feral_psion_default",
     "relative": { "dodge": 4 },
     "color": "blue",
@@ -1223,9 +1232,44 @@
     "morale": 25,
     "death_drops": "feral_humans_death_drops_porter",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_porter3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_porter3" },
     "extend": {
       "special_attacks": [
+        {
+          "id": "feral_weapon_pipe",
+          "hit_dmg_u": "%1$s hits your %2$s with their weapon!",
+          "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their weapon!",
+          "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+          "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+          "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+          "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "psi_teleport3_pipe_warped",
+          "cooldown": 1,
+          "move_cost": 80,
+          "accuracy": 5,
+          "range": 3,
+          "//": "Feral melee skill + weapon's to hit, so 3+0=3, +2 for being harder to predict because of space warping",
+          "//2": "all melee damage is decreased by 10% with assumption it is at least `|/` broken",
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 9 } ],
+          "condition": {
+            "and": [
+              { "test_eoc": "is_disarmed" },
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "u_has_effect": "effect_monster_warped_strikes" },
+              { "math": [ "distance('u', 'npc') > 1" ] }
+            ]
+          },
+          "hit_dmg_u": "The air around %1$s's hands distorts and they hit your %2$s with their weapon!",
+          "hit_dmg_npc": "The air around %1$s's hands distorts and they hit <npcname>'s %2$s with their weapon!",
+          "miss_msg_u": "%1$s tries to hit you as the air around their hands warps, but you dodge!",
+          "miss_msg_npc": "%1$s tries to hit <npcname> as the air around their hands warps, but they dodge!",
+          "no_dmg_msg_u": "The air around %1$s's hands distorts and they hit your %2$s without penetrating your armor.",
+          "no_dmg_msg_npc": "The air around %1$s's hands distorts and they hit <npcname>'s %2$s without penetrating their armor."
+        },
         {
           "id": "psi_teleport2_slow",
           "type": "spell",
@@ -1241,8 +1285,9 @@
           "move_cost": 80,
           "cooldown": { "math": [ "7 + rand(14)" ] },
           "accuracy": 5,
-          "damage_max_instance": [ { "damage_type": "psi_teleporter_teleporting_damage", "amount": 2, "armor_penetration": 10 } ],
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
           "blockable": false,
+          "eoc": [ "EOC_FERAL_TELEPORTER_TELEPORTION_TOUCH" ],
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "hit_dmg_u": "%1$s touches you and the world shifts around you!",
           "hit_dmg_npc": "%1$s touches <npcname> and the world shifts around them!",
@@ -1263,6 +1308,16 @@
           "monster_message": "The space around %1$s distorts."
         },
         {
+          "id": "psi_porter3_warped_strikes",
+          "type": "spell",
+          "spell_data": { "id": "teleporter_warped_strikes_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_warped_strikes" } } ]
+          },
+          "monster_message": "The air around %1$s's hands wavers."
+        },
+        {
           "type": "leap",
           "cooldown": { "math": [ "1 + rand(2)" ] },
           "move_cost": 50,
@@ -1272,7 +1327,7 @@
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
         }
       ],
-      "flags": [ "CLIMBS", "HARDTOSHOOT", "TELEPORT_IMMUNE" ]
+      "flags": [ "CLIMBS", "HARDTOSHOOT", "TELEPORT_IMMUNE", "WIELDED_WEAPON" ]
     }
   },
   {
@@ -1293,9 +1348,33 @@
     },
     "zombify_into": "mon_zombie_survivor",
     "luminance": 25,
+    "//": "No wielded pipe on this one because they're too dimensionally unstable for it.",
     "extend": {
       "special_attacks": [
         [ "PARROT_AT_DANGER", 10 ],
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "psi_teleport3_warped",
+          "cooldown": 1,
+          "move_cost": 80,
+          "accuracy": 6,
+          "range": 5,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 9 } ],
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "u_has_effect": "effect_monster_warped_strikes" },
+              { "math": [ "distance('u', 'npc') > 1" ] }
+            ]
+          },
+          "hit_dmg_u": "The air around %1$s's hands distorts and they hit your %2$s seemingly out of nowhere!",
+          "hit_dmg_npc": "The air around %1$s's hands distorts and they hit <npcname>'s %2$s seemingly out of nowhere!",
+          "miss_msg_u": "%1$s tries to hit you as the air around their hands warps, but you dodge!",
+          "miss_msg_npc": "%1$s tries to hit <npcname> as the air around their hands warps, but they dodge!",
+          "no_dmg_msg_u": "The air around %1$s's hands distorts and they hit your %2$s without penetrating your armor.",
+          "no_dmg_msg_npc": "The air around %1$s's hands distorts and they hit <npcname>'s %2$s without penetrating their armor."
+        },
         {
           "type": "monster_attack",
           "attack_type": "melee",
@@ -1303,8 +1382,9 @@
           "move_cost": 65,
           "cooldown": { "math": [ "5 + rand(10)" ] },
           "accuracy": 6,
-          "damage_max_instance": [ { "damage_type": "psi_teleporter_teleporting_damage", "amount": 2, "armor_penetration": 10 } ],
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
           "blockable": false,
+          "eoc": [ "EOC_FERAL_TELEPORTER_TELEPORTION_TOUCH" ],
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "hit_dmg_u": "%1$s touches you and the world warps around you!",
           "hit_dmg_npc": "%1$s touches <npcname> and the world warps around them!",
@@ -1341,6 +1421,16 @@
           "monster_message": "The space around %1$s distorts."
         },
         {
+          "id": "psi_porter3_warped_strikes",
+          "type": "spell",
+          "spell_data": { "id": "teleporter_warped_strikes_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_warped_strikes" } } ]
+          },
+          "monster_message": "The air around %1$s's hands wavers."
+        },
+        {
           "type": "leap",
           "cooldown": 1,
           "move_cost": 50,
@@ -1355,7 +1445,7 @@
           "spell_data": { "id": "teleporter_breach_monster", "min_level": 10 },
           "cooldown": { "math": [ "17 + rand(32)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-          "monster_message": "The lights around %1$s waver and shapes appear near %3$s!."
+          "monster_message": "The lights around %1$s waver and shapes appear near %3$s."
         }
       ],
       "flags": [ "CLIMBS", "HARDTOSHOOT", "TELEPORT_IMMUNE" ]
@@ -1379,7 +1469,7 @@
     "bleed_rate": 0,
     "death_drops": "feral_humans_death_drops_vita",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_vita2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_vita2" },
     "extend": {
       "special_attacks": [
         { "id": "feral_weapon_pipe" },
@@ -1422,7 +1512,7 @@
     "bleed_rate": 0,
     "death_drops": "feral_humans_death_drops_vita",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_vita3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_vita3" },
     "extend": {
       "special_attacks": [
         { "id": "feral_weapon_pipe" },

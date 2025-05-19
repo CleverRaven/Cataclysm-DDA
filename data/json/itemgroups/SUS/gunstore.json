@@ -1,17 +1,5 @@
 [
   {
-    "id": "SUS_gunstore_safe",
-    "type": "item_group",
-    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for the contents of gunsafes",
-    "subtype": "collection",
-    "entries": [
-      { "group": "ammo_common_collection", "prob": 100 },
-      { "group": "ammo_rare_collection", "prob": 1 },
-      { "group": "ammo_obscure_collection", "prob": 1 }
-    ]
-  },
-  {
     "id": "SUS_gunstore_crate",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
@@ -37,7 +25,7 @@
     "entries": [
       { "group": "guns_common", "prob": 15, "damage": [ 0, 4 ] },
       { "group": "book_gunmags", "prob": 25, "damage": [ 0, 4 ] },
-      { "group": "looted_store", "prob": 75 },
+      { "group": "SUS_trash_floor", "prob": 75 },
       { "group": "ammo_parts", "prob": 5 },
       { "group": "SUS_gunstore_gear", "prob": 30, "damage": [ 0, 4 ] }
     ]

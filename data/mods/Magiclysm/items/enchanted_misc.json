@@ -1,6 +1,7 @@
 [
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "id": "heat_cube",
     "symbol": "#",
     "color": "light_gray",
@@ -16,7 +17,6 @@
     "flags": [ "ALLOWS_REMOTE_USE", "FIRE", "NO_UNLOAD" ],
     "charges_per_use": 1,
     "sub": "hotplate",
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 60 } } ],
     "use_action": [
       "HOTPLATE",
@@ -31,12 +31,14 @@
       },
       { "type": "firestarter" }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true }
   },
   {
     "id": "heat_cube_torch_on",
     "copy-from": "heat_cube",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "heat cube (torch on)", "str_pl": "heat cubes (torch on)" },
     "description": "The heat cube in the torch configuration, where it emits warmth and a bright flame that does not burn.",
     "turns_per_charge": 360,
@@ -47,7 +49,8 @@
   },
   {
     "id": "mkey_opening",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "skeleton key of opening", "str_pl": "skeleton keys of opening" },
     "description": "A small gold skeleton key.  You can activate it to unlock locked things.",
     "weight": "20 g",
@@ -64,7 +67,8 @@
   },
   {
     "id": "mtorch_everburning",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "everburning torch", "str_pl": "everburning torches" },
     "description": "This is a high quality engraved wooden torch.  On command, the tip bursts into flame and produces a fair amount of light.  It will burn forever.",
     "weight": "831 g",
@@ -88,7 +92,8 @@
   },
   {
     "id": "mtorch_everburning_lit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "everburning torch", "str_pl": "everburning torches" },
     "copy-from": "mtorch_everburning",
     "revert_to": "mtorch_everburning",
@@ -109,7 +114,7 @@
   {
     "name": { "str": "endless flask" },
     "id": "mflask_hip_whiskey",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "flask_hip",
     "price_postapoc": "850 USD",
     "category": "clothing",
@@ -125,7 +130,7 @@
   },
   {
     "id": "mteapot",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "teapot",
     "category": "tools",
     "name": { "str": "endless teapot" },
@@ -143,7 +148,8 @@
   },
   {
     "id": "mtailors_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "copy-from": "tailors_kit",
     "name": "enchanted tailor's kit",
     "description": "This is a high quality, engraved steel kit with a variety of needles, some plastic spools for thread, some small scissors, even a small heating element for melting and joining plastic.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.  It also contains one of those magic spiders that constantly, if slowly, makes new thread.",
@@ -151,7 +157,6 @@
     "price_postapoc": "1700 USD",
     "material": [ "steel" ],
     "charges_per_use": 1,
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "thread": 1000 } } ],
     "sub": "sewing_kit",
     "use_action": [
@@ -182,11 +187,13 @@
         "move_cost": 500
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD" ],
+    "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true }
   },
   {
     "id": "mspider_box",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "name": { "str": "spider box", "str_pl": "spider boxes" },
     "description": "This is a small glass box that contains a spider that diligently works day and night to produce silk thread that it stores in a reservoir you can open and retrieve it from.",
     "weight": "100 g",
@@ -196,14 +203,15 @@
     "material": [ "glass" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "thread" ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "thread": 1000 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "thread": 1000 } } ],
+    "tool_ammo": [ "thread" ],
+    "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true }
   },
   {
     "id": "borealmosin_clip",
     "looks_like": "762R_clip",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "91/30 Boreal clip" },
     "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load a bolt-action rifle.",
     "weight": "40 g",

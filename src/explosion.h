@@ -8,13 +8,13 @@
 #include <vector>
 
 #include "coordinates.h"
-#include "map.h"
+#include "point.h"
 #include "type_id.h"
 
 class Creature;
 class JsonObject;
+class map;
 class nc_color;
-struct tripoint;
 
 struct shrapnel_data {
     int casing_mass = 0;
@@ -31,6 +31,9 @@ struct shrapnel_data {
         , recovery( recovery )
         , drop( drop ) {
     }
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
 };
 
 struct explosion_data {
@@ -55,6 +58,9 @@ struct explosion_data {
         , fire( fire )
         , shrapnel( shrapnel ) {
     }
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
 };
 
 // handles explosion related functions

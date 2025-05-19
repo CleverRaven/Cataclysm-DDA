@@ -42,7 +42,7 @@
         "                        :!:   iiiiiiiiiiiiiiiiii",
         "                        :!:   iZ,,JJJJ6|t|..117i",
         "iiiiiiiiiiiiiiiiiiii    :!:   iZ,,,,,,,+,|4..2.i",
-        "i......FFUUUgg.....i    :!:   iZ,,,,,,,|S|.4..Ui",
+        "i......ââUUUgg.....i    :!:   iZ,,,,,,,|S|.4..Ui",
         "i.......z..........i:::::!:   iW,,,,,,,|||&&$&&i",
         "i...i..........i...i    :}:   iW,,,,,,,........i",
         "i..iii........iii..i    :!:   iW,,,,,))|.&&&$&&i",
@@ -64,7 +64,7 @@
         "                        :::                     ",
         "                         :                      "
       ],
-      "palettes": [ "parametrized_linoleum_palette", "basement_empty" ],
+      "palettes": [ "parametrized_linoleum_palette", "standard_domestic_basement_palette" ],
       "liquids": { ")": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "terrain": {
         "}": "t_ladder_up",
@@ -100,7 +100,8 @@
         "D": { "item": "allclothes", "chance": 60 },
         "L": { "item": "homeguns", "chance": 80 },
         "W": { "item": "allclothes", "chance": 60 },
-        "X": { "item": "allclothes", "chance": 60 }
+        "X": { "item": "allclothes", "chance": 60 },
+        "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "toilets": { "T": {  } },
       "place_monsters": [
@@ -205,7 +206,7 @@
         "}": "t_ladder_up"
       },
       "furniture": { "!": "f_region_flower", "0": "f_stool", ")": "f_dumpster", "(": "f_recycle_bin" },
-      "place_vehicles": [ { "vehicle": "back_alley", "x": 4, "y": 5, "rotation": 90, "chance": 100 } ],
+      "place_vehicles": [ { "vehicle": "back_alley", "x": 4, "y": 5, "rotation": 90 } ],
       "place_loot": [
         { "item": "television", "x": 7, "y": 3, "chance": 75 },
         { "item": "television", "x": 12, "y": 18, "chance": 75 },

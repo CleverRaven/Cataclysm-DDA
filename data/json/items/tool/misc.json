@@ -1,7 +1,8 @@
 [
   {
     "id": "airhorn",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "compressed air horn" },
     "description": "A small can of compressed air attached to a plastic horn.  Pressing the button on top causes it to emit a loud honking sound.",
     "weight": "467 g",
@@ -27,7 +28,8 @@
   },
   {
     "id": "alarmclock",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "alarm clock" },
     "description": "A wind-up alarm clock.  Though the noise it makes is unpleasant to wake up to, it's always good to get an early start to your day.  Can also be disassembled into some useful parts.",
     "weight": "562 g",
@@ -42,7 +44,8 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "butane_can",
     "//": "8 oz canister of butane - 227g butane",
     "name": { "str": "can of butane", "str_pl": "cans of butane" },
@@ -61,7 +64,8 @@
     "explode_in_fire": true
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "notched_plank",
     "category": "spare_parts",
     "name": { "str": "notched plank" },
@@ -79,7 +83,8 @@
     "flags": [ "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "notched_stick",
     "category": "spare_parts",
     "name": { "str": "notched stick" },
@@ -98,7 +103,8 @@
   },
   {
     "id": "clay_urn",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "clay urn" },
     "category": "container",
     "description": "A clay container for storing cremated ashes.",
@@ -123,7 +129,8 @@
   },
   {
     "id": "cow_bell",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "cow bell" },
     "description": "A cow bell.  You feel like you need more of it.",
     "weight": "330 g",
@@ -141,7 +148,8 @@
   },
   {
     "id": "crystal_urn",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "crystal urn" },
     "description": "An exquisite, translucent container for cremated ashes, decorated with floral patterns.",
     "weight": "1400 g",
@@ -165,7 +173,8 @@
   },
   {
     "id": "e_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "entrenching tool" },
     "description": "A stout, collapsible spade.  It's commonly used by military forces and favored by hikers for digging.",
     "weight": "453 g",
@@ -183,7 +192,8 @@
   },
   {
     "id": "etched_skull",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "etched human skull" },
     "description": "A human skull covered with strange etchings.",
     "weight": "311 g",
@@ -197,7 +207,8 @@
   },
   {
     "id": "fur_rollmat",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "fur rollmat" },
     "description": "A bedroll made of pelts which can be rolled up for transport.  It insulates you from the floor, making it easier to sleep.  Use it to unroll and place on the ground.",
     "weight": "1800 g",
@@ -220,7 +231,8 @@
   {
     "id": "hose_garden",
     "looks_like": "hose",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "garden hose" },
     "description": "A flexible garden hose.  If you cut it into smaller pieces, it could be used for crafting or siphoning fuel from a vehicle.",
     "weight": "1632 g",
@@ -236,7 +248,7 @@
   },
   {
     "id": "grapnel",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "grappling hook" },
     "description": "A folding grappling hook attached to a stout, 30-foot long piece of lightweight cord.  Useful for keeping yourself safe from falls.  Can be used in place of a long rope for butchering, in a pinch.",
@@ -254,7 +266,8 @@
     "melee_damage": { "bash": 12, "cut": 6 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "id": "grip_hook",
     "name": { "str": "grip hook" },
@@ -275,7 +288,8 @@
   },
   {
     "id": "hand_pump",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "symbol": "/",
     "color": "blue",
     "name": { "str": "hand pump" },
@@ -289,9 +303,10 @@
   },
   {
     "id": "leather_bellow",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "leather bellow" },
-    "description": "A bellow is a device constructed to furnish a strong blast of air",
+    "description": "A bellow is a device constructed to furnish a strong blast of air.",
     "weight": "450 g",
     "volume": "2500 ml",
     "price": "0 cent",
@@ -303,7 +318,8 @@
   },
   {
     "id": "horn_bicycle",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "veh_parts",
     "name": { "str": "bicycle horn" },
     "description": "A simple bulb horn found on many bicycles.  Activate it to honk.  Honk honk.",
@@ -327,7 +343,8 @@
   },
   {
     "id": "horn_big",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "veh_parts",
     "name": { "str": "truck horn" },
     "description": "A very loud horn, usually found on large trucks like semis.",
@@ -341,7 +358,8 @@
   },
   {
     "id": "horn_car",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "veh_parts",
     "name": { "str": "car horn" },
     "description": "A car horn meant to be attached to a car's electrical system.",
@@ -355,7 +373,8 @@
   },
   {
     "id": "large_space_heater",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "large space heater" },
     "description": "A portable electric heater that steadily emits warm air.  Raises temperature about 10 degrees Celsius, and fills a larger volume of air than the smaller version.",
     "weight": "12 kg",
@@ -366,8 +385,8 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "use_action": [
       {
         "target": "large_space_heater_on",
@@ -388,12 +407,14 @@
         "default_magazine": "heavy_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "large_space_heater_on",
     "copy-from": "large_space_heater",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "large space heater (on)", "str_pl": "large space heaters (on)" },
     "description": "A portable electric heater that steadily emits warm air.  Raises temperature about 10 degrees Celsius, and fills a larger volume of air than the smaller version.",
     "power_draw": "1 kW",
@@ -413,7 +434,8 @@
   },
   {
     "id": "lifestraw",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "lifestraw" },
     "description": "A small personal water filter.  The instructions say to set the lifestraw in suspect water, let sit for one minute then drink.  The two-part filtration system will purify the water you drink up to a certain amount.  Water taken from uncertain sources like a river may be dirty.",
     "weight": "104 g",
@@ -430,7 +452,8 @@
     "use_action": [ "WATER_PURIFIER" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "gasket_plastic",
     "name": { "str": "plastic gasket" },
     "description": "A single-use plastic gasket.",
@@ -448,7 +471,8 @@
   },
   {
     "id": "permanent_marker",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "permanent marker" },
     "description": "A King Size™ industrial-strength permanent marker, about halfway between a typical marker and a can of spray paint in size.  Activate it to write something down.  However, writing \"Elbereth\" probably won't help you.",
     "weight": "28 g",
@@ -465,7 +489,8 @@
   },
   {
     "id": "pocketwatch",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pocket watch", "str_pl": "pocket watches" },
     "description": "An old-fashioned pocket watch.  Tells the time and looks good doing it.  Can also be disassembled into some useful parts.",
     "weight": "65 g",
@@ -475,11 +500,12 @@
     "material": [ "gold", "glass" ],
     "symbol": ",",
     "color": "light_gray",
-    "flags": [ "WATCH", "FANCY" ]
+    "flags": [ "WATCH" ]
   },
   {
     "id": "porcelain_urn",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "porcelain urn" },
     "description": "A container for holding the remains of a loved one.  Its prior owners must have taken good care of it, as you can see your face reflected clearly upon its surface.",
     "weight": "1600 g",
@@ -503,7 +529,8 @@
   },
   {
     "id": "rollmat",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "rollmat" },
     "description": "A sheet of foam which can be rolled tightly for storage.  It insulates you from the floor, making it easier to sleep.  Use it to unroll and place on the ground.",
     "weight": "250 g",
@@ -525,7 +552,8 @@
   },
   {
     "id": "safe_box",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "other",
     "name": { "str": "safe deposit box", "str_pl": "safe deposit boxes" },
     "description": "A secure combination-lock box.  Sadly, you don't know the combination.  Breaking into it would destroy anything of value.",
@@ -543,7 +571,8 @@
   },
   {
     "id": "sarcophagus_access_code",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "sarcophagus access code" },
     "description": "A printout displaying a string of numbers, the passcode to access the elevator in the hazardous waste sarcophagus.",
     "weight": "5 g",
@@ -556,7 +585,8 @@
   },
   {
     "id": "small_space_heater",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "small space heater" },
     "description": "A portable electric heater that steadily emits warm air.  Raises temperature about 10 degrees Celsius.",
     "weight": "6 kg",
@@ -567,7 +597,6 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": [
       {
@@ -589,12 +618,14 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "small_space_heater_on",
     "copy-from": "small_space_heater",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "small space heater (on)", "str_pl": "small space heaters (on)" },
     "description": "A portable electric heater that steadily emits warm air.  Raises temperature about 10 degrees Celsius.",
     "power_draw": "500 W",
@@ -614,7 +645,8 @@
   },
   {
     "id": "spray_can",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "spray can" },
     "description": "An aerosol spray can filled with paint.  Activate it to make graffiti on the floor.",
     "weight": "340 g",
@@ -632,7 +664,8 @@
   },
   {
     "id": "stepladder",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "wooden stepladder" },
     "description": "A ten-foot wooden stepladder.  Activate it to set it down.",
     "weight": "20000 g",
@@ -649,7 +682,8 @@
   },
   {
     "id": "survival_marker",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "survival marker" },
     "description": "A sharpened piece of charcoal used as an improvised pencil.  Almost guaranteed to get your hands all covered in charcoal.  Activate it to write something down.",
     "weight": "113 g",
@@ -667,7 +701,8 @@
   },
   {
     "id": "survivor_scope",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "retractable telescope" },
     "description": "A homemade collapsible telescope, perfect for a pirate.  Too large and inaccurate to use as a weapon scope, but carrying it in your inventory will double the distance that is mapped around you during your travels.",
     "weight": "330 g",
@@ -682,7 +717,8 @@
   },
   {
     "id": "teargas_sprayer",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tear gas sprayer" },
     "description": "A pocket sized plastic canister filled with a pressurized tear gas spray, a step above oleoresin capsicum pepper spray in terms of potency.  Most commonly used by law enforcement and bear-wary hikers, but it became more common in recent months due to anxiety over the riots.  Probably won't do much against a zombie, but should give anything still breathing a rather nasty surprise and give you time to get away.  It contains enough spray for about twenty seconds of continuous application.",
     "weight": "96 g",
@@ -702,14 +738,15 @@
         "ammo_restriction": { "teargas_spray": 10 }
       }
     ],
-    "ammo": "teargas_spray",
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "BELT_CLIP" ],
-    "use_action": [ "MACE" ]
+    "use_action": [ "MACE" ],
+    "tool_ammo": "teargas_spray"
   },
   {
     "id": "c4_payload",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "C-4 payload" },
     "description": "This is a dummy item used by c4 hacks.  You should never see it outside of debug.",
@@ -720,7 +757,8 @@
   },
   {
     "id": "tear_gas_payload",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "tear gas payload" },
     "description": "This is a dummy item used by tear gas hacks.  You should never see it outside of debug.",
@@ -736,7 +774,8 @@
   },
   {
     "id": "tear_gas_payload_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active tear gas payload" },
     "description": "This is a dummy item used by tear gas hacks that just so happens to be counting down.  You should never see it outside of debug.",
@@ -753,7 +792,8 @@
   },
   {
     "id": "teleumbrella",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "tools",
     "name": { "str": "telescoping umbrella (collapsed)", "str_pl": "telescoping umbrellas (collapsed)" },
     "description": "A telescoping umbrella which has been collapsed down for easy storage.  May be used to keep dry when extended and wielded.",
@@ -784,7 +824,7 @@
   },
   {
     "id": "teleumbrella-extended",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "telescoping umbrella (extended)", "str_pl": "telescoping umbrellas (extended)" },
     "description": "A telescoping umbrella currently in its extended form, useful for keeping dry when wielded.  May be collapsed down for easy storage.",
@@ -807,7 +847,8 @@
   },
   {
     "id": "toilet_travel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "travel toilet" },
     "description": "A portable plastic toilet, designed to use plastic bags for waste instead of plumbing.",
     "weight": "1587 g",
@@ -838,7 +879,8 @@
   },
   {
     "id": "toilet_travel_folded",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "folded travel toilet" },
     "description": "A portable plastic toilet.  It has been collapsed for easy transport.",
     "weight": "1587 g",
@@ -853,9 +895,10 @@
   },
   {
     "id": "testflames",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Flaming Chunk of Steel +2", "str_pl": "Flaming Chunks of Steel +2" },
-    "description": "HOLY SHIT THIS THING IS ON FIRE",
+    "description": "HOLY SHIT THIS THING IS ON FIRE!",
     "weight": "64 g",
     "volume": "250 ml",
     "price": "980 USD",
@@ -870,7 +913,8 @@
   },
   {
     "id": "tindalos_whistle",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Whistle of Tindalos", "str_pl": "Whistles of Tindalos" },
     "description": "Who is this Tindalos guy?",
     "weight": "22 g",
@@ -884,7 +928,7 @@
   },
   {
     "id": "umbrella",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "umbrella" },
     "description": "An umbrella with a pointy end, useful for keeping dry when wielded.",
@@ -905,7 +949,8 @@
   },
   {
     "id": "vortex_stone",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "vortex stone" },
     "description": "A stone with spirals all over it and holes around its perimeter.  Though it is fairly large, it weighs next to nothing.  Air seems to gather around it.",
     "weight": "1 g",
@@ -923,7 +968,8 @@
   },
   {
     "id": "sandbox_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "sandbox kit" },
     "description": "A plastic bucket holding a small spade and rake, perfect for building sand castles!",
     "weight": "250 g",
@@ -946,7 +992,8 @@
   },
   {
     "id": "whistle_multitool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "whistle multitool" },
     "description": "A cheap gadget combining a whistle, thermometer, magnifying glass, and compass.",
@@ -975,7 +1022,8 @@
   },
   {
     "id": "aluminum_stepladder",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "aluminum stepladder" },
     "description": "A ten-foot aluminum stepladder.  Activate it to set it down.",
     "looks_like": "stepladder",
@@ -993,7 +1041,8 @@
   },
   {
     "id": "glass_cutter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "handheld glass cutter" },
     "description": "A handheld tool used for controlled breaking of glass.  A necessity for any glass cutting projects.",
     "weight": "700 g",
@@ -1010,7 +1059,8 @@
   },
   {
     "id": "air_launcher",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "novelty pneumatic launcher" },
     "description": "A toy that uses compressed air to launch small objects for the amusement of children.  It is very tiring to reload, and completely ineffective as a weapon.  Pump sold separately.",
     "looks_like": "m79",
@@ -1027,7 +1077,7 @@
   },
   {
     "id": "dressage_whip",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "dark_gray",
     "name": { "str": "dressage whip" },
@@ -1044,7 +1094,7 @@
   },
   {
     "id": "riding_crop",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "dark_gray",
     "name": { "str": "riding crop" },
@@ -1060,7 +1110,8 @@
     "melee_damage": { "cut": 1 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "nm_teeth",
     "symbol": ",",
     "color": "light_cyan",

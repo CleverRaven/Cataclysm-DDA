@@ -1,0 +1,78 @@
+[
+  {
+    "type": "fault_fix",
+    "id": "mend_blade_grind",
+    "name": "Grind the edge.",
+    "success_msg": "You grind and polish the edge of %s till it's nice and sharp.",
+    "time": "40 m",
+    "faults_removed": [ "fault_blade_rolled_edge", "fault_blade_chipped", "fault_blade_broken_tip", "fault_blade_bent_tip" ],
+    "mod_damage": -1000,
+    "mod_degradation": 5,
+    "requirements": [ { "qualities": [ { "id": "GRIND", "level": 2 } ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_spearhead_grind",
+    "name": "Grind the spearhead.",
+    "success_msg": "You grind and polish the head of %s till it's nice and sharp.",
+    "time": "30 m",
+    "faults_removed": [ "fault_spearhead_fracture", "fault_spearhead_warped", "fault_spearhead_chipping" ],
+    "mod_damage": -1000,
+    "mod_degradation": 5,
+    "requirements": [ { "qualities": [ { "id": "GRIND", "level": 2 } ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_spearhead_straighten",
+    "name": "Straighten the spear socket.",
+    "success_msg": "You spend some time straightening the socket of a %s until it is straight and can be used again.",
+    "time": "20 m",
+    "faults_removed": [ "fault_spearhead_bent_socket" ],
+    "mod_damage": -1000,
+    "mod_degradation": 5
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_staff_duct_tape",
+    "name": "Duct-tape everything.",
+    "success_msg": "You duct-tape your %s.",
+    "time": "10 m",
+    "faults_removed": [ "fault_staff_short_chipping", "fault_staff_short_cracked" ],
+    "mod_damage": -1000,
+    "mod_degradation": 10,
+    "requirements": [ { "components": [ [ [ "duct_tape", 20 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_staff_glue",
+    "name": "Glue the cracks.",
+    "success_msg": "You thoroughly glue your %s.",
+    "time": "5 m",
+    "faults_removed": [ "fault_staff_short_cracked" ],
+    "mod_damage": -1000,
+    "mod_degradation": -20,
+    "requirements": [ [ "glue_any", 10 ] ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_staff_long_duct_tape",
+    "name": "Duct-tape everything.",
+    "success_msg": "You duct-tape your %s.",
+    "time": "10 m",
+    "faults_removed": [ "fault_staff_long_chipping", "fault_staff_long_cracked" ],
+    "mod_damage": -1000,
+    "mod_degradation": 10,
+    "requirements": [ { "components": [ [ [ "duct_tape", 40 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_staff_long_glue",
+    "name": "Glue the cracks.",
+    "success_msg": "You thoroughly glue the entire %s.",
+    "time": "5 m",
+    "faults_removed": [ "fault_handle_long_cracked" ],
+    "mod_damage": -1000,
+    "mod_degradation": -20,
+    "requirements": [ [ "glue_any", 25 ] ]
+  }
+]

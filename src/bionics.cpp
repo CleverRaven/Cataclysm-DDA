@@ -3,9 +3,10 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
-#include <cstdlib>
 #include <cstdint>
+#include <cstdlib>
 #include <forward_list>
+#include <functional>
 #include <iterator>
 #include <list>
 #include <memory>
@@ -17,7 +18,6 @@
 
 #include "action.h"
 #include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "assign.h"
 #include "avatar.h"
 #include "avatar_action.h"
@@ -28,7 +28,6 @@
 #include "character.h"
 #include "character_attire.h"
 #include "character_martial_arts.h"
-#include "colony.h"
 #include "color.h"
 #include "condition.h"
 #include "coordinates.h"
@@ -36,6 +35,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "dispersion.h"
 #include "effect.h"
 #include "effect_on_condition.h"
@@ -45,20 +45,15 @@
 #include "explosion.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "generic_factory.h"
-#include "global_vars.h"
 #include "handle_liquid.h"
-#include "init.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
 #include "json.h"
-#include "json_error.h"
-#include "line.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
@@ -71,6 +66,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -86,7 +82,7 @@
 #include "talker.h"
 #include "teleport.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "vehicle.h"
@@ -307,7 +303,7 @@ static social_modifiers load_bionic_social_mods( const JsonObject &jo )
     return ret;
 }
 
-void bionic_data::load( const JsonObject &jsobj, const std::string_view src )
+void bionic_data::load( const JsonObject &jsobj, std::string_view src )
 {
 
     mandatory( jsobj, was_loaded, "id", id );
@@ -450,7 +446,7 @@ void bionic_data::load_bionic( const JsonObject &jo, const std::string &src )
 
 std::map<bionic_id, bionic_id> bionic_data::migrations;
 
-void bionic_data::load_bionic_migration( const JsonObject &jo, const std::string_view )
+void bionic_data::load_bionic_migration( const JsonObject &jo, std::string_view )
 {
     const bionic_id from( jo.get_string( "from" ) );
     const bionic_id to = jo.has_string( "to" )
@@ -916,7 +912,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
         add_msg_activate();
 
-        teleport::teleport( *this );
+        teleport::teleport_creature( *this );
         mod_moves( -100 );
     } else if( bio.id == bio_blood_anal ) {
         add_msg_activate();
@@ -979,7 +975,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                         if( liquid_handler::consume_liquid( water ) ) {
                             add_msg_activate();
                             extracted = true;
-                            it.set_var( "remaining_water", static_cast<int>( water.charges ) );
+                            it.set_var( "remaining_water", water.charges );
                         }
                         break;
                     }
@@ -1105,7 +1101,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( -power_use ) ) );
             bio.powered = ctr.active;
         } else {
-            bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
+            bio.powered = g->remoteveh() != nullptr || maybe_get_value( "remote_controlling" );
         }
     } else if( bio.info().is_remote_fueled ) {
         std::vector<item *> cables = cache_get_items_with( flag_CABLE_SPOOL );
@@ -1218,6 +1214,8 @@ ret_val<void> Character::can_deactivate_bionic( bionic &bio, bool eff_only ) con
 
 bool Character::deactivate_bionic( bionic &bio, bool eff_only )
 {
+    const map &here = get_map();
+
     const auto can_deactivate = can_deactivate_bionic( bio, eff_only );
     bio_flag_cache.clear();
     if( !can_deactivate.success() ) {
@@ -1250,7 +1248,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
         if( bio.get_uid() == get_weapon_bionic_uid() ) {
             bio.set_weapon( *get_wielded_item() );
             add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
-            if( get_player_view().sees( pos_bub() ) ) {
+            if( get_player_view().sees( here, pos_bub( here ) ) ) {
                 if( male ) {
                     add_msg_if_npc( m_info, _( "<npcname> withdraws his %s." ), weapon.tname() );
                 } else {
@@ -1266,9 +1264,9 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
     } else if( bio.id == bio_remote ) {
         if( g->remoteveh() != nullptr && !has_active_item( itype_remotevehcontrol ) ) {
             g->setremoteveh( nullptr );
-        } else if( !get_value( "remote_controlling" ).empty() &&
+        } else if( maybe_get_value( "remote_controlling" ) &&
                    !has_active_item( itype_radiocontrol ) ) {
-            set_value( "remote_controlling", "" );
+            remove_value( "remote_controlling" );
         }
     }
 
@@ -1396,7 +1394,7 @@ void Character::burn_fuel( bionic &bio )
     if( !result.connected_vehicles.empty() ) {
         // Cable bionic charging from connected vehicle(s)
         for( vehicle *veh : result.connected_vehicles ) {
-            int undrained = veh->discharge_battery( 1 );
+            int undrained = veh->discharge_battery( here, 1 );
             if( undrained == 0 ) {
                 energy_gain = 1_kJ;
                 break;
@@ -1411,7 +1409,7 @@ void Character::burn_fuel( bionic &bio )
         for( item *fuel_source : result.connected_fuel ) {
             item *fuel;
             // Fuel may be ammo or in container
-            if( fuel_source->ammo_remaining() ) {
+            if( fuel_source->ammo_remaining( ) ) {
                 fuel = &fuel_source->first_ammo();
             } else {
                 fuel = fuel_source->all_items_ptr( pocket_type::CONTAINER ).front();
@@ -1632,7 +1630,7 @@ void Character::process_bionic( bionic &bio )
 
     // Bionic effects on every turn they are active go here.
     if( bio.id == bio_remote ) {
-        if( g->remoteveh() == nullptr && get_value( "remote_controlling" ).empty() ) {
+        if( g->remoteveh() == nullptr && !maybe_get_value( "remote_controlling" ) ) {
             bio.powered = false;
             add_msg_if_player( m_warning, _( "Your %s has lost connection and is turning off." ),
                                bio.info().name );
@@ -1819,6 +1817,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
 void Character::bionics_uninstall_failure( monster &installer, Character &patient, int difficulty,
         int success, float adjusted_skill )
 {
+    const map &here = get_map();
 
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful removal.  We use this to determine consequences for failing.
@@ -1832,7 +1831,7 @@ void Character::bionics_uninstall_failure( monster &installer, Character &patien
                               adjusted_skill ) );
     const int fail_type = std::min( 5, failure_level );
 
-    bool u_see = sees( patient );
+    bool u_see = sees( here, patient );
 
     if( u_see || patient.is_avatar() ) {
         if( fail_type <= 0 ) {
@@ -2206,7 +2205,7 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
-        cbm.faults.emplace( fault_bionic_salvaged );
+        cbm.set_fault( fault_bionic_salvaged );
         here.add_item( pos_bub(), cbm );
     } else {
         get_event_bus().send<event_type::fails_to_remove_cbm>( getID(), bio.id );
@@ -2223,6 +2222,8 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
 bool Character::uninstall_bionic( const bionic &bio, monster &installer, Character &patient,
                                   float adjusted_skill )
 {
+    map &here = get_map();
+
     viewer &player_view = get_player_view();
     if( installer.ammo[itype_anesthetic] <= 0 ) {
         add_msg_if_player_sees( installer, _( "The %s's anesthesia kit looks empty." ), installer.name() );
@@ -2267,7 +2268,7 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
         if( patient.is_avatar() ) {
             add_msg( m_neutral, _( "Your parts are jiggled back into their familiar places." ) );
             add_msg( m_mixed, _( "Successfully removed %s." ), bio.info().name );
-        } else if( patient.is_npc() && player_view.sees( patient ) ) {
+        } else if( patient.is_npc() && player_view.sees( here, patient ) ) {
             add_msg( m_neutral, _( "%s's parts are jiggled back into their familiar places." ),
                      patient.disp_name() );
             add_msg( m_mixed, _( "Successfully removed %s." ), bio.info().name );
@@ -2281,8 +2282,8 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
-        cbm.faults.emplace( fault_bionic_salvaged );
-        get_map().add_item( patient.pos_bub(), cbm );
+        cbm.set_fault( fault_bionic_salvaged );
+        here.add_item( patient.pos_bub(), cbm );
     } else {
         bionics_uninstall_failure( installer, patient, difficulty, success, adjusted_skill );
     }
@@ -2624,7 +2625,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         item cbm( bid->itype() );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
-        cbm.faults.emplace( fault_bionic_salvaged );
+        cbm.set_fault( fault_bionic_salvaged );
         get_map().add_item( patient_pos, cbm );
     }
 }
@@ -2767,7 +2768,7 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid,
             if( !has_trait( spell_class ) ) {
                 set_mutation( spell_class );
                 on_mutation_gain( spell_class );
-                add_msg_if_player( spell_class->desc() );
+                add_msg_if_player( mutation_desc( spell_class ) );
             }
         }
         if( !magic->knows_spell( learned_spell ) ) {
@@ -3326,7 +3327,7 @@ std::vector<item *> Character::get_bionic_fuels( const bionic_id &bio )
             continue;
         }
         for( const material_id &mat : bio->fuel_opts ) {
-            if( it->ammo_remaining() && it->first_ammo().made_of( mat ) ) {
+            if( it->ammo_remaining( ) && it->first_ammo().made_of( mat ) ) {
                 // Ammo from magazines
                 stored_fuels.emplace_back( it.get_item() );
             } else {
@@ -3359,7 +3360,7 @@ std::vector<item *> Character::get_cable_ups()
     // So if there are multiple cables and some of them are only partially connected this may add wrong ups
     for( item_location it : all_items_loc() ) {
         if( it->has_flag( flag_IS_UPS ) && it->get_var( "cable" ) == "plugged_in" &&
-            it->ammo_remaining() ) {
+            it->ammo_remaining( ) ) {
             stored_fuels.emplace_back( it.get_item() );
             n--;
         }
@@ -3369,7 +3370,7 @@ std::vector<item *> Character::get_cable_ups()
     }
 
     if( n > 0 && weapon.has_flag( flag_IS_UPS ) && weapon.get_var( "cable" ) == "plugged_in" &&
-        weapon.ammo_remaining() ) {
+        weapon.ammo_remaining( ) ) {
         stored_fuels.emplace_back( &weapon.first_ammo() );
     }
 
@@ -3466,7 +3467,7 @@ void Character::update_bionic_power_capacity()
     for( const bionic_id &bid : get_bionics() ) {
         max_power_level_cached += bid->capacity;
     }
-    max_power_level_cached = clamp( max_power_level_cached, 0_kJ, units::energy_max );
+    max_power_level_cached = clamp( max_power_level_cached, 0_kJ, units::energy::max() );
 
     set_power_level( get_power_level() );
 }

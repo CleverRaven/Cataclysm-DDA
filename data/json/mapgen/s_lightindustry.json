@@ -28,9 +28,9 @@
         "##::###::###::##))##::###bbbbbbb###o##o#####.s..",
         "#%%%%#%%%%#%%%%#ss#%%%%#c_______s#%%%%%%.^.#.s..",
         "sssssssssssssssssssssssss_______ssssssssssssssss",
+        "s____e____e____e____es%s____É______se____e____es",
         "s____e____e____e____es%s___________se____e____es",
-        "s____e____e____e____es%s___________se____e____es",
-        "s____e____e____e____es%s___________se____e____es",
+        "s_Á__e_Á__e_Á__e_Á__es%s___________se_Á__e_Á__es",
         "s____e____e____e____es%s___________se____e____es",
         "s____e____e____e____es%s___________se____e____es",
         "s____e____e____e____esss___________se____e____es",
@@ -61,10 +61,10 @@
         "s____e____e____e____ssss...s__________s.........",
         "s____e____e____e____s%%s...s__________s.........",
         "s____e____e____e____s%%s...s__________s.........",
-        "s____e____e____e____s%%s...s__________s.........",
+        "s__À_e__À_e__À_e__À_s%%s...s__________s.........",
         "s____e____e____e____s%%s...s__________s.........",
         "s____e____e____e____ssss...s__________s%%%.%%%..",
-        "ssssssssssssssssssssssss...s__________##o###o##.",
+        "ssssssssssssssssssssssss...s______È___##o###o##.",
         ".##o###o###o##...sss...s...s__________#Prr-Prr#.",
         ".#rrP-Prr-rrP#...sss...sssssc_________# h - h #.",
         "^# h - h - h #...sss...s...##bbbbbbb#+#       ##",
@@ -118,6 +118,10 @@
         "K": "t_thconc_floor",
         "Q": "t_thconc_floor",
         "U": "t_thconc_floor",
+        "Á": "t_pavement",
+        "É": "t_pavement",
+        "À": "t_pavement",
+        "È": "t_pavement",
         "1": "t_thconc_floor",
         "2": "t_thconc_floor",
         "3": "t_thconc_floor",
@@ -180,9 +184,10 @@
       "toilets": { "j": {  } },
       "vendingmachines": { "z": { "item_group": "vending_drink", "lootable": true }, "X": { "item_group": "vending_food", "lootable": true } },
       "items": {
-        "y": { "item": "trash", "chance": 30, "repeat": [ 2, 3 ] },
-        "B": { "item": "trash", "chance": 30, "repeat": [ 2, 3 ] },
-        "Y": { "item": "trash", "chance": 30, "repeat": [ 2, 3 ] },
+        "y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 3 ] },
+        "B": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 3 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 3 ] },
+        "j": { "item": "SUS_toilet", "chance": 50 },
         "v": { "item": "vault", "chance": 30, "repeat": [ 2, 3 ] },
         "r": { "item": "SUS_office_desk", "chance": 30 },
         "Z": { "item": "SUS_office_desk", "chance": 30 },
@@ -197,11 +202,11 @@
         "u": { "item": "textbooks", "chance": 30, "repeat": [ 1, 2 ] },
         "L": { "item": "textbooks", "chance": 30, "repeat": [ 1, 2 ] },
         "C": { "item": "tools_construction", "chance": 50, "repeat": [ 2, 3 ] },
-        " ": { "item": "office_mess", "chance": 5 },
+        " ": { "item": "SUS_office_mess", "chance": 5 },
         "~": { "item": "vehicle_scrapped", "chance": 3 }
       },
       "place_loot": [
-        { "group": "bar_trash", "chance": 50, "repeat": 2, "x": 11, "y": 70 },
+        { "group": "SUS_trash_floor", "chance": 50, "repeat": 2, "x": 11, "y": 70 },
         { "group": "tools_blacksmith", "chance": 60, "repeat": 4, "x": 26, "y": [ 68, 70 ] },
         { "group": "tools_mechanic", "chance": 60, "repeat": 2, "x": 26, "y": [ 66, 67 ] },
         { "group": "tools_home", "chance": 60, "repeat": 4, "x": 24, "y": [ 66, 68 ] },
@@ -217,10 +222,17 @@
         { "group": "GROUP_CIVILIAN", "x": [ 25, 42 ], "y": [ 7, 14 ], "chance": 35, "repeat": [ 2, 6 ] },
         { "group": "GROUP_CIVILIAN", "x": [ 2, 22 ], "y": [ 60, 71 ], "chance": 75, "repeat": [ 6, 12 ] },
         { "group": "GROUP_CIVILIAN", "x": [ 25, 42 ], "y": [ 60, 71 ], "chance": 35, "repeat": [ 2, 6 ] },
-        { "group": "GROUP_SMALL_STATION", "x": [ 25, 42 ], "y": [ 7, 14 ], "chance": 75, "repeat": [ 3, 6 ] },
-        { "group": "GROUP_SMALL_STATION", "x": [ 25, 42 ], "y": [ 60, 71 ], "chance": 75, "repeat": [ 3, 6 ] }
+        { "group": "GROUP_SMALL_STATION", "x": [ 2, 22 ], "y": [ 7, 14 ], "chance": 75, "repeat": [ 3, 6 ] },
+        { "group": "GROUP_SMALL_STATION", "x": [ 25, 42 ], "y": [ 7, 14 ], "chance": 35, "repeat": [ 2, 6 ] },
+        { "group": "GROUP_SMALL_STATION", "x": [ 2, 22 ], "y": [ 60, 71 ], "chance": 75, "repeat": [ 3, 6 ] },
+        { "group": "GROUP_SMALL_STATION", "x": [ 25, 42 ], "y": [ 60, 71 ], "chance": 35, "repeat": [ 2, 6 ] }
       ],
-      "place_vehicles": [ { "vehicle": "cube_van", "x": 31, "y": 50, "chance": 70, "rotation": 270 } ]
+      "vehicles": {
+        "Á": { "vehicle": "suburban_home_compact", "chance": 50, "rotation": 270 },
+        "É": { "vehicle": "industrial_transport_no_truck", "chance": 50, "rotation": 270 },
+        "À": { "vehicle": "suburban_home_compact", "chance": 50, "rotation": 90 },
+        "È": { "vehicle": "industrial_transport_no_truck", "chance": 50, "rotation": 90 }
+      }
     }
   },
   {

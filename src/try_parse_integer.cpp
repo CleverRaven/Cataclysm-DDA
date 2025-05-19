@@ -1,11 +1,14 @@
 #include "try_parse_integer.h"
 
+#include <locale>
 #include <sstream>
+#include <string>
 
+#include "string_formatter.h"
 #include "translations.h"
 
 template<typename T>
-ret_val<T> try_parse_integer( const std::string_view s, bool use_locale )
+ret_val<T> try_parse_integer( std::string_view s, bool use_locale )
 {
     // Using stringstream-based parsing because that's the only one in the
     // standard library for which it's possible to turn off the
@@ -40,6 +43,6 @@ ret_val<T> try_parse_integer( const std::string_view s, bool use_locale )
     return ret_val<T>::make_success( result );
 }
 
-template ret_val<int> try_parse_integer<int>( const std::string_view, bool use_locale );
-template ret_val<long> try_parse_integer<long>( const std::string_view, bool use_locale );
-template ret_val<long long> try_parse_integer<long long>( const std::string_view, bool use_locale );
+template ret_val<int> try_parse_integer<int>( std::string_view, bool use_locale );
+template ret_val<long> try_parse_integer<long>( std::string_view, bool use_locale );
+template ret_val<long long> try_parse_integer<long long>( std::string_view, bool use_locale );

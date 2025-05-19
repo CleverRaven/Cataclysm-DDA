@@ -2,7 +2,7 @@
   {
     "id": "9x21mm_casing",
     "copy-from": "casing",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "9x21mm casing" },
     "description": "An empty casing from a 9x21mm round.",
     "weight": "3 g",

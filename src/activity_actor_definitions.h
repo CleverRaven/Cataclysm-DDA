@@ -15,6 +15,7 @@
 #include "character.h"
 #include "clone_ptr.h"
 #include "contents_change_handler.h"
+#include "game.h"
 #include "handle_liquid.h"
 #include "item.h"
 #include "itype.h"
@@ -40,6 +41,7 @@ class SkillLevel;
 class player_activity;
 
 struct islot_book;
+struct pulp_data;
 
 class aim_activity_actor : public activity_actor
 {
@@ -54,7 +56,7 @@ class aim_activity_actor : public activity_actor
         bool should_unload_RAS = false;
         bool snap_to_target = false;
         /* Item location for RAS weapon reload */
-        item_location reload_loc = item_location();
+        item_location reload_loc;
         bool shifting_view = false;
         tripoint_rel_ms initial_view_offset;
         /** Target UI requested to abort aiming */
@@ -713,8 +715,8 @@ class ebooksave_activity_actor : public activity_actor
         int turns_left_on_current_book = 0;
 
         static constexpr time_duration time_per_page = 5_seconds;
-        // Every 25 pages requires one charge of the ereader
-        static constexpr int pages_per_charge = 25;
+        // Every 120 pages requires one charge of the ereader (equivalent of 1500 mWh, so roughly 6 charges per hour )
+        static constexpr int pages_per_charge = 120;
 
         void start_scanning_next_book( player_activity &act );
         void completed_scanning_current_book( player_activity &act, Character &who );
@@ -1405,9 +1407,10 @@ class milk_activity_actor : public activity_actor
 {
     public:
         milk_activity_actor() = default;
-        milk_activity_actor( int moves, std::vector<tripoint_abs_ms> coords,
-                             std::vector<std::string> str_values ) : total_moves( moves ), monster_coords( std::move( coords ) ),
-            string_values( std::move( str_values ) ) {}
+        milk_activity_actor( int moves, int moves_per_unit, tripoint_abs_ms coords,
+                             liquid_dest_opt &target, bool milking_tie = true ) : total_moves( moves ),
+            moves_per_unit( moves_per_unit ), monster_coords( coords ), target( target ),
+            milking_tie( milking_tie ) {}
 
         const activity_id &get_type() const override {
             static const activity_id ACT_MILK( "ACT_MILK" );
@@ -1428,8 +1431,11 @@ class milk_activity_actor : public activity_actor
 
     private:
         int total_moves {};
-        std::vector<tripoint_abs_ms> monster_coords {};
-        std::vector<std::string> string_values {};
+        int moves_per_unit;
+        tripoint_abs_ms monster_coords;
+        liquid_dest_opt target;
+        bool milking_tie; // was the monster tied due to milking.
+        time_point next_unit_move;
 };
 
 class shearing_activity_actor : public activity_actor
@@ -1537,13 +1543,17 @@ class insert_item_activity_actor : public activity_actor
         contents_change_handler handler;
         bool all_pockets_rigid;
         bool reopen_menu;
+        // allow put charge items into holster's nested  pocket
+        bool allow_fill_count_by_charge_item_nested;
 
     public:
 
         insert_item_activity_actor() = default;
         insert_item_activity_actor( const item_location &holster, const drop_locations &holstered_list,
-                                    bool reopen_menu = false ) : holster( holster ), items( holstered_list ),
-            reopen_menu( reopen_menu ) {}
+                                    bool reopen_menu = false, bool allow_fill_count_by_charge_item_nested = true ) : holster( holster ),
+            items( holstered_list ),
+            reopen_menu( reopen_menu ), allow_fill_count_by_charge_item_nested(
+                allow_fill_count_by_charge_item_nested ) {}
 
         const activity_id &get_type() const override {
             static const activity_id ACT_INSERT_ITEM( "ACT_INSERT_ITEM" );
@@ -2412,19 +2422,21 @@ class pulp_activity_actor : public activity_actor
 {
     public:
         pulp_activity_actor() = default;
-        explicit pulp_activity_actor( const tripoint_abs_ms placement,
-                                      const bool pulp_acid = false ) : placement( { placement } ),
-        num_corpses( 0 ), pulp_acid( pulp_acid ) {}
-        explicit pulp_activity_actor( const std::set<tripoint_abs_ms> &placement,
-                                      const bool pulp_acid = false ) : placement( placement ), num_corpses( 0 ), pulp_acid( pulp_acid ) {}
+        explicit pulp_activity_actor( const tripoint_abs_ms placement ) : placement( { placement } ),
+        num_corpses( 0 ) {}
+        explicit pulp_activity_actor( const std::set<tripoint_abs_ms> &placement ) : placement( placement ),
+            num_corpses( 0 ) {}
         const activity_id &get_type() const override {
             static const activity_id ACT_PULP( "ACT_PULP" );
             return ACT_PULP;
         }
 
-        void start( player_activity &act, Character &who ) override;
+        void start( player_activity &act, Character &you ) override;
         void do_turn( player_activity &act, Character &you ) override;
+        bool punch_corpse_once( item &corpse, Character &you, tripoint_bub_ms pos, map &here );
         void finish( player_activity &, Character & ) override;
+
+        void send_final_message( Character &you ) const;
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<pulp_activity_actor>( *this );
@@ -2434,14 +2446,26 @@ class pulp_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
-        bool can_resume_with_internal( const activity_actor &other,
-                                       const Character &/*who*/ ) const override {
-            const pulp_activity_actor &actor = static_cast<const pulp_activity_actor &>( other );
-            return actor.pulp_acid == pulp_acid;
-        }
+        // tripoints with corpses we need to pulp;
+        // either single tripoint shoved into set, or 3x3 zone around u/npc
         std::set<tripoint_abs_ms> placement;
-        int num_corpses;
-        bool pulp_acid;
+
+        float float_corpse_damage_accum = 0.0f; // NOLINT(cata-serialize)
+
+        int unpulped_corpses_qty = 0;
+
+        // query player if they want to pulp corpses that cost more than 10 minutes to pulp
+        bool too_long_to_pulp = false;
+        bool too_long_to_pulp_interrupted = false;
+        // if corpse cost more than hour to pulp, drop it
+        bool way_too_long_to_pulp = false;
+
+        bool acid_corpse = false;
+
+        // how many corpses we pulped
+        int num_corpses = 0;
+
+        pulp_data pd;
 };
 
 class wait_stamina_activity_actor : public activity_actor

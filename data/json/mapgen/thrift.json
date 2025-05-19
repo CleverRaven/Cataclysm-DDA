@@ -79,8 +79,9 @@
       "items": {
         "J": { "item": "office", "chance": 30, "repeat": [ 3, 4 ] },
         "A": { "item": "thrift_misc", "chance": 60, "repeat": [ 1, 6 ] },
+        "B": { "item": "SUS_toilet", "chance": 50 },
         "a": { "item": "thrift_books", "chance": 60, "repeat": [ 1, 6 ] },
-        "K": { "item": "office_paper", "chance": 30 },
+        "K": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "L": { "item": "cleaning", "chance": 20, "repeat": [ 2, 4 ] }
       },
       "place_items": [ { "item": "cash_register_random", "x": [ 16, 19 ], "y": 15, "chance": 100 } ]

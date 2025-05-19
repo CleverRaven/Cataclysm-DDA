@@ -153,8 +153,8 @@
           { "item": "tools_mechanic", "chance": 10, "repeat": [ 0, 1 ] },
           { "item": "SUS_welding_gear", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "supplies_electronics", "chance": 40, "repeat": [ 0, 2 ] },
-          { "item": "hardware_trash", "chance": 15 },
-          { "item": "trash", "chance": 5, "repeat": [ 0, 2 ] }
+          { "item": "SUS_trash_hardware", "chance": 15 },
+          { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 0, 2 ] }
         ],
         "S": { "item": "SUS_kitchen_sink", "chance": 90, "repeat": [ 0, 2 ] }
       }
