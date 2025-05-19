@@ -5004,7 +5004,8 @@ void Character::add_default_background()
         return;
     }
 
-    for( const profession *hobby_prof : hobbies ) {
+    for( const profession_id &hobby_id : hobbies ) {
+        const profession *hobby_prof = &hobby_id.obj();
         if( hobby_prof && hobby_prof->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
             return;
         }
