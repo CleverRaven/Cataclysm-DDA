@@ -1,14 +1,8 @@
 [
-  "//": "Many of these lines make obscure references and/or use slang.  For the sake of our translators, I will be including notes outlining terms/turns of phrase that I feel may be confusing.",
-  "//2": "Common terms that appear throughout the text: 'Perc'-short for Percocet, which is a synthetic Opioid.  'Opp'-stands for opposition, means enemy. 'Weed, zaza, runt, sherm'-various slang terms for Marijuana.  'Brick'-A brick of a drug, such as Cocaine or Marijuana,",  
   {
     "type": "speech",
-    "speaker": [ "mon_vampire_feral" ],
-    "sound": "We straight gassin', cuttin' straight to the bricks.",
-    "volume": 10
-  },
-  {
-    "type": "speech",
+     "//": "Many of these lines make obscure references and/or use slang.  For the sake of our translators, I will be including notes outlining terms/turns of phrase that I feel may be confusing.",
+     "//2": "Common terms that appear throughout the text: 'Perc'-short for Percocet, which is a synthetic Opioid.  'Opp'-stands for opposition, means enemy. 'Weed, zaza, runt, sherm'-various slang terms for Marijuana.  'Brick'-A brick of a drug, such as Cocaine or Marijuana,",
     "speaker": [ "mon_vampire_feral" ],
     "sound": "This shit ain't nothing to me, man",
     "volume": 10
@@ -34,22 +28,10 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
-    "//": "Perc 30 = 30 milligrams of Percocet.",
-    "sound": "Popped a perc 30, got straight to fuckin'.",
-    "volume": 10
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_vampire_feral" ],
     "sound": "Smoking Fentanyl-laced cereal milk.  I see God.",
     "volume": 10
   },
   {
-    "type": "speech",
-    "speaker": [ "mon_vampire_feral" ],
-    "sound": "I hope them Aliens are real, so i have more things to fuck.",
-    "volume": 10
-  },  {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
     "sound": "We smoking the Qui-Gon Jin Vietnamese Phillips' head runts.",
@@ -65,12 +47,6 @@
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
     "sound": "I'm him, I been him, I'll continue to be him.",
-    "volume": 10
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_vampire_feral" ],
-    "sound": "They thought they could stop a demon; I'm back.",
     "volume": 10
   },
   {
@@ -97,7 +73,8 @@
     "speaker": [ "mon_vampire_feral" ],
     "sound": "I don't give a fuck if I go blind; I don't need to see the price tag anyway.",
     "volume": 10
-  },  {
+  },
+  {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
     "sound": "I'm high on twelve Jason Bournes, looking to beat the cum out of a thick, fresh pope.",
@@ -133,7 +110,8 @@
     "speaker": [ "mon_vampire_feral" ],
     "sound": "Reach for my neck, you'll get turned into an example.",
     "volume": 10
-  },{
+  },
+  {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
     "sound": "Y'all gotta stop playin' with me, man.  I threw diamonds at the strip clubs under the Great Pyramids.  I pushed a camel through the Eye of the Needle, this shit ain't nothing to me, man.",
@@ -233,27 +211,8 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
-    "sound": "Blacked out on the Percocet, ordered a Desert Eagle off Amazon.",
-    "volume": 10
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_vampire_feral" ],
     "//": "Göbekli Tepe is one of the oldest ruins in the world.  Blowing bareback asshole is a euphanism for anal sex.",
     "sound": "I'm in Göbekli Tepe, shirtless, in a loincloth, blowing bareback asshole, out smoking aqueduct-filtered sherm.",
-    "volume": 10
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_vampire_feral" ],
-    "//": "A cuban link is a type of diamond encrusted chain",
-    "sound": "The Cuban link will turn a diamond tester into a pipebomb.",
-    "volume": 10
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_vampire_feral" ],
-    "sound": "Glock 34 shivered his timbers.",
     "volume": 10
   },
   {
@@ -279,12 +238,6 @@
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
     "sound": "They said I wouldn't shit on 'em.  I spread my cheeks and hit 'em with an absolute screamer!  Little bro was emaciated.",
-    "volume": 10
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_vampire_feral" ],
-    "sound": "The percs done ate little Cuzo-ass up!",
     "volume": 10
   },
   {
@@ -320,31 +273,19 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
-    "sound": "Slurping a quick-relase Perc off the plate like a pinto bean.  I keep my Glock at the Vatican.",
-    "volume": 10
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_vampire_feral" ],
     "sound": "They're sick in the head; they forgot I'm him.  I'm the Himulation, I am Him Kardashian, Himbuktu, Himon and Pumba.  I got my DNA test back, turns out I'm 100% Himalayan.  Fuck it, I ate the opp!",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
-    "sound": "You ran off with the D.D. Kong triple-espresso personal hotspot stem-gripper runts.",
+    "sound": "You ran off with the D.D. Kong triple-espresso personal hotspot stem-gripper runts!",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
     "sound": "There are consequences to your crimes against Dracula.",
-    "volume": 10
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_vampire_feral" ],
-    "sound": "Get Shorty out of here, she's built like a Jay Electronica verse.",
     "volume": 10
   },
   {
@@ -421,12 +362,6 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
-    "sound": "I sold crack to myself.  Spun around the block so many times, they thought it was fuckin' Minecraft.",
-    "volume": 10
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_vampire_feral" ],
     "sound": "Choked his goofy ass out with a BB Simon belt.",
     "volume": 10
   },
@@ -434,12 +369,6 @@
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
     "sound": "AAAAAAAAHH!  I'm getting too much money!",
-    "volume": 10
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_vampire_feral" ],
-    "sound": "I have the blueprint to the Catacombs!",
     "volume": 10
   },
   {
@@ -479,11 +408,11 @@
     "//": "Translation note: A calzone is a pizza that is fully enclosed by crust.  The joke here is that since he has so much cheese (a slang term for money), in his pockets, people thought he was a pizza.",
     "sound": "I got so much cheese in my pocket, they thought I was a fucking calzone!",
     "volume": 10
-  },
+  },  
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
-    "sound": "Popped a bean, now I want to kill someone!",
+    "sound": "The zaza got me speaking Esperanto.",
     "volume": 10
-  },
+  }
 ]
