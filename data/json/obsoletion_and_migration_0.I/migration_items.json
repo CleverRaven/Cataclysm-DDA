@@ -2556,5 +2556,11 @@
     "id": "robofac_jumpsuit",
     "replace": "jumpsuit",
     "variant": "robofac"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "balaclava_skull",
+    "replace": "balclava",
+    "variant": "skull"
   }
 ]

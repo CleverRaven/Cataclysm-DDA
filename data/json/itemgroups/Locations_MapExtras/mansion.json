@@ -1457,7 +1457,7 @@
       { "item": "leggings", "prob": 30, "damage": [ 1, 3 ] },
       { "item": "stockings", "prob": 30, "damage": [ 1, 3 ] },
       { "item": "garter_belt", "prob": 15, "damage": [ 1, 3 ] },
-      [ "balclava", 15 ],
+      { "item": "balclava", "variant": "black", "prob": 15 },
       [ "union_suit", 20 ],
       { "item": "sleeveless_trenchcoat", "prob": 30, "damage": [ 1, 3 ] },
       [ "house_coat", 25 ],
