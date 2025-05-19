@@ -2562,5 +2562,11 @@
     "id": "balaclava_skull",
     "replace": "balclava",
     "variant": "skull"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mask_guy_fawkes",
+    "replace": "mask_skull",
+    "variant": "guy_fawkes"
   }
 ]
