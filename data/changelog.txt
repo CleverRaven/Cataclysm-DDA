@@ -133,6 +133,7 @@ Underground Temperature now depends on Region Settings
 Modinfo Blacklist
 Add a dentist office map
 Item faults
+Rework ammo conversion at the gunsmith
 
 
 ## Content:
@@ -307,6 +308,15 @@ Improves/adds missions, rewards and interactions with the New England Community 
 Military outposts have been revamped
 Adds a new nether monster
 Snippetize Tshirt variants
+Renames oil lamp to kerosene lamp
+Striped shirt audit
+Add oat milk and polish the data of the other plant milks
+Add animal themed hoodie and cropped hoodie variants
+Gown audit
+Exodii Ceramics
+The Exodii sell melee weapons alongside their guns.
+Adds Throat Guards to the game
+add uneaten protein rations to landfills and dumps
 
 
 ## Interface:
@@ -804,6 +814,12 @@ Mod Conflicts
 [Xedra Evolved] Add design docs for easier collaboration
 [Xedra Evolved] Add feral vampires, put them in house nests + caves
 [The Backrooms] Expand the Backrooms to multiple Z-levels, add stairs
+[MoM] Add new Nether Attunement/portal storm effect, the Crack in Reality
+[MoM] Nether Attunement Spoilers document
+[MoM] Add Noetic resonance detector
+[Xedra Evolved] Remove vampires' free bite, vampires take more mutagen
+[MoM] Hostile NPC dialogue updates
+[Backrooms] Add (rare) almond water
 
 
 ## Balance:
@@ -901,6 +917,10 @@ Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
 World sliders rebalanced to offer differing gameplay experiences
 Some recipes have 'hard' proficiency requirements
+Yoghurt comes in `cup_plastic_yoghurt`, which does have a `spoil_multiplier`
+easier AR attachment
+Resize various meds and their recipes
+increase sandwich and ziploc bag sizes
 
 
 ## Bugfixes:
@@ -1251,6 +1271,9 @@ Fix 0.5 L I1 Diesel engine not consuming fuel
 'None'-skill crafting counts as max level, not level 0
 [Sky Island] Fix possible painkiller death loop
 Can't craft batches so big that they vanish when the game has nowhere to put them
+Our AK-74s were described as having threaded barrels, but they didn't have a muzzle slot.
+[Xedra Evolved] Fix werewolf biting
+[Backrooms] Fix wasp/dermatik roofs
 
 
 ## Performance:
@@ -1411,6 +1434,7 @@ add some AIM tests
 Warn on load if files have been modified
 standardize query_int()
 Always Display Spell Tabs
+Allow monsters to have different climb/swim/dig speeds
 
 
 ## Build:
