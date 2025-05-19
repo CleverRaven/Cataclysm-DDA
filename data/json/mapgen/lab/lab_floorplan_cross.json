@@ -234,7 +234,7 @@
       "palettes": [ "lab_palette" ],
       "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
       "mapping": {
-        "t": { "items": [ { "item": "fridge", "chance": 30 } ] },
+        "t": { "items": [ { "item": "SUS_fridge", "chance": 30 } ] },
         "l": {
           "items": [
             { "item": "office", "chance": 20 },

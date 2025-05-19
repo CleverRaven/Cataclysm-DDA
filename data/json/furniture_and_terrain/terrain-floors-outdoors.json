@@ -413,6 +413,8 @@
     "looks_like": "t_floor",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
+    "connect_groups": "WOODFLOOR",
+    "connects_to": "WOODFLOOR",
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_null",

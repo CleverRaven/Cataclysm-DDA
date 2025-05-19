@@ -1123,7 +1123,7 @@
     "price_postapoc": "5 USD",
     "material": [ "wood" ],
     "symbol": "?",
-    "color": "black",
+    "color": "dark_gray",
     "flags": [ "NO_REPAIR" ],
     "use_action": [ "PLAY_GAME" ]
   },
@@ -1883,7 +1883,7 @@
     "weight": "83 g",
     "volume": "53 ml",
     "longest_side": "9 cm",
-    "color": "black",
+    "color": "dark_gray",
     "symbol": "P",
     "material": [ "steel", "plastic" ],
     "price": "14 USD 99 cent",

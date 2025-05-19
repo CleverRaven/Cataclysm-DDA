@@ -62,7 +62,7 @@
         { "item": "drugs_soldier", "x": [ 1, 5 ], "y": [ 14, 16 ], "chance": 5, "repeat": [ 1, 3 ] },
         { "item": "dining", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },
         { "item": "kitchen", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },
-        { "item": "oven", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },
+        { "item": "SUS_oven", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },
         { "item": "camping", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },
         { "item": "vending_food", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },
         { "item": "vending_drink", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },

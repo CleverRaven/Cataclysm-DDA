@@ -1426,8 +1426,8 @@ bool monster::digs() const
 int monster::get_dig_mod() const
 {
     if( type->move_skills.dig.has_value() ) {
-        int percentile = type->move_skills.dig.value() * ( max_obstacle_penalty / 10 );
-        return max_obstacle_penalty - percentile;
+        int percentile = type->move_skills.dig.value() * ( move_skills_data::max_movemod_penalty / 10 );
+        return move_skills_data::max_movemod_penalty - percentile;
     } else if( has_flag( mon_flag_DIGS ) || has_flag( mon_flag_CAN_DIG ) ) {
         return 1;
     }
@@ -1461,8 +1461,8 @@ int monster::climb_skill() const
 int monster::get_climb_mod() const
 {
     if( type->move_skills.climb.has_value() ) {
-        int percentile = type->move_skills.climb.value() * ( max_obstacle_penalty / 10 );
-        return max_obstacle_penalty - percentile;
+        int percentile = type->move_skills.climb.value() * ( move_skills_data::max_movemod_penalty / 10 );
+        return move_skills_data::max_movemod_penalty - percentile;
     } else if( has_flag( mon_flag_CLIMBS ) ) {
         // only for backwards compatibility. In future move away from flags
         return 1;
@@ -1485,8 +1485,8 @@ int monster::swim_skill() const
 int monster::get_swim_mod() const
 {
     if( type->move_skills.swim.has_value() ) {
-        int percentile = type->move_skills.swim.value() * ( max_obstacle_penalty / 10 );
-        return max_obstacle_penalty - percentile;
+        int percentile = type->move_skills.swim.value() * ( move_skills_data::max_movemod_penalty / 10 );
+        return move_skills_data::max_movemod_penalty - percentile;
 
     } else if( has_flag( mon_flag_SWIMS ) ) {
         // only for backwards compatibility. In future move away from flags
@@ -1494,7 +1494,7 @@ int monster::get_swim_mod() const
         return 0;
     } else if( can_submerge() ) {
         // monsters that can submerge can walk underwater. Simulated with min swimskill
-        return max_obstacle_penalty;
+        return move_skills_data::max_movemod_penalty;
     }
 
     // cannot swim

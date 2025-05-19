@@ -55,7 +55,7 @@
     "weight": "500 kg",
     "volume": "700 L",
     "price": "10 kUSD",
-    "material": [ "steel" ],
+    "material": [ "qt_steel" ],
     "category": "spare_parts"
   },
   {
@@ -68,7 +68,7 @@
     "weight": "40 kg",
     "volume": "150 L",
     "price": "1 kUSD",
-    "material": [ "steel", "aluminum" ],
+    "material": [ "qt_steel", "aluminum" ],
     "category": "spare_parts"
   },
   {
@@ -81,7 +81,7 @@
     "weight": "20 kg",
     "volume": "10 L",
     "price": "100 USD",
-    "material": [ "plastic", "aluminum", "steel" ],
+    "material": [ "plastic", "aluminum", "qt_steel" ],
     "category": "spare_parts"
   },
   {
@@ -94,7 +94,7 @@
     "weight": "10 kg",
     "volume": "10 L",
     "price": "100 USD",
-    "material": [ "plastic", "steel" ],
+    "material": [ "plastic", "qt_steel" ],
     "category": "spare_parts"
   },
   {
@@ -107,7 +107,7 @@
     "weight": "1 kg",
     "volume": "1 L",
     "price": "10 USD",
-    "material": [ "copper", "steel" ],
+    "material": [ "copper", "qt_steel" ],
     "category": "spare_parts"
   },
   {
@@ -120,7 +120,7 @@
     "weight": "100 g",
     "volume": "250 ml",
     "price": "100 USD",
-    "material": [ "plastic", "steel" ],
+    "material": [ "plastic", "qt_steel" ],
     "category": "spare_parts"
   },
   {
@@ -133,7 +133,7 @@
     "weight": "50 g",
     "volume": "100 ml",
     "price": "10 USD",
-    "material": [ "copper", "steel" ],
+    "material": [ "copper", "qt_steel" ],
     "category": "spare_parts"
   },
   {
@@ -146,7 +146,7 @@
     "weight": "5 kg",
     "volume": "3 L",
     "price": "200 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ "qt_steel", "plastic" ],
     "category": "spare_parts"
   },
   {
@@ -159,7 +159,7 @@
     "weight": "2 kg",
     "volume": "500 ml",
     "price": "20 USD",
-    "material": [ "steel", "copper" ],
+    "material": [ "qt_steel", "copper" ],
     "category": "spare_parts"
   },
   {
@@ -172,7 +172,7 @@
     "weight": "5 kg",
     "volume": "1000 ml",
     "price": "20 USD",
-    "material": [ "steel", "lead" ],
+    "material": [ "qt_steel", "lead" ],
     "category": "spare_parts"
   },
   {
@@ -217,16 +217,16 @@
     "color": "white"
   },
   {
-    "id": "exodii_ingot_steel",
+    "id": "exodii_ingot_lc_steel",
     "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "enormous steel ingot" },
-    "description": "A monolithic block of high quality steel.",
+    "description": "A monolithic block of low carbon steel.",
     "weight": "6400 kg",
     "volume": "800 L",
     "price": "100 USD",
     "price_postapoc": "5 USD",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "symbol": "#",
     "color": "light_gray"
   },

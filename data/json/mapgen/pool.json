@@ -5,43 +5,16 @@
     "monsters": [ { "monster": "mon_null", "weight": 1 }, { "monster": "mon_zombie_swimmer_base", "weight": 4 } ]
   },
   {
+    "type": "mapgen",
+    "om_terrain": "pool",
+    "//": "Outdoor pool",
     "method": "json",
     "object": {
-      "furniture": {
-        "#": "f_bench",
-        "&": "f_trashcan",
-        "O": "f_dive_block",
-        "S": "f_shower",
-        "P": "f_sign",
-        "T": "f_toilet",
-        "a": "f_trashcan",
-        "{": "f_locker"
-      },
-      "place_item": [ { "chance": 10, "repeat": 3, "item": "goggles_swim", "x": [ 15, 19 ], "y": 2 } ],
-      "place_items": [
-        { "chance": 25, "repeat": 2, "item": "allclothes", "x": 14, "y": 18 },
-        { "chance": 25, "repeat": 2, "item": "allclothes", "x": 15, "y": 18 },
-        { "chance": 25, "repeat": 2, "item": "allclothes", "x": 8, "y": 18 },
-        { "chance": 25, "repeat": 2, "item": "allclothes", "x": 9, "y": 18 },
-        { "chance": 25, "repeat": 2, "item": "allclothes", "x": 10, "y": 18 },
-        { "chance": 25, "repeat": 2, "item": "allclothes", "x": 11, "y": 18 },
-        { "chance": 25, "repeat": 2, "item": "allclothes", "x": 12, "y": 18 },
-        { "chance": 15, "item": "homebooks", "x": 13, "y": 18 },
-        { "chance": 15, "item": "homebooks", "x": 17, "y": 2 },
-        { "chance": 25, "item": "shoes", "x": 18, "y": 2 },
-        { "chance": 25, "repeat": [ 1, 3 ], "item": "SUS_trash_trashcan_public", "x": 21, "y": 18 },
-        { "chance": 25, "repeat": [ 1, 3 ], "item": "SUS_trash_trashcan_public", "x": 2, "y": 18 },
-        { "chance": 25, "repeat": [ 1, 3 ], "item": "SUS_trash_trashcan_public", "x": 21, "y": 2 },
-        { "chance": 25, "repeat": [ 1, 3 ], "item": "SUS_trash_trashcan_public", "x": 2, "y": 2 },
-        { "chance": 15, "item": "magazines", "x": 6, "y": 2 }
-      ],
-      "place_toilets": [ { "x": 3, "y": 20 }, { "x": 20, "y": 20 } ],
-      "place_monster": [ { "group": "GROUP_MAPGEN_POOL", "x": [ 6, 17 ], "y": [ 6, 15 ], "repeat": [ 2, 6 ] } ],
       "fill_ter": "t_concrete",
       "rows": [
         "ssssssssssssssssssssssss",
         " ----------++---------- ",
-        " -&P#####......#####P&- ",
+        " -&Pbbbbb......bbbbbP&- ",
         " -....................- ",
         " -....................- ",
         " -..wwOwwwwwwwwwwOww..- ",
@@ -77,11 +50,38 @@
         "t": "t_thconc_floor",
         "w": "t_water_pool"
       },
+      "furniture": {
+        "b": "f_bench",
+        "&": "f_trashcan",
+        "O": "f_dive_block",
+        "S": "f_shower",
+        "P": "f_sign",
+        "T": "f_toilet",
+        "a": "f_trashcan",
+        "{": "f_locker"
+      },
+      "place_item": [ { "chance": 10, "repeat": 3, "item": "goggles_swim", "x": [ 15, 19 ], "y": 2 } ],
+      "place_items": [
+        { "chance": 25, "repeat": 2, "item": "allclothes", "x": 14, "y": 18 },
+        { "chance": 25, "repeat": 2, "item": "allclothes", "x": 15, "y": 18 },
+        { "chance": 25, "repeat": 2, "item": "allclothes", "x": 8, "y": 18 },
+        { "chance": 25, "repeat": 2, "item": "allclothes", "x": 9, "y": 18 },
+        { "chance": 25, "repeat": 2, "item": "allclothes", "x": 10, "y": 18 },
+        { "chance": 25, "repeat": 2, "item": "allclothes", "x": 11, "y": 18 },
+        { "chance": 25, "repeat": 2, "item": "allclothes", "x": 12, "y": 18 },
+        { "chance": 15, "item": "homebooks", "x": 13, "y": 18 },
+        { "chance": 15, "item": "homebooks", "x": 17, "y": 2 },
+        { "chance": 25, "item": "shoes", "x": 18, "y": 2 },
+        { "chance": 25, "repeat": [ 1, 3 ], "item": "SUS_trash_trashcan_public", "x": 21, "y": 18 },
+        { "chance": 25, "repeat": [ 1, 3 ], "item": "SUS_trash_trashcan_public", "x": 2, "y": 18 },
+        { "chance": 25, "repeat": [ 1, 3 ], "item": "SUS_trash_trashcan_public", "x": 21, "y": 2 },
+        { "chance": 25, "repeat": [ 1, 3 ], "item": "SUS_trash_trashcan_public", "x": 2, "y": 2 },
+        { "chance": 15, "item": "magazines", "x": 6, "y": 2 }
+      ],
+      "place_toilets": [ { "x": 3, "y": 20 }, { "x": 20, "y": 20 } ],
+      "place_monster": [ { "group": "GROUP_MAPGEN_POOL", "x": [ 6, 17 ], "y": [ 6, 15 ], "repeat": [ 2, 6 ] } ],
       "place_signs": [ { "signage": "NO lifeguard on duty!", "x": 3, "y": 2 }, { "signage": "NO running!", "x": 20, "y": 2 } ]
-    },
-    "om_terrain": "pool",
-    "//": "Outdoor pool",
-    "type": "mapgen"
+    }
   },
   {
     "type": "mapgen",
@@ -109,7 +109,7 @@
         "                        ",
         "                        ",
         "                        ",
-        "  ....            ....  ",
+        "  .... .......... ....  ",
         "  ....            ....  ",
         "  ....            ....  ",
         "                        ",
@@ -119,32 +119,11 @@
     }
   },
   {
+    "type": "mapgen",
+    "om_terrain": "pool_1",
+    "//": "Indoor pool",
     "method": "json",
     "object": {
-      "furniture": { "b": "f_bench", "&": "f_toilet", "S": "f_sink", "t": "f_trashcan", "{": "f_locker" },
-      "vendingmachines": {
-        "v": { "item_group": "vending_food_items", "lootable": true },
-        "V": { "item_group": "vending_drink_items", "lootable": true }
-      },
-      "place_items": [
-        { "chance": 20, "repeat": 2, "item": "clothing_male", "x": 18, "y": 6 },
-        { "chance": 20, "repeat": 2, "item": "clothing_male", "x": 19, "y": 6 },
-        { "chance": 20, "repeat": 2, "item": "clothing_male", "x": 20, "y": 6 },
-        { "chance": 25, "item": "male_underwear", "x": 21, "y": 6 },
-        { "chance": 25, "item": "male_underwear", "x": 17, "y": 6 },
-        { "chance": 25, "item": "female_underwear", "x": 6, "y": 6 },
-        { "chance": 25, "item": "female_underwear", "x": 3, "y": 6 },
-        { "chance": 15, "item": "shoes", "x": 18, "y": 8 },
-        { "chance": 15, "item": "shoes", "x": 6, "y": 8 },
-        { "chance": 15, "item": "shoes", "x": 4, "y": 8 },
-        { "chance": 20, "repeat": 2, "item": "SUS_trash_trashcan_public", "x": 16, "y": 3 },
-        { "chance": 20, "repeat": 2, "item": "SUS_trash_trashcan_public", "x": 7, "y": 3 },
-        { "chance": 20, "repeat": 2, "item": "clothing_female", "x": 4, "y": 6 },
-        { "chance": 20, "repeat": 2, "item": "clothing_female", "x": 5, "y": 6 },
-        { "chance": 20, "repeat": 2, "item": "clothing_female", "x": 2, "y": 6 }
-      ],
-      "place_toilets": [ { "x": 2, "y": 3 }, { "x": 4, "y": 3 }, { "x": 19, "y": 3 }, { "x": 21, "y": 3 } ],
-      "place_monster": [ { "group": "GROUP_MAPGEN_POOL", "x": [ 4, 19 ], "y": [ 11, 19 ], "repeat": [ 2, 6 ] } ],
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "ssssssssssssssssssssssss",
@@ -184,11 +163,32 @@
         "s": "t_sidewalk",
         "w": "t_water_pool",
         "4": "t_gutter_downspout"
-      }
-    },
-    "om_terrain": "pool_1",
-    "//": "Indoor pool",
-    "type": "mapgen"
+      },
+      "furniture": { "b": "f_bench", "&": "f_toilet", "S": "f_sink", "t": "f_trashcan", "{": "f_locker" },
+      "vendingmachines": {
+        "v": { "item_group": "vending_food_items", "lootable": true },
+        "V": { "item_group": "vending_drink_items", "lootable": true }
+      },
+      "place_items": [
+        { "chance": 20, "repeat": 2, "item": "clothing_male", "x": 18, "y": 6 },
+        { "chance": 20, "repeat": 2, "item": "clothing_male", "x": 19, "y": 6 },
+        { "chance": 20, "repeat": 2, "item": "clothing_male", "x": 20, "y": 6 },
+        { "chance": 25, "item": "male_underwear", "x": 21, "y": 6 },
+        { "chance": 25, "item": "male_underwear", "x": 17, "y": 6 },
+        { "chance": 25, "item": "female_underwear", "x": 6, "y": 6 },
+        { "chance": 25, "item": "female_underwear", "x": 3, "y": 6 },
+        { "chance": 15, "item": "shoes", "x": 18, "y": 8 },
+        { "chance": 15, "item": "shoes", "x": 6, "y": 8 },
+        { "chance": 15, "item": "shoes", "x": 4, "y": 8 },
+        { "chance": 20, "repeat": 2, "item": "SUS_trash_trashcan_public", "x": 16, "y": 3 },
+        { "chance": 20, "repeat": 2, "item": "SUS_trash_trashcan_public", "x": 7, "y": 3 },
+        { "chance": 20, "repeat": 2, "item": "clothing_female", "x": 4, "y": 6 },
+        { "chance": 20, "repeat": 2, "item": "clothing_female", "x": 5, "y": 6 },
+        { "chance": 20, "repeat": 2, "item": "clothing_female", "x": 2, "y": 6 }
+      ],
+      "place_toilets": [ { "x": 2, "y": 3 }, { "x": 4, "y": 3 }, { "x": 19, "y": 3 }, { "x": 21, "y": 3 } ],
+      "place_monster": [ { "group": "GROUP_MAPGEN_POOL", "x": [ 4, 19 ], "y": [ 11, 19 ], "repeat": [ 2, 6 ] } ]
+    }
   },
   {
     "type": "mapgen",
@@ -226,8 +226,54 @@
     }
   },
   {
+    "type": "mapgen",
+    "om_terrain": "pool_2",
+    "//": "Indoor pool",
     "method": "json",
     "object": {
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+      "rows": [
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        " ##########rr########## ",
+        " #T&&|t|t|ffff|t|t|&&T# ",
+        " #fff|+|+PffffP+|+|fff# ",
+        " #bffffff+ffff+ffffffb# ",
+        " #{f||||||f||f||||||f{# ",
+        " #{f|..............|f{# ",
+        " #{f|..............|f{# ",
+        " #{f|..wwwwwwwwww..|f{# ",
+        " #{f|..wwwwwwwwww..|f{# ",
+        " #{f|..wwwwwwwwww..|f{# ",
+        " #|+|..wwwwwwwwww..|+|# ",
+        " #S....wwwwwwwwww....S# ",
+        " #B....wwwwwwwwww....B# ",
+        " #B..wwwwwwwwwwwwww..B# ",
+        " #B..OwwwwwwwwwwwwO..B# ",
+        " #a..wwwwwwwwwwwwww..a# ",
+        " #B..OwwwwwwwwwwwwO..B# ",
+        " #B..wwwwwwwwwwwwww..B# ",
+        " #B..................B# ",
+        " #....................# ",
+        " ###################### ",
+        "                     4  "
+      ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
+      "terrain": {
+        "B": "t_thconc_floor",
+        "+": [ "t_door_o", "t_door_c" ],
+        ".": "t_thconc_floor",
+        "O": "t_water_pool",
+        "P": { "param": "interior_wall_type", "fallback": "t_wall_w" },
+        "S": "t_thconc_floor",
+        " ": "t_region_groundcover_urban",
+        "a": "t_thconc_floor",
+        "f": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "r": "t_reinforced_door_glass_c",
+        "s": "t_sidewalk",
+        "4": "t_gutter_downspout",
+        "w": "t_water_pool"
+      },
       "furniture": {
         "B": "f_bench",
         "&": "f_sink",
@@ -265,59 +311,13 @@
       ],
       "place_toilets": [ { "x": 6, "y": 3 }, { "x": 8, "y": 3 }, { "x": 15, "y": 3 }, { "x": 17, "y": 3 } ],
       "place_monster": [ { "group": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 2, 6 ] } ],
-      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
-      "rows": [
-        "ssssssssssssssssssssssss",
-        "ssssssssssssssssssssssss",
-        " ##########rr########## ",
-        " #T&&|t|t|ffff|t|t|&&T# ",
-        " #fff|+|+PffffP+|+|fff# ",
-        " #bffffff+ffff+ffffffb# ",
-        " #{f||||||f||f||||||f{# ",
-        " #{f|..............|f{# ",
-        " #{f|..............|f{# ",
-        " #{f|..wwwwwwwwww..|f{# ",
-        " #{f|..wwwwwwwwww..|f{# ",
-        " #{f|..wwwwwwwwww..|f{# ",
-        " #|+|..wwwwwwwwww..|+|# ",
-        " #S....wwwwwwwwww....S# ",
-        " #B....wwwwwwwwww....B# ",
-        " #B..wwwwwwwwwwwwww..B# ",
-        " #B..OwwwwwwwwwwwwO..B# ",
-        " #a..wwwwwwwwwwwwww..a# ",
-        " #B..OwwwwwwwwwwwwO..B# ",
-        " #B..wwwwwwwwwwwwww..B# ",
-        " #B..................B# ",
-        " #....................# ",
-        " ###################### ",
-        "                     4  "
-      ],
-      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
-      "terrain": {
-        "B": "t_thconc_floor",
-        "+": [ "t_door_o", "t_door_c" ],
-        ".": "t_thconc_floor",
-        "O": "t_water_pool",
-        "P": "t_wall_b",
-        "S": "t_thconc_floor",
-        " ": "t_region_groundcover_urban",
-        "a": "t_thconc_floor",
-        "f": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
-        "r": "t_reinforced_door_glass_c",
-        "s": "t_sidewalk",
-        "4": "t_gutter_downspout",
-        "w": "t_water_pool"
-      },
       "place_signs": [
         { "signage": "MEN", "x": 9, "y": 4 },
         { "signage": "WOMEN", "x": 14, "y": 4 },
         { "signage": "NO running!", "x": 2, "y": 13 },
         { "signage": "NO diving in the shallow end!", "x": 21, "y": 13 }
       ]
-    },
-    "om_terrain": "pool_2",
-    "//": "Indoor pool",
-    "type": "mapgen"
+    }
   },
   {
     "type": "mapgen",
@@ -355,6 +355,9 @@
     }
   },
   {
+    "type": "mapgen",
+    "om_terrain": "pool_3",
+    "//": "Indoor pool",
     "method": "json",
     "object": {
       "furniture": { "B": "f_bench", "&": "f_toilet", "P": "f_sign", "S": "f_sink", "b": "f_bench", "t": "f_trashcan", "{": "f_locker" },
@@ -404,7 +407,7 @@
         "-": "t_wall_glass",
         ".": "t_thconc_floor",
         "D": [ "t_door_o", "t_door_c" ],
-        "P": "t_brick_wall",
+        "P": { "param": "interior_wall_type", "fallback": "t_wall_w" },
         " ": "t_region_groundcover_urban",
         "a": "t_door_c",
         "b": "t_thconc_floor",
@@ -416,10 +419,7 @@
       },
       "place_monster": [ { "group": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 2, 6 ] } ],
       "place_signs": [ { "signage": "Women", "x": 9, "y": 19 }, { "signage": "Men", "x": 14, "y": 19 } ]
-    },
-    "om_terrain": "pool_3",
-    "//": "Indoor pool",
-    "type": "mapgen"
+    }
   },
   {
     "type": "mapgen",
@@ -457,39 +457,11 @@
     }
   },
   {
+    "type": "mapgen",
+    "om_terrain": "pool_4",
+    "//": "Indoor pool",
     "method": "json",
     "object": {
-      "furniture": {
-        "B": "f_bench",
-        "&": "f_sink",
-        "P": "f_sign",
-        "T": "f_toilet",
-        "a": "f_trashcan",
-        "c": "f_counter",
-        "t": "f_table",
-        "{": "f_locker"
-      },
-      "place_item": [ { "item": "goggles_swim", "chance": 10, "x": 13, "y": 11 } ],
-      "place_items": [
-        { "chance": 40, "item": "male_underwear_bottom", "x": 18, "y": 6 },
-        { "chance": 25, "repeat": 2, "item": "clothing_female", "x": 5, "y": 6 },
-        { "chance": 40, "item": "female_underwear_bottom", "x": 6, "y": 6 },
-        { "chance": 40, "item": "female_underwear_top", "x": 6, "y": 6 },
-        { "chance": 20, "repeat": 2, "item": "SUS_trash_trashcan_public", "x": 3, "y": 6 },
-        { "chance": 20, "repeat": 2, "item": "SUS_trash_trashcan_public", "x": 20, "y": 6 },
-        { "chance": 5, "item": "swimmer_head", "x": 7, "y": 6 },
-        { "chance": 25, "item": "swimmer_glasses", "x": 7, "y": 6 },
-        { "chance": 40, "item": "swimmer_torso", "x": 16, "y": 6 },
-        { "chance": 40, "item": "swimmer_pants", "x": 16, "y": 6 },
-        { "chance": 25, "repeat": 2, "item": "clothing_male", "x": 15, "y": 6 },
-        { "chance": 10, "item": "light_reading", "x": 12, "y": 20 },
-        { "chance": 10, "item": "light_reading", "x": 6, "y": 20 },
-        { "chance": 10, "item": "light_reading", "x": 17, "y": 8 },
-        { "chance": 10, "item": "light_reading", "x": 11, "y": 8 },
-        { "chance": 10, "item": "light_reading", "x": 12, "y": 8 }
-      ],
-      "place_toilets": [ { "x": 6, "y": 3 }, { "x": 8, "y": 3 }, { "x": 15, "y": 3 }, { "x": 17, "y": 3 } ],
-      "place_monster": [ { "group": "GROUP_MAPGEN_POOL", "x": [ 6, 17 ], "y": [ 11, 17 ], "repeat": [ 2, 6 ] } ],
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "           ss           ",
@@ -521,7 +493,7 @@
       "terrain": {
         "B": "t_thconc_floor",
         "+": [ "t_door_o", "t_door_c" ],
-        "-": "t_wall_b",
+        "-": { "param": "interior_wall_type", "fallback": "t_wall_w" },
         " ": "t_region_groundcover_urban",
         "P": "t_thconc_floor",
         "W": "t_wall_glass",
@@ -533,16 +505,44 @@
         "w": "t_water_pool",
         "4": "t_gutter_downspout"
       },
+      "furniture": {
+        "B": "f_bench",
+        "&": "f_sink",
+        "P": "f_sign",
+        "T": "f_toilet",
+        "a": "f_trashcan",
+        "c": "f_counter",
+        "t": "f_table",
+        "{": "f_locker"
+      },
+      "place_item": [ { "item": "goggles_swim", "chance": 10, "x": 13, "y": 11 } ],
+      "place_items": [
+        { "chance": 40, "item": "male_underwear_bottom", "x": 18, "y": 6 },
+        { "chance": 25, "repeat": 2, "item": "clothing_female", "x": 5, "y": 6 },
+        { "chance": 40, "item": "female_underwear_bottom", "x": 6, "y": 6 },
+        { "chance": 40, "item": "female_underwear_top", "x": 6, "y": 6 },
+        { "chance": 20, "repeat": 2, "item": "SUS_trash_trashcan_public", "x": 3, "y": 6 },
+        { "chance": 20, "repeat": 2, "item": "SUS_trash_trashcan_public", "x": 20, "y": 6 },
+        { "chance": 5, "item": "swimmer_head", "x": 7, "y": 6 },
+        { "chance": 25, "item": "swimmer_glasses", "x": 7, "y": 6 },
+        { "chance": 40, "item": "swimmer_torso", "x": 16, "y": 6 },
+        { "chance": 40, "item": "swimmer_pants", "x": 16, "y": 6 },
+        { "chance": 25, "repeat": 2, "item": "clothing_male", "x": 15, "y": 6 },
+        { "chance": 10, "item": "light_reading", "x": 12, "y": 20 },
+        { "chance": 10, "item": "light_reading", "x": 6, "y": 20 },
+        { "chance": 10, "item": "light_reading", "x": 17, "y": 8 },
+        { "chance": 10, "item": "light_reading", "x": 11, "y": 8 },
+        { "chance": 10, "item": "light_reading", "x": 12, "y": 8 }
+      ],
+      "place_toilets": [ { "x": 6, "y": 3 }, { "x": 8, "y": 3 }, { "x": 15, "y": 3 }, { "x": 17, "y": 3 } ],
+      "place_monster": [ { "group": "GROUP_MAPGEN_POOL", "x": [ 6, 17 ], "y": [ 11, 17 ], "repeat": [ 2, 6 ] } ],
       "place_signs": [ { "signage": "NO Running!", "x": 3, "y": 14 }, { "signage": "NO Diving!", "x": 20, "y": 14 } ]
-    },
-    "om_terrain": "pool_4",
-    "//": "Indoor pool",
-    "type": "mapgen"
+    }
   },
   {
+    "om_terrain": "pool_roof_4",
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "pool_roof_4",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -576,9 +576,9 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "pool_5",
     "//": "Outdoor pool",
+    "method": "json",
     "object": {
       "rows": [
         "ssssssssssssssssssssssss",
@@ -613,9 +613,9 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "pool_6",
     "//": "Outdoor pool",
+    "method": "json",
     "object": {
       "rows": [
         "    ss                  ",
