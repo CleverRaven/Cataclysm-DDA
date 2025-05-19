@@ -4,8 +4,10 @@
 #include <array>
 #include <climits>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <functional>
+#include <limits>
 #include <list>
 #include <map>
 #include <memory>

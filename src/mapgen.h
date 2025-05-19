@@ -3,8 +3,6 @@
 #define CATA_SRC_MAPGEN_H
 
 #include <cstddef>
-#include <cstdint>
-#include <limits>
 #include <map>
 #include <memory>
 #include <string>
@@ -14,7 +12,6 @@
 #include <utility>
 #include <vector>
 
-#include "cata_assert.h"
 #include "cata_variant.h"
 #include "coordinates.h"
 #include "dialogue_helpers.h"

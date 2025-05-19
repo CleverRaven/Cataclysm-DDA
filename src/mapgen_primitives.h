@@ -2,8 +2,11 @@
 #ifndef CATA_SRC_MAPGEN_PRIMITIVES_H
 #define CATA_SRC_MAPGEN_PRIMITIVES_H
 
+#include <cstdint>
+#include <limits>
 #include <map>
 
+#include "cata_assert.h"
 #include "coords_fwd.h"
 #include "type_id.h"
 #include "cata_assert.h"
