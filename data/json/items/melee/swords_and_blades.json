@@ -1092,6 +1092,7 @@
   {
     "id": "kukri",
     "copy-from": "mc_kukri",
+    "looks_like": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "kukri" },
@@ -1101,6 +1102,7 @@
   {
     "id": "lc_kukri",
     "copy-from": "mc_kukri",
+    "looks_like": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel kukri" },
@@ -1128,6 +1130,7 @@
     "repairs_with": [ "mc_steel" ],
     "symbol": "/",
     "color": "dark_gray",
+    "looks_like": "kukri",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ],
