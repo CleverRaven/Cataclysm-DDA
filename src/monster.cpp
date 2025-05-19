@@ -291,7 +291,7 @@ monster::monster( const mtype_id &id ) : monster()
     morale = type->morale;
     stomach_size = type->stomach_size;
     faction = type->default_faction;
-    upgrades = type->upgrades && ( type->half_life || type->age_grow );
+    upgrades = type->upgrades && ( type->half_life > 0 || type->age_grow > 0 );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( mon_flag_NO_BREED );
     if( reproduces && type->baby_timer ) {
         baby_timer.emplace( calendar::turn + *type->baby_timer );
