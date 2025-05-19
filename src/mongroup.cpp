@@ -548,7 +548,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
     }
     g.is_safe = jo.get_bool( "is_safe", false );
 
-    g.freq_total = freq_total + extending ? g.freq_total : 0;
+    g.freq_total = ( extending ? g.freq_total : 0 ) + freq_total;
 
     monsterGroupMap[g.id] = g;
 }
