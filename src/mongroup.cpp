@@ -4,7 +4,6 @@
 #include <string>
 #include <utility>
 
-#include "assign.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
