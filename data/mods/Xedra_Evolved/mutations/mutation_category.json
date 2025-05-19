@@ -38,7 +38,7 @@
   {
     "type": "mutation_category",
     "id": "ARVORE_ALCHEMY",
-    "name": "Stolen Arvore Power",
+    "name": "Arvorian Canker",
     "threshold_mut": "THRESH_ARVORE",
     "mutagen_message": "Gorged with verdant power.",
     "vitamin": "mutagen_alchemical_plantkin",
