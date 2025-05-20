@@ -511,6 +511,21 @@ void overmap::unserialize( const JsonObject &jsobj )
             }
         } else if( name == "city_tiles" ) {
             om_member.read( city_tiles );
+        } else if( name == "rivers" ) {
+            JsonArray rivers_json = om_member;
+            for( JsonObject river_json : rivers_json ) {
+                point_om_omt start_point;
+                point_om_omt end_point;
+                point_om_omt control_1;
+                point_om_omt control_2;
+                size_t size;
+                mandatory( river_json, false, "entry", start_point );
+                mandatory( river_json, false, "exit", end_point );
+                mandatory( river_json, false, "control1", control_1 );
+                mandatory( river_json, false, "control2", control_2 );
+                mandatory( river_json, false, "size", size );
+                rivers.push_back( overmap_river_node{ start_point, end_point, control_1, control_2, size } );
+            }
         } else if( name == "connections_out" ) {
             om_member.read( connections_out );
         } else if( name == "roads_out" ) {
@@ -1253,6 +1268,16 @@ void overmap::serialize( std::ostream &fout ) const
     fout << std::endl;
 
     json.member( "city_tiles", city_tiles );
+    json.member( "rivers" );
+    json.start_array();
+    for( const overmap_river_node &i : rivers ) {
+        json.start_object();
+        json.member( "entry", i.river_start );
+        json.member( "exit", i.river_end );
+        json.member( "size", i.size );
+        json.end_object();
+    }
+    json.end_array();
     fout << std::endl;
 
     json.member( "connections_out", connections_out );

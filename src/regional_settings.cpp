@@ -411,6 +411,28 @@ static void load_overmap_lake_settings( const JsonObject &jo,
     }
 }
 
+static void load_overmap_river_settings( const JsonObject &jo,
+        overmap_river_settings &overmap_river_settings,
+        const bool strict, const bool overlay )
+{
+    if( !jo.has_object( "overmap_river_settings" ) ) {
+        if( strict ) {
+            jo.throw_error( "OVERMAP_PLACE_RIVERS set to true, but \"overmap_river_settings\" not defined in region_settings" );
+        }
+    } else {
+        JsonObject overmap_river_settings_jo = jo.get_object( "overmap_river_settings" );
+        read_and_set_or_throw<int>( overmap_river_settings_jo, "river_scale",
+                                    overmap_river_settings.river_scale, !overlay );
+        read_and_set_or_throw<double>( overmap_river_settings_jo, "river_frequency",
+                                       overmap_river_settings.river_frequency, false );
+        read_and_set_or_throw<double>( overmap_river_settings_jo, "river_branch_chance",
+                                       overmap_river_settings.river_branch_chance, false );
+        read_and_set_or_throw<double>( overmap_river_settings_jo, "river_branch_remerge_chance",
+                                       overmap_river_settings.river_branch_remerge_chance, false );
+        read_and_set_or_throw<double>( overmap_river_settings_jo, "river_branch_scale_decrease",
+                                       overmap_river_settings.river_branch_scale_decrease, false );
+    }
+}
 static void load_overmap_ocean_settings( const JsonObject &jo,
         overmap_ocean_settings &overmap_ocean_settings,
         const bool strict, const bool overlay )
@@ -503,9 +525,6 @@ void load_region_settings( const JsonObject &jo )
     mandatory( jo, false, "default_oter", new_region.default_oter );
     // So the data definition goes from z = OVERMAP_HEIGHT to z = OVERMAP_DEPTH
     std::reverse( new_region.default_oter.begin(), new_region.default_oter.end() );
-    if( !jo.read( "river_scale", new_region.river_scale ) && strict ) {
-        jo.throw_error( "river_scale required for default" );
-    }
     if( jo.has_array( "default_groundcover" ) ) {
         new_region.default_groundcover_str.reset( new weighted_int_list<ter_str_id> );
         for( JsonArray inner : jo.get_array( "default_groundcover" ) ) {
@@ -603,6 +622,8 @@ void load_region_settings( const JsonObject &jo )
 
     load_overmap_forest_settings( jo, new_region.overmap_forest, strict, false );
 
+    load_overmap_river_settings( jo, new_region.overmap_river, strict, false );
+
     load_overmap_lake_settings( jo, new_region.overmap_lake, strict, false );
 
     load_overmap_ocean_settings( jo, new_region.overmap_ocean, strict, false );
@@ -689,7 +710,6 @@ void load_region_overlay( const JsonObject &jo )
 void apply_region_overlay( const JsonObject &jo, regional_settings &region )
 {
     jo.read( "default_oter", region.default_oter );
-    jo.read( "river_scale", region.river_scale );
     if( jo.has_array( "default_groundcover" ) ) {
         region.default_groundcover_str.reset( new weighted_int_list<ter_str_id> );
         for( JsonArray inner : jo.get_array( "default_groundcover" ) ) {
@@ -758,6 +778,8 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     load_overmap_feature_flag_settings( jo, region.overmap_feature_flag, false, true );
 
     load_overmap_forest_settings( jo, region.overmap_forest, false, true );
+
+    load_overmap_river_settings( jo, region.overmap_river, false, true );
 
     load_overmap_lake_settings( jo, region.overmap_lake, false, true );
 
