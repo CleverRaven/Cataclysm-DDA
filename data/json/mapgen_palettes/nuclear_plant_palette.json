@@ -18,7 +18,7 @@
       "/": "t_concrete",
       "]": "t_concrete_wall",
       "R": "t_radio_tower",
-      "r": [ [ "t_metal_flat_roof", 200 ], [ "t_metal_roof", 1 ] ],
+      "r": "t_metal_flat_roof",
       "_": "t_metal_floor",
       "*": "t_metal_floor",
       "N": "t_metal_floor",
@@ -88,8 +88,9 @@
       "3": [
         { "item": "magazines", "chance": 10 },
         { "item": "literature", "chance": 7 },
-        { "item": "office_mess", "chance": 3, "repeat": [ 1, 2 ] }
+        { "item": "SUS_office_mess", "chance": 3, "repeat": [ 1, 2 ] }
       ],
+      "t": { "item": "SUS_toilet", "chance": 50 },
       "w": [ { "item": "cleaning", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "rad_gear", "chance": 5 } ],
       "U": [
         { "item": "supplies_reagents_lab", "chance": 5, "repeat": [ 1, 2 ] },
@@ -100,8 +101,7 @@
         { "item": "magazines", "chance": 15, "repeat": [ 1, 2 ] },
         { "item": "used_1st_aid", "chance": 15 },
         { "item": "lab_bookshelves", "chance": 15, "repeat": [ 1, 2 ] },
-        { "item": "office_supplies", "chance": 5 },
-        { "item": "office_paper", "chance": 30, "repeat": [ 3, 4 ] },
+        { "item": "SUS_office_desk", "chance": 30 },
         { "item": "literature", "chance": 5 },
         { "item": "novels", "chance": 5, "repeat": [ 1, 2 ] },
         { "item": "hardware_books", "chance": 20, "repeat": [ 1, 2 ] },
@@ -128,20 +128,20 @@
         { "item": "fireman_cabinet", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "rad_gear", "chance": 10 },
         { "item": "hospital_lab", "chance": 2, "repeat": [ 1, 2 ] },
-        { "item": "trash", "chance": 5, "repeat": [ 0, 2 ] },
+        { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 0, 2 ] },
         { "item": "metal_workshop", "chance": 15 }
       ],
       "l": [
         { "item": "clothing_work_set", "chance": 40 },
         { "item": "magazines", "chance": 2 },
         { "item": "misc_smoking", "chance": 15 },
-        { "item": "office_supplies", "chance": 25 },
+        { "item": "SUS_office_supplies", "chance": 25 },
         { "item": "cleaning", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "supplies_electronics", "chance": 10 },
         { "item": "consumer_electronics", "chance": 15 },
         { "item": "hospital_lab", "chance": 1, "repeat": [ 1, 2 ] },
         { "item": "fireman_cabinet", "chance": 10, "repeat": [ 1, 2 ] },
-        { "item": "trash", "chance": 5, "repeat": [ 0, 2 ] },
+        { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 0, 2 ] },
         { "item": "rad_gear", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "used_1st_aid", "chance": 5 },
         { "item": "softdrugs", "chance": 3 },
@@ -157,32 +157,28 @@
       "z": [
         { "item": "mechanics", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "lab_bookshelves", "chance": 5 },
-        { "item": "office_supplies", "chance": 5 },
+        { "item": "SUS_office_supplies", "chance": 5 },
         { "item": "tools_home", "chance": 40 },
         { "item": "camping", "chance": 10 },
         { "item": "tools_survival", "chance": 5, "repeat": [ 1, 2 ] },
         { "item": "chem_home", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "chem_lab", "chance": 15, "repeat": [ 1, 2 ] },
         { "item": "fireman_cabinet", "chance": 10, "repeat": [ 1, 2 ] },
-        { "item": "trash", "chance": 5, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 1, 3 ] },
         { "item": "tools_science", "chance": 5 }
       ],
       "Z": [
         { "item": "magazines", "chance": 5 },
-        { "item": "file_room", "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "office_paper", "chance": 50, "repeat": [ 3, 4 ] },
-        { "item": "office", "chance": 25 },
+        { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 3, 4 ] },
         { "item": "maps", "chance": 3 },
-        { "item": "office_mess", "chance": 15, "repeat": [ 1, 2 ] },
-        { "item": "trash", "chance": 5, "repeat": [ 0, 2 ] },
-        { "item": "office_supplies", "chance": 25 }
+        { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 0, 2 ] }
       ],
-      "u": { "item": "trash", "chance": 30, "repeat": [ 0, 8 ] },
+      "u": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 0, 8 ] },
       "T": [
-        { "item": "office_mess", "chance": 3, "repeat": [ 1, 2 ] },
+        { "item": "SUS_office_mess", "chance": 3, "repeat": [ 1, 2 ] },
         { "item": "office", "chance": 3, "repeat": [ 1, 2 ] },
         { "item": "consumer_electronics", "chance": 1 },
-        { "item": "office_supplies", "chance": 1 }
+        { "item": "SUS_office_desk", "chance": 1 }
       ],
       "Q": [
         { "item": "hardware_bulk", "chance": 40, "repeat": [ 1, 3 ] },
@@ -200,7 +196,6 @@
       "r": { "monster": "mon_pigeon", "chance": 1, "pack_size": [ 0, 1 ] },
       "6": { "monster": "mon_zombie_scientist", "chance": 98, "pack_size": [ 1, 2 ] },
       "%": { "group": "GROUP_NUCLEAR_PLANT_WORK_ZOMBIES", "chance": 98 },
-      "&": { "group": "GROUP_NUCLEAR_PLANT_BEASTS", "chance": 98 },
       "9": { "group": "GROUP_MIL_WEAK", "chance": 98 }
     },
     "toilets": { "t": {  } },

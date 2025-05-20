@@ -162,7 +162,7 @@
         "condition": { "compare_string": [ "yes", { "u_val": "dialogue_song_asked_about_song" } ] }
       },
       {
-        "text": "I have to go.",
+        "text": "<end_talking_leave>",
         "topic": "TALK_DONE",
         "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_song_asked_about_song" } ] } }
       },
@@ -179,7 +179,7 @@
     "dynamic_line": "Listen carefully.  The bones… they hum.  Can you hear it?  The song they weave?  The stories they hold?",
     "responses": [
       { "text": "Bones?  What are you talking about?", "topic": "TALK_BONE_SEER_SONG2" },
-      { "text": "Uh… yeah, sure.  I think I'll just be on my way.", "topic": "TALK_DONE" }
+      { "text": "Uh… yeah, sure.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -231,7 +231,7 @@
         "effect": { "u_add_var": "dialogue_kindred_admires_cooper", "value": "yes" }
       },
       { "text": "What cause is that?  What do you do with the bones?", "topic": "TALK_BONE_SEER_BONES" },
-      { "text": "I see.  I wanted to ask about something else…", "topic": "TALK_BONE_SEER" }
+      { "text": "I see.  <done_conversation_section>", "topic": "TALK_BONE_SEER" }
     ]
   },
   {
@@ -240,7 +240,7 @@
     "dynamic_line": "He began killing others to get their bones as fresh as possible.  Later, he… he started carving the bones of the living.  Thought the anguish alone would empower the song.  The goal of the Kindred is to banish the shadow of the Cataclysm, not to cast it.  Such heinous acts will likely twist the song of the world, but I don't think Cooper realizes it.  To him, the end justifies any means.",
     "speaker_effect": { "effect": { "u_add_var": "dialogue_kindred_cooper_knows_cooper_kill", "value": "yes" } },
     "responses": [
-      { "text": "Well… shit.  Maybe we should talk about something else.", "topic": "TALK_BONE_SEER" },
+      { "text": "Well… shit.  <done_conversation_section>", "topic": "TALK_BONE_SEER" },
       {
         "text": "What if he is right?  Maybe what you do isn't enough and he's the only one to do what it takes.",
         "topic": "TALK_BONE_SEER_COOPER3",
@@ -294,7 +294,7 @@
       { "text": "What's boudin?", "topic": "TALK_BONE_SEER_BOUDIN" },
       { "text": "What do you mean she talked about the Song 'differently'?", "topic": "TALK_BONE_SEER_GRANDMA" },
       { "text": "What's wrong with rats?", "topic": "TALK_BONE_SEER_RATS" },
-      { "text": "Thank you for sharing.  Let's talk about something else.", "topic": "TALK_BONE_SEER" }
+      { "text": "Thank you for sharing.  <done_conversation_section>", "topic": "TALK_BONE_SEER" }
     ]
   },
   {
@@ -441,7 +441,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "That's good, but I need to go at it alone right now.  Maybe later.",
+        "text": "That's good, but I need to go at it alone right now.  <end_talking_later>",
         "condition": { "u_has_trait": "seer_mark" },
         "topic": "TALK_NONE"
       }

@@ -10,7 +10,6 @@
 #include "translation.h"
 
 class cata_path;
-class keybindings_ui;
 
 // Curses key constants
 constexpr int KEY_ESCAPE     = 27;

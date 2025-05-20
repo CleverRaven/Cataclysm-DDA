@@ -69,7 +69,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 34;
+const int savegame_version = 36;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -102,7 +102,7 @@ void game::serialize( std::ostream &fout )
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
     // current map coordinates
-    tripoint_abs_sm pos_abs_sm = m.get_abs_sub();
+    tripoint_abs_sm pos_abs_sm = get_map().get_abs_sub();
     point_abs_om pos_om;
     tripoint_om_sm pos_sm;
     std::tie( pos_om, pos_sm ) = project_remain<coords::om>( pos_abs_sm );
@@ -112,9 +112,9 @@ void game::serialize( std::ostream &fout )
     json.member( "om_x", pos_om.x() );
     json.member( "om_y", pos_om.y() );
     // view offset
-    json.member( "view_offset_x", u.view_offset.x );
-    json.member( "view_offset_y", u.view_offset.y );
-    json.member( "view_offset_z", u.view_offset.z );
+    json.member( "view_offset_x", u.view_offset.x() );
+    json.member( "view_offset_y", u.view_offset.y() );
+    json.member( "view_offset_z", u.view_offset.z() );
 
     json.member( "grscent", scent.serialize() );
     json.member( "typescent", scent.serialize( true ) );
@@ -229,9 +229,9 @@ void game::unserialize( std::istream &fin, const cata_path &path )
         data.read( "om_x", com.x() );
         data.read( "om_y", com.y() );
 
-        data.read( "view_offset_x", u.view_offset.x );
-        data.read( "view_offset_y", u.view_offset.y );
-        data.read( "view_offset_z", u.view_offset.z );
+        data.read( "view_offset_x", u.view_offset.x() );
+        data.read( "view_offset_y", u.view_offset.y() );
+        data.read( "view_offset_z", u.view_offset.z() );
 
         calendar::turn = time_point( tmpturn );
         calendar::start_of_cataclysm = time_point( tmpcalstart );
@@ -274,11 +274,7 @@ void game::unserialize( std::istream &fin, const cata_path &path )
             queued_eoc temp;
             temp.time = time_point( elem.get_int( "time" ) );
             temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-            std::unordered_map<std::string, std::string> context;
-            for( const JsonMember &jm : elem.get_object( "context" ) ) {
-                context[jm.name()] = jm.get_string();
-            }
-            temp.context = context;
+            elem.read( "context", temp.context );
             queued_global_effect_on_conditions.push( temp );
         }
         global_variables_instance.unserialize( data );
@@ -513,6 +509,8 @@ void overmap::unserialize( const JsonObject &jsobj )
                 }
                 cities.push_back( new_city );
             }
+        } else if( name == "city_tiles" ) {
+            om_member.read( city_tiles );
         } else if( name == "connections_out" ) {
             om_member.read( connections_out );
         } else if( name == "roads_out" ) {
@@ -536,7 +534,7 @@ void overmap::unserialize( const JsonObject &jsobj )
         } else if( name == "radios" ) {
             JsonArray radios_json = om_member;
             for( JsonObject radio_json : radios_json ) {
-                radio_tower new_radio{ point_om_sm( point_min ) };
+                radio_tower new_radio{ point_om_sm::invalid };
                 for( JsonMember radio_member : radio_json ) {
                     const std::string radio_member_name = radio_member.name();
                     if( radio_member_name == "type" ) {
@@ -755,7 +753,7 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
     JsonObject jo = ja.next_object();
 
     std::string type;
-    point_abs_om om_pos( point_min );
+    point_abs_om om_pos = point_abs_om::invalid;
     int z = 0;
 
     jo.read( "type", type );
@@ -830,7 +828,7 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
             }
         }
 
-        ter_set( tripoint_om_omt( p ), shore ? oter_lake_shore : oter_lake_surface );
+        ter_set( p, shore ? oter_lake_shore : oter_lake_surface );
 
         // If this is not a shore, we'll make our subsurface lake cubes and beds.
         if( !shore ) {
@@ -860,7 +858,7 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
             }
         }
 
-        ter_set( tripoint_om_omt( p ), shore ? oter_ocean_shore : oter_ocean_surface );
+        ter_set( p, shore ? oter_ocean_shore : oter_ocean_surface );
 
         // If this is not a shore, we'll make our subsurface ocean cubes and beds.
         if( !shore ) {
@@ -890,7 +888,7 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
             }
         }
 
-        ter_set( tripoint_om_omt( p ), forest_border ? oter_forest : oter_forest_thick );
+        ter_set( p, forest_border ? oter_forest : oter_forest_thick );
     }
 }
 
@@ -998,7 +996,10 @@ void overmap::unserialize_view( const JsonObject &jsobj )
                         extra_json.throw_error( "Too many values for extra" );
                     }
 
-                    layer[z].extras.push_back( tmp );
+                    // obsoleted extras can still appear here, so skip them
+                    if( tmp.id.is_valid() ) {
+                        layer[z].extras.push_back( tmp );
+                    }
                 }
             }
             if( extras_json.has_more() ) {
@@ -1178,7 +1179,7 @@ void overmap::save_monster_groups( JsonOut &jout ) const
         // The position is stored separately, in the list
         // TODO: Do it without the copy
         mongroup saved_group = group_bin.first;
-        saved_group.abs_pos = tripoint_abs_sm();
+        saved_group.abs_pos = tripoint_abs_sm::zero;
         jout.write( saved_group );
         jout.write( group_bin.second );
         jout.end_array();
@@ -1249,6 +1250,9 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_object();
     }
     json.end_array();
+    fout << std::endl;
+
+    json.member( "city_tiles", city_tiles );
     fout << std::endl;
 
     json.member( "connections_out", connections_out );
@@ -1388,12 +1392,12 @@ template<typename Archive>
 void mongroup::io( Archive &archive )
 {
     archive.io( "type", type );
-    archive.io( "abs_pos", abs_pos, tripoint_abs_sm() );
+    archive.io( "abs_pos", abs_pos, tripoint_abs_sm::zero );
     archive.io( "population", population, 1u );
     archive.io( "dying", dying, false );
     archive.io( "horde", horde, false );
-    archive.io( "target", target, point_abs_sm() );
-    archive.io( "nemesis_target", nemesis_target, point_abs_sm() );
+    archive.io( "target", target, point_abs_sm::zero );
+    archive.io( "nemesis_target", nemesis_target, point_abs_sm::zero );
     archive.io( "interest", interest, 0 );
     archive.io( "horde_behaviour", behaviour, horde_behaviour::none );
     archive.io( "monsters", monsters, io::empty_default_tag() );
@@ -1545,6 +1549,7 @@ void weather_manager::unserialize_all( const JsonObject &w )
 
 void global_variables::unserialize( JsonObject &jo )
 {
+    // global variables
     jo.read( "global_vals", global_values );
     // potentially migrate some variable names
     for( std::pair<std::string, std::string> migration : migrations ) {
@@ -1554,6 +1559,8 @@ void global_variables::unserialize( JsonObject &jo )
             global_values.insert( std::move( extracted ) );
         }
     }
+
+    game::legacy_migrate_npctalk_var_prefix( global_values );
 }
 
 void timed_event_manager::unserialize_all( const JsonArray &ja )
@@ -1652,7 +1659,7 @@ void global_variables::serialize( JsonOut &jsout ) const
     jsout.member( "global_vals", global_values );
 }
 
-void global_variables::load_migrations( const JsonObject &jo, const std::string_view & )
+void global_variables::load_migrations( const JsonObject &jo, std::string_view )
 {
     const std::string from( jo.get_string( "from" ) );
     const std::string to = jo.has_string( "to" )
@@ -1675,7 +1682,7 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
         jsout.member( "when", elem.when );
         jsout.member( "key", elem.key );
         if( elem.revert.is_uniform() ) {
-            jsout.member( "revert", elem.revert.get_ter( point_sm_ms_zero ) );
+            jsout.member( "revert", elem.revert.get_ter( point_sm_ms::zero ) );
         } else {
             jsout.member( "revert" );
             jsout.start_array();
@@ -1812,7 +1819,7 @@ void npc::import_and_clean( const JsonObject &data )
     queued_effect_on_conditions = defaults.queued_effect_on_conditions;
 
     // space coordinates are irrelevant if importing into a different world
-    set_location( defaults.get_location() );
+    set_pos_abs_only( defaults.pos_abs() );
     omt_path = defaults.omt_path;
     known_traps.clear();
     camps = defaults.camps;
@@ -1833,6 +1840,8 @@ void npc::import_and_clean( const JsonObject &data )
     companion_mission_points = defaults.companion_mission_points;
     companion_mission_time = defaults.companion_mission_time;
     companion_mission_time_ret = defaults.companion_mission_time_ret;
+    companion_mission_exertion = defaults.companion_mission_exertion;
+    companion_mission_travel_time = defaults.companion_mission_travel_time;
     companion_mission_inv.clear();
     chatbin.missions.clear();
     chatbin.missions_assigned.clear();

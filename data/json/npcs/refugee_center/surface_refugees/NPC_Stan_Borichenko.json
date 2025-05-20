@@ -4,7 +4,7 @@
     "id": "refugee_StanBorichenko",
     "name_unique": "Stan Borichenko",
     "gender": "male",
-    "name_suffix": "refugee",
+    "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Stan",
     "attitude": 0,
     "mission": 7,
@@ -101,7 +101,7 @@
     },
     "responses": [
       { "text": "Stan, hey?  Nice to meet you.", "topic": "TALK_REFUGEE_Stan_1_firstmeet" },
-      { "text": "Hi Stan, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+      { "text": "Hi Stan, nice to meet you.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -116,7 +116,7 @@
     },
     "responses": [
       { "text": "Hi, Stan.  What's up?", "topic": "TALK_REFUGEE_Stan_2" },
-      { "text": "Hi Stan.  I can't stay to talk.", "topic": "TALK_DONE" }
+      { "text": "Hi Stan.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -125,7 +125,7 @@
     "dynamic_line": "Huh?  Sorry, yes, nice to meet you too.",
     "responses": [
       { "text": "You seem distracted.", "topic": "TALK_REFUGEE_Stan_2" },
-      { "text": "I just wanted to say hi.  I'll be on my way.", "topic": "TALK_DONE" }
+      { "text": "I just wanted to say hi.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -141,7 +141,7 @@
     "responses": [
       { "text": "Tell me about Boris.", "topic": "TALK_REFUGEE_Stan_Boris" },
       { "text": "Tell me about Garry.", "topic": "TALK_REFUGEE_Stan_Garry" },
-      { "text": "I'm sorry for your loss.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'm sorry for your loss.  <done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "Sorry to hear that.  I'll leave you be.", "topic": "TALK_DONE" }
     ]
   },
@@ -160,8 +160,8 @@
     },
     "responses": [
       { "text": "Tell me about Boris.", "topic": "TALK_REFUGEE_Stan_Boris" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I had better be going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -183,8 +183,8 @@
       ]
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I had better be going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -194,15 +194,15 @@
       "concatenate": [
         "*smiles thinly.  \"Best little brother a guy could ask for.  He's been with me through everything, literally everything.",
         {
-          "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "6" ],
+          "math": [ "u_counter_refugee_center_refugee_happiness >= 6" ],
           "yes": "\u00A0 I wouldn't wish this world we find ourselves in on anyone, but I'm glad Garry made it through with me.\"  Stan sighs, touching his neck.",
           "no": "\"  He seems to realize where he is suddenly, and the faint smile melts.  \"He's lost too much, too.\""
         }
       ]
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I had better be going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   }
 ]

@@ -187,7 +187,8 @@
     "avoidance": 4,
     "difficulty": 99,
     "trap_radius": 4,
-    "action": "telepad",
+    "action": "eocs",
+    "eocs": [ "EOC_TELEPAD" ],
     "always_invisible": true,
     "benign": false
   },
@@ -507,8 +508,29 @@
     "visibility": 0,
     "avoidance": 15,
     "difficulty": 20,
-    "action": "telepad",
+    "action": "eocs",
+    "eocs": [ "EOC_TELEPAD" ],
     "drops": [ "telepad" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPAD",
+    "eoc_type": "ACTIVATION",
+    "effect": [
+      { "u_make_sound": "vvrrrRRMM*POP!*", "volume": 6, "type": "movement" },
+      { "u_message": "The air shimmers around you…" },
+      {
+        "if": { "and": [ { "not": "u_is_avatar" }, "player_see_u" ] },
+        "then": { "message": "The air shimmers around <u_name>…" }
+      },
+      {
+        "location_variable_adjust": { "context_val": "trap_location" },
+        "//": "Adjust by between 2 and 12 in either direction",
+        "x_adjust": { "math": [ "((-1) ^ rand(1)) * (rand(10) + 2)" ] },
+        "y_adjust": { "math": [ "((-1) ^ rand(1)) * (rand(10) + 2)" ] }
+      },
+      { "u_teleport": { "context_val": "trap_location" } }
+    ]
   },
   {
     "type": "trap",
@@ -611,7 +633,8 @@
     "visibility": 0,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "portal"
+    "action": "eocs",
+    "eocs": [ "EOC_TELEPAD" ]
   },
   {
     "type": "trap",
@@ -892,201 +915,6 @@
   },
   {
     "type": "trap",
-    "id": "tr_tutorial_1",
-    "name": "look around tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "none",
-    "benign": true,
-    "always_invisible": true
-  },
-  {
-    "type": "trap",
-    "id": "tr_tutorial_2",
-    "name": "movement modes tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "none",
-    "benign": true,
-    "always_invisible": true
-  },
-  {
-    "type": "trap",
-    "id": "tr_tutorial_3",
-    "name": "melee tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "none",
-    "benign": true,
-    "always_invisible": true
-  },
-  {
-    "type": "trap",
-    "id": "tr_tutorial_4",
-    "name": "reach attack tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "none",
-    "benign": true,
-    "always_invisible": true
-  },
-  {
-    "type": "trap",
-    "id": "tr_tutorial_5",
-    "name": "wear items tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "none",
-    "benign": true,
-    "always_invisible": true
-  },
-  {
-    "type": "trap",
-    "id": "tr_tutorial_6",
-    "name": "firearms tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "none",
-    "benign": true,
-    "always_invisible": true
-  },
-  {
-    "type": "trap",
-    "id": "tr_tutorial_7",
-    "name": "inventory tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "none",
-    "benign": true,
-    "always_invisible": true
-  },
-  {
-    "type": "trap",
-    "id": "tr_tutorial_8",
-    "name": "flashlight tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "none",
-    "benign": true,
-    "always_invisible": true
-  },
-  {
-    "type": "trap",
-    "id": "tr_tutorial_9",
-    "name": "water container tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "none",
-    "benign": true,
-    "always_invisible": true
-  },
-  {
-    "type": "trap",
-    "id": "tr_tutorial_10",
-    "name": "remote use tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "none",
-    "benign": true,
-    "always_invisible": true
-  },
-  {
-    "type": "trap",
-    "id": "tr_tutorial_11",
-    "name": "crafting tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "none",
-    "benign": true,
-    "always_invisible": true
-  },
-  {
-    "type": "trap",
-    "id": "tr_tutorial_12",
-    "name": "construction tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "none",
-    "benign": true,
-    "always_invisible": true
-  },
-  {
-    "type": "trap",
-    "id": "tr_tutorial_13",
-    "name": "pain management tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "none",
-    "benign": true,
-    "always_invisible": true
-  },
-  {
-    "type": "trap",
-    "id": "tr_tutorial_14",
-    "name": "throwing tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "none",
-    "benign": true,
-    "always_invisible": true
-  },
-  {
-    "type": "trap",
-    "id": "tr_tutorial_15",
-    "name": "tutorial finale",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "none",
-    "benign": true,
-    "always_invisible": true
-  },
-  {
-    "type": "trap",
     "id": "tr_swirling_vortex",
     "name": "swirling vortex",
     "color": "green",
@@ -1095,25 +923,9 @@
     "avoidance": 99,
     "difficulty": 99,
     "trap_radius": 2,
-    "action": "spell",
     "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
-    "spell_data": { "id": "swirling_vortex" }
-  },
-  {
-    "type": "SPELL",
-    "id": "trap_base",
-    "name": { "str": "base spell for traps", "//~": "NO_I18N" },
-    "description": { "str": "EOCs the victim.", "//~": "NO_I18N" },
-    "valid_targets": [ "self", "hostile", "ally" ],
-    "max_level": 1,
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
-    "shape": "blast",
-    "min_range": 0,
-    "min_aoe": 2,
-    "max_aoe": 2,
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_SWIRLING_VORTEX"
+    "action": "eocs",
+    "eocs": [ "EOC_SWIRLING_VORTEX" ]
   },
   {
     "type": "effect_on_condition",
@@ -1123,50 +935,22 @@
   {
     "type": "trap",
     "id": "tr_portal_dungeon_entrance",
-    "name": "swirling vortex",
-    "color": "green",
-    "action": "spell",
     "copy-from": "tr_swirling_vortex",
-    "spell_data": { "id": "portal_dungeon_entrance" }
-  },
-  {
-    "type": "SPELL",
-    "id": "portal_dungeon_entrance",
-    "name": { "str": "portal dungeon entrance", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_PORTAL_STORM_DUNGEON"
+    "eocs": [ "EOC_PORTAL_STORM_DUNGEON" ]
   },
   {
     "type": "trap",
     "id": "tr_portal_dungeon_exit",
     "name": "hole to outside",
-    "color": "green",
     "copy-from": "tr_swirling_vortex",
-    "action": "spell",
-    "spell_data": { "id": "portal_dungeon_exit" }
-  },
-  {
-    "type": "SPELL",
-    "id": "portal_dungeon_exit",
-    "name": { "str": "portal dungeon exit", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_PORTAL_STORM_DUNGEON_EXIT"
+    "eocs": [ "EOC_PORTAL_STORM_DUNGEON_EXIT" ]
   },
   {
     "type": "trap",
     "id": "tr_portal_dungeon_next_level",
-    "name": "Swirling vortex",
     "color": "blue",
     "copy-from": "tr_swirling_vortex",
-    "action": "spell",
-    "spell_data": { "id": "portal_dungeon_next_level" }
-  },
-  {
-    "type": "SPELL",
-    "id": "portal_dungeon_next_level",
-    "name": { "str": "portal dungeon next level", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_PORTAL_STORM_DUNGEON_NEXT_LEVEL"
+    "eocs": [ "EOC_PORTAL_STORM_DUNGEON_NEXT_LEVEL" ]
   },
   {
     "type": "trap",

@@ -117,7 +117,7 @@
       },
       {
         "id": "flier_30",
-        "text": "This is an advertisement for Space Time Inc.  It has pictures of astronauts floating around a spaceship with the Moon in the background.  It reads: \"Own your own piece of the Moon!  For only $29.99 a month, you can have prime real estate amongst the stars!\""
+        "text": "This is an advertisement for Space Time Inc.  It has pictures of astronauts floating around a spaceship with the Moon in the background.  It reads: \"Own your own piece of the Moon!  For only $29.99 a month, you can have prime real estate among the stars!\""
       },
       {
         "id": "flier_31",
@@ -278,7 +278,7 @@
       {
         "id": "flier_71",
         "text": {
-          "str": "This letter appears to have been lost before it could be delivered:\n\nDear Brother,\n\nI hope you get this letter before it is too late.  And I hope you understand I am sending this letter out of respect and love and, I'm not ashamed to admit it, fear.  Fear for you and fear for myself.  There is a reason why people are stocking up on guns and flour.\n\nPeople are saying the rioters are merely insane, or under the influence of that new drug, or fever dream sleep walking.  I don't know what's true and I don't care.  They say almost the exact same thing about the eye-witnesses; maybe we're all fever dreaming now.\n\nThis isn't going to be delayed, let alone solved, by rifles or protein rations or military robots authorized to kill.  The writing is on the wall.  I'm not saying that my way is good or holy, and I love and respect you no matter what, but I hope and I pray that you'll join me.\n\nThere isn't much time to decide.  Soon we might be the last folks on earth.  You know where to go.\n\n- Your Devoted Sister",
+          "str": "This letter appears to have been lost before it could be delivered:\n\nDear Brother,\n\nI hope you get this letter before it is too late.  And I hope you understand I am sending this letter out of respect and love and, I'm not ashamed to admit it, fear.  Fear for you and fear for myself.  There is a reason why people are stocking up on guns and flour.\n\nPeople are saying the rioters are merely insane, or under the influence of that new drug, or fever dream sleep walking.  I don't know what's true and I don't care.  They say almost the exact same thing about the eye-witnesses; maybe we're all fever dreaming now.\n\nThis isn't going to be delayed, let alone solved, by rifles or protein rations or whatever.  The writing is on the wall.  I'm not saying that my way is good or holy, and I love and respect you no matter what, but I hope and I pray that you'll join me.\n\nThere isn't much time to decide.  Soon we might be the last folks on earth.  You know where to go.\n\n- Your Devoted Sister",
           "//NOLINT(cata-text-style)": "intentional format"
         }
       },

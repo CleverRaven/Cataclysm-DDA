@@ -11,12 +11,11 @@
 #include <utility>
 #include <vector>
 
+#include "cata_path.h"
 #include "memory_fast.h"
-#include "path_info.h"
 
 class JsonObject;
 class JsonValue;
-struct json_source_location;
 
 /**
  * This class is used to load (and unload) the dynamic
@@ -140,6 +139,25 @@ class DynamicDataLoader
          */
         /*@{*/
         void load_data_from_path( const cata_path &path, const std::string &src );
+        /**
+         * Load all data from json files located in
+         * the path (recursive) except for those within the mod_interactions folder.
+         * @param path Either a folder (recursively load all
+         * files with the extension .json), or a file (load only
+         * that file, don't check extension).
+         * @param src String identifier for mod this data comes from.
+         * @throws std::exception on all kind of errors.
+         */
+        /*@{*/
+        void load_mod_data_from_path( const cata_path &path, const std::string &src );
+        /**
+         * Load directories located within the given path if they are named after a currently loaded mod id.
+         * @param path a folder.
+         * @param src String identifier for mod this data comes from.
+         * @throws std::exception on all kind of errors.
+         */
+        /*@{*/
+        void load_mod_interaction_files_from_path( const cata_path &path, const std::string &src );
         /*@}*/
         /**
          * Deletes and unloads all the data previously loaded with

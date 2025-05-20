@@ -17,7 +17,15 @@
     "base_hp": 60,
     "drench_capacity": 1,
     "legacy_id": "NUM_BP",
-    "sub_parts": [ "sub_limb_debug" ]
+    "sub_parts": [ "sub_bp_null" ]
+  },
+  {
+    "id": "sub_bp_null",
+    "type": "sub_body_part",
+    "parent": "bp_null",
+    "side": 0,
+    "opposite": "sub_bp_null",
+    "name": { "str": "Null sub_body_part, if you see this please report it", "//~": "NO_I18N" }
   },
   {
     "id": "mx_null",
@@ -49,6 +57,12 @@
     "type": "fault",
     "name": { "str": "This is a bug" },
     "description": "This fault id is a reserved sentinel."
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_null",
+    "//": "Fallback weapon vector, unarmed attacks always go through techs",
+    "weapon": true
   },
   {
     "type": "SPELL",

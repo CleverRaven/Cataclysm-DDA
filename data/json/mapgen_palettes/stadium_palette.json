@@ -129,10 +129,10 @@
         { "item": "snacks", "chance": 1, "repeat": [ 1, 2 ] },
         { "item": "jackets", "chance": 1 }
       ],
-      "&": { "item": "trash", "chance": 66, "repeat": [ 1, 5 ] },
-      "a": { "item": "trash", "chance": 66, "repeat": [ 1, 5 ] },
-      "á": { "item": "trash", "chance": 66, "repeat": [ 1, 5 ] },
-      "A": { "item": "trash", "chance": 70, "repeat": [ 1, 8 ] },
+      "&": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 5 ] },
+      "a": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 5 ] },
+      "á": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 5 ] },
+      "A": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 1, 8 ] },
       "d": { "item": "SUS_office_desk", "chance": 33 },
       "m": { "item": "SUS_janitors_closet", "chance": 80 },
       "ß": { "item": "SUS_kitchen_sink", "chance": 80 },
@@ -144,14 +144,15 @@
         { "item": "softdrugs", "chance": 30 },
         { "item": "bags", "chance": 30 },
         { "item": "winter", "chance": 30 }
-      ]
+      ],
+      "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "item": { "T": { "item": "toilet_paper", "chance": 33 }, "/": { "item": "american_flag", "chance": 100 } },
     "toilets": { "T": {  } },
     "vehicles": {
       "1": { "vehicle": "food_cart", "chance": 33, "rotation": [ 0, 90, 180, 270 ] },
       "2": { "vehicle": "ice_cream_cart", "chance": 33, "rotation": [ 0, 90, 180, 270 ] },
-      "3": { "vehicle": "swivel_chair", "chance": 100 }
+      "3": { "vehicle": "swivel_chair" }
     }
   },
   {
@@ -257,7 +258,7 @@
       [ "backpack", 40 ],
       [ "energy_drink", 30 ],
       { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 44, "charges": [ 0, -1 ] },
+      { "group": "civilian_phones", "prob": 44, "charges": [ 0, -1 ] },
       [ "mp3", 50 ],
       { "item": "inhaler", "prob": 10, "charges": [ 0, 100 ] }
     ]

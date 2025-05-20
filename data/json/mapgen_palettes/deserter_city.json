@@ -60,20 +60,21 @@
     },
     "items": {
       "d": { "item": "SUS_office_desk", "chance": 40 },
-      ";": { "item": "office_supplies", "chance": 65, "repeat": [ 1, 10 ] },
+      ";": { "item": "SUS_office_supplies", "chance": 65, "repeat": [ 1, 4 ] },
       "y": { "item": "SUS_janitors_closet", "chance": 90 },
       "Y": { "item": "coat_rack", "chance": 66, "repeat": [ 1, 5 ] },
-      "a": { "item": "trash", "chance": 70, "repeat": [ 1, 3 ] },
+      "a": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 1, 3 ] },
       "t": { "item": "dining", "chance": 40, "repeat": [ 1, 2 ] },
       "f": { "item": "SUS_office_filing_cabinet", "chance": 90 },
       "?": { "item": "bed", "chance": 50 },
-      ".": { "item": "office_mess", "chance": 1 },
+      ".": { "item": "SUS_office_mess", "chance": 1 },
       "m": [
         { "item": "grenade_can_full", "chance": 100, "repeat": [ 1, 2 ] },
         { "item": "c4_box_full", "chance": 100, "repeat": [ 1, 3 ] }
       ],
       "M": { "item": "milspec_arsenal_223_pouch_gun&mags&cans", "chance": 100 },
-      "O": [ { "item": "SUS_pantry", "chance": 33 }, { "item": "cannedfood", "chance": 80, "repeat": [ 1, 2 ] } ]
+      "O": [ { "item": "SUS_pantry", "chance": 33 }, { "item": "cannedfood", "chance": 80, "repeat": [ 1, 2 ] } ],
+      "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
     "toilets": { "T": {  } }

@@ -21,7 +21,6 @@
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
     "flags": [
       "SEES",
-      "SMELLS",
       "HEARS",
       "ANIMAL",
       "PATH_AVOID_DANGER",
@@ -38,8 +37,8 @@
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ],
     "volume": "1000 L",
-    "weight": "1000 kg",
-    "//": "When large weights and volumes are fixed this should be 3000 L and 3000 kg",
+    "weight": "3000 kg",
+    "//": "When large volumes are fixed this should be 3000 L",
     "speed": 80,
     "melee_dice": 2,
     "melee_dice_sides": 6,

@@ -4,7 +4,7 @@
     "id": "t_secretdoor_wall_c",
     "name": "wall",
     "description": "A faux wall positioned and joined seamlessly with the wall, this wall looks pretty normal.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "light_gray",
     "looks_like": "t_wall",
     "move_cost": 0,
@@ -219,7 +219,7 @@
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
-      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "lc_steel_chunk", "count": [ 3, 8 ] } ]
     },
     "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "eoc_unlock_elock" ] },
     "bash": {

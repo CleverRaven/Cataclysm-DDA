@@ -1,6 +1,7 @@
 #include "loading_ui.h"
 
 #include "cached_options.h"
+#include "options.h"
 #include "input.h"
 #include "output.h"
 #include "ui_manager.h"
@@ -48,11 +49,11 @@ static void redraw()
     if( ImGui::Begin( "Loading…", nullptr,
                       ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
                       ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings ) ) {
-        ImGui::Image( static_cast<void *>( gLUI->splash.get() ), gLUI->splash_size );
-        ImGui::SetCursorPosX( ( gLUI->splash_size.x / 2.0f ) - 120.0f );
-        ImGui::TextUnformatted( gLUI->context.c_str() );
-        ImGui::SameLine();
-        ImGui::TextUnformatted( gLUI->step.c_str() );
+        ImGui::Image( reinterpret_cast<ImTextureID>( gLUI->splash.get() ), gLUI->splash_size );
+        float w = ImGui::CalcTextSize( gLUI->context.c_str() ).x + ImGui::CalcTextSize( " " ).x +
+                  ImGui::CalcTextSize( gLUI->step.c_str() ).x;
+        ImGui::SetCursorPosX( ( ( ImGui::GetWindowWidth() - w ) * 0.5f ) );
+        ImGui::Text( "%s %s", gLUI->context.c_str(), gLUI->step.c_str() );
     }
     ImGui::End();
     ImGui::PopStyleColor();
@@ -96,6 +97,11 @@ static void update_state( const std::string &context, const std::string &step )
         std::vector<cata_path> imgs;
         std::vector<mod_id> &active_mod_list = world_generator->active_world->active_mod_order;
         for( mod_id &some_mod : active_mod_list ) {
+            // We haven't migrated mods yet
+            // TODO: Move mod migration before this function?
+            if( !some_mod.is_valid() ) {
+                continue;
+            }
             const MOD_INFORMATION &mod = *some_mod;
             for( const std::string &img_name : mod.loading_images ) {
                 // There may be more than one file matching the name, so we need to get all of them
@@ -112,12 +118,23 @@ static void update_state( const std::string &context, const std::string &step )
             }
         }
         SDL_Surface_Ptr surf = load_image( gLUI->chosen_load_img.get_unrelative_path().u8string().c_str() );
-        gLUI->splash_size = { static_cast<float>( surf->w ), static_cast<float>( surf->h ) };
+        // leave some space for the loading text...
+        ImVec2 max_size = ImGui::GetMainViewport()->Size * 0.9;
+        // preserve aspect ratio by finding the longest **relative** side and scaling both sides by its ratio to max_size
+        // scales both "up" and "down"
+        float width_ratio = static_cast<float>( surf->w ) / max_size.x;
+        float height_ratio = static_cast<float>( surf->h ) / max_size.y;
+        float longest_side_ratio = width_ratio > height_ratio ? width_ratio : height_ratio;
+        gLUI->splash_size = { static_cast<float>( surf->w ) / longest_side_ratio,
+                              static_cast<float>( surf->h ) / longest_side_ratio
+                            };
         gLUI->splash = CreateTextureFromSurface( get_sdl_renderer(), surf );
         gLUI->window_size = gLUI->splash_size + ImVec2{ 0.0f, 2.0f * ImGui::GetTextLineHeightWithSpacing() };
 #else
-        std::string splash = read_whole_file( PATH_INFO::title( get_holiday_from_time() ) ).value_or(
-                                 _( "Cataclysm: Dark Days Ahead" ) );
+        std::string splash = PATH_INFO::title( get_holiday_from_time() );
+        if( get_option<bool>( "ENABLE_ASCII_TITLE" ) ) {
+            splash = read_whole_file( splash ).value_or( _( "Cataclysm: Dark Days Ahead" ) );
+        }
         gLUI->splash = string_split( splash, '\n' );
         gLUI->blanks = std::string( TERMX, ' ' );
         for( const std::string &line : gLUI->splash ) {

@@ -262,7 +262,7 @@
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" }
     ],
-    "components": [ [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "armor_larmor", 1 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 6, "LIST" ], [ "scrap", 18 ] ], [ [ "armor_larmor", 1 ] ] ]
   },
   {
     "result": "armor_plarmor_xs",
@@ -271,7 +271,7 @@
     "time": "2 h",
     "using": [ [ "sewing_standard", 19 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "components": [ [ [ "steel_chunk", 5 ], [ "scrap", 14 ] ], [ [ "armor_larmor_xs", 1 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 5, "LIST" ], [ "scrap", 14 ] ], [ [ "armor_larmor_xs", 1 ] ] ]
   },
   {
     "result": "xl_armor_plarmor",
@@ -280,7 +280,7 @@
     "time": "2 h 15 m",
     "using": [ [ "sewing_standard", 38 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "components": [ [ [ "steel_chunk", 8 ], [ "scrap", 24 ] ], [ [ "xl_armor_larmor", 1 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 8, "LIST" ], [ "scrap", 24 ] ], [ [ "xl_armor_larmor", 1 ] ] ]
   },
   {
     "result": "armor_samurai",

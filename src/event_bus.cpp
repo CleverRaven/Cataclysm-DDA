@@ -6,6 +6,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <type_traits>
 
 #include "calendar.h"
 #include "cata_variant.h"
@@ -14,6 +15,12 @@
 #include "event_subscriber.h"
 #include "item_location.h"
 #include "talker.h"  // IWYU pragma: keep
+#include "vehicle.h"
+
+namespace cata::event_detail
+{
+template <event_type Type> struct event_spec;
+}  // namespace cata::event_detail
 
 event_subscriber::~event_subscriber()
 {
@@ -97,10 +104,18 @@ void event_bus::send_with_talker( Creature *alpha, item_location *beta,
         s->notify( e, get_talker_for( alpha ), get_talker_for( beta ) );
     }
 }
+
+void event_bus::send_with_talker( vehicle *alpha,  Creature *beta, const cata::event &e ) const
+{
+    for( event_subscriber *s : subscribers ) {
+        s->notify( e, get_talker_for( alpha ), get_talker_for( beta ) );
+    }
+}
 namespace
 {
 template<event_type Type, typename IndexSequence>
 struct make_dyn_helper;
+
 template<event_type Type, size_t... I>
 struct make_dyn_helper<Type, std::index_sequence<I...>> {
     using Spec = cata::event_detail::event_spec<Type>;

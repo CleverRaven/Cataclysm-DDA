@@ -2,9 +2,13 @@
 #ifndef CATA_SRC_NPCTALK_H
 #define CATA_SRC_NPCTALK_H
 
-#include "npc.h"
+#include <functional>
+#include <string>
+#include <vector>
+
 #include "type_id.h"
 
+class Character;
 class item;
 class json_talk_topic;
 class npc;
@@ -14,10 +18,10 @@ namespace talk_function
 {
 
 struct teach_domain {
-    skill_id skill = skill_id();
-    matype_id style = matype_id();
-    spell_id spell = spell_id();
-    proficiency_id prof = proficiency_id();
+    skill_id skill;
+    matype_id style;
+    spell_id spell;
+    proficiency_id prof;
 };
 
 void nothing( npc & );
@@ -136,6 +140,8 @@ int calc_spell_training_cost( const Character &teacher, const Character &student
                               const spell_id &id );
 
 const json_talk_topic *get_talk_topic( const std::string &id );
+
+std::vector<std::string> get_all_talk_topic_ids();
 
 std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
                                    const std::string &prompt,

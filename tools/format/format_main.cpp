@@ -127,7 +127,7 @@ int main( int argc, char *argv[] )
             fout << out.str();
             fout.close();
             std::cout << color_bad << "Has been linted : " << color_end << filename << std::endl;
-            std::cout << "Please read doc/JSON_STYLE.md" << std::endl;
+            std::cout << "Please read doc/JSON/JSON_STYLE.md" << std::endl;
             exit( EXIT_FAILURE );
         }
     }

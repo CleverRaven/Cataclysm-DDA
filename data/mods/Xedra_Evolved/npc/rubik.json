@@ -8,7 +8,7 @@
       { "text": "What can you tell me about these faeries?", "topic": "TALK_EXODII_MERCHANT_FAE" },
       {
         "text": "[DEDUCTION 2] So does that mean the stories I heard about vampires are true as well?",
-        "condition": { "math": [ "u_skill('deduction')", ">=", "2" ] },
+        "condition": { "math": [ "u_skill('deduction') >= 2" ] },
         "topic": "TALK_EXODII_MERCHANT_VAMPIRE"
       }
     ]
@@ -34,7 +34,7 @@
       {
         "text": "[DEDUCTION 4 or INT 14 ] Would you have any specialized weapons to use against them?",
         "//": "Change to some variable that ties to having encountered vampires previously.",
-        "condition": { "or": [ { "math": [ "u_skill('deduction')", ">=", "4" ] }, { "u_has_intelligence": 14 } ] },
+        "condition": { "or": [ { "math": [ "u_skill('deduction') >= 4" ] }, { "u_has_intelligence": 14 } ] },
         "effect": { "u_add_var": "rubik_vampire_weapons", "value": "banger_and_smash" },
         "topic": "TALK_EXODII_MERCHANT_VAMPIRE_GEAR"
       }

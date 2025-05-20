@@ -1,0 +1,209 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "bridge",
+    "copy-from": "bridge",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_water",
+    "copy-from": "forest_water",
+    "name": "swamp",
+    "sym": "#",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest",
+    "copy-from": "forest",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_thick",
+    "copy-from": "forest_thick",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "special_forest", "special_forest_isherwood" ],
+    "copy-from": "special_forest",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "special_forest_thick", "special_forest_thick_isherwood" ],
+    "copy-from": "special_forest_thick",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "island_forest", "island_forest_thick" ],
+    "copy-from": "island_forest",
+    "name": "island",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "island_forest_water",
+    "copy-from": "island_forest_water",
+    "name": "island",
+    "sym": "#",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pond_field",
+    "copy-from": "pond_field",
+    "name": "pond",
+    "sym": "#",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "crater",
+    "copy-from": "crater",
+    "name": "crater",
+    "sym": "*",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "crater_core_large", "crater_core_small" ],
+    "copy-from": "crater_core_large",
+    "name": "crater",
+    "sym": "*",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_giant_sinkhole_1",
+    "copy-from": "ws_giant_sinkhole_1",
+    "name": "giant sinkhole",
+    "sym": "*",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_giant_sinkhole_2",
+    "copy-from": "ws_giant_sinkhole_2",
+    "name": "giant sinkhole base",
+    "sym": "*",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_center",
+    "copy-from": "river_center",
+    "name": "river",
+    "sym": "~",
+    "color": "blue",
+    "uniform_terrain": "t_water_moving_dp"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river",
+    "copy-from": "river",
+    "name": "river bank",
+    "sym": "~",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "river_c_not_ne", "river_c_not_nw", "river_c_not_se", "river_c_not_sw" ],
+    "copy-from": "river_c_not_ne",
+    "name": "river bank",
+    "sym": "~",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "river_ne", "river_nw", "river_se", "river_sw" ],
+    "copy-from": "river_ne",
+    "name": "river bank",
+    "sym": "~",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "refctr_field",
+    "copy-from": "refctr_field",
+    "name": "field",
+    "sym": ".",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_17",
+    "copy-from": "ranch_camp_17",
+    "name": "pond",
+    "sym": "#",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hot_springs",
+    "copy-from": "hot_springs",
+    "name": "hot spring",
+    "sym": "H",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lumbermill_dforest",
+    "copy-from": "lumbermill_dforest",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dirtroad1_aban1",
+    "copy-from": "dirtroad1_aban1",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "forest_aban1", "dirtroad2_aban1", "dirtplaza_aban1" ],
+    "copy-from": "forest_aban1",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_aban1", "cabin_aban1_roof" ],
+    "copy-from": "cabin_aban1",
+    "name": "ruined cabin",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "barn_aban1", "barn_aban1_roof" ],
+    "copy-from": "barn_aban1",
+    "name": "barn",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "car_corner_aban1", "car_corner_aban1_roof" ],
+    "copy-from": "car_corner_aban1",
+    "name": "car corner",
+    "sym": "#",
+    "color": "green"
+  }
+]

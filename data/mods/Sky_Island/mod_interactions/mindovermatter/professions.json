@@ -1,0 +1,9 @@
+[
+  {
+    "type": "profession",
+    "id": "psi_teleporter_slider",
+    "copy-from": "psi_teleporter_slider",
+    "name": "Itzcuauhtli Corps Liaison, Yohualli Ehēcatl Division",
+    "delete": { "flags": [ "SCEN_ONLY" ] }
+  }
+]

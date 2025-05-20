@@ -1,7 +1,8 @@
 [
   {
     "id": "light_minus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "ultra-light battery (rechargeable)", "str_pl": "ultra-light batteries (rechargeable)" },
     "description": "A light, coin-like battery cell designed for small size over everything else.  Used for watches, calculators, toys or similar low-power electronics.",
@@ -24,7 +25,8 @@
   {
     "id": "light_minus_disposable_cell",
     "copy-from": "light_minus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "ultra-light battery", "str_pl": "ultra-light batteries" },
     "description": "A light, coin-like battery cell designed for small size over everything else.  Used for watches, calculators, toys or similar low-power electronics.  This one can't be recharged.",
     "//": "cr2032, Lithium-Manganese, duracell CR2032 but they all pretty equal in their range",
@@ -34,7 +36,8 @@
   },
   {
     "id": "light_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "light battery", "str_pl": "light batteries" },
     "description": "A light battery cell, popular for any consumer-grade electronic: from remotes to mouses, from clocks to thermometers.  This one can't be recharged.",
@@ -57,7 +60,8 @@
   {
     "id": "light_cell_rechargeable",
     "copy-from": "light_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "light battery (rechargeable)", "str_pl": "light batteries (rechargeable)" },
     "description": "A light battery cell, popular for any consumer-grade electronic: from remotes to mouses, from clocks to thermometers.",
     "//": "AA, Nickel-Metal Hydride, ENERGIZER NH15-2300",
@@ -69,7 +73,8 @@
   },
   {
     "id": "medium_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "medium battery (rechargeable)", "str_pl": "medium batteries (rechargeable)" },
     "description": "A medium battery cell, wildly used in modern tools: heavy flashlights, two-way radios, security cameras, multiple of them make a tool battery, and some older generation of EV use thousands of this as the power storage.",
@@ -92,7 +97,8 @@
   {
     "id": "heavy_battery_cell",
     "copy-from": "heavy_plus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "small tool battery", "str_pl": "small tool batteries" },
     "description": "A light battery cell, universally compatible with all kinds of industrial-grade equipment and portable tools - drills, angle grinders, chainsaws.",
     "//": "Li-ion 18V LXT BL1815N",
@@ -107,7 +113,8 @@
   },
   {
     "id": "heavy_plus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "big tool battery", "str_pl": "big tool batteries" },
     "description": "A heavy battery cell, universally compatible with all kinds of industrial-grade equipment and portable tools - drills, angle grinders, chainsaws.",
@@ -130,7 +137,8 @@
   },
   {
     "id": "heavy_atomic_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "heavy plutonium fuel battery", "str_pl": "heavy plutonium fuel batteries" },
     "description": "A battery that uses a thin plutonium-244 rod to stabilize an exotic nanocompound.  It is universally compatible with all kinds of industrial-grade equipment and large tools.  Although it stores a huge amount of power, it cannot be recharged.",
@@ -151,7 +159,8 @@
   },
   {
     "id": "huge_atomic_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "military plutonium fuel cell" },
     "description": "A battery that uses a huge plutonium-244 rod to stabilize an exotic nanocompound.  It was used in military mech-suits, was highly experimental, and had no civilian applications.  Although it stores a stupendous amount of power, it cannot be recharged.",

@@ -1,7 +1,8 @@
 [
   {
     "id": "helmet_cardboard",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "looks_like": "helmet_larmor",
     "name": { "str": "cardboard 'great' helm" },
@@ -22,12 +23,12 @@
     "material_thickness": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATER_DISSOLVE", "VARSIZE", "HARD", "PSYSHIELD_PARTIAL", "FRAGILE" ],
-    "melee_damage": { "bash": 0 }
+    "flags": [ "WATER_DISSOLVE", "VARSIZE", "HARD", "PSYSHIELD_PARTIAL", "FRAGILE" ]
   },
   {
     "id": "armor_cardboard",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "looks_like": "armor_larmor",
     "name": { "str": "cardboard 'plate' armor" },
@@ -36,7 +37,6 @@
     "volume": "17500 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -5,
     "material": [ "cardboard", "paper" ],
     "symbol": "[",
     "color": "brown_yellow",
@@ -72,12 +72,12 @@
         "coverage": 100,
         "encumbrance": 23
       }
-    ],
-    "melee_damage": { "bash": 0 }
+    ]
   },
   {
     "id": "armor_cardboard_cuirass",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "looks_like": "hoodie_brown",
     "name": { "str": "cardboard cuirass", "str_pl": "cardboard cuirasses" },
     "category": "armor",
@@ -86,7 +86,6 @@
     "volume": "6 L",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -5,
     "material": [ "cardboard", "paper" ],
     "symbol": "[",
     "color": "brown_yellow",
@@ -94,12 +93,12 @@
     "warmth": 15,
     "material_thickness": 6,
     "flags": [ "WATER_DISSOLVE", "FRAGILE_MELEE", "VARSIZE", "OUTER", "HARD" ],
-    "armor": [ { "encumbrance": 12, "coverage": 90, "covers": [ "torso" ] } ],
-    "melee_damage": { "bash": 0 }
+    "armor": [ { "encumbrance": 12, "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "cardboard_crown",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "cardboard crown" },
     "description": "A piece of cardboard crudely bent into shape and cut to look like a crown.",
     "weight": "200 g",
@@ -122,7 +121,8 @@
   },
   {
     "id": "cardboard_crown_loose",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "cardboard crown (loosened)", "str_pl": "cardboard crowns (loosened)" },
     "description": "A piece of cardboard crudely bent into shape and cut to look like a crown.  This one's been loosened up somewhat, allowing it to be worn over some headgear comfortably.",
     "copy-from": "cardboard_crown",
@@ -132,7 +132,8 @@
   {
     "id": "badge_cardboard",
     "copy-from": "badge_abstract",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "cardboard badge" },
     "description": "An honorable badge identifying the owner as a \"Knight Errant\" of \"House Da\".  The large letters slowly dwindle in size as the badge runs out of space, leaving out the last two letters of Dino Dave's name.",
     "flags": [ "WATER_DISSOLVE", "FRAGILE_MELEE", "NO_WEAR_EFFECT", "FRAGILE" ]

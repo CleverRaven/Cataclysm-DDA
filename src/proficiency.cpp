@@ -7,10 +7,10 @@
 #include <utility>
 
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "localized_comparator.h"
-#include "enums.h"
 #include "options.h"
 
 const float book_proficiency_bonus::default_time_factor = 0.5f;
@@ -95,7 +95,7 @@ void proficiency_category::reset()
     proficiency_category_factory.reset();
 }
 
-void proficiency::load( const JsonObject &jo, const std::string_view )
+void proficiency::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "description", _description );
@@ -121,7 +121,7 @@ void proficiency::load( const JsonObject &jo, const std::string_view )
     }
 }
 
-void proficiency_category::load( const JsonObject &jo, const std::string_view )
+void proficiency_category::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "description", _description );
@@ -509,6 +509,7 @@ time_duration proficiency_set::training_time_needed( const proficiency_id &query
 std::vector<proficiency_id> proficiency_set::known_profs() const
 {
     std::vector<proficiency_id> ret;
+    ret.reserve( known.size() );
     for( const proficiency_id &knows : known ) {
         ret.push_back( knows );
     }

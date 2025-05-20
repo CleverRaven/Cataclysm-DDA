@@ -2,9 +2,15 @@
 #ifndef CATA_SRC_PATHFINDING_H
 #define CATA_SRC_PATHFINDING_H
 
-#include "coords_fwd.h"
-#include "game_constants.h"
+#include <cstdint>
+#include <optional>
+#include <unordered_set>
+
+#include "coordinates.h"
 #include "mdarray.h"
+#include "point.h"
+
+enum class creature_size : int;
 
 // An attribute of a particular map square that is of interest in pathfinding.
 // Has a maximum of 32 members. For more, the datatype underlying PathfindingFlags
@@ -123,7 +129,7 @@ struct pathfinding_cache {
     pathfinding_cache();
 
     bool dirty = false;
-    std::unordered_set<point> dirty_points;
+    std::unordered_set<point_bub_ms> dirty_points;
 
     cata::mdarray<PathfindingFlags, point_bub_ms> special;
 };
@@ -146,16 +152,39 @@ struct pathfinding_settings {
     bool avoid_sharp = false;
     bool avoid_dangerous_fields = false;
 
+    std::optional<creature_size> size = std::nullopt;
+
     pathfinding_settings() = default;
     pathfinding_settings( const pathfinding_settings & ) = default;
 
     pathfinding_settings( int bs, int md, int ml, int cc, bool aod, bool aud, bool at, bool acs,
-                          bool art, bool as )
+                          bool art, bool as, std::optional<creature_size> sz = std::nullopt )
         : bash_strength( bs ), max_dist( md ), max_length( ml ), climb_cost( cc ),
           allow_open_doors( aod ), allow_unlock_doors( aud ), avoid_traps( at ), allow_climb_stairs( acs ),
-          avoid_rough_terrain( art ), avoid_sharp( as ) {}
+          avoid_rough_terrain( art ), avoid_sharp( as ), size( sz )  {}
 
     pathfinding_settings &operator=( const pathfinding_settings & ) = default;
+};
+
+struct pathfinding_target {
+    const tripoint_bub_ms center;
+    const int r;
+    bool contains( const tripoint_bub_ms &p ) const;
+
+    // Finds a path that ends on a specific tile
+    static pathfinding_target point( const tripoint_bub_ms &p ) {
+        return { p, 0 };
+    }
+
+    // Finds a path that ends on either the given tile, or one of the tiles directly adjacent to it
+    static pathfinding_target adjacent( const tripoint_bub_ms &p ) {
+        return { p, 1 };
+    }
+
+    // Finds a path that ends on any tile within the given radius of the specified tile, calculated by square distance
+    static pathfinding_target radius( const tripoint_bub_ms &p, int radius ) {
+        return { p, radius };
+    }
 };
 
 #endif // CATA_SRC_PATHFINDING_H

@@ -43,9 +43,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_lakeside",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "lake_shore",
       "rows": [
@@ -81,9 +79,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_lakeside_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -118,9 +114,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_lakeside1",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "lake_shore",
       "rows": [
@@ -157,9 +151,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_lakeside1_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -194,9 +186,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_lakeside2",
-    "weight": 50,
     "object": {
       "predecessor_mapgen": "lake_shore",
       "rows": [
@@ -230,7 +220,7 @@
       "terrain": { "-": "t_railing" },
       "furniture": { "h": "f_shower" },
       "items": {
-        ".": [ { "item": "trash", "chance": 3 }, { "item": "creepy", "chance": 5 } ],
+        ".": [ { "item": "SUS_trash_floor", "chance": 3 }, { "item": "creepy", "chance": 5 } ],
         "t": { "item": "corpses", "chance": 100 }
       },
       "place_fields": [ { "field": "fd_blood", "x": [ 10, 16 ], "y": [ 13, 15 ], "repeat": [ 3, 7 ] } ],
@@ -240,9 +230,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_lakeside2_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -277,9 +265,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_lakeside3",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "lake_shore",
       "rows": [
@@ -317,9 +303,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_lakeside3_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -354,9 +338,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_lakeside4",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "lake_shore",
       "rows": [
@@ -395,9 +377,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_lakeside4_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -432,9 +412,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_lakeside5",
-    "weight": 50,
     "object": {
       "predecessor_mapgen": "lake_shore",
       "rows": [
@@ -476,9 +454,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_lakeside5_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -513,7 +489,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "zombie_cages_roof",
     "object": {
       "mapgensize": [ 21, 21 ],
@@ -545,7 +520,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "zombie_cages",
     "object": {
       "mapgensize": [ 21, 21 ],

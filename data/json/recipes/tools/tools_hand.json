@@ -8,7 +8,7 @@
     "skill_used": "fabrication",
     "time": "2 m",
     "autolearn": true,
-    "using": [ [ "steel_tiny", 2 ] ],
+    "using": [ [ "steel_chunk_any", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "duct_tape", 30 ], [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
@@ -23,7 +23,7 @@
     "difficulty": 6,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -43,7 +43,7 @@
     "difficulty": 7,
     "time": "4 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -63,7 +63,7 @@
     "difficulty": 6,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_chunk_any", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -99,11 +99,11 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_toolsmithing" }
+      { "proficiency": "prof_metalworking", "required": true },
+      { "proficiency": "prof_blacksmithing", "required": true },
+      { "proficiency": "prof_toolsmithing", "required": true }
     ]
   },
   {
@@ -118,9 +118,9 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 3 ], [ "bronze_tiny", 3 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_redsmithing" },
-      { "proficiency": "prof_toolsmithing" }
+      { "proficiency": "prof_metalworking", "required": true },
+      { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_toolsmithing", "required": true }
     ],
     "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ], [ "nuts_bolts", 1 ] ] ]
   },
@@ -135,7 +135,7 @@
     "difficulty": 3,
     "time": "125 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_toolsmithing" } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking", "required": true }, { "proficiency": "prof_toolsmithing", "required": true } ],
     "using": [ [ "forging_standard", 3 ], [ "bronze_tiny", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "casting_mold_large", -1 ], [ "casting_mold_long", -1 ] ] ],
@@ -151,7 +151,7 @@
     "difficulty": 2,
     "time": "60 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_chunk_any", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -174,7 +174,7 @@
     "using": [ [ "forging_standard", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "casting_mold_large", -1 ], [ "casting_mold_long", -1 ] ] ],
-    "components": [ [ [ "steel_chunk", 3 ] ], [ [ "nails", 1, "LIST" ], [ "nuts_bolts", 1 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 3, "LIST" ] ], [ [ "nails", 1, "LIST" ], [ "nuts_bolts", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -194,7 +194,7 @@
       [ "textbook_armwest", 5 ],
       [ "textbook_weparabic", 5 ]
     ],
-    "using": [ [ "forging_standard", 3 ], [ "steel_tiny", 3 ] ],
+    "using": [ [ "forging_standard", 3 ], [ "steel_chunk_any", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "//": "Specifically avoids blacksmithing requirement groups so that it's craftable without the metal fileset - this process would still be possible, just realistically take slightly longer.",
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
@@ -384,7 +384,7 @@
     "using": [ [ "forging_standard", 8 ], [ "bronzesmithing_tools", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing", "required": true },
       { "proficiency": "prof_toolsmithing" }
     ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
@@ -405,7 +405,7 @@
     "using": [ [ "forging_standard", 8 ], [ "bronzesmithing_tools", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing", "required": true },
       { "proficiency": "prof_toolsmithing" }
     ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
@@ -544,7 +544,7 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "scrap", 9 ], [ "steel_chunk", 2 ] ] ]
+    "components": [ [ [ "scrap", 9 ], [ "steel_chunk_any", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -556,7 +556,7 @@
     "difficulty": 6,
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -592,7 +592,7 @@
     "difficulty": 4,
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 7 ], [ "steel_tiny", 7 ] ],
+    "using": [ [ "blacksmithing_standard", 7 ], [ "steel_chunk_any", 7 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -610,7 +610,7 @@
     "difficulty": 2,
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -628,7 +628,7 @@
     "difficulty": 4,
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_chunk_any", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -646,7 +646,7 @@
     "difficulty": 5,
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -684,7 +684,7 @@
     "difficulty": 4,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1044,7 +1044,7 @@
         "learning_time_multiplier": 0.1
       }
     ],
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_chunk_any", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 2 ], [ "scrap", 2 ] ] ]
@@ -1117,7 +1117,7 @@
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
@@ -1295,7 +1295,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
@@ -1316,7 +1316,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
@@ -1332,7 +1332,7 @@
     "time": "3 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1358,7 +1358,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
@@ -1379,7 +1379,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
@@ -1520,7 +1520,7 @@
     "difficulty": 3,
     "time": "100 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1578,7 +1578,6 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "2 h",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
@@ -1613,7 +1612,6 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "2 h",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "forging_standard", 8 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER_FINE", "level": 1 }, { "id": "GRIND", "level": 2 } ],
@@ -1623,7 +1621,10 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
+    "components": [
+      [ [ "steel_lump_any", 1, "LIST" ], [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 20 ] ],
+      [ [ "2x4", 1 ], [ "stick", 1 ] ]
+    ]
   },
   {
     "result": "rake_plastic",

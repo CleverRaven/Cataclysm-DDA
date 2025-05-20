@@ -435,7 +435,7 @@
       [ [ "pathfinding_module", 1 ] ],
       [ [ "omni_wheel", 1 ] ],
       [ [ "medium_storage_battery", 1 ] ],
-      [ [ "steel_chunk", 6 ] ]
+      [ [ "steel_chunk_any", 6, "LIST" ] ]
     ]
   },
   {
@@ -466,7 +466,7 @@
       [ [ "pathfinding_module", 1 ] ],
       [ [ "medium_storage_battery", 1 ] ],
       [ [ "robot_controls", 1 ] ],
-      [ [ "steel_chunk", 20 ] ]
+      [ [ "steel_chunk_any", 20, "LIST" ] ]
     ]
   },
   {
@@ -607,7 +607,7 @@
       [ [ "tazer", 2 ] ],
       [ [ "scrap", 6 ] ],
       [ [ "plut_cell", 1 ] ],
-      [ [ "steel_chunk", 6 ] ]
+      [ [ "steel_chunk_any", 6, "LIST" ] ]
     ]
   },
   {

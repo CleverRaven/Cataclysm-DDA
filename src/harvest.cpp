@@ -3,14 +3,14 @@
 #include <algorithm>
 #include <cmath>
 #include <iterator>
+#include <optional>
 #include <string>
 
-#include "assign.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
-#include "json.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
@@ -108,7 +108,7 @@ void harvest_drop_type::reset()
     harvest_drop_type_factory.reset();
 }
 
-void harvest_drop_type::load( const JsonObject &jo, const std::string_view )
+void harvest_drop_type::load( const JsonObject &jo, std::string_view )
 {
     harvest_skills.clear();
     optional( jo, was_loaded, "group", is_group_, false );
@@ -188,12 +188,13 @@ void harvest_list::finalize()
 
 void harvest_list::finalize_all()
 {
+    harvest_list_factory.finalize();
     for( const harvest_list &pr : get_all() ) {
         const_cast<harvest_list &>( pr ).finalize();
     }
 }
 
-void harvest_list::load( const JsonObject &obj, const std::string_view )
+void harvest_list::load( const JsonObject &obj, std::string_view )
 {
     mandatory( obj, was_loaded, "id", id );
     mandatory( obj, was_loaded, "entries", entries_, harvest_entry_reader{} );

@@ -32,7 +32,6 @@
     "see_cost": "spaced_high",
     "extras": "forest_thick",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 15 },
-    "mapgen": [ { "method": "builtin", "name": "forest" } ],
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
   },
   {
@@ -45,7 +44,6 @@
     "see_cost": "spaced_high",
     "extras": "forest_water",
     "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 16 },
-    "mapgen": [ { "method": "builtin", "name": "forest" } ],
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -55,7 +53,8 @@
     "sym": "%",
     "color": "brown",
     "see_cost": "opaque",
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE" ],
+    "uniform_terrain": "t_sandstone"
   },
   {
     "type": "overmap_terrain",
@@ -162,19 +161,7 @@
     "color": "light_gray",
     "delete": { "flags": [ "LAKE" ] },
     "extend": { "flags": [ "LAKE_SHORE", "IGNORE_ROTATION_FOR_ADJACENCY" ] },
-    "extras": "lake_shore",
-    "mapgen": [ { "method": "builtin", "name": "lake_shore" } ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lake_surface",
-    "copy-from": "generic_lake"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lake_water_cube",
-    "copy-from": "generic_lake",
-    "name": "lake"
+    "extras": "lake_shore"
   },
   {
     "type": "overmap_terrain",
@@ -202,29 +189,25 @@
   {
     "type": "overmap_terrain",
     "id": "river_center",
-    "copy-from": "generic_river",
-    "mapgen": [ { "method": "builtin", "name": "river_center" } ]
+    "copy-from": "generic_river"
   },
   {
     "type": "overmap_terrain",
     "id": "river",
     "copy-from": "generic_river_bank",
     "extras": "river",
-    "mapgen": [ { "method": "builtin", "name": "river_straight" } ],
     "delete": { "flags": [ "NO_ROTATE" ] }
   },
   {
     "type": "overmap_terrain",
     "id": [ "river_c_not_ne", "river_c_not_nw", "river_c_not_se", "river_c_not_sw" ],
     "copy-from": "generic_river_bank",
-    "extras": "river",
-    "mapgen": [ { "method": "builtin", "name": "river_curved_not" } ]
+    "extras": "river"
   },
   {
     "type": "overmap_terrain",
     "id": [ "river_ne", "river_nw", "river_se", "river_sw" ],
     "extras": "river",
-    "copy-from": "generic_river_bank",
-    "mapgen": [ { "method": "builtin", "name": "river_curved" } ]
+    "copy-from": "generic_river_bank"
   }
 ]

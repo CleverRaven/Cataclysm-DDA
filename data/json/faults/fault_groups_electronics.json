@@ -1,0 +1,13 @@
+[
+  {
+    "type": "fault_group",
+    "id": "electronic_general",
+    "//": "faults that can happen when item is dropped into the water or fried by EMP. If GAME_EMP option is used, EMP can only apply fault_emp_reboot",
+    "group": [
+      { "fault": "fault_electronic_blown_fuse" },
+      { "fault": "fault_electronic_blown_capacitor" },
+      { "fault": "fault_electronic_shorted_circuit" },
+      { "fault": "fault_emp_reboot" }
+    ]
+  }
+]

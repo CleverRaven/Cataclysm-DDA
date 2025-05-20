@@ -5,8 +5,7 @@
     "type": "mission_definition",
     "name": { "str": "Reach Refugee Center" },
     "goal": "MGOAL_NULL",
-    "deadline_low": "1s",
-    "deadline_high": "1s",
+    "deadline": "1 seconds",
     "difficulty": 0,
     "value": 0
   }

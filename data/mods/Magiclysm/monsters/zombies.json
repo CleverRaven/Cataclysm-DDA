@@ -1,0 +1,195 @@
+[
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_thaumic",
+    "name": { "str": "thaumic zombie" },
+    "copy-from": "mon_zombie_base",
+    "description": "A human body, swaying as it moves, an unstoppable rage visible in its oily black eyes.  Faint blue lines are visible beneath parts of its exposed skin, letting off an eldritch glow.",
+    "symbol": "Z",
+    "color": "cyan",
+    "luminance": 4,
+    "extend": { "armor": { "poison": 14, "nether": 10, "psionic": 14 } },
+    "special_attacks": [
+      [ "PARROT", 400 ],
+      [ "PARROT_AT_DANGER", 0 ],
+      { "id": "grab", "eoc": [ "EOC_THAUMIC_ZOMBIE_MANA_DRAIN" ] },
+      { "id": "bite_humanoid", "cooldown": 5, "eoc": [ "EOC_THAUMIC_ZOMBIE_MANA_DRAIN_BITE" ] },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "thaumic_zombie_drain_hit",
+        "cooldown": 0,
+        "move_cost": 100,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 6 } ],
+        "dodgeable": true,
+        "blockable": true,
+        "eoc": [ "EOC_THAUMIC_ZOMBIE_MANA_DRAIN" ],
+        "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_arm" } } ] },
+        "hit_dmg_u": "%1$s hits your %2$s!",
+        "hit_dmg_npc": "%1$s hits <npcname>!",
+        "miss_msg_u": "%1$s misses you.",
+        "miss_msg_npc": "%1$s misses <npcname>.",
+        "no_dmg_msg_u": "%1$s hits your %2$s, but your armor protects you.",
+        "no_dmg_msg_npc": "%1$s hits <npcname>, but their armor protects them."
+      }
+    ],
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_THAUMIC" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_THAUMIC_ZOMBIE_MANA_DRAIN",
+    "condition": "npc_is_character",
+    "effect": [ { "math": [ "n_val('mana')", "-=", "5" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_THAUMIC_ZOMBIE_MANA_DRAIN_BITE",
+    "condition": "npc_is_character",
+    "effect": [ { "math": [ "n_val('mana')", "-=", "15" ] } ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_leyspark",
+    "name": { "str": "leyspark zombie" },
+    "description": "This zombie's ley lines are visibly glowing beneath its skin, casting a blue light on its surroundings.  A stronger burst of light, almost blinding, occasionally flashes from one of the ley lines.",
+    "copy-from": "mon_zombie_thaumic",
+    "melee_damage": [ { "damage_type": "nether", "amount": 5 } ],
+    "emit_fields": [ { "emit_id": "emit_glimmer_thaumic", "delay": "10 s" } ],
+    "relative": { "armor": { "nether": 6 } },
+    "special_attacks": [ [ "PARROT", 400 ], [ "PARROT_AT_DANGER", 0 ], { "id": "grab" }, { "id": "bite_humanoid", "cooldown": 5 } ],
+    "luminance": 10,
+    "upgrades": { "half_life": 120, "into": "mon_zombie_levinbolt" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_levinbolt",
+    "name": { "str": "levinbolt zombie" },
+    "description": "A strong blue glow surrounds this zombie, frequently letting off bright sparks.  Occasionally, it makes an awkward gesture and a series of magical bolts flash from its fingers into the scenery.",
+    "copy-from": "mon_zombie_thaumic",
+    "melee_damage": [ { "damage_type": "nether", "amount": 6 } ],
+    "emit_fields": [ { "emit_id": "emit_glimmer_thaumic", "delay": "4 s" } ],
+    "relative": { "armor": { "nether": 15 } },
+    "special_attacks": [
+      [ "PARROT", 400 ],
+      [ "PARROT_AT_DANGER", 0 ],
+      { "id": "grab" },
+      { "id": "bite_humanoid", "cooldown": 5 },
+      {
+        "id": "levinbolt_zombie_spell_attack",
+        "type": "spell",
+        "spell_data": { "id": "seeker_bolts_levinbolt_spell" },
+        "cooldown": 20,
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_flag": "GRAB_FILTER" } } ] },
+        "monster_message": "%1$s flings its arms out and glowing bolts erupt from them."
+      }
+    ],
+    "luminance": 20,
+    "upgrades": { "half_life": 120, "into": "mon_zombie_manastorm" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_manastorm",
+    "name": { "str": "manastorm zombie" },
+    "description": "This zombie is barely visible behind the bright blue glow and constantly flashes of light.  When it can be seen, its body is covered in a bright tracery of active ley lines.",
+    "copy-from": "mon_zombie_thaumic",
+    "melee_damage": [ { "damage_type": "nether", "amount": 8 } ],
+    "emit_fields": [ { "emit_id": "emit_glimmer_thaumic", "delay": "1 s" } ],
+    "relative": { "armor": { "nether": 25, "necrotic": 15 } },
+    "special_attacks": [
+      [ "PARROT", 400 ],
+      [ "PARROT_AT_DANGER", 0 ],
+      { "id": "grab" },
+      { "id": "bite_humanoid", "cooldown": 5 },
+      {
+        "id": "levinbolt_zombie_spell_attack",
+        "type": "spell",
+        "spell_data": { "id": "seeker_bolts_levinbolt_spell" },
+        "cooldown": 15,
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_flag": "GRAB_FILTER" } } ] },
+        "monster_message": "%1$s flings its arms out and glowing bolts erupt from them."
+      },
+      {
+        "id": "manastorm_zombie_spell_attack",
+        "type": "spell",
+        "spell_data": { "id": "manastorm_zombie_spell" },
+        "cooldown": 35,
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_flag": "GRAB_FILTER" } } ] },
+        "monster_message": "%1$s makes a jerky motion and eldritch blue fire explodes from its arm."
+      }
+    ],
+    "luminance": 40
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_queller",
+    "name": { "str": "zombie queller" },
+    "description": "This zombie's ley lines are glowing beneath its skin, but very dimly.  They seem to absorb nearby light.",
+    "copy-from": "mon_zombie_thaumic",
+    "melee_damage": [ { "damage_type": "nether", "amount": 5 } ],
+    "attack_effs": [ { "id": "effect_thaumic_zombie_magical_disruption", "duration": 5, "chance": 100 } ],
+    "relative": {
+      "armor": { "nether": 50, "sonic": 50, "necrotic": 50, "psionic": 50, "electric": 50, "cold": 50, "heat": 50, "light": 50 }
+    },
+    "luminance": 2,
+    "upgrades": { "half_life": 120, "into": "mon_zombie_disruptor" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_disruptor",
+    "name": { "str": "zombie disruptor" },
+    "description": "The light seems to grow dim around this zombie's hands, in contrast to the blue glow of its eyes.  Barely-visible blue paths on its visible skin, like traceries of veins, mark the site of its ley lines.",
+    "copy-from": "mon_zombie_thaumic",
+    "melee_damage": [ { "damage_type": "nether", "amount": 5 } ],
+    "attack_effs": [
+      { "id": "effect_thaumic_zombie_magical_disruption", "duration": 12, "chance": 100 },
+      { "id": "effect_dispel_magic", "duration": 2, "chance": 75 }
+    ],
+    "relative": {
+      "armor": {
+        "nether": 500,
+        "sonic": 500,
+        "necrotic": 500,
+        "psionic": 500,
+        "electric": 500,
+        "cold": 500,
+        "heat": 500,
+        "light": 500
+      }
+    },
+    "upgrades": { "half_life": 120, "into": "mon_zombie_magebreaker" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_magebreaker",
+    "name": { "str": "magebreaker" },
+    "description": "The air continuously wavers around this zombie's hands and its eyes are a luminous shining blue.  It occasionally gestures at some of the nearby scenery and light warps, like you're looking at it through a kaleidoscope.  You can't tell a difference after it turns to normal, but you still don't want to end up inside it.",
+    "copy-from": "mon_zombie_thaumic",
+    "melee_damage": [ { "damage_type": "nether", "amount": 5 } ],
+    "attack_effs": [ { "id": "effect_thaumic_zombie_magical_disruption", "duration": 25, "chance": 100 } ],
+    "relative": {
+      "armor": {
+        "nether": 500,
+        "sonic": 500,
+        "necrotic": 500,
+        "psionic": 500,
+        "electric": 500,
+        "cold": 500,
+        "heat": 500,
+        "light": 500
+      }
+    },
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "magebreaker_spell_disjunction",
+          "type": "spell",
+          "spell_data": { "id": "disjunction_monster", "min_level": 12 },
+          "cooldown": 25,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s raises both of its hands toward %3$s."
+        }
+      ]
+    },
+    "emit_fields": [ { "emit_id": "emit_magic_disjunction", "delay": "2 s" } ]
+  }
+]

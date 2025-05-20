@@ -1,0 +1,31 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_augustmoon_docking",
+    "name": "Port Augustmoon",
+    "terrain": [ "augustmoon_docking_arm" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_escape_pod",
+    "name": "Crashed escape pod",
+    "terrain": [ "afs_crashed_escape_pod" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_crashed_gunship",
+    "name": "Crashed gunship",
+    "terrain": [ "afs_crashed_gunship" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "ravine_edge",
+    "terrains": [ "ravine_edge" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_crashing_ship",
+    "name": "crashing ship",
+    "terrain": [ "crashing_ship_3" ]
+  }
+]

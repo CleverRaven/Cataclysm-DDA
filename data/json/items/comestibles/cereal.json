@@ -1,7 +1,8 @@
 [
   {
     "abstract": "cereal_tpl",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cereal", "//~": "NO_I18N" },
     "weight": "40 g",
     "volume": "250 ml",
@@ -23,7 +24,8 @@
   },
   {
     "abstract": "cereal_fpsugar_tpl",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "Foodplace cereal", "//~": "NO_I18N" },
     "quench": -3,
     "calories": 225,
@@ -42,7 +44,8 @@
     "volume": "41 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cereal_fp1",
     "name": { "str_sp": "Snicker-Snacks cereal" },
     "description": "Foodplace brand Snicker-Snack cereal.  Each tiny \"Snicker-Snack\" is shaped like human food!",
@@ -51,7 +54,8 @@
     "volume": "41 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cereal_fp2",
     "name": { "str_sp": "Carpenter Crunch cereal" },
     "description": "This is Foodplace brand \"Carpenter Crunch\" cereal with the iconic \"Breakfast Beaver\" mascot on the box.  It tastes kind of like nails.",
@@ -63,7 +67,8 @@
     "volume": "41 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cereal_fp3",
     "name": { "str_sp": "Brantastic cereal" },
     "description": "Foodplace brand \"Brantastic\" cereal.  An essential part of a complete Bran breakfast.",
@@ -72,7 +77,8 @@
     "volume": "41 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cereal_fp4",
     "name": { "str_sp": "Sugar Chomps cereal" },
     "description": "Foodplace brand \"Sugar Chomps\" cereal.  \"Chocolate Frosted Crunchy Sugar Chomps: 8 essential vitamins packed into that rich, fudgy taste!\"",
@@ -83,21 +89,24 @@
     "copy-from": "cereal_fpsugar_tpl"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cereal_fp5",
     "name": { "str_sp": "Honey Pellet cereal" },
     "description": "Foodplace brand \"Amorphous Honey Pellet\" cereal.  The box promises \"Inconceivable sustenance in tiny morsels of yellow honey.\"",
     "copy-from": "cereal_fpsugar_tpl"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cereal_fp6",
     "name": { "str_sp": "Fructose Flakes cereal" },
     "description": "Foodplace brand Fructose Flakes cereal.  Fortified with energy enriched FoodSyrup™ that supports life most efficiently.",
     "copy-from": "cereal_fpsugar_tpl"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cereal_fp7",
     "name": { "str_sp": "Foodios cereal" },
     "description": "Foodplace brand \"Foodios\" cereal.  Foodios™ are Foodalicious™!",
@@ -106,7 +115,8 @@
     "volume": "41 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cereal",
     "name": { "str_sp": "sugary cereal" },
     "weight": "38 g",
@@ -126,7 +136,8 @@
     "fun": 10
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cereal2",
     "name": { "str_sp": "wheat cereal" },
     "weight": "52 g",
@@ -139,7 +150,8 @@
     "copy-from": "cereal_tpl"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cereal3",
     "name": { "str_sp": "corn cereal" },
     "weight": "39 g",

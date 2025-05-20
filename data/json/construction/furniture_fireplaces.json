@@ -13,6 +13,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_stone_fireplace",
+    "group": "build_stone_fireplace",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+    "time": "180 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "rock", 50 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_fireplace_stone"
+  },
+  {
+    "type": "construction",
     "id": "constr_firering",
     "group": "build_fire_ring",
     "category": "FURN",

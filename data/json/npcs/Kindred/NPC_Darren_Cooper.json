@@ -246,7 +246,7 @@
         "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cooper" } ] } ] }
       },
       {
-        "text": "I'll be going now.",
+        "text": "<end_talking_leave>",
         "topic": "TALK_DONE",
         "condition": {
           "and": [
@@ -337,7 +337,7 @@
     "responses": [
       { "text": "I'm curious.  Go on.", "topic": "TALK_COOPERS_SIDE" },
       { "text": "She told me to stop you, and that's what I'll do.", "topic": "TALK_COOPER_FIGHT" },
-      { "text": "I don't care about any of this.  Bye.", "topic": "TALK_DONE" }
+      { "text": "I don't care about any of this.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {

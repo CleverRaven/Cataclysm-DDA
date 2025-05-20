@@ -4,16 +4,10 @@
     "id": "no_hope",
     "name": "No Hope",
     "authors": [ "Night_Pryanik" ],
-    "maintainers": [ "Night_Pryanik" ],
-    "description": "- Significantly reduced amount of places with guaranteed loot spawns.\n- Loot spawn in buildings is drastically reduced, especially for food, tools, guns etc.\n- Most buildings are destroyed, vandalized, or looted.\n- Most cars are destroyed or at least damaged.  Intact cars are nearly impossible to find.\n- Fuel is much harder to find, almost all cars have no fuel in tanks.\n- Marauders, looters, and bandits everywhere.\n\nSee extended description in README.md.\n\nTo get the mod author's intended playing experience, consider:\n- Enabling wandering hordes.\n- Setting item spawn scaling factor to 0.5 or lower.\n- Setting spawn rate scaling factor to 1.5 or higher.",
+    "maintainers": [ "Procyonae" ],
+    "description": "Aims to make the world more inhospitable and challenging in as many ways as possible, items needed for survival and vehicles are much harder to obtain, destruction and banditry is prevelent, even the weather has taken a turn for the worse, see in game help menu by pressing 0 once in-game for full feature list and option explanations.",
     "category": "content",
     "dependencies": [ "dda" ],
     "version": "3.5"
-  },
-  {
-    "type": "monster_adjustment",
-    "species": "ZOMBIE",
-    "//": "TODO: Is this still wanted?",
-    "flag": { "name": "REVIVES", "value": false }
   }
 ]

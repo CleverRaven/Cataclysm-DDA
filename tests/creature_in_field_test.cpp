@@ -1,4 +1,7 @@
+#include <string>
+
 #include "cata_catch.h"
+#include "coordinates.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
@@ -16,7 +19,7 @@ TEST_CASE( "creature_in_field", "[monster],[field]" )
     GIVEN( "An acid field" ) {
         here.add_field( target_location, field_type_id( "fd_acid" ) );
         WHEN( "a monster stands on it" ) {
-            monster &test_monster = spawn_test_monster( "mon_zombie", target_location.raw() );
+            monster &test_monster = spawn_test_monster( "mon_zombie", target_location );
             REQUIRE( test_monster.get_hp() == test_monster.get_hp_max() );
             THEN( "the monster takes damage" ) {
                 here.creature_in_field( test_monster );
@@ -25,7 +28,7 @@ TEST_CASE( "creature_in_field", "[monster],[field]" )
         }
         WHEN( "A monster in a vehicle stands in it" ) {
             here.add_vehicle( vehicle_prototype_handjack, target_location, 0_degrees );
-            monster &test_monster = spawn_test_monster( "mon_zombie", target_location.raw() );
+            monster &test_monster = spawn_test_monster( "mon_zombie", target_location );
             REQUIRE( test_monster.get_hp() == test_monster.get_hp_max() );
             THEN( "the monster doesn't take damage" ) {
                 here.creature_in_field( test_monster );

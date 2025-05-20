@@ -1,14 +1,18 @@
 #include "init.h"
 
+#include <algorithm>
 #include <cstddef>
+#include <filesystem>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include "achievement.h"
 #include "activity_type.h"
+#include "addiction.h"
 #include "ammo.h"
 #include "ammo_effect.h"
 #include "anatomy.h"
@@ -31,6 +35,7 @@
 #include "construction_group.h"
 #include "crafting_gui.h"
 #include "creature.h"
+#include "damage.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "disease.h"
@@ -44,8 +49,11 @@
 #include "field_type.h"
 #include "filesystem.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
 #include "gates.h"
+#include "global_vars.h"
 #include "harvest.h"
+#include "help.h"
 #include "input.h"
 #include "item_action.h"
 #include "item_category.h"
@@ -57,13 +65,14 @@
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "magic_ter_furn_transform.h"
+#include "magic_type.h"
 #include "map_extras.h"
 #include "mapdata.h"
 #include "mapgen.h"
 #include "martialarts.h"
 #include "material.h"
-#include "mission.h"
 #include "math_parser_jmath.h"
+#include "mission.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -71,10 +80,12 @@
 #include "mood_face.h"
 #include "morale_types.h"
 #include "move_mode.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
+#include "options.h"
 #include "overlay_ordering.h"
 #include "overmap.h"
 #include "overmap_connection.h"
@@ -90,13 +101,14 @@
 #include "rotatable_symbols.h"
 #include "scenario.h"
 #include "scent_map.h"
-#include "sdltiles.h" // IWYU pragma: keep
+#include "shop_cons_rate.h"
 #include "skill.h"
-#include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
 #include "speed_description.h"
 #include "start_location.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
 #include "test_data.h"
 #include "text_snippets.h"
 #include "translations.h"
@@ -109,6 +121,10 @@
 #include "weather_type.h"
 #include "widget.h"
 #include "worldfactory.h"
+
+#if defined(TILES)
+#include "sdltiles.h"
+#endif
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -229,7 +245,7 @@ void DynamicDataLoader::add( const std::string &type,
 void DynamicDataLoader::add( const std::string &type,
                              const std::function<void( const JsonObject & )> &f )
 {
-    add( type, [f]( const JsonObject & obj, const std::string_view,  const cata_path &,
+    add( type, [f]( const JsonObject & obj, std::string_view,  const cata_path &,
     const cata_path & ) {
         f( obj );
     } );
@@ -252,6 +268,7 @@ void DynamicDataLoader::initialize()
     add( "connect_group", &connect_group::load );
     add( "fault", &faults::load_fault );
     add( "fault_fix", &faults::load_fix );
+    add( "fault_group", &faults::load_group );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
     add( "effect_on_condition", &effect_on_conditions::load );
     add( "field_type", &field_types::load );
@@ -259,6 +276,7 @@ void DynamicDataLoader::initialize()
     add( "weather_type", &weather_types::load );
     add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
+    add( "help", &help::load );
     add( "activity_type", &activity_type::load );
     add( "addiction_type", &add_type::load_add_types );
     add( "movement_mode", &move_mode::load_move_mode );
@@ -293,7 +311,6 @@ void DynamicDataLoader::initialize()
     add( "SCENARIO_BLACKLIST", &scen_blacklist::load_scen_blacklist );
     add( "shopkeeper_blacklist", &shopkeeper_blacklist::load_blacklist );
     add( "shopkeeper_consumption_rates", &shopkeeper_cons_rates::load_rate );
-    add( "skill_boost", &skill_boost::load_boost );
     add( "enchantment", &enchantment::load_enchantment );
     add( "hit_range", &Creature::load_hit_range );
     add( "scent_type", &scent_type::load_scent_type );
@@ -328,56 +345,9 @@ void DynamicDataLoader::initialize()
         requirement_data::load_requirement( jo, string_id<requirement_data>::NULL_ID(), true );
     } );
     add( "trap", &trap::load_trap );
+    add( "trap_migration", &trap_migrations::load );
 
-    add( "AMMO", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_ammo( jo, src );
-    } );
-    add( "GUN", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_gun( jo, src );
-    } );
-    add( "ARMOR", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_armor( jo, src );
-    } );
-    add( "PET_ARMOR", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_pet_armor( jo, src );
-    } );
-    add( "TOOL", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_tool( jo, src );
-    } );
-    add( "TOOLMOD", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_toolmod( jo, src );
-    } );
-    add( "TOOL_ARMOR", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_tool_armor( jo, src );
-    } );
-    add( "BOOK", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_book( jo, src );
-    } );
-    add( "COMESTIBLE", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_comestible( jo, src );
-    } );
-    add( "ENGINE", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_engine( jo, src );
-    } );
-    add( "WHEEL", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_wheel( jo, src );
-    } );
-    add( "GUNMOD", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_gunmod( jo, src );
-    } );
-    add( "MAGAZINE", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_magazine( jo, src );
-    } );
-    add( "BATTERY", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_battery( jo, src );
-    } );
-    add( "GENERIC", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_generic( jo, src );
-    } );
-    add( "BIONIC_ITEM", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_bionic( jo, src );
-    } );
-
+    add( "ITEM", &items::load );
     add( "ITEM_CATEGORY", &item_category::load_item_cat );
 
     add( "MIGRATION", []( const JsonObject & jo ) {
@@ -480,6 +450,7 @@ void DynamicDataLoader::initialize()
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
     add( "SPELL", &spell_type::load_spell );
+    add( "magic_type", &magic_type::load_magic_type );
     add( "clothing_mod", &clothing_mods::load );
     add( "ter_furn_transform", &ter_furn_transform::load_transform );
     add( "event_transformation", &event_transformation::load_transformation );
@@ -523,6 +494,78 @@ void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::s
             // parse it
             JsonValue jsin = json_loader::from_path( file );
             load_all_from_json( jsin, src, path, file );
+        } catch( const JsonError &err ) {
+            throw std::runtime_error( err.what() );
+        }
+    }
+}
+
+void DynamicDataLoader::load_mod_data_from_path( const cata_path &path, const std::string &src )
+{
+    cata_assert( !finalized &&
+                 "Can't load additional data after finalization.  Must be unloaded first." );
+    // We assume that each folder is consistent in itself,
+    // and all the previously loaded folders.
+    // E.g. the core might provide a vpart "frame-x"
+    // the first loaded mode might provide a vehicle that uses that frame
+    // But not the other way round.
+
+    std::vector<cata_path> files;
+    // if give path is a directory
+    if( dir_exist( path.get_unrelative_path() ) ) {
+        const std::vector<cata_path> dir_files = get_files_from_path_with_path_exclusion( ".json",
+                "mod_interactions", path, true, true );
+        files.insert( files.end(), dir_files.begin(), dir_files.end() );
+        // if given path is an individual file
+    } else if( file_exist( path.get_unrelative_path() ) ) {
+        files.emplace_back( path );
+    }
+
+    // iterate over each file
+    for( const cata_path &file : files ) {
+        try {
+            // parse it
+            JsonValue jsin = json_loader::from_path( file );
+            load_all_from_json( jsin, src, path, file );
+        } catch( const JsonError &err ) {
+            throw std::runtime_error( err.what() );
+        }
+    }
+}
+
+void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &path,
+        const std::string &src )
+{
+    cata_assert( !finalized &&
+                 "Can't load additional data after finalization.  Must be unloaded first." );
+
+    std::vector<mod_id> &loaded_mods = world_generator->active_world->active_mod_order;
+    std::multimap<mod_id, cata_path> files;
+
+    if( dir_exist( path.get_unrelative_path() ) ) {
+
+        // obtain folders within mod_interactions to see if they match loaded mod ids
+        const std::vector<cata_path> interaction_folders = get_directories( path, false );
+
+        for( const cata_path &f : interaction_folders ) {
+            const mod_id associated_mod = mod_id( f.get_unrelative_path().filename().string() );
+            bool is_mod_loaded = std::find( loaded_mods.begin(), loaded_mods.end(),
+                                            associated_mod ) != loaded_mods.end();
+
+            if( is_mod_loaded ) {
+                const std::vector<cata_path> interaction_files = get_files_from_path( ".json", f, true, true );
+                for( const cata_path &path : interaction_files ) {
+                    files.emplace( associated_mod, path );
+                }
+            }
+        }
+    }
+    // iterate over each file
+    for( const std::pair<const mod_id, cata_path> &file : files ) {
+        try {
+            // parse it
+            JsonValue jsin = json_loader::from_path( file.second );
+            load_all_from_json( jsin, string_format( "%s#%s", src, file.first.str() ), path, file.second );
         } catch( const JsonError &err ) {
             throw std::runtime_error( err.what() );
         }
@@ -577,6 +620,7 @@ void DynamicDataLoader::unload_data()
     disease_type::reset();
     dreams.clear();
     emit::reset();
+    help::reset();
     enchantment::reset();
     event_statistic::reset();
     effect_on_conditions::reset();
@@ -589,7 +633,7 @@ void DynamicDataLoader::unload_data()
     harvest_drop_type::reset();
     harvest_list::reset();
     item_category::reset();
-    item_controller->reset();
+    items::reset();
     jmath_func::reset();
     json_flag::reset();
     connect_group::reset();
@@ -650,13 +694,14 @@ void DynamicDataLoader::unload_data()
     shopkeeper_blacklist::reset();
     shopkeeper_cons_rates::reset();
     Skill::reset();
-    skill_boost::reset();
     SNIPPET.clear_snippets();
+    magic_type::reset_all();
     spell_type::reset_all();
     start_locations::reset();
     ter_furn_migrations::reset();
     ter_furn_transform::reset();
     trap::reset();
+    trap_migrations::reset();
     unload_talk_topics();
     VehicleGroup::reset();
     VehiclePlacement::reset();
@@ -704,12 +749,8 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
             { _( "Materials" ), &material_type::finalize_all },
-            {
-                _( "Items" ), []()
-                {
-                    item_controller->finalize();
-                }
-            },
+            { _( "Faults" ), &faults::finalize },
+            { _( "Items" ), &items::finalize_all },
             {
                 _( "Crafting requirements" ), []()
                 {
@@ -759,7 +800,6 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Achievements" ), &achievement::finalize },
             { _( "Damage info orders" ), &damage_info_order::finalize_all },
             { _( "Widgets" ), &widget::finalize },
-            { _( "Faults" ), &faults::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
@@ -776,7 +816,6 @@ void DynamicDataLoader::finalize_loaded_data()
         check_consistency();
     }
     finalized = true;
-    loading_ui::done();
 }
 
 void DynamicDataLoader::check_consistency()
@@ -793,7 +832,7 @@ void DynamicDataLoader::check_consistency()
             },
             { _( "Vitamins" ), &vitamin::check_consistency },
             { _( "Weather types" ), &weather_types::check_consistency },
-            { _( "Weapon Categories" ), &weapon_category::verify_weapon_categories },
+            { _( "Weapon categories" ), &weapon_category::verify_weapon_categories },
             { _( "Effect on conditions" ), &effect_on_conditions::check_consistency },
             { _( "Field types" ), &field_types::check_consistency },
             { _( "Field type migrations" ), &field_type_migrations::check },
@@ -802,12 +841,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Effect types" ), &effect_type::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
             { _( "Addiction types" ), &add_type::check_add_types },
-            {
-                _( "Items" ), []()
-                {
-                    item_controller->check_definitions();
-                }
-            },
+            { _( "Items" ), &items::check_consistency },
             { _( "Materials" ), &materials::check },
             { _( "Faults" ), &faults::check_consistency },
             { _( "Vehicle parts" ), &vehicles::parts::check },
@@ -844,6 +878,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Start locations" ), &start_locations::check_consistency },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
             { _( "Traps" ), &trap::check_consistency },
+            { _( "Trap migrations" ), &trap_migrations::check },
             { _( "Bionics" ), &bionic_data::check_bionic_consistency },
             { _( "Gates" ), &gates::check },
             { _( "NPC classes" ), &npc_class::check_consistency },
@@ -876,5 +911,4 @@ void DynamicDataLoader::check_consistency()
         loading_ui::show( _( "Verifying" ), e.first );
         e.second();
     }
-    loading_ui::done();
 }

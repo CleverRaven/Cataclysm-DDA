@@ -168,7 +168,7 @@
     },
     "responses": [
       {
-        "text": "It will.  Let's get going.",
+        "text": "It will.  <lets_go>",
         "topic": "TALK_DONE",
         "condition": { "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmots" } ] },
         "effect": "follow"
@@ -179,7 +179,7 @@
         "condition": { "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmots" } ] }
       },
       {
-        "text": "Alright.  Goodbye.",
+        "text": "Alright.  <end_talking_bye>",
         "topic": "TALK_DONE",
         "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmots" } ] } }
       }

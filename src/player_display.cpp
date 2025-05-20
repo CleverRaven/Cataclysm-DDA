@@ -3,8 +3,15 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
+#include <functional>
+#include <limits>
+#include <map>
 #include <memory>
+#include <optional>
 #include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
 
 #include "addiction.h"
 #include "avatar.h"
@@ -17,29 +24,37 @@
 #include "character.h"
 #include "character_modifier.h"
 #include "color.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "display.h"
 #include "effect.h"
-#include "flag.h"
 #include "enum_conversions.h"
+#include "flag.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "input_context.h"
+#include "item.h"
+#include "item_location.h"
 #include "itype.h"
+#include "magic_enchantment.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
-#include "profession.h"
+#include "point.h"
 #include "proficiency.h"
 #include "sdltiles.h"
 #include "skill.h"
 #include "skill_ui.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translation.h"
 #include "translations.h"
-#include "ui.h"
+#include "type_id.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
@@ -79,13 +94,10 @@ static int temperature_print_rescaling( units::temperature temp )
 static bool should_combine_bps( const Character &p, const bodypart_id &l, const bodypart_id &r,
                                 const item *selected_clothing )
 {
-    const encumbrance_data &enc_l = p.get_part_encumbrance_data( l );
-    const encumbrance_data &enc_r = p.get_part_encumbrance_data( r );
-
     return l != r && // are different parts
            l ==  r->opposite_part && r == l->opposite_part && // are complementary parts
            // same encumbrance & temperature
-           enc_l == enc_r &&
+           p.compare_encumbrance_data( l, r ) &&
            temperature_print_rescaling( p.get_part_temp_conv( l ) ) == temperature_print_rescaling(
                p.get_part_temp_conv( r ) ) &&
            // selected_clothing covers both or neither parts
@@ -145,7 +157,8 @@ void Character::print_encumbrance( ui_adaptor &ui, const catacurses::window &win
 
         const bodypart_id &bp = bps[thisline].first;
         const bool combine = bps[thisline].second;
-        const encumbrance_data &e = get_part_encumbrance_data( bp );
+        int encumbrance = get_part_encumbrance( bp );
+        int layer_penalty = get_part_layer_penalty( bp );
 
         const bool highlighted = selected_clothing ? selected_clothing->covers( bp ) : false;
         std::string out = body_part_name_as_heading( bp, combine ? 2 : 1 );
@@ -166,15 +179,15 @@ void Character::print_encumbrance( ui_adaptor &ui, const catacurses::window &win
         mvwprintz( win, point( 1, y_pos ), limb_color, "%s", out );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
         int column = std::max( 10, ( width / 2 ) - 3 ); //Ideally the encumbrance data is centred
-        mvwprintz( win, point( column, y_pos ), display::encumb_color( e.encumbrance ), "%3d",
-                   e.encumbrance - e.layer_penalty );
+        mvwprintz( win, point( column, y_pos ), display::encumb_color( encumbrance ), "%3d",
+                   encumbrance - layer_penalty );
         // separator in low toned color
         column += 3; //Prepared for 3-digit encumbrance
         mvwprintz( win, point( column, y_pos ), c_light_gray, "+" );
         column += 1; // "+"
         // take into account the new encumbrance system for layers
-        mvwprintz( win, point( column, y_pos ), display::encumb_color( e.encumbrance ), "%-3d",
-                   e.layer_penalty );
+        mvwprintz( win, point( column, y_pos ), display::encumb_color( encumbrance ), "%-3d",
+                   layer_penalty );
         // print warmth, tethered to right hand side of the window
         mvwprintz( win, point( width - 6, y_pos ), display::bodytemp_color( *this, bp ), "(% 3d)",
                    temperature_print_rescaling( get_part_temp_conv( bp ) ) );
@@ -225,7 +238,7 @@ static std::vector<std::string> get_encumbrance_description( const Character &yo
         if( !bp->has_limb_score( sc.getId() ) ) {
             continue;
         }
-        float cur_score = part->get_limb_score( sc.getId() );
+        float cur_score = part->get_limb_score( you, sc.getId() );
         float bp_score = bp->get_limb_score( sc.getId() );
         // Check for any global limb score modifiers
         for( const effect &eff : you.get_effects_with_flag( flag_EFFECT_LIMB_SCORE_MOD ) ) {
@@ -250,7 +263,7 @@ static std::vector<std::string> get_encumbrance_description( const Character &yo
             }
             std::string desc = mod.description().translated();
             std::string valstr = colorize( string_format( "%.2f", mod.modifier( you ) ),
-                                           limb_score_current_color( part->get_limb_score( sc.first ) * sc.second,
+                                           limb_score_current_color( part->get_limb_score( you, sc.first ) * sc.second,
                                                    bp->get_limb_score( sc.first ) * sc.second ) );
             s.emplace_back( string_format( "%s: %s%s", desc, mod.mod_type_str(), valstr ) );
         }
@@ -313,7 +326,7 @@ static void draw_proficiencies_tab( ui_adaptor &ui, const catacurses::window &wi
     const bool focused = curtab == player_display_tab::proficiencies;
     const nc_color title_color = focused ? h_light_gray : c_light_gray;
     if( focused ) {
-        ui.set_cursor( win, point_zero );
+        ui.set_cursor( win, point::zero );
     }
     center_print( win, 0, title_color, string_format( "[<color_yellow>%s</color>] %s",
                   ctxt.get_desc( "VIEW_PROFICIENCIES" ), _( title_PROFICIENCIES ) ) );
@@ -383,7 +396,7 @@ static void draw_stats_tab( ui_adaptor &ui, const catacurses::window &w_stats, c
     const bool is_current_tab = curtab == player_display_tab::stats;
     const nc_color title_col = is_current_tab ? h_light_gray : c_light_gray;
     if( is_current_tab ) {
-        ui.set_cursor( w_stats, point_zero );
+        ui.set_cursor( w_stats, point::zero );
     }
     center_print( w_stats, 0, title_col,
                   string_format( "[<color_yellow>%s</color>] %s",
@@ -567,7 +580,7 @@ static void draw_encumbrance_tab( ui_adaptor &ui, const catacurses::window &w_en
     right_print( w_encumb, 0, 0, title_col, string_format( "[<color_yellow>%s</color>]",
                  ctxt.get_desc( "SELECT_ENCUMBRANCE_TAB" ) ) );
     if( is_current_tab ) {
-        ui.set_cursor( w_encumb, point_zero );
+        ui.set_cursor( w_encumb, point::zero );
         you.print_encumbrance( ui, w_encumb, line );
     } else {
         you.print_encumbrance( ui, w_encumb );
@@ -599,7 +612,7 @@ static void draw_traits_tab( ui_adaptor &ui, const catacurses::window &w_traits,
     const bool is_current_tab = curtab == player_display_tab::traits;
     const nc_color title_col = is_current_tab ? h_light_gray : c_light_gray;
     if( is_current_tab ) {
-        ui.set_cursor( w_traits, point_zero );
+        ui.set_cursor( w_traits, point::zero );
     }
     center_print( w_traits, 0, title_col, _( title_TRAITS ) );
     right_print( w_traits, 0, 0, title_col, string_format( "[<color_yellow>%s</color>]",
@@ -636,7 +649,7 @@ static void draw_traits_info( const catacurses::window &w_info, const Character 
     werase( w_info );
     if( line < traitslist.size() ) {
         const trait_and_var &cur = traitslist[line];
-        std::string trait_desc = cur.desc();
+        std::string trait_desc = you.mutation_desc( cur.trait );
         if( !you.purifiable( cur.trait ) ) {
             trait_desc +=
                 _( "\n<color_yellow>This trait is an intrinsic part of you now, purifier won't be able to remove it.</color>" );
@@ -736,7 +749,7 @@ static void draw_effects_tab( ui_adaptor &ui, const catacurses::window &w_effect
     const bool is_current_tab = curtab == player_display_tab::effects;
     const nc_color title_col = is_current_tab ? h_light_gray : c_light_gray;
     if( is_current_tab ) {
-        ui.set_cursor( w_effects, point_zero );
+        ui.set_cursor( w_effects, point::zero );
     }
     center_print( w_effects, 0, title_col, _( title_EFFECTS ) );
     right_print( w_effects, 0, 0, title_col, string_format( "[<color_yellow>%s</color>]",
@@ -783,7 +796,7 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
     const bool is_current_tab = curtab == player_display_tab::skills;
     nc_color cstatus = is_current_tab ? h_light_gray : c_light_gray;
     if( is_current_tab ) {
-        ui.set_cursor( w_skills, point_zero );
+        ui.set_cursor( w_skills, point::zero );
     }
     center_print( w_skills, 0, cstatus, _( title_SKILLS ) );
     right_print( w_skills, 0, 0, c_light_gray, string_format( "[<color_yellow>%s</color>]",
@@ -914,6 +927,9 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
     if( selectedSkill ) {
         const SkillLevel &level = you.get_skill_level_object( selectedSkill->ident() );
         std::string info_text = selectedSkill->description();
+        info_text = string_format( _( "%s\n%s\n%s" ), info_text,
+                                   selectedSkill->get_level_description( level.knowledgeLevel(), false ),
+                                   selectedSkill->get_level_description( level.level(), true ) );
         float level_gap = 100.0f * std::max( level.knowledgeLevel(), 1 ) / std::max( level.level(), 1 );
         if( level.knowledgeLevel() == 1 && level.level() == 0 ) {
             level_gap = 150.0f;
@@ -1083,24 +1099,19 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
     werase( w_tip );
 
     // Print name and header
-    if( you.custom_profession.empty() ) {
-        if( you.crossed_threshold() ) {
-            //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
-            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.get_name(),
-                       you.male ? _( "Male" ) : _( "Female" ), race );
-        } else if( you.prof == nullptr || you.prof == profession::generic() ) {
-            // Regular person. Nothing interesting.
-            //~ player info window: 1s - name, 2s - gender '|' - field separator.
-            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s" ), you.get_name(),
-                       you.male ? _( "Male" ) : _( "Female" ) );
-        } else {
-            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.get_name(),
-                       you.male ? _( "Male" ) : _( "Female" ),
-                       you.prof->gender_appropriate_name( you.male ) );
-        }
+    if( you.crossed_threshold() ) {
+        //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
+        mvwprintz( w_tip, point::zero, c_white, _( " %1$s | %2$s | %3$s" ), you.get_name(),
+                   you.male ? _( "Male" ) : _( "Female" ), race );
     } else {
-        mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.get_name(),
-                   you.male ? _( "Male" ) : _( "Female" ), you.custom_profession );
+        std::string profession = you.disp_profession();
+        if( !profession.empty() ) {
+            mvwprintz( w_tip, point::zero, c_white, _( " %1$s | %2$s | %3$s " ), you.get_name(),
+                       you.male ? _( "Male" ) : _( "Female" ), profession );
+        } else {
+            mvwprintz( w_tip, point::zero, c_white, _( " %1$s | %2$s " ), you.get_name(),
+                       you.male ? _( "Male" ) : _( "Female" ) );
+        }
     }
 
     const auto btn_color = [&tip_btn_highlight]( const int btn_to_draw ) {
@@ -1537,7 +1548,8 @@ void Character::disp_info( bool customize_character )
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             const std::string name = _effect_it.second.disp_name();
-            effect_name_and_text.emplace_back( name, _effect_it.second.disp_desc() );
+            effect_name_and_text.emplace_back( name,
+                                               _effect_it.second.disp_desc() + '\n' + _effect_it.second.disp_mod_source_info() );
         }
     }
     if( get_perceived_pain() > 0 ) {
@@ -1590,12 +1602,12 @@ void Character::disp_info( bool customize_character )
         effect_name_and_text.emplace_back( starvation_name, starvation_text );
     }
 
-    if( has_trait( trait_TROGLO3 ) && g->is_in_sunlight( pos() ) ) {
+    if( has_trait( trait_TROGLO3 ) && g->is_in_sunlight( pos_bub() ) ) {
         effect_name_and_text.emplace_back( _( "In Sunlight" ),
                                            _( "The sunlight irritates you terribly.\n"
                                               "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
                                          );
-    } else  if( has_trait( trait_TROGLO2 ) && g->is_in_sunlight( pos() ) ) {
+    } else  if( has_trait( trait_TROGLO2 ) && g->is_in_sunlight( pos_bub() ) ) {
         if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
             effect_name_and_text.emplace_back( _( "In Sunlight" ),
                                                _( "The sunlight irritates you badly.\n"
@@ -1606,7 +1618,7 @@ void Character::disp_info( bool customize_character )
                                                   "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" ) );
         }
 
-    } else if( has_trait( trait_TROGLO ) && g->is_in_sunlight( pos() ) &&
+    } else if( has_trait( trait_TROGLO ) && g->is_in_sunlight( pos_bub() ) &&
                incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
         effect_name_and_text.emplace_back( _( "In Sunlight" ),
                                            _( "The sunlight irritates you.\n"
@@ -1740,7 +1752,7 @@ void Character::disp_info( bool customize_character )
     catacurses::window w_tip;
     ui_adaptor ui_tip;
     ui_tip.on_screen_resize( [&]( ui_adaptor & ui_tip ) {
-        w_tip = catacurses::newwin( 1, FULL_SCREEN_WIDTH + 1, point_zero );
+        w_tip = catacurses::newwin( 1, FULL_SCREEN_WIDTH + 1, point::zero );
         ui_tip.position_from_window( w_tip );
     } );
     ui_tip.mark_resize();
@@ -1885,8 +1897,8 @@ void Character::disp_info( bool customize_character )
         w_proficiencies = catacurses::newwin( proficiency_win_size_y, grid_width,
                                               profstart );
         w_proficiencies_border = catacurses::newwin( proficiency_win_size_y + 1, grid_width + 2,
-                                 profstart + point_west );
-        border_proficiencies.set( profstart + point_north_west, point( grid_width + 2,
+                                 profstart + point::west );
+        border_proficiencies.set( profstart + point::north_west, point( grid_width + 2,
                                   proficiency_win_size_y + 2 ) );
         ui_proficiencies.position_from_window( w_proficiencies_border );
     } );

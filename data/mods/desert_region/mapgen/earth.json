@@ -1,19 +1,11 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
-    "om_terrain": "sandstone",
-    "object": { "fill_ter": "t_sandstone" }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "om_terrain": "mesa",
     "object": { "fill_ter": "t_sandstone" }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mesa_edge_v1", "mesa_edge_v2" ] ],
     "//": "Z = 0",
     "//1": "These would probably be better done as conditional nests of mesa though z-level testing would need adding",
@@ -50,7 +42,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mesa_edge_top_v1", "mesa_edge_top_v2" ] ],
     "//": "Z = 2",
     "object": {
@@ -87,7 +78,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mesa_corner_v1", "mesa_corner_v2" ] ],
     "//": "Z = 0",
     "object": {
@@ -123,7 +113,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mesa_corner_top_v1", "mesa_corner_top_v2" ] ],
     "//": "Z = 2",
     "object": {
@@ -160,7 +149,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mesa_2way_v1", "mesa_2way_v2" ] ],
     "//": "Z = 0",
     "object": {
@@ -196,7 +184,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mesa_2way_top_v1", "mesa_2way_top_v2" ] ],
     "//": "Z = 2",
     "//1": "Why does this use predecessor when it replaces the whole map?",
@@ -234,7 +221,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mesa_3way_v1", "mesa_3way_v2" ] ],
     "//": "Z = 0",
     "object": {
@@ -270,7 +256,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mesa_3way_top_v1", "mesa_3way_top_v2" ] ],
     "//": "Z = 2",
     "object": {
@@ -307,7 +292,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "canyon_edge_v1_bottom", "canyon_edge_v2_bottom" ] ],
     "//": "Z = -2",
     "object": {
@@ -343,7 +327,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "canyon_edge_v1", "canyon_edge_v2" ] ],
     "//": "Z = -1",
     "object": {
@@ -378,7 +361,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "canyon_edge_ground_v1", "canyon_edge_ground_v2" ] ],
     "//": "Z = 0",
     "object": {
@@ -415,7 +397,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "canyon_corner_v1_bottom", "canyon_corner_v2_bottom" ] ],
     "//": "Z = -2",
     "object": {
@@ -451,7 +432,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "canyon_corner_v1", "canyon_corner_v2" ] ],
     "//": "Z = -1",
     "object": {
@@ -486,7 +466,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "canyon_corner_ground_v1", "canyon_corner_ground_v2" ] ],
     "//": "Z = 0",
     "object": {
@@ -523,7 +502,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "canyon_2way_v1_bottom", "canyon_2way_v2_bottom" ] ],
     "//": "Z = -1",
     "object": {
@@ -559,7 +537,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "canyon_2way_v1", "canyon_2way_v2" ] ],
     "//": "Z = -1",
     "object": {
@@ -594,7 +571,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "canyon_2way_ground_v1", "canyon_2way_ground_v2" ] ],
     "//": "Z = 0",
     "object": {
@@ -631,7 +607,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "canyon_3way_v1_bottom", "canyon_3way_v2_bottom" ] ],
     "//": "Z = -2",
     "object": {
@@ -667,7 +642,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "canyon_3way_v1", "canyon_3way_v2" ] ],
     "//": "Z = -1",
     "object": {
@@ -702,7 +676,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "canyon_3way_ground_v1", "canyon_3way_ground_v2" ] ],
     "//": "Z = 0",
     "object": {

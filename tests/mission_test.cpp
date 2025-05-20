@@ -1,11 +1,19 @@
+#include <functional>
+#include <memory>
+#include <vector>
+
 #include "avatar.h"
 #include "cata_catch.h"
-#include "character.h"
+#include "character_id.h"
+#include "coordinates.h"
 #include "game.h"
-#include "player_helpers.h"
+#include "item.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "mission.h"
-#include "npc.h"
+#include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 static const itype_id itype_test_rock( "test_rock" );
 
@@ -98,7 +106,7 @@ TEST_CASE( "mission_goal_condition_test", "[mission]" )
     }
 
     GIVEN( "with_npc" ) {
-        const character_id guy_id = get_map().place_npc( point( 25, 25 ), npc_template_test_talker );
+        const character_id guy_id = get_map().place_npc( point_bub_ms( 25, 25 ), npc_template_test_talker );
         g->load_npcs();
         WHEN( "mission_origin_start" ) {
             mission *m = mission::reserve_new( mission_TEST_MISSION_GOAL_CONDITION1, guy_id );

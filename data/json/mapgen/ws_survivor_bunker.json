@@ -10,7 +10,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_survivor_bunker_f0" ],
     "object": {
       "predecessor_mapgen": "forest",
@@ -46,7 +45,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_survivor_bunker_f-1" ],
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -76,14 +74,8 @@
         "########################",
         "########################"
       ],
-      "terrain": {
-        "#": "t_soil",
-        "<": "t_ladder_up",
-        "|": "t_wall_wood",
-        ".": "t_dirt_underground",
-        "r": "t_dirtmound",
-        "D": "t_door_locked_interior"
-      },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { "#": "t_soil", "<": "t_ladder_up", ".": "t_dirt_underground", "r": "t_dirtmound", "D": "t_door_locked_interior" },
       "furniture": {
         "s": "f_sandbag_half",
         "S": "f_sandbag_wall",

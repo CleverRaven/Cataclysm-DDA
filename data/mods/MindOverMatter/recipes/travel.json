@@ -12,6 +12,7 @@
     "batch_time_factors": [ 80, 3 ],
     "book_learn": [ [ "schematics_transporters", 9 ] ],
     "proficiencies": [
+      { "proficiency": "prof_psionic_minimum_requirements", "required": true },
       { "proficiency": "prof_psionic_basic", "required": true },
       { "proficiency": "prof_psionic_containment", "required": false },
       { "proficiency": "prof_psionic_warping", "required": false },
@@ -55,6 +56,7 @@
     "batch_time_factors": [ 80, 3 ],
     "book_learn": [ [ "schematics_transporters", 6 ] ],
     "proficiencies": [
+      { "proficiency": "prof_psionic_minimum_requirements", "required": true },
       { "proficiency": "prof_psionic_basic", "required": true },
       { "proficiency": "prof_psionic_containment", "required": false },
       { "proficiency": "prof_psionic_warping", "required": false },

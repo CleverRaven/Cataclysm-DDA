@@ -6783,7 +6783,7 @@
           ]
         },
         {
-          "id": [ "apartments_con_tower_015", "apartments_mod_tower_shack_roof" ],
+          "id": [ "apartments_con_tower_015", "apartments_con_tower_115", "apartments_mod_tower_shack_roof" ],
           "fg": 1,
           "bg": [
             { "weight": 1, "sprite": 3125 },

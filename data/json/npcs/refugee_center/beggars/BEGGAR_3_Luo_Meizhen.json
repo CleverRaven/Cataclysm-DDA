@@ -11,7 +11,8 @@
     "//": "Angry beggar in the refugee center.",
     "name_unique": "Luo Meizhen",
     "gender": "female",
-    "name_suffix": "beggar",
+    "name_suffix": "Mycologist",
+    "temp_suffix": "Beggar",
     "class": "NC_BEGGAR_3",
     "attitude": 0,
     "mission": 7,
@@ -182,17 +183,13 @@
     "id": "TALK_REFUGEE_BEGGAR_3_GIVE_FOOD",
     "dynamic_line": "Actually yeah, I'm always hungry these days.  I don't like taking handouts, but I wouldn't say no.",
     "responses": [
-      { "text": "Actually can I ask you something else?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "I'm sorry, I was wrong.  I can't help you.", "topic": "TALK_DONE" }
     ],
     "repeat_responses": [
       {
         "for_category": [ "food" ],
-        "response": {
-          "text": "Here, you can have this <topic_item>.",
-          "topic": "TALK_REFUGEE_BEGGAR_3_GAVE_FOOD",
-          "opinion": { "trust": 1, "value": 1, "fear": -1, "anger": -1, "owed": 1 }
-        }
+        "response": { "text": "Here, you can have this <topic_item>.", "topic": "TALK_REFUGEE_BEGGAR_3_GAVE_FOOD" }
       }
     ]
   },
@@ -200,10 +197,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_GAVE_FOOD",
     "dynamic_line": "Thanks, I really appreciate this.",
-    "speaker_effect": [ { "effect": { "npc_add_effect": "beggar_has_eaten", "duration": 3600 } } ],
+    "speaker_effect": [ { "effect": { "u_bulk_donate": 1 } }, { "effect": { "run_eocs": [ "EOC_BEGGAR_TEST_IF_FOOD_CANNIBAL" ] } } ],
     "responses": [
-      { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_3_INTRO", "effect": { "u_bulk_donate": 1 } },
-      { "text": "No problem.  See you around.", "topic": "TALK_DONE", "effect": { "u_bulk_donate": 1 } }
+      { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_3_INTRO" },
+      { "text": "No problem.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -217,7 +214,7 @@
         "text": "Well, they might not share, but I can.  Are you hungry?",
         "topic": "TALK_REFUGEE_BEGGAR_3_GIVE_FOOD"
       },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -230,7 +227,7 @@
         "text": "Well, they might not share, but I can.  Are you hungry?",
         "topic": "TALK_REFUGEE_BEGGAR_3_GIVE_FOOD"
       },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -276,7 +273,7 @@
         "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4_RECRUIT"
       },
       { "text": "Ok… see ya.", "topic": "TALK_DONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -306,7 +303,7 @@
         "text": "I mean, racism could definitely be a part of it… but you are visibly in poor shape.  They need strong survivor material.",
         "topic": "TALK_REFUGEE_BEGGAR_3_INSULTED"
       },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -321,8 +318,8 @@
         "text": "It'd be temporary.  I have a base set up.  There are only a few of us survivors left, we need to work together",
         "topic": "TALK_REFUGEE_BEGGAR_3_RECRUIT1"
       },
-      { "text": "Okay, yeah, that's a bit of a problem.  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Okay, yeah, that's a bit of a problem.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -347,8 +344,8 @@
         "text": "So, about that doctorate of yours…",
         "topic": "TALK_REFUGEE_BEGGAR_3_DOCTORATE1"
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -362,8 +359,8 @@
         "text": "It'd be temporary.  I have a base set up.  There are only a few of us survivors left, we need to work together",
         "topic": "TALK_REFUGEE_BEGGAR_3_RECRUIT1"
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -403,7 +400,7 @@
         "text": "I might have some food for you.  Are you hungry?",
         "topic": "TALK_REFUGEE_BEGGAR_3_GIVE_FOOD"
       },
-      { "text": "Just wanted to get square.  I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Just wanted to get square.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -433,8 +430,8 @@
         "topic": "TALK_REFUGEE_BEGGAR_3_DOCTORATE1"
       },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_3_EXPERTISE" },
-      { "text": "Let's talk about something else then.", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -453,8 +450,8 @@
         "topic": "TALK_REFUGEE_BEGGAR_3_DOCTORATE1"
       },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_3_EXPERTISE" },
-      { "text": "Let's talk about something else then.", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -474,8 +471,8 @@
         "topic": "TALK_REFUGEE_BEGGAR_3_DOCTORATE1"
       },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_3_EXPERTISE" },
-      { "text": "Let's talk about something else then.", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -505,8 +502,8 @@
         "text": "What's this I hear about you having a doctorate?",
         "topic": "TALK_REFUGEE_BEGGAR_3_DOCTORATE1"
       },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -515,8 +512,8 @@
     "dynamic_line": "Yeah, yeah, it's all very glamorous.  Sure, I trained in the great ivory tower, got my PhD in mycology.  Did my dissertation on signaling pathways in hyphae formation, and a postdoc in plant-fungus communication in rhizomes.  Then I got the job at the bookstore because there wasn't a ton of work for a doctor of mycology, although I'd had a few nibbles before things really got crazy.  Now, people are just breaking down my door to get my sweet sweet knowledge of mold to help them fight the incoming zombie threat.",
     "responses": [
       { "text": "Do you know about the fungal zombies though?", "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS1" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -525,8 +522,8 @@
     "dynamic_line": "Heh.  Yeah, that was a great use of my time.  As you can see it really helped my employment prospects.  Yeah, I have a PhD in mycology.  Did my dissertation on signaling pathways in hyphae formation, and a postdoc in plant-fungus communication in rhizomes.  Then I got the job at the bookstore because there wasn't a ton of work for a doctor of mycology, although I'd had a few nibbles before things really got crazy.  Now, people are just breaking down my door to get my sweet sweet knowledge of mold to help them fight the incoming zombie threat.",
     "responses": [
       { "text": "Do you know about the fungal zombies though?", "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS1" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -538,8 +535,8 @@
         "text": "Encroaching alien mushrooms, fungal towers, tough mycelium invading ground and trees, zombies taken over by aggressive mold… Yeah.  It's ugly stuff.",
         "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS2"
       },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -551,8 +548,8 @@
         "text": "It'd be dangerous.  What kind of benefit is there from taking a risk like that?",
         "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS3"
       },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -586,7 +583,7 @@
         "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4_NOTREADY",
         "effect": { "npc_add_var": "general_recruit_luo_owed", "value": "yes" }
       },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "Sure, I'd better get going.  I'll see if I can find you something.", "topic": "TALK_DONE" }
     ]
   },

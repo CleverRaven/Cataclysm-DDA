@@ -45,7 +45,7 @@
   {
     "type": "overmap_terrain",
     "id": "boann_sidhe_island",
-    "name": "forest?",
+    "name": "ancient building",
     "sym": "F",
     "color": "c_light_green",
     "looks_like": "forest",
@@ -163,6 +163,61 @@
     "looks_like": "standing_stones",
     "see_cost": "high",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "xedra_monochrome_meadow" ],
+    "name": "monochrome meadow",
+    "sym": "O",
+    "color": "light_gray",
+    "vision_levels": "open_land",
+    "looks_like": "field",
+    "see_cost": "none",
+    "mondensity": 0
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "salamander_eruption_ground" ],
+    "name": "salamander eruption",
+    "sym": "E",
+    "color": "red_cyan",
+    "see_cost": "high",
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "salamander_eruption_roof" ],
+    "name": "salamander eruption roof",
+    "sym": "E",
+    "color": "red_cyan",
+    "see_cost": "high",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "salamander_eruption_entrance" ],
+    "name": "salamander tunnels entrance",
+    "sym": "O",
+    "color": "red_cyan",
+    "see_cost": "high",
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "salamander_tunnel",
+    "name": "salamander tunnels",
+    "color": "red_cyan",
+    "see_cost": "high",
+    "spawns": { "group": "GROUP_SALAMANDER_ERUPTION", "population": [ 1, 2 ], "chance": 100 },
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "salamander_finale",
+    "name": "salamander tunnels",
+    "sym": "E",
+    "color": "red_cyan",
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -308,6 +363,28 @@
     "sym": "#",
     "color": "brown",
     "see_cost": "full_high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_sevenoclock", "cabin_roof_sevenoclock" ],
+    "name": "old cabin",
+    "sym": "C",
+    "color": "green",
+    "vision_levels": "open_land",
+    "looks_like": "cabin",
+    "see_cost": "high",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "field_deathworm" ],
+    "name": "acid-scarred field",
+    "sym": ".",
+    "color": "light_green",
+    "vision_levels": "open_land",
+    "looks_like": "field",
+    "see_cost": "high",
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",

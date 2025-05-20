@@ -8,7 +8,6 @@
 #include <map>
 #include <optional>
 #include <string>
-#include <unordered_set>
 #include <vector>
 
 #include "coords_fwd.h"
@@ -19,6 +18,7 @@
 class Character;
 class item;
 class item_location;
+class map;
 class player_activity;
 
 template<typename Point, typename Container>
@@ -90,7 +90,8 @@ enum class do_activity_reason : int {
     NEEDS_MOP,               // This spot can be mopped, if a mop is present.
     NEEDS_FISHING,           // This spot can be fished, if the right tool is present.
     NEEDS_CRAFT,             // There is at least one item to craft.
-    NEEDS_DISASSEMBLE        // There is at least one item to disassemble.
+    NEEDS_DISASSEMBLE,        // There is at least one item to disassemble.
+    REFUSES_THIS_WORK        // Character refuses to do this for some reason, maybe against their beliefs or needs danger prompt.
 
 };
 
@@ -122,7 +123,8 @@ const std::vector<std::string> do_activity_reason_string = {
     "NEEDS_MOP",
     "NEEDS_FISHING",
     "NEEDS_CRAFT",
-    "NEEDS_DISASSEMBLE"
+    "NEEDS_DISASSEMBLE",
+    "REFUSES_THIS_WORK"
 };
 
 struct activity_reason_info {
@@ -183,10 +185,15 @@ enum class item_drop_reason : int {
 
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items );
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items,
-                               const tripoint_bub_ms &where, bool force_ground = false );
+                               map *here, const tripoint_bub_ms &where, bool force_ground = false );
+std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you, item_drop_reason,
+        const std::list<item> &items );
+std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you, item_drop_reason,
+        const std::list<item> &items, map *here, const tripoint_bub_ms &where,
+        bool force_ground = false );
 std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
                                         const std::list<item> &items,
-                                        const tripoint_bub_ms &where );
+                                        map *here, const tripoint_bub_ms &where );
 // used in unit tests to avoid triggering user input
 void repair_item_finish( player_activity *act, Character *you, bool no_menu );
 
@@ -281,6 +288,8 @@ int move_cost_cart( const item &it, const tripoint_bub_ms &src, const tripoint_b
                     const units::volume &capacity );
 int move_cost_inv( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest );
 
+void clean_may_activity_occupancy_items_var( Character &you );
+void clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( Character &you );
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 finish_functions;

@@ -1,0 +1,64 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_AUGUSTMOON_GENETECH_TRADER",
+    "name": { "str": "Mercurial augmentation tech." },
+    "job_description": "Outfitter Clerk",
+    "common": false,
+    "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "NC_AUGUSTMOON_TOOL_TRADER_worn",
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
+    "skills": [ { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } } ],
+    "shopkeeper_item_group": [ { "group": "afs_augustmoon_genetech_trader", "rigid": true } ],
+    "shopkeeper_price_rules": [ { "group": "afs_augustmoon_genetech_trader", "markup": 1.1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_augustmoon_genetech_trader",
+    "ammo": 100,
+    "magazine": 100,
+    "subtype": "collection",
+    "items": [ { "item": "afs_gene_disp", "count": [ 3, 10 ] }, { "item": "afs_gene_template", "count": [ 2, 3 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_AUGUSTMOON_TOOL_TRADER_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "afs_hazard_suit_casual" },
+      { "item": "boots_combat" },
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "augustmoon_mercurial_clerk",
+    "name_suffix": "Mercurial augmentation tech.",
+    "class": "NC_AUGUSTMOON_GENETECH_TRADER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_AUGUSTMOON_GENETECH_TRADER",
+    "faction": "mercurial"
+  },
+  {
+    "id": [ "TALK_AUGUSTMOON_GENETECH_TRADER", "TALK_AUGUSTMOON_GENETECH_WORKS" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The Mercurial store is attended by a massive clerk, sleek scales adorn their massive forearms and slightly pointed ears.  They greet you with a voice that is both deep and melodious, \"Welcome to Mercurial Genetech, where we can help you unlock your potential.\"",
+    "responses": [
+      { "text": "I'm looking into augments", "topic": "TALK_DONE", "effect": "start_trade" },
+      { "text": "How does this Genetech stuff works?", "topic": "TALK_AUGUSTMOON_GENETECH_WORKS" },
+      { "text": "Maybe later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_AUGUSTMOON_GENETECH_WORKS" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The clerk smiles, \"Our Genetech is a marvel of modern science, capable of rewriting your very DNA.  We offer a wide range of treatments, from the mundanely medical to the exotic.  You need only select one of our templates and visit one of our editing machines in both ends of this store.  If you ever have doubts, remember that all our treatments are reversible.\""
+  }
+]

@@ -12,8 +12,8 @@
     "qualities": [ { "id": "CHURN", "level": 1 } ],
     "book_learn": [ [ "dairy_book", 3 ] ],
     "//": "Book Things to do with milk.  Add curdled milk and cheese recipes to the book.  Also consider adding to brewing json Airag from this book.",
-    "components": [ [ [ "milk_cream", 5 ] ] ],
-    "charges": 99
+    "components": [ [ [ "milk_cream", 5 ] ], [ [ "salt", 1 ] ] ],
+    "charges": 22
   },
   {
     "type": "recipe",
@@ -29,8 +29,8 @@
     "book_learn": [ [ "dairy_book", 3 ] ],
     "//": "Book Things to do with milk.  Add curdled milk and cheese recipes to the book.  Also consider adding to brewing json Airag from this book.",
     "tools": [ [ [ "jar_glass_sealed", -1 ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "milk_cream", 3 ] ] ],
-    "charges": 33
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "milk_cream", 3 ] ], [ [ "salt", 1 ] ] ],
+    "charges": 13
   },
   {
     "type": "recipe",
@@ -120,14 +120,7 @@
     "components": [
       [ [ "cottage_cheese", 1 ] ],
       [ [ "onion", 1 ] ],
-      [
-        [ "bell_pepper", 1 ],
-        [ "bell_pepper_cut", 1 ],
-        [ "tomato", 1 ],
-        [ "tomato_cut", 1 ],
-        [ "cucumber", 1 ],
-        [ "cucumber_cut", 1 ]
-      ]
+      [ [ "any_bell_pepper", 1, "LIST" ], [ "any_tomato", 1, "LIST" ], [ "any_salad_cucumber", 1, "LIST" ] ]
     ]
   },
   {
@@ -166,6 +159,7 @@
     "time": "25 m",
     "charges": 10,
     "book_learn": [ [ "dairy_book", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_frying" }, { "proficiency": "prof_frying_bread" } ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
     "components": [
@@ -228,7 +222,8 @@
     "time": "30 m",
     "batch_time_factors": [ 70, 2 ],
     "qualities": [ { "id": "CHURN", "level": 1 } ],
-    "components": [ [ [ "milk_cream", 8 ] ], [ [ "lemon", 2 ] ] ],
+    "//": "8 lemons make 18 citric acid, so 2 lemons ~ 4.5 => 5 citric acid",
+    "components": [ [ [ "milk_cream", 8 ] ], [ [ "lemon", 2 ], [ "chem_citric_acid", 5 ] ] ],
     "charges": 6
   }
 ]

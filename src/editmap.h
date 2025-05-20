@@ -12,11 +12,13 @@
 #include "color.h"
 #include "coordinates.h"
 #include "cursesdef.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
 
 class Creature;
 class field;
+class input_context;
 class map;
 class smallmap;
 class tinymap;
@@ -49,7 +51,8 @@ class editmap
 {
     public:
         tripoint pos2screen( const tripoint_bub_ms &p );
-        bool eget_direction( tripoint_rel_ms &p, const std::string &action ) const;
+        bool eget_direction( tripoint_rel_ms &p, const std::string &action,
+                             const input_context &ctxt ) const;
         std::optional<tripoint_bub_ms> edit();
         void uber_draw_ter( const catacurses::window &w, map *m );
         void update_view_with_help( const std::string &txt, const std::string &title );
@@ -58,6 +61,7 @@ class editmap
         template<typename T_t>
         void edit_feature();
         void edit_fld();
+        void edit_rads() const;
         void edit_itm();
         void edit_critter( Creature &critter );
         void edit_mapgen();
@@ -73,7 +77,7 @@ class editmap
         catacurses::window w_info;
 
         void recalc_target( shapetype shape );
-        bool move_target( const std::string &action, int moveorigin = -1 );
+        bool move_target( const std::string &action, const input_context &ctxt, int moveorigin = -1 );
 
         int sel_field;
         int sel_field_intensity;
@@ -104,11 +108,13 @@ class editmap
 
         tinymap *tmpmap_ptr = nullptr;
 
-        const int width = 45;
+        const int width = 60;
         const int offsetX = 0;
         const int infoHeight = 20;
 
         point tmax;
+
+        bool run_post_process = true;
 
         void draw_main_ui_overlay();
         void do_ui_invalidation();

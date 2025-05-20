@@ -8,6 +8,7 @@
         "chance": 20,
         "extras": {
           "mx_mass_grave_dino": 30,
+          "mx_nest_pred_abandoned": 30,
           "mx_nest_acrocanthosaurus": 30,
           "mx_nest_albertosaurus": 30,
           "mx_nest_allosaurus": 30,
@@ -39,6 +40,7 @@
       "forest": {
         "chance": 20,
         "extras": {
+          "mx_nest_nedcolbertia": 30,
           "mx_nest_gallimimus": 30,
           "mx_nest_struthiomimus": 30,
           "mx_nest_ornithomimus": 30,
@@ -54,6 +56,7 @@
           "mx_nest_edmontonia": 30,
           "mx_nest_edmontosaurus": 30,
           "mx_nest_einiosaurus": 30,
+          "mx_nest_eolambia": 30,
           "mx_nest_euoplocephalus": 30,
           "mx_nest_gargoyleosaurus": 30,
           "mx_nest_gastonia": 30,
@@ -64,6 +67,7 @@
           "mx_nest_issi": 30,
           "mx_nest_kosmoceratops": 30,
           "mx_nest_lambeosaurus": 30,
+          "mx_nest_lokiceratops": 30,
           "mx_nest_maiasaura": 30,
           "mx_nest_nanosaurus": 30,
           "mx_nest_nodosaurus": 30,

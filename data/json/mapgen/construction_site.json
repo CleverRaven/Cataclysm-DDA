@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "construction_site" ],
     "weight": 100,
     "object": {
@@ -33,13 +32,15 @@
         "                        "
       ],
       "palettes": [ "construction_site_palette" ],
-      "place_loot": [ { "item": "con_mix_foldable", "x": [ 0, 8 ], "y": [ 5, 7 ] } ],
+      "place_loot": [
+        { "item": "con_mix_foldable", "x": [ 0, 8 ], "y": [ 5, 7 ] },
+        { "item": "diesel_generator", "x": [ 0, 8 ], "y": [ 5, 7 ], "chance": 70 }
+      ],
       "place_vehicles": [ { "vehicle": "small_utility_vehicles", "x": 12, "y": 4, "chance": 70, "rotation": 180 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "construction_site" ],
     "weight": 100,
     "object": {
@@ -71,13 +72,15 @@
         "                        "
       ],
       "palettes": [ "construction_site_palette" ],
-      "place_loot": [ { "item": "con_mix_foldable", "x": [ 5, 9 ], "y": [ 4, 7 ] } ],
+      "place_loot": [
+        { "item": "con_mix_foldable", "x": [ 5, 9 ], "y": [ 4, 7 ] },
+        { "item": "diesel_generator", "x": [ 5, 9 ], "y": [ 4, 7 ], "chance": 70 }
+      ],
       "place_vehicles": [ { "vehicle": "small_utility_vehicles", "x": 12, "y": 4, "chance": 70, "rotation": 0 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "construction_site" ],
     "weight": 100,
     "object": {
@@ -109,7 +112,10 @@
         "   c            ss      "
       ],
       "palettes": [ "construction_site_palette" ],
-      "place_loot": [ { "item": "con_mix_foldable", "x": [ 0, 4 ], "y": [ 17, 19 ] } ],
+      "place_loot": [
+        { "item": "con_mix_foldable", "x": [ 0, 4 ], "y": [ 17, 19 ] },
+        { "item": "diesel_generator", "x": [ 0, 4 ], "y": [ 17, 19 ], "chance": 66 }
+      ],
       "place_vehicles": [
         { "vehicle": "small_utility_vehicles", "x": 22, "y": 4, "chance": 66, "rotation": 270 },
         { "vehicle": "small_utility_vehicles", "x": 12, "y": 21, "chance": 66, "rotation": 180 }
@@ -118,7 +124,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "construction_site" ],
     "weight": 100,
     "object": {
@@ -150,13 +155,15 @@
         "   --  --  --  --  --   "
       ],
       "palettes": [ "construction_site_palette" ],
-      "place_loot": [ { "item": "con_mix_foldable", "x": [ 0, 17 ], "y": 1 } ],
+      "place_loot": [
+        { "item": "con_mix_foldable", "x": [ 0, 17 ], "y": 1 },
+        { "item": "diesel_generator", "x": [ 0, 17 ], "y": 1, "chance": 70 }
+      ],
       "place_vehicles": [ { "vehicle": "small_utility_vehicles", "x": 20, "y": [ 6, 11 ], "chance": 70, "rotation": 270 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "construction_site" ],
     "weight": 100,
     "object": {
@@ -188,7 +195,10 @@
         " c c                    "
       ],
       "palettes": [ "construction_site_palette" ],
-      "place_loot": [ { "item": "con_mix_foldable", "x": [ 5, 11 ], "y": [ 20, 23 ] } ],
+      "place_loot": [
+        { "item": "con_mix_foldable", "x": [ 5, 11 ], "y": [ 20, 23 ] },
+        { "item": "diesel_generator", "x": [ 5, 11 ], "y": [ 20, 23 ], "chance": 70 }
+      ],
       "place_vehicles": [ { "vehicle": "small_utility_vehicles", "x": 15, "y": 21, "chance": 70, "rotation": 180 } ]
     }
   }

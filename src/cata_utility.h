@@ -4,27 +4,27 @@
 
 #include <algorithm>
 #include <array>
-#include <cstddef>
 #include <ctime>
+#include <filesystem>
 #include <functional>
-#include <iosfwd>
+#include <limits>
 #include <map>
 #include <memory>
 #include <numeric>
 #include <optional>
-#include <ostream>
 #include <sstream>
 #include <string> // IWYU pragma: keep
+#include <string_view>
 #include <type_traits>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "enums.h"
-#include "path_info.h"
 
 class JsonOut;
 class JsonValue;
+class cata_path;
 class translation;
 
 /**
@@ -345,14 +345,15 @@ void write_to_file( const cata_path &path, const std::function<void( std::ostrea
  */
 /**@{*/
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
-bool read_from_file( const fs::path &path, const std::function<void( std::istream & )> &reader );
+bool read_from_file( const std::filesystem::path &path,
+                     const std::function<void( std::istream & )> &reader );
 bool read_from_file( const cata_path &path, const std::function<void( std::istream & )> &reader );
 bool read_from_file_json( const cata_path &path,
                           const std::function<void( const JsonValue & )> &reader );
 
 bool read_from_file_optional( const std::string &path,
                               const std::function<void( std::istream & )> &reader );
-bool read_from_file_optional( const fs::path &path,
+bool read_from_file_optional( const std::filesystem::path &path,
                               const std::function<void( std::istream & )> &reader );
 bool read_from_file_optional( const cata_path &path,
                               const std::function<void( std::istream & )> &reader );
@@ -372,7 +373,7 @@ bool read_from_file_optional_json( const cata_path &path,
  */
 /**@{*/
 std::unique_ptr<std::istream> read_maybe_compressed_file( const std::string &path );
-std::unique_ptr<std::istream> read_maybe_compressed_file( const fs::path &path );
+std::unique_ptr<std::istream> read_maybe_compressed_file( const std::filesystem::path &path );
 std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path );
 /**@}*/
 
@@ -386,7 +387,7 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path 
  */
 /**@{*/
 std::optional<std::string> read_whole_file( const std::string &path );
-std::optional<std::string> read_whole_file( const fs::path &path );
+std::optional<std::string> read_whole_file( const std::filesystem::path &path );
 std::optional<std::string> read_whole_file( const cata_path &path );
 /**@}*/
 

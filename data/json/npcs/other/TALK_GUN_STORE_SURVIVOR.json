@@ -26,7 +26,7 @@
         "topic": "TALK_NPC_GUN_STORE_SURVIVOR_INTRO",
         "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
       },
-      { "text": "Bye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -40,7 +40,7 @@
         "topic": "TALK_FRIEND_CONVERSATION",
         "condition": {
           "and": [
-            { "math": [ "n_npc_trust()", ">=", "2" ] },
+            { "math": [ "n_npc_trust() >= 2" ] },
             { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
           ]
         }
@@ -62,14 +62,14 @@
         "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
         "topic": "TALK_MISSION_LIST"
       },
-      { "text": "I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_NPC_GUN_STORE_SURVIVOR_WHO",
     "dynamic_line": {
-      "gendered_line": "I'm just an average person, really.  When a horde of those <swear> <zombies> came knockin' on my door, I ran for it.  Good for me that someone left this store open in the chaos, I ran inside and locked the place down.  There isn't a thing in all of <city> that can bust through these walls and barred windows, I'd reckon I'm the luckiest <name_b> in town.",
+      "gendered_line": "I'm just an average person, really.  When a horde of those <freaking> <zombies> came knockin' on my door, I ran for it.  Good for me that someone left this store open in the chaos, I ran inside and locked the place down.  There isn't a thing in all of <city> that can bust through these walls and barred windows, I'd reckon I'm the luckiest <name_b> in town.",
       "relevant_genders": [ "npc" ]
     },
     "responses": [
@@ -82,7 +82,7 @@
         "topic": "TALK_FRIEND_CONVERSATION",
         "condition": {
           "and": [
-            { "math": [ "n_npc_trust()", ">=", "2" ] },
+            { "math": [ "n_npc_trust() >= 2" ] },
             { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
           ]
         }
@@ -104,7 +104,7 @@
         "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
         "topic": "TALK_MISSION_LIST"
       },
-      { "text": "I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -118,7 +118,7 @@
         "topic": "TALK_FRIEND_CONVERSATION",
         "condition": {
           "and": [
-            { "math": [ "n_npc_trust()", ">=", "2" ] },
+            { "math": [ "n_npc_trust() >= 2" ] },
             { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
           ]
         }
@@ -140,7 +140,7 @@
         "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
         "topic": "TALK_MISSION_LIST"
       },
-      { "text": "I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   }
 ]

@@ -3,19 +3,19 @@
     "type": "effect_on_condition",
     "id": "EOC_RESET_DREAM_COUNTER",
     "//": "used to prevent multiple dreams at the same sleep",
-    "effect": [ { "math": [ "dream_counter", "=", "0" ] } ]
+    "effect": [ { "math": [ "dream_counter = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_GIVE_NIGHTMARES",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
-    "condition": { "and": [ { "u_has_effect": "nightmares" }, { "math": [ "dream_counter", "==", "0" ] } ] },
+    "condition": { "and": [ { "u_has_effect": "nightmares" }, { "math": [ "dream_counter == 0" ] } ] },
     "effect": [
       { "u_message": "nightmares", "snippet": true, "type": "bad" },
       { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 },
-      { "math": [ "dream_counter", "=", "1" ] },
-      { "queue_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
+      { "math": [ "dream_counter = 1" ] },
+      { "run_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
     ]
   },
   {
@@ -33,12 +33,12 @@
             { "not": { "u_has_effect": "flu" } }
           ]
         },
-        { "math": [ "dream_counter", "==", "0" ] }
+        { "math": [ "dream_counter == 0" ] }
       ]
     },
     "effect": [
       {
-        "switch": { "math": [ "u_val('health')" ] },
+        "switch": { "math": [ "u_health()" ] },
         "cases": [
           { "case": -100, "effect": { "u_message": "health_horrible", "snippet": true, "type": "bad" } },
           { "case": -50, "effect": { "u_message": "health_very_bad", "snippet": true, "type": "bad" } },
@@ -49,8 +49,8 @@
           { "case": 200, "effect": { "u_message": "health_great", "snippet": true, "type": "good" } }
         ]
       },
-      { "math": [ "dream_counter", "=", "1" ] },
-      { "queue_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
+      { "math": [ "dream_counter = 1" ] },
+      { "run_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
     ]
   }
 ]

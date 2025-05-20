@@ -8,6 +8,7 @@
     ],
     "type": "palette",
     "id": "afs_habitat_structure",
+    "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "&": {  } },
     "terrain": {
       " ": "t_region_groundcover_urban",
@@ -105,13 +106,25 @@
       "k": { "item": "SUS_office_desk", "chance": 60 },
       "l": { "item": "afs_frontier_cryo_g", "chance": 50 },
       "@": { "item": "bed", "chance": 50 },
-      "v": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+      "v": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] },
       "%": { "item": "afs_tools_space_emergency" }
     }
   },
   {
     "type": "palette",
     "id": "afs_habitat_residential_furnishing",
+    "palettes": [ "afs_habitat_residential_furnishing_looted" ],
+    "items": {
+      "o": { "item": "afs_kitchenette", "chance": 60 },
+      "U": { "item": "afs_old_food_storage", "chance": 60 },
+      "F": { "item": "afs_old_food_storage", "chance": 60 },
+      "l": { "item": "afs_wintersuit_generic_basic", "chance": 30 }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "afs_habitat_residential_furnishing_looted",
+    "//": "Defines the furniture ids and loot items that aren't valuable enough to steal.",
     "furniture": {
       "@": "f_bed",
       "S": "f_sleep_pod",
@@ -137,13 +150,9 @@
       "e": "f_entertainment_center"
     },
     "items": {
-      "o": { "item": "afs_kitchenette", "chance": 60 },
-      "U": { "item": "afs_old_food_storage", "chance": 60 },
-      "F": { "item": "afs_old_food_storage", "chance": 60 },
-      "W": { "item": "afs_colonist_outfit", "chance": 60 },
-      "l": { "item": "afs_frontier_cryo_g", "chance": 50 },
       "@": { "item": "bed", "chance": 50 },
-      "v": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] }
+      "v": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] },
+      "W": { "item": "afs_colonist_outfit", "chance": 60 }
     }
   },
   {

@@ -54,6 +54,7 @@
       { "group": "security_armor", "damage": [ 0, 4 ] },
       { "group": "security_gear" },
       { "group": "cop_gloves", "prob": 40, "damage": [ 0, 4 ] },
+      { "item": "throat_guard_cut_resistant", "prob": 5, "damage": [ 0, 4 ] },
       {
         "collection": [
           { "item": "pants", "variant": "pants_black", "damage": [ 0, 4 ] },

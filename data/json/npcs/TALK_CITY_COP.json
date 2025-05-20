@@ -19,7 +19,7 @@
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_CITY_COP", "effect": "start_trade" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
-      { "text": "I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -32,7 +32,7 @@
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_CITY_COP_LEAVE" },
       { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_CITY_COP" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -47,7 +47,7 @@
       { "text": "You've seen other survivors?", "topic": "TALK_CITY_COP_NEWS" },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "What can you sell me?", "topic": "TALK_CITY_COP", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -59,7 +59,7 @@
       { "text": "You've seen other survivors?", "topic": "TALK_CITY_COP_NEWS" },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Well, let me check out some of that stuff.", "topic": "TALK_CITY_COP", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -70,7 +70,7 @@
       { "text": "Why don't you go somewhere else?", "topic": "TALK_CITY_COP_LEAVE" },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Well, let me check out some of that stuff.", "topic": "TALK_CITY_COP", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   }
 ]

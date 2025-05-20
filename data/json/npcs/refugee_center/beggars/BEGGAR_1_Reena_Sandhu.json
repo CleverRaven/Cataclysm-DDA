@@ -11,7 +11,8 @@
     "//": "Hungry beggar in the refugee center.",
     "name_unique": "Reena Sandhu",
     "gender": "female",
-    "name_suffix": "beggar",
+    "name_suffix": "Teacher",
+    "temp_suffix": "Beggar",
     "class": "NC_BEGGAR_1",
     "attitude": 0,
     "mission": 7,
@@ -129,7 +130,7 @@
         "text": "I've got some more food, if you want it.",
         "topic": "TALK_REFUGEE_BEGGAR_1_GIVE_FOOD"
       },
-      { "condition": { "npc_has_effect": "beggar_has_eaten" }, "text": "I'd better get going.", "topic": "TALK_DONE" },
+      { "condition": { "npc_has_effect": "beggar_has_eaten" }, "text": "<end_talking_leave>", "topic": "TALK_DONE" },
       {
         "condition": { "not": { "npc_has_effect": "beggar_has_eaten" } },
         "text": "I'm sorry, I can't help you.",
@@ -148,11 +149,7 @@
     "repeat_responses": [
       {
         "for_category": [ "food" ],
-        "response": {
-          "text": "Here, you can have this <topic_item>.",
-          "topic": "TALK_REFUGEE_BEGGAR_1_GAVE_FOOD",
-          "opinion": { "trust": 1, "value": 1, "fear": -1, "anger": -1, "owed": 1 }
-        }
+        "response": { "text": "Here, you can have this <topic_item>.", "topic": "TALK_REFUGEE_BEGGAR_1_GAVE_FOOD" }
       }
     ]
   },
@@ -160,10 +157,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_1_GAVE_FOOD",
     "dynamic_line": "This is wonderful of you, I really appreciate it.",
-    "speaker_effect": [ { "effect": { "npc_add_effect": "beggar_has_eaten", "duration": 3600 } } ],
+    "speaker_effect": [ { "effect": { "u_bulk_donate": 1 } }, { "effect": { "run_eocs": [ "EOC_BEGGAR_TEST_IF_FOOD_CANNIBAL" ] } } ],
     "responses": [
-      { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_1_INTRO", "effect": { "u_bulk_donate": 1 } },
-      { "text": "No problem.  See you around.", "topic": "TALK_DONE", "effect": { "u_bulk_donate": 1 } }
+      { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_1_INTRO" },
+      { "text": "No problem.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -188,7 +185,7 @@
         "text": "I might have some food for you.  Let me check.",
         "topic": "TALK_REFUGEE_BEGGAR_1_GIVE_FOOD"
       },
-      { "condition": { "npc_has_effect": "beggar_has_eaten" }, "text": "I'd better get going.", "topic": "TALK_DONE" },
+      { "condition": { "npc_has_effect": "beggar_has_eaten" }, "text": "<end_talking_leave>", "topic": "TALK_DONE" },
       {
         "condition": { "not": { "npc_has_effect": "beggar_has_eaten" } },
         "text": "I'm sorry, I can't help you.",
@@ -218,7 +215,7 @@
         "text": "I might have some food for you.  Let me check.",
         "topic": "TALK_REFUGEE_BEGGAR_1_GIVE_FOOD"
       },
-      { "condition": { "npc_has_effect": "beggar_has_eaten" }, "text": "I'd better get going.", "topic": "TALK_DONE" },
+      { "condition": { "npc_has_effect": "beggar_has_eaten" }, "text": "<end_talking_leave>", "topic": "TALK_DONE" },
       {
         "condition": { "not": { "npc_has_effect": "beggar_has_eaten" } },
         "text": "I'm sorry, I can't help you.",
@@ -248,7 +245,7 @@
         "text": "I might have some food for you.  Let me check.",
         "topic": "TALK_REFUGEE_BEGGAR_1_GIVE_FOOD"
       },
-      { "condition": { "npc_has_effect": "beggar_has_eaten" }, "text": "I'd better get going.", "topic": "TALK_DONE" },
+      { "condition": { "npc_has_effect": "beggar_has_eaten" }, "text": "<end_talking_leave>", "topic": "TALK_DONE" },
       {
         "condition": { "not": { "npc_has_effect": "beggar_has_eaten" } },
         "text": "I'm sorry, I can't help you.",
@@ -269,7 +266,7 @@
         "text": "I might have some food for you.  Let me check.",
         "topic": "TALK_REFUGEE_BEGGAR_1_GIVE_FOOD"
       },
-      { "condition": { "npc_has_effect": "beggar_has_eaten" }, "text": "I'd better get going.", "topic": "TALK_DONE" },
+      { "condition": { "npc_has_effect": "beggar_has_eaten" }, "text": "<end_talking_leave>", "topic": "TALK_DONE" },
       {
         "condition": { "not": { "npc_has_effect": "beggar_has_eaten" } },
         "text": "I'm sorry, I can't help you.",
@@ -306,8 +303,8 @@
         "text": "I might have some food for you.  Let me check.",
         "topic": "TALK_REFUGEE_BEGGAR_1_GIVE_FOOD"
       },
-      { "text": "Let's talk about something else then.", "topic": "TALK_NONE" },
-      { "condition": { "npc_has_effect": "beggar_has_eaten" }, "text": "I'd better get going.", "topic": "TALK_DONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "condition": { "npc_has_effect": "beggar_has_eaten" }, "text": "<end_talking_leave>", "topic": "TALK_DONE" },
       {
         "condition": { "not": { "npc_has_effect": "beggar_has_eaten" } },
         "text": "I'm sorry, I can't help you.",
@@ -320,8 +317,8 @@
     "id": "TALK_REFUGEE_BEGGAR_1_RECRUIT_NO",
     "dynamic_line": "I really appreciate everything you've done for me, but I don't think you get it.  I can't go out there.  I will die.  I know it's horrible camping out here, but I just can't face that nightmare again.",
     "responses": [
-      { "text": "Let's talk about something else then.", "topic": "TALK_NONE" },
-      { "text": "I hope you'll reconsider eventually.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "I hope you'll reconsider eventually.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -332,7 +329,7 @@
       "relevant_genders": [ "u" ]
     },
     "responses": [
-      { "text": "OK.  For now let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "OK.  <done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "OK, I'll talk to them too.", "topic": "TALK_DONE" }
     ]
   },
@@ -343,6 +340,6 @@
       "gendered_line": "Well… you have shown that you can survive out there, and you've been able to provide food, so I know you're thriving more than we are here.  All right, I'll tell you what.  I'm not going anywhere without my friends here, we've been through way too much together.  If you can convince Luo, Brandon, and Yusuke to come along, then I'll go.",
       "relevant_genders": [ "u" ]
     },
-    "responses": [ { "text": "All right!  Let's get going.", "topic": "TALK_DONE", "effect": "follow" } ]
+    "responses": [ { "text": "All right!  <lets_go>", "topic": "TALK_DONE", "effect": "follow" } ]
   }
 ]

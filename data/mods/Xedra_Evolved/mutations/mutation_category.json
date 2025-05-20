@@ -99,6 +99,15 @@
     "memorial_message": "Empty your heart of its mortal dream."
   },
   {
+    "type": "mutation_category",
+    "id": "LILIN",
+    "name": "Lilin",
+    "threshold_mut": "THRESH_LILIN",
+    "mutagen_message": "",
+    "vitamin": "mutagen_lilin",
+    "memorial_message": "The dawn breaks, and the owl lays down for its final rest."
+  },
+  {
     "type": "mutation_type",
     "id": "STOMACH"
   },

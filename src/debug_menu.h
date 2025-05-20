@@ -8,13 +8,11 @@
 #include <string>
 #include <string_view>
 
-#include "coords_fwd.h"
+#include "coordinates.h"  // IWYU pragma: keep
 
 class Character;
 class Creature;
 struct mongroup;
-struct tripoint;
-
 template <typename E> struct enum_traits;
 
 namespace debug_menu
@@ -22,10 +20,11 @@ namespace debug_menu
 
 enum class debug_menu_index : int {
     WISH,
+    SPAWN_ITEM_GROUP,
     SHORT_TELEPORT,
     LONG_TELEPORT,
-    REVEAL_MAP,
     SPAWN_NPC,
+    SPAWN_NAMED_NPC,
     SPAWN_OM_NPC,
     SPAWN_MON,
     GAME_STATE,
@@ -47,6 +46,7 @@ enum class debug_menu_index : int {
     SPAWN_CLAIRVOYANCE,
     SPAWN_HORDE,
     MAP_EDITOR,
+    PALETTE_VIEWER,
     CHANGE_WEATHER,
     WIND_DIRECTION,
     WIND_SPEED,
@@ -113,15 +113,17 @@ enum class debug_menu_index : int {
     SIX_MILLION_DOLLAR_SURVIVOR,
     EDIT_FACTION,
     WRITE_CITY_LIST,
+    TALK_TOPIC,
+    IMGUI_DEMO,
     last
 };
 
 void wisheffect( Creature &p );
 void wishitem( Character *you = nullptr );
-// TODO: Get rid of untyped overload
-void wishitem( Character *you, const tripoint & );
 void wishitem( Character *you, const tripoint_bub_ms & );
-void wishmonster( const std::optional<tripoint> &p );
+// Shows a menu to debug item groups. Spawns items if test is false, otherwise displays would be spawned items.
+void wishitemgroup( bool test );
+void wishmonster( const std::optional<tripoint_bub_ms> &p );
 void wishmonstergroup( tripoint_abs_omt &loc );
 void wishmonstergroup_mon_selection( mongroup &group );
 void wishmutate( Character *you );
@@ -162,6 +164,8 @@ Container string_to_iterable( const std::string_view str, const std::string_view
 }
 
 bool is_debug_character();
+void prompt_map_reveal( const std::optional<tripoint_abs_omt> &p = std::nullopt );
+void map_reveal( int reveal_level_int, const std::optional<tripoint_abs_omt> &p = std::nullopt );
 
 /* Merges iterable elements into std::string with
  * @param delimiter between them

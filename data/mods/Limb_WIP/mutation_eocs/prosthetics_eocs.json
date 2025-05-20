@@ -276,49 +276,45 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_left_leg_hp_set",
-    "effect": [ { "math": [ "n_hp('ALL')", "=", "u_hp('leg_prosthetic_l') * n_hp_max('bp_null') / u_hp_max('leg_prosthetic_l')" ] } ]
+    "effect": [ { "math": [ "n_hp('ALL') = u_hp('leg_prosthetic_l') * n_hp_max('bp_null') / u_hp_max('leg_prosthetic_l')" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_right_leg_hp_set",
-    "effect": [ { "math": [ "n_hp('ALL')", "=", "u_hp('leg_prosthetic_r') * n_hp_max('bp_null') / u_hp_max('leg_prosthetic_r')" ] } ]
+    "effect": [ { "math": [ "n_hp('ALL') = u_hp('leg_prosthetic_r') * n_hp_max('bp_null') / u_hp_max('leg_prosthetic_r')" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_left_peg_leg_old_hp_set",
-    "effect": [ { "math": [ "n_hp('ALL')", "=", "u_hp('leg_peg_l') * n_hp_max('bp_null') / u_hp_max('leg_peg_l')" ] } ]
+    "effect": [ { "math": [ "n_hp('ALL') = u_hp('leg_peg_l') * n_hp_max('bp_null') / u_hp_max('leg_peg_l')" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_right_peg_leg_old_hp_set",
-    "effect": [ { "math": [ "n_hp('ALL')", "=", "u_hp('leg_peg_r') * n_hp_max('bp_null') / u_hp_max('leg_peg_r')" ] } ]
+    "effect": [ { "math": [ "n_hp('ALL') = u_hp('leg_peg_r') * n_hp_max('bp_null') / u_hp_max('leg_peg_r')" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_left_arm_hp_set",
-    "effect": [ { "math": [ "n_hp('ALL')", "=", "u_hp('arm_prosthetic_l') * n_hp_max('bp_null') / u_hp_max('arm_prosthetic_l')" ] } ]
+    "effect": [ { "math": [ "n_hp('ALL') = u_hp('arm_prosthetic_l') * n_hp_max('bp_null') / u_hp_max('arm_prosthetic_l')" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_right_arm_hp_set",
-    "effect": [ { "math": [ "n_hp('ALL')", "=", "u_hp('arm_prosthetic_r') * n_hp_max('bp_null') / u_hp_max('arm_prosthetic_r')" ] } ]
+    "effect": [ { "math": [ "n_hp('ALL') = u_hp('arm_prosthetic_r') * n_hp_max('bp_null') / u_hp_max('arm_prosthetic_r')" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_right_neuroarm_hp_set",
     "effect": [
-      {
-        "math": [ "n_hp('ALL')", "=", "u_hp('arm_neuroprosthetic_r') * n_hp_max('bp_null') / u_hp_max('arm_neuroprosthetic_r')" ]
-      }
+      { "math": [ "n_hp('ALL') = u_hp('arm_neuroprosthetic_r') * n_hp_max('bp_null') / u_hp_max('arm_neuroprosthetic_r')" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_left_neuroarm_hp_set",
     "effect": [
-      {
-        "math": [ "n_hp('ALL')", "=", "u_hp('arm_neuroprosthetic_l') * n_hp_max('bp_null') / u_hp_max('arm_neuroprosthetic_l')" ]
-      }
+      { "math": [ "n_hp('ALL') = u_hp('arm_neuroprosthetic_l') * n_hp_max('bp_null') / u_hp_max('arm_neuroprosthetic_l')" ] }
     ]
   },
   {

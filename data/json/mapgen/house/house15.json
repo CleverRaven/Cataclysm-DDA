@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_15" ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -32,7 +30,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette" ],
+      "palettes": [ "domestic_general_construction_and_variant_palette", "standard_domestic_landscaping_palette" ],
       "terrain": { "%": "t_region_shrub_fruit" },
       "furniture": { "!": "f_bluebell", "$": [ "f_treadmill", "f_treadmill_mechanical" ] },
       "place_loot": [ { "group": "livingroom", "x": [ 7, 16 ], "y": [ 7, 9 ], "chance": 90, "repeat": [ 1, 6 ] } ],
@@ -42,7 +40,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_15_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -78,7 +75,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_15_basement",
     "weight": 190,
     "object": {
@@ -96,20 +92,20 @@
         " ||||||..........|||||| ",
         " |1...........2.......| ",
         " |........UU.z........| ",
-        " |........%%..........| ",
-        " |........%<..........| ",
-        " |........%%..........| ",
+        " |........||..........| ",
+        " |........|<..........| ",
+        " |........||..........| ",
         " |....................| ",
         " |........z...........| ",
         " |..........z.........| ",
-        " ||||||...Fzg.z..|||||| ",
+        " ||||||...âzg.z..|||||| ",
         "      ||||||||||||      ",
         "                        ",
         "                        ",
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [
@@ -128,7 +124,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_15_basement",
     "weight": 10,
     "object": {

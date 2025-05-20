@@ -1,7 +1,8 @@
 [
   {
     "id": "advanced_ecig",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "advanced electronic cigarette" },
     "description": "An advanced, rechargeable electronic cigarette.  A less harmful way to get your nicotine fix than regular cigarettes, but still addictive.  It needs batteries and nicotine liquid to function.",
     "category": "drugs",
@@ -12,8 +13,8 @@
     "material": [ "steel" ],
     "symbol": "!",
     "color": "white",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 1,
     "power_draw": "7500 mW",
     "use_action": [ "ECIG" ],
@@ -24,11 +25,13 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "crackpipe",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "crack pipe" },
     "description": "A fine glass tube with a bulb with a bowl on one end.  It's used to partake of certain illicit substances.",
     "weight": "242 g",
@@ -44,7 +47,8 @@
   },
   {
     "id": "pipe_glass",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "glass pipe" },
     "description": "A hand-blown glass pipe.  It's commonly used to smoke recreational substances.",
     "weight": "163 g",
@@ -59,8 +63,85 @@
     "melee_damage": { "bash": 1 }
   },
   {
+    "id": "pipe_water",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "water pipe" },
+    "looks_like": "bottle_plastic",
+    "description": "A mass-manufactured water pipe, otherwise known as a 'bong'.  Head shops often insist these are used solely for tobacco, despite their iconic status as cannabis paraphernalia.",
+    "weight": "750 g",
+    "volume": "900 ml",
+    "longest_side": "30 cm",
+    "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE" ],
+    "price": "40 USD",
+    "price_postapoc": "50 cent",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "500 ml",
+        "max_item_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "glass" ],
+    "symbol": ",",
+    "color": "cyan",
+    "qualities": [ [ "SMOKE_PIPE", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "melee_damage": { "bash": 4 },
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "pipe_water_normal",
+        "name": { "str": "bong" },
+        "description": "A mass-manufactured water pipe, otherwise known as a 'bong'.  This one is made of plain, clear, glass.",
+        "color": "light_gray"
+      },
+      {
+        "id": "pipe_water_cartoon",
+        "name": { "str": "cartoon bong" },
+        "description": "A mass-manufactured water pipe, otherwise known as a 'bong'.  It is covered in copyrighted cartoon characters, all smoking marijuana.",
+        "color": "green"
+      },
+      {
+        "id": "pipe_water_rasta",
+        "name": { "str": "rasta bong" },
+        "description": "A mass-manufactured water pipe, otherwise known as a 'bong'.  It is colored with the 'rasta' pattern of red, yellow, and green.",
+        "color": "red"
+      },
+      {
+        "id": "pipe_water_handblown",
+        "name": { "str": "handblown bong" },
+        "description": "A handblown water pipe, also known as a 'bong'.  Lovingly crafted by an artisan, a true fusion of aesthetic sensibilities and stoner functionalities.",
+        "color": "green"
+      },
+      {
+        "id": "pipe_water_psychedelic",
+        "name": { "str": "psychedelic bong" },
+        "description": "A mass-manufactured water pipe, also known as a 'bong'.  It is covered in stickers depicting 'psychedelic' art.",
+        "color": "blue"
+      },
+      {
+        "id": "pipe_water_frosted",
+        "name": { "str": "frosted bong" },
+        "description": "A mass-manufactured water pipe, also known as a 'bong'.  It is made out of frosted glass.",
+        "color": "white"
+      },
+      {
+        "id": "pipe_water_fakegold",
+        "name": { "str": "gold bong" },
+        "description": "A mass-manufactured water pipe, also known as a 'bong'.  Though it looks like it's made out of gold it is, in fact, just metallic paint.",
+        "color": "yellow"
+      }
+    ]
+  },
+  {
     "id": "pipe_tobacco",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tobacco pipe" },
     "description": "A hand-carved wooden smoking pipe.  It's designed to facilitate the consumption of fire-cured tobacco leaves.",
     "weight": "100 g",

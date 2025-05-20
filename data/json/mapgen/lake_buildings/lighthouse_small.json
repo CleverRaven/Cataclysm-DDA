@@ -49,6 +49,7 @@
       "ú": "t_pit",
       "¢": "t_sand",
       "d": "t_dock",
+      "+": "t_stone_masonry_floor_balcony",
       ";": "t_stone_masonry_floor",
       "¤": "t_stone_masonry_floor",
       "ɱ": "t_stone_masonry_floor",
@@ -61,7 +62,7 @@
       "ñ": "t_wall_wood",
       "å": "t_wall_glass",
       "@": "t_wall_lighthouse_lens",
-      "w": "t_metal_grate_window",
+      "z": "t_metal_grate_window",
       "ö": "t_door_lighthouse_lens_c",
       "/": "t_door_c",
       "!": "t_door_glass_c",
@@ -87,11 +88,16 @@
       "ɱ": "f_machinery_electronic",
       "Ɱ": "f_electrical_conduit",
       "m̌": "f_electrical_conduit",
-      "G": "f_generator_broken"
+      "G": [
+        [ "f_generator_broken", 25 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ]
     },
     "items": {
       "ß": { "item": "tools_workshop", "chance": 50 },
-      "_": { "item": "trash_domestic", "chance": 10 },
+      "_": { "item": "SUS_trash_floor", "chance": 10 },
       "P": { "item": "dishes_utility", "repeat": [ 1, 6 ] },
       "O": { "item": "lighthouse_rainwater" },
       "¤": { "item": "lighthouse_fuel", "chance": 50 },
@@ -105,7 +111,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_small_ground",
     "object": {
       "fill_ter": "t_floor",
@@ -119,7 +124,7 @@
         "~~~~~¢¢¢¢............~~~",
         "~~¢¢¢¢......||/|||.....~",
         "~¢¢¢........|f_ht|.....~",
-        "~~ñññññ.....w___Pw.....~",
+        "~~ñññññ.....z___Pz.....~",
         "~.ñõæ_/.....|<__W|.....~",
         "~.ñõõŵñ.....|____|.....~",
         "~.ñññññ.....|l_XX|...`~~",
@@ -136,12 +141,11 @@
         "≈≈≈≈≈≈≈≈≈≈≈≈¨¨≈≈≈≈≈≈≈≈≈≈"
       ],
       "palettes": [ "lighthouse_small_palette" ],
-      "place_vehicles": [ { "vehicle": "boat_motor_single", "x": 4, "y": 6, "rotation": 180, "chance": 100, "status": 0 } ]
+      "place_vehicles": [ { "vehicle": "boat_motor_single", "x": 4, "y": 6, "rotation": 180, "status": 0 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_small_z1",
     "object": {
       "fill_ter": "t_stone_masonry_floor",
@@ -153,7 +157,7 @@
         "                ëëë     ",
         "                ëëë     ",
         "                        ",
-        "            ||w|||      ",
+        "            ||z|||      ",
         "            |B_BB|      ",
         "  ëëëëë     |___B|      ",
         "  ëëëëë     |v___|      ",
@@ -176,7 +180,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_small_z2",
     "object": {
       "fill_ter": "t_stone_masonry_floor",
@@ -211,7 +214,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_small_z3",
     "object": {
       "fill_ter": "t_stone_masonry_floor",
@@ -246,7 +248,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_small_z4",
     "object": {
       "fill_ter": "t_stone_masonry_floor",
@@ -264,15 +265,15 @@
         "                        ",
         "                        ",
         "          %%%%%%%%%     ",
-        "         %%;;;;;;;%%    ",
-        "         %;;ååååå;;%    ",
-        "         %;åå;;;åå;%    ",
-        "         %;å;@@@;å;%    ",
-        "         %;å;@*@;å;%    ",
-        "         %;å;@ö@;å;%    ",
-        "         %;åå;v;åå;%    ",
-        "         %;;åå!åå;;%    ",
-        "         %%;;<;;;;%%    ",
+        "         %%+++++++%%    ",
+        "         %++ååååå++%    ",
+        "         %+åå;;;åå+%    ",
+        "         %+å;@@@;å+%    ",
+        "         %+å;@*@;å+%    ",
+        "         %+å;@ö@;å+%    ",
+        "         %+åå;v;åå+%    ",
+        "         %++åå!åå++%    ",
+        "         %%++<++++%%    ",
         "          %%%%%%%%%     ",
         "                        "
       ],
@@ -281,7 +282,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lighthouse_small_roof",
     "object": {
       "fill_ter": "t_open_air",

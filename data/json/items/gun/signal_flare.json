@@ -2,7 +2,8 @@
   {
     "id": "flaregun",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "flaregun" },
     "description": "A plastic single shot pistol that can be loaded with signal flares.",

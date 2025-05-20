@@ -517,6 +517,7 @@
     "type": "vitamin",
     "vit_type": "counter",
     "name": { "str": "Consumed human flesh" },
+    "flags": [ "NO_SELL" ],
     "min": 0,
     "max": 10000,
     "rate": "1 h"
@@ -576,7 +577,7 @@
     "//": "used so allergies and restrictions could be inherited in cooking process",
     "type": "vitamin",
     "vit_type": "counter",
-    "name": { "str": "Fruit" },
+    "name": { "str": "Junk" },
     "min": 0,
     "max": 1,
     "rate": "1 h"
@@ -622,5 +623,17 @@
     "rate": "48 h",
     "flags": [ "NO_DISPLAY" ],
     "disease_excess": [ [ 60, 399 ], [ 400, 1079 ], [ 1080, 1440 ] ]
+  },
+  {
+    "id": "triffid_fiber",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Triffid Fiber" },
+    "excess": "triffid_fiber_indigestion",
+    "min": 0,
+    "max": 250,
+    "rate": "2 h",
+    "flags": [ "NO_DISPLAY" ],
+    "disease_excess": [ [ 15, 60 ], [ 61, 120 ], [ 121, 180 ], [ 181, 250 ] ]
   }
 ]

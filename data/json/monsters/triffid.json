@@ -233,6 +233,7 @@
     "weight": "120 kg",
     "hp": 100,
     "speed": 80,
+    "move_skills": { "swim": 4 },
     "material": [ "veggy" ],
     "symbol": "V",
     "color": "light_green",
@@ -249,13 +250,13 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_triffid_basic", "prof_wp_triffid_advanced" ],
     "harvest": "triffid_small",
     "dissect": "dissect_plant_sample_single",
-    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "HARDTOSHOOT", "GRABS", "SWIMS", "PLASTIC", "WATER_CAMOUFLAGE" ],
+    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "HARDTOSHOOT", "GRABS", "PLASTIC", "WATER_CAMOUFLAGE" ],
     "armor": { "bash": 18, "electric": 3 }
   },
   {
     "id": "mon_fungal_fighter",
     "type": "MONSTER",
-    "name": { "str": "fungal fighter" },
+    "name": { "str": "fungicidal triffid" },
     "description": "A stout, woody plant that can dig through the ground and flick spines from its branches.  The thorns carry a fungicidal compound with paralytic effects.",
     "default_faction": "triffid",
     "species": [ "PLANT" ],

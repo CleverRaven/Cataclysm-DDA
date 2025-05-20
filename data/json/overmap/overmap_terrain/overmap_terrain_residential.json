@@ -30,7 +30,7 @@
     "copy-from": "generic_city_house_no_sidewalk",
     "name": "house roof",
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
-    "delete": { "flags": [ "GENERIC_LOOT" ] }
+    "delete": { "flags": [ "GENERIC_LOOT", "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -129,6 +129,16 @@
       "house_43",
       "house_43_first_floor",
       "house_43_second_floor",
+      "house_44_0_0",
+      "house_44_0_1",
+      "house_44_1_0",
+      "house_44_1_1",
+      "house_44_roof_0",
+      "house_44_roof_1",
+      "house_45_0",
+      "house_45_1",
+      "house_45_2",
+      "house_46",
       "house_crack1",
       "house_crack2",
       "house_crack3",
@@ -437,6 +447,8 @@
       "house_41_roof",
       "house_42_roof",
       "house_43_roof",
+      "house_45_roof",
+      "house_46_roof",
       "house_crack1_roof",
       "house_crack3_roof",
       "house_detatched10_roof",
@@ -605,7 +617,7 @@
     "mondensity": 2,
     "extras": "build",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 10 ], "chance": 80 },
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+    "flags": [ "SIDEWALK", "GENERIC_LOOT", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -616,7 +628,8 @@
     "color": "light_green",
     "see_cost": "none",
     "mondensity": 2,
-    "extras": "build"
+    "extras": "build",
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",

@@ -1,0 +1,62 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "forest_trail_end",
+    "object": {
+      "fallback_predecessor_mapgen": "forest_thick",
+      "place_nested": [
+        {
+          "chunks": [
+            [ "24x24_forest_trail_end_basic", 3 ],
+            [ "24x24_forest_trail_end_spread", 3 ],
+            [ "24x24_forest_trail_end_split", 3 ],
+            [ "24x24_forest_trail_intersection_inna", 1 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "forest_trail_tee",
+    "object": {
+      "fallback_predecessor_mapgen": "forest_thick",
+      "place_nested": [
+        {
+          "chunks": [
+            [ "24x24_forest_trail_tee_basic", 2 ],
+            [ "24x24_forest_trail_tee_split", 3 ],
+            [ "24x24_forest_trail_intersection_inna", 1 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "forest_trail_four_way",
+    "object": {
+      "fallback_predecessor_mapgen": "forest_thick",
+      "place_nested": [
+        {
+          "chunks": [ "24x24_forest_trail_four_way_basic", "24x24_forest_trail_four_way_high_low", "24x24_forest_trail_intersection_inna" ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "forest_trail_intersection",
+    "//": "For placing the intersection as part of a special",
+    "object": {
+      "predecessor_mapgen": "forest_thick",
+      "place_nested": [ { "chunks": [ "24x24_forest_trail_intersection_inna" ], "x": 0, "y": 0 } ]
+    }
+  }
+]

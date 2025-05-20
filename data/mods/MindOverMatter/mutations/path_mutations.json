@@ -1,0 +1,13 @@
+[
+  {
+    "type": "mutation",
+    "id": "MORE_PSI_ALPHA",
+    "name": { "str": "Noetic Flexibility" },
+    "points": 5,
+    "vitamin_cost": 300,
+    "description": "Your expanded mind is far more capable of understanding Netherum Mathematics than a mere human's.  You have an greater chance of awakening new psionic paths.",
+    "prereqs": [ "INT_ALPHA" ],
+    "threshreq": [ "THRESH_ALPHA" ],
+    "category": [ "ALPHA" ]
+  }
+]

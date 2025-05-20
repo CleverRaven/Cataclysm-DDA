@@ -1,0 +1,38 @@
+[
+  {
+    "type": "profession",
+    "id": "paraclesian_sylph",
+    "copy-from": "paraclesian_sylph",
+    "delete": { "flags": [ "SCEN_ONLY" ] }
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_homullus",
+    "copy-from": "paraclesian_homullus",
+    "delete": { "flags": [ "SCEN_ONLY" ] }
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_salamander",
+    "copy-from": "paraclesian_salamander",
+    "delete": { "flags": [ "SCEN_ONLY" ] }
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_undine",
+    "copy-from": "paraclesian_undine",
+    "delete": { "flags": [ "SCEN_ONLY" ] }
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_arvore",
+    "copy-from": "paraclesian_arvore",
+    "delete": { "flags": [ "SCEN_ONLY" ] }
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_ierde",
+    "copy-from": "paraclesian_ierde",
+    "delete": { "flags": [ "SCEN_ONLY" ] }
+  }
+]

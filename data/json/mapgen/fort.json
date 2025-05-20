@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fort_zombie",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -21,7 +20,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "fort_1a", "fort_2a", "fort_3a", "fort_4a" ],
       [ "fort_1b", "fort_2b", "fort_3b", "fort_4b" ],
@@ -234,7 +232,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "fort_1a_1", "fort_2a_1", "fort_3a_1", "fort_4a_1" ],
       [ "fort_1b_1", "fort_2b_1", "fort_3b_1", "fort_4b_1" ],
@@ -327,7 +324,7 @@
         }
       },
       "nested": { ".": { "chunks": [ [ "fort_zombie", 8 ], [ "null", 1058 ] ] } },
-      "vehicles": { "U": { "vehicle": "cannon_3in", "chance": 100 }, "Q": { "vehicle": "cannon_3in_plugged", "chance": 100 } }
+      "vehicles": { "U": { "vehicle": "cannon_3in" }, "Q": { "vehicle": "cannon_3in_plugged" } }
     }
   }
 ]
