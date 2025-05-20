@@ -7197,15 +7197,15 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
         price = std::max( price - PRICE_FILTHY_MALUS, 0 );
     }
 
-        if( has_flag( json_flag_IRREPLACEABLE_CONSUMABLE ) ) &&
-         get_option<bool>( "EMP_DISABLE_ELECTRONICS" ) {
-            // irreplaceable items are worth more by how many seasons from the cataclysm player is.
-            price *= 0.25 + ( calendar::turn - calendar::start_of_cataclysm ) / calendar::season_length();
-        }
+    if( has_flag( json_flag_IRREPLACEABLE_CONSUMABLE ) ) &&
+        get_option<bool>( "EMP_DISABLE_ELECTRONICS" ) {
+        // irreplaceable items are worth more by how many seasons from the cataclysm player is.
+        price *= 0.25 + ( calendar::turn - calendar::start_of_cataclysm ) / calendar::season_length();
+    }
 
-        for( fault_id fault : faults ) {
-            price *= fault->price_mod();
-        }
+    for( fault_id fault : faults ) {
+        price *= fault->price_mod();
+    }
 
     if( is_food() && get_comestible() ) {
         const nutrients &nutrients_value = default_character_compute_effective_nutrients( *this );
