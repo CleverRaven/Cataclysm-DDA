@@ -7198,10 +7198,10 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
     }
 
     if( get_option < bool >( "IRREPLACEABLE_PRICING" ) ) {
-    if( has_flag( json_flag_IRREPLACEABLE_CONSUMABLE ) ) {
-        // irreplaceable items are worth more by how many seasons from the cataclysm player is.
-        price *= 0.25 + ( calendar::turn - calendar::start_of_cataclysm ) / calendar::season_length();
-    }
+        if( has_flag( json_flag_IRREPLACEABLE_CONSUMABLE ) ) {
+            // irreplaceable items are worth more by how many seasons from the cataclysm player is.
+            price *= 0.25 + ( calendar::turn - calendar::start_of_cataclysm ) / calendar::season_length();
+        }
 
     for( fault_id fault : faults ) {
         price *= fault->price_mod();
