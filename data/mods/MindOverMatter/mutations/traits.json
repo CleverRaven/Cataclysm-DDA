@@ -164,7 +164,8 @@
       "TELEKINETIC",
       "TELEPORTER",
       "VITAKINETIC",
-      "ALWAYS_GAIN_PSIONICS"
+      "ALWAYS_GAIN_PSIONICS",
+      "PSYCHIC_KNACK"
     ]
   },
   {
@@ -187,6 +188,31 @@
       "TELEKINETIC",
       "TELEPORTER",
       "VITAKINETIC",
+      "CANNOT_GAIN_PSIONICS",
+      "PSYCHIC_KNACK"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "PSYCHIC_KNACK",
+    "name": { "str": "Psychic Knacks", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "The school trait for knacks.  It shouldn't be visible.", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "cancels": [
+      "BIOKINETIC",
+      "CLAIRSENTIENT",
+      "ELECTROKINETIC",
+      "PHOTOKINETIC",
+      "PYROKINETIC",
+      "TELEPATH",
+      "TELEKINETIC",
+      "TELEPORTER",
+      "VITAKINETIC",
+      "ALWAYS_GAIN_PSIONICS",
       "CANNOT_GAIN_PSIONICS"
     ]
   },
@@ -200,7 +226,7 @@
     "player_display": false,
     "starting_trait": true,
     "purifiable": false,
-    "cancels": [ "CANNOT_GAIN_PSIONICS", "ALWAYS_GAIN_PSIONICS" ]
+    "cancels": [ "CANNOT_GAIN_PSIONICS", "PSYCHIC_KNACK", "ALWAYS_GAIN_PSIONICS" ]
   },
   {
     "type": "mutation",
