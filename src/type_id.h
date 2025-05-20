@@ -231,6 +231,9 @@ using profession_group_id = string_id<profession_group>;
 class recipe;
 using recipe_id = string_id<recipe>;
 
+struct recipe_step_data;
+using recipe_step_id = string_id<recipe_step_data>;
+
 struct requirement_data;
 using requirement_id = string_id<requirement_data>;
 

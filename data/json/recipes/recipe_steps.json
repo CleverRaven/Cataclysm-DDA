@@ -1,0 +1,16 @@
+[
+  {
+    "type": "recipe_step",
+    "id": "gather_ingredients_bread",
+    "components": [ [ [ "flour", 22 ], [ "bread_flour", 5 ] ], [ [ "yeast", 1 ] ], [ [ "water_clean", 2 ] ], [ [ "sugar", 4 ] ] ],
+    "skill_used": "cooking"
+  },
+  {
+    "type": "recipe_steps",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "result": "bread",
+    "charges": 10,
+    "steps": [ "gather_ingredients_bread" ]
+  }
+]

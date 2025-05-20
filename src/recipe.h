@@ -14,6 +14,7 @@
 
 #include "build_reqs.h"
 #include "calendar.h"
+#include "recipe_step.h"
 #include "requirements.h"
 #include "translation.h"
 #include "type_id.h"
@@ -96,6 +97,8 @@ class recipe
 
         std::string exertion_str;
         float exertion = 0.0f;
+
+        std::vector<recipe_step_id> steps;
 
     public:
         recipe();
