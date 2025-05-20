@@ -2367,6 +2367,19 @@
   },
   {
     "type": "ITEM",
+    "id": "dough",
+    "looks_like": "flour",
+    "name": { "str_sp": "dough" },
+    "description": "Dough made from cooked and mashed soybeans and wheat flour, wrapped in wet paper.  If left to dry for some time, it'll grow koji mold, as necessary for making soy sauce.",
+    "weight": "550 g",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ],
+    "symbol": "%",
+    "price": "0 cent",
+    "volume": "500 ml"
+  },
+  {
+    "type": "ITEM",
     "id": "soy_wheat_dough_done",
     "looks_like": "flour",
     "name": { "str_sp": "soy and wheat dough with koji" },
