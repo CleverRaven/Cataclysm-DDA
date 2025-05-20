@@ -203,6 +203,26 @@ inline int rl_dist( const point &a, const point &b )
     return rl_dist( tripoint( a, 0 ), tripoint( b, 0 ) );
 }
 
+template< class Point >
+const std::vector<Point> cubic_bezier( const Point &pa, const Point &pb,
+                                       const Point &pc, const Point &pd, const int n_segs )
+{
+    const auto cubic_bezier_single_axis = []( const int pa, const int pb, const int pc, const int pd,
+    const double t ) {
+        // a(1-t)^3 + 3bt(1-t)^2 + 3ct^2(1-t) + dt^3
+        return static_cast<int>( pow( ( 1.0 - t ), 3.0 ) * pa + ( 3.0 * t * pow( ( 1.0 - t ),
+                                 2.0 ) ) * pb + ( 3.0 * pow( t, 2.0 ) * ( 1.0 - t ) ) * pc + pow( t, 3.0 ) * pd );
+    };
+    std::vector<Point> pts;
+    for( int i = 0; i <= n_segs; ++i ) {
+        const double t = i / static_cast<double>( n_segs );
+        const int x = cubic_bezier_single_axis( pa.x(), pb.x(), pc.x(), pd.x(), t );
+        const int y = cubic_bezier_single_axis( pa.y(), pb.y(), pc.y(), pd.y(), t );
+        pts.push_back( Point{ x, y } );
+    }
+    return pts;
+}
+
 /**
  * Helper type for the return value of dist_fast().
  *
