@@ -204,8 +204,8 @@ inline int rl_dist( const point &a, const point &b )
 }
 
 template< class Point >
-const std::vector<Point> cubic_bezier( const Point &pa, const Point &pb,
-                                       const Point &pc, const Point &pd, const int n_segs )
+std::vector<Point> cubic_bezier( const Point &pa, const Point &pb,
+                                 const Point &pc, const Point &pd, const int n_segs )
 {
     const auto cubic_bezier_single_axis = []( const int pa, const int pb, const int pc, const int pd,
     const double t ) {
@@ -216,9 +216,9 @@ const std::vector<Point> cubic_bezier( const Point &pa, const Point &pb,
     std::vector<Point> pts;
     for( int i = 0; i <= n_segs; ++i ) {
         const double t = i / static_cast<double>( n_segs );
-        const int x = cubic_bezier_single_axis( pa.x(), pb.x(), pc.x(), pd.x(), t );
-        const int y = cubic_bezier_single_axis( pa.y(), pb.y(), pc.y(), pd.y(), t );
-        pts.push_back( Point{ x, y } );
+        pts.push_back( Point{
+            cubic_bezier_single_axis( pa.x(), pb.x(), pc.x(), pd.x(), t ),
+            cubic_bezier_single_axis( pa.y(), pb.y(), pc.y(), pd.y(), t ) } );
     }
     return pts;
 }
