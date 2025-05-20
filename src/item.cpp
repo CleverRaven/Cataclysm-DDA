@@ -151,6 +151,8 @@ static const efftype_id effect_weed_high( "weed_high" );
 
 static const fault_id fault_overheat_safety( "fault_overheat_safety" );
 
+static const flag_id json_flag_IRREPLACEABLE_CONSUMABLE( "IRREPLACEABLE_CONSUMABLE" );
+
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
 static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
@@ -189,8 +191,6 @@ static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
-
-static const flag_id json_flag_IRREPLACEABLE_CONSUMABLE( "IRREPLACEABLE_CONSUMABLE" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
