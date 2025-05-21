@@ -14,7 +14,8 @@
             "TELEKINETIC",
             "TELEPATH",
             "TELEPORTER",
-            "VITAKINETIC"
+            "VITAKINETIC",
+            "PSYCHIC_KNACK"
           ]
         },
         {
@@ -27,7 +28,8 @@
             { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
             { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
-            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
+            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PSYCHIC_KNACK", { "context_val": "school" } ] }
           ]
         }
       ]
