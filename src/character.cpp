@@ -11577,8 +11577,9 @@ bool Character::has_destination() const
 
 bool Character::has_destination_activity() const
 {
-    return !get_destination_activity().is_null() && destination_point &&
-           pos_bub() == get_map().get_bub( *destination_point );
+    const bool has_reached_destination = destination_point &&
+                                         ( pos_abs() == *destination_point || auto_move_route.empty() );
+    return !get_destination_activity().is_null() && has_reached_destination;
 }
 
 void Character::start_destination_activity()
