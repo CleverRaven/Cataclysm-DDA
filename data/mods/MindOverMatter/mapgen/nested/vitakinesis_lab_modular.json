@@ -2,7 +2,6 @@
   {
     "//": "6x3 bedroom, door is west",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_bedroom_west",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -21,7 +20,6 @@
   {
     "//": "6x3 bedroom, door is west",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_bedroom_west",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -40,7 +38,6 @@
   {
     "//": "6x3 bedroom, door is west",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_bedroom_west",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -59,7 +56,6 @@
   {
     "//": "6x3 bedroom, door is east",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_bedroom_east",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -78,7 +74,6 @@
   {
     "//": "6x3 bedroom, door is east",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_bedroom_east",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -97,7 +92,6 @@
   {
     "//": "6x3 bedroom, door is east",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_bedroom_east",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -116,7 +110,6 @@
   {
     "//": "4x3 bedroom, door is north",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_bedroom_north",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -133,7 +126,6 @@
   {
     "//": "4x3 bedroom, door is north",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_bedroom_north",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -150,7 +142,6 @@
   {
     "//": "4x3 bedroom, door is north",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_bedroom_north",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -167,7 +158,6 @@
   {
     "//": "4x3 bedroom, door is north",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_bedroom_north",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -184,7 +174,6 @@
   {
     "//": "4x3 bedroom, door is south",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_bedroom_south",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -201,7 +190,6 @@
   {
     "//": "4x3 bedroom, door is south",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_bedroom_south",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -218,7 +206,6 @@
   {
     "//": "4x3 bedroom, door is south",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_bedroom_south",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -235,7 +222,6 @@
   {
     "//": "4x3 bedroom, door is south",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_bedroom_south",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -252,7 +238,6 @@
   {
     "//": "4x4 holding cells",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_holding_cell",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -263,13 +248,13 @@
         "o  c",
         "s  a"
       ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_monster": [ { "group": "GROUP_VITAKINESIS_LAB_HOLDING_CELL", "x": 1, "y": 2, "chance": 50 } ]
     }
   },
   {
     "//": "4x4 holding cells",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_holding_cell",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -280,13 +265,13 @@
         "e  s",
         "   o"
       ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_monster": [ { "group": "GROUP_VITAKINESIS_LAB_HOLDING_CELL", "x": 1, "y": 2, "chance": 50 } ]
     }
   },
   {
     "//": "4x4 holding cells",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_holding_cell",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -297,13 +282,13 @@
         "e  s",
         "   o"
       ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_monster": [ { "group": "GROUP_VITAKINESIS_LAB_HOLDING_CELL", "x": 1, "y": 2, "chance": 50 } ]
     }
   },
   {
     "//": "4x4 holding cells",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_holding_cell",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -314,13 +299,13 @@
         "   e",
         "ac  "
       ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_monster": [ { "group": "GROUP_VITAKINESIS_LAB_HOLDING_CELL", "x": 1, "y": 2, "chance": 50 } ]
     }
   },
   {
     "//": "4x4 holding cells",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_holding_cell",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -331,13 +316,13 @@
         "o  e",
         "s   "
       ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_monster": [ { "group": "GROUP_VITAKINESIS_LAB_HOLDING_CELL", "x": 1, "y": 2, "chance": 50 } ]
     }
   },
   {
     "//": "4x4 holding cells",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_holding_cell",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -348,13 +333,13 @@
         "c  e",
         "a  e"
       ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_monster": [ { "group": "GROUP_VITAKINESIS_LAB_HOLDING_CELL", "x": 1, "y": 2, "chance": 50 } ]
     }
   },
   {
     "//": "9x5 research labs, door is south",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_research_south",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -376,7 +361,6 @@
   {
     "//": "9x5 research labs, door is south",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_research_south",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -398,7 +382,6 @@
   {
     "//": "9x5 research labs, door is south",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_research_south",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -420,7 +403,6 @@
   {
     "//": "9x5 research labs, door is south",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_research_south",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -442,7 +424,6 @@
   {
     "//": "9x5 research labs, door is south",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_research_south",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -464,7 +445,6 @@
   {
     "//": "9x5 research labs, door is south",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_research_south",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -486,7 +466,6 @@
   {
     "//": "9x5 research labs, door is north",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_research_north",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -508,7 +487,6 @@
   {
     "//": "9x5 research labs, door is north",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_research_north",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -530,7 +508,6 @@
   {
     "//": "9x5 research labs, door is north",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_research_north",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -552,7 +529,6 @@
   {
     "//": "9x5 research labs, door is north",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_research_north",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -574,7 +550,6 @@
   {
     "//": "9x5 research labs, door is north",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_research_north",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -596,7 +571,6 @@
   {
     "//": "9x5 research labs, door is north",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "vitakinesis_lab_research_north",
     "object": {
       "mapgensize": [ 9, 9 ],

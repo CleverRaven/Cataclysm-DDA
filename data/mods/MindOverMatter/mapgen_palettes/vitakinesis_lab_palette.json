@@ -1,8 +1,7 @@
 [
   {
     "type": "palette",
-    "id": "parametrized_concrete_carpets_palette_nested",
-    "//": "Use to randomly assign carpet colors",
+    "id": "vitakinesis_lab_palette_nests_living",
     "parameters": {
       "concrete_carpet_color_type_nest": {
         "type": "ter_str_id",
@@ -17,13 +16,8 @@
         }
       }
     },
-    "terrain": { "=": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" } }
-  },
-  {
-    "type": "palette",
-    "id": "vitakinesis_lab_palette_nests_living",
-    "palettes": [ "parametrized_concrete_carpets_palette_nested" ],
     "terrain": {
+      "=": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" },
       "b": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" },
       "d": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" },
       "l": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" },
