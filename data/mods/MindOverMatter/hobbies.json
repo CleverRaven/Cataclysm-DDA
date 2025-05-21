@@ -527,7 +527,7 @@
     "description": "Before the Cataclysm you were always surprisingly flexible, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
     "points": 2,
     "traits": [ "PSYCHIC_KNACK" ],
-    "spells": [ { "id": "biokin_flexibility_knack", "level": 5 } ]
+    "spells": [ { "id": "biokin_flexibility_knack", "level": 6 } ]
   },
   {
     "type": "profession",
@@ -537,7 +537,7 @@
     "description": "Before the Cataclysm you always had a hidden reserve of power when you needed it, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
     "points": 2,
     "traits": [ "PSYCHIC_KNACK" ],
-    "spells": [ { "id": "biokin_adrenaline_knack", "level": 5 } ]
+    "spells": [ { "id": "biokin_adrenaline_knack", "level": 6 } ]
   },
   {
     "type": "profession",
@@ -547,7 +547,7 @@
     "description": "Before the Cataclysm you were more perceptive than nearly anyone you knew, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
     "points": 2,
     "traits": [ "PSYCHIC_KNACK" ],
-    "spells": [ { "id": "clair_better_senses_knack", "level": 5 } ]
+    "spells": [ { "id": "clair_better_senses_knack", "level": 6 } ]
   },
   {
     "type": "profession",
@@ -557,7 +557,7 @@
     "description": "Before the Cataclysm you had a sixth sense for danger, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
     "points": 3,
     "traits": [ "PSYCHIC_KNACK" ],
-    "spells": [ { "id": "clair_danger_sense_knack", "level": 5 } ]
+    "spells": [ { "id": "clair_danger_sense_knack", "level": 6 } ]
   },
   {
     "type": "profession",
@@ -567,7 +567,7 @@
     "description": "Before the Cataclysm you sometimes felt like already new unfamiliar places, like you had been there before in a dream, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
     "points": 5,
     "traits": [ "PSYCHIC_KNACK" ],
-    "spells": [ { "id": "clair_astral_projection_knack", "level": 5 } ]
+    "spells": [ { "id": "clair_astral_projection_knack", "level": 6 } ]
   },
   {
     "type": "profession",
@@ -577,7 +577,7 @@
     "description": "Before the Cataclysm you were never that strongly affected by pain, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
     "points": 5,
     "traits": [ "PSYCHIC_KNACK" ],
-    "spells": [ { "id": "electrokinetic_pain_immune_knack", "level": 5 } ]
+    "spells": [ { "id": "electrokinetic_pain_immune_knack", "level": 6 } ]
   },
   {
     "type": "profession",
@@ -587,6 +587,6 @@
     "description": "Before the Cataclysm computers basically always did what you wanted them to, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
     "points": 5,
     "traits": [ "PSYCHIC_KNACK" ],
-    "spells": [ { "id": "electrokinetic_hacking_interface_knack", "level": 5 } ]
+    "spells": [ { "id": "electrokinetic_hacking_interface_knack", "level": 6 } ]
   }
 ]

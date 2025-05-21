@@ -188,12 +188,12 @@
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_electrokin_hacking_interface') > 0 ? 0 : max((6500 - ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 150)), 3500)"
+        "u_effect_intensity('effect_electrokin_hacking_interface') > 0 ? 0 : max( (6500 - ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 150) ), 3500)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_electrokin_hacking_interface') > 0 ? 10 : max((350 - ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 9)), 150)"
+        "u_effect_intensity('effect_electrokin_hacking_interface') > 0 ? 10 : max( (350 - ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 9) ), 150)"
       ]
     }
   },
