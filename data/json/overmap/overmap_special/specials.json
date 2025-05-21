@@ -942,7 +942,12 @@
   {
     "type": "overmap_special",
     "id": "military_outpost",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outpost_north" }, { "point": [ 0, 0, 1 ], "overmap": "outpost_roof_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "outpost_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "outpost_roof_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "outpost_parking_north" }
+    ],
+    "connections": [ { "point": [ 0, 2, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 1, 0 ] } ],
     "locations": [ "field", "forest_without_trail" ],
     "city_distance": [ 0, 10 ],
     "occurrences": [ 10, 100 ],
