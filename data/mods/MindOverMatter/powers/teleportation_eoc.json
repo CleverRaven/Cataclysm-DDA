@@ -48,11 +48,7 @@
       },
       { "u_message": "Your Blink volume limit is <context_val:teleport_blink_limit>.", "type": "debug" },
       {
-        "if": {
-          "math": [
-            "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_blink') * 3500 ) + 5000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-          ]
-        },
+        "if": { "math": [ "u_teleport_total_carried_volume <= _teleport_blink_limit" ] },
         "then": [
           {
             "u_cast_spell": { "id": "teleport_blink_real", "min_level": { "math": [ "u_spell_level('teleport_blink')" ] }, "hit_self": true }
@@ -62,6 +58,46 @@
         "else": [
           {
             "u_message": "You attempt to teleport to somewhere nearby, but your skin merely tingles and nothing happens.  You're carrying too much.",
+            "type": "bad"
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You feel a strange, inward force.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_PHASE_INITIATE",
+    "condition": {
+      "and": [
+        { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } },
+        { "not": { "u_has_flag": "DIMENSIONAL_ANCHOR" } },
+        { "not": { "u_has_flag": "TELEPORT_LOCK" } }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
+      {
+        "math": [
+          "_teleport_phase_limit = ( ( ( u_spell_level('teleport_blink') * 5000 ) + 10000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+        ]
+      },
+      { "u_message": "Your Phase volume limit is <context_val:teleport_blink_limit>.", "type": "debug" },
+      {
+        "if": { "math": [ "u_teleport_total_carried_volume <= _teleport_phase_limit" ] },
+        "then": [
+          {
+            "u_cast_spell": { "id": "teleport_phase_real", "min_level": { "math": [ "u_spell_level('teleport_phase')" ] } },
+            "targeted": true
+          },
+          {
+            "u_message": "There is a brief moment of darkness and terrible cold, and you are somewhere else.",
+            "type": "neutral"
+          }
+        ],
+        "else": [
+          {
+            "u_message": "You attempt to phase through the barrier, but your skin merely tingles and nothing happens.  You're carrying too much.",
             "type": "bad"
           }
         ]
