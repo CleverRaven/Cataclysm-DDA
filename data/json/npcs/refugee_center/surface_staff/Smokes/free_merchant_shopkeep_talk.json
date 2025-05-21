@@ -426,13 +426,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "shopkeep_lobby_cleanup1",
-    "method": "json",
     "object": { "set": [ { "square": "item_remove", "x": 5, "y": 22, "x2": 18, "y2": 23 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "shopkeep_lobby_cleanup2",
-    "method": "json",
     "object": { "set": [ { "square": "item_remove", "x": 5, "y": 0, "x2": 18, "y2": 2 } ] }
   }
 ]

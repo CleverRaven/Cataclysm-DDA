@@ -618,7 +618,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "boris_cleanup_garage",
-    "method": "json",
     "object": {
       "set": [
         { "square": "furniture", "id": "f_clear", "x": 6, "y": 3, "x2": 17, "y2": 3 },
@@ -636,7 +635,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "boris_cleanup_back_bay",
-    "method": "json",
     "object": {
       "set": [
         { "square": "furniture", "id": "f_clear", "x": 0, "y": 4, "x2": 17, "y2": 22 },

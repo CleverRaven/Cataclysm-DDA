@@ -149,7 +149,9 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM" ]
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM" ],
+    "connect_groups": "PAVEMENT",
+    "connects_to": "PAVEMENT"
   },
   {
     "type": "terrain",
@@ -166,7 +168,9 @@
       "prying_data": { "difficulty": 4, "prying_level": 1, "failure": "You pry, but can't lift the manhole cover." },
       "byproducts": [ { "item": "manhole_cover", "count": 1 } ]
     },
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT" ],
+    "connect_groups": "PAVEMENT",
+    "connects_to": "PAVEMENT"
   },
   {
     "type": "terrain",

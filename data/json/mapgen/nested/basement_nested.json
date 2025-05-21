@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of art.",
     "nested_mapgen_id": "basement_storage_1x1",
     "object": {
@@ -14,7 +13,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of hardware.",
     "nested_mapgen_id": "basement_storage_1x1",
     "object": {
@@ -27,7 +25,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of bedding.",
     "nested_mapgen_id": "basement_storage_1x1",
     "object": {
@@ -40,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of winter clothing.",
     "nested_mapgen_id": "basement_storage_1x1",
     "object": {
@@ -53,7 +49,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of work clothing.",
     "nested_mapgen_id": "basement_storage_1x1",
     "object": {
@@ -71,7 +66,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of old clothing.",
     "nested_mapgen_id": "basement_storage_1x1",
     "object": {
@@ -84,7 +78,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of toys.",
     "nested_mapgen_id": "basement_storage_1x1",
     "object": {
@@ -108,7 +101,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "utility_3x3_N",
     "object": {
@@ -124,7 +116,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "utility_3x3_S",
     "object": {
@@ -140,7 +131,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "utility_3x3_W",
     "object": {
@@ -156,7 +146,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "utility_3x3_e",
     "object": {
@@ -172,7 +161,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "recroom_12x12",
     "object": {
@@ -219,7 +207,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "tvroom_12x12",
     "object": {
@@ -265,7 +252,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "workoutroom_12x12",
     "object": {
@@ -309,7 +295,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_woodworker",
     "object": {
@@ -353,7 +338,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_bike",
     "object": {
@@ -383,7 +367,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basement",
     "nested_mapgen_id": "room_6x6_junk",
     "object": {
@@ -404,7 +387,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basement",
     "nested_mapgen_id": "room_6x6_junk_S",
     "object": {
@@ -432,7 +414,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basement",
     "nested_mapgen_id": "room_6x6_junk_E",
     "object": {
@@ -460,7 +441,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basement",
     "nested_mapgen_id": "room_6x6_junk_W",
     "object": {
@@ -488,7 +468,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_weed_N",
     "//": "an grow area for various recreations",
     "object": {
@@ -549,7 +528,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_weed_S",
     "//": "an grow area for various recreations",
     "object": {
@@ -610,7 +588,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_weed_E",
     "//": "an grow area for various recreations",
     "object": {
@@ -671,7 +648,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_weed_W",
     "//": "an grow area for various recreations",
     "object": {
@@ -732,7 +708,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_recroom_N",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -768,7 +743,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_recroom_N",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -807,7 +781,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_recroom_S",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -843,7 +816,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_recroom_S",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -883,7 +855,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_recroom_E",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -919,7 +890,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_recroom_E",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -958,7 +928,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_recroom_W",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -994,7 +963,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_recroom_W",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -1033,7 +1001,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_9x9_cellar_E",
     "object": {
@@ -1081,7 +1048,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_9x9_cellar_W",
     "object": {
@@ -1129,7 +1095,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_9x9_cellar_S",
     "object": {
@@ -1178,7 +1143,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_9x9_cellar_N",
     "object": {
@@ -1226,7 +1190,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_office_N",
     "object": {
@@ -1245,7 +1208,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_office_S",
     "object": {
@@ -1264,7 +1226,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_office_E",
     "object": {
@@ -1283,7 +1244,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_office_W",
     "object": {
@@ -1302,7 +1262,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_brewer_W",
     "object": {
@@ -1331,7 +1290,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_brewer_E",
     "object": {
@@ -1360,7 +1318,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_brewer_N",
     "object": {
@@ -1389,7 +1346,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_brewer_S",
     "object": {
@@ -1418,7 +1374,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_guns_N",
     "weight": 1000,
@@ -1475,7 +1430,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_guns_S",
     "weight": 1000,
@@ -1525,7 +1479,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_guns_E",
     "weight": 1000,
@@ -1574,7 +1527,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_guns_W",
     "weight": 1000,
@@ -1624,7 +1576,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "7x7_tent_indoors",
     "//": "a tent for basements, indoor scenarios",
     "object": {
@@ -1662,7 +1613,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "7x7_band_practice_open",
     "//": "a band practice space in an open area",
     "object": {
@@ -1713,7 +1663,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_wine_cellar_N",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -1755,7 +1704,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_wine_cellar_S",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -1797,7 +1745,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_wine_cellar_E",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -1839,7 +1786,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_wine_cellar_W",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -1881,7 +1827,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_recroom_N",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -1919,7 +1864,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_junk_N",
     "//": "room of junk",
     "object": {
@@ -1939,7 +1883,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_junk_S",
     "//": "room of junk",
     "object": {
@@ -1959,7 +1902,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_junk_E",
     "//": "room of junk",
     "object": {
@@ -1979,7 +1921,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_junk_W",
     "//": "room of junk",
     "object": {
@@ -1999,7 +1940,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_recroom_N",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -2033,7 +1973,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_recroom_S",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -2071,7 +2010,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_recroom_S",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -2106,7 +2044,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_recroom_E",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -2146,7 +2083,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_recroom_E",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -2181,7 +2117,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_recroom_W",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -2220,7 +2155,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_recroom_W",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -2255,7 +2189,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_holdout_N",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2279,7 +2212,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_holdout_S",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2303,7 +2235,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_holdout_E",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2327,7 +2258,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_holdout_W",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2351,7 +2281,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_sauna_N",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2376,7 +2305,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_sauna_S",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2401,7 +2329,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_sauna_E",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2426,7 +2353,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_sauna_W",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2451,7 +2377,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_pool",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2471,7 +2396,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_gym_N",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2500,7 +2424,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_gym_S",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2526,7 +2449,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_gym_E",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2552,7 +2474,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_gym_W",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2578,7 +2499,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_8x8_junk_N",
     "//": "room of junk",
     "object": {
@@ -2600,7 +2520,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_8x8_junk_S",
     "//": "room of junk",
     "object": {
@@ -2622,7 +2541,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_8x8_junk_E",
     "//": "room of junk",
     "object": {
@@ -2645,7 +2563,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_8x8_junk_W",
     "//": "room of junk",
     "object": {
@@ -2669,7 +2586,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_gym_N",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2707,7 +2623,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_gym_S",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2746,7 +2661,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_gym_E",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2784,7 +2698,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_gym_W",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2822,7 +2735,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_electronics_open",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -2885,7 +2797,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_sewing_open",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -2949,7 +2860,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_8x8_hobby_N",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2970,7 +2880,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_8x8_hobby_S",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2991,7 +2900,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_8x8_hobby_E",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3012,7 +2920,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_8x8_hobby_W",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3033,7 +2940,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_junk_N",
     "//": "room of junk",
     "object": {
@@ -3059,7 +2965,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_junk_S",
     "//": "room of junk",
     "object": {
@@ -3085,7 +2990,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_junk_E",
     "//": "room of junk",
     "object": {
@@ -3111,7 +3015,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_junk_W",
     "//": "room of junk",
     "object": {
@@ -3137,7 +3040,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_pool_N",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -3162,7 +3064,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_pool_S",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -3187,7 +3088,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_pool_W",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -3212,7 +3112,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_pool_E",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -3237,7 +3136,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_recording_studio_N",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -3293,7 +3191,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_recording_studio_S",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -3350,7 +3247,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_recording_studio_E",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -3407,7 +3303,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_recording_studio_W",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -3464,7 +3359,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_10x10_woodworker_N",
     "object": {
@@ -3505,7 +3399,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_10x10_woodworker_S",
     "object": {
@@ -3546,7 +3439,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_10x10_woodworker_E",
     "object": {
@@ -3587,7 +3479,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_10x10_woodworker_W",
     "object": {
@@ -3628,7 +3519,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_10x10_guns_N",
     "object": {
@@ -3694,7 +3584,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_10x10_guns_E",
     "object": {
@@ -3760,7 +3649,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_10x10_guns_S",
     "object": {
@@ -3826,7 +3714,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_10x10_guns_W",
     "object": {
@@ -3892,7 +3779,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "11x11_gym_open",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -3927,7 +3813,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "11x11_recroom_open",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -3964,7 +3849,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "11x11_recroom_open",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -4008,7 +3892,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_11x11_apartment_N",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -4032,7 +3915,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_11x11_apartment_S",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -4056,7 +3938,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_11x11_apartment_E",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -4080,7 +3961,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_11x11_apartment_W",
     "object": {
       "mapgensize": [ 11, 11 ],

@@ -93,7 +93,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "dirtroad1_aban1" ],
     "object": {
       "fill_ter": "t_dirt",
@@ -139,7 +138,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "dirtroad2_aban1" ],
     "object": {
       "fill_ter": "t_dirt",
@@ -189,7 +187,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "forest_aban1" ],
     "object": {
       "fill_ter": "t_dirt",
@@ -240,7 +237,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_aban1" ],
     "object": {
       "fill_ter": "t_floor",
@@ -325,7 +321,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_aban1_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -370,7 +365,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "car_corner_aban1" ],
     "object": {
       "fill_ter": "t_floor",
@@ -451,7 +445,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "car_corner_aban1_roof" ],
     "object": {
       "fill_ter": "t_open_air",
@@ -486,7 +479,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "dirtplaza_aban1" ],
     "object": {
       "fill_ter": "t_dirt",
@@ -537,7 +529,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "barn_aban1" ],
     "object": {
       "fill_ter": "t_dirtfloor",
@@ -642,7 +633,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "barn_aban1_roof" ],
     "object": {
       "fill_ter": "t_open_air",

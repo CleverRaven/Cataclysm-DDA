@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "afs_shuttlepad_salvors_a1_1", "afs_shuttlepad_salvors_a2_1" ],
       [ "afs_shuttlepad_salvors_b1_1", "afs_shuttlepad_salvors_b2_1" ]
@@ -274,7 +273,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "afs_shuttlepad_salvors_a1_2", "afs_shuttlepad_salvors_a2_2" ],
       [ "afs_shuttlepad_salvors_b1_2", "afs_shuttlepad_salvors_b2_2" ]
@@ -368,7 +366,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "afs_shuttlepad_salvors_a1_3", "afs_shuttlepad_salvors_a2_3" ],
       [ "afs_shuttlepad_salvors_b1_3", "afs_shuttlepad_salvors_b2_3" ]
@@ -441,7 +438,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "afs_shuttlepad_salvors_a1_4", "afs_shuttlepad_salvors_a2_4" ],
       [ "afs_shuttlepad_salvors_b1_4", "afs_shuttlepad_salvors_b2_4" ]
@@ -512,7 +508,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "afs_shuttlepad_salvors_garage_open",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_grate", "x": 1, "y": 3 },

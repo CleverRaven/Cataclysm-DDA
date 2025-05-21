@@ -15,7 +15,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_quiverfull" ],
     "object": {
       "fill_ter": "t_floor",

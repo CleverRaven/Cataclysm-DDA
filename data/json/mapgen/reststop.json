@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_restparking_1", "s_restparking_2" ], [ "s_reststop_1", "s_reststop_2" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -123,7 +122,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_reststop_1_roof", "s_reststop_2_roof" ] ],
     "object": {
       "fill_ter": "t_tar_flat_roof",

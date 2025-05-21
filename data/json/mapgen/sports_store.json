@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_sports" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -81,7 +80,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_sports_roof",
     "object": {
       "fill_ter": "t_flat_roof",

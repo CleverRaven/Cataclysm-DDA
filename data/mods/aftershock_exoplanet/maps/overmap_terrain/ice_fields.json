@@ -24,6 +24,7 @@
   {
     "type": "overmap_terrain",
     "id": "forest",
+    "//": "These make use of the region setting controlled hardcoded forest",
     "copy-from": "generic_forest",
     "name": "hydrothermal flats",
     "sym": "%",
@@ -43,7 +44,7 @@
     "see_cost": "spaced_high",
     "extras": "forest_thick",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 15 },
-    "mapgen": [ { "method": "builtin", "name": "forest" } ],
+    "mapgen": [ { "builtin": "forest" } ],
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
   },
   {
@@ -56,7 +57,7 @@
     "see_cost": "spaced_high",
     "extras": "forest_water",
     "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 16 },
-    "mapgen": [ { "method": "builtin", "name": "forest" } ],
+    "mapgen": [ { "builtin": "forest" } ],
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE", "RISK_HIGH" ]
   }
 ]

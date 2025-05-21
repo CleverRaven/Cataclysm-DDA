@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "ws_regional_dump_0_0", "ws_regional_dump_1_0", "ws_regional_dump_2_0", "ws_regional_dump_3_0" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -61,7 +60,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "ws_regional_dump_3_0_roof" ],
-    "method": "json",
     "object": {
       "rows": [
         "                        ",
@@ -95,7 +93,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "ws_regional_dump_0_1", "ws_regional_dump_1_1", "ws_regional_dump_2_1", "ws_regional_dump_3_1" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -162,7 +159,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "ws_regional_dump_0_2", "ws_regional_dump_1_2", "ws_regional_dump_2_2", "ws_regional_dump_3_2" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -235,7 +231,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "ws_regional_dump_0_3", "ws_regional_dump_1_3", "ws_regional_dump_2_3", "ws_regional_dump_3_3" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
