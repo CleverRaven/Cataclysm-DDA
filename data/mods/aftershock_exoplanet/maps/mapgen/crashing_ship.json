@@ -176,7 +176,7 @@
           ]
         },
         "T": { "items": [ { "item": "afs_todd_howard", "chance": 1 } ] },
-        "c": { "items": [ { "item": "afs_escapepod_shootout", "chance": 100, "container-item": "corpse" } ] },
+        "c": { "items": [ { "item": "afs_escapepod_shootout", "chance": 100 } ] },
         "C": {
           "items": [
             { "item": "hardware_bulk", "chance": 25 },

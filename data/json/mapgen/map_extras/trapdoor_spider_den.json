@@ -31,7 +31,7 @@
       ],
       "terrain": { "s": [ "t_region_soil" ] },
       "nested": { "s": { "chunks": [ [ "null", 1 ], [ "trapdoor_trap", 1 ] ] } },
-      "traps": { "S": { "trap": "tr_spider" } },
+      "traps": { "S": "tr_spider" },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
