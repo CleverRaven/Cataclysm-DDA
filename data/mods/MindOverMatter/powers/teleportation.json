@@ -98,7 +98,7 @@
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
-    "effect_str": "EOC_TELEPORT_PHASE_INITIATE"
+    "effect_str": "EOC_TELEPORT_PHASE_INITIATE",
     "shape": "blast",
     "base_energy_cost": 2500,
     "final_energy_cost": 1250,
@@ -109,7 +109,7 @@
   },
   {
     "id": "teleport_phase_real",
-    "copy-from": "teleport_phase"
+    "copy-from": "teleport_phase",
     "type": "SPELL",
     "valid_targets": [ "ground" ],
     "magic_type": "mom_psionics",
