@@ -1713,7 +1713,7 @@ static void read()
             item_location parent_loc = loc.parent_item();
             if( loc->type->can_use( "learn_spell" ) ) {
                 the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos_bub() );
-            } else if( loc.is_efile() ) {
+            } else if( loc.is_efile() && !parent_loc->has_flag( flag_MC_MOBILE ) ) {
                 // obtain e-storage device if not allowed to use remotely
                 if( !parent_loc->has_flag( json_flag_ALLOWS_REMOTE_USE ) ) {
                     parent_loc = parent_loc.obtain( player_character );
