@@ -56,22 +56,22 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
       "math": [
-        "( ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack) ) * 1500) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) * 1500) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack) ) * 3600) + 72000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) * 3600) + 72000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_telepathic_psi_armor') > -1 ? 0 : max( (2500 - ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack) ) * 125) ), 500)"
+        "u_effect_intensity('effect_telepathic_psi_armor') > -1 ? 0 : max( (2500 - ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) * 125) ), 500)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_telepathic_psi_armor') > -1 ? 10 : max( (100 - ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack) ) * 6.5)), 10)"
+        "u_effect_intensity('effect_telepathic_psi_armor') > -1 ? 10 : max( (100 - ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) * 6.5)), 10)"
       ]
     }
   },
