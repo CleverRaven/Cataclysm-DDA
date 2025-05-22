@@ -1,13 +1,5 @@
 [
   {
-    "type": "recipe_step",
-    "id": "gather_components"
-  },
-  {
-    "type": "recipe_step",
-    "id": "attended_crafting"
-  },
-  {
     "type": "recipe_steps",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -22,32 +14,16 @@
     ],
     "steps": [
       {
-        "method": "gather_components",
-        "components": [ [ [ "flour", 22 ], [ "bread_flour", 5 ] ], [ [ "yeast", 1 ] ], [ [ "water_clean", 2 ] ], [ [ "sugar", 4 ] ] ],
-        "skill_used": "cooking"
-      },
-      {
-        "method": "attended_crafting",
         "description": "make dough",
         "components": [ [ [ "flour", 22 ], [ "bread_flour", 5 ] ], [ [ "yeast", 1 ] ], [ [ "water_clean", 2 ] ], [ [ "sugar", 4 ] ] ],
-        "charges": 10,
         "skill_used": "cooking",
         "batch_time_factors": [ 50, 4 ],
         "proficiencies": [ { "proficiency": "prof_food_prep" } ],
         "difficulty": 2,
-        "time": "10 minutes",
-        "result": "dough"
+        "time": "10 minutes"
       },
+      { "description": "let dough rest", "unattended": true, "time": "5 hours" },
       {
-        "method": "crafting",
-        "description": "let dough rest",
-        "components": [ [ "dough", 10 ] ],
-        "charges": 10,
-        "time": "5 hours",
-        "result": "dough_rested"
-      },
-      {
-        "method": "crafting",
         "description": "Bake bread",
         "unattended": true,
         "skill_used": "cooking",
@@ -56,10 +32,7 @@
         "tools": [ [ [ "surface_heat", 22, "LIST" ] ] ],
         "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_bread" } ],
         "difficulty": 2,
-        "components": [ [ "dough_rested", 10 ] ],
-        "charges": 10,
-        "time": "30 minutes",
-        "result": "bread"
+        "time": "30 minutes"
       }
     ]
   }

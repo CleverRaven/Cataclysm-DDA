@@ -376,7 +376,7 @@ void DynamicDataLoader::initialize()
     add( "practice", &recipe_dictionary::load_practice );
     add( "nested_category", &recipe_dictionary::load_nested_category );
     add( "recipe_group",  &recipe_group::load );
-    add( "recipe_step",  &recipe_step_data::load_recipe_step );
+    // add( "recipe_step",  &recipe_step_data::load_recipe_step );
 
     add( "tool_quality", &quality::load_static );
     add( "technique", &load_technique );

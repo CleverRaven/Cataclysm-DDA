@@ -48,18 +48,7 @@ struct enum_traits<recipe_filter_flags> {
     static constexpr bool is_flag_enum = true;
 };
 
-struct recipe_proficiency {
-    proficiency_id id;
-    bool _skill_penalty_assigned = false;
-    bool required = false;
-    float time_multiplier = 0.0f;
-    float skill_penalty = 0.0f;
-    float learning_time_mult = 1.0f;
-    std::optional<time_duration> max_experience = std::nullopt;
 
-    void load( const JsonObject &jo );
-    void deserialize( const JsonObject &jo );
-};
 
 struct book_recipe_data {
     int skill_req = -1;
@@ -98,7 +87,7 @@ class recipe
         std::string exertion_str;
         float exertion = 0.0f;
 
-        std::vector<recipe_step_id> steps;
+        std::vector<recipe_step_data> steps;
 
     public:
         recipe();
@@ -279,6 +268,7 @@ class recipe
         std::string get_consistency_error() const;
 
         bool is_practice() const;
+        bool is_recipe_steps() const;
         /* Return true if this is NOT a recipe but instead only nested recipe (folder for recipes).*/
         bool is_nested() const;
         bool is_blueprint() const;

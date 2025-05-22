@@ -98,7 +98,7 @@ class craft_command
                                       bool no_prompt = false );
         static bool safe_to_unload_comp( const item &it );
 
-    private:
+    protected:
         const recipe *rec = nullptr;
         int batch_size = 0;
         /**
@@ -128,6 +128,18 @@ class craft_command
         /** Creates a continue pop up asking to continue crafting and listing the missing components */
         bool query_continue( const std::vector<comp_selection<item_comp>> &missing_items,
                              const std::vector<comp_selection<tool_comp>> &missing_tools );
+};
+
+class craft_command_steps: public craft_command
+{
+    public:
+        craft_command_steps( const recipe *to_make, int batch_size, bool is_long, Character *crafter,
+                             const std::optional<tripoint_bub_ms> &loc ): craft_command::craft_command( to_make, batch_size,
+                                         is_long, crafter, loc ) {}
+
+        /** Executes with saved location, NOT the same as execute( std::nullopt )! */
+        void execute( bool only_cache_comps = false );
+
 };
 
 #endif // CATA_SRC_CRAFT_COMMAND_H

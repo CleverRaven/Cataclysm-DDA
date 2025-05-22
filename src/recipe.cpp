@@ -7,6 +7,7 @@
 #include <optional>
 #include <sstream>
 #include <unordered_map>
+#include <utility>
 
 #include "assign.h"
 #include "cached_options.h"
@@ -456,7 +457,9 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         }
 
         if( type == "recipe_steps" ) {
-            mandatory( jo, was_loaded, "steps", steps );
+            jo.read( "steps", steps );
+            debugmsg( "%i steps", steps.size() );
+
         }
 
     } else if( type == "practice" ) {
@@ -1218,7 +1221,6 @@ static std::string required_skills_as_string( const std::vector<std::pair<skill_
 std::string recipe::primary_skill_string( const Character &c ) const
 {
     std::vector<std::pair<skill_id, int>> skillList;
-
     if( skill_used ) {
         skillList.emplace_back( skill_used, get_difficulty( c ) );
     }
@@ -1382,6 +1384,11 @@ bool recipe::is_nested() const
 bool recipe::is_blueprint() const
 {
     return !blueprint.is_empty();
+}
+
+bool recipe::is_recipe_steps() const
+{
+    return !steps.empty();
 }
 
 const update_mapgen_id &recipe::get_blueprint() const
@@ -1577,28 +1584,7 @@ void recipe::incorporate_build_reqs()
     }
 }
 
-void recipe_proficiency::deserialize( const JsonObject &jo )
-{
-    load( jo );
-}
 
-void recipe_proficiency::load( const JsonObject &jo )
-{
-    jo.read( "proficiency", id );
-    jo.read( "required", required );
-    jo.read( "time_multiplier", time_multiplier );
-    _skill_penalty_assigned = jo.read( "skill_penalty", skill_penalty );
-    jo.read( "learning_time_multiplier", learning_time_mult );
-    jo.read( "max_experience", max_experience );
-
-    // TODO: Remove at some point
-    if( jo.has_number( "fail_multiplier" ) ) {
-        debugmsg( "Proficiency %s in a recipe uses 'fail_multiplier' instead of 'skill_penalty'",
-                  id.c_str() );
-        jo.read( "fail_multiplier", skill_penalty );
-        skill_penalty -= 1;
-    }
-}
 
 void book_recipe_data::deserialize( const JsonObject &jo )
 {
