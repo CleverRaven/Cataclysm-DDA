@@ -8,6 +8,7 @@
 //BEFOREMERGE: Redo copied comments
 //BEFOREMERGE: Should probably be moved to an existing file? Not sure if there's a way to cut the include cost easily without losing out on the benefit of not constructing dialogue if is_constant()
 //BEFOREMERGE: Could do with some shorthand for dialogue( get_talker_for( get_avatar() ), std::make_unique<talker>() )
+//BEFOREMERGE: Various functions don't want to be public
 // Works similarly to weighted_list except weights are stored as dbl_or_var, so total_weight isn't constant unless all weights are etc
 
 static dialogue d_dummy;
@@ -36,6 +37,7 @@ template <typename T> struct weighted_dbl_or_var_list {
                     add( object, def );
                 }
             }
+            precalc();
         }
 
         /**
@@ -51,10 +53,6 @@ template <typename T> struct weighted_dbl_or_var_list {
             objects.emplace_back( obj, weight );
             invalidate_precalc();
             return &( objects[objects.size() - 1].obj );
-        }
-
-        bool is_precalced() const {
-            return _precalced;
         }
 
         void precalc() {
@@ -75,9 +73,13 @@ template <typename T> struct weighted_dbl_or_var_list {
             _precalced = false;
         }
 
-        bool is_constant() {
-            if( !is_precalced() ) {
-                precalc();
+        void precalc_error() const {
+            debugmsg( "weighted_dbl_or_var_list precalc has been invalidated, call weighted_dbl_or_var_list::precalc() first" );
+        }
+
+        bool is_constant() const {
+            if( !_precalced ) {
+                precalc_error();
             }
             return _is_constant;
         }
@@ -146,15 +148,15 @@ template <typename T> struct weighted_dbl_or_var_list {
          * and biased by weight. If the weighted list is empty or all items in it
          * have a weight of zero, it will return a NULL pointer.
          */
-        /*const T *pick( unsigned int randi ) {
+        const T *pick( unsigned int randi ) const {
             if( get_weight() > 0 ) {
                 return &( objects[pick_ent( randi )].obj );
             }
             return nullptr;
         }
-        const T *pick() {
+        const T *pick() const {
             return pick( rng_bits() );
-        }*/
+        }
 
         /**
          * This will return a pointer to an object from the list randomly selected
@@ -197,11 +199,11 @@ template <typename T> struct weighted_dbl_or_var_list {
         /**
          * This will return the sum of all the object's weights in the list.
          */
-        double get_weight() {
+        double get_weight() const {
             if( is_constant() ) {
                 return _constant_total_weight;
             } else {
-                double ret;
+                double ret = 0.0;
                 for( const weighted_object<dbl_or_var, T> &itr : objects ) {
                     ret += itr.weight.evaluate( dialogue( get_talker_for( get_avatar() ),
                                                           std::make_unique<talker>() ) );
@@ -263,7 +265,7 @@ template <typename T> struct weighted_dbl_or_var_list {
         bool _precalced = false;
         bool _is_constant = true;
 
-        size_t pick_ent( unsigned int randi ) {
+        size_t pick_ent( unsigned int randi ) const {
             const double picked = static_cast<double>( randi ) / UINT_MAX * get_weight();
             double accumulated_weight = 0;
             dialogue eval_d = is_constant() ? d_dummy : dialogue( get_talker_for( get_avatar() ),

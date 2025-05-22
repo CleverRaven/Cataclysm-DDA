@@ -4341,7 +4341,8 @@ class jmapgen_nested : public jmapgen_piece
                 merge_from( name.obj );
             }
         }
-        weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> &get_entries( const mapgendata &dat ) {
+        const weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> &get_entries(
+        const mapgendata &dat ) const {
             if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) && neighbor_flags.test( dat ) &&
                 neighbor_flags_any.test( dat ) && predecessors.test( dat ) && correct_z_level.test( dat ) ) {
                 return entries;
@@ -4351,7 +4352,7 @@ class jmapgen_nested : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &context ) const override {
-            mapgen_value<nested_mapgen_id> *val = get_entries( dat ).pick();
+            const mapgen_value<nested_mapgen_id> *val = get_entries( dat ).pick();
             if( val == nullptr ) {
                 return;
             }
