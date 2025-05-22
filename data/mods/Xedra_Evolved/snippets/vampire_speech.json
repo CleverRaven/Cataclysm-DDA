@@ -165,9 +165,7 @@
   },
   {
     "type": "speech",
-    "speaker": [
-      "mon_vampire_feral"
-    ],
+    "speaker": [ "mon_vampire_feral" ],
     "sound": "a terrible screech!",
     "volume": 32
   },
