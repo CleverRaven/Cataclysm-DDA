@@ -106,9 +106,7 @@
   },
   {
     "type": "speech",
-    "speaker": [
-    "mon_vampire_moroi"
-    ],
+    "speaker": [ "mon_vampire_moroi" ],
     "sound": "\"300, 2, 46, 17, 734...\"",
     "volume": 10
   },
