@@ -110,9 +110,7 @@
   {
     "type": "speech",
     "//": "lit. tasting blood",
-    "speaker": [
-      "mon_vampire_strigoi"
-    ],
+    "speaker": [ "mon_vampire_strigoi" ],
     "sound": "\"blðdþigen...\"",
     "volume": 20
   },
