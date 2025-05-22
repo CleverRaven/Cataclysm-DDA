@@ -135,6 +135,7 @@
   {
     "id": [ "TALK_STRANGER_NEUTRAL", "TALK_STRANGER_FRIENDLY" ],
     "type": "talk_topic",
+    "speaker_effect": [ { "sentinel": "meeting_human", "effect": { "u_add_var": "u_met_non_feral", "value": "yes" } },
     "responses": [
       {
         "text": "[Paraclesian:Elemental] Oh you're much less aggressive than other humans.    Are you a different breed?",
@@ -155,7 +156,6 @@
         },
         "switch": true,
         "default": false,
-        "speaker_effect": [ { "sentinel": "meeting_human", "effect": { "u_add_var": "u_met_non_feral", "value": "yes" } } ]
       },
       {
         "text": "[Paraclesian:Dollkin] Finally a normal human!  What's happened here?",
