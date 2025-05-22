@@ -163,7 +163,6 @@
         "condition": { "and": [ { "u_has_trait": "HOMULLUS" }, { "compare_string": [ "no", { "u_val": "u_met_non_feral" } ] } ] },
         "switch": true,
         "default": false,
-        "speaker_effect": [ { "sentinel": "meeting_human", "effect": { "u_add_var": "u_met_non_feral", "value": "yes" } } ]
       }
     ]
   },
