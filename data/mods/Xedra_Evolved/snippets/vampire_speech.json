@@ -65,9 +65,7 @@
   },
   {
     "type": "speech",
-    "speaker": [
-    "mon_vampire_moroi"
-    ],
+    "speaker": [ "mon_vampire_moroi" ],
     "sound": "\"So... so fucking hungry.\"",
     "volume": 10
   },
