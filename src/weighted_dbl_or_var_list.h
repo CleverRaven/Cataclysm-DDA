@@ -7,6 +7,7 @@
 
 //BEFOREMERGE: Redo copied comments
 //BEFOREMERGE: Should probably be moved to an existing file? Not sure if there's a way to cut the include cost easily without losing out on the benefit of not constructing dialogue if is_constant()
+//BEFOREMERGE: Could do with some shorthand for dialogue( get_talker_for( get_avatar() ), std::make_unique<talker>() )
 // Works similarly to weighted_list except weights are stored as dbl_or_var, so total_weight isn't constant unless all weights are etc
 
 static dialogue d_dummy;
@@ -24,13 +25,15 @@ template <typename T> struct weighted_dbl_or_var_list {
             const dbl_or_var def = dbl_or_var( default_weight );
             for( const JsonValue entry : jsv.get_array() ) {
                 if( entry.test_array() ) {
-                    std::pair<T, dbl_or_var> p;
-                    entry.read( p, true );
-                    add( p.first, p.second );
+                    JsonArray ja = entry.get_array();
+                    T object;
+                    ja.next_value().read( object );
+                    const dbl_or_var weight = get_dbl_or_var( ja.next_value() );
+                    add( object, weight );
                 } else {
-                    T val;
-                    entry.read( val );
-                    add( val, def );
+                    T object;
+                    entry.read( object );
+                    add( object, def );
                 }
             }
         }
@@ -50,22 +53,18 @@ template <typename T> struct weighted_dbl_or_var_list {
             return &( objects[objects.size() - 1].obj );
         }
 
-        dialogue &d() const {
-            dialogue ret( get_talker_for( get_avatar() ), std::make_unique<talker>() );
-            return ret;
-        }
-
         bool is_precalced() const {
             return _precalced;
         }
 
         void precalc() {
-            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>>  &object : objects ) {
+            for( const weighted_object<dbl_or_var, T>  &object : objects ) {
                 _is_constant &= object.weight.is_constant();
             }
             if( _is_constant ) {
-                for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>>  &object : objects ) {
-                    _constant_total_weight += object.weight.evaluate( d() );
+                for( const weighted_object<dbl_or_var, T>  &object : objects ) {
+                    _constant_total_weight += object.weight.evaluate( dialogue( get_talker_for( get_avatar() ),
+                                              std::make_unique<talker>() ) );
                 }
             }
             _precalced = true;
@@ -188,7 +187,8 @@ template <typename T> struct weighted_dbl_or_var_list {
         double get_specific_weight( const T &obj ) const {
             for( const weighted_object<dbl_or_var, T> &itr : objects ) {
                 if( itr.obj == obj ) {
-                    return itr.weight.evaluate( d() );
+                    return itr.weight.evaluate( dialogue( get_talker_for( get_avatar() ),
+                                                          std::make_unique<talker>() ) );
                 }
             }
             return 0;
@@ -197,13 +197,14 @@ template <typename T> struct weighted_dbl_or_var_list {
         /**
          * This will return the sum of all the object's weights in the list.
          */
-        double get_weight() const {
+        double get_weight() {
             if( is_constant() ) {
                 return _constant_total_weight;
             } else {
                 double ret;
                 for( const weighted_object<dbl_or_var, T> &itr : objects ) {
-                    ret += itr.weight.evaluate( d() );
+                    ret += itr.weight.evaluate( dialogue( get_talker_for( get_avatar() ),
+                                                          std::make_unique<talker>() ) );
                 }
                 return ret;
             }
@@ -237,12 +238,13 @@ template <typename T> struct weighted_dbl_or_var_list {
         bool empty() const noexcept {
             return objects.empty();
         }
-        //TODO: Might want to add is_constant() somewhere
+        //TODO: Might want to add is_constant() to the output
         std::string to_debug_string() const {
             std::ostringstream os;
             os << "[ ";
             for( const weighted_object<dbl_or_var, T> &o : objects ) {
-                os << o.obj << ":" << o.weight.evaluate( d() ) << ", ";
+                os << o.obj << ":" << o.weight.evaluate( dialogue( get_talker_for( get_avatar() ),
+                        std::make_unique<talker>() ) ) << ", ";
             }
             os << "]";
             return os.str();
@@ -264,7 +266,8 @@ template <typename T> struct weighted_dbl_or_var_list {
         size_t pick_ent( unsigned int randi ) {
             const double picked = static_cast<double>( randi ) / UINT_MAX * get_weight();
             double accumulated_weight = 0;
-            dialogue &eval_d = is_constant() ? d_dummy : d();
+            dialogue eval_d = is_constant() ? d_dummy : dialogue( get_talker_for( get_avatar() ),
+                              std::make_unique<talker>() );
             size_t i;
             for( i = 0; i < objects.size(); i++ ) {
                 accumulated_weight += objects[i].weight.evaluate( eval_d );
