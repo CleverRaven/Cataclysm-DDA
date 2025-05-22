@@ -1055,13 +1055,12 @@
     "spell_class": "TELEPORTER",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
     "difficulty": 10,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_REALITY_TEAR_CHECKER",
     "shape": "blast",
-    "min_range": 1,
     "base_energy_cost": 10000,
     "final_energy_cost": 5000,
     "energy_increment": -250,
@@ -1075,7 +1074,7 @@
     "type": "SPELL",
     "magic_type": "mom_psionics",
     "valid_targets": [ "ground" ],
-    "extra_effects": [ { "id": "teleport_reality_tear_effects" } ],
+    "effect": "attack",
     "shape": "blast",
     "min_range": {
       "math": [
@@ -1085,8 +1084,8 @@
     "max_range": 80,
     "field_id": "fd_tear_in_reality_temporary",
     "field_chance": 1,
-    "min_field_intensity": 10,
-    "max_field_intensity": 10,
+    "min_field_intensity": 2,
+    "max_field_intensity": 2
   },
   {
     "id": "teleport_reality_tear_permanent",
@@ -1094,7 +1093,7 @@
     "type": "SPELL",
     "magic_type": "mom_psionics",
     "valid_targets": [ "ground" ],
-    "extra_effects": [ { "id": "teleport_reality_tear_effects" } ],
+    "effect": "attack",
     "shape": "blast",
     "min_range": {
       "math": [
@@ -1104,23 +1103,7 @@
     "max_range": 80,
     "field_id": "fd_fatigue",
     "field_chance": 1,
-    "min_field_intensity": 10,
-    "max_field_intensity": 10,
-  },
-  {
-    "id": "teleport_reality_tear_effects",
-    "type": "SPELL",
-    "name": { "str": "[Ψ]Reality Tear - Side Effects", "//~": "NO_I18N" },
-    "description": { "str": "Side effects of Reality Tear.  Seeing this spell is a bug.", "//~": "NO_I18N" },
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEPORTER",
-    "skill": "metaphysics",
-    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_REALITY_TEAR_EFFECTS",
-    "shape": "blast",
-    "min_range": 80,
-    "max_range": 80,
+    "min_field_intensity": 3,
+    "max_field_intensity": 3
   }
 ]
