@@ -179,9 +179,7 @@
   },
   {
     "type": "speech",
-    "speaker": [
-      "mon_vampire_feral"
-    ],
+    "speaker": [ "mon_vampire_feral" ],
     "sound": "awful gurgling",
     "volume": 20
   },
