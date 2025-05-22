@@ -3,8 +3,14 @@ from ..write_text import write_text
 
 
 def parse_spell(json, origin):
-    id = json["id"]
+    id = ""
     name = ""
+
+    if "id" in json:
+        id = json["id"]
+    else:
+        id = json["abstract"]
+
     if "name" in json:
         name = get_singular_name(json["name"])
         write_text(json["name"], origin,
