@@ -139,7 +139,21 @@
       {
         "text": "[Paraclesian:Elemental] Oh you're much less aggressive than other humans.    Are you a different breed?",
         "topic": "TALK_ABOUT_FERALS_ELEMENTAL_POSITIVE",
-        "condition": { "and": [  { "or": [ { "u_has_trait": "SYLPH" }, { "u_has_trait": "IERDE" }, { "u_has_trait": "SALAMANDER" }, { "u_has_trait": "UNDINE" }, { "u_has_trait": "HOMULLUS" }, { "u_has_trait": "ARVORE" } ] }, { "compare_string": [ "no", { "u_val": "u_met_non_feral" } ] } ] },
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "u_has_trait": "SYLPH" },
+                { "u_has_trait": "IERDE" },
+                { "u_has_trait": "SALAMANDER" },
+                { "u_has_trait": "UNDINE" },
+                { "u_has_trait": "HOMULLUS" },
+                { "u_has_trait": "ARVORE" }
+              ]
+            },
+            { "compare_string": [ "no", { "u_val": "u_met_non_feral" } ] }
+          ]
+        },
         "switch": true,
         "default": false,
         "speaker_effect": [ { "sentinel": "meeting_human", "effect": { "u_add_var": "u_met_non_feral", "value": "yes" } } ]
@@ -161,7 +175,21 @@
       {
         "text": "[Paraclesian:Elemental] Oh you're much less aggressive than other humans.  Are you a different breed?",
         "topic": "TALK_ABOUT_FERALS_ELEMENTAL_NEGATIVE",
-        "condition": { "and": [  { "or": [ { "u_has_trait": "SYLPH" }, { "u_has_trait": "IERDE" }, { "u_has_trait": "SALAMANDER" }, { "u_has_trait": "UNDINE" }, { "u_has_trait": "HOMULLUS" }, { "u_has_trait": "ARVORE" } ] }, { "compare_string": [ "no", { "u_val": "u_met_non_feral" } ] } ] },
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "u_has_trait": "SYLPH" },
+                { "u_has_trait": "IERDE" },
+                { "u_has_trait": "SALAMANDER" },
+                { "u_has_trait": "UNDINE" },
+                { "u_has_trait": "HOMULLUS" },
+                { "u_has_trait": "ARVORE" }
+              ]
+            },
+            { "compare_string": [ "no", { "u_val": "u_met_non_feral" } ] }
+          ]
+        },
         "switch": true,
         "default": false,
         "speaker_effect": [ { "sentinel": "meeting_human", "effect": { "u_add_var": "u_met_non_feral", "value": "yes" } } ]
@@ -176,7 +204,6 @@
       }
     ]
   },
-  
   {
     "id": "TALK_ABOUT_FERALS_ELEMENTAL_POSITIVE",
     "type": "talk_topic",
