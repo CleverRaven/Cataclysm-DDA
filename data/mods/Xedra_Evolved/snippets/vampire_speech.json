@@ -133,9 +133,7 @@
   {
     "type": "speech",
     "//": "I mourn for the sun and sky.",
-    "speaker": [
-      "mon_vampire_strigoi"
-    ],
+    "speaker": [ "mon_vampire_strigoi" ],
     "sound": "\"Ic bemurnan sé sunna ond heofon...",
     "volume": 20
   },
