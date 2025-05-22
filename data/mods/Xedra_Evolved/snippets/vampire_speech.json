@@ -140,9 +140,7 @@
   {
     "type": "speech",
     "//": "I will flay you, and devour your flesh.",
-    "speaker": [
-      "mon_vampire_strigoi"
-    ],
+    "speaker": [ "mon_vampire_strigoi" ],
     "sound": "\"Ic willan beflean ðu, and þín flæsc fornimst!\"",
     "volume": 32
   },
