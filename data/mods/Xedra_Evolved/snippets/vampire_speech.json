@@ -126,9 +126,7 @@
   {
     "type": "speech",
     "//": "Madness... my mind is leaving.",
-    "speaker": [
-      "mon_vampire_strigoi"
-    ],
+    "speaker": [ "mon_vampire_strigoi" ],
     "sound": "\"Wodscipe... Min ferhþ sy forlæ...\"",
     "volume": 20
   },
