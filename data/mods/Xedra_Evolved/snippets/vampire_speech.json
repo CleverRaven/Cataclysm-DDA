@@ -100,9 +100,7 @@
   },
   {
     "type": "speech",
-    "speaker": [
-      "mon_vampire_moroi"
-    ],
+    "speaker": [ "mon_vampire_moroi" ],
     "sound": "\"Fresh blood! Life! Death! Life! Death!\"",
     "volume": 32
   },
