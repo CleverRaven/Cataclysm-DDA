@@ -117,9 +117,7 @@
   {
     "type": "speech",
     "//": "I will drink the blood you bleed in death.",
-    "speaker": [
-      "mon_vampire_strigoi"
-    ],
+    "speaker": [ "mon_vampire_strigoi" ],
     "sound": "\"Ic willan āþeġde úre cwealmdréor! \"",
     "volume": 32
   },
