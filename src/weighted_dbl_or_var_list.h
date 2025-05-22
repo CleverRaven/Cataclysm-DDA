@@ -11,8 +11,6 @@
 //BEFOREMERGE: Various functions don't want to be public
 // Works similarly to weighted_list except weights are stored as dbl_or_var, so total_weight isn't constant unless all weights are etc
 
-static dialogue d_dummy;
-
 template <typename T> struct weighted_dbl_or_var_list {
         weighted_dbl_or_var_list() {}
 
@@ -47,7 +45,7 @@ template <typename T> struct weighted_dbl_or_var_list {
          * @param weight The weight of the object.
          */
         T *add( const T &obj, const dbl_or_var &weight ) {
-            if( weight.is_constant() && weight.evaluate( d_dummy ) <= 0 ) {
+            if( weight.is_constant() && weight.min.dbl_val.value() <= 0 ) {
                 return nullptr;
             }
             objects.emplace_back( obj, weight );
@@ -70,6 +68,7 @@ template <typename T> struct weighted_dbl_or_var_list {
 
         void invalidate_precalc() {
             _is_constant = true;
+            _constant_total_weight = 0.0;
             _precalced = false;
         }
 
@@ -103,7 +102,7 @@ template <typename T> struct weighted_dbl_or_var_list {
          */
         T *add_or_replace( const T &obj, const dbl_or_var &weight ) {
 
-            if( weight.is_constant() && weight.evaluate( d_dummy ) <= 0 ) {
+            if( weight.is_constant() && weight.min.dbl_val.value() <= 0 ) {
                 remove( obj );
                 invalidate_precalc();
             }
@@ -213,7 +212,7 @@ template <typename T> struct weighted_dbl_or_var_list {
         }
 
         bool is_valid() {
-            return !is_constant() || _constant_total_weight > 0;
+            return !is_constant() || _constant_total_weight > 0.0;
         }
 
         typename std::vector<weighted_object<dbl_or_var, T> >::iterator begin() {
@@ -231,7 +230,6 @@ template <typename T> struct weighted_dbl_or_var_list {
         typename std::vector<weighted_object<dbl_or_var, T> >::iterator erase(
             typename std::vector<weighted_object<dbl_or_var, T> >::iterator first,
             typename std::vector<weighted_object<dbl_or_var, T> >::iterator last ) {
-            invalidate_precalc();
             return objects.erase( first, last );
         }
         size_t size() const noexcept {
@@ -261,26 +259,34 @@ template <typename T> struct weighted_dbl_or_var_list {
         }
 
     protected:
-        double _constant_total_weight;
+        double _constant_total_weight = 0.0;
         bool _precalced = false;
         bool _is_constant = true;
 
         size_t pick_ent( unsigned int randi ) const {
             const double picked = static_cast<double>( randi ) / UINT_MAX * get_weight();
-            double accumulated_weight = 0;
-            dialogue eval_d = is_constant() ? d_dummy : dialogue( get_talker_for( get_avatar() ),
-                              std::make_unique<talker>() );
+            double accumulated_weight = 0.0;
             size_t i;
-            for( i = 0; i < objects.size(); i++ ) {
-                accumulated_weight += objects[i].weight.evaluate( eval_d );
-                if( accumulated_weight >= picked ) {
-                    break;
+            if( is_constant() ) {
+                for( i = 0; i < objects.size(); i++ ) {
+                    accumulated_weight += objects[i].weight.min.dbl_val.value();
+                    if( accumulated_weight >= picked ) {
+                        break;
+                    }
+                }
+            } else {
+                dialogue d( dialogue( get_talker_for( get_avatar() ), std::make_unique<talker>() ) );
+                for( i = 0; i < objects.size(); i++ ) {
+                    accumulated_weight += objects[i].weight.evaluate( d );
+                    if( accumulated_weight >= picked ) {
+                        break;
+                    }
                 }
             }
             return i;
         }
 
-        std::vector<weighted_object<dbl_or_var, T>> objects; //BEFOREMERGE: Could just be a map? (flipped)
+        std::vector<weighted_object<dbl_or_var, T>> objects;
 };
 
 #endif // CATA_SRC_WEIGHTED_DBL_OR_VAR_LIST_H
