@@ -79,9 +79,7 @@
   },
   {
     "type": "speech",
-    "speaker": [
-      "mon_vampire_moroi"
-    ],
+    "speaker": [ "mon_vampire_moroi" ],
     "sound": "\"Rip! Tear! Flesh!\"",
     "volume": 32
   },
