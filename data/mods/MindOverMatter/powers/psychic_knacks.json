@@ -102,69 +102,69 @@
     "copy-from": "telepathic_shield",
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
-    "difficulty": 1
+    "difficulty": { "math": [ "max( (u_spell_difficulty('telepathic_shield') / 2), 1)" ] }
   },
   {
     "id": "telepathic_mind_sense_knack",
     "copy-from": "telepathic_mind_sense",
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
-    "difficulty": 1
+    "difficulty": { "math": [ "max( (u_spell_difficulty('telepathic_mind_sense') / 2), 1)" ] }
   },
   {
     "id": "telepathic_morale_knack",
     "copy-from": "telepathic_morale",
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
-    "difficulty": 1
+    "difficulty": { "math": [ "max( (u_spell_difficulty('telepathic_morale') / 2), 1)" ] }
   },
   {
     "id": "telepathic_mesmerize_knack",
     "copy-from": "telepathic_mesmerize",
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
-    "difficulty": 1
+    "difficulty": { "math": [ "max( (u_spell_difficulty('telepathic_mesmerize') / 2), 1)" ] }
   },
   {
     "id": "telepathic_animal_mind_control_knack",
     "copy-from": "telepathic_animal_mind_control",
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
-    "difficulty": 1
+    "difficulty": { "math": [ "max( (u_spell_difficulty('telepathic_animal_mind_control') / 2), 1)" ] }
   },
   {
     "id": "telepathic_invisibility_knack",
     "copy-from": "telepathic_invisibility",
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
-    "difficulty": 1
+    "difficulty": { "math": [ "max( (u_spell_difficulty('telepathic_invisibility') / 2), 1)" ] }
   },
   {
     "id": "vita_health_power_knack",
     "copy-from": "vita_health_power",
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
-    "difficulty": 1
+    "difficulty": { "math": [ "max( (u_spell_difficulty('vita_health_power') / 2), 1)" ] }
   },
   {
     "id": "vita_concentrated_healing_knack",
     "copy-from": "vita_concentrated_healing",
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
-    "difficulty": 1
+    "difficulty": { "math": [ "max( (u_spell_difficulty('vita_concentrated_healing') / 2), 1)" ] }
   },
   {
     "id": "vita_remove_poison_knack",
     "copy-from": "vita_remove_poison",
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
-    "difficulty": 1
+    "difficulty": { "math": [ "max( (u_spell_difficulty('vita_remove_poison') / 2), 1)" ] }
   },
   {
     "id": "vita_cure_disease_knack",
     "copy-from": "vita_cure_disease",
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
-    "difficulty": 1
+    "difficulty": { "math": [ "max( (u_spell_difficulty('vita_cure_disease') / 2), 1)" ] }
   }
 ]
