@@ -59,5 +59,17 @@
     "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 16 },
     "mapgen": [ { "builtin": "forest" } ],
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "afs_aeolian_plain",
+    "copy-from": "generic_open_land",
+    "name": "Aeolian flats",
+    "sym": ".",
+    "travel_cost_type": "field",
+    "color": "light_red",
+    "see_cost": "none",
+    "extras": "field",
+    "flags": [ "NO_ROTATE" ]
   }
 ]
