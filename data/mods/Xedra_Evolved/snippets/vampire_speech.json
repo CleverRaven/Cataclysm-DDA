@@ -7,7 +7,10 @@
       "mon_renfield_shotgun",
       "mon_renfield_flamethrower",
       "mon_renfield_bionic_monster",
-      "mon_renfield_abomination"
+      "mon_renfield_abomination",
+      "mon_mi_go", 
+      "mon_mi_go_slaver", 
+      "mon_mi_go_myrmidon"
     ],
     "sound": "\"The masters have come, and they have promised to make me immortal!\"",
     "volume": 20
@@ -20,7 +23,10 @@
       "mon_renfield_shotgun",
       "mon_renfield_flamethrower",
       "mon_renfield_bionic_monster",
-      "mon_renfield_abomination"
+      "mon_renfield_abomination",
+      "mon_mi_go", 
+      "mon_mi_go_slaver", 
+      "mon_mi_go_myrmidon"
     ],
     "sound": "\"I am here to do the masters' bidding!\"",
     "volume": 32
@@ -33,7 +39,10 @@
       "mon_renfield_shotgun",
       "mon_renfield_flamethrower",
       "mon_renfield_bionic_monster",
-      "mon_renfield_abomination"
+      "mon_renfield_abomination",
+      "mon_mi_go", 
+      "mon_mi_go_slaver", 
+      "mon_mi_go_myrmidon"
     ],
     "sound": "\"Who's there?  Is that blood for the masters?\"",
     "volume": 20
@@ -46,7 +55,10 @@
       "mon_renfield_shotgun",
       "mon_renfield_flamethrower",
       "mon_renfield_bionic_monster",
-      "mon_renfield_abomination"
+      "mon_renfield_abomination",
+      "mon_mi_go", 
+      "mon_mi_go_slaver", 
+      "mon_mi_go_myrmidon"
     ],
     "sound": "\"Can you help me?  The masters are so very hungry.\"",
     "volume": 20
@@ -86,7 +98,8 @@
   {
     "type": "speech",
     "speaker": [
-      "mon_vampire_moroi"
+      "mon_vampire_moroi",
+      "mon_vampire_feral"
     ],
     "sound": "incoherent babbling",
     "volume": 20
@@ -152,4 +165,44 @@
     "sound": "\"Ic willan beflean ðu, and þín flæsc fornimst!\"",
     "volume": 32
   },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_vampire_feral"
+    ],
+    "sound": "\"Hungry...\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_vampire_feral"
+    ],
+    "sound": "a terrible screech!",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_vampire_feral"
+    ],
+    "sound": "teeth rapdily clicking together",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_vampire_feral"
+    ],
+    "sound": "awful gurgling",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_vampire_feral"
+    ],
+    "sound": "a set of rapdily oscillating chirps!",
+    "volume": 32
+  }
 ]

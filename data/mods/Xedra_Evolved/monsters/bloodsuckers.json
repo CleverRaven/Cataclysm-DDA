@@ -48,6 +48,7 @@
     "grab_strength": 30,
     "extend": {
       "special_attacks": [
+        [ "PARROT", 100 ],
         {
           "id": "bite_humanoid",
           "cooldown": 3,
@@ -213,6 +214,7 @@
     "path_settings": { "max_dist": 5 },
     "grab_strength": 20,
     "special_attacks": [
+      [ "PARROT", 100 ],
       {
         "id": "bite_humanoid",
         "cooldown": 10,
@@ -259,6 +261,7 @@
     "path_settings": { "max_dist": 5 },
     "grab_strength": 20,
     "special_attacks": [
+      [ "PARROT", 100 ],
       { "type": "leap", "cooldown": 10, "max_range": 5, "min_consider_range": 2, "max_consider_range": 15 },
       {
         "id": "bite_humanoid",
