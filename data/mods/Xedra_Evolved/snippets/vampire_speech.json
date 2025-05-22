@@ -66,7 +66,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_moroi" ],
-    "sound": "\"So... so fucking hungry.\"",
+    "sound": "\"So… so fucking hungry.\"",
     "volume": 10
   },
   {
@@ -84,7 +84,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_moroi" ],
-    "sound": "\"Tired...  Must feed...\"",
+    "sound": "\"Tired…  Must feed…\"",
     "volume": 20
   },
   {
@@ -102,14 +102,14 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_moroi" ],
-    "sound": "\"300, 2, 46, 17, 734...\"",
+    "sound": "\"300, 2, 46, 17, 734…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "//": "lit. tasting blood",
     "speaker": [ "mon_vampire_strigoi" ],
-    "sound": "\"blðdþigen...\"",
+    "sound": "\"blðdþigen…\"",
     "volume": 20
   },
   {
@@ -121,16 +121,16 @@
   },
   {
     "type": "speech",
-    "//": "Madness... my mind is leaving.",
+    "//": "Madness… my mind is leaving.",
     "speaker": [ "mon_vampire_strigoi" ],
-    "sound": "\"Wodscipe... Min ferhþ sy forlæ...\"",
+    "sound": "\"Wodscipe… Min ferhþ sy forlæ…\"",
     "volume": 20
   },
   {
     "type": "speech",
     "//": "I mourn for the sun and sky.",
     "speaker": [ "mon_vampire_strigoi" ],
-    "sound": "\"Ic bemurnan sé sunna ond heofon...",
+    "sound": "\"Ic bemurnan sé sunna ond heofon…",
     "volume": 20
   },
   {
@@ -143,7 +143,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
-    "sound": "\"Hungry...\"",
+    "sound": "\"Hungry…\"",
     "volume": 20
   },
   {
