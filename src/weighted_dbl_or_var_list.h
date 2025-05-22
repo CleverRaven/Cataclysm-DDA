@@ -72,14 +72,15 @@ template <typename T> struct weighted_dbl_or_var_list {
             _precalced = false;
         }
 
-        void precalc_error() const {
+        //BEFOREMERGE: This error is important and needed for pick() constness but is triggering erroneously on every chunk member
+        /*void precalc_error() const {
             debugmsg( "weighted_dbl_or_var_list precalc has been invalidated, call weighted_dbl_or_var_list::precalc() first" );
-        }
+        }*/
 
         bool is_constant() const {
-            if( !_precalced ) {
+            /*if( !_precalced ) {
                 precalc_error();
-            }
+            }*/
             return _is_constant;
         }
 
