@@ -160,9 +160,7 @@
   },
   {
     "type": "speech",
-    "speaker": [
-      "mon_vampire_feral"
-    ],
+    "speaker": [ "mon_vampire_feral" ],
     "sound": "teeth rapdily clicking together",
     "volume": 20
   },
