@@ -157,9 +157,7 @@
   },
   {
     "type": "speech",
-    "speaker": [
-      "mon_vampire_feral"
-    ],
+    "speaker": [ "mon_vampire_feral" ],
     "sound": "\"Hungry...\"",
     "volume": 20
   },
