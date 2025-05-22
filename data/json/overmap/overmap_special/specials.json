@@ -6223,18 +6223,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "basement_hidden_lab_entrance",
-    "overmaps": [ { "point": [ 0, 0, -1 ], "overmap": "basement_hidden_lab_stairs" } ],
-    "connections": [ { "point": [ 0, 0, -1 ], "connection": "hidden_lab_basement", "terrain": "basement", "existing": true } ],
-    "rotate": false,
-    "locations": [ "potential_basement_lab_entrance" ],
-    "//": "Low chance to find a matching location, so always try to place it",
-    "occurrences": [ 99, 100 ],
-    "priority": 1,
-    "flags": [ "LAB", "OVERMAP_UNIQUE", "MAN_MADE" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "o_lightindustry_scen",
     "overmaps": [
       { "point": [ 1, 0, 0 ], "overmap": "s_lightindustry_scen_road_0_south" },
