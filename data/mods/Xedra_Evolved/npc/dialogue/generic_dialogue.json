@@ -138,7 +138,7 @@
     "speaker_effect": [ { "sentinel": "meeting_human", "effect": { "u_add_var": "u_met_non_feral", "value": "yes" } } ],
     "responses": [
       {
-        "text": "[Paraclesian:Elemental] Oh you're much less aggressive than other humans.    Are you a different breed?",
+        "text": "[Paraclesian:Elemental] Oh you're much less aggressive than other humans.  Are you a different breed?",
         "topic": "TALK_ABOUT_FERALS_ELEMENTAL_POSITIVE",
         "condition": {
           "and": [
