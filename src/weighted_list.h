@@ -38,7 +38,7 @@ template <typename W, typename T> struct weighted_list {
          * @param weight The weight of the object.
          */
         T *add( const T &obj, const W &weight ) {
-            if( weight >= 0 ) {
+            if( weight > 0 ) {
                 objects.emplace_back( obj, weight );
                 total_weight += weight;
                 invalidate_precalc();
@@ -67,8 +67,9 @@ template <typename W, typename T> struct weighted_list {
          * @param obj The object that will be updated or added to the list.
          * @param weight The new weight of the object.
          */
+        //TODO: Shouldn't this remove on weight <= 0?
         T *add_or_replace( const T &obj, const W &weight ) {
-            if( weight >= 0 ) {
+            if( weight > 0 ) {
                 invalidate_precalc();
                 for( auto &itr : objects ) {
                     if( itr.obj == obj ) {
