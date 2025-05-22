@@ -185,9 +185,7 @@
   },
   {
     "type": "speech",
-    "speaker": [
-      "mon_vampire_feral"
-    ],
+    "speaker": [ "mon_vampire_feral" ],
     "sound": "a set of rapdily oscillating chirps!",
     "volume": 32
   }
