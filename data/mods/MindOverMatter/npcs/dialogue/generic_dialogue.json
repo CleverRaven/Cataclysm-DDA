@@ -5,7 +5,7 @@
     "responses": [
       {
         "text": "[Telepathy Check] What are you talking about?  This is mine.",
-        "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "math": "jmath_telepathy_knacks_combined_level() > 10" } ] },
+        "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "math": [ "jmath_telepathy_knacks_combined_level() > 10" ] } ] },
         "switch": true,
         "trial": {
           "type": "CONDITION",

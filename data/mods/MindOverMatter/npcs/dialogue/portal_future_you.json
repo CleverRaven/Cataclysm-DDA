@@ -42,7 +42,7 @@
       {
         "text": "[Telepath] *Read the voice's mind(?)*",
         "topic": "TALK_PORTAL_STORM_telepathy",
-        "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "math": "jmath_telepathy_knacks_combined_level() > 10" } ] }
+        "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "math": [ "jmath_telepathy_knacks_combined_level() > 10" ] } ] }
       }
     ]
   },

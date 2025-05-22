@@ -16,7 +16,7 @@
       {
         "text": "[Telepathy] *Read <npc_name>'s mind*",
         "topic": "TALK_GUARD_GENERIC_REFUGEE_scan",
-        "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "math": "jmath_telepathy_knacks_combined_level() > 10" } ] }
+        "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "math": [ "jmath_telepathy_knacks_combined_level() > 10" ] } ] }
       }
     ]
   },
@@ -49,7 +49,7 @@
       {
         "text": "[Telepathy] *Read <npc_name>'s mind*",
         "topic": "TALK_EVAC_GUARD1_scan",
-        "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "math": "jmath_telepathy_knacks_combined_level() > 10" } ] }
+        "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "math": [ "jmath_telepathy_knacks_combined_level() > 10" ] } ] }
       }
     ]
   },
@@ -101,7 +101,7 @@
       {
         "text": "[Telepathy] *Read <npc_name>'s mind*",
         "topic": "TALK_EVAC_GUARD2_scan",
-        "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "math": "jmath_telepathy_knacks_combined_level() > 10" } ] }
+        "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "math": [ "jmath_telepathy_knacks_combined_level() > 10" ] } ] }
       }
     ]
   },

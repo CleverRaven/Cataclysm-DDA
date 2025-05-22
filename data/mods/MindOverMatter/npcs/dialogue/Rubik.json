@@ -113,7 +113,7 @@
       {
         "text": "[Telepathy] *Read <npc_name>'s mind*",
         "topic": "TALK_EXODII_MERCHANT_scan",
-        "condition": { "or": [ { "math": "jmath_telepathy_knacks_combined_level() > 10" }, { "u_has_trait": "TELEPATH" } ] }
+        "condition": { "or": [ { "math": [ "jmath_telepathy_knacks_combined_level() > 10" ] }, { "u_has_trait": "TELEPATH" } ] }
       }
     ]
   },
@@ -127,7 +127,7 @@
         "text": "[Telepathy] *Go deeper*.",
         "topic": "TALK_EXODII_MERCHANT_deep_scan",
         "condition": {
-          "or": [ { "math": [ "u_school_level('TELEPATH') >= 10" ] }, { "math": "jmath_telepathy_knacks_combined_level() > 20" } ]
+          "or": [ { "math": [ "u_school_level('TELEPATH') >= 10" ] }, { "math": [ "jmath_telepathy_knacks_combined_level() > 20" ] } ]
         }
       }
     ]

@@ -16,7 +16,7 @@
       {
         "text": "[Telepathy] *Read <npc_name>'s mind*",
         "topic": "TALK_EVAC_GUARD3_scan",
-        "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "math": "jmath_telepathy_knacks_combined_level() > 10" } ] }
+        "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "math": [ "jmath_telepathy_knacks_combined_level() > 10" ] } ] }
       },
       {
         "text": "It's you.",
@@ -45,7 +45,7 @@
         "text": "[Telepathy 8+] *Go deeper*.",
         "topic": "TALK_EVAC_GUARD3_deep_scan",
         "condition": {
-          "or": [ { "math": [ "u_school_level('TELEPATH') >= 8" ] }, { "math": "jmath_telepathy_knacks_combined_level() > 18" } ]
+          "or": [ { "math": [ "u_school_level('TELEPATH') >= 8" ] }, { "math": [ "jmath_telepathy_knacks_combined_level() > 18" ] } ]
         }
       }
     ]
