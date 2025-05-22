@@ -91,10 +91,7 @@
   },
   {
     "type": "speech",
-    "speaker": [
-      "mon_vampire_moroi",
-      "mon_vampire_feral"
-    ],
+    "speaker": [ "mon_vampire_moroi", "mon_vampire_feral" ],
     "sound": "incoherent babbling",
     "volume": 20
   },
