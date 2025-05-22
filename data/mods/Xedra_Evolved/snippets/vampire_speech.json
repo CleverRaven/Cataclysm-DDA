@@ -73,9 +73,7 @@
   },
   {
     "type": "speech",
-    "speaker": [
-      "mon_vampire_moroi"
-    ],
+    "speaker": [ "mon_vampire_moroi" ],
     "sound": "\"I need blood! Blood! BLOOD!\"",
     "volume": 20
   },
