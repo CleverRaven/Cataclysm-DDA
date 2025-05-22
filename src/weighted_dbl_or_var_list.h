@@ -2,16 +2,17 @@
 #ifndef CATA_SRC_WEIGHTED_DBL_OR_VAR_LIST_H
 #define CATA_SRC_WEIGHTED_DBL_OR_VAR_LIST_H
 
-#include "dialogue_helpers.h"
+#include "dialogue.h"
 #include "weighted_list.h"
 
 //BEFOREMERGE: Redo copied comments
+//BEFOREMERGE: Should probably be moved to an existing file? Not sure if there's a way to cut the include cost easily without losing out on the benefit of not constructing dialogue if is_constant()
 // Works similarly to weighted_list except weights are stored as dbl_or_var, so total_weight isn't constant unless all weights are etc
 
-static const const_dialogue d_dummy;
+static dialogue d_dummy;
 
 template <typename T> struct weighted_dbl_or_var_list {
-        weighted_dbl_or_var_list() : total_weight( 0 ) { }
+        weighted_dbl_or_var_list() {}
 
         weighted_dbl_or_var_list( const weighted_dbl_or_var_list & ) = default;
         weighted_dbl_or_var_list( weighted_dbl_or_var_list && ) noexcept = default;
@@ -19,16 +20,17 @@ template <typename T> struct weighted_dbl_or_var_list {
         weighted_dbl_or_var_list &operator=( weighted_dbl_or_var_list && ) noexcept = default;
         virtual ~weighted_dbl_or_var_list() = default;
 
-        void load( const JsonValue &jsv, double default_weight ) {
+        void load( const JsonValue &jsv, const double default_weight ) {
+            const dbl_or_var def = dbl_or_var( default_weight );
             for( const JsonValue entry : jsv.get_array() ) {
                 if( entry.test_array() ) {
-                    std::pair<T, double> p;
+                    std::pair<T, dbl_or_var> p;
                     entry.read( p, true );
                     add( p.first, p.second );
                 } else {
                     T val;
                     entry.read( val );
-                    add( val, default_weight );
+                    add( val, def );
                 }
             }
         }
@@ -39,17 +41,18 @@ template <typename T> struct weighted_dbl_or_var_list {
          * @param obj The object that will be added to the list.
          * @param weight The weight of the object.
          */
-        T *add( const T &obj, const double &weight ) {
-            if( weight.is_constant() && weight <= 0 ) {
+        T *add( const T &obj, const dbl_or_var &weight ) {
+            if( weight.is_constant() && weight.evaluate( d_dummy ) <= 0 ) {
                 return nullptr;
             }
             objects.emplace_back( obj, weight );
             invalidate_precalc();
-            return &( objects[objects.size() - 1].obj );
+            return &( objects[objects.size() - 1].second );
         }
 
-        dialogue d() const {
-            return dialogue( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+        dialogue &d() const {
+            dialogue ret( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+            return ret;
         }
 
         bool is_precalced() const {
@@ -57,12 +60,12 @@ template <typename T> struct weighted_dbl_or_var_list {
         }
 
         void precalc() {
-            for( const auto object : objects ) {
-                _is_constant &= object.is_constant();
+            for( const std::pair<dbl_or_var, mapgen_value<nested_mapgen_id>>  &object : objects ) {
+                _is_constant &= object.first.is_constant();
             }
             if( _is_constant ) {
-                for( const auto object : objects ) {
-                    _constant_total_weight += object.evaluate( d() );
+                for( const std::pair<dbl_or_var, mapgen_value<nested_mapgen_id>>  &object : objects ) {
+                    _constant_total_weight += object.first.evaluate( d() );
                 }
             }
             _precalced = true;
@@ -83,7 +86,7 @@ template <typename T> struct weighted_dbl_or_var_list {
         void remove( const T &obj ) {
             auto itr_end = std::remove_if( objects.begin(),
             objects.end(), [&obj]( typename decltype( objects )::value_type const & itr ) {
-                return itr.obj == obj;
+                return itr.second == obj;
             } );
             objects.erase( itr_end, objects.end() );
             invalidate_precalc();
@@ -99,17 +102,17 @@ template <typename T> struct weighted_dbl_or_var_list {
          */
         T *add_or_replace( const T &obj, const dbl_or_var &weight ) {
 
-            if( weight.is_constant() && weight <= 0 ) {
+            if( weight.is_constant() && weight.evaluate( d_dummy ) <= 0 ) {
                 remove( obj );
                 invalidate_precalc();
             }
-            for( auto &itr : objects ) {
-                if( itr.obj == obj ) {
-                    if( obj.weight != weight ) {
-                        itr.weight = weight;
+            for( std::pair<dbl_or_var, T> &itr : objects ) {
+                if( itr.second == obj ) {
+                    if( itr.first != weight ) {
+                        itr.first = weight;
                         invalidate_precalc();
                     }
-                    return &( itr.obj );
+                    return &( itr.second );
                 }
             }
             // if not found, add to end of list
@@ -121,8 +124,8 @@ template <typename T> struct weighted_dbl_or_var_list {
          * @param func The callback function.
          */
         void apply( std::function<void( const T & )> func ) const {
-            for( auto &itr : objects ) {
-                func( itr.obj );
+            for( const std::pair<dbl_or_var, T> &itr : objects ) {
+                func( itr.second );
             }
         }
 
@@ -132,25 +135,26 @@ template <typename T> struct weighted_dbl_or_var_list {
          * @param func The callback function.
          */
         void apply( std::function<void( T & )> func ) {
-            for( auto &itr : objects ) {
-                func( itr.obj );
+            for( const std::pair<dbl_or_var, T> &itr : objects ) {
+                func( itr.second );
             }
         }
+
 
         /**
          * This will return a pointer to an object from the list randomly selected
          * and biased by weight. If the weighted list is empty or all items in it
          * have a weight of zero, it will return a NULL pointer.
          */
-        const T *pick( unsigned int randi ) const {
+        /*const T *pick( unsigned int randi ) {
             if( get_weight() > 0 ) {
-                return &( objects[pick_ent( randi )].obj );
+                return &( objects[pick_ent( randi )].second );
             }
             return nullptr;
         }
-        const T *pick() const {
+        const T *pick() {
             return pick( rng_bits() );
-        }
+        }*/
 
         /**
          * This will return a pointer to an object from the list randomly selected
@@ -160,7 +164,7 @@ template <typename T> struct weighted_dbl_or_var_list {
          */
         T *pick( unsigned int randi ) {
             if( get_weight() > 0 ) {
-                return &( objects[pick_ent( randi )].obj );
+                return &( objects[pick_ent( randi )].second );
             }
             return nullptr;
         }
@@ -181,8 +185,8 @@ template <typename T> struct weighted_dbl_or_var_list {
          * in the weighted list it will return 0.
          */
         double get_specific_weight( const T &obj ) const {
-            for( auto &itr : objects ) {
-                if( itr.obj == obj ) {
+            for( const std::pair<dbl_or_var, T> &itr : objects ) {
+                if( itr.second == obj ) {
                     return itr.weight.evaluate( d() );
                 }
             }
@@ -197,32 +201,32 @@ template <typename T> struct weighted_dbl_or_var_list {
                 return _constant_total_weight;
             } else {
                 double ret;
-                for( auto &itr : objects ) {
-                    ret += itr.weight.evaluate( d() );
+                for( const std::pair<dbl_or_var, T> &itr : objects ) {
+                    ret += itr.first.evaluate( d() );
                 }
                 return ret;
             }
         }
 
-        bool is_valid() const {
+        bool is_valid() {
             return !is_constant() || _constant_total_weight > 0;
         }
 
-        typename std::vector<weighted_object<dbl_or_var, T> >::iterator begin() {
+        typename std::vector<std::pair<dbl_or_var, T> >::iterator begin() {
             return objects.begin();
         }
-        typename std::vector<weighted_object<dbl_or_var, T> >::iterator end() {
+        typename std::vector<std::pair<dbl_or_var, T> >::iterator end() {
             return objects.end();
         }
-        typename std::vector<weighted_object<dbl_or_var, T> >::const_iterator begin() const {
+        typename std::vector<std::pair<dbl_or_var, T> >::const_iterator begin() const {
             return objects.begin();
         }
-        typename std::vector<weighted_object<dbl_or_var, T> >::const_iterator end() const {
+        typename std::vector<std::pair<dbl_or_var, T> >::const_iterator end() const {
             return objects.end();
         }
-        typename std::vector<weighted_object<dbl_or_var, T> >::iterator erase(
-            typename std::vector<weighted_object<dbl_or_var, T> >::iterator first,
-            typename std::vector<weighted_object<dbl_or_var, T> >::iterator last ) {
+        typename std::vector<std::pair<dbl_or_var, T> >::iterator erase(
+            typename std::vector<std::pair<dbl_or_var, T> >::iterator first,
+            typename std::vector<std::pair<dbl_or_var, T> >::iterator last ) {
             invalidate_precalc();
             return objects.erase( first, last );
         }
@@ -236,18 +240,18 @@ template <typename T> struct weighted_dbl_or_var_list {
         std::string to_debug_string() const {
             std::ostringstream os;
             os << "[ ";
-            for( const weighted_object<dbl_or_var, T> &o : objects ) {
-                os << o.obj << ":" << o.weight.evaluate( d() ) << ", ";
+            for( const std::pair<dbl_or_var, T> &o : objects ) {
+                os << o.second << ":" << o.first.evaluate( d() ) << ", ";
             }
             os << "]";
             return os.str();
         }
 
-        friend bool operator==( const weighted_list &l, const weighted_list &r ) {
+        friend bool operator==( const weighted_dbl_or_var_list &l, const weighted_dbl_or_var_list &r ) {
             return l.objects == r.objects;
         }
 
-        friend bool operator!=( const weighted_list &l, const weighted_list &r ) {
+        friend bool operator!=( const weighted_dbl_or_var_list &l, const weighted_dbl_or_var_list &r ) {
             return !( l == r );
         }
 
@@ -256,13 +260,13 @@ template <typename T> struct weighted_dbl_or_var_list {
         bool _precalced = false;
         bool _is_constant = true;
 
-        size_t pick_ent( unsigned int randi ) const override {
+        size_t pick_ent( unsigned int randi ) {
             const double picked = static_cast<double>( randi ) / UINT_MAX * get_weight();
             double accumulated_weight = 0;
-            dialogue &d = is_constant() ? d_dummy : d();
+            dialogue &eval_d = is_constant() ? d_dummy : d();
             size_t i;
-            for( i = 0; i < this->objects.size(); i++ ) {
-                accumulated_weight += this->objects[i].weight.evaluate( d );
+            for( i = 0; i < objects.size(); i++ ) {
+                accumulated_weight += objects[i].first.evaluate( eval_d );
                 if( accumulated_weight >= picked ) {
                     break;
                 }
@@ -270,7 +274,7 @@ template <typename T> struct weighted_dbl_or_var_list {
             return i;
         }
 
-        std::vector<weighted_object<dbl_or_var, T>> objects;
+        std::vector<std::pair<dbl_or_var, T>> objects; //BEFOREMERGE: Could just be a map? (flipped)
 };
 
-#endif // CATA_SRC_WEIGHTED_LIST_H
+#endif // CATA_SRC_WEIGHTED_DBL_OR_VAR_LIST_H
