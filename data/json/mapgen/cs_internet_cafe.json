@@ -61,7 +61,7 @@
         "C": { "item": "cash_register_random", "chance": 100 },
         "L": { "item": "cleaning", "chance": 100 }
       },
-      "add": [ { "item": "mop", "x": [ 11, 12 ], "y": [ 17, 20 ], "chance": 2 } ]
+      "place_item": [ { "item": "mop", "x": [ 11, 12 ], "y": [ 17, 20 ], "chance": 2 } ]
     }
   },
   {

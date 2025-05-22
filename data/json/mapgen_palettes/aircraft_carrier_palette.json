@@ -215,10 +215,10 @@
         { "item": "allclothes", "chance": 10 }
       ],
       "W": [
-        { "item": "clothing_military_distribution", "chance": 30, "custom-flags": [ "FILTHY" ] },
-        { "item": "clothing_military_pilot_distribution", "chance": 20, "custom-flags": [ "FILTHY" ] },
-        { "item": "gi", "chance": 5, "custom-flags": [ "FILTHY" ] },
-        { "item": "allclothes", "chance": 15, "custom-flags": [ "FILTHY" ] }
+        { "item": "clothing_military_distribution", "chance": 30 },
+        { "item": "clothing_military_pilot_distribution", "chance": 20 },
+        { "item": "gi", "chance": 5 },
+        { "item": "allclothes", "chance": 15 }
       ],
       "п": [ { "item": "inactive_bots_milspec", "chance": 20, "repeat": [ 0, 3 ] } ],
       "q": [

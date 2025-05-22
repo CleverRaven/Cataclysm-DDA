@@ -76,7 +76,7 @@
         "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [ { "group": "cash_register_random", "x": 6, "y": 18 } ],
-      "add": [ { "item": "microwave", "x": 16, "y": 18, "chance": 2 }, { "item": "coffeemaker", "x": 16, "y": 19, "chance": 2 } ],
+      "place_item": [ { "item": "microwave", "x": 16, "y": 18, "chance": 2 }, { "item": "coffeemaker", "x": 16, "y": 19, "chance": 2 } ],
       "toilets": { "T": {  } },
       "place_signs": [ { "signage": "Discount Tires", "x": 22, "y": 1 } ]
     }

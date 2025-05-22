@@ -197,11 +197,7 @@
       },
       "item": {
         "I": { "item": "id_science_transport_1", "chance": 15 },
-        "t": [
-          { "item": "plunger_toilet", "prob": 90 },
-          { "item": "brush_toilet", "prob": 75 },
-          { "item": "toilet_paper", "prob": 95 }
-        ]
+        "t": [ { "item": "plunger_toilet" }, { "item": "brush_toilet" }, { "item": "toilet_paper" } ]
       },
       "items": {
         "t": { "item": "SUS_toilet", "chance": 50 },

@@ -1412,10 +1412,10 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
-          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "repeat": [ 1, 2 ] }
         ],
-        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "?": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
@@ -1461,10 +1461,10 @@
       "furniture": { "%": "f_rack_wood", "$": "f_rack_wood", "=": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
-          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "repeat": [ 1, 2 ] }
         ],
-        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "?": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
@@ -1509,10 +1509,10 @@
       "furniture": { "%": "f_locker", "$": "f_locker", "?": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
-          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "repeat": [ 1, 2 ] }
         ],
-        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "?": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
@@ -1558,10 +1558,10 @@
       "furniture": { "%": "f_locker", "$": "f_locker", "=": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
-          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "repeat": [ 1, 2 ] }
         ],
-        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
@@ -3566,10 +3566,10 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
-          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "repeat": [ 1, 2 ] }
         ],
-        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
@@ -3631,10 +3631,10 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
-          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "repeat": [ 1, 2 ] }
         ],
-        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
@@ -3696,10 +3696,10 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
-          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "repeat": [ 1, 2 ] }
         ],
-        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
@@ -3761,10 +3761,10 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
-          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "repeat": [ 1, 2 ] }
         ],
-        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [

@@ -1353,7 +1353,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 900, minus 55 per level to a minimum of 350<br />
 *Channeling Time*: 50 moves, minus 3.5 moves per level to a minimum of 5<br />
-*Effects*: The psion vanishes and reappears nearby. They cannot control exactly where they end up. While there is no danger of teleporting into a wall or solid rock, if above ground level it is possible to teleport into open air, after which the psion will fall normally.  The psion may always teleport themselves, and can carry 5L of gear, plus 3.5L per power level<br />
+*Effects*: The psion vanishes and reappears nearby. They cannot control exactly where they end up. While there is no danger of teleporting into a wall or solid rock, if above ground level it is possible to teleport into open air, after which the psion will fall normally.  The psion may always teleport themselves, and can carry 5L of gear, plus 3.5L per power level.<br />
 *Prerequisites*: Starting power<br />
 </details>
 <details>
@@ -1375,7 +1375,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 2500, minus 65 per level to a minimum of 1250<br />
 *Channeling Time*: 65 moves, minus 3 moves per level to a minimum of 15<br />
-*Effects*: Travel a short distance through the Nether and re-emerge nearby, allowing the psion to bypass a door or travel from the ground floor to the second floor.<br />
+*Effects*: Travel a short distance through the Nether and re-emerge nearby, allowing the psion to bypass a door or travel from the ground floor to the second floor.  The psion may always teleport themselves, and can carry 10L of gear, plus 5L per power level.<br />
 *Prerequisites*: Blink 6<br />
 </details>
 <details>

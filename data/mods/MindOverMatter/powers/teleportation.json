@@ -25,20 +25,14 @@
   },
   {
     "id": "teleport_blink_real",
+    "copy-from": "teleport_blink",
     "type": "SPELL",
-    "name": { "str": "[Ψ]Blink", "//~": "NO_I18N" },
+    "name": { "str": "[Ψ]Blink Real", "//~": "NO_I18N" },
     "description": { "str": "The actual spell that blinks you.  You should not see this", "//~": "NO_I18N" },
     "message": "",
-    "teachable": false,
     "valid_targets": [ "none" ],
-    "spell_class": "TELEPORTER",
-    "magic_type": "mom_psionics",
-    "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_AOE" ],
-    "difficulty": 1,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "short_range_teleport",
-    "shape": "blast",
     "min_aoe": 1,
     "max_aoe": 5,
     "min_range": 5,
@@ -94,29 +88,40 @@
     "type": "SPELL",
     "name": "[Ψ]Phase",
     "description": "By stepping for a moment into the void between dimensions, you can bypass a wall or walk from the ground to the roof of a house.",
-    "message": "There is a brief moment of darkness and terrible cold, and you are somewhere else.",
+    "message": "",
     "teachable": false,
-    "valid_targets": [ "ground" ],
+    "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "IGNORE_WALLS" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "short_range_teleport",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_PHASE_INITIATE",
     "shape": "blast",
-    "min_range": {
-      "math": [
-        "clamp( (( (u_spell_level('teleport_phase') * 0.1) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 2, 4)"
-      ]
-    },
-    "max_range": 4,
     "base_energy_cost": 2500,
     "final_energy_cost": 1250,
     "energy_increment": -65,
     "base_casting_time": 65,
     "final_casting_time": 15,
     "casting_time_increment": -3
+  },
+  {
+    "id": "teleport_phase_real",
+    "copy-from": "teleport_phase",
+    "type": "SPELL",
+    "valid_targets": [ "ground" ],
+    "magic_type": "mom_psionics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "IGNORE_WALLS" ],
+    "effect": "short_range_teleport",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "clamp( ( ( (u_spell_level('teleport_phase') * 0.1) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 2, 4)"
+      ]
+    },
+    "max_range": 4
   },
   {
     "id": "teleport_item_apport",
