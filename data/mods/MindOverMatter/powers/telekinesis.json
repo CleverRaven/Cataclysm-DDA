@@ -115,7 +115,7 @@
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( ( ( (u_spell_level('telekinetic_push') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( ( ( ( (u_spell_level('telekinetic_push') + u_spell_level('telekinetic_push_knack') ) * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "max_range": 40,
@@ -206,27 +206,27 @@
     "damage_type": "psi_telekinetic_damage",
     "min_damage": {
       "math": [
-        "( (u_spell_level('telekinetic_slam_down') * 0.5) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('telekinetic_slam_down') + u_spell_level('telekinetic_slam_down_knack') ) * 0.5) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_spell_level('telekinetic_slam_down') * 1.2) + 15) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('telekinetic_slam_down') + u_spell_level('telekinetic_slam_down_knack') ) * 1.2) + 15) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_duration": {
       "math": [
-        "( (u_spell_level('telekinetic_slam_down') * 25) + 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('telekinetic_slam_down') + u_spell_level('telekinetic_slam_down_knack') ) * 25) + 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telekinetic_slam_down') * 95) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('telekinetic_slam_down') + u_spell_level('telekinetic_slam_down_knack') ) * 95) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_slam_down') * 0.5) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( ( ( ( (u_spell_level('telekinetic_slam_down') + u_spell_level('telekinetic_slam_down_knack') ) * 0.5) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "max_range": 40,
@@ -351,12 +351,12 @@
     "damage_type": "psi_telekinetic_damage",
     "min_damage": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_wave') * 0.1) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+        "min( ( ( ( (u_spell_level('telekinetic_wave') + u_spell_level('telekinetic_wave_knack') ) * 0.1) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_spell_level('telekinetic_wave') * 0.25) + 6) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('telekinetic_wave') + u_spell_level('telekinetic_wave_knack') ) * 0.25) + 6) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": 1,

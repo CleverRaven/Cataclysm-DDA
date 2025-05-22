@@ -189,12 +189,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('photokinetic_camouflage') * 48) + 690) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 48) + 690) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('photokinetic_camouflage') * 113) + 1430) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 113) + 1430) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -222,21 +222,29 @@
     "id": "EOC_PHOTOKIN_CAMOUFLAGE_DRAIN",
     "condition": { "u_has_effect": "effect_photokin_camouflage" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
+      {
+        "if": { "math": [ "u_spell_level('photokinetic_camouflage') >= 1" ] },
+        "then": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('photokinetic_camouflage')" ] },
+        "else": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('photokinetic_camouflage_knack')" ] }
+      },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('photokinetic_camouflage')", "+=", "psionic_power_experience_formula()" ] },
+      {
+        "if": { "math": [ "u_spell_level('photokinetic_camouflage') >= 1" ] },
+        "then": { "math": [ "u_spell_exp('photokinetic_camouflage')", "+=", "psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('photokinetic_camouflage_knack')", "+=", "psionic_power_experience_formula()" ] }
+      },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_PHOTOKIN_CAMOUFLAGE_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('photokinetic_camouflage') * 48) + 690) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 48) + 690) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('photokinetic_camouflage') * 113) + 1430) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 113) + 1430) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

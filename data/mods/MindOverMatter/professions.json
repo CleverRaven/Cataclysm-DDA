@@ -14,7 +14,14 @@
       "knack_clair_danger_sense",
       "knack_clair_astral_projection",
       "knack_electrokinetic_pain_immune",
-      "knack_electrokinetic_hacking_interface"
+      "knack_electrokinetic_hacking_interface",
+      "knack_photokinetic_camouflage",
+      "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_call_flames",
+      "knack_pyrokinetic_cloak",
+      "knack_telekinetic_push",
+      "knack_telekinetic_slam_down",
+      "knack_telekinetic_wave"
     ],
     "items": {
       "both": {

@@ -334,22 +334,22 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('photokinetic_camouflage') * 4800) + 69000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 4800) + 69000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('photokinetic_camouflage') * 11300) + 143000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 11300) + 143000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 0 : max((3500 - (u_spell_level('photokinetic_camouflage') * 75)), 1500)"
+        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 0 : max((3500 - ( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 75)), 1500)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 10 : max((150 -(u_spell_level('photokinetic_camouflage') * 8)), 75)"
+        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 10 : max((150 -( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 8)), 75)"
       ]
     }
   },

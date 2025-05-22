@@ -53,49 +53,49 @@
     "copy-from": "photokinetic_camouflage",
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
-    "difficulty": 1
+    "difficulty": { "math": [ "max( (u_spell_difficulty('photokinetic_camouflage') / 2), 1)" ] }
   },
   {
     "id": "pyrokinetic_flash_knack",
     "copy-from": "pyrokinetic_flash",
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
-    "difficulty": 1
+    "difficulty": { "math": [ "max( (u_spell_difficulty('pyrokinetic_flash') / 2), 1)" ] }
   },
   {
     "id": "pyrokinetic_call_flames_knack",
     "copy-from": "pyrokinetic_call_flames",
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
-    "difficulty": 1
+    "difficulty": { "math": [ "max( (u_spell_difficulty('pyrokinetic_call_flames') / 2), 1)" ] }
   },
   {
     "id": "pyrokinetic_cloak_knack",
     "copy-from": "pyrokinetic_cloak",
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
-    "difficulty": 1
+    "difficulty": { "math": [ "max( (u_spell_difficulty('pyrokinetic_cloak') / 2), 1)" ] }
   },
   {
     "id": "telekinetic_push_knack",
     "copy-from": "telekinetic_push",
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
-    "difficulty": 1
+    "difficulty": { "math": [ "max( (u_spell_difficulty('telekinetic_push') / 2), 1)" ] }
   },
   {
     "id": "telekinetic_slam_down_knack",
     "copy-from": "telekinetic_slam_down",
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
-    "difficulty": 1
+    "difficulty": { "math": [ "max( (u_spell_difficulty('telekinetic_slam_down') / 2), 1)" ] }
   },
   {
     "id": "telekinetic_wave_knack",
     "copy-from": "telekinetic_wave",
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
-    "difficulty": 1
+    "difficulty": { "math": [ "max( (u_spell_difficulty('telekinetic_wave') / 2), 1)" ] }
   },
   {
     "id": "telepathic_shield_knack",

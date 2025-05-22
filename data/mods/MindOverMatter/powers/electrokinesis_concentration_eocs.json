@@ -257,7 +257,6 @@
         "then": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('electrokinetic_hacking_interface')" ] },
         "else": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('electrokinetic_hacking_interface_knack')" ] }
       },
-      { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       {
         "if": { "math": [ "u_spell_level('electrokinetic_hacking_interface') >= 1" ] },

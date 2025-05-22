@@ -575,7 +575,7 @@
     "id": "knack_electrokinetic_pain_immune",
     "name": "Psychic Knack (Analgesic Block)",
     "description": "Before the Cataclysm you were never that strongly affected by pain, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
-    "points": 5,
+    "points": 4,
     "traits": [ "PSYCHIC_KNACK" ],
     "spells": [ { "id": "electrokinetic_pain_immune_knack", "level": 6 } ]
   },
@@ -585,8 +585,78 @@
     "id": "knack_electrokinetic_hacking_interface",
     "name": "Psychic Knack (Hacking Interface)",
     "description": "Before the Cataclysm computers basically always did what you wanted them to, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
-    "points": 5,
+    "points": 2,
     "traits": [ "PSYCHIC_KNACK" ],
     "spells": [ { "id": "electrokinetic_hacking_interface_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_photokinetic_camouflage",
+    "name": "Psychic Knack (Chameleoflage)",
+    "description": "Before the Cataclysm you sometimes seemed to just fade into the background, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "photokinetic_camouflage_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_pyrokinetic_flash",
+    "name": "Psychic Knack (Brilliant Flash)",
+    "description": "Before the Cataclysm you always managed to make the other guy look away first, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "pyrokinetic_flash_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_pyrokinetic_call_flames",
+    "name": "Psychic Knack (Banked Flames)",
+    "description": "Before the Cataclysm you had an easy time starting a fire no matter the conditions, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "pyrokinetic_call_flames_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_pyrokinetic_cloak",
+    "name": "Psychic Knack (Cloak of Warmth)",
+    "description": "Before the Cataclysm the cold never bothered you all that much, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "pyrokinetic_cloak_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_telekinetic_push",
+    "name": "Psychic Knack (Force Shove)",
+    "description": "Before the Cataclysm people seemed to just move out of your way when you were in a hurry, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telekinetic_push_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_telekinetic_slam_down",
+    "name": "Psychic Knack (Knockdown)",
+    "description": "Before the Cataclysm, the few times you got into a fight you could down your opponents with almost no effort, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telekinetic_slam_down_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_telekinetic_wave",
+    "name": "Psychic Knack (Wave of Force)",
+    "description": "Before the Cataclysm you could move through crowds without any problem at all, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telekinetic_wave_knack", "level": 6 } ]
   }
 ]
