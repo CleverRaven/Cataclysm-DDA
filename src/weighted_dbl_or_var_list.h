@@ -47,7 +47,7 @@ template <typename T> struct weighted_dbl_or_var_list {
             }
             objects.emplace_back( obj, weight );
             invalidate_precalc();
-            return &( objects[objects.size() - 1].second );
+            return &( objects[objects.size() - 1].obj );
         }
 
         dialogue &d() const {
@@ -60,12 +60,12 @@ template <typename T> struct weighted_dbl_or_var_list {
         }
 
         void precalc() {
-            for( const std::pair<dbl_or_var, mapgen_value<nested_mapgen_id>>  &object : objects ) {
-                _is_constant &= object.first.is_constant();
+            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>>  &object : objects ) {
+                _is_constant &= object.weight.is_constant();
             }
             if( _is_constant ) {
-                for( const std::pair<dbl_or_var, mapgen_value<nested_mapgen_id>>  &object : objects ) {
-                    _constant_total_weight += object.first.evaluate( d() );
+                for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>>  &object : objects ) {
+                    _constant_total_weight += object.weight.evaluate( d() );
                 }
             }
             _precalced = true;
@@ -86,7 +86,7 @@ template <typename T> struct weighted_dbl_or_var_list {
         void remove( const T &obj ) {
             auto itr_end = std::remove_if( objects.begin(),
             objects.end(), [&obj]( typename decltype( objects )::value_type const & itr ) {
-                return itr.second == obj;
+                return itr.obj == obj;
             } );
             objects.erase( itr_end, objects.end() );
             invalidate_precalc();
@@ -106,16 +106,17 @@ template <typename T> struct weighted_dbl_or_var_list {
                 remove( obj );
                 invalidate_precalc();
             }
-            for( std::pair<dbl_or_var, T> &itr : objects ) {
-                if( itr.second == obj ) {
-                    if( itr.first != weight ) {
-                        itr.first = weight;
+            for( weighted_object<dbl_or_var, T> &itr : objects ) {
+                if( itr.obj == obj ) {
+                    if( itr.weight != weight ) {
+                        itr.weight = weight;
                         invalidate_precalc();
                     }
-                    return &( itr.second );
+                    return &( itr.obj );
                 }
             }
             // if not found, add to end of list
+            invalidate_precalc();
             return add( obj, weight );
         }
 
@@ -124,8 +125,8 @@ template <typename T> struct weighted_dbl_or_var_list {
          * @param func The callback function.
          */
         void apply( std::function<void( const T & )> func ) const {
-            for( const std::pair<dbl_or_var, T> &itr : objects ) {
-                func( itr.second );
+            for( const weighted_object<dbl_or_var, T> &itr : objects ) {
+                func( itr.obj );
             }
         }
 
@@ -135,8 +136,8 @@ template <typename T> struct weighted_dbl_or_var_list {
          * @param func The callback function.
          */
         void apply( std::function<void( T & )> func ) {
-            for( const std::pair<dbl_or_var, T> &itr : objects ) {
-                func( itr.second );
+            for( const weighted_object<dbl_or_var, T> &itr : objects ) {
+                func( itr.obj );
             }
         }
 
@@ -148,7 +149,7 @@ template <typename T> struct weighted_dbl_or_var_list {
          */
         /*const T *pick( unsigned int randi ) {
             if( get_weight() > 0 ) {
-                return &( objects[pick_ent( randi )].second );
+                return &( objects[pick_ent( randi )].obj );
             }
             return nullptr;
         }
@@ -164,7 +165,7 @@ template <typename T> struct weighted_dbl_or_var_list {
          */
         T *pick( unsigned int randi ) {
             if( get_weight() > 0 ) {
-                return &( objects[pick_ent( randi )].second );
+                return &( objects[pick_ent( randi )].obj );
             }
             return nullptr;
         }
@@ -185,8 +186,8 @@ template <typename T> struct weighted_dbl_or_var_list {
          * in the weighted list it will return 0.
          */
         double get_specific_weight( const T &obj ) const {
-            for( const std::pair<dbl_or_var, T> &itr : objects ) {
-                if( itr.second == obj ) {
+            for( const weighted_object<dbl_or_var, T> &itr : objects ) {
+                if( itr.obj == obj ) {
                     return itr.weight.evaluate( d() );
                 }
             }
@@ -201,8 +202,8 @@ template <typename T> struct weighted_dbl_or_var_list {
                 return _constant_total_weight;
             } else {
                 double ret;
-                for( const std::pair<dbl_or_var, T> &itr : objects ) {
-                    ret += itr.first.evaluate( d() );
+                for( const weighted_object<dbl_or_var, T> &itr : objects ) {
+                    ret += itr.weight.evaluate( d() );
                 }
                 return ret;
             }
@@ -212,21 +213,21 @@ template <typename T> struct weighted_dbl_or_var_list {
             return !is_constant() || _constant_total_weight > 0;
         }
 
-        typename std::vector<std::pair<dbl_or_var, T> >::iterator begin() {
+        typename std::vector<weighted_object<dbl_or_var, T> >::iterator begin() {
             return objects.begin();
         }
-        typename std::vector<std::pair<dbl_or_var, T> >::iterator end() {
+        typename std::vector<weighted_object<dbl_or_var, T> >::iterator end() {
             return objects.end();
         }
-        typename std::vector<std::pair<dbl_or_var, T> >::const_iterator begin() const {
+        typename std::vector<weighted_object<dbl_or_var, T> >::const_iterator begin() const {
             return objects.begin();
         }
-        typename std::vector<std::pair<dbl_or_var, T> >::const_iterator end() const {
+        typename std::vector<weighted_object<dbl_or_var, T> >::const_iterator end() const {
             return objects.end();
         }
-        typename std::vector<std::pair<dbl_or_var, T> >::iterator erase(
-            typename std::vector<std::pair<dbl_or_var, T> >::iterator first,
-            typename std::vector<std::pair<dbl_or_var, T> >::iterator last ) {
+        typename std::vector<weighted_object<dbl_or_var, T> >::iterator erase(
+            typename std::vector<weighted_object<dbl_or_var, T> >::iterator first,
+            typename std::vector<weighted_object<dbl_or_var, T> >::iterator last ) {
             invalidate_precalc();
             return objects.erase( first, last );
         }
@@ -240,8 +241,8 @@ template <typename T> struct weighted_dbl_or_var_list {
         std::string to_debug_string() const {
             std::ostringstream os;
             os << "[ ";
-            for( const std::pair<dbl_or_var, T> &o : objects ) {
-                os << o.second << ":" << o.first.evaluate( d() ) << ", ";
+            for( const weighted_object<dbl_or_var, T> &o : objects ) {
+                os << o.obj << ":" << o.weight.evaluate( d() ) << ", ";
             }
             os << "]";
             return os.str();
@@ -266,7 +267,7 @@ template <typename T> struct weighted_dbl_or_var_list {
             dialogue &eval_d = is_constant() ? d_dummy : d();
             size_t i;
             for( i = 0; i < objects.size(); i++ ) {
-                accumulated_weight += objects[i].first.evaluate( eval_d );
+                accumulated_weight += objects[i].weight.evaluate( eval_d );
                 if( accumulated_weight >= picked ) {
                     break;
                 }
@@ -274,7 +275,7 @@ template <typename T> struct weighted_dbl_or_var_list {
             return i;
         }
 
-        std::vector<std::pair<dbl_or_var, T>> objects; //BEFOREMERGE: Could just be a map? (flipped)
+        std::vector<weighted_object<dbl_or_var, T>> objects; //BEFOREMERGE: Could just be a map? (flipped)
 };
 
 #endif // CATA_SRC_WEIGHTED_DBL_OR_VAR_LIST_H
