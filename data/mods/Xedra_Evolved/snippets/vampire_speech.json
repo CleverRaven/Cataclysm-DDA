@@ -85,9 +85,7 @@
   },
   {
     "type": "speech",
-    "speaker": [
-      "mon_vampire_moroi"
-    ],
+    "speaker": [ "mon_vampire_moroi" ],
     "sound": "\"Tired...  Must feed...\"",
     "volume": 20
   },
