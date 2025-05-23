@@ -1,0 +1,66 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_SCEN_HEART_OF_FIRE_INITIATE",
+    "effect": [
+      { "math": [ "u_spell_level('pyrokinetic_eruption_knack') = 8" ] },
+      { "math": [ "u_spell_level('pyrokinetic_call_flames_knack') = 7" ] },
+      { "math": [ "u_spell_level('pyrokinetic_flamethrower_knack') = 6" ] },
+      { "math": [ "u_spell_level('pyrokinetic_aura_knack') = 5" ] },
+      { "math": [ "u_spell_level('pyrokinetic_blast_knack') = 5" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_SCEN_HEART_OF_FIRE_ON_CHANNELING_END",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "u_has_trait": "SCEN_HEART_OF_FIRE" },
+    "effect": [
+      { "u_lose_effect": "effect_scenario_heart_of_fire_channeled_power_protector" },
+      { "math": [ "_effect_reducer = u_effect_intensity('effect_scenario_heart_of_fire_need_to_channel')" ] },
+      { "math": [ "_effect_reducer --" ] },
+      {
+        "if": { "math": [ "_effect_reducer > 0" ] },
+        "then": [
+          { "u_lose_effect": "effect_scenario_heart_of_fire_need_to_channel" },
+          {
+            "u_add_effect": "effect_scenario_heart_of_fire_need_to_channel",
+            "duration": "PERMANENT",
+            "intensity": { "math": [ "_effect_reducer" ] }
+          }
+        ],
+        "else": { "u_lose_effect": "effect_scenario_heart_of_fire_need_to_channel" }
+      },
+      {
+        "u_add_effect": "effect_scenario_heart_of_fire_channeled_power_protector",
+        "duration": { "math": [ "3600 + rng(18000)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_SCEN_HEART_OF_FIRE_WAKE_UP",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "u_has_trait": "SCEN_HEART_OF_FIRE" },
+        { "not": { "u_has_effect": "effect_scenario_heart_of_fire_need_to_channel" } }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_scenario_heart_of_fire_need_to_channel", "duration": "PERMANENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_SCEN_HEART_OF_FIRE_RECURRING",
+    "recurrence": [ { "math": [ "1800 + rng(5400)" ] }, { "math": [ "5400 + rng(7200)" ] } ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "SCEN_HEART_OF_FIRE" },
+        { "not": { "u_has_effect": "effect_scenario_heart_of_fire_channeled_power_protector" } }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_scenario_heart_of_fire_need_to_channel", "duration": "PERMANENT" } ]
+  }
+]

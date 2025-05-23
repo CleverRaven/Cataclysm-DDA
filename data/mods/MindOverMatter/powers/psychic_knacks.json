@@ -63,6 +63,13 @@
     "difficulty": { "math": [ "max( (u_spell_difficulty('pyrokinetic_flash') / 2), 1)" ] }
   },
   {
+    "id": "pyrokinetic_eruption_knack",
+    "copy-from": "pyrokinetic_eruption",
+    "type": "SPELL",
+    "spell_class": "PSYCHIC_KNACK",
+    "difficulty": { "math": [ "max( (u_spell_difficulty('pyrokinetic_eruption') / 2), 1)" ] }
+  },
+  {
     "id": "pyrokinetic_call_flames_knack",
     "copy-from": "pyrokinetic_call_flames",
     "type": "SPELL",
@@ -75,6 +82,27 @@
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
     "difficulty": { "math": [ "max( (u_spell_difficulty('pyrokinetic_cloak') / 2), 1)" ] }
+  },
+  {
+    "id": "pyrokinetic_flamethrower_knack",
+    "copy-from": "pyrokinetic_flamethrower",
+    "type": "SPELL",
+    "spell_class": "PSYCHIC_KNACK",
+    "difficulty": { "math": [ "max( (u_spell_difficulty('pyrokinetic_flamethrower') / 2), 1)" ] }
+  },
+  {
+    "id": "pyrokinetic_aura_knack",
+    "copy-from": "pyrokinetic_aura",
+    "type": "SPELL",
+    "spell_class": "PSYCHIC_KNACK",
+    "difficulty": { "math": [ "max( (u_spell_difficulty('pyrokinetic_aura') / 2), 1)" ] }
+  },
+  {
+    "id": "pyrokinetic_blast_knack",
+    "copy-from": "pyrokinetic_blast",
+    "type": "SPELL",
+    "spell_class": "PSYCHIC_KNACK",
+    "difficulty": { "math": [ "max( (u_spell_difficulty('pyrokinetic_blast') / 2), 1)" ] }
   },
   {
     "id": "telekinetic_push_knack",
