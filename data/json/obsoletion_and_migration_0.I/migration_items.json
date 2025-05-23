@@ -149,8 +149,7 @@
   {
     "id": "linuxtshirt",
     "type": "MIGRATION",
-    "replace": "tshirt",
-    "variant": "tux"
+    "replace": "tshirt"
   },
   {
     "id": "tshirt_tour",
@@ -2493,5 +2492,75 @@
     "id": "u_shotgun_mod",
     "type": "MIGRATION",
     "replace": "u_shotgun"
+  },
+  {
+    "id": "internal_mp3",
+    "type": "MIGRATION",
+    "replace": "manual_swimming"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "suit_bostonchan",
+    "replace": "blazer",
+    "variant": "bostonchan"
+  },
+  {
+    "id": "light_grip",
+    "type": "MIGRATION",
+    "replace": "grip"
+  },
+  {
+    "id": "pistol_grip",
+    "type": "MIGRATION",
+    "replace": "grip"
+  },
+  {
+    "id": "breacher_grip",
+    "type": "MIGRATION",
+    "replace": "grip"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sheriffshirt",
+    "from_variant": "sheriff",
+    "replace": "postman_shirt",
+    "variant": "sheriff"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sheriffshirt",
+    "from_variant": "swat_shirt",
+    "replace": "postman_shirt",
+    "variant": "swat"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "subsuit_xl",
+    "replace": "jumpsuit_pocketless",
+    "variant": "orange"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "striped_shirt",
+    "replace": "buttonshirt",
+    "variant": "striped"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gown",
+    "replace": "dress",
+    "variant": "gown"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "robofac_jumpsuit",
+    "replace": "jumpsuit",
+    "variant": "robofac"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "balaclava_skull",
+    "replace": "balclava",
+    "variant": "skull"
   }
 ]

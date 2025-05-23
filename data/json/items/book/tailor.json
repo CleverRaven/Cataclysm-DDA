@@ -2,7 +2,8 @@
   {
     "id": "mag_animecon",
     "copy-from": "mag_tailor",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Boston AnimeCon magazine" },
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "time_factor": 0.1, "fail_factor": 0.1 },
@@ -13,7 +14,8 @@
   },
   {
     "id": "mag_beauty",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Beauty Magazine" },
     "description": "A full-size glossy women's magazine.  There are a few simple patterns and basic sewing tips somewhere in between the fashion photos and the makeup advertisements.",
@@ -33,7 +35,8 @@
   },
   {
     "id": "mag_tailor",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Sew Awesome Monthly", "str_pl": "Sew Awesome Monthlies" },
     "description": "A well presented monthly magazine all about knitting, crocheting, and needlepoint.  Filled with ideas and project patterns.",
@@ -57,7 +60,8 @@
   },
   {
     "id": "manual_tailor",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Sew What? Clothing!", "str_pl": "copies of Sew What? Clothing!" },
     "description": "A colorful book about tailoring.",
@@ -80,7 +84,8 @@
   },
   {
     "id": "tailor_portfolio",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "clothing designer's portfolio" },
     "description": "A leather bound portfolio that once belonged to a clothing designer.  Filled with sketches and notes, a skilled tailor could learn a lot from this volume.",
@@ -102,7 +107,8 @@
   },
   {
     "id": "tailor_japanese",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Traditional Japanese Kimono", "str_pl": "copies of Traditional Japanese Kimono" },
     "description": "An illustrated textbook on the crafting of Japanese traditional garb.",
@@ -123,7 +129,8 @@
   },
   {
     "id": "recipe_fauxfur",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Friendly, Humane Fashion", "str_pl": "copies of Friendly, Humane Fashion" },
     "description": "An educational book detailing the uses of fake fur, as well as its benefits and disadvantages.  The prose is rather passionate, and a disclaimer on the cover proudly states that the book is printed and distributed by the Gryphon Animal Rights Organization.",
@@ -146,7 +153,8 @@
   },
   {
     "id": "textbook_tailor",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Sewing Techniques for Designers", "str_pl": "copies of Sewing Techniques for Designers" },
     "description": "A massive, hardbound book full of a wealth of information for the professional clothing designer.",
@@ -171,7 +179,8 @@
   },
   {
     "id": "scots_tailor",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Ye Scots Beuk o Tailorin'", "str_pl": "copies of Ye Scots Beuk o Tailorin'" },
     "description": "A translated Gaelic book from Scotland.  While boring to read due to its technical tone, it provides insights into Scottish culture and information about tailoring.",
@@ -193,7 +202,8 @@
   },
   {
     "id": "dieselpunk_tailor",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Dieselpunk Designs", "str_pl": "copies of Dieselpunk Designs" },
     "description": "A large, leatherbound book containing a number of leather and rubber recipes for the fashionable dieselpunk.",
@@ -218,7 +228,8 @@
   },
   {
     "id": "bp_nomad_cowl",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "nomad cowl blueprint" },
     "description": "A simple printed pamphlet with clear illustrations and very few words describing how to make what appears to be a well-designed and comfortable cowl offering protection from the elements and physical injury.  The directions do not offer much guidance beyond the plans themselves; this will take a little skill to interpret.",
     "copy-from": "exodii_blueprint",
@@ -230,7 +241,8 @@
   },
   {
     "id": "bp_nomad_bodyglove",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "nomad bodyglove blueprint" },
     "description": "A simple printed pamphlet with clear illustrations and very few words describing how to make what appears to be a tight-fitting but protective bodysuit, with options to reinforce it with Kevlar threads.  The directions do not offer much guidance beyond the plans themselves; this will take a little skill to interpret.",
     "copy-from": "exodii_blueprint",
@@ -242,7 +254,8 @@
   },
   {
     "id": "bp_nomad_jumpsuit",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "nomad jumpsuit blueprint" },
     "description": "A simple printed pamphlet with clear illustrations and very few words describing how to make what appears to be a jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland, with a lot of storage capacity.  The directions do not offer much guidance beyond the plans themselves; this will take a little skill to interpret.  There seems to be room within the directions to make a simpler, lighter version, or a leather-reinforced version.",
     "copy-from": "exodii_blueprint",

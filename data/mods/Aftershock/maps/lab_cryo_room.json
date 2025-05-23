@@ -2,7 +2,6 @@
   {
     "//": "Aftershock - cryo pod room",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_1side" ],
     "weight": 120,
     "object": {
@@ -76,7 +75,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "cryo_pod_open",
-    "method": "json",
     "object": {
       "place_nested": [
         {

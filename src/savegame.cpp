@@ -996,7 +996,10 @@ void overmap::unserialize_view( const JsonObject &jsobj )
                         extra_json.throw_error( "Too many values for extra" );
                     }
 
-                    layer[z].extras.push_back( tmp );
+                    // obsoleted extras can still appear here, so skip them
+                    if( tmp.id.is_valid() ) {
+                        layer[z].extras.push_back( tmp );
+                    }
                 }
             }
             if( extras_json.has_more() ) {

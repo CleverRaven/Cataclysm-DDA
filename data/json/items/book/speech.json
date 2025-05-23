@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_tv",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "US Weekly", "str_pl": "US Weeklies" },
     "description": "Weekly news about a bunch of famous people who're all (un)dead now.",
@@ -21,7 +22,8 @@
   },
   {
     "id": "manual_speech",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Self-Esteem for Dummies", "str_pl": "copies of Self-Esteem for Dummies" },
     "description": "Full of useful tips for showing confidence in your speech.",
@@ -40,7 +42,8 @@
   },
   {
     "id": "textbook_speech",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Principles of Effective Communication", "str_pl": "copies of Principles of Effective Communication" },
     "description": "A hardbound book devoted to being an effective and persuasive speaker.",
@@ -61,7 +64,8 @@
   },
   {
     "id": "dnd_handbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Dungeon Master's Guide: 6th Edition", "str_pl": "copies of Dungeon Master's Guide: 6th Edition" },
     "description": "A thick, hardcover volume with everything needed to weave legendary stories.  It's full of information, but finding the things you're looking for can be a chore.",
@@ -82,7 +86,8 @@
   },
   {
     "id": "book_nonf_soft_speech_naillaw",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Nail Your Law Firm Interview", "str_pl": "copies of Nail Your Law Firm Interview" },
     "description": "This lightweight book proclaims itself to be \"the ONLY gold star interview guide for lawyers interviewing in any type of job interview.\"  It was supposed to help new lawyers find work.",

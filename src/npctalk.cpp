@@ -41,6 +41,7 @@
 #include "crafting_gui.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "current_map.h"
 #include "damage.h"
 #include "debug.h"
 #include "dialogue.h"
@@ -239,6 +240,7 @@ struct item_search_data {
     std::vector<str_or_var> flags;
     std::vector<str_or_var> excluded_flags;
     std::optional<bool> uses_energy;
+    std::optional<bool> is_chargeable;
     bool worn_only;
     bool wielded_only;
     bool held_only;
@@ -309,6 +311,9 @@ struct item_search_data {
         }
         if( jo.has_member( "uses_energy" ) ) {
             uses_energy.emplace( jo.get_member( "uses_energy" ) );
+        }
+        if( jo.has_member( "is_chargeable" ) ) {
+            is_chargeable.emplace( jo.get_member( "is_chargeable" ) );
         }
 
         worn_only = jo.get_bool( "worn_only", false );
@@ -423,6 +428,11 @@ struct item_search_data {
         }
 
         if( uses_energy.has_value() && loc->uses_energy() != uses_energy.value() ) {
+            return false;
+        }
+
+        if( is_chargeable.has_value() && ( ( is_chargeable.value() && !loc->is_chargeable() ) ||
+                                           ( !is_chargeable.value() && ( loc->is_chargeable() || !loc->uses_energy() ) ) ) ) {
             return false;
         }
 
@@ -3635,6 +3645,8 @@ void map_add_item( item &it, tripoint_abs_ms target_pos )
     } else {
         tinymap target_bay;
         target_bay.load( project_to<coords::omt>( target_pos ), false );
+        // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+        swap_map swap( *target_bay.cast_to_map() );
         target_bay.add_item_or_charges( target_bay.get_omt( target_pos ), it );
     }
 }
@@ -5940,6 +5952,30 @@ talk_effect_fun_t::func f_unset_flag( const JsonObject &jo, std::string_view mem
     };
 }
 
+talk_effect_fun_t::func f_set_fault( const JsonObject &jo, std::string_view member,
+                                     const std::string_view, bool is_npc )
+{
+    str_or_var fault_var = get_str_or_var( jo.get_member( member ), member, true );
+    bool force = jo.get_bool( "force", false );
+    bool msg = jo.get_bool( "message", true );
+    return [fault_var, force, msg, is_npc]( dialogue const & d ) {
+        item_location &it = *d.actor( is_npc )->get_item();
+        it.get_item()->set_fault( fault_id( fault_var.evaluate( d ) ), force, msg );
+    };
+}
+
+talk_effect_fun_t::func f_set_random_fault_of_type( const JsonObject &jo, std::string_view member,
+        const std::string_view, bool is_npc )
+{
+    str_or_var fault_type_var = get_str_or_var( jo.get_member( member ), member, true );
+    bool force = jo.get_bool( "force", false );
+    bool msg = jo.get_bool( "message", true );
+    return [fault_type_var, force, msg, is_npc]( dialogue const & d ) {
+        item_location &it = *d.actor( is_npc )->get_item();
+        it.get_item()->set_random_fault_of_type( fault_type_var.evaluate( d ), force, msg );
+    };
+}
+
 talk_effect_fun_t::func f_activate( const JsonObject &jo, std::string_view member,
                                     std::string_view, bool is_npc )
 {
@@ -7001,15 +7037,6 @@ talk_effect_fun_t::func f_add_faction_trust( const JsonObject &jo, std::string_v
     };
 }
 
-talk_effect_fun_t::func f_lose_faction_trust( const JsonObject &jo,
-        std::string_view member, std::string_view )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    return [dov]( dialogue & d ) {
-        d.actor( true )->get_faction()->trusts_u -= dov.evaluate( d );
-    };
-}
-
 talk_effect_fun_t::func f_custom_light_level( const JsonObject &jo,
         std::string_view member, std::string_view )
 {
@@ -7849,6 +7876,8 @@ parsers = {
     { "u_teleport", "npc_teleport", jarg::object, &talk_effect_fun::f_teleport },
     { "u_set_flag", "npc_set_flag", jarg::member, &talk_effect_fun::f_set_flag },
     { "u_unset_flag", "npc_unset_flag", jarg::member, &talk_effect_fun::f_unset_flag },
+    { "u_set_fault", "npc_set_fault", jarg::member, &talk_effect_fun::f_set_fault },
+    { "u_set_random_fault_of_type", "npc_set_random_fault_of_type", jarg::member, &talk_effect_fun::f_set_random_fault_of_type },
     { "u_activate", "npc_activate", jarg::member, &talk_effect_fun::f_activate },
     { "u_consume_item", "npc_consume_item", jarg::member, &talk_effect_fun::f_consume_item },
     { "u_consume_item_sum", "npc_consume_item_sum", jarg::array, &talk_effect_fun::f_consume_item_sum },
@@ -7888,7 +7917,6 @@ parsers = {
     { "location_variable_adjust", jarg::member, &talk_effect_fun::f_location_variable_adjust },
     { "u_buy_monster", jarg::member, &talk_effect_fun::f_u_buy_monster },
     { "u_add_faction_trust", jarg::member | jarg::array, &talk_effect_fun::f_add_faction_trust },
-    { "u_lose_faction_trust", jarg::member | jarg::array, &talk_effect_fun::f_lose_faction_trust },
     { "npc_first_topic", jarg::member, &talk_effect_fun::f_npc_first_topic },
     { "sound_effect", jarg::member, &talk_effect_fun::f_sound_effect },
     { "give_achievement", jarg::member, &talk_effect_fun::f_give_achievment },

@@ -1037,14 +1037,8 @@ class atm_menu
 
         //! Prompt for an integral value clamped to [0, max].
         static int prompt_for_amount( const char *const msg, const int max ) {
-            const std::string formatted = string_format( msg, max );
-            const int amount = string_input_popup()
-                               .title( formatted )
-                               .width( 20 )
-                               .text( std::to_string( max ) )
-                               .only_digits( true )
-                               .query_int();
-
+            int amount = max;
+            query_int( amount, true, msg, max );
             return clamp( amount, 0, max );
         }
 
@@ -3040,8 +3034,13 @@ void iexamine::harvest_plant( Character &you, const tripoint_bub_ms &examp, bool
             for( item &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
                 if( from_activity ) {
                     i.set_var( "activity_var", you.name );
+                    item_location loc = here.add_item_or_charges_ret_loc( you.pos_bub(), i );
+                    if( loc ) {
+                        you.may_activity_occupancy_after_end_items_loc.push_back( loc );
+                    }
+                } else {
+                    here.add_item_or_charges( you.pos_bub(), i );
                 }
-                here.add_item_or_charges( you.pos_bub(), i );
             }
             here.furn_set( examp, furn_str_id( fp->base ) );
             you.add_msg_if_player( m_neutral, _( "You harvest the plant." ) );
@@ -4113,7 +4112,7 @@ void iexamine::fvat_full( Character &you, const tripoint_bub_ms &examp )
 
     const std::string booze_name = brew_i.tname();
     item_location loc( map_cursor( examp ), &*items_here.begin() );
-    if( liquid_handler::handle_liquid( loc ) ) {
+    if( liquid_handler::handle_liquid( loc ) && loc->charges == 0 ) {
         fvat_set_empty( examp );
         add_msg( _( "You squeeze the last drops of %s from the vat." ), booze_name );
     }
@@ -4590,7 +4589,7 @@ void iexamine::keg( Character &you, const tripoint_bub_ms &examp )
                     return;
                 }
                 item tmp( drink.typeId(), calendar::turn, charges_held );
-                pour_into_keg( examp, tmp );
+                pour_into_keg( examp, tmp, false );
                 you.use_charges( drink.typeId(), charges_held - tmp.charges );
                 add_msg( _( "You fill the %1$s with %2$s." ), keg_name, drink_nname );
                 you.mod_moves( -to_moves<int>( 10_seconds ) );
@@ -4608,7 +4607,7 @@ void iexamine::keg( Character &you, const tripoint_bub_ms &examp )
  * will be removed from the liquid item.
  * @return Whether any charges have been transferred at all.
  */
-bool iexamine::pour_into_keg( const tripoint_bub_ms &pos, item &liquid )
+bool iexamine::pour_into_keg( const tripoint_bub_ms &pos, item &liquid, bool silent )
 {
     const units::volume keg_cap = get_keg_capacity( pos );
     if( keg_cap <= 0_ml ) {
@@ -4633,7 +4632,9 @@ bool iexamine::pour_into_keg( const tripoint_bub_ms &pos, item &liquid )
         return false;
     }
 
-    add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname(), keg_name );
+    if( !silent ) {
+        add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname(), keg_name );
+    }
     while( liquid.charges > 0 && drink.volume() < keg_cap ) {
         drink.charges++;
         liquid.charges--;
@@ -5047,7 +5048,8 @@ void iexamine::water_source( Character &, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
     item water = here.liquid_from( examp );
-    liquid_handler::handle_liquid( water, nullptr, 0, &examp );
+    liquid_dest_opt liquid_target;
+    liquid_handler::handle_liquid( water, liquid_target, nullptr, 0, &examp );
 }
 
 void iexamine::finite_water_source( Character &, const tripoint_bub_ms &examp )
@@ -5209,14 +5211,9 @@ static void reload_furniture( Character &you, const tripoint_bub_ms &examp, bool
                                       opt.ammo->ammo_type() ) - amount_in_furn;
     const itype *opt_type = opt.ammo->type;
     const int max_amount = std::min( opt.qty(), max_reload_amount );
-    const std::string popupmsg = string_format( _( "Put how many of the %1$s into the %2$s?" ),
-                                 opt_type->nname( max_amount ), f.name() );
-    int amount = string_input_popup()
-                 .title( popupmsg )
-                 .width( 20 )
-                 .text( std::to_string( max_amount ) )
-                 .only_digits( true )
-                 .query_int();
+    int amount = max_amount;
+    query_int( amount, true, _( "Put how many of the %s into the %s?" ), opt_type->nname( max_amount ),
+               f.name() );
     if( amount <= 0 || amount > max_amount ) {
         return;
     }
@@ -5689,20 +5686,13 @@ void iexamine::pay_gas( Character &you, const tripoint_bub_ms &examp )
 
         int maximum_liters = std::min( money / pricePerUnit, tankUnits / 1000 );
 
-        std::string popupmsg = str_to_illiterate_str( string_format(
-                                   _( "How many liters of %s to buy?  Max: %d L.  (0 to cancel)" ), fuelTypeStr, maximum_liters ) );
-        int liters = string_input_popup()
-                     .title( popupmsg )
-                     .width( 20 )
-                     .text( std::to_string( maximum_liters ) )
-                     .only_digits( true )
-                     .query_int();
-        if( liters <= 0 ) {
+        int liters = maximum_liters;
+        if( !query_int( liters, true, str_to_illiterate_str(
+                            _( "How many liters of %s to buy?  Max: %d L." ) ).c_str(),
+                        fuelTypeStr, maximum_liters ) || liters <= 0 ) {
             return;
         }
-        if( liters > maximum_liters ) {
-            liters = maximum_liters;
-        }
+        clamp( liters, 0, maximum_liters );
 
         const std::optional<tripoint_bub_ms> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
@@ -7094,16 +7084,9 @@ static void mill_load_food( Character &you, const tripoint_bub_ms &examp,
     const int max_count = std::min( count, max_count_for_capacity );
 
     // ... then ask how many to put it
-    const std::string popupmsg = string_format( _( "Insert how many %s into the mill?" ),
-                                 item::nname( what->typeId(), count ) );
-    int amount = string_input_popup()
-                 .title( popupmsg )
-                 .width( 20 )
-                 .text( std::to_string( max_count ) )
-                 .only_digits( true )
-                 .query_int();
-
-    if( amount == 0 ) {
+    int amount = max_count;
+    if( !query_int( amount, true, _( "Insert how many %s into the mill?" ),
+                    item::nname( what->typeId(), count ) ) || amount <= 0 ) {
         add_msg( m_info, _( "Never mind." ) );
         return;
     } else if( amount > count ) {

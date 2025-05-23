@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_gardening" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -98,7 +97,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_gardening_roof",
     "object": {
       "fill_ter": "t_flat_roof",

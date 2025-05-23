@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_marsec_t72",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "sw629",
     "name": { "str": "MarSec. T72" },
     "description": "A massive, unwieldy revolver, using combined magnetic and chemical propulsion to fire 7.50mm rounds at energies that rival a sniping platform.  It additionally features a secondary barrel for a single 00 shot shell.\n\nThe T72 remains a relic of the early hyperspace era, meant to be used by and against the posthuman.  Its perhaps most notable for its use by fictional rebel figures than for any sort of actual combat effectiveness.",
@@ -45,7 +46,8 @@
   },
   {
     "id": "afs_landfall_gun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "rifle_22",
     "name": { "str": "landfall survival gun" },
     "description": "A lightweight, bolt-action gun that is barely more than a 7.50mm barrel mounted within a flimsy metal assembly.  Cheaply made and outdated in all respects, it's only useful in the most extenuating of circumstances.",
@@ -65,7 +67,8 @@
     "id": "afs_Accipitermg",
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Accipiter Hawk-00" },
     "description": "A light machine gun manufactured by Accipiter Firearms and distributed by Wraitheon.  The Hawk-00's high rate of fire makes it ideally suited to lay down suppressive fire; but also makes it exceedingly hard to control while unmounted.",
     "weight": "7500 g",
@@ -111,7 +114,8 @@
     "id": "afs_gibrifle",
     "copy-from": "rifle_semi",
     "looks_like": "ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "G&W SR-P9" },
     "description": "An eminently sturdy and reliable bullpup rifle issued by UICA's military during early reclamation expeditions.  Although it's been out of service for nearly two decades, many a private military and contractor has found a use for the SR-P9, and it remains common long past its initial introduction into service.",
     "weight": "3170 g",
@@ -157,7 +161,8 @@
   {
     "id": "afs_sr77",
     "copy-from": "fn_p90",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "G&W SR-P77" },
     "description": "Compact and powerful, the SR-77 serves as the current main firearm of UICA assault teams, having replaced the SR-P9 in the very last decade of the reclamation wars.  Designed for combat withing the tight confines of spacecraft and habitats, the SR-77 is a bullpup carbine with a top-mounted magazine and a high rate of fire.  Performance in open terrain is subpar.",
@@ -218,7 +223,8 @@
     "id": "afs_vahagn_smartgun",
     "copy-from": "rifle_semi",
     "looks_like": "ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT", "GUN" ],
     "name": { "str": "Wraitheon Vahagn 10XR" },
     "description": "The legendary apex of smartgun technology, believed to be an urban legend by most.  Bleeding-edge targeting systems allow it to track up 10 distinct targets simultaneously, with every trigger pull delivering a burst of two 7.5mm microjet darts to each target with a precision that is best described as supernatural.  One needs only to point the weapon in the general direction of the enemy, and the Vahagn will do the rest.\n\nProhibitive cost and complexity kept this weapon from ever seeing the light of day, and only a handful of prototypes are believed to exist within the black market.  Finding one here can only mean that corporate forces beyond the ordinary have made Salus IV their battleground.",
     "weight": "3800 g",
@@ -251,7 +257,7 @@
     "melee_damage": { "bash": 12 },
     "flags": [ "NEVER_JAMS", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
     "ammo_effects": [ "VAHAGN" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_smart_gun" } ] },
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
+    "passive_effects": [ { "id": "ench_smart_gun" } ]
   }
 ]

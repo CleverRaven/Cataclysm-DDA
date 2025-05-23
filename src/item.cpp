@@ -893,7 +893,11 @@ int item::damage() const
 
 int item::degradation() const
 {
-    return degradation_;
+    int ret = degradation_;
+    for( fault_id f : faults ) {
+        ret += f.obj().degradation_mod();
+    }
+    return ret;
 }
 
 void item::rand_degradation()
@@ -1724,6 +1728,8 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
               damage_level( precise ) == rhs.damage_level( precise ) && degradation_ == rhs.degradation_ );
     bits.set( tname::segments::BURN, burnt == rhs.burnt );
     bits.set( tname::segments::ACTIVE, active == rhs.active );
+    bits.set( tname::segments::ACTIVITY_OCCUPANCY, get_var( "activity_var",
+              "" ) == rhs.get_var( "activity_var", "" ) );
     bits.set( tname::segments::FILTHY, is_filthy() == rhs.is_filthy() );
     bits.set( tname::segments::WETNESS, _stacks_wetness( *this, rhs, precise ) );
     bits.set( tname::segments::WEAPON_MODS, _stacks_weapon_mods( *this, rhs ) );
@@ -1752,7 +1758,7 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     bits.set( tname::segments::UPS, _stacks_ups( *this, rhs ) );
     // Guns that differ only by dirt/shot_counter can still stack,
     // but other item_vars such as label/note will prevent stacking
-    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location", "ethereal", "last_act_by_char_id" };
+    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location", "ethereal", "last_act_by_char_id", "activity_var" };
     bits.set( tname::segments::TRAITS, template_traits == rhs.template_traits );
     bits.set( tname::segments::VARS, map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) );
     bits.set( tname::segments::ETHEREAL, _stacks_ethereal( *this, rhs ) );
@@ -1904,6 +1910,7 @@ void item::remove_var( const std::string &key )
 diag_value const &item::get_value( const std::string &name ) const
 {
     return global_variables::_common_get_value( name, item_vars );
+
 }
 
 diag_value const *item::maybe_get_value( const std::string &name ) const
@@ -2597,12 +2604,8 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             std::string faults;
             for( const weighted_object<int, fault_id> &fault : type->faults ) {
                 const int weight_percent = static_cast<float>( fault.weight ) / type->faults.get_weight() * 100;
-                if( has_fault( fault.obj ) ) {
-                    faults += colorize( fault.obj.str() + string_format( " (%d, %d%%), ", fault.weight,
-                                        weight_percent ), c_yellow );
-                } else {
-                    faults += fault.obj.str() + string_format( " (%d, %d%%), ", fault.weight, weight_percent );
-                }
+                faults += colorize( fault.obj.str() + string_format( " (%d, %d%%)\n", fault.weight,
+                                    weight_percent ), has_fault( fault.obj ) ? c_yellow : c_white );
             }
             info.emplace_back( "BASE", string_format( "faults: %s", faults ) );
         }
@@ -5559,7 +5562,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
             info.emplace_back( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
             enumerate_as_string( all_tec_sorted, []( const matec_id & tid ) {
                 return string_format( "<stat>%s</stat>: <info>%s</info> <info>%s</info>", tid.obj().name,
-                                      tid.obj().description, tid.obj().condition_desc );
+                                      tid.obj().description, _( tid.obj().condition_desc ) );
             } ) );
         }
     }
@@ -5837,6 +5840,13 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
                                           static_cast<int>( this->get_var( "die_num_sides",
                                                   0 ) ) ) );
     }
+    diag_value const *activity_var_may = maybe_get_value( "activity_var" );
+    if( activity_var_may != nullptr && activity_var_may->is_str() ) {
+        info.emplace_back( "DESCRIPTION",
+                           string_format(
+                               _( "* This item is currently used by %s" ),
+                               activity_var_may->str() ) );
+    }
 
 }
 
@@ -5993,7 +6003,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         for( const fault_id &e : faults ) {
             //~ %1$s is the name of a fault and %2$s is the description of the fault
             info.emplace_back( "DESCRIPTION", string_format( _( "* <bad>%1$s</bad>.  %2$s" ),
-                               e.obj().name(), e.obj().description() ) );
+                               e.obj().name(), get_fault_description( e ) ) );
         }
     }
 
@@ -6871,7 +6881,7 @@ std::string item::overheat_symbol() const
         modifier += mod->type->gunmod->overheat_threshold_modifier;
         multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
     }
-    if( faults.count( fault_overheat_safety ) ) {
+    if( has_fault( fault_overheat_safety ) ) {
         return string_format( _( "<color_light_green>\u2588VNT </color>" ) );
     }
     switch( std::min( 5, static_cast<int>( get_var( "gun_heat",
@@ -7698,6 +7708,16 @@ bool item::has_fault( const fault_id &fault ) const
     return faults.count( fault );
 }
 
+bool item::has_fault_of_type( const std::string &fault_type ) const
+{
+    for( const fault_id &f : faults ) {
+        if( f.obj().type() == fault_type ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool item::has_fault_flag( const std::string &searched_flag ) const
 {
     for( const fault_id &fault : faults ) {
@@ -7767,54 +7787,84 @@ bool item::has_vitamin( const vitamin_id &v ) const
     return false;
 }
 
-void item::set_fault( const fault_id &fault_id )
+std::string item::get_fault_description( const fault_id &f_id ) const
 {
-    faults.insert( fault_id );
+    return string_format( f_id.obj().description(), type->nname( 1 ) );
 }
 
-void item::set_random_fault_of_type( const std::string &fault_type, const bool &force )
+bool item::can_have_fault( const fault_id &f_id )
+{
+    // f_id fault is not defined in itype
+    if( type->faults.get_specific_weight( f_id ) == 0 ) {
+        return false;
+    }
+
+    // f_id is blocked by some another fault
+    for( const fault_id &faults_of_item : faults ) {
+        for( const fault_id &blocked_fault : faults_of_item.obj().get_block_faults() ) {
+            if( f_id == blocked_fault ) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool item::set_fault( const fault_id &f_id, bool force, bool message )
+{
+    if( !force && !can_have_fault( f_id ) ) {
+        return false;
+    }
+
+    // if f_id fault blocks fault A, we should remove fault A before applying fault f_id
+    // can't have chipped blade if the blade is gone
+    for( const fault_id &f_blocked : f_id.obj().get_block_faults() ) {
+        remove_fault( f_blocked );
+    }
+
+    if( message ) {
+        add_msg( m_bad, f_id.obj().message() );
+    }
+
+    faults.insert( f_id );
+    return true;
+}
+
+void item::set_random_fault_of_type( const std::string &fault_type, bool force, bool message )
 {
     if( force ) {
-        set_fault( random_entry( faults::all_of_type( fault_type ) ) );
+        set_fault( random_entry( faults::all_of_type( fault_type ) ), true, message );
         return;
     }
 
     weighted_int_list<fault_id> faults_by_type;
     for( const weighted_object<int, fault_id> &f : type->faults ) {
-        faults_by_type.add( f.obj, f.weight );
+        if( can_have_fault( f.obj ) ) {
+            faults_by_type.add( f.obj, f.weight );
+        }
+
     }
 
-    set_fault( *faults_by_type.pick() );
+    if( !faults_by_type.empty() ) {
+        set_fault( *faults_by_type.pick(), force, message );
+    }
+
 }
 
-weighted_int_list<fault_id> item::all_potential_faults() const
+void item::remove_fault( const fault_id &fault_id )
 {
-    weighted_int_list<fault_id> potential_faults;
-    for( const weighted_object<int, fault_id> &potential_fault : type->faults ) {
-        if( potential_fault.obj.obj().affected_by_degradation() ) {
-            potential_faults.add( potential_fault.obj, potential_fault.weight + degradation() );
-        } else {
-            potential_faults.add( potential_fault.obj, potential_fault.weight );
+    faults.erase( fault_id );
+}
+
+void item::remove_single_fault_of_type( const std::string &fault_type )
+{
+    for( const fault_id f : faults ) {
+        if( f.obj().type() == fault_type ) {
+            faults.erase( f );
+            return;
         }
     }
-    return potential_faults;
-}
-
-weighted_int_list<fault_id> item::all_potential_faults_of_type(
-    const std::string &fault_type ) const
-{
-    weighted_int_list<fault_id> potential_faults_of_type;
-    for( const weighted_object<int, fault_id> &potential_fault : all_potential_faults() ) {
-        if( potential_fault.obj.obj().type() == fault_type ) {
-            potential_faults_of_type.add( potential_fault.obj, potential_fault.weight );
-        }
-    }
-    return potential_faults_of_type;
-}
-
-const fault_id &item::random_potential_fault_of_type( const std::string &fault_type ) const
-{
-    return *all_potential_faults_of_type( fault_type ).pick();
 }
 
 item &item::unset_flag( const flag_id &flag )
@@ -9376,6 +9426,11 @@ bool item::mod_damage( int qty )
             set_degradation( degradation_ + get_degrade_amount( *this, damage_, dmg_before ) );
         }
 
+        // TODO: think about better way to telling the game what faults should be applied when
+        if( qty > 0 ) {
+            set_random_fault_of_type( "mechanical_damage" );
+        }
+
         return destroy;
     }
 }
@@ -10322,16 +10377,6 @@ std::set<fault_id> item::faults_potential() const
         res.insert( fault_pair.obj );
     }
     return res;
-}
-
-bool item::can_have_fault_type( const std::string &fault_type ) const
-{
-    for( const weighted_object<int, fault_id> &some_fault : type->faults ) {
-        if( some_fault.obj->type() == fault_type ) {
-            return true;
-        }
-    }
-    return false;
 }
 
 std::set<fault_id> item::faults_potential_of_type( const std::string &fault_type ) const
@@ -11358,6 +11403,22 @@ bool item::uses_energy() const
     return has_flag( flag_USES_BIONIC_POWER ) ||
            has_flag( flag_USE_UPS ) ||
            ( is_magazine() && ammo_capacity( ammo_battery ) > 0 );
+}
+
+bool item::is_chargeable() const
+{
+    if( !uses_energy() ) {
+        return false;
+    }
+    // bionic power using items have ammo_capacity = player bionic power storage.  Since the items themselves aren't chargeable, auto fail unless they also have a magazine.
+    if( has_flag( flag_USES_BIONIC_POWER ) && !magazine_current() ) {
+        return false;
+    }
+    if( ammo_remaining() < ammo_capacity( ammo_battery ) ) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 units::energy item::energy_remaining( const Character *carrier ) const
@@ -12784,7 +12845,14 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
     // Remember quantity so that we can unseal self
     int old_quantity = quantity;
     std::vector<item *> removed_items;
-    for( item *contained : all_items_ptr( pocket_type::CONTAINER ) ) {
+    const std::list<item *> temp_contained_list = all_items_ptr( pocket_type::CONTAINER );
+    std::list<item *> contained_list;
+    // Reverse the list, as it's created from the top down, but we have to remove items
+    // from the bottom up in order for the references to remain valid until used.
+    for( item *contained : temp_contained_list ) {
+        contained_list.emplace_front( contained );
+    }
+    for( item *contained : contained_list ) {
         if( contained->use_amount_internal( it, quantity, used, filter ) ) {
             removed_items.push_back( contained );
         }
@@ -14108,7 +14176,7 @@ bool item::has_no_links() const
 
 std::string item::link_name() const
 {
-    return has_flag( flag_CABLE_SPOOL ) ? label( 1 ) : string_format( " %s's cable", label( 1 ) );
+    return has_flag( flag_CABLE_SPOOL ) ? label( 1 ) : string_format( _( " %s's cable" ), label( 1 ) );
 }
 
 ret_val<void> item::link_to( const optional_vpart_position &linked_vp, link_state link_type )
@@ -14391,8 +14459,8 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
                            link().length, link().max_length );
         }
         if( link().length > link().max_length ) {
-            std::string cable_name = is_cable_item ? string_format( "over-extended %s", label( 1 ) ) :
-                                     string_format( "%s's over-extended cable", label( 1 ) );
+            std::string cable_name = is_cable_item ? string_format( _( "over-extended %s" ), label( 1 ) ) :
+                                     string_format( _( "%s's over-extended cable" ), label( 1 ) );
             if( carrier != nullptr ) {
                 carrier->add_msg_if_player( m_bad, _( "Your %s breaks loose!" ), cable_name );
             } else {
@@ -14775,8 +14843,8 @@ bool item::process_gun_cooling( Character *carrier )
                                  overheat_modifier, 5.0 );
     heat -= std::max( ( type->gun->cooling_value * cooling_multiplier ) + cooling_modifier, 0.5 );
     set_var( "gun_heat", std::max( 0.0, heat ) );
-    if( faults.count( fault_overheat_safety ) && heat < threshold * 0.2 ) {
-        faults.erase( fault_overheat_safety );
+    if( has_fault( fault_overheat_safety ) && heat < threshold * 0.2 ) {
+        remove_fault( fault_overheat_safety );
         if( carrier ) {
             carrier->add_msg_if_player( m_good, _( "Your %s beeps as its cooling cycle concludes." ), tname() );
         }
@@ -14868,9 +14936,9 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
 
         if( wetness && has_flag( flag_WATER_BREAK ) ) {
             deactivate();
-            set_random_fault_of_type( "wet" );
+            set_random_fault_of_type( "wet", true );
             if( has_flag( flag_ELECTRONIC ) ) {
-                set_random_fault_of_type( "shorted" );
+                set_random_fault_of_type( "shorted", true );
             }
         }
 
@@ -14970,16 +15038,16 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
         if( get_var( "gun_heat", 0 ) > 0 ) {
             return process_gun_cooling( carrier );
         }
-        if( faults.count( fault_emp_reboot ) ) {
+        if( has_fault( fault_emp_reboot ) ) {
             if( one_in( 60 ) ) {
                 if( !one_in( 20 ) ) {
-                    faults.erase( fault_emp_reboot );
+                    remove_fault( fault_emp_reboot );
                     if( carrier ) {
                         carrier->add_msg_if_player( m_good, _( "Your %s reboots successfully." ), tname() );
                     }
                 } else {
-                    faults.erase( fault_emp_reboot );
-                    set_random_fault_of_type( "shorted" );
+                    remove_fault( fault_emp_reboot );
+                    set_random_fault_of_type( "shorted", true );
                     if( carrier ) {
                         carrier->add_msg_if_player( m_bad, _( "Your %s fails to reboot properly." ), tname() );
                     }

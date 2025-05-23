@@ -1,0 +1,363 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_grocery", "s_grocery_1" ],
+    "copy-from": "s_grocery",
+    "name": "grocery store",
+    "sym": "G",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_grocery_roof", "s_grocery_roof_1" ],
+    "copy-from": "s_grocery_roof",
+    "name": "grocery store roof",
+    "sym": "G",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_commercial_10",
+    "copy-from": "trailer_commercial_10",
+    "name": "convenience store",
+    "sym": "C",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_commercial_10_roof",
+    "copy-from": "trailer_commercial_10_roof",
+    "name": "convenience store roof",
+    "sym": "C",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_liquor",
+    "copy-from": "s_liquor",
+    "name": "liquor store",
+    "sym": "L",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_liquor_roof",
+    "copy-from": "s_liquor_roof",
+    "name": "liquor store roof",
+    "sym": "L",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_diner",
+    "copy-from": "s_diner",
+    "name": "diner",
+    "sym": "D",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_diner_2ndfloor", "s_diner_roof" ],
+    "copy-from": "s_diner_2ndfloor",
+    "name": "diner",
+    "sym": "D",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_restaurant", "s_restaurant_1", "s_restaurant_2", "s_restaurant_3" ],
+    "copy-from": "s_restaurant",
+    "name": "restaurant",
+    "sym": "R",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "s_restaurant_foodplace_roof",
+      "s_restaurant_foodplace_upper_roof",
+      "s_restaurant_roof",
+      "s_restaurant_roof_1",
+      "s_restaurant_roof_2",
+      "s_restaurant_upper_roof_2",
+      "s_restaurant_roof_3"
+    ],
+    "copy-from": "s_restaurant_foodplace_roof",
+    "name": "restaurant roof",
+    "sym": "R",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "s_restaurant_fast",
+      "s_restaurant_fast_1",
+      "drive_through_0_0",
+      "drive_through_1_0",
+      "drive_through_2_0",
+      "drive_through_0_1",
+      "drive_through_1_1",
+      "drive_through_2_1"
+    ],
+    "copy-from": "s_restaurant_fast",
+    "name": "fast food restaurant",
+    "sym": "F",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "s_restaurant_fast_roof",
+      "s_restaurant_fast_roof_1",
+      "drive_through_roof_0_0",
+      "drive_through_roof_1_0",
+      "drive_through_roof_2_0",
+      "drive_through_roof_0_1",
+      "drive_through_roof_1_1",
+      "drive_through_roof_2_1"
+    ],
+    "copy-from": "s_restaurant_fast_roof",
+    "name": "fast food restaurant roof",
+    "sym": "F",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_restaurant_coffee", "s_restaurant_coffee_1", "s_restaurant_coffee_2" ],
+    "copy-from": "s_restaurant_coffee",
+    "name": "coffee shop",
+    "sym": "C",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_restaurant_coffee_roof", "s_restaurant_coffee_roof_1", "s_restaurant_coffee_roof_2" ],
+    "copy-from": "s_restaurant_coffee_roof",
+    "name": "coffee shop",
+    "sym": "C",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_teashop", "s_teashop_1" ],
+    "copy-from": "s_teashop",
+    "name": "teashop",
+    "sym": "T",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_teashop_roof", "s_teashop_roof_1", "s_teashop_upper_roof_1" ],
+    "copy-from": "s_teashop_roof",
+    "name": "teashop roof",
+    "sym": "T",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "bar", "bar_1" ],
+    "copy-from": "bar",
+    "name": "bar",
+    "sym": "B",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "bar_roof", "bar_roof_1" ],
+    "copy-from": "bar_roof",
+    "name": "bar roof",
+    "sym": "B",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_pizza_parlor", "s_pizza_parlor_1" ],
+    "copy-from": "s_pizza_parlor",
+    "name": "pizza parlor",
+    "sym": "P",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_pizza_parlor_roof", "s_pizza_parlor_roof_1" ],
+    "copy-from": "s_pizza_parlor_roof",
+    "name": "pizza parlor roof",
+    "sym": "P",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewer",
+    "copy-from": "sewer",
+    "name": "sewer",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "roadstop_b", "roadstop_b_roof" ],
+    "copy-from": "roadstop_b",
+    "name": "roadside foodcart",
+    "sym": "F",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "orchard_tree_apple",
+    "copy-from": "orchard_tree_apple",
+    "name": "apple orchard",
+    "sym": "A",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "orchard_processing",
+    "copy-from": "orchard_processing",
+    "name": "processing",
+    "sym": "P",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "orchard_stall",
+    "copy-from": "orchard_stall",
+    "name": "stall",
+    "sym": "S",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "orchard_processing_roof",
+    "copy-from": "orchard_processing_roof",
+    "name": "processing roof",
+    "sym": "P",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "orchard_stall_roof",
+    "copy-from": "orchard_stall_roof",
+    "name": "stall roof",
+    "sym": "S",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "orchard", "orchard_roof", "orchard_1", "orchard_roof_1" ],
+    "copy-from": "orchard",
+    "name": "orchard",
+    "sym": "O",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "candy_shop", "candy_shop_1" ],
+    "copy-from": "candy_shop",
+    "name": "candy shop",
+    "sym": "C",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "candy_shop_roof", "candy_shop_roof_1" ],
+    "copy-from": "candy_shop_roof",
+    "name": "candy shop roof",
+    "sym": "C",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bakery",
+    "copy-from": "bakery",
+    "name": "bakery",
+    "sym": "B",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bakery_roof",
+    "copy-from": "bakery_roof",
+    "name": "bakery roof",
+    "sym": "B",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bakery_upper_roof",
+    "copy-from": "bakery_upper_roof",
+    "name": "bakery roof",
+    "sym": "B",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "icecream_shop",
+    "name": "icecream shop",
+    "copy-from": "icecream_shop",
+    "sym": "I",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "icecream_shop_roof",
+    "name": "icecream shop roof",
+    "copy-from": "icecream_shop_roof",
+    "sym": "I",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_cave_food",
+    "copy-from": "river_cave_food",
+    "name": "kraken food storage",
+    "sym": "O",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_butcher", "s_butcher_1", "s_butcher_2" ],
+    "copy-from": "s_butcher",
+    "name": "butcher shop",
+    "sym": "B",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_butcher_roof", "s_butcher_roof_1", "s_butcher_roof_2", "s_butcher_upper_roof", "s_butcher_upper_roof_1" ],
+    "copy-from": "s_butcher_roof",
+    "name": "butcher shop roof",
+    "sym": "B",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "moonshine_still", "moonshine_still_1", "moonshine_still_2" ],
+    "copy-from": "moonshine_still",
+    "name": "moonshine still",
+    "sym": "S",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "moonshine_still_roof", "moonshine_still_roof_1", "moonshine_still_roof_2" ],
+    "copy-from": "moonshine_still_roof",
+    "name": "moonshine still roof",
+    "sym": "S",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sugar_house",
+    "copy-from": "sugar_house",
+    "name": "sugar house",
+    "sym": "S",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sugar_house_roof",
+    "copy-from": "sugar_house_roof",
+    "name": "sugar house roof",
+    "sym": "S",
+    "color": "green"
+  }
+]

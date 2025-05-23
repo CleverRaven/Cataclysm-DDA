@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lumbermill_0_0", "lumbermill_1_0" ], [ "lumbermill_0_1", "lumbermill_1_1" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -66,7 +65,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lumbermill_0_0_roof", "lumbermill_1_0_roof" ], [ "lumbermill_0_1_roof", "lumbermill_1_1_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -125,7 +123,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lumbermill_dforest" ],
     "weight": 100,
     "object": {
@@ -161,7 +158,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lumbermill_dforest" ],
     "weight": 100,
     "object": {
@@ -197,7 +193,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lumbermill_dforest" ],
     "weight": 100,
     "object": {
@@ -233,7 +228,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lumbermill_dforest" ],
     "weight": 100,
     "object": {
@@ -269,7 +263,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lumbermill_dforest" ],
     "weight": 100,
     "object": {
@@ -305,7 +298,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lumbermill_dforest" ],
     "weight": 100,
     "object": {

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "maintenance_outpost_a1", "maintenance_outpost_a2" ], [ "maintenance_outpost_b1", "maintenance_outpost_b2" ] ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -71,7 +70,7 @@
         "Ñ": "f_habitat_kitchenette",
         "ñ": "f_habitat_storage_board",
         "6": "f_3dprinter",
-        "ú": "f_table",
+        "ú": "f_metal_table",
         "9": "f_hydraulic_press",
         "0": "f_heavy_lathe",
         "8": "f_drill_press",
@@ -111,7 +110,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "maintenance_outpost_a1_roof", "maintenance_outpost_a2_roof" ],
       [ "maintenance_outpost_b1_roof", "maintenance_outpost_b2_roof" ]

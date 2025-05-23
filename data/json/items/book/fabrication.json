@@ -1,7 +1,8 @@
 [
   {
     "id": "glassblowing_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Art of Glassblowing", "str_pl": "copies of The Art of Glassblowing" },
     "description": "A textbook that illustrates the science and technique of the ancient art of glassblowing.",
@@ -22,7 +23,8 @@
   },
   {
     "id": "plastics_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "looks_like": "glassblowing_book",
     "name": {
@@ -47,7 +49,8 @@
   },
   {
     "id": "metal_casting_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "metal casting reference manual" },
     "description": "A textbook with information about casting various types of metals.",
@@ -68,7 +71,8 @@
   },
   {
     "id": "alloy_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "alloying reference manual" },
     "description": "A textbook with information about alloying various types of metals.",
@@ -89,7 +93,8 @@
   },
   {
     "id": "bronze_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Bronze Age Encyclopedia", "str_pl": "copies of The Bronze Age Encyclopedia" },
     "description": "A huge textbook with information about the historic use of bronze around the world, with well illustrated instructions of the manufacturing process of armor, weapons and bronze tools.",
@@ -113,7 +118,8 @@
   },
   {
     "id": "bronze_mag",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Historic Warfare: The Bronze Age", "str_pl": "copies of Historic Warfare: The Bronze Age" },
     "description": "An in-depth magazine about the use of bronze weapons in warfare.  There are some images about their fabrication process.",
@@ -134,7 +140,8 @@
   },
   {
     "id": "theater_props",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "looks_like": "glassblowing_book",
     "name": {
@@ -162,7 +169,8 @@
   },
   {
     "id": "jewelry_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Antique Adornments", "str_pl": "copies of Antique Adornments" },
     "description": "A comprehensive and illustrated history of the techniques used to make crowns, bracelets, necklaces, and other types of jewelry.",
@@ -185,7 +193,8 @@
   },
   {
     "id": "mag_fabrication",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Crafty Crafter's Quarterly", "str_pl": "Crafty Crafter's Quarterlies" },
     "description": "A fun quarterly magazine all about macaroni art and things you can make by supergluing found objects together.",
@@ -205,7 +214,8 @@
   },
   {
     "id": "manual_fabrication",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "101 Crafts for Beginners", "str_pl": "copies of 101 Crafts for Beginners" },
     "description": "A large, paperback book detailing a hundred and one beginner's projects in fabrication.",
@@ -224,7 +234,8 @@
   },
   {
     "id": "recipe_arrows",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Fletcher's Friend", "str_pl": "copies of The Fletcher's Friend" },
     "description": "This hefty book is devoted to folks looking to handcraft their own arrows.  It starts with a hip and snappy disclaimer about the risks, both physical and legal, of using explosives and flammable materials.  Look for its companion, \"The Bowyer's Buddy\"!",
@@ -244,7 +255,8 @@
   },
   {
     "id": "recipe_bows",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Bowyer's Buddy", "str_pl": "copies of The Bowyer's Buddy" },
     "description": "This hefty book is dedicated to craftsfolk and outdoors-y types looking to make their own bows.  It recommends its companion volume \"The Fletcher's Friend\" for instructions on producing their ammunition.",
@@ -264,7 +276,8 @@
   },
   {
     "id": "recipe_bullets",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Handloader's Helper", "str_pl": "copies of The Handloader's Helper" },
     "description": "Everything you could ever want to know about handloading ammunition, sealed with a… childproof cover.  Apparently a liability thing, because the chapter on explosive rounds covers them in excellent detail too.",
@@ -284,7 +297,8 @@
   },
   {
     "id": "recipe_caseless",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Rivtech design binder" },
     "description": "This Rivtech binder warns that \"Unauthorized readers are our best test subjects.\" With good reason: it contains complete design specs and technical drawings for their entire line of products.",
@@ -304,7 +318,8 @@
   },
   {
     "id": "recipe_lab_cvd",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "lab journal-Gustav", "str_pl": "lab journals-Gustav" },
     "description": "This paper notebook is mostly full of boring logs, experimental observations and notes.  Mixed in, however, are musings on how to use the lab's vapor deposition machine to deposit amorphous carbon in a diamond-like form onto common metals.  The author's intended goal was a better non-stick frying pan, but you can think of a couple of better uses for it.",
@@ -325,7 +340,8 @@
   },
   {
     "id": "recipe_melee",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Streetfighter's Sidekick", "str_pl": "copies of The Streetfighter's Sidekick" },
     "description": "A sizable how-to guide for making hand-to-hand combat weapons.  Though the processes are thoroughly detailed and several illustrations are provided, they rely heavily on technical jargon.  More for machinists-turned-weaponsmiths than streetfighters, really.",
@@ -344,7 +360,8 @@
   },
   {
     "id": "textbook_armeast",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Art of Japanese Armormaking", "str_pl": "copies of The Art of Japanese Armormaking" },
     "description": "This in-depth and technical text details various forms of ancient Japanese armor crafting, and is well illustrated with lots of photos.",
@@ -365,7 +382,8 @@
   },
   {
     "id": "textbook_armschina",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Arms and Armor of Imperial China", "str_pl": "copies of Arms and Armor of Imperial China" },
     "description": "This textbook details the military history of ancient China, with a particular focus on the nature of historical arms and armor.  It also details some of the equipment used by other cultures that came into conflict with the empire over various dynasties.",
@@ -386,7 +404,8 @@
   },
   {
     "id": "textbook_weparabic",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Tools of Warfare in the Arabic World", "str_pl": "copies of Tools of Warfare in the Arabic World" },
     "description": "This exhaustive book details various forms of medieval period Middle Eastern and South Asian weapons and armor.  It is incredibly detailed with diagrams and pictures, but quite dry.",
@@ -407,7 +426,8 @@
   },
   {
     "id": "textbook_armwest",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Studies in Historic Armorsmithing", "str_pl": "copies of Studies in Historic Armorsmithing" },
     "description": "This in-depth and technical text details various forms of ancient European armor crafting, and is well illustrated with lots of photos.",
@@ -428,7 +448,8 @@
   },
   {
     "id": "textbook_mesoam",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "The Art of Warfare in Precolumbian Mesoamericas",
@@ -451,7 +472,8 @@
   },
   {
     "id": "textbook_fabrication",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "DIY Compendium", "str_pl": "copies of DIY Compendium" },
     "description": "A thick, hardbound book detailing countless projects for inventions that claim to improve all aspects of life.",
@@ -472,7 +494,8 @@
   },
   {
     "id": "textbook_fireman",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "A History of Firefighting", "str_pl": "copies of A History of Firefighting" },
     "description": "This in-depth and technical text details the history of firefighting from ancient times into the modern era, with a focus on the technology used to save lives.",
@@ -491,7 +514,8 @@
   },
   {
     "id": "textbook_weapeast",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Swords of the Samurai", "str_pl": "copies of The Swords of the Samurai" },
     "description": "This in-depth and technical text details various forms of ancient Japanese sword smithing, and is well illustrated with step by step photo instructions.",
@@ -512,7 +536,8 @@
   },
   {
     "id": "textbook_weapwest",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Historic Weaponsmith", "str_pl": "copies of The Historic Weaponsmith" },
     "description": "This in-depth and technical text details various forms of ancient European weapon smithing, and is well illustrated with step by step photo instructions.",
@@ -533,7 +558,8 @@
   },
   {
     "id": "welding_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Welding and Metallurgy", "str_pl": "copies of Welding and Metallurgy" },
     "description": "A rather technical textbook that illustrates the science and technique of becoming a better welder.",
@@ -554,7 +580,8 @@
   },
   {
     "id": "101_carpentry",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "101 Home Repairs", "str_pl": "copies of 101 Home Repairs" },
     "description": "A paperback book detailing 101 home repair projects for the novice carpenter.",
@@ -577,7 +604,8 @@
   },
   {
     "id": "carpentry_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Complete Home Repair Guide", "str_pl": "copies of The Complete Home Repair Guide" },
     "description": "A massive book that details virtually every aspect of remodeling and repairing a home, with concise terminology aimed at experienced carpenters.",
@@ -603,7 +631,8 @@
   },
   {
     "id": "mag_carpentry",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Birdhouse Monthly", "str_pl": "Birdhouse Monthlies" },
     "description": "A riveting periodical all about birdhouses and their construction.",
@@ -624,7 +653,8 @@
   },
   {
     "id": "manual_carpentry",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Building for Beginners", "str_pl": "copies of Building for Beginners" },
     "description": "A large, paperback book detailing several beginner's projects in construction.",
@@ -647,7 +677,8 @@
   },
   {
     "id": "textbook_carpentry",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Engineering 301", "str_pl": "copies of Engineering 301" },
     "description": "A textbook on civil engineering and construction.",
@@ -668,7 +699,8 @@
   },
   {
     "id": "reference_fabrication1",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Machinery's Handbook", "str_pl": "copies of Machinery's Handbook" },
     "description": "This classic reference work contains extensive, dense chapters and tables on materials, metrology, toolmaking, gears, threading and more.  This recent edition includes extensive data on the latest techniques in additive manufacturing.  If you need to know how best complete a certain machining operation, the answer lies somewhere in these pages.",
@@ -687,7 +719,8 @@
   },
   {
     "id": "concrete_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Concrete Constructions", "str_pl": "copies of Concrete Constructions" },
     "description": "A collection of notable uses of concrete.  Contains detailed directions on how to mix and use cement to form useful aggregates.",
@@ -708,7 +741,8 @@
   },
   {
     "id": "recipe_migo_plate",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "WX010 Living Armor Observations", "str_pl": "copies of WX010 Living Armor Observations" },
     "description": "This sheaf of papers seems to describe maintenance on a new form of ballistic armor.  \"the regenerative plates though promising for field use do require maintenance or combat to stop from becoming overgrown\".",
@@ -726,7 +760,8 @@
   },
   {
     "id": "ballista_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Artillery of the Ancients", "str_pl": "copies of Artillery of the Ancients" },
     "description": "This is a history book detailing the siege machines and field artillery of some ancient civilizations.  It contains detailed diagrams that explain how such devices were assembled and maintained.",
@@ -746,7 +781,8 @@
   },
   {
     "id": "recipe_dave_manual",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Dino Dave's cardboard notebook", "str_pl": "copies of Dino Dave's cardboard notebook" },
     "description": "This school notebook contains an astounding amount of \"recipes\" of various cardboard utilities, ranging from the wholly impractical to completely impossible.  Despite that, they're illustrated in a surprisingly thorough manner, to the point where you could possibly learn something from studying the chicken scratch and schematics in detail.  The last page thanks a number of names, some of which you recognize from the refugee center.  Your name covers half the page.  At the bottom, it warns you not to let \"the sandman\" read it.",

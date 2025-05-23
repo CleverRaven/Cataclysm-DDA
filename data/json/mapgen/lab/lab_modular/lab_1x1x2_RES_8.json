@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "lab_1x1_RES_8_bedrooms_maintenance",
     "type": "mapgen",
     "object": {
@@ -47,7 +46,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_1x1_RES_8_bedrooms_security",
     "type": "mapgen",
     "object": {
@@ -105,7 +103,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_1x1_RES_8_commons_SEC" ],
     "type": "mapgen",
     "object": {
@@ -238,7 +235,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_1x1_RES_8_commons_MAINT" ],
     "type": "mapgen",
     "object": {

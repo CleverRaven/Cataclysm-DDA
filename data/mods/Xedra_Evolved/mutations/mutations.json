@@ -228,7 +228,7 @@
           {
             "condition": { "npc_has_species": "RENFIELD" },
             "distance": { "math": [ "u_val('perception') * 1.5" ] },
-            "descriptions": [ { "id": "infrared_creature_medium", "text": "You sense one of the vampires' servants here." } ]
+            "descriptions": [ { "id": "vampire_sense", "text": "You sense one of the vampires' servants here.", "symbol": "R", "color": "red" } ]
           },
           {
             "condition": {
@@ -238,7 +238,7 @@
               ]
             },
             "distance": { "math": [ "u_val('perception') * 1.5" ] },
-            "descriptions": [ { "id": "vampire_sense", "text": "You sense a vampire here." } ]
+            "descriptions": [ { "id": "vampire_sense", "text": "You sense a vampire here.", "symbol": "V", "color": "red" } ]
           }
         ]
       }
@@ -270,16 +270,6 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "attacks": [
-      {
-        "attack_text_u": "You sink your fangs into %s!",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
-        "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
-        "body_part": "mouth",
-        "chance": 20,
-        "base_damage": { "damage_type": "stab", "amount": 7 }
-      }
-    ],
     "spells_learned": [ [ "vampire_drink_blood_with_fangs_spell", 1 ] ]
   },
   {
@@ -322,7 +312,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "While unable to ignore gravity like a true vampire, it has less of a hold on you.  You take greatly-reduced fall damage as long as you have empowered blood in your body.",
+    "description": "While unable to ignore gravity like a true vampire, it has less of a hold on you.  You can fall one story without ill effect and take greatly-reduced fall damage as long as you have empowered blood in your body.",
     "enchantments": [
       {
         "condition": { "u_has_effect": "effect_dhampir_empowered_blood_indicator" },
@@ -375,7 +365,7 @@
     "id": "DHAMPIR_WEAKNESS_SUN_SENSITIVITY",
     "name": { "str": "Weakness: Sun Sensitivity" },
     "points": -2,
-    "description": "While you won't burn in the sunlight like a true vampire, it's not comfortable.  You suffer a -1 penalty to all stats when outdoors during the daytime, and -2 if it's sunny.",
+    "description": "While you won't burn in the sunlight like a true vampire, it's not comfortable.  You suffer a -1 penalty to all stats when outdoors during the daytime, and an additional -2 if it's sunny or clear.",
     "purifiable": false,
     "valid": false,
     "enchantments": [
@@ -389,7 +379,7 @@
         ]
       },
       {
-        "condition": { "and": [ "is_day", "u_is_outside", { "is_weather": "sunny" } ] },
+        "condition": { "and": [ "is_day", "u_is_outside", { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] } ] },
         "values": [
           { "value": "STRENGTH", "add": -2 },
           { "value": "DEXTERITY", "add": -2 },
@@ -512,7 +502,7 @@
     "id": "DHAMPIR_WEAKNESS_LOWER_KCAL_FROM_FOOD",
     "name": { "str": "Weakness: Thirst of the Damned" },
     "points": -2,
-    "description": "Fresh blood has an energy that mortal food simply cannot compare to.  You gain 33% reduced kcal and vitamins from the food you eat, but additional calories and vitamins from drinking blood.",
+    "description": "Fresh blood has an energy that mortal food simply cannot compare to.  You gain 33% reduced kcal from the food you eat, but additional calories from drinking blood.",
     "purifiable": false,
     "valid": false,
     "enchantments": [ { "values": [ { "value": "KCAL", "multiply": -0.33 } ] } ]
@@ -535,7 +525,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "vitamin_rates": [ [ "human_blood_vitamin", 720 ] ],
+    "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ] ],
     "no_empathize_with": [ "HUMAN" ],
     "flags": [ "CANNIBAL", "HEMOVORE" ],
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
@@ -603,6 +593,7 @@
     "description": "Your stolen blood reinforces your muscles, making your grip crack bone and your punches dent steel.\n\n<color_light_red>Initial Blood Cost:</color> 150 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 75 ml",
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "You feel a surge of power as blood floods your muscles.",
     "activated_eocs": [ "EOC_VAMPIRIC_STRENGTH_activated" ],
     "deactivated_eocs": [ "EOC_VAMPIRIC_STRENGTH_deactivated" ],
     "enchantments": [
@@ -674,6 +665,22 @@
   },
   {
     "type": "mutation",
+    "id": "VAMPIRE_HEALTH_BONUS",
+    "points": 2,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Blush of Health" },
+    "description": "The power of stolen blood keeps you feel amazing.  As long as you are not suffering from the Withering, you gain a bonus to your health.",
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_any_effect": [ "effect_dhampir_enervated_blood", "withering" ] } },
+        "ench_effects": [ { "effect": "effect_vampire_health_bonus", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE_SILENT_MOVE",
     "points": 1,
     "starting_trait": false,
@@ -730,6 +737,39 @@
   },
   {
     "type": "mutation",
+    "id": "VAMPIRE_SENSE_CHILDREN_OF_THE_NIGHT",
+    "points": 2,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Sense the Children of the Night" },
+    "description": "You can sense the presence of nearby predatory night creatures.",
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You open your senses to the children of the night.",
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "condition": { "npc_has_species": "NIGHT_CREATURE" },
+            "distance": { "math": [ "u_val('perception') * 3" ] },
+            "ignores_aiming_cone": true,
+            "descriptions": [
+              {
+                "id": "night_creature_sense",
+                "text": "You sense one of the creatures of the night.",
+                "symbol": "N",
+                "color": "white"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE2",
     "name": { "str": "Walking the shadowed path of blood" },
     "points": 0,
@@ -738,18 +778,8 @@
     "purifiable": false,
     "types": [ "TEETH" ],
     "valid": false,
-    "vitamin_rates": [ [ "human_blood_vitamin", 720 ] ],
+    "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ], [ "mutagenic_slurry", 1 ] ],
     "flags": [ "CANNIBAL", "ALBINO", "HEMOVORE" ],
-    "attacks": [
-      {
-        "attack_text_u": "You sink your fangs into %s!",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
-        "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
-        "body_part": "mouth",
-        "chance": 20,
-        "base_damage": { "damage_type": "stab", "amount": 20 }
-      }
-    ],
     "spells_learned": [ [ "vampire_drink_blood_with_fangs_spell", 1 ] ]
   },
   {
@@ -763,6 +793,7 @@
     "description": "Your body prepares to prevent the loss of any blood to combat damage.\n\n<color_light_red>Initial Blood Cost:</color> 500 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 250 ml",
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "You hold tightly to your blood, preventing it from leaving your body.",
     "activated_eocs": [ "EOC_COAGULANTWEAVE_activated" ],
     "deactivated_eocs": [ "EOC_COAGULANTWEAVE_deactivated" ]
   },
@@ -788,6 +819,7 @@
     "description": "You can move faster than the eye can see, avoiding the claws and teeth and weapons of your enemies.\n\n<color_light_red>Initial Blood Cost:</color> 250 (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 125 ml",
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "You begin dodging with preternatural agility.",
     "activated_eocs": [ "EOC_VAMPIRIC_DODGE_activated" ],
     "deactivated_eocs": [ "EOC_VAMPIRIC_DODGE_deactivate" ],
     "enchantments": [
@@ -803,6 +835,21 @@
         "values": [ { "value": "DEXTERITY", "add": { "math": [ "1 + u_has_trait('VAMPIRE4') + (u_has_trait('BLOOD_DRINKER') * 2)" ] } } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRIC_STEALTH_BONUS",
+    "points": 4,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Cloak of Shadows" },
+    "description": "When indoors or at night, you can cloud the minds of nearby enemies, making it harder for them to spot you.  This does not make you invisible.\n\n<color_light_red>Initial Blood Cost:</color> 100 (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 50 ml",
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You fade slightly into the shadows.",
+    "activated_eocs": [ "EOC_VAMPIRIC_STEALTH_BONUS_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRIC_STEALTH_BONUS_deactivate" ]
   },
   {
     "type": "mutation",
@@ -852,6 +899,7 @@
     "description": "You can twist your fingernails into sharp claws, allowing you to inflict extra damage in unarmed combat.\n\n<color_light_red>Initial Blood Cost:</color> 125 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 62 ml",
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "Your fingers twist into sharp claws.",
     "activated_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_activated" ],
     "deactivated_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_deactivate" ]
   },
@@ -904,7 +952,7 @@
     "purifiable": false,
     "valid": false,
     "vitamins_absorb_multi": [ [ "all", [ [ "human_blood_vitamin", 1.25 ] ] ] ],
-    "vitamin_rates": [ [ "human_blood_vitamin", 720 ] ],
+    "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ] ],
     "flags": [ "CANNIBAL", "ALBINO", "DAYFEAR", "HEMOVORE" ],
     "enchantments": [
       { "condition": { "not": "is_day" }, "values": [ { "value": "OVERMAP_SIGHT", "add": 1 } ] },
@@ -933,6 +981,7 @@
     "description": "Your body exceeds normal human reaction limits as blood turns to ash in your veins.\n\n<color_light_red>Initial Blood Cost:</color> 750 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 375 ml",
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "Warmth floods your limbs as you move with inhuman speed.",
     "activated_eocs": [ "EOC_BLOODHASTE_activated" ],
     "deactivated_eocs": [ "EOC_BLOODHASTE_deactivated" ]
   },
@@ -968,6 +1017,61 @@
     "name": { "str": "Earthen Slumber" },
     "description": "You can sleep within the earth itself, avoiding the hateful light of the sun.",
     "spells_learned": [ [ "vampire_earth_slumber_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_CARDIO_BONUS",
+    "name": { "str": "Incarnadine Energy" },
+    "points": 0,
+    "description": "The stolen blood within your body provides you with a fountain of energy.  You gain a bonus to your Cardio rating.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "CARDIO_MULTIPLIER",
+            "multiply": { "math": [ "0.25 + (u_has_trait('VAMPIRE4') * 0.25)  + (u_has_trait('BLOOD_DRINKER') * 0.25)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_MOTION_ALARM",
+    "name": { "str": "Wakeful Slumber" },
+    "points": 0,
+    "description": "Your senses are so fine they can alert you to danger even while you slumber.  Activate to cause yourself to wake up if danger approaches while you sleep.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "MOTION_ALARM", "add": 5 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_BONUS_HP",
+    "name": { "str": "Fortitude of the Damned" },
+    "points": 0,
+    "description": "Your flesh is more resilient and you can suffer much more damage than a mortal before expiring.  Your hit points are increased.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": { "u_has_trait": "VAMPIRE" },
+        "values": [
+          {
+            "value": "MAX_HP",
+            "multiply": { "math": [ "0.2 + (u_has_trait('VAMPIRE4') * 0.25)  + (u_has_trait('BLOOD_DRINKER') * 0.25)" ] }
+          }
+        ]
+      },
+      { "condition": { "u_has_trait": "DHAMPIR_TRAIT" }, "values": [ { "value": "MAX_HP", "multiply": 0.15 } ] }
+    ]
   },
   {
     "type": "mutation",
@@ -1573,7 +1677,7 @@
             "distance": { "math": [ "u_val('perception') * 3" ] },
             "precise": true,
             "ignores_aiming_cone": true,
-            "descriptions": [ { "id": "vampire", "text": "You detect a vampire here.", "symbol": "V", "color": "red" } ]
+            "descriptions": [ { "id": "vampire_sense", "text": "You detect a vampire here.", "symbol": "V", "color": "red" } ]
           }
         ]
       }
@@ -1884,7 +1988,8 @@
     "description": "The arvore can sense the stolen power within you and they will not react well to it.",
     "purifiable": false,
     "valid": false,
-    "anger_relations": [ [ "ARVORE", 100 ] ]
+    "anger_relations": [ [ "ARVORE", 100 ] ],
+    "category": [ "ARVORE_ALCHEMY" ]
   },
   {
     "type": "mutation",

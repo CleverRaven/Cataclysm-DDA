@@ -216,6 +216,7 @@
     "diff": 2,
     "hp": 160,
     "speed": 115,
+    "move_skills": { "climb": 7 },
     "color": "dark_gray_red",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "melee_skill": 8,
@@ -242,7 +243,7 @@
     ],
     "upgrades": false,
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 1 },
-    "extend": { "flags": [ "SMELLS", "CLIMBS", "NIGHT_INVISIBILITY" ] }
+    "extend": { "flags": [ "SMELLS", "NIGHT_INVISIBILITY" ] }
   },
   {
     "id": "mon_zombie_ears",
@@ -454,7 +455,7 @@
       }
     ],
     "upgrades": { "half_life": 168, "into": "mon_zombie_predator" },
-    "extend": { "flags": [ "SMELLS", "CLIMBS" ] }
+    "extend": { "move_skills": { "climb": 8 }, "flags": [ "SMELLS" ] }
   },
   {
     "id": "mon_zombie_mancroc",
@@ -465,6 +466,7 @@
     "species": [ "ZOMBIE" ],
     "hp": 120,
     "speed": 100,
+    "move_skills": { "swim": 8 },
     "color": "light_green_cyan",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "melee_dice": 3,
@@ -496,7 +498,7 @@
     "burn_into": "mon_zombie_scorched",
     "upgrades": false,
     "armor": { "bash": 8, "cut": 10, "bullet": 8, "electric": 1 },
-    "extend": { "flags": [ "SMELLS", "SWIMS", "WATER_CAMOUFLAGE" ] }
+    "extend": { "flags": [ "SMELLS", "WATER_CAMOUFLAGE" ] }
   },
   {
     "id": "mon_zombie_master",
@@ -618,7 +620,7 @@
     "regenerates": 12,
     "color": "red_cyan",
     "upgrades": { "half_life": 140, "into": "mon_zombie_regenerating_final" },
-    "extend": { "flags": [ "SMELLS", "CLIMBS", "REVIVES_HEALTHY", "NO_NECRO" ] }
+    "extend": { "move_skills": { "climb": 4 }, "flags": [ "SMELLS", "REVIVES_HEALTHY", "NO_NECRO" ] }
   },
   {
     "id": "mon_zombie_regenerating_final",
@@ -872,6 +874,7 @@
     "copy-from": "mon_zombie_base",
     "hp": 70,
     "speed": 95,
+    "move_skills": { "swim": 10 },
     "color": "light_blue",
     "melee_skill": 3,
     "melee_dice_sides": 6,
@@ -880,7 +883,7 @@
     "//grab": "Tier 2 mob, but webbed hands don't sound very grabby",
     "death_drops": "mon_zombie_swimmer_death_drops",
     "upgrades": { "half_life": 168, "into": "mon_zombie_mancroc" },
-    "extend": { "flags": [ "SWIMS", "WATER_CAMOUFLAGE" ] }
+    "extend": { "flags": [ "WATER_CAMOUFLAGE" ] }
   },
   {
     "id": "mon_zombie_technician",

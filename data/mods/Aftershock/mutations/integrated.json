@@ -1,7 +1,8 @@
 [
   {
     "id": "integrated_mastodon_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "wooly fur" },
     "description": "A course thick matt of fur, somewhere between a ballistic vest and attic insulation.",
@@ -11,7 +12,7 @@
     "price_postapoc": "0 cent",
     "material": [ "mut_fur" ],
     "symbol": "x",
-    "color": "black",
+    "color": "dark_gray",
     "warmth": 90,
     "environmental_protection": 2,
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY", "SOFT" ],
@@ -38,7 +39,8 @@
   },
   {
     "id": "integrated_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "sparse scales" },
     "description": "Your dermis has toughened and thickened to provide additional protection.",
@@ -64,7 +66,8 @@
   },
   {
     "id": "integrated_rhomboidal_denticles",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "thick scales" },
     "description": "Leathery and heavily armored, your lamellar skin has toughened for the fiercest battles ahead.",

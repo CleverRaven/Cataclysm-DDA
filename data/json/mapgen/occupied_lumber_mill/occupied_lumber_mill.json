@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lumbermill_0_0_ocu", "lumbermill_1_0_ocu" ], [ "lumbermill_0_1_ocu", "lumbermill_1_1_ocu" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -106,7 +105,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "ocu_lumbermill_opens_a_gate",
-    "method": "json",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "set": [ { "square": "terrain", "id": "t_thconc_floor", "x": 10, "y": 23, "x2": 13, "y2": 23 } ]
@@ -114,7 +112,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lumbermill_0_0_roof", "lumbermill_1_0_roof" ], [ "lumbermill_0_1_roof", "lumbermill_1_1_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",

@@ -106,12 +106,10 @@ the `"blueprint_provides"` of the previous upgrade missions.
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_field_camp_7",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "basecamp_large_tent_east" ], "x": 2, "y": 10 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "basecamp_large_tent_east",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -152,7 +150,6 @@ For example, suppose this was your mapgen definition:
 ```jsonc
 {
   "type": "mapgen",
-  "method": "json",
   "nested_mapgen_id": "fbmh_2_generic_room_1_1",
   "object": {
     "parameters": {

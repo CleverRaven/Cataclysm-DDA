@@ -3008,6 +3008,7 @@ static void CheckMessages()
     std::optional<point> resize_dims;
     bool render_target_reset = false;
     int numfingers;
+    using cata::options::mouse;
 
     while( SDL_PollEvent( &ev ) ) {
         imclient->process_input( &ev );
@@ -3297,6 +3298,9 @@ static void CheckMessages()
                 gamepad::handle_scheduler_event( ev );
                 break;
             case SDL_MOUSEMOTION:
+                if( ! mouse.enabled ) {
+                    break;
+                }
                 if( get_option<std::string>( "HIDE_CURSOR" ) == "show" ||
                     get_option<std::string>( "HIDE_CURSOR" ) == "hidekb" ) {
                     if( !SDL_ShowCursor( -1 ) ) {
@@ -3309,6 +3313,9 @@ static void CheckMessages()
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
+                if( ! mouse.enabled ) {
+                    break;
+                }
                 switch( ev.button.button ) {
                     case SDL_BUTTON_LEFT:
                         last_input = input_event( MouseInput::LeftButtonPressed, input_event_t::mouse );
@@ -3326,6 +3333,9 @@ static void CheckMessages()
                 break;
 
             case SDL_MOUSEBUTTONUP:
+                if( ! mouse.enabled ) {
+                    break;
+                }
                 switch( ev.button.button ) {
                     case SDL_BUTTON_LEFT:
                         last_input = input_event( MouseInput::LeftButtonReleased, input_event_t::mouse );
@@ -3343,6 +3353,9 @@ static void CheckMessages()
                 break;
 
             case SDL_MOUSEWHEEL:
+                if( ! mouse.enabled ) {
+                    break;
+                }
                 if( ev.wheel.y > 0 ) {
                     last_input = input_event( MouseInput::ScrollWheelUp, input_event_t::mouse );
                 } else if( ev.wheel.y < 0 ) {
@@ -3798,7 +3811,12 @@ void catacurses::init_interface()
     init_term_size_and_scaling_factor();
 
     WinCreate();
-
+    using cata::options::mouse;
+    if( mouse.enabled ) {
+        ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+    } else {
+        ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
+    }
     dbg( D_INFO ) << "Initializing SDL Tiles context";
     fartilecontext = std::make_shared<cata_tiles>( renderer, geometry, ts_cache );
     if( use_far_tiles ) {

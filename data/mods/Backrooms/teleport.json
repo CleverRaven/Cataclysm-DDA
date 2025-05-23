@@ -13,7 +13,8 @@
   },
   {
     "id": "waystone",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "Waystone",
     "description": "This large chunk of stone, cut from a paired waycircle, has been enchanted with primitive, ritual power to link it to a network of empowered ley lines.  As a result, it is capable of sending the user to any linked waycircle, or to any similar teleport location, be it magical or technological, after performing a brief somatic ritual.  The stone is many, many times heavier than it seems to have any right to be, as if pulled powerfully to the Earth by unseen forces.  Further, though it is only somewhat bulky, it seems to defy proper transport, its own dimensions defying any container or reasonable transport.  Best to craft this where you intend to leave it.  Requires a nearby waycircle to craft.",
     "weight": "2000000 g",

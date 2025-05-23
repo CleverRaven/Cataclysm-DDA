@@ -1641,6 +1641,8 @@ void avatar::store( JsonOut &json ) const
     json.member( "preferred_aiming_mode", preferred_aiming_mode );
 
     json.member( "power_prev_turn", power_prev_turn );
+    json.member( "may_activity_occupancy_after_end_items_loc",
+                 may_activity_occupancy_after_end_items_loc );
 }
 
 void avatar::deserialize( const JsonObject &data )
@@ -1777,6 +1779,8 @@ void avatar::load( const JsonObject &data )
     }
 
     data.read( "snippets_read", snippets_read );
+    data.read( "may_activity_occupancy_after_end_items_loc",
+               may_activity_occupancy_after_end_items_loc );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2257,6 +2261,8 @@ void npc::load( const JsonObject &data )
     data.read( "unique_id", unique_id );
     clear_personality_traits();
     generate_personality_traits();
+    data.read( "may_activity_occupancy_after_end_items_loc",
+               may_activity_occupancy_after_end_items_loc );
 }
 
 /*
@@ -2328,6 +2334,8 @@ void npc::store( JsonOut &json ) const
 
     json.member( "complaints", complaints );
     json.member( "unique_id", unique_id );
+    json.member( "may_activity_occupancy_after_end_items_loc",
+                 may_activity_occupancy_after_end_items_loc );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

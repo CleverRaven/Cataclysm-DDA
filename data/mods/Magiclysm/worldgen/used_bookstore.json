@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "used_bookstore",
     "object": {
       "rows": [
@@ -72,7 +71,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "used_bookstore_roof",
     "object": {
       "fill_ter": "t_flat_roof",

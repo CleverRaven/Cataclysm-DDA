@@ -1,7 +1,7 @@
 [
   {
     "id": "xe_art_clock",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "intricate and opulent clock" },
     "description": "An incredibly intricate clock where every visible surface appears to be gilded or chrome.\nIt may have unknown powers; try activating them.",
     "symbol": "O",
@@ -12,7 +12,7 @@
   },
   {
     "id": "xe_art_rod",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "crystalline rod" },
     "description": "This crystal rod changes hue at random.\nIt may have unknown powers; try activating them.",
     "symbol": "|",
@@ -24,7 +24,7 @@
   },
   {
     "id": "xe_art_monitor",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "baroque monitor" },
     "description": "A strange monitor with a variety of knobs and dials.  When you turn it on, it crackles and then begins tracking things that either aren't there or aren't visible to the naked eye.\nIt may have unknown powers; try activating them.",
     "symbol": "O",
@@ -33,7 +33,7 @@
   },
   {
     "id": "xe_art_mess",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "a mess of tubes and wires", "str_pl": "several messes of tubes and wires" },
     "description": "What is it for?  What could it do?\nIt may have unknown powers; try activating them.",
     "symbol": "[",
@@ -42,7 +42,7 @@
   },
   {
     "id": "xe_art_sculpture",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "abstract sculpture" },
     "description": "It's a sculpture, but you can't identify what it depicts.\nIt may have unknown powers; try activating them.",
     "symbol": "S",
@@ -54,7 +54,7 @@
   },
   {
     "id": "xe_art_disc",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "humming disc" },
     "description": "It hums louder when you touch it.\nIt may have unknown powers; try activating them.",
     "symbol": "O",
@@ -65,7 +65,7 @@
   },
   {
     "id": "xe_art_instrument",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "an instrument", "str_pl": "instruments" },
     "description": "This looks like a musical instrument.  But how would you play it?\nIt may have unknown powers; try activating them.",
     "symbol": "O",
@@ -74,7 +74,7 @@
   },
   {
     "id": "xe_art_napkin",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "very thin sheet" },
     "description": "A sheet so light and thin that viewing it horizontally makes it almost invisible.\nIt may have unknown powers; try activating them.",
     "symbol": "[",
@@ -84,7 +84,7 @@
   },
   {
     "id": "xe_art_urchin",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "spiked sphere" },
     "description": "A prickly ball that, no matter the force you apply, somehow never feels as if it could cut.\nIt may have unknown powers; try activating them.",
     "symbol": "O",
@@ -94,7 +94,7 @@
   },
   {
     "id": "xe_art_jelly",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "malleable blob" },
     "description": "Despite its looseness, this mass of goo keeps its shape as you fold it in your hands.\nIt may have unknown powers; try activating them.",
     "symbol": "O",
@@ -104,7 +104,7 @@
   },
   {
     "id": "xe_art_spiral",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "spiraling rod" },
     "description": "A rod with a bulbous, spiralling knob on the end that seems to spin as you look.\nIt may have unknown powers; try activating them.",
     "symbol": "@",
@@ -116,7 +116,7 @@
   },
   {
     "id": "xe_art_pin",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "small pin" },
     "description": "One of those pins you wear on your shirt, but this one has indecipherable symbols in place of a witty slogan.\nIt may have unknown powers; try activating them.",
     "symbol": "|",
@@ -128,7 +128,7 @@
   },
   {
     "id": "xe_art_tube",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "hollow tube" },
     "description": "A tube of unknown material.  A strange noise from nowhere can be heard when you place it next to your ear, as if something's inside.\nIt may have unknown powers; try activating them.",
     "symbol": "|",
@@ -139,7 +139,7 @@
   },
   {
     "id": "xe_art_pyramid",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "regular tetrahedron" },
     "description": "A triangular pyramid, inconspicuous in every way.\nIt may have unknown powers; try activating them.",
     "symbol": "A",
@@ -150,7 +150,7 @@
   },
   {
     "id": "xe_art_crystal",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "translucent crystal" },
     "description": "A beautiful crystal, which seems to suck in detail rather than merely obscuring it as light passes through.\nIt may have unknown powers; try activating them.",
     "symbol": "A",
@@ -161,7 +161,7 @@
   },
   {
     "id": "xe_art_knot",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "twisted, knotted cord" },
     "description": "A bit of spiralling rope, disorienting you as your eyes vainly try to complete following the loop.\nIt may have unknown powers; try activating them.",
     "symbol": "b",
@@ -171,7 +171,7 @@
   },
   {
     "id": "xe_art_crescent",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "crescent-shaped stone" },
     "description": "The sound of the tide can be heard from this stone, as if it were a miniature moon moving the oceans.\nIt may have unknown powers; try activating them.",
     "symbol": "C",

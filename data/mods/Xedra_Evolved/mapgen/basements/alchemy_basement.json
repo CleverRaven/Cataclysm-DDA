@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_sewing_open",
     "weight": 250,
     "//": "Alchemical basement",
@@ -47,7 +46,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_electronics_open",
     "weight": 250,
     "//": "Alchemical basement",

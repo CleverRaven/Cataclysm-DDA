@@ -1,7 +1,8 @@
 [
   {
     "id": "545",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.45x39mm FMJ" },
     "description": "Domestically produced 5.45x39mm ammunition with a 56gr FMJ bullet.  The 5.45x39mm round was introduced along with the AK-74 in 1974.  It has superior wounding potential to the older 7.62x39mm round and quickly replaced it in Soviet military use.",
     "ascii_picture": "545",
@@ -69,7 +70,8 @@
   {
     "id": "545_ap",
     "copy-from": "545",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.45x39mm 7N6" },
     "description": "5.45x39mm ammunition with a 57gr bullet containing a mild steel penetrator, which penetrates armor marginally better than lead core projectiles.  Developed in 1974 by the Russian military, and banned from import into the US in 2014.",
     "ascii_picture": "545_ap",
@@ -83,7 +85,8 @@
   {
     "id": "reloaded_545",
     "copy-from": "545",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.45x39mm, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -92,7 +95,8 @@
   {
     "id": "reloaded_545_ap",
     "copy-from": "545_ap",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.45x39mm AP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -101,7 +105,8 @@
   {
     "id": "bp_545",
     "copy-from": "545",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.45x39mm, black powder" },
     "proportional": {
       "price": 0.3,
@@ -115,7 +120,8 @@
   {
     "id": "bp_545_ap",
     "copy-from": "545_ap",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.45x39mm AP, black powder" },
     "proportional": {
       "price": 0.3,

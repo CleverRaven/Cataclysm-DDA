@@ -797,8 +797,8 @@
     "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_redsmithing" },
-      { "proficiency": "prof_articulation" }
+      { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_articulation", "required": true }
     ],
     "components": [ [ [ "scrap_bronze", 10 ] ] ]
   },

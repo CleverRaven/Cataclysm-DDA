@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mortuary_2story" ],
     "object": {
       "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
@@ -62,7 +61,7 @@
         "L": "f_locker",
         "O": "f_coffin_o",
         "P": [ "f_indoor_plant_y", "f_indoor_plant" ],
-        "T": "f_table",
+        "T": "f_metal_table",
         "a": "f_dahlia",
         "c": "f_sofa",
         "d": "f_rack",
@@ -91,7 +90,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mortuary_basement" ],
     "object": {
       "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
@@ -188,7 +186,7 @@
         "i": [ { "item": "SUS_trash_floor", "chance": 60 } ],
         "F": [ { "item": "chem_home", "chance": 50 }, { "item": "supplies_reagents_lab", "chance": 20 } ],
         "T": [ { "item": "chem_home", "chance": 30 }, { "item": "electronics", "chance": 50 } ],
-        "f": [ { "item": "file_room", "chance": 70, "repeat": [ 1, 5 ] } ],
+        "f": [ { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 3 ] } ],
         "G": [ { "item": "SUS_office_desk", "chance": 30 } ],
         "H": [ { "item": "magazines", "chance": 40, "repeat": [ 1, 2 ] }, { "item": "lab_bookshelves", "chance": 20 } ]
       },
@@ -197,7 +195,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mortuary_2story_second" ],
     "object": {
       "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
@@ -278,7 +275,7 @@
         "r": "f_rack",
         "s": "f_stool",
         "S": "f_sink",
-        "t": "f_table",
+        "t": "f_metal_table",
         "U": "f_utility_shelf",
         "v": "f_ventilator",
         "Z": "f_bed"
@@ -299,7 +296,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mortuary_2story_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -348,13 +344,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "whately_cousin_update",
     "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "whately_cousin", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "whately_bioturret_update",
     "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "monster": "mon_migoturret_whately", "x": 0, "y": 0 } ] }
   }
