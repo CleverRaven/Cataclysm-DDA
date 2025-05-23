@@ -2,15 +2,33 @@
   {
     "type": "mapgen",
     "om_terrain": [ "afs_aeolian_plain" ],
-    "weight": 2000,
+    "weight": 3,
     "object": { "predecessor_mapgen": "field" }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_aeolian_plain" ],
-    "weight": 500,
+    "om_terrain": "afs_aeolian_plain",
+    "weight": 1,
     "object": {
       "predecessor_mapgen": "field",
+      "place_nested": [ { "chunks": [ "aeolian_base_tile" ], "x": 0, "y": 0 } ],
+      "place_monsters": [
+        { "monster": "AFS_GROUP_FAUNA_HERBIVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 2, "density": 0.1 },
+        {
+          "monster": "AFS_GROUP_FAUNA_PREDATORS_LOW_RISK",
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "chance": 1,
+          "density": 0.1
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "aeolian_base_tile",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
         "                        ",
@@ -51,25 +69,14 @@
             [ "rocks_8", 20 ]
           ]
         }
-      },
-      "place_monsters": [
-        { "monster": "AFS_GROUP_FAUNA_HERBIVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 },
-        {
-          "monster": "AFS_GROUP_FAUNA_PREDATORS_LOW_RISK",
-          "x": [ 0, 23 ],
-          "y": [ 0, 23 ],
-          "chance": 2,
-          "density": 0.1
-        }
-      ]
+      }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_aeolian_plain" ],
-    "weight": 500,
+    "nested_mapgen_id": "aeolian_base_tile",
     "object": {
-      "predecessor_mapgen": "field",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "1                       ",
         "                        ",
@@ -97,27 +104,16 @@
         "                        "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "nested": { "1": { "chunks": [ [ "aeolian_oasis", 20 ] ] } },
-      "place_monsters": [
-        { "monster": "AFS_GROUP_FAUNA_HERBIVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 },
-        {
-          "monster": "AFS_GROUP_FAUNA_PREDATORS_LOW_RISK",
-          "x": [ 0, 23 ],
-          "y": [ 0, 23 ],
-          "chance": 2,
-          "density": 0.1
-        }
-      ]
+      "nested": { "1": { "chunks": [ [ "aeolian_oasis", 20 ] ] } }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_aeolian_plain" ],
-    "weight": 500,
+    "nested_mapgen_id": "aeolian_base_tile",
     "object": {
-      "predecessor_mapgen": "field",
+      "mapgensize": [ 24, 24 ],
       "rows": [
-        "           1            ",
+        "                        ",
         "                        ",
         "                        ",
         "                        ",
@@ -155,25 +151,14 @@
             [ "rocks_7", 20 ]
           ]
         }
-      },
-      "place_monsters": [
-        { "monster": "AFS_GROUP_FAUNA_HERBIVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 },
-        {
-          "monster": "AFS_GROUP_FAUNA_PREDATORS_LOW_RISK",
-          "x": [ 0, 23 ],
-          "y": [ 0, 23 ],
-          "chance": 2,
-          "density": 0.1
-        }
-      ]
+      }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_aeolian_plain" ],
-    "weight": 500,
+    "nested_mapgen_id": "aeolian_base_tile",
     "object": {
-      "predecessor_mapgen": "field",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "1                       ",
         " 2                      ",
@@ -226,17 +211,7 @@
             [ "null", 95 ]
           ]
         }
-      },
-      "place_monsters": [
-        { "monster": "AFS_GROUP_FAUNA_HERBIVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 },
-        {
-          "monster": "AFS_GROUP_FAUNA_PREDATORS_LOW_RISK",
-          "x": [ 0, 23 ],
-          "y": [ 0, 23 ],
-          "chance": 2,
-          "density": 0.1
-        }
-      ]
+      }
     }
   }
 ]

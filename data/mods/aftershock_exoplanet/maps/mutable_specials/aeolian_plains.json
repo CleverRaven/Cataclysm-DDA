@@ -17,6 +17,13 @@
         "south": "plain_to_plain",
         "west": "plain_to_plain"
       },
+      "aeolian_plain_ruin": {
+        "overmap": "afs_formless_ruins_aeolian_north",
+        "north": "plain_to_plain",
+        "east": "plain_to_plain",
+        "south": "plain_to_plain",
+        "west": "plain_to_plain"
+      },
       "aeolian_plain_end": { "overmap": "afs_aeolian_plain", "north": "plain_to_plain" },
       "aeolian_plain_fill": {
         "overmap": "afs_aeolian_plain",
@@ -31,6 +38,7 @@
       [
         { "overmap": "aeolian_plain_core", "weight": 250 },
         { "overmap": "aeolian_plain_end", "weight": 100 },
+        { "overmap": "aeolian_plain_ruin", "weight": 5 },
         { "overmap": "aeolian_plain_fill", "weight": 1 }
       ]
     ]

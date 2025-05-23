@@ -11,6 +11,11 @@
   },
   {
     "type": "overmap_location",
+    "id": "aeolian_plain",
+    "terrains": [ "afs_aeolian_plain" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "subterranean_empty",
     "terrains": [ "deep_rock", "solid_glacier", "empty_rock", "solid_earth" ]
   }

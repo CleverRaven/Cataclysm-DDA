@@ -128,6 +128,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "afs_formless_ruins_aeolian" ],
+    "name": "lonely ruins",
+    "sym": "r",
+    "color": "light_gray",
+    "looks_like": "afs_formless_ruins_dynamic",
+    "see_cost": "spaced_high"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "afs_augmentation_clinic_n1",
       "afs_augmentation_clinic_n2",
