@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "road",
+    "id": "ruin_road",
     "name": "road",
     "copy-from": "generic_transportation",
     "travel_cost_type": "road",

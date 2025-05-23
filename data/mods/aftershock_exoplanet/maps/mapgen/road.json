@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "road_straight" ],
+    "om_terrain": [ "ruin_road_straight" ],
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -37,7 +37,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "road_end" ],
+    "om_terrain": [ "ruin_road_end" ],
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -73,7 +73,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "road_curved" ],
+    "om_terrain": [ "ruin_road_curved" ],
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -109,7 +109,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "road_tee" ],
+    "om_terrain": [ "ruin_road_tee" ],
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -196,7 +196,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "road_four_way" ],
+    "om_terrain": [ "ruin_road_four_way" ],
     "weight": 100000,
     "object": {
       "predecessor_mapgen": "field",

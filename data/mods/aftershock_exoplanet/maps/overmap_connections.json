@@ -8,11 +8,12 @@
     "type": "overmap_connection",
     "id": "local_road",
     "subtypes": [
-      { "terrain": "road", "locations": [ "field", "road" ] },
-      { "terrain": "road", "locations": [ "forest_without_trail" ], "basic_cost": 20 },
-      { "terrain": "road", "locations": [ "forest_trail" ], "basic_cost": 25 },
-      { "terrain": "road", "locations": [ "swamp" ], "basic_cost": 40 },
-      { "terrain": "road", "locations": [  ] },
+      { "terrain": "ruin_road", "locations": [ "field", "road" ] },
+      { "terrain": "ruin_road", "locations": [ "forest_without_trail" ], "basic_cost": 20 },
+      { "terrain": "ruin_road", "locations": [ "forest_trail" ], "basic_cost": 25 },
+      { "terrain": "ruin_road", "locations": [ "swamp" ], "basic_cost": 40 },
+      { "terrain": "ruin_road", "locations": [ "aeolian_plain" ], "basic_cost": 40 },
+      { "terrain": "ruin_road", "locations": [  ] },
       { "terrain": "bridge", "locations": [ "ravine" ], "basic_cost": 120 }
     ]
   }
