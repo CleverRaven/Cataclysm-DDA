@@ -72,13 +72,13 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_moroi" ],
-    "sound": "\"I need blood! Blood! BLOOD!\"",
+    "sound": "\"I need blood!  Blood!  BLOOD!\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_vampire_moroi" ],
-    "sound": "\"Rip! Tear! Flesh!\"",
+    "sound": "\"Rip!  Tear!  Flesh!\"",
     "volume": 32
   },
   {
@@ -96,7 +96,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_moroi" ],
-    "sound": "\"Fresh blood! Life! Death! Life! Death!\"",
+    "sound": "\"Fresh blood!  Life!  Death!  Life!  Death!\"",
     "volume": 32
   },
   {
@@ -116,7 +116,7 @@
     "type": "speech",
     "//": "I will drink the blood you bleed in death.",
     "speaker": [ "mon_vampire_strigoi" ],
-    "sound": "\"Ic willan āþeġde úre cwealmdréor! \"",
+    "sound": "\"Ic willan āþeġde úre cwealmdréor!\"",
     "volume": 32
   },
   {
