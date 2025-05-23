@@ -46,7 +46,20 @@
     "skill_used": "metaphysics",
     "tools": [ [ [ "fire", -1 ] ] ],
     "flags": [ "SECRET", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
-    "result_eocs": [ "EOC_CENTERING_MEDITATION" ]
+    "result_eocs": [
+      {
+        "id": "EOC_INCANDESCENT_MEDITATION",
+        "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') >= 10" ] },
+        "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "-=", "10" ] } ],
+        "false_effect": [
+          {
+            "u_message": "After your meditations, your mind is free and clear.  The odd feelings caused by excessive psionic channeling have entirely left you.",
+            "type": "good"
+          },
+          { "math": [ "u_vitamin('vitamin_psionic_drain') = 0" ] }
+        ]
+      }
+    ]
   },
   {
     "type": "recipe",
