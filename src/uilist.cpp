@@ -35,7 +35,7 @@
 #include "options.h"
 #endif
 
-#if defined(TILES) && !defined(__ANDROID__)
+#if defined(TILES) && !defined(__ANDROID__) && !defined(__IPHONEOS__)
 #include <SDL2/SDL_mouse.h>
 #endif
 
