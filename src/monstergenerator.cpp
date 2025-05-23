@@ -1090,6 +1090,28 @@ void mtype::load( const JsonObject &jo, const std::string &src )
                                          "death_drops for mtype " + id.str() );
     }
 
+    if( jo.has_member( "parrot" ) ) {
+        JsonObject jobj = jo.get_member( "parrot" );
+        if( jobj.has_array( "sounds" ) ) {
+            sounds.clear();
+            for( const JsonObject soundobj : jobj.get_array( "sounds" ) ) {
+                monster_sound sound;
+                std::string active_when;
+                mandatory( soundobj, false, "volume", sound.volume );
+                mandatory( soundobj, false, "sound", sound.text );
+                optional( soundobj, false, "active_when", active_when );
+                sound.type = io::string_to_enum<sounds::sound_t>( soundobj.get_string( "type", "speech" ) );
+                if( !sounds.add( sound, soundobj.get_string( "weight" ), active_when ) ) {
+                    soundobj.throw_error_at( "active_when",
+                                             "Invalid trigger for sound, possible values are \"DANGER\" and \"NO_DANGER\"" );
+                }
+            }
+        }
+        //BEFOREMERGE: Potentially change field name depending on how it ends up functioning
+        mandatory( jobj, was_loaded, "frequency", sounds.fixed_cooldown );
+        mandatory( jobj, was_loaded, "volume", sounds.default_volume );
+    }
+
     assign( jo, "harvest", harvest );
 
     optional( jo, was_loaded, "dissect", dissect );
