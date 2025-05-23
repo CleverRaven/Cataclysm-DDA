@@ -69,7 +69,6 @@
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
-#include "speech.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
@@ -2665,29 +2664,30 @@ bool mattack::check_money_left( monster *z )
                          z->get_name() );
             }
 
-            const SpeechBubble &speech_no_time = get_speech( "mon_grocerybot_friendship_done" );
-            sounds::sound( z->pos_bub(), speech_no_time.volume,
-                           sounds::sound_t::electronic_speech, speech_no_time.text );
+            //const SpeechBubble &speech_no_time = get_speech( "mon_grocerybot_friendship_done" );
+            //sounds::sound( z->pos_bub(), speech_no_time.volume,
+            //               sounds::sound_t::electronic_speech, speech_no_time.text );
             z->remove_effect( effect_paid );
             return true;
         }
-    } else {
-        const time_duration time_left = z->get_effect_dur( effect_pet );
-        if( time_left < 1_minutes ) {
-            if( calendar::once_every( 20_seconds ) ) {
-                const SpeechBubble &speech_time_low = get_speech( "mon_grocerybot_running_out_of_friendship" );
-                sounds::sound( z->pos_bub(), speech_time_low.volume,
-                               sounds::sound_t::electronic_speech, speech_time_low.text );
-            }
-        }
     }
-    if( z->friendly == -1 && !z->has_effect( effect_paid ) ) {
-        if( calendar::once_every( 3_hours ) ) {
-            const SpeechBubble &speech_override_start = get_speech( "mon_grocerybot_hacked" );
-            sounds::sound( z->pos_bub(), speech_override_start.volume,
-                           sounds::sound_t::electronic_speech, speech_override_start.text );
-        }
-    }
+    // else {
+    //    const time_duration time_left = z->get_effect_dur( effect_pet );
+    //    if( time_left < 1_minutes ) {
+    //        if( calendar::once_every( 20_seconds ) ) {
+    //            const SpeechBubble &speech_time_low = get_speech( "mon_grocerybot_running_out_of_friendship" );
+    //            sounds::sound( z->pos_bub(), speech_time_low.volume,
+    //                           sounds::sound_t::electronic_speech, speech_time_low.text );
+    //        }
+    //    }
+    //}
+    //if( z->friendly == -1 && !z->has_effect( effect_paid ) ) {
+    //    if( calendar::once_every( 3_hours ) ) {
+    //        const SpeechBubble &speech_override_start = get_speech( "mon_grocerybot_hacked" );
+    //        sounds::sound( z->pos_bub(), speech_override_start.volume,
+    //                       sounds::sound_t::electronic_speech, speech_override_start.text );
+    //    }
+    //}
     return false;
 }
 bool mattack::photograph( monster *z )
@@ -2798,8 +2798,8 @@ bool mattack::photograph( monster *z )
                                          weapon->is_gun() ? _( "gun" ) : _( "weapon" ) );
         sounds::sound( z->pos_bub(), 15, sounds::sound_t::alert, msg );
     }
-    const SpeechBubble &speech = get_speech( z->type->id.str() );
-    sounds::sound( z->pos_bub(), speech.volume, sounds::sound_t::alert, speech.text.translated() );
+    //const SpeechBubble &speech = get_speech( z->type->id.str() );
+    //sounds::sound( z->pos_bub(), speech.volume, sounds::sound_t::alert, speech.text.translated() );
 
     const effect &depleted = z->get_effect( effect_eyebot_depleted );
     const effect &assisted = z->get_effect( effect_eyebot_assisted );
@@ -3504,60 +3504,6 @@ bool mattack::blow_whistle( monster *z )
                    "whistle" );
 
     return true;
-}
-
-static void parrot_common( monster *parrot )
-{
-    // It takes a while
-    parrot->mod_moves( -to_moves<int>( 1_seconds ) );
-    const SpeechBubble &speech = get_speech( parrot->type->id.str() );
-    sounds::sound( parrot->pos_bub(), speech.volume, sounds::sound_t::speech, speech.text.translated(),
-                   false, "speech", parrot->type->id.str() );
-}
-
-bool mattack::parrot( monster *z )
-{
-    if( z->has_effect( effect_shrieking ) ) {
-        sounds::sound( z->pos_bub(), 120, sounds::sound_t::alert, _( "a piercing wail!" ), false, "shout",
-                       "wail" );
-        z->mod_moves( -to_moves<int>( 1_seconds ) * 0.4 );
-        return false;
-    } else if( one_in( 20 ) ) {
-        parrot_common( z );
-        return true;
-    }
-
-    return false;
-}
-
-bool mattack::parrot_at_danger( monster *parrot )
-{
-    const map &here = get_map();
-
-    Creature *other = get_creature_tracker().find_reachable( *parrot, [parrot,
-    &here]( Creature * creature ) {
-        if( !creature->is_hallucination() && one_in( 20 ) ) {
-            if( creature->is_avatar() || creature->is_npc() ) {
-                Character *character = creature->as_character();
-                return character->attitude_to( *parrot ) == Creature::Attitude::HOSTILE &&
-                       parrot->sees( here, *character );
-            } else {
-                monster *monster = creature->as_monster();
-                return ( monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_HATE ||
-                         ( monster->anger > 0 &&
-                           monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_BY_MOOD ) ) &&
-                       parrot->sees( here, *monster );
-            }
-        }
-        return false;
-    } );
-
-    if( other ) {
-        parrot_common( parrot );
-        return true;
-    }
-
-    return false;
 }
 
 bool mattack::darkman( monster *z )

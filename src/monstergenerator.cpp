@@ -381,7 +381,7 @@ void MonsterGenerator::finalize_mtypes()
                 armor_diff += dt.second;
             }
         }
-        std::unordered_set<std::string> blacklisted_specials{"PARROT", "PARROT_AT_DANGER", "GRAZE", "EAT_CROP", "EAT_FOOD", "EAT_CARRION"};
+        std::unordered_set<std::string> blacklisted_specials{"GRAZE", "EAT_CROP", "EAT_FOOD", "EAT_CARRION"};
         int special_attacks_diff = 0;
         for( const auto &special : mon.special_attacks ) {
             if( !blacklisted_specials.count( special.first ) ) {
@@ -654,8 +654,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "FLESH_GOLEM", mattack::flesh_golem );
     add_hardcoded_attack( "ABSORB_MEAT", mattack::absorb_meat );
     add_hardcoded_attack( "LUNGE", mattack::lunge );
-    add_hardcoded_attack( "PARROT", mattack::parrot );
-    add_hardcoded_attack( "PARROT_AT_DANGER", mattack::parrot_at_danger );
     add_hardcoded_attack( "BLOW_WHISTLE", mattack::blow_whistle );
     add_hardcoded_attack( "DARKMAN", mattack::darkman );
     add_hardcoded_attack( "SLIMESPRING", mattack::slimespring );
