@@ -1848,7 +1848,7 @@
             "value": "LUMINATION",
             "add": {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling * 5) + 10"
+                "( (u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack')  ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling * 5) + 10"
               ]
             }
           },
@@ -1856,7 +1856,7 @@
             "value": "CLIMATE_CONTROL_CHILL",
             "add": {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling * 12) + 20"
+                "( (u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack')  ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling * 12) + 20"
               ]
             }
           }
@@ -1866,7 +1866,7 @@
       {
         "condition": {
           "math": [
-            "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+            "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
             "<=",
             "3"
           ]
@@ -1878,14 +1878,14 @@
           "and": [
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 ">",
                 "3"
               ]
             },
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 "<=",
                 "6"
               ]
@@ -1899,14 +1899,14 @@
           "and": [
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 ">",
                 "6"
               ]
             },
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 "<=",
                 "9"
               ]
@@ -1920,14 +1920,14 @@
           "and": [
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 ">",
                 "9"
               ]
             },
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 "<=",
                 "12"
               ]
@@ -1941,14 +1941,14 @@
           "and": [
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 ">",
                 "12"
               ]
             },
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 "<=",
                 "15"
               ]
@@ -1962,14 +1962,14 @@
           "and": [
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 ">",
                 "15"
               ]
             },
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 "<=",
                 "18"
               ]
@@ -1983,14 +1983,14 @@
           "and": [
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 ">",
                 "18"
               ]
             },
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 "<=",
                 "21"
               ]
@@ -2004,14 +2004,14 @@
           "and": [
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 ">",
                 "21"
               ]
             },
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 "<=",
                 "24"
               ]
@@ -2025,14 +2025,14 @@
           "and": [
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 ">",
                 "24"
               ]
             },
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 "<=",
                 "27"
               ]
@@ -2046,14 +2046,14 @@
           "and": [
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 ">",
                 "27"
               ]
             },
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 "<=",
                 "30"
               ]
@@ -2067,14 +2067,14 @@
           "and": [
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 ">",
                 "30"
               ]
             },
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 "<=",
                 "33"
               ]
@@ -2088,14 +2088,14 @@
           "and": [
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 ">",
                 "33"
               ]
             },
             {
               "math": [
-                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
                 "<=",
                 "36"
               ]

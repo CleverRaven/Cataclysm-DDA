@@ -7,7 +7,9 @@
       { "math": [ "u_spell_level('pyrokinetic_call_flames_knack') = 7" ] },
       { "math": [ "u_spell_level('pyrokinetic_flamethrower_knack') = 6" ] },
       { "math": [ "u_spell_level('pyrokinetic_aura_knack') = 5" ] },
-      { "math": [ "u_spell_level('pyrokinetic_blast_knack') = 5" ] }
+      { "math": [ "u_spell_level('pyrokinetic_blast_knack') = 5" ] },
+      { "u_learn_recipe": "psi_centering_meditation_drain_reduce_heart_of_fire" },
+      { "math": [ "u_awakening_countup", "+=", "50" ] }
     ]
   },
   {
@@ -15,7 +17,7 @@
     "id": "EOC_MOM_SCEN_HEART_OF_FIRE_ON_CHANNELING_END",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
-    "condition": { "u_has_trait": "SCEN_HEART_OF_FIRE" },
+    "condition": { "and": [ { "u_has_trait": "SCEN_HEART_OF_FIRE" }, { "math": [ "_success != false" ] } ] },
     "effect": [
       { "u_lose_effect": "effect_scenario_heart_of_fire_channeled_power_protector" },
       { "math": [ "_effect_reducer = u_effect_intensity('effect_scenario_heart_of_fire_need_to_channel')" ] },
@@ -33,8 +35,71 @@
         "else": { "u_lose_effect": "effect_scenario_heart_of_fire_need_to_channel" }
       },
       {
+        "if": { "math": [ "u_effect_intensity('effect_scenario_heart_of_fire_damage', 'bodypart': 'torso') >= 1" ] },
+        "then": [
+          {
+            "if": { "math": [ "u_effect_intensity('effect_scenario_heart_of_fire_damage', 'bodypart': 'torso') >= 2" ] },
+            "then": [
+              {
+                "math": [ "_effect_burning_reducer = u_effect_intensity('effect_scenario_heart_of_fire_damage', 'bodypart': 'torso')" ]
+              },
+              { "u_lose_effect": "effect_scenario_heart_of_fire_damage", "target_part": "head" },
+              { "u_lose_effect": "effect_scenario_heart_of_fire_damage", "target_part": "torso" },
+              { "u_lose_effect": "effect_scenario_heart_of_fire_damage", "target_part": "arm_l" },
+              { "u_lose_effect": "effect_scenario_heart_of_fire_damage", "target_part": "arm_r" },
+              { "u_lose_effect": "effect_scenario_heart_of_fire_damage", "target_part": "leg_l" },
+              { "u_lose_effect": "effect_scenario_heart_of_fire_damage", "target_part": "leg_r" },
+              {
+                "u_add_effect": "effect_scenario_heart_of_fire_damage",
+                "duration": "PERMANENT",
+                "target_part": "head",
+                "intensity": { "math": [ "_effect_burning_reducer" ] }
+              },
+              {
+                "u_add_effect": "effect_scenario_heart_of_fire_damage",
+                "duration": "PERMANENT",
+                "target_part": "torso",
+                "intensity": { "math": [ "_effect_burning_reducer" ] }
+              },
+              {
+                "u_add_effect": "effect_scenario_heart_of_fire_damage",
+                "duration": "PERMANENT",
+                "target_part": "arm_l",
+                "intensity": { "math": [ "_effect_burning_reducer" ] }
+              },
+              {
+                "u_add_effect": "effect_scenario_heart_of_fire_damage",
+                "duration": "PERMANENT",
+                "target_part": "arm_r",
+                "intensity": { "math": [ "_effect_burning_reducer" ] }
+              },
+              {
+                "u_add_effect": "effect_scenario_heart_of_fire_damage",
+                "duration": "PERMANENT",
+                "target_part": "leg_l",
+                "intensity": { "math": [ "_effect_burning_reducer" ] }
+              },
+              {
+                "u_add_effect": "effect_scenario_heart_of_fire_damage",
+                "duration": "PERMANENT",
+                "target_part": "leg_r",
+                "intensity": { "math": [ "_effect_burning_reducer" ] }
+              }
+            ],
+            "else": [
+              { "u_lose_effect": "effect_scenario_heart_of_fire_damage", "target_part": "head" },
+              { "u_lose_effect": "effect_scenario_heart_of_fire_damage", "target_part": "torso" },
+              { "u_lose_effect": "effect_scenario_heart_of_fire_damage", "target_part": "arm_l" },
+              { "u_lose_effect": "effect_scenario_heart_of_fire_damage", "target_part": "arm_r" },
+              { "u_lose_effect": "effect_scenario_heart_of_fire_damage", "target_part": "leg_l" },
+              { "u_lose_effect": "effect_scenario_heart_of_fire_damage", "target_part": "leg_r" }
+            ]
+          }
+        ]
+      },
+      {
         "u_add_effect": "effect_scenario_heart_of_fire_channeled_power_protector",
-        "duration": { "math": [ "3600 + rng(18000)" ] }
+        "duration": { "math": [ "3600 + rand(18000)" ] }
       }
     ]
   },
@@ -54,13 +119,40 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_MOM_SCEN_HEART_OF_FIRE_RECURRING",
-    "recurrence": [ { "math": [ "1800 + rng(5400)" ] }, { "math": [ "5400 + rng(7200)" ] } ],
+    "recurrence": [ { "math": [ "1800 + rand(5400)" ] }, { "math": [ "5400 + rand(7200)" ] } ],
     "condition": {
       "and": [
         { "u_has_trait": "SCEN_HEART_OF_FIRE" },
-        { "not": { "u_has_effect": "effect_scenario_heart_of_fire_channeled_power_protector" } }
+        { "not": { "u_has_any_effect": [ "sleep", "effect_scenario_heart_of_fire_channeled_power_protector" ] } }
       ]
     },
     "effect": [ { "u_add_effect": "effect_scenario_heart_of_fire_need_to_channel", "duration": "PERMANENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_SCEN_HEART_OF_FIRE_DAMAGE_START",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        { "compare_string": [ "effect_scenario_heart_of_fire_need_to_channel", { "context_val": "effect" } ] },
+        {
+          "or": [
+            { "math": [ "_intensity == 5" ] },
+            { "math": [ "_intensity == 7" ] },
+            { "math": [ "_intensity == 9" ] },
+            { "math": [ "_intensity == 10" ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "effect_scenario_heart_of_fire_damage", "duration": "PERMANENT", "target_part": "head" },
+      { "u_add_effect": "effect_scenario_heart_of_fire_damage", "duration": "PERMANENT", "target_part": "torso" },
+      { "u_add_effect": "effect_scenario_heart_of_fire_damage", "duration": "PERMANENT", "target_part": "arm_l" },
+      { "u_add_effect": "effect_scenario_heart_of_fire_damage", "duration": "PERMANENT", "target_part": "arm_r" },
+      { "u_add_effect": "effect_scenario_heart_of_fire_damage", "duration": "PERMANENT", "target_part": "leg_l" },
+      { "u_add_effect": "effect_scenario_heart_of_fire_damage", "duration": "PERMANENT", "target_part": "leg_r" }
+    ]
   }
 ]

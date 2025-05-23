@@ -8,6 +8,7 @@
     "valid": false,
     "player_display": true,
     "purifiable": false,
+    "mixed_effect": true,
     "enchantments": [
       {
         "condition": { "not": { "u_has_effect": "sleep" } },
