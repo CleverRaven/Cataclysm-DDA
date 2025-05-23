@@ -329,42 +329,13 @@ struct monster_sounds {
         //int cooldown(){
         //    return some distribution peaking at fixed_cooldown
         //};
-        bool add( const monster_sound &sound, const int &weight, const std::string &active_when = "" ) {
-            if( active_when.empty() ) {
-                sounds_always.add( sound, weight );
-            } else if( active_when == "DANGER" ) {
-                sounds_danger.add( sound, weight );
-            } else if( active_when == "NO_DANGER" ) {
-                sounds_no_danger.add( sound, weight );
-            } else {
-                return false;
-            }
-            return true;
-        }
-        const monster_sound *pick( bool in_danger ) const {
-            weighted_int_list<const weighted_int_list<const monster_sound> *> sounds;
-            sounds.add( &sounds_always, sounds_always.get_weight() );
-            if( in_danger ) {
-                sounds.add( &sounds_danger, sounds_danger.get_weight() );
-            } else {
-                sounds.add( &sounds_no_danger, sounds_no_danger.get_weight() );
-            }
-            const weighted_int_list<const monster_sound> **chosen_list = sounds.pick();
-            if( !!chosen_list && !!*chosen_list ) {
-                return ( *chosen_list )->pick();
-            }
-            return nullptr;
-        }
-        void clear() {
-            default_volume = 0;
-            sounds_always.clear();
-            sounds_danger.clear();
-            sounds_no_danger.clear();
-        }
+        bool add( const monster_sound &sound, const int &weight, const std::string &active_when );
+        const monster_sound *pick( bool in_danger ) const;
+        void clear();
     private:
-        weighted_int_list<const monster_sound> sounds_always;
-        weighted_int_list<const monster_sound> sounds_danger;
-        weighted_int_list<const monster_sound> sounds_no_danger;
+        weighted_int_list<monster_sound> sounds_always;
+        weighted_int_list<monster_sound> sounds_danger;
+        weighted_int_list<monster_sound> sounds_no_danger;
 };
 
 struct mtype {
