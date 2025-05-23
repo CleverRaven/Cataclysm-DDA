@@ -110,7 +110,8 @@ Property                 | Description
 `no_absorb_material`        | (array of string) For monsters with the `ABSORB_ITEMS` special attack. Specifies the types of materials that the monster is unable to absorb. This takes precedence over absorb_material; even if the monster is whitelisted for this material, it cannot do so if any of its materials are found here. If not specified, there are no limits placed on what was whitelisted.
 `split_move_cost`        | (int) For monsters with the `SPLIT` special attack. Determines the move cost when splitting into a copy of itself.
 `revive_forms`           | (array of objects) allows to define conditional monster 
-`move_skills`           | (object with optional members) allows to define how well the monster moves on difficult terrain. Skill can range from 0-10.
+`move_skills`            | (object with optional members) allows to define how well the monster moves on difficult terrain. Skill can range from 0-10.
+`parrot`                 | (object) allows to define speech and other sounds for the monster either always or when in danger.
 
 Properties in the above tables are explained in more detail in the sections below.
 
@@ -691,6 +692,43 @@ Field                | Description
 `dig`                | (int, 0-10, optional) swimming monsters ignore DIGGABLE terrain-cost. Instead it applies a flat movecost penalty inversly related to the skill.
 `climb`              | (int, 0-10, optional) climbing monsters can climb CLIMBABLE ter/furn and can use DIFFICULT_Z ter/furn (i.e. ladders). The ter/furn cost gets multiplied by the skill modifier
 
+## "parrot"
+(object, optional)
+
+Field                | Description
+---                  | ---
+`frequency`          | (int, mandatory) number of turns on average between sounds
+`volume`             | (int, mandatory) default volume for all the sounds
+`sounds`             | (array of objects, mandatory) swimming monsters ignore DIGGABLE terrain-cost. Instead it applies a flat movecost penalty inversly related to the skill.
+
+### "sounds" subobjects
+
+Field                | Description
+---                  | ---
+`sound`              | (string, mandatory) sound to make, can include/be a snippet
+`volume`             | (int, optional) override for the default volume
+`weight`             | (int, mandatory) relative chance of each sound happening.
+`active_when`        | (string, optional, defaults to always) the triggers where the sound should be active. Current possible values are IN_DANGER which is if the creature sees an angry monster from a hostile faction, and NOT_IN_DANGER.
+`type`               | (string, optional, defaults to speech) the sound type used to tell sound packs what sfx to play. Possible values can be found here [`sounds.h`](../../src/sounds.h) under `enum class sound_t`
+
+### Example
+
+```jsonc
+    "parrot": {
+      "frequency": 5,
+      "volume": 5,
+      "sounds": [
+        { "sound": “Buk buk buk buk ba-gawk”, "weight": 10 }, // Will trigger regardless whether in danger or not
+        { "sound": "PKAWWW!", "volume": 15, "weight": 20, "active_when": "IN_DANGER" }, // Only triggers when IN_DANGER
+        { "sound": "<generic_animal_noises>", "weight": 10, "active_when": "NOT_IN_DANGER" }, // Uses a snippet for reuse
+        { 
+          "sound": "0101010_ERROR_101010",
+          "weight": 1,
+          "type": "electronic_speech" // Tells soundpacks to use different sfx for this sound
+        }
+      ]
+    },
+```
 
 ## "special_attacks"
 

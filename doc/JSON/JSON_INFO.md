@@ -504,10 +504,8 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `scent_types.json`            | type of scent available
 | `scores.json`                 | scores
 | `skills.json`                 | skill descriptions and ID's
-| `snippets.json`               | flier/poster/monster speech/dream/etc descriptions
 | `species.json`                | monster species
 | `speed_descripton.json`       | monster speed description
-| `speech.json`                 | monster vocalizations
 | `statistics.json`             | statistics and transformations used to define scores and achievements
 | `start_locations.json`        | starting locations for scenarios
 | `techniques.json`             | generic for items and martial arts
@@ -568,6 +566,14 @@ Standard components and tools for crafting (See [Recipe requirements](#recipe-re
 | `toolsets.json`              | sets of tools commonly used together
 | `uncraft.json`               | common results of taking stuff apart
 | `vehicle.json`               | tools to work on vehicles
+
+### `data/json/snippets/`
+
+Reusable text for dynamic monster descriptions/speech etc
+
+| Filename                     | Description
+|---                           |---
+| `speech.json`                | snippets made for use with [parroting](#parrot)
 
 ## `data/json/vehicles/`
 
