@@ -1757,10 +1757,39 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_REALITY_TEAR_EFFECTS",
-    "//": "Some way of angering factions if done nearby them would be ideal as well.  Cannot find a way to dynamically find nearby faction bases though.",
+    "id": "EOC_REALITY_TEAR_CHECKER",
     "effect": [
-      { "u_spawn_monster": "GROUP_NETHER_BREACH", "group": true, "real_count": [ 2, 6 ], "min_radius": 2, "max_radius": 6 }
+      { "math": [ "_reality_tear_adjustment = 0" ] },
+      {
+        "if": { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" },
+        "then": { "math": [ "_reality_tear_adjustment += 20" ] }
+      },
+      {
+        "if": { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" },
+        "then": { "math": [ "_reality_tear_adjustment += 10" ] }
+      },
+      {
+        "if": { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" },
+        "then": { "math": [ "_reality_tear_adjustment += 5" ] }
+      },
+      { "u_message": "Your adjusted chance is <context_val:reality_tear_adjustment>.", "type": "debug" },
+      {
+        "if": {
+          "x_in_y_chance": { "x": { "math": [ "(u_vitamin('vitamin_psionic_drain') / 25) + _reality_tear_adjustment" ] }, "y": 100 }
+        },
+        "then": [
+          {
+            "u_cast_spell": { "id": "teleport_reality_tear_permanent", "min_level": { "math": [ "u_spell_level('teleport_reality_tear')" ] } },
+            "targeted": true
+          }
+        ],
+        "else": [
+          {
+            "u_cast_spell": { "id": "teleport_reality_tear_temporary", "min_level": { "math": [ "u_spell_level('teleport_reality_tear')" ] } },
+            "targeted": true
+          }
+        ]
+      }
     ]
   },
   {

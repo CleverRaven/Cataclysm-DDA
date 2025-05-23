@@ -1573,7 +1573,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Indefinite<br />
 *Stamina Cost*: 10000, minus 250 per level to a minimum of 5000<br />
 *Channeling Time*: 250 moves, minus 10 moves per level to a minimum of 100<br />
-*Effects*: Rip open the fabric of reality, creating a permanent opening to the Nether.  Several denizens of the Nether will also come through the opening; like Breach, the psion has no control over them when they arrive.<br />
+*Effects*: Rip open the fabric of reality, creating an opening to the Nether.  This is generally temporary, though there is a chance equal to your Nether Attunement vitamin / 25 as a percentage (+5% if in near a Nether-related location, +10% if in a Nether related location, +20% if in a portal storm) that the rift is permanent. Several denizens of the Nether will also come through the opening; like Breach, the psion has no control over them when they arrive.<br />
 *Prerequisites*: Gateway 10, Breach 10<br />
 </details>
 </details>

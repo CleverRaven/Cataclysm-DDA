@@ -1053,24 +1053,19 @@
     "id": "teleport_reality_tear",
     "type": "SPELL",
     "name": "[Ψ]Reality Tear",
-    "description": "Make your own contribution to the Cataclysm by opening a permanent tear in reality, allowing all manners of netherium creatures access to Earth.  This might not be a good idea.",
-    "message": "The air fractures and the space nearby breaks!",
+    "description": "Make your own contribution to the Cataclysm by opening a rift in reality, allowing all manners of netherium creatures access to Earth.  The rift is temporary…hopefully.",
+    "message": "",
     "teachable": false,
-    "valid_targets": [ "ground" ],
+    "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
     "difficulty": 10,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "extra_effects": [ { "id": "teleport_reality_tear_effects", "hit_self": true } ],
-    "field_id": "fd_fatigue",
-    "field_chance": 1,
-    "min_field_intensity": 10,
-    "max_field_intensity": 10,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_REALITY_TEAR_CHECKER",
     "shape": "blast",
-    "min_range": 1,
     "base_energy_cost": 10000,
     "final_energy_cost": 5000,
     "energy_increment": -250,
@@ -1079,17 +1074,41 @@
     "casting_time_increment": -10
   },
   {
-    "id": "teleport_reality_tear_effects",
+    "id": "teleport_reality_tear_temporary",
+    "copy-from": "teleport_reality_tear",
     "type": "SPELL",
-    "name": { "str": "[Ψ]Reality Tear - Side Effects", "//~": "NO_I18N" },
-    "description": { "str": "Side effects of Reality Tear.  Seeing this spell is a bug.", "//~": "NO_I18N" },
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEPORTER",
-    "skill": "metaphysics",
-    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_REALITY_TEAR_EFFECTS",
-    "shape": "blast"
+    "magic_type": "mom_psionics",
+    "valid_targets": [ "ground" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( ( (u_spell_level('teleport_reality_tear') * 1.3) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "field_id": "fd_tear_in_reality_temporary",
+    "field_chance": 1,
+    "min_field_intensity": 2,
+    "max_field_intensity": 2
+  },
+  {
+    "id": "teleport_reality_tear_permanent",
+    "copy-from": "teleport_reality_tear",
+    "type": "SPELL",
+    "magic_type": "mom_psionics",
+    "valid_targets": [ "ground" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( ( (u_spell_level('teleport_reality_tear') * 1.3) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "field_id": "fd_fatigue",
+    "field_chance": 1,
+    "min_field_intensity": 3,
+    "max_field_intensity": 3
   }
 ]
