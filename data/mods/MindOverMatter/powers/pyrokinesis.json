@@ -67,24 +67,24 @@
     "affected_body_parts": [ "eyes" ],
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('pyrokinetic_flash') * 1.2) + 3 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
+        "min( ( ( ( (u_spell_level('pyrokinetic_flash') + u_spell_level('pyrokinetic_flash_knack') ) * 1.2) + 3 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_range": 50,
     "min_aoe": {
       "math": [
-        "min( (( (u_spell_level('pyrokinetic_flash') * 0.25) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 8)"
+        "min( ( ( ( (u_spell_level('pyrokinetic_flash') + u_spell_level('pyrokinetic_flash_knack') ) * 0.25) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 8)"
       ]
     },
     "max_aoe": 8,
     "min_duration": {
       "math": [
-        "( (u_spell_level('pyrokinetic_flash') * 50) + 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('pyrokinetic_flash') + u_spell_level('pyrokinetic_flash_knack') ) * 50) + 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('pyrokinetic_flash') * 100) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('pyrokinetic_flash') + u_spell_level('pyrokinetic_flash_knack') ) * 100) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": 1750,
@@ -136,22 +136,22 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('pyrokinetic_call_flames') * 5000) + 50000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('pyrokinetic_call_flames') + u_spell_level('pyrokinetic_call_flames_knack') ) * 5000) + 50000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('pyrokinetic_call_flames') * 16000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('pyrokinetic_call_flames') + u_spell_level('pyrokinetic_call_flames_knack') ) * 16000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_pyrokinetic_fire_tool') > -1 ? 0 : max((2500 - (u_spell_level('pyrokinetic_call_flames') * 150)), 800)"
+        "u_effect_intensity('effect_pyrokinetic_fire_tool') > -1 ? 0 : max( (2500 - ( (u_spell_level('pyrokinetic_call_flames') + u_spell_level('pyrokinetic_call_flames_knack') ) * 150)), 800)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_pyrokinetic_fire_tool') > -1 ? 10 : max((250 -(u_spell_level('pyrokinetic_call_flames') * 10)), 75)"
+        "u_effect_intensity('effect_pyrokinetic_fire_tool') > -1 ? 10 : max( (250 - ( (u_spell_level('pyrokinetic_call_flames') + u_spell_level('pyrokinetic_call_flames_knack') ) * 10)), 75)"
       ]
     }
   },
@@ -238,22 +238,22 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('pyrokinetic_cloak') * 2900) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('pyrokinetic_cloak') + u_spell_level('pyrokinetic_cloak_knack') ) * 2900) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('pyrokinetic_cloak') * 19200) + 144000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('pyrokinetic_cloak') + u_spell_level('pyrokinetic_cloak_knack') ) * 19200) + 144000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_pyrokinetic_cloak') > -1 ? 0 : max((4500 - (u_spell_level('pyrokinetic_cloak') * 160)), 2000)"
+        "u_effect_intensity('effect_pyrokinetic_cloak') > -1 ? 0 : max( (4500 - ( (u_spell_level('pyrokinetic_cloak') + u_spell_level('pyrokinetic_cloak_knack') ) * 160) ), 2000)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_pyrokinetic_cloak') > -1 ? 10 : max((250 -(u_spell_level('pyrokinetic_cloak') * 11)), 75)"
+        "u_effect_intensity('effect_pyrokinetic_cloak') > -1 ? 10 : max( (250 - ( (u_spell_level('pyrokinetic_cloak') + u_spell_level('pyrokinetic_cloak_knack') ) * 11) ), 75)"
       ]
     }
   },
