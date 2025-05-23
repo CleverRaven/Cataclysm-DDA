@@ -65,6 +65,22 @@
   },
   {
     "type": "speech",
+    "speaker": [
+      "mon_renfield",
+      "mon_renfield_9mm",
+      "mon_renfield_shotgun",
+      "mon_renfield_flamethrower",
+      "mon_renfield_bionic_monster",
+      "mon_renfield_abomination",
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon"
+    ],
+    "sound": "\"Why won't you just surrender to the masters' needs!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
     "speaker": [ "mon_vampire_moroi" ],
     "sound": "\"So… so fucking hungry.\"",
     "volume": 10
