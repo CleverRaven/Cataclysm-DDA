@@ -1101,7 +1101,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
                 mandatory( soundobj, false, "sound", sound.text );
                 optional( soundobj, false, "active_when", active_when );
                 sound.type = io::string_to_enum<sounds::sound_t>( soundobj.get_string( "type", "speech" ) );
-                if( !sounds.add( sound, soundobj.get_string( "weight" ), active_when ) ) {
+                if( !sounds.add( sound, soundobj.get_int( "weight" ), active_when ) ) {
                     soundobj.throw_error_at( "active_when",
                                              "Invalid trigger for sound, possible values are \"DANGER\" and \"NO_DANGER\"" );
                 }

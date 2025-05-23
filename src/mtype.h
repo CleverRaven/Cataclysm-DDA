@@ -24,6 +24,7 @@
 #include "type_id.h"
 #include "units.h" // IWYU pragma: keep
 #include "weakpoint.h"
+#include "weighted_list.h"
 
 class Creature;
 class monster;
@@ -317,14 +318,14 @@ struct revive_type {
 };
 
 struct monster_sound {
-    int volume = 0;
+    int volume;
     translation text;
     sounds::sound_t type = sounds::sound_t::speech;
-}
+};
 
 struct monster_sounds {
-        int default_volume = 0;
-        int fixed_cooldown = 0;
+        int default_volume;
+        int fixed_cooldown;
         //int cooldown(){
         //    return some distribution peaking at fixed_cooldown
         //};
@@ -340,17 +341,17 @@ struct monster_sounds {
             }
             return true;
         }
-        const monster_sound *pick( bool in_danger ) {
-            weighted_int_list<const *weighted_int_list<const monster_sound>> sounds;
-            sounds.add( sounds_always, sounds_always.get_weight() );
+        const monster_sound *pick( bool in_danger ) const {
+            weighted_int_list<const weighted_int_list<const monster_sound> *> sounds;
+            sounds.add( &sounds_always, sounds_always.get_weight() );
             if( in_danger ) {
-                sounds.add( sounds_danger, sounds_danger.get_weight() );
+                sounds.add( &sounds_danger, sounds_danger.get_weight() );
             } else {
-                sounds.add( sounds_no_danger, sounds_no_danger.get_weight() );
+                sounds.add( &sounds_no_danger, sounds_no_danger.get_weight() );
             }
-            const weighted_int_list<const monster_sound> *chosen_list = sounds.pick();
-            if( !!chosen_list ) {
-                return chosen_list->pick();
+            const weighted_int_list<const monster_sound> **chosen_list = sounds.pick();
+            if( !!chosen_list && !!*chosen_list ) {
+                return ( *chosen_list )->pick();
             }
             return nullptr;
         }
@@ -364,7 +365,7 @@ struct monster_sounds {
         weighted_int_list<const monster_sound> sounds_always;
         weighted_int_list<const monster_sound> sounds_danger;
         weighted_int_list<const monster_sound> sounds_no_danger;
-}
+};
 
 struct mtype {
     private:
