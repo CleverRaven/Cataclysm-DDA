@@ -35,7 +35,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "ACTIVE_EXERCISE",
     "name": "incandescent meditation",
     "id": "psi_centering_meditation_drain_reduce_heart_of_fire",
     "description": "By gazing into the flames, you can reduce your exposure to the energies of the Nether.",
