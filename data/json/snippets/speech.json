@@ -1,363 +1,83 @@
 [
   {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"Hello?\"",
-    "volume": 20
+    "type": "snippet",
+    "category": "mimicked_speech",
+    "//": "Used by Mi-gos mimicking human speech",
+    "//TODO": "Wants splitting up and mixing with NPC/civ monster/feral lines so the mimicry is more convincing",
+    "text": [
+      "\"Hello?\"",
+      "\"Who's there?\"",
+      "\"Can you help me?\"",
+      "\"Can you repeat that?\"",
+      "\"You're just copying me, aren't you?\"",
+      "\"So, what is this thing supposed to be, exactly?\"",
+      "\"Uncategorized object seven-seven-three-four.\"",
+      "\"We found it in a wreckage, barely alive.  Not the first one, either.\"",
+      "\"Area nineteen has a few in cold storage.\"",
+      "\"Mommy, help!\"",
+      "\"We're still trying to figure out what makes it tick.\"",
+      "\"We're not even sure what it is.\"",
+      "\"The cell structure is unlike any we've ever seen.\"",
+      "\"It does seem to have some form of higher level brain functioning.\"",
+      "\"Problem solving, memory retention, that sort of thing.\"",
+      "\"There appear to be some anomalous aspects to the mimicry.\"",
+      "\"Members of the species have some kind of neurocognitive link.\"",
+      "\"This one's repeating phrases that the previous specimen was exposed to.\"",
+      "\"You mean it's not just parroting us?\"",
+      "\"It's parroting us, but we're uncertain as to how or why.\"",
+      "\"It may be a mechanism for attracting prey.\"",
+      "\"It could even be a way of trying to scare us off.\"",
+      "\"We just don't know.\"",
+      "\"Like we said, we have no idea what it's thinking.\"",
+      "\"Is that glass electrified?\"",
+      "\"Why don't you touch it and find out?\"",
+      "\"Of course it is.\"",
+      "\"What'll happen if the power goes out?\"",
+      "\"Don't worry about it.\"",
+      "\"Don't worry.\"",
+      "\"There are seven backup generators.\"",
+      "\"And what if all the backups fail?\"",
+      "\"We'd have to terminate the specimen.\"",
+      "\"The glass alone won't keep us safe for very long.\"",
+      "\"That fuckin' thing is horrible, man, it gives me the creeps.\"",
+      "\"It's probably more scared of us than we are of it.\"",
+      "\"Somehow, I doubt that.\"",
+      "\"Hey, we got other specimens that could withstand a grenade.\"",
+      "\"And that's supposed to comfort me?\"",
+      "\"At least we know they can die.\"",
+      "\"U-O Seven-Seven-Three-Four.\"",
+      "\"Individual instances of U-O Seven-Seven-Three-Four.\"",
+      "\"To be kept in a standard biohazardous containment chamber.\"",
+      "\"Until such time as more permanent arrangements are made.\"",
+      "\"Shows a noted preference for human brain tissue.\"",
+      "\"Destroy the specimen if it begins to interact with the lock.\""
+    ]
   },
   {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Papaya!\"",
-    "volume": 32
+    "type": "snippet",
+    "category": "mimicked_shouts",
+    "text": [
+      "\"Papaya!\"",
+      "\"Over here!\"",
+      "\"I'm not afraid of you!\"",
+      "\"Come here!\"",
+      "\"Please, don't!\"",
+      "\"Oh God, my leg, Oh God!\"",
+      "\"You're gonna rot in hell for this!\"",
+      "\"You hear me!?\"",
+      "\"You're gonna rot in hell, you pieces of shit!\""
+    ]
   },
   {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"Who's there?\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"Can you help me?\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"Over here!\"",
-    "volume": 32
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"Can you repeat that?\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"You're just copying me, aren't you?\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"I'm not afraid of you!\"",
-    "volume": 32
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"Come here!\"",
-    "volume": 32
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"Please, don't!\"",
-    "volume": 32
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "a horrified scream!",
-    "volume": 32
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "a little girl's wailing!",
-    "volume": 32
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"So, what is this thing supposed to be, exactly?\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Uncategorized object seven-seven-three-four.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"We found it in a wreckage, barely alive.  Not the first one, either.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Area nineteen has a few in cold storage.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"Mommy, help!\"",
-    "volume": 32
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"We're still trying to figure out what makes it tick.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"We're not even sure what it is.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon" ],
-    "sound": "\"The cell structure is unlike any we've ever seen.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"It does seem to have some form of higher level brain functioning.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Problem solving, memory retention, that sort of thing.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"There appear to be some anomalous aspects to the mimicry.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"Members of the species have some kind of neurocognitive link.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"This one's repeating phrases that the previous specimen was exposed to.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "a child shrieking!",
-    "volume": 32
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"Oh God, my leg, Oh God!\"",
-    "volume": 32
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "a long cry of agony!",
-    "volume": 32
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"You mean it's not just parroting us?\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"It's parroting us, but we're uncertain as to how or why.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"It may be a mechanism for attracting prey.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"It could even be a way of trying to scare us off.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"We just don't know.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "an anguished wail!",
-    "volume": 32
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"You're gonna rot in hell for this!\"",
-    "volume": 32
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"You hear me!?\"",
-    "volume": 32
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"You're gonna rot in hell, you pieces of shit!\"",
-    "volume": 32
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon" ],
-    "sound": "\"Like we said, we have no idea what it's thinking.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Is that glass electrified?\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Why don't you touch it and find out?\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Of course it is.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"What'll happen if the power goes out?\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"Don't worry about it.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"Don't worry.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"There are seven backup generators.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"And what if all the backups fail?\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"We'd have to terminate the specimen.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"The glass alone won't keep us safe for very long.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"That fuckin' thing is horrible, man, it gives me the creeps.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"It's probably more scared of us than we are of it.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Somehow, I doubt that.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Hey, we got other specimens that could withstand a grenade.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"And that's supposed to comfort me?\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"At least we know they can die.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "\"U-O Seven-Seven-Three-Four.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Individual instances of U-O Seven-Seven-Three-Four.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"To be kept in a standard biohazardous containment chamber.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Until such time as more permanent arrangements are made.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Shows a noted preference for human brain tissue.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Destroy the specimen if it begins to interact with the lock.\"",
-    "volume": 20
+    "type": "snippet",
+    "category": "mimicked_sounds",
+    "text": [
+      "a horrified scream!",
+      "a little girl's wailing!",
+      "a child shrieking!",
+      "a long cry of agony!",
+      "an anguished wail!"
+    ]
   },
   {
     "type": "speech",
