@@ -124,10 +124,21 @@ struct enum_traits<om_vision_level> {
     static constexpr om_vision_level last = om_vision_level::last;
 };
 
+// Summarises one OMT worth of map data for use by agents operating at overmap scale.
+// E.g. hordes, fire spread, NPCs.
+// Dimensions are 24x24
+struct map_data_summary {
+    map_data_summary() = default;
+    map_data_summary( std::bitset<24 * 24> new_passable ): passable( new_passable ) {}
+    // TODO: constant?
+    std::bitset<24 * 24> passable;
+};
+
 struct map_layer {
     cata::mdarray<oter_id, point_om_omt> terrain;
     cata::mdarray<om_vision_level, point_om_omt> visible;
     cata::mdarray<bool, point_om_omt> explored;
+    cata::mdarray<std::shared_ptr<map_data_summary>, point_om_omt> map_cache;
     std::vector<om_note> notes;
     std::vector<om_map_extra> extras;
 };
@@ -355,6 +366,14 @@ class overmap
         void delete_extra( const tripoint_om_omt &p );
 
         /**
+         * Access cache of map data for agents operating at overmap scale.
+         */
+        bool passable( const tripoint_om_ms &p );
+        void set_passable( const tripoint_abs_omt &p, const std::bitset<24 * 24> &new_passable );
+    private:
+        void set_passable( const tripoint_abs_omt &p, std::shared_ptr<map_data_summary> new_passable );
+    public:
+        /**
          * Getter for overmap scents.
          * @returns a reference to a scent_trace from the requested location.
          */
@@ -372,6 +391,8 @@ class overmap
         static bool inbounds( const point_om_omt &p, int clearance = 0 ) {
             return inbounds( tripoint_om_omt( p, 0 ), clearance );
         }
+        bool inbounds( const tripoint_abs_ms &p );
+
         /**
          * Return a vector containing the absolute coordinates of
          * every matching note on the current z level of the current overmap.
