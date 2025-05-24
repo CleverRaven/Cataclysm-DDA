@@ -107,7 +107,7 @@
     "type": "MONSTER",
     "name": "whispering stabber",
     "copy-from": "mon_feral_flickering",
-    "description": "This masked person is holding a bloody knife and skipping phases of their movement, dissappearing and reappearing in slightly different positions and poses.  Making implacable progress towards you.",
+    "description": "This masked person is holding a bloody knife and skipping phases of their movement, disappearing and reappearing in slightly different positions and poses in implacable progress towards you.",
     "melee_skill": 5,
     "special_attacks": [ { "id": "whispering_feral_stab" }, [ "PARROT_AT_DANGER", 100 ] ],
     "extend": { "flags": [ "HARDTOSHOOT", "NOT_HALLUCINATION" ] },
@@ -125,7 +125,7 @@
         "then": [
           { "math": [ "u_have_killed_whispering_feral += 1" ] },
           {
-            "u_message": "As the light leaves the masked feral's eye's it whispers to you 'See you soon'.",
+            "u_message": "As the light leaves the masked feral's eyes it whispers to you 'See you soon'.",
             "type": "mixed"
           }
         ]
@@ -165,7 +165,7 @@
         "then": [
           { "math": [ "u_have_killed_whispering_feral += 1" ] },
           {
-            "u_message": "The masked feral looks down at it's wounds and looks at you 'I'm getting real sick of your shit.' Then collapses to the ground dead.",
+            "u_message": "The masked feral looks down at its wounds and looks at you 'I'm getting real sick of your shit.' Then collapses to the ground dead.",
             "type": "mixed"
           }
         ]
