@@ -648,7 +648,7 @@
       { "item": "boots_plate", "damage": [ 1, 4 ] }
     ]
   },
-    {
+  {
     "type": "item_group",
     "subtype": "collection",
     "id": "flickering_feral_death_drops",
@@ -659,11 +659,7 @@
           { "item": "knife_huge", "variant": "knife_butcher", "prob": 50, "damage": [ 0, 3 ] }
         ]
       },
-      {
-        "distribution": [
-          { "group": "default_serial_kiler_clothes", "prob": 50, "damage": [ 1, 4 ] }
-        ]
-      }
+      { "distribution": [ { "group": "default_serial_kiler_clothes", "prob": 50, "damage": [ 1, 4 ] } ] }
     ]
   },
   {

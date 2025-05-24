@@ -2493,7 +2493,7 @@
     "name": [ "" ],
     "desc": [ "" ]
   },
-    {
+  {
     "type": "effect_type",
     "id": "effect_haunting_whispers",
     "//": "Empty to hide effect",

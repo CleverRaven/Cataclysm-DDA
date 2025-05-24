@@ -110,7 +110,7 @@
     "description": "This masked person is holding a bloody knife and skipping phases of their movement, dissappearing and reappearing in slightly different positions and poses.  Making implacable progress towards you.",
     "melee_skill": 5,
     "special_attacks": [ { "id": "whispering_feral_stab" }, [ "PARROT_AT_DANGER", 100 ] ],
-    "extend": { "flags": [ "HARDTOSHOOT","NOT_HALLUCINATION" ] },
+    "extend": { "flags": [ "HARDTOSHOOT", "NOT_HALLUCINATION" ] },
     "bleed_rate": 50,
     "death_function": { "eoc": "EOC_whispering_feral_death" },
     "//": "Need to make upgrade group and a death drop group.  Also need higher levels of flickering zombies and for one of those higher levels to haunt the PC after death by creating a possession spell that affects the pc and when they are near other types of zombies the zombies will randomly upgrade into a possessed zombie that will parrot accusations of responsiblity for the zombies death.  'You left me behind to die!' also will have hard to shoot flag.",
@@ -193,7 +193,7 @@
       }
     ]
   },
-    {
+  {
     "id": "mon__feral_possessing_singularity",
     "type": "MONSTER",
     "name": "whispering stabber",
