@@ -4,10 +4,12 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "item.h"
@@ -19,6 +21,7 @@
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "stomach.h"
+#include "string_formatter.h"
 #include "test_data.h"
 #include "test_statistics.h"
 #include "type_id.h"
