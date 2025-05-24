@@ -1,0 +1,26 @@
+[
+  {
+    "type": "test_data",
+    "known_bad_calorie": [
+      "fert_supplement",
+      "flatbread",
+      "frybread",
+      "bread_garlic",
+      "cornbread",
+      "hardtack_cracker",
+      "hardtack",
+      "soggy_hardtack",
+      "cottage_cheese_with_savory_veg",
+      "powder_eggs",
+      "hardtack_pudding",
+      "homemade_toasterpastry2",
+      "cookies",
+      "cookies_egg",
+      "debug_calories",
+      "choc_waffles",
+      "debug_nutrition",
+      "hazelnut_pulp",
+      "oyster_crackers"
+    ]
+  }
+]
