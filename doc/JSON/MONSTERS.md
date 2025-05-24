@@ -708,7 +708,7 @@ Field                | Description
 `sound`              | (string, mandatory) sound to make, can include/be a snippet
 `volume`             | (int, optional) override for the default volume
 `weight`             | (int, mandatory) relative chance of each sound happening.
-`active_when`        | (string, optional, defaults to always) the triggers where the sound should be active. Current possible values are IN_DANGER which is if the creature sees an angry monster from a hostile faction, and NOT_IN_DANGER.
+`active_when`        | (string, optional, defaults to always) the triggers where the sound should be active. Current possible values are DANGER which is if the creature sees an angry monster from a hostile faction, and NO_DANGER.
 `type`               | (string, optional, defaults to speech) the sound type used to tell sound packs what sfx to play. Possible values can be found here [`sounds.h`](../../src/sounds.h) under `enum class sound_t`
 
 ### Example
