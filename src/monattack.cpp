@@ -59,7 +59,6 @@
 #include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
-#include "monfaction.h"
 #include "monster.h"
 #include "mtype.h"
 #include "output.h"

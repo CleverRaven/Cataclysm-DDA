@@ -17,6 +17,7 @@
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "field_type.h"
 #include "flexbuffer_json.h"
@@ -39,6 +40,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "weakpoint.h"
+#include "weighted_list.h"
 
 struct itype;
 
@@ -47,6 +49,11 @@ static const material_id material_flesh( "flesh" );
 static const speed_description_id speed_description_DEFAULT( "DEFAULT" );
 
 static const spell_id spell_pseudo_dormant_trap_setup( "pseudo_dormant_trap_setup" );
+
+namespace sounds
+{
+enum class sound_t : int;
+}
 
 namespace
 {

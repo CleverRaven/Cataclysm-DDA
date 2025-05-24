@@ -20,6 +20,7 @@
 #include "mattack_common.h"
 #include "pathfinding.h"
 #include "shearing.h"
+#include "sounds.h"
 #include "translation.h"
 #include "type_id.h"
 #include "units.h" // IWYU pragma: keep
