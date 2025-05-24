@@ -756,6 +756,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
