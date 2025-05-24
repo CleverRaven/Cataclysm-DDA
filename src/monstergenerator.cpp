@@ -1103,7 +1103,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
                 sound.type = io::string_to_enum<sounds::sound_t>( soundobj.get_string( "type", "speech" ) );
                 if( !sounds.add( sound, soundobj.get_int( "weight" ), active_when ) ) {
                     soundobj.throw_error_at( "active_when",
-                                             "Invalid trigger for sound, possible values are \"DANGER\" and \"NO_DANGER\"" );
+                                             "Invalid trigger condition for sound, possible values are \"DANGER\" and \"NO_DANGER\"" );
                 }
             }
         }
@@ -1923,6 +1923,11 @@ bool monster_sounds::add( const monster_sound &sound, const int &weight,
         return false;
     }
     return true;
+}
+
+bool monster_sounds::danger_matters() const
+{
+    return !( sounds_danger.empty() && !sounds_no_danger.empty() );
 }
 
 const monster_sound *monster_sounds::pick( bool in_danger ) const

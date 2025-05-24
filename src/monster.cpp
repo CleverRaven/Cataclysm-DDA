@@ -334,6 +334,7 @@ monster::monster( const mtype_id &id ) : monster()
             tack_item = cata::make_value<item>( storage_item_item );
         }
     }
+    parrot_cooldown = type->sounds.fixed_cooldown;
     aggro_character = type->aggro_character;
 }
 
@@ -2926,6 +2927,39 @@ void monster::explode()
     hp = INT_MIN + 1;
 }
 
+bool monster::parrots() const
+{
+    return has_sounds;
+}
+
+const monster_sound *monster::choose_parrot( bool in_danger ) const
+{
+    return type->sounds.pick( in_danger );
+}
+
+bool monster::in_danger() const
+{
+    map &here = get_map();
+    Creature *other = get_creature_tracker().find_reachable( *this, [this,
+    &here]( Creature * creature ) {
+        if( !creature->is_hallucination() ) {
+            if( creature->is_avatar() || creature->is_npc() ) {
+                Character *character = creature->as_character();
+                return character->attitude_to( *this ) == Creature::Attitude::HOSTILE &&
+                       sees( here, *character );
+            } else {
+                monster *monster = creature->as_monster();
+                return ( monster->faction->attitude( faction ) == mf_attitude::MFA_HATE ||
+                         ( monster->anger > 0 &&
+                           monster->faction->attitude( faction ) == mf_attitude::MFA_BY_MOOD ) ) &&
+                       sees( here, *monster );
+            }
+        }
+        return false;
+    } );
+    return !!other;
+}
+
 void monster::process_turn()
 {
     map &here = get_map();
@@ -2944,6 +2978,18 @@ void monster::process_turn()
                 }
             }
             here.emit_field( pos_bub(), emid );
+        }
+    }
+
+    //BEFOREMERGE: Ideally wants changing to not be a fixed cooldown
+    if( parrots() && --parrot_cooldown < 0 ) {
+        //BEFOREMERGE: Replace with a finalise step for mtype that determines if we need to bother checking in_danger for this type?
+        const monster_sound *chosen_sound =
+            choose_parrot( type->sounds.danger_matters() ? in_danger() : false );
+        if( !!chosen_sound ) {
+            sounds::sound( pos_bub(), chosen_sound->volume, chosen_sound->type,
+                           SNIPPET.expand( chosen_sound->text.translated() ) );
+            parrot_cooldown = type->sounds.fixed_cooldown;
         }
     }
 

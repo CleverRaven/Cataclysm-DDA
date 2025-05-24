@@ -330,6 +330,7 @@ struct monster_sounds {
         //    return some distribution peaking at fixed_cooldown
         //};
         bool add( const monster_sound &sound, const int &weight, const std::string &active_when );
+        bool danger_matters() const;
         const monster_sound *pick( bool in_danger ) const;
         void clear();
     private:

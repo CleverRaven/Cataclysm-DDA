@@ -37,6 +37,7 @@ class map;
 enum class mon_trigger : int;
 enum class phase_id : int;
 struct monster_plan;
+struct monster_sound;
 struct mtype;
 
 class mon_special_attack
@@ -635,7 +636,14 @@ class monster : public Creature
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const override;
         std::vector<std::pair<std::string, std::string>> get_overlay_ids() const;
+
+        bool in_danger() const;
+        //TODO: Add MUTE check somewhere when that's not Character only
+        bool parrots() const;
+        int parrot_cooldown;
+        const monster_sound *choose_parrot( bool in_danger ) const;
     private:
+        bool has_sounds;
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
