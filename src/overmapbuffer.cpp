@@ -577,6 +577,21 @@ std::string overmapbuffer::get_vehicle_tile_id( const tripoint_abs_omt &omt )
     return tile_id;
 }
 
+bool overmapbuffer::passable( const tripoint_abs_ms &p )
+{
+    const tripoint_abs_om loc = project_to<coords::om>( p );
+    overmap *om = get_existing( loc.xy() );
+    return om->passable( p );
+}
+
+void overmapbuffer::set_passable( const tripoint_abs_omt &p,
+                                  const std::bitset<24 * 24> &new_passable )
+{
+    const tripoint_abs_om loc = project_to<coords::om>( p );
+    overmap *om = get_existing( loc.xy() );
+    om->set_passable( p, new_passable );
+}
+
 void overmapbuffer::signal_hordes( const tripoint_abs_sm &center, const int sig_power )
 {
     const int radius = sig_power;
