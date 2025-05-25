@@ -372,6 +372,7 @@ class spell_type
          */
         static const std::vector<spell_type> &get_all();
         static void check_consistency();
+        static void finalize_all();
         static void reset_all();
         bool is_valid() const;
 
