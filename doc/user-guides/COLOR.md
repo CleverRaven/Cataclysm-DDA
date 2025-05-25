@@ -160,17 +160,17 @@ The game provides a nice built-in color manager with several pre-defined color t
 The UI *menus* do not (always) adhere to the base color customization, and can be customized separately, in the `config/imgui_style.json`. The default config is:
 ```jsonc
 {
-  "inherit_base_colors": false,
+  "inherit_base_colors": true,
   "colors": {
   }
 }
 ```
-Changing  `inherit_base_colors` to `true` would make the imgui menus follow the base colors theme with some reasonable defaults.
+Changing  `inherit_base_colors` to `false` would make the imgui use it's default theme, otherwise imgui menus would follow the base colors theme with some reasonable defaults.
 
 It is, however, also possible to tweak the specific element colors with higher fidelity and not be restricted to the 8-color pallete by specifying the respective elements and colors in the `colors` object. Like so:
 ```jsonc
 {
-  "inherit_base_colors": false,
+  "inherit_base_colors": true,
   "colors": {
     "ImGuiCol_Text"                   : [1.00, 1.00, 1.00, 1.00],
     "ImGuiCol_TextDisabled"           : [0.50, 0.50, 0.50, 1.00],
