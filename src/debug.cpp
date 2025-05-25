@@ -398,6 +398,8 @@ static void debug_error_prompt(
                 [[fallthrough]];
             case ' ':
                 stop = true;
+                message = error_message;
+                ui_manager::redraw();
                 break;
         }
     }
