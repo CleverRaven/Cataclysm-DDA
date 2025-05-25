@@ -361,10 +361,10 @@ static void debug_error_prompt(
                                          " %s\n" // translated user string: space to continue
                                          " %s\n" // translated user string: ignore key
 #if defined(TILES)
-                                         " %s\n",// translated user string: copy
+                                         " %s\n" // translated user string: copy
 #endif // TILES
-                                         _( "Press <color_white>space bar</color> to continue the game." ),
-                                         _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
+                                         , _( "Press <color_white>space bar</color> to continue the game." )
+                                         , _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
 #if defined(TILES)
                                          , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to the clipboard." )
 #endif // TILES
