@@ -309,7 +309,6 @@ Military outposts have been revamped
 Adds a new nether monster
 Snippetize Tshirt variants
 Exodii Ceramics
-More trash in used evac shelters, less in unused
 
 
 ## Interface:
@@ -811,9 +810,6 @@ Mod Conflicts
 [MoM] Add Noetic resonance detector
 [Xedra Evolved] Remove vampires' free bite, vampires take more mutagen
 [MoM] Hostile NPC dialogue updates
-[Xedra Evolved] Curate available Arvore mutations that you gain through alchemy
-[MoM] Phase volume requirements
-[MoM] Reality Tear teleportion power is now temporary (hopefully...)
 [MoM] Add psychic knacks
 
 
@@ -912,9 +908,6 @@ Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
 World sliders rebalanced to offer differing gameplay experiences
 Some recipes have 'hard' proficiency requirements
-Updated kukri sprites so all kukris show in character hand
-Buff donut holes & nerf hardtack
-Embiggen hellfire stew recipe
 
 
 ## Bugfixes:
@@ -1268,7 +1261,6 @@ Can't craft batches so big that they vanish when the game has nowhere to put the
 [Xedra Evolved] Fix werewolf biting
 Continue with destination activity if route is empty
 Allow moving out of impassable, aquatic treated as swimming, non-swimmers can walk in shallow water
-Fix and modernize Hub 01 modular recon headgear
 
 
 ## Performance:
