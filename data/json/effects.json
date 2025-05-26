@@ -4282,6 +4282,29 @@
   },
   {
     "type": "effect_type",
+    "id": "opiate_eff",
+    "//": "Gives Status warnings of danger levels only.  Significant chance that death occurs well before or after this scale suggests.  As Pkill is vitaminized move opiates to this scale for effects.",
+    "name": [
+      "Mild Opiate Euphoria",
+      "Moderate Opiate Euphoria",
+      "Significant Opiate Euphoria",
+      "Opiate Intoxication",
+      "Opiate Debilitation",
+      "Death"
+    ],
+    "desc": [
+      "Mild euphoric feelings from the Opiates you've taken.",
+      "Moderate euphoria, likely sedative effects.",
+      "Significant euphoria, heavy sedative effects.",
+      "Some incapacitation, sedation, nausea, numbness.",
+      "Significant chance of death, incapable of many tasks, narcolepsy.",
+      "Terminal Dosage achieved."
+    ],
+    "blood_analysis_description": "Sample contains opiate based painkillers.",
+    "max_intensity": 6
+  },
+  {
+    "type": "effect_type",
     "id": "bad_food_ennui",
     "name": [ "Gross Food", "Demoralizing Food", "Depressing Food" ],
     "desc": [
