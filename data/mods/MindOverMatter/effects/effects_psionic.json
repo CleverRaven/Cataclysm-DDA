@@ -184,7 +184,7 @@
             "value": "FALL_DAMAGE",
             "multiply": {
               "math": [
-                "( -0.2 + ( u_spell_level('biokin_flexibility') * -0.02) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "( -0.2 + ( ( u_spell_level('biokin_flexibility') + u_spell_level('biokin_flexibility_knack') ) * -0.02) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
             }
           }
@@ -854,7 +854,7 @@
             "value": "PERCEPTION",
             "add": {
               "math": [
-                "(1 + ( u_spell_level('clair_better_senses') / 3) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+                "(1 + ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) / 3) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
               ]
             }
           },
@@ -862,7 +862,7 @@
             "value": "OVERMAP_SIGHT",
             "add": {
               "math": [
-                "(1 + ( u_spell_level('clair_better_senses') / 5) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+                "(1 + ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) / 5) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
               ]
             }
           },
@@ -870,7 +870,7 @@
             "value": "HEARING_MULT",
             "multiply": {
               "math": [
-                "( u_spell_level('clair_better_senses') * 0.25) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+                "( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack')) * 0.25) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
               ]
             }
           }
@@ -879,7 +879,7 @@
       {
         "condition": {
           "math": [
-            "( ( u_spell_level('clair_better_senses') * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 6"
+            "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 6"
           ]
         },
         "ench_effects": [ { "effect": "effect_clair_better_senses_eye_membrane", "intensity": 1 } ]
@@ -887,7 +887,7 @@
       {
         "condition": {
           "math": [
-            "( ( u_spell_level('clair_better_senses') * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 8"
+            "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 8"
           ]
         },
         "ench_effects": [ { "effect": "effect_clair_better_senses_see_sleep", "intensity": 1 } ]
@@ -895,7 +895,7 @@
       {
         "condition": {
           "math": [
-            "( ( u_spell_level('clair_better_senses') * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 10"
+            "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 10"
           ]
         },
         "ench_effects": [ { "effect": "effect_clair_better_senses_safecracking", "intensity": 1 } ]
@@ -911,7 +911,7 @@
                 { "u_is_in_field": "fd_smoke" },
                 {
                   "math": [
-                    "( ( u_spell_level('clair_better_senses') * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 15"
+                    "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 15"
                   ]
                 }
               ]
@@ -1049,7 +1049,7 @@
             },
             "distance": {
               "math": [
-                "( ( u_spell_level('clair_danger_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "( ( ( u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
             },
             "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense a danger here." } ]
@@ -1308,7 +1308,7 @@
             "value": "PHASE_DISTANCE",
             "add": {
               "math": [
-                "( 1 + ( u_spell_level('clair_astral_projection') * 0.15 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "( 1 + ( (u_spell_level('clair_astral_projection') + u_spell_level('clair_astral_projection_knack') ) * 0.15 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
             }
           }
@@ -1506,10 +1506,10 @@
     "remove_message": "All of your pain rushes back in!",
     "decay_messages": [ [ "Your wounds are starting to ache.", "bad" ], [ "Your wounds sting a bit.", "bad" ] ],
     "rating": "good",
-    "max_duration": "10 minutes",
+    "max_duration": "30 minutes",
     "max_intensity": 48,
     "dur_add_perc": 10,
-    "int_dur_factor": "13 s",
+    "int_dur_factor": "39 s",
     "removes_effects": [ "effect_electrokinetic_speed_boost" ],
     "flags": [ "PAIN_IMMUNE" ]
   },
@@ -2424,7 +2424,7 @@
             "condition": { "test_eoc": "EOC_CONDITION_HAS_MIND" },
             "distance": {
               "math": [
-                "( ( u_spell_level('telepathic_mind_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "( ( (u_spell_level('telepathic_mind_sense') + u_spell_level('telepathic_mind_sense_knack') ) * 2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
             },
             "descriptions": [ { "id": "sense_minds", "symbol": "?", "color": "c_white", "text": "You sense something sapient here." } ]
@@ -2900,7 +2900,7 @@
   {
     "type": "effect_type",
     "id": "effect_vita_cure_disease",
-    "name": [ "Immunostimulized" ],
+    "name": [ "Immunostimulated" ],
     "desc": [ "You are not going to get sick.  You absolutely refuse.  And if you do, you're going to get better." ],
     "apply_message": "",
     "remove_message": "",

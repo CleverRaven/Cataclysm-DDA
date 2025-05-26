@@ -1474,12 +1474,22 @@ int monster::get_climb_mod() const
 
 bool monster::swims() const
 {
-    return has_flag( mon_flag_SWIMS ) || type->move_skills.swim.has_value();
+    return has_flag( mon_flag_SWIMS ) || has_flag( mon_flag_AQUATIC ) ||
+           type->move_skills.swim.has_value();
 }
 
 int monster::swim_skill() const
 {
-    return type->move_skills.swim.value_or( has_flag( mon_flag_SWIMS ) ? 10 : -1 );
+    if( type->move_skills.swim.has_value() ) {
+        return type->move_skills.swim.value();
+    } else if( has_flag( mon_flag_SWIMS ) ) {
+        // Backwardscompatibility only
+        return 10;
+    } else if( has_flag( mon_flag_AQUATIC ) ) {
+        // arbitrary value, if a specific speed is desired, use move_skills
+        return 6;
+    }
+    return -1;
 }
 
 int monster::get_swim_mod() const

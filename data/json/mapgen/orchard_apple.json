@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "orchard_processing" ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -56,7 +55,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "orchard_stall" ],
     "object": {
       "fill_ter": "t_floor",
@@ -109,7 +107,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "orchard_tree_apple" ],
     "object": {
       "fill_ter": "t_region_soil",
@@ -150,7 +147,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "orchard_processing_roof" ],
     "object": {
       "fill_ter": "t_tile_flat_roof",
@@ -186,7 +182,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "orchard_stall_roof" ],
     "object": {
       "fill_ter": "t_tile_flat_roof",

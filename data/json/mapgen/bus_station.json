@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "bus_stat_0", "bus_stat_1" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -93,7 +92,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "bus_stat_0_roof", "bus_stat_1_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",

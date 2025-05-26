@@ -253,56 +253,15 @@
     "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
   },
   {
+    "copy-from": "jumpsuit",
+    "extend": { "flags": [ "HOOD" ] },
+    "relative": { "weight": "50 g" },
     "id": "flag_jumpsuit",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "flag jumpsuit" },
     "description": "A jumpsuit embroidered with a pattern of the American flag.  Provides decent storage and is not very encumbering.",
-    "weight": "558 g",
-    "volume": "3500 ml",
-    "price": "95 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "jumpsuit",
-    "color": "light_red",
-    "armor": [
-      { "covers": [ "torso", "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "15 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "15 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "10 cm",
-        "moves": 100
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "10 cm",
-        "moves": 100
-      }
-    ],
-    "warmth": 10,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
+    "color": "light_red"
   },
   {
     "id": "jumpsuit_pocketless",

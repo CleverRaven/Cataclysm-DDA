@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_nest_dermatik_backrooms",
     "object": {
       "rows": [
@@ -38,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_nest_wasp_backrooms",
     "object": {
       "rows": [

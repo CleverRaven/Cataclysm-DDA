@@ -597,7 +597,7 @@
     "id": "hardtack_pudding",
     "looks_like": "biscuit",
     "name": { "str": "hardtack pudding" },
-    "weight": "15 g",
+    "weight": "115 g",
     "color": "brown",
     "spoils_in": "5 days",
     "container": "can_medium",
@@ -610,7 +610,7 @@
     "price_postapoc": "1 USD",
     "material": [ "fruit", "wheat" ],
     "volume": "250 ml",
-    "charges": 4,
+    "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]

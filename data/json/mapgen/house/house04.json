@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_04" ],
     "object": {
       "fill_ter": "t_floor",
@@ -55,7 +54,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_04_roof",
     "//": "roof for house 04, 06, 07",
     "object": {

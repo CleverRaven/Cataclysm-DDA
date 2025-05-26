@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_burned_ground",
     "object": {
       "place_nested": [
@@ -15,13 +14,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_point_burned_ground",
     "object": { "place_nested": [ { "chunks": [ "15x15_burned_ground" ], "x": [ 0, 9 ], "y": [ 0, 9 ] } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "15x15_burned_ground",
     "object": {
       "mapgensize": [ 15, 15 ],
@@ -34,7 +31,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "7x7_burned_ground",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -54,7 +50,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_burned_ground",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -66,7 +61,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_burned_ground_slight",
     "object": {
       "mapgensize": [ 1, 1 ],

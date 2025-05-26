@@ -104,7 +104,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "druid_ritual_home_z0" ],
     "//": "This is common areas and eating places.",
     "object": {
@@ -172,7 +171,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "druid_ritual_home_z1" ],
     "//": "This is guest bedrooms and libraries",
     "object": {
@@ -232,7 +230,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "druid_ritual_home_z2" ],
     "//": "This is workspaces and study rooms",
     "object": {
@@ -303,7 +300,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "druid_ritual_home_z3" ],
     "//": "This is the master bedroom",
     "object": {
@@ -371,7 +367,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "druid_ritual_home_crown_nw", "druid_ritual_home_crown_n", "druid_ritual_home_crown_ne" ],
       [ "druid_ritual_home_crown_w", "druid_ritual_home_crown", "druid_ritual_home_crown_e" ],

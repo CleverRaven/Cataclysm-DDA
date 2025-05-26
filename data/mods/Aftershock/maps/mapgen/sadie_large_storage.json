@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "large_storage_units_3",
     "weight": 2000,
     "object": {

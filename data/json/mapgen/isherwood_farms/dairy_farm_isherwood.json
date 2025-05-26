@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "dairy_farm_isherwood_SW", "dairy_farm_isherwood_SE" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -111,7 +110,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "dairy_farm_isherwood_W", "dairy_farm_isherwood_E" ] ],
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -151,7 +149,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "dairy_farm_isherwood_NW", "dairy_farm_isherwood_NE" ] ],
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -199,7 +196,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "dairy_farm_isherwood_SW_roof", "dairy_farm_isherwood_SE_roof" ] ],
     "object": {
       "faction_owner": [
@@ -239,7 +235,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_outbuilding",
     "//": "for Isherwood farm future update mapgen via mission",
     "object": {
@@ -299,7 +294,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_outbuilding_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -335,7 +329,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "isherwood_outbuilding_kilns",
     "//": "Updates outbuilding to include kilns.",
     "object": {
@@ -382,7 +375,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "smokehouse",
     "object": {
       "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
@@ -455,7 +447,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "smokehouse_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",

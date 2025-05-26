@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 1000,
     "object": {
@@ -38,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 1000,
     "object": {
@@ -75,7 +73,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 1000,
     "object": {
@@ -114,7 +111,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 1000,
     "object": {
@@ -152,7 +148,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 1000,
     "object": {
@@ -190,7 +185,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 1000,
     "object": {
@@ -229,7 +223,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 1000,
     "object": {
@@ -267,7 +260,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 1000,
     "object": {
@@ -306,7 +298,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 50,
     "object": {
@@ -358,7 +349,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground_innawood" ],
     "weight": 50,
     "object": {
@@ -401,7 +391,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground_innawood" ],
     "weight": 1000,
     "object": {
@@ -445,7 +434,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground_innawood" ],
     "weight": 800,
     "object": {
@@ -483,7 +471,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground_innawood" ],
     "weight": 500,
     "object": {
@@ -521,7 +508,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground_innawood" ],
     "weight": 250,
     "object": {
@@ -567,7 +553,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground_innawood" ],
     "weight": 700,
     "object": {
@@ -606,7 +591,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_rat_underground_innawood" ],
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -649,7 +633,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_rat_innawood" ],
     "object": {
       "fill_ter": "t_rock_floor",

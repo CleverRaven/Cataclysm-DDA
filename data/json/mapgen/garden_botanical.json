@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": [ [ "BotanicalGarden_1a", "BotanicalGarden_1b" ] ],
     "type": "mapgen",
     "object": {
@@ -133,7 +132,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "BotanicalGarden_1a_roof", "BotanicalGarden_1b_roof" ] ],
     "object": {
       "fill_ter": "t_glass_roof",

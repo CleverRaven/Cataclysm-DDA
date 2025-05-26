@@ -740,7 +740,6 @@
           "mx_portal": 200,
           "mx_crater": 180,
           "mx_portal_in": 30,
-          "mx_point_burned_ground": 100,
           "mx_casings": 30,
           "mx_exocrash_1": 1,
           "mx_exocrash_2": 1
@@ -751,7 +750,6 @@
         "extras": {
           "mx_crater": 15000,
           "mx_portal": 5000,
-          "mx_point_burned_ground": 6250,
           "mx_portal_in": 2000,
           "mx_casings": 1500,
           "mx_military": 250,
@@ -881,6 +879,7 @@
         "house_29": 50,
         "house_30": 50,
         "house_31": 50,
+        "basement_hidden_lab_entrance": 50,
         "house_32": 50,
         "house_33": 50,
         "house_34": 50,
