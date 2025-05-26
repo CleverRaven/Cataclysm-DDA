@@ -22,7 +22,7 @@
   {
     "id": "blood_tainted",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
+    "subtypes": [ "AMMO", "COMESTIBLE" ],
     "copy-from": "blood_tainted",
     "name": { "str_sp": "tainted blood" },
     "weight": "1048 mg",
