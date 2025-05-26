@@ -15,7 +15,7 @@
         "..#       |||||#~~~~~~U#",
         "..#       +w|>w#~~~~~~~o",
         "..#|||||  |||+|#~~~~~~U#",
-        "..#é           *~~~~~UU#",
+        "..#é           *~~~~éUU#",
         ".%o      ||||||##~#o####",
         ".po      | &   #```````.",
         ".%o      |     o%`p[p``.",
@@ -36,6 +36,7 @@
         "£": "t_door_metal_locked",
         "U": "t_thconc_floor",
         "~": "t_thconc_floor",
+        "é": "t_thconc_floor",
         "ù": "t_region_groundcover_urban"
       },
       "furniture": { "ù": "f_region_weed" },
