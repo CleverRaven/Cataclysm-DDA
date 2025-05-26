@@ -365,7 +365,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "watermelon", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
     ],
-    "weight": "75 g",
+    "weight": "30 g",
     "color": "magenta",
     "spoils_in": "360 days",
     "comestible_type": "FOOD",
