@@ -1422,8 +1422,7 @@ Warn on load if files have been modified
 standardize query_int()
 Always Display Spell Tabs
 Allow monsters to have different climb/swim/dig speeds
-Remove pointless mapgen field
-Mapgen: removed unused and obsolete JSON fields
+Mapgen: removed unused, obsoleted and pointless JSON fields
 
 
 ## Build:
