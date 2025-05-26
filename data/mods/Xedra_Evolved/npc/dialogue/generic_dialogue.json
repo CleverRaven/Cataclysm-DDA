@@ -162,7 +162,7 @@
         "topic": "TALK_ABOUT_FERALS_HOMULLUS_POSITIVE",
         "condition": { "and": [ { "u_has_trait": "HOMULLUS" }, { "compare_string": [ "no", { "u_val": "u_met_non_feral" } ] } ] },
         "switch": true,
-        "default": false,
+        "default": false
       }
     ]
   },
@@ -189,14 +189,14 @@
           ]
         },
         "switch": true,
-        "default": false,
+        "default": false
       },
       {
         "text": "[Paraclesian:Dollkin] Finally a normal human!  What's happened here?",
         "topic": "TALK_ABOUT_FERALS_HOMULLUS_NEGATIVE",
         "condition": { "and": [ { "u_has_trait": "HOMULLUS" }, { "compare_string": [ "no", { "u_val": "u_met_non_feral" } ] } ] },
         "switch": true,
-        "default": false,
+        "default": false
       }
     ]
   },
