@@ -40,6 +40,7 @@
       "ւ": "t_strconc_floor",
       "Á": "t_pavement",
       "o": "t_laminated_glass",
+      "ö": "t_linoleum_white",
       "O": [ [ "t_curtains", 1 ], [ "t_window_domestic", 2 ] ],
       "0": "t_wall_glass"
     },
@@ -68,6 +69,7 @@
       "J": "f_lab_bench",
       "K": "f_utility_shelf",
       "L": "f_utility_shelf",
+      "ö": "f_oxygen_concentrator",
       "R": "f_rack",
       "S": "f_sink",
       "U": "f_console_broken",
