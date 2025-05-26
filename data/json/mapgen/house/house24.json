@@ -26,7 +26,7 @@
         "..#~~~~~Y#x  H   |@@ E#.",
         "..#U~~~~Y#     hr|@@ D#.",
         "..#U~~~~~*      r|||||#.",
-        ".^#~A~~~~#       +---B#^",
+        ".^#éA~~~~#       +---B#^",
         "..#NNNqq~#RyHHHsR|t8SB#.",
         "..##########ooo########.",
         "...........!!!!!........",
@@ -35,6 +35,7 @@
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "-": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "é": "t_thconc_floor",
         "N": "t_thconc_floor",
         "Y": "t_thconc_floor",
         "U": "t_thconc_floor",

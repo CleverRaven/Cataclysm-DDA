@@ -4395,7 +4395,7 @@ void iexamine::compost_full( Character &you, const tripoint_bub_ms &examp )
 
     const std::string compost_name = compost_i.tname();
     item_location loc( map_cursor( examp ), &*items_here.begin() );
-    if( liquid_handler::handle_liquid( loc ) ) {
+    if( liquid_handler::handle_liquid( loc ) && loc->charges == 0 ) {
         compost_set_empty( examp );
         add_msg( _( "You squeeze the last drops of %s from the tank." ), compost_name );
     }
