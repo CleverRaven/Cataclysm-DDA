@@ -559,7 +559,11 @@
     "effect": [
       {
         "if": { "math": [ "u_teleport_total_carried_volume >= 0" ] },
-        "then": [ { "u_teleport": { "u_val": "gateway_destination_2" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ],
+        "then": [
+          { "message": "Destination coordinates are <u_val:gateway_destination_2>.", "type": "debug" },
+          { "u_teleport": { "u_val": "gateway_destination_2" } },
+          { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" }
+        ],
         "else": [ { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE_CARRYING_TOO_MUCH" } ]
       }
     ]
@@ -1160,89 +1164,111 @@
         ],
         "hide_failing": true,
         "allow_cancel": true
-      },
-      {
-        "if": { "not": { "compare_string": [ { "u_val": "dilated_gateway_location" }, "" ] } },
-        "then": [
-          { "u_cast_spell": { "id": "teleport_dilated_gateway_teleport_others", "message": "" } },
-          { "u_cast_spell": { "id": "teleport_dilated_gateway_teleport_self", "message": "" } }
-        ]
-      },
-      { "set_string_var": "", "target_var": { "u_val": "dilated_gateway_location" } }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DILATED_GATEWAY_ACTIVATE",
+    "effect": [
+      { "u_cast_spell": { "id": "teleport_dilated_gateway_teleport_others", "message": "" } },
+      { "u_cast_spell": { "id": "teleport_dilated_gateway_teleport_self", "message": "" } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_EXTERNAL_TELEPORT",
-    "effect": [
-      {
-        "set_string_var": "<npc_val:dilated_gateway_location>",
-        "target_var": { "context_val": "temp_var" },
-        "parse_tags": true
-      },
-      { "u_teleport": { "var_val": "temp_var" }, "force_safe": true },
-      { "message": "<u_name> vanishes!" }
-    ]
+    "effect": [ { "u_teleport": { "npc_val": "dilated_gateway_location" }, "force_safe": true }, { "message": "<u_name> vanishes!" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_01",
     "condition": { "math": [ "has_var(u_gateway_destination_1)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_1", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_1" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_02",
     "condition": { "math": [ "has_var(u_gateway_destination_2)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_2", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_2" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_03",
     "condition": { "math": [ "has_var(u_gateway_destination_3)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_3", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_3" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_04",
     "condition": { "math": [ "has_var(u_gateway_destination_4)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_4", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_4" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_05",
     "condition": { "math": [ "has_var(u_gateway_destination_5)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_5", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_5" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_06",
     "condition": { "math": [ "has_var(u_gateway_destination_6)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_6", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_6" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_07",
     "condition": { "math": [ "has_var(u_gateway_destination_7)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_7", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_7" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_08",
     "condition": { "math": [ "has_var(u_gateway_destination_8)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_8", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_8" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_09",
     "condition": { "math": [ "has_var(u_gateway_destination_9)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_9", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_9" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_dilated_gateway_SELECT_10",
     "condition": { "math": [ "has_var(u_gateway_destination_10)" ] },
-    "effect": [ { "set_string_var": "npc_gateway_destination_10", "target_var": { "u_val": "dilated_gateway_location" } } ]
+    "effect": [
+      { "copy_var": { "npc_val": "gateway_destination_10" }, "target_var": { "u_val": "dilated_gateway_location" } },
+      { "run_eocs": "EOC_DILATED_GATEWAY_ACTIVATE" }
+    ]
   },
   {
     "type": "effect_on_condition",
