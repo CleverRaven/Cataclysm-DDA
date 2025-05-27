@@ -8,11 +8,44 @@
     "purifiable": false,
     "valid": false,
     "active": true,
-	"enchantments": [ { "condition": "ALWAYS", "values": [ 
-			{ "value": "STRENGTH", "add": { "math": [ "max((u_skill('mechanics') + u_skill('swimming') + u_skill('bashing') + u_skill('cutting') + u_skill('melee') + u_skill('throw')) * 0.4 - 3, 0)" ] } },
-			{ "value": "DEXTERITY", "add": { "math": [ "max((u_skill('driving') + u_skill('survival') + u_skill('tailor') + u_skill('traps') + u_skill('dodge') + u_skill('stabbing') + u_skill('unarmed')) * 0.4 - 3, 0)" ] } },
-			{ "value": "INTELLIGENCE", "add": { "math": [ "max((u_skill('computer') + u_skill('cooking') + u_skill('electronics') + u_skill('fabrication') + u_skill('firstaid') + u_skill('speech') + u_skill('chemistry')) * 0.4 - 3, 0)" ] } },
-			{ "value": "PERCEPTION", "add": { "math": [ "max((u_skill('archery') + u_skill('gun') + u_skill('launcher') + u_skill('pistol') + u_skill('rifle') + u_skill('shotgun') + u_skill('smg')) * 0.4 - 3, 0)" ] } }
-	] } ]
-	}
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          {
+            "value": "STRENGTH",
+            "add": {
+              "math": [
+                "max((u_skill('mechanics') + u_skill('swimming') + u_skill('bashing') + u_skill('cutting') + u_skill('melee') + u_skill('throw')) * 0.4 - 3, 0)"
+              ]
+            }
+          },
+          {
+            "value": "DEXTERITY",
+            "add": {
+              "math": [
+                "max((u_skill('driving') + u_skill('survival') + u_skill('tailor') + u_skill('traps') + u_skill('dodge') + u_skill('stabbing') + u_skill('unarmed')) * 0.4 - 3, 0)"
+              ]
+            }
+          },
+          {
+            "value": "INTELLIGENCE",
+            "add": {
+              "math": [
+                "max((u_skill('computer') + u_skill('cooking') + u_skill('electronics') + u_skill('fabrication') + u_skill('firstaid') + u_skill('speech') + u_skill('chemistry')) * 0.4 - 3, 0)"
+              ]
+            }
+          },
+          {
+            "value": "PERCEPTION",
+            "add": {
+              "math": [
+                "max((u_skill('archery') + u_skill('gun') + u_skill('launcher') + u_skill('pistol') + u_skill('rifle') + u_skill('shotgun') + u_skill('smg')) * 0.4 - 3, 0)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
 ]
