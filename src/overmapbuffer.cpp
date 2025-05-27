@@ -1942,6 +1942,16 @@ void overmapbuffer::despawn_monster( const monster &critter )
     }
 }
 
+monster &overmapbuffer::spawn_monster( const tripoint_abs_ms &p, mtype_id id )
+{
+    // Get the overmap coordinates and get the overmap, sm is now local to that overmap
+    point_abs_om omp;
+    tripoint_om_sm sm;
+    std::tie( omp, sm ) = project_remain<coords::om>( project_to<coords::sm>( p ) );
+    overmap &om = get( omp );
+    return om.spawn_monster( p, id );
+}
+
 overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, std::string_view pattern )
 {
     t_notes_vector result;
