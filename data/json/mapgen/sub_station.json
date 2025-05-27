@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sub_station" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -37,7 +36,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sub_station_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -72,7 +70,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewer_sub_station" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -110,7 +107,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "underground_sub_station" ],
     "object": {
       "fill_ter": "t_thconc_floor",

@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ [ "TreeFarm_1a", "TreeFarm_1b" ] ],
     "object": {
@@ -62,7 +61,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ "TreeFarm_1a_roof" ],
     "object": {

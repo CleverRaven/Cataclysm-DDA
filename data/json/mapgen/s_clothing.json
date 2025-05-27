@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_clothes" ],
     "//": "All clothing",
     "object": {
@@ -45,7 +44,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_clothes_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -96,7 +94,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_clothes_1" ],
     "//": "Suit Tailor",
     "object": {
@@ -138,7 +135,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_clothes_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -187,7 +183,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_clothes_2" ],
     "//": "Fancy Furs",
     "object": {
@@ -229,7 +224,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_clothes_roof_2",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -279,7 +273,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_clothes_3" ],
     "//": "Shoes & Hats",
     "object": {
@@ -367,7 +360,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_clothes_roof_3",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -417,7 +409,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_clothes_4" ],
     "//": "Dress Tailor",
     "object": {
@@ -459,7 +450,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_clothes_roof_4",
     "object": {
       "fill_ter": "t_floor",
@@ -518,7 +508,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_clothes_upper_roof_4",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -553,7 +542,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_clothes_5" ],
     "//": "Wedding Tailor",
     "object": {
@@ -656,7 +644,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_clothes_roof_5",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -705,7 +692,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_clothes_6" ],
     "//": "All clothing",
     "object": {
@@ -748,7 +734,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_clothes_roof_6",
     "object": {
       "fill_ter": "t_flat_roof",

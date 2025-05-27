@@ -162,11 +162,6 @@
   },
   {
     "type": "overmap_location",
-    "id": "potential_basement_lab_entrance",
-    "terrains": [ "basement" ]
-  },
-  {
-    "type": "overmap_location",
     "id": "open_air",
     "terrains": [ "open_air" ]
   },

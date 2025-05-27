@@ -133,6 +133,7 @@ Underground Temperature now depends on Region Settings
 Modinfo Blacklist
 Add a dentist office map
 Item faults
+Make aggro_character respect anger_relations
 
 
 ## Content:
@@ -307,6 +308,7 @@ Improves/adds missions, rewards and interactions with the New England Community 
 Military outposts have been revamped
 Adds a new nether monster
 Snippetize Tshirt variants
+Exodii Ceramics
 
 
 ## Interface:
@@ -804,6 +806,11 @@ Mod Conflicts
 [Xedra Evolved] Add design docs for easier collaboration
 [Xedra Evolved] Add feral vampires, put them in house nests + caves
 [The Backrooms] Expand the Backrooms to multiple Z-levels, add stairs
+[MoM] Nether Attunement Spoilers document
+[MoM] Add Noetic resonance detector
+[Xedra Evolved] Remove vampires' free bite, vampires take more mutagen
+[MoM] Hostile NPC dialogue updates
+[MoM] Add psychic knacks
 
 
 ## Balance:
@@ -1251,6 +1258,9 @@ Fix 0.5 L I1 Diesel engine not consuming fuel
 'None'-skill crafting counts as max level, not level 0
 [Sky Island] Fix possible painkiller death loop
 Can't craft batches so big that they vanish when the game has nowhere to put them
+[Xedra Evolved] Fix werewolf biting
+Continue with destination activity if route is empty
+Allow moving out of impassable, aquatic treated as swimming, non-swimmers can walk in shallow water
 
 
 ## Performance:
@@ -1411,6 +1421,8 @@ add some AIM tests
 Warn on load if files have been modified
 standardize query_int()
 Always Display Spell Tabs
+Allow monsters to have different climb/swim/dig speeds
+Mapgen: removed unused, obsoleted and pointless JSON fields
 
 
 ## Build:

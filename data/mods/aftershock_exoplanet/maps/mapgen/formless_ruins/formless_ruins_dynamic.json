@@ -16,7 +16,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_formless_ruins_dynamic" ],
     "weight": 500,
     "object": {
@@ -92,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_formless_ruins_dynamic" ],
     "weight": 100,
     "object": {
@@ -168,7 +166,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_formless_ruins_dynamic" ],
     "//": "emptier map with a droneswarm, very rare",
     "weight": 5,
@@ -244,7 +241,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_ribs1",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -268,7 +264,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_ribs2",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -292,7 +287,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_room1",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -317,7 +311,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_room2",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -342,7 +335,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_room3",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -367,7 +359,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_room4",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -391,7 +382,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_room5",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -415,7 +405,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_room6",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -439,7 +428,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_twoway1",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -463,7 +451,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_twoway2",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -487,7 +474,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_twoway3",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -511,7 +497,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_pillar1",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -535,7 +520,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_pillar2",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -559,7 +543,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_orderly1",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -583,7 +566,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_orderly2",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -607,7 +589,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_orderly3",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -631,7 +612,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_orderly4",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -655,7 +635,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_empty1",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -680,7 +659,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_empty2",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -705,7 +683,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_empty3",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -730,7 +707,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_empty4",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -754,7 +730,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_cryoroom_roof",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -777,7 +752,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_cryoroom",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -812,7 +786,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_telepad_roof",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -835,7 +808,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_telepad",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -872,7 +844,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_armory",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -910,7 +881,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_sleeping_room",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -938,7 +908,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_smallasrg",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -966,7 +935,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_escapepod_roof",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -983,7 +951,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_escapepod",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1011,7 +978,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_smallcryoroom_roof",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1028,7 +994,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_ruins_smallcryoroom",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1057,7 +1022,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "formless_forest",
     "//": "forest map for when adjacent forests exists",
     "object": {

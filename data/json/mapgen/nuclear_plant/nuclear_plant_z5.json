@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "nuclear_plant_7_2_5", "nuclear_plant_8_2_5" ], [ "nuclear_plant_7_3_5", "nuclear_plant_8_3_5" ] ],
     "object": {
       "fill_ter": "t_open_air",

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "smallscrapyard_ocu",
     "object": {
       "fill_ter": "t_region_soil",
@@ -166,7 +165,6 @@
   {
     "type": "mapgen",
     "//": "Assuming the metal walls aren't supposed to have roofs",
-    "method": "json",
     "om_terrain": "smallscrapyard_ocu_roof",
     "object": {
       "fill_ter": "t_open_air",

@@ -1,19 +1,16 @@
 [
   {
-    "method": "json",
     "nested_mapgen_id": "24x24_gutter_horizontal",
     "type": "mapgen",
     "object": { "mapgensize": [ 24, 24 ], "set": [ { "line": "terrain", "id": "t_gutter", "x": 0, "y": 0, "x2": 23, "y2": 0 } ] }
   },
   {
-    "method": "json",
     "nested_mapgen_id": "24x24_gutter_vertical",
     "type": "mapgen",
     "object": { "mapgensize": [ 24, 24 ], "set": [ { "line": "terrain", "id": "t_gutter", "x": 0, "y": 0, "x2": 0, "y2": 23 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_4x4_holdout",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -34,7 +31,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_4x4_party",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -55,7 +51,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_4x4_survivor",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -73,7 +68,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_16x16_help",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -121,7 +115,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_5x5_coop",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -148,7 +141,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_4x4_utility",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -167,7 +159,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_4x4_utility_1",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -186,7 +177,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_6x6_utility",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -207,7 +197,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_2x2_golf",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -224,7 +213,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_2x2_infrastructure",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -233,7 +221,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_2x2_infrastructure_1",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -242,7 +229,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_2x2_infrastructure_2",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -251,7 +237,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_2x2_utilities_b",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -260,7 +245,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_2x2_utilities_c",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -269,7 +253,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_2x2_utilities_d",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -278,7 +261,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_3x3_wine",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -297,7 +279,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_2x2_utilities",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -311,7 +292,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_6x6_survivor",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -344,7 +324,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_6x6_greenhouse_roof",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -361,7 +340,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_6x6_greenhouse_1",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -387,7 +365,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_6x6_greenhouse_2",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -413,7 +390,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_6x6_greenhouse_3",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -443,7 +419,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_6x6_garden_1",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -464,7 +439,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_6x6_garden_2",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -485,7 +459,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_6x6_garden_3",
     "//": "herb garden",
     "object": {
@@ -511,7 +484,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_6x6_garden_4",
     "//": "zen garden.",
     "object": {
@@ -532,7 +504,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "roof_1x1_birdnest",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -546,73 +517,61 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "residential_2x2_solar",
     "object": { "mapgensize": [ 2, 2 ], "place_furniture": [ { "furn": "f_solar_unit", "x": [ 0, 1 ], "y": [ 0, 1 ] } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "residential_1x2_solar",
     "object": { "mapgensize": [ 2, 2 ], "place_furniture": [ { "furn": "f_solar_unit", "x": 0, "y": [ 0, 1 ] } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "residential_1x3_solar",
     "object": { "mapgensize": [ 3, 3 ], "place_furniture": [ { "furn": "f_solar_unit", "x": 0, "y": [ 0, 2 ] } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "residential_3x3_solar",
     "object": { "mapgensize": [ 3, 3 ], "place_furniture": [ { "furn": "f_solar_unit", "x": [ 0, 2 ], "y": [ 0, 2 ] } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "industrial_1x5_solar",
     "object": { "mapgensize": [ 5, 5 ], "place_furniture": [ { "furn": "f_solar_unit", "x": [ 0, 4 ], "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "industrial_1x1_solar",
     "object": { "mapgensize": [ 1, 1 ], "place_furniture": [ { "furn": "f_solar_unit", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "residential_2x2_solar_v2",
     "object": { "mapgensize": [ 2, 2 ], "place_furniture": [ { "furn": "f_solar_unit_v2", "x": [ 0, 1 ], "y": [ 0, 1 ] } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "residential_1x2_solar_v2",
     "object": { "mapgensize": [ 2, 2 ], "place_furniture": [ { "furn": "f_solar_unit_v2", "x": 0, "y": [ 0, 1 ] } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "residential_1x3_solar_v2",
     "object": { "mapgensize": [ 3, 3 ], "place_furniture": [ { "furn": "f_solar_unit_v2", "x": 0, "y": [ 0, 2 ] } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "residential_3x3_solar_v2",
     "object": { "mapgensize": [ 3, 3 ], "place_furniture": [ { "furn": "f_solar_unit_v2", "x": [ 0, 2 ], "y": [ 0, 2 ] } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "industrial_1x5_solar_v2",
     "object": { "mapgensize": [ 5, 5 ], "place_furniture": [ { "furn": "f_solar_unit_v2", "x": [ 0, 4 ], "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "industrial_1x1_solar_v2",
     "object": { "mapgensize": [ 1, 1 ], "place_furniture": [ { "furn": "f_solar_unit_v2", "x": 0, "y": 0 } ] }
   }

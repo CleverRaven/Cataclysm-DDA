@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "wizardtower1_ground", "wizardtower1_living", "wizardtower1_golems", "wizardtower1_study", "wizardtower1_roof" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -36,7 +35,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "wizardtower2_ground", "wizardtower2_stairs1", "wizardtower2_stairs2", "wizardtower2_study", "wizardtower2_roof" ] ],
     "object": {
       "fill_ter": "t_floor",

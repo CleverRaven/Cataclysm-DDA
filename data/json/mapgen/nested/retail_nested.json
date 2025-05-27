@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for spaces 9x9.",
     "nested_mapgen_id": "city_block_9x9_candy_shop_front",
     "object": {
@@ -50,7 +49,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 candy shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_candy",
     "object": {
@@ -73,7 +71,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for spaces 9x9.  Beauty and cosmetics shop.",
     "nested_mapgen_id": "city_block_9x9_beauty_shop_front",
     "object": {
@@ -121,7 +118,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 beauty shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_beauty",
     "object": {
@@ -139,7 +135,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 vitamin shop.",
     "nested_mapgen_id": "city_block_9x9_vitamin_shop_front",
     "object": {
@@ -191,7 +186,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 vitamin shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_vitamin",
     "object": {
@@ -209,7 +203,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 cellphone shop.",
     "nested_mapgen_id": "city_block_9x9_cellphone_shop_front",
     "object": {
@@ -264,7 +257,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 cellphone shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_cellphone",
     "object": {
@@ -288,7 +280,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 music shop.",
     "nested_mapgen_id": "city_block_9x9_music_shop_front",
     "object": {
@@ -336,7 +327,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 music shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_music",
     "object": {
@@ -360,7 +350,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 gift shop.",
     "nested_mapgen_id": "city_block_9x9_gift_shop_front",
     "object": {
@@ -418,7 +407,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 gift shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_gift",
     "object": {
@@ -436,7 +424,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 electronics shop.",
     "nested_mapgen_id": "city_block_9x9_electronics_shop_front",
     "object": {
@@ -490,7 +477,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 electronics shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_electronics",
     "object": {
@@ -516,7 +502,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 pizza shop.",
     "nested_mapgen_id": "city_block_9x9_pizza_shop_front",
     "object": {
@@ -585,7 +570,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 pizza shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_pizza",
     "object": {
@@ -608,7 +592,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 8x8 clothing shop.",
     "nested_mapgen_id": "city_block_8x8_clothing_shop_front",
     "object": {
@@ -662,7 +645,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 general clothing shop crates.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing",
     "object": {
@@ -689,7 +671,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 general clothing backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing",
     "object": {
@@ -714,7 +695,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 8x8 formal clothing shop.",
     "nested_mapgen_id": "city_block_8x8_formal_clothing_shop_front",
     "object": {
@@ -768,7 +748,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 formal clothing shop crates.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_formal",
     "object": {
@@ -795,7 +774,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 formal clothing backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_formal",
     "object": {
@@ -819,7 +797,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 formal clothing backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_formal",
     "object": {
@@ -854,7 +831,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 8x8 leather clothing shop.",
     "nested_mapgen_id": "city_block_8x8_leather_clothing_shop_front",
     "object": {
@@ -903,7 +879,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 leather clothing shop crates.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_leather",
     "object": {
@@ -928,7 +903,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 leather clothing backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_leather",
     "object": {
@@ -952,7 +926,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 leather clothing backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_leather",
     "object": {
@@ -994,7 +967,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 8x8 fur clothing shop.",
     "nested_mapgen_id": "city_block_8x8_fur_clothing_shop_front",
     "object": {
@@ -1043,7 +1015,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 fur clothing shop crates.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_fur",
     "object": {
@@ -1068,7 +1039,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 fur clothing backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_fur",
     "object": {
@@ -1087,7 +1057,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 fur clothing backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_fur",
     "object": {
@@ -1124,7 +1093,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 5x5 shop backroom.",
     "nested_mapgen_id": "city_block_5x5_backroom_shop",
     "object": {
@@ -1160,7 +1128,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 5x5 shop backroom.",
     "nested_mapgen_id": "city_block_5x5_backroom_shop",
     "object": {
@@ -1195,7 +1162,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 shop backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_shop",
     "object": {
@@ -1223,7 +1189,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 shop backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_shop",
     "object": {
@@ -1252,7 +1217,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 shop backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_shop",
     "object": {
@@ -1284,7 +1248,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 5x5 shop backroom.",
     "nested_mapgen_id": "city_block_5x5_backroom_shop",
     "object": {
@@ -1319,7 +1282,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 5x5 shop backroom.",
     "nested_mapgen_id": "city_block_5x5_backroom_shop",
     "object": {
@@ -1350,7 +1312,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 candy shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_candy",
     "object": {
@@ -1373,7 +1334,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for restaurant spaces 14x14.",
     "nested_mapgen_id": "city_block_14x14_restaurant",
     "object": {
@@ -1450,7 +1410,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for bar spaces 11x11.",
     "nested_mapgen_id": "city_block_11x11_bar",
     "object": {
@@ -1508,7 +1467,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "pizza_loot",
     "object": {
       "mapgensize": [ 18, 18 ],
@@ -1554,7 +1512,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "diner_loot",
     "object": {
       "mapgensize": [ 18, 18 ],
@@ -1600,7 +1557,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "3x3_woodcrafts_crates",
     "//": "designed for the back of the woodwork craftshop",
     "object": {
@@ -1617,7 +1573,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "4x4_woodcrafts_table_vertical",
     "//": "designed for the large workbench tables in the woodwork craftshop",
     "object": {
@@ -1636,7 +1591,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "4x4_woodcrafts_table_horizontal",
     "//": "designed for the large workbench tables in the woodwork craftshop",
     "object": {
@@ -1655,7 +1609,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "4x4_woodcrafts_display_nocanoe",
     "//": "designed for the window display of the woodwork craftshop",
     "object": {
@@ -1673,7 +1626,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_woodcrafts_display_canoe",
     "//": "designed for the window display of the woodwork craftshop",
     "object": {
