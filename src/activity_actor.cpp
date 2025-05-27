@@ -8905,7 +8905,9 @@ void butchery_activity_actor::do_turn( player_activity &act, Character &you )
 void butchery_activity_actor::finish( player_activity &act, Character &you )
 {
     // if it's mutli-tile butchering, then restart the backlog.
-    activity_handlers::resume_for_multi_activities( you );
+    if( !you.backlog.empty() ) {
+        activity_handlers::resume_for_multi_activities( you );
+    }
 }
 
 void butchery_activity_actor::canceled( player_activity &, Character & )
@@ -8931,7 +8933,7 @@ std::unique_ptr<activity_actor> butchery_activity_actor::deserialize( JsonValue 
 void multiple_butchery_activity_actor::start( player_activity &act, Character &you )
 {
     for( const butchery_data &bd_instance : bd ) {
-        you.backlog.emplace_front( butchery_activity_actor( bd_instance ) );
+        you.backlog.emplace_back( butchery_activity_actor( bd_instance ) );
     }
     act.moves_left = 0;
 }

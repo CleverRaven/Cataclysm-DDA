@@ -2472,7 +2472,6 @@ class pulp_activity_actor : public activity_actor
 class butchery_activity_actor : public activity_actor
 {
     public:
-        butchery_activity_actor() = default;
         explicit butchery_activity_actor( butchery_data bd ) : bd( bd ) {}
         const activity_id &get_type() const override {
             switch( bd.b_type ) {
@@ -2542,7 +2541,6 @@ class multiple_butchery_activity_actor : public activity_actor
 {
 
     public:
-        multiple_butchery_activity_actor() = default;
 
         explicit multiple_butchery_activity_actor( std::vector<butchery_data> bd ) : bd( bd ) {}
         explicit multiple_butchery_activity_actor( butchery_data bd ) : bd( { bd } ) {}
