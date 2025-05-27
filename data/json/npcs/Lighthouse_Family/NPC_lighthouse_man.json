@@ -458,7 +458,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "lighthouse_man_survivor",
-    "method": "json",
     "object": { "place_npcs": [ { "class": "NPC_survivor_lighthouse", "x": [ 7, 17 ], "y": [ 10, 15 ] } ] }
   }
 ]

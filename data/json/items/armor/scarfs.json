@@ -827,5 +827,128 @@
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
       }
     ]
+  },
+  {
+    "id": "throat_guard_nylon",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "nylon throat guard" },
+    "description": "A common nylon throat guard commonly used for neck protection when playing sports.",
+    "weight": "60 g",
+    "volume": "510 ml",
+    "price": "15 USD",
+    "price_postapoc": "50 cent",
+    "symbol": "[",
+    "material": [ "nylon" ],
+    "color": "light_blue",
+    "looks_like": "iotv_neck_plate",
+    "warmth": 8,
+    "material_thickness": 2,
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat", "head_nape" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "NONE" ]
+      }
+    ]
+  },
+  {
+    "id": "throat_guard_canvas",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "canvas throat guard" },
+    "description": "A common canvas throat guard commonly used for neck protection when playing sports like hockey.",
+    "copy-from": "throat_guard_nylon",
+    "material": [ "canvas" ],
+    "color": "light_gray"
+  },
+  {
+    "id": "throat_guard_plastic",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "plastic throat guard" },
+    "description": "A rare variety of throat guard originally known as a gorget and used for neck protection in HEMA.  It's made from thick rubber covered by nylon.  It offers good protection for the throat, but it only covers a small portion of the nape.",
+    "weight": "160 g",
+    "volume": "4408 ml",
+    "price": "55 USD",
+    "price_postapoc": "1 USD",
+    "symbol": "[",
+    "material": [ "thermo_resin", "nylon" ],
+    "color": "dark_gray",
+    "looks_like": "iotv_neck_plate",
+    "warmth": 10,
+    "material_thickness": 4,
+    "flags": [ "WATERPROOF", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "thermo_resin", "covered_by_mat": 95, "thickness": 4 }
+        ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "thermo_resin", "covered_by_mat": 75, "thickness": 4 }
+        ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_nape" ],
+        "rigid_layer_only": true,
+        "coverage": 20,
+        "encumbrance_modifiers": [ "NONE" ]
+      }
+    ]
+  },
+  {
+    "id": "throat_guard_cut_resistant",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "cut-resistant throat guard" },
+    "description": "A cut-resistant Kevlar throat guard, commonly used by welders, security forces and in some sports.",
+    "copy-from": "throat_guard_nylon",
+    "weight": "136 g",
+    "price": "130 USD",
+    "price_postapoc": "4 USD",
+    "material": [ "kevlar" ],
+    "color": "dark_gray",
+    "environmental_protection": 1,
+    "flags": [ "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "throat_guard_mercenary",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "mercenary throat guard" },
+    "description": "A ballistic collar modified to wear it as a standalone armor, carefully combined with a regular nylon throat guard for extra protection.",
+    "weight": "680 g",
+    "volume": "1000 ml",
+    "price_postapoc": "1 USD",
+    "symbol": "[",
+    "material": [ "kevlar_layered", "nylon" ],
+    "color": "dark_gray",
+    "looks_like": "iotv_neck_plate",
+    "warmth": 10,
+    "flags": [ "STURDY", "OUTER", "NORMAL", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 3 },
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 4.4 }
+        ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat", "head_nape" ],
+        "encumbrance_modifiers": [ "RESTRICTS_NECK" ]
+      }
+    ]
   }
 ]

@@ -58,7 +58,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_west_wall_door",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -72,7 +71,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_east_wall_door",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -86,7 +84,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_makeshift_bed",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -101,7 +98,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_13",
     "object": {
       "mapgensize": [ 20, 20 ],
@@ -133,7 +129,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_14",
     "object": {
       "mapgensize": [ 20, 20 ],
@@ -165,7 +160,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_15_roof",
     "object": {
       "mapgensize": [ 20, 20 ],
@@ -196,7 +190,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_15",
     "object": {
       "mapgensize": [ 20, 20 ],
@@ -229,7 +222,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_16_done",
     "object": {
       "mapgensize": [ 20, 20 ],
@@ -312,7 +304,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_bartender_1",
     "object": {
       "mapgensize": [ 15, 15 ],
@@ -339,7 +330,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_bartender_2",
     "object": {
       "mapgensize": [ 20, 20 ],
@@ -372,7 +362,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_bartender_3_roof",
     "object": {
       "mapgensize": [ 20, 20 ],
@@ -403,7 +392,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_bartender_3",
     "object": {
       "mapgensize": [ 20, 20 ],
@@ -436,7 +424,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_bartender_4",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -464,7 +451,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_chopshop_10",
     "object": {
       "mapgensize": [ 20, 20 ],
@@ -496,7 +482,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_chopshop_11",
     "object": {
       "mapgensize": [ 20, 20 ],
@@ -528,7 +513,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_chopshop_12_roof",
     "object": {
       "mapgensize": [ 20, 20 ],
@@ -559,7 +543,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_chopshop_12_done",
     "object": {
       "mapgensize": [ 20, 20 ],
@@ -595,7 +578,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_clinic_8",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -626,7 +608,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_clinic_9",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -658,7 +639,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_clinic_10_1",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -688,7 +668,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_clinic_10_roof",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -718,7 +697,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_clinic_10",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -751,7 +729,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_clinic_11",
     "object": {
       "mapgensize": [ 17, 17 ],
@@ -784,7 +761,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_clinic_12a",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -815,7 +791,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_clinic_12b",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -844,7 +819,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_clinic_12a_roof",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -874,7 +848,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_clinic_12b_roof",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -901,7 +874,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_clinic_bed",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -915,7 +887,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_greenhouse_16",
     "object": {
       "mapgensize": [ 13, 13 ],
@@ -940,7 +911,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_greenhouse_17_roof",
     "object": {
       "mapgensize": [ 13, 13 ],
@@ -964,7 +934,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_greenhouse_17_done",
     "object": {
       "mapgensize": [ 13, 13 ],
@@ -989,7 +958,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_greenhouse_bartender_beets",
     "object": {
       "mapgensize": [ 13, 13 ],
@@ -1015,7 +983,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_junk_shop_12",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1043,7 +1010,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_junk_shop_13_roof",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1070,7 +1036,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_junk_shop_13",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1099,7 +1064,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_junk_shop_14_done",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -1142,7 +1106,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_junk_shop_shed_1",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1158,7 +1121,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_junk_shop_shed_2",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1176,7 +1138,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_lumbermill_4",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -1200,7 +1161,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_lumbermill_5_roof",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -1223,7 +1183,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_lumbermill_5",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -1248,7 +1207,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_lumbermill_6",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -1277,7 +1235,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_lumbermill_7",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -1302,7 +1259,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_lumbermill_8_done",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -1336,7 +1292,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_outhouse_8",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1353,7 +1308,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_outhouse_9_roof",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1369,7 +1323,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_outhouse_9_done",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1388,7 +1341,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_toolshed_8",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1406,7 +1358,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_toolshed_9_roof",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1423,7 +1374,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "tacoma_commune_toolshed_9_done",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1444,19 +1394,16 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "tacoma_commune_woodcutter_10_logs",
-    "method": "json",
     "object": { "place_item": [ { "item": "log", "x": 7, "y": 15, "amount": 10 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "tacoma_commune_woodcutter_100_logs",
-    "method": "json",
     "object": { "place_item": [ { "item": "log", "x": 7, "y": 15, "amount": 100 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "tacoma_commune_crop_overseer_field_1_plant",
-    "method": "json",
     "object": {
       "set": [
         { "square": "terrain", "id": "t_dirt", "x": 3, "y": 2, "x2": 16, "y2": 21 },
@@ -1477,7 +1424,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "tacoma_commune_crop_overseer_field_1_fence",
-    "method": "json",
     "object": {
       "set": [
         { "square": "terrain", "id": "t_fence", "x": 2, "y": 1, "x2": 18, "y2": 1 },
@@ -1494,7 +1440,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "tacoma_commune_shot_brandy",
-    "method": "json",
     "object": {
       "place_items": [ { "item": "ranch_bartender_shot_brandy", "x": 11, "y": 12, "chance": 100 } ],
       "place_item": [ { "item": "tacoma_drink_token", "x": 11, "y": 12 } ]
@@ -1503,7 +1448,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "tacoma_commune_shot_rum",
-    "method": "json",
     "object": {
       "place_items": [ { "item": "ranch_bartender_shot_rum", "x": 11, "y": 12, "chance": 100 } ],
       "place_item": [ { "item": "tacoma_drink_token", "x": 11, "y": 12 } ]
@@ -1512,7 +1456,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "tacoma_commune_shot_whiskey",
-    "method": "json",
     "object": {
       "place_items": [ { "item": "ranch_bartender_shot_whiskey", "x": 11, "y": 12, "chance": 100 } ],
       "place_item": [ { "item": "tacoma_drink_token", "x": 11, "y": 12 } ]
@@ -1521,7 +1464,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "tacoma_commune_glass_water",
-    "method": "json",
     "object": { "place_items": [ { "item": "ranch_bartender_glass_water", "x": 11, "y": 12, "chance": 100 } ] }
   }
 ]

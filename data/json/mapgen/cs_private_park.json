@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cs_private_park" ],
     "weight": 1000,
     "object": {
@@ -80,7 +79,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cs_private_park" ],
     "//": "Survivor",
     "weight": 10,
@@ -170,7 +168,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cs_private_park_roof",
     "object": {
       "fill_ter": "t_flat_roof",

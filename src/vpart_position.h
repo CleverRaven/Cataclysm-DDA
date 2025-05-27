@@ -57,6 +57,11 @@ class vpart_position
         bool is_inside() const;
 
         /**
+         * @returns Movement difficulty. 0 for impassable.
+         */
+        int get_movecost() const;
+
+        /**
          * Sets the label at this part of the vehicle. Removes the label if @p text is empty.
          */
         void set_label( const std::string &text ) const;

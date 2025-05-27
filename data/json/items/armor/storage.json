@@ -619,7 +619,7 @@
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "rucksack",
-    "color": "black",
+    "color": "dark_gray",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

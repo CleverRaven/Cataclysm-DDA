@@ -1986,7 +1986,7 @@
     "price_postapoc": "7 USD 50 cent",
     "material": [ { "type": "butyl_rubber", "portion": 3 }, { "type": "plastic", "portion": 2 } ],
     "symbol": "[",
-    "color": "black",
+    "color": "dark_gray",
     "armor": [
       {
         "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 } ],

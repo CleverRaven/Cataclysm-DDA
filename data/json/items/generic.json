@@ -3354,7 +3354,7 @@
     "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "symbol": "#",
-    "color": "black",
+    "color": "dark_gray",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 8 }
   },
@@ -3370,7 +3370,7 @@
     "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "symbol": "#",
-    "color": "black",
+    "color": "dark_gray",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 8 }
   },

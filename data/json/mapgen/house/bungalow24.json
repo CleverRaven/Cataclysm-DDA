@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow24",
-    "method": "json",
     "object": {
       "palettes": [
         "standard_domestic_palette",
@@ -68,7 +67,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow24_roof",
-    "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
       "fill_ter": "t_shingle_flat_roof",

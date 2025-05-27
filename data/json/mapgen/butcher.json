@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_butcher" ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
@@ -94,7 +93,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_butcher_roof",
     "object": {
       "fill_ter": "t_floor",
@@ -146,7 +144,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_butcher_upper_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -182,7 +179,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_butcher_1" ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
@@ -279,7 +275,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_butcher_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -340,7 +335,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_butcher_upper_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -375,7 +369,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_butcher_2" ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
@@ -464,7 +457,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_butcher_roof_2",
     "object": {
       "fill_ter": "t_flat_roof",

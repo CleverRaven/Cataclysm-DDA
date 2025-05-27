@@ -64,7 +64,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_sct_day1",
     "object": {
       "place_terrain": [
@@ -92,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_sct_mid",
     "object": {
       "place_terrain": [
@@ -120,7 +118,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_sct_late",
     "object": {
       "place_terrain": [

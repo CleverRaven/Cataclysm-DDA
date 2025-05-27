@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "sugar_house_parking" ], [ "sugar_house" ] ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
@@ -141,7 +140,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sugar_house_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

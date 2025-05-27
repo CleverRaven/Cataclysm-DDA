@@ -4,8 +4,10 @@
 #include <array>
 #include <climits>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <functional>
+#include <limits>
 #include <list>
 #include <map>
 #include <memory>
@@ -1248,29 +1250,19 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base,
             weight.max.constant() >= INT_MAX ) ) {
         jio.throw_error_at( "weight", "max value out of bounds (0 - max int)" );
     }
-
-    if( jio.get_bool( "disabled", false ) ) {
-        jio.allow_omitted_members();
-        return nullptr; // nothing
-    }
-    const std::string mgtype = jio.get_string( "method" );
-    if( mgtype == "builtin" ) {
-        if( const building_gen_pointer ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
+    if( jio.has_string( "builtin" ) ) {
+        if( const building_gen_pointer ptr = get_mapgen_cfunction( jio.get_string( "builtin" ) ) ) {
             return std::make_shared<mapgen_function_builtin>( ptr, std::move( weight ) );
         } else {
-            jio.throw_error_at( "name", "function does not exist" );
+            jio.throw_error_at( "builtin", "function does not exist" );
         }
-    } else if( mgtype == "json" ) {
-        if( !jio.has_object( "object" ) ) {
-            jio.throw_error( R"(mapgen with method "json" must define key "object")" );
-        }
-        JsonObject jo = jio.get_object( "object" );
-        jo.allow_omitted_members();
-        return std::make_shared<mapgen_function_json>(
-                   jo, std::move( weight ), "mapgen " + id_base, offset, total );
-    } else {
-        jio.throw_error_at( "method", R"(invalid value: must be "builtin" or "json")" );
+    } else if( !jio.has_object( "object" ) ) {
+        jio.throw_error( R"(mapgen must define key "object" or "builtin")" );
     }
+    JsonObject jo = jio.get_object( "object" );
+    return std::make_shared<mapgen_function_json>( std::move( jo ), std::move( weight ),
+            "mapgen " + id_base, offset,
+            total );
 }
 
 void load_and_add_mapgen_function( const JsonObject &jio, const std::string &id_base,
@@ -1282,44 +1274,30 @@ void load_and_add_mapgen_function( const JsonObject &jio, const std::string &id_
     }
 }
 
-static void load_nested_mapgen( const JsonObject &jio, const nested_mapgen_id &id_base )
+static void load_nested_mapgen( JsonObject &&jio, const nested_mapgen_id &id_base )
 {
-    const std::string mgtype = jio.get_string( "method" );
-    if( mgtype == "json" ) {
-        if( jio.has_object( "object" ) ) {
-            int weight = jio.get_int( "weight", 1000 );
-            JsonObject jo = jio.get_object( "object" );
-            jo.allow_omitted_members();
-            nested_mapgens[id_base].add(
-                std::make_shared<mapgen_function_json_nested>(
-                    jo, "nested mapgen " + id_base.str() ),
-                weight );
-        } else {
-            debugmsg( "Nested mapgen: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
-        }
+    if( jio.has_object( "object" ) ) {
+        int weight = jio.get_int( "weight", 1000 );
+        JsonObject jo = jio.get_object( "object" );
+        nested_mapgens[id_base].add(
+            std::make_shared<mapgen_function_json_nested>(
+                std::move( jo ), "nested mapgen " + id_base.str() ),
+            weight );
     } else {
-        debugmsg( "Nested mapgen: type for id %s was %s, but nested mapgen only supports \"json\"",
-                  id_base.c_str(), mgtype.c_str() );
+        debugmsg( "Nested mapgen: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
     }
 }
 
-static void load_update_mapgen( const JsonObject &jio, const update_mapgen_id &id_base )
+static void load_update_mapgen( JsonObject &&jio, const update_mapgen_id &id_base )
 {
-    const std::string mgtype = jio.get_string( "method" );
-    if( mgtype == "json" ) {
-        if( jio.has_object( "object" ) ) {
-            JsonObject jo = jio.get_object( "object" );
-            jo.allow_omitted_members();
-            update_mapgens[id_base].add(
-                std::make_unique<update_mapgen_function_json>(
-                    jo, "update mapgen " + id_base.str() ) );
-        } else {
-            debugmsg( "Update mapgen: Invalid mapgen function (missing \"object\" object)",
-                      id_base.c_str() );
-        }
+    if( jio.has_object( "object" ) ) {
+        JsonObject jo = jio.get_object( "object" );
+        update_mapgens[id_base].add(
+            std::make_unique<update_mapgen_function_json>(
+                std::move( jo ), "update mapgen " + id_base.str() ) );
     } else {
-        debugmsg( "Update mapgen: type for id %s was %s, but update mapgen only supports \"json\"",
-                  id_base.c_str(), mgtype.c_str() );
+        debugmsg( "Update mapgen: Invalid mapgen function (missing \"object\" object)",
+                  id_base.c_str() );
     }
 }
 
@@ -1362,9 +1340,17 @@ void load_mapgen( const JsonObject &jo )
     } else if( jo.has_string( "om_terrain" ) ) {
         load_and_add_mapgen_function( jo, jo.get_string( "om_terrain" ), point_rel_omt::zero, point_one );
     } else if( jo.has_string( "nested_mapgen_id" ) ) {
-        load_nested_mapgen( jo, nested_mapgen_id( jo.get_string( "nested_mapgen_id" ) ) );
+        std::string id_base = jo.get_string( "nested_mapgen_id" );
+        JsonObject jo_copy = jo;
+        jo_copy.copy_visited_members( jo );
+        jo.allow_omitted_members();
+        load_nested_mapgen( std::move( jo_copy ), nested_mapgen_id( id_base ) );
     } else if( jo.has_string( "update_mapgen_id" ) ) {
-        load_update_mapgen( jo, update_mapgen_id( jo.get_string( "update_mapgen_id" ) ) );
+        std::string id_base = jo.get_string( "update_mapgen_id" );
+        JsonObject jo_copy = jo;
+        jo_copy.copy_visited_members( jo );
+        jo.allow_omitted_members();
+        load_update_mapgen( std::move( jo_copy ), update_mapgen_id( id_base ) );
     } else {
         debugmsg( "mapgen entry requires \"om_terrain\" or \"nested_mapgen_id\"(string, array of strings, or array of array of strings)\n%s\n",
                   jo.str() );
@@ -1440,24 +1426,26 @@ bool mapgen_function_json_base::check_inbounds( const jmapgen_int &x, const jmap
 }
 
 mapgen_function_json_base::mapgen_function_json_base(
-    const JsonObject &jsobj, const std::string &context )
-    : jsobj( jsobj )
+    JsonObject &&jsobj, const std::string &context )
+    : jsobj( std::move( jsobj ) )
     , context_( context )
     , is_ready( false )
     , mapgensize( SEEX * 2, SEEY * 2 )
     , total_size( mapgensize )
     , objects( m_offset, mapgensize, total_size )
 {
-    this->jsobj.allow_omitted_members();
 }
 
-mapgen_function_json_base::~mapgen_function_json_base() = default;
+mapgen_function_json_base::~mapgen_function_json_base()
+{
+    jsobj.allow_omitted_members();
+}
 
-mapgen_function_json::mapgen_function_json( const JsonObject &jsobj,
+mapgen_function_json::mapgen_function_json( JsonObject &&jsobj,
         dbl_or_var w, const std::string &context, const point_rel_omt &grid_offset,
         const point_rel_omt &grid_total )
     : mapgen_function( std::move( w ) )
-    , mapgen_function_json_base( jsobj, context )
+    , mapgen_function_json_base( std::move( jsobj ), context )
     , rotation( 0 )
     , fallback_predecessor_mapgen_( oter_str_id::NULL_ID() )
 {
@@ -1470,8 +1458,8 @@ mapgen_function_json::mapgen_function_json( const JsonObject &jsobj,
 }
 
 mapgen_function_json_nested::mapgen_function_json_nested(
-    const JsonObject &jsobj, const std::string &context )
-    : mapgen_function_json_base( jsobj, context )
+    JsonObject &&jsobj, const std::string &context )
+    : mapgen_function_json_base( std::move( jsobj ), context )
     , rotation( 0 )
 {
 }
@@ -1588,9 +1576,6 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
         jmapgen_int tmp_i( 0, 0 );
         std::string string_val;
         int tmp_chance = 1;
-        int tmp_rotation = 0;
-        int tmp_fuel = -1;
-        int tmp_status = -1;
 
         const jmapgen_int tmp_x( pjo, "x" );
         const jmapgen_int tmp_y( pjo, "y" );
@@ -1659,12 +1644,9 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
         // TODO: sanity check?
         const jmapgen_int tmp_repeat = jmapgen_int( pjo, "repeat", 1, 1 );
         pjo.read( "chance", tmp_chance );
-        pjo.read( "rotation", tmp_rotation );
-        pjo.read( "fuel", tmp_fuel );
-        pjo.read( "status", tmp_status );
         jmapgen_setmap tmp( tmp_x, tmp_y, tmp_z, tmp_x2, tmp_y2,
                             static_cast<jmapgen_setmap_op>( tmpop + setmap_optype ), tmp_i,
-                            tmp_chance, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status, string_val );
+                            tmp_chance, tmp_repeat, string_val );
 
         setmap_points.push_back( tmp );
         tmpval.clear();
@@ -3424,24 +3406,11 @@ class jmapgen_trap : public jmapgen_piece_with_has_vehicle_collision
 {
     public:
         mapgen_value<trap_id> id;
-        bool remove = false;
 
-        jmapgen_trap( const JsonObject &jsi, std::string_view/*context*/ ) {
-            init( jsi.get_member( "trap" ) );
-            remove = jsi.get_bool( "remove", false );
-        }
+        jmapgen_trap( const JsonObject &jsi, std::string_view/*context*/ ) :
+            jmapgen_trap( jsi.get_member( "trap" ) ) {}
+        explicit jmapgen_trap( const JsonValue &fid ) : id( fid ) {}
 
-        explicit jmapgen_trap( const JsonValue &tid ) {
-            if( tid.test_object() ) {
-                JsonObject jo = tid.get_object();
-                remove = jo.get_bool( "remove", false );
-                if( jo.has_member( "trap" ) ) {
-                    init( jo.get_member( "trap" ) );
-                    return;
-                }
-            }
-            init( tid );
-        }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &/*context*/ ) const override {
             trap_id chosen_id = id.get( dat );
@@ -3449,21 +3418,13 @@ class jmapgen_trap : public jmapgen_piece_with_has_vehicle_collision
                 return;
             }
             const tripoint_bub_ms actual_loc{ x.get(), y.get(), dat.zlevel() + z.get() };
-            if( remove ) {
-                dat.m.remove_trap( actual_loc );
-            } else {
-                dat.m.trap_set( actual_loc, chosen_id );
-            }
+            dat.m.trap_set( actual_loc, chosen_id );
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
                     const jmapgen_int &/*x*/, const jmapgen_int &/*y*/, const jmapgen_int &/*z*/
                   ) const override {
             id.check( oter_name, parameters );
-        }
-    private:
-        void init( const JsonValue &jsi ) {
-            id = mapgen_value<trap_id>( jsi );
         }
 };
 /**
@@ -3590,7 +3551,7 @@ class jmapgen_terrain : public jmapgen_piece_with_has_vehicle_collision
                 int max_recurse = 10; // insurance against infinite looping
                 std::string initial_furn = dat.m.furn( p ) != furn_str_id::NULL_ID() ? dat.m.furn(
                                                p ).id().str() : "";
-                while( dat.m.has_furn( p ) && max_recurse-- > 0 ) {
+                while( dat.m.has_furn( p ) && --max_recurse > 0 ) {
                     const furn_t &f = dat.m.furn( p ).obj();
                     if( f.deconstruct ) {
                         if( f.deconstruct->furn_set.str().empty() ) {
@@ -3608,10 +3569,12 @@ class jmapgen_terrain : public jmapgen_piece_with_has_vehicle_collision
                                 dat.m.furn_set( p, furn_bash->furn_set );
                             }
                             dat.m.spawn_items( p, item_group::items_from( furn_bash->drop_group, calendar::turn ) );
+                        } else {
+                            break;
                         }
                     }
                 }
-                if( !max_recurse ) {
+                if( max_recurse <= 0 ) {
                     dat.m.furn_clear( p );
                     debugmsg( "In %s on %s, the mapgen failed to arrive at an empty tile after "
                               "dismantling preexisting furniture %s at %s 10 times in succession.",
@@ -4611,7 +4574,6 @@ void load_place_mapings( const JsonValue &value, mapgen_palette::placing_map::ma
     } else {
         for( JsonObject jo : value.get_array() ) {
             load_place_mapings<PieceType>( jo, vect, context );
-            jo.allow_omitted_members();
         }
     }
 }
@@ -5294,9 +5256,6 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     }
 
     objects.load_objects<jmapgen_remove_all>( jo, "place_remove_all", context_ );
-    // "add" is deprecated in favor of "place_item", but kept to support mods
-    // which are not under our control.
-    objects.load_objects<jmapgen_spawn_item>( jo, "add", context_ );
     objects.load_objects<jmapgen_spawn_item>( jo, "place_item", context_ );
     objects.load_objects<jmapgen_field>( jo, "place_fields", context_ );
     objects.load_objects<jmapgen_npc>( jo, "place_npcs", context_ );
@@ -5376,32 +5335,32 @@ static bool check_furn( const furn_id &id, const std::string &context )
 
 void mapgen_function_json_base::check_common() const
 {
-    if( static_cast <int>( flags_.test( jmapgen_flags::allow_terrain_under_other_data ) ) +
-        flags_.test( jmapgen_flags::dismantle_all_before_placing_terrain ) +
-        flags_.test( jmapgen_flags::erase_all_before_placing_terrain ) > 1 ) {
+    if( static_cast<int>( flags_.test( jmapgen_flags::allow_terrain_under_other_data ) ) +
+        static_cast<int>( flags_.test( jmapgen_flags::dismantle_all_before_placing_terrain ) ) +
+        static_cast<int>( flags_.test( jmapgen_flags::erase_all_before_placing_terrain ) ) > 1 ) {
         debugmsg( "In %s, the mutually exclusive flags ERASE_ALL_BEFORE_PLACING_TERRAIN, "
                   "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN and ALLOW_TERRAIN_UNDER_OTHER_DATA "
-                  "cannot be used together", context_ );
+                  "cannot be used together.", context_ );
     }
-    if( static_cast <int>( flags_.test( jmapgen_flags::allow_terrain_under_furniture ) ) +
-        flags_.test( jmapgen_flags::dismantle_furniture_before_placing_terrain ) +
-        flags_.test( jmapgen_flags::erase_furniture_before_placing_terrain ) > 1 ) {
+    if( static_cast<int>( flags_.test( jmapgen_flags::allow_terrain_under_furniture ) ) +
+        static_cast<int>( flags_.test( jmapgen_flags::dismantle_furniture_before_placing_terrain ) ) +
+        static_cast<int>( flags_.test( jmapgen_flags::erase_furniture_before_placing_terrain ) ) > 1 ) {
         debugmsg( "In %s, the mutually exclusive flags ALLOW_TERRAIN_UNDER_FURNITURE, "
                   "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN and ERASE_FURNITURE_BEFORE_PLACING_TERRAIN "
-                  "cannot be used together", context_ );
+                  "cannot be used together.", context_ );
     }
-    if( static_cast <int>( flags_.test( jmapgen_flags::allow_terrain_under_trap ) ) +
-        flags_.test( jmapgen_flags::dismantle_trap_before_placing_terrain ) +
-        flags_.test( jmapgen_flags::erase_trap_before_placing_terrain ) > 1 ) {
+    if( static_cast<int>( flags_.test( jmapgen_flags::allow_terrain_under_trap ) ) +
+        static_cast<int>( flags_.test( jmapgen_flags::dismantle_trap_before_placing_terrain ) ) +
+        static_cast<int>( flags_.test( jmapgen_flags::erase_trap_before_placing_terrain ) ) > 1 ) {
         debugmsg( "In %s, the mutually exclusive flags ALLOW_TERRAIN_UNDER_TRAP, "
                   "DISMANTLE_TRAP_BEFORE_PLACING_TERRAIN and ERASE_TRAP_BEFORE_PLACING_TERRAIN "
-                  "cannot be used together", context_ );
+                  "cannot be used together.", context_ );
     }
-    if( static_cast <int>( flags_.test( jmapgen_flags::allow_terrain_under_items ) ) +
-        flags_.test( jmapgen_flags::erase_items_before_placing_terrain ) > 1 ) {
+    if( static_cast<int>( flags_.test( jmapgen_flags::allow_terrain_under_items ) ) +
+        static_cast<int>( flags_.test( jmapgen_flags::erase_items_before_placing_terrain ) ) > 1 ) {
         debugmsg( "In %s, the mutually exclusive flags "
                   "ALLOW_TERRAIN_UNDER_ITEMS and ERASE_ITEMS_BEFORE_PLACING_TERRAIN "
-                  "cannot be used together", context_ );
+                  "cannot be used together.", context_ );
     }
     for( const jmapgen_setmap &setmap : setmap_points ) {
         if( setmap.op != JMAPGEN_SETMAP_FURN &&
@@ -8496,8 +8455,8 @@ void add_corpse( map *m, const point_bub_ms &p )
 
 //////////////////// mapgen update
 update_mapgen_function_json::update_mapgen_function_json(
-    const JsonObject &jsobj, const std::string &context ) :
-    mapgen_function_json_base( jsobj, context )
+    JsonObject &&jsobj, const std::string &context ) :
+    mapgen_function_json_base( std::move( jsobj ), context )
 {
 }
 

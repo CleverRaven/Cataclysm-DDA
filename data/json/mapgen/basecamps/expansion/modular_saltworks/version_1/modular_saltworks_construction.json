@@ -2,12 +2,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_saltworks_0",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmsw_0" ], "x": 15, "y": 3 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmsw_saltpan_construction",
     "object": {
       "parameters": {
@@ -44,7 +42,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmsw_saltpan_construction_roof",
     "object": {
       "parameters": {
@@ -81,7 +78,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmsw_saltpan_construction_northeast",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmsw_saltpan_construction" ], "x": 14, "y": 3, "z": 0 },
@@ -91,7 +87,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmsw_shack_construction",
     "object": {
       "parameters": {
@@ -127,7 +122,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmsw_shack_construction_roof",
     "object": {
       "parameters": {
@@ -163,7 +157,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmsw_shack_construction_southeast",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmsw_shack_construction" ], "x": 15, "y": 15, "z": 0 },
@@ -173,7 +166,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmsw_brewery0_construction",
     "object": {
       "parameters": {
@@ -210,7 +202,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmsw_brewery0_construction_roof",
     "object": {
       "parameters": {
@@ -247,7 +238,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmsw_brewery0_construction_southwest",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmsw_brewery0_construction" ], "x": 3, "y": 14, "z": 0 },

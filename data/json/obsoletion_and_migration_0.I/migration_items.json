@@ -2518,5 +2518,54 @@
     "id": "breacher_grip",
     "type": "MIGRATION",
     "replace": "grip"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sheriffshirt",
+    "from_variant": "sheriff",
+    "replace": "postman_shirt",
+    "variant": "sheriff"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sheriffshirt",
+    "from_variant": "swat_shirt",
+    "replace": "postman_shirt",
+    "variant": "swat"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "subsuit_xl",
+    "replace": "jumpsuit_pocketless",
+    "variant": "orange"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "striped_shirt",
+    "replace": "buttonshirt",
+    "variant": "striped"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gown",
+    "replace": "dress",
+    "variant": "gown"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "robofac_jumpsuit",
+    "replace": "jumpsuit",
+    "variant": "robofac"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "balaclava_skull",
+    "replace": "balclava",
+    "variant": "skull"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "robofac_head_rig_ir",
+    "replace": "robofac_head_rig_nv"
   }
 ]

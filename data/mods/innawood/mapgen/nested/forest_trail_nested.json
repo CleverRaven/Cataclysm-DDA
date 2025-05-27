@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_forest_trail_intersection_inna",
     "object": {
       "mapgensize": [ 24, 24 ],

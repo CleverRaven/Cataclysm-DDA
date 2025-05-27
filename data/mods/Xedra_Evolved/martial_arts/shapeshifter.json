@@ -68,7 +68,7 @@
     "melee_allowed": true,
     "messages": [ "You bite %s", "<npcname> bites %s" ],
     "unarmed_allowed": true,
-    "weighting": -3,
+    "weighting": 0,
     "reach_ok": false,
     "attack_vectors": [ "vector_bite" ],
     "flat_bonuses": [

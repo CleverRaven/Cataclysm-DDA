@@ -273,7 +273,7 @@
     "melee_damage": { "bash": 8 },
     "to_hit": -3,
     "symbol": "[",
-    "color": "black",
+    "color": "dark_gray",
     "charges_per_use": 1,
     "use_action": { "type": "cast_spell", "spell_id": "bio_explosion", "no_fail": true, "level": 0, "need_wielding": true },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "bio_warhead": 1 } } ],

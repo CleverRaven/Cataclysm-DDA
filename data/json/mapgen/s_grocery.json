@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_grocery" ],
     "weight": 100,
     "object": {
@@ -75,7 +74,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_grocery" ],
     "weight": 500,
     "object": {
@@ -199,7 +197,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_grocery" ],
     "weight": 300,
     "object": {
@@ -273,7 +270,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_grocery_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -316,7 +312,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_grocery_1" ],
     "weight": 100,
     "object": {
@@ -349,9 +344,9 @@
       ],
       "palettes": [ "grocery_store_palette" ],
       "place_items": [
-        { "item": "fridgesnacks", "x": 3, "y": [ 10, 15 ], "chance": 80, "repeat": [ 1, 12 ] },
-        { "item": "fridge", "x": [ 8, 14 ], "y": 20, "chance": 80, "repeat": [ 1, 12 ] },
-        { "item": "fridge", "x": [ 19, 20 ], "y": 20, "chance": 80, "repeat": [ 1, 12 ] },
+        { "item": "SUS_fridge", "x": 3, "y": [ 10, 15 ], "chance": 80, "repeat": [ 1, 3 ] },
+        { "item": "SUS_fridge", "x": [ 8, 14 ], "y": 20, "chance": 80, "repeat": [ 1, 2 ] },
+        { "item": "SUS_fridge", "x": [ 19, 20 ], "y": 20, "chance": 80, "repeat": [ 1, 2 ] },
         { "item": "softdrugs", "x": 6, "y": [ 10, 15 ], "chance": 75, "repeat": [ 1, 8 ] },
         { "item": "cleaning", "x": 7, "y": [ 10, 15 ], "chance": 80, "repeat": [ 1, 8 ] },
         { "item": "kitchen", "x": 10, "y": [ 10, 15 ], "chance": 80, "repeat": [ 1, 12 ] },
@@ -385,7 +380,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_grocery_1" ],
     "weight": 500,
     "object": {
@@ -438,9 +432,9 @@
         ]
       },
       "place_items": [
-        { "item": "fridgesnacks", "x": 3, "y": [ 10, 15 ], "chance": 5, "repeat": [ 1, 12 ] },
-        { "item": "fridge", "x": [ 8, 14 ], "y": 20, "chance": 5, "repeat": [ 1, 12 ] },
-        { "item": "fridge", "x": [ 19, 20 ], "y": 20, "chance": 5, "repeat": [ 1, 12 ] },
+        { "item": "SUS_fridge", "x": 3, "y": [ 10, 15 ], "chance": 5, "repeat": [ 1, 12 ] },
+        { "item": "SUS_fridge", "x": [ 8, 14 ], "y": 20, "chance": 5, "repeat": [ 1, 2 ] },
+        { "item": "SUS_fridge", "x": [ 19, 20 ], "y": 20, "chance": 5, "repeat": [ 1, 2 ] },
         { "item": "softdrugs", "x": 6, "y": [ 10, 15 ], "chance": 5, "repeat": [ 1, 8 ] },
         { "item": "cleaning", "x": 7, "y": [ 10, 15 ], "chance": 5, "repeat": [ 1, 8 ] },
         { "item": "kitchen", "x": 10, "y": [ 10, 15 ], "chance": 5, "repeat": [ 1, 12 ] },
@@ -496,7 +490,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_grocery_1" ],
     "weight": 300,
     "object": {
@@ -530,9 +523,9 @@
       "palettes": [ "grocery_store_palette" ],
       "terrain": { "+": "t_door_boarded", ":": "t_window_boarded" },
       "place_items": [
-        { "item": "fridgesnacks", "x": 3, "y": [ 10, 15 ], "chance": 1, "repeat": [ 1, 12 ] },
-        { "item": "fridge", "x": [ 8, 14 ], "y": 20, "chance": 1, "repeat": [ 1, 12 ] },
-        { "item": "fridge", "x": [ 19, 20 ], "y": 20, "chance": 1, "repeat": [ 1, 12 ] },
+        { "item": "SUS_fridge", "x": 3, "y": [ 10, 15 ], "chance": 1, "repeat": [ 1, 12 ] },
+        { "item": "SUS_fridge", "x": [ 8, 14 ], "y": 20, "chance": 1, "repeat": [ 1, 2 ] },
+        { "item": "SUS_fridge", "x": [ 19, 20 ], "y": 20, "chance": 1, "repeat": [ 1, 2 ] },
         { "item": "softdrugs", "x": 6, "y": [ 10, 15 ], "chance": 1, "repeat": [ 1, 8 ] },
         { "item": "cleaning", "x": 7, "y": [ 10, 15 ], "chance": 1, "repeat": [ 1, 8 ] },
         { "item": "kitchen", "x": 10, "y": [ 10, 15 ], "chance": 1, "repeat": [ 1, 12 ] },
@@ -566,7 +559,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_grocery_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

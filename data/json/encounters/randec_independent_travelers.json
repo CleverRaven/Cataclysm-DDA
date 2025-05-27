@@ -72,7 +72,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_campervan_traveler_add",
     "object": {
       "place_vehicles": [
@@ -83,7 +82,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_campervan_traveler_remove",
     "object": {
       "remove_npcs": [ { "class": "traveler_camper_van", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],

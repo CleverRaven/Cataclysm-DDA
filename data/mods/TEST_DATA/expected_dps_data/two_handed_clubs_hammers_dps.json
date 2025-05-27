@@ -6,16 +6,18 @@
       "club_wooden_large": 6.55,
       "stick_long": 8.0,
       "heavy_crowbar": 12.94,
-      "hammer_sledge_engineer": 12.72,
+      "hammer_sledge_engineer": 12.15,
       "mace_pipe_large": 14.41,
       "hammer_sledge_short": 11.69,
       "hammer_sledge_heavy": 15.52,
       "halligan": 14.7,
+      "exodii_prybar": 15.9,
+      "exodii_digger": 12.9,
       "pulverizer": 18.11,
       "hammer_sledge": 20.0,
       "2h_club_kanabo_studded": 25.16,
       "2h_club_kanabo_spiked": 25.65,
-      "warhammer": 35.77
+      "warhammer": 36.33
     }
   }
 ]
