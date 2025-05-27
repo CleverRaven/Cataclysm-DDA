@@ -92,7 +92,7 @@
     "symbol": "ä",
     "name": { "str": "enervating amalgamation" },
     "description": "An elongated body moving irregularly on five legs, with two flexible tentacles waving in the air as it moves.  It seems to have no head, with a ring of black spots on top that might be sensory organs.  Its skin is perfectly smooth and greyish-white, without a single spot or blemish.",
-    "speed": 100,
+    "speed": 95,
     "regenerates": 3,
     "special_attacks": [
       {
