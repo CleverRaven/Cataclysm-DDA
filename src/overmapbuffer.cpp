@@ -638,6 +638,14 @@ void overmapbuffer::add_nemesis( const tripoint_abs_omt &p )
 
 }
 
+void overmapbuffer::clear_mongroups()
+{
+    for( std::pair<const point_abs_om, std::unique_ptr<overmap>> &omp : overmaps ) {
+        omp.second->clear_mon_groups();
+        omp.second->monster_map.clear();
+    }
+}
+
 void overmapbuffer::process_mongroups()
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)
