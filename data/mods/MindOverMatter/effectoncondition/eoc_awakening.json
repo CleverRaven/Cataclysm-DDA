@@ -1027,5 +1027,11 @@
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 3 s')" ] } },
       { "math": [ "u_val('stamina')", "-=", "4000" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKINETIC_AWAKENING_KNACK_HANDLING",
+    "condition": { "u_has_trait": "PSYCHIC_KNACKS" },
+    "effect": [  ]
   }
 ]
