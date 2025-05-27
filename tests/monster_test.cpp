@@ -30,6 +30,7 @@
 #include "mtype.h"
 #include "options.h"
 #include "options_helpers.h"
+#include "overmapbuffer.h"
 #include "point.h"
 #include "test_statistics.h"
 #include "type_id.h"
@@ -39,6 +40,7 @@ class item;
 using move_statistics = statistics<int>;
 
 static const mtype_id mon_dog_zombie_brute( "mon_dog_zombie_brute" );
+static const mtype_id mon_zombie( "mon_zombie" );
 
 static const ter_str_id ter_t_fence( "t_fence" );
 static const ter_str_id ter_t_grass( "t_grass" );
@@ -724,4 +726,77 @@ TEST_CASE( "monsters_spawn_baby_groups", "[monster][reproduction]" )
     }
     CAPTURE( amount_of_iteration );
     CHECK( test_monster_spawns_baby_mongroup );
+}
+
+static void test_move_to_location( monster &test_monster, const tripoint_bub_ms &destination )
+{
+    tripoint_bub_ms old_location = test_monster.pos_bub();
+    while( test_monster.pos_bub() != destination ) {
+        test_monster.set_moves( 100 );
+        // Monsters can do silly things like trigger a no-op special attack instead of moving.
+        // So keep trying until the monster does something meaningful.
+        while( test_monster.get_moves() >= 0 && test_monster.pos_bub() == old_location ) {
+            test_monster.move();
+        }
+        tripoint_bub_ms new_location = test_monster.pos_bub();
+        if( new_location == destination ) {
+            SUCCEED();
+            return;
+        }
+        if( new_location == old_location ) {
+            CAPTURE( destination );
+            CAPTURE( old_location );
+            CAPTURE( new_location );
+            FAIL();
+        }
+        old_location = new_location;
+    }
+}
+
+
+static void monster_can_move_to_map_center( const tripoint_bub_ms &origin )
+{
+    // Head for map center?
+    const tripoint_bub_ms destination{ 11 * 6, 11 * 6, 0 };
+    clear_creatures();
+    REQUIRE( g->num_creatures() == 1 ); // the player
+    monster &test_monster = spawn_test_monster( "mon_zombie", origin );
+    map &m = get_map();
+    test_monster.anger = 100;
+    // TODO: check wander too
+    test_monster.set_dest( m.get_abs( destination ) );
+    test_move_to_location( test_monster, destination );
+}
+
+// This is a pathological test for an optimization added to mattack::parrot_at_danger because the monster
+// does a flood-fill every time it tries to move instead of reusing an existing flood fill.
+// Possibly this is because there's context that we normally set up first that this test is missing.
+TEST_CASE( "monster_can_navigate_from_anywhere_in_reality_bubble", "[monster]" )
+{
+    // Remove interacting with the player as a complication.
+    clear_map_and_put_player_underground();
+    map &m = get_map();
+    for( tripoint_bub_ms start_loc : m.points_on_zlevel( 0 ) ) {
+        monster_can_move_to_map_center( start_loc );
+    }
+}
+
+TEST_CASE( "monster_can_navigate_from_overmap_to_reality_bubble", "[monster][hordes]" )
+{
+    // Remove interacting with the player as a complication.
+    clear_map_and_put_player_underground();
+    const tripoint_bub_ms destination{ 11 * 6, 11 * 6, 0 };
+    // Place monster on the local overmap.monster_map just outside the reality bubble.
+    map &m = get_map();
+    monster &test_mon = overmap_buffer.spawn_monster( m.get_abs( { -12, 66, 0 } ), mon_zombie );
+    // Give the monster a goal location inside the bubble.
+    test_mon.set_dest( m.get_abs( destination ) );
+    // This reference will be invalidated once the monster spawns in the reality bubble,
+    // don't access it again after calling move_hordes().
+    // Process hordes and verify the monster appears on the reality bubble.
+    do {
+        overmap_buffer.move_hordes();
+    } while( g->num_creatures() == 1 );
+    monster &local_test_monster = *g->all_monsters().items.front().lock();
+    test_move_to_location( local_test_monster, destination );
 }

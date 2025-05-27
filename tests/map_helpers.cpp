@@ -187,6 +187,7 @@ monster &spawn_test_monster( const std::string &monster_type, const tripoint_bub
                              const bool death_drops )
 {
     monster *const test_monster_ptr = g->place_critter_at( mtype_id( monster_type ), start );
+    CAPTURE( start );
     REQUIRE( test_monster_ptr );
     test_monster_ptr->death_drops = death_drops;
     return *test_monster_ptr;
