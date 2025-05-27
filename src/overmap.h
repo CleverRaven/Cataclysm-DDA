@@ -373,6 +373,8 @@ class overmap
     private:
         void set_passable( const tripoint_abs_omt &p, std::shared_ptr<map_data_summary> new_passable );
     public:
+        // Spawn a monter at overmap scale.
+        monster &spawn_monster( const tripoint_abs_ms &p, mtype_id id );
         /**
          * Getter for overmap scents.
          * @returns a reference to a scent_trace from the requested location.
