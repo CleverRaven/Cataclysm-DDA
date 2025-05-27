@@ -145,6 +145,17 @@ void nutrients::finalize_vitamins()
     finalized = true;
 }
 
+void nutrients::ensure_positive()
+{
+    calories = std::max<int64_t>( calories, 0 );
+    for( const std::pair<const vitamin_id, int> &vit : vitamins() ) {
+        // clear all consumed vitamins
+        if( vit.second <= 0 ) {
+            remove_vitamin( vit.first );
+        }
+    }
+}
+
 bool nutrients::operator==( const nutrients &r ) const
 {
     if( kcal() != r.kcal() ) {
