@@ -82,6 +82,19 @@ enum class main_menu_opts : int {
     NUM_MENU_OPTS,
 };
 
+enum settings_menu_opts {
+    OPTIONS = 0,
+#ifndef IMTUI
+    FONTS,
+#endif
+    KEYBINDINGS,
+    AUTOPICKUP,
+    SAFEMODE,
+    COLORS,
+    THEME_PICKER,
+    IMGUIDEMO,
+};
+
 std::string main_menu::queued_world_to_load;
 std::string main_menu::queued_save_id_to_load;
 
@@ -860,29 +873,41 @@ bool main_menu::opening_screen()
                     }
                     break;
                 case main_menu_opts::SETTINGS:
-                    if( sel2 == 0 ) {        /// Options
-                        get_options().show( false );
-                        // The language may have changed- gracefully handle this.
-                        init_strings();
-                    } else if( sel2 == 1 ) { /// Fonts
+                    switch( static_cast<settings_menu_opts>( sel2 ) ) {
+                        case settings_menu_opts::OPTIONS:
+                            get_options().show( false );
+                            // The language may have changed- gracefully handle this.
+                            init_strings();
+                            break;
 #ifndef IMTUI
-                        font_editor.ShowFontsOptionsWindow();
+                        case settings_menu_opts::FONTS:
+                            font_editor.ShowFontsOptionsWindow();
+                            break;
 #endif // IMTUI
-                    } else if( sel2 == 2 ) { /// Keybindings
-                        input_context ctxt_default = get_default_mode_input_context();
-                        ctxt_default.display_menu();
-                    } else if( sel2 == 3 ) { /// Autopickup
-                        get_auto_pickup().show();
-                    } else if( sel2 == 4 ) { /// Safemode
-                        get_safemode().show();
-                    } else if( sel2 == 5 ) { /// Colors
-                        all_colors.show_gui();
-                    } else if( sel2 == 6 ) {
-                        style_picker picker;
-                        picker.show();
-                    } else if( sel2 == 7 ) { /// ImGui demo
-                        imgui_demo_ui demo;
-                        demo.run();
+                        case settings_menu_opts::KEYBINDINGS: {
+                            input_context ctxt_default = get_default_mode_input_context();
+                            ctxt_default.display_menu();
+                        }
+                        break;
+                        case settings_menu_opts::AUTOPICKUP:
+                            get_auto_pickup().show();
+                            break;
+                        case settings_menu_opts::SAFEMODE:
+                            get_safemode().show();
+                            break;
+                        case settings_menu_opts::COLORS:
+                            all_colors.show_gui();
+                            break;
+                        case settings_menu_opts::THEME_PICKER: {
+                            style_picker picker;
+                            picker.show();
+                        }
+                        break;
+                        case settings_menu_opts::IMGUIDEMO: {
+                            imgui_demo_ui demo;
+                            demo.run();
+                        }
+                        break;
                     }
                     break;
                 case main_menu_opts::WORLD:
