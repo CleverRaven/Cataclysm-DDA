@@ -17,7 +17,6 @@
 #include <imgui/imgui_freetype.h>
 
 #include <CustomFont/CustomFont.h>
-#include <CustomFont/CustomFont.cpp> // NOLINT(bugprone-suspicious-include)
 
 #include <map>
 #include <vector>
@@ -26,10 +25,12 @@ namespace fs = std::filesystem;
 
 class FontPickerWindow : public cataimgui::window
 {
+    private:
         FontPicker *picker;
         std::vector<const char *> hinting_types;
         std::map<const char *, std::string> localized_hinting_types;
-        std::vector<int> detail_window_open;
+        bool gui_font_detail_window_open;
+        bool mono_font_detail_window_open;
 
     public:
         explicit FontPickerWindow( FontPicker *picker );
@@ -38,8 +39,8 @@ class FontPickerWindow : public cataimgui::window
         void draw_controls() override;
 
     private:
-        void ShowFontOptions( const char *label, const char *window_name, int faceid,
-                              std::vector<font_config> &faces );
+        void ShowFontOptions( const char *label, const char *window_name, bool *detail_window_open,
+                              ImFont *imfont, std::vector<font_config> &faces );
         void ShowFontDetailsWindow( const char *window_name, std::vector<font_config> &typefaces,
                                     bool *p_open );
         bool ShowFaceDetail( font_config &face, bool is_only_face );
@@ -58,7 +59,8 @@ FontPickerWindow::FontPickerWindow( FontPicker *picker ) : cataimgui::window(
         { "None", _( "None" ) },
         { "Bitmap", _( "Bitmap" ) },
     };
-    detail_window_open = { false, false };
+    gui_font_detail_window_open = false;
+    mono_font_detail_window_open = false;
 }
 
 cataimgui::bounds FontPickerWindow::get_bounds()
@@ -117,10 +119,12 @@ void FontPickerWindow::draw_controls()
         _( "Size of the font drawn insidet used to display the world map, unless you use a tileset for that." ) );
 
     ImGui::Separator();
-    ShowFontOptions( _( "GUI Font" ), _( "GUI Font Fallback Order" ), 0, font_loader.gui_typeface );
+    auto imfonts = ImGui::GetIO().Fonts->Fonts;
+    ShowFontOptions( _( "GUI Font" ), _( "GUI Font Fallback Order" ), &gui_font_detail_window_open,
+                     imfonts[0], font_loader.gui_typeface );
     ImGui::Separator();
-    ShowFontOptions( _( "Monospace Font" ), _( "Monospace Font Fallback Order" ), 1,
-                     font_loader.typeface );
+    ShowFontOptions( _( "Monospace Font" ), _( "Monospace Font Fallback Order" ),
+                     &mono_font_detail_window_open, imfonts[1], font_loader.typeface );
 }
 
 bool FontPicker::PreNewFrame()
@@ -168,7 +172,8 @@ void FontPicker::ShowFontsOptionsWindow()
     } while( loop && win->get_is_open() );
 }
 
-void FontPickerWindow::ShowFontOptions( const char *label, const char *window_name, int faceid,
+void FontPickerWindow::ShowFontOptions( const char *label, const char *window_name,
+                                        bool *detail_window_open, ImFont *imfont,
                                         std::vector<font_config> &faces )
 {
     auto &face = faces[0];
@@ -188,15 +193,14 @@ void FontPickerWindow::ShowFontOptions( const char *label, const char *window_na
     ImGui::SameLine();
     if( cataimgui::BeginRightAlign( "x" ) ) {
         if( ImGui::Button( _( "Details" ) ) ) {
-            detail_window_open[faceid] = true;
+            *detail_window_open = true;
         }
-        ShowFontDetailsWindow( window_name, faces,
-                               reinterpret_cast<bool *>( &detail_window_open[faceid] ) );
+        ShowFontDetailsWindow( window_name, faces, detail_window_open );
         cataimgui::EndRightAlign();
     }
     ImGui::Text( "%s: ", _( "Sample" ) );
     ImGui::SameLine();
-    ImGui::PushFont( ImGui::GetIO().Fonts->Fonts[faceid] );
+    ImGui::PushFont( imfont );
     ImGui::TextUnformatted( _( "The quick brown fox jumped over the lazy dog." ) );
     ImGui::PopFont();
     ImGui::PopID();

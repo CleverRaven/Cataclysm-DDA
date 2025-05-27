@@ -43,3 +43,5 @@
 #define ICON_IGFD_SHORTCUTS u8"\uf233"
 #define ICON_IGFD_STAR u8"\uf005"
 #define ICON_IGFD_STEP_FORWARD u8"\uf051"
+
+extern const char IGFD_compressed_data_base85[6995+1];
