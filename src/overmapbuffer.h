@@ -462,6 +462,10 @@ class overmapbuffer
          */
         void signal_hordes( const tripoint_abs_sm &center, int sig_power );
         /**
+          * Clear all the mongroups, intended for test code only.
+        */
+        void clear_mongroups();
+        /**
          * Process nearby monstergroups (dying mostly).
          */
         void process_mongroups();
