@@ -1,6 +1,6 @@
 #include "CustomFont.h"
 
-static const char IGFD_compressed_data_base85[6995+1] = 
+const char IGFD_compressed_data_base85[6995+1] = 
     "7])#######HSb&Y'/###O@?>#+lQS%Ql#v#X^@iFLYQ^OT-$##$`$##l7W=BBaB]O:^Ee-]br-$KQshF?[]Y#^V)##h$bw'Xnq0F<Eo9#M(Vw02)[w'O4>RDQjUw#/SD_&8Jq-$Mu@['"
     "b3K'=NsF_&UKo-$fZIkE?,o@7Su###c-%##a4G0FvhC:3%H(F7YWo-$t4GkOR&###U::d?odPirVEL8eVNm&#+Yk>3,ck]u38T2%4e2W%0V`q2wgSe$K8>uu8t2W%P6w0#*Vk(NT$V*N"
     "APbJM'p:^#=d8KMW=6##R9dA#a7jV7-PNh#v0[0##1,F%#:[0#dPYF%G9ew'JflsIm3.AFo;@A+uIO&#DKx>-#5T;-SvR/M+=5,M)5T;-=RG-MPbd##Yev-$0#[w'][D_AdDsG%9o4R*"
