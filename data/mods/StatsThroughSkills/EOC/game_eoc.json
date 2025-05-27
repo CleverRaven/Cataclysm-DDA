@@ -1,5 +1,5 @@
 [
-    {
+  {
     "type": "effect_on_condition",
     "id": "EOC_StatsThroughSkills_initialize",
     "eoc_type": "EVENT",
@@ -9,9 +9,7 @@
       {
         "u_message": "StatsThroughSkills is loaded.  If the mod is properly loaded you should have a new mutation called \"Stats Through Skills\"."
       },
-      { 
-		"u_add_trait": "mutation_statsThroughSkills"
-	  }
+      { "u_add_trait": "mutation_statsThroughSkills" }
     ]
   }
 ]
