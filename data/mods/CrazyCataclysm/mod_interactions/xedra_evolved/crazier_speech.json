@@ -115,7 +115,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_moroi" ],
-    "sound": "\"I dont have any compassion for broke boys.  Everyone has an asshole, most people have dick and balls; go outside and get that bag!/"",
+    "sound": "\"I dont have any compassion for broke boys.  Everyone has an asshole, most people have dick and balls; go outside and get that bag!\"",
     "volume": 10
   },
   {
@@ -123,5 +123,60 @@
     "speaker": [ "mon_vampire_moroi" ],
     "sound": "\"The zaza got me speaking Esperanto.\"",
     "volume": 10
-  }
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_moroi" ],
+    "sound": "\"Negative two, negative one, zero!  Zero fucks given!  Ah ah ah!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_moroi" ],
+    "sound": "\"What is a man?  A miserable little pile of secrets.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_moroi" ],
+    "sound": "\"I don't say 'Bleh, bleh-bleh'!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_moroi" ],
+    "sound": "\"Mankind, a cesspit of hatred and lies, fight for them, then die for their sins.\"",
+    "volume": 10
+  }, 
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_strigoi" ],
+    "sound": "A deafeningly loud still from a silet film.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_moroi" ],
+    "sound": "\"Come a little closer, boy.  Don't worry; I won't bite.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_moroi" ],
+    "sound": "\"Come join me in the Garden of Earthly Delights!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_moroi", "mon_vampire_strigoi","mon_vampire_wight" ],
+    "sound": "\"I vant to suck your blood!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"Bitches love cannons.\"",
+    "volume": 10
+  },
+ 
 ]
