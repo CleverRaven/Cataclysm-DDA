@@ -183,6 +183,7 @@ void FontPickerWindow::ShowFontOptions( const char *label, const char *window_na
     if( ImGui::Button( ICON_IGFD_EDIT ) ) {
     }
     ImGui::SetItemTooltip(
+        // NOLINTNEXTLINE(cata-text-style) not shown in a monospaced font
         _( "Not yet implemented. In the mean time you can edit ‘%s’ to pick any font you want." ),
         fs::path( PATH_INFO::fontdata() ).c_str() );
     ImGui::EndDisabled();
@@ -228,6 +229,7 @@ void FontPickerWindow::ShowFontDetailsWindow( const char *window_name,
             cataimgui::EndRightAlign();
         }
         ImGui::SetItemTooltip(
+            // NOLINTNEXTLINE(cata-text-style) not shown in a monospaced font
             _( "Not yet implemented. In the mean time you can edit ‘%s’ to pick any font you want." ),
             fs::path( PATH_INFO::fontdata() ).c_str() );
         ImGui::EndDisabled();
@@ -296,6 +298,7 @@ bool FontPickerWindow::ShowFaceDetail( font_config &face, bool is_only_face )
     if( ImGui::Button( ICON_IGFD_EDIT ) ) {
     }
     ImGui::SetItemTooltip(
+        // NOLINTNEXTLINE(cata-text-style) not shown in a monospaced font
         _( "Not yet implemented. In the mean time you can edit ‘%s’ to pick any font you want." ),
         fs::path( PATH_INFO::fontdata() ).c_str() );
     ImGui::EndDisabled();
