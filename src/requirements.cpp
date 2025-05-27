@@ -11,6 +11,7 @@
 #include <set>
 #include <sstream>
 #include <stack>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -34,10 +35,12 @@
 #include "json.h"
 #include "localized_comparator.h"
 #include "make_static.h"
+#include "messages.h"
 #include "output.h"
 #include "pocket_type.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
@@ -284,8 +287,10 @@ void item_comp::load( const JsonValue &value )
             recoverable = false;
         } else if( flag == "LIST" ) {
             requirement = true;
+        } else if( flag == "CRAFTABLE" ) {
+            craftable = true;
         } else {
-            value.throw_error( R"(expected "LIST" or "NO_RECOVER")" );
+            value.throw_error( R"(expected "LIST", "NO_RECOVER" or CRAFTABLE)" );
         }
     }
     if( count <= 0 ) {
@@ -539,6 +544,7 @@ std::string requirement_data::print_all_objs( const std::string &header,
         []( const T & t ) {
             return t.to_string();
         } );
+
         std::sort( alternatives.begin(), alternatives.end(), localized_compare );
         buffer += string_join( alternatives, _( " or " ) );
     }
@@ -644,8 +650,8 @@ void requirement_data::check_consistency()
 }
 
 template <typename T>
-void inline_requirements( std::vector<std::vector<T>> &list,
-                          const std::function<const std::vector<std::vector<T>> & ( const requirement_data & )> &getter )
+static void inline_requirements( std::vector<std::vector<T>> &list,
+                                 const std::function<const std::vector<std::vector<T>> & ( const requirement_data & )> &getter )
 {
     // add a single component to the vector. If component already exists, chooses min count
     const auto add_component = []( const T & comp, std::vector<T> &accum ) {
@@ -670,10 +676,17 @@ void inline_requirements( std::vector<std::vector<T>> &list,
         std::function<void( const T &comp )> rec;
         rec = [&]( const T & comp ) {
             // add simple component to the vector
+            if( comp.craftable ) {
+                recipe_id rec = recipe_id( comp.type.c_str() );
+                if( rec.is_valid() ) {
+                    add_msg_debug( debugmode::DF_CRAFTING, "found recipe for component %s", rec.c_str() );
+                }
+            }
             if( !comp.requirement ) {
                 add_component( comp, accum );
                 return;
             }
+
             // otherwise expand component as requirement
             const requirement_id r( comp.type.str() );
             if( !r.is_valid() ) {
@@ -905,11 +918,22 @@ bool requirement_data::has_comps( const read_only_visitable &crafting_inv,
         for( const T &tool : set_of_tools ) {
             if( tool.has( crafting_inv, filter, batch, flags, use_ups ) ) {
                 tool.available = available_status::a_true;
+            } else if( !std::is_same<T, item_comp>() && tool.craftable ) {
+                recipe_id rec( tool.type.c_str() );
+                if( rec.is_valid() ) {
+                    if( rec->simple_requirements().can_make_with_inventory( crafting_inv, filter,
+                            std::ceil( rec->makes_amount() / ( tool.count * batch ) ) ) ) {
+                        tool.available = available_status::a_true;
+                        add_msg( "%s can be substituted by its recipe", tool.type.c_str() );
+                    }
+                }
+                add_msg( "craftable missing tool" );
             } else {
+
                 // Trying to track down why the crafting tests are failing?
                 // Uncomment the below to see the group of requirements that are lacking satisfaction
                 // Add a printf("\n") to the loop above this to separate different groups onto a separate line
-                // printf( "T: %s ", tool.type.str().c_str() );
+                printf( "T: %s \n ", tool.type.str().c_str() );
                 tool.available = available_status::a_false;
             }
             has_tool_in_set = has_tool_in_set || tool.available == available_status::a_true;

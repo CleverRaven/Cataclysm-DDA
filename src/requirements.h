@@ -33,6 +33,7 @@ enum class available_status : int {
     a_true = +1, // yes, it's available
     a_false = -1, // no, it's not available
     a_insufficient = 0, // nearly, but not enough for tool+component
+    a_craftable = +2    // item not available, but it is craftable
 };
 
 enum class component_type : int {
@@ -64,6 +65,9 @@ struct component {
     bool recoverable = true;
     // If true, it's not actually a component but a requirement (list of components)
     bool requirement = false;
+
+    bool craftable = false;
+
 
     // needs explicit specification due to the mutable member. update this when you add new
     // members!
@@ -131,6 +135,7 @@ struct quality_requirement {
     int level = 1;
     mutable available_status available = available_status::a_false;
     bool requirement = false; // Currently unused, but here for consistency and templates
+    bool craftable = false;
 
     // needs explicit specification due to the mutable member. update this when you add new
     // members!
