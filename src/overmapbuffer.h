@@ -503,6 +503,10 @@ class overmapbuffer
          */
         void spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal = false );
         /**
+         * Spawn a specified monster type at a specified location on an overmap.
+         */
+        monster &spawn_monster( const tripoint_abs_ms &p, mtype_id id );
+        /**
          * Despawn the monster back onto the overmap. The monsters position
          * (monster::pos()) is interpreted as relative to the main map.
          */
