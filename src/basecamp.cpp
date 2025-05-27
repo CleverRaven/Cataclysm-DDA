@@ -920,19 +920,22 @@ void basecamp::handle_takeover_by( faction_id new_owner, bool violent_takeover )
 
     // The faction taking over also seizes resources proportional to the number of camps the previous owner had
     // e.g. a single-camp faction has its entire stockpile plundered, a 10-camp faction has 10% transferred
-    nutrients captured_with_camp = fac()->food_supply / num_of_owned_camps;
+    nutrients captured_with_camp = fac()->food_supply() / num_of_owned_camps;
     nutrients taken_from_camp = -captured_with_camp;
     camp_food_supply( taken_from_camp );
     add_msg_debug( debugmode::DF_CAMPS,
                    "Food supplies of %s plundered by %d kilocalories!  Total food supply reduced to %d kilocalories after losing %.1f%% of their camps.",
-                   fac()->name, captured_with_camp.kcal(), fac()->food_supply.kcal(),
+                   fac()->name, captured_with_camp.kcal(), fac()->food_supply().kcal(),
                    1.0 / static_cast<double>( num_of_owned_camps ) * 100.0 );
     set_owner( new_owner );
     int previous_days_of_food = camp_food_supply_days( MODERATE_EXERCISE );
-    fac()->food_supply += captured_with_camp;
+    // kinda a bug - rot time is lost here
+    std::map<time_point, nutrients> added;
+    added[calendar::turn_zero] = captured_with_camp;
+    fac()->add_to_food_supply( added );
     add_msg_debug( debugmode::DF_CAMPS,
                    "Food supply of new owner %s has increased to %d kilocalories due to takeover of camp %s!",
-                   fac()->name, new_owner->food_supply.kcal(), name );
+                   fac()->name, new_owner->food_supply().kcal(), name );
     if( new_owner == get_player_character().get_faction()->id ) {
         popup( _( "Through your looting of %s you found %d days worth of food and other resources." ),
                name, camp_food_supply_days( MODERATE_EXERCISE ) - previous_days_of_food );
