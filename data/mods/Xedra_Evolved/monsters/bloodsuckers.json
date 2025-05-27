@@ -218,8 +218,7 @@
         "cooldown": 10,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ]
       },
-      { "id": "grab", "cooldown": 7 },
-      [ "PARROT_AT_DANGER", 0 ]
+      { "id": "grab", "cooldown": 7 }
     ],
     "death_drops": "default_moroi_death_drops",
     "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "GRABS", "WARM", "BASHES", "REVIVES", "PUSH_MON" ],
