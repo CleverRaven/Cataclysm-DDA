@@ -87,7 +87,7 @@
     "color": "brown",
     "harvest": "mutant_mollusk",
     "upgrades": { "age_grow": 30, "into": "mon_snail_small" },
-    "delete": { "flags": [ "HEARS", "CLIMBS" ] }
+    "delete": { "move_skills": { "climb": 6 } }
   },
   {
     "id": "mon_snail_giant",
@@ -186,7 +186,7 @@
     "color": "brown",
     "harvest": "mutant_mollusk",
     "upgrades": { "age_grow": 30, "into": "mon_slug_small" },
-    "delete": { "flags": [ "HEARS", "CLIMBS" ] }
+    "delete": { "flags": [ "HEARS" ], "move_skills": { "climb": 6 } }
   },
   {
     "id": "mon_slug_giant",
@@ -237,6 +237,7 @@
     "weight": "120 kg",
     "hp": 300,
     "speed": 60,
+    "move_skills": { "swim": 6 },
     "material": [ "flesh" ],
     "symbol": "S",
     "color": "dark_gray",
@@ -256,7 +257,7 @@
     "dissect": "dissect_gastropod_sample_huge",
     "regenerates": 50,
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "NOHEAD", "SEES", "POISON", "HEARS", "SMELLS", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE", "NOGIB" ],
+    "flags": [ "NOHEAD", "SEES", "POISON", "HEARS", "SMELLS", "SLUDGEPROOF", "SLUDGETRAIL", "FLAMMABLE", "NOGIB" ],
     "armor": { "bash": 35, "cut": 2, "bullet": 27, "electric": 1 }
   }
 ]

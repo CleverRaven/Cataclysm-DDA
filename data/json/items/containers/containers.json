@@ -280,7 +280,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "110 L", "max_contains_weight": "10 kg", "moves": 400 } ],
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "black"
+    "color": "dark_gray"
   },
   {
     "id": "nylon_bag",
@@ -305,7 +305,7 @@
     ],
     "material": [ "nylon" ],
     "symbol": "u",
-    "color": "black"
+    "color": "dark_gray"
   },
   {
     "id": "bag_garbage_reinforced",
@@ -378,8 +378,9 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "transparent": true,
-        "max_contains_volume": "250 ml",
+        "max_contains_volume": "500 ml",
         "max_contains_weight": "750 g",
+        "max_item_length": "14 cm",
         "spoil_multiplier": 0.8,
         "moves": 400
       }
@@ -3397,7 +3398,8 @@
     },
     "ascii_picture": "wrapper_pr",
     "copy-from": "wrapper",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ]
+    "weight": "1 g",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "175 ml", "max_contains_weight": "1 kg" } ]
   },
   {
     "id": "styrofoam_cup",

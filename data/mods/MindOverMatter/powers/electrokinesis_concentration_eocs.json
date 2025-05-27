@@ -189,12 +189,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('electrokinetic_hacking_interface') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('electrokinetic_hacking_interface') * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -220,7 +220,9 @@
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_HACKING_INTERFACE_SWITCHER",
     "effect": {
-      "switch": { "math": [ "u_spell_level('electrokinetic_hacking_interface')" ] },
+      "switch": {
+        "math": [ "u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack')" ]
+      },
       "cases": [
         {
           "case": 0,
@@ -250,21 +252,29 @@
     "id": "EOC_ELECTROKIN_HACKING_INTERFACE_DRAIN",
     "condition": { "u_has_effect": "effect_electrokin_hacking_interface" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
+      {
+        "if": { "math": [ "u_spell_level('electrokinetic_hacking_interface') >= 1" ] },
+        "then": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('electrokinetic_hacking_interface')" ] },
+        "else": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('electrokinetic_hacking_interface_knack')" ] }
+      },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('electrokinetic_hacking_interface')", "+=", "psionic_power_experience_formula()" ] },
+      {
+        "if": { "math": [ "u_spell_level('electrokinetic_hacking_interface') >= 1" ] },
+        "then": { "math": [ "u_spell_exp('electrokinetic_hacking_interface')", "+=", "psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('electrokinetic_hacking_interface_knack')", "+=", "psionic_power_experience_formula()" ] }
+      },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_ELECTROKIN_HACKING_INTERFACE_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('electrokinetic_hacking_interface') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('electrokinetic_hacking_interface') * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

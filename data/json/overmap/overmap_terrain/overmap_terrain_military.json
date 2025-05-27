@@ -299,7 +299,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "outpost",
+    "id": [ "outpost", "outpost_parking" ],
     "name": "military outpost",
     "sym": "M",
     "color": "red",

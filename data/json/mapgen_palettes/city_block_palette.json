@@ -126,8 +126,8 @@
       "i": { "item": "SUS_oven", "chance": 25, "repeat": [ 1, 2 ] },
       "l": { "item": "SUS_fridge", "chance": 30, "repeat": [ 1, 2 ] },
       "Y": { "item": "SUS_trash_trashcan_public", "chance": 30, "repeat": [ 1, 2 ] },
-      "q": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 1, 4 ] },
-      "p": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 1, 4 ] },
+      "q": { "item": "SUS_trash_dumpster", "chance": 70 },
+      "p": { "item": "SUS_trash_dumpster", "chance": 70 },
       "R": { "item": "homebooks", "chance": 30, "repeat": [ 1, 2 ] },
       "t": { "item": "SUS_toilet", "chance": 50 }
     }

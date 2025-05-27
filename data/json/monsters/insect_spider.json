@@ -11,6 +11,7 @@
     "weight": "800 g",
     "hp": 2,
     "speed": 50,
+    "move_skills": { "climb": 2 },
     "material": [ "iflesh" ],
     "symbol": "a",
     "color": "red",
@@ -26,7 +27,7 @@
     "vision_night": 3,
     "harvest": "arachnid",
     "fear_triggers": [ "HURT", "FIRE" ],
-    "flags": [ "SEES", "HEARS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE", "NO_BREED", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "PATH_AVOID_FIRE", "NO_BREED", "SMALL_HIDER" ]
   },
   {
     "id": "mon_dark_wyrm",
@@ -205,7 +206,7 @@
     "dissect": "dissect_troglobite_sample_single",
     "upgrades": { "age_grow": 30, "into": "mon_worm" },
     "extend": { "flags": [ "DIGS", "GOODHEARING", "SMALL_HIDER" ] },
-    "delete": { "flags": [ "SEES", "SMELLS", "CLIMBS" ] }
+    "delete": { "flags": [ "SEES", "SMELLS" ], "move_skills": { "climb": 4 } }
   },
   {
     "id": "mon_large_cockroach",
@@ -231,6 +232,7 @@
     "weight": "25 kg",
     "hp": 30,
     "speed": 120,
+    "move_skills": { "climb": 8 },
     "material": [ "iflesh" ],
     "symbol": "a",
     "color": "brown",
@@ -254,7 +256,7 @@
     "fear_triggers": [ "BRIGHT_LIGHT" ],
     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CARRION", 60 ] ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "EATS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE", "CORNERED_FIGHTER" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "EATS", "STUMBLES", "PATH_AVOID_FIRE", "CORNERED_FIGHTER" ],
     "armor": { "bash": 5, "cut": 7, "bullet": 6 }
   },
   {
@@ -288,6 +290,7 @@
     "weight": "40750 g",
     "hp": 70,
     "speed": 100,
+    "move_skills": { "climb": 8 },
     "material": [ "iflesh" ],
     "symbol": "a",
     "color": "brown",
@@ -310,7 +313,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CARRION", 60 ] ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "EATS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE", "CORNERED_FIGHTER" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "EATS", "STUMBLES", "PATH_AVOID_FIRE", "CORNERED_FIGHTER" ],
     "armor": { "bash": 5, "cut": 10, "bullet": 8 }
   },
   {
@@ -325,6 +328,7 @@
     "weight": "33958 g",
     "hp": 40,
     "speed": 100,
+    "move_skills": { "climb": 8 },
     "material": [ "iflesh" ],
     "symbol": "a",
     "color": "brown",
@@ -349,7 +353,7 @@
     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CARRION", 60 ] ],
     "zombify_into": "mon_meat_cocoon_small",
     "fear_triggers": [ "BRIGHT_LIGHT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "EATS", "PATH_AVOID_FIRE", "SMALL_HIDER", "CORNERED_FIGHTER", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "EATS", "PATH_AVOID_FIRE", "SMALL_HIDER", "CORNERED_FIGHTER", "EATS" ],
     "armor": { "bash": 5, "cut": 10, "bullet": 8 }
   },
   {
@@ -406,6 +410,7 @@
     "weight": "60 kg",
     "hp": 71,
     "speed": 135,
+    "move_skills": { "climb": 6 },
     "material": [ "iflesh" ],
     "symbol": "s",
     "color": "dark_gray",
@@ -428,7 +433,7 @@
     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CROP", 60 ] ],
     "zombify_into": "mon_meat_cocoon_small",
     "fear_triggers": [ "BRIGHT_LIGHT", "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "EATS", "PATH_AVOID_DANGER", "SMALL_HIDER" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "EATS", "PATH_AVOID_DANGER", "SMALL_HIDER" ],
     "armor": { "bash": 3, "cut": 5, "bullet": 1 }
   },
   {
@@ -580,6 +585,7 @@
     "weight": "110 kg",
     "hp": 110,
     "speed": 110,
+    "move_skills": { "climb": 8 },
     "attack_cost": 110,
     "aggression": 9,
     "morale": 20,
@@ -615,7 +621,7 @@
     "dissect": "dissect_insect_sample_small",
     "upgrades": { "age_grow": 45, "into_group": "GROUP_CENTIPEDE_GIANT" },
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "CLIMBS", "SEES", "GRABS", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "PULP_PRYING" ],
+    "flags": [ "SEES", "GRABS", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "PULP_PRYING" ],
     "armor": { "bash": 10, "cut": 25, "stab": 14, "bullet": 12 }
   },
   {
@@ -842,6 +848,7 @@
     "weight": "80 kg",
     "hp": 84,
     "speed": 165,
+    "move_skills": { "climb": 8 },
     "attack_cost": 125,
     "aggression": 15,
     "morale": 20,
@@ -880,7 +887,7 @@
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "BRIGHT_LIGHT", "FIRE" ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER", "CLIMBS", "CORNERED_FIGHTER" ],
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER", "CORNERED_FIGHTER" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 2 }
   },
   {
@@ -1008,6 +1015,7 @@
     "species": [ "INSECT" ],
     "hp": 1100,
     "speed": 100,
+    "move_skills": { "swim": 2 },
     "material": [ "iflesh" ],
     "symbol": "Y",
     "color": "light_green",
@@ -1036,7 +1044,7 @@
     "reproduction": { "baby_type": { "baby_egg": "egg_dragonfly" }, "baby_count": 3, "baby_timer": 1 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "zombify_into": "mon_meat_cocoon_large",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "SWIMS", "BASHES", "PUSH_MON", "PUSH_VEH", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "BASHES", "PUSH_MON", "PUSH_VEH", "EATS" ],
     "armor": { "electric": 2 }
   },
   {
@@ -1232,12 +1240,13 @@
     "default_faction": "mosquito",
     "bodytype": "snake",
     "speed": 150,
+    "move_skills": { "swim": 4 },
     "symbol": "y",
     "color": "brown",
     "vision_day": 15,
     "upgrades": { "age_grow": 30, "into": "mon_mosquito_giant" },
     "fear_triggers": [ "HURT", "PLAYER_CLOSE", "SOUND" ],
-    "extend": { "flags": [ "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ] }
+    "extend": { "flags": [ "AQUATIC", "WATER_CAMOUFLAGE" ] }
   },
   {
     "id": "mon_mosquito_mega",
@@ -1347,6 +1356,7 @@
     "weight": "40750 g",
     "hp": 60,
     "speed": 100,
+    "move_skills": { "climb": 8 },
     "material": [ "iflesh" ],
     "symbol": "s",
     "color": "brown",
@@ -1383,7 +1393,7 @@
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "age_grow": 14, "into_group": "GROUP_SPIDER_CELLAR_GIANT" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_DANGER" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "WEBWALK", "HARDTOSHOOT", "PATH_AVOID_DANGER" ],
     "armor": { "bash": 1, "cut": 5, "acid": 3, "bullet": 2 }
   },
   {
@@ -1573,6 +1583,7 @@
     "weight": "40750 g",
     "hp": 30,
     "speed": 100,
+    "move_skills": { "climb": 8 },
     "material": [ "iflesh" ],
     "symbol": "s",
     "color": "white",
@@ -1607,7 +1618,7 @@
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "age_grow": 42, "into": "mon_spider_jumping_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "PATH_AVOID_DANGER" ],
     "armor": { "cut": 3, "bullet": 2 }
   },
   {
@@ -1672,6 +1683,7 @@
     "weight": "81500 g",
     "hp": 70,
     "speed": 110,
+    "move_skills": { "climb": 6 },
     "material": [ "iflesh" ],
     "symbol": "s",
     "color": "blue",
@@ -1695,7 +1707,7 @@
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "age_grow": 42, "into": "mon_spider_trapdoor_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "PATH_AVOID_FIRE" ],
     "armor": { "bash": 4, "cut": 8, "bullet": 6 }
   },
   {
@@ -1759,6 +1771,7 @@
     "weight": "81500 g",
     "hp": 40,
     "speed": 110,
+    "move_skills": { "climb": 8 },
     "material": [ "iflesh" ],
     "symbol": "s",
     "color": "yellow",
@@ -1785,7 +1798,7 @@
     "upgrades": { "age_grow": 42, "into": "mon_spider_web_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "trap_avoids": [ "tr_sinkhole" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 2, "cut": 6, "bullet": 5 }
   },
   {
@@ -1851,6 +1864,7 @@
     "weight": "40750 g",
     "hp": 60,
     "speed": 90,
+    "move_skills": { "climb": 8 },
     "material": [ "iflesh" ],
     "symbol": "s",
     "color": "dark_gray",
@@ -1874,7 +1888,7 @@
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "age_grow": 42, "into": "mon_spider_widow_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "PATH_AVOID_FIRE" ],
     "armor": { "bash": 2, "cut": 4, "bullet": 3 }
   },
   {
@@ -1939,6 +1953,7 @@
     "weight": "81500 g",
     "hp": 40,
     "speed": 150,
+    "move_skills": { "climb": 8 },
     "material": [ "iflesh" ],
     "symbol": "s",
     "color": "brown",
@@ -1964,7 +1979,7 @@
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "age_grow": 42, "into": "mon_spider_wolf_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 4, "cut": 8, "bullet": 6 }
   },
   {
@@ -2440,6 +2455,7 @@
     "weight": "81500 g",
     "hp": 40,
     "speed": 100,
+    "move_skills": { "climb": 8 },
     "material": [ "iflesh" ],
     "symbol": "a",
     "color": "brown",
@@ -2465,7 +2481,7 @@
     "special_attacks": [ [ "EAT_FOOD", 30 ], [ "BROWSE", 90 ], [ "EAT_CARRION", 90 ] ],
     "fungalize_into": "mon_ant_fungus",
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "EATS", "PULP_PRYING" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "EATS", "PULP_PRYING" ],
     "armor": { "bash": 5, "cut": 10, "bullet": 8, "electric": 1 }
   },
   {
@@ -2493,6 +2509,7 @@
     "weight": "81500 g",
     "hp": 60,
     "speed": 100,
+    "move_skills": { "climb": 8 },
     "material": [ "iflesh" ],
     "symbol": "a",
     "color": "green",
@@ -2518,18 +2535,7 @@
     "harvest": "arachnid_acid",
     "dissect": "dissect_insect_sample_single",
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [
-      "ACIDPROOF",
-      "CLIMBS",
-      "HEARS",
-      "POISON",
-      "SEES",
-      "SMELLS",
-      "PATH_AVOID_FIRE",
-      "PATH_AVOID_FALL",
-      "EATS",
-      "PULP_PRYING"
-    ],
+    "flags": [ "ACIDPROOF", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "EATS", "PULP_PRYING" ],
     "armor": { "bash": 6, "cut": 10, "bullet": 8, "electric": 2 }
   },
   {
@@ -2569,6 +2575,7 @@
     "weight": "815 kg",
     "hp": 300,
     "speed": 40,
+    "move_skills": { "climb": 8 },
     "material": [ "iflesh" ],
     "symbol": "a",
     "color": "green",
@@ -2587,18 +2594,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_ant_fungus",
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [
-      "ACIDPROOF",
-      "CLIMBS",
-      "HEARS",
-      "QUEEN",
-      "SEES",
-      "SMELLS",
-      "PATH_AVOID_FIRE",
-      "PATH_AVOID_FALL",
-      "BASHES",
-      "PULP_PRYING"
-    ],
+    "flags": [ "ACIDPROOF", "HEARS", "QUEEN", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "BASHES", "PULP_PRYING" ],
     "armor": { "bash": 8, "cut": 10, "bullet": 8, "electric": 1 }
   },
   {
@@ -2614,6 +2610,7 @@
     "weight": "81500 g",
     "hp": 100,
     "speed": 100,
+    "move_skills": { "climb": 8 },
     "material": [ "iflesh" ],
     "symbol": "a",
     "color": "brown",
@@ -2641,7 +2638,6 @@
     "flags": [
       "ACIDPROOF",
       "SHORTACIDTRAIL",
-      "CLIMBS",
       "HEARS",
       "POISON",
       "SEES",
@@ -2714,6 +2710,7 @@
     "weight": "815 kg",
     "hp": 300,
     "speed": 40,
+    "move_skills": { "climb": 8 },
     "material": [ "iflesh" ],
     "symbol": "a",
     "color": "light_red",
@@ -2732,7 +2729,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_ant_fungus",
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SMELLS", "QUEEN", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "BASHES", "PULP_PRYING" ],
+    "flags": [ "SMELLS", "QUEEN", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "BASHES", "PULP_PRYING" ],
     "armor": { "bash": 8, "cut": 10, "bullet": 8, "electric": 1 }
   },
   {
@@ -2747,6 +2744,7 @@
     "weight": "81500 g",
     "hp": 80,
     "speed": 100,
+    "move_skills": { "climb": 8 },
     "material": [ "iflesh" ],
     "symbol": "a",
     "color": "red",
@@ -2772,7 +2770,7 @@
     "fungalize_into": "mon_ant_fungus",
     "upgrades": { "age_grow": 42, "into": "mon_ant_soldier_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "PULP_PRYING" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "PULP_PRYING" ],
     "armor": { "bash": 10, "cut": 12, "bullet": 10, "electric": 2 }
   },
   {
@@ -2838,6 +2836,7 @@
     "weight": "40750 g",
     "hp": 30,
     "speed": 90,
+    "move_skills": { "climb": 6 },
     "material": [ "iflesh" ],
     "symbol": "g",
     "color": "brown",
@@ -2872,7 +2871,7 @@
       [ "GRAZE", 120 ]
     ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "PATH_AVOID_FIRE", "EATS" ],
     "armor": { "bash": 3, "cut": 4, "bullet": 3, "electric": 1 }
   },
   {
@@ -2956,6 +2955,7 @@
     "weight": "2080 g",
     "hp": 20,
     "speed": 120,
+    "move_skills": { "climb": 6 },
     "attack_cost": 360,
     "material": [ "iflesh" ],
     "symbol": "a",
@@ -2980,7 +2980,7 @@
     "reproduction": { "baby_type": { "baby_monster": "mon_aphid_small" }, "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "honeydew", "biosig_timer": 600 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "SWARMS", "SMALL_HIDER" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "SWARMS", "SMALL_HIDER" ],
     "armor": { "bash": 2, "cut": 5, "bullet": 3 }
   },
   {
@@ -3011,6 +3011,7 @@
     "weight": "160 kg",
     "hp": 120,
     "speed": 100,
+    "move_skills": { "climb": 8 },
     "material": [ "iflesh" ],
     "symbol": "M",
     "color": "light_green",
@@ -3045,7 +3046,7 @@
     ],
     "upgrades": { "age_grow": 42, "into": "mon_mantis_mega" },
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "PULP_PRYING" ],
+    "flags": [ "SEES", "HEARS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "PULP_PRYING" ],
     "armor": { "bash": 10, "cut": 16, "bullet": 13, "electric": 2 }
   },
   {
@@ -3313,6 +3314,7 @@
     "weight": "33 kg",
     "hp": 40,
     "speed": 180,
+    "move_skills": { "climb": 8 },
     "attack_cost": 540,
     "material": [ "iflesh" ],
     "symbol": "g",
@@ -3347,7 +3349,7 @@
       }
     ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FALL", "PATH_AVOID_FIRE", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_FALL", "PATH_AVOID_FIRE", "EATS" ],
     "armor": { "bash": 5, "cut": 10 }
   },
   {
@@ -3670,6 +3672,7 @@
     "weight": "12 kg",
     "hp": 20,
     "speed": 50,
+    "move_skills": { "swim": 6 },
     "attack_cost": 50,
     "material": [ "iflesh" ],
     "symbol": "s",
@@ -3692,7 +3695,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "SMALL_HIDER" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "SMALL_HIDER" ],
     "armor": { "bash": 1, "cut": 3, "bullet": 2 }
   },
   {
@@ -3705,7 +3708,7 @@
     "symbol": "s",
     "color": "light_gray",
     "upgrades": { "age_grow": 30, "into": "mon_strider_giant" },
-    "extend": { "flags": [ "SWIMS" ] }
+    "extend": { "move_skills": { "swim": 4 } }
   },
   {
     "id": "mon_butterfly",
@@ -4070,6 +4073,7 @@
     "weight": "81500 g",
     "hp": 90,
     "speed": 50,
+    "move_skills": { "swim": 6 },
     "material": [ "iflesh" ],
     "symbol": "B",
     "color": "light_gray",
@@ -4089,7 +4093,7 @@
     "reproduction": { "baby_type": { "baby_egg": "egg_water_beetle" }, "baby_count": 3, "baby_timer": 15 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SWIMS", "WATER_CAMOUFLAGE" ],
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "WATER_CAMOUFLAGE" ],
     "armor": { "bash": 7, "cut": 9, "bullet": 10, "electric": 2 }
   },
   {
@@ -4104,6 +4108,7 @@
     "weight": "50 kg",
     "hp": 45,
     "speed": 50,
+    "move_skills": { "swim": 6 },
     "attack_cost": 50,
     "material": [ "iflesh" ],
     "symbol": "W",
@@ -4124,7 +4129,7 @@
     "reproduction": { "baby_type": { "baby_egg": "egg_water_bug" }, "baby_count": 3, "baby_timer": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "AQUATIC" ],
     "armor": { "bash": 1, "cut": 3, "bullet": 2 }
   },
   {

@@ -24,7 +24,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_subway_vent_shaft_roof" ],
     "object": {
       "fill_ter": "t_open_air",
@@ -59,7 +58,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_subway_vent_shaft_surface" ],
     "object": {
       "predecessor_mapgen": "forest",
@@ -95,7 +93,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_subway_vent_shaft-1" ],
     "object": {
       "rows": [
@@ -129,7 +126,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_subway_vent_shaft-2" ],
     "object": {
       "rows": [
@@ -163,7 +159,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_subway_vent_shaft-3" ],
     "object": {
       "rows": [
@@ -197,7 +192,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_subway_vent_shaft-4" ],
     "object": {
       "rows": [

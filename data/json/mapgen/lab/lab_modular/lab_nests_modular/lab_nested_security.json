@@ -1,21 +1,18 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map bash damage, vertical line.",
     "nested_mapgen_id": "1x6_bash_v",
     "object": { "mapgensize": [ 6, 6 ], "set": [ { "point": "bash", "x": 0, "y": [ 1, 4 ] } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map bash damage, a single point.",
     "nested_mapgen_id": "1x6_bash",
     "object": { "mapgensize": [ 1, 1 ], "set": [ { "point": "bash", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab security.",
     "nested_mapgen_id": "lab_security_3x3_EW",
     "object": {
@@ -39,7 +36,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab security.",
     "nested_mapgen_id": "lab_security_3x3_EW",
     "object": {
@@ -63,7 +59,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab security.",
     "nested_mapgen_id": "lab_security_3x3_EW",
     "object": {
@@ -82,7 +77,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab security.",
     "nested_mapgen_id": "lab_security_3x3_EW",
     "object": {
@@ -97,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab security prison cells.",
     "nested_mapgen_id": "lab_security_prison_6x6_E",
     "object": {
@@ -118,7 +111,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab security prison cells.",
     "nested_mapgen_id": "lab_security_prison_6x6_W",
     "object": {
@@ -139,7 +131,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab security prison cells.",
     "nested_mapgen_id": "lab_security_prison_6x6_E",
     "object": {
@@ -159,7 +150,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab security prison cells.",
     "nested_mapgen_id": "lab_security_prison_6x6_W",
     "object": {
@@ -179,7 +169,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab security prison cells.",
     "nested_mapgen_id": "lab_security_prison_6x6_E",
     "object": {
@@ -200,7 +189,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab security prison cells.",
     "nested_mapgen_id": "lab_security_prison_6x6_W",
     "object": {
@@ -221,7 +209,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab security prison cells.",
     "nested_mapgen_id": "lab_security_prison_6x6_E",
     "object": {
@@ -256,7 +243,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab security prison cells.",
     "nested_mapgen_id": "lab_security_prison_6x6_W",
     "object": {
@@ -291,7 +277,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab security prison cells.",
     "nested_mapgen_id": "lab_security_prison_6x6_E",
     "object": {
@@ -312,7 +297,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab security prison cells.",
     "nested_mapgen_id": "lab_security_prison_6x6_W",
     "object": {
@@ -333,7 +317,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general lab security areas.",
     "nested_mapgen_id": "lab_security_6x6_open",
     "object": {
@@ -354,7 +337,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general lab security areas.",
     "nested_mapgen_id": "lab_security_6x6_open",
     "object": {
@@ -375,7 +357,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general lab security areas.",
     "nested_mapgen_id": "lab_security_6x6_open",
     "object": {
@@ -396,7 +377,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general lab security areas, door to the south, wall to the east.",
     "nested_mapgen_id": "lab_security_10x10_S",
     "object": {
@@ -429,7 +409,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general lab security areas, door to the north, wall to the east.",
     "nested_mapgen_id": "lab_security_10x10_N",
     "object": {
@@ -462,7 +441,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general lab security areas, door to the north, wall to the east.",
     "nested_mapgen_id": "lab_security_10x10_N",
     "object": {
@@ -496,7 +474,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general lab security areas, door to the south, wall to the east.",
     "nested_mapgen_id": "lab_security_10x10_S",
     "object": {
@@ -530,7 +507,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general lab security areas, door to the north, wall to the east.",
     "nested_mapgen_id": "lab_security_10x10_N",
     "object": {
@@ -553,7 +529,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general lab security areas, door to the south, wall to the east.",
     "nested_mapgen_id": "lab_security_10x10_S",
     "object": {
@@ -576,7 +551,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general lab security areas, door to the north, wall to the east.",
     "nested_mapgen_id": "lab_security_10x10_N",
     "object": {
@@ -599,7 +573,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for general lab security areas, door to the south, wall to the east.",
     "nested_mapgen_id": "lab_security_10x10_S",
     "object": {
@@ -622,7 +595,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for military lab security areas, 2x2 sandbag configuration. ",
     "nested_mapgen_id": "lab_security_sandbag_NS_1",
     "object": {
@@ -633,7 +605,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for military lab security areas, 2x2 sandbag configuration. ",
     "nested_mapgen_id": "lab_security_sandbag_NS_2",
     "object": {
@@ -644,7 +615,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for military lab security areas, 2x2 sandbag configuration. ",
     "nested_mapgen_id": "lab_security_sandbag_EW_1",
     "object": {
@@ -655,7 +625,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for military lab security areas, 2x2 sandbag configuration. ",
     "nested_mapgen_id": "lab_security_sandbag_EW_2",
     "object": {
@@ -666,7 +635,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for military lab security areas, really 14x7 for security corridors. ",
     "nested_mapgen_id": "lab_security_14x14_corridor_1",
     "object": {
@@ -708,7 +676,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for military lab security areas, really 14x7 for security corridors. ",
     "nested_mapgen_id": "lab_security_14x14_corridor_2",
     "object": {
@@ -750,7 +717,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for military lab security areas, really 14x7 for security corridors. ",
     "nested_mapgen_id": "lab_security_14x14_corridor_1",
     "object": {
@@ -823,7 +789,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for military lab security areas, really 14x7 for security corridors. ",
     "nested_mapgen_id": "lab_security_14x14_corridor_2",
     "object": {
@@ -896,7 +861,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for military lab security areas, really 14x7 for security corridors. ",
     "nested_mapgen_id": "lab_security_14x14_corridor_1",
     "object": {
@@ -970,7 +934,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for military lab security areas, really 14x7 for security corridors. ",
     "nested_mapgen_id": "lab_security_14x14_corridor_2",
     "object": {
@@ -1044,7 +1007,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "12x12_obstacle_course_N",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -1079,7 +1041,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "12x12_obstacle_course_N",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -1104,7 +1065,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "12x12_obstacle_course_S",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -1140,7 +1100,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "12x12_obstacle_course_S",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -1164,14 +1123,12 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "power_armor_roulette",
     "weight": 300,
     "object": { "mapgensize": [ 1, 1 ], "place_loot": [ { "group": "power_armor_sets", "x": 0, "y": 0, "chance": 100 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "weight": 400,
     "nested_mapgen_id": "power_armor_roulette",
     "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "monster": "mon_zombie_armored", "x": 0, "y": 0 } ] }

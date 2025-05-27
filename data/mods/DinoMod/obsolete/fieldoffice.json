@@ -11,7 +11,6 @@
     "mondensity": 2,
     "mapgen": [
       {
-        "method": "json",
         "weight": 10000,
         "object": {
           "rows": [

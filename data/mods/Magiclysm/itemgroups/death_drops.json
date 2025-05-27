@@ -236,8 +236,7 @@
                     "collection": [
                       {
                         "distribution": [
-                          { "item": "gown", "prob": 10, "damage": [ 1, 4 ] },
-                          { "item": "dress", "prob": 70, "damage": [ 1, 4 ] },
+                          { "item": "dress", "prob": 80, "damage": [ 1, 4 ] },
                           { "item": "sundress", "prob": 45, "damage": [ 1, 4 ] },
                           { "group": "christmas_dresses", "prob": 50, "damage": [ 1, 4 ], "event": "christmas" }
                         ]

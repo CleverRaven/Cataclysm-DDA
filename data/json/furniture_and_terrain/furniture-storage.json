@@ -266,7 +266,7 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": 8,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "NO_SELF_CONNECT" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 6 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
     },
@@ -837,7 +837,7 @@
     "move_cost_mod": -1,
     "coverage": 85,
     "required_str": 9,
-    "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "SMALL_HIDE" ],
+    "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "SMALL_HIDE", "NO_SELF_CONNECT" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 20 }, { "item": "nail", "charges": [ 16, 24 ] }, { "item": "pipe", "count": 2 } ]
     },
@@ -1720,5 +1720,19 @@
         { "item": "pallet", "count": 1 }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_exodii_kiln",
+    "name": "Exodii kiln",
+    "looks_like": "f_heavy_duty_freezer",
+    "description": "An imposing kiln produced by the Exodii, used to produce their ceramic armor",
+    "symbol": "H",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "coverage": 1000,
+    "required_str": 10,
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
+    "deconstruct": { "items": [ { "item": "exodii_kiln", "count": 1 } ] }
   }
 ]

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_22_1", "urban_22_2" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -51,7 +50,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_22_1_roof", "urban_22_2_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",

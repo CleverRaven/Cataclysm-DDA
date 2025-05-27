@@ -17,17 +17,22 @@
     "material_thickness": 0.5,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "head", "mouth" ] } ]
-  },
-  {
-    "id": "balaclava_skull",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "copy-from": "balclava",
-    "name": { "str": "skull balaclava" },
-    "description": "A skull-print balaclava covering the head and face, commonly used by motorcycle riders and as part of a costume.",
-    "warmth": 10,
-    "material_thickness": 0.2
+    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "head", "mouth" ] } ],
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "black balaclava" },
+        "append": true,
+        "description": "This one is black.",
+        "weight": 99
+      },
+      {
+        "id": "skull",
+        "name": { "str": "skull print balaclava" },
+        "description": "A skull-print balaclava covering the head and face, commonly used by motorcycle riders and as part of a costume.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "balaclava_cut_resistant",

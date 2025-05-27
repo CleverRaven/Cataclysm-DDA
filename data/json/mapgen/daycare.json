@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_daycare" ],
     "object": {
       "fill_ter": "t_floor",
@@ -107,7 +106,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_daycare_roof",
     "object": {
       "fill_ter": "t_flat_roof",

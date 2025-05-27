@@ -39,8 +39,8 @@
       "c": { "item": "SUS_evac_shelter_cabinet", "chance": 60 },
       "S": { "item": "SUS_evac_shelter_sink", "chance": 70 },
       "%": [
-        { "item": "shelter_supplies", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 3 ] }
+        { "item": "shelter_supplies", "chance": 15, "repeat": [ 1, 2 ] },
+        { "item": "SUS_trash_trashcan_empty", "chance": 25, "repeat": [ 1, 3 ] }
       ],
       "U": { "item": "SUS_evac_shelter_supply_closet", "chance": 70 },
       "B": { "item": "SUS_evac_shelter_bathroom_supplies", "chance": 70 },
@@ -97,8 +97,8 @@
         { "item": "SUS_trash_forest_manmade", "chance": 1 }
       ],
       "%": [
-        { "item": "shelter_supplies", "chance": 15, "repeat": [ 1, 2 ] },
-        { "item": "SUS_trash_trashcan", "chance": 25, "repeat": [ 1, 3 ] }
+        { "item": "shelter_supplies", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 3 ] }
       ],
       "U": { "item": "SUS_evac_shelter_supply_closet_used", "chance": 70 },
       "B": { "item": "SUS_evac_shelter_bathroom_supplies_used", "chance": 70 },
@@ -243,8 +243,8 @@
         { "item": "SUS_trash_forest_manmade", "chance": 1 }
       ],
       "%": [
-        { "item": "shelter_supplies", "chance": 15, "repeat": [ 1, 2 ] },
-        { "item": "SUS_trash_trashcan", "chance": 25, "repeat": [ 1, 3 ] }
+        { "item": "shelter_supplies", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 3 ] }
       ],
       "U": { "item": "SUS_evac_shelter_supply_closet_used", "chance": 50 },
       "B": { "item": "SUS_evac_shelter_bathroom_supplies_used", "chance": 50 },
@@ -344,8 +344,8 @@
       "c": { "item": "SUS_evac_shelter_cabinet", "chance": 60 },
       "S": { "item": "SUS_evac_shelter_sink", "chance": 70 },
       "%": [
-        { "item": "shelter_supplies", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 3 ] }
+        { "item": "shelter_supplies", "chance": 15, "repeat": [ 1, 2 ] },
+        { "item": "SUS_trash_trashcan_empty", "chance": 25, "repeat": [ 1, 3 ] }
       ],
       "U": { "item": "SUS_evac_shelter_supply_closet", "chance": 70 },
       "B": { "item": "SUS_evac_shelter_bathroom_supplies", "chance": 70 },
