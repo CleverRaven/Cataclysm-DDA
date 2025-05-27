@@ -147,7 +147,7 @@
     "speaker": [ "mon_vampire_moroi" ],
     "sound": "\"Mankind, a cesspit of hatred and lies, fight for them, then die for their sins.\"",
     "volume": 10
-  }, 
+  },
   {
     "type": "speech",
     "speaker": [ "mon_vampire_strigoi" ],
@@ -168,7 +168,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_vampire_moroi", "mon_vampire_strigoi","mon_vampire_wight" ],
+    "speaker": [ "mon_vampire_moroi", "mon_vampire_strigoi", "mon_vampire_wight" ],
     "sound": "\"I vant to suck your blood!\"",
     "volume": 10
   },
@@ -177,6 +177,5 @@
     "speaker": [ "mon_vampire_anathema" ],
     "sound": "\"Bitches love cannons.\"",
     "volume": 10
-  },
- 
+  }
 ]
