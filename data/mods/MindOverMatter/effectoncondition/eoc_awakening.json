@@ -53,7 +53,8 @@
       { "run_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "run_eocs": "EOC_BIOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_BIOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_BIOKINETIC_AWAKENING_KNACK_HANDLING" }
     ]
   },
   {
@@ -115,7 +116,8 @@
       { "run_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES" },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "run_eocs": "EOC_CLAIR_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_CLAIR_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_CLAIRSENTIENT_AWAKENING_KNACK_HANDLING" }
     ]
   },
   {
@@ -177,7 +179,8 @@
       { "run_eocs": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "run_eocs": "EOC_ELECTRO_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_ELECTRO_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_ELECTROKINETIC_AWAKENING_KNACK_HANDLING" }
     ]
   },
   {
@@ -241,7 +244,8 @@
       { "run_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "run_eocs": "EOC_PHOTOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_PHOTOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_PHOTOKINETIC_AWAKENING_KNACK_HANDLING" }
     ]
   },
   {
@@ -304,7 +308,8 @@
       { "run_eocs": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "run_eocs": "EOC_PYROKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_PYROKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_PYROKINETIC_AWAKENING_KNACK_HANDLING" }
     ]
   },
   {
@@ -366,7 +371,8 @@
       { "run_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "run_eocs": "EOC_TELEKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_TELEKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_TELEKINETIC_AWAKENING_KNACK_HANDLING" }
     ]
   },
   {
@@ -428,7 +434,8 @@
       { "run_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES" },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "run_eocs": "EOC_TELEPATH_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_TELEPATH_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_TELEPATHIC_AWAKENING_KNACK_HANDLING" }
     ]
   },
   {
@@ -554,7 +561,8 @@
       { "run_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "run_eocs": "EOC_VITAKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_VITAKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_VITAKINETIC_AWAKENING_KNACK_HANDLING" }
     ]
   },
   {
@@ -742,7 +750,8 @@
       { "run_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
-      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] }
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] },
+      { "run_eocs": "EOC_BIOKINETIC_AWAKENING_KNACK_HANDLING" }
     ],
     "false_effect": [
       {
@@ -776,7 +785,8 @@
       { "run_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
-      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] }
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] },
+      { "run_eocs": "EOC_CLAIRSENTIENT_AWAKENING_KNACK_HANDLING" }
     ],
     "false_effect": [
       {
@@ -810,7 +820,8 @@
       { "run_eocs": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
-      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] }
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] },
+      { "run_eocs": "EOC_ELECTROKINETIC_AWAKENING_KNACK_HANDLING" }
     ],
     "false_effect": [
       {
@@ -845,7 +856,8 @@
       { "run_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
-      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] }
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] },
+      { "run_eocs": "EOC_PHOTOKINETIC_AWAKENING_KNACK_HANDLING" }
     ],
     "false_effect": [
       {
@@ -879,7 +891,8 @@
       { "run_eocs": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
-      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] }
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] },
+      { "run_eocs": "EOC_PYROKINETIC_AWAKENING_KNACK_HANDLING" }
     ],
     "false_effect": [
       {
@@ -914,7 +927,8 @@
       { "run_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
-      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] }
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] },
+      { "run_eocs": "EOC_TELEKINETIC_AWAKENING_KNACK_HANDLING" }
     ],
     "false_effect": [
       {
@@ -947,7 +961,8 @@
       { "run_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
-      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] }
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] },
+      { "run_eocs": "EOC_TELEPATHIC_AWAKENING_KNACK_HANDLING" }
     ],
     "false_effect": [
       {
@@ -1015,7 +1030,8 @@
       { "run_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
-      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] }
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] },
+      { "run_eocs": "EOC_VITAKINETIC_AWAKENING_KNACK_HANDLING" }
     ],
     "false_effect": [
       {
@@ -1026,6 +1042,286 @@
       { "u_add_effect": "effect_vitakin_overload", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 3 s')" ] } },
       { "math": [ "u_val('stamina')", "-=", "4000" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKINETIC_AWAKENING_KNACK_HANDLING",
+    "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+    "effect": [
+      {
+        "if": { "math": [ "u_spell_level('biokin_flexibility_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('biokin_flexibility_knack')" ] },
+          { "math": [ "u_spell_level('biokin_flexibility') = _temp_var" ] },
+          { "math": [ "u_spell_level('biokin_flexibility_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('biokin_adrenaline_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('biokin_adrenaline_knack')" ] },
+          { "math": [ "u_spell_level('biokin_adrenaline') = _temp_var" ] },
+          { "math": [ "u_spell_level('biokin_adrenaline_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_count('school': 'PSYCHIC_KNACK') == 0" ] },
+        "then": { "u_lose_trait": "PSYCHIC_KNACK" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIRSENTIENT_AWAKENING_KNACK_HANDLING",
+    "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+    "effect": [
+      {
+        "if": { "math": [ "u_spell_level('clair_better_senses_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('clair_better_senses_knack')" ] },
+          { "math": [ "u_spell_level('clair_better_senses') = _temp_var" ] },
+          { "math": [ "u_spell_level('clair_better_senses_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('clair_danger_sense_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('clair_danger_sense_knack')" ] },
+          { "math": [ "u_spell_level('clair_danger_sense') = _temp_var" ] },
+          { "math": [ "u_spell_level('clair_danger_sense_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('clair_astral_projection_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('clair_astral_projection_knack')" ] },
+          { "math": [ "u_spell_level('clair_astral_projection') = _temp_var" ] },
+          { "math": [ "u_spell_level('clair_astral_projection_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_count('school': 'PSYCHIC_KNACK') == 0" ] },
+        "then": { "u_lose_trait": "PSYCHIC_KNACK" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKINETIC_AWAKENING_KNACK_HANDLING",
+    "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+    "effect": [
+      {
+        "if": { "math": [ "u_spell_level('electrokinetic_pain_immune_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('electrokinetic_pain_immune_knack')" ] },
+          { "math": [ "u_spell_level('electrokinetic_pain_immune') = _temp_var" ] },
+          { "math": [ "u_spell_level('electrokinetic_pain_immune_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('electrokinetic_hacking_interface_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('electrokinetic_hacking_interface_knack')" ] },
+          { "math": [ "u_spell_level('electrokinetic_hacking_interface') = _temp_var" ] },
+          { "math": [ "u_spell_level('electrokinetic_hacking_interface_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_count('school': 'PSYCHIC_KNACK') == 0" ] },
+        "then": { "u_lose_trait": "PSYCHIC_KNACK" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKINETIC_AWAKENING_KNACK_HANDLING",
+    "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+    "effect": [
+      {
+        "if": { "math": [ "u_spell_level('photokinetic_camouflage_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('photokinetic_camouflage_knack')" ] },
+          { "math": [ "u_spell_level('photokinetic_camouflage') = _temp_var" ] },
+          { "math": [ "u_spell_level('photokinetic_camouflage_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_count('school': 'PSYCHIC_KNACK') == 0" ] },
+        "then": { "u_lose_trait": "PSYCHIC_KNACK" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKINETIC_AWAKENING_KNACK_HANDLING",
+    "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+    "effect": [
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_flash_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('pyrokinetic_flash_knack')" ] },
+          { "math": [ "u_spell_level('pyrokinetic_flash') = _temp_var" ] },
+          { "math": [ "u_spell_level('pyrokinetic_flash_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_call_flames_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('pyrokinetic_call_flames_knack')" ] },
+          { "math": [ "u_spell_level('pyrokinetic_call_flames') = _temp_var" ] },
+          { "math": [ "u_spell_level('pyrokinetic_call_flames_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_cloak_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('pyrokinetic_cloak_knack')" ] },
+          { "math": [ "u_spell_level('pyrokinetic_cloak') = _temp_var" ] },
+          { "math": [ "u_spell_level('pyrokinetic_cloak_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_count('school': 'PSYCHIC_KNACK') == 0" ] },
+        "then": { "u_lose_trait": "PSYCHIC_KNACK" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_AWAKENING_KNACK_HANDLING",
+    "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+    "effect": [
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_push_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('telekinetic_push_knack')" ] },
+          { "math": [ "u_spell_level('telekinetic_push') = _temp_var" ] },
+          { "math": [ "u_spell_level('telekinetic_push_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_slam_down_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('telekinetic_slam_down_knack')" ] },
+          { "math": [ "u_spell_level('telekinetic_slam_down') = _temp_var" ] },
+          { "math": [ "u_spell_level('telekinetic_slam_down_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_wave_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('telekinetic_wave_knack')" ] },
+          { "math": [ "u_spell_level('telekinetic_wave') = _temp_var" ] },
+          { "math": [ "u_spell_level('telekinetic_wave_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_count('school': 'PSYCHIC_KNACK') == 0" ] },
+        "then": { "u_lose_trait": "PSYCHIC_KNACK" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATHIC_AWAKENING_KNACK_HANDLING",
+    "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+    "effect": [
+      {
+        "if": { "math": [ "u_spell_level('telepathic_shield_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('telepathic_shield_knack')" ] },
+          { "math": [ "u_spell_level('telepathic_shield') = _temp_var" ] },
+          { "math": [ "u_spell_level('telepathic_shield_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('telepathic_mind_sense_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('telepathic_mind_sense_knack')" ] },
+          { "math": [ "u_spell_level('telepathic_mind_sense') = _temp_var" ] },
+          { "math": [ "u_spell_level('telepathic_mind_sense_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('telepathic_morale_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('telepathic_morale_knack')" ] },
+          { "math": [ "u_spell_level('telepathic_morale') = _temp_var" ] },
+          { "math": [ "u_spell_level('telepathic_morale_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('telepathic_mesmerize_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('telepathic_mesmerize_knack')" ] },
+          { "math": [ "u_spell_level('telepathic_mesmerize') = _temp_var" ] },
+          { "math": [ "u_spell_level('telepathic_mesmerize_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('telepathic_animal_mind_control_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('telepathic_animal_mind_control_knack')" ] },
+          { "math": [ "u_spell_level('telepathic_animal_mind_control') = _temp_var" ] },
+          { "math": [ "u_spell_level('telepathic_animal_mind_control_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('telepathic_invisibility_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('telepathic_invisibility_knack')" ] },
+          { "math": [ "u_spell_level('telepathic_invisibility') = _temp_var" ] },
+          { "math": [ "u_spell_level('telepathic_invisibility_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_count('school': 'PSYCHIC_KNACK') == 0" ] },
+        "then": { "u_lose_trait": "PSYCHIC_KNACK" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKINETIC_AWAKENING_KNACK_HANDLING",
+    "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+    "effect": [
+      {
+        "if": { "math": [ "u_spell_level('vita_health_power_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('vita_health_power_knack')" ] },
+          { "math": [ "u_spell_level('vita_health_power') = _temp_var" ] },
+          { "math": [ "u_spell_level('vita_health_power_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('vita_concentrated_healing_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('vita_concentrated_healing_knack')" ] },
+          { "math": [ "u_spell_level('vita_concentrated_healing') = _temp_var" ] },
+          { "math": [ "u_spell_level('vita_concentrated_healing_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('vita_remove_poison_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('vita_remove_poison_knack')" ] },
+          { "math": [ "u_spell_level('vita_remove_poison') = _temp_var" ] },
+          { "math": [ "u_spell_level('vita_remove_poison_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('vita_cure_disease_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('vita_cure_disease_knack')" ] },
+          { "math": [ "u_spell_level('vita_cure_disease') = _temp_var" ] },
+          { "math": [ "u_spell_level('vita_cure_disease_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_count('school': 'PSYCHIC_KNACK') == 0" ] },
+        "then": { "u_lose_trait": "PSYCHIC_KNACK" }
+      }
     ]
   }
 ]
