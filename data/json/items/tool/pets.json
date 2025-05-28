@@ -107,7 +107,7 @@
     "charged_qualities": [ [ "SHEAR", 3 ] ],
     "flags": [ "WATER_BREAK", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "use_action": { "type": "link_up", "cable_length": 5 },
-    "charges_per_use": 1,
+    "charges_per_use": 250,
     "power_draw": "850 W",
     "melee_damage": { "bash": 2 },
     "tool_ammo": [ "battery" ]
