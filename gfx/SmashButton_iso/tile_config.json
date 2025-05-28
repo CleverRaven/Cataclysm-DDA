@@ -3052,7 +3052,8 @@
             "fertilizer",
             "hickory_root",
             "hickory_nut",
-            "seed_sunflower"
+            "seed_sunflower",
+            "seed_poppy_bud"
           ],
           "//": "powder brown",
           "fg": 1240
