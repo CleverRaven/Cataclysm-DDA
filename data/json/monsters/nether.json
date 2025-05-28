@@ -2455,7 +2455,7 @@
     "vision_day": 20,
     "vision_night": 20,
     "melee_damage": [ { "damage_type": "bash", "amount": 3 } ],
-    "special_attacks": [ { "id": "smash", "throw_strength": 60, "cooldown": 30 }, { "id": "grab" }, { "type": "spell", "spell_data": { "id": "crowned_speaking" }, "cooldown": 10, "monster_message": "A drone escapes the %s, and you feel it haphazardly grasp at your mind with its own."  } ],
+    "special_attacks": [ { "id": "smash", "throw_strength": 60, "cooldown": 30 }, { "id": "grab" }, { "type": "spell", "spell_data": { "id": "crowned_speaking" }, "cooldown": 10, "monster_message": "The %s emits a drone, its head seeming to vibrate."  } ],
     "grab_strength": 30
   }
 ]
