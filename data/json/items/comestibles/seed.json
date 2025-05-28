@@ -621,8 +621,7 @@
       "byproducts": [ "withered" ],
       "grow": "91 days"
     },
-    "into": "paste_seed",
-    "recipe": "paste_seed_mill_8_1"
+    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
   },
   {
     "type": "ITEM",
