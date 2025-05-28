@@ -363,7 +363,7 @@ std::string fac_wealth_text( int val, int size )
     return pgettext( "Faction wealth", "Destitute" );
 }
 
-std::string faction::food_supply_text()
+std::string faction::food_supply_text() const
 {
     //Convert to how many days you can support the population
     int val = food_supply.kcal() / ( size * 288 );
@@ -382,7 +382,7 @@ std::string faction::food_supply_text()
     return pgettext( "Faction food", "Starving" );
 }
 
-nc_color faction::food_supply_color()
+nc_color faction::food_supply_color() const
 {
     int val = food_supply.kcal() / ( size * 288 );
     if( val >= 30 ) {
