@@ -669,7 +669,8 @@
             "seed_cranberries",
             "seed_huckleberries",
             "seed_mulberries",
-            "seed_elderberries"
+            "seed_elderberries",
+            "seed_poppy_bud",
           ],
           "fg": 1269
         },
