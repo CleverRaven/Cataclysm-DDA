@@ -614,7 +614,14 @@
     "description": "Some poppy seeds.  Could be pressed into oil.",
 	  "price": "1 cent",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
-    "seed_data": { "plant_name": "mutated poppy flower", "fruit": "poppy_bud", "fruit_div": 2, "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" },
+    "seed_data": {
+      "plant_name": "mutated poppy flower",
+      "fruit": "poppy_bud",
+      "fruit_div": 2,
+      "seeds": false,
+      "byproducts": [ "withered" ],
+      "grow": "91 days"
+    },
     "into": "paste_seed",
     "recipe": "paste_seed_mill_8_1"
   },
