@@ -603,25 +603,24 @@
     "grow": "95 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+	  "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "seed_poppy_bud",
     "copy-from": "seed",
     "name": { "str_sp": "poppy seeds" },
     "color": "green",
-    "use_action": [ "SEED" ],
     "calories": 131,
     "description": "Some poppy seeds.  Could be pressed into oil.",
     "price": "1 cent",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
-    "seed_data": {
-      "plant_name": "mutated poppy flower",
-      "fruit": "poppy_bud",
-      "fruit_div": 2,
-      "seeds": false,
-      "byproducts": [ "withered" ],
-      "grow": "91 days"
-    },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
+    "plant_name": "mutated poppy flower",
+    "fruit": "poppy_bud",
+    "fruit_div": 2,
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "grow": "91 days",
+    "into": "paste_seed",
+    "recipe": "paste_seed_mill_8_1"
   },
   {
     "type": "ITEM",
