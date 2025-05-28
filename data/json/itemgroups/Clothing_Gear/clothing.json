@@ -2099,6 +2099,7 @@
       { "item": "backpack_tactical_large", "prob": 1 },
       { "group": "molle_backpacks_and_accessories", "prob": 1 },
       { "item": "duffelbag", "prob": 5 },
+      { "item": "long_duffelbag", "prob": 5 },
       { "item": "bigback", "prob": 1 },
       { "item": "travelpack", "prob": 5 },
       { "item": "rucksack", "prob": 20 }
@@ -2913,6 +2914,7 @@
       [ "tacvest", 10 ],
       { "group": "molle_backpacks_and_accessories", "prob": 8 },
       [ "duffelbag", 15 ],
+      [ "long_duffelbag", 5 ],
       [ "dump_pouch", 20 ],
       [ "legrig", 10 ],
       [ "under_armor", 20 ],
@@ -2940,6 +2942,7 @@
     "items": [
       { "group": "gasmask_bag_full", "prob": 10 },
       [ "duffelbag", 15 ],
+      [ "long_duffelbag", 5 ],
       { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "military_nvg", "prob": 1, "charges": [ 0, 100 ] },
@@ -3320,6 +3323,7 @@
       [ "slingpack", 12 ],
       [ "rucksack", 12 ],
       [ "duffelbag", 8 ],
+      [ "long_duffelbag", 4 ],
       [ "quiver_takedown_bow", 1 ],
       [ "mask_h20survivor", 1 ],
       [ "mask_bal", 14 ],
@@ -4078,6 +4082,7 @@
           { "item": "backpack_denim", "prob": 5 },
           { "item": "backpack_hiking", "prob": 25 },
           { "item": "duffelbag", "prob": 80 },
+          { "item": "long_duffelbag", "prob": 10 },
           { "item": "travelpack", "prob": 25 },
           { "item": "gobag", "prob": 1 }
         ],
