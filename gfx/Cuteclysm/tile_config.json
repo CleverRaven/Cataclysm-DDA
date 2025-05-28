@@ -3394,7 +3394,6 @@
         { "id": "seed_sugar_beet", "fg": 1817, "rotates": false, "multitile": false },
         { "id": "seed_tomato", "fg": 1817, "rotates": false, "multitile": false },
         { "id": "seed_weed", "fg": 1817, "rotates": false, "multitile": false },
-        { "id": "seed_poppy_bud", "fg": 1817, "rotates": false, "multitile": false },
         { "id": "seed_wheat", "fg": 1817, "rotates": false, "multitile": false },
         { "id": "slime_scrap", "fg": 1447, "rotates": false, "multitile": false },
         { "id": "sloppyjoe", "fg": 896, "rotates": false, "multitile": false },
