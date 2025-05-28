@@ -604,7 +604,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "seed_poppy_bud",
     "copy-from": "seed",
     "name": { "str_sp": "poppy seeds" },
