@@ -602,7 +602,7 @@
     "byproducts": [ "withered" ],
     "grow": "95 days"
   },
-{
+  {
     "type": "COMESTIBLE",
     "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "seed_poppy_bud",
