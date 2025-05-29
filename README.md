@@ -23,7 +23,7 @@ Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalypt
 
 #### Arch Linux
 
-Ncurses and tiles versions are available in the [offical repos](https://www.archlinux.org/packages/?q=cataclysm-dda).
+Ncurses and tiles versions are available in the [community repos](https://www.archlinux.org/packages/?q=cataclysm-dda).
 
 ```sh
 sudo pacman -S cataclysm-dda
