@@ -340,7 +340,15 @@
     "volume": "20 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "magazine_well": "20 ml", "max_contains_volume": "2500 ml", "max_contains_weight": "2 kg", "moves": 200 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "20 ml",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200
+      }
+    ],
     "material": [ "paper" ],
     "symbol": ")",
     "color": "white"
@@ -357,7 +365,15 @@
     "volume": "60 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "magazine_well": "60 ml", "max_contains_volume": "10000 ml", "max_contains_weight": "15 kg", "moves": 200 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "60 ml",
+        "max_contains_volume": "10000 ml",
+        "max_contains_weight": "15 kg",
+        "moves": 200
+      }
+    ],
     "material": [ "paper" ],
     "symbol": ")",
     "color": "white"
@@ -3347,7 +3363,14 @@
     "material": [ "paper" ],
     "symbol": ",",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "magazine_well": "50 ml", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "50 ml",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "6 kg"
+      }
+    ],
     "flags": [ "TINDER" ]
   },
   {
@@ -3409,7 +3432,9 @@
     "copy-from": "wrapper",
     "weight": "1 g",
     "volume": "5 ml",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "magazine_well": "5 ml", "max_contains_volume": "175 ml", "max_contains_weight": "1 kg" } ]
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "magazine_well": "5 ml", "max_contains_volume": "175 ml", "max_contains_weight": "1 kg" }
+    ]
   },
   {
     "id": "styrofoam_cup",
