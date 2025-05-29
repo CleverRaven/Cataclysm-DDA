@@ -20,6 +20,7 @@
     "entries": [
       { "group": "clothing_military_pilot", "prob": 65, "damage": [ 1, 4 ] },
       { "group": "gear_soldier_sidearm", "prob": 30, "damage": [ 1, 4 ] },
+      { "group": "military_patrol_food", "prob": 50, "damage": [ 1, 4 ] },
       { "item": "two_way_radio", "prob": 50, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
       { "prob": 40, "group": "adderall_bottle_plastic_pill_prescription_10" },
       { "group": "wallets_military", "prob": 5 },
@@ -48,6 +49,7 @@
         ]
       },
       { "group": "gear_soldier_sidearm", "prob": 30, "damage": [ 1, 4 ] },
+      { "group": "military_patrol_food", "prob": 90, "damage": [ 1, 4 ] },
       {
         "collection": [
           {
