@@ -136,11 +136,19 @@
     "description": "A large and sturdy sack, made out of some plastic material.  Popular choice to store sand, gravel, cement, or stop some local flood.",
     "//": "durasack woven polypropylene bags",
     "weight": "750 g",
-    "volume": "750 ml",
+    "volume": "1250 ml",
     "price": "85 cent",
     "price_postapoc": "5 cent",
     "material": [ "plastic" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "18 L", "max_contains_weight": "22 kg", "moves": 500 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "750 ml",
+        "max_contains_volume": "18 L",
+        "max_contains_weight": "22 kg",
+        "moves": 500
+      }
+    ],
     "symbol": ")",
     "color": "white"
   },
@@ -169,7 +177,15 @@
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": [ "canvas" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "750 ml",
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "15 kg",
+        "moves": 400
+      }
+    ],
     "symbol": ")",
     "color": "brown"
   },
@@ -182,11 +198,19 @@
     "description": "A small bag made of canvas.  Looks fine to store dried herbs in.",
     "ascii_picture": "bag_canvas_small",
     "weight": "20 g",
-    "volume": "14 ml",
+    "volume": "60 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": [ "canvas" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 400 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "45 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "moves": 400
+      }
+    ],
     "symbol": ")",
     "color": "brown"
   },
@@ -299,6 +323,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "magazine_well": "1 L",
         "max_contains_volume": "3 L",
         "max_contains_weight": "3 kg",
         "max_item_length": "22 cm",
