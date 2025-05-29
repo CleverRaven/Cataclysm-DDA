@@ -3438,7 +3438,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "120 ml",
+        "max_contains_volume": "480 ml",
         "max_contains_weight": "1 kg",
         "item_restriction": [ "wrapper_foil" ],
         "volume_multiplier": 0.25
