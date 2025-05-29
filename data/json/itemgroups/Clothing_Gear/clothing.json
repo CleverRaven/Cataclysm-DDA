@@ -2074,7 +2074,7 @@
       { "item": "purse", "prob": 40 },
       { "item": "mbag", "prob": 20 },
       { "item": "slingpack", "prob": 8 },
-      { "item": "rucksack", "prob": 20 },
+      { "item": "rucksack", "prob": 1 },
       { "item": "backpack_denim", "prob": 3 },
       { "item": "backpack_leather", "prob": 8 },
       { "item": "briefcase", "prob": 10 },
@@ -2096,7 +2096,7 @@
       { "item": "duffelbag", "prob": 5 },
       { "item": "bigback", "prob": 1 },
       { "item": "travelpack", "prob": 5 },
-      { "item": "rucksack", "prob": 20 }
+      { "item": "rucksack", "prob": 1 }
     ]
   },
   {
