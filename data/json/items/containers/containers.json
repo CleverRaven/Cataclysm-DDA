@@ -229,7 +229,7 @@
       {
         "pocket_type": "CONTAINER",
         "transparent": true,
-        "magazine_well": "10 ml",
+        "magazine_well": "8 ml",
         "max_contains_volume": "6 L",
         "max_contains_weight": "10 kg",
         "moves": 400
@@ -247,7 +247,7 @@
     "looks_like": "bag_plastic",
     "description": "A small, open plastic bag.  Essentially trash.",
     "weight": "1 g",
-    "volume": "2 ml",
+    "volume": "5 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "plastic" ],
@@ -256,7 +256,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "transparent": true,
-        "magazine_well": "2 ml",
+        "magazine_well": "4 ml",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1250 g",
         "moves": 400
@@ -368,7 +368,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "magazine_well": "20 ml",
+        "magazine_well": "15 ml",
         "max_contains_volume": "2500 ml",
         "max_contains_weight": "2 kg",
         "moves": 200
@@ -393,7 +393,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "magazine_well": "60 ml",
+        "magazine_well": "45 ml",
         "max_contains_volume": "10000 ml",
         "max_contains_weight": "15 kg",
         "moves": 200
