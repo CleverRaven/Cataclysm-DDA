@@ -2069,20 +2069,14 @@
     "id": "bags",
     "subtype": "distribution",
     "entries": [
+      { "group": "small_bags", "prob": 92 },
       { "item": "backpack", "prob": 38 },
       { "item": "backpack_hiking", "prob": 3 },
       { "item": "backpack_hunting", "prob": 1 },
-      { "item": "petpack", "prob": 3 },
       { "item": "backpack_tactical_large", "prob": 1 },
       { "item": "bigback", "prob": 1 },
       { "item": "travelpack", "prob": 5 },
-      { "item": "purse", "prob": 40 },
-      { "item": "mbag", "prob": 20 },
-      { "item": "slingpack", "prob": 8 },
       { "item": "rucksack", "prob": 1 },
-      { "item": "backpack_denim", "prob": 3 },
-      { "item": "backpack_leather", "prob": 8 },
-      { "item": "briefcase", "prob": 10 },
       { "item": "leg_bag", "prob": 1 },
       { "item": "quiver_takedown_bow", "prob": 1 }
     ]
