@@ -1146,6 +1146,9 @@ static void inherit_base_colors()
 
 static void load_imgui_style_file( const cata_path &style_path )
 {
+    // reset style first to unset colors
+    ImGui::GetStyle() = ImGuiStyle();
+
     ImGuiStyle &style = ImGui::GetStyle();
 
     JsonValue jsin = json_loader::from_path( style_path );
@@ -1235,7 +1238,8 @@ static void load_imgui_style_file( const cata_path &style_path )
 
 void cataimgui::init_colors()
 {
-    const cata_path default_style_path = PATH_INFO::datadir_path() / "raw" / "imgui_style.json";
+    const cata_path default_style_path = PATH_INFO::datadir_path() / "raw" / "imgui_styles" /
+                                         "default_style.json";
     const cata_path style_path = PATH_INFO::config_dir_path() / "imgui_style.json";
     if( !file_exist( style_path ) ) {
         assure_dir_exist( PATH_INFO::config_dir() );

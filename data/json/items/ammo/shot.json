@@ -259,5 +259,22 @@
     "damage": { "damage_type": "bullet", "amount": 50, "armor_penetration": 6 },
     "recoil": 3500,
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "wax_slug",
+    "copy-from": "shotshell_abstract",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "Cut slug" },
+    "description": "A round of 12 gauge birdshot that has had the crimp opened, and wax poured into the shot to mimic the performance of a proper slug.",
+    "ascii_picture": "shot_slug",
+    "price": "0 USD",
+    "price_postapoc": "2 USD",
+    "range": 16,
+    "dispersion": 200,
+    "damage": { "damage_type": "bullet", "amount": 48, "armor_penetration": 0 },
+    "recoil": 1500,
+    "effects": [ "COOKOFF" ],
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }
 ]

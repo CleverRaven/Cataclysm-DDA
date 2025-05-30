@@ -33,7 +33,7 @@
     "type": "jmath_function",
     "id": "psionics_kcal_cost",
     "num_args": 1,
-    "return": "(4 * _0) * rng( 0.3, 1.7) * u_nether_attunement_power_scaling * (u_effect_intensity('effect_nether_attunement_extra_kcal') > 0 ? 3 : 1)"
+    "return": "(4 * _0) * rng( 0.3, 1.7) * u_nether_attunement_power_scaling * (u_effect_intensity('effect_nether_attunement_extra_kcal') > 0 ? 3 : 1) + (1 * u_has_trait('SCEN_HEART_OF_FIRE') * 0.5)"
   },
   {
     "type": "jmath_function",
