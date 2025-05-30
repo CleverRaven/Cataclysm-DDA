@@ -45,13 +45,9 @@
     ],
     "expand_snippets": true,
     "variants": [
-      { "id": "boy_branded", "name": { "str": "boy's backpack" }, "description": "A boy's backpack.  <boy_brand>" },
-      {
-        "id": "girl_branded",
-        "name": { "str": "girl's backpack" },
-        "description": "A girl's backpack.  <girl_brand>"
-      },
-      { "id": "kid_branded", "name": { "str": "kid's backpack" }, "description": "A kid's backpack.  <kid_brand>" }
+      { "id": "boy", "name": { "str": "boy's backpack" }, "description": "A boy's backpack.  <boy_brand>" },
+      { "id": "girl", "name": { "str": "girl's backpack" }, "description": "A girl's backpack.  <girl_brand>" },
+      { "id": "kid", "name": { "str": "kid's backpack" }, "description": "A kid's backpack.  <kid_brand>" }
     ]
   }
 ]
