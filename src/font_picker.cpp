@@ -254,7 +254,7 @@ void FontPickerWindow::ShowFontDetailsWindow( const char *window_name,
             }
         }
         if( face_to_remove ) {
-#ifdef _WIN32
+#if defined(_WIN32) or defined(__APPLE__)
             typefaces.erase( typefaces.begin() + ( face_to_remove - typefaces.data() ) );
 #else
             typefaces.erase( std::vector<font_config>::iterator( face_to_remove ) );
