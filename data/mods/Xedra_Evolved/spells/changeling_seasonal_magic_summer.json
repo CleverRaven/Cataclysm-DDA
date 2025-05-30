@@ -332,6 +332,32 @@
     }
   },
   {
+    "id": "changeling_summer_ring_of_flames_spell",
+    "type": "SPELL",
+    "name": "Duelist's Circle",
+    "description": "Summon up a circle of flames around yourself and a nearby enemy, allowing you to fight undisturbed.  You will be immune to the heat of the flames while they last, though stepping into them will end this protection.  You must be <color_yellow>outdoors</color> for this glamour to have any effect.  In the summer, the flames are <color_green>even hotter</color>.  Reweave the glamour to dispel it.",
+    "message": "",
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "hostile" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 8,
+    "components": "spell_components_changeling_dreamsparks_3",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SUMMER_RING_OF_FLAMES_INITIATE",
+    "min_range": 3,
+    "max_range": 3,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_changeling_summer_ring_of_flames') > -1 ? 0 : max( ( 750 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 4) - (u_skill('deduction') * 10) ), 500)"
+      ]
+    },
+    "base_casting_time": 50
+  },
+  {
     "id": "changeling_summer_powerful_sunlight_spell",
     "type": "SPELL",
     "name": "Helios's Wrath",

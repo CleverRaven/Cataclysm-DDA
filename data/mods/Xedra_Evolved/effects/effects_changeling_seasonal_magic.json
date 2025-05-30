@@ -277,6 +277,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_summer_ring_of_flames",
+    "//": "Tracker to to allow unweaving the glamour, and also make the changeling immune to heat",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "HEAT_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_summer_powerful_sunlight",
     "name": [ "Helios's Wrath" ],
     "desc": [ "You blaze with the pure light of the summer sun." ],
