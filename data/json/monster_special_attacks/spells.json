@@ -1200,6 +1200,61 @@
     "false_effect": { "u_message": "You manage to avoid staring at the horrendous <npc_name>." }
   },
   {
+    "id": "crowned_speaking",
+    "type": "SPELL",
+    "name": { "str": "Telepathic Communication", "//~": "NO_I18N" },
+    "description": {
+      "str": "A spell that triggers an aoe around the target that hits the player if they're in range with an EoC.",
+      "//~": "NO_I18N"
+    },
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "min_range": 1,
+    "max_range": 1,
+    "min_aoe": 12,
+    "max_aoe": 12,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CROWNEDONE_1"
+  },
+  {
+    "id": "EOC_CROWNEDONE_1",
+    "type": "effect_on_condition",
+    "condition": "u_is_character",
+    "//": "this effect only applies to you and companions/npcs",
+    "effect": [ { "u_cast_spell": { "id": "crowned_pain" } } ]
+  },
+  {
+    "id": "crowned_pain",
+    "type": "SPELL",
+    "name": { "str": "Telepathic Communication", "//~": "NO_I18N" },
+    "description": { "str": "Causes pain, stackable.", "//~": "NO_I18N" },
+    "shape": "blast",
+    "valid_targets": [ "ground", "ally" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "min_range": 12,
+    "max_range": 12,
+    "effect": "recover_energy",
+    "effect_str": "PAIN",
+    "extra_effects": [ { "id": "vomit" } ],
+    "min_damage": -200,
+    "max_damage": -200
+  },
+  {
+    "id": "vomit",
+    "type": "SPELL",
+    "name": { "str": "vomiting", "//~": "NO_I18N" },
+    "description": { "str": "Causes the player to vomit", "//~": "NO_I18N" },
+    "shape": "blast",
+    "min_range": 12,
+    "max_range": 12,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "effect": "vomit",
+    "valid_targets": [ "ground", "ally" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
+  },
+  {
     "id": "stare",
     "type": "SPELL",
     "name": { "str": "Stare", "//~": "NO_I18N" },
