@@ -121,7 +121,7 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_kelvinist_anti_cold",
+    "id": "effect_nether_attunement_pyrokinetic_fog",
     "//": "Hidden effect, used as a tracker",
     "name": [ "" ],
     "desc": [ "" ],
