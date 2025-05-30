@@ -100,6 +100,7 @@
 #include "vehicle_group.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weighted_dbl_or_var_list.h"
 #include "weighted_list.h"
 
 static const field_type_str_id field_fd_blood( "fd_blood" );
@@ -4290,8 +4291,8 @@ class jmapgen_nested : public jmapgen_piece
         };
 
     public:
-        weighted_int_list<mapgen_value<nested_mapgen_id>> entries;
-        weighted_int_list<mapgen_value<nested_mapgen_id>> else_entries;
+        weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> entries;
+        weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> else_entries;
         neighbor_oter_check neighbor_oters;
         neighbor_join_check neighbor_joins;
         neighbor_flag_check neighbor_flags;
@@ -4306,10 +4307,10 @@ class jmapgen_nested : public jmapgen_piece
             , predecessors( jsi.get_array( "predecessors" ) )
             , correct_z_level( jsi.get_array( "check_z" ) ) {
             if( jsi.has_member( "chunks" ) ) {
-                load_weighted_list( jsi.get_member( "chunks" ), entries, 100 );
+                entries.load( jsi.get_member( "chunks" ), 100 );
             }
             if( jsi.has_member( "else_chunks" ) ) {
-                load_weighted_list( jsi.get_member( "else_chunks" ), else_entries, 100 );
+                else_entries.load( jsi.get_member( "else_chunks" ), 100 );
             }
         }
         mapgen_phase phase() const override {
@@ -4333,14 +4334,14 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
             };
-            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &name : entries ) {
+            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &name : entries ) {
                 merge_from( name.obj );
             }
-            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &name : else_entries ) {
+            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &name : else_entries ) {
                 merge_from( name.obj );
             }
         }
-        const weighted_int_list<mapgen_value<nested_mapgen_id>> &get_entries(
+        const weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> &get_entries(
         const mapgendata &dat ) const {
             if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) && neighbor_flags.test( dat ) &&
                 neighbor_flags_any.test( dat ) && predecessors.test( dat ) && correct_z_level.test( dat ) ) {
@@ -4379,10 +4380,10 @@ class jmapgen_nested : public jmapgen_piece
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
                     const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z
                   ) const override {
-            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &p : entries ) {
+            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &p : entries ) {
                 p.obj.check( oter_name, parameters );
             }
-            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &p : else_entries ) {
+            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &p : entries ) {
                 p.obj.check( oter_name, parameters );
             }
             neighbor_joins.check( oter_name, parameters );
@@ -4401,10 +4402,10 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
             };
-            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &p : entries ) {
+            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &p : entries ) {
                 add_coords_from( p.obj );
             }
-            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &p : else_entries ) {
+            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &p : else_entries ) {
                 add_coords_from( p.obj );
             }
 
@@ -4449,7 +4450,7 @@ class jmapgen_nested : public jmapgen_piece
         }
         ret_val<void> has_vehicle_collision( const mapgendata &dat,
                                              const tripoint_rel_ms &p ) const override {
-            const weighted_int_list<mapgen_value<nested_mapgen_id>> &selected_entries =
+            const weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> &selected_entries =
                         get_entries( dat );
             if( selected_entries.empty() ) {
                 return ret_val<void>::make_success();

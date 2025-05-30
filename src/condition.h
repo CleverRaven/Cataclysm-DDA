@@ -46,6 +46,7 @@ str_translation_or_var get_str_translation_or_var(
     const JsonValue &jv, std::string_view member, bool required = true );
 dbl_or_var get_dbl_or_var( const JsonObject &jo, std::string_view member, bool required = true,
                            double default_val = 0.0 );
+dbl_or_var get_dbl_or_var( const JsonValue &jv );
 dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv );
 duration_or_var get_duration_or_var( const JsonObject &jo, std::string_view member,
                                      bool required = true,
