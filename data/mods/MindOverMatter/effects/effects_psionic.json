@@ -1394,7 +1394,7 @@
             "condition": { "test_eoc": "EOC_IS_ELECTRIC" },
             "distance": {
               "math": [
-                "( ( u_spell_level('electrokinetic_see_electric') * 1.5) + 6 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+                "( ( ( u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 1.5) + 6 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
               ]
             },
             "descriptions": [
@@ -1690,7 +1690,7 @@
             "value": "UGLINESS",
             "multiply": {
               "math": [
-                "max(((( -0.6 + ( u_spell_level('photokinetic_hide_ugly') * -1.5 )) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -1)"
+                "max( ( ( ( -0.6 + ( ( u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) *  -1.5 ) ) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), -1)"
               ]
             }
           }

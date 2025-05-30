@@ -12,12 +12,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('electrokinetic_see_electric') * 150) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 150) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('electrokinetic_see_electric') * 300) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 300) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -36,21 +36,29 @@
     "id": "EOC_ELECTROKIN_SEE_ELECTRICITY_DRAIN",
     "condition": { "u_has_effect": "effect_electrokin_see_electricity" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty = 1" ] },
+      {
+        "if": { "math": [ "u_spell_level('electrokinetic_see_electric') >= 1" ] },
+        "then": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('electrokinetic_see_electric')" ] },
+        "else": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('electrokinetic_see_electric_knack')" ] }
+      },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('electrokinetic_see_electric')", "+=", "psionic_power_experience_formula()" ] },
+      {
+        "if": { "math": [ "u_spell_level('electrokinetic_see_electric') >= 1" ] },
+        "then": { "math": [ "u_spell_exp('electrokinetic_see_electric')", "+=", "psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('electrokinetic_see_electric_knack')", "+=", "psionic_power_experience_formula()" ] }
+      },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_ELECTROKIN_SEE_ELECTRICITY_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('electrokinetic_see_electric') * 150) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 150) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('electrokinetic_see_electric') * 300) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 300) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
