@@ -228,9 +228,18 @@
     ]
   },
   {
+    "id": "child_backpack_variants",
+    "type": "item_group",
+    "items": [
+      { "item": "backpack_small", "variant": "boy_branded" },
+      { "item": "backpack_small", "variant": "girl_branded" },
+      { "item": "backpack_small", "variant": "kid_branded" }
+    ]
+  },
+  {
     "id": "child_schoolbag_1",
     "type": "item_group",
-    "container-item": "backpack",
+    "container-item": "child_backpack_variants",
     "on_overflow": "spill",
     "items": [ { "group": "child_schoolbag_contents" } ]
   },
