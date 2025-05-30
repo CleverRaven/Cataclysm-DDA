@@ -245,6 +245,7 @@ TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
         // overmap objects are really large, so we don't want them on the
         // stack.  Use unique_ptr and put it on the heap
         std::unique_ptr<overmap> om = std::make_unique<overmap>( point_abs_om::zero );
+        overmap_buffer.clear_overmap_uniques();
         om_direction::type dir = om_direction::type::north;
 
         int successes = 0;
