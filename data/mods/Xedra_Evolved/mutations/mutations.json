@@ -2028,5 +2028,26 @@
       { "hit_me_effect": [ { "id": "boann_retaliation_mark", "hit_self": false } ] },
       { "hit_me_effect": [ { "id": "boann_retaliation", "hit_self": true } ] }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID",
+    "name": { "str": "Bloodthorne Druid" },
+    "points": 0,
+    "description": "You are a oath-sworn member of the ancient order of Bloodthorne Druids, dedicated to defending humanity against the vampires that lurk in the shadows.",
+    "purifiable": false,
+    "valid": false,
+    "profession": true,
+    "types": [ "HERITAGE" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('BLOODTHORNE_DRUID') * 250" ] } } ]
+      },
+      {
+        "condition": { "math": "u_arvore_is_in_wilderness == 1" },
+        "values": { "value": "REGEN_MANA", "multiply": { "math": [ "u_sum_traits_of_category_char_has('BLOODTHORNE_DRUID') * 0.05" ] } }
+      }
+    ]
   }
 ]
