@@ -29,7 +29,7 @@ diag_value const *maybe_read_var_value( const var_info &info, const_dialogue con
             return d.const_actor( true )->maybe_get_value( info.name );
         case var_type::var: {
             diag_value const *const var_val = d.maybe_get_value( info.name );
-            return var_val ? maybe_read_var_value( process_variable( var_val->str() ), d ) : nullptr;
+            return var_val ? maybe_read_var_value( process_variable( var_val->str( info.name ) ), d ) : nullptr;
         }
         case var_type::last:
             return nullptr;
@@ -71,7 +71,7 @@ std::string str_or_var::evaluate( const_dialogue const &d, bool convert ) const
             if( convert ) {
                 return val->to_string();
             }
-            return val->str();
+            return val->str( var_val->name );
         }
         if( default_val.has_value() ) {
             return default_val.value();
@@ -97,7 +97,7 @@ std::string translation_or_var::evaluate( const_dialogue const &d, bool convert 
             if( convert ) {
                 return val->to_string( true );
             }
-            return val->str();
+            return val->str( var_val->name );
         }
         if( default_val.has_value() ) {
             return default_val.value().translated();
@@ -123,7 +123,7 @@ double dbl_or_var_part::evaluate( const_dialogue const &d ) const
     if( var_val.has_value() ) {
         diag_value const *val = maybe_read_var_value( var_val.value(), d );
         if( val ) {
-            return val->dbl();
+            return val->dbl( var_val->name );
         }
         if( default_val.has_value() ) {
             return default_val.value();
@@ -153,7 +153,7 @@ time_duration duration_or_var_part::evaluate( const_dialogue const &d ) const
     if( var_val.has_value() ) {
         diag_value const *val = maybe_read_var_value( var_val.value(), d );
         if( val ) {
-            return time_duration::from_turns( val->dbl() );
+            return time_duration::from_turns( val->dbl( var_val->name ) );
         }
         if( default_val.has_value() ) {
             return default_val.value();

@@ -1878,7 +1878,7 @@ void item::set_var( const std::string &key, diag_value value )
 double item::get_var( const std::string &key, double default_value ) const
 {
     if( diag_value const *ret = maybe_get_value( key ); ret ) {
-        return ret->dbl();
+        return ret->dbl( key );
     }
 
     return default_value;
@@ -1887,7 +1887,7 @@ double item::get_var( const std::string &key, double default_value ) const
 std::string item::get_var( const std::string &key, std::string default_value ) const
 {
     if( diag_value const *ret = maybe_get_value( key ); ret ) {
-        return ret->str();
+        return ret->str( key );
     }
 
     return default_value;
@@ -1896,7 +1896,7 @@ std::string item::get_var( const std::string &key, std::string default_value ) c
 tripoint_abs_ms item::get_var( const std::string &key, tripoint_abs_ms default_value ) const
 {
     if( diag_value const *ret = maybe_get_value( key ); ret ) {
-        return ret->tripoint();
+        return ret->tripoint( key );
     }
 
     return default_value;
