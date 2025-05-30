@@ -239,7 +239,7 @@
   {
     "id": "child_schoolbag_1",
     "type": "item_group",
-    "container-item": "child_backpack_variants",
+    "container-group": "child_backpack_variants",
     "on_overflow": "spill",
     "items": [ { "group": "child_schoolbag_contents" } ]
   },
