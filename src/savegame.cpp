@@ -518,7 +518,7 @@ void overmap::unserialize( const JsonObject &jsobj )
                 point_om_omt end_point;
                 point_om_omt control_1;
                 point_om_omt control_2;
-                size_t size;
+                uint64_t size;
                 mandatory( river_json, false, "entry", start_point );
                 mandatory( river_json, false, "exit", end_point );
                 mandatory( river_json, false, "control1", control_1 );
