@@ -311,7 +311,7 @@ static void test_multi_spawn( const mtype_id &old_mon, int range, int min, int m
 
         // monster::next_upgrade_time has a ~3% chance to outright fail
         // so keep trying until we succeed
-        orig->try_upgrade( false );
+        orig->try_upgrade();
         if( orig->type->id == old_mon ) {
             continue;
         }
