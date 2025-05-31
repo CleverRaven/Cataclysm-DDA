@@ -227,6 +227,117 @@ void craft_command::execute( bool only_cache_comps )
     }
 }
 
+
+// CHANGEME: ist still same as base
+void craft_command_steps::execute( bool only_cache_comps )
+{
+    if( empty() ) {
+        return;
+    }
+
+    bool need_selections = true;
+    inventory map_inv;
+    map_inv.form_from_map( crafter->pos_bub(), PICKUP_RANGE, crafter );
+
+    if( has_cached_selections() ) {
+        std::vector<comp_selection<item_comp>> missing_items = check_item_components_missing( map_inv );
+        std::vector<comp_selection<tool_comp>> missing_tools = check_tool_components_missing( map_inv );
+
+        if( missing_items.empty() && missing_tools.empty() ) {
+            // All items we used previously are still there, so we don't need to do selection.
+            need_selections = false;
+        } else if( !only_cache_comps && !query_continue( missing_items, missing_tools ) ) {
+            return;
+        }
+    }
+
+    if( need_selections ) {
+        if( !crafter->can_make( rec, batch_size ) ) {
+            if( crafter->can_start_craft( rec, recipe_filter_flags::none, batch_size ) ) {
+                if( !query_yn( _( "You don't have enough charges to complete the %s.\n"
+                                  "Start crafting anyway?" ), rec->result_name() ) ) {
+                    return;
+                }
+            } else if( !rec->character_has_required_proficiencies( *crafter ) ) {
+                popup( _( "You don't have the required proficiencies to craft this!" ) );
+                return;
+            } else {
+                debugmsg( "Tried to start craft without sufficient charges" );
+                return;
+            }
+        }
+
+        flags = recipe_filter_flags::no_rotten;
+
+        if( !crafter->can_start_craft( rec, flags, batch_size ) ) {
+            if( !query_yn( _( "This craft will use rotten components.\n"
+                              "Start crafting anyway?" ) ) ) {
+                return;
+            }
+            flags = recipe_filter_flags::none;
+        }
+
+        flags |= recipe_filter_flags::no_favorite;
+        if( !crafter->can_start_craft( rec, flags, batch_size ) ) {
+            if( !query_yn( _( "This craft will use favorited components.\n"
+                              "Start crafting anyway?" ) ) ) {
+                return;
+            }
+            flags = flags & recipe_filter_flags::no_rotten ? recipe_filter_flags::no_rotten :
+                    recipe_filter_flags::none;
+        }
+
+        item_selections.clear();
+        const auto filter = rec->get_component_filter( flags );
+        const requirement_data *needs = rec->deduped_requirements().select_alternative(
+                                            *crafter, filter, batch_size, craft_flags::start_only );
+        if( !needs ) {
+            return;
+        }
+
+        for( const auto &it : needs->get_components() ) {
+            comp_selection<item_comp> is =
+                crafter->select_item_component( it, batch_size, map_inv, true, filter, true, true, rec );
+            if( is.use_from == usage_from::cancel ) {
+                return;
+            }
+            item_selections.push_back( is );
+        }
+
+        tool_selections.clear();
+        for( const auto &it : needs->get_tools() ) {
+            comp_selection<tool_comp> ts = crafter->select_tool_component(
+            it, batch_size, map_inv, true, true, true, []( int charges ) {
+                return ( charges / 20 ) + ( charges % 20 );
+            } );
+            if( ts.use_from == usage_from::cancel ) {
+                return;
+            }
+            tool_selections.push_back( ts );
+        }
+    }
+
+    if( only_cache_comps ) {
+        return;
+    }
+
+    crafter->start_craft( *this, loc );
+    crafter->last_batch = batch_size;
+    crafter->lastrecipe = rec->ident();
+
+    const auto iter = std::find( uistate.recent_recipes.begin(), uistate.recent_recipes.end(),
+                                 rec->ident() );
+    if( iter != uistate.recent_recipes.end() ) {
+        uistate.recent_recipes.erase( iter );
+    }
+
+    uistate.recent_recipes.push_back( rec->ident() );
+
+    if( uistate.recent_recipes.size() > 20 ) {
+        uistate.recent_recipes.erase( uistate.recent_recipes.begin() );
+    }
+}
+
 /** Does a string join with ', ' of the components in the passed vector and inserts into 'str' */
 template<typename T>
 static std::string component_list_string( const std::vector<comp_selection<T>> &components )

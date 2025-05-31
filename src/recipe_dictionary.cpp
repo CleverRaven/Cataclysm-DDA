@@ -562,6 +562,11 @@ void recipe_dictionary::load_recipe( const JsonObject &jo, const std::string &sr
     load( jo, src, recipe_dict.recipes );
 }
 
+void recipe_dictionary::load_recipe_steps( const JsonObject &jo, const std::string &src )
+{
+    load( jo, src, recipe_dict.recipes );
+}
+
 void recipe_dictionary::load_uncraft( const JsonObject &jo, const std::string &src )
 {
     load( jo, src, recipe_dict.uncraft );
