@@ -521,8 +521,8 @@ void overmap::unserialize( const JsonObject &jsobj )
                 uint64_t size;
                 mandatory( river_json, false, "entry", start_point );
                 mandatory( river_json, false, "exit", end_point );
-                mandatory( river_json, false, "control1", control_1 );
-                mandatory( river_json, false, "control2", control_2 );
+                optional( river_json, false, "control1", control_1, point_om_omt::invalid );
+                optional( river_json, false, "control2", control_2, point_om_omt::invalid );
                 mandatory( river_json, false, "size", size );
                 rivers.push_back( overmap_river_node{ start_point, end_point, control_1, control_2, size } );
             }
@@ -1275,6 +1275,12 @@ void overmap::serialize( std::ostream &fout ) const
         json.member( "entry", i.river_start );
         json.member( "exit", i.river_end );
         json.member( "size", i.size );
+        if( !i.control_p1.is_invalid() ) {
+            json.member( "control1", i.control_p1 );
+        }
+        if( !i.control_p2.is_invalid() ) {
+            json.member( "control2", i.control_p2 );
+        }
         json.end_object();
     }
     json.end_array();

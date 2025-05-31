@@ -1112,6 +1112,14 @@
     "condition": { "u_has_trait": "PSYCHIC_KNACK" },
     "effect": [
       {
+        "if": { "math": [ "u_spell_level('electrokinetic_see_electric_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('electrokinetic_see_electric_knack')" ] },
+          { "math": [ "u_spell_level('electrokinetic_see_electric') = _temp_var" ] },
+          { "math": [ "u_spell_level('electrokinetic_see_electric_knack') = -1" ] }
+        ]
+      },
+      {
         "if": { "math": [ "u_spell_level('electrokinetic_pain_immune_knack') > 0" ] },
         "then": [
           { "math": [ "_temp_var = u_spell_level('electrokinetic_pain_immune_knack')" ] },
@@ -1144,6 +1152,22 @@
           { "math": [ "_temp_var = u_spell_level('photokinetic_camouflage_knack')" ] },
           { "math": [ "u_spell_level('photokinetic_camouflage') = _temp_var" ] },
           { "math": [ "u_spell_level('photokinetic_camouflage_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('photokinetic_hide_ugly_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('photokinetic_hide_ugly_knack')" ] },
+          { "math": [ "u_spell_level('photokinetic_hide_ugly') = _temp_var" ] },
+          { "math": [ "u_spell_level('photokinetic_hide_ugly_knack') = -1" ] }
+        ]
+      },
+      {
+        "if": { "math": [ "u_spell_level('photokinetic_radio_knack') > 0" ] },
+        "then": [
+          { "math": [ "_temp_var = u_spell_level('photokinetic_radio_knack')" ] },
+          { "math": [ "u_spell_level('photokinetic_radio') = _temp_var" ] },
+          { "math": [ "u_spell_level('photokinetic_radio_knack') = -1" ] }
         ]
       },
       {
