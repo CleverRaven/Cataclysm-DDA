@@ -47,6 +47,7 @@
       {
         "id": "color",
         "weight": 17,
+        "name": "small backpack",
         "description": "A little <color> backpack, probably sized for a kid.",
         "expand_snippets": true
       },
