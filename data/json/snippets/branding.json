@@ -1,7 +1,7 @@
 [
   {
     "type": "snippet",
-    "category": "kid_brand",
+    "category": "<kid_brand>",
     "//": "Suitable for kids' unisex backpacks, lunchboxes, graphic tees, and similar items.",
     "text": [
       {
@@ -32,7 +32,7 @@
   },
   {
     "type": "snippet",
-    "category": "boy_brand",
+    "category": "<boy_brand>",
     "//": "Suitable for boys' backpacks, lunchboxes, graphic tees, and similar items.",
     "text": [
       { "id": "boy_brand_1", "text": "It's decorated with a big cartoon dinosaur, crushing a helpless car beneath it." },
@@ -68,7 +68,7 @@
   },
   {
     "type": "snippet",
-    "category": "girl_brand",
+    "category": "<girl_brand>",
     "//": "Suitable for girls' backpacks, lunchboxes, graphic tees, and similar items.",
     "text": [
       {
