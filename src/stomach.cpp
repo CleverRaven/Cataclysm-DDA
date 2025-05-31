@@ -166,12 +166,27 @@ nutrients nutrients::operator-()
 {
     nutrients negative_copy = *this;
     negative_copy.calories *= -1;
-    for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit :
+    for( std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit :
          negative_copy.vitamins_ ) {
-        std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
-        here = std::get<int>( here ) * -1;
+        std::variant<int, vitamin_units::mass> &here = vit.second;
+        here = std::get<int>( here ) *= -1;
     }
     return negative_copy;
+}
+
+nutrients nutrients::operator-( const nutrients &r )
+{
+    if( !finalized || !r.finalized ) {
+        debugmsg( "Nutrients not finalized when -= called!" );
+    }
+    nutrients ret = *this;
+    ret.calories -= r.calories;
+    for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit :
+         r.vitamins_ ) {
+        std::variant<int, vitamin_units::mass> &here = ret.vitamins_[vit.first];
+        here = std::get<int>( here ) - std::get<int>( vit.second );
+    }
+    return ret;
 }
 
 nutrients &nutrients::operator+=( const nutrients &r )
