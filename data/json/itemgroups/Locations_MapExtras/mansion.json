@@ -568,7 +568,7 @@
       [ "fc_hairpin", 30 ],
       { "group": "kids_books", "prob": 170, "count": [ 1, 4 ] },
       { "group": "games", "prob": 170, "count": [ 1, 2 ] },
-      [ "backpack", 20 ],
+      [ "backpack_small", 20 ],
       [ "backpack_denim", 5 ],
       [ "pom_poms", 30 ],
       [ "shuttlecock", 5 ],
