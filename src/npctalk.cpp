@@ -6060,35 +6060,8 @@ talk_effect_fun_t::func f_make_sound( const JsonObject &jo, std::string_view mem
     } else {
         message = get_translation_or_var( jo.get_member( member ), member, true );
     }
-    sounds::sound_t type = sounds::sound_t::background;
-    std::string type_string = jo.get_string( "type", "background" );
-    if( type_string == "background" ) {
-        type = sounds::sound_t::background;
-    } else if( type_string == "weather" ) {
-        type = sounds::sound_t::weather;
-    } else if( type_string == "music" ) {
-        type = sounds::sound_t::music;
-    } else if( type_string == "movement" ) {
-        type = sounds::sound_t::movement;
-    } else if( type_string == "speech" ) {
-        type = sounds::sound_t::speech;
-    } else if( type_string == "electronic_speech" ) {
-        type = sounds::sound_t::electronic_speech;
-    } else if( type_string == "activity" ) {
-        type = sounds::sound_t::activity;
-    } else if( type_string == "destructive_activity" ) {
-        type = sounds::sound_t::destructive_activity;
-    } else if( type_string == "alarm" ) {
-        type = sounds::sound_t::alarm;
-    } else if( type_string == "combat" ) {
-        type = sounds::sound_t::combat;
-    } else if( type_string == "alert" ) {
-        type = sounds::sound_t::alert;
-    } else if( type_string == "order" ) {
-        type = sounds::sound_t::order;
-    } else {
-        jo.throw_error( "Invalid message type." );
-    }
+    const sounds::sound_t type =
+        io::string_to_enum<sounds::sound_t>( jo.get_string( "type", "background" ) );
     std::optional<var_info> target_var;
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
