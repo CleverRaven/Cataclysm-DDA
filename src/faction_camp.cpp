@@ -5834,6 +5834,105 @@ item basecamp::make_fake_food( const nutrients &to_use ) const
     return food_item;
 }
 
+static double rot_time( const item &it, item *const container, bool pantry )
+{
+    double quick_rot = 0.6 + ( pantry ? 0.1 : 0 );
+    double slow_rot = 0.8 + ( pantry ? 0.05 : 0 );
+
+    if( !it.goes_bad() ) {
+        return 1.;
+    }
+    float spoil_mod = 1.0f;
+    if( container ) {
+        if( item_pocket *const pocket = container->contained_where( it ) ) {
+            spoil_mod = pocket->spoil_multiplier();
+        }
+    }
+    // Container seals and prevents any spoilage.
+    if( spoil_mod == 0 ) {
+        return 1.;
+    }
+    // @TODO: this does not handle fridges or things like root cellar, but maybe it shouldn't.
+    const time_duration rots_in = ( it.get_shelf_life() - it.get_rot() ) / spoil_mod;
+    if( rots_in >= 5_days ) {
+        return 1.;
+    } else if( rots_in >= 2_days ) {
+        return slow_rot;
+    } else {
+        return quick_rot;
+    }
+};
+
+static std::optional<nutrients> nutrients_if_distributable( item &it, item *const container,
+        bool distribute_vitamins, bool pantry )
+{
+    if( !it.is_comestible() ) {
+        return std::nullopt;
+    }
+    // Always reject in-progress craft item
+    if( it.is_craft() ) {
+        return std::nullopt;
+    }
+    // Stuff like butchery refuse and other disgusting stuff
+    if( it.get_comestible_fun() < -6 ) {
+        return std::nullopt;
+    }
+    if( it.has_flag( flag_INEDIBLE ) ) {
+        return std::nullopt;
+    }
+    if( it.rotten() ) {
+        return std::nullopt;
+    }
+    // Alcohol is specifically excluded until it can be turned into a vitamin/tracked by the larder
+    if( it.get_comestible()->addictions.count( addiction_alcohol ) ) {
+        return std::nullopt;
+    }
+    nutrients from_it = default_character_compute_effective_nutrients( it ) * it.count();
+    // Do this multiplication separately to make sure we're using the *= operator with double argument..
+    from_it *= rot_time( it, container, pantry );
+    // Can distribute COMESTIBLE type items with 0kcal, if they have vitamins and player selected option to do so
+    if( from_it.kcal() <= 0 && ( !distribute_vitamins  || from_it.vitamins().empty() ) ) {
+        // can happen if calories is low and rot is high.
+        return std::nullopt;
+    }
+    return from_it;
+};
+
+// Returns whether the item should be removed from the map.
+static ret_val<nutrients> nutrients_from( item &it, item *const container, bool distribute_vitamins,
+        bool pantry )
+{
+    nutrients ret;
+    if( it.is_food_container() ) {
+        std::vector<item *> to_remove;
+        it.visit_items( [&]( item * content, item * parent ) {
+            std::optional<nutrients> from_it = nutrients_if_distributable( *content, parent,
+                                               distribute_vitamins,
+                                               pantry );
+            if( from_it.has_value() ) {
+                ret += *from_it;
+                to_remove.push_back( content );
+                return VisitResponse::SKIP;
+            }
+            return VisitResponse::NEXT;
+        } );
+        if( to_remove.empty() ) {
+            return ret_val<nutrients>::make_failure( ret );
+        }
+        for( item *const food : to_remove ) {
+            it.remove_item( *food );
+        }
+        it.on_contents_changed();
+        return ret_val<nutrients>::make_failure( ret );
+    }
+    std::optional<nutrients> from_it = nutrients_if_distributable( it, container, distribute_vitamins,
+                                       pantry );
+    if( !from_it.has_value() ) {
+        return ret_val<nutrients>::make_failure( ret );
+    }
+    return ret_val<nutrients>::make_success( *from_it );
+};
+
 // mission support
 bool basecamp::distribute_food( bool player_command )
 {
@@ -5860,91 +5959,8 @@ bool basecamp::distribute_food( bool player_command )
     const tripoint_abs_ms &abspos = get_dumping_spot();
     const std::unordered_set<tripoint_abs_ms> &z_food =
         mgr.get_near( zone_type_CAMP_FOOD, abspos, MAX_VIEW_DISTANCE, nullptr, get_owner() );
-
-    double quick_rot = 0.6 + ( has_provides( "pantry" ) ? 0.1 : 0 );
-    double slow_rot = 0.8 + ( has_provides( "pantry" ) ? 0.05 : 0 );
     nutrients nutrients_to_add;
-
-    const auto rot_multip = [&]( const item & it, item * const container ) {
-        if( !it.goes_bad() ) {
-            return 1.;
-        }
-        float spoil_mod = 1.0f;
-        if( container ) {
-            if( item_pocket *const pocket = container->contained_where( it ) ) {
-                spoil_mod = pocket->spoil_multiplier();
-            }
-        }
-        // Container seals and prevents any spoilage.
-        if( spoil_mod == 0 ) {
-            return 1.;
-        }
-        // @TODO: this does not handle fridges or things like root cellar, but maybe it shouldn't.
-        const time_duration rots_in = ( it.get_shelf_life() - it.get_rot() ) / spoil_mod;
-        if( rots_in >= 5_days ) {
-            return 1.;
-        } else if( rots_in >= 2_days ) {
-            return slow_rot;
-        } else {
-            return quick_rot;
-        }
-    };
-    const auto consume_non_recursive = [&]( item & it, item * const container ) {
-        if( !it.is_comestible() ) {
-            return false;
-        }
-        // Always reject in-progress craft item
-        if( it.is_craft() ) {
-            return false;
-        }
-        // Stuff like butchery refuse and other disgusting stuff
-        if( it.get_comestible_fun() < -6 ) {
-            return false;
-        }
-        if( it.has_flag( flag_INEDIBLE ) ) {
-            return false;
-        }
-        if( it.rotten() ) {
-            return false;
-        }
-        // Alcohol is specifically excluded until it can be turned into a vitamin/tracked by the larder
-        if( it.get_comestible()->addictions.count( addiction_alcohol ) ) {
-            return false;
-        }
-        nutrients from_it = default_character_compute_effective_nutrients( it ) * it.count();
-        // Do this multiplication separately to make sure we're using the *= operator with double argument..
-        from_it *= rot_multip( it, container );
-        // Can distribute COMESTIBLE type items with 0kcal, if they have vitamins and player selected option to do so
-        if( from_it.kcal() <= 0 && ( !distribute_vitamins  || from_it.vitamins().empty() ) ) {
-            // can happen if calories is low and rot is high.
-            return false;
-        }
-        nutrients_to_add += from_it;
-        return true;
-    };
-
-    // Returns whether the item should be removed from the map.
-    const auto consume = [&]( item & it, item * const container ) {
-        if( it.is_food_container() ) {
-            std::vector<item *> to_remove;
-            it.visit_items( [&]( item * content, item * parent ) {
-                if( consume_non_recursive( *content, parent ) ) {
-                    to_remove.push_back( content );
-                    return VisitResponse::SKIP;
-                }
-                return VisitResponse::NEXT;
-            } );
-            if( to_remove.empty() ) {
-                return false;
-            }
-            for( item *const food : to_remove ) {
-                it.remove_item( *food );
-            }
-            it.on_contents_changed();
-            return false;
-        }
-        return consume_non_recursive( it, container );
-    };
+    const bool pantry = has_provides( "pantry" );
 
     // @FIXME: items under a vehicle cargo part will get taken even if there's no non-vehicle zone there
     // @FIXME: items in a vehicle cargo part will get taken even if the zone is on the ground underneath
@@ -5952,20 +5968,24 @@ bool basecamp::distribute_food( bool player_command )
         const tripoint_bub_ms p_food_stock = here.get_bub( p_food_stock_abs );
         map_stack items = here.i_at( p_food_stock );
         for( auto iter = items.begin(); iter != items.end(); ) {
-            if( consume( *iter, nullptr ) ) {
+            ret_val<nutrients> ret = nutrients_from( *iter, nullptr, distribute_vitamins, pantry );
+            if( ret.success() ) {
                 iter = items.erase( iter );
             } else {
                 ++iter;
             }
+            nutrients_to_add += ret.value();
         }
         if( const std::optional<vpart_reference> ovp = here.veh_at( p_food_stock ).cargo() ) {
             vehicle_stack items = ovp->items();
             for( auto iter = items.begin(); iter != items.end(); ) {
-                if( consume( *iter, nullptr ) ) {
+                ret_val<nutrients> ret = nutrients_from( *iter, nullptr, distribute_vitamins, pantry );
+                if( ret.success() ) {
                     iter = items.erase( iter );
                 } else {
                     ++iter;
                 }
+                nutrients_to_add += ret.value();
             }
         }
     }

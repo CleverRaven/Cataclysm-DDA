@@ -929,7 +929,7 @@ void basecamp::handle_takeover_by( faction_id new_owner, bool violent_takeover )
                    1.0 / static_cast<double>( num_of_owned_camps ) * 100.0 );
     set_owner( new_owner );
     int previous_days_of_food = camp_food_supply_days( MODERATE_EXERCISE );
-    camp_food_supply( captured_with_camp );
+    fac()->food_supply += captured_with_camp;
     add_msg_debug( debugmode::DF_CAMPS,
                    "Food supply of new owner %s has increased to %d kilocalories due to takeover of camp %s!",
                    fac()->name, new_owner->food_supply.kcal(), name );
