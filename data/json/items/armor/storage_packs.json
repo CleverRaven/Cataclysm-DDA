@@ -4,7 +4,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "small backpack" },
-    "description": "A little <color> backpack, probably sized for a kid.",
+    "description": "A small simple backpack, probably sized for a kid.",
     "weight": "333 g",
     "volume": "2 L",
     "price": "19 USD",
@@ -43,11 +43,31 @@
         "specifically_covers": [ "torso_hanging_back" ]
       }
     ],
-    "expand_snippets": true,
     "variants": [
-      { "id": "boy", "name": { "str": "boy's backpack" }, "description": "A boy's backpack.  <boy_brand>" },
-      { "id": "girl", "name": { "str": "girl's backpack" }, "description": "A girl's backpack.  <girl_brand>" },
-      { "id": "kid", "name": { "str": "kid's backpack" }, "description": "A kid's backpack.  <kid_brand>" }
+      {
+        "id": "color",
+        "weight": 17,
+        "description": "A little <color> backpack, probably sized for a kid.",
+        "expand_snippets": true
+      },
+      {
+        "id": "boy",
+        "name": { "str": "boy's backpack" },
+        "description": "A boy's backpack.  <boy_brand>",
+        "expand_snippets": true
+      },
+      {
+        "id": "girl",
+        "name": { "str": "girl's backpack" },
+        "description": "A girl's backpack.  <girl_brand>",
+        "expand_snippets": true
+      },
+      {
+        "id": "kid",
+        "name": { "str": "kid's backpack" },
+        "description": "A kid's backpack.  <kid_brand>",
+        "expand_snippets": true
+      }
     ]
   }
 ]
