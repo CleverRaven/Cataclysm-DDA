@@ -1308,7 +1308,7 @@ item item::in_container( const itype_id &cont, int qty, bool sealed,
     if( !variant.empty() ) {
         container.set_itype_variant( variant );
     }
-    if( container.is_container() ) {
+    if( container.is_container() || container.is_estorage() ) {
         container.fill_with( *this, qty );
         container.invlet = invlet;
         if( sealed ) {
