@@ -62,7 +62,7 @@ TEST_CASE( "avatar_does_healing", "[activity][firstaid][avatar]" )
     int start_bandage_count = dummy.items_with( bandages_filter ).size();
     REQUIRE( dummy.has_item( *bandages ) );
     GIVEN( "avatar has a damaged right arm" ) {
-        dummy.apply_damage( nullptr, right_arm, 20 );
+        dummy.apply_damage( nullptr, right_arm, damage_instance( damage_type::CUT, 20 ) );
         WHEN( "avatar bandages self" ) {
             dummy.assign_activity( firstaid_activity_actor( moves, bandages->tname(), dummy.getID() ) );
             dummy.activity.targets.emplace_back( bandages );
@@ -75,7 +75,7 @@ TEST_CASE( "avatar_does_healing", "[activity][firstaid][avatar]" )
         }
     }
     GIVEN( "avatar has a damaged right arm" ) {
-        dummy.apply_damage( nullptr, right_arm, 20 );
+        dummy.apply_damage( nullptr, right_arm, damage_instance( damage_type::CUT, 20 ) );
         WHEN( "avatar bandages self and is interrupted before finishing" ) {
             dummy.assign_activity( firstaid_activity_actor( moves, bandages->tname(), dummy.getID() ) );
             dummy.activity.targets.emplace_back( bandages );
@@ -88,7 +88,7 @@ TEST_CASE( "avatar_does_healing", "[activity][firstaid][avatar]" )
         }
     }
     GIVEN( "npc has a damaged right arm" ) {
-        dunsel.apply_damage( nullptr, right_arm, 20 );
+        dunsel.apply_damage( nullptr, right_arm, damage_instance( damage_type::CUT, 20 ) );
         WHEN( "avatar bandages npc" ) {
             dummy.assign_activity( firstaid_activity_actor( moves, bandages->tname(), dunsel.getID() ) );
             dummy.activity.targets.emplace_back( bandages );
@@ -117,7 +117,7 @@ TEST_CASE( "npc_does_healing", "[activity][firstaid][npc]" )
     int start_bandage_count = dunsel.items_with( bandages_filter ).size();
     REQUIRE( dunsel.has_item( *bandages ) );
     GIVEN( "npc has a damaged right arm" ) {
-        dunsel.apply_damage( nullptr, right_arm, 20 );
+        dunsel.apply_damage( nullptr, right_arm, damage_instance( damage_type::CUT, 20 ) );
         WHEN( "npc bandages self" ) {
             // See npc::heal_self()
             bandages->type->invoke( &dunsel, *bandages, dunsel.pos_bub(), "heal" );
@@ -129,7 +129,7 @@ TEST_CASE( "npc_does_healing", "[activity][firstaid][npc]" )
         }
     }
     GIVEN( "npc has a damaged right arm" ) {
-        dunsel.apply_damage( nullptr, right_arm, 20 );
+        dunsel.apply_damage( nullptr, right_arm, damage_instance( damage_type::CUT, 20 ) );
         WHEN( "npc bandages self and is interrupted before finishing" ) {
             // See npc::heal_self()
             bandages->type->invoke( &dunsel, *bandages, dunsel.pos_bub(), "heal" );
@@ -141,7 +141,7 @@ TEST_CASE( "npc_does_healing", "[activity][firstaid][npc]" )
         }
     }
     GIVEN( "avatar has a damaged right arm" ) {
-        dummy.apply_damage( nullptr, right_arm, 20 );
+        dummy.apply_damage( nullptr, right_arm, damage_instance( damage_type::CUT, 20 ) );
         WHEN( "npc bandages avatar" ) {
             // See npc::heal_player
             bandages->type->invoke( &dunsel, *bandages, dummy.pos_bub(), "heal" );
