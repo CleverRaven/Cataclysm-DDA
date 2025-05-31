@@ -1,190 +1,190 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-# Translators:
+# A 78 karakternél hosszabb sorok automatikusan tördelve lesznek.
+# Az alábbi sor hivatkozásként szolgál.
+##############################################################################
+(<color_cyan>0.H</color>):</color>
+<color_white>Eredeti szerző:</color>    <color_white>Projektmenedzser:</color>
+<color_yellow>Whales</color> (<color_dark_gray>visszavonult</color>)    <color_yellow>KevinGranade</color>
 
-# Péter Bodrog, 2023
-# Péter Bodrog, 2023
-# cstamas2k, 2023
-# Richard Sproch, 2023
-# Brett Dong <brett.browning.dong@gmail.com>, 2023
+<color_white>Jelenlegi fő fejlesztők:</color>
+<color_yellow>anoobindisguise</color> - Nyughatatlan hibajavítás és simítások a játék legtöbb területén.
+<color_yellow>GuardianDll</color> -Random változtatások a játékban, és random változtatások a módokban.
+<color_yellow>irwiss</color> - Jelentős hibajavítások és kódbiztosítás.
+<color_yellow>Maleclypse</color> - Vezető összeolvasztó ehhez a kiadási ciklushoz és számos fejlesztés a Xedra Evolvedhez.
 
-# Sokor The Translator, 2025
-# Mathias <matesgaudi1@gmail.com>, 2025
-# Daniel Szollosi-Nagy <dsn-transifex@kdconsulting.net>, 2025
-# Krisztián Szabó <kszabo83@gmail.com>, 2025
-#
-msgid ""
-msgstr ""
-"Project-Id-Version: cataclysm-dda 0.I\n"
-"POT-Creation-Date: 2025-04-26 09:06+0000\n"
-"PO-Revision-Date: 2025-05-11 22:05+0200\n"
-"Last-Translator: Krisztián Szabó <kszabo83@gmail.com>, 2025\n"
-"Language-Team: Hungarian (https://app.transifex.com/cataclysm-dda-translators/teams/2217/hu/)\n"
-"Language: hu\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+<color_white>Külön köszönet:</color>
+<color_yellow>anothersimulacrum</color> -Mert megoldott nehéz problémákat.  
+<color_yellow>akrieger</color> - A lelassult Zúzó.
+<color_yellow>Fris0uman</color> - A csempekészletek kezelése és még sok más.
+<color_yellow>John-Candlebury</color> -A főellenségek elleni harc és az izolációs protokoll.
+<color_yellow>Night-Pryanik</color>- Mert a megfázás és az influenza végre értelmet nyert.
+<color_yellow>PatrikLundell</color> -  A frakciótáborok tartalmának és infrastruktúrájának jelentős és nagy szükségszerű átalakítása.
+<color_yellow>Procyonae</color> - A sok mapgenerálás fejlesztésért és az összes visszaportolásért.
+<color_yellow>Qrox</color> - A hibajavítások, felülvizsgálatok és az infrastruktúra miatt.
+<color_yellow>Ramza13</color> -Mert olyan sok modder álmát váltotta valóra.
+<color_yellow>RenechCDDA</color> - Az Árnyék, a tábor fejlesztése és az NPC-k személyisége.
+<color_yellow>Rivet-the-Zombie</color> - Hogy elérte a 10,000 összeolvasztást.
+<color_yellow>Standing-Storm</color> - Mert a leggyorsabban jutott az elmúlt évek alatt 0-tól 100-ig.
+<color_yellow>Venera3</color> -A végtagok fejlődése.
+<color_yellow>ZhilkinSerg</color> - Az összes dolog összevonásáért.
+<color_yellow>alef</color>, <color_yellow>andrei8l</color>, <color_yellow>Karol1223</color>, <color_yellow>mqrause</color>, and <color_yellow>lispcoc</color>.
 
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.6\n"
-#: src/achievement.cpp:354
+<color_white>Külön köszönet a művészi hozzájárulásokért:</color>
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>,
+<color_yellow>gettingusedto</color>, és még sokan mások.
 
-msgid "time of cataclysm"
-msgstr "a kataklizma ideje"
-#: src/achievement.cpp:356
-msgid "start of game"
+<color_white>Az összes közreműködő listáját lásd itt:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+<color_cyan>https://github.com/I-am-Erk/CDDA-Tilesets/graphs/contributors</color>
+<color_cyan>https://github.com/pixel-32/CDDA-tileset/graphs/contributors</color>
 
-msgstr "a játék kezdete"
-#: src/achievement.cpp:366
+A <color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> a <color_white>CC-BY-SA 3.0</color> licensz alatt jelenik meg:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
 
-#, c-format
+******************************************************************************
 
-msgid "At least %s from %s (%s remaining)"
-#
-# Translators:
+(<color_cyan>0.G</color>):</color>
+<color_white>Eredeti szerző:</color>    <color_white>Projektmenedzser:</color>
+<color_yellow>Whales</color> (<color_dark_gray>visszavonult</color>)    <color_yellow>KevinGranade</color>
 
-# Péter Bodrog, 2023
-msgid "Exactly %s from %s"
-msgstr ""
+<color_white>Jelenlegi fő fejlesztők:</color>
+<color_yellow>I-am-Erk</color> - Ultica, lore írás, ötletgazda.
+<color_yellow>KorGgenT2</color> - Professzionális „yak borotváló”
 
-# Sokor The Translator, 2025
-#, c-format
-msgid "Within %s of %s (%s remaining)"
-msgstr ""
-#: src/achievement.cpp:379
-#, c-format
-msgid "At least %s from %s (passed)"
-msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
-#, c-format
-msgid "Within %s of %s (passed)"
-msgstr ""
-#: src/achievement.cpp:496
-#, c-format
-msgid "Triggered by %s"
-msgstr ""
+<color_white>Külön köszönet:</color>
+<color_yellow>anothersimulacrum</color> - A belépésért és a kemény munka elvégzéséért.
+<color_yellow>BombasticSlacks</color> - Azért, hogy kidolgozta a páncélrendszert és megizzasztott minket.
+<color_yellow>Fris0uman</color> - Azért, hogy működésre bírta a hűtőinket.
+<color_yellow>John-Candlebury</color> - A Hub01-ért és az összes gyönyörű térképért.
+<color_yellow>jbytheway</color> - A paraméteres térképgenerálásért és a változtatható helyszínekért.
+<color_yellow>BrettDong</color> - A fordításokért és a furcsa hibák elemzéséért.
+<color_yellow>wapcaplet</color> - Minden oldalsávval kapcsolatos dologért.
+<color_yellow>ZhilkinSerg</color> - Az összes dolog összevonásáért.
+<color_yellow>Rivet-the-Zombie</color> - A napi egy összeolvasztás rekordjának fenntartásáért.
+<color_yellow>Night-Pryanik</color> - Számtalan hibajavításért és fejlesztésért.
+<color_yellow>Qrox</color> - Az UI infrastruktúra további javításáért.
+<color_yellow>Ramza13</color> - A JSON-ból egy Turing-komplett nyelvet formálásáért.
+<color_yellow>Drew4484</color> - Minden acélért.
+<color_yellow>LyleSY</color> - Méééég több dinóóóóóóért.
+<color_yellow>irwiss</color>, <color_yellow>Maleclypse</color>, <color_yellow>Venera3</color>, <color_yellow>MylieDaniels</color>, <color_yellow>andrei8l</color>, <color_yellow>mqrause</color>, <color_yellow>and Eltank</color>.
 
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#, c-format
+<color_white>Külön köszönet a művészi hozzájárulásokért:</color>
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>, és még sokan mások.
 
-msgid "time of cataclysm"
-msgstr "a kataklizma ideje"
+<color_white>Az összes közreműködő listáját lásd itt:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
 
-msgstr "a játék kezdete"
-#: src/achievement.cpp:366
+A <color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> a <color_white>CC-BY-SA 3.0</color> licensz alatt jelenik meg:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
 
-#, c-format
+******************************************************************************
 
-#: src/achievement.cpp:604
-#, c-format
-msgid "Completed %s"
-msgstr "Teljesítve %s"
+<color_white>Fő Fejlesztők (<color_cyan>0.F</color>):</color>
+<color_yellow>mlangsdorf</color> - Járművek, hajók, bázisok és moddolási útmutatók.
+<color_yellow>I-am-Erk</color> - UltiCa hagyatékának megőrzése.
+<color_yellow>KorGgenT</color> - Nem árulja el, hogy hova dugjam a...kisujjam.
 
-#: src/achievement.cpp:608
-#, c-format
-msgid "Failed %s"
-msgstr "Sikertelen %s"
-#: src/achievement.cpp:736
-#, c-format
-msgid "Previously completed by %s"
+<color_white>Külön köszönet (<color_cyan>0.F</color>):</color>
+<color_yellow>Aivean</color> - A kiemelkedő teljesítményért.
+<color_yellow>anothersimulacrum </color> - Amiért mindig lefáraszt.
+<color_yellow>jbytheway</color> - A CI munkájáért
+<color_yellow>BrettDong</color> - fordítások segítéséért és egyebekért.
+<color_yellow>Qrox</color> - A hibaüzenetek helyének megmutatásáért.
+<color_yellow>LyleSY</color> - A dínókért.
 
-msgstr ""
-#: src/achievement.cpp:740
+<color_white>Külön köszönet a művészeti hozzájárulásokért (<color_cyan>0.F</color>):</color>
+<color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color>, és sokan mások.
 
-msgid "time of cataclysm"
-msgstr "a kataklizma ideje"
+<color_white>Az összes közreműködő listáját lásd itt:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
 
-msgstr "a játék kezdete"
-#: src/achievement.cpp:366
+A <color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> a <color_white>CC-BY-SA 3.0</color> licensz alatt jelenik meg:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
 
-#, c-format
+******************************************************************************
 
-#: src/achievement.cpp:877
-#, c-format
-"\n"
-"Internal error: achievement lacks watcher."
+<color_white>Fő Fejlesztők (<color_cyan>0.E</color>):</color>
+<color_yellow>mlangsdorf</color> - Járművek, hajók, bázisok és moddolási útmutatók.
+<color_yellow>I-am-Erk</color> - Ultica, párbeszédek, NPC-k, és konyhai hulladék.
+<color_yellow>KorGgenT</color> - Magiclysm és hasfájás.
 
-msgstr ""
-#: src/action.cpp:538 src/input_context.cpp:1236
-msgid "Press "
-msgstr "Nyomd meg a "
-#: src/action.cpp:538 src/input_context.cpp:1236
-msgid "Try"
-msgstr "Próbáld"
-#: src/action.cpp:866 src/action.cpp:895
-msgid "Look"
-msgstr "Nézd"
-#: src/action.cpp:867 src/action.cpp:949
+<color_white>Külön köszönet (<color_cyan>0.E</color>):</color>
+<color_yellow>Narc</color> - Az automata Jenkins build-bot elkészítéséért.
+<color_yellow>Rivet-the-Zombie</color> - Nap egy PR merge-eléséért.
+<color_yellow>BevapDin</color> - Kód ellenőrzés és refaktorálás.
+<color_yellow>BrettDong</color> - Fordítások megszervezése.
+<color_yellow>curstwist</color> - Tetők, térképgenerátorok, NPC-k és változások összeírása.
+<color_yellow>davidpwbrown</color> - Auto-utazás, auto-vezetés és lovaglás.
+<color_yellow>jbytheway</color> - A CI munkájáért
+<color_yellow>Hymore246</color> - A harcművészetek átírásáért.
+<color_yellow>Qrox</color> - Windows buildek olvasható backtrace-eiért.
+<color_yellow>ZhilkinSerg</color> - Mergetesztelésért.
 
-msgid "Interact"
-msgstr "Kezel"
+<color_white>Az összes közreműködő listáját lásd itt:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA</color>
 
-#, c-format
+******************************************************************************
 
-msgid "Inventory"
-msgstr "Leltár"
+<color_white>Fő Fejlesztők (<color_cyan>0.D</color>):</color>
+<color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>BevapDin</color>, <color_yellow>Coolthulu</color>, <color_yellow>i2amroy</color>
 
-#. ~ Help menu
-#: src/action.cpp:869 src/action.cpp:965 data/core/help.json
-msgid "Combat"
-msgstr "Harc"
-#: src/action.cpp:870 src/action.cpp:992
+<color_white>Külön köszönet (<color_cyan>0.D</color>):</color>
+<color_yellow>Narc</color> - Az automata Jenkins build-bot elkészítéséért.
+Acidia - A csodás NPC-kért, helyszínekért és küldetésekért.
+<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - Herculeus fordítási erőfeszítésekért.
+<color_yellow>HuXTUS</color> - A hatalmas mennyiségű, csodálatos tartalomért.
 
-#, c-format
+******************************************************************************
 
-msgstr "Készít"
-#: src/action.cpp:871 src/action.cpp:998 src/diary_ui.cpp:312
+<color_white>Fő Fejlesztők (<color_cyan>0.C</color>):</color>
+<color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>, <color_yellow>Coolthulu</color>, <color_yellow>i2amroy</color>
 
-msgid "Info"
-#: src/action.cpp:869 src/action.cpp:965 data/core/help.json
-msgid "Combat"
-msgstr "Harc"
-#: src/action.cpp:870 src/action.cpp:992
+<color_white>Külön köszönet (<color_cyan>0.C</color>):</color>
+<color_yellow>Narc</color> - Az automata Jenkins build-bot elkészítéséért.
+Acidia - A csodás NPC-kért, helyszínekért és küldetésekért.
+<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - Herculeus fordítási erőfeszítésekért.
+<color_yellow>HuXTUS</color> - A hatalmas mennyiségű, csodálatos tartalomért.
 
-#, c-format
+******************************************************************************
 
-#. ~ Someone helps you test the game.
-#: src/action.cpp:890 src/action.cpp:924 src/options.cpp:221 data/json/npcs/npc.json
+<color_white>Fő Fejlesztők (<color_cyan>0.B</color>):</color>
+<color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>
 
-msgid "Debug"
-#: src/action.cpp:869 src/action.cpp:965 data/core/help.json
-msgid "Combat"
-msgstr "Harc"
-msgid "Back"
-#: src/action.cpp:870 src/action.cpp:992
+<color_white>Külön köszönet (<color_cyan>0.B</color>):</color>
+<color_yellow>Narc</color> - Az automata Jenkins build-bot elkészítéséért.
+Acidia - A csodás NPC-kért, helyszínekért és küldetésekért.
+<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - Herculeus fordítási erőfeszítésekért.
+<color_yellow>i2amroy2</color> - Több nagy infrastruktúra-fejlesztésért.
+<color_yellow>HuXTUS</color> - A hatalmas mennyiségű, csodálatos tartalomért.
 
-#, c-format
+******************************************************************************
 
-msgid "Actions"
-msgstr "Akció"
+<color_white>Fő Fejlesztők (<color_cyan>0.A</color>):</color>
+<color_yellow>KevinGranade</color>, <color_yellow>i2amroy</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>
 
-#: src/action.cpp:1096
-msgid "MAIN MENU"
-#: src/action.cpp:869 src/action.cpp:965 data/core/help.json
-#. ~ %s: "Close where?" "Pry where?" etc.
-#: src/action.cpp:1135
-#, c-format
+<color_white>Külön köszönet (<color_cyan>0.A</color>):</color>
+<color_yellow>TheDarklingWolf2</color> - A Cataclysm olyan formában való létrehozásáért, ahogyan ismerjük.
+<color_yellow>Narc</color> - Az automata Jenkins build-bot elkészítéséért.
+<color_yellow>BevapDin2</color> - Fáradhatatlan hibajavítási erőfeszítésekért.
+<color_yellow>dwarfkoala2</color> - A hibák széleskörű triázsáért.
+<color_yellow>Ill-kun</color> - Számtalan UI-tisztításért.
 
-#, c-format
+******************************************************************************
 
-msgstr "%s (Irány gombok vagy egér )"
-#. ~ %s: "Close where?" "Pry where?" etc.
+<color_white>Fő Fejlesztők (<color_cyan>0.9</color>):</color>
+<color_yellow>KevinGranade</color>, <color_yellow>GalenEvil</color>, <color_yellow>i2amroy</color>, <color_yellow>AtomicDryad</color>, <color_yellow>Ianestrachan</color>
 
-#: src/action.cpp:1137
-msgid "MAIN MENU"
-#: src/action.cpp:869 src/action.cpp:965 data/core/help.json
-msgstr "%s (Irány gombok)"
-#. ~ Snippet in category "<end_talking_nevermind>"
+<color_white>Külön köszönet (<color_cyan>0.9</color>):</color>
+<color_yellow>TheDarklingWolf2</color> - A Cataclysm olyan formában való létrehozásáért, ahogyan ismerjük.
+<color_yellow>Narc</color> - Az automata Jenkins build-bot elkészítéséért.
+<color_yellow>yobbobanana2</color> - Fordítók és GitHub közötti kapcsolattartásért.
+<color_yellow>Angela 'Rivet' Graves</color>, A Cataclysmikus Tartalom Folyamatos Készítője. 
 
-#, c-format
+******************************************************************************
 
-#. ~ Response to NPC dialogue
-#. ~ Player message in nested effect in else statement in effect in EoC
+<color_white>Fő Fejlesztők (<color_cyan>0.8</color>):</color>
+<color_yellow>Kevingranade</color>, <color_yellow>GalenEvil</color>, <color_yellow>i2amroy</color>, <color_yellow>AtomicDryad</color>, <color_yellow>Ozone</color>
 
-#. "EOC_EOC_DRUID_SHAPE_WOOD"
-msgid "MAIN MENU"
-#: src/action.cpp:869 src/action.cpp:965 data/core/help.json
-msgstr "%s (Irány gombok)"
+<color_white>Külön köszönet (<color_cyan>0.8</color>):</color>
+<color_yellow>TheDarklingWolf2</color> - A Cataclysm olyan formában való létrehozásáért, ahogyan ismerjük.
+<color_yellow>Narc</color> - Az automata Jenkins build-bot elkészítéséért.
+<color_yellow>yobbobanana2</color> - Fordítók és GitHub közötti kapcsolattartásért.
