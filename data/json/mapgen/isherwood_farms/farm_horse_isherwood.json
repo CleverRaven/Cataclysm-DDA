@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "horse_farm_isherwood_1", "horse_farm_isherwood_2", "horse_farm_isherwood_3", "horse_farm_isherwood_4" ],
       [ "horse_farm_isherwood_5", "horse_farm_isherwood_6", "horse_farm_isherwood_7", "horse_farm_isherwood_8" ],
@@ -180,7 +179,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "horse_farm_isherwood_4_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -216,7 +214,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "horse_farm_isherwood_7_hayloft",
     "object": {
       "fill_ter": "t_floor",
@@ -252,7 +249,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "horse_farm_isherwood_7_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -288,7 +284,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "horse_farm_isherwood_9_roof",
     "object": {
       "fill_ter": "t_glass_roof",
@@ -323,7 +318,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "horse_farm_isherwood_10_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -359,7 +353,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "horse_farm_isherwood_13_2ndfloor",
     "object": {
       "fill_ter": "t_floor",
@@ -396,7 +389,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "horse_farm_isherwood_13_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

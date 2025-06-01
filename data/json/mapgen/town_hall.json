@@ -86,7 +86,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "town_hall_0_0_0", "town_hall_1_0_0" ], [ "town_hall_0_1_0", "town_hall_1_1_0" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -145,7 +144,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "town_hall_0_0_1", "town_hall_1_0_1" ], [ "town_hall_0_1_1", "town_hall_1_1_1" ] ],
     "weight": 100,
     "object": {
@@ -205,7 +203,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "town_hall_1_0_1" ] ],
     "weight": 100,
     "object": {
@@ -241,7 +238,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "town_hall_0_0_roof", "town_hall_1_0_roof" ], [ "town_hall_0_1_roof", "town_hall_1_1_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -301,7 +297,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "town_hall_1_1_upper_roof" ],
     "object": {
       "rows": [

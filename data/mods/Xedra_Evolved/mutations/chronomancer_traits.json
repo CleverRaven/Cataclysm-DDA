@@ -12,7 +12,8 @@
     "spells_learned": [ [ "xedra_chronomancer_time_freeze_target", 6 ], [ "xedra_chronomancer_normalize_time", 1 ] ],
     "vitamin_rates": [ [ "xedra_chronomancer_insight", -86400 ] ],
     "active": true,
-    "activated_eocs": [ "EOC_XEDRA_CHRONOMANCER_OPEN_INSIGHT_MENU" ]
+    "activated_eocs": [ "EOC_XEDRA_CHRONOMANCER_OPEN_INSIGHT_MENU" ],
+    "activation_msg": ""
   },
   {
     "type": "mutation",

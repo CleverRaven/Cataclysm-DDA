@@ -114,7 +114,8 @@
   },
   {
     "id": "debug_apply_fault",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str_sp": "debug fault applier" },
     "description": "Applies the fault on item by id.",

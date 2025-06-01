@@ -35,6 +35,7 @@
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
+#include "current_map.h"
 #include "damage.h"
 #include "debug.h"
 #include "do_turn.h"
@@ -161,6 +162,7 @@ static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_steel_chunk( "steel_chunk" );
 static const itype_id itype_wire( "wire" );
 
+static const json_character_flag json_flag_ONE_STORY_FALL( "ONE_STORY_FALL" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 
 static const material_id material_glass( "glass" );
@@ -2350,13 +2352,7 @@ int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, cons
 
     if( veh != nullptr ) {
         const vpart_position vp( const_cast<vehicle &>( *veh ), vpart );
-        if( vp.obstacle_at_part() ) {
-            return 0;
-        } else if( vp.part_with_feature( VPFLAG_AISLE, true ) ) {
-            return 2;
-        } else {
-            return 8;
-        }
+        return vp.get_movecost();
     }
     int movecost = std::max( terrain.movecost + field.total_move_cost(), 0 );
 
@@ -2419,7 +2415,8 @@ int map::move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle,
     vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
     const int part = veh ? vp->part_index() : -1;
 
-    return move_cost_internal( furniture, terrain, ( !ignore_fields ? field : nofield ), veh, part );
+    return move_cost_internal( furniture, terrain,
+                               ( !ignore_fields ? field : nofield ), veh, part );
 }
 
 bool map::impassable( const tripoint_bub_ms &p ) const
@@ -8106,6 +8103,10 @@ void map::saven( const tripoint_bub_sm &grid )
 // Note that it assumes the map doesn't exist: it's an error to call this when it does.
 bool generate_uniform( const tripoint_abs_sm &p, const ter_str_id &ter )
 {
+    if( MAPBUFFER.submap_exists( p ) ) {
+        return false;
+    }
+
     std::unique_ptr<submap> sm = std::make_unique<submap>();
     sm->set_all_ter( ter, true );
     sm->last_touched = calendar::turn;
@@ -8164,6 +8165,7 @@ void map::loadn( const point_bub_sm &grid, bool update_vehicles )
 
     if( map_incomplete ) {
         smallmap tmp_map;
+        swap_map swap( *tmp_map.cast_to_map() );
         tmp_map.main_cleanup_override( false );
         tmp_map.generate( grid_abs_omt, calendar::turn, true );
         _main_requires_cleanup |= main_inbounds && tmp_map.is_main_cleanup_queued();
@@ -8883,10 +8885,8 @@ void map::spawn_monsters_submap_group( const tripoint_rel_sm &gp, mongroup &grou
                                tmp.wander_pos.to_string_writable() );
             }
 
-            // This usage of get_map() rather than the actual map used is due to the called operation's hidden usage of
-            // the reality bubble map, so the reference has to be adjusted to match that.
             monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ),
-                                    reality_bubble().get_bub( abs_pos ) );
+                                    local_pos );
             if( placed ) {
                 placed->on_load();
             }
@@ -10022,6 +10022,10 @@ bool map::try_fall( const tripoint_bub_ms &p, Creature *c )
     }
 
     if( you->get_size() == creature_size::tiny ) {
+        height = std::max( 0, height - 1 );
+    }
+
+    if( you->has_flag( json_flag_ONE_STORY_FALL ) ) {
         height = std::max( 0, height - 1 );
     }
 

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lab_surface_brick_basementD1_hidden_lab_stairs", "lab_surface_brick_basementE1" ] ],
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -60,7 +59,7 @@
         "d": { "item": "office", "chance": 60, "repeat": [ 2, 6 ] },
         "f": [
           { "item": "snacks", "chance": 60, "repeat": [ 2, 10 ] },
-          { "item": "fridgesnacks", "chance": 60, "repeat": [ 2, 10 ] }
+          { "item": "SUS_fridge_breakroom", "chance": 60, "repeat": [ 2, 10 ] }
         ],
         "l": [
           { "item": "guns_pistol_common", "chance": 10, "repeat": [ 1, 2 ] },

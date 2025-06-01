@@ -5,7 +5,7 @@
     "name": { "str": "set of hand rims", "str_pl": "sets of hand rims" },
     "description": "A set of hand rims for use on a wheelchair.",
     "weight": "816 g",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "color": "light_gray",
     "symbol": ":",
     "material": [ "lc_steel" ],

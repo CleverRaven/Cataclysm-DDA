@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "solar_farm_spawn",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -11,7 +10,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "olwen_radio_adapter",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -22,7 +20,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "spawn_planer",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -33,7 +30,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "darryl_coop_roof",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -59,7 +55,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "darryl_coop",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -89,7 +84,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "eddie_food_storage_roof",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -115,7 +109,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "eddie_food_storage",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -145,7 +138,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "kostas_herb_garden",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -165,7 +157,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "godco_wall_left_corner",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -200,7 +191,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "godco_wall_right_corner",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -235,7 +225,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "godco_wall_right_corner_bottom",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -270,7 +259,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "godco_wall_left_corner_bottom",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -305,7 +293,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "godco_wall_up_straight_left",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -340,7 +327,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "godco_wall_up_straight_right",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -375,7 +361,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "godco_wall_bottom_straight",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -410,7 +395,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "godco_wall_top_straight",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -445,7 +429,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "godco_wall_gate",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -480,7 +463,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "godco_permanent_trader_predatory_roof",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -497,7 +479,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "godco_permanent_trader_predatory",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -540,7 +521,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "godco_permanent_trader_predatory_remove",
     "object": {
       "mapgensize": [ 5, 5 ],

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_astrobiology_lab_n1" ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -77,7 +76,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_astrobiology_lab_n2",
     "object": {
       "fill_ter": "t_metal_flat_roof",

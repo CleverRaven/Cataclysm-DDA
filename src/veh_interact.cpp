@@ -26,6 +26,7 @@
 #include "character.h"
 #include "character_id.h"
 #include "contents_change_handler.h"
+#include "crafting.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
@@ -360,7 +361,7 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
 {
     Character &player_character = get_player_character();
     const inventory &inv = player_character.crafting_inventory();
-    bool ok = reqs.can_make_with_inventory( inv, is_crafting_component );
+    bool ok = reqs.can_make_with_inventory( inv, is_crafting_component, 1, craft_flags::none, false );
 
     msg += _( "<color_white>Time required:</color>\n" );
     msg += "> " + to_string_approx( time ) + "\n";
@@ -1931,7 +1932,8 @@ void veh_interact::do_siphon( map &here )
         const int idx = veh->index_of_part( &pt );
         item liquid( base.legacy_front() );
         const int liq_charges = liquid.charges;
-        if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
+        liquid_dest_opt liquid_target;
+        if( liquid_handler::handle_liquid( liquid, liquid_target, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( here, idx, liq_charges - liquid.charges );
         }
     };
@@ -2172,7 +2174,7 @@ bool veh_interact::can_potentially_install( const vpart_info &vpart )
 {
     bool engine_reqs_met = true;
     bool can_make = vpart.install_requirements().can_make_with_inventory( *crafting_inv,
-                    is_crafting_component );
+                    is_crafting_component, 1, craft_flags::none, false );
     bool hammerspace = get_player_character().has_trait( trait_DEBUG_HS );
 
     int engines = 0;
@@ -2973,7 +2975,9 @@ void act_vehicle_siphon( map &here, vehicle *veh )
             title ) ) {
         item liquid( tank->part().get_base().only_item() );
         const int liq_charges = liquid.charges;
-        if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, tank->part_index() ) ) {
+        liquid_dest_opt liquid_target;
+        if( liquid_handler::handle_liquid( liquid, liquid_target, nullptr, 1, nullptr, veh,
+                                           tank->part_index() ) ) {
             veh->drain( here, tank->part_index(), liq_charges - liquid.charges );
             veh->invalidate_mass();
         }
@@ -3077,7 +3081,7 @@ void veh_interact::complete_vehicle( map &here, Character &you )
         case 'i': {
             const inventory &inv = you.crafting_inventory();
             const requirement_data reqs = vpinfo.install_requirements();
-            if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
+            if( !reqs.can_make_with_inventory( inv, is_crafting_component, 1, craft_flags::none, false ) ) {
                 you.add_msg_player_or_npc( m_info,
                                            _( "You don't meet the requirements to install the %s." ),
                                            _( "<npcname> doesn't meet the requirements to install the %s." ),
@@ -3367,7 +3371,14 @@ void veh_interact::complete_vehicle( map &here, Character &you )
             // Finally, put all the results somewhere (we wanted to wait until this
             // point because we don't want to put them back into the vehicle part
             // that just got removed).
-            put_into_vehicle_or_drop( you, item_drop_reason::deliberate, resulting_items );
+            std::vector<item_location> locs = put_into_vehicle_or_drop_ret_locs( you,
+                                              item_drop_reason::deliberate,
+                                              resulting_items );
+            if( you.is_npc() ) {
+                for( const item_location &itl : locs ) {
+                    you.may_activity_occupancy_after_end_items_loc.push_back( itl );
+                }
+            }
             break;
         }
         case 'u': {

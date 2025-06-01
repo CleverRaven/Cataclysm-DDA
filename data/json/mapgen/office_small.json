@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "small_office" ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
@@ -97,7 +96,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "small_office_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -151,7 +149,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "small_office_upper_roof",
     "object": {
       "fill_ter": "t_flat_roof",

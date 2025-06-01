@@ -22,11 +22,12 @@
   {
     "id": "blood_tainted",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
+    "subtypes": [ "AMMO", "COMESTIBLE" ],
     "copy-from": "blood_tainted",
     "name": { "str_sp": "tainted blood" },
     "weight": "1048 mg",
     "volume": "1 ml",
+    "calories": 2,
     "symbol": "~",
     "category": "fuel",
     "ammo_type": "blood_tainted"

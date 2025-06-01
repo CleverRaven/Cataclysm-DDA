@@ -1016,29 +1016,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "pistol_grip",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "gun", 3 ] ],
-    "difficulty": 6,
-    "time": "15 m",
-    "autolearn": true,
-    "book_learn": [
-      [ "textbook_mechanics", 3 ],
-      [ "manual_pistol", 4 ],
-      [ "manual_shotgun", 4 ],
-      [ "manual_smg", 4 ],
-      [ "manual_rifle", 4 ]
-    ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 10 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "pistol_stock",
     "category": "CC_WEAPON",

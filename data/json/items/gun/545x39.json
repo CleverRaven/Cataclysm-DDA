@@ -40,7 +40,8 @@
       [ "sling", 1 ],
       [ "stock accessory", 1 ],
       [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel mount", 1 ],
+      [ "muzzle", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ]
   },

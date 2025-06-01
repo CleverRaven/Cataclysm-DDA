@@ -1041,6 +1041,11 @@ bool advanced_inventory::move_all_items()
         }
     }
     if( spane.get_area() == AIM_CONTAINER &&
+        spane.container.get_item() == nullptr ) {
+        popup_getkey( _( "Source container isn't valid." ) );
+        return false;
+    }
+    if( spane.get_area() == AIM_CONTAINER &&
         spane.container.get_item()->has_flag( json_flag_NO_UNLOAD ) ) {
         popup_getkey( _( "Source container can't be unloaded." ) );
         return false;
@@ -2336,11 +2341,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         } else {
             // In test_mode always use max possible
             // TODO: maybe a way to provide a custom amount?
-            amount = test_mode ? possible_max : string_input_popup()
-                     .title( popupmsg )
-                     .width( 20 )
-                     .only_digits( true )
-                     .query_int();
+            test_mode ? amount = possible_max : query_int( amount, false, popupmsg );
         }
         if( amount <= 0 ) {
             return false;

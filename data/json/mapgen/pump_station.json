@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "pump_station_1" ], [ "pump_station_2" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -112,7 +111,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "pump_station_1_roof" ], [ "pump_station_2_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -212,7 +210,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "pump_station_3" ], [ "pump_station_4" ], [ "pump_station_5" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",

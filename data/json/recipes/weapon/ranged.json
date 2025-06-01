@@ -753,9 +753,9 @@
     "difficulty": 1,
     "time": "1 h",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "components": [ [ [ "2x4", 1 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
     "type": "recipe",

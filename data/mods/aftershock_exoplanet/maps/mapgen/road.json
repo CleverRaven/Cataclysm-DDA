@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "road_straight" ],
     "object": {
       "predecessor_mapgen": "field",
@@ -38,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "road_end" ],
     "object": {
       "predecessor_mapgen": "field",
@@ -75,7 +73,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "road_curved" ],
     "object": {
       "predecessor_mapgen": "field",
@@ -112,7 +109,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "road_tee" ],
     "object": {
       "predecessor_mapgen": "field",
@@ -152,7 +148,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "road_nesw_manhole" ],
     "object": {
       "predecessor_mapgen": "field",
@@ -201,7 +196,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "road_four_way" ],
     "weight": 100000,
     "object": {
@@ -251,7 +245,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "road_crater",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -268,7 +261,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "road_crater",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -285,7 +277,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "road_crater",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -302,7 +293,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "road_crater",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -319,7 +309,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "road_crater",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -336,7 +325,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "road_rift",
     "object": {
       "mapgensize": [ 12, 12 ],

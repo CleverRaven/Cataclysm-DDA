@@ -7,17 +7,18 @@
     "description": "Through practice, you've learned how to calm and focus yourself during meditation.  If you meditated properly, you could channel the additional nether energy you have accumulated out into your surroundings, though doing so will be extremely tiring.  It will also help shield you from nether energies for a short time afterwards.",
     "category": "CC_PSIONIC",
     "subcategory": "CSC_PSIONIC_OTHER",
-    "difficulty": 4,
+    "difficulty": 2,
     "time": "15 m",
     "proficiencies": [ { "proficiency": "prof_psionic_minimum_requirements", "required": true } ],
     "skill_used": "metaphysics",
-    "flags": [ "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_CENTERING_MEDITATION",
         "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') >= 10" ] },
         "effect": [
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "-=", "10" ] },
+          { "u_lose_effect": "effect_noetic_resilience" },
           { "u_add_effect": "effect_noetic_resilience", "duration": "30 minutes" }
         ],
         "false_effect": [
@@ -26,7 +27,36 @@
             "type": "good"
           },
           { "math": [ "u_vitamin('vitamin_psionic_drain') = 0" ] },
+          { "u_lose_effect": "effect_noetic_resilience" },
           { "u_add_effect": "effect_noetic_resilience", "duration": "30 minutes" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "name": "incandescent meditation",
+    "id": "psi_centering_meditation_drain_reduce_heart_of_fire",
+    "description": "By gazing into the flames, you can reduce your exposure to the energies of the Nether.",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_OTHER",
+    "difficulty": 0,
+    "time": "20 m",
+    "skill_used": "metaphysics",
+    "tools": [ [ [ "fire", -1 ] ] ],
+    "flags": [ "SECRET", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_INCANDESCENT_MEDITATION",
+        "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') >= 10" ] },
+        "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "-=", "10" ] } ],
+        "false_effect": [
+          {
+            "u_message": "After your meditations, your mind is free and clear.  The odd feelings caused by excessive psionic channeling have entirely left you.",
+            "type": "good"
+          },
+          { "math": [ "u_vitamin('vitamin_psionic_drain') = 0" ] }
         ]
       }
     ]

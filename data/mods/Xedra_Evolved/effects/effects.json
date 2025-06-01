@@ -644,7 +644,7 @@
     "//": "Hidden--tied to a conditional enchantment",
     "name": [ "" ],
     "desc": [ "" ],
-    "flags": [ "WINGS_1" ]
+    "flags": [ "ONE_STORY_FALL" ]
   },
   {
     "type": "effect_type",
@@ -2320,6 +2320,42 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_hedge_astral_projection",
+    "name": [ "Etheric Form" ],
+    "desc": [ "Your spirit wanders the world." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": -0.96 },
+          { "value": "EVASION", "add": 1 },
+          { "value": "PHASE_DISTANCE", "add": 2 }
+        ]
+      }
+    ],
+    "flags": [
+      "ETHEREAL",
+      "INVISIBLE",
+      "FEATHER_FALL",
+      "CLIMB_FLYING",
+      "LEVITATION",
+      "ITEM_WATERPROOFING",
+      "WATERWALKING",
+      "NO_SPELLCASTING"
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_protect_the_mind",
+    "name": [ "Ordered Mind" ],
+    "desc": [ "Your mind is set in order, walled and guarded." ],
+    "rating": "good",
+    "flags": [ "MAGICAL_MIND_PROTECTION" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_skinchanged_penalties",
     "name": [ "Skinchanged Mind" ],
     "desc": [ "You're starting to get used to being an animal.  Even enjoy it." ],
@@ -2394,6 +2430,31 @@
       "You consumed Arvore destiny draught.",
       "You consumed a large amount of Arvore destiny draught.",
       "You consumed a life-changing amount of Arvore destiny draught."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_ARVORE" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Anomalous chlorophyll content in blood sample"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_alchemical_plantkin",
+    "name": [ "Arvore Stolen Power Mutation", "Arvore Stolen Power Transformation", "Arvore Stolen Power Metamorphosis" ],
+    "desc": [
+      "You consumed Arvore alchemical draught.",
+      "You consumed a large amount of Arvore alchemical draught.",
+      "You consumed a life-changing amount of Arvore alchemical draught."
     ],
     "max_intensity": 3,
     "resist_traits": [ "THRESH_ARVORE" ],

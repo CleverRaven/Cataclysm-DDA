@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "headshop",
     "type": "mapgen",
     "object": {
@@ -115,7 +114,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "headshop_roof",
     "object": {
       "fill_ter": "t_floor",
@@ -185,7 +183,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "headshop_upper_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -220,7 +217,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "headshop_graffiti_snippet",
     "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "headshop_graffiti", "x": 0, "y": 0 } ] }
   }

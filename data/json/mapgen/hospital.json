@@ -58,7 +58,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "pile_bodybag_corpses",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -67,7 +66,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "hospital_3", "hospital_2", "hospital_1" ],
       [ "hospital_6", "hospital_5", "hospital_4" ],
@@ -132,7 +130,7 @@
         "[__Á_________;,[,,#||||||      D|   v    i||||   J|B  i |) Гk     J#Г F#",
         ",____________;,,,,#n    +       |UvUv     |ii|  AJ|B  i |jjjj     J#Г F#",
         ",˽˽˽˽˽˽______;%,,,#)    |    Г  |       ^ +--+   J|B    |4  j  ^  S#Г F#",
-        ",____________;,,,,#4    |3         ^      |||||||||||||||)  k     J#Г F#",
+        ",____________;,,,,#4    |3         ^      |||||||||||||||) ök     J#Г F#",
         ",____________;,,,,O  x y|     ^           +--+   J|G   ɱ|jjjj     J#Г F#",
         "%__Á_________;,,%,#||||||              Г  |ii|   J|G   ɱ|4 Гk  ^  S#Г F#",
         ",____________;,,,,#n    + ^           ^  3||||  AJ|G   ɱ|)  j     3#Г F#",
@@ -172,7 +170,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "hospital_3_roof", "hospital_2_roof", "hospital_1_roof" ],
       [ "hospital_6_roof", "hospital_5_roof", "hospital_4_roof" ],

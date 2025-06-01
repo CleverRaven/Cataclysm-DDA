@@ -34,10 +34,5 @@
       { "terrain": "forest_trail", "locations": [ "forest_edge" ], "basic_cost": 100 },
       { "terrain": "forest_trail", "locations": [ "swamp" ], "basic_cost": 40 }
     ]
-  },
-  {
-    "type": "overmap_connection",
-    "id": "hidden_lab_basement",
-    "subtypes": [ { "terrain": "basement", "locations": [ "potential_basement_lab_entrance" ], "basic_cost": 0 } ]
   }
 ]

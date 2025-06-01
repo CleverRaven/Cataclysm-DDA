@@ -9,7 +9,7 @@
     "symbol": "O",
     "volume": "1 L",
     "weight": "1 kg",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 3 }
   },
   {
@@ -23,7 +23,7 @@
     "volume": "235 ml",
     "weight": "300 g",
     "longest_side": "75 cm",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "good" },
     "melee_damage": { "bash": 5 }
   },
   {
@@ -59,7 +59,7 @@
     "volume": "215 ml",
     "weight": "300 g",
     "longest_side": "65 cm",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "good" },
     "melee_damage": { "bash": 5 }
   },
   {
@@ -72,7 +72,7 @@
     "symbol": "O",
     "volume": "340 ml",
     "weight": "575 g",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 3 }
   },
   {
@@ -96,7 +96,7 @@
     "symbol": "[",
     "volume": "2 ml",
     "weight": "1 g",
-    "to_hit": -3
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" }
   },
   {
     "id": "art_urchin",
@@ -120,7 +120,7 @@
     "symbol": "O",
     "volume": "1 L",
     "weight": "800 g",
-    "to_hit": -1
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" }
   },
   {
     "id": "art_spiral",
@@ -133,7 +133,7 @@
     "volume": "3400 ml",
     "weight": "300 g",
     "longest_side": "30 cm",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 4 }
   },
   {
@@ -147,7 +147,7 @@
     "volume": "1 ml",
     "weight": "50 mg",
     "longest_side": "2 cm",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "cut": 1 }
   },
   {
@@ -173,7 +173,7 @@
     "symbol": "A",
     "volume": "1 L",
     "weight": "1 kg",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 3 }
   },
   {
@@ -186,7 +186,7 @@
     "symbol": "A",
     "volume": "500 ml",
     "weight": "400 g",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 3 }
   },
   {
@@ -247,7 +247,7 @@
     "volume": "750 ml",
     "price": "40 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "stone" ],
     "symbol": "[",
     "color": "green",

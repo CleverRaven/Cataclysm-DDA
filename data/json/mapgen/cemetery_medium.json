@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "Cemetery_1a", "Cemetery_1b" ] ],
     "object": {
       "fill_ter": "t_region_groundcover_urban",
@@ -81,7 +80,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "Cemetery_1a_roof",
     "object": {
       "rows": [

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "garage_gas_1", "garage_gas_2", "garage_gas_3" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -109,7 +108,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "garage_gas_roof_1", "garage_gas_roof_2", "garage_gas_roof_3" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
