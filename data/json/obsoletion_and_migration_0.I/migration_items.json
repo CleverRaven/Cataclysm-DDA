@@ -2498,6 +2498,7 @@
     "type": "MIGRATION",
     "replace": "manual_swimming"
   },
+  {
     "type": "MIGRATION",
     "id": "suit_bostonchan",
     "replace": "blazer",
