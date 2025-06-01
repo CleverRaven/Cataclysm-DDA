@@ -4649,7 +4649,7 @@ bool npc::consume_food_from_camp()
         // but also don't try to eat a week's worth of food in one sitting
         int desired_kcals = std::min( static_cast<int>( base_metabolic_rate ), std::max( 0,
                                       kcal_threshold + 100 - current_kcals ) );
-        int kcals_to_eat = std::min( desired_kcals, bcp->get_owner()->food_supply.kcal() );
+        int kcals_to_eat = std::min( desired_kcals, bcp->get_owner()->food_supply().kcal() );
 
         if( kcals_to_eat > 0 ) {
             bcp->feed_workers( *this, bcp->camp_food_supply( -kcals_to_eat ) );
