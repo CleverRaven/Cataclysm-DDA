@@ -942,7 +942,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
                 prep_craft( recipe_carver_off_test, tools, true, 0, false, true );
-                actually_test_craft( recipe_carver_off, INT_MAX );
+                actually_test_craft( recipe_carver_off_test, INT_MAX );
                 CHECK( get_remaining_charges( itype_popcan_stove ) == 0 );
                 CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 0 );
             }
