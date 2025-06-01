@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "homeless_camp_blank_temp",
     "//": "Just showcases the position of stuff. Not to be used.",
     "object": {
@@ -48,7 +47,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "homeless_camp_refurb_1",
     "//": "Phase 1 of homeless refurbirations.",
     "object": {
@@ -84,7 +82,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "homeless_camp_refurb_2_roof",
     "//": "Phase 2 of homeless refurbishment.",
     "object": {
@@ -120,7 +117,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "homeless_camp_refurb_2",
     "//": "Phase 2 of homeless refurbirations.",
     "object": {
@@ -157,7 +153,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "homeless_camp_refurb_3",
     "//": "Phase 3 of homeless refurbirations.",
     "object": {
@@ -193,7 +188,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "homeless_camp_refurb_4",
     "//": "Phase 4 of homeless refurbirations.",
     "object": {
@@ -229,7 +223,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "homeless_camp_refurb_5",
     "//": "Phase 5 of homeless refurbirations.",
     "object": {
@@ -266,7 +259,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "homeless_camp_expand_1",
     "//": "Phase 1 of homeless expansions.",
     "object": {

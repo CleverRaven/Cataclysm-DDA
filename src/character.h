@@ -1551,9 +1551,6 @@ class Character : public Creature, public visitable
         bool made_of( const material_id &m ) const override;
         bool made_of_any( const std::set<material_id> &ms ) const override;
 
-    private:
-        /** Applies skill-based boosts to stats **/
-        void apply_skill_boost();
     protected:
 
         void on_move( const tripoint_abs_ms &old_pos ) override;
@@ -2116,7 +2113,7 @@ class Character : public Creature, public visitable
          * possible at all. `true` indicates at least some of the liquid has been moved.
          */
         /**@{*/
-        bool pour_into( item_location &container, item &liquid, bool ignore_settings );
+        bool pour_into( item_location &container, item &liquid, bool ignore_settings, bool silent );
         bool pour_into( const vpart_reference &vp, item &liquid ) const;
         /**@}*/
 
@@ -4001,7 +3998,7 @@ class Character : public Creature, public visitable
 
         // the player's activity level for metabolism calculations
         activity_tracker activity_history;
-
+        std::vector<item_location> may_activity_occupancy_after_end_items_loc;
         // Our weariness level last turn, so we know when we transition
         int old_weary_level = 0;
 

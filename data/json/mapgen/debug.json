@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "debug_itemgroup_test",
     "object": { "fill_ter": "t_pavement", "items": { " ": [ { "item": "milspec_arsenal_group_only_ammo", "chance": 100 } ] } }
   },

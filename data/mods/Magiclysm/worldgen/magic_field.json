@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "magic_field_a1", "magic_field_a2" ], [ "magic_field_b1", "magic_field_b2" ] ],
     "object": {
       "fill_ter": "t_grass",

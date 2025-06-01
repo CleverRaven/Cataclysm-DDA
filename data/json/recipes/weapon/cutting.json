@@ -174,7 +174,11 @@
     "difficulty": 7,
     "time": "3 h",
     "book_learn": [ [ "bronze_book", 4 ], [ "bronze_mag", 5 ], [ "textbook_weapwest", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_bladesmith", "required": true }
+    ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [

@@ -198,8 +198,7 @@
       "≠": "f_chest",
       "Ø": "f_pinball_machine",
       "Æ": "f_arcade_machine",
-      "ʭ": "f_ladder",
-      "é": "f_freezer"
+      "ʭ": "f_ladder"
     },
     "terrain": {
       "Ŧ": { "param": "house_fence_type", "fallback": "t_fence" },
@@ -295,7 +294,7 @@
         { "item": "home_display_case", "chance": 30 },
         { "item": "harddrugs_residential", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "maps", "chance": 2 },
-        { "item": "guns_pistol_common", "chance": 25, "ammo": 90, "magazine": 100 },
+        { "item": "guns_pistol_common", "chance": 25 },
         { "item": "gemstones", "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "w": [
@@ -374,7 +373,8 @@
         { "item": "allsporting", "chance": 5 }
       ]
     },
-    "mapping": { "÷": { "item": { "item": "doormat", "chance": 55 } } }
+    "mapping": { "÷": { "item": { "item": "doormat", "chance": 55 } } },
+    "nested": { "é": { "chunks": [ [ "domestic_freezer_nest", 1 ], [ "null", 1 ] ] } }
   },
   {
     "type": "palette",
@@ -814,7 +814,7 @@
       "H": { "item": "laundry", "chance": 20 },
       "I": [
         { "item": "SUS_desks_bedroom_unisex", "chance": 5 },
-        { "item": "office", "chance": 25, "repear": [ 1, 2 ] },
+        { "item": "office", "chance": 25, "repeat": [ 1, 2 ] },
         { "item": "art_all", "chance": 10 },
         { "item": "mail", "chance": 28, "repeat": [ 1, 2 ] },
         { "item": "dining", "chance": 15, "repeat": [ 1, 2 ] },
@@ -933,7 +933,7 @@
       "H": { "item": "laundry", "chance": 20, "repeat": [ 1, 3 ] },
       "I": [
         { "item": "SUS_desks_bedroom_unisex", "chance": 5 },
-        { "item": "office", "chance": 25, "repear": [ 1, 2 ] },
+        { "item": "office", "chance": 25, "repeat": [ 1, 2 ] },
         { "item": "mail", "chance": 28, "repeat": [ 1, 2 ] },
         { "item": "dining", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "novels", "chance": 25, "repeat": [ 2, 3 ] }

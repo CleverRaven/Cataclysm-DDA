@@ -36,20 +36,12 @@
     "id": "plastic_jack_o_lantern_lit",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
+    "copy-from": "plastic_jack_o_lantern",
     "name": { "str": "spooky plastic jack o'lantern" },
     "description": "A plastic lantern that is painted to look like a pumpkin with a face.  It has a tiny LED light inside which is currently on, to delightfully spooky effect.  It doesn't provide very much light, but it can stay lit for a very long time.",
-    "weight": "113 g",
-    "volume": "3964 ml",
     "price": "0 cent",
-    "price_postapoc": "0 cent",
-    "material": [ "plastic" ],
-    "symbol": "0",
-    "looks_like": "pumpkin",
-    "color": "yellow",
-    "initial_charges": 22,
-    "max_charges": 22,
-    "charges_per_use": 1,
     "turns_per_charge": 1350,
+    "revert_to": "plastic_jack_o_lantern",
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",
@@ -57,7 +49,7 @@
       "msg": "The LED winks out inside the lantern.",
       "menu_text": "Extinguish"
     },
-    "flags": [ "LIGHT_6", "TRADER_AVOID" ]
+    "extend": { "flags": [ "LIGHT_6", "TRADER_AVOID" ] }
   },
   {
     "id": "jackolantern",
@@ -92,6 +84,7 @@
     "name": { "str": "lit jack-o'-lantern" },
     "description": "A carved pumpkin with a lit candle inside.  Spooky and festive!",
     "turns_per_charge": 1260,
+    "revert_to": "jackolantern",
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",

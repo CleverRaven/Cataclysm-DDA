@@ -1138,7 +1138,7 @@
     "material": [ "paper" ],
     "looks_like": "cookbook",
     "symbol": "?",
-    "color": "black",
+    "color": "dark_gray",
     "use_action": { "type": "learn_spell", "spells": [ "animist_sense_outsiders" ] }
   },
   {
@@ -1287,7 +1287,7 @@
     "material": [ "paper" ],
     "looks_like": "cookbook",
     "symbol": "?",
-    "color": "black",
+    "color": "dark_gray",
     "use_action": { "type": "learn_spell", "spells": [ "classless_dispel_magic" ] }
   },
   {

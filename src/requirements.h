@@ -344,7 +344,7 @@ struct requirement_data {
          */
         bool can_make_with_inventory( const read_only_visitable &crafting_inv,
                                       const std::function<bool( const item & )> &filter, int batch = 1,
-                                      craft_flags = craft_flags::none ) const;
+                                      craft_flags = craft_flags::none, bool restrict_volume = true ) const;
 
         /** @param filter see @ref can_make_with_inventory */
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
@@ -393,7 +393,8 @@ struct requirement_data {
         bool blacklisted = false;
 
         bool check_enough_materials( const read_only_visitable &crafting_inv,
-                                     const std::function<bool( const item & )> &filter, int batch = 1 ) const;
+                                     const std::function<bool( const item & )> &filter, int batch = 1,
+                                     bool restrict_volume = true ) const;
         bool check_enough_materials( const item_comp &comp, const read_only_visitable &crafting_inv,
                                      const std::function<bool( const item & )> &filter, int batch = 1 ) const;
 

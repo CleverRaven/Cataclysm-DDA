@@ -2,7 +2,6 @@
   {
     "//": "collapsed hallway",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_1side" ],
     "weight": 25,
     "object": {
@@ -46,7 +45,6 @@
   {
     "//": "library + two lab rooms (filled in with '.' in order to ensure a normal t_thconc_floor inside)",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_1side" ],
     "weight": 100,
     "object": {
@@ -123,7 +121,6 @@
   {
     "//": "military bunker",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_1side" ],
     "weight": 200,
     "object": {
@@ -201,7 +198,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_barracks_turret",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -218,7 +214,6 @@
   {
     "//": "prisoner containment",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_1side" ],
     "weight": 200,
     "object": {
@@ -289,7 +284,6 @@
   {
     "//": "Adds a hulk and smashes to rubble the doors for barracks and human containment.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_hulk_smash",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -305,7 +299,6 @@
   {
     "//": "Creates border doors for a lab_1side if-and-only-if final rotation would predict them existing.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_1side_border_doors",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -318,7 +311,6 @@
   {
     "//": "Adds a pair of doors in the center of the top entrance, as would be expected in a 1-sided lab section facing north or west.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_north_doors",
     "object": {
       "mapgensize": [ 2, 2 ],

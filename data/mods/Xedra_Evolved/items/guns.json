@@ -5,7 +5,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "reload_noise_volume": 6,
-    "name": { "str": "FN Five-seveN suppressor" },
+    "name": { "str": "FN Five-seveN suppressed" },
     "longest_side": "194 mm",
     "min_cycle_recoil": 40,
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },

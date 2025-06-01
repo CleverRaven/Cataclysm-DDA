@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_garage" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -84,7 +83,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_garage_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -127,7 +125,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_garage_1" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -202,7 +199,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_garage_roof_1",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -238,7 +234,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_garage_2" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -328,7 +323,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_garage_roof_2",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -393,7 +387,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_garage_upper_roof_2",
     "object": {
       "fill_ter": "t_flat_roof",

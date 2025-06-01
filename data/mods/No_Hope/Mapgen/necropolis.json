@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_a_1", "necropolis_a_2", "necropolis_a_3" ],
@@ -78,7 +77,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_a_4", "necropolis_a_5", "necropolis_a_6" ],
@@ -157,7 +155,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_a_7", "necropolis_a_8", "necropolis_a_9" ],
@@ -262,7 +259,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_a_19", "necropolis_a_20", "necropolis_a_21" ],
@@ -346,7 +342,7 @@
         { "item": "pasta", "x": [ 19, 23 ], "y": [ 32, 33 ], "chance": 75 },
         { "item": "pasta", "x": [ 19, 23 ], "y": [ 28, 29 ], "chance": 75 },
         { "item": "kitchen", "x": [ 20, 23 ], "y": [ 25, 25 ], "chance": 70 },
-        { "item": "fridge", "x": [ 15, 15 ], "y": [ 25, 33 ], "chance": 70 },
+        { "item": "SUS_fridge", "x": [ 15, 15 ], "y": [ 25, 33 ], "chance": 70 },
         { "item": "cannedfood", "x": [ 6, 7 ], "y": [ 28, 29 ], "chance": 80 },
         { "item": "cannedfood", "x": [ 6, 7 ], "y": [ 31, 32 ], "chance": 80 },
         { "item": "cannedfood", "x": [ 11, 12 ], "y": [ 31, 32 ], "chance": 80 },
@@ -371,7 +367,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_a_22", "necropolis_a_23", "necropolis_a_24" ],
@@ -449,7 +444,7 @@
         { "item": "office", "x": [ 46, 47 ], "y": [ 25, 25 ], "chance": 75 },
         { "item": "church", "x": [ 44, 45 ], "y": [ 43, 43 ], "chance": 75 },
         { "item": "church", "x": [ 31, 46 ], "y": [ 32, 39 ], "chance": 75 },
-        { "item": "fridge", "x": [ 35, 35 ], "y": [ 43, 43 ], "chance": 80 },
+        { "item": "SUS_fridge", "x": [ 35, 35 ], "y": [ 43, 43 ], "chance": 80 },
         { "item": "dining", "x": [ 37, 38 ], "y": [ 34, 41 ], "chance": 60 },
         { "item": "kitchen", "x": [ 34, 34 ], "y": [ 44, 47 ], "chance": 80 },
         { "item": "lmoe_guns", "x": [ 57, 57 ], "y": [ 46, 46 ], "chance": 10 },
@@ -479,7 +474,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_a_25", "necropolis_a_26", "necropolis_a_27" ],
@@ -572,7 +566,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [
       [ "necropolis_a_37", "necropolis_a_38", "necropolis_a_39" ],
       [ "necropolis_a_46", "necropolis_a_47", "necropolis_a_48" ]
@@ -689,7 +682,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_a_40", "necropolis_a_41", "necropolis_a_42" ],
@@ -773,7 +765,7 @@
         { "item": "dining", "x": [ 64, 64 ], "y": [ 26, 33 ], "chance": 70 },
         { "item": "dining", "x": [ 55, 56 ], "y": [ 29, 30 ], "chance": 60 },
         { "item": "dining", "x": [ 55, 56 ], "y": [ 25, 26 ], "chance": 60 },
-        { "item": "fridge", "x": [ 67, 67 ], "y": [ 27, 34 ], "chance": 80 },
+        { "item": "SUS_fridge", "x": [ 67, 67 ], "y": [ 27, 34 ], "chance": 80 },
         { "item": "kitchen", "x": [ 63, 67 ], "y": [ 36, 40 ], "chance": 80 },
         { "item": "produce", "x": [ 66, 67 ], "y": [ 40, 40 ], "chance": 80 }
       ],
@@ -788,7 +780,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_a_43", "necropolis_a_44", "necropolis_a_45" ],
@@ -859,7 +850,7 @@
         { "item": "office", "x": [ 9, 9 ], "y": [ 36, 38 ], "chance": 70 },
         { "item": "office", "x": [ 18, 20 ], "y": [ 37, 37 ], "chance": 70 },
         { "item": "vault", "x": [ 2, 5 ], "y": [ 27, 30 ], "chance": 70 },
-        { "item": "fridge", "x": [ 5, 5 ], "y": [ 35, 35 ], "chance": 80 },
+        { "item": "SUS_fridge", "x": [ 5, 5 ], "y": [ 35, 35 ], "chance": 80 },
         { "item": "dining", "x": [ 1, 2 ], "y": [ 36, 37 ], "chance": 70 },
         { "item": "kitchen", "x": [ 5, 5 ], "y": [ 36, 39 ], "chance": 80 },
         { "item": "allclothes", "x": [ 62, 62 ], "y": [ 39, 41 ], "chance": 70 },
@@ -867,7 +858,7 @@
         { "item": "allclothes", "x": [ 68, 68 ], "y": [ 42, 42 ], "chance": 70 },
         { "item": "magazines", "x": [ 50, 51 ], "y": [ 39, 40 ], "chance": 50 },
         { "item": "novels", "x": [ 50, 51 ], "y": [ 34, 34 ], "chance": 50 },
-        { "item": "fridge", "x": [ 60, 60 ], "y": [ 39, 39 ], "chance": 70 },
+        { "item": "SUS_fridge", "x": [ 60, 60 ], "y": [ 39, 39 ], "chance": 70 },
         { "item": "kitchen", "x": [ 56, 60 ], "y": [ 40, 42 ], "chance": 80 },
         { "item": "allclothes", "x": [ 68, 68 ], "y": [ 34, 34 ], "chance": 70 },
         { "item": "softdrugs", "x": [ 65, 66 ], "y": [ 34, 36 ], "chance": 50 },
@@ -879,7 +870,7 @@
         { "item": "homebooks", "x": [ 62, 62 ], "y": [ 27, 28 ], "chance": 70 },
         { "item": "allclothes", "x": [ 63, 63 ], "y": [ 24, 24 ], "chance": 70 },
         { "item": "allclothes", "x": [ 66, 66 ], "y": [ 24, 24 ], "chance": 70 },
-        { "item": "fridge", "x": [ 56, 56 ], "y": [ 26, 26 ], "chance": 70 },
+        { "item": "SUS_fridge", "x": [ 56, 56 ], "y": [ 26, 26 ], "chance": 70 },
         { "item": "dining", "x": [ 51, 52 ], "y": [ 25, 27 ], "chance": 70 },
         { "item": "kitchen", "x": [ 56, 60 ], "y": [ 24, 26 ], "chance": 80 },
         { "item": "bed", "x": [ 64, 65 ], "y": [ 24, 25 ], "chance": 80 },
@@ -896,7 +887,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_a_55", "necropolis_a_56", "necropolis_a_57" ],
@@ -984,7 +974,7 @@
         { "item": "allclothes", "x": [ 56, 56 ], "y": [ 10, 10 ], "chance": 70 },
         { "item": "allclothes", "x": [ 52, 52 ], "y": [ 10, 11 ], "chance": 70 },
         { "item": "dining", "x": [ 56, 57 ], "y": [ 17, 18 ], "chance": 70 },
-        { "item": "fridge", "x": [ 54, 54 ], "y": [ 15, 15 ], "chance": 70 },
+        { "item": "SUS_fridge", "x": [ 54, 54 ], "y": [ 15, 15 ], "chance": 70 },
         { "item": "kitchen", "x": [ 52, 53 ], "y": [ 15, 19 ], "chance": 80 },
         { "item": "bed", "x": [ 54, 55 ], "y": [ 3, 4 ], "chance": 80 },
         { "item": "bed", "x": [ 65, 66 ], "y": [ 3, 4 ], "chance": 80 },
@@ -1014,7 +1004,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_a_58", "necropolis_a_59", "necropolis_a_60" ],
@@ -1098,7 +1087,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_a_61", "necropolis_a_62", "necropolis_a_63" ],
@@ -1185,7 +1173,7 @@
         { "item": "homebooks", "x": [ 52, 54 ], "y": [ 6, 6 ], "chance": 70 },
         { "item": "allclothes", "x": [ 60, 60 ], "y": [ 6, 6 ], "chance": 70 },
         { "item": "dining", "x": [ 62, 63 ], "y": [ 9, 10 ], "chance": 70 },
-        { "item": "fridge", "x": [ 63, 63 ], "y": [ 6, 6 ], "chance": 70 },
+        { "item": "SUS_fridge", "x": [ 63, 63 ], "y": [ 6, 6 ], "chance": 70 },
         { "item": "kitchen", "x": [ 62, 67 ], "y": [ 6, 9 ], "chance": 80 },
         { "item": "bed", "x": [ 55, 56 ], "y": [ 6, 7 ], "chance": 80 },
         { "item": "bed", "x": [ 53, 54 ], "y": [ 20, 21 ], "chance": 80 },
@@ -1194,7 +1182,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ [ "necropolis_a_73", "necropolis_a_74", "necropolis_a_75" ] ],
     "object": {
@@ -1256,7 +1243,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ [ "necropolis_a_76", "necropolis_a_77", "necropolis_a_78" ] ],
     "object": {
@@ -1307,7 +1293,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ [ "necropolis_a_79", "necropolis_a_80", "necropolis_a_81" ] ],
     "object": {

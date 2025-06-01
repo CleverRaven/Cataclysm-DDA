@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "forge_x0y0z0", "forge_x1y0z0", "forge_x2y0z0", "forge_x3y0z0" ],
       [ "forge_x0y1z0", "forge_x1y1z0", "forge_x2y1z0", "forge_x3y1z0" ],
@@ -221,7 +220,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "forge_x0y0z1", "forge_x1y0z1", "forge_x2y0z1", "forge_x3y0z1" ],
       [ "forge_x0y1z1", "forge_x1y1z1", "forge_x2y1z1", "forge_x3y1z1" ],
@@ -423,7 +421,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "forge_x0y0z2", "forge_x1y0z2", "forge_x2y0z2", "forge_x3y0z2" ],
       [ "forge_x0y1z2", "forge_x1y1z2", "forge_x2y1z2", "forge_x3y1z2" ],
@@ -554,7 +551,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "forge_x0y0z3", "forge_x1y0z3", "forge_x2y0z3", "forge_x3y0z3" ],
       [ "forge_x0y1z3", "forge_x1y1z3", "forge_x2y1z3", "forge_x3y1z3" ],
@@ -684,7 +680,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "forge_x0y0z4", "forge_x1y0z4", "forge_x2y0z4", "forge_x3y0z4" ],
       [ "forge_x0y1z4", "forge_x1y1z4", "forge_x2y1z4", "forge_x3y1z4" ],

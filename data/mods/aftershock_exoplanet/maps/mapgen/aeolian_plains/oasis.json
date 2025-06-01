@@ -1,0 +1,72 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "aeolian_oasis",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "             o o        ",
+        "                        ",
+        "            o           ",
+        "                        ",
+        "            wwww        ",
+        "         I,,wwwww       ",
+        "        ,,,wwwwww       ",
+        "        ,, wwwwww       ",
+        "      ,,*,wwwwww        ",
+        "      I,,,wwwww         ",
+        "     ,,wwwww,,          ",
+        "      wwww ,            ",
+        "      www ,,,,          ",
+        "    F,   ,,             ",
+        "    ,,                  ",
+        "           o            ",
+        "            oo          ",
+        "          o             ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "aeolian_oasis",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "          o             ",
+        "                        ",
+        "                        ",
+        "                  www,  ",
+        "                 wwwww  ",
+        "                ,,,sww  ",
+        "        o      ,F,,sww  ",
+        "              ,,s,,ww   ",
+        "           ww,,,wwww    ",
+        "          , w,wwww,     ",
+        "            swwww,      ",
+        "           ,,,,, ,,     ",
+        "           F, ,,,       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      o                 ",
+        "  o                     ",
+        "                   o    ",
+        "                        ",
+        "   o                    ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  }
+]

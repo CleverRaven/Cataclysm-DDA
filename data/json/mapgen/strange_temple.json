@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "temple_stairs",
     "object": {
       "rows": [
@@ -35,7 +34,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "temple_underground_1",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -71,7 +69,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "temple_underground_2",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -107,25 +104,21 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fire_vent",
     "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_fire_vent", "x": 0, "y": 0, "intensity": 1 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fire_vent",
     "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_fire_vent", "x": 0, "y": 0, "intensity": 2 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fire_vent",
     "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_fire_vent", "x": 0, "y": 0, "intensity": 3 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "temple_underground_3",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -161,7 +154,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "color_wall",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -171,7 +163,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "color_wall",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -181,7 +172,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "color_wall",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -191,7 +181,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "color_floor",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -201,7 +190,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "color_floor",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -211,7 +199,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "color_floor",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -221,7 +208,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "temple_underground_4",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -271,7 +257,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "temple_finale",
     "object": {
       "fill_ter": "t_rock_floor",

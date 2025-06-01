@@ -18,6 +18,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "color.h"
+#include "crafting.h"
 #include "debug.h"
 #include "event.h"
 #include "event_bus.h"
@@ -403,7 +404,7 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point_rel_omt 
                 const mapgen_arguments &args = args_and_reqs.first;
                 const requirement_data &reqs = args_and_reqs.second.consolidated_reqs;
                 bool can_make =
-                    reqs.can_make_with_inventory( _inv, recp.get_component_filter(), 1 );
+                    reqs.can_make_with_inventory( _inv, recp.get_component_filter(), 1, craft_flags::none, false );
                 ret_data.push_back( { bldg, args, recp.blueprint_name(), can_make, in_progress } );
             }
         }

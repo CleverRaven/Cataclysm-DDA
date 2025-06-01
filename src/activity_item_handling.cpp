@@ -212,12 +212,15 @@ static bool handle_spillable_contents( Character &c, item &it, map &m )
     return false;
 }
 
-static void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<item> &items,
-                              const vpart_reference &vpr )
+//try to put items into_vehicle .If fail,first try to add to character bag, then character try wield  it, last drop.
+static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_drop_reason reason,
+        const std::list<item> &items,
+        const vpart_reference &vpr )
 {
     map &here = get_map();
+    std::vector<item_location> result;
     if( items.empty() ) {
-        return;
+        return result;
     }
     c.invalidate_weight_carried_cache();
     vehicle_part &vp = vpr.part();
@@ -226,7 +229,6 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     int items_did_not_fit_count = 0;
     int into_vehicle_count = 0;
     const std::string part_name = vp.info().name();
-
     // can't use constant reference here because of the spill_contents()
     for( item it : items ) {
         if( handle_spillable_contents( c, it, here ) ) {
@@ -252,13 +254,14 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
             add_msg( m_mixed, _( "Unable to fit %1$s in the %2$s's %3$s." ), it.tname(), veh.name, part_name );
             // Retain item in inventory if overflow not too large/heavy or wield if possible otherwise drop on the ground
             if( c.can_pickVolume( it ) && c.can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-                c.i_add( it );
+                result.push_back( c.i_add( it ) );
             } else if( !c.has_wield_conflicts( it ) && c.can_wield( it ).success() ) {
                 c.wield( it );
+                result.emplace_back( c.get_wielded_item() );
             } else {
                 const std::string ter_name = here.name( where );
                 add_msg( _( "The %s falls to the %s." ), it.tname(), ter_name );
-                here.add_item_or_charges( where, it );
+                result.push_back( here.add_item_or_charges_ret_loc( where, it ) );
             }
         }
         it.handle_pickup_ownership( c );
@@ -333,6 +336,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
                 break;
         }
     }
+    return result;
 }
 
 std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
@@ -457,10 +461,31 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
 {
     const std::optional<vpart_reference> vp = here->veh_at( where ).cargo();
     if( vp && !force_ground ) {
-        put_into_vehicle( you, reason, items, *vp );
+        try_to_put_into_vehicle( you, reason, items, *vp );
         return;
     }
     drop_on_map( you, reason, items, here, where );
+}
+
+std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
+        item_drop_reason reason,
+        const std::list<item> &items )
+{
+    map &here = get_map();
+
+    return put_into_vehicle_or_drop_ret_locs( you, reason, items, &here, you.pos_bub( here ) );
+}
+
+std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
+        item_drop_reason reason,
+        const std::list<item> &items,
+        map *here, const tripoint_bub_ms &where, bool force_ground )
+{
+    const std::optional<vpart_reference> vp = here->veh_at( where ).cargo();
+    if( vp && !force_ground ) {
+        return try_to_put_into_vehicle( you, reason, items, *vp );
+    }
+    return drop_on_map( you, reason, items, here, where );
 }
 
 static double get_capacity_fraction( int capacity, int volume )
@@ -1959,6 +1984,8 @@ static bool butcher_corpse_activity( Character &you, const tripoint_bub_ms &src_
             you.assign_activity( ACT_BUTCHER_FULL, 0, true );
             you.activity.targets.emplace_back( map_cursor( src_loc ), &elem );
             you.activity.placement = here.get_abs( src_loc );
+            you.may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor{here.get_abs( src_loc )},
+                    &elem );
             return true;
         }
     }
@@ -3846,4 +3873,28 @@ bool try_fuel_fire( player_activity &act, Character &you, const bool starting_fi
         }
     }
     return true;
+}
+
+void activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now(
+    Character &you )
+{
+    if( you.is_avatar() && ( !you.activity )  && ( !you.get_destination_activity() ) ) {
+        clean_may_activity_occupancy_items_var( you );
+    }
+}
+void activity_handlers::clean_may_activity_occupancy_items_var( Character &you )
+{
+    std::string character_name = you.name;
+    const std::function<bool( const item *const )> activity_var_checker = [character_name](
+    const item * const it )->bool{
+        return it->has_var( "activity_var" )
+        && it->get_var( "activity_var", "" ) == character_name;
+    };
+    for( item_location &loc : you.may_activity_occupancy_after_end_items_loc ) {
+        if( loc && activity_var_checker( loc.get_item() ) ) {
+            loc.get_item()->erase_var( "activity_var" );
+        }
+    }
+    you.may_activity_occupancy_after_end_items_loc.clear();
+
 }

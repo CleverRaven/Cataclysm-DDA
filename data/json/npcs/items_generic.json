@@ -80,7 +80,7 @@
       [ "longshirt", 20 ],
       [ "denim_shirt", 10 ],
       [ "sweatshirt", 20 ],
-      [ "striped_shirt", 10 ],
+      { "item": "buttonshirt", "variant": "striped", "prob": 10 },
       [ "sweater", 20 ],
       [ "jersey", 10 ]
     ]
@@ -95,7 +95,7 @@
       [ "longshirt", 20 ],
       [ "denim_shirt", 10 ],
       [ "sweatshirt", 20 ],
-      [ "striped_shirt", 10 ],
+      { "item": "buttonshirt", "variant": "striped", "prob": 10 },
       [ "sweater", 20 ],
       [ "jersey", 10 ],
       [ "tank_top", 20 ],
@@ -892,7 +892,6 @@
       [ "pipe_tobacco", 1 ],
       [ "pipebomb", 3 ],
       [ "pistol_bayonet", 1 ],
-      [ "pistol_grip", 1 ],
       [ "pistol_scope", 1 ],
       [ "pistol_stock", 1 ],
       [ "pizza_veggy", 1 ],

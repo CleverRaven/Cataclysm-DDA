@@ -48,7 +48,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_ruralgas_jotunn",
     "//": "Adds a random encounter at this rural gas station",
     "object": {
@@ -59,7 +58,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_ruralgas_jotunn_remove",
     "//": "removes a random encounter at this roadstop",
     "object": { "set": [ { "square": "creature_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 } ] }

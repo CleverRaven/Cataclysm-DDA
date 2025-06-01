@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_09" ],
     "//": "uses bionic_basement",
     "object": {
@@ -22,7 +21,7 @@
         ".#||||||||||+|||||||||#.",
         ".o52FO    A| |Yt y  BB#.",
         ".o         + +      BBo.",
-        ".o 3417 666| |8S8   BB#.",
+        ".oé3417 666| |8S8   BB#.",
         ".#|||||||||| |||||+|||#.",
         ".#d     IID|         so.",
         ".#@@    h  +   y     so.",
@@ -43,7 +42,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_09_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

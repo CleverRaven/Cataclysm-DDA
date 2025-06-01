@@ -2206,6 +2206,10 @@ void options_manager::add_options_interface()
     add_option_group( "interface", Group( "mouse_cont_opts", to_translation( "Mouse control options" ),
                                           to_translation( "Options regarding mouse control." ) ),
     [&]( const std::string & page_id ) {
+        add( "ENABLE_MOUSE", page_id, to_translation( "Enable mouse" ),
+             to_translation( "Enable input from mouse." ),
+             true, COPT_NO_HIDE
+           );
         add( "ENABLE_JOYSTICK", page_id, to_translation( "Enable joystick" ),
              to_translation( "If true, enable input from joystick." ),
              true, COPT_CURSES_HIDE
@@ -2221,6 +2225,7 @@ void options_manager::add_options_interface()
             { "hidekb", to_translation( "HideKB" ) }
         },
         "show", COPT_CURSES_HIDE );
+        get_option( "HIDE_CURSOR" ).setPrerequisite( "ENABLE_MOUSE" );
 
         add( "EDGE_SCROLL", page_id, to_translation( "Edge scrolling" ),
         to_translation( "Edge scrolling with the mouse." ), {
@@ -2230,6 +2235,7 @@ void options_manager::add_options_interface()
             { 10, to_translation( "Fast" ) },
         },
         30, 30, COPT_CURSES_HIDE );
+        get_option( "EDGE_SCROLL" ).setPrerequisite( "ENABLE_MOUSE" );
     } );
 
 }
@@ -4032,6 +4038,8 @@ void options_manager::update_options_cache()
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
+    cata::options::mouse.enabled = ::get_option<bool>( "ENABLE_MOUSE" );
+    cata::options::mouse.hidekb = ::get_option<std::string>( "HIDE_CURSOR" ) == "hidekb";
     use_pinyin_search = ::get_option<bool>( "USE_PINYIN_SEARCH" );
 
     cata::options::damage_indicators.clear();

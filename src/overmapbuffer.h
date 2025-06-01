@@ -559,6 +559,14 @@ class overmapbuffer
             return overmap_count;
         }
 
+        int get_major_river_count() const {
+            return major_river_count;
+        }
+
+        void inc_major_river_count() {
+            major_river_count++;
+        }
+
     private:
         /**
          * Common function used by the find_closest/all/random to determine if the location is
@@ -583,6 +591,8 @@ class overmapbuffer
         std::unordered_map<overmap_special_id, int> unique_special_count;
         // Global count of number of overmaps generated for this world.
         int overmap_count = 0;
+        // Global count of major rivers generated for this world
+        int major_river_count = 0;
 
         /**
          * Get a list of notes in the (loaded) overmaps.

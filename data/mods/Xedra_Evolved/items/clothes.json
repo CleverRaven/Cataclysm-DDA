@@ -184,7 +184,7 @@
     "id": "gown_gossamer",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "copy-from": "gown",
+    "copy-from": "dress",
     "name": { "str": "gossamer evening gown" },
     "description": "A full-length gossamer gown, like a waterfall of coruscating light.",
     "proportional": { "weight": 0.6666, "price": 2 },
