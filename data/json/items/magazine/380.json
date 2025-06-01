@@ -114,5 +114,24 @@
     "ammo_type": [ "380" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 6 } } ]
+  },
+  {
+    "id": "glock42_mag",
+    "looks_like": "glock17_17",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "Glock 42 magazine" },
+    "description": "A standard 6-round capacity magazine for the Glock 42.",
+    "weight": "45 g",
+    "volume": "60ml",
+    "longest_side": "86 mm",
+    "price": "22 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "380" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 6 } } ]
   }
 ]

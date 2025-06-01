@@ -25,7 +25,7 @@ constexpr int STATUS_WIDTH = 55;
 
 constexpr int EXPLOSION_MULTIPLIER = 7;
 
-constexpr int fov_3d_z_range = 4;
+constexpr int fov_3d_z_range = 10;
 
 // Really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet).
 constexpr int MAX_ITEM_IN_SQUARE = 4096;

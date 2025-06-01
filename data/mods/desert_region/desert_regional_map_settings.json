@@ -58,7 +58,13 @@
         "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }
     },
-    "river_scale": 0.6,
+    "overmap_river_settings": {
+      "river_scale": 1.0,
+      "river_frequency": 4.5,
+      "river_branch_chance": 128.0,
+      "river_branch_remerge_chance": 4.0,
+      "river_branch_scale_decrease": 1.0
+    },
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.4,
       "lake_size_min": 4,

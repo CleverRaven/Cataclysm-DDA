@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "office_dentist" ],
     "weight": 500,
     "object": {
@@ -111,7 +110,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "office_dentist_roof",
     "object": {
       "fill_ter": "t_flat_roof",

@@ -98,7 +98,9 @@
     "id": "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR",
     "condition": "npc_is_avatar",
     "effect": [
-      { "math": [ "u_telekinesis_power_level = n_spell_level('telekinetic_push')" ] },
+      {
+        "math": [ "u_telekinesis_power_level = (n_spell_level('telekinetic_push') + n_spell_level('telekinetic_push_knack') )" ]
+      },
       { "math": [ "u_telekinesis_weight_ratio = 25" ] },
       {
         "run_eoc_selector": [ "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PUSH", "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PULL" ],
@@ -108,7 +110,9 @@
       }
     ],
     "false_effect": [
-      { "math": [ "u_telekinesis_power_level = n_spell_level('telekinetic_push')" ] },
+      {
+        "math": [ "u_telekinesis_power_level = (n_spell_level('telekinetic_push') + n_spell_level('telekinetic_push_knack') )" ]
+      },
       { "math": [ "u_telekinesis_weight_ratio = 25" ] },
       { "math": [ "u_telekinesis_push_pull_selector = 1" ] },
       { "run_eocs": "EOC_TELEKINETIC_THROW_WEIGHT_HANDLER" }

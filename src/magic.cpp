@@ -295,6 +295,11 @@ void spell_type::load_spell( const JsonObject &jo, const std::string &src )
     spell_factory.load( jo, src );
 }
 
+void spell_type::finalize_all()
+{
+    spell_factory.finalize();
+}
+
 static std::string moves_to_string( const int moves )
 {
     if( moves < to_moves<int>( 2_seconds ) ) {
@@ -346,6 +351,11 @@ void spell_type::load( const JsonObject &jo, std::string_view src )
 
     const auto trigger_reader = enum_flags_reader<spell_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
+
+    if( jo.has_member( "condition" ) ) {
+        read_condition( jo, "condition", condition, false );
+        has_condition = true;
+    }
 
     optional( jo, was_loaded, "extra_effects", additional_spells );
 
@@ -1654,6 +1664,27 @@ bool spell::is_valid_target( spell_target t ) const
     return type->valid_targets[t];
 }
 
+bool spell::valid_by_condition( const Creature &caster, const Creature &target ) const
+{
+    if( type->has_condition ) {
+        const_dialogue d( get_const_talker_for( caster ), get_const_talker_for( target ) );
+        return type->condition( d );
+    } else {
+        return true;
+    }
+}
+
+bool spell::valid_by_condition( const Creature &caster ) const
+{
+    if( type->has_condition ) {
+        const_dialogue d( get_const_talker_for( caster ), nullptr );
+        return type->condition( d );
+    } else {
+        return true;
+    }
+}
+
+
 bool spell::is_valid_target( const Creature &caster, const tripoint_bub_ms &p ) const
 {
     bool valid = false;
@@ -1668,11 +1699,13 @@ bool spell::is_valid_target( const Creature &caster, const tripoint_bub_ms &p ) 
         valid = valid && target_by_monster_id( p );
         valid = valid && target_by_species_id( p );
         valid = valid && ignore_by_species_id( p );
+        valid = valid && valid_by_condition( caster, *cr );
     } else if( get_map().veh_at( p ) ) {
-        valid = is_valid_target( spell_target::vehicle ) ||
-                is_valid_target( spell_target::ground );
+        valid = is_valid_target( spell_target::vehicle ) || is_valid_target( spell_target::ground );
+        valid = valid && valid_by_condition( caster );
     } else {
         valid = is_valid_target( spell_target::ground );
+        valid = valid && valid_by_condition( caster );
     }
     return valid;
 }
@@ -3213,7 +3246,7 @@ spell &known_magic::select_spell( Character &guy )
 
     std::vector<std::pair<std::string, std::string>> categories;
     for( const spell *s : known_spells_sorted ) {
-        if( s->can_cast( guy ) && ( s->spell_class().is_valid() || s->spell_class() == trait_NONE ) ) {
+        if( ( s->spell_class().is_valid() || s->spell_class() == trait_NONE ) ) {
             const std::string spell_class_name = s->spell_class() == trait_NONE ? _( "Classless" ) :
                                                  s->spell_class().obj().name();
             categories.emplace_back( s->spell_class().str(), spell_class_name );

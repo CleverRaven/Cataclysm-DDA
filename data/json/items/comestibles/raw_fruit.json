@@ -136,7 +136,7 @@
     "id": "hobbleberries",
     "name": { "str": "handful of hobbleberries", "str_pl": "handfuls of hobbleberries" },
     "copy-from": "blueberries",
-    "color": "black",
+    "color": "dark_gray",
     "description": "Some black hobbleberries.  They are quite sweet.  Before they ripened, they were deceptively red and utterly bitter.",
     "fun": 3
   },
@@ -359,7 +359,7 @@
     "use_action": [  ],
     "quench": 0,
     "fun": 2,
-    "color": "black"
+    "color": "dark_gray"
   },
   {
     "type": "ITEM",
@@ -378,7 +378,7 @@
     "description": "A handful of black chokeberries.  They look similar to blackcurrant.  Big and juicy but actually exceedingly sour.",
     "copy-from": "cranberries",
     "calories": 46,
-    "color": "black",
+    "color": "dark_gray",
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "vitamins": [ [ "vitC", "21000 μg" ], [ "iron", "600 μg" ], [ "calcium", "30 μg" ], [ "fruit_allergen", 1 ] ]

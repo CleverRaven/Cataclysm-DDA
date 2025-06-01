@@ -25,6 +25,50 @@
     ]
   },
   {
+    "id": "glock_23",
+    "copy-from": "glock_22",
+    "looks_like": "glock_19",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str_sp": "Glock 23" },
+    "description": "A compact version of the Glock 22, chambered in .40 S&W.  Popular among civilian and law enforcement alike for its capacity, durability, and reliability.",
+    "weight": "600 g",
+    "volume": "401 ml",
+    "longest_side": "187 mm",
+    "barrel_length": "102 mm",
+    "dispersion": 480,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "250 ml",
+        "item_restriction": [ "glock40mag_10", "glock40mag", "glock40bigmag" ]
+      }
+    ]
+  },
+  {
+    "id": "glock_27",
+    "copy-from": "glock_22",
+    "looks_like": "glock_19",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str_sp": "Glock 27" },
+    "description": "A diminutive pistol chambered in .40 S&W. Widely popular among concealed carriers, its popularity soared further in the months leading up to the Cataclysm, partly due to its ability to fit the higher cpacity magazines of its older brothers.",
+    "weight": "550 g",
+    "volume": "349 ml",
+    "longest_side": "165 mm",
+    "barrel_length": "87 mm",
+    "dispersion": 480,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "250 ml",
+        "item_restriction": [ "glock40mag_9", "glock40mag_10", "glock40mag", "glock40bigmag" ]
+      }
+    ]
+  },
+  {
     "id": "px4_40",
     "copy-from": "gun_base_40_semi_pistol",
     "looks_like": "glock_17",

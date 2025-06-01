@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "aircraft_carrier_1a_4" ], [ "aircraft_carrier_2a_4" ] ],
     "object": {
       "fill_ter": "t_metal_roof",

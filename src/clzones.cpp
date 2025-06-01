@@ -278,9 +278,9 @@ unload_options::query_unload_result unload_options::query_unload()
     sparse_only = query_yn( string_format(
                                 _( "Avoid unloading items stacks (not charges) greater than a certain amount?  (Amount defined in next window)" ) ) );
     if( sparse_only ) {
-        int threshold;
-        if( query_int( threshold,
-                       _( "What is the maximum stack size to unload?  (20 is a good default)" ) ) ) {
+        int threshold = 20;
+        if( query_int( threshold, true,
+                       _( "What is the maximum stack size to unload?" ) ) ) {
             if( sparse_threshold < 1 ) {
                 sparse_threshold = 1;
             } else {

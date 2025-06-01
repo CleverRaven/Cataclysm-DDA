@@ -169,7 +169,7 @@
         "id": "bomber_beaver_fur",
         "name": { "str": "beaver skin bomber jacket" },
         "description": "The skins of what used to be several beavers have taken to the skies within the composition of this sleek-fitting flight jacket, or, rather, they would if the coat were in any way designed to be a practical piece of kit.  With a soft spread of brown fur lining the inside of this wide-necked overcoat and its exterior finished in a bold, glossy black color, it's safe to say that this garment belongs more within a ski chalet than the cockpit of a fighter craft.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 6
       },
       {
@@ -1057,7 +1057,7 @@
         "id": "m65_black",
         "name": { "str": "urban black combat jacket" },
         "description": "Fitted with a brass main zip and corresponding buttons, this entire jacket forgoes frivolities and is, instead, dyed a solid shade of midnight black.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 25,
         "append": true
       },
@@ -1750,7 +1750,7 @@
         "id": "black_varsity_jacket",
         "name": { "str": "black varsity jacket" },
         "description": "This one is completely black.  At least a dozen different patches are sewn on it.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 10,
         "append": true
       },
@@ -1766,7 +1766,7 @@
         "id": "black_red_varsity_jacket",
         "name": { "str": "Crimson Bulls varsity jacket" },
         "description": "This one's torso is black and its arms are red.  It has an angry looking red bull ready to charge on its back.  Across the front writes \"BULLS\".",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 10,
         "append": true
       },
@@ -3529,7 +3529,7 @@
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "trenchcoat",
-    "color": "black",
+    "color": "dark_gray",
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 11, 17 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] },
@@ -3820,7 +3820,7 @@
         "id": "tacjacket_black_camo",
         "name": { "str": "urban-black tactical jacket" },
         "description": "Pitch-black, from its mandarin collar to its hems, this jacket is a coat for the aspiring nocturnal operator, tacticool edge lord, and those in the business to be afoot during the small hours of the night.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 15,
         "append": true
       }

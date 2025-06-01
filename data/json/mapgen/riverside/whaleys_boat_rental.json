@@ -66,7 +66,6 @@
     "toilets": { "t": {  } }
   },
   {
-    "method": "json",
     "om_terrain": "boat_rental",
     "type": "mapgen",
     "object": {
@@ -113,7 +112,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "boat_rental_roof",
     "type": "mapgen",
     "object": {
@@ -148,7 +146,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "boat_rental_1",
     "type": "mapgen",
     "object": {
@@ -195,7 +192,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "boat_rental_1_roof",
     "type": "mapgen",
     "object": {
@@ -230,7 +226,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "boat_rental_2",
     "type": "mapgen",
     "object": {
@@ -275,7 +270,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "boat_rental_2_roof",
     "type": "mapgen",
     "object": {

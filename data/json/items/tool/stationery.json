@@ -45,7 +45,7 @@
     "techniques": [ "PRECISE" ],
     "flags": [ "FRAGILE_MELEE", "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "CONDUCTIVE" ],
     "weapon_category": [ "SHIVS" ],
-    "to_hit": 1,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "color": "light_gray",
     "melee_damage": { "bash": 2, "stab": 9 }
   },
@@ -83,7 +83,7 @@
     "longest_side": "13 cm",
     "price": "4 USD",
     "price_postapoc": "15 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": ",",
     "color": "light_red",

@@ -8,7 +8,6 @@
 #include <memory>
 #include <optional>
 #include <ostream>
-#include <set>
 #include <string>
 #include <vector>
 
@@ -19,22 +18,18 @@
 #include "debug.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
-#include "fault.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_pocket.h"
-#include "itype.h"
 #include "json.h"
 #include "line.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_selector.h"
-#include "messages.h"
 #include "pimpl.h"
 #include "point.h"
 #include "ret_val.h"
-#include "rng.h"
 #include "safe_reference.h"
 #include "string_formatter.h"
 #include "talker.h"
@@ -46,8 +41,6 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
-#include "value_ptr.h"
-#include "weighted_list.h"
 
 template <typename T>
 static int find_index( const T &sel, const item *obj )
@@ -1210,44 +1203,6 @@ bool item_location::protected_from_liquids() const
     // we recursively checked all containers
     // none are closed watertight containers
     return false;
-}
-
-void item_location::set_fault( const fault_id &fault_id, bool force, bool message )
-{
-    map &here = get_map();
-    item &it = *item_location::get_item();
-    if( !force && it.type->faults.get_specific_weight( fault_id ) == 0 ) {
-        return;
-    }
-
-    if( message ) {
-        add_msg_if_player_sees( pos_bub( here ), fault_id.obj().message() );
-    }
-
-    it.faults.insert( fault_id );
-}
-
-void item_location::set_random_fault_of_type( const std::string &fault_type, bool force,
-        bool message )
-{
-    map &here = get_map();
-    item &it = *get_item();
-    if( force ) {
-        set_fault( random_entry( faults::all_of_type( fault_type ) ), true, true );
-        return;
-    }
-
-    weighted_int_list<fault_id> faults_by_type;
-    for( const weighted_object<int, fault_id> &f : it.type->faults ) {
-        faults_by_type.add( f.obj, f.weight );
-    }
-
-    const fault_id f = *faults_by_type.pick();
-    if( message ) {
-        add_msg_if_player_sees( pos_bub( here ), f.obj().message() );
-    }
-
-    it.faults.insert( f );
 }
 
 std::unique_ptr<talker> get_talker_for( item_location &it )

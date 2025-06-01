@@ -252,6 +252,7 @@ Field group | Description | Example
 `targeted_monster_ids` | Limits the spell to target only the specified `monster_id`. | "targeted_monster_ids": [ "mon_hologram" ],
 `targeted_monster_species` | Limits the spell to target only the specified monster `SPECIES` (full list at [species.json](../data/json/species.json)). | "targeted_monster_species": [ "ROBOT", "CYBORG" ],
 `ignored_monster_species` | The opposite of `targeted_monster_species`: you can target everything except the specified monster `SPECIES`. | "ignored_monster_species": [ "ZOMBIE", "NETHER" ],
+`condition` | Dynamic field that takes conditions for spell targeting.  These conditions will apply after more specific targeting criteria, such as "valid_targets" or "ignored_monster_species".  The caster is the alpha talker and the target is the beta talker.  Note: Since targeting the ground will not pass a beta talker, make sure any condition tree from a spell with "ground" as a valid target first checks for the presence of a beta talker if it wants to check against it.
 `magic_type` | Optional field indicating which type of magic this spell is part of.  Separate from spell class, this field links to a magic_type object that can define several shareable parts of spells, such as xp required to level or flags that make the spell not castable.
 
 

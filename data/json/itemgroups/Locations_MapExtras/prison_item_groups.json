@@ -37,7 +37,7 @@
   {
     "id": "prison_jumpsuit",
     "type": "item_group",
-    "items": [ { "item": "jumpsuit", "prob": 75, "damage": [ 1, 4 ] } ]
+    "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "prob": 75, "damage": [ 1, 4 ] } ]
   },
   {
     "type": "item_group",
@@ -57,8 +57,7 @@
         "distribution": [
           {
             "collection": [
-              { "item": "striped_shirt", "damage": [ 1, 4 ] },
-              { "item": "striped_pants", "damage": [ 1, 4 ] },
+              { "item": "jumpsuit_pocketless", "variant": "orange", "damage": [ 1, 4 ] },
               { "group": "clothing_prisoner_shoes", "damage": [ 1, 4 ], "prob": 20 },
               { "item": "bandana", "damage": [ 1, 4 ] }
             ]

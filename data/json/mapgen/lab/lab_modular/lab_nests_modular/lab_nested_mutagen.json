@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_8x8_east",
     "object": {
@@ -32,7 +31,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_8x8_west",
     "object": {
@@ -60,7 +58,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design for the 8x6 rooms.",
     "nested_mapgen_id": "lab_mutagen_8x8_east_B",
     "object": {
@@ -91,7 +88,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.  Center of room design for the 8x6 rooms.",
     "nested_mapgen_id": "lab_mutagen_8x8_west_B",
     "object": {
@@ -119,7 +115,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_8x8_west",
     "object": {
@@ -147,7 +142,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_8x8_vault_east",
     "weight": 100,
@@ -183,7 +177,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_8x8_vault_east",
     "weight": 100,
@@ -219,7 +212,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_8x8_vault_east",
     "weight": 50,
@@ -260,7 +252,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_8x8_vault_west",
     "weight": 75,
@@ -296,7 +287,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_8x8_vault_west",
     "weight": 100,
@@ -332,7 +322,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_8x8_vault_west",
     "weight": 20,
@@ -371,7 +360,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_8x8_vault_west",
     "weight": 20,
@@ -415,7 +403,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design. This one is MIGO themed",
     "nested_mapgen_id": "lab_mutagen_8x8_vault_west",
     "//2": "A bit higher weighted since their are fewer MIGO themed rewards",
@@ -457,7 +444,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design. This one is MIGO themed",
     "nested_mapgen_id": "lab_mutagen_8x8_vault_west",
     "//2": "A bit higher weighted since their are fewer MIGO themed rewards",
@@ -513,7 +499,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_8x8_vault_west",
     "weight": 20,
@@ -557,7 +542,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_8x8_vault_west",
     "weight": 20,
@@ -600,7 +584,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_5x5_open",
     "object": {
@@ -618,7 +601,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_5x5_open",
     "object": {
@@ -636,7 +618,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_5x5_open",
     "object": {
@@ -654,7 +635,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_5x5_open",
     "object": {
@@ -672,7 +652,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  Science crate loot.",
     "nested_mapgen_id": "lab_small_animals_1x1",
     "object": {
@@ -683,7 +662,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  Rats for cages.",
     "nested_mapgen_id": "lab_black_rats_1x1",
     "object": {
@@ -694,7 +672,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  Rats for cages.",
     "nested_mapgen_id": "lab_rats_1x1",
     "object": {
@@ -705,7 +682,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  Rats for cages.",
     "nested_mapgen_id": "lab_alpha_rat_1x1",
     "object": {
@@ -717,7 +693,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  Rats for cages.",
     "nested_mapgen_id": "lab_alpha_rat_1x1",
     "object": {
@@ -729,7 +704,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  Hares for cages.",
     "nested_mapgen_id": "lab_hares_1x1",
     "object": {
@@ -740,7 +714,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  Rabbits for cages.",
     "nested_mapgen_id": "lab_rabbits_1x1",
     "object": {
@@ -751,7 +724,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  Pigeons for cages.",
     "nested_mapgen_id": "lab_pigeon_1x1",
     "object": {
@@ -762,7 +734,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  Dogs for cages.",
     "nested_mapgen_id": "lab_dog_1x1",
     "object": {
@@ -773,7 +744,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  Dogs for cages.",
     "nested_mapgen_id": "lab_dog_1x1_MUTANT",
     "object": {
@@ -784,7 +754,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  Cats for cages.",
     "nested_mapgen_id": "lab_cats_1x1",
     "object": {
@@ -795,7 +764,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  Mutant cats for cages.",
     "nested_mapgen_id": "lab_cats_1x1_MUTANT",
     "object": {
@@ -806,7 +774,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  Foxes for cages.",
     "nested_mapgen_id": "lab_foxes_1x1",
     "object": {
@@ -817,7 +784,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  Raccoons for cages.",
     "nested_mapgen_id": "lab_racoons_1x1",
     "object": {
@@ -828,7 +794,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  Small animals for cages.",
     "nested_mapgen_id": "lab_small_animal_1x1",
     "object": {
@@ -853,7 +818,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  mid size animals.",
     "nested_mapgen_id": "lab_medium_animal_1x1",
     "object": {
@@ -864,7 +828,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research areas.  mid size animals.",
     "nested_mapgen_id": "lab_medium_animal_1x1_MUTANT",
     "object": {
@@ -875,14 +838,12 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map bash damage..",
     "nested_mapgen_id": "lab_16x1_bash",
     "object": { "mapgensize": [ 16, 16 ], "set": [ { "point": "bash", "x": [ 1, 15 ], "y": 1 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas.",
     "nested_mapgen_id": "lab_mutagen_16x16_animal_pen",
     "weight": 20,
@@ -915,7 +876,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas.",
     "nested_mapgen_id": "lab_mutagen_16x16_animal_pen",
     "weight": 200,
@@ -971,7 +931,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas.",
     "nested_mapgen_id": "lab_mutagen_16x16_animal_pen",
     "weight": 200,
@@ -1018,7 +977,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Shoggoth variant",
     "weight": 50,
     "nested_mapgen_id": "lab_mutagen_16x16_animal_pen",
@@ -1056,7 +1014,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas.",
     "nested_mapgen_id": "lab_mutagen_16x16_animal_pen",
     "weight": 50,
@@ -1109,7 +1066,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas.",
     "nested_mapgen_id": "lab_mutagen_16x16_animal_pen",
     "weight": 200,
@@ -1151,7 +1107,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Zombie shark tank.",
     "nested_mapgen_id": "lab_mutagen_16x16_animal_pen",
     "weight": 100,
@@ -1182,7 +1137,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab mutagen research areas. Incinerated variant",
     "weight": 20,
     "nested_mapgen_id": "lab_mutagen_16x16_animal_pen",
@@ -1215,7 +1169,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen lab variety.",
     "nested_mapgen_id": "lab_mutagen_3x3_EW_open",
     "object": {
@@ -1234,7 +1187,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen lab variety.",
     "nested_mapgen_id": "lab_mutagen_3x3_EW_open",
     "object": {
@@ -1249,7 +1201,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen lab variety.",
     "nested_mapgen_id": "lab_mutagen_3x3_EW_open",
     "object": {
@@ -1264,7 +1215,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen lab variety.",
     "nested_mapgen_id": "lab_mutagen_3x3_EW_open",
     "object": {
@@ -1285,7 +1235,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Pet food closet.",
     "nested_mapgen_id": "lab_mutagen_3x3_EW_open",
     "object": {
@@ -1306,7 +1255,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for mutagen research area variety.",
     "nested_mapgen_id": "lab_mutagen_3x3_EW_open",
     "object": {
@@ -1325,7 +1273,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for walls variety.",
     "nested_mapgen_id": "lab_mutagen_3x3_EW_open",
     "object": {
@@ -1341,7 +1288,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for walls variety.",
     "nested_mapgen_id": "lab_mutagen_3x3_EW_open",
     "object": {
@@ -1357,7 +1303,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "weight": 30,
     "//": "A nested map for walls variety.",
     "nested_mapgen_id": "lab_mutagen_3x3_EW_open",
@@ -1374,7 +1319,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for walls variety.",
     "weight": 30,
     "nested_mapgen_id": "lab_mutagen_3x3_EW_open",
@@ -1391,7 +1335,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for walls variety.",
     "nested_mapgen_id": "lab_mutagen_3x3_EW_open",
     "object": {
@@ -1406,7 +1349,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for walls variety.",
     "nested_mapgen_id": "lab_mutagen_3x3_EW_open",
     "object": {
@@ -1421,7 +1363,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 5x9 room, includes door on east wall.",
     "nested_mapgen_id": "lab_mutagen_9x9_E",
     "object": {
@@ -1461,7 +1402,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 5x9 room, includes door on west wall.",
     "nested_mapgen_id": "lab_mutagen_9x9_W",
     "object": {
@@ -1501,7 +1441,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 5x9 room, includes door on east wall.",
     "nested_mapgen_id": "lab_mutagen_9x9_E",
     "object": {
@@ -1522,7 +1461,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 5x9 room, includes door on west wall.",
     "nested_mapgen_id": "lab_mutagen_9x9_W",
     "object": {
@@ -1543,7 +1481,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 5x9 room, includes door on east wall.",
     "nested_mapgen_id": "lab_mutagen_9x9_E",
     "object": {
@@ -1564,7 +1501,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 5x9 room, includes door on west wall.",
     "nested_mapgen_id": "lab_mutagen_9x9_W",
     "object": {
@@ -1585,7 +1521,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 5x9 room, includes door on east wall.",
     "nested_mapgen_id": "lab_mutagen_9x9_E",
     "weight": 50,
@@ -1610,7 +1545,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 5x9 room, includes door on east wall.",
     "nested_mapgen_id": "lab_mutagen_9x9_E",
     "object": {
@@ -1632,7 +1566,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 5x9 room, includes door on West wall.",
     "nested_mapgen_id": "lab_mutagen_9x9_W",
     "weight": 50,
@@ -1657,7 +1590,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 5x9 room, includes door on West wall.",
     "nested_mapgen_id": "lab_mutagen_9x9_W",
     "object": {
@@ -1679,7 +1611,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 5x9 room, includes door on east wall.  This is a small library with a better chance for mutation recipes.",
     "nested_mapgen_id": "lab_mutagen_9x9_E",
     "object": {
@@ -1701,7 +1632,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 5x9 room, includes door on west wall.  This is a small library with a better chance for mutation recipes.",
     "nested_mapgen_id": "lab_mutagen_9x9_W",
     "object": {

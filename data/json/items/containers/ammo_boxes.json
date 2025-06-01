@@ -30,7 +30,15 @@
     "description": "This box holds 50 rounds of 9mm ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
     "weight": "15 g",
     "volume": "160 ml",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "115 ml", "max_contains_weight": "600 g", "rigid": true } ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "115 ml", "max_contains_weight": "600 g", "rigid": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "ammo_box_army_50_9mm_P",
+        "name": { "str": "9mm ammo box", "str_pl": "9mm ammo boxes" },
+        "description": "A small, plain brown ammo box.  Black text printed on the front says \"\n50 CARTRIDGES\n9MM BALL\nM1152\""
+      }
+    ]
   },
   {
     "id": "9mm_ammo_box_100",

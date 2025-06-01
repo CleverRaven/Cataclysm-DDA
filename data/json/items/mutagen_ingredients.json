@@ -68,7 +68,7 @@
     "type": "ITEM",
     "id": "cephalopod_sample",
     "copy-from": "mutagen_sample",
-    "color": "black",
+    "color": "dark_gray",
     "name": { "str": "cephalopod sample" },
     "description": "A slurry of curiosity.",
     "looks_like": "medical_sample",

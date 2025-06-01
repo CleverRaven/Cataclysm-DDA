@@ -807,7 +807,7 @@
     "clip_size": 6,
     "//2": "The capacity of an unmodified M2 Tactical is five shells in the tube plus one in the chamber. We're assuming that the player takes the time to rack a cartridge into the chamber and top off the tube when loading in shell number six.",
     "barrel_volume": "0 ml",
-    "default_mods": [ "pistol_grip", "recoil_stock" ],
+    "default_mods": [ "recoil_stock" ],
     "//3": "Benelli's assumed to be coming with the ComforTech buttstock fitted.",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
   },

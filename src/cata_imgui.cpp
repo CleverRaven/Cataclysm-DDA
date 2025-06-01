@@ -8,6 +8,7 @@
 #include <imgui/imgui_freetype.h>
 
 #include "catacharset.h"
+#include "cached_options.h"
 #include "color.h"
 #include "input.h"
 #include "output.h"
@@ -585,7 +586,18 @@ void cataimgui::client::end_frame()
 void cataimgui::client::process_input( void *input )
 {
     if( any_window_shown() ) {
-        ImGui_ImplSDL2_ProcessEvent( static_cast<const SDL_Event *>( input ) );
+        const SDL_Event *evt = static_cast<const SDL_Event *>( input );
+        bool no_mouse = ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_NoMouse;
+        if( no_mouse ) {
+            switch( evt->type ) {
+                case SDL_MOUSEMOTION:
+                case SDL_MOUSEWHEEL:
+                case SDL_MOUSEBUTTONDOWN:
+                case SDL_MOUSEBUTTONUP:
+                    return;
+            }
+        }
+        ImGui_ImplSDL2_ProcessEvent( evt );
     }
 }
 
@@ -1134,6 +1146,9 @@ static void inherit_base_colors()
 
 static void load_imgui_style_file( const cata_path &style_path )
 {
+    // reset style first to unset colors
+    ImGui::GetStyle() = ImGuiStyle();
+
     ImGuiStyle &style = ImGui::GetStyle();
 
     JsonValue jsin = json_loader::from_path( style_path );
@@ -1223,7 +1238,8 @@ static void load_imgui_style_file( const cata_path &style_path )
 
 void cataimgui::init_colors()
 {
-    const cata_path default_style_path = PATH_INFO::datadir_path() / "raw" / "imgui_style.json";
+    const cata_path default_style_path = PATH_INFO::datadir_path() / "raw" / "imgui_styles" /
+                                         "default_style.json";
     const cata_path style_path = PATH_INFO::config_dir_path() / "imgui_style.json";
     if( !file_exist( style_path ) ) {
         assure_dir_exist( PATH_INFO::config_dir() );

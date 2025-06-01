@@ -46,9 +46,9 @@
   },
   {
     "type": "item_group",
-    "id": "fridgesnacks",
-    "copy-from": "fridgesnacks",
-    "subtype": "distribution",
+    "id": "SUS_fridge_snacks",
+    "copy-from": "SUS_fridge_snacks",
+    "subtype": "collection",
     "extend": { "entries": [ { "group": "powerthirst_flavors", "prob": 10 } ] }
   },
   {

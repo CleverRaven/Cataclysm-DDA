@@ -81,9 +81,9 @@
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
     "items": {
       "9": [ { "item": "cash_register_random", "chance": 100 } ],
-      ")": { "item": "SUS_trash_dumpster", "chance": 30, "repeat": [ 2, 5 ] },
+      ")": { "item": "SUS_trash_dumpster", "chance": 45 },
       "Z": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ],
-      "(": [ { "item": "SUS_trash_dumpster", "chance": 50, "repeat": [ 1, 2 ] } ],
+      "(": [ { "item": "SUS_trash_dumpster", "chance": 50 } ],
       "e": { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] },
       "k": { "item": "fireplace_fill", "chance": 30, "repeat": [ 2, 5 ] },
       "n": { "item": "SUS_dishwasher", "chance": 70 },

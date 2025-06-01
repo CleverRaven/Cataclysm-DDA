@@ -41,6 +41,7 @@
 #include "crafting_gui.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "current_map.h"
 #include "damage.h"
 #include "debug.h"
 #include "dialogue.h"
@@ -3644,6 +3645,8 @@ void map_add_item( item &it, tripoint_abs_ms target_pos )
     } else {
         tinymap target_bay;
         target_bay.load( project_to<coords::omt>( target_pos ), false );
+        // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+        swap_map swap( *target_bay.cast_to_map() );
         target_bay.add_item_or_charges( target_bay.get_omt( target_pos ), it );
     }
 }
@@ -5957,7 +5960,7 @@ talk_effect_fun_t::func f_set_fault( const JsonObject &jo, std::string_view memb
     bool msg = jo.get_bool( "message", true );
     return [fault_var, force, msg, is_npc]( dialogue const & d ) {
         item_location &it = *d.actor( is_npc )->get_item();
-        it.set_fault( fault_id( fault_var.evaluate( d ) ), force, msg );
+        it.get_item()->set_fault( fault_id( fault_var.evaluate( d ) ), force, msg );
     };
 }
 
@@ -5969,7 +5972,7 @@ talk_effect_fun_t::func f_set_random_fault_of_type( const JsonObject &jo, std::s
     bool msg = jo.get_bool( "message", true );
     return [fault_type_var, force, msg, is_npc]( dialogue const & d ) {
         item_location &it = *d.actor( is_npc )->get_item();
-        it.set_random_fault_of_type( fault_type_var.evaluate( d ), force, msg );
+        it.get_item()->set_random_fault_of_type( fault_type_var.evaluate( d ), force, msg );
     };
 }
 

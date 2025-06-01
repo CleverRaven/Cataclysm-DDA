@@ -19,7 +19,6 @@
     "weight": "4400 g",
     "volume": "10 L",
     "price": "0 cent",
-    "to_hit": -5,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_red",
@@ -32,14 +31,12 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "rubble",
     "object": { "mapgensize": [ 1, 1 ], "place_rubble": [ { "x": 0, "y": 0 } ] }
   },
   {
     "om_terrain": "crater_core_large",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [
@@ -85,13 +82,12 @@
         { "chunks": [ "crater_bomb" ], "x": [ 12, 15 ], "y": [ 8, 11 ] },
         { "chunks": [ "crater_bomb" ], "x": [ 12, 15 ], "y": [ 12, 15 ] }
       ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "om_terrain": "crater_core_small",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [
@@ -136,12 +132,11 @@
         { "chunks": [ "crater_bomb" ], "x": [ 12, 15 ], "y": [ 8, 11 ] },
         { "chunks": [ "crater_bomb" ], "x": [ 12, 15 ], "y": [ 12, 15 ] }
       ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "crater",
     "object": {
       "fallback_predecessor_mapgen": "field",
@@ -209,12 +204,11 @@
           "neighbors": { "north_west": "crater_core_large" }
         }
       ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_north",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -246,12 +240,11 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -283,12 +276,11 @@
         "             ..........."
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_south",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -320,12 +312,11 @@
         "........................"
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -357,12 +348,11 @@
         "...........             "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_north_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -394,12 +384,11 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_south_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -431,12 +420,11 @@
         "             ..........."
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_south_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -468,12 +456,11 @@
         "...........             "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_north_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -505,12 +492,11 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_outer_north",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -542,12 +528,11 @@
         "       ??????????       "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_outer_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -579,12 +564,11 @@
         "  ???????????           "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_outer_south",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -616,12 +600,11 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_outer_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -653,12 +636,11 @@
         "           ???????????  "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_outer_north_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -690,12 +672,11 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_outer_south_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -727,12 +708,11 @@
         "  ???????????           "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_outer_south_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -764,12 +744,11 @@
         "           ???????????  "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_outer_north_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -801,12 +780,11 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_small_north",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -838,12 +816,11 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_small_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -875,12 +852,11 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_small_south",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -912,12 +888,11 @@
         " ?????????????????????? "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_crater_small_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -949,7 +924,7 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]

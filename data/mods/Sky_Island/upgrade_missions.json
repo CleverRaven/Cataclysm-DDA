@@ -648,7 +648,7 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "chainmail_suit_faraday", 1 ], [ "sharksuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
+      [ [ "chainmail_suit_faraday", 1 ], [ "fursuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
       [ [ "warptoken", 12 ] ],
       [ [ "book_fict_soft_ya_myeyes", 1 ] ],
       [ [ "fur", 40 ] ],
@@ -1809,15 +1809,7 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [
-        [ "wolfsuit", 1 ],
-        [ "dragonsuit", 1 ],
-        [ "felinesuit", 1 ],
-        [ "dinosuit", 1 ],
-        [ "sharksuit", 1 ],
-        [ "wolfsuit", 1 ],
-        [ "wolfsuit", 1 ]
-      ],
+      [ [ "fursuit", 1 ] ],
       [ [ "bodypillow", 2 ] ],
       [ [ "catan", 1 ] ],
       [ [ "dnd", 1 ] ],
@@ -2088,7 +2080,7 @@
       [ [ "hinge", 5 ] ],
       [ [ "nail", 20 ] ],
       [ [ "nuts_bolts", 15 ] ],
-      [ [ "box_medium", 4 ], [ "box_large", 2 ], [ "box_oversize", 1 ] ],
+      [ [ "box_medium", 4 ], [ "box_large", 1 ], [ "box_oversize", 2 ] ],
       [ [ "cordage", 5, "LIST" ] ]
     ]
   },
@@ -2610,7 +2602,7 @@
       [ [ "hinge", 5 ] ],
       [ [ "nail", 20 ] ],
       [ [ "nuts_bolts", 15 ] ],
-      [ [ "box_medium", 4 ], [ "box_large", 2 ], [ "box_oversize", 1 ] ],
+      [ [ "box_medium", 4 ], [ "box_large", 1 ], [ "box_oversize", 2 ] ],
       [ [ "cordage", 5, "LIST" ] ]
     ]
   },
@@ -2953,7 +2945,7 @@
       [ [ "hinge", 5 ] ],
       [ [ "nail", 20 ] ],
       [ [ "nuts_bolts", 15 ] ],
-      [ [ "box_medium", 4 ], [ "box_large", 2 ], [ "box_oversize", 1 ] ],
+      [ [ "box_medium", 4 ], [ "box_large", 1 ], [ "box_oversize", 2 ] ],
       [ [ "cordage", 5, "LIST" ] ]
     ]
   },

@@ -1809,10 +1809,9 @@ conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view me
 
 conditional_t::func f_map_in_city( const JsonObject &jo, std::string_view member )
 {
-    str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
+    var_info target = read_var_info( jo.get_member( member ) );
     return [target]( const_dialogue const & d ) {
-        tripoint_abs_omt target_pos = project_to<coords::omt>( tripoint_abs_ms( tripoint::from_string(
-                                          target.evaluate( d ) ) ) );
+        tripoint_abs_omt target_pos = project_to<coords::omt>( read_var_value( target, d ).tripoint() );
 
         // TODO: Remove this in favour of a seperate condition for location z-level that can be used in conjunction with this map_in_city as needed
         if( target_pos.z() < -1 ) {
@@ -2121,9 +2120,9 @@ conditional_t::func f_has_move_mode( const JsonObject &jo, std::string_view memb
 conditional_t::func f_can_see_location( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
-    str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
+    var_info target = read_var_info( jo.get_member( member ) );
     return [is_npc, target]( const_dialogue const & d ) {
-        tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
+        tripoint_abs_ms const &target_pos = read_var_value( target, d ).tripoint();
         return d.const_actor( is_npc )->can_see_location( get_map().get_bub( target_pos ) );
     };
 }

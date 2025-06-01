@@ -363,6 +363,32 @@
   {
     "type": "overmap_terrain",
     "id": [
+      "lab_surface_brick_block2A2",
+      "lab_surface_brick_block2A3",
+      "lab_surface_brick_block2A4",
+      "lab_surface_brick_block2B2",
+      "lab_surface_brick_block2B3",
+      "lab_surface_brick_block2B4",
+      "lab_surface_brick_block2C3",
+      "lab_surface_brick_block2C4",
+      "lab_surface_brick_block2D2",
+      "lab_surface_brick_block2D3",
+      "lab_surface_brick_block2D4",
+      "lab_surface_brick_block2E2",
+      "lab_surface_brick_block2E3",
+      "lab_surface_brick_block2E4"
+    ],
+    "name": "research facility, second floor",
+    "vision_levels": "large_building",
+    "sym": "l",
+    "color": "light_gray",
+    "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 10, 25 ], "chance": 60 },
+    "see_cost": "full_high",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
       "lab_surface_brick_blockA2",
       "lab_surface_brick_blockA3",
       "lab_surface_brick_blockA4",
@@ -378,13 +404,8 @@
       "lab_surface_brick_blockE4"
     ],
     "name": "research facility",
-    "vision_levels": "large_building",
-    "sym": "l",
-    "color": "light_gray",
-    "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 10, 25 ], "chance": 60 },
-    "extras": "research_facility_interior",
-    "see_cost": "full_high",
-    "mondensity": 2
+    "copy-from": "lab_surface_brick_block2A2",
+    "extras": "research_facility_interior"
   },
   {
     "type": "overmap_terrain",
@@ -456,27 +477,6 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "lab_surface_brick_block2A2",
-      "lab_surface_brick_block2A3",
-      "lab_surface_brick_block2A4",
-      "lab_surface_brick_block2B2",
-      "lab_surface_brick_block2B3",
-      "lab_surface_brick_block2B4",
-      "lab_surface_brick_block2C3",
-      "lab_surface_brick_block2C4",
-      "lab_surface_brick_block2D2",
-      "lab_surface_brick_block2D3",
-      "lab_surface_brick_block2D4",
-      "lab_surface_brick_block2E2",
-      "lab_surface_brick_block2E3",
-      "lab_surface_brick_block2E4"
-    ],
-    "name": "research facility, second floor",
-    "copy-from": "lab_surface_brick_blockA2"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [
       "lab_surface_brick_block3A2",
       "lab_surface_brick_block3A3",
       "lab_surface_brick_block3A4",
@@ -493,7 +493,7 @@
       "lab_surface_brick_block3E4"
     ],
     "name": "research facility, third floor",
-    "copy-from": "lab_surface_brick_blockA2"
+    "copy-from": "lab_surface_brick_block2A2"
   },
   {
     "type": "overmap_terrain",
@@ -514,7 +514,7 @@
       "lab_surface_brick_block4E4"
     ],
     "name": "research facility, fourth floor",
-    "copy-from": "lab_surface_brick_blockA2"
+    "copy-from": "lab_surface_brick_block2A2"
   },
   {
     "type": "overmap_terrain",
