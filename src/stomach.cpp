@@ -6,7 +6,6 @@
 #include <string_view>
 #include <utility>
 
-#include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "debug.h"
@@ -238,12 +237,16 @@ nutrients &nutrients::operator*=( double r )
     calories *= r;
     for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit : vitamins_ ) {
         std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
-        cata_assert( std::get<int>( here ) >= 0 );
         if( std::get<int>( here ) == 0 ) {
             continue;
         }
+        bool negative = std::get<int>( here ) < 0;
         // truncates, but always keep at least 1 (for e.g. allergies)
-        here = std::max( static_cast<int>( std::get<int>( here ) * r ), 1 );
+        int val = static_cast<int>( std::get<int>( here ) * r );
+        if( val == 0 ) {
+            val = negative ? -1 : 1;
+        }
+        here = val;
     }
     return *this;
 }
