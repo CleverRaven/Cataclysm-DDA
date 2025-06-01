@@ -141,7 +141,6 @@
           { "item": "deck_of_cards", "prob": 60, "count": [ 1, 5 ] },
           { "item": "monopoly", "prob": 5, "count": [ 1, 2 ] },
           { "item": "teddy_bear", "prob": 10, "count": [ 1, 5 ] },
-          { "item": "creepy_doll", "prob": 5, "count": [ 1, 5 ] },
           { "item": "straw_doll", "prob": 5, "count": [ 1, 5 ] }
         ]
       },

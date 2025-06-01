@@ -1942,7 +1942,6 @@
       [ "house_coat", 25 ],
       { "item": "talking_doll", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "marble", "prob": 5, "charges": [ 1, 20 ] },
-      { "item": "creepy_doll", "prob": 1, "charges": [ 0, 100 ] },
       [ "straw_doll", 1 ],
       [ "wristwatch", 15 ],
       [ "pocketwatch", 5 ],

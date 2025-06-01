@@ -315,7 +315,6 @@
       [ "mask_hockey", 50 ],
       { "group": "toy_radio_car", "prob": 50 },
       [ "bottle_glass", 40 ],
-      [ "creepy_doll", 40 ],
       [ "holy_symbol", 40 ],
       [ "pride_flag", 20 ],
       [ "national_flag", 5 ],

@@ -2354,103 +2354,103 @@
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"You shouldn't have done that.\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Let's play… Russian roulette.\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"I hate you.\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"Go kill yourself!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Big Brother is watching you…\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"Die for me!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"Why won't you die?\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"Blood… delicious.\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"See you… IN HELL!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "AAAIEEEEEEE!",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"FUCK YOU!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"What did you do with my Mommy?\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Stay with me… forever!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Hey kids.  Want some candy?\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Down here, they ALL float!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Do you really need that much honey?\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"My previous owner squealed like a pig when I gutted her!\"",
     "volume": 10
   },

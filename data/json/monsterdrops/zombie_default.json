@@ -173,9 +173,8 @@
       },
       {
         "distribution": [
-          { "item": "talking_doll", "prob": 33, "charges": [ 0, 50 ] },
-          { "item": "creepy_doll", "prob": 33, "charges": [ 0, 50 ] },
-          { "item": "straw_doll", "prob": 33 }
+          { "item": "talking_doll", "prob": 50, "charges": [ 0, 50 ] },
+          { "item": "straw_doll", "prob": 50 }
         ],
         "prob": 5
       }

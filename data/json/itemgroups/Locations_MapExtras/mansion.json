@@ -590,7 +590,6 @@
       [ "slingshot", 10 ],
       [ "rock", 10 ],
       [ "bat", 10 ],
-      { "item": "creepy_doll", "prob": 3, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] },
       [ "whistle", 3 ],
       { "item": "wizard_cane_cheap", "prob": 5, "charges": [ 0, 100 ] },

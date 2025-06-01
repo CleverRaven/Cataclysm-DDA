@@ -869,7 +869,6 @@
       { "item": "gum", "prob": 10, "count": 10 },
       { "item": "talking_doll", "prob": 11, "charges": [ 0, 100 ] },
       { "item": "marble", "prob": 15 },
-      { "item": "creepy_doll", "prob": 1 },
       { "item": "jedi_cloak", "prob": 5 },
       { "item": "glowstick", "prob": 15, "charges": 1400 },
       { "item": "clown_suit", "prob": 5 },

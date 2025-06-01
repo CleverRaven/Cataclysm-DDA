@@ -2498,5 +2498,10 @@
     "id": "internal_mp3",
     "type": "MIGRATION",
     "replace": "manual_swimming"
+  },
+  {
+    "id": "creepy_doll",
+    "type": "MIGRATION",
+    "replace": "talking_doll"
   }
 ]

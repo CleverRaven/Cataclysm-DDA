@@ -29,16 +29,6 @@
     "tool_ammo": [ "battery" ]
   },
   {
-    "id": "creepy_doll",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "talking doll" },
-    "description": "This is a talking doll, meant for children.  Fortunately it still works, and you could unload the batteries out of it.",
-    "copy-from": "talking_doll",
-    "symbol": "|",
-    "color": "pink"
-  },
-  {
     "type": "ITEM",
     "id": "swimming_kickboard",
     "name": { "str": "swimming kickboard" },
