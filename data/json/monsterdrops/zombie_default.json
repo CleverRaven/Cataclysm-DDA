@@ -172,10 +172,7 @@
         "prob": 5
       },
       {
-        "distribution": [
-          { "item": "talking_doll", "prob": 50, "charges": [ 0, 50 ] },
-          { "item": "straw_doll", "prob": 50 }
-        ],
+        "distribution": [ { "item": "talking_doll", "prob": 50, "charges": [ 0, 50 ] }, { "item": "straw_doll", "prob": 50 } ],
         "prob": 5
       }
     ]

@@ -115,14 +115,7 @@
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [
-        [ "radio", 1 ],
-        [ "two_way_radio", 1 ],
-        [ "talking_doll", 1 ],
-        [ "stereo", 1 ],
-        [ "chimes", 1 ],
-        [ "beeper", 1 ]
-      ],
+      [ [ "radio", 1 ], [ "two_way_radio", 1 ], [ "talking_doll", 1 ], [ "stereo", 1 ], [ "chimes", 1 ], [ "beeper", 1 ] ],
       [ [ "amplifier", 2 ] ]
     ]
   },
