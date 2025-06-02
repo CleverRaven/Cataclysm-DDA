@@ -134,6 +134,7 @@ Modinfo Blacklist
 Add a dentist office map
 Item faults
 Make aggro_character respect anger_relations
+river generation overhaul
 
 
 ## Content:
@@ -309,6 +310,10 @@ Military outposts have been revamped
 Adds a new nether monster
 Snippetize Tshirt variants
 Exodii Ceramics
+12g wax slug
+Opiate Vitamin by MME
+More high difficulty cooking recipes
+Add food to soldier corpses
 
 
 ## Interface:
@@ -422,6 +427,10 @@ Move camp-specific recipes to their own category
 Debug option to view used palette symbols
 Add option to disable mouse
 Add "in use" info to item's name and info if item has "activity_var" var.
+`debugmsg` clear instructions after keypress
+Create a terminal-like default theme for Imgui
+Add a basic picker for Imgui styles
+Set DPI awareness to fix blurry text
 
 
 ## Mods:
@@ -811,6 +820,14 @@ Mod Conflicts
 [Xedra Evolved] Remove vampires' free bite, vampires take more mutagen
 [MoM] Hostile NPC dialogue updates
 [MoM] Add psychic knacks
+[MoM] Add Heart of Fire challenge scenario
+[Xedra Evolved] Vampires can command foxes
+Aftershock: Create aeolian Plains 'Biome'
+[MoM] Remove damage on feral telekinetics' telekinetic throws
+[MoM] Add enervating amalgamation
+[MoM] Knack handling during awakening
+[MoM] Add more psychic knacks
+[MoM] Knack Difficulty adjustment
 
 
 ## Balance:
@@ -908,6 +925,8 @@ Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
 World sliders rebalanced to offer differing gameplay experiences
 Some recipes have 'hard' proficiency requirements
+Lighten dehydrated fruit
+Make flexible containers add less bulk when full
 
 
 ## Bugfixes:
@@ -1261,6 +1280,15 @@ Can't craft batches so big that they vanish when the game has nowhere to put the
 [Xedra Evolved] Fix werewolf biting
 Continue with destination activity if route is empty
 Allow moving out of impassable, aquatic treated as swimming, non-swimmers can walk in shallow water
+Adjust weight of kevlar jumpsuits
+Fix Atlatl Silliness
+[MoM] Fix Dilated Gateway
+Electric shears now use medium batteries instead of incorrect light batteries
+Reduce spawning of civilian military rucksacks
+correctly save/load river control points
+[MoM] Fix merge conflicts
+Prevent using thread in crafts where unapplicable
+Make crack and anfo easier crafts
 
 
 ## Performance:
@@ -1448,6 +1476,7 @@ Update vcpkg commit to new mainline, remove portfile override
 Improve ccache performance with age based eviction instead of coarse size limits.
 Fix CMake Linux VCPKG build
 Initial support for GNU Make for Windows
+Fix different iterator types (2)
 
 
 ## I18N and A11Y:
