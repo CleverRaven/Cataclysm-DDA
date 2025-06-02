@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -16,7 +15,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -31,7 +29,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -46,7 +43,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -61,7 +57,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -76,7 +71,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -91,7 +85,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -106,7 +99,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -121,7 +113,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -136,7 +127,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -151,7 +141,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -166,7 +155,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -181,7 +169,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -196,7 +183,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -211,7 +197,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -226,7 +211,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -241,7 +225,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -256,7 +239,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -271,7 +253,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -286,7 +267,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -301,7 +281,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -316,7 +295,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -331,7 +309,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -346,7 +323,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -361,7 +337,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -376,7 +351,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -391,7 +365,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -406,7 +379,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -421,7 +393,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -436,7 +407,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -451,7 +421,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -466,7 +435,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -481,7 +449,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -496,7 +463,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -511,7 +477,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -526,7 +491,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -541,7 +505,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -556,7 +519,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -571,7 +533,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -586,7 +547,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -601,7 +561,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -616,7 +575,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -631,7 +589,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -646,7 +603,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -661,7 +617,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -676,7 +631,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -691,7 +645,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -706,7 +659,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -721,7 +673,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -736,7 +687,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -751,7 +701,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -766,7 +715,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -781,7 +729,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -796,7 +743,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -811,7 +757,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -826,7 +771,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -841,7 +785,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -856,7 +799,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -871,7 +813,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -886,7 +827,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -901,7 +841,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -916,7 +855,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -931,7 +869,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -946,7 +883,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -961,7 +897,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -976,7 +911,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -991,7 +925,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1006,7 +939,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1021,7 +953,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1036,7 +967,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1051,7 +981,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1066,7 +995,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1081,7 +1009,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1096,7 +1023,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1111,7 +1037,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1126,7 +1051,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1141,7 +1065,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1156,7 +1079,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1171,7 +1093,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1186,7 +1107,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1201,7 +1121,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1216,7 +1135,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1231,7 +1149,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1246,7 +1163,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1261,7 +1177,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1276,7 +1191,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_backroom_micro_common",
     "object": {
       "mapgensize": [ 2, 2 ],

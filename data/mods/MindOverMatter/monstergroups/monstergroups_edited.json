@@ -174,7 +174,8 @@
       { "monster": "mon_amalgamation_zapper", "weight": 1, "starts": "56 days" },
       { "monster": "mon_jabberwock", "weight": 1, "starts": "28 days" },
       { "monster": "mon_amalgamation_telepathic_distractor", "weight": 1, "starts": "112 days" },
-      { "monster": "mon_amalgamation_telekinetic_shielder", "weight": 1, "starts": "112 days" }
+      { "monster": "mon_amalgamation_telekinetic_shielder", "weight": 1, "starts": "112 days" },
+      { "monster": "mon_amalgamation_vitakinetic_debuffer", "weight": 1, "starts": "112 days" }
     ]
   },
   {
@@ -187,7 +188,8 @@
       { "monster": "mon_amalgamation_corroder", "weight": 4, "starts": "112 days" },
       { "monster": "mon_amalgamation_corroder", "weight": 6, "starts": "224 days" },
       { "monster": "mon_amalgamation_telepathic_distractor", "weight": 1, "starts": "112 days" },
-      { "monster": "mon_amalgamation_telekinetic_shielder", "weight": 1, "starts": "112 days" }
+      { "monster": "mon_amalgamation_telekinetic_shielder", "weight": 1, "starts": "112 days" },
+      { "monster": "mon_amalgamation_vitakinetic_debuffer", "weight": 1, "starts": "112 days" }
     ]
   },
   {

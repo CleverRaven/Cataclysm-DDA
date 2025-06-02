@@ -131,5 +131,97 @@
         ]
       }
     ]
+  },
+  {
+    "id": [ "TALK_STRANGER_NEUTRAL", "TALK_STRANGER_FRIENDLY" ],
+    "type": "talk_topic",
+    "speaker_effect": [ { "sentinel": "meeting_human", "effect": { "u_add_var": "u_met_non_feral", "value": "yes" } } ],
+    "responses": [
+      {
+        "text": "[Paraclesian:Elemental] Oh you're much less aggressive than other humans.  Are you a different breed?",
+        "topic": "TALK_ABOUT_FERALS_ELEMENTAL_POSITIVE",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "u_has_trait": "SYLPH" },
+                { "u_has_trait": "IERDE" },
+                { "u_has_trait": "SALAMANDER" },
+                { "u_has_trait": "UNDINE" },
+                { "u_has_trait": "ARVORE" }
+              ]
+            },
+            { "compare_string": [ "no", { "u_val": "u_met_non_feral" } ] }
+          ]
+        },
+        "switch": true,
+        "default": false
+      },
+      {
+        "text": "[Paraclesian:Dollkin] Finally a normal human!  What's happened here?",
+        "topic": "TALK_ABOUT_FERALS_HOMULLUS_POSITIVE",
+        "condition": { "and": [ { "u_has_trait": "HOMULLUS" }, { "compare_string": [ "no", { "u_val": "u_met_non_feral" } ] } ] },
+        "switch": true,
+        "default": false
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_STRANGER_SCARED", "TALK_STRANGER_WARY" ],
+    "type": "talk_topic",
+    "speaker_effect": [ { "sentinel": "meeting_human", "effect": { "u_add_var": "u_met_non_feral", "value": "yes" } } ],
+    "responses": [
+      {
+        "text": "[Paraclesian:Elemental] Oh you're much less aggressive than other humans.  Are you a different breed?",
+        "topic": "TALK_ABOUT_FERALS_ELEMENTAL_NEGATIVE",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "u_has_trait": "SYLPH" },
+                { "u_has_trait": "IERDE" },
+                { "u_has_trait": "SALAMANDER" },
+                { "u_has_trait": "UNDINE" },
+                { "u_has_trait": "ARVORE" }
+              ]
+            },
+            { "compare_string": [ "no", { "u_val": "u_met_non_feral" } ] }
+          ]
+        },
+        "switch": true,
+        "default": false
+      },
+      {
+        "text": "[Paraclesian:Dollkin] Finally a normal human!  What's happened here?",
+        "topic": "TALK_ABOUT_FERALS_HOMULLUS_NEGATIVE",
+        "condition": { "and": [ { "u_has_trait": "HOMULLUS" }, { "compare_string": [ "no", { "u_val": "u_met_non_feral" } ] } ] },
+        "switch": true,
+        "default": false
+      }
+    ]
+  },
+  {
+    "id": "TALK_ABOUT_FERALS_ELEMENTAL_POSITIVE",
+    "type": "talk_topic",
+    "dynamic_line": "You mean the ferals?  Almost everyone left alive will try to kill you just like the zombies out there.",
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ABOUT_FERALS_ELEMENTAL_NEGATIVE",
+    "type": "talk_topic",
+    "dynamic_line": "You mean the ferals?  How can you not know about the ferals?  Is this a trap?",
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ABOUT_FERALS_HOMULLUS_POSITIVE",
+    "type": "talk_topic",
+    "dynamic_line": "When the world broke it seems like it broke most people's minds and locked them in on a single response to everything around them.",
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ABOUT_FERALS_HOMULLUS_NEGATIVE",
+    "type": "talk_topic",
+    "dynamic_line": "Where have you been?  It's the end of the world and most people have gone crazy!  Are you trying to distract me?",
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
   }
 ]

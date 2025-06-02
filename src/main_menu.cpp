@@ -58,6 +58,7 @@
 #include "type_id.h"
 #include "uilist.h"
 #include "ui_manager.h"
+#include "ui_style_picker.h"
 #include "wcwidth.h"
 #include "worldfactory.h"
 
@@ -517,6 +518,7 @@ void main_menu::init_strings()
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "A<u|U>topickup" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Sa<f|F>emode" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Colo<r|R>s" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "ImGui <S|s>tyles" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<I|i>mGui Demo Screen" ) );
 
     vSettingsHotkeys.clear();
@@ -863,7 +865,10 @@ bool main_menu::opening_screen()
                         get_safemode().show();
                     } else if( sel2 == 4 ) { /// Colors
                         all_colors.show_gui();
-                    } else if( sel2 == 5 ) { /// ImGui demo
+                    } else if( sel2 == 5 ) {
+                        style_picker picker;
+                        picker.show();
+                    } else if( sel2 == 6 ) { /// ImGui demo
                         imgui_demo_ui demo;
                         demo.run();
                     }

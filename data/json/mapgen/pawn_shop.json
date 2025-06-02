@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "pawn" ],
     "object": {
       "fill_ter": "t_floor",
@@ -86,7 +85,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "pawn_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -148,7 +146,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "pawn_1" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -230,7 +227,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "pawn_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -292,7 +288,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "pawn_pf" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -372,7 +367,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "pawn_pf_under" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -433,7 +427,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "pawn_pf_roof",
     "object": {
       "fill_ter": "t_flat_roof",

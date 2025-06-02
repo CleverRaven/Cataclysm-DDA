@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "house_20",
     "//": "normal variant",
     "type": "mapgen",
@@ -52,7 +51,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "house_20",
     "//": "in-construction variant",
     "type": "mapgen",
@@ -91,7 +89,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_20_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

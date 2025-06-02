@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "candy_shop" ],
     "object": {
       "fill_ter": "t_floor",
@@ -106,7 +105,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "candy_shop_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -155,7 +153,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "candy_shop_1" ],
     "object": {
       "fill_ter": "t_floor",
@@ -242,7 +239,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "candy_shop_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

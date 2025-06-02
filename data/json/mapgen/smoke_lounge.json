@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_floor",
       "place_items": [
@@ -96,7 +95,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "smoke_lounge_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -143,7 +141,6 @@
     }
   },
   {
-    "method": "json",
     "object": {
       "place_items": [
         { "chance": 85, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": 19, "y": [ 15, 16 ] },
@@ -242,7 +239,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "smoke_lounge_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

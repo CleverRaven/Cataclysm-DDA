@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "deserter_city_gate",
     "object": {
       "fill_ter": "t_pavement",

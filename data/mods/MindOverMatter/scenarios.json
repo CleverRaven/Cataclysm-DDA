@@ -41,5 +41,50 @@
     "points": -10,
     "forced_traits": [ "HAS_NEMESIS" ],
     "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can try to fight it, but each time it falls it will rise again, its powers growing stronger and stronger.  The only escape is for you to die."
+  },
+  {
+    "type": "scenario",
+    "id": "challenge_scen_firestarter",
+    "name": "Challenge - Heart of Fire",
+    "points": 0,
+    "description": "You always loved setting fires as a child, sometimes spending hours just watching the flames.  That fire awakened in you during the Cataclysm, powerful and almost uncontrollable.  You can call up flames from thin air, burn zombies to ash with a thought, surround yourself in a blazing inferno, but the fire demands release.  It's like a internal pressure, growing as long as you don't use your powers, until it flows out as the flames rise.  Can you survive in the new world without burning yourself to ash?",
+    "start_name": "Away from civilization",
+    "allowed_locs": [
+      "sloc_shelter_vandalized_a",
+      "sloc_shelter_vandalized_b",
+      "sloc_shelter_vandalized_c",
+      "sloc_cabin",
+      "sloc_hermit_shack"
+    ],
+    "whitelist_hobbies": false,
+    "hobbies": [
+      "knack_flexibility",
+      "knack_adrenaline",
+      "knack_clair_better_senses",
+      "knack_clair_danger_sense",
+      "knack_clair_astral_projection",
+      "knack_electrokinetic_pain_immune",
+      "knack_electrokinetic_hacking_interface",
+      "knack_photokinetic_camouflage",
+      "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_call_flames",
+      "knack_pyrokinetic_cloak",
+      "knack_telekinetic_push",
+      "knack_telekinetic_slam_down",
+      "knack_telekinetic_wave",
+      "knack_telepathic_shield",
+      "knack_telepathic_mind_sense",
+      "knack_telepathic_morale",
+      "knack_telepathic_mesmerize",
+      "knack_telepathic_animal_mind_control",
+      "knack_telepathic_invisibility",
+      "knack_vita_health_power",
+      "knack_vita_concentrated_healing",
+      "knack_vita_remove_poison",
+      "knack_vita_cure_disease"
+    ],
+    "forced_traits": [ "PSYCHIC_KNACK", "PYROMANIA", "SCEN_HEART_OF_FIRE" ],
+    "flags": [ "CHALLENGE" ],
+    "eoc": [ "EOC_MOM_SCEN_HEART_OF_FIRE_INITIATE" ]
   }
 ]

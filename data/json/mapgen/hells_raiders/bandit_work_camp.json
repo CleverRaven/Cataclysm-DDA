@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "bandit_farm_3", "bandit_farm_2", "bandit_farm_1" ],
       [ "bandit_farm_6", "bandit_farm_5", "bandit_farm_4" ],
@@ -156,7 +155,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "bandit_farm_3_roof", "bandit_farm_2_roof" ] ],
     "object": {
       "fill_ter": "t_open_air",

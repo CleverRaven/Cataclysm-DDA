@@ -964,7 +964,7 @@
           { "item": "attached_ear_plugs_off" },
           { "item": "helmet_army" },
           { "item": "hatchet" },
-          { "item": "balclava" },
+          { "item": "balclava", "variant": "black" },
           { "item": "rifle_case_soft" },
           { "item": "mess_kit" },
           { "item": "emer_blanket", "custom-flags": [ "no_auto_equip" ] },

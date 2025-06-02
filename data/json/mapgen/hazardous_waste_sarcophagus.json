@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "haz_sar_1_2", "haz_sar_1_1" ], [ "haz_sar_1_4", "haz_sar_1_3" ] ],
     "object": {
       "rows": [
@@ -164,7 +163,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "haz_sar_1_2_2", "haz_sar_1_1_2" ], [ "haz_sar_1_4_2", "haz_sar_1_3_2" ] ],
     "object": {
       "rows": [
@@ -224,7 +222,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "haz_sar_b_2", "haz_sar_b_1" ], [ "haz_sar_b_4", "haz_sar_b_3" ] ],
     "object": {
       "rows": [

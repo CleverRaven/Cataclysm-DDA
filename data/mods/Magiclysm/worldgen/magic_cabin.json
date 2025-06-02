@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_cabin",
     "object": {
       "fill_ter": "t_floor",
@@ -135,7 +134,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_cabin_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

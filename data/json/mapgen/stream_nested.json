@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "stream_4x4_ll_01",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -17,7 +16,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "stream_4x4_ll_02",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -33,7 +31,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "stream_4x4_ll_03",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -50,7 +47,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "stream_4x4_ll_04",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -67,7 +63,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "stream_4x4_ll_05",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -85,7 +80,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "stream_4x4_ll_06",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -102,7 +96,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "stream_4x4_lr_01",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -118,7 +111,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "stream_4x4_lr_02",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -134,7 +126,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "stream_4x4_lr_03",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -151,7 +142,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "stream_4x4_lr_04",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -168,7 +158,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "stream_4x4_lr_05",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -184,7 +173,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "stream_4x4_lr_06",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -201,7 +189,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "stream_8x8_ll_01",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -223,7 +210,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "stream_8x8_ll_02",
     "object": {
       "mapgensize": [ 8, 8 ],

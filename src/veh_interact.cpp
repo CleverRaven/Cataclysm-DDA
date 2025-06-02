@@ -26,6 +26,7 @@
 #include "character.h"
 #include "character_id.h"
 #include "contents_change_handler.h"
+#include "crafting.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
@@ -360,7 +361,7 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
 {
     Character &player_character = get_player_character();
     const inventory &inv = player_character.crafting_inventory();
-    bool ok = reqs.can_make_with_inventory( inv, is_crafting_component );
+    bool ok = reqs.can_make_with_inventory( inv, is_crafting_component, 1, craft_flags::none, false );
 
     msg += _( "<color_white>Time required:</color>\n" );
     msg += "> " + to_string_approx( time ) + "\n";
@@ -2173,7 +2174,7 @@ bool veh_interact::can_potentially_install( const vpart_info &vpart )
 {
     bool engine_reqs_met = true;
     bool can_make = vpart.install_requirements().can_make_with_inventory( *crafting_inv,
-                    is_crafting_component );
+                    is_crafting_component, 1, craft_flags::none, false );
     bool hammerspace = get_player_character().has_trait( trait_DEBUG_HS );
 
     int engines = 0;
@@ -3080,7 +3081,7 @@ void veh_interact::complete_vehicle( map &here, Character &you )
         case 'i': {
             const inventory &inv = you.crafting_inventory();
             const requirement_data reqs = vpinfo.install_requirements();
-            if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
+            if( !reqs.can_make_with_inventory( inv, is_crafting_component, 1, craft_flags::none, false ) ) {
                 you.add_msg_player_or_npc( m_info,
                                            _( "You don't meet the requirements to install the %s." ),
                                            _( "<npcname> doesn't meet the requirements to install the %s." ),

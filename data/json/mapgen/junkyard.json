@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": [ [ "junkyard_1a", "junkyard_1b" ] ],
     "type": "mapgen",
     "object": {
@@ -59,7 +58,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "junkyard_roof_1a", "junkyard_roof_1b" ] ],
     "type": "mapgen",
     "object": {
@@ -94,7 +92,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "junkyard_2a", "junkyard_2b" ] ],
     "type": "mapgen",
     "object": {
@@ -151,7 +148,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "junkyard_roof_2a", "junkyard_roof_2b" ] ],
     "type": "mapgen",
     "object": {

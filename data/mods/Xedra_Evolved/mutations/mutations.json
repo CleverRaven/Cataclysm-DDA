@@ -1988,7 +1988,8 @@
     "description": "The arvore can sense the stolen power within you and they will not react well to it.",
     "purifiable": false,
     "valid": false,
-    "anger_relations": [ [ "ARVORE", 100 ] ]
+    "anger_relations": [ [ "ARVORE", 100 ] ],
+    "category": [ "ARVORE_ALCHEMY" ]
   },
   {
     "type": "mutation",

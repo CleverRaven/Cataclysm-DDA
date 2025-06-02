@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "afs_freight_transport_a1", "afs_freight_transport_a2" ] ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -85,7 +84,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "afs_freight_transport_roof_a1", "afs_freight_transport_roof_a2" ] ],
     "object": {
       "fill_ter": "t_metal_floor",

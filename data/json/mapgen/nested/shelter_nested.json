@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "shelter_under_nest_zombies",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -36,7 +35,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "shelter_under_1_nest_zombies",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -71,7 +69,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "shelter_under_1b_nest_zombies",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -106,7 +103,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "shelter_under_2_nest_zombies",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -141,19 +137,16 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "shelter_graffiti",
     "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "x": 0, "y": 0, "snippet": "shelter_graffiti_snippets" } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "general_graffiti",
     "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "x": 0, "y": 0, "snippet": "general_graffiti_snippets" } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "shelter_computer",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -170,13 +163,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "shelter_computer_broken",
     "object": { "mapgensize": [ 1, 1 ], "place_furniture": [ { "furn": "f_console_broken", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "4x4_planksandtools",
     "object": {
       "mapgensize": [ 4, 4 ],

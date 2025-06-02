@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "indoor_tent_5x5_S",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -19,7 +18,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "indoor_tent_5x5_E",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -37,7 +35,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "indoor_tent_5x5_N",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -55,7 +52,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "indoor_tent_5x5_W",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -73,7 +69,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Strip mall stores must be 23x by 23y, each chunk must include a back wall and storefront, and both the bottom and top row should be a sidewalk.  Use this sample as a base.  Rename it to one of the following: strip_mall_shop_a; strip_mall_shop_b; strip_mall_shop_c; strip_mall_shop_d",
     "nested_mapgen_id": "strip_mall_sample",
     "object": {
@@ -120,7 +115,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Laundromat",
     "weight": 100,
     "nested_mapgen_id": "strip_mall_shop_a",
@@ -244,7 +238,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Office - Insurance Agency",
     "weight": 100,
     "nested_mapgen_id": "strip_mall_shop_a",
@@ -382,7 +375,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Clothing Store - Shoes",
     "nested_mapgen_id": "strip_mall_shop_a",
     "weight": 100,
@@ -529,7 +521,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Gaming Store",
     "nested_mapgen_id": "strip_mall_shop_a",
     "weight": 100,
@@ -692,7 +683,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Restaurant - Pizza, Variant 1",
     "nested_mapgen_id": "strip_mall_shop_a",
     "weight": 100,
@@ -810,7 +800,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Empty - for lease, chance for survivor's camp",
     "nested_mapgen_id": "strip_mall_shop_a",
     "weight": 100,
@@ -861,7 +850,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Survivor's camp, chance to spawn in the second EMPTY - FOR LEASE shop",
     "nested_mapgen_id": "strip_mall_camp",
     "object": {
@@ -944,7 +932,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Survivor's camp, chance to spawn in the second EMPTY - FOR LEASE shop",
     "nested_mapgen_id": "strip_mall_camp2",
     "object": {
@@ -1045,7 +1032,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Empty - for lease",
     "nested_mapgen_id": "strip_mall_shop_b",
     "weight": 100,
@@ -1095,7 +1081,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Salon",
     "weight": 100,
     "nested_mapgen_id": "strip_mall_shop_b",
@@ -1221,7 +1206,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Office - Shady Hills Corporation",
     "weight": 100,
     "nested_mapgen_id": "strip_mall_shop_b",
@@ -1383,7 +1367,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Lingerie and sex shop",
     "nested_mapgen_id": "strip_mall_shop_b",
     "weight": 100,
@@ -1486,7 +1469,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Electronics Store",
     "nested_mapgen_id": "strip_mall_shop_b",
     "weight": 100,
@@ -1629,7 +1611,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Book Store",
     "nested_mapgen_id": "strip_mall_shop_b",
     "weight": 100,
@@ -1779,7 +1760,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "weight": 100,
     "//": "Furniture store, variant 1",
     "nested_mapgen_id": "strip_mall_shop_c",
@@ -1900,7 +1880,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Office - Lawyer, Variant 1",
     "weight": 100,
     "nested_mapgen_id": "strip_mall_shop_c",
@@ -2040,7 +2019,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Clothing Store - general, variant 1",
     "nested_mapgen_id": "strip_mall_shop_c",
     "weight": 100,
@@ -2196,7 +2174,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Restaurant - Ice Cream",
     "nested_mapgen_id": "strip_mall_shop_c",
     "weight": 100,
@@ -2305,7 +2282,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Camping Store",
     "nested_mapgen_id": "strip_mall_shop_c",
     "weight": 100,
@@ -2475,7 +2451,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Dojo",
     "nested_mapgen_id": "strip_mall_shop_c",
     "weight": 100,
@@ -2554,7 +2529,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Furniture store, variant 2",
     "weight": 100,
     "nested_mapgen_id": "strip_mall_shop_d",
@@ -2689,7 +2663,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Office - Lawyer, Variant 2",
     "weight": 100,
     "nested_mapgen_id": "strip_mall_shop_d",
@@ -2830,7 +2803,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Clothing Store - general, variant 2",
     "nested_mapgen_id": "strip_mall_shop_d",
     "weight": 100,
@@ -2980,7 +2952,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Restaurant - Pizza, Variant 2",
     "nested_mapgen_id": "strip_mall_shop_d",
     "weight": 100,
@@ -3108,7 +3079,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Hunting Supply Store",
     "nested_mapgen_id": "strip_mall_shop_d",
     "weight": 50,
@@ -3267,7 +3237,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Fitness gym",
     "nested_mapgen_id": "strip_mall_shop_d",
     "weight": 100,

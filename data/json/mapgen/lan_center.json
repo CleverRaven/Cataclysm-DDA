@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "lancenter",
     "type": "mapgen",
     "object": {
@@ -73,14 +72,13 @@
         "S": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "R": { "item": "softdrugs", "chance": 30 },
         "T": { "item": "SUS_toilet", "chance": 50 },
-        "U": { "item": "SUS_trash_dumpster", "chance": 20, "repeat": [ 2, 4 ] },
+        "U": { "item": "SUS_trash_dumpster", "chance": 50 },
         "{": { "item": "SUS_fridge", "chance": 80 }
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lancenter_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -128,7 +126,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lancenter_1",
     "type": "mapgen",
     "object": {
@@ -199,7 +196,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lancenter_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
