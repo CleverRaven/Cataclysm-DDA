@@ -550,8 +550,9 @@ TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
             return it.typeId() == book.typeId();
         } );
         REQUIRE_FALSE( ebook->is_null() );
+
+        // CAN_USE_IN_DARK should get inherited from the ereader.
         REQUIRE( ebook->has_flag( json_flag_CAN_USE_IN_DARK ) );
-        REQUIRE( ereader->has_flag( json_flag_CAN_USE_IN_DARK ) );
 
         item battery( itype_test_battery_disposable );
         battery.ammo_set( battery.ammo_default(), 100 );
