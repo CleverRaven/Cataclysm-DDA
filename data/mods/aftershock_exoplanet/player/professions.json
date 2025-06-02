@@ -655,6 +655,27 @@
   },
   {
     "type": "profession",
+    "id": "afs_ex_merc",
+    "name": "Ex-Merc",
+    "description": "You were once a mercenary under the contract of a rotating gallery of megacorps.  You were involved in everything from hits on union leaders to guarding warehouses.  After your last op failed, you were fired, blacklisted, and given a one-way ticket to Salus IV to do your best impression of an icicle, all wihtin the span of a day.",
+    "points": 5,
+    "skills": [ 
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "smg" },
+      { "level": 4, "name": "pistol" },
+      { "level": 4, "name": "shotgun" },
+      { "level": 3, "name": "smartgun" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "traps" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 2, "name": "swimming" },
+      { "level": 3, "name": "survival" } 
+    ],
+    "traits": [ "psychopath" ],
+    "CBMs": [ "bio_targeting", "bio_purifier", "bio_radio", "bio_adrenaline", "bio_torsionratchet", "bio_sunglasses", "bio_power_storage_mkII" ]
+  },
+  {
+    "type": "profession",
     "id": "afs_ship_escape",
     "copy-from": "afs_rating",
     "name": "Escaping Crew",
