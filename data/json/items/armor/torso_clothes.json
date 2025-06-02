@@ -983,63 +983,54 @@
         "id": "shark",
         "name": { "str": "shark hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute shark."
       },
       {
         "id": "bear",
         "name": { "str": "bear hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute bear."
       },
       {
         "id": "cat",
         "name": { "str": "cat hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute cat."
       },
       {
         "id": "bunny",
         "name": { "str": "bunny hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute bunny."
       },
       {
         "id": "wolf",
         "name": { "str": "wolf hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute wolf."
       },
       {
         "id": "lizard",
         "name": { "str": "lizard hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute lizard."
       },
       {
         "id": "dog",
         "name": { "str": "dog hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute dog."
       },
       {
         "id": "panda",
         "name": { "str": "panda hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute panda."
       },
       {
         "id": "frog",
         "name": { "str": "frog hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute frog."
       }
     ]
@@ -1143,63 +1134,54 @@
         "id": "shark",
         "name": { "str": "shark hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute shark."
       },
       {
         "id": "bear",
         "name": { "str": "bear hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute bear."
       },
       {
         "id": "cat",
         "name": { "str": "cat hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute cat."
       },
       {
         "id": "bunny",
         "name": { "str": "bunny hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute bunny."
       },
       {
         "id": "wolf",
         "name": { "str": "wolf hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute wolf."
       },
       {
         "id": "lizard",
         "name": { "str": "lizard hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute lizard."
       },
       {
         "id": "dog",
         "name": { "str": "dog hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute dog."
       },
       {
         "id": "panda",
         "name": { "str": "panda hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute panda."
       },
       {
         "id": "frog",
         "name": { "str": "frog hoodie" },
         "append": true,
-        "expand_snippets": true,
         "description": "This one is made to look like a cute frog."
       }
     ]
