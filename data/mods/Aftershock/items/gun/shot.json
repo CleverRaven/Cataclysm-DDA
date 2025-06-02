@@ -15,6 +15,7 @@
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "price": "150 USD",
     "variants": [
       {
         "id": "vatforged",
@@ -52,6 +53,7 @@
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "price": "3 kUSD",
     "built_in_mods": [ "afs_magnetic_choke", "afs_shotgun_gauss" ]
   },
   {
