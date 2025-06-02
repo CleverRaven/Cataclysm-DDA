@@ -4918,8 +4918,6 @@
       "both": {
         "entries": [
           { "item": "socks" },
-          { "item": "kufi" },
-          { "item": "thawb" },
           { "item": "lowtops" },
           { "item": "holybook_quran" },
           { "group": "charged_smart_phone" },
@@ -4929,8 +4927,8 @@
           { "item": "pants", "variant": "pants_white" }
         ]
       },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+      "male": { "entries": [ { "item": "briefs" }, { "item": "kufi" }, { "item": "thawb" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" }, { "item": "niqab" }, { "item": "abaya" } ] }
     }
   },
   {
