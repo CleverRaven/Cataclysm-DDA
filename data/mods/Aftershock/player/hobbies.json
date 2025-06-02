@@ -57,7 +57,7 @@
       { "level": 3, "name": "survival" } 
     ],
     "traits": [ "psychopath" ],
-    "CBMs": [ "bio_targeting", "bio_purifier", "bio_geiger", "bio_adrenaline", "bio_ethanol", "bio_power_storage_mkII" ],
+    "CBMs": [ "bio_targeting", "bio_purifier", "bio_radio", "bio_adrenaline", "bio_torsionratchet", "bio_sunglasses", "bio_power_storage_mkII" ]
   },
   {
     "type": "profession",
