@@ -136,11 +136,19 @@
     "description": "A large and sturdy sack, made out of some plastic material.  Popular choice to store sand, gravel, cement, or stop some local flood.",
     "//": "durasack woven polypropylene bags",
     "weight": "750 g",
-    "volume": "750 ml",
+    "volume": "1250 ml",
     "price": "85 cent",
     "price_postapoc": "5 cent",
     "material": [ "plastic" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "18 L", "max_contains_weight": "22 kg", "moves": 500 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "750 ml",
+        "max_contains_volume": "18 L",
+        "max_contains_weight": "22 kg",
+        "moves": 500
+      }
+    ],
     "symbol": ")",
     "color": "white"
   },
@@ -169,7 +177,15 @@
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": [ "canvas" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "750 ml",
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "15 kg",
+        "moves": 400
+      }
+    ],
     "symbol": ")",
     "color": "brown"
   },
@@ -182,11 +198,19 @@
     "description": "A small bag made of canvas.  Looks fine to store dried herbs in.",
     "ascii_picture": "bag_canvas_small",
     "weight": "20 g",
-    "volume": "14 ml",
+    "volume": "60 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": [ "canvas" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 400 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "45 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "moves": 400
+      }
+    ],
     "symbol": ")",
     "color": "brown"
   },
@@ -205,6 +229,7 @@
       {
         "pocket_type": "CONTAINER",
         "transparent": true,
+        "magazine_well": "8 ml",
         "max_contains_volume": "6 L",
         "max_contains_weight": "10 kg",
         "moves": 400
@@ -222,7 +247,7 @@
     "looks_like": "bag_plastic",
     "description": "A small, open plastic bag.  Essentially trash.",
     "weight": "1 g",
-    "volume": "2 ml",
+    "volume": "5 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "plastic" ],
@@ -231,6 +256,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "transparent": true,
+        "magazine_well": "4 ml",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1250 g",
         "moves": 400
@@ -297,6 +323,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "magazine_well": "1 L",
         "max_contains_volume": "3 L",
         "max_contains_weight": "3 kg",
         "max_item_length": "22 cm",
@@ -335,10 +362,18 @@
     "description": "A small but sturdy paper bag.  Rock solid when packed full with powder.",
     "ascii_picture": "bag_paper_powder",
     "weight": "5 g",
-    "volume": "10 ml",
+    "volume": "20 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "2 kg", "moves": 200 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "15 ml",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200
+      }
+    ],
     "material": [ "paper" ],
     "symbol": ")",
     "color": "white"
@@ -352,10 +387,18 @@
     "description": "A large paper bag, for bulk storage and transport of powdered goods.",
     "ascii_picture": "bag_paper_powder",
     "weight": "20 g",
-    "volume": "40 ml",
+    "volume": "60 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "10000 ml", "max_contains_weight": "15 kg", "moves": 200 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "45 ml",
+        "max_contains_volume": "10000 ml",
+        "max_contains_weight": "15 kg",
+        "moves": 200
+      }
+    ],
     "material": [ "paper" ],
     "symbol": ")",
     "color": "white"
@@ -369,7 +412,7 @@
     "description": "A resealable, watertight transparent plastic bag roomy enough to hold a sandwich.  Known generically as a Ziploc bag, it can be sealed and opened with a press-together mechanism similar to a zipper.",
     "ascii_picture": "bag_zipper",
     "weight": "2 g",
-    "volume": "10 ml",
+    "volume": "20 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": [ "plastic" ],
@@ -378,6 +421,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "transparent": true,
+        "magazine_well": "10 ml",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "750 g",
         "max_item_length": "14 cm",
@@ -403,6 +447,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "transparent": true,
+        "magazine_well": "50 ml",
         "max_contains_volume": "4500 ml",
         "max_contains_weight": "3000 g",
         "max_item_length": "29 cm",
@@ -421,7 +466,7 @@
     "description": "A huge watertight bag made of strong plastic.  Commonly used in activities with high risk of wetting the equipment, such as kayaking.",
     "ascii_picture": "dry_bag_large",
     "weight": "1500 g",
-    "volume": "1500 ml",
+    "volume": "7500 ml",
     "longest_side": "35 cm",
     "price": "0 cent",
     "price_postapoc": "10 cent",
@@ -433,6 +478,7 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
+        "magazine_well": "6 L",
         "max_contains_volume": "80 L",
         "max_contains_weight": "100 kg",
         "max_item_length": "100 cm",
@@ -451,7 +497,7 @@
     "description": "A human-sized rectangular bag made of strong plastic, with a zipper in the middle.  Intended to hold a dead body.",
     "ascii_picture": "bag_body_bag",
     "weight": "1061 g",
-    "volume": "5500 ml",
+    "volume": "15 L",
     "//1": "This is ~85% of the package volume from the amazon listing, with the assumption that the player would be squishing it harder to condense the volume.",
     "price": "30 USD",
     "price_postapoc": "10 cent",
@@ -461,6 +507,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "magazine_well": "10 L",
         "max_contains_volume": "100 L",
         "max_contains_weight": "100 kg",
         "max_item_length": "200 cm",
@@ -480,7 +527,7 @@
     "description": "A five-foot-long cylindrical leather sack, a foot in diameter, with attachment points at the top.  With some bags of sand, some chains, and a bunch of blankets, you could hang it from the ceiling as a heavy punching bag.",
     "ascii_picture": "heavy_punching_bag_sack",
     "weight": "2400g",
-    "volume": "2260 ml",
+    "volume": "12260 ml",
     "longest_side": "150 cm",
     "price": "0 cent",
     "price_postapoc": "10 cent",
@@ -491,6 +538,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "magazine_well": "10 L",
         "max_contains_volume": "110 L",
         "max_contains_weight": "100 kg",
         "max_item_length": "150 cm",
@@ -520,6 +568,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "transparent": true,
+        "magazine_well": "25 ml",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "3 kg",
         "moves": 400
@@ -1971,6 +2020,7 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
+        "magazine_well": "9 ml",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.5 }
@@ -2832,6 +2882,7 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
+        "magazine_well": "250 ml",
         "max_contains_volume": "3 L",
         "max_item_volume": "17 ml",
         "max_contains_weight": "6 kg"
@@ -3332,13 +3383,20 @@
     "description": "Just a piece of butcher's paper.  Good for starting fires.",
     "ascii_picture": "wrapper",
     "weight": "3 g",
-    "volume": "5 ml",
+    "volume": "50 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "symbol": ",",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "45 ml",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "6 kg"
+      }
+    ],
     "flags": [ "TINDER" ]
   },
   {
@@ -3356,7 +3414,7 @@
     "material": [ "aluminum" ],
     "symbol": ",",
     "color": "light_gray",
-    "//2": "mathematically perfect sprehe out of sheet is 2110 ml, but we are less than perfect",
+    "//2": "mathematically perfect sphere out of sheet is 2110 ml, but we are less than perfect",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "6 kg" } ],
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
@@ -3380,10 +3438,10 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "480 ml",
         "max_contains_weight": "1 kg",
         "item_restriction": [ "wrapper_foil" ],
-        "volume_multiplier": 0.75
+        "volume_multiplier": 0.25
       }
     ],
     "flags": [ "NO_RELOAD" ]
@@ -3399,7 +3457,10 @@
     "ascii_picture": "wrapper_pr",
     "copy-from": "wrapper",
     "weight": "1 g",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "175 ml", "max_contains_weight": "1 kg" } ]
+    "volume": "5 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "magazine_well": "4 ml", "max_contains_volume": "175 ml", "max_contains_weight": "1 kg" }
+    ]
   },
   {
     "id": "styrofoam_cup",
