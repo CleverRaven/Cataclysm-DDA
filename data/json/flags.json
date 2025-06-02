@@ -116,6 +116,11 @@
     "info": "This item can be activated or reloaded from an adjacent tile without picking it up."
   },
   {
+    "id": "CAN_USE_IN_DARK",
+    "type": "json_flag",
+    "info": "This item can use all of its features in darkness."
+  },
+  {
     "id": "ALWAYS_AIMED",
     "type": "json_flag",
     "info": "This gun is <good>always fully aimed</good>."

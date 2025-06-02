@@ -194,6 +194,7 @@ static const efftype_id effect_worked_on( "worked_on" );
 static const faction_id faction_your_followers( "your_followers" );
 
 static const flag_id json_flag_ALWAYS_AIMED( "ALWAYS_AIMED" );
+static const flag_id json_flag_CAN_USE_IN_DARK( "CAN_USE_IN_DARK" );
 static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
 
 static const furn_str_id furn_f_gunsafe_mj( "f_gunsafe_mj" );
@@ -1699,7 +1700,9 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
                  book_type::martial_art : book_type::normal;
     }
 
-    if( who.fine_detail_vision_mod() > 4 && !who.has_flag( json_flag_READ_IN_DARKNESS ) ) {
+    if( who.fine_detail_vision_mod() > 4 && !who.has_flag( json_flag_READ_IN_DARKNESS ) &&
+        !( book->has_flag( json_flag_CAN_USE_IN_DARK ) ||
+           book.parent_item()->has_flag( json_flag_CAN_USE_IN_DARK ) ) ) {
         // It got too dark during the process of reading, bail out.
         act.set_to_null();
         who.add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
@@ -2884,9 +2887,22 @@ void ebooksave_activity_actor::completed_scanning_current_book( player_activity 
         Character &who )
 {
     item_location scanned_book = books.back();
+
     books.pop_back();
     if( scanned_book ) {
+
         ereader->put_in( *scanned_book, pocket_type::E_FILE_STORAGE );
+        if( ereader->has_flag( json_flag_CAN_USE_IN_DARK ) ) {
+            item *ebook = ereader->get_item_with( [&]( const item & it ) {
+                return it.typeId() == scanned_book->typeId();
+            } );
+
+            if( ebook ) {
+                ebook->set_flag( json_flag_CAN_USE_IN_DARK );
+            } else {
+                debugmsg( "couldnt find scanned book" );
+            }
+        }
         if( who.is_avatar() ) {
             if( scanned_book->is_identifiable() && !who.has_identified( scanned_book->typeId() ) ) {
                 who.identify( *scanned_book );
