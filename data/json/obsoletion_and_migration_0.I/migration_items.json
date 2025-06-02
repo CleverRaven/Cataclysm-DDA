@@ -2567,5 +2567,10 @@
     "type": "MIGRATION",
     "id": "robofac_head_rig_ir",
     "replace": "robofac_head_rig_nv"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "exodii_ingot_steel",
+    "replace": "exodii_ingot_lc_steel"
   }
 ]
