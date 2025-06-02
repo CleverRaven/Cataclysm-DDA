@@ -2066,12 +2066,13 @@ void mapgen_ravine_edge( mapgendata &dat )
     if( dat.zlevel() == 0 ) {
         dat.fill_groundcover();
     } else {
-        const std::optional<ter_str_id> uniform_ter = dat.region.default_oter[ OVERMAP_DEPTH + dat.zlevel() ].id()->get_uniform_terrain();
+        const std::optional<ter_str_id> uniform_ter = dat.region.default_oter[ OVERMAP_DEPTH +
+                              dat.zlevel() ].id()->get_uniform_terrain();
         if( uniform_ter ) {
             m->draw_fill_background( *uniform_ter );
         } else {
-        run_mapgen_func( dat.region.default_oter[ OVERMAP_DEPTH + dat.zlevel() ].id()->get_mapgen_id(),
-                         dat );
+            run_mapgen_func( dat.region.default_oter[ OVERMAP_DEPTH + dat.zlevel() ].id()->get_mapgen_id(),
+                             dat );
         }
     }
 
