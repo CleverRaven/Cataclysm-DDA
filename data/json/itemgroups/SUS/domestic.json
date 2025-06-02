@@ -1109,6 +1109,29 @@
       { "group": "pants_male", "count": [ 4, 7 ], "prob": 5 },
       { "group": "gloves_unisex", "prob": 30 },
       { "group": "hats_unisex", "prob": 10 },
+      { "group": "bags_unisex", "prob": 50 },
+      { "group": "SUS_dresser_mens_single_outfit", "count": [ 1, 2 ], "prob": 80 }
+    ]
+  },
+  {
+    "id": "SUS_dresser_mens_single_outfit",
+    "type": "item_group",
+    "//COMMENT": "One specific set of clothing found in a man's dresser. Should not contain more than one shirt, more than one pants, etc. All of these should be wearable at once without anything being too strange.",
+    "//COMMENT2": "This is largely a copy of SUS_dresser_mens with the counts removed and inline distributions to make sure we only get one of each main clothing.",
+    "subtype": "collection",
+    "container-item": "outfit_storage",
+    "entries": [
+      {
+        "distribution": [ { "group": "accesories_personal_unisex", "prob": 50 }, { "group": "accesories_personal_mens", "prob": 50 } ]
+      },
+      { "group": "masks_unisex", "prob": 3 },
+      { "group": "socks_unisex", "prob": 100 },
+      { "group": "scarfs_unisex", "prob": 30 },
+      { "group": "shirts_unisex", "prob": 100 },
+      { "distribution": [ { "group": "underwear_mens", "prob": 50 }, { "group": "underwear_unisex", "prob": 50 } ] },
+      { "distribution": [ { "group": "pants_male", "prob": 50 }, { "group": "pants_unisex", "prob": 5 } ] },
+      { "group": "gloves_unisex", "prob": 30 },
+      { "group": "hats_unisex", "prob": 10 },
       { "group": "bags_unisex", "prob": 50 }
     ]
   },
@@ -1152,6 +1175,29 @@
       { "group": "pants_female", "count": [ 4, 7 ], "prob": 100 },
       { "group": "gloves_womens", "prob": 5 },
       { "group": "gloves_unisex", "prob": 30 },
+      { "group": "hats_unisex", "prob": 10 },
+      { "group": "bags_unisex", "prob": 50 },
+      { "group": "SUS_dresser_womens_single_outfit", "count": [ 1, 2 ], "prob": 80 }
+    ]
+  },
+  {
+    "id": "SUS_dresser_womens_single_outfit",
+    "type": "item_group",
+    "//COMMENT": "One specific set of clothing found in a woman's dresser. Should not contain more than one shirt, more than one pants, etc. All of these should be wearable at once without anything being too strange.",
+    "//COMMENT2": "This is largely a copy of SUS_dresser_womens with the counts removed and inline distributions to make sure we only get one of each main clothing.",
+    "subtype": "collection",
+    "container-item": "outfit_storage",
+    "entries": [
+      {
+        "distribution": [ { "group": "accesories_personal_unisex", "prob": 30 }, { "group": "accesories_personal_womens", "prob": 5 } ]
+      },
+      { "group": "masks_unisex", "prob": 3 },
+      { "group": "socks_unisex", "prob": 100 },
+      { "group": "scarfs_unisex", "prob": 30 },
+      { "distribution": [ { "group": "shirts_unisex", "prob": 100 }, { "group": "shirts_womens", "prob": 50 } ] },
+      { "distribution": [ { "group": "underwear_womens", "prob": 50 }, { "group": "underwear_unisex", "prob": 50 } ] },
+      { "distribution": [ { "group": "pants_unisex", "prob": 50 }, { "group": "pants_female", "prob": 50 } ] },
+      { "distribution": [ { "group": "gloves_womens", "prob": 5 }, { "group": "gloves_unisex", "prob": 30 } ] },
       { "group": "hats_unisex", "prob": 10 },
       { "group": "bags_unisex", "prob": 50 }
     ]
