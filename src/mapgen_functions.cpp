@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <iterator>
 #include <map>
+#include <optional>
 #include <string>
 #include <unordered_set>
 #include <utility>
