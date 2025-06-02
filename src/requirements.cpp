@@ -1055,16 +1055,19 @@ bool requirement_data::check_enough_materials( const read_only_visitable &crafti
     units::volume total_component_volume = 0_ml;
     for( const auto &component_choices : components ) {
         bool atleast_one_available = false;
-        units::volume volume_of_this_comp_choice = 0_ml;
+        units::volume max_volume_of_this_comp_choice = 0_ml;
         for( const item_comp &comp : component_choices ) {
             if( check_enough_materials( comp, crafting_inv, filter, batch ) ) {
+                // we need different calculations depending on whether or not the item uses charges...
+                const double relative_amount = comp.type->count_by_charges() ?
+                                               static_cast<double>( comp.count ) / static_cast<double>( comp.type->stack_size ) : comp.count;
+                const units::volume comp_volume = comp.type->volume * relative_amount * batch;
                 // the worst case scenario is used to tally volume
-                volume_of_this_comp_choice = std::max( volume_of_this_comp_choice,
-                                                       comp.type->volume * comp.count * batch );
+                max_volume_of_this_comp_choice = std::max( max_volume_of_this_comp_choice, comp_volume );
                 atleast_one_available = true;
             }
         }
-        total_component_volume += volume_of_this_comp_choice;
+        total_component_volume += max_volume_of_this_comp_choice;
         if( !atleast_one_available ) {
             retval = false;
         }
