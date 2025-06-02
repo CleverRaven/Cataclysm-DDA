@@ -1701,8 +1701,7 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     if( who.fine_detail_vision_mod() > 4 && !who.has_flag( json_flag_READ_IN_DARKNESS ) &&
-        !( book->has_flag( json_flag_CAN_USE_IN_DARK ) ||
-           book.parent_item()->has_flag( json_flag_CAN_USE_IN_DARK ) ) ) {
+        !book->has_flag( json_flag_CAN_USE_IN_DARK ) ) {
         // It got too dark during the process of reading, bail out.
         act.set_to_null();
         who.add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
