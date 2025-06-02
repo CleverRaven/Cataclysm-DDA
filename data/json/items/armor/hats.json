@@ -1638,30 +1638,14 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
       { "covers": [ "head" ], "coverage": 80, "encumbrance_modifiers": [ "NONE" ] },
-      {
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance_modifiers": [ "NONE" ],
-        "specifically_covers": [ "torso_neck" ]
-      },
-      {
-        "covers": [ "arm_l" ],
-        "coverage": 25,
-        "encumbrance_modifiers": [ "NONE" ],
-        "specifically_covers": [ "arm_shoulder_l" ]
-      },
-      {
-        "covers": [ "arm_r" ],
-        "coverage": 25,
-        "encumbrance_modifiers": [ "NONE" ],
-        "specifically_covers": [ "arm_shoulder_r" ]
-      }
+      { "covers": [ "arm_l" ], "specifically_covers": [ "arm_shoulder_l" ], "coverage": 25 },
+      { "covers": [ "arm_r" ], "specifically_covers": [ "arm_shoulder_r" ], "coverage": 25 }
     ]
   },
   {
     "copy-from": "hijab",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "id": "niqab ",
+    "id": "niqab",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": "niqab",
@@ -1669,25 +1653,9 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
       { "covers": [ "head" ], "coverage": 90, "encumbrance_modifiers": [ "NONE" ] },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance_modifiers": [ "NONE" ] },
-      {
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance_modifiers": [ "NONE" ],
-        "specifically_covers": [ "torso_neck" ]
-      },
-      {
-        "covers": [ "arm_l" ],
-        "coverage": 25,
-        "encumbrance_modifiers": [ "NONE" ],
-        "specifically_covers": [ "arm_shoulder_l" ]
-      },
-      {
-        "covers": [ "arm_r" ],
-        "coverage": 25,
-        "encumbrance_modifiers": [ "NONE" ],
-        "specifically_covers": [ "arm_shoulder_r" ]
-      }
+      { "covers": [ "mouth" ], "coverage": 100 },
+      { "covers": [ "arm_l" ], "coverage": 25, "specifically_covers": [ "arm_shoulder_l" ] },
+      { "covers": [ "arm_r" ], "coverage": 25, "specifically_covers": [ "arm_shoulder_r" ] }
     ]
   }
 ]
