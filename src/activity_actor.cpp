@@ -2892,17 +2892,7 @@ void ebooksave_activity_actor::completed_scanning_current_book( player_activity 
     if( scanned_book ) {
 
         ereader->put_in( *scanned_book, pocket_type::E_FILE_STORAGE );
-        if( ereader->has_flag( json_flag_CAN_USE_IN_DARK ) ) {
-            item *ebook = ereader->get_item_with( [&]( const item & it ) {
-                return it.typeId() == scanned_book->typeId();
-            } );
 
-            if( ebook ) {
-                ebook->set_flag( json_flag_CAN_USE_IN_DARK );
-            } else {
-                debugmsg( "couldnt find scanned book" );
-            }
-        }
         if( who.is_avatar() ) {
             if( scanned_book->is_identifiable() && !who.has_identified( scanned_book->typeId() ) ) {
                 who.identify( *scanned_book );
