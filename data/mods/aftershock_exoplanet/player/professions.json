@@ -659,6 +659,7 @@
     "name": "Ex-Merc",
     "description": "You were once a mercenary under the contract of a rotating gallery of megacorps.  You were involved in everything from hits on union leaders to guarding warehouses.  After your last op failed, you were fired, blacklisted, and given a one-way ticket to Salus IV to do your best impression of an icicle, all wihtin the span of a day.",
     "points": 5,
+    "starting_cash": 1120000,
     "skills": [ 
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "smg" },
@@ -671,7 +672,26 @@
       { "level": 2, "name": "swimming" },
       { "level": 3, "name": "survival" } 
     ],
-    "traits": [ "psychopath" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "gloves_tactical" },
+          { "item": "afs_combat_cryo" },
+          { "item": "tac_helmet_uicas" },
+          { "item": "mask_ski" },
+          { "item": "socks" },
+          { "item": "boots_combat" },
+          { "item": "canteen" },
+          { "item": "afs_millitary_vest" },
+          { "item": "afs_gibrifle", "ammo-item": "afs_7.50mm", "charges": 30 }
+          { "item": "afs_UICASTA30", "ammo-item": "afs_7.50mm", "charges": 12 },
+          { "item": "afs_UICASTA30", "ammo-item": "afs_7.50mm", "charges": 12 },
+          { "item": "afs_ilbe" }
+        ],
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
+    },
     "CBMs": [ "bio_targeting", "bio_purifier", "bio_radio", "bio_adrenaline", "bio_torsionratchet", "bio_sunglasses", "bio_power_storage_mkII" ]
   },
   {
