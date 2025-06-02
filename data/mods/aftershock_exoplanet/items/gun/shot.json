@@ -5,7 +5,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Benelli 315" },
-    "description": "A widely popular combat shotgun featuring minor iterative refinements to a base design nearly three centuries old.  Whether the design is outdated or unsurpassable remains a matter of personal opinion.",  
+    "description": "A widely popular combat shotgun featuring minor iterative refinements to a base design nearly three centuries old.  Whether the design is outdated or unsurpassable remains a matter of personal opinion.",
     "valid_mod_locations": [
       [ "sling", 1 ],
       [ "mechanism", 2 ],
