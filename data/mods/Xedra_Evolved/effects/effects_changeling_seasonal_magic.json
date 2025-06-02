@@ -278,10 +278,26 @@
   {
     "type": "effect_type",
     "id": "effect_changeling_summer_ring_of_flames",
-    "//": "Tracker to to allow unweaving the glamour, and also make the changeling immune to heat",
+    "name": [ "Summer Champion" ],
+    "desc": [ "You stand in the ring of flames, facing your foe.  Woe to the vanquished." ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "KNOCKBACK_RESIST", "add": 100 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ] } ],
+    "blocks_effects": [ "blisters" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_ring_of_flames_limiter",
+    "//": "Limiter so the avatar_moves EoC for Ring of Champions doesn't immediately break due to removal of fields taking 1 round to occur",
     "name": [ "" ],
-    "desc": [ "" ],
-    "flags": [ "HEAT_IMMUNE" ]
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_ring_of_flames_enemy",
+    "name": [ "Enemy Champion" ],
+    "desc": [ "You are the target of Ring of Champions.  Your death will end the glamour." ],
+    "rating": "good",
+    "show_in_info": true
   },
   {
     "type": "effect_type",
@@ -472,7 +488,7 @@
     "remove_message": "Life returns to your limbs.",
     "show_in_info": true,
     "max_duration": "6 hours",
-    "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ] } ],
+    "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ], "ench_effects": [ { "effect": "downed", "intensity": 1 } ] } ],
     "limb_score_mods": [
       { "limb_score": "lift", "modifier": 0.2 },
       { "limb_score": "block", "modifier": 0.0 },

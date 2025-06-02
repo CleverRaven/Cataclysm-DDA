@@ -108,10 +108,35 @@
     "base_casting_time": 500
   },
   {
+    "id": "changeling_autumn_damage_plants_spell",
+    "type": "SPELL",
+    "name": "Withering Glare",
+    "description": "With a forceful gaze projecting the energies of the dying the year, you can wither plantlife in moments.  This also applies to mobile or even sapient plants. The glamour <color_yellow>does less damage</color> in spring.",
+    "message": "",
+    "flags": [ "NO_HANDS", "NO_LEGS", "SILENT" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 3,
+    "effect": "ter_transform",
+    "effect_str": "ter_changeling_autumn_wither_plants",
+    "extra_effects": [ { "id": "changeling_autumn_damage_mobile_plants_spell" } ],
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_controlling_weather_fog') > -1 ? 50 : max( ( 400 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 6) - (u_skill('deduction') * 10)), 150)"
+      ]
+    },
+    "base_casting_time": 25
+  },
+  {
     "id": "changeling_autumn_call_mists_spell",
     "type": "SPELL",
     "name": "Autumn Mists",
-    "description": "You can draw on the mystery of misty autumn mornings and condense a thick fog out of the air, reducing the vision of everyone and hiding your movements.  Reweave the glamour to dispel it. The glamour is <color_yellow>quicker to expire</color> in summer.",
+    "description": "You can draw on the mystery of misty autumn mornings and condense a thick fog out of the air, reducing the vision of everyone and hiding your movements.  Reweave the glamour to dispel it. The glamour is <color_yellow>quicker to expire</color> in spring.",
     "message": "",
     "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_autumn",
@@ -126,12 +151,12 @@
     "effect_str": "EOC_CHANGELING_AUTUMN_CHANGE_WEATHER_DENSE_FOG",
     "min_duration": {
       "math": [
-        "( ( 45812 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 7952) + (u_skill('deduction') * 15371) ) ) * (global_what_is_the_season == 2 ? 0.6 : 1)"
+        "( ( 45812 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 7952) + (u_skill('deduction') * 15371) ) ) * (global_what_is_the_season == 1 ? 0.6 : 1)"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( 91527 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 21685) + (u_skill('deduction') * 39852) ) ) * (global_what_is_the_season == 2 ? 0.4 : 1)"
+        "( ( 91527 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 21685) + (u_skill('deduction') * 39852) ) ) * (global_what_is_the_season == 1 ? 0.4 : 1)"
       ]
     },
     "base_energy_cost": {
