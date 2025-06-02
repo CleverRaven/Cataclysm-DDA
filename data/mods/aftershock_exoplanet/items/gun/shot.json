@@ -43,7 +43,8 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str_sp": "Accipiter Magnastorm-12" },
-    "description": "An advanced shotgun that combines chemical and electromagnetic propulsion systems to accelerate and focus a cloud of steel flechettes.  Resulting in a longer effective range and greater penetration than whats conventionally possible.  Most often deployed during low-intensity corporate conflicts.", "valid_mod_locations": [
+    "description": "An advanced shotgun that combines chemical and electromagnetic propulsion systems to accelerate and focus a cloud of steel flechettes.  Resulting in a longer effective range and greater penetration than whats conventionally possible.  Most often deployed during low-intensity corporate conflicts.",
+    "valid_mod_locations": [
       [ "sling", 1 ],
       [ "mechanism", 2 ],
       [ "brass catcher", 1 ],
