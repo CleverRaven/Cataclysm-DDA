@@ -5421,5 +5421,48 @@
     "copy-from": "test_book",
     "name": { "str": "copiable test file" },
     "ememory_size": "1 MB"
+  },
+  {
+    "id": "carver_off_test",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "electric carver (off)", "str_pl": "electric carvers (off)" },
+    "description": "An electric meat carver powered by cord.  It has two serrated blades that vibrate together to slice just about anything from turkey to ham… even zombies!",
+    "//": "Based on https://www.amazon.com/dp/B07CDR4KFM",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
+    "weight": "680 g",
+    "volume": "1500 ml",
+    "longest_side": "482 mm",
+    "price": "24 USD",
+    "price_postapoc": "1 cent",
+    "material": [ "steel", "plastic" ],
+    "symbol": "/",
+    "color": "yellow",
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Turn on",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_toolweapon_activate__carver",
+            "effect": {
+              "run_eocs": "EOC_toolweapon_activate",
+              "variables": {
+                "turn_cost": "0.8",
+                "transform_target": "carver_on",
+                "success_message": { "i18n": true, "str": "The electric carver's serrated blades start buzzing!" },
+                "volume": "20",
+                "failure_message": { "i18n": true, "str": "You pull the trigger, but nothing happens." }
+              }
+            }
+          }
+        ]
+      },
+      { "type": "link_up", "cable_length": 2, "charge_rate": "120 W" }
+    ],
+    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE" ],
+    "melee_damage": { "bash": 2, "cut": 8 },
+    "tool_ammo": [ "battery" ]
   }
 ]
