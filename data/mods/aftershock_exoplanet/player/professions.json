@@ -5,7 +5,7 @@
     "id": "uicasta_mags",
     "entries": [
           { "item": "afs_UICASTA30", "ammo-item": "afs_7.50mm", "charges": 30 },
-          { "item": "afs_UICASTA30", "ammo-item": "afs_7.50mm", "charges": 30 },
+          { "item": "afs_UICASTA30", "ammo-item": "afs_7.50mm", "charges": 30 }
     ]
   },
   {
@@ -70,7 +70,7 @@
     "starting_cash": 1120000,
     "flags": [ "SCEN_ONLY" ],
     "copy-from": "specops",
-    "CBMs": [ "bio_targeting", "bio_purifier", "bio_geiger", "bio_adrenaline", "bio_ethanol", "bio_power_storage_mkII" ],
+    "CBMs": [ "bio_targeting", "bio_purifier", "bio_geiger", "bio_adrenaline", "bio_ethanol", "bio_power_storage_mkII", "afs_bio_beavy_batteries" ],
     "skills": [
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "smg" },
@@ -668,7 +668,7 @@
     "name": "Ex-Merc",
     "description": "You were once a mercenary under the contract of a rotating gallery of megacorps.  You were involved in everything from hits on union leaders to guarding warehouses.  After your last op failed, you were fired, blacklisted, and given a one-way ticket to Salus IV to do your best impression of an icicle, all wihtin the span of a day.",
     "points": 5,
-    "starting_cash": 1120000,
+    "starting_cash": 105000,
     "skills": [ 
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "smg" },
@@ -686,21 +686,26 @@
         "entries": [
           { "item": "gloves_tactical" },
           { "item": "afs_combat_cryo" },
-          { "item": "tac_helmet_uicas" },
-          { "item": "mask_ski" },
+          { "item": "merc_cat_ears" },
           { "item": "socks" },
-          { "item": "boots_combat" },
+          { "item": "afs_merc_boot" },
+          { "item": "afs_mirror_shades" },
           { "item": "canteen" },
-          { "item": "afs_millitary_vest" },
-          { "item": "afs_gibrifle", "ammo-item": "afs_7.50mm", "charges": 30 },
+          {
+            "item": "afs_gibrifle",
+            "variant": "unique",
+            "ammo-item": "afs_7.50mm_caseless",
+            "charges": 30,
+            "contents-item": [ "acog_scope", "laser_sight", "robofac_stock", "cheek_pad", "suppressor", "afs_bars", "match_trigger"  ]
+          },
           { "group": "uicasta_mags" },
           { "item": "afs_ilbe", "contents": "afs_ammo_satchel" }
-        ],
+        ]
       },
-      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "male": { "entries": [ { "item": "boxer_shorts" }, { "item": "afs_cyberpunk_bomber", "variant": "merc" }, { "item": "pants", "variant": "pants_arctic"}, {"item": ""} ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     },
-    "CBMs": [ "bio_targeting", "bio_purifier", "bio_radio", "bio_adrenaline", "bio_torsionratchet", "bio_sunglasses", "bio_power_storage_mkII" ]
+    "CBMs": [ "bio_targeting", "bio_purifier", "bio_radio", "bio_adrenaline", "bio_torsionratchet", "bio_sunglasses", "bio_power_storage_mkII", "afs_bio_beavy_batteries" ]
   },
   {
     "type": "profession",

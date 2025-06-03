@@ -198,7 +198,7 @@
     "variant_type": "generic",    
     "variants": [
       {
-        "id": "generic",
+        "id": "merc",
         "name": { "str": "LYNX Arctic Comabt® diode bomber" },
         "description": "Fresh from LYNX's trademarked Arctic Comabt® lineup, this cool jacket will send chills down the spine of any poser that tries to pull your look!  It sports a magnesium white body, real faux-fur collar, and some cyan lights to really up the cool factor.",
         "color": "white",
