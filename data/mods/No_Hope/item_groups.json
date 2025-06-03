@@ -85,7 +85,11 @@
       { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
       { "item": "boots_combat", "prob": 70 },
       {
-        "collection": [ { "distribution": [ { "item": "balclava", "prob": 90 }, { "item": "balaclava_cut_resistant", "prob": 10 } ] } ],
+        "collection": [
+          {
+            "distribution": [ { "item": "balclava", "variant": "black", "prob": 90 }, { "item": "balaclava_cut_resistant", "prob": 10 } ]
+          }
+        ],
         "prob": 25
       },
       {

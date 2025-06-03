@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_cardealer" ],
     "object": {
       "fill_ter": "t_pavement",
@@ -72,7 +71,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_cardealer_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lmoe_under_full",
     "//": "LMOE shelter filled with angry NPCs. Has a working generator and light.",
     "//2": "This particular 2-bed shelter is a more professionally done, all metal bomb shelter with kitchen, secret safe room / gun locker, and workshop.",
@@ -52,7 +51,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lmoe_under_full",
     "//": "LMOE shelter filled with angry NPCs. Has a working generator and light.",
     "//2": "This is a commercially built 4-bed LMOE shelter based on IRL plans.",
@@ -129,7 +127,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lmoe_under_full",
     "//": "LMOE shelter filled with angry NPCs. Has a working generator and light.",
     "//2": "This particular 4-bed shelter is definitely homemade, mostly carved out of bare rock, and seems to be incomplete.",

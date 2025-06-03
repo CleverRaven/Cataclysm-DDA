@@ -90,7 +90,7 @@
       { "item": "bandana", "prob": 20 },
       { "item": "scarf", "prob": 15 },
       { "item": "hat_boonie", "prob": 20 },
-      { "item": "balclava", "prob": 10 },
+      { "item": "balclava", "variant": "black", "prob": 10 },
       { "item": "pickaxe", "prob": 20 },
       { "item": "makeshift_machete", "prob": 15 },
       { "prob": 20, "group": "fungicide_bag_plastic_400" },

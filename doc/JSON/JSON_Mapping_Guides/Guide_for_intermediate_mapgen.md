@@ -70,7 +70,6 @@ Example json entry for the nested map:
 ```
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_recroom_E",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -189,19 +188,16 @@ These nests were used in a larger nest of a basement study.  I didn't want the s
 ```
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "animist_loot_spawn",
     "object": { "mapgensize": [ 1, 1 ], "place_loot": [ { "group": "animist_items", "x": 0, "y": 0, "chance": 70 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "magus_loot_spawn",
     "object": { "mapgensize": [ 1, 1 ], "place_loot": [ { "group": "magus_items", "x": 0, "y": 0, "chance": 70 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "stormshaper_loot_spawn",
     "object": { "mapgensize": [ 1, 1 ], "place_loot": [ { "group": "stormshaper_items", "x": 0, "y": 0, "chance": 70 } ] }
   }
@@ -216,7 +212,6 @@ However, many NPCs should be closer to random encounters.  The below example cre
 ```
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "SEER_Brigitte_LaCroix_spawn",
     "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "SEER_Brigitte_LaCroix", "x": 0, "y": 0 } ] }
   }
@@ -227,7 +222,6 @@ Note the use of `t_null` in the majority of the map.  A lot of the map is unused
 ```
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "chef_s_restaurant",
     "object": {
       "mapgensize": [ 13, 13 ],
@@ -412,7 +406,6 @@ Trap example:
     {
     "type": "mapgen",
     "update_mapgen_id": "magic_door_appear",
-    "method": "json",
     "object": {
       "place_terrain": [ { "ter": "t_carpet_green", "x": 12, "y": 6 } ],
       "place_furniture": [ { "furn": "f_beaded_door", "x": 12, "y": 6 } ]
@@ -426,7 +419,6 @@ The main mapgen and spawning your trap:
 ```
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "magic_basement" ],
     "weight": 100,
     "object": {

@@ -165,7 +165,6 @@
     "mapgen": [
       {
         "weight": 1000,
-        "method": "json",
         "object": {
           "fill_ter": "t_sand",
           "rows": [

@@ -39,7 +39,7 @@
       },
       "furniture": { "f_region_flower": { "f_rack_coat": 1, "f_sign_warning": 1, "f_sign": 1 } }
     },
-    "river_scale": 0.0,
+    "overmap_river_settings": { "river_scale": 0.0 },
     "overmap_lake_settings": {
       "noise_threshold_lake": 1.0,
       "lake_size_min": 0,

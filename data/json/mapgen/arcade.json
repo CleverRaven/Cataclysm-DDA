@@ -6,7 +6,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_arcade" ],
     "object": {
       "fill_ter": "t_floor",
@@ -63,7 +62,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_arcade_roof",
     "object": {
       "fill_ter": "t_flat_roof",

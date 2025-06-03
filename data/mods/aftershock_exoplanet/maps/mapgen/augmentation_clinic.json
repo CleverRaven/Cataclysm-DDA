@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_augmentation_clinic_n1" ],
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -65,7 +64,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_augmentation_clinic_n2" ],
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -143,7 +141,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_augmentation_clinic_n3",
     "object": {
       "fill_ter": "t_floor",
@@ -218,7 +215,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_augmentation_clinic_n4",
     "object": {
       "fill_ter": "t_flat_roof",

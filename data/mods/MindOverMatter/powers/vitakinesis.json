@@ -18,19 +18,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('vita_health_power') * 2100) + 35400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('vita_health_power') + u_spell_level('vita_health_power_knack') ) * 2100) + 35400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('vita_health_power') * 29800) + 155000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('vita_health_power') + u_spell_level('vita_health_power_knack') ) * 29800) + 155000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": {
-      "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 0 : max((2500 - (u_spell_level('vita_health_power') * 75)), 1000)" ]
+      "math": [
+        "u_effect_intensity('effect_vita_health') > -1 ? 0 : max( (2500 - ( (u_spell_level('vita_health_power') + u_spell_level('vita_health_power_knack') ) * 75) ), 1000)"
+      ]
     },
     "base_casting_time": {
-      "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 10 : max((100 -(u_spell_level('vita_health_power') * 7.5)), 25)" ]
+      "math": [
+        "u_effect_intensity('effect_vita_health') > -1 ? 10 : max( (100 - ( (u_spell_level('vita_health_power') + u_spell_level('vita_health_power_knack') ) * 7.5) ), 25)"
+      ]
     }
   },
   {
@@ -178,22 +182,22 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('vita_concentrated_healing') * 7300) + 46300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 7300) + 46300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('vita_concentrated_healing') * 28400) + 103400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 28400) + 103400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_vita_concentrated_healing') > -1 ? 0 : max((3500 - (u_spell_level('vita_concentrated_healing') * 80)), 1350)"
+        "u_effect_intensity('effect_vita_concentrated_healing') > -1 ? 0 : max( (3500 - ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 80)), 1350)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_vita_concentrated_healing') > -1 ? 10 : max((250 -(u_spell_level('vita_concentrated_healing') * 9.5)), 35)"
+        "u_effect_intensity('effect_vita_concentrated_healing') > -1 ? 10 : max( (250 - ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 9.5) ), 35)"
       ]
     }
   },
@@ -299,12 +303,12 @@
     "effect_str": "EOC_VITAKIN_DEXTOXIFICATION_CHECK_1",
     "min_duration": {
       "math": [
-        "( (u_spell_level('vita_remove_poison') * 400) + 15600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('vita_remove_poison') + u_spell_level('vita_remove_poison_knack') ) * 400) + 15600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('vita_remove_poison') * 3200) + 41800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('vita_remove_poison') + u_spell_level('vita_remove_poison_knack') ) * 3200) + 41800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": 3500,
@@ -353,22 +357,22 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('vita_cure_disease') * 4800) + 114800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('vita_cure_disease') + u_spell_level('vita_cure_disease_knack') ) * 4800) + 114800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('vita_cure_disease') * 31100) + 283400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('vita_cure_disease') + u_spell_level('vita_cure_disease_knack') ) * 31100) + 283400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_vita_cure_disease') > -1 ? 0 : max((5500 - (u_spell_level('vita_cure_disease') * 125)), 2500)"
+        "u_effect_intensity('effect_vita_cure_disease') > -1 ? 0 : max( (5500 - ( (u_spell_level('vita_cure_disease') + u_spell_level('vita_cure_disease_knack') ) * 125) ), 2500)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_vita_cure_disease') > -1 ? 10 : max((500 -(u_spell_level('vita_cure_disease') * 18)), 50)"
+        "u_effect_intensity('effect_vita_cure_disease') > -1 ? 10 : max( (500 - ( (u_spell_level('vita_cure_disease') + u_spell_level('vita_cure_disease_knack') ) * 18)), 50)"
       ]
     }
   },

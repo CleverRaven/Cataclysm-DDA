@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_shop",
     "object": {
       "fill_ter": "t_floor",
@@ -124,7 +123,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_shop_2ndfloor",
     "object": {
       "fill_ter": "t_floor",
@@ -203,13 +201,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "NPC_healer_priest",
     "object": { "mapgensize": [ 1, 1 ], "rows": [ " " ], "place_npcs": [ { "class": "healer_priest", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_shop_roof",
     "object": {
       "fill_ter": "t_flat_roof",

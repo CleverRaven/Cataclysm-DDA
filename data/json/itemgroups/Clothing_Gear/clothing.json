@@ -55,7 +55,7 @@
     "//": "Clothes that hunters take on hunting trips.",
     "subtype": "distribution",
     "entries": [
-      { "item": "balclava", "prob": 50 },
+      { "item": "balclava", "variant": "black", "prob": 50 },
       { "item": "hat_cotton", "prob": 50 },
       { "item": "hat_faux_fur", "prob": 25 },
       { "item": "hat_fur", "prob": 50 },
@@ -236,7 +236,11 @@
       { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
       { "item": "boots_combat" },
       {
-        "collection": [ { "distribution": [ { "item": "balclava", "prob": 90 }, { "item": "balaclava_cut_resistant", "prob": 10 } ] } ],
+        "collection": [
+          {
+            "distribution": [ { "item": "balclava", "variant": "black", "prob": 90 }, { "item": "balaclava_cut_resistant", "prob": 10 } ]
+          }
+        ],
         "prob": 25
       },
       {
@@ -1696,7 +1700,7 @@
       [ "wizard_hat_costume", 1 ],
       [ "pointed_hat", 1 ],
       [ "hood_ninja", 1 ],
-      [ "balaclava_skull", 1 ],
+      { "item": "balclava", "variant": "skull", "prob": 1 },
       [ "mask_skull", 1 ],
       [ "zombie_mask", 2 ],
       [ "cheerleader_skirt", 5 ],
@@ -1907,7 +1911,7 @@
       [ "tights", 20 ],
       [ "arm_warmers", 20 ],
       [ "leg_warmers", 20 ],
-      [ "balclava", 15 ],
+      { "item": "balclava", "variant": "black", "prob": 15 },
       [ "santa_jacket", 1 ],
       [ "santa_jacket_short", 1 ],
       [ "santa_shorts", 1 ],
@@ -2004,7 +2008,7 @@
       [ "kufi", 10 ],
       [ "kippah", 30 ],
       [ "eboshi", 10 ],
-      [ "balclava", 20 ],
+      { "item": "balclava", "variant": "black", "prob": 20 },
       [ "porkpie", 30 ],
       { "group": "costume_hats_hoods", "prob": 450, "event": "halloween" },
       { "group": "christmas_hats", "prob": 450, "event": "christmas" }
@@ -2065,20 +2069,14 @@
     "id": "bags",
     "subtype": "distribution",
     "entries": [
+      { "group": "small_bags", "prob": 92 },
       { "item": "backpack", "prob": 38 },
       { "item": "backpack_hiking", "prob": 3 },
       { "item": "backpack_hunting", "prob": 1 },
-      { "item": "petpack", "prob": 3 },
       { "item": "backpack_tactical_large", "prob": 1 },
       { "item": "bigback", "prob": 1 },
       { "item": "travelpack", "prob": 5 },
-      { "item": "purse", "prob": 40 },
-      { "item": "mbag", "prob": 20 },
-      { "item": "slingpack", "prob": 8 },
-      { "item": "rucksack", "prob": 20 },
-      { "item": "backpack_denim", "prob": 3 },
-      { "item": "backpack_leather", "prob": 8 },
-      { "item": "briefcase", "prob": 10 },
+      { "item": "rucksack", "prob": 1 },
       { "item": "leg_bag", "prob": 1 },
       { "item": "quiver_takedown_bow", "prob": 1 }
     ]
@@ -2095,9 +2093,10 @@
       { "item": "backpack_tactical_large", "prob": 1 },
       { "group": "molle_backpacks_and_accessories", "prob": 1 },
       { "item": "duffelbag", "prob": 5 },
+      { "item": "long_duffelbag", "prob": 5 },
       { "item": "bigback", "prob": 1 },
       { "item": "travelpack", "prob": 5 },
-      { "item": "rucksack", "prob": 20 }
+      { "item": "rucksack", "prob": 1 }
     ]
   },
   {
@@ -2309,7 +2308,7 @@
       { "item": "leggings", "prob": 20 },
       { "item": "garter_belt", "prob": 10 },
       { "item": "stockings", "prob": 20 },
-      { "item": "balclava", "prob": 15 },
+      { "item": "balclava", "variant": "black", "prob": 15 },
       { "item": "pants_ski", "prob": 60 },
       { "item": "long_underpants", "prob": 40 },
       { "item": "long_undertop", "prob": 40 },
@@ -2469,7 +2468,7 @@
       { "item": "wizard_hat_costume", "prob": 1 },
       { "item": "pointed_hat", "prob": 1 },
       { "item": "hood_ninja", "prob": 1 },
-      { "item": "balaclava_skull", "prob": 1 },
+      { "item": "balclava", "variant": "skull", "prob": 1 },
       { "item": "mask_skull", "prob": 1 },
       { "item": "zombie_mask", "prob": 1 },
       { "item": "cheerleader_skirt", "prob": 5 },
@@ -2909,6 +2908,7 @@
       [ "tacvest", 10 ],
       { "group": "molle_backpacks_and_accessories", "prob": 8 },
       [ "duffelbag", 15 ],
+      [ "long_duffelbag", 5 ],
       [ "dump_pouch", 20 ],
       [ "legrig", 10 ],
       [ "under_armor", 20 ],
@@ -2936,6 +2936,7 @@
     "items": [
       { "group": "gasmask_bag_full", "prob": 10 },
       [ "duffelbag", 15 ],
+      [ "long_duffelbag", 5 ],
       { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "military_nvg", "prob": 1, "charges": [ 0, 100 ] },
@@ -3316,6 +3317,7 @@
       [ "slingpack", 12 ],
       [ "rucksack", 12 ],
       [ "duffelbag", 8 ],
+      [ "long_duffelbag", 4 ],
       [ "quiver_takedown_bow", 1 ],
       [ "mask_h20survivor", 1 ],
       [ "mask_bal", 14 ],
@@ -3362,7 +3364,7 @@
       [ "hat_boonie", 16 ],
       [ "beret", 18 ],
       [ "beret_wool", 14 ],
-      [ "balclava", 12 ],
+      { "item": "balclava", "variant": "black", "prob": 12 },
       [ "mask_survivorxl", 2 ],
       [ "combatsaw_off", 1 ],
       [ "ashot", 4 ],
@@ -3635,7 +3637,7 @@
       [ "wizard_hat_costume", 1 ],
       [ "pointed_hat", 1 ],
       [ "hood_ninja", 1 ],
-      [ "balaclava_skull", 1 ],
+      { "item": "balclava", "variant": "skull", "prob": 1 },
       [ "mask_skull", 1 ],
       [ "zombie_mask", 1 ],
       [ "cheerleader_skirt", 5 ],
@@ -3816,7 +3818,7 @@
     "subtype": "distribution",
     "items": [
       { "item": "bandana", "prob": 90 },
-      { "item": "balclava", "prob": 50 },
+      { "item": "balclava", "variant": "black", "prob": 50 },
       { "item": "headscarf", "prob": 50 },
       { "item": "scarf_fur_long", "prob": 10 },
       { "item": "scarf_fur", "prob": 20 },
@@ -4074,6 +4076,7 @@
           { "item": "backpack_denim", "prob": 5 },
           { "item": "backpack_hiking", "prob": 25 },
           { "item": "duffelbag", "prob": 80 },
+          { "item": "long_duffelbag", "prob": 10 },
           { "item": "travelpack", "prob": 25 },
           { "item": "gobag", "prob": 1 }
         ],

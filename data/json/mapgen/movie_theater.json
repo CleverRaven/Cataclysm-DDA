@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "movietheater_0_0", "movietheater_1_0", "movietheater_2_0" ],
@@ -158,7 +157,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "movietheater_roof_0_0", "movietheater_roof_1_0", "movietheater_roof_2_0" ],
@@ -263,7 +261,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ [ "movietheater_2_2_0" ], [ "movietheater_2_2_1" ] ],
     "object": {

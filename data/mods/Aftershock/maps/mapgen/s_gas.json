@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_gas" ],
     "weight": 1450,
     "object": {
@@ -60,7 +59,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_gas_roof" ],
     "weight": 1450,
     "object": {

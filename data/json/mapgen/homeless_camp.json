@@ -59,7 +59,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "homelesscamp",
     "object": {
       "predecessor_mapgen": "forest_thick",
@@ -103,7 +102,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "homelesscamp_npc",
     "type": "mapgen",
     "weight": 40,
@@ -161,7 +159,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "homelesscamp_npc",
     "type": "mapgen",
     "weight": 20,

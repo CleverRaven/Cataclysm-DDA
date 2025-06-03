@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "nursing_home_1", "nursing_home_2", "nursing_home_3", "nursing_home_4" ],
       [ "nursing_home_5", "nursing_home_6", "nursing_home_7", "nursing_home_8" ],
@@ -211,7 +210,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Shady Hills Nursing Home",
     "om_terrain": [
       [ "nursing_home_sh1", "nursing_home_sh2", "nursing_home_sh3", "nursing_home_sh4" ],
@@ -432,7 +430,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "nursing_home_1_roof", "nursing_home_2_roof", "nursing_home_3_roof" ],
       [ "nursing_home_4_roof", "nursing_home_5_roof", "nursing_home_6_roof" ]
@@ -494,7 +491,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "nursing_home_b1", "nursing_home_b2", "nursing_home_b3", "nursing_home_b4" ],
       [ "nursing_home_b5", "nursing_home_b6", "nursing_home_b7", "nursing_home_b8" ],
@@ -581,7 +577,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "nursing_home_bb1", "nursing_home_bb2", "nursing_home_bb3", "nursing_home_bb4" ],
       [ "nursing_home_bb5", "nursing_home_bb6", "nursing_home_bb7", "nursing_home_bb8" ],
@@ -668,7 +663,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "nursing_home_lab1", "nursing_home_lab2", "nursing_home_lab3", "nursing_home_lab4" ],
       [ "nursing_home_lab5", "nursing_home_lab6", "nursing_home_lab7", "nursing_home_lab8" ],
