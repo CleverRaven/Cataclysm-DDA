@@ -278,21 +278,9 @@ double faction_food_supply_eval( const_dialogue const &d, char /* scope */,
     faction *fac = g->faction_manager_ptr->get( faction_id( params[0].str( d ) ) );
     if( !vit_val.is_empty() ) {
         return static_cast<double>(
-                   fac->food_supply.get_vitamin( vitamin_id( vit_val.str( d ) ) ) );
+                   fac->food_supply().get_vitamin( vitamin_id( vit_val.str( d ) ) ) );
     }
-    return static_cast<double>( fac->food_supply.calories );
-}
-
-void faction_food_supply_ass( double val, dialogue &d, char /* scope */,
-                              std::vector<diag_value> const &params, diag_kwargs const &kwargs )
-{
-    diag_value vit_val = kwargs.kwarg_or( "vitamin" );
-    faction *fac = g->faction_manager_ptr->get( faction_id( params[0].str( d ) ) );
-    if( !vit_val.is_empty() ) {
-        fac->food_supply.add_vitamin( vitamin_id( vit_val.str( d ) ), val );
-        return;
-    }
-    fac->food_supply.calories = val;
+    return static_cast<double>( fac->food_supply().calories );
 }
 
 double faction_wealth_eval( const_dialogue const &d, char /* scope */,
@@ -1684,7 +1672,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "faction_like", { "g", 1, faction_like_eval, faction_like_ass } },
     { "faction_respect", { "g", 1, faction_respect_eval, faction_respect_ass } },
     { "faction_trust", { "g", 1, faction_trust_eval, faction_trust_ass } },
-    { "faction_food_supply", { "g", 1, faction_food_supply_eval, faction_food_supply_ass, { "vitamin" } } },
+    { "faction_food_supply", { "g", 1, faction_food_supply_eval, {}, { "vitamin" } } },
     { "faction_wealth", { "g", 1, faction_wealth_eval, faction_wealth_ass } },
     { "faction_power", { "g", 1, faction_power_eval, faction_power_ass } },
     { "faction_size", { "g", 1, faction_size_eval, faction_size_ass } },

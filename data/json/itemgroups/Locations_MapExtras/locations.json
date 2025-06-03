@@ -1725,6 +1725,9 @@
       { "item": "nun_wimple", "prob": 35 },
       { "item": "thawb", "prob": 10 },
       { "item": "kufi", "prob": 10 },
+      { "item": "hijab", "prob": 10 },
+      { "item": "niqab", "prob": 10 },
+      { "item": "abaya", "prob": 10 },
       { "item": "icon", "prob": 20 }
     ]
   },

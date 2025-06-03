@@ -73,6 +73,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "json.h"
+#include "list.h"
 #include "localized_comparator.h"
 #include "magic.h"
 #include "map.h"
@@ -2758,30 +2759,55 @@ static void faction_edit_opinion_menu( faction *fac )
 
 static void faction_edit_larder_menu( faction *fac )
 {
-    uilist smenu;
-    smenu.addentry( 0, true, 'l', _( "kcal: have stored %i" ), fac->food_supply.kcal() );
-    const auto &vits = vitamin::all();
-    for( const auto &v : vits ) {
-        smenu.addentry( -1, true, 0, _( "%s: have stored %d" ), v.second.name(),
-                        fac->food_supply.get_vitamin( v.first ) );
+    std::vector<cata::list<std::pair<time_point, nutrients>>::iterator> supplies_by_expiry;
+    fac->prune_food_supply();
+    cata::list<std::pair<time_point, nutrients>> &food_supply = fac->debug_food_supply();
+    supplies_by_expiry.reserve( food_supply.size() );
+    for( auto it = food_supply.begin(); it != food_supply.end(); ++it ) {
+        supplies_by_expiry.push_back( it );
     }
 
-    smenu.query();
-    int value;
-    switch( smenu.ret ) {
-        case 0:
-            if( query_int( value, false, _( "Change food from %d to: " ), fac->food_supply.kcal() ) ) {
-                fac->food_supply.calories = ( value * 1000 );
-            }
+    uilist entry_query;
+    entry_query.ret = 0;
+    entry_query.title = _( "Edit which entry?" );
+    for( size_t i = 0; i < supplies_by_expiry.size(); ++i ) {
+        entry_query.addentry( i, true, 0, _( "%d kcal, expires %s" ), supplies_by_expiry[i]->second.kcal(),
+                              to_string( supplies_by_expiry[i]->first ) );
+    }
+
+    while( entry_query.ret != UILIST_CANCEL ) {
+        entry_query.query();
+
+        if( entry_query.ret < 0 || static_cast<size_t>( entry_query.ret ) >= supplies_by_expiry.size() ) {
             break;
-        default:
-            if( smenu.ret >= 1 && smenu.ret < static_cast<int>( vits.size() + 1 ) ) {
-                auto iter = std::next( vits.begin(), smenu.ret - 1 );
-                if( query_int( value, false, _( "Set %s to?  Currently: %d" ),
-                               iter->second.name(), fac->food_supply.get_vitamin( iter->first ) ) ) {
-                    fac->food_supply.set_vitamin( iter->first, value );
+        }
+        nutrients &entry = supplies_by_expiry[entry_query.ret]->second;
+
+        uilist smenu;
+        smenu.addentry( 0, true, 'l', _( "kcal: have stored %i" ), entry.kcal() );
+        const auto &vits = vitamin::all();
+        for( const auto &v : vits ) {
+            smenu.addentry( -1, true, 0, _( "%s: have stored %d" ), v.second.name(),
+                            entry.get_vitamin( v.first ) );
+        }
+
+        smenu.query();
+        int value;
+        switch( smenu.ret ) {
+            case 0:
+                if( query_int( value, false, _( "Change food from %d to: " ), entry.kcal() ) ) {
+                    entry.calories = ( value * 1000 );
                 }
-            }
+                break;
+            default:
+                if( smenu.ret >= 1 && smenu.ret < static_cast<int>( vits.size() + 1 ) ) {
+                    auto iter = std::next( vits.begin(), smenu.ret - 1 );
+                    if( query_int( value, false, _( "Set %s to?  Currently: %d" ),
+                                   iter->second.name(), entry.get_vitamin( iter->first ) ) ) {
+                        entry.set_vitamin( iter->first, value );
+                    }
+                }
+        }
     }
 }
 
@@ -2804,7 +2830,7 @@ static void faction_edit_menu()
          << string_format( _( "Currency: %s" ), fac->currency.obj().nname( fac->wealth ) ) << std::endl;
     data << string_format( _( "Size: %d" ), fac->size ) << " | "
          << string_format( _( "Power: %d" ), fac->power ) << " | "
-         << string_format( _( "Food Supply: %d" ), fac->food_supply.kcal() ) << std::endl;
+         << string_format( _( "Food Supply: %d" ), fac->food_supply().kcal() ) << std::endl;
     data << string_format( _( "Like: %d" ), fac->likes_u ) << " | "
          << string_format( _( "Respect: %d" ), fac->respects_u ) << " | "
          << string_format( _( "Trust: %d" ), fac->trusts_u ) << std::endl;

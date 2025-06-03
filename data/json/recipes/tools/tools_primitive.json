@@ -474,28 +474,6 @@
   },
   {
     "type": "recipe",
-    "result": "hygroscope",
-    "activity_level": "BRISK_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "chemistry", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_carving" } ],
-    "difficulty": 5,
-    "time": "2 h",
-    "autolearn": true,
-    "qualities": [
-      { "id": "CHISEL", "level": 3 },
-      { "id": "CHISEL_WOOD", "level": 3 },
-      { "id": "ANVIL", "level": 3 },
-      { "id": "SAW_W", "level": 2 },
-      { "id": "SCREW", "level": 1 }
-    ],
-    "using": [ [ "blacksmithing_standard", 13 ], [ "steel_standard", 1 ] ],
-    "components": [ [ [ "2x4", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "water_filter_sand",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",

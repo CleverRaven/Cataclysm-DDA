@@ -3825,5 +3825,23 @@
         "append": true
       }
     ]
+  },
+  {
+    "id": "abaya",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": "abaya",
+    "description": "A loose-fitting, full-length outer garment generally worn over clothing by Muslim women.",
+    "weight": "600 g",
+    "volume": "2 L",
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
+    "symbol": "Y",
+    "color": "dark_gray",
+    "material": [ "cotton" ],
+    "material_thickness": 0.2,
+    "warmth": 5,
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [ { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100 } ]
   }
 ]
