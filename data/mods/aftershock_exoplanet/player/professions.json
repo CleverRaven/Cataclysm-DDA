@@ -1,4 +1,13 @@
 [
+    {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "uicasta_mags",
+    "entries": [
+          { "item": "afs_UICASTA30", "ammo-item": "afs_7.50mm", "charges": 30 },
+          { "item": "afs_UICASTA30", "ammo-item": "afs_7.50mm", "charges": 30 },
+    ]
+  },
   {
     "type": "profession",
     "id": "afs_radio_technician",
@@ -683,10 +692,9 @@
           { "item": "boots_combat" },
           { "item": "canteen" },
           { "item": "afs_millitary_vest" },
-          { "item": "afs_gibrifle", "ammo-item": "afs_7.50mm", "charges": 30 }
-          { "item": "afs_UICASTA30", "ammo-item": "afs_7.50mm", "charges": 12 },
-          { "item": "afs_UICASTA30", "ammo-item": "afs_7.50mm", "charges": 12 },
-          { "item": "afs_ilbe" }
+          { "item": "afs_gibrifle", "ammo-item": "afs_7.50mm", "charges": 30 },
+          { "group": "uicasta_mags" },
+          { "item": "afs_ilbe", "contents": "afs_ammo_satchel" }
         ],
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },

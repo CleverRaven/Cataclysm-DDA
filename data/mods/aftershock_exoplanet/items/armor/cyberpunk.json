@@ -12,6 +12,24 @@
     "material_thickness": 0.3,
     "pocket_data": [  ]
   },
+  { 
+    "id": "afs_mirror_shades", 
+    "repairs_like": "glasses_bal",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "glasses_bal",
+    "looks_like": "glasses_bal",
+    "name": { "str": "mirror shades"},
+    "description": "A pair of mirrored combat sunglasses.  They look pretty badass, but they give you a definitive disadvantage when it comes to playing cards."
+  },
+  {
+    "id": "afs_merc_boot",
+    "type": "ITEM",
+    "subtypes": ["ARMOR"],
+    "copy-from": "boots_combat",
+    "name": { "str":"pair of LYNX Arctic Combat® boots","str_pl": "pairs of LYNX Arctic Combat® boots" },
+    "description": "A pair of winterized combat boots from the LYNX Arctic Combat® collection.  LYNX was supposedly founded in 2065, after their founder, Marion Howl, shot and killed the last Lynx off the beaches of Alaska.  After being acquired by Lusanne, the name 'LYNX' became synonymous with stylish, yet combat-ready apparrel for the discerning mercenary."
+  },
   {
     "id": "afs_academy_cloak",
     "repairs_like": "cloak",
@@ -176,6 +194,16 @@
         "moves": 350,
         "description": "rear channel pocket."
       }
+    ],
+    "variant_type": "generic",    
+    "variants": [
+      {
+        "id": "generic",
+        "name": { "str": "LYNX Arctic Comabt® diode bomber" },
+        "description": "Fresh from LYNX's trademarked Arctic Comabt® lineup, this cool jacket will send chills down the spine of any poser that tries to pull your look!  It sports a magnesium white body, real faux-fur collar, and some cyan lights to really up the cool factor.",
+        "color": "white",
+        "weight": 0
+      }
     ]
   },
   {
@@ -272,6 +300,14 @@
         "id": "designer",
         "name": { "str": "Lausanne combat bolero" },
         "description": "It's pearl white with gold thread accents.  A classic from the Lausanne combat collection.",
+        "color": "dark_gray",
+        "weight": 0,
+        "append": true
+      },
+      {
+        "id": "lynx",
+        "name": { "str": "LYNX Arctic Combat® bolero" },
+        "description": "It's soft white with a salmon interior and a real faux-fur collar.  Fresh from the LYNX Arctic Combat® collection.",
         "color": "dark_gray",
         "weight": 0,
         "append": true
