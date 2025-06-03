@@ -905,7 +905,7 @@
         "description": "This one is colored red.",
         "color": "red",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_blue",
@@ -913,7 +913,7 @@
         "color": "blue",
         "description": "This one is colored blue.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_yellow",
@@ -921,7 +921,7 @@
         "color": "yellow",
         "description": "This one is colored yellow.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_green",
@@ -929,7 +929,7 @@
         "color": "green",
         "description": "This one is colored green.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_purple",
@@ -937,7 +937,7 @@
         "color": "magenta",
         "description": "This one is colored purple.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_pink",
@@ -945,7 +945,7 @@
         "color": "magenta",
         "description": "This one is colored pink.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_cyan",
@@ -953,7 +953,7 @@
         "color": "cyan",
         "description": "This one is colored cyan.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_black",
@@ -961,7 +961,7 @@
         "color": "dark_gray",
         "description": "This one is colored black.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_white",
@@ -969,7 +969,7 @@
         "color": "light_gray",
         "description": "This one is colored white.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_brown",
@@ -977,15 +977,61 @@
         "color": "brown",
         "description": "This one is colored brown.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
-        "id": "hoodie_animal",
-        "name": { "str": "animal hoodie" },
+        "id": "shark",
+        "name": { "str": "shark hoodie" },
         "append": true,
-        "expand_snippets": true,
-        "description": "This one looks like a cute <hoodie_animal>.",
-        "weight": 1
+        "description": "This one is made to look like a cute shark."
+      },
+      {
+        "id": "bear",
+        "name": { "str": "bear hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute bear."
+      },
+      {
+        "id": "cat",
+        "name": { "str": "cat hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute cat."
+      },
+      {
+        "id": "bunny",
+        "name": { "str": "bunny hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute bunny."
+      },
+      {
+        "id": "wolf",
+        "name": { "str": "wolf hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute wolf."
+      },
+      {
+        "id": "lizard",
+        "name": { "str": "lizard hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute lizard."
+      },
+      {
+        "id": "dog",
+        "name": { "str": "dog hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute dog."
+      },
+      {
+        "id": "panda",
+        "name": { "str": "panda hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute panda."
+      },
+      {
+        "id": "frog",
+        "name": { "str": "frog hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute frog."
       }
     ]
   },
@@ -1010,7 +1056,7 @@
         "description": "This one is colored red.",
         "color": "red",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_blue",
@@ -1018,7 +1064,7 @@
         "color": "blue",
         "description": "This one is colored blue.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_yellow",
@@ -1026,7 +1072,7 @@
         "color": "yellow",
         "description": "This one is colored yellow.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_green",
@@ -1034,7 +1080,7 @@
         "color": "green",
         "description": "This one is colored green.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_purple",
@@ -1042,7 +1088,7 @@
         "color": "magenta",
         "description": "This one is colored purple.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_pink",
@@ -1050,7 +1096,7 @@
         "color": "magenta",
         "description": "This one is colored pink.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_cyan",
@@ -1058,7 +1104,7 @@
         "color": "cyan",
         "description": "This one is colored cyan.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_black",
@@ -1066,7 +1112,7 @@
         "color": "dark_gray",
         "description": "This one is colored black.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_white",
@@ -1074,7 +1120,7 @@
         "color": "light_gray",
         "description": "This one is colored white.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
         "id": "hoodie_brown",
@@ -1082,15 +1128,61 @@
         "color": "brown",
         "description": "This one is colored brown.",
         "append": true,
-        "weight": 1
+        "weight": 100
       },
       {
-        "id": "hoodie_animal",
-        "name": { "str": "animal hoodie" },
+        "id": "shark",
+        "name": { "str": "shark hoodie" },
         "append": true,
-        "expand_snippets": true,
-        "description": "This one looks like a cute <hoodie_animal>.",
-        "weight": 1
+        "description": "This one is made to look like a cute shark."
+      },
+      {
+        "id": "bear",
+        "name": { "str": "bear hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute bear."
+      },
+      {
+        "id": "cat",
+        "name": { "str": "cat hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute cat."
+      },
+      {
+        "id": "bunny",
+        "name": { "str": "bunny hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute bunny."
+      },
+      {
+        "id": "wolf",
+        "name": { "str": "wolf hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute wolf."
+      },
+      {
+        "id": "lizard",
+        "name": { "str": "lizard hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute lizard."
+      },
+      {
+        "id": "dog",
+        "name": { "str": "dog hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute dog."
+      },
+      {
+        "id": "panda",
+        "name": { "str": "panda hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute panda."
+      },
+      {
+        "id": "frog",
+        "name": { "str": "frog hoodie" },
+        "append": true,
+        "description": "This one is made to look like a cute frog."
       }
     ]
   },
