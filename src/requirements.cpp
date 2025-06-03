@@ -531,6 +531,17 @@ bool requirement_data::any_marked_available( const std::vector<T> &comps )
 }
 
 template<typename T>
+bool requirement_data::any_marked_as_status( const std::vector<T> &comps, available_status status )
+{
+    for( const auto &comp : comps ) {
+        if( comp.available == status ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+template<typename T>
 std::string requirement_data::print_all_objs( const std::string &header,
         const std::vector< std::vector<T> > &objs )
 {
@@ -571,7 +582,7 @@ std::string requirement_data::print_missing_objs( const std::string &header,
     std::string separator_or = _( " or " );
     std::string buffer;
     for( const auto &list : objs ) {
-        if( any_marked_available( list ) ) {
+        if( any_marked_as_status( list, available_status::a_true ) ) {
             continue;
         }
         if( !buffer.empty() ) {
@@ -597,6 +608,28 @@ std::string requirement_data::list_missing() const
     buffer += print_missing_objs( _( "These tools are missing:" ), qualities );
     buffer += print_missing_objs( _( "These components are missing:" ), components );
     return buffer;
+}
+
+recipe_id requirement_data::get_next_required_craft( const read_only_visitable &crafting_inv,
+        int batch )
+{
+    for( std::vector<item_comp> &comps : components ) {
+        if( any_marked_available( comps ) ) {
+            continue;
+        }
+        for( item_comp &comp : comps ) {
+            recipe_id rec( comp.type.c_str() );
+            if( rec.is_valid() ) {
+                if( rec->simple_requirements().can_make_with_inventory( crafting_inv, rec->get_component_filter(),
+                        std::ceil( rec->makes_amount() / ( comp.count * batch ) ) ) ) {
+                    comp.available = available_status::a_craftable;
+                    add_msg( "%s can be substituted by its recipe", comp.type.c_str() );
+                }
+            }
+        }
+
+        return recipe_id::NULL_ID();
+    }
 }
 
 void quality_requirement::check_consistency( const std::string &display_name ) const
@@ -918,12 +951,12 @@ bool requirement_data::has_comps( const read_only_visitable &crafting_inv,
         for( const T &tool : set_of_tools ) {
             if( tool.has( crafting_inv, filter, batch, flags, use_ups ) ) {
                 tool.available = available_status::a_true;
-            } else if( !std::is_same<T, item_comp>() && tool.craftable ) {
+            } else if( tool.get_component_type() == component_type::ITEM && tool.craftable ) {
                 recipe_id rec( tool.type.c_str() );
                 if( rec.is_valid() ) {
                     if( rec->simple_requirements().can_make_with_inventory( crafting_inv, filter,
                             std::ceil( rec->makes_amount() / ( tool.count * batch ) ) ) ) {
-                        tool.available = available_status::a_true;
+                        tool.available = available_status::a_craftable;
                         add_msg( "%s can be substituted by its recipe", tool.type.c_str() );
                     }
                 }
@@ -1107,7 +1140,8 @@ bool requirement_data::check_enough_materials( const item_comp &comp,
         const read_only_visitable &crafting_inv,
         const std::function<bool( const item & )> &filter, int batch ) const
 {
-    if( comp.available != available_status::a_true ) {
+    if( comp.available != available_status::a_true &&
+        comp.available != available_status::a_craftable ) {
         return false;
     }
     const int cnt = std::abs( comp.count ) * batch;
@@ -1148,7 +1182,8 @@ bool requirement_data::check_enough_materials( const item_comp &comp,
             comp.available = available_status::a_insufficient;
         }
     }
-    return comp.available == available_status::a_true;
+    return comp.available == available_status::a_true ||
+           comp.available == available_status::a_craftable;
 }
 
 template <typename T>

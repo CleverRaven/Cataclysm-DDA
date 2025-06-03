@@ -325,6 +325,8 @@ struct requirement_data {
          */
         std::string list_missing() const;
 
+        recipe_id get_next_required_craft( const read_only_visitable &crafting_inv, int batch );
+
         /**
          * Remove tools or components of given type leaving qualities unchanged
          * @note if the last available component of a grouping is removed the recipe
@@ -372,6 +374,8 @@ struct requirement_data {
          */
         static requirement_data continue_requirements( const std::vector<item_comp> &required_comps,
                 const item_components &remaining_comps );
+
+        recipe_id get_next_recipe() const;
 
         /**
          * Merge similar quality/tool/component lists.
@@ -429,6 +433,8 @@ struct requirement_data {
 
         template<typename T>
         static bool any_marked_available( const std::vector<T> &comps );
+        template<typename T>
+        static bool any_marked_as_status( const std::vector<T> &comps, available_status status );
         template<typename T>
         static void load_obj_list( const JsonArray &jsarr, std::vector< std::vector<T> > &objs );
         template<typename T, typename ID>
