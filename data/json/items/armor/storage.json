@@ -2974,8 +2974,8 @@
     "id": "long_duffelbag",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "huge duffel bag" },
-    "description": "An extra huge duffel bag.  Could fit long items like rifles inside it.  Quite cumbersome.",
+    "name": { "str": "longarm bag" },
+    "description": "A long duffel bag.  Provides storage for long arms and rifles.  Quite cumbersome.",
     "weight": "1203 g",
     "volume": "12 L",
     "price": "180 USD",
@@ -2987,7 +2987,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "140 L",
+        "max_contains_volume": "50 L",
         "max_contains_weight": "80 kg",
         "max_item_length": "150 cm",
         "magazine_well": "10 L",
@@ -2998,7 +2998,7 @@
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
-      { "encumbrance": [ 15, 50 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+      { "encumbrance": [ 8, 42 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ]
   },
   {
