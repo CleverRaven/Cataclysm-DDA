@@ -20,7 +20,7 @@
     "contamination": [ { "disease": "highly_contaminated_food", "probability": 100 } ],
     "volume": "62 ml",
     "fun": -25,
-    "flags": [ "TRADER_AVOID", "INEDIBLE" ]
+    "flags": [ "INEDIBLE" ]
   },
   {
     "type": "ITEM",
