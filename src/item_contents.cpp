@@ -789,7 +789,7 @@ struct item_contents::item_contents_helper {
 
         for( my_pocket_type &pocket : contents.contents ) {
             if( ( it.is_tool() || it.is_armor() ) && pk_type == pocket_type::MAGAZINE ) {
-                continue
+                continue;
             }
             if( !pocket.is_type( pk_type ) ) {
                 continue;
