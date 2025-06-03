@@ -313,5 +313,21 @@
         "append": true
       }
     ]
+  },
+  {
+    "id": "afs_lx_pants",
+    "copy-from": "pants_army",
+    "material": [ "graphene_weave"],
+    "price": "3 kUSD",
+    "name": { "str": "nanoweave pants", "str_pl": "pairs of nanoweave pants" },  
+    "description": "A pair of Lusanne pants, with black threads fading up into a stell-grey gradient pattern. Despite having a multitude of pockets, they are all hidden expertly within the material. ",
+    "variant_type": "generic",
+    "variants":[
+      {
+        "id": "lynx",
+        "name": { "str": "LYNX Arctic Combat® pants", "str_pl": "pairs of LYNX Arctic Combat® pants" },
+        "description": "A pair of sleek nanoweave combat pants, produced by LYNX, a subsidiary of Lusanne.  Being part of the Arctic Combat® collection, it is resplendent in black and white camo, that appears to change pattern as one walks."    
+    }
+    ]
   }
 ]
