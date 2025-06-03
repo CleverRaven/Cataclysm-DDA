@@ -166,8 +166,6 @@ static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
 static const furn_str_id furn_f_wind_mill_active( "f_wind_mill_active" );
 
-const flag_id flag_CAN_USE_IN_DARK( "CAN_USE_IN_DARK" );
-
 static const gun_mode_id gun_mode_REACH( "REACH" );
 
 static const item_category_id item_category_container( "container" );

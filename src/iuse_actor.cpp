@@ -131,8 +131,6 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
-static const flag_id json_flag_CAN_USE_IN_DARK( "CAN_USE_IN_DARK" );
-
 static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
 static const furn_str_id furn_f_kiln_metal_empty( "f_kiln_metal_empty" );
 static const furn_str_id furn_f_kiln_portable_empty( "f_kiln_portable_empty" );
@@ -1404,7 +1402,7 @@ std::optional<int> reveal_map_actor::use( Character *p, item &it, map *,
     if( it.already_used_by_player( *p ) ) {
         p->add_msg_if_player( _( "There isn't anything new on the %s." ), it.tname() );
         return std::nullopt;
-    } else if( p->fine_detail_vision_mod() > 4 && !it.has_flag( json_flag_CAN_USE_IN_DARK ) ) {
+    } else if( p->fine_detail_vision_mod() > 4 && !it.has_flag( flag_CAN_USE_IN_DARK ) ) {
         p->add_msg_if_player( _( "It's too dark to read." ) );
         return std::nullopt;
     }

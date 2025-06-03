@@ -11,6 +11,7 @@
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
+#include "flag.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -29,7 +30,6 @@ static const activity_id ACT_READ( "ACT_READ" );
 
 static const efftype_id effect_darkness( "darkness" );
 
-static const flag_id json_flag_CAN_USE_IN_DARK( "CAN_USE_IN_DARK" );
 static const flag_id json_flag_INSPIRATIONAL( "INSPIRATIONAL" );
 
 static const itype_id itype_atomic_lamp( "atomic_lamp" );
@@ -544,7 +544,7 @@ TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
         item_location ereader = dummy.i_add( item( itype_test_ebook_reader ) );
 
         ereader->put_in( book, pocket_type::E_FILE_STORAGE );
-        REQUIRE( ereader->has_flag( json_flag_CAN_USE_IN_DARK ) );
+        REQUIRE( ereader->has_flag( flag_CAN_USE_IN_DARK ) );
 
         item *ebook = ereader->get_item_with( [&]( const item & it ) {
             return it.typeId() == book.typeId();
@@ -552,7 +552,7 @@ TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
         REQUIRE_FALSE( ebook->is_null() );
 
         // CAN_USE_IN_DARK should get inherited from the ereader.
-        REQUIRE( ebook->has_flag( json_flag_CAN_USE_IN_DARK ) );
+        REQUIRE( ebook->has_flag( flag_CAN_USE_IN_DARK ) );
 
         item battery( itype_test_battery_disposable );
         battery.ammo_set( battery.ammo_default(), 100 );
