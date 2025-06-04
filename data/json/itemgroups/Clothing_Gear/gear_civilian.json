@@ -198,7 +198,7 @@
   {
     "id": "child_schoolbag_1",
     "type": "item_group",
-    "container-item": "backpack",
+    "container-item": "backpack_small",
     "on_overflow": "spill",
     "items": [ { "group": "child_schoolbag_contents" } ]
   },
