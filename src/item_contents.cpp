@@ -788,9 +788,6 @@ struct item_contents::item_contents_helper {
         int num_pockets_of_type = 0;
 
         for( my_pocket_type &pocket : contents.contents ) {
-            if( ( it.is_tool() || it.is_armor() ) && pk_type == pocket_type::MAGAZINE ) {
-                continue;
-            }
             if( !pocket.is_type( pk_type ) ) {
                 continue;
             }
@@ -802,6 +799,10 @@ struct item_contents::item_contents_helper {
                            &pocket, "special pocket type override" );
             }
             ++num_pockets_of_type;
+            if( ( it.is_tool() || it.is_armor() ) && pk_type == pocket_type::MAGAZINE ) {
+                return ret_val<my_pocket_type *>::make_success(
+                           &pocket, "override for armors/tools with magazines override" );
+            }
             ret_val<item_pocket::contain_code> ret_contain = pocket.can_contain( it );
             if( ret_contain.success() ) {
                 return ret_val<my_pocket_type *>::make_success( &pocket, ret_contain.str() );
