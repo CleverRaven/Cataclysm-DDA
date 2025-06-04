@@ -28,7 +28,7 @@
     "subtypes": ["ARMOR"],
     "copy-from": "boots_combat",
     "name": { "str":"pair of LYNX Arctic Combat® boots","str_pl": "pairs of LYNX Arctic Combat® boots" },
-    "description": "A pair of winterized combat boots from the LYNX Arctic Combat® collection.  LYNX was supposedly founded in 2065, after their founder, Marion Howl, shot and killed the last Lynx off the beaches of Alaska.  After being acquired by Lusanne, the name 'LYNX' became synonymous with stylish, yet combat-ready apparrel for the discerning mercenary."
+    "description": "A pair of winterized combat boots from the LYNX Arctic Combat® collection.  LYNX was supposedly founded in 2065, after their founder, Marion Howl, shot and killed the last Lynx off the beaches of Alaska.  After being acquired by Lausanne, the name 'LYNX' became synonymous with stylish, yet combat-ready apparrel for the discerning mercenary."
   },
   {
     "id": "afs_academy_cloak",
@@ -315,19 +315,29 @@
     ]
   },
   {
-    "id": "afs_lx_pants",
+    "id": "afs_lx_armypants",
     "copy-from": "pants_army",
     "material": [ "graphene_weave"],
     "price": "3 kUSD",
-    "name": { "str": "nanoweave pants", "str_pl": "pairs of nanoweave pants" },  
-    "description": "A pair of Lusanne pants, with black threads fading up into a stell-grey gradient pattern. Despite having a multitude of pockets, they are all hidden expertly within the material. ",
+    "name": { "str": "LYNX nanoweave combat pants", "str_pl": "pairs of  LYNX nanoweave combat pants" },  
+    "description": "A pair of nanowoven combat pants produced by LYNX, a subsidiary of Lausanne.  Catering to high-earning mercenaries who value style, these pants are form-fitting and stylish while also boasting mutliple deep pockets.  This pair is black, with a gunmetal black turning into a shiny steel-grey as it nears the waistline.",
     "variant_type": "generic",
     "variants":[
       {
-        "id": "lynx",
+        "id": "arctic",
         "name": { "str": "LYNX Arctic Combat® pants", "str_pl": "pairs of LYNX Arctic Combat® pants" },
-        "description": "A pair of sleek nanoweave combat pants, produced by LYNX, a subsidiary of Lusanne.  Being part of the Arctic Combat® collection, it is resplendent in mottled black and white camo, that appears to change pattern as one walks.  Unfortunately, the coloration does little to help blend in on Salus IV."    
+        "description": "A pair of sleek nanoweave combat pants, produced by LYNX, a subsidiary of Lausanne.  Being part of the Arctic Combat® collection, it is resplendent in mottled black and white camo, that appears to change pattern as one walks.  Unfortunately, the coloration does little to help blend in on Salus IV."    
     }
     ]
+  },
+  {
+    "id": "afs_lx_comcropped",
+    "material": [ "graphene_weave"],
+    "price":"2 kUSD",
+    "type": "ITEM",
+    "subtypes": ["ARMOR"],
+    "name": { "str": "LYNX combat crop top"},
+    "description": "A nanoweave crop top produced by LYNX, a subsidiary of Lausanne.  Substantially thicker than a standard crop top, this article of clothing is designed to be worn over a combat cryosuit or other body-glove like piece of clothing, while also fitting underneath a bolero.  It also boasts a single front pocket."
+
   }
 ]
