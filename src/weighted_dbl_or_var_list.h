@@ -5,9 +5,6 @@
 #include "dialogue.h"
 #include "weighted_list.h"
 
-//BEFOREMERGE: Redo copied comments
-//BEFOREMERGE: Should probably be moved to an existing file? Not sure if there's a way to cut the include cost easily without losing out on the benefit of not constructing dialogue if is_constant()
-//BEFOREMERGE: Various functions don't want to be public
 // Works similarly to weighted_list except weights are stored as dbl_or_var, so total_weight isn't constant unless all weights are etc
 
 template <typename T> struct weighted_dbl_or_var_list {
@@ -64,21 +61,12 @@ template <typename T> struct weighted_dbl_or_var_list {
             _precalced = true;
         }
 
-        void invalidate_precalc() {
-            _is_constant = true;
-            _constant_total_weight = 0.0;
-            _precalced = false;
-        }
 
-        //BEFOREMERGE: This error is important and needed for pick() constness but is triggering erroneously on every chunk member
-        /*void precalc_error() const {
-            debugmsg( "weighted_dbl_or_var_list precalc has been invalidated, call weighted_dbl_or_var_list::precalc() first" );
-        }*/
 
         bool is_constant() const {
-            /*if( !_precalced ) {
-                precalc_error();
-            }*/
+            if( !_precalced ) {
+                debugmsg( "weighted_dbl_or_var_list precalc has been invalidated, call weighted_dbl_or_var_list::precalc() first" );
+            }
             return _is_constant;
         }
 
@@ -93,7 +81,7 @@ template <typename T> struct weighted_dbl_or_var_list {
 
         /**
          * This will check to see if the given object is already in the weighted
-           list. If it is, we update its weight with the new weight value. If it
+           list. If it is, we update its weight with the new weight value, or remove if 0 weight. If it
            is not, we add it normally. Returns a pointer to the added or updated
            object, or NULL if weight was zero.
          * @param obj The object that will be updated or added to the list.
@@ -104,6 +92,7 @@ template <typename T> struct weighted_dbl_or_var_list {
             if( weight.is_constant() && weight.min.dbl_val.value() <= 0 ) {
                 remove( obj );
                 invalidate_precalc();
+                return nullptr;
             }
             for( weighted_object<dbl_or_var, T> &itr : objects ) {
                 if( itr.obj == obj ) {
@@ -235,7 +224,7 @@ template <typename T> struct weighted_dbl_or_var_list {
         bool empty() const noexcept {
             return objects.empty();
         }
-        //TODO: Might want to add is_constant() to the output
+
         std::string to_debug_string() const {
             std::ostringstream os;
             os << "[ ";
@@ -256,7 +245,7 @@ template <typename T> struct weighted_dbl_or_var_list {
 
     protected:
         double _constant_total_weight = 0.0;
-        bool _precalced = false;
+        bool _precalced = true; // True for empty lists
         bool _is_constant = true;
         std::vector<weighted_object<dbl_or_var, T>> objects;
 
@@ -285,6 +274,11 @@ template <typename T> struct weighted_dbl_or_var_list {
     private:
         dialogue d() const {
             return { get_talker_for( get_avatar() ), std::make_unique<talker>() };
+        }
+        void invalidate_precalc() {
+            _is_constant = true;
+            _constant_total_weight = 0.0;
+            _precalced = false;
         }
 };
 
