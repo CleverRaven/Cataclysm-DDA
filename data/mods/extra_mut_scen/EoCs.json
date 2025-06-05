@@ -45,10 +45,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_MUTAGEN_GLAND_BIRD_SETUP2",
-    "eoc_type": "EVENT",
-    "required_event": "game_start",
-    "condition": { "u_has_trait": "MUTAGEN_GLAND_BIRD" },
-    "effect": { "run_eocs": [ "EOC_MUTAGEN_GLAND_BIRD_SETUP" ] }
+    "//": "Once for each character",
+    "recurrence": 1,
+    "deactivate_condition": { "math": [ "u_setup_gland_bird == 1" ] },
+    "effect": [
+      { "if": { "u_has_trait": "MUTAGEN_GLAND_BIRD" }, "then": { "run_eocs": [ "EOC_MUTAGEN_GLAND_BIRD_SETUP" ] } },
+      { "math": [ "u_setup_gland_bird = 1" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
