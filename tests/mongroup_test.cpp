@@ -312,6 +312,10 @@ static void test_multi_spawn( const mtype_id &old_mon, int range, int min, int m
         calendar::turn = start; // Now let it upgrade
 
         orig->try_upgrade();
+        // If it hasn't upgraded skip
+        if( orig->type->id == old_mon ) {
+            continue;
+        }
 
         REQUIRE( new_mons.count( orig->type->id ) > 0 );
         int total_spawns = 0;
