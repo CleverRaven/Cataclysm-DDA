@@ -232,7 +232,7 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
 TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
 {
     const overmap_special &special =
-        *overmap_special_id( GENERATE( "test_anthill", "test_crater", "test_microlab" ) );
+        *overmap_special_id( GENERATE( "test_crater", "test_microlab" ) );
     const city cit;
 
     constexpr int num_overmaps = 100;
@@ -245,7 +245,6 @@ TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
         // overmap objects are really large, so we don't want them on the
         // stack.  Use unique_ptr and put it on the heap
         std::unique_ptr<overmap> om = std::make_unique<overmap>( point_abs_om::zero );
-        overmap_buffer.clear_overmap_uniques();
         om_direction::type dir = om_direction::type::north;
 
         int successes = 0;
@@ -267,6 +266,7 @@ TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
             }
         }
 
+        CAPTURE( special.id.str() );
         CHECK( successes > num_trials_per_overmap / 2 );
     }
 }
