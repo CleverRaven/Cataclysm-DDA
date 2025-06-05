@@ -7,7 +7,6 @@
 
 //BEFOREMERGE: Redo copied comments
 //BEFOREMERGE: Should probably be moved to an existing file? Not sure if there's a way to cut the include cost easily without losing out on the benefit of not constructing dialogue if is_constant()
-//BEFOREMERGE: Could do with some shorthand for dialogue( get_talker_for( get_avatar() ), std::make_unique<talker>() )
 //BEFOREMERGE: Various functions don't want to be public
 // Works similarly to weighted_list except weights are stored as dbl_or_var, so total_weight isn't constant unless all weights are etc
 
@@ -59,8 +58,7 @@ template <typename T> struct weighted_dbl_or_var_list {
             }
             if( _is_constant ) {
                 for( const weighted_object<dbl_or_var, T>  &object : objects ) {
-                    _constant_total_weight += object.weight.evaluate( dialogue( get_talker_for( get_avatar() ),
-                                              std::make_unique<talker>() ) );
+                    _constant_total_weight += object.weight.evaluate( d() );
                 }
             }
             _precalced = true;
@@ -189,8 +187,7 @@ template <typename T> struct weighted_dbl_or_var_list {
         double get_specific_weight( const T &obj ) const {
             for( const weighted_object<dbl_or_var, T> &itr : objects ) {
                 if( itr.obj == obj ) {
-                    return itr.weight.evaluate( dialogue( get_talker_for( get_avatar() ),
-                                                          std::make_unique<talker>() ) );
+                    return itr.weight.evaluate( d() );
                 }
             }
             return 0;
@@ -205,8 +202,7 @@ template <typename T> struct weighted_dbl_or_var_list {
             } else {
                 double ret = 0.0;
                 for( const weighted_object<dbl_or_var, T> &itr : objects ) {
-                    ret += itr.weight.evaluate( dialogue( get_talker_for( get_avatar() ),
-                                                          std::make_unique<talker>() ) );
+                    ret += itr.weight.evaluate( d() );
                 }
                 return ret;
             }
@@ -244,8 +240,7 @@ template <typename T> struct weighted_dbl_or_var_list {
             std::ostringstream os;
             os << "[ ";
             for( const weighted_object<dbl_or_var, T> &o : objects ) {
-                os << o.obj << ":" << o.weight.evaluate( dialogue( get_talker_for( get_avatar() ),
-                        std::make_unique<talker>() ) ) << ", ";
+                os << o.obj << ":" << o.weight.evaluate( d() ) << ", ";
             }
             os << "]";
             return os.str();
@@ -263,6 +258,7 @@ template <typename T> struct weighted_dbl_or_var_list {
         double _constant_total_weight = 0.0;
         bool _precalced = false;
         bool _is_constant = true;
+        std::vector<weighted_object<dbl_or_var, T>> objects;
 
         size_t pick_ent( unsigned int randi ) const {
             const double picked = static_cast<double>( randi ) / UINT_MAX * get_weight();
@@ -276,9 +272,8 @@ template <typename T> struct weighted_dbl_or_var_list {
                     }
                 }
             } else {
-                dialogue d( dialogue( get_talker_for( get_avatar() ), std::make_unique<talker>() ) );
                 for( i = 0; i < objects.size(); i++ ) {
-                    accumulated_weight += objects[i].weight.evaluate( d );
+                    accumulated_weight += objects[i].weight.evaluate( d() );
                     if( accumulated_weight >= picked ) {
                         break;
                     }
@@ -287,7 +282,10 @@ template <typename T> struct weighted_dbl_or_var_list {
             return i;
         }
 
-        std::vector<weighted_object<dbl_or_var, T>> objects;
+    private:
+        dialogue d() const {
+            return { get_talker_for( get_avatar() ), std::make_unique<talker>() };
+        }
 };
 
 #endif // CATA_SRC_WEIGHTED_DBL_OR_VAR_LIST_H
