@@ -1,80 +1,66 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_AM_BECOME_BIRD_INITIAL",
+    "id": "EOC_GLAND_FLUSH",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//BEFOREMERGE": "Make these work with non avatar by properly scoping variables",
+    "condition": {
+      "and": [
+        "u_is_avatar",
+        { "expects_vars": [ "recently_mutated_cooldown", "mutagen_gland_vitamin", "mutagen_gland_surplus" ] },
+        { "not": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BIRD" ] } }
+      ]
+    },
     "effect": [
-      { "math": [ "u_vitamin('mutagen')", "=", "200" ] },
-      { "math": [ "u_vitamin('mutagen_bird')", "=", "200" ] },
-      { "math": [ "mutagen_gland = 1" ] },
-      { "math": [ "bird_mutagen_gland = 1" ] },
-      { "math": [ "recently_mutated = 0" ] },
-      { "run_eocs": [ "EOC_AM_BECOME_BIRD" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_AM_BECOME_BIRD",
-    "deactivate_condition": { "math": [ "recently_mutated == 1" ] },
-    "recurrence": 3600,
-    "condition": { "math": [ "u_vitamin('mutagen_bird') < 500" ] },
-    "effect": [
+      { "math": [ "recently_mutated_cooldown = 36" ] },
+      { "math": [ "u_vitamin('mutagen') = max( 0, u_vitamin('mutagen') - mutagen_gland_surplus )" ] },
       {
-        "if": { "math": [ "rng( 0, u_has_trait('THRESH_BIRD') ? 29 : 4) == 0" ] },
-        "then": [ { "math": [ "u_vitamin('mutagen_bird') += 51" ] }, { "math": [ "u_vitamin('mutagen') += 51" ] } ],
-        "else": [ { "math": [ "u_vitamin('mutagen_bird') += 1" ] }, { "math": [ "u_vitamin('mutagen') += 1" ] } ]
+        "math": [ "u_vitamin('mutagen_gland_vitamin') = max( 0, u_vitamin('mutagen_gland_vitamin') - mutagen_gland_surplus )" ]
       }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_GLAND_CLEANSE",
+    "id": "EOC_MUTAGEN_GLAND_BIRD_SETUP",
     "eoc_type": "EVENT",
     "required_event": "gains_mutation",
-    "condition": { "and": [ "u_is_avatar", { "math": [ "mutagen_gland == 1" ] } ] },
+    "condition": { "and": [ "u_is_avatar", { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BIRD" ] } ] },
     "effect": [
-      { "math": [ "recently_mutated = 1" ] },
-      { "math": [ "u_vitamin('mutagen') = max( 0, u_vitamin('mutagen') - 500 )" ] },
-      {
-        "if": { "math": [ "bird_mutagen_gland == 1" ] },
-        "then": [
-          { "math": [ "u_vitamin('mutagen_bird') = max( 0, u_vitamin('mutagen_bird') - 500 )" ] },
-          { "run_eocs": [ "EOC_AM_BECOME_BIRD_INITIAL" ], "time_in_future": "3 days" }
-        ]
-      }
+      { "math": [ "recently_mutated_cooldown = -1" ] },
+      { "math": [ "mutagen_gland_vitamin = 'mutagen_bird'" ] },
+      { "math": [ "mutagen_gland_surplus = 0" ] }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_GLAND_CLEANSE",
-    "eoc_type": "EVENT",
-    "required_event": "gains_mutation",
-    "condition": { "and": [ "u_is_avatar", { "math": [ "mutagen_gland == 1" ] } ] },
+    "id": "EOC_AM_BECOME_MUTANT",
+    "condition": {
+      "and": [ "u_is_avatar", { "expects_vars": [ "recently_mutated_cooldown", "mutagen_gland_vitamin", "mutagen_gland_surplus" ] } ]
+    },
     "effect": [
-      { "math": [ "recently_mutated = 1" ] },
-      { "math": [ "u_vitamin('mutagen') = max( 0, u_vitamin('mutagen') - 500 )" ] },
+      { "math": [ "u_vitamin(mutagen_gland_vitamin) += 1" ] },
+      { "math": [ "u_vitamin('mutagen') += 1" ] },
       {
-        "if": { "math": [ "bird_mutagen_gland == 1" ] },
-        "then": [
-          { "math": [ "u_vitamin('mutagen_bird') = max( 0, u_vitamin('mutagen_bird') - 500 )" ] },
-          { "run_eocs": [ "EOC_AM_BECOME_BIRD_INITIAL" ], "time_in_future": "3 days" }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_GLAND_CLEANSE",
-    "eoc_type": "EVENT",
-    "required_event": "gains_mutation",
-    "condition": { "and": [ "u_is_avatar", { "math": [ "mutagen_gland == 1" ] } ] },
-    "effect": [
-      { "math": [ "recently_mutated = 1" ] },
-      { "math": [ "u_vitamin('mutagen') = max( 0, u_vitamin('mutagen') - 500 )" ] },
-      {
-        "if": { "math": [ "bird_mutagen_gland == 1" ] },
-        "then": [
-          { "math": [ "u_vitamin('mutagen_bird') = max( 0, u_vitamin('mutagen_bird') - 500 )" ] },
-          { "run_eocs": [ "EOC_AM_BECOME_BIRD_INITIAL" ], "time_in_future": "3 days" }
+        "if": { "math": [ "recently_mutated_cooldown < 0" ] },
+        "then": {
+          "if": { "math": [ "rng( 0, u_has_trait('THRESH_BIRD') ? 29 : 4) == 0" ] },
+          "then": [
+            { "math": [ "u_vitamin(mutagen_gland_vitamin) += 50" ] },
+            { "math": [ "u_vitamin('mutagen') += 50" ] },
+            { "math": [ "mutagen_gland_surplus += 50" ] }
+          ]
+        },
+        "else": [
+          {
+            "if": { "math": [ "recently_mutated_cooldown == 0" ] },
+            "then": [
+              { "math": [ "u_vitamin(mutagen_gland_vitamin) = 200" ] },
+              { "math": [ "u_vitamin('mutagen') = 200" ] },
+              { "math": [ "mutagen_gland_surplus = 200" ] }
+            ]
+          },
+          { "math": [ "recently_mutated_cooldown -= 1" ] }
         ]
       }
     ]
