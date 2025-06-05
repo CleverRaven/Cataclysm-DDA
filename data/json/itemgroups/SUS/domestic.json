@@ -378,6 +378,7 @@
       { "item": "hygrometer", "prob": 3 },
       { "item": "barometer", "prob": 3 },
       { "item": "smart_lamp", "prob": 3 },
+      { "item": "smart_speaker", "prob": 3 },
       { "item": "nuts_bolts", "prob": 95, "charges": [ 10, 20 ] }
     ]
   },
