@@ -424,8 +424,8 @@
     "max_damage": 24,
     "min_range": 1,
     "max_range": 1,
-    "min_duration": 100,
-    "max_duration": 250,
+    "min_duration": { "math": [ "100 + ( (u_spell_level('frost_armor') * 2) + (u_spell_level('frost_armor_plus') * 4 ) )" ] },
+    "max_duration": { "math": [ "250 + ( (u_spell_level('frost_armor') * 5) + (u_spell_level('frost_armor_plus') * 8 ) )" ] },
     "spell_class": "KELVINIST",
     "magic_type": "magiclysm_generic_magic"
   },
