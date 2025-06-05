@@ -83,7 +83,7 @@
       {
         "if": { "math": [ "u_recently_mutated_cooldown < 0" ] },
         "then": {
-          "if": { "math": [ "rng( 0, u_has_trait(u_mutagen_gland_threshold) ? 29 : 4) == 0" ] },
+          "if": { "math": [ "rng( 0, u_has_trait(u_mutagen_gland_threshold) ? 30 : 5) < 1" ] },
           "then": [
             {
               "//BEFOREMERGE": "Should probably consume 'energy' in some form",
