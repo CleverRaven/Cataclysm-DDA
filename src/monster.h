@@ -627,7 +627,7 @@ class monster : public Creature
         std::optional<tripoint_abs_ms> goal;
         bool dead = false;
         /** Normal upgrades **/
-        int next_upgrade_time();
+        int next_upgrade_time() const;
         bool upgrades = false;
         int upgrade_time = 0;
         bool reproduces = false;

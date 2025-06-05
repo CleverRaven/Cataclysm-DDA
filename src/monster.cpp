@@ -16,6 +16,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "cached_options.h"
+#include "cata_assert.h"
 #include "cata_imgui.h"
 #include "catacharset.h"
 #include "character.h"
@@ -436,7 +437,7 @@ void monster::allow_upgrade()
     upgrade_time = to_days<int>( calendar::turn - calendar::turn_zero );
 }
 
-int monster::next_upgrade_time()
+int monster::next_upgrade_time() const
 {
     cata_assert( can_upgrade() );
     if( type->age_grow > 0 ) {
