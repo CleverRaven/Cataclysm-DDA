@@ -41,6 +41,7 @@
 #include "output.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id_utils.h"
@@ -75,6 +76,41 @@ int recipe::get_skill_cap() const
     } else {
         return difficulty * 1.25;
     }
+}
+
+std::vector<recipe_id> recipe::to_craft( const read_only_visitable
+        &crafting_inv, int batch ) const
+{
+    auto any_available = [&]( std::vector<item_comp> &comps ) {
+        for( item_comp comp :  comps ) {
+            if( comp.available == available_status::a_true ) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    std::vector<recipe_id> ret;
+
+    if( !recursive_comp_crafts( ret, crafting_inv, batch ).success() ) {
+        return {};
+    }
+    return ret;
+}
+
+ret_val<void> recipe::recursive_comp_crafts( std::vector<recipe_id> &lst,
+        const read_only_visitable
+        &crafting_inv, int batch ) const
+{
+    if( lst.size() > 10 ) {
+        return ret_val<void>::make_failure( "too much recursive component crafts required" );
+    }
+    requirement_data reqs = simple_requirements();
+    if( reqs.can_make_with_inventory( crafting_inv, get_component_filter(), batch ) ) {
+        lst.push_back( ident() );
+    }
+
+    return ret_val<void>::make_success();
 }
 
 time_duration recipe::batch_duration( const Character &guy, int batch, float multiplier,

@@ -128,6 +128,10 @@ void craft_command::execute( bool only_cache_comps )
     inventory map_inv;
     map_inv.form_from_map( crafter->pos_bub(), PICKUP_RANGE, crafter );
 
+
+    crafting_queue = rec->to_craft( map_inv, batch_size );
+    const recipe *current_craft = &*crafting_queue.back();
+
     if( has_cached_selections() ) {
         std::vector<comp_selection<item_comp>> missing_items = check_item_components_missing( map_inv );
         std::vector<comp_selection<tool_comp>> missing_tools = check_tool_components_missing( map_inv );
@@ -141,7 +145,7 @@ void craft_command::execute( bool only_cache_comps )
     }
 
     if( need_selections ) {
-        if( !crafter->can_make( rec, batch_size ) ) {
+        if( !crafter->can_make( current_craft, batch_size ) ) {
             if( crafter->can_start_craft( rec, recipe_filter_flags::none, batch_size ) ) {
                 if( !query_yn( _( "You don't have enough charges to complete the %s.\n"
                                   "Start crafting anyway?" ), rec->result_name() ) ) {
@@ -158,7 +162,7 @@ void craft_command::execute( bool only_cache_comps )
 
         flags = recipe_filter_flags::no_rotten;
 
-        if( !crafter->can_start_craft( rec, flags, batch_size ) ) {
+        if( !crafter->can_start_craft( current_craft, flags, batch_size ) ) {
             if( !query_yn( _( "This craft will use rotten components.\n"
                               "Start crafting anyway?" ) ) ) {
                 return;
@@ -167,7 +171,7 @@ void craft_command::execute( bool only_cache_comps )
         }
 
         flags |= recipe_filter_flags::no_favorite;
-        if( !crafter->can_start_craft( rec, flags, batch_size ) ) {
+        if( !crafter->can_start_craft( current_craft, flags, batch_size ) ) {
             if( !query_yn( _( "This craft will use favorited components.\n"
                               "Start crafting anyway?" ) ) ) {
                 return;
@@ -177,8 +181,8 @@ void craft_command::execute( bool only_cache_comps )
         }
 
         item_selections.clear();
-        const auto filter = rec->get_component_filter( flags );
-        const requirement_data *needs = rec->deduped_requirements().select_alternative(
+        const auto filter = current_craft->get_component_filter( flags );
+        const requirement_data *needs = current_craft->deduped_requirements().select_alternative(
                                             *crafter, filter, batch_size, craft_flags::start_only );
         if( !needs ) {
             return;
@@ -186,7 +190,7 @@ void craft_command::execute( bool only_cache_comps )
 
         for( const auto &it : needs->get_components() ) {
             comp_selection<item_comp> is =
-                crafter->select_item_component( it, batch_size, map_inv, true, filter, true, true, rec );
+                crafter->select_item_component( it, batch_size, map_inv, true, filter, true, true, current_craft );
             if( is.use_from == usage_from::cancel ) {
                 return;
             }
@@ -197,7 +201,7 @@ void craft_command::execute( bool only_cache_comps )
         for( const auto &it : needs->get_tools() ) {
             comp_selection<tool_comp> ts = crafter->select_tool_component(
             it, batch_size, map_inv, true, true, true, []( int charges ) {
-                return charges / 20 + charges % 20;
+                return ( charges / 20 ) + ( charges % 20 );
             } );
             if( ts.use_from == usage_from::cancel ) {
                 return;
@@ -225,6 +229,30 @@ void craft_command::execute( bool only_cache_comps )
     if( uistate.recent_recipes.size() > 20 ) {
         uistate.recent_recipes.erase( uistate.recent_recipes.begin() );
     }
+}
+
+const recipe *craft_command::to_craft( inventory &map_inv )
+{
+    // auto directly_craftable = [&]() {};
+
+    crafting_queue.clear();
+    requirement_data reqs = rec->simple_requirements();
+    const std::map<item_comp, recipe *> craftables;
+    if( craftables.empty() ) {
+        return rec;
+    } else {
+        if( craftables.size() > 1 ) {
+            craft_selection cs = crafter->select_component_to_craft( craftables, batch_size,
+                                 map_inv );
+            return cs.rec;
+        } else if( craftables.size() == 1 ) {
+            for( const auto & [comp, rec] : reqs.get_craftable_comps() ) {
+                return rec;
+
+            }
+        }
+    }
+    return nullptr;
 }
 
 /** Does a string join with ', ' of the components in the passed vector and inserts into 'str' */

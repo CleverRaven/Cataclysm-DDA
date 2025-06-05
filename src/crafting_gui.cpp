@@ -250,7 +250,9 @@ struct availability {
             const requirement_data &simple_req = r->simple_requirements();
             apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
                                    simple_req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
-            for( const auto& [skill, skill_lvl] : r->required_skills ) {
+
+            required_component_crafting = simple_req.requires_comp_craft();
+            for( const auto & [skill, skill_lvl] : r->required_skills ) {
                 if( crafter.get_skill_level( skill ) < skill_lvl ) {
                     has_all_skills = false;
                     break;
@@ -265,6 +267,7 @@ struct availability {
         bool would_use_favorite;
         bool useless_practice;
         bool apparently_craftable;
+        bool required_component_crafting;
         bool has_proficiencies;
         bool has_all_skills;
         bool is_nested_category;
@@ -341,6 +344,8 @@ struct availability {
                 return has_all_skills || ignore_missing_skills ? c_brown : c_red;
             } else if( would_use_favorite ) {
                 return has_all_skills ? c_pink : c_red;
+            } else if( required_component_crafting ) {
+                return c_cyan;
             } else {
                 return has_all_skills || ignore_missing_skills ? c_white : c_yellow;
             }
@@ -1308,7 +1313,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         add_action_desc( "HELP_KEYBINDINGS", pgettext( "crafting gui", "Keybindings" ) );
         keybinding_x = isWide ? 5 : 2;
         keybinding_tips = foldstring( enumerate_as_string( act_descs, enumeration_conjunction::none ),
-                                      width - keybinding_x * 2 );
+                                      width - ( keybinding_x * 2 ) );
 
         const int tailHeight = keybinding_tips.size() + 2;
         dataLines = TERMY - ( headHeight + subHeadHeight ) - tailHeight;

@@ -1,4 +1,5 @@
 #pragma once
+#include "ret_val.h"
 #ifndef CATA_SRC_REQUIREMENTS_H
 #define CATA_SRC_REQUIREMENTS_H
 
@@ -325,8 +326,6 @@ struct requirement_data {
          */
         std::string list_missing() const;
 
-        recipe_id get_next_required_craft( const read_only_visitable &crafting_inv, int batch );
-
         /**
          * Remove tools or components of given type leaving qualities unchanged
          * @note if the last available component of a grouping is removed the recipe
@@ -346,6 +345,7 @@ struct requirement_data {
 
         /**
          * Returns true if the requirements are fulfilled by the filtered inventory
+         * FIXME: it checks recursive wether certain components are craftable. Can the components be cached?
          * @param filter should be recipe::get_component_filter() if used with a recipe
          * or is_crafting_component otherwise.
          */
@@ -375,7 +375,11 @@ struct requirement_data {
         static requirement_data continue_requirements( const std::vector<item_comp> &required_comps,
                 const item_components &remaining_comps );
 
-        recipe_id get_next_recipe() const;
+        bool requires_comp_craft( ) const;
+
+        const std::map<item_comp, recipe *> get_craftable_comps() const {
+            return craftable_comps;
+        };
 
         /**
          * Merge similar quality/tool/component lists.
@@ -401,6 +405,18 @@ struct requirement_data {
 
         bool blacklisted = false;
 
+        /**
+         * save/cache recipes that can be crafted, so that available_status and recursiveness gets properly saved
+        */
+        std::map<item_comp, recipe *> craftable_comps;
+
+        void cache_craftable_comps( const read_only_visitable &crafting_inv,
+                                    const std::function<bool( const item & )> &filter,
+                                    int batch = 1 ) const;
+
+        /*
+         * as far as I can tell this only checks if a component is also needed by quality/tool
+        */
         bool check_enough_materials( const read_only_visitable &crafting_inv,
                                      const std::function<bool( const item & )> &filter, int batch = 1,
                                      bool restrict_volume = true ) const;
@@ -431,10 +447,9 @@ struct requirement_data {
                 std::string_view hilite = {},
                 requirement_display_flags = requirement_display_flags::none ) const;
 
+
         template<typename T>
-        static bool any_marked_available( const std::vector<T> &comps );
-        template<typename T>
-        static bool any_marked_as_status( const std::vector<T> &comps, available_status status );
+        static std::vector<T> lst_comp_with_status( const std::vector<T> &comps, available_status status );
         template<typename T>
         static void load_obj_list( const JsonArray &jsarr, std::vector< std::vector<T> > &objs );
         template<typename T, typename ID>

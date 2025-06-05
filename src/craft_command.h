@@ -17,6 +17,7 @@ class JsonObject;
 class JsonOut;
 class item;
 class read_only_visitable;
+class inventory;
 template<typename T> struct enum_traits;
 
 /**
@@ -28,7 +29,7 @@ enum class usage_from : int {
     player = 2,
     both = 1 | 2,
     cancel = 4, // FIXME: hacky.
-    num_usages_from
+    num_usages_from = 5
 };
 
 template<>
@@ -45,6 +46,21 @@ struct comp_selection {
     /** Tells us where the selected component should be used from. */
     usage_from use_from = usage_from::none;
     CompType comp;
+
+    /** provides a translated name for 'comp', suffixed with it's location e.g '(nearby)'. */
+    std::string nname() const;
+
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( const JsonObject &data );
+};
+
+
+struct craft_selection {
+    /** Tells us where the selected component should be used from. */
+    usage_from use_from = usage_from::none;
+
+    item_comp comp;
+    recipe *rec;
 
     /** provides a translated name for 'comp', suffixed with it's location e.g '(nearby)'. */
     std::string nname() const;
@@ -115,6 +131,7 @@ class craft_command
         // zero_tripoint indicates crafting without a workbench
         std::optional<tripoint_bub_ms> loc;
 
+        std::vector<recipe_id> crafting_queue;
         std::vector<comp_selection<item_comp>> item_selections;
         std::vector<comp_selection<tool_comp>> tool_selections;
 
@@ -124,6 +141,8 @@ class craft_command
         /** Checks if items we selected in a previous call to execute() are still available. */
         std::vector<comp_selection<tool_comp>> check_tool_components_missing(
                                                 const read_only_visitable &map_inv ) const;
+
+        const recipe *to_craft( inventory &map_inv );
 
         /** Creates a continue pop up asking to continue crafting and listing the missing components */
         bool query_continue( const std::vector<comp_selection<item_comp>> &missing_items,

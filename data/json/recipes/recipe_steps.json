@@ -17,6 +17,7 @@
     "type": "ITEM",
     "id": "yeast_dough_rested",
     "name": { "str_sp": "rested yeast dough" },
+    "description": "yeast dough well rested and ready for baking.",
     "copy-from": "yeast_dough",
     "volume": "1 L"
   },
