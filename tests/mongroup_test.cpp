@@ -306,11 +306,8 @@ static void test_multi_spawn( const mtype_id &old_mon, int range, int min, int m
         monster *orig = g->place_critter_at( old_mon, ground_zero );
         REQUIRE( orig );
         REQUIRE( orig->type->id == old_mon );
-        if( orig->never_upgrade ) {
-            continue; // Failed to evolve over UPGRADE_MAX_ITERS half lifes, skip it
-        }
         REQUIRE( orig->pos_bub() == ground_zero );
-        REQUIRE( orig->upgrades );
+        REQUIRE( orig->can_upgrade() );
 
         calendar::turn = start; // Now let it upgrade
 

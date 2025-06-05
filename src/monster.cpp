@@ -221,8 +221,8 @@ static const trait_id trait_TERRIFYING( "TERRIFYING" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 // Limit the number of iterations for next upgrade_time calculations.
-// This also sets the percentage of monsters that will never upgrade.
-// The rough formula is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
+// Any monsters that reach this limit will upgrade at UPGRADE_MAX_ITERS half lifes.
+// The formula for the expected amount that will reach this limit is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
 static constexpr int UPGRADE_MAX_ITERS = 5;
 
 static const std::map<creature_size, translation> size_names {
@@ -292,7 +292,6 @@ monster::monster( const mtype_id &id ) : monster()
     stomach_size = type->stomach_size;
     faction = type->default_faction;
     upgrades = type->upgrades && ( type->half_life >= 0 || type->age_grow >= 0 );
-    never_upgrade = false;
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( mon_flag_NO_BREED );
     if( reproduces && type->baby_timer ) {
         baby_timer.emplace( calendar::turn + *type->baby_timer );
@@ -391,7 +390,6 @@ void monster::poly( const mtype_id &id )
     }
     faction = type->default_faction;
     upgrades = type->upgrades;
-    never_upgrade = false;
     reproduces = type->reproduces;
     biosignatures = type->biosignatures;
     aggro_character = type->aggro_character;
@@ -399,7 +397,7 @@ void monster::poly( const mtype_id &id )
 
 bool monster::can_upgrade() const
 {
-    return upgrades && !never_upgrade && get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" ) > 0.0;
+    return upgrades && get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" ) > 0.0;
 }
 
 void monster::gravity_check()
@@ -438,13 +436,9 @@ void monster::allow_upgrade()
     upgrade_time = to_days<int>( calendar::turn - calendar::turn_zero );
 }
 
-// This will disable upgrades in case max iters have been reached.
-// Checking for return value of -1 is necessary.
 int monster::next_upgrade_time()
 {
-    if( !upgrades ) {
-        return -1;
-    }
+    cata_assert( can_upgrade() );
     if( type->age_grow > 0 ) {
         return type->age_grow;
     }
@@ -458,9 +452,7 @@ int monster::next_upgrade_time()
             day += scaled_half_life;
         }
     }
-    // didn't manage to upgrade, shouldn't ever then
-    never_upgrade = true;
-    return -1;
+    return day; // Didn't manage to upgrade in UPGRADE_MAX_ITERS half lifes, just use UPGRADE_MAX_ITERS half lifes
 }
 
 void monster::try_upgrade()
@@ -475,9 +467,6 @@ void monster::try_upgrade()
     // TODO: This should only occur when a monster is created and should probably be moved to monster initialisation
     if( upgrade_time < 0 ) {
         upgrade_time = next_upgrade_time();
-        if( upgrade_time < 0 ) {
-            return;
-        }
         if( type->age_grow > 0 ) {
             // offset by today for growing creatures so it works off when they're born/hatched
             // TODO: Mapgen placed growing creatures should -= rng( 0, age_grow - 1 ) so they aren't all 0 days into their growth
@@ -543,11 +532,11 @@ void monster::try_upgrade()
             }
         }
 
-        const int next_upgrade = next_upgrade_time();
         if( !can_upgrade() ) {
-            // Upgraded into a non-upgradeable monster (poly() updates upgrades) or hit the max half life attempts for next evolution
+            // Upgraded into a non-upgradeable monster (poly() updates upgrades)
             return;
         }
+        const int next_upgrade = next_upgrade_time();
         upgrade_time += next_upgrade;
     }
 }

@@ -629,7 +629,6 @@ class monster : public Creature
         /** Normal upgrades **/
         int next_upgrade_time();
         bool upgrades = false;
-        bool never_upgrade = false; // Failed to evolve over UPGRADE_MAX_ITERS half lifes
         int upgrade_time = 0;
         bool reproduces = false;
         std::optional<time_point> baby_timer;
