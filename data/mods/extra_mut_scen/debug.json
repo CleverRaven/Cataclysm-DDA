@@ -1,0 +1,13 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST_GLAND",
+    "effect": [
+      { "u_message": "Initial setup complete (1 if true): <u_val:setup_gland>" },
+      { "u_message": "Gland vitamin: <u_val:mutagen_gland_vitamin>" },
+      { "u_message": "Gland threshold: <u_val:mutagen_gland_threshold>" },
+      { "u_message": "Gland post-mutation cooldown (-1 if off cooldown): <u_val:recently_mutated_cooldown>hrs" },
+      { "u_message": "Gland surplus production since cooldown: <u_val:mutagen_gland_surplus>mg" }
+    ]
+  }
+]
