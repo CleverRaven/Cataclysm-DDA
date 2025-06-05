@@ -1124,7 +1124,6 @@
       {
         "distribution": [ { "group": "accesories_personal_unisex", "prob": 50 }, { "group": "accesories_personal_mens", "prob": 50 } ]
       },
-      { "item": "smart_watch_adv", "prob": 100 },
       { "group": "masks_unisex", "prob": 3 },
       { "group": "socks_unisex", "prob": 100 },
       { "group": "scarfs_unisex", "prob": 30 },
