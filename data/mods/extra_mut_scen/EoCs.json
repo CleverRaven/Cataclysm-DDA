@@ -5,9 +5,10 @@
     "id": "EOC_GLAND_FLUSH",
     "eoc_type": "EVENT",
     "required_event": "gains_mutation",
+    "//": "Purge built up stores of mutagen post mutation and don't build up again for a period of time",
     "condition": {
       "and": [
-        { "not": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BIRD" ] } },
+        { "not": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BEAST", "MUTAGEN_GLAND_BIRD" ] } },
         { "math": [ "has_var(u_mutagen_gland_vitamin)" ] }
       ]
     },
@@ -26,6 +27,15 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MUTAGEN_GLAND_BEAST_SETUP",
+    "effect": [
+      { "run_eocs": [ "EOC_MUTAGEN_GLAND_COMMON_SETUP" ] },
+      { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_beast" },
+      { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_BEAST" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_MUTAGEN_GLAND_BIRD_SETUP",
     "effect": [
       { "run_eocs": [ "EOC_MUTAGEN_GLAND_COMMON_SETUP" ] },
@@ -35,37 +45,50 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_MUTAGEN_GLAND_BIRD_SETUP1",
+    "id": "EOC_MUTAGEN_GLAND_SETUP1",
     "//TODO": "Would ideally be one big if else but there's no else_if atm so it'd be a nest nightmare",
     "eoc_type": "EVENT",
     "required_event": "gains_mutation",
-    "condition": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BIRD" ] },
-    "effect": { "run_eocs": [ "EOC_MUTAGEN_GLAND_BIRD_SETUP" ] }
+    "effect": [
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BEAST" ] },
+        "then": { "run_eocs": [ "EOC_MUTAGEN_GLAND_BEAST_SETUP" ] }
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BIRD" ] },
+        "then": { "run_eocs": [ "EOC_MUTAGEN_GLAND_BIRD_SETUP" ] }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_MUTAGEN_GLAND_BIRD_SETUP2",
+    "id": "EOC_MUTAGEN_GLAND_SETUP2",
     "//": "Once for each character",
     "recurrence": 1,
-    "deactivate_condition": { "math": [ "u_setup_gland_bird == 1" ] },
+    "deactivate_condition": { "math": [ "u_setup_gland == 1" ] },
     "effect": [
+      { "if": { "u_has_trait": "MUTAGEN_GLAND_BEAST" }, "then": { "run_eocs": [ "EOC_MUTAGEN_GLAND_BEAST_SETUP" ] } },
       { "if": { "u_has_trait": "MUTAGEN_GLAND_BIRD" }, "then": { "run_eocs": [ "EOC_MUTAGEN_GLAND_BIRD_SETUP" ] } },
-      { "math": [ "u_setup_gland_bird = 1" ] }
+      { "math": [ "u_setup_gland = 1" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_AM_BECOME_MUTANT",
+    "//BEFOREMERGE": "Test numbers until they feel good",
     "condition": { "math": [ "has_var(u_mutagen_gland_vitamin)" ] },
     "effect": [
-      { "math": [ "u_vitamin(u_mutagen_gland_vitamin) += 1" ] },
+      { "//": "Counter passive decay", "math": [ "u_vitamin(u_mutagen_gland_vitamin) += 1" ] },
       { "math": [ "u_vitamin('mutagen') += 1" ] },
       {
         "if": { "math": [ "u_recently_mutated_cooldown < 0" ] },
         "then": {
           "if": { "math": [ "rng( 0, u_has_trait(u_mutagen_gland_threshold) ? 29 : 4) == 0" ] },
           "then": [
-            { "math": [ "u_vitamin(u_mutagen_gland_vitamin) += 50" ] },
+            {
+              "//BEFOREMERGE": "Should probably consume 'energy' in some form",
+              "math": [ "u_vitamin(u_mutagen_gland_vitamin) += 50" ]
+            },
             { "math": [ "u_vitamin('mutagen') += 50" ] },
             { "math": [ "u_mutagen_gland_surplus += 50" ] }
           ]
@@ -74,7 +97,10 @@
           {
             "if": { "math": [ "u_recently_mutated_cooldown == 0" ] },
             "then": [
-              { "math": [ "u_vitamin(u_mutagen_gland_vitamin) = 200" ] },
+              {
+                "//BEFOREMERGE": "Consider whether a base level is actually beneficial",
+                "math": [ "u_vitamin(u_mutagen_gland_vitamin) = 200" ]
+              },
               { "math": [ "u_vitamin('mutagen') = 200" ] },
               { "math": [ "u_mutagen_gland_surplus = 200" ] }
             ]
