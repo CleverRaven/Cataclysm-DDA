@@ -5933,7 +5933,7 @@ static ret_val<std::map<time_point, nutrients>> nutrients_from( item &it, item *
     }
     add_consumed_nutrients( consumed, rot_time( it, container ), *from_this );
     return ret_val<std::map<time_point, nutrients>>::make_success( consumed );
-};
+}
 
 // mission support
 bool basecamp::distribute_food( bool player_command )
