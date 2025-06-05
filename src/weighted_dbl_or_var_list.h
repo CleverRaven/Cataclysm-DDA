@@ -8,8 +8,7 @@
 // Works similarly to weighted_list except weights are stored as dbl_or_var, so total_weight isn't constant unless all weights are etc
 
 template <typename T> struct weighted_dbl_or_var_list {
-        weighted_dbl_or_var_list() {}
-
+        weighted_dbl_or_var_list() = default;
         weighted_dbl_or_var_list( const weighted_dbl_or_var_list & ) = default;
         weighted_dbl_or_var_list( weighted_dbl_or_var_list && ) noexcept = default;
         weighted_dbl_or_var_list &operator=( const weighted_dbl_or_var_list & ) = default;
