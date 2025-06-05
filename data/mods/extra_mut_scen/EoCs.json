@@ -1,66 +1,82 @@
 [
   {
+    "//BEFOREMERGE:": "Consider doing something with crosses_mutation_threshold (flavour text if expected threshold category, negative stuff + replace gland trait with MUTAGEN_AVOID if not? (and hook MUTAGEN_AVOID up bc it doesn't appear to do anything rn?))",
     "type": "effect_on_condition",
     "id": "EOC_GLAND_FLUSH",
     "eoc_type": "EVENT",
     "required_event": "gains_mutation",
-    "//BEFOREMERGE": "Make these work with non avatar by properly scoping variables",
     "condition": {
       "and": [
-        "u_is_avatar",
-        { "expects_vars": [ "recently_mutated_cooldown", "mutagen_gland_vitamin", "mutagen_gland_surplus" ] },
-        { "not": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BIRD" ] } }
+        { "not": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BIRD" ] } },
+        { "math": [ "has_var(u_mutagen_gland_vitamin)" ] }
       ]
     },
     "effect": [
-      { "math": [ "recently_mutated_cooldown = 36" ] },
-      { "math": [ "u_vitamin('mutagen') = max( 0, u_vitamin('mutagen') - mutagen_gland_surplus )" ] },
+      { "math": [ "u_recently_mutated_cooldown = 36" ] },
+      { "math": [ "u_vitamin('mutagen') = max( 0, u_vitamin('mutagen') - u_mutagen_gland_surplus )" ] },
       {
-        "math": [ "u_vitamin('mutagen_gland_vitamin') = max( 0, u_vitamin('mutagen_gland_vitamin') - mutagen_gland_surplus )" ]
+        "math": [ "u_vitamin(u_mutagen_gland_vitamin) = max( 0, u_vitamin(u_mutagen_gland_vitamin) - u_mutagen_gland_surplus )" ]
       }
     ]
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MUTAGEN_GLAND_COMMON_SETUP",
+    "effect": [ { "math": [ "u_recently_mutated_cooldown = -1" ] }, { "math": [ "u_mutagen_gland_surplus = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_MUTAGEN_GLAND_BIRD_SETUP",
-    "eoc_type": "EVENT",
-    "required_event": "gains_mutation",
-    "condition": { "and": [ "u_is_avatar", { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BIRD" ] } ] },
     "effect": [
-      { "math": [ "recently_mutated_cooldown = -1" ] },
-      { "math": [ "mutagen_gland_vitamin = 'mutagen_bird'" ] },
-      { "math": [ "mutagen_gland_surplus = 0" ] }
+      { "run_eocs": [ "EOC_MUTAGEN_GLAND_COMMON_SETUP" ] },
+      { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_bird" },
+      { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_BIRD" }
     ]
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MUTAGEN_GLAND_BIRD_SETUP1",
+    "//TODO": "Would ideally be one big if else but there's no else_if atm so it'd be a nest nightmare",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BIRD" ] },
+    "effect": { "run_eocs": [ "EOC_MUTAGEN_GLAND_BIRD_SETUP" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTAGEN_GLAND_BIRD_SETUP2",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "u_has_trait": "MUTAGEN_GLAND_BIRD" },
+    "effect": { "run_eocs": [ "EOC_MUTAGEN_GLAND_BIRD_SETUP" ] }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_AM_BECOME_MUTANT",
-    "condition": {
-      "and": [ "u_is_avatar", { "expects_vars": [ "recently_mutated_cooldown", "mutagen_gland_vitamin", "mutagen_gland_surplus" ] } ]
-    },
+    "condition": { "math": [ "has_var(u_mutagen_gland_vitamin)" ] },
     "effect": [
-      { "math": [ "u_vitamin(mutagen_gland_vitamin) += 1" ] },
+      { "math": [ "u_vitamin(u_mutagen_gland_vitamin) += 1" ] },
       { "math": [ "u_vitamin('mutagen') += 1" ] },
       {
-        "if": { "math": [ "recently_mutated_cooldown < 0" ] },
+        "if": { "math": [ "u_recently_mutated_cooldown < 0" ] },
         "then": {
-          "if": { "math": [ "rng( 0, u_has_trait('THRESH_BIRD') ? 29 : 4) == 0" ] },
+          "if": { "math": [ "rng( 0, u_has_trait(u_mutagen_gland_threshold) ? 29 : 4) == 0" ] },
           "then": [
-            { "math": [ "u_vitamin(mutagen_gland_vitamin) += 50" ] },
+            { "math": [ "u_vitamin(u_mutagen_gland_vitamin) += 50" ] },
             { "math": [ "u_vitamin('mutagen') += 50" ] },
-            { "math": [ "mutagen_gland_surplus += 50" ] }
+            { "math": [ "u_mutagen_gland_surplus += 50" ] }
           ]
         },
         "else": [
           {
-            "if": { "math": [ "recently_mutated_cooldown == 0" ] },
+            "if": { "math": [ "u_recently_mutated_cooldown == 0" ] },
             "then": [
-              { "math": [ "u_vitamin(mutagen_gland_vitamin) = 200" ] },
+              { "math": [ "u_vitamin(u_mutagen_gland_vitamin) = 200" ] },
               { "math": [ "u_vitamin('mutagen') = 200" ] },
-              { "math": [ "mutagen_gland_surplus = 200" ] }
+              { "math": [ "u_mutagen_gland_surplus = 200" ] }
             ]
           },
-          { "math": [ "recently_mutated_cooldown -= 1" ] }
+          { "math": [ "u_recently_mutated_cooldown -= 1" ] }
         ]
       }
     ]

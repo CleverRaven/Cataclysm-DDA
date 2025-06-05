@@ -1,7 +1,7 @@
 [
   {
     "type": "scenario",
-    "abstract": "extscenario_prethresh_abstract",
+    "id": "extscenario_prethresh",
     "name": "Mutant - Pre Threshold",
     "description": "Start as a Pre Threshold Mutant",
     "start_name": "Mutant",
@@ -17,20 +17,6 @@
       "sloc_ice_lab_stairs",
       "sloc_ice_lab_finale"
     ],
-    "reveal_locale": false
-  },
-  {
-    "type": "scenario",
-    "id": "extscenario_prethresh_bird",
-    "copy-from": "extscenario_prethresh_abstract",
-    "name": "Mutant - Bird [Insert word I've forgotten]",
-    "description": "Start as a seemingly average Joe bar squaking occasionally",
-    "traits": [ "MUTAGEN_GLAND_BIRD" ]
-  },
-  {
-    "type": "scenario",
-    "id": "extscenario_prethresh",
-    "copy-from": "extscenario_prethresh_abstract",
     "traits": [
       "ALCMET",
       "ANIMALDISCORD2",
@@ -162,6 +148,7 @@
       "MOUTH_FLAPS",
       "MOUTH_TENTACLES",
       "MUTAGEN_AVOID",
+      "MUTAGEN_GLAND_BIRD",
       "MUTE",
       "MUZZLE",
       "MUZZLE_BEAR",
@@ -285,7 +272,8 @@
       "WINGS_STUB",
       "XS",
       "XXXL"
-    ]
+    ],
+    "reveal_locale": false
   },
   {
     "type": "scenario",

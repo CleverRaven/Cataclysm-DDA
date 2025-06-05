@@ -2,8 +2,8 @@
   {
     "type": "mutation",
     "id": "MUTAGEN_GLAND_BIRD",
-    "name": { "str": "Bird mutagen gland" },
-    "points": 0,
+    "name": { "str": "Mutagen Gland - Bird" },
+    "points": 1,
     "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with bird traits.",
     "time": 3600,
     "processed_eocs": [ "EOC_AM_BECOME_MUTANT" ]
