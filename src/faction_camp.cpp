@@ -6130,10 +6130,9 @@ nutrients faction_template::consume_food_supply( const nutrients &consumed )
         // whatever remains was not consumed
         return to_supply;
     }
-    for( auto it = _food_supply.begin(); it != _food_supply.end(); ) {
+    for( auto it = _food_supply.begin(); it != _food_supply.end(); ++it ) {
         // start by skipping the non-perishable food
         if( it == _food_supply.begin() ) {
-            ++it;
             continue;
         }
         it->second = consume_left_behind( to_supply, it->second );
