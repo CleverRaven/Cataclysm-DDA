@@ -23,7 +23,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_MUTAGEN_GLAND_COMMON_SETUP",
-    "effect": [ { "math": [ "u_recently_mutated_cooldown = -1" ] }, { "math": [ "u_mutagen_gland_surplus = 0" ] } ]
+    "effect": [ { "math": [ "u_recently_mutated_cooldown = 0" ] }, { "math": [ "u_mutagen_gland_surplus = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -81,32 +81,19 @@
       { "//": "Counter passive decay", "math": [ "u_vitamin(u_mutagen_gland_vitamin) += 1" ] },
       { "math": [ "u_vitamin('mutagen') += 1" ] },
       {
-        "if": { "math": [ "u_recently_mutated_cooldown < 0" ] },
+        "if": { "math": [ "u_recently_mutated_cooldown <= 0" ] },
         "then": {
           "if": { "math": [ "rng( 0, u_has_trait(u_mutagen_gland_threshold) ? 30 : 5) < 1" ] },
           "then": [
             {
-              "//BEFOREMERGE": "Should probably consume 'energy' in some form",
+              "//BEFOREMERGE": "Should probably consume 'energy' in some form (kcal/thirst/sleepiness etc) or have the mutations do that",
               "math": [ "u_vitamin(u_mutagen_gland_vitamin) += 50" ]
             },
             { "math": [ "u_vitamin('mutagen') += 50" ] },
             { "math": [ "u_mutagen_gland_surplus += 50" ] }
           ]
         },
-        "else": [
-          {
-            "if": { "math": [ "u_recently_mutated_cooldown == 0" ] },
-            "then": [
-              {
-                "//BEFOREMERGE": "Consider whether a base level is actually beneficial",
-                "math": [ "u_vitamin(u_mutagen_gland_vitamin) = 200" ]
-              },
-              { "math": [ "u_vitamin('mutagen') = 200" ] },
-              { "math": [ "u_mutagen_gland_surplus = 200" ] }
-            ]
-          },
-          { "math": [ "u_recently_mutated_cooldown -= 1" ] }
-        ]
+        "else": { "math": [ "u_recently_mutated_cooldown -= 1" ] }
       }
     ]
   }
