@@ -89,6 +89,20 @@
       { "math": [ "u_recently_mutated_cooldown = 0" ] },
       { "math": [ "u_mutagen_gland_surplus = 0" ] },
       {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_ALPHA" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_alpha" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_ALPHA" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BATRACHIAN" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_batrachian" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_BATRACHIAN" }
+        ]
+      },
+      {
         "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BEAST" ] },
         "then": [
           { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_beast" },
@@ -100,8 +114,154 @@
         "then": [
           { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_bird" },
           { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_BIRD" }
-        ],
-        "//BEFOREMERGE": "Need to add the other 23"
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_CATTLE" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_cattle" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_CATTLE" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_CEPHALOPOD" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_cephalopod" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_CEPHALOPOD" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_CHIMERA" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_chimera" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_CHIMERA" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_CHIROPTERAN" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_chiropteran" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_CHIROPTERAN" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_CRUSTACEAN" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_crustacean" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_CRUSTACEAN" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_ELFA" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_elfa" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_ELFA" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_FELINE" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_feline" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_FELINE" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_FISH" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_fish" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_FISH" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_GASTROPOD" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_gastropod" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_GASTROPOD" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_INSECT" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_insect" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_INSECT" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_LIZARD" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_lizard" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_LIZARD" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_LUPINE" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_lupine" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_LUPINE" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_MEDICAL" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_medical" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_MEDICAL" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_MOUSE" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_mouse" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_MOUSE" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_PLANT" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_plant" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_PLANT" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_RAPTOR" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_raptor" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_RAPTOR" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_RAT" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_rat" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_RAT" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_SLIME" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_slime" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_SLIME" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_SPIDER" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_spider" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_SPIDER" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_TROGLOBITE" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_troglobite" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_TROGLOBITE" }
+        ]
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_URSINE" ] },
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_ursine" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_URSINE" }
+        ]
       }
     ]
   },
