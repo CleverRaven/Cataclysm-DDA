@@ -56,6 +56,7 @@
     "type": "effect_on_condition",
     "id": "EOC_MUTAGEN_GLAND_SETUP",
     "condition": {
+      "//": "Not necessary but saves defining the common setup variables where no gland is present",
       "compare_string": [
         { "context_val": "trait" },
         "MUTAGEN_GLAND_ALPHA",

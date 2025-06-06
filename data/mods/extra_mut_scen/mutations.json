@@ -5,7 +5,7 @@
     "//TODO": "Add more glands as mod_interactions for in repo mod lines",
     "name": "",
     "description": "",
-    "points": 1,
+    "points": 0,
     "time": 3600,
     "processed_eocs": [ "EOC_AM_BECOME_MUTANT" ],
     "//BEFOREMERGE": [
