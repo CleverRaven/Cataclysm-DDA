@@ -287,10 +287,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_AM_BECOME_MUTANT",
+    "//": "Counter passive decay and then if haven't mutated recently roll a chance to gain mutagen, lower chance after threshold",
     "//BEFOREMERGE": "Test numbers until they feel good",
     "condition": { "math": [ "has_var(u_mutagen_gland_vitamin)" ] },
     "effect": [
-      { "//": "Counter passive decay", "math": [ "u_vitamin(u_mutagen_gland_vitamin) += 1" ] },
+      { "math": [ "u_vitamin(u_mutagen_gland_vitamin) += 1" ] },
       { "math": [ "u_vitamin('mutagen') += 1" ] },
       {
         "if": { "math": [ "u_recently_mutated_cooldown <= 0" ] },
