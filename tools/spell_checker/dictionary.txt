@@ -4,6 +4,8 @@ AAC
 AAR
 AB
 Abanaderly
+abaya
+abayas
 Abbie
 Abby
 ABC
@@ -2621,6 +2623,7 @@ Hiep
 Higgins
 highschool
 hijab
+hijabs
 Himalayan
 Hindu
 Hinduism
@@ -4312,6 +4315,8 @@ Ninhursag
 ninjutsu
 niño
 Nipâta
+niqab
+niqabs
 Nishan
 Niten
 Nitron

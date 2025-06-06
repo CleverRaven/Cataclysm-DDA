@@ -1041,6 +1041,11 @@ bool advanced_inventory::move_all_items()
         }
     }
     if( spane.get_area() == AIM_CONTAINER &&
+        spane.container.get_item() == nullptr ) {
+        popup_getkey( _( "Source container isn't valid." ) );
+        return false;
+    }
+    if( spane.get_area() == AIM_CONTAINER &&
         spane.container.get_item()->has_flag( json_flag_NO_UNLOAD ) ) {
         popup_getkey( _( "Source container can't be unloaded." ) );
         return false;

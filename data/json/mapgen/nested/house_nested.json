@@ -2076,5 +2076,18 @@
         "R": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] }, { "item": "homebooks", "chance": 75, "repeat": [ 1, 3 ] } ]
       }
     }
+  },
+  {
+    "//": "Nest for spawning a freezer with items in",
+    "type": "mapgen",
+    "nested_mapgen_id": "domestic_freezer_nest",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "." ],
+      "palettes": [ "standard_domestic_palette" ],
+      "furniture": { ".": "f_freezer" },
+      "items": { ".": [ { "item": "SUS_freezer" } ] }
+    }
   }
 ]

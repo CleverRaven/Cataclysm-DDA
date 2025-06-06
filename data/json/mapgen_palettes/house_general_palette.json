@@ -198,8 +198,7 @@
       "≠": "f_chest",
       "Ø": "f_pinball_machine",
       "Æ": "f_arcade_machine",
-      "ʭ": "f_ladder",
-      "é": "f_freezer"
+      "ʭ": "f_ladder"
     },
     "terrain": {
       "Ŧ": { "param": "house_fence_type", "fallback": "t_fence" },
@@ -374,7 +373,8 @@
         { "item": "allsporting", "chance": 5 }
       ]
     },
-    "mapping": { "÷": { "item": { "item": "doormat", "chance": 55 } } }
+    "mapping": { "÷": { "item": { "item": "doormat", "chance": 55 } } },
+    "nested": { "é": { "chunks": [ [ "domestic_freezer_nest", 1 ], [ "null", 1 ] ] } }
   },
   {
     "type": "palette",

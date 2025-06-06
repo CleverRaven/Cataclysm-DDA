@@ -133,6 +133,8 @@ Underground Temperature now depends on Region Settings
 Modinfo Blacklist
 Add a dentist office map
 Item faults
+Make aggro_character respect anger_relations
+river generation overhaul
 
 
 ## Content:
@@ -308,6 +310,7 @@ Military outposts have been revamped
 Adds a new nether monster
 Snippetize Tshirt variants
 Exodii Ceramics
+Opiate Vitamin
 
 
 ## Interface:
@@ -421,6 +424,7 @@ Move camp-specific recipes to their own category
 Debug option to view used palette symbols
 Add option to disable mouse
 Add "in use" info to item's name and info if item has "activity_var" var.
+Create a terminal-like default theme for Imgui
 
 
 ## Mods:
@@ -809,6 +813,7 @@ Mod Conflicts
 [MoM] Add Noetic resonance detector
 [Xedra Evolved] Remove vampires' free bite, vampires take more mutagen
 [MoM] Hostile NPC dialogue updates
+[MoM] Add psychic knacks
 
 
 ## Balance:
@@ -1257,6 +1262,8 @@ Fix 0.5 L I1 Diesel engine not consuming fuel
 [Sky Island] Fix possible painkiller death loop
 Can't craft batches so big that they vanish when the game has nowhere to put them
 [Xedra Evolved] Fix werewolf biting
+Continue with destination activity if route is empty
+Allow moving out of impassable, aquatic treated as swimming, non-swimmers can walk in shallow water
 
 
 ## Performance:
@@ -1418,6 +1425,7 @@ Warn on load if files have been modified
 standardize query_int()
 Always Display Spell Tabs
 Allow monsters to have different climb/swim/dig speeds
+Mapgen: removed unused, obsoleted and pointless JSON fields
 
 
 ## Build:

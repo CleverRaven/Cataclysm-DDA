@@ -6,12 +6,17 @@
       {
         "text": "[Premonition] *Determine if <npc_name> is a threat*",
         "topic": "TALK_EVAC_GUARD3_danger_sense",
-        "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 2" ] }
+        "condition": {
+          "or": [
+            { "math": [ "u_spell_level('clair_danger_sense') >= 2" ] },
+            { "math": [ "u_spell_level('clair_danger_sense_knack') >= 8" ] }
+          ]
+        }
       },
       {
         "text": "[Telepathy] *Read <npc_name>'s mind*",
         "topic": "TALK_EVAC_GUARD3_scan",
-        "condition": { "u_has_trait": "TELEPATH" }
+        "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "math": [ "jmath_telepathy_knacks_combined_level() > 10" ] } ] }
       },
       {
         "text": "It's you.",
@@ -39,7 +44,9 @@
       {
         "text": "[Telepathy 8+] *Go deeper*.",
         "topic": "TALK_EVAC_GUARD3_deep_scan",
-        "condition": { "math": [ "u_school_level('TELEPATH') >= 8" ] }
+        "condition": {
+          "or": [ { "math": [ "u_school_level('TELEPATH') >= 8" ] }, { "math": [ "jmath_telepathy_knacks_combined_level() > 18" ] } ]
+        }
       }
     ]
   },
