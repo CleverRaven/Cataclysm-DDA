@@ -8,7 +8,39 @@
     "//": "Purge built up stores of mutagen post mutation and don't build up again for a period of time",
     "condition": {
       "and": [
-        { "not": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BEAST", "MUTAGEN_GLAND_BIRD" ] } },
+        {
+          "not": {
+            "//TODO": "Ideally this would be a test_eoc but I don't think there's any way to do that given it needs the context variable?",
+            "compare_string": [
+              { "context_val": "trait" },
+              "MUTAGEN_GLAND_ALPHA",
+              "MUTAGEN_GLAND_BATRACHIAN",
+              "MUTAGEN_GLAND_BEAST",
+              "MUTAGEN_GLAND_BIRD",
+              "MUTAGEN_GLAND_CATTLE",
+              "MUTAGEN_GLAND_CEPHALOPOD",
+              "MUTAGEN_GLAND_CHIMERA",
+              "MUTAGEN_GLAND_CHIROPTERAN",
+              "MUTAGEN_GLAND_CRUSTACEAN",
+              "MUTAGEN_GLAND_ELFA",
+              "MUTAGEN_GLAND_FELINE",
+              "MUTAGEN_GLAND_FISH",
+              "MUTAGEN_GLAND_GASTROPOD",
+              "MUTAGEN_GLAND_INSECT",
+              "MUTAGEN_GLAND_LIZARD",
+              "MUTAGEN_GLAND_LUPINE",
+              "MUTAGEN_GLAND_MEDICAL",
+              "MUTAGEN_GLAND_MOUSE",
+              "MUTAGEN_GLAND_PLANT",
+              "MUTAGEN_GLAND_RAPTOR",
+              "MUTAGEN_GLAND_RAT",
+              "MUTAGEN_GLAND_SLIME",
+              "MUTAGEN_GLAND_SPIDER",
+              "MUTAGEN_GLAND_TROGLOBITE",
+              "MUTAGEN_GLAND_URSINE"
+            ]
+          }
+        },
         { "math": [ "has_var(u_mutagen_gland_vitamin)" ] }
       ]
     },
@@ -23,7 +55,36 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_MUTAGEN_GLAND_SETUP",
-    "condition": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BEAST", "MUTAGEN_GLAND_BIRD" ] },
+    "condition": {
+      "compare_string": [
+        { "context_val": "trait" },
+        "MUTAGEN_GLAND_ALPHA",
+        "MUTAGEN_GLAND_BATRACHIAN",
+        "MUTAGEN_GLAND_BEAST",
+        "MUTAGEN_GLAND_BIRD",
+        "MUTAGEN_GLAND_CATTLE",
+        "MUTAGEN_GLAND_CEPHALOPOD",
+        "MUTAGEN_GLAND_CHIMERA",
+        "MUTAGEN_GLAND_CHIROPTERAN",
+        "MUTAGEN_GLAND_CRUSTACEAN",
+        "MUTAGEN_GLAND_ELFA",
+        "MUTAGEN_GLAND_FELINE",
+        "MUTAGEN_GLAND_FISH",
+        "MUTAGEN_GLAND_GASTROPOD",
+        "MUTAGEN_GLAND_INSECT",
+        "MUTAGEN_GLAND_LIZARD",
+        "MUTAGEN_GLAND_LUPINE",
+        "MUTAGEN_GLAND_MEDICAL",
+        "MUTAGEN_GLAND_MOUSE",
+        "MUTAGEN_GLAND_PLANT",
+        "MUTAGEN_GLAND_RAPTOR",
+        "MUTAGEN_GLAND_RAT",
+        "MUTAGEN_GLAND_SLIME",
+        "MUTAGEN_GLAND_SPIDER",
+        "MUTAGEN_GLAND_TROGLOBITE",
+        "MUTAGEN_GLAND_URSINE"
+      ]
+    },
     "effect": [
       { "math": [ "u_recently_mutated_cooldown = 0" ] },
       { "math": [ "u_mutagen_gland_surplus = 0" ] },
@@ -39,7 +100,8 @@
         "then": [
           { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_bird" },
           { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_BIRD" }
-        ]
+        ],
+        "//BEFOREMERGE": "Need to add the other 23"
       }
     ]
   },
