@@ -5895,7 +5895,7 @@ static void add_consumed_nutrients( std::map<time_point, nutrients> &into, time_
     if( !ret.second ) {
         ret.first->second += nutr;
     }
-};
+}
 
 // returns success if the item should be removed
 // Checks the contents of the item for nutrients, and removes ones with nutrients
@@ -5933,7 +5933,7 @@ static ret_val<std::map<time_point, nutrients>> nutrients_from( item &it, item *
     }
     add_consumed_nutrients( consumed, rot_time( it, container ), *from_this );
     return ret_val<std::map<time_point, nutrients>>::make_success( consumed );
-};
+}
 
 // mission support
 bool basecamp::distribute_food( bool player_command )
