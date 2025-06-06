@@ -22,53 +22,42 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_MUTAGEN_GLAND_COMMON_SETUP",
-    "effect": [ { "math": [ "u_recently_mutated_cooldown = 0" ] }, { "math": [ "u_mutagen_gland_surplus = 0" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_MUTAGEN_GLAND_BEAST_SETUP",
+    "id": "EOC_MUTAGEN_GLAND_SETUP",
+    "condition": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BEAST", "MUTAGEN_GLAND_BIRD" ] },
     "effect": [
-      { "run_eocs": [ "EOC_MUTAGEN_GLAND_COMMON_SETUP" ] },
-      { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_beast" },
-      { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_BEAST" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_MUTAGEN_GLAND_BIRD_SETUP",
-    "effect": [
-      { "run_eocs": [ "EOC_MUTAGEN_GLAND_COMMON_SETUP" ] },
-      { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_bird" },
-      { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_BIRD" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_MUTAGEN_GLAND_SETUP1",
-    "//TODO": "Would ideally be one big if else but there's no else_if atm so it'd be a nest nightmare",
-    "eoc_type": "EVENT",
-    "required_event": "gains_mutation",
-    "effect": [
+      { "math": [ "u_recently_mutated_cooldown = 0" ] },
+      { "math": [ "u_mutagen_gland_surplus = 0" ] },
       {
         "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BEAST" ] },
-        "then": { "run_eocs": [ "EOC_MUTAGEN_GLAND_BEAST_SETUP" ] }
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_beast" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_BEAST" }
+        ]
       },
       {
         "if": { "compare_string": [ { "context_val": "trait" }, "MUTAGEN_GLAND_BIRD" ] },
-        "then": { "run_eocs": [ "EOC_MUTAGEN_GLAND_BIRD_SETUP" ] }
+        "then": [
+          { "u_add_var": "mutagen_gland_vitamin", "value": "mutagen_bird" },
+          { "u_add_var": "mutagen_gland_threshold", "value": "THRESH_BIRD" }
+        ]
       }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_MUTAGEN_GLAND_SETUP2",
+    "id": "EOC_MUTAGEN_GLAND_SETUP_POST_START",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "effect": { "run_eocs": [ "EOC_MUTAGEN_GLAND_SETUP" ], "variables": { "trait": { "context_val": "trait" } } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTAGEN_GLAND_SETUP_PRE_START",
     "//": "Once for each character",
     "recurrence": 1,
     "deactivate_condition": { "math": [ "u_setup_gland == 1" ] },
     "effect": [
-      { "if": { "u_has_trait": "MUTAGEN_GLAND_BEAST" }, "then": { "run_eocs": [ "EOC_MUTAGEN_GLAND_BEAST_SETUP" ] } },
-      { "if": { "u_has_trait": "MUTAGEN_GLAND_BIRD" }, "then": { "run_eocs": [ "EOC_MUTAGEN_GLAND_BIRD_SETUP" ] } },
+      { "run_eocs": [ "EOC_MUTAGEN_GLAND_SETUP" ], "variables": { "trait": { "context_val": "trait" } } },
       { "math": [ "u_setup_gland = 1" ] }
     ]
   },

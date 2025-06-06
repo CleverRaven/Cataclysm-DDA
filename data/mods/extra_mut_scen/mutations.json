@@ -2,6 +2,7 @@
   {
     "type": "mutation",
     "abstract": "MUTAGEN_GLAND_ABSTRACT",
+    "//TODO": "Add more glands as mod_interactions for in repo mod lines",
     "name": "",
     "description": "",
     "points": 1,
