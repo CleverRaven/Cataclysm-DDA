@@ -151,6 +151,8 @@
     "longest_side": "1054 mm",
     "barrel_length": "508 mm",
     "price": "910 USD",
+    "material": [ "steel", "aluminum", "plastic" ],
+    "dispersion": 325,
     "clip_size": 9,
     "valid_mod_locations": [
       [ "barrel", 1 ],
