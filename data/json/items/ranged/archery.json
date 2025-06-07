@@ -412,7 +412,7 @@
     "description": "A high-powered bow with shaped cams and extra cables for high-velocity shots that can be used effectively by fairly strong archers.  Currently set to a medium weight.",
     "price": "550 USD",
     "//": "60 lb draw weight 24in draw, 100J, 0.55 slugs of momentum with a 30g arrow.",
-    "material": [ "steel", "plastic" ],
+    "material": [ "aluminum", "plastic" ],
     "flags": [
       "FIRE_TWOHAND",
       "RELOAD_AND_SHOOT",
