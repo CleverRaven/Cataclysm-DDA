@@ -470,7 +470,8 @@
       "benelli_tsa",
       "bigun",
       "mossberg_590m",
-      "USAS_12"
+      "USAS_12",
+      "m1014"
     ],
     "type": "MIGRATION",
     "replace": "shot_tactical"
@@ -484,7 +485,10 @@
       "mossberg_590",
       "mossberg_930",
       "remington_870",
-      "remington_870_express"
+      "remington_870_express",
+      "ithaca37",
+      "browning_a5",
+      "remington_1100"
     ],
     "type": "MIGRATION",
     "replace": "shot_pump"
