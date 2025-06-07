@@ -317,6 +317,7 @@
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "military_explosive", 92 ], [ "explosives_casting_standard", 1 ] ],
+
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "delay_fuze", 1 ] ] ]
   },
