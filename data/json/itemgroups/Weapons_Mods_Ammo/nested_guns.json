@@ -2550,10 +2550,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [
-      { "item": "benelli_tsa", "charges": [ 0, 6 ] },
-      { "group": "on_hand_shot" }
-    ]
+    "entries": [ { "item": "benelli_tsa", "charges": [ 0, 6 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_mossberg_590",
