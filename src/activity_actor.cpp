@@ -8854,101 +8854,131 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
-void butchery_activity_actor::start( player_activity &act, Character &you )
+bool butchery_activity_actor::calculate_butchery_data( player_activity &act, Character &you,
+        butchery_data &this_bd )
 {
-    act.moves_total = 1;
     map *here = &get_map();
-    item_location &target = bd.corpse;
+    item_location &target = this_bd.corpse;
     item &corpse_item = *target;
-    const mtype &corpse = *bd.corpse.get_item()->get_mtype();
+    const mtype &corpse = *target.get_item()->get_mtype();
 
     std::pair<float, requirement_id> butchery_reqs =
         corpse.harvest->get_butchery_requirements().get_fastest_requirements( you.crafting_inventory(),
-                corpse.size, bd.b_type );
-    bd.req_speed_bonus = butchery_reqs.first;
-    bd.req = butchery_reqs.second;
-    bd.time_to_butcher = time_duration::from_moves( butcher_time_to_cut( you, *bd.corpse.get_item(),
-                         bd.b_type ) * bd.req_speed_bonus );
-    bd.progress = time_duration::from_seconds(
-                      corpse_item.get_var( butcher_progress_var( bd.b_type ), 0 ) );
+                corpse.size, this_bd.b_type );
+    this_bd.req_speed_bonus = butchery_reqs.first;
+    this_bd.req = butchery_reqs.second;
+    this_bd.time_to_butcher = time_duration::from_moves( butcher_time_to_cut( you,
+                              *this_bd.corpse.get_item(),
+                              this_bd.b_type ) * this_bd.req_speed_bonus );
+    this_bd.progress = time_duration::from_seconds(
+                           corpse_item.get_var( butcher_progress_var( this_bd.b_type ), 0 ) * this_bd.time_to_butcher );
 
     corpse_item.spill_contents( *&here, target.pos_bub( *here ) );
 
-    // act.moves_total = bd.time_to_butcher;
-    // act.moves_left = act.moves_total - bd.progress + 1;
-
-    if( !set_up_butchery( act, you, bd ) ) {
-        you.cancel_activity();
+    if( !set_up_butchery( act, you, this_bd ) ) {
+        return false;
     };
+    return true;
 }
 
 void butchery_activity_actor::do_turn( player_activity &act, Character &you )
 {
-    const item_location &target = bd.corpse;
+    if( bd.empty() ) {
+        act.moves_left = 0;
+        return;
+    }
+
+    butchery_data *this_bd = &bd.back();
+
+    if( this_bd->progress == 0_seconds ) {
+        if( !calculate_butchery_data( act, you, *this_bd ) ) {
+            bd.pop_back();
+            if( bd.empty() ) {
+                act.moves_left = 0;
+                return;
+            }
+        }
+    }
+
+    const item_location &target = this_bd->corpse;
 
     // Corpses can disappear (rezzing!), so check for that
     if( !target || !target->is_corpse() ) {
         you.add_msg_if_player( m_info, _( "There's no corpse to butcher!" ) );
-        you.cancel_activity();
+        act.moves_left = 0;
         return;
     }
 
-    if( bd.progress >= bd.time_to_butcher ) {
+    if( this_bd->progress >= this_bd->time_to_butcher ) {
         // this corpse is done
-        destroy_the_carcass( bd, you );
-        act.moves_left = 0;
+        destroy_the_carcass( *this_bd, you );
+        bd.pop_back();
+        if( bd.empty() ) {
+            act.moves_left = 0;
+            return;
+        }
     } else {
-        bd.progress += 1_seconds;
+        this_bd->progress += 1_seconds;
     }
 }
 
 void butchery_activity_actor::finish( player_activity &act, Character &you )
 {
-    // if it's mutli-tile butchering, then restart the backlog.
-    if( !you.backlog.empty() ) {
-        activity_handlers::resume_for_multi_activities( you );
-    }
+    act.set_to_null();
 }
 
 void butchery_activity_actor::canceled( player_activity &, Character & )
 {
-    item_location &target = bd.corpse;
+    butchery_data *this_bd = &bd.back();
+    item_location &target = this_bd->corpse;
     item &corpse_item = *target;
 
     if( target ) {
-        corpse_item.set_var( butcher_progress_var( bd.b_type ), to_seconds<int>( bd.progress ) );
+        corpse_item.set_var( butcher_progress_var( this_bd->b_type ),
+                             this_bd->progress / this_bd->time_to_butcher );
     }
-
 }
 
 void butchery_activity_actor::serialize( JsonOut &jsout ) const
 {
+    jsout.start_object();
+    // activity de/serialization is not designed to store raw vectors, so we store vector in it's own key
+    jsout.member( "butchery_vector" );
+    jsout.start_array();
+    for( const butchery_data bd_instance : bd ) {
+        jsout.start_object();
+        jsout.member( "b_type", bd_instance.b_type );
+        jsout.member( "corpse", bd_instance.corpse );
+        jsout.member( "progress", bd_instance.progress );
+        jsout.member( "req", bd_instance.req );
+        jsout.member( "req_speed_bonus", bd_instance.req_speed_bonus );
+        jsout.member( "time_to_butcher", bd_instance.time_to_butcher );
+        jsout.end_object();
+    }
+    jsout.end_array();
+    jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> butchery_activity_actor::deserialize( JsonValue &jsin )
 {
-    return std::unique_ptr<activity_actor>();
-}
+    butchery_activity_actor actor;
+    std::vector<butchery_data> new_bd;
+    JsonObject data = jsin.get_object();
 
-void multiple_butchery_activity_actor::start( player_activity &act, Character &you )
-{
-    for( const butchery_data &bd_instance : bd ) {
-        you.backlog.emplace_back( butchery_activity_actor( bd_instance ) );
+    const JsonArray jo_vector = data.get_array( "butchery_vector" );
+    for( const JsonObject jo : jo_vector ) {
+        butchery_data bd_instance;
+        bd_instance.b_type = static_cast<butcher_type>( jo.get_int( "b_type" ) );
+        bd_instance.corpse.deserialize( jo.get_object( "corpse" ) );
+        bd_instance.progress = time_duration::from_seconds<int>( jo.get_int( "progress" ) );
+        bd_instance.req = requirement_id( jo.get_string( "req" ) );
+        bd_instance.req_speed_bonus = jo.get_int( "req_speed_bonus" );
+        bd_instance.time_to_butcher = time_duration::from_seconds<int>( jo.get_int( "time_to_butcher" ) );
+        new_bd.emplace_back( bd_instance );
     }
-    act.moves_left = 0;
-}
 
-void multiple_butchery_activity_actor::do_turn( player_activity &act, Character &you )
-{
-}
-
-void multiple_butchery_activity_actor::finish( player_activity &act, Character &you )
-{
-    activity_handlers::resume_for_multi_activities( you );
-}
-
-void multiple_butchery_activity_actor::serialize( JsonOut &jsout ) const
-{
+    actor.bd = new_bd;
+    return actor.clone();
 }
 
 void wait_stamina_activity_actor::start( player_activity &act, Character & )

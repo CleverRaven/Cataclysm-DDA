@@ -9813,11 +9813,6 @@ static void add_disassemblables( uilist &menu,
     }
 }
 
-std::string wrap60( const std::string &text )
-{
-    return string_join( foldstring( text, 60 ), "\n" );
-}
-
 void game::butcher()
 {
     map &here = get_map();
@@ -10060,7 +10055,7 @@ void game::butcher()
                             item_location corpse_loc = item_location( map_cursor( u.pos_abs() ), &*it );
                             bd.emplace_back( corpse_loc, bt.value() );
                         }
-                        u.assign_activity( multiple_butchery_activity_actor( bd ) );
+                        u.assign_activity( butchery_activity_actor( bd ) );
                     }
                     break;
                 }
@@ -10080,7 +10075,7 @@ void game::butcher()
             if( bt.has_value() ) {
                 item_location corpse_loc = item_location( map_cursor( u.pos_abs() ), &*corpses[indexer_index] );
                 butchery_data bd( corpse_loc, bt.value() );
-                u.assign_activity( multiple_butchery_activity_actor( bd ) );
+                u.assign_activity( butchery_activity_actor( bd ) );
             }
         }
         break;

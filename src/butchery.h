@@ -29,10 +29,11 @@ struct butchery_data {
     requirement_id req;
     butcher_type b_type;
     float req_speed_bonus;
-	time_duration time_to_butcher;
+    time_duration time_to_butcher;
     // when `progress` reaches `time_to_butcher`, the corpse is butchered
     time_duration progress;
 
+    butchery_data() = default;
     butchery_data( item_location &corpse, const butcher_type &b_type ) : corpse( corpse ),
         b_type( b_type ) {}
 };

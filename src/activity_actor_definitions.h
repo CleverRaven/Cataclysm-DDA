@@ -2472,9 +2472,12 @@ class pulp_activity_actor : public activity_actor
 class butchery_activity_actor : public activity_actor
 {
     public:
-        explicit butchery_activity_actor( butchery_data bd ) : bd( bd ) {}
+        butchery_activity_actor() = default;
+        explicit butchery_activity_actor( butchery_data bd ) : bd( { bd } ) {}
+        explicit butchery_activity_actor( std::vector<butchery_data> bd ) : bd( bd ) {}
+
         const activity_id &get_type() const override {
-            switch( bd.b_type ) {
+            switch( bd.back().b_type ) {
                 case butcher_type::BLEED: {
                     static const activity_id ACT_BLEED( "ACT_BLEED" );
                     return ACT_BLEED;
@@ -2516,12 +2519,13 @@ class butchery_activity_actor : public activity_actor
                     break;
                 }
                 default : {
-                    return activity_id::NULL_ID();
+                    static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
+                    return ACT_BUTCHER;
                     break;
                 }
             }
         }
-        void start( player_activity &act, Character &you ) override;
+        void start( player_activity &act, Character &you ) override {};
         void do_turn( player_activity &act, Character &you ) override;
         void finish( player_activity &act, Character &you ) override;
         void canceled( player_activity &act, Character &you ) override;
@@ -2533,34 +2537,13 @@ class butchery_activity_actor : public activity_actor
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
-    private:
-        butchery_data bd;
-};
-
-class multiple_butchery_activity_actor : public activity_actor
-{
-
-    public:
-
-        explicit multiple_butchery_activity_actor( std::vector<butchery_data> bd ) : bd( bd ) {}
-        explicit multiple_butchery_activity_actor( butchery_data bd ) : bd( { bd } ) {}
-
-        void start( player_activity &act, Character &who ) override;
-        void do_turn( player_activity &act, Character &who ) override;
-        void finish( player_activity &act, Character &who ) override;
-
-        const activity_id &get_type() const override {
-            static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
-            return ACT_BUTCHER;
-        }
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<multiple_butchery_activity_actor>( *this );
-        }
-
-        void serialize( JsonOut &jsout ) const override;
+        // return false if preparation failed for some reason
+        bool calculate_butchery_data( player_activity &act, Character &you, butchery_data &this_bd );
 
     private:
+        // list of butcheries we want to perform in this activity
+        // we iterate over it, starting from last, and pop_back() when instance is finished
+        // when vector is empty, we are done
         std::vector<butchery_data> bd;
 };
 

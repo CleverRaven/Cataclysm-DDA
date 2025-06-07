@@ -1367,7 +1367,4 @@ namespace cata_event_dispatch
 void avatar_moves( const tripoint_abs_ms &old_abs_pos, const avatar &u, const map &m );
 } // namespace cata_event_dispatch
 
-// move it elsewhere, there's like 4 static declarations of it
-std::string wrap60( const std::string &text );
-
 #endif // CATA_SRC_GAME_H
