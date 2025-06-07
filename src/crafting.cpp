@@ -1396,7 +1396,7 @@ static void destroy_random_component( item &craft, const Character &crafter )
         }
 
         if( x_in_y( explosion_chance * 100, 100 ) ) {
-            const int weight_grams = craft.weight() / units::gram; 
+            const int weight_grams = units::to_gram(craft.weight()); 
             const int explosion_power = 2 * weight_grams * missing * batch_size;
             const double casing_mass = static_cast<double>(weight_grams * missing * batch_size);
             const double fragment_mass = 0.1;
@@ -1411,7 +1411,7 @@ static void destroy_random_component( item &craft, const Character &crafter )
                 _( "The explosive craft explodes violently!" ),
                 _( "The explosive craft explodes violently near <npcname>!" )
             );
-            get_map().explosion( crafter.pos(), exp );
+            explosion( crafter.pos(), exp );
         }
     }
 }
