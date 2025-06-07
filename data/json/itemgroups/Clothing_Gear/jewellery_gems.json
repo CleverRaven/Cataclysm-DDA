@@ -187,7 +187,9 @@
       [ "tieclip", 35 ],
       [ "bead_ear", 35 ],
       [ "pearl_collar", 30 ],
-      [ "holy_symbol", 20 ]
+      [ "holy_symbol", 20 ],
+      [ "gold_anklet", 20 ],
+      [ "silver_anklet", 30 ]
     ]
   },
   {

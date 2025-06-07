@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "fungal_flowers" ],
-    "weight": 100,
     "object": {
       "rows": [
         "     ..............     ",

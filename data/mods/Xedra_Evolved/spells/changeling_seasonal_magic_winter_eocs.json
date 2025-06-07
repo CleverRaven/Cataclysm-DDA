@@ -1,0 +1,304 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_WINTER_FREEZE_TARGET_IN_PLACE",
+    "effect": [
+      {
+        "math": [
+          "u_spell_low_duration = ( ( 2.51 + (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 2.45) + (n_skill('deduction') * 3.50) ) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spell_high_duration = ( ( 6.52 + (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 5.55) + (n_skill('deduction') * 7.91) ) )"
+        ]
+      },
+      {
+        "if": {
+          "or": [
+            "u_is_character",
+            {
+              "math": [ "u_volume()", ">=", "60 + (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 5000)" ]
+            }
+          ]
+        },
+        "then": [
+          {
+            "if": { "is_season": "winter" },
+            "then": [
+              {
+                "if": { "is_season": "summer" },
+                "then": [
+                  { "u_lose_effect": "effect_changeling_winter_freeze_target_in_place_during_winter" },
+                  {
+                    "u_add_effect": "effect_changeling_winter_freeze_target_in_place_during_winter",
+                    "duration": {
+                      "math": [
+                        "rng( (u_spell_low_duration * global_what_is_the_season == 2 ? 0.6 : 1), (u_spell_high_duration * global_what_is_the_season == 2 ? 0.4 : 1 ) )"
+                      ]
+                    }
+                  }
+                ],
+                "else": [
+                  { "u_lose_effect": "effect_changeling_winter_freeze_target_in_place_during_winter" },
+                  {
+                    "u_add_effect": "effect_changeling_winter_freeze_target_in_place_during_winter",
+                    "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+                  }
+                ]
+              }
+            ],
+            "else": [
+              {
+                "if": { "is_season": "summer" },
+                "then": [
+                  { "u_lose_effect": "effect_changeling_winter_freeze_target_in_place_not_winter" },
+                  {
+                    "u_add_effect": "effect_changeling_winter_freeze_target_in_place_not_winter",
+                    "duration": {
+                      "math": [
+                        "rng( (u_spell_low_duration * global_what_is_the_season == 2 ? 0.6 : 1), (u_spell_high_duration * global_what_is_the_season == 2 ? 0.4 : 1) )"
+                      ]
+                    }
+                  }
+                ],
+                "else": [
+                  { "u_lose_effect": "effect_changeling_winter_freeze_target_in_place_not_winter" },
+                  {
+                    "u_add_effect": "effect_changeling_winter_freeze_target_in_place_not_winter",
+                    "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "else": [ { "npc_message": "The target easily shatters the ice!", "type": "bad" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_WINTER_FEIGN_DEATH",
+    "effect": [
+      { "u_add_effect": "effect_changeling_winter_feign_death", "duration": "PERMANENT" },
+      {
+        "if": { "not": { "u_has_effect": "effect_changeling_winter_feign_death_limiter" } },
+        "then": [
+          { "u_message": "You collapse to the ground as your chest ceases its movements.", "type": "neutral" },
+          { "run_eocs": "EOC_CHANGELING_NO_CASTING_OTHER_GLAMOURS_CHECKER", "time_in_future": 1 }
+        ],
+        "else": [
+          { "u_message": "You collapse to the ground, but nothing seems fooled!", "type": "bad" },
+          { "u_lose_effect": "effect_changeling_using_glamour_removes_checker" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_WINTER_FEIGN_DEATH_LIMITER_ON_LOSS",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_changeling_winter_feign_death", { "context_val": "effect" } ] },
+    "effect": [
+      { "u_add_effect": "effect_changeling_winter_feign_death_limiter", "duration": "1 minutes" },
+      { "u_lose_effect": "effect_changeling_using_glamour_removes_checker" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_WINTER_FEIGN_DEATH_LOST_ON_ACTIVITY",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_changeling_winter_feign_death" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_LOCKPICK", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_REPAIR_ITEM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MEND_ITEM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_REPAIR", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_RELOAD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FIRSTAID", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MILK", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HACKSAW", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BOLTCUTTING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HAIRCUT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SHAVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CRACKING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_READ", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_EBOOKSAVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_TIDY_UP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MOP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_DECONSTRUCTION", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_FOLD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_UNFOLD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BIKERACK_UNRACKING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BIKERACK_RACKING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_DIS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_FISH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CRAFT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CHOP_PLANKS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CHOP_TREES", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_MINE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CONSTRUCTION", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_MOP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_READ", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FISH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_GENERIC_GAME", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_GAME", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_DISASSEMBLE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_FARM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HARVEST", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FIELD_DRESS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SKIN", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_QUARTER", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_DISSECT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_LONGSALVAGE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BUILD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKAXE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HAND_CRANK", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKUP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_AUTODRIVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FERTILIZE_PLOT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MOVE_LOOT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_UNLOAD_LOOT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_INSERT_ITEM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_START_FIRE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_OPEN_GATE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FILL_LIQUID", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SHEARING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HOTWIRE_CAR", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_AIM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_ATM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_START_ENGINES", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_OXYTORCH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_TOOLMOD_ADD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CLEAR_RUBBLE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_WASH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PRYING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHOP_LOGS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHOP_PLANKS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_JACKHAMMER", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHURN", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PLANT_SEED", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_WEAR", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKUP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_WIELD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BINDER_COPY_RECIPE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_DATA_HANDLING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FURNITURE_MOVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_TENT_PLACE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_TENT_DECONSTRUCT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_REEL_CABLE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SALINE_INFUSE", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_changeling_winter_feign_death." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_WINTER_NEUTRALIZE_MORALE",
+    "effect": [
+      { "run_eocs": "EOC_FULL_MORALE_NEUTRALIZATION" },
+      {
+        "if": { "not": { "is_season": "summer" } },
+        "then": [
+          {
+            "math": [
+              "u_spell_low_duration = ( ( 29.12 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 15.82) + (u_skill('deduction') * 31.84) ) )"
+            ]
+          },
+          {
+            "math": [
+              "u_spell_high_duration = ( ( 69.52 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 41.85) + (u_skill('deduction') * 90.52) ) )"
+            ]
+          },
+          {
+            "u_add_effect": "effect_changeling_winter_neutralize_morale",
+            "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+          },
+          { "run_eocs": "EOC_CHANGELING_WINTER_NEUTRALIZE_MORALE_CONTINUANCE", "time_in_future": 60 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_WINTER_NEUTRALIZE_MORALE_CONTINUANCE",
+    "condition": { "u_has_effect": "effect_changeling_winter_neutralize_morale" },
+    "effect": [
+      { "run_eocs": "EOC_FULL_MORALE_NEUTRALIZATION" },
+      { "run_eocs": "EOC_CHANGELING_WINTER_NEUTRALIZE_MORALE_CONTINUANCE", "time_in_future": 60 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_WINTER_HAIL_ATTACK",
+    "effect": [
+      {
+        "u_query_tile": "line_of_sight",
+        "target_var": { "context_val": "changeling_winter_hail_attack_location" },
+        "range": {
+          "math": [
+            "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.35) + (u_skill('deduction') * 0.65) ) ), 7)"
+          ]
+        },
+        "z_level": true,
+        "message": "Select target."
+      },
+      {
+        "if": { "math": [ "has_var(_changeling_winter_hail_attack_location)" ] },
+        "then": {
+          "if": { "not": { "map_terrain_with_flag": "INDOORS", "loc": { "context_val": "changeling_winter_hail_attack_location" } } },
+          "then": [
+            {
+              "u_cast_spell": { "id": "changeling_winter_hail_attack_spell_bash_damage" },
+              "loc": { "context_val": "changeling_winter_hail_attack_location" }
+            },
+            {
+              "u_cast_spell": { "id": "changeling_winter_hail_attack_spell_cold_damage" },
+              "loc": { "context_val": "changeling_winter_hail_attack_location" }
+            },
+            {
+              "if": { "not": { "is_season": "summer" } },
+              "then": {
+                "u_cast_spell": { "id": "changeling_winter_hail_attack_spell_ice_fields" },
+                "loc": { "context_val": "changeling_winter_hail_attack_location" }
+              }
+            },
+            { "u_message": "Ice and hail fall from the sky!", "type": "neutral" }
+          ],
+          "else": { "u_message": "The Tears of the Cailleach must fall outdoors.", "type": "bad" }
+        },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_WINTER_PURE_AREA_DARKNESS",
+    "effect": [
+      { "u_message": "All light dies away.", "type": "neutral" },
+      {
+        "custom_light_level": 0,
+        "length": [
+          {
+            "math": [
+              "( ( 39.85 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 16.78) + (u_skill('deduction') * 49.85) ) ) * (global_what_is_the_season == 2 ? 0.3 : 1)"
+            ]
+          },
+          {
+            "math": [
+              "( ( 133.47 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 68.15) + (u_skill('deduction') * 120.85) ) ) * (global_what_is_the_season == 2 ? 0.2 : 1)"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

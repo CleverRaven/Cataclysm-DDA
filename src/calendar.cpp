@@ -3,16 +3,14 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <cstdlib>
 #include <limits>
 #include <optional>
+#include <ostream>
 #include <string>
+#include <tuple>
 
-#include "cata_assert.h"
-#include "cata_utility.h"
 #include "debug.h"
 #include "display.h"
-#include "enum_conversions.h"
 #include "line.h"
 #include "options.h"
 #include "rng.h"
@@ -26,8 +24,6 @@ static constexpr float moonlight_per_quarter = 1.5f;
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
-const time_duration calendar::INDEFINITELY_LONG_DURATION(
-    time_duration::from_turns( std::numeric_limits<int>::max() ) );
 static bool is_eternal_season = false;
 static bool is_eternal_night = false;
 static bool is_eternal_day = false;
@@ -103,7 +99,8 @@ moon_phase get_moon_phase( const time_point &p )
     const int num_middays = to_days<int>( p - calendar::turn_zero + 1_days / 2 );
     const time_duration nearest_midnight = num_middays * 1_days;
     const double phase_change = nearest_midnight / moon_phase_duration;
-    const int current_phase = static_cast<int>( std::round( phase_change * MOON_PHASE_MAX ) ) %
+    const int current_phase = static_cast<int>( std::round( phase_change * static_cast<int>
+                              ( MOON_PHASE_MAX ) ) ) %
                               static_cast<int>( MOON_PHASE_MAX );
     return static_cast<moon_phase>( current_phase );
 }
@@ -877,7 +874,7 @@ std::string get_diary_time_since_str( const time_duration &turn_diff, time_accur
         default:
             DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
                     << "Unknown time_accuracy " << io::enum_to_string<time_accuracy>( acc );
-        /* fallthrough */
+            [[fallthrough]];
         case time_accuracy::NUM_TIME_ACCURACY:
         case time_accuracy::NONE:
             //~ Estimate of how much time has passed since the last entry
@@ -910,7 +907,7 @@ std::string get_diary_time_str( const time_point &turn, time_accuracy acc )
         default:
             DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
                     << "Unknown time_accuracy " << io::enum_to_string<time_accuracy>( acc );
-        /* fallthrough */
+            [[fallthrough]];
         case time_accuracy::NUM_TIME_ACCURACY:
         case time_accuracy::NONE: {
             // normalized to 100 day seasons

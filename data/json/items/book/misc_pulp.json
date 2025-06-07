@@ -1,7 +1,8 @@
 [
   {
     "id": "novel_pulp",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "pulp novel" },
     "description": "A hardboiled detective tale filled with hard hitting action and intrigue.",
     "time": "18 m",
@@ -9,7 +10,8 @@
   },
   {
     "id": "book_fict_soft_pulp_venus",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Black Valkyries From Venus", "str_pl": "copies of Black Valkyries From Venus" },
     "description": "You hold in your hands a weather-beaten novel written by someone named \"Lee Racket.\"",
     "//isbn13": 9781949313062,
@@ -20,7 +22,8 @@
   },
   {
     "id": "book_fict_soft_pulp_wtmrw",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Wrong Tomorrow", "str_pl": "copies of Wrong Tomorrow" },
     "description": "You hold in your hands a cheap drugstore paperback written by someone named \"Lee Racket.\"",
     "//isbn13": 9780575131569,
@@ -31,7 +34,8 @@
   },
   {
     "id": "book_fict_soft_pulp_nogod",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "No God From a Corpse", "str_pl": "copies of No God From a Corpse" },
     "description": {
       "str": "A weatherworn paperback written by some skirt named \"Lee Racket.\"  It tells how rage and jealousy can turn a man, or a woman, into a monster.  This story is hard-boiled enough to break a spoon.",
@@ -45,7 +49,8 @@
   },
   {
     "id": "book_fict_soft_pulp_ddive",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Deep Dive", "str_pl": "copies of The Deep Dive" },
     "description": {
       "str": "This dimestore short story about space travel is written by a broad named \"Lee Racket.\"",
@@ -61,7 +66,8 @@
   },
   {
     "id": "book_fict_soft_pulp_squids",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": {
       "str": "Planet of the Murderous Squids that Time Forgot!",
       "str_pl": "copies of Planet of the Murderous Squids that Time Forgot!"
@@ -71,21 +77,24 @@
   },
   {
     "id": "book_fict_soft_pulp_gcapes",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Great Capes of Metropolis", "str_pl": "copies of The Great Capes of Metropolis" },
     "description": "In this classic pulp paperback of superheroic exploits, a group of masked vigilantes with diverse superpowers learn to work together to defeat the ultimate villain.",
     "copy-from": "book_fict_soft_pulp_tpl"
   },
   {
     "id": "book_fict_soft_pulp_yesmurd",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Yesterday's Murdered", "str_pl": "copies of Yesterday's Murdered" },
     "description": "In this fast paced pulp noir, a hard-drinking detective with nerves of steel has one last shot at vengeance.",
     "copy-from": "book_fict_soft_pulp_tpl"
   },
   {
     "id": "book_fict_soft_pulp_flashcc",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Flashgun Condor and the Crimson Criminal", "str_pl": "copies of Flashgun Condor and the Crimson Criminal" },
     "description": "A hot-blooded photographer who fights crime with film, footage, and fists, Condor is more than a mere shutterbug on the crime beat.  But will she be able to unravel a devious deception and bring the \"Crimson Criminal\" to justice?",
     "copy-from": "book_fict_soft_pulp_tpl"

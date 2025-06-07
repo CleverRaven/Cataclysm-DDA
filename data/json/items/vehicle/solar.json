@@ -1,7 +1,7 @@
 [
   {
     "//": "Assumed to be ~0.5 m x 0.5 m to fit in a vehicle tile",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "solar_panel",
     "name": { "str": "solar panel" },
     "description": "An electronic device that can convert solar radiation into electric power.  Useful for a vehicle or a static power grid.",
@@ -12,20 +12,20 @@
     ],
     "weight": "2630 g",
     "longest_side": "50 cm",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "color": "yellow",
     "symbol": "]",
     "material": [ "glass" ],
     "volume": "12500 ml",
     "flags": [ "NO_REPAIR", "WATER_BREAK" ],
     "category": "veh_parts",
-    "price": 90000,
-    "price_postapoc": 1000,
+    "price": "900 USD",
+    "price_postapoc": "10 USD",
     "melee_damage": { "bash": 1 }
   },
   {
     "//": "Four solar panels stuck together to fit in 1 m x 1 m",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ground_solar_panel",
     "name": { "str": "solar panel array" },
     "description": "A collection of four solar panels, ready to get to work converting solar radiation into electric power.  Install them to use them in a static power grid.",
@@ -33,7 +33,7 @@
     "proportional": { "weight": 4, "volume": 4, "price": 4, "price_postapoc": 4, "longest_side": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "solar_panel",
     "id": "folding_solar_panel",
     "name": { "str": "folding solar panel" },
@@ -49,11 +49,12 @@
     "volume": "7473 ml",
     "longest_side": "53 cm",
     "use_action": { "type": "deploy_appliance", "base": "folding_solar_panel_deployed" },
-    "price": 28000,
-    "price_postapoc": 500
+    "price": "280 USD",
+    "price_postapoc": "5 USD"
   },
   {
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "copy-from": "folding_solar_panel",
     "id": "folding_solar_panel_deployed",
     "name": { "str": "deployed folding solar panel" },
@@ -67,7 +68,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1 } } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "folding_solar_panel",
     "id": "folding_solar_panel_v2",
     "name": { "str": "solar suitcase" },
@@ -81,11 +82,12 @@
     "volume": "39400 ml",
     "longest_side": "83 cm",
     "use_action": { "type": "deploy_appliance", "base": "folding_solar_panel_v2_deployed" },
-    "price": 32000,
-    "price_postapoc": 2000
+    "price": "320 USD",
+    "price_postapoc": "20 USD"
   },
   {
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "copy-from": "folding_solar_panel_v2",
     "id": "folding_solar_panel_v2_deployed",
     "name": { "str": "deployed solar suitcase" },
@@ -99,31 +101,31 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1 } } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "reinforced_solar_panel",
     "name": { "str": "reinforced solar panel" },
     "description": "A solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal panel.",
     "weight": "24153 g",
     "color": "light_blue",
-    "material": [ "glass", "steel" ],
+    "material": [ "glass", "lc_steel" ],
     "volume": "6500 ml",
-    "price": 120000,
-    "price_postapoc": 1500,
+    "price": "1 kUSD 200 USD",
+    "price_postapoc": "15 USD",
     "copy-from": "solar_panel"
   },
   {
     "//": "Assumed to be ~0.5 m x 0.5 m to fit in a vehicle tile",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "solar_panel_v2",
     "name": { "str": "advanced solar panel" },
     "description": "An electronic device that can convert solar radiation into electric power.  This one is a high-performance type made with monocrystalline silicon cells.",
-    "price": 190000,
-    "price_postapoc": 3000,
+    "price": "1 kUSD 900 USD",
+    "price_postapoc": "30 USD",
     "copy-from": "solar_panel"
   },
   {
     "//": "Four advanced solar panels stuck together for 1 m x 1 m area",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ground_solar_panel_v2",
     "name": { "str": "advanced solar panel array" },
     "description": "A collection of four smaller solar panels, ready to convert solar radiation into electric power.  These panels are high-performance, made with monocrystalline silicon cells.",
@@ -131,16 +133,16 @@
     "proportional": { "price": 4, "price_postapoc": 4, "weight": 4, "volume": 4, "longest_side": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "reinforced_solar_panel_v2",
     "name": { "str": "advanced reinforced solar panel" },
     "description": "An advanced solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal advanced panel.",
-    "price": 240000,
-    "price_postapoc": 3500,
+    "price": "2 kUSD 400 USD",
+    "price_postapoc": "35 USD",
     "copy-from": "reinforced_solar_panel"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "solar_cell",
     "name": { "str": "solar cell" },
     "description": "A small electronic device that can convert solar radiation into electric power.  This one is a common, inexpensive type made of polycrystalline silicon.",
@@ -148,17 +150,17 @@
     "symbol": ";",
     "volume": "250 ml",
     "category": "spare_parts",
-    "price": 5000,
-    "price_postapoc": 100,
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
     "copy-from": "solar_panel"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "solar_cell_v2",
     "name": { "str": "advanced solar cell" },
     "description": "A small electronic device that can convert solar radiation into electric power.  This one is a high-performance type made of monocrystalline silicon.",
-    "price": 15000,
-    "price_postapoc": 300,
+    "price": "150 USD",
+    "price_postapoc": "3 USD",
     "copy-from": "solar_cell"
   }
 ]

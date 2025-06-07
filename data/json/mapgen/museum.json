@@ -1,49 +1,48 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "museum" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         ".R*f*R*ff*RssR*ff*R*f*R.",
-        ".||||||||||LL||||||||||.",
-        ".|d5                  |.",
-        ".||R    C       555   |.",
-        ".|d5  DD   DD   5#5   |.",
-        ".||R  DD   DD   5#5   |.",
-        ".|d5            555  P|.",
-        ".||R                 P|.",
-        ".|d5            555  P|.",
-        ".||R  DD   DD   5#5   |.",
-        ".|d5  DD   DD   5#5   |.",
-        ".||R            555  Y|.",
-        ".|j5                 Y|.",
-        ".|j5       UtU  555  Y|.",
-        ".|||555|y       5#5   |.",
-        ".|GGGGG5   UtU  5#5  P|.",
-        ".|Gc   L        555  P|.",
-        ".|G UyU5 DDD          |.",
-        ".||||||||||||L||||||L||.",
-        ".| d  a   |       P| y|.",
-        ".|Y #### a|  aaaa D|&S|.",
-        ".|P ####  +  tttt  ||||.",
-        ".|y  a    |y aaaa  L l|4",
-        ".||||||||||||||||||||||."
+        ".##########LL##########.",
+        ".#d5                  #.",
+        ".#|R    C       555   #.",
+        ".#d5  DD   DD   5A5   #.",
+        ".#|R  DD   DD   5A5   #.",
+        ".#d5            555  P#.",
+        ".#|R                 P#.",
+        ".#d5            555  P#.",
+        ".#|R  DD   DD   5A5   #.",
+        ".#d5  DD   DD   5A5   #.",
+        ".#|R            555  Y#.",
+        ".#j5                 Y#.",
+        ".#j5       UtU  555  Y#.",
+        ".#||555|y       5A5   #.",
+        ".#GGGGG5   UtU  5A5  P#.",
+        ".#Gc   L        555  P#.",
+        ".#G UyU5 DDD          #.",
+        ".#|||||||||||L||||||L|#.",
+        ".# d  a   |       P| y#.",
+        ".#Y AAAA a|  aaaa D|&S#.",
+        ".#P AAAA  +  tttt  |||#.",
+        ".#y  a    |y aaaa  L l#4",
+        ".######################."
       ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "f": "t_region_groundcover_urban",
         "*": "t_region_shrub_decorative",
-        " ": "t_linoleum_gray",
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "+": "t_door_c",
         "R": "t_column",
         "s": "t_concrete",
         ".": "t_region_groundcover_urban",
         "5": "t_wall_glass_alarm",
         "L": "t_door_locked_alarm",
-        "4": "t_gutter_downspout",
-        "|": "t_brick_wall"
+        "4": "t_gutter_downspout"
       },
       "toilets": { "&": {  } },
       "furniture": {
@@ -51,7 +50,7 @@
         "a": "f_stool",
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
         "U": "f_armchair",
-        "#": "f_counter",
+        "A": "f_counter",
         "D": "f_displaycase",
         "Y": "f_displaycase",
         "G": "f_desk",
@@ -76,7 +75,8 @@
         "j": { "item": "museum_armor_pet", "chance": 80 },
         "S": { "item": "softdrugs", "chance": 30, "repeat": [ 1, 2 ] },
         "P": { "item": "museum_primitive", "chance": 90, "repeat": [ 2, 4 ] },
-        "Y": { "item": "museum_melee", "chance": 80 }
+        "Y": { "item": "museum_melee", "chance": 80 },
+        "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_items": [
         { "item": "museum_primitive", "x": [ 6, 7 ], "y": [ 4, 5 ], "chance": 85 },
@@ -93,12 +93,11 @@
         { "item": "museum_guns", "x": [ 4, 7 ], "y": [ 20, 21 ], "chance": 70 },
         { "item": "museum_misc", "x": [ 4, 7 ], "y": [ 20, 21 ], "chance": 80 }
       ],
-      "vehicles": { "C": { "vehicle": "museum_cannon", "chance": 100 } }
+      "vehicles": { "C": { "vehicle": "museum_cannon" } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "museum_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -106,7 +105,7 @@
         " R   R    R  R    R   R ",
         " ---------------------- ",
         " -....................- ",
-        " -........U........M..- ",
+        " -........U........K..- ",
         " -....................- ",
         " -....ooo..oo..ooo....- ",
         " -....ooo..oo..ooo....- ",
@@ -132,7 +131,7 @@
       "terrain": { "R": "t_column" },
       "nested": {
         "U": { "chunks": [ "roof_2x2_infrastructure" ] },
-        "M": { "chunks": [ "roof_2x2_infrastructure_1" ] },
+        "K": { "chunks": [ "roof_2x2_infrastructure_1" ] },
         "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
       },
       "place_nested": [

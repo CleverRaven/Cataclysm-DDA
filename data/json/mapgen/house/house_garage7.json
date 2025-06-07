@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_garage7" ],
-    "weight": 150,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -15,7 +13,7 @@
         ".!``````#s      L   y#..",
         ".!``````oH l x      >o..",
         ".!``````oH l x     ||#..",
-        ".!``````oH l x      7#..",
+        ".!``````oH l x     é7#..",
         ".!``````#y          1o..",
         ".!###*###    |   J  2#..",
         ".%#L         J   J  Oo..",
@@ -32,7 +30,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "domestic_general_and_variant_palette" ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
@@ -40,14 +38,13 @@
         "/": "t_region_groundcover_urban",
         "`": "t_concrete",
         "?": "t_fencegate_c",
-        "#": "t_rock_wall",
         "$": "t_fence",
-        "_": "t_linoleum_white",
-        "Q": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "B": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Q": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "8": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         ")": "t_wall_glass",
         "]": "t_door_glass_c"
       },
@@ -63,7 +60,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_garage7_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -77,7 +73,7 @@
         "        -............-  ",
         "        -............-  ",
         "        -.......X....-  ",
-        "        -............-  ",
+        "        -...1........-  ",
         "  -------............-  ",
         "  -..................-  ",
         "  -.....&........=...-  ",
@@ -99,7 +95,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_garage7_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -110,7 +105,7 @@
         "                        ",
         "        ||||||||||||||  ",
         "        |.g...JJJWZ.U|  ",
-        "        |F..........<|  ",
+        "        |â..........<|  ",
         "        |............|  ",
         "        |............|  ",
         "        |......2.....|  ",
@@ -129,7 +124,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [ [ "null", 60 ], [ "room_10x10_woodworker_E", 30 ], [ "room_10x10_guns_E", 10 ], [ "room_10x10_guns_N", 10 ] ]

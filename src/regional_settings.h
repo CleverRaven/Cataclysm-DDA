@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_REGIONAL_SETTINGS_H
 #define CATA_SRC_REGIONAL_SETTINGS_H
 
-#include <iosfwd>
+#include <array>
 #include <map>
 #include <memory>
 #include <set>
@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "enums.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "omdata.h"
@@ -19,6 +20,7 @@
 #include "weighted_list.h"
 
 class JsonObject;
+class mapgendata;
 
 class building_bin
 {
@@ -152,7 +154,7 @@ struct forest_biome {
 
 struct forest_mapgen_settings {
     std::map<std::string, forest_biome> unfinalized_biomes;
-    std::map<oter_id, forest_biome> biomes;
+    std::map<oter_type_id, forest_biome> biomes;
 
     void finalize();
     forest_mapgen_settings() = default;
@@ -199,6 +201,16 @@ struct shore_extendable_overmap_terrain_alias {
     oter_str_id alias;
 };
 
+struct overmap_river_settings {
+    int river_scale = 1;
+    double river_frequency = 1.5;
+    double river_branch_chance = 64;
+    double river_branch_remerge_chance = 4;
+    double river_branch_scale_decrease = 1;
+
+    overmap_river_settings() = default;
+};
+
 struct overmap_lake_settings {
     double noise_threshold_lake = 0.25;
     int lake_size_min = 20;
@@ -233,6 +245,18 @@ struct overmap_ravine_settings {
     overmap_ravine_settings() = default;
 };
 
+struct overmap_connection_settings {
+    overmap_connection_id trail_connection;
+    overmap_connection_id sewer_connection;
+    overmap_connection_id subway_connection;
+    overmap_connection_id rail_connection;
+    overmap_connection_id intra_city_road_connection;
+    overmap_connection_id inter_city_road_connection;
+
+    void finalize();
+    overmap_connection_settings() = default;
+};
+
 struct map_extras {
     unsigned int chance;
     weighted_int_list<map_extra_id> values;
@@ -262,7 +286,6 @@ struct region_terrain_and_furniture_settings {
 struct regional_settings {
     std::string id;           //
     std::array<oter_str_id, OVERMAP_LAYERS> default_oter;
-    double river_scale = 1;
     weighted_int_list<ter_id> default_groundcover; // i.e., 'grass_or_dirt'
     shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
 
@@ -272,9 +295,11 @@ struct regional_settings {
     weather_generator weather;
     overmap_feature_flag_settings overmap_feature_flag;
     overmap_forest_settings overmap_forest;
+    overmap_river_settings overmap_river;
     overmap_lake_settings overmap_lake;
     overmap_ocean_settings overmap_ocean;
     overmap_ravine_settings overmap_ravine;
+    overmap_connection_settings overmap_connection;
     region_terrain_and_furniture_settings region_terrain_and_furniture;
 
     std::unordered_map<std::string, map_extras> region_extras;

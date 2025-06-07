@@ -1,3 +1,4 @@
+from .enchant import parse_enchant
 from ..helper import get_singular_name
 from ..write_text import write_text
 
@@ -45,9 +46,15 @@ def parse_effect_type(json, origin):
                    .format(effect_name))
 
     if "apply_message" in json:
-        write_text(json["apply_message"], origin,
-                   comment="Apply message of effect type \"{}\""
-                   .format(effect_name))
+        if type(json["apply_message"]) is list:
+            for msg in json["apply_message"]:
+                write_text(msg[0], origin,
+                           comment="Apply message of effect type \"{}\""
+                           .format(effect_name))
+        elif type(json["apply_message"]) is str:
+            write_text(json["apply_message"], origin,
+                       comment="Apply message of effect type \"{}\""
+                       .format(effect_name))
 
     if "remove_message" in json:
         write_text(json["remove_message"], origin,
@@ -90,3 +97,12 @@ def parse_effect_type(json, origin):
                    context="memorial_female",
                    comment="Female memorial remove log of effect type \"{}\""
                    .format(effect_name))
+
+    if "blood_analysis_description" in json:
+        write_text(json["blood_analysis_description"], origin,
+                   comment="Blood analysis description of effect type \"{}\""
+                   .format(effect_name))
+
+    if "enchantments" in json:
+        for enchantment in json["enchantments"]:
+            parse_enchant(enchantment, origin)

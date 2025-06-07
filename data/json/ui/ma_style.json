@@ -770,10 +770,10 @@
       {
         "condition": { "u_has_effect": "mabuff:mma_buff_tiger_claw_onmove" },
         "id": "buff_tiger_claw_onmove",
-        "text": "Pounching Charge"
+        "text": "Pouncing Charge"
       }
     ],
-    "default_clause": { "text": "---" }
+    "default_clause": { "text": { "str": "---", "//~": "NO_I18N" } }
   },
   {
     "//": "Displays players martial art buffes/debufs by name",

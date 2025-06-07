@@ -2,12 +2,19 @@
 #ifndef CATA_SRC_CHARACTER_MODIFIER_H
 #define CATA_SRC_CHARACTER_MODIFIER_H
 
+#include <map>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "bodypart.h"
-#include "json.h"
 #include "translation.h"
 #include "type_id.h"
+
+class Character;
+class JsonObject;
+template <typename T> class generic_factory;
 
 struct character_modifier {
     public:
@@ -53,7 +60,7 @@ struct character_modifier {
         mod_type limbscore_modop = MULT;
         std::vector<std::pair<character_modifier_id, mod_id>> src;
         body_part_type::type limbtype = body_part_type::type::num_types;
-        translation desc = translation();
+        translation desc;
         mod_type modtype = mod_type::NONE;
         float max_val = 0.0f;
         float min_val = 0.0f;

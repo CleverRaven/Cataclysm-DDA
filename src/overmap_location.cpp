@@ -1,13 +1,13 @@
 #include "overmap_location.h"
 
-#include <map>
-#include <set>
 #include <string>
+#include <unordered_map>
 #include <utility>
 
 #include "debug.h"
+#include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "omdata.h"
 #include "rng.h"
 
@@ -40,7 +40,7 @@ oter_type_id overmap_location::get_random_terrain() const
     return random_entry( terrains );
 }
 
-void overmap_location::load( const JsonObject &jo, const std::string_view )
+void overmap_location::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "terrains", terrains );

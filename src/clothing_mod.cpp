@@ -2,16 +2,14 @@
 
 #include <cmath>
 #include <map>
-#include <set>
 #include <string>
-#include <type_traits>
 #include <utility>
 
 #include "debug.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "json.h"
 
 namespace
 {
@@ -62,7 +60,7 @@ std::string enum_to_string<clothing_mod_type>( clothing_mod_type data )
 
 } // namespace io
 
-void clothing_mod::load( const JsonObject &jo, const std::string_view )
+void clothing_mod::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "flag", flag );
     mandatory( jo, was_loaded, "item", item_string );

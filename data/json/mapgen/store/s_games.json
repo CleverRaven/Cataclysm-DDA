@@ -1,10 +1,9 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_games" ],
     "object": {
-      "fill_ter": "t_carpet_purple",
+      "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
       "rows": [
         "......fg____g____g____gf",
         "......fg____g____g____gf",
@@ -25,16 +24,15 @@
         ".#hhhhh|   Y||c|oo||||#.",
         ".##o#o###|c||D     |;r#.",
         ".,,,,,,9#;;;|  ll  c;q#.",
-        ".,,,,,,,c;;;| lkkl |###.",
+        ".,,,,,,,c;;;| lkkl |||#.",
         ".nn,,,,,#;;m| lkkl c;q#.",
         ".nn,,,,,#mmm|F ll  |;r#.",
         ".nn,,,,,######oooo#####.",
         "........................"
       ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_carpets_palette", "parametrized_walls_palette" ],
       "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "terrain": {
-        "|": "t_wall_w",
-        "#": "t_brick_wall",
         "o": "t_window",
         "c": "t_door_c",
         "_": "t_pavement",
@@ -43,10 +41,10 @@
         "g": "t_pavement_y",
         "n": "t_concrete",
         ",": "t_concrete",
-        ";": "t_linoleum_gray",
-        "q": "t_linoleum_gray",
-        "r": "t_linoleum_gray",
-        "m": "t_linoleum_gray",
+        ";": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "q": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "r": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "m": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "9": "t_gutter_downspout"
       },
       "furniture": {
@@ -63,6 +61,7 @@
         "r": "f_sink",
         "s": "f_locker"
       },
+      "items": { "q": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "q": {  } },
       "place_vehicles": [
         { "vehicle": "car", "x": 9, "y": 2, "chance": 35, "rotation": 270 },
@@ -81,13 +80,13 @@
         { "group": "games", "chance": 50, "repeat": 4, "x": [ 17, 20 ], "y": 8 },
         { "group": "games", "chance": 50, "repeat": 5, "x": [ 12, 13 ], "y": 15 },
         { "group": "games", "chance": 50, "repeat": 5, "x": [ 15, 17 ], "y": 15 },
-        { "group": "trash", "chance": 50, "repeat": 5, "x": 11, "y": 16 },
-        { "group": "trash", "chance": 50, "repeat": 5, "x": 16, "y": 8 },
+        { "group": "SUS_trash_floor", "chance": 50, "repeat": 5, "x": 11, "y": 16 },
+        { "group": "SUS_trash_floor", "chance": 50, "repeat": 5, "x": 16, "y": 8 },
         { "group": "games", "chance": 50, "repeat": 3, "x": [ 9, 11 ], "y": 21 },
         { "group": "games", "chance": 50, "repeat": 4, "x": 11, "y": 20 },
         { "group": "cleaning_bulk", "chance": 80, "x": 18, "y": 21 },
         { "group": "vending_food_items", "chance": 80, "repeat": 4, "x": 19, "y": [ 14, 15 ] },
-        { "group": "trash", "chance": 50, "repeat": 5, "x": [ 1, 2 ], "y": [ 20, 22 ] },
+        { "group": "SUS_trash_floor", "chance": 50, "repeat": 5, "x": [ 1, 2 ], "y": [ 20, 22 ] },
         { "item": "dnd_handbook", "x": 16, "y": 20, "chance": 100 },
         { "item": "dnd", "x": 15, "y": 20, "chance": 90 },
         { "item": "character_sheet", "x": [ 15, 16 ], "y": [ 19, 20 ], "chance": 80, "repeat": [ 1, 6 ] },
@@ -99,7 +98,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_games_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",

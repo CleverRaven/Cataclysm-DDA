@@ -2,10 +2,11 @@
 #ifndef CATA_SRC_CATA_BITSET_H
 #define CATA_SRC_CATA_BITSET_H
 
-#include <algorithm>
 #include <cstdint>
+#include <cstdlib>
 #include <cstring>
 #include <limits>
+#include <utility>
 
 #include "cata_assert.h"
 
@@ -177,6 +178,7 @@ class tiny_bitset
                 // The hashtag blessed UB-avoiding way of type punning a pointer
                 // out of an integer.
                 block_t *ret;
+                // NOLINTNEXTLINE(bugprone-multi-level-implicit-pointer-conversion)
                 memcpy( &ret, &storage_, sizeof( storage_ ) );
                 return ret;
             }

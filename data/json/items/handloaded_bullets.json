@@ -1,9 +1,10 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "blun_slug",
-    "price": 4500,
-    "price_postapoc": 50,
+    "price": "45 USD",
+    "price_postapoc": "50 cent",
     "name": { "str": "blunderbuss slug" },
     "symbol": "=",
     "color": "red",
@@ -20,10 +21,11 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "blun_shot",
-    "price": 4500,
-    "price_postapoc": 50,
+    "price": "45 USD",
+    "price_postapoc": "50 cent",
     "name": { "str_sp": "blunderbuss scrap shot" },
     "symbol": "=",
     "color": "red",
@@ -42,10 +44,11 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "blun_lead_shot",
-    "price": 4500,
-    "price_postapoc": 50,
+    "price": "45 USD",
+    "price_postapoc": "50 cent",
     "name": { "str_sp": "blunderbuss shot" },
     "symbol": "=",
     "color": "red",
@@ -64,10 +67,11 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "blun_flechette",
-    "price": 4500,
-    "price_postapoc": 50,
+    "price": "45 USD",
+    "price_postapoc": "50 cent",
     "name": { "str_sp": "blunderbuss flechette" },
     "symbol": "=",
     "color": "red",

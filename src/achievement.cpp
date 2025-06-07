@@ -1,7 +1,6 @@
 #include "achievement.h"
 
 #include <cstdlib>
-#include <set>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -14,11 +13,13 @@
 #include "enums.h"
 #include "event.h"
 #include "event_statistics.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "past_achievements_info.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
+#include "translations.h"
 
 template <typename E> struct enum_traits;
 
@@ -425,7 +426,7 @@ void achievement::reset()
     achievement_factory.reset();
 }
 
-void achievement::load( const JsonObject &jo, const std::string_view )
+void achievement::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
     is_conduct_ = jo.get_string( "type" ) == "conduct";

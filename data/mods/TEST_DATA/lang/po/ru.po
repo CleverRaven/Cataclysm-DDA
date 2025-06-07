@@ -39,3 +39,10 @@ msgstr[0] "щука"
 msgstr[1] "щуки"
 msgstr[2] "щук"
 msgstr[3] "щуки"
+
+msgid "tname_segments_order"
+msgstr "FAULTS DIRT OVERHEAT FAVORITE_PRE DURABILITY WHEEL_DIAMETER WEAPON_MODS CUSTOM_ITEM_PREFIX TYPE BURN"
+
+msgctxt "burnt adjective"
+msgid "burnt "
+msgstr " (burnt)"

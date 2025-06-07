@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_EFFECT_SOURCE_H
 #define CATA_SRC_EFFECT_SOURCE_H
 
-#include <new>
 #include <optional>
 
 #include "character_id.h"
@@ -43,9 +42,9 @@ class effect_source
         void deserialize( const JsonObject &data );
 
     private:
-        std::optional<character_id> character = character_id();
-        std::optional<faction_id> fac = faction_id();
-        std::optional<mfaction_id> mfac = mfaction_id();
+        std::optional<character_id> character;
+        std::optional<faction_id> fac;
+        std::optional<mfaction_id> mfac;
 };
 
 #endif // CATA_SRC_EFFECT_SOURCE_H

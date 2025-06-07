@@ -135,7 +135,7 @@
       "Organs in the lower abdomen, mainly the kidneys and the reproductive organs, are absent.",
       "The heart makes an odd, swallowing sound on occasion as you work around it.",
       "You try pulling out some teeth to better analyze them, only to find they've fused with the jawbone.",
-      "Inside the chest is some unfamiliar organ, a frankenstein of nearby tissues and black veins.",
+      "Inside the chest is some unfamiliar organ, a Frankenstein of nearby tissues and black veins.",
       "Inside the chest is some unfamiliar organ, fatty and wrinkled like brain tissue.",
       "Your search nets you no explanation as to how the creature's black blood still circulates through it, and you come to the disturbing conclusion it moves on its own.",
       "The vestibular organs seem to be nonfunctional, but your question of how the creature balances itself is answered by an odd mass in the center of the brain, that you liken to a gyroscope.",
@@ -163,7 +163,7 @@
       "This person had an artificial hip, but it's completely overgrown with bone now.",
       "Organs in the lower abdomen, mainly the kidneys and the reproductive organs, are absent.",
       "The heart makes an odd, swallowing sound on occasion as you work around it.",
-      "Inside the chest is some unfamiliar organ, a frankenstein of nearby tissues and black veins.",
+      "Inside the chest is some unfamiliar organ, a Frankenstein of nearby tissues and black veins.",
       "Inside the chest is some unfamiliar organ, fatty and wrinkled like brain tissue.",
       "Your search nets you no explanation as to how the creature's black blood still circulates through it, and you come to the disturbing conclusion it moves on its own.",
       "You find a clump of malformed tissue leading deeper inwards, at the center of which is a bullet.",
@@ -187,7 +187,7 @@
       "Organs in the lower abdomen, mainly the kidneys and the reproductive organs, are absent.",
       "The heart makes an odd, swallowing sound on occasion as you work around it.",
       "You try pulling out some teeth to better analyze them, only to find they've fused with the jawbone.",
-      "Inside the chest is some unfamiliar organ, a frankenstein of nearby tissues and black veins.",
+      "Inside the chest is some unfamiliar organ, a Frankenstein of nearby tissues and black veins.",
       "Inside the chest is some unfamiliar organ, fatty and wrinkled like brain tissue.",
       "Your search nets you no explanation as to how the creature's black blood still circulates through it, and you come to the disturbing conclusion it moves on its own.",
       "The vestibular organs seem to be nonfunctional, but your question of how the creature balances itself is answered by an odd mass in the center of the brain, that you liken to a gyroscope.",
@@ -287,12 +287,12 @@
     "text": [
       "The inner tissues are a mosaic of somewhat normal flesh and flesh interlaced with fibers of the armor.",
       "Separating what is flesh and what is synthetic is difficult, as some parts appear to be between the two.",
-      "Fibers of kevlar-like material spread through the body like a cobweb, originating from a tiny entry wound in the abdomen.",
+      "Fibers of Kevlar-like material spread through the body like a cobweb, originating from a tiny entry wound in the abdomen.",
       "You cut off some scraps of the uniform that were still adhered to the body, finding tendrils of flesh anchored into them.",
-      "Upon closer examination, some of the kevlar isn't kevlar - its off color and composition suggest it's the creature's flesh reformed to imitate it.",
+      "Upon closer examination, some of the Kevlar isn't Kevlar - its off color and composition suggest it's the creature's flesh reformed to imitate it.",
       "Some strands of the bulletproof material snake deep into the body like roots of an invading organism.",
       "Strong fibers run alongside the muscles in a way that you want to compare to marbling.",
-      "Under the skin, crushing against the ribcage, you find a thick growth of flesh and kevlar formed from a mutated diaphragm."
+      "Under the skin, crushing against the ribcage, you find a thick growth of flesh and Kevlar formed from a mutated diaphragm."
     ]
   },
   {
@@ -372,7 +372,7 @@
     "type": "snippet",
     "category": "<zombie_harvest_pupating_general>",
     "text": [
-      "The cavities of this creature are filled with lethargic winged creatures hanging off tubes oozing a greyish milky substance.",
+      "The cavities of this creature are filled with lethargic winged creatures hanging off tubes oozing a grayish milky substance.",
       "The corpse is inundated with smaller forms, increasing in complexity and size as you near its central cavity where they wait for their release in neat clusters.",
       "The inside of this carcass resembles more an industrial production line than anything vaguely natural.",
       "You find several unfinished creatures inside the main cavity, you have a vague feeling something greater discarded them, founding them wanting.",
@@ -382,6 +382,7 @@
   {
     "type": "snippet",
     "category": "<zombie_humanoid_generic_harvest>",
+    "//": "NO_I18N",
     "text": [
       "<zombie_humanoid_harvest_general>",
       "<zombie_humanoid_harvest_general_deeper>",
@@ -391,15 +392,17 @@
   {
     "type": "snippet",
     "category": "<zombie_humanoid_headless_harvest>",
+    "//": "NO_I18N",
     "text": [
       "<zombie_humanoid_harvest_general>",
-      "<zombie_humanoid_harvest_headles_deeper>",
+      "<zombie_humanoid_harvest_headless_deeper>",
       "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_headless_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_animal_generic_harvest>",
+    "//": "NO_I18N",
     "text": [
       "<zombie_animal_harvest_general>",
       "<zombie_animal_harvest_general_deeper>",
@@ -409,6 +412,7 @@
   {
     "type": "snippet",
     "category": "<zombie_screamer_harvest>",
+    "//": "NO_I18N",
     "text": [
       "<zombie_humanoid_harvest_general>",
       "<zombie_harvest_screamer_general>",
@@ -419,6 +423,7 @@
   {
     "type": "snippet",
     "category": "<zombie_humanoid_bone_harvest>",
+    "//": "NO_I18N",
     "text": [
       "<zombie_humanoid_harvest_general>",
       "<zombie_humanoid_harvest_bone_general>",
@@ -429,6 +434,7 @@
   {
     "type": "snippet",
     "category": "<zombie_animal_bone_harvest>",
+    "//": "NO_I18N",
     "text": [
       "<zombie_animal_harvest_general>",
       "<zombie_animal_harvest_bone_general>",
@@ -439,36 +445,40 @@
   {
     "type": "snippet",
     "category": "<zombie_humanoid_acid_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_humanoid_harvest_general>",
       "<zombie_humanoid_harvest_acid_general>",
-      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
-      "<zombie_humanoid_harvest_acid_general>  <zombie_humanoid_harvest_general_deeper>"
+      "<zombie_humanoid_harvest_acid_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_animal_acid_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_animal_harvest_general>",
       "<zombie_animal_harvest_acid_general>",
-      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
-      "<zombie_animal_harvest_acid_general>  <zombie_animal_harvest_general_deeper>"
+      "<zombie_animal_harvest_acid_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_animal_harvest_general>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_humanoid_shadow_harvest>",
+    "//": "NO_I18N",
     "text": [
       "<zombie_humanoid_harvest_general>",
-      "<zombie_humanoid_harvest_shadow_general>",
       "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_shadow_general>",
       "<zombie_humanoid_harvest_shadow_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_animal_shadow_harvest>",
+    "//": "NO_I18N",
     "text": [
       "<zombie_animal_harvest_general>",
       "<zombie_animal_harvest_shadow_general>",
@@ -479,171 +489,186 @@
   {
     "type": "snippet",
     "category": "<zombie_hulk_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_humanoid_harvest_general>",
       "<zombie_harvest_hulk_general>",
-      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
-      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>"
+      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_bone_hulk_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_humanoid_harvest_general>",
       "<zombie_harvest_hulk_general>",
-      "<zombie_humanoid_harvest_bone_general>",
-      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_bone_general>",
       "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_bone_general>",
       "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_general_deeper>",
-      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_bone_general>"
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_humanoid_kevlar_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_humanoid_harvest_general>",
       "<zombie_harvest_kevlar_general>",
-      "<zombie_humanoid_harvest_general>  <zombie_harvest_kevlar_general>",
-      "<zombie_humanoid_harvest_general_deeper> <zombie_harvest_kevlar_general>"
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general_deeper> <zombie_harvest_kevlar_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_harvest_kevlar_general>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_kevlar_hulk_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_humanoid_harvest_general>",
       "<zombie_harvest_hulk_general>",
-      "<zombie_harvest_kevlar_general>",
-      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_hulk_general>  <zombie_harvest_kevlar_general>",
       "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_kevlar_general>",
       "<zombie_harvest_kevlar_general>  <zombie_humanoid_harvest_general_deeper>",
-      "<zombie_harvest_hulk_general>  <zombie_harvest_kevlar_general>"
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_grabber_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_humanoid_harvest_general>",
       "<zombie_harvest_grabber_general>",
-      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
-      "<zombie_harvest_grabber_general>  <zombie_humanoid_harvest_general_deeper>"
+      "<zombie_harvest_grabber_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_dog_harvest>",
+    "//": "NO_I18N",
     "text": [
       "<zombie_animal_harvest_general>",
-      "<zombie_harvest_dog_general>",
       "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_harvest_dog_general>",
       "<zombie_harvest_dog_general>  <zombie_animal_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_bone_dog_harvest>",
+    "//": "NO_I18N",
     "text": [
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
       "<zombie_animal_harvest_general>  <zombie_harvest_dog_general>",
       "<zombie_harvest_dog_general>  <zombie_animal_harvest_bone_general>",
-      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
       "<zombie_harvest_dog_general>  <zombie_animal_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_acid_dog_harvest>",
+    "//": "NO_I18N",
     "text": [
+      "<zombie_animal_harvest_acid_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
       "<zombie_animal_harvest_general>  <zombie_harvest_dog_general>",
       "<zombie_harvest_dog_general>  <zombie_animal_harvest_acid_general>",
-      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
-      "<zombie_animal_harvest_acid_general>  <zombie_animal_harvest_general_deeper>",
       "<zombie_harvest_dog_general>  <zombie_animal_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_humanoid_electric_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_humanoid_harvest_general>",
       "<zombie_harvest_electric_general>",
-      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
-      "<zombie_harvest_electric_general>  <zombie_humanoid_harvest_general_deeper>"
+      "<zombie_harvest_electric_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_animal_electric_harvest>",
+    "//": "NO_I18N",
     "text": [
       "<zombie_animal_harvest_general>",
-      "<zombie_harvest_electric_general>",
       "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_harvest_electric_general>",
       "<zombie_harvest_electric_general>  <zombie_animal_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_humanoid_mushroom_harvest>",
+    "//": "NO_I18N",
     "text": [
       "<zombie_humanoid_harvest_general>",
-      "<zombie_humanoid_harvest_mushroom_general>",
       "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_mushroom_general>",
       "<zombie_humanoid_harvest_mushroom_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_animal_mushroom_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_humanoid_harvest_general>",
-      "<zombie_animal_harvest_mushroom_general>",
       "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
-      "<zombie_animal_harvest_mushroom_general>  <zombie_animal_harvest_general_deeper>"
+      "<zombie_animal_harvest_mushroom_general>",
+      "<zombie_animal_harvest_mushroom_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_humanoid_moldy_bone_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_bone_general>",
+      "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_general_deeper>",
       "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_mushroom_general>",
-      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
-      "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_general_deeper>"
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_bone_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_pupating_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_humanoid_harvest_general>",
       "<zombie_harvest_pupating_general>",
-      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
-      "<zombie_harvest_pupating_general>  <zombie_humanoid_harvest_general_deeper>"
+      "<zombie_harvest_pupating_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_pupating_shadow_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_humanoid_harvest_general>  <zombie_harvest_pupating_general>",
+      "<zombie_harvest_pupating_general>  <zombie_humanoid_harvest_general_deeper>",
       "<zombie_harvest_pupating_general>  <zombie_humanoid_harvest_shadow_general>",
-      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
-      "<zombie_harvest_pupating_general>  <zombie_humanoid_harvest_general_deeper>"
+      "<zombie_humanoid_harvest_general>  <zombie_harvest_pupating_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_pupating_hulk_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_humanoid_harvest_general>",
       "<zombie_harvest_hulk_general>",
-      "<zombie_harvest_pupating_general>",
-      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_hulk_general>  <zombie_harvest_pupating_general>",
       "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>",
-      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
-      "<zombie_harvest_hulk_general>  <zombie_harvest_pupating_general>"
+      "<zombie_harvest_pupating_general>",
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   }
 ]

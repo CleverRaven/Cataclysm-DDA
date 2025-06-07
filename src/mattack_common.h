@@ -2,18 +2,17 @@
 #ifndef CATA_SRC_MATTACK_COMMON_H
 #define CATA_SRC_MATTACK_COMMON_H
 
-#include <string> // IWYU pragma: keep
+#include <functional>
 #include <memory>
-#include <type_traits>
+#include <string> // IWYU pragma: keep
+#include <utility>
 
-#include "condition.h"
 #include "clone_ptr.h"
-#include "creature.h"
-#include "dialogue.h"
-#include "type_id.h"
+#include "dialogue_helpers.h"
 
 class JsonObject;
 class monster;
+struct const_dialogue;
 
 using mattack_id = std::string;
 using mon_action_attack = bool ( * )( monster * );
@@ -28,12 +27,10 @@ class mattack_actor
         mattack_id id;
         bool was_loaded = false;
 
-        int cooldown = 0;
-        // Percent chance for the attack to happen if the mob tries it
-        int attack_chance = 100;
+        dbl_or_var cooldown;
 
         // Dialogue conditions of the attack
-        std::function<bool( dialogue & )> condition;
+        std::function<bool( const_dialogue const & )> condition;
         bool has_condition = false;
 
         void load( const JsonObject &jo, const std::string &src );

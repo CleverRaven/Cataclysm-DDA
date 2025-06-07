@@ -24,7 +24,7 @@
       ]
     ],
     "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk_any", 3, "LIST" ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "result": "pistol_magnum_pipe_levergun",
@@ -58,7 +58,7 @@
       ]
     ],
     "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk_any", 3, "LIST" ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -76,6 +76,12 @@
     "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_antique" } ],
     "using": [ [ "blacksmithing_standard", 4 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "spring", 2 ] ], [ [ "steel_chunk", 2 ] ], [ [ "scrap", 2 ] ], [ [ "sharp_rock", 1 ] ] ]
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "spring", 2 ] ],
+      [ [ "steel_chunk_any", 2, "LIST" ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "sharp_rock", 1 ] ]
+    ]
   }
 ]

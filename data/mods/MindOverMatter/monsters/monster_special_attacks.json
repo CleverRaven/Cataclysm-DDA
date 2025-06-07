@@ -45,7 +45,8 @@
   },
   {
     "id": "feral_clair_thrown_rock",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "%",
     "color": "red",
     "name": { "str": "hurled rubble" },
@@ -70,7 +71,6 @@
     "weight": "540 g",
     "volume": "210 ml",
     "longest_side": "75 mm",
-    "to_hit": 2,
     "loudness": 2,
     "range": 8,
     "dispersion": 15,
@@ -89,7 +89,8 @@
   },
   {
     "id": "pattern_screamer_thrown_rock",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "%",
     "color": "red",
     "name": { "str": "hurled rubble" },

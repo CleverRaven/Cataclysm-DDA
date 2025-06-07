@@ -1,13 +1,14 @@
 [
   {
     "id": "integrated_holdout_pocket",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "holdout pocket" },
     "description": "A secret pocket no one knows about that can easily store a weapon.",
     "volume": "10 L",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "flesh" ],
     "symbol": "x",
     "color": "magenta",

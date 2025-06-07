@@ -1,5 +1,11 @@
+#include <algorithm>
+
 #include "character.h"
 #include "contents_change_handler.h"
+#include "debug.h"
+#include "flexbuffer_json.h"
+#include "item_pocket.h"
+#include "json.h"
 
 void contents_change_handler::add_unsealed( const item_location &loc )
 {

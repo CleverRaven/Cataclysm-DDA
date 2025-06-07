@@ -1,0 +1,66 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARCHMAGE_BENEFITS_PROGRESSIVE_SCHOOL_DIFFICULTY_REDUCTIONS",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "effect": [
+      {
+        "math": [
+          "u_spellcasting_adjustment('difficulty', 'school': 'ANIMIST' )",
+          "=",
+          "max((trunc(u_spell_level_sum('school': 'ANIMIST') / 75) * -1),-6)"
+        ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('difficulty', 'school': 'BIOMANCER' )",
+          "=",
+          "max((trunc(u_spell_level_sum('school': 'BIOMANCER') / 75) * -1),-6)"
+        ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('difficulty', 'school': 'DRUID' )",
+          "=",
+          "max((trunc(u_spell_level_sum('school': 'DRUID') / 75) * -1),-6)"
+        ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('difficulty', 'school': 'EARTHSHAPER' )",
+          "=",
+          "max((trunc(u_spell_level_sum('school': 'EARTHSHAPER') / 75) * -1),-6)"
+        ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('difficulty', 'school': 'KELVINIST' )",
+          "=",
+          "max((trunc(u_spell_level_sum('school': 'KELVINIST') / 75) * -1),-6)"
+        ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('difficulty', 'school': 'MAGUS' )",
+          "=",
+          "max((trunc(u_spell_level_sum('school': 'MAGUS') / 75) * -1),-6)"
+        ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('difficulty', 'school': 'STORMSHAPER' )",
+          "=",
+          "max((trunc(u_spell_level_sum('school': 'STORMSHAPER') / 75) * -1),-6)"
+        ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('difficulty', 'school': 'TECHNOMANCER' )",
+          "=",
+          "max((trunc(u_spell_level_sum('school': 'TECHNOMANCER') / 75) * -1),-6)"
+        ]
+      }
+    ]
+  }
+]

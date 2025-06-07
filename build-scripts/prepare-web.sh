@@ -6,7 +6,7 @@ rm -rf web_bundle
 BUNDLE_DIR=web_bundle
 DATA_DIR=$BUNDLE_DIR/data
 mkdir -p $DATA_DIR
-cp -R data/{core,font,fontdata.json,json,mods,names,raw,motd,credits,title,help} $DATA_DIR/
+cp -R data/{core,font,fontdata.json,json,mods,names,raw,motd,credits,title} $DATA_DIR/
 cp -R gfx $BUNDLE_DIR/
 
 # Remove .DS_Store files.

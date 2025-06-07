@@ -13,7 +13,7 @@
   {
     "id": "ammo_38spc",
     "type": "requirement",
-    "//": "Components required for 308 ammo",
+    "//": "Components required for 38 ammo",
     "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
@@ -125,6 +125,12 @@
     "components": [ [ [ "300blk_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ] ]
   },
   {
+    "id": "ammo_460sw",
+    "type": "requirement",
+    "//": "Components required for .460 S&W ammo",
+    "components": [ [ [ "460sw_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
+  },
+  {
     "id": "22_casehead",
     "type": "requirement",
     "//": "References needed for boltfaces and magazines using .22 lr or derivatives",
@@ -234,13 +240,6 @@
     "tools": [
       [
         [ "45_casing", -1 ],
-        [ "460_casing", -1 ],
-        [ "460_fmj", -1 ],
-        [ "460_rowland", -1 ],
-        [ "bp_460_fmj", -1 ],
-        [ "bp_460_rowland", -1 ],
-        [ "reloaded_460_fmj", -1 ],
-        [ "reloaded_460_rowland", -1 ],
         [ "45_acp", -1 ],
         [ "45_jhp", -1 ],
         [ "45_super", -1 ],
@@ -324,11 +323,11 @@
         [ "10mm_casing", 1 ],
         [ "44_casing", 1 ],
         [ "454_casing", 1 ],
+        [ "460sw_casing", 1 ],
         [ "45_casing", 1 ],
         [ "45colt_casing", 1 ],
         [ "46mm_casing", 1 ],
         [ "57mm_casing", 1 ],
-        [ "460_casing", 1 ],
         [ "500_casing", 1 ],
         [ "762_25_casing", 1 ],
         [ "9mm_casing", 1 ],

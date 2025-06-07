@@ -5,6 +5,7 @@
     "weakpoints": [
       {
         "name": "the head",
+        "is_head": true,
         "armor_mult": { "physical": 0.75 },
         "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 2, "ranged": 2 },
@@ -34,10 +35,11 @@
         "difficulty": { "melee": 4, "ranged": 1 },
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
-        "required_effects": [ "downed" ]
+        "condition": { "npc_has_any_effect": [ "downed" ] }
       },
       {
         "name": "the eye",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "coverage": 1,
         "crit_mult": { "all": 1.25 },

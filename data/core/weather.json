@@ -19,7 +19,7 @@
   {
     "id": "null",
     "type": "weather_type",
-    "name": "NULL Weather - BUG",
+    "name": { "str": "NULL Weather - BUG", "//~": "NO_I18N" },
     "color": "magenta",
     "map_color": "magenta_red",
     "sym": "0",

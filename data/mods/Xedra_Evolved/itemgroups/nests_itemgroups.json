@@ -1,0 +1,158 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "alchemical_materials",
+    "items": [
+      { "item": "chemistry_set", "prob": 25 },
+      { "item": "mortar_pestle", "prob": 40 },
+      { "item": "faewild", "prob": 15, "container-item": "null", "entry-wrapper": "bag_zipper", "count": [ 3, 12 ] },
+      { "item": "wyld_candy", "prob": 15, "container-item": "null", "entry-wrapper": "wrapper_wyld", "sealed": false },
+      {
+        "item": "lotus_blossom",
+        "prob": 15,
+        "container-item": "null",
+        "entry-wrapper": "bag_zipper",
+        "count": [ 2, 16 ]
+      },
+      {
+        "item": "corpse_ash",
+        "prob": 15,
+        "container-item": "null",
+        "entry-wrapper": "jug_plastic",
+        "count": [ 5, 10 ]
+      },
+      {
+        "item": "wild_herbs",
+        "prob": 75,
+        "container-item": "null",
+        "entry-wrapper": "bag_zipper",
+        "count": [ 20, 80 ]
+      },
+      { "item": "poppy_bud", "prob": 15, "container-item": "null", "entry-wrapper": "bag_zipper", "count": [ 2, 16 ] },
+      { "group": "lye_powder_bottle_part", "prob": 50 },
+      { "group": "oxy_powder_bottle_part", "prob": 50, "charges": [ 100, -1 ] },
+      { "item": "scrap_copper", "prob": 40, "count": [ 5, 15 ] },
+      { "group": "jewelry_safe", "prob": 2 },
+      { "group": "alchemy_mutagen_samples", "prob": 5 },
+      { "item": "scrap_dreamdross", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "water_clean", "prob": 90, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
+      { "item": "bleach", "prob": 20, "charges": [ 1, -1 ] },
+      { "item": "chem_washing_soda", "prob": 15, "charges": [ 1, -1 ] },
+      { "item": "chem_baking_soda", "prob": 25, "charges": [ 1, -1 ] },
+      { "item": "chem_ethanol", "prob": 40, "charges": [ 250, -1 ] },
+      { "item": "chem_nitric_acid", "prob": 5, "charges": [ 1, -1 ] },
+      { "item": "chem_manganese_dioxide", "prob": 5, "charges": [ 1, -1 ] },
+      { "item": "chem_sulphur", "prob": 25, "charges": [ 1, -1 ] },
+      { "item": "chem_sulphuric_acid", "prob": 5, "charges": [ 1, -1 ] },
+      { "item": "chem_muriatic_acid", "prob": 5, "charges": [ 1, -1 ] },
+      { "item": "chem_hexamine", "prob": 5, "charges": [ 1, -1 ] },
+      { "item": "denat_alcohol", "prob": 10, "charges": [ 250, -1 ] },
+      { "item": "methed_alcohol", "prob": 1, "charges": [ 250, -1 ] },
+      { "group": "jewelry_safe", "prob": 5 },
+      { "item": "xe_elder_ginseng", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "alchemy_mutagen_samples",
+    "//": "This should only contain samples that are actually used in alchemy recipes",
+    "items": [
+      { "item": "rabbit_sample", "prob": 40 },
+      { "item": "rat_sample", "prob": 40 },
+      { "item": "fish_sample", "prob": 40 },
+      { "item": "batrachian_sample", "prob": 40 },
+      { "item": "insect_sample", "prob": 40 },
+      { "item": "cattle_sample", "prob": 40 },
+      { "item": "spider_sample", "prob": 40 },
+      { "item": "ursine_sample", "prob": 40 },
+      { "item": "beast_sample", "prob": 40 },
+      { "item": "cephalopod_sample", "prob": 40 },
+      { "item": "lupine_sample", "prob": 40 },
+      { "item": "feline_sample", "prob": 40 },
+      { "item": "plant_sample", "prob": 40 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "alchemical_recipes",
+    "items": [
+      { "group": "alchemical_recipes_tier_one", "prob": 16 },
+      { "group": "alchemical_recipes_tier_two", "prob": 8 },
+      { "group": "alchemical_recipes_tier_three", "prob": 4 },
+      { "group": "alchemical_recipes_tier_four", "prob": 2 },
+      { "group": "alchemical_recipes_tier_five", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "alchemical_recipes_tier_one",
+    "items": [
+      { "item": "alchemy_recipe_extra_str_aspirin", "prob": 1 },
+      { "item": "alchemy_recipe_small_blessing_brigit", "prob": 1 },
+      { "item": "alchemy_recipe_blackout_rage_drink", "prob": 1 },
+      { "item": "alchemy_recipe_sixdust", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "alchemical_recipes_tier_two",
+    "items": [
+      { "item": "alchemy_recipe_prophets_lsd", "prob": 1 },
+      { "item": "alchemy_recipe_truckers_stamina_pills", "prob": 1 },
+      { "item": "alchemy_recipe_charm_of_marzanna", "prob": 1 },
+      { "item": "alchemy_recipe_spiritshow_dust", "prob": 1 },
+      { "item": "alchemy_recipe_väinämöinens_kantele_imitation", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "alchemical_recipes_tier_three",
+    "items": [
+      { "item": "alchemy_recipe_feline_periapta", "prob": 1 },
+      { "item": "alchemy_recipe_lupine_periapta", "prob": 1 },
+      { "item": "alchemy_recipe_cephalopod_periapta", "prob": 1 },
+      { "item": "alchemy_recipe_plant_periapta", "prob": 1 },
+      { "item": "alchemy_recipe_scorpion_periapta", "prob": 1 },
+      { "item": "alchemy_recipe_butterfly_periapta", "prob": 1 },
+      { "item": "alchemy_recipe_spider_periapta", "prob": 1 },
+      { "item": "alchemy_recipe_cold_iron_ingot", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "alchemical_recipes_tier_four",
+    "items": [
+      { "item": "alchemy_recipe_life_extension_potion", "prob": 1 },
+      { "item": "alchemy_recipe_potion_strength", "prob": 1 },
+      { "item": "alchemy_recipe_potion_dex", "prob": 1 },
+      { "item": "alchemy_recipe_hares_leap_potion", "prob": 1 },
+      { "item": "alchemy_recipe_nether_snare", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "alchemical_recipes_tier_five",
+    "items": [
+      { "item": "alchemy_recipe_plant_imbuement", "prob": 1 },
+      { "item": "alchemy_recipe_doll_imbuement", "prob": 1 },
+      { "item": "alchemy_recipe_fire_imbuement", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_vampire_nest_dead_bodies",
+    "items": [
+      { "group": "corpses", "prob": 1, "count": [ 1, 3 ] },
+      { "group": "default_zombie_death_drops", "prob": 1, "count": [ 1, 3 ] }
+    ]
+  }
+]

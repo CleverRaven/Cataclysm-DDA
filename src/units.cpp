@@ -1,9 +1,11 @@
 #include "units.h"
 
+#include <cstdint>
+
 #include "calendar.h"
 #include "json.h"
 #include "string_formatter.h"
-#include "units_utility.h"
+#include "translations.h"
 
 namespace units
 {
@@ -36,6 +38,18 @@ void mass::serialize( JsonOut &jsout ) const
 }
 
 template<>
+void mass::deserialize( const JsonValue &jv )
+{
+    *this = read_from_json_string( jv, units::mass_units );
+}
+
+template<>
+void money::deserialize( const JsonValue &jv )
+{
+    *this = read_from_json_string( jv, units::money_units );
+}
+
+template<>
 void length::deserialize( const JsonValue &jv )
 {
     *this = read_from_json_string( jv, units::length_units );
@@ -50,11 +64,6 @@ void specific_energy::serialize( JsonOut &jsout ) const
 template<>
 void specific_energy::deserialize( const JsonValue &jv )
 {
-    if( jv.test_int() ) {
-        // Compatibility with old 0.F saves
-        *this = units::from_joule_per_gram( jv.get_int() );
-        return;
-    }
     *this = units::from_joule_per_gram( std::stof( jv.get_string() ) );
 }
 
@@ -67,11 +76,6 @@ void temperature::serialize( JsonOut &jsout ) const
 template<>
 void temperature::deserialize( const JsonValue &jv )
 {
-    if( jv.test_int() ) {
-        // Compatibility with old 0.F saves
-        *this = from_kelvin( jv.get_int() );
-        return;
-    }
     *this = from_kelvin( std::stof( jv.get_string() ) );
 }
 
@@ -108,11 +112,6 @@ void power::serialize( JsonOut &jsout ) const
 template<>
 void power::deserialize( const JsonValue &jv )
 {
-    if( jv.test_int() ) {
-        // Compatibility with old 0.F saves
-        *this = from_watt( static_cast<std::int64_t>( jv.get_int() ) );
-        return;
-    }
     *this = read_from_json_string( jv, units::power_units );
 }
 
@@ -126,6 +125,41 @@ template<>
 void angle::deserialize( const JsonValue &jv )
 {
     *this = read_from_json_string( jv, units::angle_units );
+}
+
+template<>
+void ememory::serialize( JsonOut &jsout ) const
+{
+    jsout.write( string_format( "%d KB", value_ ) );
+}
+template<>
+void ememory::deserialize( const JsonValue &jv )
+{
+    *this = read_from_json_string( jv, units::ememory_units );
+}
+
+std::string display( const units::ememory &v )
+{
+    //TODO: generic metric units
+    int64_t ebytes = v.value();
+    int i;
+    int ipart;
+    int64_t metric_factor;
+    double ebytes_decimal;
+    for( i = ememory_units.size() - 1; i > 0; i-- ) {
+        metric_factor = std::pow( 10, 3 * i );
+        if( ebytes >= metric_factor ) {
+            ipart = ebytes / metric_factor;
+            ebytes_decimal = static_cast<double>( ebytes ) / metric_factor;
+            if( ebytes_decimal > 0.0f || i > 1 ) {
+                return string_format( "%.1f %s", ebytes_decimal, units::ememory_units[i].first );
+            } else {
+                ebytes = ipart;
+            }
+            break;
+        }
+    }
+    return string_format( "%d %s", ebytes, units::ememory_units[i].first );
 }
 
 std::string display( const units::energy &v )

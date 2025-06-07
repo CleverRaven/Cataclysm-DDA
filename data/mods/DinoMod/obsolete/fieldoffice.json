@@ -6,12 +6,11 @@
     "sym": "^",
     "name": "wildlife field office",
     "color": "brown",
-    "see_cost": 5,
+    "see_cost": "high",
     "extras": "build",
     "mondensity": 2,
     "mapgen": [
       {
-        "method": "json",
         "weight": 10000,
         "object": {
           "rows": [
@@ -48,8 +47,8 @@
             "1": "t_window",
             "|": "t_wall",
             "+": "t_door_c",
-            "2": "t_chainfence_h",
-            "3": "t_chainfence_v",
+            "2": "t_chainfence",
+            "3": "t_chainfence",
             "4": "t_chaingate_l",
             "5": "t_wall_wood",
             " ": "t_floor",
@@ -73,6 +72,7 @@
             "H": "f_hay",
             "I": "f_hay"
           },
+          "items": { "B": { "item": "SUS_toilet", "chance": 50 } },
           "toilets": { "B": {  } }
         }
       }

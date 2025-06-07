@@ -11,14 +11,8 @@
           "field",
           "rural_road",
           "dirt_road_farm_parking",
-          "farmland_straight",
-          "farmland_turn",
-          "farmland_turn_inside",
-          "farmland_U",
-          "hayfield_straight",
-          "hayfield_turnL",
-          "hayfield_turnR",
-          "hayfield_end"
+          { "om_terrain": "farmland", "om_terrain_match_type": "PREFIX" },
+          { "om_terrain": "hayfield", "om_terrain_match_type": "PREFIX" }
         ]
       },
       {
@@ -28,14 +22,8 @@
           "field",
           "rural_road",
           "dirt_road_farm_parking",
-          "farmland_straight",
-          "farmland_turn",
-          "farmland_turn_inside",
-          "farmland_U",
-          "hayfield_straight",
-          "hayfield_turnL",
-          "hayfield_turnR",
-          "hayfield_end"
+          { "om_terrain": "farmland", "om_terrain_match_type": "PREFIX" },
+          { "om_terrain": "hayfield", "om_terrain_match_type": "PREFIX" }
         ]
       },
       { "id": "faction_base_firestation_0", "description": "Firestation Base", "om_terrains": [ "fire_station" ] },
@@ -74,11 +62,6 @@
         "id": "faction_base_outpost_normal_0",
         "description": "Normal Military Outpost Base",
         "om_terrains": [ "outpost" ]
-      },
-      {
-        "id": "faction_base_outpost_cross_0",
-        "description": "Cross Military Outpost Base",
-        "om_terrains": [ "outpost_cross" ]
       },
       { "id": "faction_base_lighthouse_0", "description": "Lighthouse Base", "om_terrains": [ "lighthouse_ground" ] },
       {
@@ -140,14 +123,8 @@
           "field",
           "rural_road",
           "dirt_road_farm_parking",
-          "farmland_straight",
-          "farmland_turn",
-          "farmland_turn_inside",
-          "farmland_U",
-          "hayfield_straight",
-          "hayfield_turnL",
-          "hayfield_turnR",
-          "hayfield_end"
+          { "om_terrain": "farmland", "om_terrain_match_type": "PREFIX" },
+          { "om_terrain": "hayfield", "om_terrain_match_type": "PREFIX" }
         ]
       },
       {
@@ -157,14 +134,8 @@
           "field",
           "rural_road",
           "dirt_road_farm_parking",
-          "farmland_straight",
-          "farmland_turn",
-          "farmland_turn_inside",
-          "farmland_U",
-          "hayfield_straight",
-          "hayfield_turnL",
-          "hayfield_turnR",
-          "hayfield_end"
+          { "om_terrain": "farmland", "om_terrain_match_type": "PREFIX" },
+          { "om_terrain": "hayfield", "om_terrain_match_type": "PREFIX" }
         ]
       },
       {
@@ -174,14 +145,8 @@
           "field",
           "rural_road",
           "dirt_road_farm_parking",
-          "farmland_straight",
-          "farmland_turn",
-          "farmland_turn_inside",
-          "farmland_U",
-          "hayfield_straight",
-          "hayfield_turnL",
-          "hayfield_turnR",
-          "hayfield_end"
+          { "om_terrain": "farmland", "om_terrain_match_type": "PREFIX" },
+          { "om_terrain": "hayfield", "om_terrain_match_type": "PREFIX" }
         ]
       },
       {
@@ -191,14 +156,8 @@
           "field",
           "rural_road",
           "dirt_road_farm_parking",
-          "farmland_straight",
-          "farmland_turn",
-          "farmland_turn_inside",
-          "farmland_U",
-          "hayfield_straight",
-          "hayfield_turnL",
-          "hayfield_turnR",
-          "hayfield_end"
+          { "om_terrain": "farmland", "om_terrain_match_type": "PREFIX" },
+          { "om_terrain": "hayfield", "om_terrain_match_type": "PREFIX" }
         ]
       },
       {
@@ -208,14 +167,8 @@
           "field",
           "rural_road",
           "dirt_road_farm_parking",
-          "farmland_straight",
-          "farmland_turn",
-          "farmland_turn_inside",
-          "farmland_U",
-          "hayfield_straight",
-          "hayfield_turnL",
-          "hayfield_turnR",
-          "hayfield_end"
+          { "om_terrain": "farmland", "om_terrain_match_type": "PREFIX" },
+          { "om_terrain": "hayfield", "om_terrain_match_type": "PREFIX" }
         ]
       },
       {
@@ -225,14 +178,8 @@
           "field",
           "rural_road",
           "dirt_road_farm_parking",
-          "farmland_straight",
-          "farmland_turn",
-          "farmland_turn_inside",
-          "farmland_U",
-          "hayfield_straight",
-          "hayfield_turnL",
-          "hayfield_turnR",
-          "hayfield_end"
+          { "om_terrain": "farmland", "om_terrain_match_type": "PREFIX" },
+          { "om_terrain": "hayfield", "om_terrain_match_type": "PREFIX" }
         ]
       },
       {
@@ -242,14 +189,8 @@
           "field",
           "rural_road",
           "dirt_road_farm_parking",
-          "farmland_straight",
-          "farmland_turn",
-          "farmland_turn_inside",
-          "farmland_U",
-          "hayfield_straight",
-          "hayfield_turnL",
-          "hayfield_turnR",
-          "hayfield_end"
+          { "om_terrain": "farmland", "om_terrain_match_type": "PREFIX" },
+          { "om_terrain": "hayfield", "om_terrain_match_type": "PREFIX" }
         ]
       },
       {
@@ -259,14 +200,8 @@
           "field",
           "rural_road",
           "dirt_road_farm_parking",
-          "farmland_straight",
-          "farmland_turn",
-          "farmland_turn_inside",
-          "farmland_U",
-          "hayfield_straight",
-          "hayfield_turnL",
-          "hayfield_turnR",
-          "hayfield_end"
+          { "om_terrain": "farmland", "om_terrain_match_type": "PREFIX" },
+          { "om_terrain": "hayfield", "om_terrain_match_type": "PREFIX" }
         ]
       },
       {
@@ -276,14 +211,8 @@
           "field",
           "rural_road",
           "dirt_road_farm_parking",
-          "farmland_straight",
-          "farmland_turn",
-          "farmland_turn_inside",
-          "farmland_U",
-          "hayfield_straight",
-          "hayfield_turnL",
-          "hayfield_turnR",
-          "hayfield_end"
+          { "om_terrain": "farmland", "om_terrain_match_type": "PREFIX" },
+          { "om_terrain": "hayfield", "om_terrain_match_type": "PREFIX" }
         ]
       },
       {
@@ -293,14 +222,8 @@
           "field",
           "rural_road",
           "dirt_road_farm_parking",
-          "farmland_straight",
-          "farmland_turn",
-          "farmland_turn_inside",
-          "farmland_U",
-          "hayfield_straight",
-          "hayfield_turnL",
-          "hayfield_turnR",
-          "hayfield_end"
+          { "om_terrain": "farmland", "om_terrain_match_type": "PREFIX" },
+          { "om_terrain": "hayfield", "om_terrain_match_type": "PREFIX" }
         ]
       },
       {
@@ -310,14 +233,8 @@
           "field",
           "rural_road",
           "dirt_road_farm_parking",
-          "farmland_straight",
-          "farmland_turn",
-          "farmland_turn_inside",
-          "farmland_U",
-          "hayfield_straight",
-          "hayfield_turnL",
-          "hayfield_turnR",
-          "hayfield_end"
+          { "om_terrain": "farmland", "om_terrain_match_type": "PREFIX" },
+          { "om_terrain": "hayfield", "om_terrain_match_type": "PREFIX" }
         ]
       },
       {
@@ -327,14 +244,8 @@
           "field",
           "rural_road",
           "dirt_road_farm_parking",
-          "farmland_straight",
-          "farmland_turn",
-          "farmland_turn_inside",
-          "farmland_U",
-          "hayfield_straight",
-          "hayfield_turnL",
-          "hayfield_turnR",
-          "hayfield_end"
+          { "om_terrain": "farmland", "om_terrain_match_type": "PREFIX" },
+          { "om_terrain": "hayfield", "om_terrain_match_type": "PREFIX" }
         ]
       },
       {
@@ -344,14 +255,8 @@
           "field",
           "rural_road",
           "dirt_road_farm_parking",
-          "farmland_straight",
-          "farmland_turn",
-          "farmland_turn_inside",
-          "farmland_U",
-          "hayfield_straight",
-          "hayfield_turnL",
-          "hayfield_turnR",
-          "hayfield_end"
+          { "om_terrain": "farmland", "om_terrain_match_type": "PREFIX" },
+          { "om_terrain": "hayfield", "om_terrain_match_type": "PREFIX" }
         ]
       },
       {
@@ -504,7 +409,7 @@
       { "id": "spike", "description": " Craft: Spike" },
       { "id": "caltrops_glass", "description": " Craft: Glass Caltrops" },
       { "id": "steel_chunk", "description": " Craft: Steel, Chunk" },
-      { "id": "anvil", "description": " Craft: Anvil" },
+      { "id": "anvil_crude", "description": " Craft: Small Anvil" },
       { "id": "steel_lump", "description": " Craft: Steel, Lump" },
       { "id": "lc_steel_lump", "description": " Craft: Mild Steel, Lump" }
     ]
@@ -541,7 +446,6 @@
       { "id": "hammer", "description": " Craft: Hammer" },
       { "id": "tongs", "description": " Craft: Pair of Kitchen Tongs" },
       { "id": "nail", "description": " Craft: Nail" },
-      { "id": "wire", "description": " Craft: Wire" },
       { "id": "swage", "description": " Craft: Swage and Die Set" },
       { "id": "mc_wire", "description": " Craft: Medium Steel, Wire" },
       { "id": "mc_chain_link_fabrication", "description": " Craft: Medium Steel, Link" },
@@ -566,9 +470,7 @@
       { "id": "hammer_sledge_from_scratch", "description": " Craft: Hammer, Sledge" },
       { "id": "ch_wire", "description": " Craft: Hardened Steel, Wire" },
       { "id": "ch_chain_link_fabrication", "description": " Craft: Hardened Steel, Link" },
-      { "id": "ch_link_sheet", "description": " Craft: Hardened Steel, Link Sheet" },
-      { "id": "chain_link_fabrication", "description": " Craft: Steel, Link" },
-      { "id": "link_sheet_fabrication", "description": " Craft: Steel, Link Sheet" }
+      { "id": "ch_link_sheet", "description": " Craft: Hardened Steel, Link Sheet" }
     ]
   },
   {
@@ -753,7 +655,7 @@
       { "id": "pike", "description": " Craft: Spear, Awl Pike" },
       { "id": "mc_rapier", "description": " Craft: Sword, Medium Steel Rapier" },
       { "id": "halligan", "description": " Craft: Halligan Bar" },
-      { "id": "mc_zweihander", "description": " Craft: Sword, Medium Steel Zweihander" },
+      { "id": "mc_zweihander", "description": " Craft: Sword, Medium Steel Zweihänder" },
       { "id": "pickaxe", "description": " Craft: Pickaxe" },
       { "id": "qt_wire", "description": " Craft: Tempered Steel, Wire" },
       { "id": "qt_chain_link_fabrication", "description": " Craft: Tempered Steel, Link" },
@@ -768,7 +670,6 @@
       { "id": "sheet_metal_npc_drop", "description": " Craft: Sheet Metal, Drop Hammer" },
       { "id": "chain_npc_drop", "description": " Craft: Chain, Drop Hammer" },
       { "id": "nail_npc_drop", "description": " Craft: Nail, Drop Hammer" },
-      { "id": "wire_npc_drop", "description": " Craft: Wire, Drop Hammer" },
       { "id": "pipe_npc_drop", "description": " Craft: Pipe, Drop Hammer" },
       { "id": "rebar_npc_drop", "description": " Craft: Rebar, Drop Hammer" }
     ]

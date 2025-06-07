@@ -3,7 +3,7 @@
     "type": "npc",
     "id": "mi-go_prisoner",
     "//": "A naked prisoner trapped in a horrifying cage, watching horrible things happen.",
-    "name_suffix": "prisoner",
+    "temp_suffix": "Prisoner",
     "class": "NC_PRISONER",
     "attitude": 0,
     "mission": 7,

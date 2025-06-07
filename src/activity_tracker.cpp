@@ -1,11 +1,13 @@
 #include "activity_tracker.h"
 
-#include "cata_assert.h"
+#include <algorithm>
+#include <cmath>
+#include <map>
+#include <utility>
+
 #include "game_constants.h"
 #include "options.h"
 #include "string_formatter.h"
-
-#include <cmath>
 
 int activity_tracker::weariness() const
 {
@@ -16,33 +18,40 @@ int activity_tracker::weariness() const
 }
 
 // Called every 5 minutes, when activity level is logged
-void activity_tracker::try_reduce_weariness( int bmr, float fatigue_mod, float fatigue_regen_mod )
+void activity_tracker::try_reduce_weariness( int bmr, float sleepiness_mod,
+        float sleepiness_regen_mod )
 {
-    if( average_activity() < LIGHT_EXERCISE ) {
-        cata_assert( fatigue_mod > 0.0f );
-        low_activity_ticks += std::min( 1.0f, ( ( LIGHT_EXERCISE - average_activity() ) /
-                                                ( LIGHT_EXERCISE - NO_EXERCISE ) ) ) / fatigue_mod;
-        // Recover (by default) twice as fast while sleeping
-        if( average_activity() < NO_EXERCISE ) {
-            low_activity_ticks += ( ( NO_EXERCISE - average_activity() ) /
-                                    ( NO_EXERCISE - SLEEP_EXERCISE ) ) * fatigue_regen_mod;
-        }
-    }
-
     const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
-    const int bmr_cal = bmr * 1000;
-
-    if( low_activity_ticks >= 1.0f ) {
-        int reduction = tracker;
-        // 1/120 of whichever's bigger
-        if( bmr_cal > reduction ) {
-            reduction = std::floor( bmr_cal * recovery_mult * low_activity_ticks / 6.0f );
-        } else {
-            reduction = std::ceil( reduction * recovery_mult * low_activity_ticks / 6.0f );
+    // As sleepiness_mod approaches zero, low_activity_ticks and reduction approach infinity which in turn make tracker approach - infinity before being capped at 0.
+    // Skip the math and just automatically set tracker to 0.
+    if( sleepiness_mod <= 0.0f ) {
+        tracker = 0;
+    } else {
+        if( average_activity() < LIGHT_EXERCISE ) {
+            // cata_assert( sleepiness_mod > 0.0f );
+            low_activity_ticks += std::min( 1.0f,
+                                            ( ( LIGHT_EXERCISE - average_activity() ) / ( LIGHT_EXERCISE - NO_EXERCISE ) ) ) / sleepiness_mod;
+            // Recover (by default) twice as fast while sleeping
+            if( average_activity() < NO_EXERCISE ) {
+                low_activity_ticks += ( ( NO_EXERCISE - average_activity() ) / ( NO_EXERCISE - SLEEP_EXERCISE ) ) *
+                                      sleepiness_regen_mod;
+            }
         }
-        low_activity_ticks = 0.0f;
 
-        tracker -= std::max( reduction, 1 );
+        const int bmr_cal = bmr * 1000;
+
+        if( low_activity_ticks >= 1.0f ) {
+            int reduction = tracker;
+            // 1/120 of whichever's bigger
+            if( bmr_cal > reduction ) {
+                reduction = std::floor( bmr_cal * recovery_mult * low_activity_ticks / 6.0f );
+            } else {
+                reduction = std::ceil( reduction * recovery_mult * low_activity_ticks / 6.0f );
+            }
+            low_activity_ticks = 0.0f;
+
+            tracker -= std::max( reduction, 1 );
+        }
     }
 
     // If happens to be no reduction, character is not (as) hypoglycemic
@@ -59,6 +68,16 @@ void activity_tracker::weary_clear()
     tracker = 0;
     intake = 0;
     low_activity_ticks = 0.0f;
+}
+
+int activity_tracker::debug_get_tracker() const
+{
+    return tracker;
+}
+
+void activity_tracker::debug_set_tracker( int new_tracker )
+{
+    tracker = new_tracker;
 }
 
 void activity_tracker::set_intake( int ncal )

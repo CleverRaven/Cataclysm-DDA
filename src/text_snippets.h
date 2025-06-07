@@ -2,20 +2,21 @@
 #ifndef CATA_SRC_TEXT_SNIPPETS_H
 #define CATA_SRC_TEXT_SNIPPETS_H
 
-#include <iosfwd>
+#include <cstdint>
 #include <map>
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
-#include "translations.h"
 #include "dialogue.h"
+#include "translation.h"
 #include "type_id.h"
 
-class cata_path;
 class JsonArray;
 class JsonObject;
+class cata_path;
 
 class snippet_library
 {
@@ -23,20 +24,22 @@ class snippet_library
         /**
          * Load snippet from the standalone entry, used by the @ref DynamicDataLoader.
          */
-        void load_snippet( const JsonObject &jsobj );
+        void load_snippet( const JsonObject &jsobj, const std::string &src );
         /**
          * Load all snippet definitions in the json array into given category.
          * Entries in the array can be simple strings, or json objects (for the
          * later see add_snippet_from_json).
          */
-        void add_snippets_from_json( const std::string &category, const JsonArray &jarr );
+        void add_snippets_from_json( const std::string &category, const JsonArray &jarr,
+                                     const std::string &src );
         /**
          * Load a single snippet text from the json object. The object should have
          * a "text" member with the text of the snippet.
          * A "id" member is optional and if present gives the snippet text a id,
          * stored in snippets_by_id.
          */
-        void add_snippet_from_json( const std::string &category, const JsonObject &jo );
+        void add_snippet_from_json( const std::string &category, const JsonObject &jo,
+                                    const std::string &src );
         /**
          * Load name list from name.h/cpp
          */

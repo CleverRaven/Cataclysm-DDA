@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "desert" ],
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -59,7 +58,7 @@
     "name": "desert",
     "sym": ".",
     "color": "yellow",
-    "see_cost": 2,
+    "see_cost": "none",
     "extras": "field",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "NO_ROTATE" ]

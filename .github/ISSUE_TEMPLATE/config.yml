@@ -1,11 +1,14 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Found typos?
+    url: https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files#editing-files-in-another-users-repository
+    about: They are trivial to fix, even for absolute beginners. Fixing them yourself is faster than reporting them. And you get credit for fixing them, too!
+  - name: Translations
+    url: https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/TRANSLATING.md
+    about: Typos or other non-technical errors in translations? Go here.
   - name: Tileset Issues
     url: https://github.com/I-am-Erk/CDDA-Tilesets/issues
     about: For issues concerning the built-in tilesets.
-  - name: Github Discussion
-    url: https://github.com/CleverRaven/Cataclysm-DDA/discussions
-    about: For nonspecific feature requests, balance concerns, and questions about the game, prefer opening a discussion to an issue.
   - name: Project Forums
     url: https://discourse.cataclysmdda.org/
     about: For even more general discussion with the community, consider posting on the forums.

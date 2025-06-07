@@ -1,7 +1,8 @@
 [
   {
     "id": "bandages_birchbark",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "birchbark bandage" },
     "description": "A small roll of birchbark with cord, to tie around wounds to help stop bleeding and protect from dirt.  It's better than nothing.",
@@ -17,14 +18,15 @@
   },
   {
     "id": "bandages_birchbark_adv",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "salved birchbark bandage" },
     "description": "Birchbark bandages with added garlic salve.  They're better for wounds but not as good as real bandages.",
     "weight": "70 g",
     "volume": "250 ml",
-    "price": 25,
-    "price_postapoc": 100,
+    "price": "25 cent",
+    "price_postapoc": "1 USD",
     "material": "wood",
     "symbol": "!",
     "color": "white",

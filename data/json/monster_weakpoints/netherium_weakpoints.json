@@ -13,5 +13,81 @@
         "armor_mult": { "all": 0.75 }
       }
     ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_nether_huntsman",
+    "weakpoints": [
+      {
+        "id": "huntsman_arm",
+        "name": "appendage",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 5, "melee": 2 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          {
+            "effect": "maimed_huntsman_arm",
+            "chance": 15,
+            "permanent": true,
+            "message": "The %s makes a pained screech as the appendage goes limp!",
+            "damage_required": [ 10, 30 ]
+          },
+          {
+            "effect": "maimed_huntsman_arm",
+            "chance": 50,
+            "permanent": true,
+            "message": "The %s makes a pained screech as the appendage goes limp!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 12
+      },
+      {
+        "id": "huntsman_armor",
+        "name": "its porous armor plate",
+        "is_good": false,
+        "armor_mult": { "bullet": 2, "cut": 1.5, "stab": 1.5, "bash": 2 },
+        "coverage_mult": { "ranged": 1, "melee": 0.4 },
+        "coverage": 20
+      },
+      {
+        "id": "huntsman_armor_alt",
+        "name": "its armored limb",
+        "is_good": false,
+        "armor_mult": { "bullet": 1.7, "cut": 1.3, "stab": 1.3, "bash": 1.7 },
+        "coverage_mult": { "ranged": 1, "melee": 0.4 },
+        "coverage": 20
+      },
+      {
+        "id": "huntsman_armor_gap",
+        "name": "a vulnerable spot between the armor",
+        "is_good": true,
+        "crit_mult": { "all": 1.25 },
+        "armor_mult": { "all": 0.5 },
+        "difficulty": { "melee": 3, "ranged": 4 },
+        "coverage": 7
+      },
+      {
+        "id": "eye",
+        "name": "the photoreceptors",
+        "is_head": true,
+        "coverage": 2,
+        "armor_mult": { "physical": 0 },
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 7, "melee": 5 },
+        "coverage_mult": { "broad": 0.8 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 70,
+            "message": "The %s's photoreceptors are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      }
+    ]
   }
 ]

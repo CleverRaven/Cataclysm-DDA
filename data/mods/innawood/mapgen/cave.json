@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 1000,
     "object": {
@@ -33,19 +32,11 @@
         "          %|||%         "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        ",": "t_rock_floor",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_region_soil",
-        "<": "t_slope_down"
-      },
-      "furniture": {  }
+      "palettes": [ "cave_surface_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 1000,
     "object": {
@@ -77,19 +68,11 @@
         "          %|||%         "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_region_soil",
-        ",": "t_rock_floor",
-        "<": "t_slope_down"
-      },
-      "furniture": {  }
+      "palettes": [ "cave_surface_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 1000,
     "object": {
@@ -121,22 +104,13 @@
         "          %|||%         "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_region_soil",
-        ",": "t_rock_floor",
-        "W": "t_rock_floor",
-        "<": "t_slope_down"
-      },
-      "furniture": {  },
+      "palettes": [ "cave_surface_palette" ],
       "fields": { "W": { "field": "fd_web", "intensity": 2, "age": 10 } },
       "monsters": { "W": { "monster": "GROUP_SPIDER", "chance": 2, "density": 0.01 } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 1000,
     "object": {
@@ -168,21 +142,12 @@
         "          %|||%         "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_region_soil",
-        ",": "t_rock_floor",
-        "W": "t_rock_floor",
-        "<": "t_slope_down"
-      },
-      "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } },
-      "furniture": {  }
+      "palettes": [ "cave_surface_palette" ],
+      "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 1000,
     "object": {
@@ -214,21 +179,12 @@
         "          %|||%         "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_region_soil",
-        ",": "t_rock_floor",
-        "B": "t_rock_floor",
-        "<": "t_slope_down"
-      },
-      "furniture": {  },
+      "palettes": [ "cave_surface_palette" ],
       "monster": { "B": { "monster": "mon_bat" } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 1000,
     "object": {
@@ -260,23 +216,13 @@
         "          %|||%         "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_region_soil",
-        ",": "t_rock_floor",
-        "B": "t_rock_floor",
-        "W": "t_rock_floor",
-        "<": "t_slope_down"
-      },
-      "furniture": {  },
+      "palettes": [ "cave_surface_palette" ],
       "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } },
       "monster": { "B": { "monster": "mon_bear" } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 1000,
     "object": {
@@ -308,22 +254,12 @@
         "          %|||%         "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_region_soil",
-        ",": "t_rock_floor",
-        "B": "t_rock_floor",
-        "W": "t_rock_floor",
-        "<": "t_slope_down"
-      },
-      "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } },
-      "furniture": {  }
+      "palettes": [ "cave_surface_palette" ],
+      "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 1000,
     "object": {
@@ -355,23 +291,13 @@
         "          %|||%         "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_region_soil",
-        ",": "t_rock_floor",
-        "B": "t_rock_floor",
-        "W": "t_rock_floor",
-        "<": "t_slope_down"
-      },
-      "furniture": {  },
+      "palettes": [ "cave_surface_palette" ],
       "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } },
       "monster": { "B": { "monster": "mon_cougar" } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_innawood" ],
     "weight": 50,
     "object": {
@@ -404,17 +330,12 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "cave_surface_palette" ],
       "terrain": {
-        "|": "t_rock",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_rock_floor_no_roof",
         "!": "t_rock_floor_no_roof",
         "?": "t_rock_floor_no_roof",
         "#": "t_rock_floor_no_roof",
         "~": "t_rock_floor_no_roof",
-        "@": "t_rock_floor",
-        ",": "t_rock_floor",
-        "q": "t_rock_floor",
         "R": "t_rock_floor_no_roof"
       },
       "furniture": { "R": [ [ "f_boulder_small", 1 ], [ "f_null", 10 ] ] },
@@ -428,7 +349,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground_innawood" ],
     "weight": 50,
     "object": {
@@ -471,7 +391,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground_innawood" ],
     "weight": 1000,
     "object": {
@@ -515,7 +434,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground_innawood" ],
     "weight": 800,
     "object": {
@@ -553,7 +471,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground_innawood" ],
     "weight": 500,
     "object": {
@@ -591,7 +508,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground_innawood" ],
     "weight": 250,
     "object": {
@@ -637,7 +553,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground_innawood" ],
     "weight": 700,
     "object": {
@@ -676,7 +591,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_rat_underground_innawood" ],
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -719,7 +633,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_rat_innawood" ],
     "object": {
       "fill_ter": "t_rock_floor",

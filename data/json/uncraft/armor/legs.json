@@ -1,18 +1,68 @@
 [
   {
+    "result": "pants_tactical",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "zipper_short_plastic", 1 ] ],
+      [ [ "snapfastener_steel", 6 ] ],
+      [ [ "button_steel", 1 ] ],
+      [ [ "sheet_nylon", 10 ] ],
+      [ [ "nylon", 15 ] ],
+      [ [ "cotton_patchwork", 6 ] ]
+    ]
+  },
+  {
     "result": "pants_leather",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "10 m",
+    "time": "5 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_leather", 3 ] ], [ [ "thread", 20 ] ], [ [ "button_steel", 3 ] ] ]
+    "components": [ [ [ "sheet_leather", 3 ] ], [ [ "leather", 2 ] ], [ [ "thread", 18 ] ], [ [ "button_steel", 3 ] ] ]
   },
   {
     "result": "shorts",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "5 m",
-    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton", 3 ] ], [ [ "thread", 15 ] ], [ [ "button_plastic", 3 ] ] ]
+    "time": "2 m 30 s",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "//": "Assuming these to be cotton running shorts with an elastic and drawstring closure,.",
+    "//2": "Every suitable draw string I found, such as here, https://www.amazon.com/Replacement-Drawstrings-Sweatpants-Flexible-Universal/dp/B07ZCTQRVT, is stated to be 51–54 cm in length. We don’t have anything with that exact length, and the idea of sticking in one long string and some short strings to make up the difference seemed stupid, so we’ll hand wave away the exact difference and keep it to a single string.",
+    "components": [ [ [ "sheet_cotton", 4 ] ], [ [ "cotton_patchwork", 8 ] ], [ [ "thread", 25 ] ], [ [ "string_36", 1 ] ] ]
+  },
+  {
+    "result": "briefs",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cotton_patchwork", 4 ] ], [ [ "thread", 12 ] ] ]
+  },
+  {
+    "result": "tights",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cotton_patchwork", 20 ] ], [ [ "thread", 14 ] ] ]
+  },
+  {
+    "result": "shorts_cargo",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "3 m 20 s",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "//": "1 plastic button for the fly closure, and another 4 for the various pockets. Assuming 2 of the 6 pockets are open-style hip pockets with no closure, while the other 4 do have.",
+    "components": [
+      [ [ "sheet_cotton", 5 ] ],
+      [ [ "cotton_patchwork", 20 ] ],
+      [ [ "thread", 40 ] ],
+      [ [ "button_plastic", 5 ] ],
+      [ [ "zipper_short_plastic", 1 ] ]
+    ]
   }
 ]

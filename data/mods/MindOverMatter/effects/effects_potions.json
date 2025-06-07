@@ -1,6 +1,36 @@
 [
   {
     "type": "effect_type",
+    "id": "effect_matrix_potion_headblind",
+    "name": [ "Drank Matrix Elixir" ],
+    "desc": [ "You're suffering the effects of drinking the concentrated matrix crystal concoction." ],
+    "apply_message": "",
+    "remove_message": "The concoction's effects finally wear off.",
+    "rating": "bad",
+    "max_duration": "15 hours",
+    "max_intensity": 1,
+    "base_mods": {
+      "health_min": [ -1 ],
+      "health_chance": [ 20 ],
+      "health_tick": [ 200 ],
+      "vomit_chance": [ 100 ],
+      "vomit_tick": [ 180 ],
+      "pain_chance": [ 20 ],
+      "pain_min": [ 1 ],
+      "pain_max_val": [ 10 ],
+      "pain_tick": [ 200 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_matrix_potion_nether_boost",
+    "//": "Hidden effect",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 1, 2 ] ], "tick": [ "300 s" ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biokin_potion",
     "name": [ "Pink Elixir" ],
     "desc": [ "You drank the concentrated matrix crystal concoction." ],
@@ -13,7 +43,7 @@
     "flags": [ "BLEED_IMMUNE", "STEADY" ],
     "enchantments": [
       {
-        "values": [ { "value": "ARMOR_CUT", "add": -4 }, { "value": "ARMOR_BASH", "add": -6 }, { "value": "ARMOR_STAB", "add": -3 } ]
+        "incoming_damage_mod": [ { "type": "bash", "add": -6 }, { "type": "stab", "add": -3 }, { "type": "cut", "add": -4 } ]
       }
     ]
   },
@@ -36,7 +66,7 @@
       "pain_max_val": [ 10 ],
       "pain_tick": [ 200 ]
     },
-    "enchantments": [ { "values": [ { "value": "ARMOR_BASH", "add": 4 } ] } ]
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "bash", "add": 4 } ] } ]
   },
   {
     "type": "effect_type",
@@ -67,6 +97,59 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_electrokin_potion",
+    "name": [ "Cyan Elixir" ],
+    "desc": [ "You drank the concentrated matrix crystal concoction." ],
+    "apply_message": "",
+    "remove_message": "The concoction's effects fade and your muscles twitch.",
+    "rating": "good",
+    "max_duration": "30 hours",
+    "max_intensity": 1,
+    "flags": [ "EMP_IMMUNE" ],
+    "base_mods": { "dex_mod": [ 2 ] },
+    "enchantments": [ "enchant_electrokin_potion" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_electrokin_potion_comedown",
+    "name": [ "Cyan Elixir Aftereffects" ],
+    "desc": [ "You're suffering the aftereffects of drinking the concentrated matrix crystal concoction." ],
+    "apply_message": "",
+    "remove_message": "The concoction's aftereffects finally wear off.",
+    "rating": "bad",
+    "max_duration": "55 hours",
+    "max_intensity": 1,
+    "base_mods": { "pain_chance": [ 20 ], "pain_min": [ 1 ], "pain_max_val": [ 10 ], "pain_tick": [ 200 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokin_potion",
+    "name": [ "Golden Elixir" ],
+    "desc": [ "You drank the concentrated matrix crystal concoction." ],
+    "apply_message": "",
+    "remove_message": "The concoction's effects fade and your vision warps.",
+    "rating": "good",
+    "max_duration": "30 hours",
+    "max_intensity": 1,
+    "flags": [ "GLARE_RESIST" ],
+    "base_mods": { "rad_min": [ -1 ], "rad_chance": [ 30 ], "rad_tick": [ 60 ] },
+    "enchantments": [ "enchant_photokin_potion_rads", "enchant_photokin_potion_hide" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokin_potion_comedown",
+    "name": [ "Golden Elixir Aftereffects" ],
+    "desc": [ "You're suffering the aftereffects of drinking the concentrated matrix crystal concoction." ],
+    "apply_message": "",
+    "remove_message": "The concoction's aftereffects finally wear off.",
+    "rating": "bad",
+    "max_duration": "55 hours",
+    "max_intensity": 1,
+    "base_mods": { "pain_chance": [ 20 ], "pain_min": [ 1 ], "pain_max_val": [ 10 ], "pain_tick": [ 200 ] },
+    "enchantments": [ "enchant_photokin_potion_unhide" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pyrokin_potion",
     "name": [ "Red Elixir" ],
     "desc": [ "You drank the concentrated matrix crystal concoction." ],
@@ -76,7 +159,7 @@
     "max_duration": "30 hours",
     "max_intensity": 1,
     "base_mods": { "speed_mod": [ 10 ] },
-    "flags": [ "HEATSINK" ],
+    "flags": [ "HEATSINK", "BARKY" ],
     "enchantments": [ "enchant_pyrokin_potion" ]
   },
   {

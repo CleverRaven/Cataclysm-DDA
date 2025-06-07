@@ -6,7 +6,8 @@
 #include <memory>
 
 #include "sdl_wrappers.h"
-#include "point.h"
+
+struct point;
 
 /// Interface to render geometry with SDL_Renderer.
 class GeometryRenderer

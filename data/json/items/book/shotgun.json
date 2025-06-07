@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_shotgun",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Trap and Field", "str_pl": "issues of Trap and Field" },
     "description": "An in-depth magazine all about shotguns and shooting.  There is an informative article about proper shooting stance in the back pages.",
@@ -52,21 +53,22 @@
     ],
     "weight": "90 g",
     "volume": "250 ml",
-    "price": 450,
-    "price_postapoc": 750,
+    "price": "4 USD 50 cent",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "mag_guns",
     "color": "pink",
-    "skill": "shotgun",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "shotgun",
+    "read_fun": 1
   },
   {
     "id": "manual_shotgun",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Shotguns: The Art and Science", "str_pl": "copies of Shotguns: The Art and Science" },
     "description": "This book claims to address every problem the shotgunner is likely to face, and offers solutions to ensure that shooters can make every shot count.",
@@ -123,19 +125,24 @@
         "name": { "str": "Vintage British Shotguns", "str_pl": "copies of Vintage British Shotguns" },
         "description": "A good guide for both sportsmen and gun collectors, this book contains information about classic shotguns and their usage.",
         "//": "978-0892727742"
+      },
+      {
+        "id": "manual_shotgun_9",
+        "name": { "str": "USMC M1014 technical manual" },
+        "description": "A pocket-sized book printed in 2000 by the United States Marine Corps for official use.  It describes the operation, repair, and cleaning of the Benelli M1014 shotgun.  Though specific to the M4, it can provide a wealth of information to the trained eye."
       }
     ],
     "weight": "400 g",
     "volume": "500 ml",
-    "price": 2100,
-    "price_postapoc": 1250,
+    "price": "21 USD",
+    "price_postapoc": "12 USD 50 cent",
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "green",
-    "skill": "shotgun",
     "max_level": 3,
     "intelligence": 3,
-    "time": "15 m"
+    "time": "15 m",
+    "read_skill": "shotgun"
   }
 ]

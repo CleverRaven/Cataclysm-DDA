@@ -2,20 +2,32 @@
 #ifndef CATA_SRC_MAPGENDATA_H
 #define CATA_SRC_MAPGENDATA_H
 
+#include <array>
+#include <cstddef>
+#include <string>
+#include <type_traits>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
 #include "calendar.h"
 #include "cata_variant.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "cube_direction.h"
+#include "debug.h"
 #include "enum_bitset.h"
 #include "jmapgen_flags.h"
-#include "mapgen.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
+// IWYU pragma: no_forward_declare jmapgen_flags
+// IWYU pragma: no_forward_declare cube_direction
+class JsonOut;
 class JsonValue;
 class map;
 class mission;
-struct point;
+enum class direction : unsigned int;
+enum class mapgen_phase;
 struct regional_settings;
 
 namespace om_direction
@@ -225,7 +237,7 @@ class mapgendata
         const oter_id &neighbor_at( om_direction::type dir ) const;
         const oter_id &neighbor_at( direction ) const;
         void fill_groundcover() const;
-        void square_groundcover( const point &p1, const point &p2 ) const;
+        void square_groundcover( const point_bub_ms &p1, const point_bub_ms &p2 ) const;
         ter_id groundcover() const;
         bool is_groundcover( const ter_id &iid ) const;
 

@@ -1,10 +1,22 @@
-#include "character.h"
 #include "character_modifier.h"
+
+#include <algorithm>
+#include <cmath>
+#include <functional>
+#include <limits>
+
+#include "character.h"
+#include "debug.h"
+#include "effect.h"
 #include "enum_conversions.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "generic_factory.h"
 #include "messages.h"
 #include "move_mode.h"
+#include "output.h"
+#include "string_formatter.h"
 
 static const character_modifier_id
 character_modifier_limb_footing_movecost_mod( "limb_footing_movecost_mod" );
@@ -88,7 +100,7 @@ static float load_float_or_maxmovecost( const JsonObject &jo, const std::string 
     return val;
 }
 
-void character_modifier::load( const JsonObject &jo, const std::string_view )
+void character_modifier::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "description", desc );
@@ -189,7 +201,7 @@ float Character::manipulator_score( const std::map<bodypart_str_id, bodypart> &b
                     }
                 }
             }
-            total = std::min( total + id.first.get_limb_score( limb_score_manip, -1, override_encumb,
+            total = std::min( total + id.first.get_limb_score( *this, limb_score_manip, -1, override_encumb,
                               override_wounds ) * id.second * local_mul,
                               id.first.get_limb_score_max( limb_score_manip ) * local_mul * id.second );
         }
@@ -228,9 +240,9 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
         float mod = 0.0f;
         if( bp == body_part_type::type::num_types ) {
-            mod = id.second.get_limb_score( score, skill, override_encumb, override_wounds );
+            mod = id.second.get_limb_score( *this, score, skill, override_encumb, override_wounds );
         } else if( id.first->has_type( bp ) ) {
-            mod = id.second.get_limb_score( score, skill, override_encumb,
+            mod = id.second.get_limb_score( *this, score, skill, override_encumb,
                                             override_wounds ) * id.first->limbtypes.at( bp );
         }
         if( cache_flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) {

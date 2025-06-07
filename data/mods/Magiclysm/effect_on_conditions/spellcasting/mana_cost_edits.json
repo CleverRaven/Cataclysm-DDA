@@ -1,0 +1,57 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_MANA_COST_ON_SPELL_FAILURE",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "NONE", { "context_val": "school" } ] },
+            { "compare_string": [ "ANIMIST", { "context_val": "school" } ] },
+            { "compare_string": [ "BIOMANCER", { "context_val": "school" } ] },
+            { "compare_string": [ "DRUID", { "context_val": "school" } ] },
+            { "compare_string": [ "EARTHSHAPER", { "context_val": "school" } ] },
+            { "compare_string": [ "KELVINIST", { "context_val": "school" } ] },
+            { "compare_string": [ "MAGUS", { "context_val": "school" } ] },
+            { "compare_string": [ "STORMSHAPER", { "context_val": "school" } ] },
+            { "compare_string": [ "TECHNOMANCER", { "context_val": "school" } ] },
+            { "compare_string": [ "ALCHEMIST", { "context_val": "school" } ] },
+            { "compare_string": [ "ARTIFICER", { "context_val": "school" } ] },
+            { "compare_string": [ "BIOTEK", { "context_val": "school" } ] },
+            { "compare_string": [ "BLOOD_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "BOREAL_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "CLEANSING_FLAME", { "context_val": "school" } ] },
+            { "compare_string": [ "CRUSADER", { "context_val": "school" } ] },
+            { "compare_string": [ "EARTH_ELEMENTAL", { "context_val": "school" } ] },
+            { "compare_string": [ "FIRE_ELEMENTAL", { "context_val": "school" } ] },
+            { "compare_string": [ "FORCE_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "GAIAS_CHOSEN", { "context_val": "school" } ] },
+            { "compare_string": [ "GOLEMANCER", { "context_val": "school" } ] },
+            { "compare_string": [ "GLACIER_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "GRAVITY_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "ICE_ELEMENTAL", { "context_val": "school" } ] },
+            { "compare_string": [ "ILLUSIONIST", { "context_val": "school" } ] },
+            { "compare_string": [ "MAGNETISM_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "OVERCLOCKER", { "context_val": "school" } ] },
+            { "compare_string": [ "PERMAFROST_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "RADIATION_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "SHAMAN", { "context_val": "school" } ] },
+            { "compare_string": [ "SHAPESHIFTER", { "context_val": "school" } ] },
+            { "compare_string": [ "SOULFIRE", { "context_val": "school" } ] },
+            { "compare_string": [ "STORM_ELEMENTAL", { "context_val": "school" } ] },
+            { "compare_string": [ "STORMCALLER", { "context_val": "school" } ] },
+            { "compare_string": [ "SUN_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "TUNDRA_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "VOID_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "VULCANIST", { "context_val": "school" } ] },
+            { "compare_string": [ "WITHER_MAGE", { "context_val": "school" } ] }
+          ]
+        },
+        { "math": [ "_success == false" ] }
+      ]
+    },
+    "effect": [ { "math": [ "u_val('mana') -= ( _cost / 5 )" ] } ]
+  }
+]

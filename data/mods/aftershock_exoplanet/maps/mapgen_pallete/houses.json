@@ -1,0 +1,95 @@
+[
+  {
+    "type": "palette",
+    "//": "the food should be rotted, but the regular food item groups can work for now",
+    "id": "standard_afsshelter_palette",
+    "toilets": { "t": {  } },
+    "terrain": {
+      " ": "t_region_groundcover_urban",
+      ".": "t_metal_floor",
+      "+": "t_wall_prefab_metal",
+      "o": [
+        [ "t_wall_prefab_glass", 2 ],
+        [ "t_wall_prefab_glass_shutters", 2 ],
+        [ "t_wall_prefab_bglass_shutters", 4 ],
+        [ "t_wall_prefab_bglass", 5 ]
+      ],
+      "g": "t_wall_metal",
+      "i": [ [ "t_door_glass_c", 5 ], "t_door_glass_o", 5 ],
+      "j": [ [ "t_door_locked", 1 ], [ "t_door_c", 5 ], [ "t_door_o", 1 ] ],
+      "x": [ [ "t_door_locked_interior", 1 ], [ "t_door_c", 5 ], [ "t_door_o", 5 ] ],
+      "l": [ [ "t_door_metal_c", 5 ], [ "t_door_metal_pickable", 3 ], [ "t_door_metal_locked", 1 ], [ "t_door_metal_o", 5 ] ],
+      "n": "t_metal_ventilation_shutter",
+      "p": "t_metal_railing",
+      "<": "t_stairs_down",
+      ">": "t_stairs_up"
+    },
+    "furniture": {
+      "@": "f_bed",
+      "D": "f_wardrobe",
+      "9": "f_shower",
+      "5": "f_sink",
+      "f": "f_metal_table",
+      "y": "f_metal_table",
+      "h": "f_chair",
+      "P": "f_dishwasher",
+      "i": "f_bench",
+      "2": "f_coffee_table",
+      "F": "f_fridge",
+      "H": "f_sofa",
+      "L": "f_cupboard",
+      "{": "f_cupboard",
+      "V": "f_cupboard",
+      "I": "f_cupboard",
+      "^": "f_sink",
+      "M": "f_cupboard",
+      "S": "f_cupboard",
+      "J": "f_counter",
+      "q": "f_rack",
+      "O": "f_oven",
+      "R": "f_bookcase",
+      "Y": "f_trashcan",
+      "E": "f_armchair",
+      "7": "f_locker",
+      "W": "f_washer",
+      "Z": "f_dryer"
+    },
+    "items": {
+      "t": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] },
+      "D": [ { "item": "afs_colonist_outfit", "chance": 100, "repeat": [ 1, 2 ] } ],
+      "O": { "item": "SUS_oven", "chance": 100 },
+      "2": [
+        { "item": "consumer_electronics", "chance": 10, "repeat": [ 1, 3 ] },
+        { "item": "livingroom", "chance": 10, "repeat": [ 1, 3 ] }
+      ],
+      "F": { "item": "afs_ruined_food", "chance": 80, "repeat": [ 5, 13 ] },
+      "P": { "item": "SUS_dishwasher", "chance": 70 },
+      "f": [
+        { "item": "elecsto_persele", "chance": 10, "repeat": [ 1, 3 ] },
+        { "item": "livingroom", "chance": 10, "repeat": [ 1, 3 ] }
+      ],
+      "q": [
+        { "item": "tools_home", "chance": 40 },
+        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "mechanics", "chance": 1, "repeat": [ 1, 2 ] },
+        { "item": "camping", "chance": 10 },
+        { "item": "tools_survival", "chance": 5, "repeat": [ 1, 2 ] }
+      ],
+      "7": { "item": "afs_frontier_cryo_g", "chance": 50 },
+      "J": { "item": "kitchen_counters", "chance": 5 },
+      "L": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
+      "{": { "item": "SUS_cookware", "chance": 100 },
+      "V": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
+      "I": { "item": "SUS_junk_drawer", "chance": 100 },
+      "^": { "item": "SUS_kitchen_sink", "chance": 100 },
+      "M": [ { "item": "afs_old_food_storage", "chance": 45 } ],
+      "S": [ { "item": "afs_old_food_storage", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+      "5": [ { "item": "SUS_bathroom_sink", "chance": 80 }, { "item": "SUS_bathroom_medicine", "chance": 60 } ],
+      "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
+      "@": { "item": "bed", "chance": 50 },
+      "Z": { "item": "afs_colonist_outfit", "chance": 100 },
+      "W": { "item": "afs_colonist_outfit", "chance": 50 },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] }
+    }
+  }
+]

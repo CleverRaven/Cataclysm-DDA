@@ -16,7 +16,7 @@
     "condition": {
       "and": [
         { "x_in_y_chance": { "x": 2, "y": 5 } },
-        { "math": [ "_damage_taken", ">", "0" ] },
+        { "math": [ "_damage_taken > 0" ] },
         { "not": { "npc_has_trait": "PHOTOKINETIC" } },
         { "not": { "npc_has_flag": "PHOTOKIN_CHAR_IMMUNE" } },
         { "not": { "npc_has_flag": "PHOTOKIN_MONSTER_IMMUNE" } }
@@ -30,7 +30,7 @@
     "condition": {
       "and": [
         { "x_in_y_chance": { "x": 1, "y": 20 } },
-        { "math": [ "_damage_taken", ">", "0" ] },
+        { "math": [ "_damage_taken > 0" ] },
         { "not": { "npc_has_trait": "PHOTOKINETIC" } },
         { "not": { "npc_has_flag": "PHOTOKIN_CHAR_IMMUNE" } },
         { "not": { "npc_has_flag": "PHOTOKIN_MONSTER_IMMUNE" } }
@@ -63,13 +63,23 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKINETIC_DAMAGE_STAGGER_CHANCE",
-    "condition": { "and": [ { "x_in_y_chance": { "x": 2, "y": 5 } }, { "math": [ "_damage_taken", ">", "0" ] } ] },
+    "condition": {
+      "and": [
+        { "x_in_y_chance": { "x": { "math": [ "2 + (u_has_trait('perk_concussive_blasts') * 2)" ] }, "y": 5 } },
+        { "math": [ "_damage_taken > 0" ] }
+      ]
+    },
     "effect": [ { "npc_add_effect": "staggered", "duration": "2 s" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKINETIC_DAMAGE_KNOCKDOWN_CHANCE",
-    "condition": { "and": [ { "x_in_y_chance": { "x": 1, "y": 5 } }, { "math": [ "_damage_taken", ">", "0" ] } ] },
+    "condition": {
+      "and": [
+        { "x_in_y_chance": { "x": { "math": [ "1 + u_has_trait('perk_concussive_blasts')" ] }, "y": 5 } },
+        { "math": [ "_damage_taken > 0" ] }
+      ]
+    },
     "effect": [ { "npc_add_effect": "downed", "duration": "1 s" } ]
   },
   {
@@ -99,7 +109,7 @@
     "condition": {
       "and": [
         { "npc_has_worn_with_flag": "PSYSHIELD_PARTIAL" },
-        { "math": [ "_damage_taken", ">", "-2" ] },
+        { "math": [ "_damage_taken > -2" ] },
         { "npc_has_effect": "effect_psyshield_protection" },
         { "not": { "npc_has_flag": "HIVE_MIND" } },
         { "not": { "npc_has_flag": "TEEP_IMMUNE" } },
@@ -140,7 +150,7 @@
     "condition": {
       "and": [
         { "x_in_y_chance": { "x": 1, "y": 20 } },
-        { "math": [ "_damage_taken", ">", "0" ] },
+        { "math": [ "_damage_taken > 0" ] },
         { "not": { "npc_has_flag": "HIVE_MIND" } },
         { "not": { "npc_has_flag": "TEEP_IMMUNE" } },
         { "not": { "npc_has_flag": "TEEPSHIELD" } }
@@ -154,7 +164,7 @@
     "condition": {
       "and": [
         { "x_in_y_chance": { "x": 1, "y": 3 } },
-        { "math": [ "_damage_taken", ">", "0" ] },
+        { "math": [ "_damage_taken > 0" ] },
         { "not": { "npc_has_flag": "HIVE_MIND" } },
         { "not": { "npc_has_flag": "TEEP_IMMUNE" } },
         { "not": { "npc_has_flag": "TEEPSHIELD" } }
@@ -168,7 +178,7 @@
     "condition": {
       "and": [
         { "x_in_y_chance": { "x": 2, "y": 3 } },
-        { "math": [ "_damage_taken", ">", "0" ] },
+        { "math": [ "_damage_taken > 0" ] },
         { "not": { "npc_has_flag": "HIVE_MIND" } },
         { "not": { "npc_has_flag": "TEEP_IMMUNE" } },
         { "not": { "npc_has_flag": "TEEPSHIELD" } }
@@ -180,7 +190,7 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPATHIC_DAMAGE_STUN_HIVE_CHANCE",
     "condition": {
-      "and": [ { "x_in_y_chance": { "x": 1, "y": 6 } }, { "math": [ "_damage_taken", ">", "0" ] }, { "npc_has_flag": "HIVE_MIND" } ]
+      "and": [ { "x_in_y_chance": { "x": 1, "y": 6 } }, { "math": [ "_damage_taken > 0" ] }, { "npc_has_flag": "HIVE_MIND" } ]
     },
     "effect": [ { "npc_add_effect": "psi_stunned", "duration": "5 s" } ]
   },
@@ -221,7 +231,7 @@
     "id": "EOC_TELEPORTING_DAMAGE_TELEPORT",
     "condition": {
       "and": [
-        { "math": [ "_damage_taken", ">", "0" ] },
+        { "math": [ "_damage_taken > 0" ] },
         { "not": { "npc_has_flag": "TELEPORT_IMMUNE" } },
         { "not": { "npc_has_flag": "DIMENSIONAL_ANCHOR" } },
         { "not": { "npc_has_flag": "TELESTOP" } }
@@ -255,7 +265,7 @@
     "id": "EOC_ENERVATION_DRAIN",
     "condition": {
       "and": [
-        { "math": [ "_damage_taken", ">", "0" ] },
+        { "math": [ "_damage_taken > 0" ] },
         { "not": { "npc_has_flag": "LIFESHIELD" } },
         { "not": { "npc_has_flag": "ENERVATE_IMMUNE" } }
       ]
@@ -265,7 +275,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ENERVATION_DRAIN_2",
-    "condition": { "math": [ "n_val('mana')", ">=", "150" ] },
+    "condition": { "math": [ "n_val('mana') >= 150" ] },
     "effect": [
       { "math": [ "n_val('mana')", "-=", "rng( 100,200 )" ] },
       { "npc_message": "You feel a sudden sense of loss.", "type": "bad" }
@@ -275,7 +285,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ENERVATION_DRAIN_3",
-    "condition": { "math": [ "n_val('stamina')", ">=", "200" ] },
+    "condition": { "math": [ "n_val('stamina') >= 200" ] },
     "effect": [
       { "math": [ "n_val('stamina')", "-=", "rng( 100,300 )" ] },
       { "npc_message": "For a moment, you feel exhausted.", "type": "bad" }

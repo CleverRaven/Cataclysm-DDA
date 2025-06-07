@@ -5,9 +5,8 @@
 #include <utility>
 
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "item.h"
-#include "json.h"
-#include "translations.h"
 #include "type_id.h"
 
 namespace

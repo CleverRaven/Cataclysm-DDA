@@ -18,12 +18,15 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
-    "description": "Your skin has magickal flames flaring out of it on occasion.  You can operate in warmer climates than normal humans but begin to take damage from getting wet.",
+    "description": "Your skin has magickal flames flaring out of it on occasion.  You can operate in warmer climates than normal humans but begin to take damage from getting wet, and you always smell of smoke and ashes.",
     "types": [ "SKIN" ],
     "category": [ "SALAMANDER" ],
     "prereqs": [ "SALAMANDER_SKIN_1" ],
     "changes_to": [ "SALAMANDER_SKIN_3" ],
-    "enchantments": [ { "values": [ { "value": "WEAKNESS_TO_WATER", "add": 1 } ] } ],
+    "scent_intensity": 800,
+    "enchantments": [
+      { "values": [ { "value": "WEAKNESS_TO_WATER", "multiply": 0.016 }, { "value": "SWEAT_MULTIPLIER", "multiply": -1 } ] }
+    ],
     "integrated_armor": [ "integrated_coal_skin" ],
     "flags": [ "TOUGH_FEET" ]
   },
@@ -41,7 +44,7 @@
     "prereqs": [ "SALAMANDER_SKIN_2" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "category": [ "SALAMANDER" ],
-    "enchantments": [ { "values": [ { "value": "WEAKNESS_TO_WATER", "add": 4 } ] } ],
+    "enchantments": [ { "values": [ { "value": "WEAKNESS_TO_WATER", "add": 4 }, { "value": "SWEAT_MULTIPLIER", "multiply": -1 } ] } ],
     "integrated_armor": [ "integrated_flameskin" ]
   },
   {
@@ -66,6 +69,18 @@
     "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "salamander_dash_boom_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_EXPLOSION_TRAP",
+    "name": { "str": "Sigil of Detonation" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Salamander gains the ability to lay a fiery trap which will burst into searing flames when stepped on.",
+    "prereqs": [ "SALAMANDER_DASH_BOOM" ],
+    "category": [ "SALAMANDER" ],
+    "spells_learned": [ [ "salamander_explosion_trap_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -104,13 +119,25 @@
   },
   {
     "type": "mutation",
+    "id": "SALAMANDER_ASH_BREATH",
+    "name": { "str": "Exhalation of Ashes" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Salamander gains the ability to breathe out a cloud of thick smoke.",
+    "prereqs": [ "SALAMANDER_NO_SMOKE_DAMAGE" ],
+    "category": [ "SALAMANDER" ],
+    "spells_learned": [ [ "salamander_ash_breath_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SALAMANDER_FLAME_BREATH",
     "name": { "str": "Breath of the Firedragon" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Salamander gains the ability to breathe a cone of flames.",
-    "prereqs": [ "SALAMANDER_FLAME_PUNCH" ],
+    "prereqs": [ "SALAMANDER_ASH_BREATH" ],
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "salamander_fire_breath", 1 ] ]
   },
@@ -136,7 +163,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Salamander gains the ability to increase their own or an ally's speed.",
     "prereqs": [ "SALAMANDER_ECTOTHERM" ],
-    "prereqs2": [ "SALAMANDER_HEAT_HEAL", "SALAMANDER_HEAT_HEAL_ON" ],
+    "prereqs2": [ "SALAMANDER_HEAT_HEAL" ],
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "salamander_increase_speed_spell", 1 ] ]
   },
@@ -173,7 +200,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Salamander gains the ability to cure deleterious conditions at the cost of damage.",
-    "prereqs": [ "SALAMANDER_HEAT_HEAL", "SALAMANDER_HEAT_HEAL_ON" ],
+    "prereqs": [ "SALAMANDER_HEAT_HEAL" ],
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "salamander_cure_conditions", 1 ] ]
   },
@@ -196,11 +223,9 @@
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Salamander can activate this trait to learn how to convert water into very strong alcohol.",
+    "description": "Upon gaining this ability the Salamander learns how to convert water into very strong alcohol.",
     "prereqs": [ "SALAMANDER_EYES" ],
-    "category": [ "SALAMANDER" ],
-    "active": true,
-    "activated_eocs": [ "EOC_SALAMANDER_WATER_TO_BOOZE" ]
+    "category": [ "SALAMANDER" ]
   },
   {
     "type": "mutation",
@@ -209,11 +234,9 @@
     "points": 6,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Salamander can activate this trait to learn how to convert water directly into fuel.  This is an intensely draining activity.",
+    "description": "Upon gaining this ability the Salamander learn how to convert water directly into fuel.  This is an intensely draining activity.",
     "prereqs": [ "SALAMANDER_WATER_TO_BOOZE" ],
-    "category": [ "SALAMANDER" ],
-    "active": true,
-    "activated_eocs": [ "EOC_SALAMANDER_WATER_TO_FUEL" ]
+    "category": [ "SALAMANDER" ]
   },
   {
     "type": "mutation",
@@ -237,7 +260,7 @@
     "prereqs": [ "SALAMANDER_EYES" ],
     "changes_to": [ "SALAMANDER_HEAT_EYES2" ],
     "category": [ "SALAMANDER" ],
-    "flags": [ "INFRARED" ]
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ]
   },
   {
     "type": "mutation",
@@ -248,7 +271,7 @@
     "prereqs": [ "SALAMANDER_EYES" ],
     "category": [ "SALAMANDER" ],
     "social_modifiers": { "persuade": 10, "lie": 10 },
-    "flags": [ "INFRARED" ]
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ]
   },
   {
     "type": "mutation",
@@ -296,7 +319,7 @@
     "points": 8,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "SALAMANDER_ECTOTHERM", "SALAMANDER_HEAT_HEAL", "SALAMANDER_HEAT_HEAL_ON" ],
+    "prereqs": [ "SALAMANDER_ECTOTHERM", "SALAMANDER_HEAT_HEAL" ],
     "description": "As fae spirits of fire, Salamanders also partake of the heat of the forge and the glow of white-hot iron.  Your crafting speed will increase while standing in fire or hot air.",
     "category": [ "SALAMANDER" ],
     "enchantments": [ "ench_salamander_heat_crafting" ]
@@ -358,7 +381,7 @@
     "id": "SALAMANDER_HEALTH_FOR_MANA",
     "name": { "str": "Burning New Wood" },
     "points": 6,
-    "description": "In times of extreme need, the Salamander can can fuel their powers with their own body.  Activate this to restore mana at the cost of health.",
+    "description": "In times of extreme need, the Salamander can fuel their powers with their own body.  Activate this to restore mana at the cost of health.",
     "prereqs": [ "SALAMANDER_BIGGER_STOMACH", "SALAMANDER_BIGGER_STOMACH2" ],
     "prereqs2": [ "SALAMANDER_SKIN_1", "SALAMANDER_SKIN_2", "SALAMANDER_SKIN_3" ],
     "category": [ "SALAMANDER" ],
@@ -380,8 +403,8 @@
       {
         "values": [
           { "value": "STAMINA_REGEN_MOD", "add": 0.1 },
-          { "value": "FATIGUE_REGEN", "multiply": 0.25 },
-          { "value": "FATIGUE", "multiply": -0.25 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.25 },
+          { "value": "SLEEPINESS", "multiply": -0.25 },
           { "value": "METABOLISM", "multiply": 0.33 }
         ]
       }
@@ -401,8 +424,8 @@
       {
         "values": [
           { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
-          { "value": "FATIGUE_REGEN", "multiply": 0.5 },
-          { "value": "FATIGUE", "multiply": -0.5 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
+          { "value": "SLEEPINESS", "multiply": -0.5 },
           { "value": "METABOLISM", "multiply": 0.66 }
         ]
       }
@@ -424,8 +447,8 @@
       {
         "values": [
           { "value": "STAMINA_REGEN_MOD", "add": 0.3 },
-          { "value": "FATIGUE_REGEN", "multiply": 0.5 },
-          { "value": "FATIGUE", "multiply": -0.5 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
+          { "value": "SLEEPINESS", "multiply": -0.5 },
           { "value": "METABOLISM", "multiply": 1 }
         ]
       }
@@ -574,11 +597,7 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [
-          { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 },
-          { "value": "ARMOR_HEAT", "add": -1000 },
-          { "value": "ARMOR_COLD", "multiply": 0.5 }
-        ],
+        "incoming_damage_mod": [ { "type": "heat", "multiply": -1 }, { "type": "cold", "multiply": 0.5 } ],
         "ench_effects": [ { "effect": "effect_hidden_flame_immunity", "intensity": 1 } ]
       }
     ],

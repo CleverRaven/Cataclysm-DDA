@@ -1,36 +1,51 @@
+#include <algorithm>
 #include <cstdio>
+#include <functional>
 #include <memory>
+#include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_id.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
+#include "dialogue_win.h"
 #include "effect.h"
+#include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
 #include "game.h"
+#include "global_vars.h"
 #include "input_enums.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_location.h"
+#include "magic.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "math_parser_diag_value.h"
+#include "messages.h"
 #include "mission.h"
-#include "morale_types.h"
 #include "npc.h"
+#include "npc_opinion.h"
 #include "npctalk.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
+#include "units.h"
+#include "weather.h"
+#include "weather_gen.h"
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
@@ -44,15 +59,19 @@ static const efftype_id effect_sleep( "sleep" );
 static const item_category_id item_category_food( "food" );
 static const item_category_id item_category_manual( "manual" );
 
+static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_badge_marshal( "badge_marshal" );
 static const itype_id itype_beer( "beer" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
+static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_dnd_handbook( "dnd_handbook" );
-static const itype_id itype_knife_butcher( "knife_butcher" );
+static const itype_id itype_knife_huge( "knife_huge" );
 static const itype_id itype_manual_speech( "manual_speech" );
 
-static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
+static const morale_type morale_haircut( "morale_haircut" );
 
-static const npc_class_id NC_NONE( "NC_NONE" );
+static const mtype_id mon_zombie( "mon_zombie" );
+
 static const npc_class_id NC_TEST_CLASS( "NC_TEST_CLASS" );
 
 static const proficiency_id proficiency_prof_test( "prof_test" );
@@ -75,7 +94,7 @@ static const trait_id trait_test_trait( "test_trait" );
 static npc &create_test_talker( bool shopkeep = false )
 {
     const string_id<npc_template> test_talker( shopkeep ? "test_shopkeep" : "test_talker" );
-    const character_id model_id = get_map().place_npc( point( 25, 25 ), test_talker );
+    const character_id model_id = get_map().place_npc( point_bub_ms( 25, 25 ), test_talker );
     g->load_npcs();
 
     npc *model_npc = g->find_npc( model_id );
@@ -87,9 +106,9 @@ static npc &create_test_talker( bool shopkeep = false )
     model_npc->name = "Beta NPC";
     model_npc->set_hunger( 0 );
     model_npc->set_thirst( 0 );
-    model_npc->set_fatigue( 0 );
+    model_npc->set_sleepiness( 0 );
     model_npc->remove_effect( effect_sleep );
-    // An ugly hack to prevent NPC falling asleep during testing due to massive fatigue
+    // An ugly hack to prevent NPC falling asleep during testing due to massive sleepiness
     model_npc->set_mutation( trait_WEB_WEAVER );
 
     return *model_npc;
@@ -119,29 +138,29 @@ static std::string gen_dynamic_line( dialogue &d )
 
 static void change_om_type( const std::string &new_type )
 {
-    // TODO: fix point types
-    const tripoint_abs_omt omt_pos( ms_to_omt_copy( get_map().getabs(
-                                        get_player_character().pos() ) ) );
+    const tripoint_abs_omt omt_pos( coords::project_to<coords::omt>( get_map().get_abs(
+                                        get_player_character().pos_bub() ) ) );
     overmap_buffer.ter_set( omt_pos, oter_id( new_type ) );
 }
 
 static npc &prep_test( dialogue &d, bool shopkeep = false )
 {
+    map &here = get_map();
     clear_avatar();
     clear_vehicles();
     clear_map();
     avatar &player_character = get_avatar();
-    player_character.set_value( "npctalk_var_test_var", "It's avatar" );
+    player_character.set_value( "test_var", "It's avatar" );
     player_character.name = "Alpha Avatar";
     REQUIRE_FALSE( player_character.in_vehicle );
 
-    const tripoint test_origin( 15, 15, 0 );
-    player_character.setpos( test_origin );
+    const tripoint_bub_ms test_origin( 15, 15, 0 );
+    player_character.setpos( here, test_origin );
 
     g->faction_manager_ptr->create_if_needed();
 
     npc &beta = create_test_talker( shopkeep );
-    beta.set_value( "npctalk_var_test_var", "It's npc" );
+    beta.set_value( "test_var", "It's npc" );
     d = dialogue( get_talker_for( player_character ), get_talker_for( beta ) );
     return beta;
 }
@@ -262,7 +281,7 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a trait test response." );
     CHECK( d.responses[2].text == "This is a short trait test response." );
-    player_character.wear_item( item( "badge_marshal" ) );
+    player_character.wear_item( item( itype_badge_marshal ) );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a trait test response." );
@@ -338,6 +357,7 @@ TEST_CASE( "npc_talk_location", "[npc_talk]" )
     dialogue d;
     prep_test( d );
 
+    REQUIRE( !overmap_buffer.find_camp( get_avatar().pos_abs_omt().xy() ) );
     change_om_type( "pond_field_north" );
     d.add_topic( "TALK_TEST_LOCATION" );
     d.gen_responses( d.topic_stack.back() );
@@ -378,7 +398,7 @@ TEST_CASE( "npc_talk_class", "[npc_talk]" )
     npc &talker_npc = prep_test( d );
 
     d.add_topic( "TALK_TEST_NPC_CLASS" );
-    talker_npc.myclass = NC_NONE;
+    talker_npc.myclass = npc_class_id::NULL_ID();
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     talker_npc.myclass = NC_TEST_CLASS;
@@ -407,25 +427,6 @@ TEST_CASE( "npc_talk_allies", "[npc_talk]" )
     CHECK( d.responses[1].text == "This is a npc allies 1 test response." );
 }
 
-TEST_CASE( "npc_talk_rules", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
-
-    d.add_topic( "TALK_TEST_NPC_RULES" );
-    gen_response_lines( d, 1 );
-    CHECK( d.responses[0].text == "This is a basic test response." );
-    talker_npc.rules.engagement = combat_engagement::ALL;
-    talker_npc.rules.aim = aim_rule::SPRAY;
-    talker_npc.rules.set_flag( ally_rule::avoid_doors );
-    gen_response_lines( d, 4 );
-    CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a npc engagement rule test response." );
-    CHECK( d.responses[2].text == "This is a npc aim rule test response." );
-    CHECK( d.responses[3].text == "This is a npc rule test response." );
-    talker_npc.rules.clear_flag( ally_rule::avoid_doors );
-}
-
 TEST_CASE( "npc_talk_needs", "[npc_talk]" )
 {
     dialogue d;
@@ -436,12 +437,12 @@ TEST_CASE( "npc_talk_needs", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     talker_npc.set_thirst( 90 );
     talker_npc.set_hunger( 90 );
-    talker_npc.set_fatigue( fatigue_levels::EXHAUSTED );
+    talker_npc.set_sleepiness( sleepiness_levels::EXHAUSTED );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a npc thirst test response." );
     CHECK( d.responses[2].text == "This is a npc hunger test response." );
-    CHECK( d.responses[3].text == "This is a npc fatigue test response." );
+    CHECK( d.responses[3].text == "This is a npc sleepiness test response." );
 }
 
 TEST_CASE( "npc_talk_mission_goal", "[npc_talk]" )
@@ -655,20 +656,20 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
 
-    const auto has_item = [&]( Character & p, const std::string & id, int count ) {
+    const auto has_item = [&]( Character & p, const itype_id & id, int count ) {
         item old_item = item( id );
         if( old_item.count_by_charges() ) {
-            return p.has_charges( itype_id( id ), count );
+            return p.has_charges( id, count );
         } else {
-            return p.has_amount( itype_id( id ), count );
+            return p.has_amount( id, count );
         }
     };
     const auto has_beer_bottle = [&]( Character & p, int count ) {
-        return has_item( p, "bottle_glass", 1 ) && has_item( p, "beer", count );
+        return has_item( p, itype_bottle_glass, 1 ) && has_item( p, itype_beer, count );
     };
     player_character.cash = 1000;
     player_character.int_cur = 8;
-    player_character.worn.wear_item( player_character, item( "backpack" ), false, false );
+    player_character.worn.wear_item( player_character, item( itype_backpack ), false, false );
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
     // add and remove effect
@@ -711,10 +712,10 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     effects.apply( d );
     CHECK( talker_npc.op_of_u.owed == 500 );
     CHECK( has_beer_bottle( player_character, 2 ) );
-    REQUIRE_FALSE( has_item( player_character, "bottle_plastic", 1 ) );
+    REQUIRE_FALSE( has_item( player_character, itype_bottle_plastic, 1 ) );
     effects = d.responses[10].success;
     effects.apply( d );
-    CHECK( has_item( player_character, "bottle_plastic", 1 ) );
+    CHECK( has_item( player_character, itype_bottle_plastic, 1 ) );
     CHECK( talker_npc.op_of_u.owed == 500 );
     effects = d.responses[11].success;
     effects.apply( d );
@@ -784,8 +785,8 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     CHECK( d.responses[7].text == "This is a basic test response." );
 
     d.add_topic( "TALK_TEST_ITEM_WIELDED" );
-    item_location loc = player_character.i_add( item( itype_knife_butcher ) );
-    CHECK( player_character.wield( *loc ) );
+    item_location loc = player_character.i_add( item( itype_knife_huge ) );
+    CHECK( player_character.wield( loc ) );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text ==
@@ -795,7 +796,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     // test sell and consume
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
-    REQUIRE( has_item( player_character, "bottle_plastic", 1 ) );
+    REQUIRE( has_item( player_character, itype_bottle_plastic, 1 ) );
     REQUIRE( has_beer_bottle( player_character, 2 ) );
     const std::vector<item *> glass_bottles = player_character.items_with( []( const item & it ) {
         return it.typeId() == itype_bottle_glass;
@@ -804,40 +805,21 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     REQUIRE( player_character.wield( *glass_bottles.front() ) );
     effects = d.responses[14].success;
     effects.apply( d );
-    CHECK_FALSE( has_item( player_character, "bottle_plastic", 1 ) );
-    CHECK_FALSE( has_item( player_character, "beer", 1 ) );
-    CHECK( has_item( talker_npc, "bottle_plastic", 1 ) );
-    CHECK( has_item( talker_npc, "beer", 2 ) );
+    CHECK_FALSE( has_item( player_character, itype_bottle_plastic, 1 ) );
+    CHECK_FALSE( has_item( player_character, itype_beer, 1 ) );
+    CHECK( has_item( talker_npc, itype_bottle_plastic, 1 ) );
+    CHECK( has_item( talker_npc, itype_beer, 2 ) );
     effects = d.responses[15].success;
     effects.apply( d );
-    CHECK_FALSE( has_item( talker_npc, "beer", 2 ) );
-    CHECK( has_item( talker_npc, "beer", 1 ) );
+    CHECK_FALSE( has_item( talker_npc, itype_beer, 2 ) );
+    CHECK( has_item( talker_npc, itype_beer, 1 ) );
     effects = d.responses[16].success;
     effects.apply( d );
-    CHECK( has_item( player_character, "beer", 1 ) );
+    CHECK( has_item( player_character, itype_beer, 1 ) );
     effects = d.responses[17].success;
     effects.apply( d );
-    CHECK( has_item( player_character, "beer", 0 ) );
-    CHECK_FALSE( has_item( player_character, "beer", 1 ) );
-}
-
-TEST_CASE( "npc_talk_combat_commands", "[npc_talk]" )
-{
-    dialogue d;
-    prep_test( d );
-
-    d.add_topic( "TALK_COMBAT_COMMANDS" );
-    gen_response_lines( d, 10 );
-    CHECK( d.responses[0].text == "Change your engagement rules…" );
-    CHECK( d.responses[1].text == "Change your aiming rules…" );
-    CHECK( d.responses[2].text == "Move freely as you need to." );
-    CHECK( d.responses[3].text == "<ally_rule_follow_distance_request_2_text>" );
-    CHECK( d.responses[4].text == "Don't use ranged weapons anymore." );
-    CHECK( d.responses[5].text == "Don't worry about noise." );
-    CHECK( d.responses[6].text == "You can use grenades." );
-    CHECK( d.responses[7].text == "Don't worry about shooting an ally." );
-    CHECK( d.responses[8].text == "Hold the line: don't move onto obstacles adjacent to me." );
-    CHECK( d.responses[9].text == "Never mind." );
+    CHECK( has_item( player_character, itype_beer, 0 ) );
+    CHECK_FALSE( has_item( player_character, itype_beer, 1 ) );
 }
 
 TEST_CASE( "npc_talk_vars", "[npc_talk]" )
@@ -856,8 +838,8 @@ TEST_CASE( "npc_talk_vars", "[npc_talk]" )
     effects.apply( d );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a u_has_var, u_remove_var test response." );
-    CHECK( d.responses[2].text == "This is a npc_has_var, npc_remove_var test response." );
+    CHECK( d.responses[1].text == "This is a compare_string, u_remove_var test response." );
+    CHECK( d.responses[2].text == "This is a compare_string, npc_remove_var test response." );
     effects = d.responses[1].success;
     effects.apply( d );
     effects = d.responses[2].success;
@@ -1010,7 +992,7 @@ TEST_CASE( "npc_talk_effects", "[npc_talk]" )
     gen_response_lines( d, 19 );
     talk_effect_t &effects = d.responses[18].success;
     effects.apply( d );
-    CHECK( talker_npc.myclass == NC_NONE );
+    CHECK( talker_npc.myclass == npc_class_id::NULL_ID() );
 }
 
 TEST_CASE( "npc_change_topic", "[npc_talk]" )
@@ -1053,10 +1035,10 @@ TEST_CASE( "npc_test_tags", "[npc_talk]" )
     prep_test( d );
 
     global_variables &globvars = get_globals();
-    globvars.set_global_value( "npctalk_var_test_var", "It's global" );
+    globvars.set_global_value( "test_var", "It's global" );
 
     d.add_topic( "TALK_TEST_TAGS" );
-    d.set_value( "npctalk_var_test_var", "It's context" );
+    d.set_value( "test_var", "It's context" );
     gen_response_lines( d, 8 );
     CHECK( d.responses[0].create_option_line( d, input_event() ).text ==
            "Avatar tag is set to It's avatar." );
@@ -1118,10 +1100,10 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
                it.get_category_shallow().get_id() == item_category_food ||
                it.typeId() == itype_bottle_glass;
     } );
-    player_character.remove_value( "npctalk_var_test_var_time_test_test" );
+    player_character.remove_value( "test_var_time_test_test" );
     calendar::turn = calendar::turn_zero;
 
-    int expected_answers = 8;
+    int expected_answers = 7;
     if( player_character.magic->max_mana( player_character ) == 900 ) {
         expected_answers++;
     }
@@ -1160,22 +1142,22 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     get_weather().weather_precise->humidity = 16;
     get_weather().weather_precise->pressure = 17;
     get_weather().clear_temp_cache();
-    player_character.setpos( tripoint( -1, -2, -3 ) );
+    player_character.setpos( tripoint_abs_ms{ -1, -2, -3 } );
     player_character.set_pain( 21 );
     player_character.add_bionic( bio_power_storage );
     player_character.set_power_level( 22_mJ );
     player_character.set_max_power_level( 44_mJ );
     player_character.clear_morale();
-    player_character.add_morale( MORALE_HAIRCUT, 23 );
+    player_character.add_morale( morale_haircut, 23 );
     player_character.set_hunger( 26 );
     player_character.set_thirst( 27 );
     player_character.set_stored_kcal( 118169 );
-    player_character.worn.wear_item( player_character, item( "backpack" ), false, false );
+    player_character.worn.wear_item( player_character, item( itype_backpack ), false, false );
     player_character.inv->add_item( item( itype_bottle_glass ) );
     player_character.inv->add_item( item( itype_bottle_glass ) );
     player_character.inv->add_item( item( itype_bottle_glass ) );
     cata::event e = cata::event::make<event_type::character_kills_monster>(
-                        get_player_character().getID(), mon_zombie_bio_op, 0 );
+                        get_player_character().getID(), mon_zombie, 0 );
     get_event_bus().send( e );
     player_character.magic->learn_spell( spell_test_spell_json, player_character, false );
     player_character.set_mutation( trait_test_trait ); // Give the player the spell scool test_trait
@@ -1195,7 +1177,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.per_cur = 8;
     player_character.magic->set_mana( 25 );
 
-    expected_answers = 51;
+    expected_answers = 50;
     gen_response_lines( d, expected_answers );
     CHECK( d.responses[ 0 ].text == "This is a math test response that increments by 1." );
     CHECK( d.responses[ 1 ].text == "This is an math test response that increments by 2." );
@@ -1236,19 +1218,18 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 35 ].text == "Hunger is 26." );
     CHECK( d.responses[ 36 ].text == "Thirst is 27." );
     CHECK( d.responses[ 37 ].text == "Stored kcal is 118'169." );
-    CHECK( d.responses[ 38 ].text == "Stored kcal is at 100% of healthy." );
-    CHECK( d.responses[ 39 ].text == "Has 3 glass bottles." );
-    CHECK( d.responses[ 40 ].text == "Has more or equal to 35 experience." );
-    CHECK( d.responses[ 41 ].text == "Highest spell level in school test_trait is 1." );
-    CHECK( d.responses[ 42 ].text == "Spell level of Pew, Pew is 4." );
-    CHECK( d.responses[ 43 ].text == "Spell level of highest spell is 12." );
-    CHECK( d.responses[ 44 ].text == "Exp of Pew, Pew is 11006." );
-    CHECK( d.responses[ 45 ].text == "Test Proficiency learning is 50% out of 100%." );
-    CHECK( d.responses[ 46 ].text == "Test Proficiency learning done is 12 hours total." );
-    CHECK( d.responses[ 47 ].text == "Test Proficiency learning is 50% learnt." );
-    CHECK( d.responses[ 48 ].text == "Test Proficiency learning is 500 permille learnt." );
-    CHECK( d.responses[ 49 ].text == "Test Proficiency total learning time is 24 hours." );
-    CHECK( d.responses[ 50 ].text == "Test Proficiency time lest to learn is 12h." );
+    CHECK( d.responses[ 38 ].text == "Has 3 glass bottles." );
+    CHECK( d.responses[ 39 ].text == "Has more or equal to 35 experience." );
+    CHECK( d.responses[ 40 ].text == "Highest spell level in school test_trait is 1." );
+    CHECK( d.responses[ 41 ].text == "Spell level of Pew, Pew is 4." );
+    CHECK( d.responses[ 42 ].text == "Spell level of highest spell is 12." );
+    CHECK( d.responses[ 43 ].text == "Exp of Pew, Pew is 11006." );
+    CHECK( d.responses[ 44 ].text == "Test Proficiency learning is 50% out of 100%." );
+    CHECK( d.responses[ 45 ].text == "Test Proficiency learning done is 12 hours total." );
+    CHECK( d.responses[ 46 ].text == "Test Proficiency learning is 50% learnt." );
+    CHECK( d.responses[ 47 ].text == "Test Proficiency learning is 500 permille learnt." );
+    CHECK( d.responses[ 48 ].text == "Test Proficiency total learning time is 24 hours." );
+    CHECK( d.responses[ 49 ].text == "Test Proficiency time lest to learn is 12h." );
 
     calendar::turn = calendar::turn + time_duration( 4_days );
     expected_answers++;
@@ -1256,11 +1237,13 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 15 ].text == "This is a time since u_var test response for > 3_days." );
 
     // Teardown
-    player_character.remove_value( "npctalk_var_test_var_time_test_test" );
+    player_character.remove_value( "test_var_time_test_test" );
 }
 
 TEST_CASE( "npc_arithmetic", "[npc_talk]" )
 {
+    tripoint_abs_ms pos;
+
     dialogue d;
     npc &beta = prep_test( d );
     Character &player_character = get_avatar();
@@ -1268,6 +1251,9 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     d.add_topic( "TALK_TEST_ARITHMETIC" );
     gen_response_lines( d, 31 );
 
+    // make sure tested scenarios haven't messed with our start time
+    calendar::start_of_cataclysm = calendar::turn_zero;
+    calendar::start_of_game = calendar::turn_zero;
     calendar::turn = calendar::turn_zero;
     REQUIRE( calendar::turn == time_point( 0 ) );
     // "Sets time since cataclysm to 1."
@@ -1328,12 +1314,12 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( player_character.per_max == 9 );
 
-    std::string var_name = "npctalk_var_test_var_time_test_test";
-    player_character.set_value( var_name, std::to_string( 1 ) );
+    std::string var_name = "test_var_time_test_test";
+    player_character.set_value( var_name, 1 );
     // "Sets custom var to 10."
     effects = d.responses[ 9 ].success;
     effects.apply( d );
-    CHECK( std::stoi( player_character.get_value( var_name ) ) == 10 );
+    CHECK( player_character.get_value( var_name ) == 10 );
 
     beta.op_of_u.owed = 0;
     // "Sets owed to 12."
@@ -1347,17 +1333,19 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( static_cast<int>( player_character.get_skill_level( skill ) ) == 10 );
 
-    // "Sets pos_x to 14."
+    // "Move character position one tile west."
+    pos = player_character.pos_abs();
     effects = d.responses[ 12 ].success;
     effects.apply( d );
-    CHECK( player_character.posx() == -1 );
+    CHECK( player_character.pos_abs().x() == pos.x() - 1 );
 
-    // "Sets pos_y to 15."
+    // "Move character position two tiles north."
+    pos = player_character.pos_abs();
     effects = d.responses[ 13 ].success;
     effects.apply( d );
-    CHECK( player_character.posy() == -2 );
+    CHECK( player_character.pos_abs().y() == pos.y() + 2 );
 
-    // "Sets pos_z to 16."
+    // "Sets character z level to -3."
     effects = d.responses[ 14 ].success;
     effects.apply( d );
     CHECK( player_character.posz() == -3 );
@@ -1406,12 +1394,6 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( player_character.get_stored_kcal() == 23 );
 
-    // "Sets stored_kcal_percentage to 50."
-    effects = d.responses[ 23 ].success;
-    effects.apply( d );
-    // this should be player_character.get_healthy_kcal() instead of 550000 but for whatever reason it is hardcoded to that value??
-    CHECK( player_character.get_stored_kcal() == 550000 / 2 );
-
     // Spell tests setup
     if( player_character.magic->knows_spell( spell_test_spell_pew ) ) {
         player_character.magic->forget_spell( spell_test_spell_pew );
@@ -1419,29 +1401,29 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
 
     // "Sets pew pew's level to -1."
-    effects = d.responses[24].success;
+    effects = d.responses[23].success;
     effects.apply( d );
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
 
     // "Sets pew pew's level to 4."
-    effects = d.responses[25].success;
+    effects = d.responses[24].success;
     effects.apply( d );
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == true );
     CHECK( player_character.magic->get_spell( spell_test_spell_pew ).get_level() == 4 );
 
     // "Sets pew pew's level to -1."
-    effects = d.responses[24].success;
+    effects = d.responses[23].success;
     effects.apply( d );
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
 
     // "Sets pew pew's exp to 11006."
-    effects = d.responses[27].success;
+    effects = d.responses[26].success;
     effects.apply( d );
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == true );
     CHECK( player_character.magic->get_spell( spell_test_spell_pew ).get_level() == 4 );
 
     // "Sets pew pew's exp to -1."
-    effects = d.responses[26].success;
+    effects = d.responses[25].success;
     effects.apply( d );
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
 
@@ -1457,7 +1439,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     }
 
     // "Sets Test Proficiency learning done to -1."
-    effects = d.responses[29].success;
+    effects = d.responses[28].success;
     effects.apply( d );
     CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();
@@ -1466,8 +1448,10 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
                        proficiency_prof_test ) == 0 );
 
     // "Sets Test Proficiency learning done to 24h."
-    effects = d.responses[30].success;
+    effects = d.responses[29].success;
     effects.apply( d );
+    add_msg( m_bad, "%s: %g", proficiency_prof_test.str(),
+             player_character.get_proficiency_practice( proficiency_prof_test ) );
     CHECK( player_character.has_proficiency( proficiency_prof_test ) == true );
     proficiencies_vector = player_character.learning_proficiencies();
     CHECK( std::count( proficiencies_vector.begin(),
@@ -1475,7 +1459,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
                        proficiency_prof_test ) == 0 );
 
     // "Sets Test Proficiency learning done to 12 hours total."
-    effects = d.responses[28].success;
+    effects = d.responses[27].success;
     effects.apply( d );
     CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();
@@ -1484,13 +1468,61 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
                        proficiency_prof_test ) != 0 );
 
     // "Sets Test Proficiency learning done to -1."
-    effects = d.responses[29].success;
+    effects = d.responses[28].success;
     effects.apply( d );
     CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();
     CHECK( std::count( proficiencies_vector.begin(),
                        proficiencies_vector.end(),
                        proficiency_prof_test ) == 0 );
+
+
+    // Proficency learning without 'direct': true is impacted by focus
+    const auto prof_xp = [&player_character]() {
+        return to_seconds<int>( player_character.get_proficiency_practiced_time( proficiency_prof_test ) );
+    };
+
+    // For 100 focus
+    player_character.set_focus( 100 );
+    // No starting XP
+    REQUIRE( prof_xp() == 0 );
+
+    // "Learns Test Proficiency for 1h"
+    effects = d.responses[30].success;
+    effects.apply( d );
+
+    int amt_100 = prof_xp();
+    CAPTURE( amt_100 );
+
+    CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
+    proficiencies_vector = player_character.learning_proficiencies();
+    CHECK( std::count( proficiencies_vector.begin(),
+                       proficiencies_vector.end(),
+                       proficiency_prof_test ) == 1 );
+
+    // Reset progress
+    player_character.set_proficiency_practice( proficiency_prof_test, 0_seconds );
+    REQUIRE( prof_xp() == 0 );
+
+    // For 5 focus
+    player_character.set_focus( 5 );
+
+    // "Learns Test Proficiency for 1h"
+    effects = d.responses[30].success;
+    effects.apply( d );
+
+    int amt_5 = prof_xp();
+    CAPTURE( amt_5 );
+
+    CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
+    proficiencies_vector = player_character.learning_proficiencies();
+    CHECK( std::count( proficiencies_vector.begin(),
+                       proficiencies_vector.end(),
+                       proficiency_prof_test ) == 1 );
+
+    // Simply check that they're less, don't need to get any fancier
+    CHECK( amt_5 < amt_100 );
+
 
     // Teardown
     player_character.remove_value( var_name );
@@ -1516,5 +1548,5 @@ TEST_CASE( "test_topic_item_mutator", "[npc_talk]" )
     gen_response_lines( d, 1 );
     chosen = d.responses[0];
     chosen.success.apply( d );
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "bottle_glass" );
+    CHECK( globvars.get_global_value( "key1" ) == "bottle_glass" );
 }

@@ -1,0 +1,134 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_UICA_GROUND_QUARTERMASTER",
+    "name": { "str": "UICA Quartermaster" },
+    "job_description": "Supply Trader",
+    "common": false,
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "NC_UICA_GROUND_SOLDIER_worn",
+    "carry_override": "NC_UICA_GROUND_SOLDIER_carry",
+    "weapon_override": "NC_UICA_GROUND_SOLDIER_wield",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -1 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "smg", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 4, 6 ] } }
+    ],
+    "shopkeeper_item_group": [
+      { "group": "afs_uica_quartermaster_money", "rigid": true },
+      { "group": "afs_uica_quartermaster_armor", "rigid": true },
+      { "group": "afs_uica_quartermaster_medical", "rigid": true },
+      { "group": "afs_uica_quartermaster_military", "rigid": true }
+    ],
+    "shopkeeper_price_rules": [ { "group": "afs_general_armory", "fixed_adj": 0 } ]
+  },
+  {
+    "id": "afs_uica_quartermaster_military",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "afs_uica_weapon_locker", "count": [ 1, 2 ] } ]
+  },
+  {
+    "id": "afs_uica_quartermaster_armor",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "afs_uica_armor_locker", "count": [ 2, 5 ] } ]
+  },
+  {
+    "id": "afs_uica_quartermaster_medical",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "afs_ifak", "count": [ 1, 3 ] } ]
+  },
+  {
+    "type": "npc",
+    "id": "uica_quartermaster",
+    "name_suffix": "UICA Quartermaster",
+    "class": "NC_UICA_GROUND_QUARTERMASTER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_UICA_GROUND_QUARTERMASTER",
+    "faction": "UICA"
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_tried_to_bribe",
+    "name": [ { "str": "Asked to Bribe", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You tried and failed to bribe this NPC recently.  If you see this it's a bug.", "//~": "NO_I18N" } ]
+  },
+  {
+    "id": [ "TALK_UICA_GROUND_QUARTERMASTER" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You find the Quartermaster lazily reclined against a stack of intermodal crates.  <npc_name> barely acknowledges your presence, their eyes never leaving their PDA as they address you.  Need something salvor?",
+    "responses": [
+      {
+        "text": "Show me what you have.",
+        "topic": "TALK_DONE",
+        "effect": "start_trade",
+        "condition": { "compare_string": [ "yes", { "npc_val": "player_can_trade" } ] }
+      },
+      {
+        "text": "Can I buy supplies here?",
+        "topic": "TALK_UICA_GROUND_QUARTERMASTER_BRIBE",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "npc_val": "player_can_trade" } ] } },
+            { "not": { "npc_has_effect": "afs_tried_to_bribe" } }
+          ]
+        }
+      },
+      {
+        "text": "Can I buy supplies here?",
+        "topic": "TALK_UICA_GROUND_QUARTERMASTER_BRIBE_RECENTLY_FAILED",
+        "condition": { "npc_has_effect": "afs_tried_to_bribe" }
+      },
+      { "text": "Maybe later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_GROUND_QUARTERMASTER_BRIBE" ],
+    "type": "talk_topic",
+    "dynamic_line": "&This isn't a store.  Go to the Spaceport if you want to buy supplies.",
+    "responses": [
+      {
+        "text": "I'm sure we can work something out.  [Bribe $3000]",
+        "trial": { "type": "PERSUADE", "difficulty": 50 },
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": [
+            { "npc_add_var": "player_can_trade", "value": "yes" },
+            { "u_spend_cash": 300000, "false_eocs": "EOC_QUARTERMASTER_DID_NOT_PAY_BRIBE" }
+          ]
+        },
+        "failure": {
+          "topic": "TALK_UICA_GROUND_QUARTERMASTER_BRIBE_FAILURE",
+          "effect": { "npc_add_effect": "afs_tried_to_bribe", "duration": "24 hours" }
+        }
+      },
+      { "text": "Nevermind then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_GROUND_QUARTERMASTER_BRIBE_FAILURE" ],
+    "type": "talk_topic",
+    "dynamic_line": "&I think you should leave.",
+    "responses": [ { "text": "Nevermind then.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": [ "TALK_UICA_GROUND_QUARTERMASTER_BRIBE_RECENTLY_FAILED" ],
+    "type": "talk_topic",
+    "dynamic_line": "&I already told you no.",
+    "responses": [ { "text": "Nevermind then.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "EOC_QUARTERMASTER_DID_NOT_PAY_BRIBE",
+    "type": "effect_on_condition",
+    "effect": { "npc_add_var": "player_can_trade", "value": "no" }
+  }
+]

@@ -8,7 +8,7 @@
       {
         "text": "I will continue on and face oblivion, even if it costs me my life and limb.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "final_wave_defeated", "=", "0" ] }
+        "effect": { "math": [ "final_wave_defeated = 0" ] }
       }
     ]
   }

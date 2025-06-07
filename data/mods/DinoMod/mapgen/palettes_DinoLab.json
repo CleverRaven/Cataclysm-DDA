@@ -74,7 +74,8 @@
         { "item": "supplies_electronics", "chance": 40, "repeat": [ 1, 3 ] }
       ],
       "O": [ { "item": "tools_robotics", "chance": 40, "repeat": [ 1, 3 ] }, { "item": "schematics", "chance": 2 } ],
-      "i": { "item": "cleaning", "chance": 20 }
+      "i": { "item": "cleaning", "chance": 20 },
+      ";": { "item": "SUS_toilet", "chance": 50 }
     },
     "vendingmachines": { "V": {  } }
   }

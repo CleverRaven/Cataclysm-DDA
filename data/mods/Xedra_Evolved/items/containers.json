@@ -1,7 +1,7 @@
 [
   {
     "id": "wrapper_wyld",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "candy wrapper" },
     "description": { "str": "\"Wyld Candy, our flavors span the possible\" is emblazoned proudly upon this shiny colorful wrapper." },
     "copy-from": "wrapper",
@@ -9,15 +9,16 @@
   },
   {
     "id": "blood_bank",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "container",
     "name": { "str": "blood bank" },
     "looks_like": "canteen",
     "description": "A large moon tear canteen.  It radiates the cold of the grave and smells strongly of blood.  Any blood stored inside is protected from spoilage by some kind of fae enchantment.",
     "weight": "155 g",
     "volume": "2625 ml",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "to_hit": -1,
     "melee_damage": { "bash": 1 },
     "material": [ "moon_tears" ],
@@ -35,30 +36,29 @@
         "spoil_multiplier": 0
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "moon_tears", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "encumbrance": 4,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_front" ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ],
+    "armor": [
+      {
+        "material": [ { "type": "moon_tears", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 4,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_front" ]
+      }
+    ]
   },
   {
     "id": "blood_camel",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "container",
     "name": { "str": "blood camel" },
     "looks_like": "runner_bag",
     "description": "A slim and lightweight insulated moon tear bladder worn on the back or within a hydration pouch in a backpack.  Perfect for the renfield on the go.  It has a large pocket and a capped mouth for filling with blood, with a hose that allows the wearer to drink hands-free.  Any blood stored inside is protected from spoilage by some kind of fae enchantment.",
     "weight": "286 g",
     "volume": "3001 ml",
-    "price": 10000,
-    "price_postapoc": 250,
+    "price": "100 USD",
+    "price_postapoc": "2 USD 50 cent",
     "to_hit": -1,
     "melee_damage": { "bash": 1 },
     "material": [ "moon_tears" ],
@@ -76,16 +76,14 @@
         "spoil_multiplier": 0
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "moon_tears", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "coverage": 30,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "COLLAPSE_CONTENTS" ]
+    "flags": [ "BELTED", "COLLAPSE_CONTENTS" ],
+    "armor": [
+      {
+        "material": [ { "type": "moon_tears", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "coverage": 30,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   }
 ]

@@ -20,8 +20,8 @@
   {
     "id": "fault_engine_immobiliser",
     "type": "fault",
-    "name": { "str": "Active immobiliser" },
-    "description": "An immobiliser device prevents starting of the vehicle without the appropriate key.",
+    "name": { "str": "Active immobilizer" },
+    "description": "An immobilizer device prevents starting of the vehicle without the appropriate key.",
     "item_prefix": "faulty",
     "price_modifier": 0.25,
     "flags": [ "IMMOBILIZER" ]

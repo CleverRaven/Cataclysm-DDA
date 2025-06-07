@@ -1,0 +1,45 @@
+[
+  {
+    "id": "EOC_PERK_SHRUG_OFF",
+    "type": "effect_on_condition",
+    "condition": { "u_using_martial_art": "style_none" },
+    "deactivate_condition": { "not": { "u_has_flag": "MELEE_PERK_SHRUG_OFF" } },
+    "recurrence": "15 seconds",
+    "effect": [ { "math": [ "u_shrug_off_ready = 1" ] } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "melee_perk_ench_shrug_off",
+    "condition": { "math": [ "u_shrug_off_ready", "==", "1" ] },
+    "name": { "str": "Shrug it off" },
+    "description": "You will completely negate the next attack that hits you.",
+    "values": [ { "value": "FORCEFIELD", "add": 1 } ],
+    "hit_me_effect": [
+      {
+        "id": "sp_shrug_off_hit",
+        "hit_self": true,
+        "message": "You shrug off the attack.",
+        "npc_message": "%1$s's no sells the incoming attack."
+      }
+    ]
+  },
+  {
+    "id": "sp_shrug_off_hit",
+    "type": "SPELL",
+    "name": { "str": "Shrug Off Trigger" },
+    "description": { "str": "Shrug off trigger", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "message": "",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PERK_SHRUG_OFF_TRIGGER"
+  },
+  {
+    "id": "EOC_PERK_SHRUG_OFF_TRIGGER",
+    "type": "effect_on_condition",
+    "effect": [ { "math": [ "u_shrug_off_ready = 0" ] } ]
+  }
+]

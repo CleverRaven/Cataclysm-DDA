@@ -1,16 +1,20 @@
 #include <cstddef>
-#include <iosfwd>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
-#include "enums.h"
+#include "coords_fwd.h"
 #include "messages.h"
 
 class Creature;
 class JsonObject;
 class JsonOut;
-struct tripoint;
+namespace debugmode
+{
+enum debug_filter : int;
+}  // namespace debugmode
+struct game_message_params;
 
 namespace catacurses
 {
@@ -57,7 +61,6 @@ void Messages::display_messages() {}
 void Messages::display_messages( const catacurses::window &, int, int, int, int ) {}
 void Messages::serialize( JsonOut & ) {}
 void Messages::deserialize( const JsonObject & ) {}
-
 void add_msg( std::string m )
 {
     Messages::add_msg( std::move( m ) );
@@ -66,7 +69,7 @@ void add_msg( const game_message_params &, std::string m )
 {
     Messages::add_msg( std::move( m ) );
 }
-void add_msg_if_player_sees( const tripoint &, std::string m )
+void add_msg_if_player_sees( const tripoint_bub_ms &, std::string m )
 {
     Messages::add_msg( std::move( m ) );
 }
@@ -74,7 +77,7 @@ void add_msg_if_player_sees( const Creature &, std::string m )
 {
     Messages::add_msg( std::move( m ) );
 }
-void add_msg_if_player_sees( const tripoint &, const game_message_params &, std::string m )
+void add_msg_if_player_sees( const tripoint_bub_ms &, const game_message_params &, std::string m )
 {
     Messages::add_msg( std::move( m ) );
 }
