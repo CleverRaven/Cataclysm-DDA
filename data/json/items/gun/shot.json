@@ -419,7 +419,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "4-round semi-auto hunting shotgun" },
-    "description": "A reliable 4 round semi-automatic hunting shotgun, capable of deliverly it's lethal shot quicker than a pump action. However, it cannot cycle lower power loads like birdshot.",
+    "description": "A reliable 4 round semi-automatic hunting shotgun, capable of delivering it's lethal shot quicker than a pump action. However, it cannot cycle lower power loads like birdshot.",
     "variant_type": "gun",
     "variants": [
       {
