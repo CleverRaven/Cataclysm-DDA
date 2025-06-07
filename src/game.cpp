@@ -227,14 +227,7 @@
 #define UNUSED
 #endif
 
-static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
-static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
-static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
-static const activity_id ACT_DISSECT( "ACT_DISSECT" );
-static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
-static const activity_id ACT_QUARTER( "ACT_QUARTER" );
-static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
@@ -295,10 +288,6 @@ static const flag_id json_flag_WATERWALKING( "WATERWALKING" );
 static const furn_str_id furn_f_rope_up( "f_rope_up" );
 static const furn_str_id furn_f_vine_up( "f_vine_up" );
 static const furn_str_id furn_f_web_up( "f_web_up" );
-
-static const harvest_drop_type_id harvest_drop_blood( "blood" );
-static const harvest_drop_type_id harvest_drop_offal( "offal" );
-static const harvest_drop_type_id harvest_drop_skin( "skin" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_muscle( "muscle" );

@@ -100,19 +100,14 @@
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
-static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
-static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
-static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
-static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_FISH( "ACT_FISH" );
@@ -138,10 +133,8 @@ static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
-static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
-static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
@@ -188,12 +181,6 @@ static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
 static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
 static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 
-static const harvest_drop_type_id harvest_drop_blood( "blood" );
-static const harvest_drop_type_id harvest_drop_bone( "bone" );
-static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
-static const harvest_drop_type_id harvest_drop_offal( "offal" );
-static const harvest_drop_type_id harvest_drop_skin( "skin" );
-
 static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_muscle( "muscle" );
@@ -202,7 +189,6 @@ static const itype_id itype_pseudo_magazine_mod( "pseudo_magazine_mod" );
 
 static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
 static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
-static const json_character_flag json_flag_INSTANT_BLEED( "INSTANT_BLEED" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SOCIAL1( "SOCIAL1" );
@@ -210,23 +196,13 @@ static const json_character_flag json_flag_SOCIAL2( "SOCIAL2" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
-static const morale_type morale_butcher( "morale_butcher" );
 static const morale_type morale_feeling_good( "morale_feeling_good" );
 static const morale_type morale_game( "morale_game" );
 static const morale_type morale_tree_communion( "morale_tree_communion" );
 
-static const proficiency_id proficiency_prof_butchering_adv( "prof_butchering_adv" );
-static const proficiency_id proficiency_prof_butchering_basic( "prof_butchering_basic" );
-static const proficiency_id proficiency_prof_dissect_humans( "prof_dissect_humans" );
-static const proficiency_id proficiency_prof_skinning_adv( "prof_skinning_adv" );
-static const proficiency_id proficiency_prof_skinning_basic( "prof_skinning_basic" );
-
-static const quality_id qual_BUTCHER( "BUTCHER" );
-static const quality_id qual_CUT_FINE( "CUT_FINE" );
 static const quality_id qual_FISHING_ROD( "FISHING_ROD" );
 
 static const skill_id skill_computer( "computer" );
-static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );

@@ -1,7 +1,6 @@
 #include <string>
-#include <vector>
 
-#include "activity_handlers.h"
+#include "butchery.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
@@ -50,9 +49,10 @@ static void butcher_mon( const mtype_id &monid, const activity_id &actid, int *c
         cow.die( &here, nullptr );
         u.move_to( cow.pos_abs() );
         player_activity act( actid, 0, true );
-        act.targets.emplace_back( map_cursor( u.pos_abs() ), &*here.i_at( cow_loc ).begin() );
-        while( !act.is_null() ) {
-            activity_handlers::butcher_finish( &act, &u );
+        item_location loc = item_location( map_cursor( u.pos_abs() ), &*here.i_at( cow_loc ).begin() );
+        butchery_data bd( loc, butcher_type::DISSECT ); // todo smart way to pass butcher_type here
+        if( set_up_butchery( act, u, bd ) ) {
+            destroy_the_carcass( bd, u );
         }
         for( const item &it : here.i_at( cow_loc ) ) {
             if( it.is_bionic() ) {

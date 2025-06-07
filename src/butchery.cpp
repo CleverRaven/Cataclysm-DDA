@@ -1092,7 +1092,7 @@ void butchery_quarter( item *corpse_item, const Character &you )
     }
 }
 
-void destroy_the_carcass( butchery_data bd, Character &you )
+void destroy_the_carcass( const butchery_data &bd, Character &you )
 {
     map &here = get_map();
 

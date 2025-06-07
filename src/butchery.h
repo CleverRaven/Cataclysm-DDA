@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#include "calendar.h"
 #include "item_location.h"
 #include "map.h"
 #include "type_id.h"
@@ -28,7 +29,7 @@ struct butchery_data {
     item_location corpse;
     requirement_id req;
     butcher_type b_type;
-    float req_speed_bonus;
+    float req_speed_bonus = 0.0f;
     time_duration time_to_butcher;
     // when `progress` reaches `time_to_butcher`, the corpse is butchered
     time_duration progress;
@@ -40,7 +41,7 @@ struct butchery_data {
 
 int butcher_time_to_cut( Character &you, const item &corpse_item, butcher_type action );
 
-std::string butcher_progress_var( const butcher_type action );
+std::string butcher_progress_var( butcher_type action );
 
 double butcher_get_progress( const item &corpse_item, butcher_type action );
 
@@ -55,7 +56,7 @@ bool butchery_drops_harvest( butchery_data bt, Character &you );
 
 void butchery_quarter( item *corpse_item, const Character &you );
 
-void destroy_the_carcass( butchery_data bd, Character &you );
+void destroy_the_carcass( const butchery_data &bd, Character &you );
 
 std::optional<butcher_type> butcher_submenu( const std::vector<map_stack::iterator> &corpses,
         int index = -1 );

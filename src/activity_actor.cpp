@@ -26,7 +26,6 @@
 #include "bodypart.h"
 #include "butchery.h"
 #include "butchery_requirements.h"
-#include "text_snippets.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -114,6 +113,7 @@ static const activity_id ACT_BASH( "ACT_BASH" );
 static const activity_id ACT_BIKERACK_RACKING( "ACT_BIKERACK_RACKING" );
 static const activity_id ACT_BIKERACK_UNRACKING( "ACT_BIKERACK_UNRACKING" );
 static const activity_id ACT_BINDER_COPY_RECIPE( "ACT_BINDER_COPY_RECIPE" );
+static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
@@ -131,9 +131,9 @@ static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_DROP( "ACT_DROP" );
-static const activity_id ACT_E_FILE( "ACT_E_FILE" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
+static const activity_id ACT_E_FILE( "ACT_E_FILE" );
 static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
@@ -255,9 +255,7 @@ static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
 static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 
-static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT( "CUT" );
-static const quality_id qual_CUT_FINE( "CUT_FINE" );
 static const quality_id qual_HACK( "HACK" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
@@ -8881,6 +8879,48 @@ bool butchery_activity_actor::calculate_butchery_data( player_activity &act, Cha
     return true;
 }
 
+const activity_id &butchery_activity_actor::get_type() const
+{
+    switch( bd.back().b_type ) {
+        case butcher_type::BLEED: {
+            return ACT_BLEED;
+            break;
+        }
+        case butcher_type::QUICK: {
+            return ACT_BUTCHER;
+            break;
+        }
+        case butcher_type::FULL: {
+            return ACT_BUTCHER_FULL;
+            break;
+        }
+        case butcher_type::FIELD_DRESS: {
+            return ACT_FIELD_DRESS;
+            break;
+        }
+        case butcher_type::SKIN: {
+            return ACT_SKIN;
+            break;
+        }
+        case butcher_type::QUARTER: {
+            return ACT_QUARTER;
+            break;
+        }
+        case butcher_type::DISMEMBER: {
+            return ACT_DISMEMBER;
+            break;
+        }
+        case butcher_type::DISSECT: {
+            return ACT_DISSECT;
+            break;
+        }
+        default : {
+            return ACT_BUTCHER;
+            break;
+        }
+    }
+}
+
 void butchery_activity_actor::do_turn( player_activity &act, Character &you )
 {
     if( bd.empty() ) {
@@ -8922,7 +8962,7 @@ void butchery_activity_actor::do_turn( player_activity &act, Character &you )
     }
 }
 
-void butchery_activity_actor::finish( player_activity &act, Character &you )
+void butchery_activity_actor::finish( player_activity &act, Character & /* you */ )
 {
     act.set_to_null();
 }
@@ -8945,7 +8985,7 @@ void butchery_activity_actor::serialize( JsonOut &jsout ) const
     // activity de/serialization is not designed to store raw vectors, so we store vector in it's own key
     jsout.member( "butchery_vector" );
     jsout.start_array();
-    for( const butchery_data bd_instance : bd ) {
+    for( const butchery_data &bd_instance : bd ) {
         jsout.start_object();
         jsout.member( "b_type", bd_instance.b_type );
         jsout.member( "corpse", bd_instance.corpse );
