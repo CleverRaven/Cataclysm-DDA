@@ -1,0 +1,160 @@
+[
+  {
+    "id": "exo_back_battery_rechargable",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit power supply unit" },
+    "description": "Designed to attach to an exosuit's back, this is a large rechargeable battery with an integrated UPS.",
+    "weight": "15 kg",
+    "volume": "20 L",
+    "material": [ "plastic", "qt_steel" ],
+    "symbol": "=",
+    "looks_like": "storage_battery",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "flags": [
+      "FRAGILE",
+      "CANT_WEAR",
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "RECHARGE",
+      "WATERPROOF",
+      "IS_UPS",
+      "USE_UPS",
+      "EXO_PSU",
+      "ONLY_ONE"
+    ],
+    "armor": [ { "encumbrance": 0, "coverage": 20, "covers": [ "torso" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 40000 } } ]
+  },
+  {
+    "id": "exo_back_gasoline",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit gasoline ICE power supply", "str_pl": "exosuit gasoline ICE power supplies" },
+    "description": "Designed to attach to an exosuit's back, this is an internal combustion engine generator with an integrated UPS, fueled by gasoline.",
+    "weight": "20 kg",
+    "volume": "25 L",
+    "material": [ "qt_steel", "plastic" ],
+    "symbol": "#",
+    "looks_like": "1cyl_combustion",
+    "color": "dark_gray",
+    "ammo": "gasoline",
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "USE_UPS", "EXO_PSU", "ONLY_ONE" ],
+    "armor": [ { "encumbrance": 0, "coverage": 40, "covers": [ "torso" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "description": "This is a tank for gasoline.  Holds up to 10 liters.",
+        "rigid": true,
+        "watertight": true,
+        "ammo_restriction": { "gasoline": 10000 }
+      }
+    ]
+  },
+  {
+    "id": "exo_back_fuelcell",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit turbine power supply", "str_pl": "exosuit turbine power supplies" },
+    "description": "Designed to attach to an exosuit's back, this is an adaptive gas turbine generator with an integrated UPS, capable of using nearly any fuel type.",
+    "weight": "25 kg",
+    "volume": "25 L",
+    "material": [ "qt_steel", "plastic" ],
+    "symbol": "#",
+    "looks_like": "1cyl_combustion",
+    "color": "dark_gray",
+    "ammo": [ "gasoline", "diesel", "jp8", "avgas", "lamp_oil", "motor_oil", "propane", "conc_alcohol", "ammonia_liquid" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "USE_UPS", "EXO_PSU", "ONLY_ONE" ],
+    "armor": [ { "encumbrance": 0, "coverage": 40, "covers": [ "torso" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "description": "This is a tank for fuel.  Holds up to 5 liters.",
+        "rigid": true,
+        "watertight": true,
+        "airtight": true,
+        "ammo_restriction": {
+          "gasoline": 5000,
+          "diesel": 5000,
+          "jp8": 5000,
+          "avgas": 5000,
+          "lamp_oil": 5000,
+          "motor_oil": 5000,
+          "propane": 5000,
+          "conc_alcohol": 5000,
+          "ammonia_liquid": 5000
+        }
+      }
+    ]
+  },
+  {
+    "id": "exo_lense_module",
+    "type": "TOOL",
+    "name": { "str": "exosuit multi-lens zoom module" },
+    "description": "A series of strangely shaped hexagonal lenses that flutter about inside your helmet.  As the lenses shift things around you stay perfectly in focus no matter your eyesight or distance.  It can be mounted to an exosuit helmet.",
+    "weight": "500 g",
+    "volume": "250 ml",
+    "price": "10 kUSD",
+    "material": [ "lvl4ballisticglass", "qt_steel" ],
+    "symbol": "(",
+    "color": "yellow",
+    "flags": [ "CANT_WEAR", "FIX_NEARSIGHT", "FIX_FARSIGHT", "ZOOM", "EXO_HELMET_GADGET" ],
+    "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "exo_flashlight",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "mounted lamp (off)", "str_pl": "mounted lamps (off)" },
+    "description": "This is a light that can be secured to an exosuit hardpoint.  It has two levels of brightness.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "material": [ "qt_steel", "plastic" ],
+    "symbol": "o",
+    "color": "white",
+    "charges_per_use": 1,
+    "ammo": [ "battery" ],
+    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the lamp on low.",
+      "target": "exo_flashlight_low",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "There is not enough charge to activate the module."
+    }
+  },
+  {
+    "id": "exo_flashlight_low",
+    "copy-from": "exo_flashlight",
+    "type": "TOOL",
+    "name": { "str": "mounted lamp (low)", "str_pl": "mounted lamps (low)" },
+    "power_draw": "1 W",
+    "revert_to": "exo_flashlight",
+    "use_action": {
+      "ammo_scale": 0,
+      "menu_text": "Turn to high",
+      "type": "transform",
+      "msg": "You turn the lamp on high.",
+      "target": "exo_flashlight_high"
+    },
+    "flags": [ "LIGHT_250", "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET" ]
+  },
+  {
+    "id": "exo_flashlight_high",
+    "copy-from": "exo_flashlight",
+    "type": "TOOL",
+    "name": { "str": "mounted lamp (high)", "str_pl": "mounted lamps (high)" },
+    "power_draw": "2 W",
+    "revert_to": "exo_flashlight",
+    "use_action": {
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You turn the heavy-duty flashlight off.",
+      "target": "exo_flashlight"
+    },
+    "flags": [ "LIGHT_500", "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET" ]
+  }
+]
