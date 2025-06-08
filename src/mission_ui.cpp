@@ -16,7 +16,7 @@
 #include "input_context.h"
 #include "mission.h"
 #include "npc.h"
-#include "faction.h",
+#include "faction.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "talker.h"
