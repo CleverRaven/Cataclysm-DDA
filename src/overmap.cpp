@@ -581,6 +581,12 @@ void overmap_specials::check_consistency()
             debugmsg( "Overmap special id %s has been migrated.  Use %s instead.", os.id.str(),
                       new_id.str() );
         }
+        if( static_cast<int>( os.has_flag( "GLOBALLY_UNIQUE" ) ) +
+            static_cast<int>( os.has_flag( "OVERMAP_UNIQUE" ) ) +
+            static_cast<int>( os.has_flag( "CITY_UNIQUE" ) ) > 1 ) {
+            debugmsg( "In special %s, the mutually exclusive flags GLOBALLY_UNIQUE, "
+                      "OVERMAP_UNIQUE and CITY_UNIQUE cannot be used together.", os.id.str() );
+        }
     }
 }
 
@@ -3700,6 +3706,7 @@ void overmap::generate( const std::vector<const overmap *> &neighbor_overmaps,
     if( get_option<bool>( "OVERMAP_PLACE_SPECIALS" ) ) {
         place_specials( enabled_specials );
     }
+    overmap_buffer.clear_overmap_uniques();
     if( get_option<bool>( "OVERMAP_PLACE_FOREST_TRAILHEADS" ) ) {
         place_forest_trailheads();
     }
@@ -6135,10 +6142,9 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist, int to
     bool existing_unique;
     do {
         ret = pick_building( city_spec );
-        // TODO: Add OVERMAP_UNIQUE handling, doesn't seem to be kept track of in an ideal way atm
         if( ret->has_flag( "CITY_UNIQUE" ) ) {
             existing_unique = placed_unique_buildings.find( ret ) != placed_unique_buildings.end();
-        } else if( ret->has_flag( "GLOBALLY_UNIQUE" ) ) {
+        } else if( ret->has_flag( "GLOBALLY_UNIQUE" ) || ret->has_flag( "OVERMAP_UNIQUE" ) ) {
             existing_unique = overmap_buffer.contains_unique_special( ret );
         } else {
             existing_unique = false;
@@ -7088,7 +7094,7 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
     if( !special.id ) {
         return false;
     }
-    if( special.has_flag( "GLOBALLY_UNIQUE" ) &&
+    if( ( special.has_flag( "GLOBALLY_UNIQUE" ) || special.has_flag( "OVERMAP_UNIQUE" ) ) &&
         overmap_buffer.contains_unique_special( special.id ) ) {
         return false;
     }
@@ -7163,7 +7169,7 @@ std::vector<tripoint_om_omt> overmap::place_special(
         //       point_abs_omt location = coords::project_to<coords::omt>(this->pos()) + p.xy().raw();
         //        DebugLog(DL_ALL, DC_ALL) << "Globally Unique " << special.id.c_str() << " added at " << location.to_string_writable();
     } else if( special.has_flag( "OVERMAP_UNIQUE" ) ) {
-        overmap_buffer.log_unique_special( special.id );
+        overmap_buffer.add_overmap_unique_special( special.id );
     }
     // CITY_UNIQUE is handled in place_building()
 
@@ -7348,7 +7354,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
                               constraints.occurrences.min;
             const float max = std::max( overmap_count > 0 ? constraints.occurrences.max / overmap_count :
                                         constraints.occurrences.max, min );
-            if( x_in_y( min, max ) && ( !globally_unique || !overmap_buffer.contains_unique_special( id ) ) ) {
+            if( x_in_y( min, max ) && ( !overmap_buffer.contains_unique_special( id ) ) ) {
                 // Min and max are overloaded to be the chance of occurrence,
                 // so reset instances placed to one short of max so we don't place several.
                 iter->instances_placed = constraints.occurrences.max - 1;
