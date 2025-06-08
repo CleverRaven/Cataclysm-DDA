@@ -157,7 +157,6 @@
     "entries": [
       { "item": "spear_knife", "prob": 50 },
       { "item": "spear_steel", "prob": 10 },
-      { "item": "spear_forked", "prob": 10 },
       { "item": "spear_rebar", "prob": 5 }
     ]
   },
