@@ -524,7 +524,7 @@ void overmap::unserialize( const JsonObject &jsobj )
                 optional( river_json, false, "control1", control_1, point_om_omt::invalid );
                 optional( river_json, false, "control2", control_2, point_om_omt::invalid );
                 mandatory( river_json, false, "size", size );
-                rivers.push_back( overmap_river_node{ start_point, end_point, control_1, control_2, size } );
+                rivers.push_back( overmap_river_node{ start_point, end_point, control_1, control_2, static_cast<size_t>( size ) } );
             }
         } else if( name == "connections_out" ) {
             om_member.read( connections_out );
