@@ -8,7 +8,7 @@ static const damage_type_id damage_heat( "heat" );
 static const itype_id itype_test_copyfrom_base( "test_copyfrom_base" );
 static const itype_id itype_test_copyfrom_overwrite( "test_copyfrom_overwrite" );
 
-TEST_CASE( "damage_instance load does not extend", "[json][damage][load]" )
+TEST_CASE( "damage_instance_load_does_not_extend", "[json][damage][load]" )
 {
     REQUIRE( itype_test_copyfrom_base.is_valid() );
     REQUIRE( itype_test_copyfrom_overwrite.is_valid() );
