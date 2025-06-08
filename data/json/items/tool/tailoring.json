@@ -15,6 +15,7 @@
     "color": "yellow",
     "qualities": [ [ "LEATHER_AWL", 1 ] ],
     "flags": [ "BELT_CLIP", "FRAGILE_MELEE" ],
+    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "bash": 2, "stab": 5 }
   },
   {
@@ -30,7 +31,7 @@
     "price_postapoc": "1 USD",
     "material": [ "steel", "wood" ],
     "qualities": [ [ "LEATHER_AWL", 2 ] ],
-    "melee_damage": { "bash": 2, "cut": 10 }
+    "melee_damage": { "bash": 2, "stab": 10 }
   },
   {
     "id": "knitting_needles",
@@ -106,6 +107,9 @@
       "move_cost": 1300
     },
     "flags": [ "ALLOWS_REMOTE_USE" ],
+    "weapon_category": [ "SHIVS" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "bash": 2, "stab": 10 },
     "tool_ammo": [ "thread" ]
   },
   {
@@ -134,6 +138,9 @@
       "cost_scaling": 0.1,
       "move_cost": 1200
     },
+    "weapon_category": [ "SHIVS" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "clumsy" },
+    "melee_damage": { "bash": 2, "stab": 10 },
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "tool_ammo": [ "thread" ]
   },
@@ -164,6 +171,9 @@
       "move_cost": 1500
     },
     "flags": [ "ALLOWS_REMOTE_USE" ],
+    "weapon_category": [ "SHIVS" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "bash": 2, "stab": 5 },
     "tool_ammo": [ "thread" ]
   },
   {
@@ -207,6 +217,9 @@
       "move_cost": 1000
     },
     "flags": [ "ALLOWS_REMOTE_USE" ],
+    "weapon_category": [ "SHIVS" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "bash": 2, "stab": 10 },
     "tool_ammo": [ "thread" ]
   },
   {
@@ -347,7 +360,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ], [ "FABRIC_CUT", 2 ] ],
     "flags": [ "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
-    "melee_damage": { "stab": 10 }
+    "melee_damage": { "cut": 10 }
   },
   {
     "id": "electric_spinwheel",
