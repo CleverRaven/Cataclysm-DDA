@@ -1799,10 +1799,9 @@
           { "item": "knife_combat_army", "variant": "m9bayonet", "container-item": "sheath" },
           { "item": "shot_00", "count": 2 },
           {
-            "item": "mossberg_930",
-            "variant": "m1014",
+            "item": "m1014",
             "ammo-item": "shot_00",
-            "charges": 8,
+            "charges": 5,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
           }
         ]

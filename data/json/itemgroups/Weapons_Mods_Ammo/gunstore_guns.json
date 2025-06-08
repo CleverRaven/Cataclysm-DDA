@@ -1496,12 +1496,11 @@
         "distribution": [
           { "item": "benelli_sa", "variant": "m2", "prob": 45 },
           { "item": "benelli_sa", "variant": "sbe", "prob": 65 },
-          { "item": "remington_870", "variant": "remington_1100", "prob": 85 },
-          { "item": "remington_870", "variant": "browning_a5", "prob": 100 },
-          { "item": "benelli_tsa", "variant": "m2_tac", "prob": 24 },
-          { "item": "mossberg_590", "variant": "slp", "prob": 1 },
-          { "item": "mossberg_930", "variant": "mossberg_930", "prob": 31 },
-          { "item": "mossberg_930", "variant": "m1014", "prob": 11 },
+          { "item": "remington_1100", "prob": 85 },
+          { "item": "browning_a5", "prob": 100 },
+          { "item": "benelli_tsa", "prob": 24 },
+          { "item": "mossberg_930", "prob": 31 },
+          { "item": "m1014", "prob": 11 },
           { "item": "tavor_12", "prob": 53 }
         ]
       }
@@ -1547,12 +1546,11 @@
       {
         "distribution": [
           { "item": "mossberg_500", "prob": 100 },
-          { "item": "benelli_tsa", "variant": "mossberg_500_security", "prob": 10 },
           { "item": "winchester_1897", "prob": 17 },
           { "item": "remington_870_express", "prob": 43 },
-          { "item": "remington_870", "variant": "remington_870", "prob": 49 },
-          { "item": "remington_870", "variant": "ithaca37", "prob": 28 },
-          { "item": "mossberg_590", "variant": "mossberg_590", "prob": 170 },
+          { "item": "remington_870", "prob": 49 },
+          { "item": "ithaca37", "prob": 28 },
+          { "item": "mossberg_590", "prob": 170 },
           { "item": "ksg", "prob": 78 },
           { "item": "dp_12", "prob": 25 }
         ]

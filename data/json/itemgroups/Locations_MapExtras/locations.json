@@ -1441,7 +1441,7 @@
       { "item": "3006", "prob": 1, "charges": [ 1, 20 ] },
       { "item": "ksg", "prob": 1, "charges": [ 0, 7 ] },
       { "item": "remington_870_express", "prob": 1, "charges": [ 0, 7 ] },
-      { "item": "benelli_tsa", "variant": "mossberg_500_security", "prob": 1, "charges": [ 0, 6 ] },
+      { "item": "benelli_tsa", "prob": 1, "charges": [ 0, 6 ] },
       { "item": "shot_beanbag", "prob": 25, "charges": [ 1, 10 ] },
       { "item": "gasbomb", "count": [ 1, 6 ], "prob": 20 },
       { "item": "m79", "prob": 8, "charges": 0 },
