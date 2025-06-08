@@ -8854,7 +8854,6 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
 
 void butchery_activity_actor::calculate_butchery_data( Character &you, butchery_data &this_bd )
 {
-   
     item_location &target = this_bd.corpse;
     item &corpse_item = *target;
     const mtype &corpse = *target.get_item()->get_mtype();

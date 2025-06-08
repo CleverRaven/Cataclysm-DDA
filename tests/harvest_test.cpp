@@ -12,12 +12,9 @@
 #include "map_scale_constants.h"
 #include "map_selector.h"
 #include "monster.h"
-#include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
-
-static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 
 static const item_group_id
 Item_spawn_data_cattle_sample_single( "cattle_sample_single" );
@@ -33,7 +30,7 @@ static const skill_id skill_survival( "survival" );
 static const int max_iters = 1000;
 static constexpr tripoint_bub_ms mon_pos( HALF_MAPSIZE_X - 1, HALF_MAPSIZE_Y, 0 );
 
-static void butcher_mon( const mtype_id &monid, const activity_id &actid, int *cbm_count,
+static void butcher_mon( const mtype_id &monid, butcher_type butchery_type, int *cbm_count,
                          int *sample_count, int *other_count )
 {
     item scalpel( itype_scalpel );
@@ -51,7 +48,7 @@ static void butcher_mon( const mtype_id &monid, const activity_id &actid, int *c
         u.move_to( cow.pos_abs() );
 
         item_location loc = item_location( map_cursor( u.pos_abs() ), &*here.i_at( cow_loc ).begin() );
-        butchery_data bd( loc, butcher_type::DISSECT ); // todo smart way to pass butcher_type here
+        butchery_data bd( loc, butchery_type );
         butchery_activity_actor act( bd );
         act.calculate_butchery_data( u, bd );
         destroy_the_carcass( bd, u );
@@ -76,7 +73,7 @@ TEST_CASE( "Harvest_drops_from_dissecting_corpse", "[harvest]" )
         int sample_count = 0;
         int cbm_count = 0;
         int other_count = 0;
-        butcher_mon( mon_test_bovine, ACT_DISSECT, &cbm_count, &sample_count, &other_count );
+        butcher_mon( mon_test_bovine, butcher_type::DISSECT, &cbm_count, &sample_count, &other_count );
         CHECK( other_count > 0 );
         CHECK( cbm_count == 0 );
         CHECK( sample_count > 0 );
@@ -86,7 +83,7 @@ TEST_CASE( "Harvest_drops_from_dissecting_corpse", "[harvest]" )
         int sample_count = 0;
         int cbm_count = 0;
         int other_count = 0;
-        butcher_mon( mon_test_CBM, ACT_DISSECT, &cbm_count, &sample_count, &other_count );
+        butcher_mon( mon_test_CBM, butcher_type::DISSECT, &cbm_count, &sample_count, &other_count );
         CHECK( other_count > 0 );
         CHECK( cbm_count > 0 );
         CHECK( sample_count == 0 );
