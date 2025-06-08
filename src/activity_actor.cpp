@@ -8852,10 +8852,9 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
-bool butchery_activity_actor::calculate_butchery_data( player_activity &act, Character &you,
-        butchery_data &this_bd )
+void butchery_activity_actor::calculate_butchery_data( Character &you, butchery_data &this_bd )
 {
-    map *here = &get_map();
+   
     item_location &target = this_bd.corpse;
     item &corpse_item = *target;
     const mtype &corpse = *target.get_item()->get_mtype();
@@ -8871,7 +8870,17 @@ bool butchery_activity_actor::calculate_butchery_data( player_activity &act, Cha
     this_bd.progress = time_duration::from_seconds(
                            corpse_item.get_var( butcher_progress_var( this_bd.b_type ), 0 ) * this_bd.time_to_butcher );
 
-    corpse_item.spill_contents( *&here, target.pos_bub( *here ) );
+}
+
+bool butchery_activity_actor::initiate_butchery( player_activity &act, Character &you,
+        butchery_data &this_bd )
+{
+    calculate_butchery_data( you, this_bd );
+
+    map *here = &get_map();
+
+    // spend time to actually strip the corpse?
+    this_bd.corpse->spill_contents( *&here, this_bd.corpse.pos_bub( *here ) );
 
     if( !set_up_butchery( act, you, this_bd ) ) {
         return false;
@@ -8931,7 +8940,7 @@ void butchery_activity_actor::do_turn( player_activity &act, Character &you )
     butchery_data *this_bd = &bd.back();
 
     if( this_bd->progress == 0_seconds ) {
-        if( !calculate_butchery_data( act, you, *this_bd ) ) {
+        if( !initiate_butchery( act, you, *this_bd ) ) {
             bd.pop_back();
             if( bd.empty() ) {
                 act.moves_left = 0;

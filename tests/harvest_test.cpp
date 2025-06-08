@@ -1,5 +1,6 @@
 #include <string>
 
+#include "activity_actor_definitions.h"
 #include "butchery.h"
 #include "cata_catch.h"
 #include "character.h"
@@ -48,12 +49,12 @@ static void butcher_mon( const mtype_id &monid, const activity_id &actid, int *c
         const tripoint_bub_ms cow_loc = cow.pos_bub();
         cow.die( &here, nullptr );
         u.move_to( cow.pos_abs() );
-        player_activity act( actid, 0, true );
+
         item_location loc = item_location( map_cursor( u.pos_abs() ), &*here.i_at( cow_loc ).begin() );
         butchery_data bd( loc, butcher_type::DISSECT ); // todo smart way to pass butcher_type here
-        if( set_up_butchery( act, u, bd ) ) {
-            destroy_the_carcass( bd, u );
-        }
+        butchery_activity_actor act( bd );
+        act.calculate_butchery_data( u, bd );
+        destroy_the_carcass( bd, u );
         for( const item &it : here.i_at( cow_loc ) ) {
             if( it.is_bionic() ) {
                 ( *cbm_count )++;

@@ -2489,8 +2489,10 @@ class butchery_activity_actor : public activity_actor
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
+        // store said data in this_bd
+        void calculate_butchery_data( Character &you, butchery_data &this_bd );
         // return false if preparation failed for some reason
-        bool calculate_butchery_data( player_activity &act, Character &you, butchery_data &this_bd );
+        bool initiate_butchery( player_activity &act, Character &you, butchery_data &this_bd );
 
     private:
         // list of butcheries we want to perform in this activity
