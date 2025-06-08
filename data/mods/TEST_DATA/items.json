@@ -5423,6 +5423,27 @@
     "ememory_size": "1 MB"
   },
   {
+    "id": "test_copyfrom_base",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "base" },
+    "description": "copy-from base item",
+    "symbol": "!",
+    "color": "white",
+    "flags": [ "NO_TURRET" ],
+    "volume": "1 L",
+    "weight": "1 kg",
+    "skill": "pistol",
+    "ranged_damage": { "damage_type": "heat", "amount": 3 }
+  },
+  {
+    "id": "test_copyfrom_overwrite",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "copy-from": "test_copyfrom_base",
+    "ranged_damage": { "damage_type": "cut", "amount": 5 }
+  },
+  {
     "id": "carver_off_test",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
