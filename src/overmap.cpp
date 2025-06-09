@@ -7739,7 +7739,8 @@ void overmap::place_radios()
 
 void overmap::open( overmap_special_batch &enabled_specials )
 {
-    const cata_path terfilename = overmapbuffer::terrain_filename( loc );
+    const cata_path terfilename = PATH_INFO::world_base_save_path() / overmapbuffer::terrain_filename(
+                                      loc );
 
     if( read_from_file_optional( terfilename, [this, &terfilename]( std::istream & is ) {
     unserialize( terfilename, is );
@@ -7765,7 +7766,8 @@ void overmap::save() const
         serialize_view( stream );
     } );
 
-    write_to_file( overmapbuffer::terrain_filename( loc ), [&]( std::ostream & stream ) {
+    write_to_file( PATH_INFO::world_base_save_path() / overmapbuffer::terrain_filename( loc ), [&](
+    std::ostream & stream ) {
         serialize( stream );
     } );
 }
