@@ -306,7 +306,7 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "cancels": [ "STRONGER_RESISTCHILL", "STRONGER_RESISTWARM", "STRONGER_VULNERABLEWARM", "STRONGER_VULNERABLECHILL" ],
+    "cancels": [ "STRONGER_RESISTCHILL", "STRONGER_RESISTWARM", "STRONGER_VULNERABLEWARM", "STRONGER_VULNERABLECHILL", "VULNERABLECHILL", "VULNERABLEWARM" ],
     "description": "Your temperature tolerance is more or less normal for a human."
   },
   {
