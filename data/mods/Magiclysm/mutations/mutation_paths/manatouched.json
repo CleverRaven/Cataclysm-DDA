@@ -112,10 +112,22 @@
     "id": "MANA_LUM",
     "name": { "str": "Mana Luminance" },
     "points": 0,
+    "mixed_effect": true,
     "bodytemp_modifiers": [ 100, 100 ],
-    "description": "Your body discards unusable mana as light and heat, making you glow softly.",
+    "description": "The constant thrum of mana makes your ley lines visibly glow beneath your skin, shedding a small amount of light.  However, it also makes you slightly warmer.",
     "category": [ "MANATOUCHED" ],
-    "lumination": [ [ "torso", 8 ] ]
+    "lumination": [ [ "torso", 3 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "MANA_LUM_EXTERNAL",
+    "name": { "str": "Eerie Glow" },
+    "points": -3,
+    "description": "Your mana sometimes swirls off your leylines and excites the air, creating a eldritch glow around you, occasionally happening when you cast or a spell or when your mana is high enough.  All you can do when it happens is wait for it to subside.",
+    "prereqs": [ "MANA_LUM" ],
+    "prereqs2": [ "MANA_SIPHON_1", "MANA_SIPHON_2", "MANA_SIPHON_3" ],
+    "category": [ "MANATOUCHED" ],
+    "threshreq": [ "THRESH_MANA" ]
   },
   {
     "type": "mutation",
@@ -130,12 +142,6 @@
     "type": "mutation",
     "id": "ALBINO",
     "copy-from": "ALBINO",
-    "extend": { "category": [ "MANATOUCHED" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "BIOLUM0",
-    "copy-from": "BIOLUM0",
     "extend": { "category": [ "MANATOUCHED" ] }
   },
   {

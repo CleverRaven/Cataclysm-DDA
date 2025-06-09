@@ -1934,6 +1934,17 @@
     ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_manatouched_external_mana_luminance",
+    "name": [ "Eerie Glow" ],
+    "desc": [ "The air around you shimmers in a multitude of colors." ],
+    "enchantments": [
+      {
+        "values": [ { "value": "LUMINATION", "add": { "math": [ "min( (u_sum_traits_of_category_char_has('MANATOUCHED') * 3), 50)" ] } } ]
+      }
+    ]
+  },
+  {
     "id": "effect_dispel_magic",
     "type": "effect_type",
     "name": [ "Dispel Magic" ],
