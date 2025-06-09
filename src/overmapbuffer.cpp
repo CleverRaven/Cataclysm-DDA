@@ -1257,11 +1257,14 @@ tripoint_abs_omt overmapbuffer::find_existing_globally_unique( const tripoint_ab
     for( point_abs_om om : closest_points_first( center.xy(), 0, 100 ) ) {
         if( has( om ) ) {
             overmap &om_data = get( om );
+            point_abs_omt om_base = coords::project_to<coords::omt>(om);
 
-            for( auto element : om_data.overmap_special_placements ) {
+            for( auto &element : om_data.overmap_special_placements ) {
                 if( element.second == special_id ) {
-                    tripoint_om_omt local = element.first;
-                    return coords::project_to<coords::omt>( om ) + local.raw();
+                    const tripoint_abs_omt loc = om_base + element.first.raw();
+                    if (is_findable_location(loc, params)) {
+                        return loc;
+                    }
                 }
             }
         }
