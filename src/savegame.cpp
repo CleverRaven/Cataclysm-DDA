@@ -81,19 +81,18 @@ int savegame_loading_version = savegame_version;
 /*
  * Save to opened character.sav
  */
-void game::serialize( std::ostream &fout )
+void game::serialize_json( std::ostream &fout )
 {
     /*
      * Format version 12: Fully json, save the header. Weather and memorial exist elsewhere.
      * To prevent (or encourage) confusion, there is no version 8. (cata 0.8 uses v7)
      */
     // Header
-    fout << "# version " << savegame_version << std::endl;
-
     JsonOut json( fout, true ); // pretty-print
 
     json.start_object();
     // basic game state information.
+    json.member( "savegame_loading_version", savegame_version );
     json.member( "turn", calendar::turn );
     json.member( "calendar_start", calendar::start_of_cataclysm );
     json.member( "game_start", calendar::start_of_game );
@@ -203,92 +202,112 @@ static size_t chkversion( std::istream &fin )
 /*
  * Parse an open .sav file.
  */
+
 void game::unserialize( std::istream &fin, const cata_path &path )
 {
-    size_t json_file_offset = chkversion( fin );
+    try {
+        size_t json_file_offset = chkversion( fin );
+        JsonObject data = json_loader::from_path_at_offset( path, json_file_offset );
+        if( data.has_member( "savegame_loading_version" ) ) {
+            data.read( "savegame_loading_version", savegame_loading_version );
+        }
+        unserialize_impl( data );
+    } catch( const JsonError &jsonerr ) {
+        debugmsg( "Bad save json\n%s", jsonerr.c_str() );
+        return;
+    }
+}
+
+void game::unserialize( std::string fin )
+{
+    try {
+        JsonObject data = json_loader::from_string( std::move( fin ) );
+        savegame_loading_version = data.get_int( "savegame_loading_version" );
+        unserialize_impl( data );
+    } catch( const JsonError &jsonerr ) {
+        debugmsg( "Bad save json\n%s", jsonerr.c_str() );
+        return;
+    }
+}
+
+void game::unserialize_impl( const JsonObject &data )
+{
     int tmpturn = 0;
     int tmpcalstart = 0;
     int tmprun = 0;
     tripoint_om_sm lev;
     point_abs_om com;
-    JsonValue jsin = json_loader::from_path_at_offset( path, json_file_offset );
-    try {
-        JsonObject data = jsin.get_object();
 
-        data.read( "turn", tmpturn );
-        data.read( "calendar_start", tmpcalstart );
-        calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
-                                   static_cast<int>( SPRING ) ) );
+    data.read( "turn", tmpturn );
+    data.read( "calendar_start", tmpcalstart );
+    calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
+                               static_cast<int>( SPRING ) ) );
 
-        data.read( "auto_travel_mode", auto_travel_mode );
-        data.read( "run_mode", tmprun );
-        data.read( "mostseen", mostseen );
-        data.read( "levx", lev.x() );
-        data.read( "levy", lev.y() );
-        data.read( "levz", lev.z() );
-        data.read( "om_x", com.x() );
-        data.read( "om_y", com.y() );
+    data.read( "auto_travel_mode", auto_travel_mode );
+    data.read( "run_mode", tmprun );
+    data.read( "mostseen", mostseen );
+    data.read( "levx", lev.x() );
+    data.read( "levy", lev.y() );
+    data.read( "levz", lev.z() );
+    data.read( "om_x", com.x() );
+    data.read( "om_y", com.y() );
 
-        data.read( "view_offset_x", u.view_offset.x() );
-        data.read( "view_offset_y", u.view_offset.y() );
-        data.read( "view_offset_z", u.view_offset.z() );
+    data.read( "view_offset_x", u.view_offset.x() );
+    data.read( "view_offset_y", u.view_offset.y() );
+    data.read( "view_offset_z", u.view_offset.z() );
 
-        calendar::turn = time_point( tmpturn );
-        calendar::start_of_cataclysm = time_point( tmpcalstart );
+    calendar::turn = time_point( tmpturn );
+    calendar::start_of_cataclysm = time_point( tmpcalstart );
 
-        if( !data.read( "game_start", calendar::start_of_game ) ) {
-            calendar::start_of_game = calendar::start_of_cataclysm;
-        }
-
-        load_map( project_combine( com, lev ), /*pump_events=*/true );
-
-        safe_mode = static_cast<safe_mode_type>( tmprun );
-        if( get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF ) {
-            safe_mode = SAFE_MODE_ON;
-        }
-
-        std::string linebuff;
-        std::string linebuf;
-        if( data.read( "grscent", linebuf ) && data.read( "typescent", linebuff ) ) {
-            scent.deserialize( linebuf );
-            scent.deserialize( linebuff, true );
-        } else {
-            scent.reset();
-        }
-        data.read( "active_monsters", *critter_tracker );
-
-        data.has_null( "stair_monsters" ); // TEMPORARY until 0.G
-        data.has_null( "monstairz" ); // TEMPORARY until 0.G
-
-        data.read( "driving_view_offset", driving_view_offset );
-        data.read( "turnssincelastmon", turnssincelastmon );
-        data.read( "bVMonsterLookFire", bVMonsterLookFire );
-
-        data.read( "kill_tracker", *kill_tracker_ptr );
-
-        data.read( "player", u );
-        data.read( "inactive_global_effect_on_condition_vector",
-                   inactive_global_effect_on_condition_vector );
-        //load queued_eocs
-        for( JsonObject elem : data.get_array( "queued_global_effect_on_conditions" ) ) {
-            queued_eoc temp;
-            temp.time = time_point( elem.get_int( "time" ) );
-            temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-            elem.read( "context", temp.context );
-            queued_global_effect_on_conditions.push( temp );
-        }
-        global_variables_instance.unserialize( data );
-        data.read( "unique_npcs", unique_npcs );
-        inp_mngr.pump_events();
-        data.read( "stats_tracker", *stats_tracker_ptr );
-        data.read( "achievements_tracker", *achievements_tracker_ptr );
-        inp_mngr.pump_events();
-        Messages::deserialize( data );
-
-    } catch( const JsonError &jsonerr ) {
-        debugmsg( "Bad save json\n%s", jsonerr.c_str() );
-        return;
+    if( !data.read( "game_start", calendar::start_of_game ) ) {
+        calendar::start_of_game = calendar::start_of_cataclysm;
     }
+
+    load_map( project_combine( com, lev ), /*pump_events=*/true );
+
+    safe_mode = static_cast<safe_mode_type>( tmprun );
+    if( get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF ) {
+        safe_mode = SAFE_MODE_ON;
+    }
+
+    std::string linebuff;
+    std::string linebuf;
+    if( data.read( "grscent", linebuf ) && data.read( "typescent", linebuff ) ) {
+        scent.deserialize( linebuf );
+        scent.deserialize( linebuff, true );
+    } else {
+        scent.reset();
+    }
+    data.read( "active_monsters", *critter_tracker );
+
+    data.has_null( "stair_monsters" ); // TEMPORARY until 0.G
+    data.has_null( "monstairz" ); // TEMPORARY until 0.G
+
+    data.read( "driving_view_offset", driving_view_offset );
+    data.read( "turnssincelastmon", turnssincelastmon );
+    data.read( "bVMonsterLookFire", bVMonsterLookFire );
+
+    data.read( "kill_tracker", *kill_tracker_ptr );
+
+    data.read( "player", u );
+    data.read( "inactive_global_effect_on_condition_vector",
+               inactive_global_effect_on_condition_vector );
+    //load queued_eocs
+    for( JsonObject elem : data.get_array( "queued_global_effect_on_conditions" ) ) {
+        queued_eoc temp;
+        temp.time = time_point( elem.get_int( "time" ) );
+        temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
+        elem.read( "context", temp.context );
+        queued_global_effect_on_conditions.push( temp );
+    }
+    global_variables_instance.unserialize( data );
+    data.read( "unique_npcs", unique_npcs );
+    inp_mngr.pump_events();
+    data.read( "stats_tracker", *stats_tracker_ptr );
+    data.read( "achievements_tracker", *achievements_tracker_ptr );
+    inp_mngr.pump_events();
+    Messages::deserialize( data );
+
 }
 
 void scent_map::deserialize( const std::string &data, bool is_type )
@@ -1587,7 +1606,7 @@ void weather_manager::unserialize_all( const JsonObject &w )
     }
 }
 
-void global_variables::unserialize( JsonObject &jo )
+void global_variables::unserialize( const JsonObject &jo )
 {
     // global variables
     jo.read( "global_vals", global_values );

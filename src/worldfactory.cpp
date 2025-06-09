@@ -2160,6 +2160,59 @@ bool WORLD::set_compression_enabled( bool enabled ) const
                                        character_map_memory_files.end() );
             }
         }
+        {
+            std::vector<cata_path> saves;
+            size_t done = 0;
+            std::error_code ec;
+            saves = get_files_from_path( ".sav", world_folder_path );
+            for( const cata_path &save : saves ) {
+                popup.message( _( "Compressing main save files [%d/%d]" ), done++, saves.size() );
+                ui_manager::redraw();
+                refresh_display();
+                inp_mngr.pump_events();
+
+                // Each save gets put into its own zzip indexed by its own file name.
+                std::filesystem::path save_file_path = save.get_unrelative_path();
+                std::filesystem::path save_file_name = save_file_path.filename();
+
+                // But first, we have to do some surgery.
+                // Current the first line of a save file is a hokey line like
+                // # version <number>
+                // This is outdated from a time when the file had to be loaded linearly
+                // in text. We now parse to a binary format and can random access anything
+                // in constant time. The new format encodes the version as a regular json
+                // member. The compressed save load path requires that. So first we test if
+                // the first line is this format and we insert it manually textually if it is.
+                std::string savefile_contents = read_entire_file( save_file_path );
+                if( savefile_contents.empty() ) {
+                    // Eh just skip it.
+                    continue;
+                }
+                if( savefile_contents[0] == '#' ) {
+                    // Parse the version header.
+                    std::string temp_savefile_contents = std::move( savefile_contents );
+                    savefile_contents.clear();
+                    size_t newline = temp_savefile_contents.find( '\n' );
+                    size_t char_after_open_brace = temp_savefile_contents.find_first_not_of( '{', newline + 1 );
+                    std::string_view header{ temp_savefile_contents.data(), newline };
+                    std::string_view savefile_json{ temp_savefile_contents.data() + char_after_open_brace, temp_savefile_contents.size() - char_after_open_brace };
+                    int temp_savefile_version = std::strtol( header.data() + header.find_last_of( ' ' ), nullptr, 10 );
+                    savefile_contents.reserve( savefile_json.size() + 32 ); // 30 for text and 2 for digits.
+                    savefile_contents.append( "{\"savegame_loading_version\":" );
+                    savefile_contents.append( std::to_string( temp_savefile_version ) );
+                    savefile_contents.append( ",\n" );
+                    savefile_contents.append( savefile_json );
+                };
+
+                std::shared_ptr save_zzip = zzip::load( ( world_folder_path / save_file_name +
+                                                        ".zzip" ).get_unrelative_path() );
+                if( !save_zzip ) {
+                    return false;
+                }
+                save_zzip->add_file( save_file_name, savefile_contents );
+                files_to_clean.push_back( save );
+            }
+        }
         copy_file( maps_dict, folder_path() / "maps.dict" );
         copy_file( overmaps_dict, folder_path() / "overmaps.dict" );
         copy_file( mmr_dict, folder_path() / "mmr.dict" );
@@ -2192,7 +2245,9 @@ bool WORLD::set_compression_enabled( bool enabled ) const
         std::vector<cata_path> overmap_zzips = get_files_from_path( "zzip", folder_path() / "overmaps",
                                                false, true );
         std::vector<cata_path> character_map_memory_folders = get_files_from_path( ".mm1",
-                folder_path(), false, true );
+                world_folder_path, false, true );
+        std::vector<cata_path> save_zzips = get_files_from_path( ".sav.zzip", world_folder_path,
+                                            false, true );
 
         zzips_to_clean.reserve( maps_zzips.size() + overmap_zzips.size() +
                                 character_map_memory_folders.size() * 3 );
@@ -2260,6 +2315,23 @@ bool WORLD::set_compression_enabled( bool enabled ) const
             }
             zzips_to_clean.insert( zzips_to_clean.end(), character_map_memory_zzips.begin(),
                                    character_map_memory_zzips.end() );
+        }
+        {
+            size_t done = 0;
+            std::filesystem::path dest_folder_name = world_folder_path.get_unrelative_path();
+            for( cata_path &save_zzip : save_zzips ) {
+
+                popup.message( _( "Decompressing main save files [%d/%d]" ), done++, overmap_zzips.size() );
+                ui_manager::redraw();
+                refresh_display();
+                inp_mngr.pump_events();
+
+                std::filesystem::path zzip_path = save_zzip.get_unrelative_path();
+                if( !zzip::extract_to_folder( zzip_path, dest_folder_name ) ) {
+                    return false;
+                }
+                zzips_to_clean.push_back( std::move( save_zzip ) );
+            }
         }
         remove_file( maps_dict );
         remove_file( overmaps_dict );
