@@ -197,6 +197,11 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     find_params.cant_see = params.cant_see;
     find_params.existing_only = true;
 
+    if( overmap_buffer.contains_unique_special( static_cast<overmap_special_id>(
+                ( *params.overmap_special ).evaluate( d ) ) ) ) {
+        return overmap_buffer.find_existing_globally_unique( origin_pos, find_params );
+    }
+
     auto get_target_position = [&]() {
         // Either find a random or closest match, based on the criteria.
         if( params.random ) {
