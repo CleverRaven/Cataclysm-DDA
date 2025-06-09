@@ -212,6 +212,12 @@ std::unique_ptr<mmap_file> mmap_file::map_file_generic(
     if( !mapped_file->pimpl->map_view() && !writeable ) {
         return nullptr;
     }
+#ifndef _WIN32
+    if( !writeable ) {
+        close( mapped_file->pimpl->file );
+        mapped_file->pimpl->file = -1;
+    }
+#endif
     return mapped_file;
 }
 
