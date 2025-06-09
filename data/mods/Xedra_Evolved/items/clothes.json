@@ -38,6 +38,12 @@
         "name": { "str": "τ jumpsuit" },
         "description": "A black jumpsuit with white symbol \"τ\" on the back.",
         "weight": 1
+      },
+      {
+        "id": "xedra_jumpsuit_psi",
+        "name": { "str": "Ψ jumpsuit" },
+        "description": "A black jumpsuit with white symbol \"Ψ\" on the back.",
+        "weight": 1
       }
     ]
   },
