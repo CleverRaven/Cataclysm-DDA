@@ -661,11 +661,6 @@ faction *basecamp::fac() const
     return g->faction_manager_ptr->get( owner );
 }
 
-static std::string wrap60( const std::string &text )
-{
-    return string_join( foldstring( text, 60 ), "\n" );
-}
-
 recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation> &pos_options,
         const std::string &option )
 {
@@ -5895,7 +5890,7 @@ static void add_consumed_nutrients( std::map<time_point, nutrients> &into, time_
     if( !ret.second ) {
         ret.first->second += nutr;
     }
-};
+}
 
 // returns success if the item should be removed
 // Checks the contents of the item for nutrients, and removes ones with nutrients
@@ -5933,7 +5928,7 @@ static ret_val<std::map<time_point, nutrients>> nutrients_from( item &it, item *
     }
     add_consumed_nutrients( consumed, rot_time( it, container ), *from_this );
     return ret_val<std::map<time_point, nutrients>>::make_success( consumed );
-};
+}
 
 // mission support
 bool basecamp::distribute_food( bool player_command )
@@ -6137,6 +6132,12 @@ nutrients faction_template::consume_food_supply( const nutrients &consumed )
             continue;
         }
         it->second = consume_left_behind( to_supply, it->second );
+        // remove consumed entries
+        if( it->second.calories == 0 && it->second.vitamins().empty() ) {
+            it = _food_supply.erase( it );
+        } else {
+            ++it;
+        }
         if( to_supply.calories == 0 && to_supply.vitamins().empty() ) {
             break;
         }

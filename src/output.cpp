@@ -3440,3 +3440,8 @@ void wprintz( const catacurses::window &w, const nc_color &FG, const std::string
     wprintw( w, text );
     wattroff( w, FG );
 }
+
+std::string wrap60( const std::string &text )
+{
+    return string_join( foldstring( text, 60 ), "\n" );
+}

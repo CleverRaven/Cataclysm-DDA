@@ -1039,6 +1039,7 @@
     "id": "hoodie_cropped",
     "copy-from": "hoodie",
     "delete": { "flags": [ "POCKETS" ] },
+    "pocket_data": [  ],
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "cropped hoodie" },
