@@ -14,5 +14,31 @@
     ],
     "description": "Cut damage multiply by 2, crit only",
     "attack_vectors": [ "vector_null" ]
+  },
+  {
+    "type": "technique",
+    "id": "VIKTORHAND_MANATOUCHED_BLAST",
+    "name": "magichand manablast",
+    "//": "supposed to simulate a chaser attack. You attack, and then your mana-hand pitches in another blast.",
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "reach_ok": true,
+    "crit_ok": true,
+    "weighting": 5,
+    "eocs": [
+      {
+        "id": "tec_VITKORHAND_MANATOUCHED_BLAST",
+        "effect": [
+          { "math": [ "_damagetracker = u_val('mana')/500 + u_skill('spellcraft')" ] },
+          {
+            "u_message": "Your appendage blasts the <npc_name> for <context_val:damagetracker> damage!",
+            "type": "good"
+          },
+          { "npc_message": "<npc_name>'s appendage blasts the %s!", "type": "good" },
+          { "npc_deal_damage": "pure", "amount": { "math": [ "(u_val('mana')/500)+u_skill('spellcraft')" ] } }
+        ]
+      }
+    ],
+    "attack_vectors": [ "vector_wrist" ]
   }
 ]

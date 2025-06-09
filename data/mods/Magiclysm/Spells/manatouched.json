@@ -45,5 +45,26 @@
     "sound_description": "a zing",
     "flags": [ "CHANNELING_SPELL", "RANDOM_DAMAGE", "RANDOM_TARGET", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "extra_effects": [ { "id": "magic_missile" }, { "id": "magic_missile" }, { "id": "magic_missile" }, { "id": "magic_missile" } ]
+  },
+  {
+    "id": "viktorhand_manatouched_deathray",
+    "type": "SPELL",
+    "name": "Death Ray",
+    "effect": "attack",
+    "shape": "line",
+    "description": "An orb of mana concentrates within your grasping appendage before rupturing in a line to ravage your enemies.",
+    "valid_targets": [ "hostile", "ground" ],
+    "energy_source": "MANA",
+    "base_energy_cost": "1000",
+    "damage_type": "nether",
+    "max_level": 0,
+    "min_damage": 80,
+    "max_damage": 80,
+    "min_range": 15,
+    "max_range": 15,
+    "min_bash_scaling": 2,
+    "max_bash_scaling": 2,
+    "base_casting_time": 200,
+    "flags": [ "IGNORES_WALLS", "NO_FAIL" ]
   }
 ]
