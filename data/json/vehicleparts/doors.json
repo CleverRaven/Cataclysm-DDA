@@ -138,7 +138,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_lc_steel", 3 ] ] }
     },
-    "size": "200 L",
+    "size": "37500 ml",
     "extend": { "flags": [ "LOCKABLE_CARGO", "MULTISQUARE", "COVERED" ] },
     "type": "vehicle_part"
   },
@@ -176,7 +176,6 @@
       },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "8 m", "using": [ [ "repair_welding_lc_steel", 4 ] ] }
     },
-    "size": "100 L",
     "type": "vehicle_part"
   },
   {

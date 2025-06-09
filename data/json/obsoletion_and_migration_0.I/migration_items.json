@@ -1679,13 +1679,6 @@
     "replace": "cz75mag_16rd"
   },
   {
-    "id": "mossberg_500",
-    "type": "MIGRATION",
-    "from_variant": "mossberg_500_security",
-    "replace": "benelli_tsa",
-    "variant": "mossberg_500_security"
-  },
-  {
     "id": "bottle_suppressor",
     "type": "MIGRATION",
     "replace": "filter_suppressor"
@@ -2572,5 +2565,20 @@
     "type": "MIGRATION",
     "id": "exodii_ingot_steel",
     "replace": "exodii_ingot_lc_steel"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "clay_quern",
+    "replace": "rock_quern"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bowling_axe",
+    "replace": "hatchet"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "spear_forked",
+    "replace": "spear_spike"
   }
 ]

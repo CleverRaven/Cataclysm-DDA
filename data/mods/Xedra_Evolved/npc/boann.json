@@ -273,7 +273,7 @@
           { "u_spawn_item": "helmet_verdant", "count": 1 },
           { "u_spawn_item": "armor_verdant_cuirass", "count": 1 },
           { "u_spawn_item": "gauntlets_verdant", "count": 1 },
-          { "u_spawn_item": "legguards_verdant", "count": 1 },
+          { "u_spawn_item": "leg_guards_verdant", "count": 1 },
           { "u_spawn_item": "boots_verdant", "count": 1 },
           { "u_spawn_item": "cloak_verdant", "count": 1 },
           { "math": [ "Boann_Quests_Completed++" ] },

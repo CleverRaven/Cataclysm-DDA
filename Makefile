@@ -104,12 +104,13 @@ WARNINGS = \
   -Wlogical-op \
   -Wmissing-declarations \
   -Wmissing-noreturn \
+  -Wpedantic \
+  -Wunused-macros
+CXX_WARNINGS = \
   -Wnon-virtual-dtor \
   -Wold-style-cast \
   -Woverloaded-virtual \
-  -Wpedantic \
   -Wsuggest-override \
-  -Wunused-macros \
   -Wzero-as-null-pointer-constant \
   -Wno-unknown-warning-option \
   -Wno-dangling-reference \
@@ -487,9 +488,11 @@ else
 endif
 
 ifeq ($(OS),Cygwin)
-  OTHERS += -std=gnu++17
+  CXX_STD = -std=gnu++17
+  C_STD = -std=gnu17
 else
-  OTHERS += -std=c++17
+  CXX_STD = -std=c++17
+  C_STD = -std=c17
 endif
 
 ifeq ($(CYGWIN),1)
@@ -528,6 +531,7 @@ endif
 CPPFLAGS += -Isrc -isystem ${SRC_DIR}/third-party
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS)
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
+DEFINES += -DZSTD_STATIC_LINKING_ONLY -DZSTD_DISABLE_ASM
 
 BINDIST_EXTRAS += README.md data doc LICENSE.txt LICENSE-OFL-Terminus-Font.txt VERSION.txt $(JSON_FORMATTER_BIN)
 BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz
@@ -927,6 +931,10 @@ ifeq ($(MSYS2),1)
   CXXFLAGS += -DMSYS2
 endif
 
+CFLAGS := $(CXXFLAGS)
+CFLAGS += $(C_STD)
+CXXFLAGS += $(CXX_STD) $(CXX_WARNINGS)
+
 # Enumerations of all the source files and headers.
 ifeq ($(HEADERPOPULARITY), 1)
   # Alternate source file enumeration sorted in order of how many times the matching header file is included in source files
@@ -935,6 +943,7 @@ else
   SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
 endif
 THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp)
+THIRD_PARTY_C_SOURCES := $(wildcard $(SRC_DIR)/third-party/zstd/common/*.c $(SRC_DIR)/third-party/zstd/compress/*.c $(SRC_DIR)/third-party/zstd/decompress/*.c)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
 OBJECT_CREATOR_SOURCES := $(wildcard $object_creator/*.cpp)
 OBJECT_CREATOR_HEADERS := $(wildcard $object_creator/*.h)
@@ -964,6 +973,7 @@ ASTYLE_SOURCES := $(sort \
 
 # Third party sources should not be astyle'd
 SOURCES += $(THIRD_PARTY_SOURCES)
+C_SOURCES += $(THIRD_PARTY_C_SOURCES)
 
 IMGUI_SOURCES = $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_stdlib.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
 ifeq ($(SDL), 1)
@@ -977,6 +987,7 @@ endif
 SOURCES += $(IMGUI_SOURCES)
 
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
+_OBJS += $(C_SOURCES:$(SRC_DIR)/%.c=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
   _OBJS += $(RSRC:$(SRC_DIR)/%.rc=%.o)
@@ -1092,17 +1103,20 @@ DIRS = $(sort $(dir $(OBJS)))
 $(shell mkdir -p $(DIRS))
 
 $(ODIR)/%.inc: $(SRC_DIR)/%.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -H -E $< -o /dev/null 2> $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -Wno-error -H -E $< -o /dev/null 2> $@
+
+$(ODIR)/%.inc: $(SRC_DIR)/%.c
+	$(CXX) -x c $(CPPFLAGS) $(DEFINES) $(CFLAGS) -Wno-error -H -E $< -o /dev/null 2> $@
 
 .PHONY: includes
 includes: $(OBJS:.o=.inc)
 	+make -C tests includes
 
-$(ODIR)/third-party/imgui/%.o: $(IMGUI_DIR)/%.cpp
+$(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.cpp
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -w -MMD -MP -c $< -o $@
 
-$(ODIR)/third-party/imtui/%.o: $(IMTUI_DIR)/%.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -w -MMD -MP -c $< -o $@
+$(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.c
+	$(CXX) -x c $(CPPFLAGS) $(DEFINES) $(CFLAGS) -w -MMD -MP -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(PCHFLAGS) -c $< -o $@
