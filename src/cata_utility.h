@@ -27,6 +27,7 @@ class JsonValue;
 class cata_path;
 class translation;
 class zzip;
+class zzip_stack;
 
 /**
  * Greater-than comparison operator; required by the sort interface
