@@ -6130,12 +6130,19 @@ nutrients faction_template::consume_food_supply( const nutrients &consumed )
         // whatever remains was not consumed
         return to_supply;
     }
-    for( auto it = _food_supply.begin(); it != _food_supply.end(); ++it ) {
+    for( auto it = _food_supply.begin(); it != _food_supply.end(); ) {
         // start by skipping the non-perishable food
         if( it == _food_supply.begin() ) {
+            ++it;
             continue;
         }
         it->second = consume_left_behind( to_supply, it->second );
+        // remove consumed entries
+        if( it->second.calories == 0 && it->second.vitamins().empty() ) {
+            it = _food_supply.erase( it );
+        } else {
+            ++it;
+        }
         if( to_supply.calories == 0 && to_supply.vitamins().empty() ) {
             break;
         }
