@@ -3,7 +3,7 @@
     "type": "profession",
     "id": "xe_psi_hunter",
     "name": "Mobile Task Force: Psi 7 \"Sleepwalkers\"",
-    "description": "As a member of Psi 7, your job was to take out the dangerous rogue psychics that popped up with increasing frequency as the strangeness in the world increased.  Even before the end of the world you had seen enough bizarre things to write a dozen books, but it nothing compares to what you've seen during the Cataclysm.",
+    "description": "As a member of Psi 7, your job was to take out the dangerous rogue psychics that popped up with increasing frequency as the strangeness in the world increased.  Even before the end of the world you had seen enough bizarre things to write a dozen books, but nothing compares to what you've seen during the Cataclysm.",
     "points": 7,
     "skills": [
       { "level": 4, "name": "gun" },
@@ -42,7 +42,8 @@
           { "group": "military_ballistic_vest_light" },
           { "item": "tac338", "ammo-item": "338lapua_fmjbt", "charges": 5, "contents-item": [ "shoulder_strap" ] },
           { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20, "container-item": "shoulder_holster" },
-          { "item": "legpouch_large", "contents-group": "suppressed_fn57" }
+          { "item": "338lapua_fmjbt", "charges": 40 },
+          { "item": "legpouch_large", "contents-group": "army_mags_tac338" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
