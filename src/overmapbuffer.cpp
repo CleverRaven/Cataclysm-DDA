@@ -1253,20 +1253,15 @@ tripoint_abs_omt overmapbuffer::find_existing_globally_unique( const tripoint_ab
     const tripoint_abs_om center = coords::project_to<coords::om>( origin );
 
     // Very long range which will take forever if filled. Max is an arbitrary number.
+    const overmap_special_id special_id = params.om_special.value();
     for( point_abs_om om : closest_points_first( center.xy(), 0, 100 ) ) {
         if( has( om ) ) {
-            const point_abs_omt omt_base = coords::project_to<coords::omt>( om );
+            overmap &om_data = get( om );
 
-            for( int i = 0; i < OMAPX; i ++ ) {
-                for( int k = 0; k < OMAPY; k++ ) {
-                    for( int z = params.min_z; z <= params.max_z; z++ ) {
-                        const tripoint_abs_omt loc( omt_base + tripoint_rel_omt{i, k, z} );
-
-                        if( is_findable_location( loc, params ) ) {
-                            return loc;
-                        }
-                    }
-
+            for( auto element : om_data.overmap_special_placements ) {
+                if( element.second == special_id ) {
+                    tripoint_om_omt local = element.first;
+                    return coords::project_to<coords::omt>( om ) + local.raw();
                 }
             }
         }
