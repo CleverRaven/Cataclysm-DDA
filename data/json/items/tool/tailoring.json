@@ -107,9 +107,6 @@
       "move_cost": 1300
     },
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "weapon_category": [ "SHIVS" ],
-    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
-    "melee_damage": { "stab": 10 },
     "tool_ammo": [ "thread" ]
   },
   {
@@ -138,9 +135,6 @@
       "cost_scaling": 0.1,
       "move_cost": 1200
     },
-    "weapon_category": [ "SHIVS" ],
-    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "clumsy" },
-    "melee_damage": { "stab": 8 },
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "tool_ammo": [ "thread" ]
   },
@@ -171,9 +165,6 @@
       "move_cost": 1500
     },
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "weapon_category": [ "SHIVS" ],
-    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
-    "melee_damage": { "stab": 10 },
     "tool_ammo": [ "thread" ]
   },
   {
@@ -217,9 +208,6 @@
       "move_cost": 1000
     },
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "weapon_category": [ "SHIVS" ],
-    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
-    "melee_damage": { "stab": 10 },
     "tool_ammo": [ "thread" ]
   },
   {
