@@ -75,7 +75,7 @@ struct WORLD {
         bool save_exists( const save_t &name ) const;
         void add_save( const save_t &name );
 
-        bool save( bool is_conversion = false ) const;
+        bool save() const;
 
         void load_options( const JsonArray &options_json );
         bool load_options();
