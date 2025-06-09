@@ -68,7 +68,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 3 ], [ "FABRIC_CUT", 1 ] ],
     "flags": [ "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
     "weapon_category": [ "SHIVS" ],
-    "melee_damage": { "cut": 6, "stab": 5 },
+    "melee_damage": { "stab": 6 },
     "//": "Based on https://www.amazon.com/dp/B001M0GB6Y"
   },
   {

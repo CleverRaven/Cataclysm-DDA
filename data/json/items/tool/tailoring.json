@@ -348,7 +348,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ], [ "FABRIC_CUT", 2 ] ],
     "flags": [ "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
-    "melee_damage": { "cut": 10, "stab": 5 }
+    "melee_damage": { "stab": 10 }
   },
   {
     "id": "electric_spinwheel",
