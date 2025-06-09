@@ -52,6 +52,7 @@
 #include "bodygraph.h"
 #include "bodypart.h"
 #include "butchery_requirements.h"
+#include "butchery.h"
 #include "cached_options.h"
 #include "cata_imgui.h"
 #include "cata_path.h"
@@ -227,14 +228,7 @@
 #define UNUSED
 #endif
 
-static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
-static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
-static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
-static const activity_id ACT_DISSECT( "ACT_DISSECT" );
-static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
-static const activity_id ACT_QUARTER( "ACT_QUARTER" );
-static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
@@ -295,10 +289,6 @@ static const flag_id json_flag_WATERWALKING( "WATERWALKING" );
 static const furn_str_id furn_f_rope_up( "f_rope_up" );
 static const furn_str_id furn_f_vine_up( "f_vine_up" );
 static const furn_str_id furn_f_web_up( "f_web_up" );
-
-static const harvest_drop_type_id harvest_drop_blood( "blood" );
-static const harvest_drop_type_id harvest_drop_offal( "offal" );
-static const harvest_drop_type_id harvest_drop_skin( "skin" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_muscle( "muscle" );
@@ -9831,280 +9821,6 @@ static void add_disassemblables( uilist &menu,
     }
 }
 
-static std::string wrap60( const std::string &text )
-{
-    return string_join( foldstring( text, 60 ), "\n" );
-}
-
-// Butchery sub-menu and time calculation
-static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int index = -1 )
-{
-    avatar &player_character = get_avatar();
-    constexpr int num_butcher_types = static_cast<int>( butcher_type::NUM_TYPES );
-
-    std::array<time_duration, num_butcher_types> cut_times;
-    std::array<bool, num_butcher_types> has_started;
-    for( int bt_i = 0; bt_i < num_butcher_types; bt_i++ ) {
-        const butcher_type bt = static_cast<butcher_type>( bt_i );
-        int time_to_cut = 0;
-        if( index != -1 ) {
-            const mtype &corpse = *corpses[index]->get_mtype();
-            const float factor = corpse.harvest->get_butchery_requirements().get_fastest_requirements(
-                                     player_character.crafting_inventory(),
-                                     corpse.size, bt ).first;
-            time_to_cut = butcher_time_to_cut( player_character, *corpses[index], bt ) * factor;
-            has_started[bt_i] = butcher_get_progress( *corpses[index], bt ) > 0;
-        } else {
-            has_started[bt_i] = false;
-            for( const map_stack::iterator &it : corpses ) {
-                const mtype &corpse = *it->get_mtype();
-                const float factor = corpse.harvest->get_butchery_requirements().get_fastest_requirements(
-                                         player_character.crafting_inventory(),
-                                         corpse.size, bt ).first;
-                time_to_cut += butcher_time_to_cut( player_character, *it, bt ) * factor;
-                has_started[bt_i] |= butcher_get_progress( *it, bt ) > 0;
-            }
-        }
-        cut_times[bt_i] = time_duration::from_moves( time_to_cut );
-    }
-    auto cut_time = [&]( butcher_type bt ) {
-        return to_string_clipped( cut_times[static_cast<int>( bt )] );
-    };
-    auto progress_str = [&]( butcher_type bt ) {
-        std::string result;
-        if( index != -1 ) {
-            const double progress = butcher_get_progress( *corpses[index], bt );
-            if( progress > 0 ) {
-                result = string_format( _( "%d%% complete" ), static_cast<int>( 100 * progress ) );
-            }
-        } else {
-            for( const map_stack::iterator &it : corpses ) {
-                const double progress = butcher_get_progress( *it, bt );
-                if( progress > 0 ) {
-                    result = _( "partially complete" );
-                }
-            }
-        }
-        return result.empty() ? "" : ( " " + colorize( result, c_dark_gray ) );
-    };
-    const bool enough_light = player_character.fine_detail_vision_mod() <= 4;
-
-    const int factor = player_character.max_quality( qual_BUTCHER, PICKUP_RANGE );
-    const std::string msgFactor = factor > INT_MIN
-                                  ? string_format( _( "Your best tool has <color_cyan>%d butchering</color>." ), factor )
-                                  :  _( "You have no butchering tool." );
-
-    const int factorD = player_character.max_quality( qual_CUT_FINE, PICKUP_RANGE );
-    const std::string msgFactorD = factorD > INT_MIN
-                                   ? string_format( _( "Your best tool has <color_cyan>%d fine cutting</color>." ), factorD )
-                                   :  _( "You have no fine cutting tool." );
-
-    bool has_blood = false;
-    bool has_skin = false;
-    bool has_organs = false;
-    std::string dissect_wp_hint; // dissection weakpoint proficiencies training hint
-
-    if( index != -1 ) {
-        const mtype *dead_mon = corpses[index]->get_mtype();
-        if( dead_mon ) {
-            for( const harvest_entry &entry : dead_mon->harvest.obj() ) {
-                if( entry.type == harvest_drop_skin && !corpses[index]->has_flag( flag_SKINNED ) ) {
-                    has_skin = true;
-                }
-                if( entry.type == harvest_drop_offal && !( corpses[index]->has_flag( flag_QUARTERED ) ||
-                        corpses[index]->has_flag( flag_FIELD_DRESS ) ||
-                        corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
-                    has_organs = true;
-                }
-                if( entry.type == harvest_drop_blood && dead_mon->bleed_rate > 0 &&
-                    !( corpses[index]->has_flag( flag_QUARTERED ) ||
-                       corpses[index]->has_flag( flag_FIELD_DRESS ) ||
-                       corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) || corpses[index]->has_flag( flag_BLED ) ) ) {
-                    has_blood = true;
-                }
-            }
-            if( !dead_mon->families.families.empty() ) {
-                dissect_wp_hint += std::string( "\n\n" ) + _( "Dissecting may yield knowledge of:" );
-                for( const weakpoint_family &wf : dead_mon->families.families ) {
-                    std::string prof_status;
-                    if( !player_character.has_prof_prereqs( wf.proficiency ) ) {
-                        prof_status += colorize( string_format( " (%s)", _( "missing proficiencies" ) ), c_red );
-                    } else if( player_character.has_proficiency( wf.proficiency ) ) {
-                        prof_status += colorize( string_format( " (%s)", _( "already known" ) ), c_dark_gray );
-                    }
-                    dissect_wp_hint += string_format( "\n  %s%s", wf.proficiency->name(), prof_status );
-                }
-            }
-        }
-    }
-
-    // Returns true if a cruder method is already in progress, to disallow finer butchering methods
-    auto has_started_cruder_type = [&]( butcher_type bt ) {
-        for( int other_bt = 0; other_bt < num_butcher_types; other_bt++ ) {
-            if( has_started[other_bt] && cut_times[other_bt] < cut_times[static_cast<int>( bt )] ) {
-                return true;
-            }
-        }
-        return false;
-    };
-    auto is_enabled = [&]( butcher_type bt ) {
-        if( bt == butcher_type::DISMEMBER ) {
-            return true;
-        } else if( !enough_light
-                   || ( bt == butcher_type::FIELD_DRESS && !has_organs )
-                   || ( bt == butcher_type::SKIN && !has_skin )
-                   || ( bt == butcher_type::BLEED && !has_blood )
-                   || has_started_cruder_type( bt ) ) {
-            return false;
-        }
-        return true;
-    };
-
-    const std::string cannot_see = colorize( _( "can't see!" ), c_red );
-    auto time_or_disabledreason = [&]( butcher_type bt ) {
-        if( bt == butcher_type::DISMEMBER ) {
-            return cut_time( bt );
-        } else if( !enough_light ) {
-            return cannot_see;
-        } else if( bt == butcher_type::FIELD_DRESS && !has_organs ) {
-            return colorize( _( "has no organs" ), c_red );
-        } else if( bt == butcher_type::SKIN && !has_skin ) {
-            return colorize( _( "has no skin" ), c_red );
-        } else if( bt == butcher_type::BLEED && !has_blood ) {
-            return colorize( _( "has no blood" ), c_red );
-        } else if( has_started_cruder_type( bt ) ) {
-            return colorize( _( "other type started" ), c_red );
-        }
-        return cut_time( bt );
-    };
-
-    uilist smenu;
-    smenu.desc_enabled = true;
-    smenu.title = _( "Choose type of butchery:" );
-
-    smenu.addentry_col( static_cast<int>( butcher_type::QUICK ), is_enabled( butcher_type::QUICK ),
-                        'B', _( "Quick butchery" )
-                        + progress_str( butcher_type::QUICK ),
-                        time_or_disabledreason( butcher_type::QUICK ),
-                        wrap60( string_format( "%s  %s",
-                                _( "This technique is used when you are in a hurry, "
-                                   "but still want to harvest something from the corpse. "
-                                   " Yields are lower as you don't try to be precise, "
-                                   "but it's useful if you don't want to set up a workshop.  "
-                                   "Prevents zombies from raising." ),
-                                msgFactor ) ) );
-    smenu.addentry_col( static_cast<int>( butcher_type::FULL ),
-                        is_enabled( butcher_type::FULL ),
-                        'b', _( "Full butchery" )
-                        + progress_str( butcher_type::FULL ),
-                        time_or_disabledreason( butcher_type::FULL ),
-                        wrap60( string_format( "%s  %s",
-                                _( "This technique is used to properly butcher a corpse, "
-                                   "and requires a rope & a tree or a butchering rack, "
-                                   "a flat surface (for ex. a table, a leather tarp, etc.) "
-                                   "and good tools.  Yields are plentiful and varied, "
-                                   "but it is time consuming." ),
-                                msgFactor ) ) );
-    smenu.addentry_col( static_cast<int>( butcher_type::FIELD_DRESS ),
-                        is_enabled( butcher_type::FIELD_DRESS ),
-                        'f', _( "Field dress corpse" )
-                        + progress_str( butcher_type::FIELD_DRESS ),
-                        time_or_disabledreason( butcher_type::FIELD_DRESS ),
-                        wrap60( string_format( "%s  %s",
-                                _( "Technique that involves removing internal organs and "
-                                   "viscera to protect the corpse from rotting from inside.  "
-                                   "Yields internal organs.  Carcass will be lighter and will "
-                                   "stay fresh longer.  Can be combined with other methods for "
-                                   "better effects." ),
-                                msgFactor ) ) );
-    smenu.addentry_col( static_cast<int>( butcher_type::SKIN ),
-                        is_enabled( butcher_type::SKIN ),
-                        's', _( "Skin corpse" )
-                        + progress_str( butcher_type::SKIN ),
-                        time_or_disabledreason( butcher_type::SKIN ),
-                        wrap60( string_format( "%s  %s",
-                                _( "Skinning a corpse is an involved and careful process that "
-                                   "usually takes some time.  You need skill and an appropriately "
-                                   "sharp and precise knife to do a good job.  Some corpses are "
-                                   "too small to yield a full-sized hide and will instead produce "
-                                   "scraps that can be used in other ways." ),
-                                msgFactor ) ) );
-    smenu.addentry_col( static_cast<int>( butcher_type::BLEED ),
-                        is_enabled( butcher_type::BLEED ),
-                        'l', _( "Bleed corpse" )
-                        + progress_str( butcher_type::BLEED ),
-                        time_or_disabledreason( butcher_type::BLEED ),
-                        wrap60( string_format( "%s  %s",
-                                _( "Bleeding involves severing the carotid arteries and jugular "
-                                   "veins, or the blood vessels from which they arise.  "
-                                   "You need skill and an appropriately sharp and precise knife "
-                                   "to do a good job." ),
-                                msgFactor ) ) );
-    smenu.addentry_col( static_cast<int>( butcher_type::QUARTER ),
-                        is_enabled( butcher_type::QUARTER ),
-                        'k', _( "Quarter corpse" )
-                        + progress_str( butcher_type::QUARTER ),
-                        time_or_disabledreason( butcher_type::QUARTER ),
-                        wrap60( string_format( "%s  %s",
-                                _( "By quartering a previously field dressed corpse you will "
-                                   "acquire four parts with reduced weight and volume.  It "
-                                   "may help in transporting large game.  This action destroys "
-                                   "skin, hide, pelt, etc., so don't use it if you want to "
-                                   "harvest them later." ),
-                                msgFactor ) ) );
-    smenu.addentry_col( static_cast<int>( butcher_type::DISMEMBER ),
-                        is_enabled( butcher_type::DISMEMBER ),
-                        'm', _( "Dismember corpse" )
-                        + progress_str( butcher_type::DISMEMBER ),
-                        time_or_disabledreason( butcher_type::DISMEMBER ),
-                        wrap60( string_format( "%s  %s",
-                                _( "If you're aiming to just destroy a body outright and don't "
-                                   "care about harvesting it, dismembering it will hack it apart "
-                                   "in a very short amount of time but yields little to no usable flesh." ),
-                                msgFactor ) ) );
-    smenu.addentry_col( static_cast<int>( butcher_type::DISSECT ),
-                        is_enabled( butcher_type::DISSECT ),
-                        'd', _( "Dissect corpse" )
-                        + progress_str( butcher_type::DISSECT ),
-                        time_or_disabledreason( butcher_type::DISSECT ),
-                        wrap60( string_format( "%s  %s%s",
-                                _( "By careful dissection of the corpse, you will examine it for "
-                                   "possible bionic implants, or discrete organs and harvest them "
-                                   "if possible.  Requires scalpel-grade cutting tools, ruins "
-                                   "corpse, and consumes a lot of time.  Your medical knowledge "
-                                   "is most useful here." ),
-                                msgFactorD, dissect_wp_hint ) ) );
-    smenu.query();
-    switch( smenu.ret ) {
-        case static_cast<int>( butcher_type::QUICK ):
-            player_character.assign_activity( ACT_BUTCHER, 0, true );
-            break;
-        case static_cast<int>( butcher_type::FULL ):
-            player_character.assign_activity( ACT_BUTCHER_FULL, 0, true );
-            break;
-        case static_cast<int>( butcher_type::FIELD_DRESS ):
-            player_character.assign_activity( ACT_FIELD_DRESS, 0, true );
-            break;
-        case static_cast<int>( butcher_type::SKIN ):
-            player_character.assign_activity( ACT_SKIN, 0, true );
-            break;
-        case static_cast<int>( butcher_type::BLEED ) :
-            player_character.assign_activity( ACT_BLEED, 0, true );
-            break;
-        case static_cast<int>( butcher_type::QUARTER ):
-            player_character.assign_activity( ACT_QUARTER, 0, true );
-            break;
-        case static_cast<int>( butcher_type::DISMEMBER ):
-            player_character.assign_activity( ACT_DISMEMBER, 0, true );
-            break;
-        case static_cast<int>( butcher_type::DISSECT ):
-            player_character.assign_activity( ACT_DISSECT, 0, true );
-            break;
-        default:
-            return;
-    }
-}
-
 void game::butcher()
 {
     map &here = get_map();
@@ -10339,12 +10055,18 @@ void game::butcher()
                 case MULTISALVAGE:
                     u.assign_activity( longsalvage_activity_actor( salvage_tool_index ) );
                     break;
-                case MULTIBUTCHER:
-                    butcher_submenu( corpses );
-                    for( map_stack::iterator &it : corpses ) {
-                        u.activity.targets.emplace_back( map_cursor( u.pos_abs() ), &*it );
+                case MULTIBUTCHER: {
+                    const std::optional<butcher_type> bt = butcher_submenu( corpses );
+                    if( bt.has_value() ) {
+                        std::vector<butchery_data> bd;
+                        for( map_stack::iterator &it : corpses ) {
+                            item_location corpse_loc = item_location( map_cursor( u.pos_abs() ), &*it );
+                            bd.emplace_back( corpse_loc, bt.value() );
+                        }
+                        u.assign_activity( butchery_activity_actor( bd ) );
                     }
                     break;
+                }
                 case MULTIDISASSEMBLE_ONE:
                     u.disassemble_all( true );
                     break;
@@ -10357,8 +10079,12 @@ void game::butcher()
             }
             break;
         case BUTCHER_CORPSE: {
-            butcher_submenu( corpses, indexer_index );
-            u.activity.targets.emplace_back( map_cursor( u.pos_abs() ), &*corpses[indexer_index] );
+            const std::optional<butcher_type> bt = butcher_submenu( corpses, indexer_index );
+            if( bt.has_value() ) {
+                item_location corpse_loc = item_location( map_cursor( u.pos_abs() ), &*corpses[indexer_index] );
+                butchery_data bd( corpse_loc, bt.value() );
+                u.assign_activity( butchery_activity_actor( bd ) );
+            }
         }
         break;
         case BUTCHER_DISASSEMBLE: {

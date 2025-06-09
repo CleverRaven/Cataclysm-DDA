@@ -661,11 +661,6 @@ faction *basecamp::fac() const
     return g->faction_manager_ptr->get( owner );
 }
 
-static std::string wrap60( const std::string &text )
-{
-    return string_join( foldstring( text, 60 ), "\n" );
-}
-
 recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation> &pos_options,
         const std::string &option )
 {
