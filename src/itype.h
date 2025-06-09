@@ -922,6 +922,9 @@ struct islot_gunmod : common_ranged_data {
     /** Multiplies base loudness as provided by the currently loaded ammo */
     float loudness_multiplier = 1;
 
+    /** Alters the gun to_hit */
+    int to_hit_mod = 0;
+
     /** How much time does this gunmod take to install? */
     time_duration install_time = 0_seconds;
 

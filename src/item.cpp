@@ -3603,6 +3603,10 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.emplace_back( "GUNMOD", _( "Armor-pierce: " ), "", iteminfo::show_plus,
                            pierce );
     }
+    if( mod.to_hit_mod != 0 && parts->test( iteminfo_parts::GUNMOD_TO_HIT_MODIFIER ) ) {
+        info.emplace_back( "GUNMOD", _( "To-hit modifier: " ), "",
+                           iteminfo::show_plus, mod.to_hit_mod );
+    }
     if( mod.range != 0 && parts->test( iteminfo_parts::GUNMOD_RANGE ) ) {
         info.emplace_back( "GUNMOD", _( "Range: " ), "",
                            iteminfo::show_plus | iteminfo::no_newline, mod.range );
@@ -5511,7 +5515,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 
         if( base_tohit ) {
             info.emplace_back( "BASE", space + _( "To-hit bonus: " ), "",
-                               iteminfo::show_plus, type->m_to_hit );
+                               iteminfo::show_plus, get_to_hit() );
         }
 
         if( base_moves ) {
@@ -5595,7 +5599,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 
     ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
     if( ( player_character.get_skill_level( skill_melee ) >= 3 &&
-          ( !dmg_types.empty() || type->m_to_hit > 0 ) ) || debug_mode ) {
+          ( !dmg_types.empty() || get_to_hit() > 0 ) ) || debug_mode ) {
         bodypart_id bp = bodypart_id( "torso" );
         damage_instance non_crit;
         player_character.roll_all_damage( false, non_crit, true, *this, attack_vector_id::NULL_ID(),
@@ -5641,7 +5645,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
         }
         insert_separation_line( info );
     } else if( player_character.get_skill_level( skill_melee ) < 3 &&
-               ( !dmg_types.empty() || type->m_to_hit > 0 ) ) {
+               ( !dmg_types.empty() || get_to_hit() > 0 ) ) {
         insert_separation_line( info );
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
             info.emplace_back( "DESCRIPTION", _( "<bold>Average melee damage</bold>:" ) );
@@ -15533,6 +15537,16 @@ skill_id item::contextualize_skill( const skill_id &id ) const
     }
 
     return id;
+}
+
+int item::get_to_hit() const
+{
+    int to_hit = type->m_to_hit;
+    for( const item *mod : gunmods() ) {
+        to_hit += mod->type->gunmod->to_hit_mod;
+    }
+
+    return to_hit;
 }
 
 bool item::is_filthy() const

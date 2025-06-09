@@ -3484,6 +3484,7 @@ void islot_gunmod::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "damage_modifier", damage );
     optional( jo, was_loaded, "loudness_modifier", loudness );
     optional( jo, was_loaded, "loudness_multiplier", loudness_multiplier, 1 );
+    optional( jo, was_loaded, "to_hit_mod", to_hit_mod, 0 );
     optional( jo, was_loaded, "location", location );
     optional( jo, was_loaded, "dispersion_modifier", dispersion );
     optional( jo, was_loaded, "field_of_view", field_of_view, -1 );
