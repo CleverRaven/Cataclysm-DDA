@@ -150,7 +150,7 @@ struct flexbuffer_mmap_storage : flexbuffer_storage {
     explicit flexbuffer_mmap_storage( std::shared_ptr<const mmap_file> mmap_handle ) : mmap_handle_{ std::move( mmap_handle ) } {}
 
     const uint8_t *data() const override {
-        return mmap_handle_->base();
+        return static_cast<const uint8_t *>( mmap_handle_->base() );
     }
     size_t size() const override {
         return mmap_handle_->len();
@@ -349,7 +349,7 @@ class flexbuffer_disk_cache
 
             // Try to mmap the cached flexbuffer
             std::shared_ptr<const mmap_file> mmap_handle = mmap_file::map_file(
-                        disk_entry->second.flexbuffer_path.u8string() );
+                        disk_entry->second.flexbuffer_path );
             if( !mmap_handle ) {
                 return storage;
             }
