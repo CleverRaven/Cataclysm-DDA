@@ -121,11 +121,11 @@
   {
     "type": "mutation",
     "id": "MANA_LUM_EXTERNAL",
-    "name": { "str": "Eerie Glow" },
+    "name": { "str": "Eldritch Glow" },
     "points": -3,
     "description": "Your mana sometimes swirls off your leylines and excites the air, creating a eldritch glow around you, occasionally happening when you cast or a spell or when your mana is high enough.  All you can do when it happens is wait for it to subside.",
     "prereqs": [ "MANA_LUM" ],
-    "prereqs2": [ "MANA_SIPHON_1", "MANA_SIPHON_2", "MANA_SIPHON_3" ],
+    "prereqs2": [ "MANA_SIPHON_1", "MANA_SIPHON_2" ],
     "category": [ "MANATOUCHED" ],
     "threshreq": [ "THRESH_MANA" ]
   },
@@ -224,6 +224,7 @@
     "threshreq": [ "THRESH_MANA", "THRESH_DRAGON_BLACK" ],
     "types": [ "MANA_SIPHON" ],
     "prereqs": [ "MANA_SIPHON_2" ],
+    "prereqs2": [ "MANA_LUM_EXTERNAL", "DRAGON_MAGIC", "DRAGON_SPELLS" ],
     "enchantments": [ "ench_mana_siphon_3" ]
   },
   {

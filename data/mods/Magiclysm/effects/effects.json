@@ -1936,7 +1936,7 @@
   {
     "type": "effect_type",
     "id": "effect_manatouched_external_mana_luminance",
-    "name": [ "Eerie Glow" ],
+    "name": [ "Eldritch Glow" ],
     "desc": [ "The air around you shimmers in a multitude of colors." ],
     "enchantments": [
       {
