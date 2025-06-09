@@ -109,7 +109,7 @@
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "weapon_category": [ "SHIVS" ],
     "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
-    "melee_damage": { "bash": 2, "stab": 10 },
+    "melee_damage": { "stab": 10 },
     "tool_ammo": [ "thread" ]
   },
   {
@@ -140,7 +140,7 @@
     },
     "weapon_category": [ "SHIVS" ],
     "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "clumsy" },
-    "melee_damage": { "bash": 2, "stab": 10 },
+    "melee_damage": { "stab": 8 },
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "tool_ammo": [ "thread" ]
   },
@@ -173,7 +173,7 @@
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "weapon_category": [ "SHIVS" ],
     "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
-    "melee_damage": { "bash": 2, "stab": 5 },
+    "melee_damage": { "stab": 10 },
     "tool_ammo": [ "thread" ]
   },
   {
@@ -219,7 +219,7 @@
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "weapon_category": [ "SHIVS" ],
     "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
-    "melee_damage": { "bash": 2, "stab": 10 },
+    "melee_damage": { "stab": 10 },
     "tool_ammo": [ "thread" ]
   },
   {
