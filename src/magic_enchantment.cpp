@@ -777,6 +777,7 @@ void enchant_cache::serialize( JsonOut &jsout ) const
         for( const special_vision_descriptions &struc_desc : struc.special_vision_descriptions_vector ) {
             jsout.start_object();
             jsout.member( "id", struc_desc.id );
+            jsout.member( "text", struc_desc.text );
             jsout.end_object();
         }
         jsout.end_array();
