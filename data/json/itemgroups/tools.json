@@ -286,7 +286,8 @@
     "items": [
       { "group": "tools_common_small", "prob": 100 },
       [ "wrench", 200 ],
-      [ "wrench_large", 20 ],
+      [ "wrench_large", 50 ],
+      [ "wrench_48", 50 ],
       [ "big_pliers", 10 ],
       [ "claw_bar", 2 ],
       [ "crowbar", 10 ],
