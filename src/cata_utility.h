@@ -26,6 +26,7 @@ class JsonOut;
 class JsonValue;
 class cata_path;
 class translation;
+class zzip;
 
 /**
  * Greater-than comparison operator; required by the sort interface
@@ -362,15 +363,28 @@ bool read_from_file_optional_json( const cata_path &path,
 /**@}*/
 
 /**
- * Try to open and provide a std::istream for the given, possibly, gzipped, file.
- *
- * The file is opened for reading (binary mode) and tested to see if it is compressed.
- * Compressed files are decompressed into a std::stringstream and returned.
- * Uncompressed files are returned as normal lazy ifstreams.
- * Any exceptions during reading, including failing to open the file, are reported as dbgmsg.
- *
- * @return A unique_ptr of the appropriate istream, or nullptr on failure.
+ * Like the above but for reading files from zzips. Allows for identical exception and
+ * error handling logic.
  */
+/**@{*/
+bool read_from_zzip_optional( const std::shared_ptr<zzip> &z,
+                              const std::filesystem::path &file,
+                              const std::function<void( std::string_view )> &reader );
+bool read_from_zzip_optional( const std::shared_ptr<zzip_stack> &z,
+                              const std::filesystem::path &file,
+                              const std::function<void( std::string_view )> &reader );
+/**@}*/
+
+/**
+* Try to open and provide a std::istream for the given, possibly, gzipped, file.
+*
+* The file is opened for reading (binary mode) and tested to see if it is compressed.
+* Compressed files are decompressed into a std::stringstream and returned.
+* Uncompressed files are returned as normal lazy ifstreams.
+* Any exceptions during reading, including failing to open the file, are reported as dbgmsg.
+*
+* @return A unique_ptr of the appropriate istream, or nullptr on failure.
+*/
 /**@{*/
 std::unique_ptr<std::istream> read_maybe_compressed_file( const std::string &path );
 std::unique_ptr<std::istream> read_maybe_compressed_file( const std::filesystem::path &path );

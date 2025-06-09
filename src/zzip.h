@@ -158,6 +158,12 @@ class zzip
         static std::shared_ptr<zzip> create_from_folder( std::filesystem::path const &path,
                 std::filesystem::path const &folder,
                 std::filesystem::path const &dictionary = {} );
+
+        static std::shared_ptr<zzip> create_from_folder_with_files( std::filesystem::path const &path,
+                std::filesystem::path const &folder,
+                const std::vector<std::filesystem::path> &files,
+                uint64_t total_file_size,
+                std::filesystem::path const &dictionary = {} );
         /**
          * Extract the given zzip's contents into the given folder.
          * The files in the zzip are written into the folder under their relative paths.
