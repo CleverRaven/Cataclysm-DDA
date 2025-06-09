@@ -19,6 +19,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
+#include "input.h"
 #include "input_context.h"
 #include "input_popup.h"
 #include "json.h"
@@ -27,6 +28,7 @@
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
+#include "popup.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -34,6 +36,7 @@
 #include "translations.h"
 #include "uilist.h"
 #include "ui_manager.h"
+#include "zzip.h"
 
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
@@ -2051,6 +2054,82 @@ void load_external_option( const JsonObject &jo )
         jo.throw_error_at( "stype", "Unknown or unsupported stype for external option" );
     }
     options_manager::update_options_cache();
+}
+
+bool WORLD::has_compression_enabled() const
+{
+    cata_path world_folder_path = folder_path();
+    return std::filesystem::exists( ( world_folder_path / "maps.dict" ).get_unrelative_path() ) ||
+           std::filesystem::exists( ( world_folder_path / "mmr.dict" ).get_unrelative_path() ) ||
+           std::filesystem::exists( ( world_folder_path / "overmaps.dict" ).get_unrelative_path() );
+}
+
+bool WORLD::set_compression_enabled( bool enabled ) const
+{
+    // Return immediately if we're already in the desired state.
+    if( enabled == has_compression_enabled() ) {
+        return true;
+    }
+    static_popup popup;
+    cata_path world_folder_path = folder_path();
+    if( enabled ) {
+        cata_path dictionary_folder = PATH_INFO::compression_folder_path();
+        cata_path maps_dict = dictionary_folder / "maps.dict";
+        std::filesystem::path maps_dict_path = maps_dict.get_unrelative_path();
+        std::vector<cata_path> folders_to_clean;
+        std::vector<cata_path> files_to_clean;
+
+        std::vector<cata_path> maps_folders = get_directories( world_folder_path / "maps" );
+        size_t done = 0;
+        for( const cata_path &map_folder : maps_folders ) {
+            popup.message( _( "Compressing maps [%d/%d]" ), done++, maps_folders.size() );
+            if( !zzip::create_from_folder( ( map_folder + ".zzip" ).get_unrelative_path(),
+                                           map_folder.get_unrelative_path(), maps_dict_path ) ) {
+                return false;
+            }
+        }
+        copy_file( maps_dict, folder_path() / "maps.dict" );
+        done = 0;
+        for( const cata_path &folder : folders_to_clean ) {
+            popup.message( _( "Cleaning up [%d/%d]" ), done++, maps_folders.size() );
+            ui_manager::redraw();
+            refresh_display();
+            inp_mngr.pump_events();
+            std::error_code ec;
+            std::filesystem::remove_all( folder.get_unrelative_path(), ec );
+        }
+    } else {
+        cata_path maps_dict = world_folder_path / "maps.dict";
+        std::filesystem::path maps_dict_path = maps_dict.get_unrelative_path();
+        std::vector<cata_path> zzips_to_clean;
+
+        std::vector<cata_path> maps_zzips = get_files_from_path( "zzip", folder_path() / "maps", false,
+                                            true );
+        size_t done = 0;
+        for( const cata_path &map_zzip : maps_zzips ) {
+            popup.message( _( "Decompressing maps [%d/%d]" ), done++, maps_zzips.size() );
+            ui_manager::redraw();
+            refresh_display();
+            inp_mngr.pump_events();
+            std::filesystem::path zzip_path = map_zzip.get_unrelative_path();
+            std::filesystem::path dest_folder_name = zzip_path.parent_path() / zzip_path.stem();
+            if( !zzip::extract_to_folder( zzip_path, dest_folder_name, maps_dict_path ) ) {
+                return false;
+            }
+            zzips_to_clean.insert( zzips_to_clean.end(), maps_zzips.begin(), maps_zzips.end() );
+        }
+        remove_file( maps_dict );
+        done = 0;
+        for( const cata_path &zzip_to_clean : zzips_to_clean ) {
+            popup.message( _( "Cleaning up [%d/%d]" ), done++, zzips_to_clean.size() );
+            ui_manager::redraw();
+            refresh_display();
+            inp_mngr.pump_events();
+            std::error_code ec;
+            std::filesystem::remove( zzip_to_clean.get_unrelative_path(), ec );
+        }
+    }
+    return true;
 }
 
 mod_manager &worldfactory::get_mod_manager()
