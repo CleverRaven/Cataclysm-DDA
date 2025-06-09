@@ -155,7 +155,7 @@ class overmapbuffer
 
         bool externally_set_args = false;
 
-        static cata_path terrain_filename( const point_abs_om & );
+        static std::string terrain_filename( const point_abs_om & );
         static cata_path player_filename( const point_abs_om & );
 
         /**

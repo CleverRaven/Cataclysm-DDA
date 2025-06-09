@@ -13677,11 +13677,6 @@ bool Character::can_lift( vehicle &veh, map &here ) const
     return str + npc_str >= veh.lift_strength( here );
 }
 
-static std::string wrap60( const std::string &text )
-{
-    return string_join( foldstring( text, 60 ), "\n" );
-}
-
 bool character_martial_arts::pick_style( const Character &you ) // Style selection menu
 {
     enum style_selection {

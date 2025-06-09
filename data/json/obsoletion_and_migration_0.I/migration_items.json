@@ -2565,5 +2565,20 @@
     "type": "MIGRATION",
     "id": "exodii_ingot_steel",
     "replace": "exodii_ingot_lc_steel"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "clay_quern",
+    "replace": "rock_quern"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bowling_axe",
+    "replace": "hatchet"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "spear_forked",
+    "replace": "spear_spike"
   }
 ]

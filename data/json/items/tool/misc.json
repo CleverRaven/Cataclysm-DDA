@@ -261,7 +261,7 @@
     "color": "light_gray",
     "techniques": [ "SPIN", "WRAP" ],
     "qualities": [ [ "COOK", 1 ], [ "ROPE", 2 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "extend": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
     "use_action": { "type": "deploy_furn", "furn_type": "f_rope_up" },
     "melee_damage": { "bash": 12, "cut": 6 }
   },
