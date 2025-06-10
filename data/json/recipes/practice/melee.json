@@ -1161,8 +1161,8 @@
     "skills_required": [ [ "melee", 1 ] ],
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
-    "autolearn": [ [ "cutting", 2 ] ],  
-    "proficiencies": [ { "proficiency": "prof_whips_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],	
+    "autolearn": [ [ "cutting", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_whips_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
     "tools": [ [ [ "whips", 1, "LIST" ] ] ]
   }
 ]
