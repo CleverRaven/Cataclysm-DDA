@@ -4400,10 +4400,9 @@ int Character::get_health_tally() const
     return health_tally;
 }
 
-float Character::get_weight_enchantment_multiplier() const {
-    // Check for active enchantments or mutations that alter weight
-    // Return the multiplier (e.g., 0.5 for half weight)
-    return enchantment_weight_multiplier; // defaults to 1.0
+float Character::get_weight_enchantment_multiplier() const
+{
+    return enchantment_cache->get_value_multiply( enchant_vals::mod::WEIGHT_MULT );
 }
 
 /*
