@@ -941,7 +941,7 @@
       { "item": "ukulele", "prob": 15 },
       { "item": "guitar_electric", "prob": 20 },
       { "item": "gobag", "prob": 5 },
-      { "group": "ammo_pocket_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_random", "prob": 50 },
       { "item": "bb", "prob": 8, "charges": [ 1, 500 ] },
       { "item": "bbgun", "prob": 10, "charges": [ 0, 150 ] },
       { "item": "fan", "prob": 10 },
