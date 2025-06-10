@@ -4402,7 +4402,7 @@ int Character::get_health_tally() const
 
 float Character::get_weight_enchantment_multiplier() const
 {
-    return enchantment_cache->modify_value( enchant_vals::mod::WEIGHT_MULT );
+    return enchantment_cache->modify_value( enchant_vals::mod::WEIGHT_MULT, 1.0f );
 }
 
 /*
