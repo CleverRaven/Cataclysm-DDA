@@ -259,6 +259,7 @@ class enchantment
             std::string id = "infrared_creature";
             nc_color color = c_red;
             std::string symbol = "?";
+            std::string text = "You see a medium figure radiating heat.";
             translation description;
             std::function<bool( const_dialogue const & )> condition;
         };

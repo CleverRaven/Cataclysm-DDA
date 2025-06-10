@@ -223,7 +223,8 @@
       "VITAKINETIC",
       "ALWAYS_GAIN_PSIONICS",
       "CANNOT_GAIN_PSIONICS"
-    ]
+    ],
+    "spells_learned": [ [ "classless_toggleable_concentration_end", 1 ], [ "classless_specific_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",

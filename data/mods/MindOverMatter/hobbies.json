@@ -572,6 +572,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "knack_electrokinetic_see_electric",
+    "name": "Psychic Knack (Spark Sight)",
+    "description": "Before the Cataclysm you always had a sense of when a line was drawing power, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "electrokinetic_see_electric_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "knack_electrokinetic_pain_immune",
     "name": "Psychic Knack (Analgesic Block)",
     "description": "Before the Cataclysm you were never that strongly affected by pain, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
@@ -598,6 +608,26 @@
     "points": 2,
     "traits": [ "PSYCHIC_KNACK" ],
     "spells": [ { "id": "photokinetic_camouflage_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_photokinetic_hide_ugly",
+    "name": "Psychic Knack (Mirror-Mask)",
+    "description": "Before the Cataclysm people had a hard time remembering your exact appearance, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "photokinetic_hide_ugly_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_photokinetic_radio",
+    "name": "Psychic Knack (Radio Transception)",
+    "description": "Before the Cataclysm your mere presence seemed to interfere with radio broadcasts, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "photokinetic_radio_knack", "level": 6 } ]
   },
   {
     "type": "profession",

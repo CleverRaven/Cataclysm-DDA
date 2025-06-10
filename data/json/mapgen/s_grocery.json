@@ -1,9 +1,28 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_grocery" ],
-    "weight": 100,
+    "om_terrain": "s_grocery",
     "object": {
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+      "palettes": [ "grocery_store_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "s_grocery_unlooted", { "math": [ "250 * time_since_cata_quadratic_neg( 365 )" ] } ],
+            [ "s_grocery_empty", 500 ],
+            [ "s_grocery_looted", { "math": [ "250 + ( 250 * time_since_cata_quadratic_pos( 365 ) )" ] } ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "s_grocery_unlooted",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "__sssssssssssssssssssss_",
         "__WWWWWWWWsssssssssssss_",
@@ -30,7 +49,6 @@
         "sssL***+**************#_",
         "sss####################_"
       ],
-      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "palettes": [ "grocery_store_palette" ],
       "terrain": { "l": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
       "place_items": [
@@ -74,9 +92,9 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_grocery" ],
-    "weight": 500,
+    "nested_mapgen_id": "s_grocery_empty",
     "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "__sssssssssssssssssssss_",
         "__WWWWWWWWsssssssssssss_",
@@ -103,7 +121,6 @@
         "sss#***+**************#_",
         "sss####################_"
       ],
-      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "terrain": { "l": { "param": "linoleum_color", "fallback": "t_linoleum_white" } },
       "palettes": [ "grocery_store_palette" ],
       "fields": { "T": { "field": "fd_bile", "intensity": 1, "age": 10 }, "S": { "field": "fd_bile", "intensity": 1, "age": 10 } },
@@ -197,9 +214,9 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_grocery" ],
-    "weight": 300,
+    "nested_mapgen_id": "s_grocery_looted",
     "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "__sssssssssssssssssssss_",
         "__WWWWWWWWsssssssssssss_",
@@ -226,7 +243,6 @@
         "sssL***+**************#_",
         "sss####################_"
       ],
-      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "palettes": [ "grocery_store_palette" ],
       "terrain": {
         "+": "t_door_boarded",

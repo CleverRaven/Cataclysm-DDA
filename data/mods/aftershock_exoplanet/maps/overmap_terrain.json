@@ -671,6 +671,7 @@
     "color": "light_blue",
     "see_cost": "high",
     "mondensity": 2,
+    "entry_eoc": "EOC_KNOW_SPACEPORT",
     "flags": [ "SIDEWALK" ]
   },
   {

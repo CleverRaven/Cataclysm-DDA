@@ -156,7 +156,7 @@ static const recipe_id recipe_balclava( "balclava" );
 static const recipe_id recipe_blanket_blanket_makeshift( "blanket_blanket_makeshift" );
 static const recipe_id recipe_brew_mead( "brew_mead" );
 static const recipe_id recipe_brew_rum( "brew_rum" );
-static const recipe_id recipe_carver_off( "carver_off" );
+static const recipe_id recipe_carver_off_test( "carver_off_test" );
 static const recipe_id recipe_cudgel_simple( "cudgel_simple" );
 static const recipe_id recipe_cudgel_slow( "cudgel_slow" );
 static const recipe_id recipe_dry_meat( "dry_meat" );
@@ -894,7 +894,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
     std::vector<item> tools;
 
     GIVEN( "recipe and required tools/materials" ) {
-        recipe_id carver( "carver_off" );
+        recipe_id carver( "carver_off_test" );
         // Uses fabrication skill
         // Requires electronics 3
         // Difficulty 4
@@ -928,8 +928,8 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             tools.push_back( soldering );
 
             THEN( "crafting succeeds, and uses charges from each tool" ) {
-                prep_craft( recipe_carver_off, tools, true, 0, false, true );
-                int turns = actually_test_craft( recipe_carver_off, INT_MAX );
+                prep_craft( recipe_carver_off_test, tools, true, 0, false, true );
+                int turns = actually_test_craft( recipe_carver_off_test, INT_MAX );
                 CAPTURE( turns );
                 CHECK( get_remaining_charges( itype_popcan_stove ) == 0 );
                 CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 6 );
@@ -941,8 +941,8 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             tools.insert( tools.end(), 2, tool_with_ammo( itype_soldering_iron_portable, 5 ) );
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
-                prep_craft( recipe_carver_off, tools, true, 0, false, true );
-                actually_test_craft( recipe_carver_off, INT_MAX );
+                prep_craft( recipe_carver_off_test, tools, true, 0, false, true );
+                actually_test_craft( recipe_carver_off_test, INT_MAX );
                 CHECK( get_remaining_charges( itype_popcan_stove ) == 0 );
                 CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 0 );
             }
@@ -966,9 +966,9 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             tools.emplace_back( UPS );
 
             THEN( "crafting succeeds, and uses charges from the UPS" ) {
-                prep_craft( recipe_carver_off, tools, true, 0, false, false );
+                prep_craft( recipe_carver_off_test, tools, true, 0, false, false );
                 // this recipe should be replaced with a test recipe that isn't impacted by changes in game recipes
-                actually_test_craft( recipe_carver_off, INT_MAX );
+                actually_test_craft( recipe_carver_off_test, INT_MAX );
                 CHECK( get_remaining_charges( itype_hotplate ) == 0 );
                 CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 0 );
                 // vacuum molding takes 4 charges
@@ -994,7 +994,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             tools.push_back( ups );
 
             THEN( "crafting fails, and no charges are used" ) {
-                prep_craft( recipe_carver_off, tools, false, 0, false, false );
+                prep_craft( recipe_carver_off_test, tools, false, 0, false, false );
                 CHECK( get_remaining_charges( itype_UPS_off ) == 10 );
             }
         }

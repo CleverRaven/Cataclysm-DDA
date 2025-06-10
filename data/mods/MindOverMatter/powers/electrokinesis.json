@@ -18,22 +18,22 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('electrokinetic_see_electric') * 15000) + 90000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 15000) + 90000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('electrokinetic_see_electric') * 30000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 30000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_electrokin_see_electricity') > -1 ? 0 : max((2000 - (u_spell_level('electrokinetic_see_electric') * 75)), 750)"
+        "u_effect_intensity('effect_electrokin_see_electricity') > -1 ? 0 : max( (2000 - ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 75) ), 750)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_electrokin_see_electricity') > -1 ? 10 : max((150 -(u_spell_level('electrokinetic_see_electric') * 6)), 80)"
+        "u_effect_intensity('effect_electrokin_see_electricity') > -1 ? 10 : max( (150 - ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 6) ), 80)"
       ]
     }
   },
