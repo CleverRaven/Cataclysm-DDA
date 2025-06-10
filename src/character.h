@@ -633,11 +633,15 @@ class Character : public Creature, public visitable
         float get_arms_stam_mult() const;
         float get_legs_stam_mult() const;
 
+        float get_weight_enchantment_multiplier() const;
+
     private:
         /** Modifiers to character speed, with descriptions */
         std::vector<speed_bonus_effect> speed_bonus_effects;
 
         int dodges_left;
+
+        float enchantment_weight_multiplier = 1.0f;
 
     public:
         std::vector<speed_bonus_effect> get_speed_bonus_effects() const;

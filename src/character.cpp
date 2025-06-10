@@ -4400,6 +4400,12 @@ int Character::get_health_tally() const
     return health_tally;
 }
 
+float Character::get_weight_enchantment_multiplier() const {
+    // Check for active enchantments or mutations that alter weight
+    // Return the multiplier (e.g., 0.5 for half weight)
+    return enchantment_weight_multiplier; // defaults to 1.0
+}
+
 /*
  * Innate stats setters
  */
@@ -6357,9 +6363,9 @@ bool Character::has_calorie_deficit() const
     return get_bmi_fat() < character_weight_category::normal;
 }
 
-units::mass Character::bodyweight() const
-{
-    return bodyweight_fat() + bodyweight_lean();
+units::mass Character::bodyweight() const {
+    units::mass normal_weight = bodyweight_fat() + bodyweight_lean();
+    return normal_weight * get_weight_enchantment_multiplier();
 }
 
 units::mass Character::bodyweight_fat() const
