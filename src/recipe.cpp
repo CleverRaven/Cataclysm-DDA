@@ -81,14 +81,14 @@ int recipe::get_skill_cap() const
 std::vector<recipe_id> recipe::to_craft( const read_only_visitable
         &crafting_inv, int batch ) const
 {
-    auto any_available = [&]( std::vector<item_comp> &comps ) {
-        for( item_comp comp :  comps ) {
-            if( comp.available == available_status::a_true ) {
-                return true;
-            }
-        }
-        return false;
-    };
+    // auto any_available = [&]( std::vector<item_comp> &comps ) {
+    //     for( item_comp comp :  comps ) {
+    //         if( comp.available == available_status::a_true ) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // };
 
     std::vector<recipe_id> ret;
 

@@ -240,18 +240,17 @@ const recipe *craft_command::to_craft( inventory &map_inv )
     const std::map<item_comp, recipe *> craftables;
     if( craftables.empty() ) {
         return rec;
-    } else {
-        if( craftables.size() > 1 ) {
-            craft_selection cs = crafter->select_component_to_craft( craftables, batch_size,
-                                 map_inv );
-            return cs.rec;
-        } else if( craftables.size() == 1 ) {
-            for( const auto & [comp, rec] : reqs.get_craftable_comps() ) {
-                return rec;
+    } else if( craftables.size() == 1 ) {
+        for( const auto & [comp, rec] : reqs.get_craftable_comps() ) {
+            return rec;
 
-            }
         }
+    } else {
+        craft_selection cs = crafter->select_component_to_craft( craftables, batch_size,
+                             map_inv );
+        return cs.rec;
     }
+
     return nullptr;
 }
 
