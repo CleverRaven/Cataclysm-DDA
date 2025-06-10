@@ -14,7 +14,6 @@
       { "item": "baton", "prob": 8 },
       { "item": "PR24-retracted", "prob": 8 },
       { "item": "blackjack", "prob": 8 },
-      { "item": "bowling_axe", "prob": 2 },
       { "item": "bowling_pin", "prob": 4 },
       { "item": "club_wooden", "prob": 8 },
       { "item": "club_wooden_large", "prob": 4 },
@@ -172,7 +171,6 @@
     "subtype": "distribution",
     "entries": [
       { "group": "melee_stabbing_rare_weak", "prob": 1 },
-      { "item": "bowling_axe", "prob": 4 },
       { "item": "pitchfork", "prob": 8 },
       { "item": "pointy_stick", "prob": 16 },
       { "item": "pointy_stick_long", "prob": 16 },
@@ -182,7 +180,6 @@
       { "item": "spear_knife", "prob": 1 },
       { "item": "spear_homemade_halfpike", "prob": 4 },
       { "item": "spear_steel_crude", "prob": 4 },
-      { "item": "spear_forked", "prob": 1 },
       { "item": "sharpened_pipe", "prob": 16 },
       { "item": "simple_spear_pipe", "prob": 8 },
       { "item": "spear_pipe", "prob": 1 },

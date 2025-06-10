@@ -408,7 +408,7 @@
     "id": "military_standard_shotguns",
     "subtype": "distribution",
     "entries": [
-      { "item": "mossberg_930", "variant": "m1014", "prob": 60, "charges": [ 0, 8 ] },
+      { "item": "m1014", "charges": [ 0, 5 ] },
       { "item": "mossberg_590", "prob": 40, "charges": [ 0, 9 ] },
       { "item": "m26_mass_standalone", "prob": 5, "charges": [ 0, 3 ] }
     ]

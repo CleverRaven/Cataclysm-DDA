@@ -281,20 +281,6 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "id": "clay_quern",
-    "type": "ITEM",
-    "category": "tools",
-    "name": { "str": "clay quern" },
-    "description": "A simple hand-powered clay quern for grinding grain.",
-    "weight": "2264 g",
-    "volume": "1500 ml",
-    "price": "30 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "clay" ],
-    "symbol": ":",
-    "color": "brown"
-  },
-  {
     "id": "clay_teapot",
     "type": "ITEM",
     "category": "tools",
