@@ -2079,8 +2079,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             }
         }
 
-        if (!actor(false)->can_see()) {
-            add_response_none( _("Oh, okay."));
+        if( !actor( false )->can_see() ) {
+            add_response_none( _( "Oh, okay." ) );
             return;
         }
         const std::vector<matype_id> &styles = actor( true )->styles_offered_to( *actor( false ) );
