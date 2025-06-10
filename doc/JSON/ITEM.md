@@ -846,6 +846,7 @@ Gun mods can be defined like this:
 "is_bayonet": true,     // Optional, if true, the melee damage of this item is added to the base damage of the gun. Defaults to false.
 "blacklist_slot": [ "rail", "underbarrel" ],      // prevents installation of the gunmod if the specified slot(s) are present on the gun.
 "blacklist_mod": [ "m203", "m320" ],      // prevents installation of the gunmod if the specified mods(s) are present on the gun.
+"to_hit_mod": -1                          // increases or decreases the item to_hit value
 ```
 
 ### Batteries
