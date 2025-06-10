@@ -7,6 +7,7 @@
 #include <optional>
 #include <sstream>
 #include <unordered_map>
+#include <vector>
 
 #include "assign.h"
 #include "cached_options.h"
@@ -38,6 +39,7 @@
 #include "mapgen_parameter.h"
 #include "mapgendata.h"
 #include "math_defines.h"
+#include "messages.h"
 #include "output.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
@@ -78,7 +80,7 @@ int recipe::get_skill_cap() const
     }
 }
 
-std::vector<recipe_id> recipe::to_craft( const read_only_visitable
+std::vector<const recipe *> recipe::to_craft( const read_only_visitable
         &crafting_inv, int batch ) const
 {
     // auto any_available = [&]( std::vector<item_comp> &comps ) {
@@ -90,24 +92,62 @@ std::vector<recipe_id> recipe::to_craft( const read_only_visitable
     //     return false;
     // };
 
-    std::vector<recipe_id> ret;
+    std::vector<const recipe *> ret;
 
-    if( !recursive_comp_crafts( ret, crafting_inv, batch ).success() ) {
-        return {};
-    }
+    recursive_comp_crafts( ret, crafting_inv, batch );
+
     return ret;
 }
 
-ret_val<void> recipe::recursive_comp_crafts( std::vector<recipe_id> &lst,
+ret_val<void> recipe::recursive_comp_crafts( std::vector<const recipe *> &lst,
         const read_only_visitable
         &crafting_inv, int batch ) const
 {
+
+    static auto has_any_status = [&]( const std::vector<item_comp> &comps,
+    available_status status = available_status::a_true ) {
+        for( const auto &comp : comps ) {
+            if( comp.available == status ) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    lst.push_back( this );
     if( lst.size() > 10 ) {
-        return ret_val<void>::make_failure( "too much recursive component crafts required" );
+        return ret_val<void>::make_failure( "too many recursive component crafts required" );
     }
     requirement_data reqs = simple_requirements();
-    if( reqs.can_make_with_inventory( crafting_inv, get_component_filter(), batch ) ) {
-        lst.push_back( ident() );
+
+    std::map<const item_comp, const recipe *> craftables = reqs.get_craftable_comps();
+
+    for( const std::vector<item_comp> &comps : reqs.get_components() ) {
+        if( has_any_status( comps ) ) {
+
+            continue;
+        }
+
+        std::vector<const recipe *> craft;
+        for( item_comp it : comps ) {
+            if( it.available == available_status::a_craftable ) {
+                craft.push_back( craftables[it] );
+            }
+        }
+
+        if( craft.empty() ) {
+            return ret_val<void>::make_failure( "No craftables found for %s in recipe::to_craft",
+                                                ident().c_str() );
+        }
+
+        if( craft.size() > 1 ) {
+            // FIXME: select dialog
+        }
+
+        for( const recipe *rec : craft ) {
+
+            rec->recursive_comp_crafts( lst, crafting_inv, batch );
+        }
     }
 
     return ret_val<void>::make_success();

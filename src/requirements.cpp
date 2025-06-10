@@ -522,16 +522,6 @@ void requirement_data::save_requirement( const requirement_data &req, const requ
     }
 }
 
-template<typename T>
-bool requirement_data::any_marked_available( const std::vector<T> &comps )
-{
-    for( const auto &comp : comps ) {
-        if( comp.available == available_status::a_true ) {
-            return true;
-        }
-    }
-    return false;
-}
 
 template<typename T>
 bool requirement_data::any_marked_as_status( const std::vector<T> &comps, available_status status )
@@ -980,7 +970,9 @@ void requirement_data::cache_craftable_comps( const read_only_visitable &craftin
                     comp.available = available_status::a_false;
                 } else if( rec->simple_requirements().can_make_with_inventory( crafting_inv, filter,
                            num_recipe_craft ) ) {
-                    craftable_comps.push_back( &rec.obj() );
+
+                    //direct recipe for initialized components?
+                    craftable_comps[comp] = &rec.obj();
                     comp.available = available_status::a_craftable;
                     add_msg( "%s can be substituted by its recipe", comp.type.c_str() );
                 } else {
@@ -1029,9 +1021,10 @@ bool requirement_data::has_comps( const read_only_visitable &crafting_inv,
                 } else if( rec.is_valid() &&
                            rec->simple_requirements().can_make_with_inventory( crafting_inv, filter,
                                    num_recipe_craft ) ) {
-
+                    // craftable_comps[]
                     comp.available = available_status::a_craftable;
                     add_msg( "%s can be substituted by its recipe", comp.type.c_str() );
+                    retval = true;
                 } else {
                     comp.available = available_status::a_false;
                     add_msg( "craftable missing components for %s", comp.type.c_str() );

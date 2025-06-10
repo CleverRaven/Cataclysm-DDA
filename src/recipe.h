@@ -171,10 +171,10 @@ class recipe
 
         bool npc_can_craft( std::string &reason ) const;
 
-        std::vector<recipe_id> to_craft( const read_only_visitable
-                                         &crafting_inv, int batch ) const;
+        std::vector<const recipe *> to_craft( const read_only_visitable
+                                              &crafting_inv, int batch ) const;
 
-        ret_val<void> recursive_comp_crafts( std::vector<recipe_id> &lst,
+        ret_val<void> recursive_comp_crafts( std::vector<const recipe *> &lst,
                                              const read_only_visitable &crafting_inv,
                                              int batch ) const;
         /** Prevent this recipe from ever being added to the player's learned recipes ( used for special NPC crafting ) */

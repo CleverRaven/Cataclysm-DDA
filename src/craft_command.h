@@ -131,7 +131,7 @@ class craft_command
         // zero_tripoint indicates crafting without a workbench
         std::optional<tripoint_bub_ms> loc;
 
-        std::vector<recipe_id> crafting_queue;
+        std::vector<const recipe *> crafting_queue;
         std::vector<comp_selection<item_comp>> item_selections;
         std::vector<comp_selection<tool_comp>> tool_selections;
 

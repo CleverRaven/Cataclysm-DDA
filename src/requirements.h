@@ -377,7 +377,7 @@ struct requirement_data {
 
         bool requires_comp_craft( ) const;
 
-        const std::map<item_comp, recipe *> get_craftable_comps() const {
+        std::map<const item_comp, const recipe *> get_craftable_comps() const {
             return craftable_comps;
         };
 
@@ -400,6 +400,14 @@ struct requirement_data {
 
         uint64_t make_hash() const;
 
+        template<typename T>
+        static bool any_marked_as_status( const std::vector<T> &comps, available_status status );
+
+        template<typename T>
+        static bool any_marked_available( const std::vector<T> &comps ) {
+            return any_marked_as_status( comps, available_status::a_true );
+        };
+
     private:
         requirement_id id_ = requirement_id::NULL_ID(); // NOLINT(cata-serialize)
 
@@ -408,7 +416,7 @@ struct requirement_data {
         /**
          * save/cache recipes that can be crafted, so that available_status and recursiveness gets properly saved
         */
-        std::map<item_comp, recipe *> craftable_comps;
+        mutable std::map<const item_comp, const recipe *> craftable_comps;
 
         void cache_craftable_comps( const read_only_visitable &crafting_inv,
                                     const std::function<bool( const item & )> &filter,
