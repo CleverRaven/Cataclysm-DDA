@@ -107,7 +107,9 @@
     "goal": "MGOAL_GO_TO",
     "difficulty": 2,
     "value": 0,
-    "start": { "assign_mission_target": { "om_special": "Strange warehouse", "om_terrain": "exo_warehouse_1", "reveal_radius": 2 } },
+    "start": {
+      "assign_mission_target": { "om_special": "Strange warehouse", "om_terrain": "exo_warehouse_1", "reveal_radius": 2, "z": 0 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": ".",

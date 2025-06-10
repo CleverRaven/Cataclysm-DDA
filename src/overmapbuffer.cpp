@@ -1241,6 +1241,38 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
     return random_entry( result, tripoint_abs_omt::invalid );
 }
 
+tripoint_abs_omt overmapbuffer::find_existing_globally_unique( const tripoint_abs_omt &origin,
+        const omt_find_params &params )
+{
+    // Should only be called if the target is present in the set of placed globally unique specials.
+
+    //TODO: Update the globally unique set to contain positions and add code here
+    // to return that position and only fall through to the search code below if the position is
+    // invalid (because the entry is converted from an earlier version where the position wasn't
+    // recorded).
+    const tripoint_abs_om center = coords::project_to<coords::om>( origin );
+
+    // Very long range which will take forever if filled. Max is an arbitrary number.
+    const overmap_special_id special_id = params.om_special.value();
+    for( point_abs_om om : closest_points_first( center.xy(), 0, 100 ) ) {
+        if( has( om ) ) {
+            overmap &om_data = get( om );
+            point_abs_omt om_base = coords::project_to<coords::omt>( om );
+
+            for( auto &element : om_data.overmap_special_placements ) {
+                if( element.second == special_id ) {
+                    const tripoint_abs_omt loc = om_base + element.first.raw();
+                    if( is_findable_location( loc, params ) ) {
+                        return loc;
+                    }
+                }
+            }
+        }
+    }
+
+    return tripoint_abs_omt::invalid;
+}
+
 std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &origin,
         const omt_find_params &params )
 {

@@ -391,6 +391,8 @@ class overmapbuffer
             const tripoint_abs_omt &origin, const std::string &type, int radius, bool must_be_seen,
             ot_match_type match_type = ot_match_type::type, bool existing_overmaps_only = false,
             const std::optional<overmap_special_id> &om_special = std::nullopt );
+        tripoint_abs_omt find_existing_globally_unique( const tripoint_abs_omt &origin,
+                const omt_find_params &params );
 
         /* These functions return the overmap that contains the given
          * overmap terrain coordinate, and the local coordinates of that point
