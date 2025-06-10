@@ -1766,7 +1766,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic )
     } else if( topic == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );
-        } else if ( !actor( false )->can_see()) {
+        } else if( !actor( false )->can_see() ) {
             return _( "Sorry, I'm not sure how to teach the blind." );
         } else if( actor( true )->skills_offered_to( *actor( false ) ).empty() &&
                    actor( true )->styles_offered_to( *actor( false ) ).empty() &&
