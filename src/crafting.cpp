@@ -2045,6 +2045,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
     return selected;
 }
 
+// copied from select_item_component
 craft_selection Character::select_component_to_craft( const std::map<item_comp, recipe *>
         &components,
         int batch, read_only_visitable &map_inv, bool can_cancel,

@@ -139,8 +139,6 @@ class recipe
         // give xp (matching the definition of cap from Character::practice).
         int get_skill_cap() const;
 
-        recipe get_comp_recipe() const;
-
         /** Fetch combined requirement data (inline and via "using" syntax).
          *
          * Use simple_requirements() for player display or when you just want to

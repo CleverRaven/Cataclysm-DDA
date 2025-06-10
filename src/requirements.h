@@ -400,13 +400,7 @@ struct requirement_data {
 
         uint64_t make_hash() const;
 
-        template<typename T>
-        static bool any_marked_as_status( const std::vector<T> &comps, available_status status );
 
-        template<typename T>
-        static bool any_marked_available( const std::vector<T> &comps ) {
-            return any_marked_as_status( comps, available_status::a_true );
-        };
 
     private:
         requirement_id id_ = requirement_id::NULL_ID(); // NOLINT(cata-serialize)
@@ -462,6 +456,14 @@ struct requirement_data {
         static void load_obj_list( const JsonArray &jsarr, std::vector< std::vector<T> > &objs );
         template<typename T, typename ID>
         static const T *find_by_type( const std::vector< std::vector<T> > &vec, const ID &type );
+        template<typename T>
+        static bool any_marked_as_status( const std::vector<T> &comps, available_status status );
+
+        template<typename T>
+        static bool any_marked_available( const std::vector<T> &comps ) {
+            return any_marked_as_status( comps, available_status::a_true );
+        }
+
 };
 
 // Sometimes the requirement_data is problematic, because it has overlapping

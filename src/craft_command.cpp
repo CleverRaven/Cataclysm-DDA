@@ -236,28 +236,6 @@ void craft_command::execute( bool only_cache_comps )
     }
 }
 
-const recipe *craft_command::to_craft( inventory &map_inv )
-{
-    // auto directly_craftable = [&]() {};
-
-    crafting_queue.clear();
-    requirement_data reqs = rec->simple_requirements();
-    const std::map<item_comp, recipe *> craftables;
-    if( craftables.empty() ) {
-        return rec;
-    } else if( craftables.size() == 1 ) {
-        for( const auto & [comp, rec] : reqs.get_craftable_comps() ) {
-            return rec;
-
-        }
-    } else {
-        craft_selection cs = crafter->select_component_to_craft( craftables, batch_size,
-                             map_inv );
-        return cs.rec;
-    }
-
-    return nullptr;
-}
 
 /** Does a string join with ', ' of the components in the passed vector and inserts into 'str' */
 template<typename T>
