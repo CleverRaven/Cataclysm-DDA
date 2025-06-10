@@ -31,12 +31,7 @@
     "id": "ENCH_DEBUG_WEIGHT_MODIFIER",
     "type": "enchantment",
     "condition": "ALWAYS",
-    "values": [
-      {
-        "value": "WEIGHT_MULT",
-        "multiply": 0.5
-      }
-    ]
+    "values": [ { "value": "WEIGHT_MULT", "multiply": 0.5 } ]
   },
   {
     "type": "enchantment",
