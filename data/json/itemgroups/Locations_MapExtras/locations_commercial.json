@@ -1842,7 +1842,7 @@
     "items": [
       { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
       [ "mag_computer", 20 ],
-      { "group": "ammo_pocket_batteries_full", "prob": 20 },
+      { "group": "box_of_batteries_unopened", "prob": 20 },
       [ "radio", 20 ],
       [ "television", 20 ],
       [ "two_way_radio", 20 ],
