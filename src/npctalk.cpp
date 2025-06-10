@@ -2023,10 +2023,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response_none( _( "Oh, okay." ) );
             return;
         }
-        if (!actor(false)->can_see()) {
-            add_response_none( _("You wish you could see what they're doing.") );
-            return;
-        }
         for( const skill_id &sk : sklist ) {
             if( sk->obsolete() ) {
                 continue;
