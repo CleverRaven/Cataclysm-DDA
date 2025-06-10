@@ -1980,9 +1980,9 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response_none( _( "Oh, okay." ) );
             return;
         }
-        if (!actor( false )->can_see()) {
-           add_response_none( _( "You're not sure how to teach them while blind." ) );
-           return;
+        if( !actor( false )->can_see() ) {
+            add_response_none( _( "You're not sure how to teach them while blind." ) );
+            return;
         }
         for( const spell_id &sp : spells ) {
             const std::string &text =
