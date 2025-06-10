@@ -524,6 +524,9 @@ class overmap
         void populate_connections_out_from_neighbors( const std::vector<const overmap *>
                 &neighbor_overmaps );
 
+        void log_unique_special( const overmap_special_id &id );
+        bool contains_unique_special( const overmap_special_id &id ) const;
+
         /*
         * checks adjacent overmap in direction for river terrain bordering this overmap
         * will not generate the adjacent overmap!
