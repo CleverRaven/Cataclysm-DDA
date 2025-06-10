@@ -383,11 +383,6 @@ void Character::pick_name( bool bUseDefault )
     }
 }
 
-static std::string wrap60( const std::string &text )
-{
-    return string_join( foldstring( text, 60 ), "\n" );
-}
-
 static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles,
                                   const avatar &u )
 {

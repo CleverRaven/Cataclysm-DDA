@@ -467,6 +467,7 @@ class overmap
 
         // parse data in an opened overmap file
         void unserialize( const cata_path &file_name, std::istream &fin );
+        void unserialize( std::istream &fin );
         void unserialize( const JsonObject &jsobj );
         // parse data in an opened omap file
         void unserialize_omap( const JsonValue &jsin, const cata_path &json_path );

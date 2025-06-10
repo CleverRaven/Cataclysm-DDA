@@ -112,10 +112,57 @@
     "id": "MANA_LUM",
     "name": { "str": "Mana Luminance" },
     "points": 0,
+    "mixed_effect": true,
     "bodytemp_modifiers": [ 100, 100 ],
-    "description": "Your body discards unusable mana as light and heat, making you glow softly.",
+    "description": "The constant thrum of mana makes your ley lines visibly glow beneath the skin of your torso and limbs, shedding a small amount of light.  However, it also makes you slightly warmer.",
     "category": [ "MANATOUCHED" ],
-    "lumination": [ [ "torso", 8 ] ]
+    "lumination": [ [ "torso", 3 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "MANA_LUM_FLASH",
+    "name": { "str": "Mana Flares" },
+    "points": -1,
+    "description": "Casting a spell sometimes causes your mana to grow overexcited, making the normally-dim glow of your ley lines much brighter.  This extends the glow to your entire body.",
+    "prereqs": [ "MANA_LUM" ],
+    "prereqs2": [ "MANA_REGEN2", "MANA_REGEN_MANATOUCHED" ],
+    "category": [ "MANATOUCHED" ],
+    "enchantments": [
+      { "condition": { "u_has_effect": "effect_manatouched_mana_flash_active" }, "mutations": [ "MANA_LUM_FLASH_ACTIVE" ] }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "MANA_LUM_FLASH_ACTIVE",
+    "name": { "str": "Mana Flares Active", "//~": "NO_I18N" },
+    "points": -1,
+    "description": { "str": "Mana Flares Active", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false,
+    "category": [ "MANATOUCHED" ],
+    "lumination": [
+      [ "head", 15 ],
+      [ "torso", 15 ],
+      [ "arm_l", 15 ],
+      [ "arm_r", 15 ],
+      [ "hand_l", 15 ],
+      [ "hand_r", 15 ],
+      [ "leg_l", 15 ],
+      [ "leg_r", 15 ],
+      [ "foot_l", 15 ],
+      [ "foot_r", 15 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "MANA_LUM_EXTERNAL",
+    "name": { "str": "Eldritch Glow" },
+    "points": -3,
+    "description": "Your mana sometimes swirls off your leylines and excites the air, creating a eldritch glow around you, occasionally happening when you cast or a spell or when your mana is high enough.  All you can do when it happens is wait for it to subside.",
+    "prereqs": [ "MANA_LUM_FLASH" ],
+    "prereqs2": [ "MANA_SIPHON_1", "MANA_SIPHON_2" ],
+    "category": [ "MANATOUCHED" ],
+    "threshreq": [ "THRESH_MANA" ]
   },
   {
     "type": "mutation",
@@ -130,12 +177,6 @@
     "type": "mutation",
     "id": "ALBINO",
     "copy-from": "ALBINO",
-    "extend": { "category": [ "MANATOUCHED" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "BIOLUM0",
-    "copy-from": "BIOLUM0",
     "extend": { "category": [ "MANATOUCHED" ] }
   },
   {
@@ -218,6 +259,7 @@
     "threshreq": [ "THRESH_MANA", "THRESH_DRAGON_BLACK" ],
     "types": [ "MANA_SIPHON" ],
     "prereqs": [ "MANA_SIPHON_2" ],
+    "prereqs2": [ "MANA_LUM_EXTERNAL", "DRAGON_MAGIC", "DRAGON_SPELLS" ],
     "enchantments": [ "ench_mana_siphon_3" ]
   },
   {
