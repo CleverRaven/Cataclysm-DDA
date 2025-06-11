@@ -1645,7 +1645,7 @@
     "material": [ "iron" ],
     "symbol": ";",
     "color": "light_gray",
-    "melee_damage": { "bash": 80 }
+    "melee_damage": { "bash": 50 }
   },
   {
     "id": "makeshift_hose",
