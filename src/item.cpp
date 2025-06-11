@@ -6817,6 +6817,14 @@ void item::update_inherited_flags()
             }
         }
     }
+
+    // ensure efiles in device can be used in darkness if edevice can be used in darkness
+    if( has_flag( flag_CAN_USE_IN_DARK ) ) {
+        for( item *file : efiles() ) {
+            file->set_flag( flag_CAN_USE_IN_DARK );
+        }
+    }
+
     update_prefix_suffix_flags();
 }
 
