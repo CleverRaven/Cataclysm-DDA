@@ -1,0 +1,15 @@
+[
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT",
+    "name": { "str": "Heartvines" },
+    "points": 0,
+    "mixed_effect": true,
+    "description": "After being infused with the power of nature, part of the ritual of the bloodthornes was the implantation of a symbiotic plant.  You aren't sure where it came from or what its natural habitat is, but now it's a part of you.  You require slightly more food and water than normal to feed it, but have the power to fight back against the blood-drinkers.",
+    "purifiable": false,
+    "valid": false,
+    "visibility": 2,
+    "ugliness": 1,
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 0.1 }, { "value": "THIRST", "multiply": 0.1 } ] } ]
+  }
+]

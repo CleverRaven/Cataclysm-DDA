@@ -105,55 +105,5 @@
       "success_lie": "",
       "failure": ""
     }
-  },
-  {
-    "id": "MISSION_KILL_VAMPIRE_START",
-    "type": "mission_definition",
-    "name": { "str": "Kill the blood-drinkers" },
-    "description": "Your order was sworn to kill the vampires that preyed on humanity, and they're still out there.",
-    "goal": "MGOAL_KILL_MONSTER_SPEC",
-    "monster_species": "VAMPIRE",
-    "monster_kill_goal": 1,
-    "difficulty": 10,
-    "value": 0,
-    "end": { "effect": { "run_eocs": "EOC_BLOODTHORNE_KILL_VAMPIRES_END" } },
-    "has_generic_rewards": false,
-    "origins": [ "ORIGIN_GAME_START" ],
-    "dialogue": {
-      "describe": "",
-      "offer": "",
-      "accepted": "",
-      "rejected": "",
-      "advice": "",
-      "inquire": "",
-      "success": "",
-      "success_lie": "",
-      "failure": ""
-    }
-  },
-  {
-    "id": "MISSION_KILL_VAMPIRE_ONGOING",
-    "type": "mission_definition",
-    "name": { "str": "Kill the blood-drinkers" },
-    "description": "Your order was sworn to kill the vampires that preyed on humanity, and they're still out there.",
-    "goal": "MGOAL_KILL_MONSTER_SPEC",
-    "monster_species": "VAMPIRE",
-    "monster_kill_goal": 1,
-    "difficulty": 10,
-    "value": 0,
-    "end": { "effect": { "run_eocs": "EOC_BLOODTHORNE_KILL_VAMPIRES_END" } },
-    "has_generic_rewards": false,
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "dialogue": {
-      "describe": "",
-      "offer": "",
-      "accepted": "",
-      "rejected": "",
-      "advice": "",
-      "inquire": "",
-      "success": "",
-      "success_lie": "",
-      "failure": ""
-    }
   }
 ]
