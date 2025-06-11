@@ -135,8 +135,6 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```NONE``` No special attack.
 - ```PAID_BOT```  For creature with the `PAY_BOT` flag, removes the ally status when the pet effect runs out.
 - ```PARA_STING``` Shoots a paralyzing dart at the player.
-- ```PARROT``` Parrots the speech defined in `speech.json`, picks one of the lines randomly.  `speaker` points to a monster id.
-- ```PARROT_AT_DANGER``` Performs the same function as `PARROT`, but only if the creature sees an angry monster from a hostile faction.
 - ```PHOTOGRAPH``` Photographs the player.  Causes a robot attack?
 - ```PLANT``` Fungal spores take seed and grow into a fungaloid.
 - ```PULL_METAL_WEAPON``` Pulls any weapon that's made of iron or steel from the player's hand.

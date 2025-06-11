@@ -20,10 +20,12 @@
 #include "mattack_common.h"
 #include "pathfinding.h"
 #include "shearing.h"
+#include "sounds.h"
 #include "translation.h"
 #include "type_id.h"
 #include "units.h" // IWYU pragma: keep
 #include "weakpoint.h"
+#include "weighted_list.h"
 
 class Creature;
 class monster;
@@ -316,6 +318,28 @@ struct revive_type {
     mongroup_id revive_monster_group = mongroup_id::NULL_ID();
 };
 
+struct monster_sound {
+    int volume;
+    translation text;
+    sounds::sound_t type = sounds::sound_t::speech;
+};
+
+struct monster_sounds {
+        int default_volume;
+        int fixed_cooldown;
+        //int cooldown(){
+        //    return some distribution peaking at fixed_cooldown
+        //};
+        bool add( const monster_sound &sound, const int &weight, const std::string &active_when );
+        bool danger_matters() const;
+        const monster_sound *pick( bool in_danger ) const;
+        void clear();
+    private:
+        weighted_int_list<monster_sound> sounds_always;
+        weighted_int_list<monster_sound> sounds_danger;
+        weighted_int_list<monster_sound> sounds_no_danger;
+};
+
 struct mtype {
     private:
         friend class MonsterGenerator;
@@ -343,6 +367,7 @@ struct mtype {
         mtype_id upgrade_into;
         mongroup_id upgrade_group;
         mtype_id burn_into;
+        monster_sounds sounds;
 
         std::vector<revive_type> revive_types;
 
