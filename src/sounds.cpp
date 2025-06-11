@@ -991,11 +991,11 @@ void sfx::do_vehicle_engine_sfx()
         current_gear = previous_gear;
     }
 
-    if( current_gear > previous_gear ) {
+    if( !veh->is_autodriving && current_gear > previous_gear ) {
         play_variant_sound( "vehicle", "gear_shift", seas_str, indoors, night,
                             get_heard_volume( player_character.pos_bub() ), 0_degrees, 0.8, 0.8 );
         add_msg_debug( debugmode::DF_SOUND, "GEAR UP" );
-    } else if( current_gear < previous_gear ) {
+    } else if( !veh->is_autodriving && current_gear < previous_gear ) {
         play_variant_sound( "vehicle", "gear_shift", seas_str, indoors, night,
                             get_heard_volume( player_character.pos_bub() ), 0_degrees, 1.2, 1.2 );
         add_msg_debug( debugmode::DF_SOUND, "GEAR DOWN" );
@@ -1010,7 +1010,7 @@ void sfx::do_vehicle_engine_sfx()
         }
     }
 
-    if( current_speed != previous_speed ) {
+    if( !veh->is_autodriving && current_speed != previous_speed ) {
         Mix_HaltChannel( static_cast<int>( ch ) );
         add_msg_debug( debugmode::DF_SOUND, "STOP speed %d =/= %d", current_speed, previous_speed );
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
