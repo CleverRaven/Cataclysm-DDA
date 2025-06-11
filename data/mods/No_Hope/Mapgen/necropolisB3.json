@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_d_1", "necropolis_d_2", "necropolis_d_3" ],
@@ -99,7 +98,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_d_4", "necropolis_d_5", "necropolis_d_6" ],
@@ -235,7 +233,7 @@
         { "item": "lab_torso", "x": [ 66, 66 ], "y": [ 2, 5 ], "chance": 70 },
         { "item": "lab_torso", "x": [ 70, 70 ], "y": [ 2, 5 ], "chance": 70 },
         { "item": "dining", "x": [ 56, 57 ], "y": [ 3, 4 ], "chance": 40 },
-        { "item": "fridgesnacks", "x": [ 64, 64 ], "y": [ 2, 2 ], "chance": 70 },
+        { "item": "SUS_fridge_snacks", "x": [ 64, 64 ], "y": [ 2, 2 ], "chance": 70 },
         { "item": "bed", "x": [ 13, 14 ], "y": [ 31, 31 ], "chance": 70 },
         { "item": "traveler", "x": [ 14, 14 ], "y": [ 30, 30 ], "chance": 70 },
         { "item": "bed", "x": [ 10, 11 ], "y": [ 31, 31 ], "chance": 70 },
@@ -277,7 +275,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_d_7", "necropolis_d_8", "necropolis_d_9" ],
@@ -422,7 +419,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_d_19", "necropolis_d_20", "necropolis_d_21" ],
@@ -551,7 +547,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_d_22", "necropolis_d_23", "necropolis_d_24" ],
@@ -635,7 +630,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_d_25", "necropolis_d_26", "necropolis_d_27" ],
@@ -717,7 +711,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_d_37", "necropolis_d_38", "necropolis_d_39" ],
@@ -811,7 +804,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_d_40", "necropolis_d_41", "necropolis_d_42" ],
@@ -908,7 +900,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_d_43", "necropolis_d_44", "necropolis_d_45" ],
@@ -990,7 +981,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_d_55", "necropolis_d_56", "necropolis_d_57" ],
@@ -1074,7 +1064,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_d_58", "necropolis_d_59", "necropolis_d_60" ],
@@ -1153,7 +1142,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "necropolis_d_61", "necropolis_d_62", "necropolis_d_63" ],
@@ -1236,7 +1224,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ [ "necropolis_d_73", "necropolis_d_74", "necropolis_d_75" ] ],
     "object": {
@@ -1310,7 +1297,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ [ "necropolis_d_76", "necropolis_d_77", "necropolis_d_78" ] ],
     "object": {
@@ -1355,7 +1341,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ [ "necropolis_d_79", "necropolis_d_80", "necropolis_d_81" ] ],
     "object": {

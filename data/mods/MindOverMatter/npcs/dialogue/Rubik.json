@@ -84,7 +84,12 @@
       {
         "text": "[Premonition] *Determine if <npc_name> is a threat*",
         "topic": "TALK_EXODII_MERCHANT_danger_sense",
-        "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 2" ] }
+        "condition": {
+          "or": [
+            { "math": [ "u_spell_level('clair_danger_sense') >= 2" ] },
+            { "math": [ "u_spell_level('knack_clair_danger_sense') >= 8" ] }
+          ]
+        }
       }
     ]
   },
@@ -108,7 +113,7 @@
       {
         "text": "[Telepathy] *Read <npc_name>'s mind*",
         "topic": "TALK_EXODII_MERCHANT_scan",
-        "condition": { "u_has_trait": "TELEPATH" }
+        "condition": { "or": [ { "math": [ "jmath_telepathy_knacks_combined_level() > 10" ] }, { "u_has_trait": "TELEPATH" } ] }
       }
     ]
   },
@@ -119,9 +124,11 @@
     "responses": [
       { "text": "*Withdraw from <npc_name>'s mind*.", "topic": "TALK_EXODII_MERCHANT_Talk" },
       {
-        "text": "[Telepathy 10+] *Go deeper*.",
+        "text": "[Telepathy] *Go deeper*.",
         "topic": "TALK_EXODII_MERCHANT_deep_scan",
-        "condition": { "math": [ "u_school_level('TELEPATH') >= 10" ] }
+        "condition": {
+          "or": [ { "math": [ "u_school_level('TELEPATH') >= 10" ] }, { "math": [ "jmath_telepathy_knacks_combined_level() > 20" ] } ]
+        }
       }
     ]
   },

@@ -30,6 +30,7 @@
 #include "mondefense.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "mtype.h"
 #include "options.h"
 #include "pathfinding.h"
 #include "rng.h"
@@ -571,7 +572,10 @@ void MonsterGenerator::finalize_pathfinding_settings( mtype &mon )
         mon.path_settings.bash_strength = mon.bash_skill;
     }
 
-    if( mon.has_flag( mon_flag_CLIMBS ) ) {
+    if( mon.move_skills.climb.has_value() ) {
+        mon.path_settings.climb_cost = move_skills_data::max_movemod_penalty -
+                                       ( mon.move_skills.climb.value() * ( move_skills_data::max_movemod_penalty / 10 ) );
+    } else if( mon.has_flag( mon_flag_CLIMBS ) ) {
         mon.path_settings.climb_cost = 3;
     }
 }
@@ -959,7 +963,43 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "petfood", petfood );
 
-    optional( jo, was_loaded, "move_skills", move_skills );
+    if( !was_loaded || jo.has_object( "move_skills" ) ) {
+        optional( jo, was_loaded, "move_skills", move_skills );
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            if( tmp.has_object( "move_skills" ) ) {
+                JsonObject skills = tmp.get_object( "move_skills" );
+                if( skills.has_member( "swim" ) ) {
+                    move_skills.swim = std::optional<int>( skills.get_int( "swim" ) );
+                }
+                if( skills.has_member( "dig" ) ) {
+                    move_skills.dig = std::optional<int>( skills.get_int( "dig" ) );
+                }
+                if( skills.has_member( "climb" ) ) {
+                    move_skills.climb = std::optional<int>( skills.get_int( "climb" ) );
+                }
+            }
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            if( tmp.has_object( "move_skills" ) ) {
+                JsonObject skills = tmp.get_object( "move_skills" );
+                if( skills.get_member_opt( "swim" ) ) {
+                    move_skills.swim = std::optional<int>( std::nullopt );
+                }
+                if( skills.get_member_opt( "dig" ) ) {
+                    move_skills.dig = std::nullopt;
+                }
+                if( skills.get_member_opt( "climb" ) ) {
+                    move_skills.climb = std::nullopt;
+                }
+            }
+        }
+    }
+
 
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );

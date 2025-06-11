@@ -95,7 +95,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str_sp": "electric shears" },
-    "description": "Electric shears, used to quickly shear animals.",
+    "description": "Electric corded shears, used to quickly shear animals.",
     "weight": "1200 g",
     "volume": "1200 ml",
     "price": "24 USD",
@@ -106,15 +106,9 @@
     "color": "dark_gray",
     "charged_qualities": [ [ "SHEAR", 3 ] ],
     "flags": [ "WATER_BREAK", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
-    "charges_per_use": 25,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_minus_battery_cell"
-      }
-    ],
+    "use_action": { "type": "link_up", "cable_length": 5 },
+    "charges_per_use": 250,
+    "power_draw": "850 W",
     "melee_damage": { "bash": 2 },
     "tool_ammo": [ "battery" ]
   },

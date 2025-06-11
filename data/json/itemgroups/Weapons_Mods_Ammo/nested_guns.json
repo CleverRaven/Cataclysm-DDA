@@ -2355,15 +2355,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "remington_870", "variant": "remington_870", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
-  },
-  {
-    "id": "nested_mossberg_500_security",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [ { "item": "benelli_tsa", "variant": "mossberg_500_security", "charges": [ 0, 6 ] }, { "group": "on_hand_shot" } ]
+    "entries": [ { "item": "remington_870", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_winchester_1897",
@@ -2387,7 +2379,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "remington_870", "variant": "browning_a5", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
+    "entries": [ { "item": "browning_a5", "charges": [ 0, 4 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_remington_1100",
@@ -2395,7 +2387,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "remington_870", "variant": "remington_1100", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
+    "entries": [ { "item": "remington_1100", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_mossberg_930",
@@ -2403,7 +2395,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "mossberg_930", "variant": "mossberg_930", "charges": [ 0, 6 ] }, { "group": "on_hand_shot" } ]
+    "entries": [ { "item": "mossberg_930", "charges": [ 0, 6 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_shotgun_410",
@@ -2534,19 +2526,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "mossberg_930", "variant": "m1014", "charges": [ 0, 8 ] }, { "group": "on_hand_shot" } ]
-  },
-  {
-    "id": "nested_slp",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "//2": "The FN SLP Mk I is drilled and tapped for rail mounts: https://fnamerica.wpenginepowered.com/wp-content/uploads/2016/10/1608_FN_SLP_sellsheet_R5.pdf",
-    "entries": [
-      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "charges": [ 0, 9 ] },
-      { "group": "on_hand_shot" }
-    ]
+    "entries": [ { "item": "m1014", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_benelli_m2",
@@ -2570,11 +2550,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "//2": "Benelli M2 tactical shotguns are drilled and tapped for rail mounts: https://www.benelliusa.com/shotguns/m2-tactical-shotguns",
-    "entries": [
-      { "item": "benelli_tsa", "variant": "m2_tac", "contents-item": [ "rail_mount" ], "charges": [ 0, 6 ] },
-      { "group": "on_hand_shot" }
-    ]
+    "entries": [ { "item": "benelli_tsa", "charges": [ 0, 6 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_mossberg_590",
@@ -2582,7 +2558,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "mossberg_590", "variant": "mossberg_590", "charges": [ 0, 9 ] }, { "group": "on_hand_shot" } ]
+    "entries": [ { "item": "mossberg_590", "charges": [ 0, 9 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_mossberg_590m",
@@ -2862,7 +2838,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "remington_870", "variant": "ithaca37", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
+    "entries": [ { "item": "ithaca37", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_cz600",

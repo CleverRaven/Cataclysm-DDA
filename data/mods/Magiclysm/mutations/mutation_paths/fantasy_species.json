@@ -812,7 +812,7 @@
     "//": "Name just means 'lover of gold' but at least it fits the format of other negative traits",
     "description": "You need to have shiny objects on your person or you just can't concentrate very well.  You suffer a morale penalty unless you're wearing at least six items made of gold or silver.",
     "purifiable": false,
-    "category": [ "SPECIES_RAVENFOLK" ]
+    "category": [ "SPECIES_RAVENFOLK", "DRAGON_BLACK" ]
   },
   {
     "type": "mutation",

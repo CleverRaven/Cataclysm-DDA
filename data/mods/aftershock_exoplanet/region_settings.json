@@ -27,7 +27,7 @@
       "empty_rock"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
-    "river_scale": 0,
+    "overmap_river_settings": { "river_scale": 0.0 },
     "city": {
       "shop_radius": 30,
       "shop_sigma": 80,

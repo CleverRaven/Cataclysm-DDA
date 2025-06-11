@@ -7512,9 +7512,10 @@ void Character::signal_nemesis()
 
 void Character::vomit()
 {
+    const units::volume stomach_contents_before_vomit = stomach.contains();
     get_event_bus().send<event_type::throws_up>( getID() );
 
-    if( stomach.contains() != 0_ml ) {
+    if( stomach_contents_before_vomit != 0_ml ) {
         get_map().add_field( adjacent_tile(), fd_bile, 1 );
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
     }
@@ -7546,7 +7547,7 @@ void Character::vomit()
     remove_effect( effect_pkill2 );
     remove_effect( effect_pkill3 );
     // Don't wake up when just retching
-    if( stomach.contains() > 0_ml ) {
+    if( stomach_contents_before_vomit > 0_ml ) {
         wake_up();
     }
 }
@@ -11577,8 +11578,9 @@ bool Character::has_destination() const
 
 bool Character::has_destination_activity() const
 {
-    return !get_destination_activity().is_null() && destination_point &&
-           pos_bub() == get_map().get_bub( *destination_point );
+    const bool has_reached_destination = destination_point &&
+                                         ( pos_abs() == *destination_point || auto_move_route.empty() );
+    return !get_destination_activity().is_null() && has_reached_destination;
 }
 
 void Character::start_destination_activity()
@@ -13673,11 +13675,6 @@ bool Character::can_lift( vehicle &veh, map &here ) const
     }
     const int npc_str = get_lift_assist();
     return str + npc_str >= veh.lift_strength( here );
-}
-
-static std::string wrap60( const std::string &text )
-{
-    return string_join( foldstring( text, 60 ), "\n" );
 }
 
 bool character_martial_arts::pick_style( const Character &you ) // Style selection menu

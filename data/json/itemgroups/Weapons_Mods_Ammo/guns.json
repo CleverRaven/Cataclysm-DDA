@@ -556,34 +556,10 @@
         "contents-item": "shoulder_strap",
         "prob": 1
       },
-      {
-        "item": "benelli_tsa",
-        "variant": "mossberg_500_security",
-        "charges": [ 0, 6 ],
-        "contents-item": "shoulder_strap",
-        "prob": 4
-      },
-      {
-        "item": "mossberg_590",
-        "variant": "mossberg_590",
-        "charges": [ 0, 9 ],
-        "contents-item": "shoulder_strap",
-        "prob": 1
-      },
-      {
-        "item": "mossberg_930",
-        "variant": "mossberg_930",
-        "charges": [ 0, 8 ],
-        "contents-item": "shoulder_strap",
-        "prob": 7
-      },
-      {
-        "item": "mossberg_930",
-        "variant": "m1014",
-        "charges": [ 0, 8 ],
-        "contents-item": "shoulder_strap",
-        "prob": 2
-      },
+      { "item": "benelli_tsa", "charges": [ 0, 6 ], "contents-item": "shoulder_strap", "prob": 4 },
+      { "item": "mossberg_590", "charges": [ 0, 9 ], "contents-item": "shoulder_strap", "prob": 1 },
+      { "item": "mossberg_930", "charges": [ 0, 8 ], "contents-item": "shoulder_strap", "prob": 7 },
+      { "item": "m1014", "charges": [ 0, 5 ], "contents-item": "shoulder_strap", "prob": 2 },
       { "item": "remington_870_express", "charges": [ 0, 7 ], "contents-item": "shoulder_strap", "prob": 7 },
       { "item": "remington_700", "charges": [ 0, 4 ], "contents-item": "shoulder_strap", "prob": 2 },
       { "item": "M24", "charges": [ 0, 5 ], "contents-item": "shoulder_strap", "prob": 10 }
@@ -622,28 +598,10 @@
       },
       { "item": "ruger_mini", "ammo-item": "223", "charges": 20, "contents-item": "shoulder_strap", "prob": 5 },
       { "item": "steyr_aug", "ammo-item": "556_mk318", "charges": 30, "contents-item": "shoulder_strap", "prob": 1 },
-      {
-        "item": "benelli_tsa",
-        "variant": "mossberg_500_security",
-        "charges": 6,
-        "contents-item": "shoulder_strap",
-        "prob": 2
-      },
-      {
-        "item": "mossberg_590",
-        "variant": "mossberg_590",
-        "charges": 9,
-        "contents-item": "shoulder_strap",
-        "prob": 1
-      },
-      {
-        "item": "mossberg_930",
-        "variant": "mossberg_930",
-        "charges": 8,
-        "contents-item": "shoulder_strap",
-        "prob": 5
-      },
-      { "item": "mossberg_930", "variant": "m1014", "charges": 8, "contents-item": "shoulder_strap", "prob": 1 },
+      { "item": "benelli_tsa", "charges": 6, "contents-item": "shoulder_strap", "prob": 2 },
+      { "item": "mossberg_590", "charges": 9, "contents-item": "shoulder_strap", "prob": 1 },
+      { "item": "mossberg_930", "charges": 8, "contents-item": "shoulder_strap", "prob": 5 },
+      { "item": "m1014", "charges": 5, "contents-item": "shoulder_strap", "prob": 1 },
       { "item": "remington_870_express", "charges": 7, "contents-item": "shoulder_strap", "prob": 3 }
     ]
   },
@@ -788,7 +746,6 @@
         "collection": [
           {
             "item": "benelli_tsa",
-            "variant": "mossberg_500_security",
             "charges": [ 0, 6 ],
             "contents-item": "shoulder_strap",
             "damage": [ 0, 3 ],
@@ -802,7 +759,6 @@
         "collection": [
           {
             "item": "mossberg_590",
-            "variant": "mossberg_590",
             "charges": [ 0, 9 ],
             "contents-item": "shoulder_strap",
             "damage": [ 0, 3 ],
@@ -816,7 +772,6 @@
         "collection": [
           {
             "item": "mossberg_930",
-            "variant": "mossberg_930",
             "charges": [ 0, 8 ],
             "contents-item": "shoulder_strap",
             "damage": [ 0, 3 ],
@@ -828,14 +783,7 @@
       },
       {
         "collection": [
-          {
-            "item": "mossberg_930",
-            "variant": "m1014",
-            "charges": [ 0, 8 ],
-            "contents-item": "shoulder_strap",
-            "damage": [ 0, 3 ],
-            "dirt": [ 0, 7050 ]
-          },
+          { "item": "m1014", "charges": [ 0, 5 ], "contents-item": "shoulder_strap", "damage": [ 0, 3 ], "dirt": [ 0, 7050 ] },
           { "group": "field_shotgun" }
         ],
         "prob": 1
@@ -1205,14 +1153,7 @@
       },
       {
         "collection": [
-          {
-            "item": "mossberg_930",
-            "variant": "m1014",
-            "charges": [ 0, 8 ],
-            "contents-item": "shoulder_strap",
-            "damage": [ 0, 3 ],
-            "dirt": [ 0, 7050 ]
-          },
+          { "item": "m1014", "charges": [ 0, 5 ], "contents-item": "shoulder_strap", "damage": [ 0, 3 ], "dirt": [ 0, 7050 ] },
           { "group": "field_shotgun" }
         ],
         "prob": 1

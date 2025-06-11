@@ -1564,9 +1564,9 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
 
 
 
-    add_msg_debug( debugmode::DF_MONMOVE, "\n%s movecost from: (%i, %i, %i) to (%i, %i, %i)", name(),
-                   from.x(), from.y(), from.z(),
-                   to.x(), to.y(), to.z() );
+    add_msg_debug( debugmode::DF_MONMOVE, "moveskills: swim: %i, dig: %i, climb: %i",
+                   type->move_skills.swim.value_or( -1 ), type->move_skills.dig.value_or( -1 ),
+                   type->move_skills.climb.value_or( -1 ) );
     const vehicle *ignored_vehicle = nullptr;
 
     std::map<tripoint_bub_ms, int> tilecosts = {{from, 0}, {to, 0}};
@@ -1577,9 +1577,9 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
         add_msg_debug( debugmode::DF_MONMOVE, "%s calculating: (%i, %i, %i)", name(),
                        where.x(), where.y(), where.z() );
 
-        // flying creatures ignore all terrain/furniture.
-        // TODO: field efefcts?
-        if( flies() ) {
+        // flying creatures ignore all terrain/furniture. Birds that swim prefer to swim if possible.
+        if( flies() &&
+            !( swims() && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIMMABLE, where ) ) ) {
             cost += 2;
             continue;
         }
@@ -1600,40 +1600,39 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
             const vpart_position vp( const_cast<vehicle &>( *veh ), part );
             int veh_movecost = vp.get_movecost();
             int fieldcost = get_filtered_fieldcost( field );
-            if( veh_movecost > 0 && fieldcost >= 0 ) {
-                cost += veh_movecost + fieldcost;
-                // vehicle movement ignores the rest
-                continue;
-            } else {
+            if( ( veh_movecost <= 0 || fieldcost < 0 ) && where == from ) {
                 debugmsg( "%s cannot move to %s. monster::calc_movecost expects to be called with valid destination.",
                           get_name(), veh_movecost ? veh->disp_name() :  field.displayed_field_type().id().str() );
                 return 0;
+            } else {
+                cost += veh_movecost + fieldcost;
+                // vehicle movement ignores the rest
+                continue;
             }
         }
 
         //terrain
-        if( terrain.movecost < 0 ) {
+        if( terrain.movecost < 0 && where == to ) {
             debugmsg( "%s cannot enter unwalkable terrain %s. monster::calc_movecost expects to be called with valid destination.",
                       get_name(), terrain.name() );
-            continue;
-        } else if( terrain.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) ) {
+            return 0;
+        } else if( is_aquatic_danger( where ) && where == to ) {
+            debugmsg( "%s cannot swim or move in %s. monster::calc_movecost expects to be called with valid destination.",
+                      get_name(), veh ? veh->disp_name() : terrain.name() );
+            return 0;
 
+        } else if( terrain.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) ) {
             if( swims() ) {
                 // swimmers dont care about terraincost/other effects.
                 // fish move as quickly as possible with a swimmod of 0.
                 cost += swimmod;
                 continue;
 
-                // walk on the bottom of the water
-            } else if( has_flag( mon_flag_NO_BREATHE ) || force ) {
-                cost += terrain.movecost;
+                // walk on the bottom of the water. Monsters that cannot walk here should have been filtered out by is_aquatic_danger()
             } else {
-                // cannot swim or walk underwater.
-                debugmsg( "%s cannot swim or move in %s. monster::calc_movecost expects to be called with valid destination.",
-                          get_name(), veh ? veh->disp_name() : terrain.name() );
-                return 0;
+                cost += terrain.movecost;
             }
-        } else if( has_flag( mon_flag_AQUATIC ) && !force ) {
+        } else if( has_flag( mon_flag_AQUATIC ) && !force && where == to ) {
             debugmsg( "Aquatic %s cannot enter non-swimmable %s. monster::calc_movecost expects to be called with valid destination.",
                       get_name(), veh ? veh->disp_name() : terrain.name() );
             return 0;
@@ -1650,7 +1649,7 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
                    ( from.z() != to.z() && terrain.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z ) ) ) {
             if( climbs() ) {
                 cost += terrain.movecost * get_climb_mod();
-            } else if( force ) {
+            }  else if( force || where == from ) {
                 cost += terrain.movecost;
                 continue;
             } else {
@@ -1672,6 +1671,8 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
                        ( from.z() != to.z() && terrain.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z ) ) ) {
                 if( climbs() || force ) {
                     cost += furniture.movecost * get_climb_mod();
+                } else if( where == to ) {
+                    cost += furniture.movecost;
                 } else {
                     debugmsg( "%s cannot climb over %s. monster::calc_movecost expects to be called with valid destination.",
                               get_name(), furniture.name() );

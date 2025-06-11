@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "pwr_sub_s" ],
     "object": {
       "fill_ter": "t_concrete",
@@ -79,7 +78,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "pwr_sub_s_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",

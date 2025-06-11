@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "maintenance_outpost_a1", "maintenance_outpost_a2" ], [ "maintenance_outpost_b1", "maintenance_outpost_b2" ] ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -111,7 +110,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "maintenance_outpost_a1_roof", "maintenance_outpost_a2_roof" ],
       [ "maintenance_outpost_b1_roof", "maintenance_outpost_b2_roof" ]

@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": [ [ "urban_8_1", "urban_8_2" ] ],
     "type": "mapgen",
     "object": {
@@ -69,7 +68,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_8_3", "urban_8_4" ] ],
     "type": "mapgen",
     "object": {
@@ -110,7 +108,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "urban_8_6",
     "type": "mapgen",
     "object": {

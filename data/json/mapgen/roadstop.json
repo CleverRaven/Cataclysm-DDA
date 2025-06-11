@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "roadstop" ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
@@ -53,7 +52,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "roadstop_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -89,7 +87,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "roadstop_a" ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
@@ -148,7 +145,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "roadstop_a_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -184,7 +180,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "roadstop_b" ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
@@ -265,7 +260,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "roadstop_b_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",

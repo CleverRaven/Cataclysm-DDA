@@ -40,7 +40,7 @@
     "entries": [
       { "item": "briefs" },
       { "item": "socks" },
-      { "item": "robofac_jumpsuit" },
+      { "item": "jumpsuit", "variant": "robofac" },
       { "item": "bandana" },
       { "item": "boots_steel" },
       { "item": "tool_belt" },

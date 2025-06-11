@@ -88,7 +88,7 @@
       [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 30 ] ],
-      [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ]
+      [ [ "rock_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ]
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_intro_chemistry" } ],
     "components": [
@@ -127,7 +127,7 @@
       [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 350 ] ],
-      [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 25 ] ]
+      [ [ "rock_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 25 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },

@@ -72,9 +72,9 @@ int camp_reference::get_distance_from_bounds() const
     return distance - omt_to_sm_copy( 4 );
 }
 
-cata_path overmapbuffer::terrain_filename( const point_abs_om &p )
+std::string overmapbuffer::terrain_filename( const point_abs_om &p )
 {
-    return PATH_INFO::world_base_save_path() / string_format( "o.%d.%d", p.x(), p.y() );
+    return string_format( "o.%d.%d", p.x(), p.y() );
 }
 
 cata_path overmapbuffer::player_filename( const point_abs_om &p )
@@ -249,6 +249,7 @@ void overmapbuffer::clear()
     placed_unique_specials.clear();
     unique_special_count.clear();
     overmap_count = 0;
+    major_river_count = 0;
     last_requested_overmap = nullptr;
 }
 
@@ -308,7 +309,7 @@ overmap *overmapbuffer::get_existing( const point_abs_om &p )
         // checked in a previous call of this function).
         return nullptr;
     }
-    if( file_exist( terrain_filename( p ) ) ) {
+    if( file_exist( PATH_INFO::world_base_save_path() / terrain_filename( p ) ) ) {
         // File exists, load it normally (the get function
         // indirectly call overmap::open to do so).
         return &get( p );
@@ -1092,14 +1093,24 @@ bool overmapbuffer::check_overmap_special_type( const overmap_special_id &id,
 void overmapbuffer::add_unique_special( const overmap_special_id &id )
 {
     if( contains_unique_special( id ) ) {
-        debugmsg( "Unique overmap special placed more than once: %s", id.str() );
+        debugmsg( "Globally unique overmap special placed more than once: %s", id.str() );
     }
     placed_unique_specials.emplace( id );
 }
 
+void overmapbuffer::add_overmap_unique_special( const overmap_special_id &id )
+{
+    if( contains_unique_special( id ) ) {
+        debugmsg( "Overmap unique overmap special placed more than once: %s", id.str() );
+    }
+    placed_overmap_unique_specials.emplace( id );
+    unique_special_count[id]++;
+}
+
 bool overmapbuffer::contains_unique_special( const overmap_special_id &id ) const
 {
-    return placed_unique_specials.find( id ) != placed_unique_specials.end();
+    return placed_unique_specials.find( id ) != placed_unique_specials.end() ||
+           placed_overmap_unique_specials.find( id ) != placed_overmap_unique_specials.end();
 }
 
 static omt_find_params assign_params(
@@ -1228,6 +1239,38 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
     }
 
     return random_entry( result, tripoint_abs_omt::invalid );
+}
+
+tripoint_abs_omt overmapbuffer::find_existing_globally_unique( const tripoint_abs_omt &origin,
+        const omt_find_params &params )
+{
+    // Should only be called if the target is present in the set of placed globally unique specials.
+
+    //TODO: Update the globally unique set to contain positions and add code here
+    // to return that position and only fall through to the search code below if the position is
+    // invalid (because the entry is converted from an earlier version where the position wasn't
+    // recorded).
+    const tripoint_abs_om center = coords::project_to<coords::om>( origin );
+
+    // Very long range which will take forever if filled. Max is an arbitrary number.
+    const overmap_special_id special_id = params.om_special.value();
+    for( point_abs_om om : closest_points_first( center.xy(), 0, 100 ) ) {
+        if( has( om ) ) {
+            overmap &om_data = get( om );
+            point_abs_omt om_base = coords::project_to<coords::omt>( om );
+
+            for( auto &element : om_data.overmap_special_placements ) {
+                if( element.second == special_id ) {
+                    const tripoint_abs_omt loc = om_base + element.first.raw();
+                    if( is_findable_location( loc, params ) ) {
+                        return loc;
+                    }
+                }
+            }
+        }
+    }
+
+    return tripoint_abs_omt::invalid;
 }
 
 std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &origin,

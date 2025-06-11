@@ -942,7 +942,12 @@
   {
     "type": "overmap_special",
     "id": "military_outpost",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outpost_north" }, { "point": [ 0, 0, 1 ], "overmap": "outpost_roof_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "outpost_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "outpost_roof_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "outpost_parking_north" }
+    ],
+    "connections": [ { "point": [ 0, 2, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 1, 0 ] } ],
     "locations": [ "field", "forest_without_trail" ],
     "city_distance": [ 0, 10 ],
     "occurrences": [ 10, 100 ],
@@ -6215,18 +6220,6 @@
     "city_sizes": [ 8, -1 ],
     "occurrences": [ 30, 100 ],
     "flags": [ "CLASSIC", "URBAN", "MAN_MADE", "GLOBALLY_UNIQUE" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "basement_hidden_lab_entrance",
-    "overmaps": [ { "point": [ 0, 0, -1 ], "overmap": "basement_hidden_lab_stairs" } ],
-    "connections": [ { "point": [ 0, 0, -1 ], "connection": "hidden_lab_basement", "terrain": "basement", "existing": true } ],
-    "rotate": false,
-    "locations": [ "potential_basement_lab_entrance" ],
-    "//": "Low chance to find a matching location, so always try to place it",
-    "occurrences": [ 99, 100 ],
-    "priority": 1,
-    "flags": [ "LAB", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",

@@ -1799,10 +1799,9 @@
           { "item": "knife_combat_army", "variant": "m9bayonet", "container-item": "sheath" },
           { "item": "shot_00", "count": 2 },
           {
-            "item": "mossberg_930",
-            "variant": "m1014",
+            "item": "m1014",
             "ammo-item": "shot_00",
-            "charges": 8,
+            "charges": 5,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
           }
         ]
@@ -3733,7 +3732,7 @@
           { "item": "elbow_pads" },
           { "item": "slingpack" },
           { "item": "kevlar" },
-          { "item": "balclava" },
+          { "item": "balclava", "variant": "black" },
           { "item": "knee_pads" },
           { "item": "beret" },
           { "item": "wristwatch" },
@@ -4918,8 +4917,6 @@
       "both": {
         "entries": [
           { "item": "socks" },
-          { "item": "kufi" },
-          { "item": "thawb" },
           { "item": "lowtops" },
           { "item": "holybook_quran" },
           { "group": "charged_smart_phone" },
@@ -4929,8 +4926,8 @@
           { "item": "pants", "variant": "pants_white" }
         ]
       },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+      "male": { "entries": [ { "item": "briefs" }, { "item": "kufi" }, { "item": "thawb" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" }, { "item": "niqab" }, { "item": "abaya" } ] }
     }
   },
   {
@@ -5397,7 +5394,7 @@
           { "item": "socks" },
           { "item": "winter_pants_army" },
           { "item": "winter_jacket_army" },
-          { "item": "balclava" },
+          { "item": "balclava", "variant": "black" },
           { "item": "boots_combat" },
           { "item": "winter_gloves_army" },
           { "item": "tac_helmet" },
