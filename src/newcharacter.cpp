@@ -1466,7 +1466,7 @@ static std::string stat_level_description( int stat_value )
         description = _( "inhuman" );
     } else if( stat_value > 14 ) {
         //~Description of a character's main stats. Should not exceed 18 characters of width.
-        description = _( "olympian" );
+        description = _( "extraordinary" );
     } else if( stat_value > 12 ) {
         //~Description of a character's main stats. Should not exceed 18 characters of width.
         description = _( "top 1%" );
