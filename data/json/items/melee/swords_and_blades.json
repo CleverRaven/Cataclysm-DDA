@@ -365,8 +365,7 @@
       "masterkey_mod",
       "u_shotgun"
     ],
-    "install_time": "5 s",
-    "to_hit_mod": 3
+    "install_time": "5 s"
   },
   {
     "id": "knife_combat_army",
@@ -440,8 +439,7 @@
       "masterkey_mod",
       "u_shotgun"
     ],
-    "install_time": "5 s",
-    "to_hit_mod": 3
+    "install_time": "5 s"
   },
   {
     "id": "knife_combat",
@@ -495,8 +493,7 @@
       "masterkey_mod",
       "u_shotgun"
     ],
-    "install_time": "5 s",
-    "to_hit_mod": 3
+    "install_time": "5 s"
   },
   {
     "id": "knife_hunting",
@@ -1826,8 +1823,7 @@
       "masterkey_mod",
       "u_shotgun"
     ],
-    "install_time": "5 s",
-    "to_hit_mod": 4
+    "install_time": "5 s"
   },
   {
     "id": "tanto",
@@ -3355,8 +3351,7 @@
       "masterkey_mod",
       "u_shotgun"
     ],
-    "install_time": "5 s",
-    "to_hit_mod": 4
+    "install_time": "5 s"
   },
   {
     "id": "arisaka_bayonet",
@@ -3401,8 +3396,7 @@
       "masterkey_mod",
       "u_shotgun"
     ],
-    "install_time": "5 s",
-    "to_hit_mod": 4
+    "install_time": "5 s"
   },
   {
     "id": "lc_talwar",
