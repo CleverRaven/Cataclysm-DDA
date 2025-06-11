@@ -1462,31 +1462,31 @@ static std::string stat_level_description( int stat_value )
     // Breakpoint values are largely borrowed from GAME_BALANCE.md.
     std::string description;
     if( stat_value >= 20 ) {
-        //~Description of a character's main stats. Should not exceed 17 characters of width.
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
         description = _( "superhuman" );
     } else if( stat_value > 14 ) {
-        //~Description of a character's main stats. Should not exceed 17 characters of width.
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
         description = _( "olympian" );
     } else if( stat_value > 12 ) {
-        //~Description of a character's main stats. Should not exceed 17 characters of width.
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
         description = _( "top 1%" );
     } else if( stat_value > 10 ) {
-        //~Description of a character's main stats. Should not exceed 17 characters of width.
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
         description = _( "top 10%" );
     } else if( stat_value > 8 ) {
-        //~Description of a character's main stats. Should not exceed 17 characters of width.
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
         description = _( "above average" );
     } else if( stat_value == 8 ) { // special handling
-        //~Description of a character's main stats. Should not exceed 17 characters of width.
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
         description = _( "average human" );
     } else if( stat_value > 6 ) {
-        //~Description of a character's main stats. Should not exceed 17 characters of width.
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
         description = _( "below average" );
     } else if( stat_value > 4 ) {
-        //~Description of a character's main stats. Should not exceed 17 characters of width.
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
         description = _( "crippled" );
     } else if( stat_value >= 0 ) {
-        //~Description of a character's main stats. Should not exceed 17 characters of width.
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
         description = _( "legally disabled" );
     }
 
@@ -1562,7 +1562,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                 mvwprintz( w, point( 2, i + iHeaderHeight ), i == sel ? COL_SELECT : c_light_gray, "%s:",
                            stat_labels[i].translated() );
                 mvwprintz( w, point( 16, i + iHeaderHeight ), c_light_gray, "%2d", *stats[i] );
-                mvwprintz( w, point( 20, i + iHeaderHeight ), c_light_gray, "(%s)",
+                mvwprintz( w, point( 19, i + iHeaderHeight ), c_light_gray, "(%s)",
                            stat_level_description( *stats[i] ) );
             }
         }
