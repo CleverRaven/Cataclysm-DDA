@@ -1054,7 +1054,6 @@ Character status value  | Description
 `WEAPON_DISPERSION`     | Positive value increase the dispersion, negative decrease one.
 `WEIGHT`                | Modifies the character weight, without calories or fat mass alterations. `add` would add the weight of a character in grams. Character weight cannot be less than 1 g.
 
-
 Enchanted item value | Description
 ---                  |---
 `ITEM_ATTACK_SPEED`  | 
