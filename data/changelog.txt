@@ -314,8 +314,6 @@ Snippetize Tshirt variants
 Exodii Ceramics
 Opiate Vitamin
 Add arab and islamic clothes for women
-Add colorful kids' backpacks
-Add Hub jumpsuit to the items sold by the Hub vendor
 
 
 ## Interface:
@@ -430,7 +428,6 @@ Debug option to view used palette symbols
 Add option to disable mouse
 Add "in use" info to item's name and info if item has "activity_var" var.
 Create a terminal-like default theme for Imgui
-Imgui default style: Nav highlight is white
 
 
 ## Mods:
@@ -820,8 +817,6 @@ Mod Conflicts
 [Xedra Evolved] Remove vampires' free bite, vampires take more mutagen
 [MoM] Hostile NPC dialogue updates
 [MoM] Add psychic knacks
-Aftershock: You can now spot the spaceport during clear nights.
-[Magiclysm] Frost armor no longer casts Ice Spike
 
 
 ## Balance:
@@ -919,7 +914,6 @@ Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
 World sliders rebalanced to offer differing gameplay experiences
 Some recipes have 'hard' proficiency requirements
-Make atomic batteries smaller and more expensive
 
 
 ## Bugfixes:
@@ -1273,17 +1267,8 @@ Can't craft batches so big that they vanish when the game has nowhere to put the
 [Xedra Evolved] Fix werewolf biting
 Continue with destination activity if route is empty
 Allow moving out of impassable, aquatic treated as swimming, non-swimmers can walk in shallow water
-Fix some cases where wrong volume calculations lead to impossible crafts
-Modifying the existence of a few choice recipes
 Book recipes are now available through camp crafting
-Simple edition of bugfix for watch.
-Removing extra semi colons
-[Xedra Evolved] Update leg_guards_verdant in Boann's rewards
-Fixed game freeze on NPC recall.
-Remove swimwear from underwear groups
-Make shotgun variants separate guns
 Fix ranged_damage automatically extending
-Allow crafting ingots, chunk of copper
 
 
 ## Performance:
