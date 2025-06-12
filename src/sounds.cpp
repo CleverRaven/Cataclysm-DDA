@@ -991,14 +991,16 @@ void sfx::do_vehicle_engine_sfx()
         current_gear = previous_gear;
     }
 
-    if( !veh->is_autodriving && current_gear > previous_gear ) {
-        play_variant_sound( "vehicle", "gear_shift", seas_str, indoors, night,
-                            get_heard_volume( player_character.pos_bub() ), 0_degrees, 0.8, 0.8 );
-        add_msg_debug( debugmode::DF_SOUND, "GEAR UP" );
-    } else if( !veh->is_autodriving && current_gear < previous_gear ) {
-        play_variant_sound( "vehicle", "gear_shift", seas_str, indoors, night,
-                            get_heard_volume( player_character.pos_bub() ), 0_degrees, 1.2, 1.2 );
-        add_msg_debug( debugmode::DF_SOUND, "GEAR DOWN" );
+    if( !veh->is_autodriving ) {
+        if( current_gear > previous_gear ) {
+            play_variant_sound( "vehicle", "gear_shift", seas_str, indoors, night,
+                                get_heard_volume( player_character.pos_bub() ), 0_degrees, 0.8, 0.8 );
+            add_msg_debug( debugmode::DF_SOUND, "GEAR UP" );
+        } else if( current_gear < previous_gear ) {
+            play_variant_sound( "vehicle", "gear_shift", seas_str, indoors, night,
+                                get_heard_volume( player_character.pos_bub() ), 0_degrees, 1.2, 1.2 );
+            add_msg_debug( debugmode::DF_SOUND, "GEAR DOWN" );
+        }
     }
     double pitch = 1.0;
     if( current_gear != 0 ) {
