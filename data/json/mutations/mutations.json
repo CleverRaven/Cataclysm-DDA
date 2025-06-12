@@ -9538,6 +9538,16 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_WEIGHT_MULT",
+    "name": { "str": "Debug Half Weight" },
+    "points": 99,
+    "valid": false,
+    "description": "Better than GLP1 drugs!",
+    "enchantments": [ "ENCH_DEBUG_WEIGHT_MODIFIER" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_MUTATE",
     "name": { "str": "Debug Genetic Instability" },
     "points": 99,
