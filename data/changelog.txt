@@ -135,6 +135,8 @@ Add a dentist office map
 Item faults
 Make aggro_character respect anger_relations
 river generation overhaul
+faction camp food supply can expire over time
+Roads cross streams at culverts
 
 
 ## Content:
@@ -311,6 +313,7 @@ Adds a new nether monster
 Snippetize Tshirt variants
 Exodii Ceramics
 Opiate Vitamin
+Add arab and islamic clothes for women
 
 
 ## Interface:
@@ -1264,6 +1267,8 @@ Can't craft batches so big that they vanish when the game has nowhere to put the
 [Xedra Evolved] Fix werewolf biting
 Continue with destination activity if route is empty
 Allow moving out of impassable, aquatic treated as swimming, non-swimmers can walk in shallow water
+Book recipes are now available through camp crafting
+Fix ranged_damage automatically extending
 
 
 ## Performance:
