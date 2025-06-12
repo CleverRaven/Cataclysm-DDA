@@ -916,6 +916,7 @@
     "skills": [ { "level": 3, "name": "deduction" }, { "level": 3, "name": "survival" } ],
     "traits": [
       "BLOODTHORNE_DRUID",
+      "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT",
       "JAUNDICE_ARVORE_ALCHEMY",
       "ARVORE_BLOOD",
       "ARVORE_SUMMON_BRIARS",

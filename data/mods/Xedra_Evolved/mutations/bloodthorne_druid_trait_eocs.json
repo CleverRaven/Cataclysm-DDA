@@ -1,0 +1,21 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP_SUMMON",
+    "condition": { "not": "u_has_weapon" },
+    "effect": [
+      { "u_spawn_item": "heartvine_whip", "suppress_message": true, "force_equip": true },
+      { "u_add_effect": "bleed", "intensity": 1, "target_part": "arm_r", "duration": "5 minutes" }
+    ],
+    "false_effect": [
+      {
+        "if": { "u_has_wielded_with_flag": "REACH3" },
+        "then": [
+          { "u_message": "The heartwhip retracts, slithering through your grip and back within your body.", "type": "neutral" },
+          { "u_remove_item_with": "heartvine_whip" }
+        ],
+        "else": [ { "u_message": "Your hands need to be free to summon the heartwhip.", "type": "bad" } ]
+      }
+    ]
+  }
+]

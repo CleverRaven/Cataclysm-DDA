@@ -5,11 +5,29 @@
     "name": { "str": "Heartvines" },
     "points": 0,
     "mixed_effect": true,
-    "description": "After being infused with the power of nature, part of the ritual of the bloodthornes was the implantation of a symbiotic plant.  You aren't sure where it came from or what its natural habitat is, but now it's a part of you.  You require slightly more food and water than normal to feed it, but have the power to fight back against the blood-drinkers.",
+    "description": "After being infused with the power of nature, part of the ritual of the bloodthornes was the implantation of a symbiotic plant.  You aren't sure where it came from or what its natural habitat is, but now it's a part of you.  You require slightly more food and water than normal to feed it, but have the power to fight back against the blood-drinkers..",
     "purifiable": false,
     "valid": false,
     "visibility": 2,
     "ugliness": 1,
     "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 0.1 }, { "value": "THIRST", "multiply": 0.1 } ] } ]
+  },
+  {
+    "id": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP",
+    "name": { "str": "Heartwhip" },
+    "points": 2,
+    "description": "You can cause a sudden outgrowth of your Heartvine into a living weapon like a whip, ready to scourge the undead.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_eocs": [ "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP_SUMMON" ],
+    "activation_msg": "A vine erupts from your arm and wraps around your wrist before snugly fitting itself into your hand.",
+    "activation_is_setup": true,
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [ { "value": "METABOLISM", "multiply": 0.2 }, { "value": "THIRST", "multiply": 0.2 } ]
+      }
+    ]
   }
 ]
