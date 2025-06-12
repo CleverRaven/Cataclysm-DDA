@@ -1,7 +1,7 @@
 [
   {
     "id": "art_sphere",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "smooth sphere" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -9,12 +9,12 @@
     "symbol": "O",
     "volume": "1 L",
     "weight": "1 kg",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 3 }
   },
   {
     "id": "art_rod",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "slim rod" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -23,12 +23,12 @@
     "volume": "235 ml",
     "weight": "300 g",
     "longest_side": "75 cm",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "good" },
     "melee_damage": { "bash": 5 }
   },
   {
     "id": "art_teardrop",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "teardrop-shaped stone" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -39,7 +39,7 @@
   },
   {
     "id": "art_lamp",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "hollow, transparent cube" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -50,7 +50,7 @@
   },
   {
     "id": "art_snake",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "winding, flexible rod" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -59,12 +59,12 @@
     "volume": "215 ml",
     "weight": "300 g",
     "longest_side": "65 cm",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "good" },
     "melee_damage": { "bash": 5 }
   },
   {
     "id": "art_disc",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "smooth disc" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -72,12 +72,12 @@
     "symbol": "O",
     "volume": "340 ml",
     "weight": "575 g",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 3 }
   },
   {
     "id": "art_beads",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "string of beads", "str_pl": "strings of beads" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -88,7 +88,7 @@
   },
   {
     "id": "art_napkin",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "very thin sheet" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -96,11 +96,11 @@
     "symbol": "[",
     "volume": "2 ml",
     "weight": "1 g",
-    "to_hit": -3
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" }
   },
   {
     "id": "art_urchin",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "spiked sphere" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -112,7 +112,7 @@
   },
   {
     "id": "art_jelly",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "malleable blob" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -120,11 +120,11 @@
     "symbol": "O",
     "volume": "1 L",
     "weight": "800 g",
-    "to_hit": -1
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" }
   },
   {
     "id": "art_spiral",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "spiraling rod" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -133,12 +133,12 @@
     "volume": "3400 ml",
     "weight": "300 g",
     "longest_side": "30 cm",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 4 }
   },
   {
     "id": "art_pin",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "small pin" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -147,12 +147,12 @@
     "volume": "1 ml",
     "weight": "50 mg",
     "longest_side": "2 cm",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "cut": 1 }
   },
   {
     "id": "art_tube",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "hollow tube" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -165,7 +165,7 @@
   },
   {
     "id": "art_pyramid",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "regular tetrahedron" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -173,12 +173,12 @@
     "symbol": "A",
     "volume": "1 L",
     "weight": "1 kg",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 3 }
   },
   {
     "id": "art_crystal",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "translucent crystal" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -186,12 +186,12 @@
     "symbol": "A",
     "volume": "500 ml",
     "weight": "400 g",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 3 }
   },
   {
     "id": "art_knot",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "twisted, knotted cord" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -203,7 +203,7 @@
   },
   {
     "id": "art_crescent",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "crescent-shaped stone" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -214,28 +214,32 @@
   },
   {
     "id": "art_robe",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robe",
     "name": { "str": "royal robe" },
     "description": "An ornately decorated robe with an unfamiliar royal symbol on it.  The humanoid figure on the seal has two pairs of eyes.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_cloak",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "cloak",
     "name": { "str": "ancient burial shroud" },
     "description": "A cloak of thin, faded cloth.  The faint silhouette of a long-dead humanoid is barely visible on it.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_coat",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "coat_fur",
     "name": { "str": "ornate fur coat" },
     "description": "A heavy, finely crafted coat made of the fur of an unidentifiable creature.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_mask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "ancient stone mask" },
     "description": "A sinister mask made of a smooth green stone.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -243,7 +247,7 @@
     "volume": "750 ml",
     "price": "40 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "stone" ],
     "symbol": "[",
     "color": "green",
@@ -255,48 +259,55 @@
   },
   {
     "id": "art_helm",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "helmet_bronze",
     "name": { "str": "ancient bronze helmet" },
     "description": "A helmet with an imposing face plate.  Though the corrosion has completely defaced the symbols written on the sides, it seems sturdy.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_gloves",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_leather",
     "name": { "str": "pair of ornate leather gloves", "str_pl": "pairs of ornate leather gloves" },
     "description": "A set of worn leather gloves embossed with gold.  The unidentifiable leather it is made from is oddly soft.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_boots",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "boots",
     "name": { "str": "pair of ancient leather boots", "str_pl": "pairs of ancient leather boots" },
     "description": "A pair of ancient leather boots.  Though the flaps of leather are crudely sewn together, the red hue it is dyed with is striking.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_ring",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gold_ring",
     "name": { "str": "amber ring" },
     "description": "A band of gold with a smooth piece of amber set into it.  A strange worm is encased in the amber, making a perfect spiral with its sealed body.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_staff",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "i_staff",
     "name": { "str": "ancient staff" },
     "description": "A well-balanced stick of treated wood with metal caps.  A red stone is embedded in the handle.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_sword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "longsword",
     "name": { "str": "ancient sword" },
     "description": "A sword made out of a striking black metal.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "art_harp",
     "name": { "str": "ancient harp" },
     "category": "tools",
@@ -329,7 +340,8 @@
   },
   {
     "id": "art_dagger",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "ancient athame" },
     "//": "Tool qualities equivalent to steak knife, combat equiv.  to copper knife + 1 w/ RAPID and BLOCK1, size/weight off combat knife +1",
     "description": "A ritual knife used by some ancient civilization.  Unreadable runes are carved into the handle.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -349,28 +361,30 @@
   },
   {
     "id": "art_spear",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "spear_steel",
     "name": { "str": "ancient spear" },
     "description": "A sturdy wooden pole with a sharp metal spike on the end.  The handle has the symbol of a blue sun on it.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_club",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "club_wooden",
     "name": { "str": "ancient club" },
     "description": "A misshapen rod of gnarled, knotted wood.  The knots in the wood exhibit a strange fractal pattern.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_bomorrean",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "art_ring",
     "name": { "str": "set of oddly interlocked rings", "str_pl": "sets of oddly interlocked rings" },
     "description": "A set of three rings linked together.  There's something about the way the rings connect to each other that gives you a headache.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_penrose",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "art_pyramid",
     "name": { "str": "strange triangle" },
     "description": "A large triangle made out of three thick rectangles that connect to each other in an angle.  No matter how much you turn it around, you can't seem to comprehend how it links together.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -379,7 +393,8 @@
   },
   {
     "id": "art_trident",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "art_spear",
     "name": { "str": "impossible trident" },
     "description": "A large trident made entirely out of an indiscernible material.  The prong in the middle seems to fade away into nothingness when looked at from the top, but you can clearly see the shaft connecting the tip of the weapon from the bottom.  It's giving you a headache.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -395,7 +410,7 @@
   },
   {
     "id": "art_klein",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "art_tube",
     "name": { "str": "self-crossing flask" },
     "description": "A transparent flask with a neck that connects directly to its bottom without overlapping itself, even though it clearly does.  You can put things in it, but attempting to follow their path through the neck is impossible.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -420,7 +435,7 @@
   },
   {
     "id": "art_tesseract",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "art_lamp",
     "name": { "str": "four-dimensional cube" },
     "description": "It's a cube that constantly shrinks and grows in size.  It's two cubes linked by the vertices, with ever-shifting sides folding onto each other, over and over.  It's four cubes in the exact same position.  It's a cube fading to ash then reverting to pristine form repeatedly.  It's all of these at once, and none of them at all.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -429,7 +444,7 @@
   },
   {
     "id": "art_irrational",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "art_lamp",
     "name": { "str": "irrational cube" },
     "description": "A large wire-frame cube.  The interior wires somehow appear to be over the exterior wires, no matter which angle you look at the cube from.  Trying to trace the lines with your finger is probably not a good idea.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -440,7 +455,7 @@
   },
   {
     "id": "art_duocylinder",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "art_urchin",
     "name": { "str": "wobbly ring" },
     "description": "A chunky ring that folds onto itself continuously, preventing its use as an esoteric piece of jewelry.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",

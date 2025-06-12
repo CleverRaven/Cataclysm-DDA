@@ -25,7 +25,7 @@
     "entries": [
       { "group": "guns_common", "prob": 15, "damage": [ 0, 4 ] },
       { "group": "book_gunmags", "prob": 25, "damage": [ 0, 4 ] },
-      { "group": "looted_store", "prob": 75 },
+      { "group": "SUS_trash_floor", "prob": 75 },
       { "group": "ammo_parts", "prob": 5 },
       { "group": "SUS_gunstore_gear", "prob": 30, "damage": [ 0, 4 ] }
     ]
@@ -106,7 +106,7 @@
       { "item": "throwing_knife", "count": [ 1, 6 ], "entry-wrapper": "leg_sheath6", "prob": 5 },
       { "group": "ear_protection", "prob": 45 },
       { "item": "hat_boonie", "prob": 30 },
-      { "item": "balclava", "prob": 30 },
+      { "item": "balclava", "variant": "black", "prob": 30 },
       { "item": "ballistic_vest_esapi", "prob": 5 },
       { "item": "aim_game", "prob": 35 }
     ]

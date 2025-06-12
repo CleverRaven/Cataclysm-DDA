@@ -80,7 +80,8 @@
   },
   {
     "id": "fakeitem_statue",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "nearby warp obelisk" },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "weight": "70000 g",
@@ -91,7 +92,8 @@
   },
   {
     "id": "fakeitem_infinitree1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "nearby infinity tree" },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "weight": "70000 g",
@@ -118,7 +120,8 @@
   },
   {
     "id": "fakeitem_infinitystone",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "nearby infinity stone" },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "weight": "70000 g",
@@ -145,7 +148,8 @@
   },
   {
     "id": "fakeitem_infinityore",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "nearby infinity ore" },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "weight": "70000 g",

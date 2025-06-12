@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_swimming",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Swim Planet", "str_pl": "issues of Swim Planet" },
     "description": "The world's leading resource about aquatic sports.",
@@ -45,15 +46,16 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "swimming",
     "max_level": 1,
     "intelligence": 1,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "swimming",
+    "read_fun": 1
   },
   {
     "id": "manual_swimming",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Water Survival Training Field Manual", "str_pl": "copies of Water Survival Training Field Manual" },
     "description": "A commercially produced survival guide that details swimming and deep water survival techniques tailored to emergency scenarios.",
@@ -132,9 +134,9 @@
     "symbol": "?",
     "looks_like": "manual_smg",
     "color": "green",
-    "skill": "swimming",
     "max_level": 3,
     "intelligence": 8,
-    "time": "15 m"
+    "time": "15 m",
+    "read_skill": "swimming"
   }
 ]

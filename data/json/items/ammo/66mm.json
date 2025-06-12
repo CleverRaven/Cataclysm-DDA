@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "m235tpa",
     "price": "2 kUSD",
     "//": "$500 per.  Cheap!",
@@ -24,7 +25,8 @@
     "effects": [ "COOKOFF", "PYROPHORIC", "TRAIL", "NEVER_MISFIRES" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "66mm_HEAT",
     "price": "2 kUSD",
     "name": { "str_sp": "66mm HEAT" },

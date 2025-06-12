@@ -103,7 +103,6 @@
 #include "scent_map.h"
 #include "shop_cons_rate.h"
 #include "skill.h"
-#include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
 #include "speed_description.h"
@@ -246,7 +245,7 @@ void DynamicDataLoader::add( const std::string &type,
 void DynamicDataLoader::add( const std::string &type,
                              const std::function<void( const JsonObject & )> &f )
 {
-    add( type, [f]( const JsonObject & obj, const std::string_view,  const cata_path &,
+    add( type, [f]( const JsonObject & obj, std::string_view,  const cata_path &,
     const cata_path & ) {
         f( obj );
     } );
@@ -269,6 +268,7 @@ void DynamicDataLoader::initialize()
     add( "connect_group", &connect_group::load );
     add( "fault", &faults::load_fault );
     add( "fault_fix", &faults::load_fix );
+    add( "fault_group", &faults::load_group );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
     add( "effect_on_condition", &effect_on_conditions::load );
     add( "field_type", &field_types::load );
@@ -311,7 +311,6 @@ void DynamicDataLoader::initialize()
     add( "SCENARIO_BLACKLIST", &scen_blacklist::load_scen_blacklist );
     add( "shopkeeper_blacklist", &shopkeeper_blacklist::load_blacklist );
     add( "shopkeeper_consumption_rates", &shopkeeper_cons_rates::load_rate );
-    add( "skill_boost", &skill_boost::load_boost );
     add( "enchantment", &enchantment::load_enchantment );
     add( "hit_range", &Creature::load_hit_range );
     add( "scent_type", &scent_type::load_scent_type );
@@ -348,55 +347,7 @@ void DynamicDataLoader::initialize()
     add( "trap", &trap::load_trap );
     add( "trap_migration", &trap_migrations::load );
 
-    add( "AMMO", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_ammo( jo, src );
-    } );
-    add( "GUN", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_gun( jo, src );
-    } );
-    add( "ARMOR", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_armor( jo, src );
-    } );
-    add( "PET_ARMOR", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_pet_armor( jo, src );
-    } );
-    add( "TOOL", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_tool( jo, src );
-    } );
-    add( "TOOLMOD", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_toolmod( jo, src );
-    } );
-    add( "TOOL_ARMOR", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_tool_armor( jo, src );
-    } );
-    add( "BOOK", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_book( jo, src );
-    } );
-    add( "COMESTIBLE", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_comestible( jo, src );
-    } );
-    add( "ENGINE", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_engine( jo, src );
-    } );
-    add( "WHEEL", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_wheel( jo, src );
-    } );
-    add( "GUNMOD", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_gunmod( jo, src );
-    } );
-    add( "MAGAZINE", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_magazine( jo, src );
-    } );
-    add( "BATTERY", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_battery( jo, src );
-    } );
-    add( "GENERIC", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_generic( jo, src );
-    } );
-    add( "BIONIC_ITEM", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_bionic( jo, src );
-    } );
-
+    add( "ITEM", &items::load );
     add( "ITEM_CATEGORY", &item_category::load_item_cat );
 
     add( "MIGRATION", []( const JsonObject & jo ) {
@@ -682,7 +633,7 @@ void DynamicDataLoader::unload_data()
     harvest_drop_type::reset();
     harvest_list::reset();
     item_category::reset();
-    item_controller->reset();
+    items::reset();
     jmath_func::reset();
     json_flag::reset();
     connect_group::reset();
@@ -743,7 +694,6 @@ void DynamicDataLoader::unload_data()
     shopkeeper_blacklist::reset();
     shopkeeper_cons_rates::reset();
     Skill::reset();
-    skill_boost::reset();
     SNIPPET.clear_snippets();
     magic_type::reset_all();
     spell_type::reset_all();
@@ -799,12 +749,8 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
             { _( "Materials" ), &material_type::finalize_all },
-            {
-                _( "Items" ), []()
-                {
-                    item_controller->finalize();
-                }
-            },
+            { _( "Faults" ), &faults::finalize },
+            { _( "Items" ), &items::finalize_all },
             {
                 _( "Crafting requirements" ), []()
                 {
@@ -845,6 +791,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Recipe groups" ), &recipe_group::check },
             { _( "Martial arts" ), &finalize_martial_arts },
             { _( "Scenarios" ), &scenario::finalize },
+            { _( "Spells" ), &spell_type::finalize_all },
             { _( "Climbing aids" ), &climbing_aid::finalize },
             { _( "NPC classes" ), &npc_class::finalize_all },
             { _( "Missions" ), &mission_type::finalize },
@@ -854,7 +801,6 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Achievements" ), &achievement::finalize },
             { _( "Damage info orders" ), &damage_info_order::finalize_all },
             { _( "Widgets" ), &widget::finalize },
-            { _( "Faults" ), &faults::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
@@ -896,12 +842,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Effect types" ), &effect_type::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
             { _( "Addiction types" ), &add_type::check_add_types },
-            {
-                _( "Items" ), []()
-                {
-                    item_controller->check_definitions();
-                }
-            },
+            { _( "Items" ), &items::check_consistency },
             { _( "Materials" ), &materials::check },
             { _( "Faults" ), &faults::check_consistency },
             { _( "Vehicle parts" ), &vehicles::parts::check },

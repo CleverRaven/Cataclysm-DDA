@@ -60,7 +60,7 @@ String.
 Item id of the base item of this appliance.
 
 #### Example
-```json
+```jsonc
   {
     "type": "appliance_convert",
     "furn_set": "f_null",
@@ -143,7 +143,7 @@ String.
 What message to print when attempting to activate the cardreader after it has already been activated.
 
 #### Example
-```json
+```jsonc
   {
     "type": "cardreader",
     "flags": [ "SCIENCE_CARD" ],
@@ -213,7 +213,7 @@ Effect on condition, that would be fired in the end of shooting. Additional cont
 `target`, string, coordinates of picked tile
 
 #### Example
-```json
+```jsonc
     "examine_action": {
       "type": "mortar",
       "ammo": [ "mortar_60mm" ],

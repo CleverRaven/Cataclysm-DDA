@@ -845,7 +845,7 @@ void iexamine::attunement_altar( Character &you, const tripoint_bub_ms & )
                                  attunement->name() ) ) ) {
         you.toggle_trait( attunement );
         // There's no way for you to have this mutation, so a variant is pointless
-        you.add_msg_if_player( m_info, attunement->desc() );
+        you.add_msg_if_player( m_info, you.mutation_desc( attunement ) );
     } else {
         you.add_msg_if_player( _( "Maybe later." ) );
     }
@@ -853,11 +853,13 @@ void iexamine::attunement_altar( Character &you, const tripoint_bub_ms & )
 
 void iexamine::translocator( Character &you, const tripoint_bub_ms &examp )
 {
-    const tripoint_abs_omt omt_loc( coords::project_to<coords::omt>( get_map().get_abs( examp ) ) );
+    map &here = get_map();
+
+    const tripoint_abs_omt omt_loc( coords::project_to<coords::omt>( here.get_abs( examp ) ) );
     avatar &player_character = get_avatar();
     const bool activated = player_character.translocators.knows_translocator( omt_loc );
 
-    if( get_map().has_flag_furn( ter_furn_flag::TFLAG_TRANSLOCATOR_GREATER, examp ) ) {
+    if( here.has_flag_furn( ter_furn_flag::TFLAG_TRANSLOCATOR_GREATER, examp ) ) {
 
         enum options {
             ADJUST_ACTIVATION,
@@ -1035,14 +1037,8 @@ class atm_menu
 
         //! Prompt for an integral value clamped to [0, max].
         static int prompt_for_amount( const char *const msg, const int max ) {
-            const std::string formatted = string_format( msg, max );
-            const int amount = string_input_popup()
-                               .title( formatted )
-                               .width( 20 )
-                               .text( std::to_string( max ) )
-                               .only_digits( true )
-                               .query_int();
-
+            int amount = max;
+            query_int( amount, true, msg, max );
             return clamp( amount, 0, max );
         }
 
@@ -1261,11 +1257,13 @@ void iexamine::atm( Character &you, const tripoint_bub_ms & )
  */
 void iexamine::vending( Character &you, const tripoint_bub_ms &examp )
 {
+    map &here = get_map();
+
     constexpr int moves_cost = to_moves<int>( 5_seconds );
     int money = you.charges_of( itype_cash_card );
-    map_stack vend_items = get_map().i_at( examp );
+    map_stack vend_items = here.i_at( examp );
 
-    bool use_bank = get_map().has_flag_furn( "BANK_NETWORKED", examp );
+    bool use_bank = here.has_flag_furn( "BANK_NETWORKED", examp );
 
     if( use_bank ) {
         money = you.cash + you.charges_of( itype_cash_card );
@@ -1620,7 +1618,7 @@ void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
     if( you.is_avatar() ) {
         g->vertical_shift( movez );
         g->update_map( you, true );
-        cata_event_dispatch::avatar_moves( old_abs_pos, *you.as_avatar(), get_map() );
+        cata_event_dispatch::avatar_moves( old_abs_pos, *you.as_avatar(), here );
     }
 }
 
@@ -1660,7 +1658,7 @@ bool iexamine::try_start_hacking( Character &you, const tripoint_bub_ms &examp )
         item_location hacking_tool = item_location{you, &you.best_item_with_quality( qual_HACK )};
         hacking_tool->ammo_consume( hacking_tool->ammo_required(), hacking_tool.pos_bub( here ), &you );
         you.assign_activity( hacking_activity_actor( hacking_tool ) );
-        you.activity.placement = get_map().get_abs( examp );
+        you.activity.placement = here.get_abs( examp );
         return true;
     }
 }
@@ -2037,6 +2035,8 @@ void iexamine::pit_covered( Character &you, const tripoint_bub_ms &examp )
  */
 void iexamine::safe( Character &you, const tripoint_bub_ms &examp )
 {
+    map &here = get_map();
+
     bool has_cracking_tool = you.has_flag( json_flag_SAFECRACK_NO_TOOL );
     // short-circuit to avoid the more expensive iteration over items
     has_cracking_tool = has_cracking_tool || you.cache_has_item_with( flag_SAFECRACK );
@@ -2056,7 +2056,7 @@ void iexamine::safe( Character &you, const tripoint_bub_ms &examp )
         if( you.has_proficiency( proficiency_prof_safecracking ) ) {
             if( one_in( 8000 ) ) {
                 you.add_msg_if_player( m_good, _( "You carefully dial a combination… and it opens!" ) );
-                get_map().furn_set( examp, furn_f_safe_o );
+                here.furn_set( examp, furn_f_safe_o );
                 return;
             } else {
                 you.add_msg_if_player( m_info, _( "You carefully dial a combination." ) );
@@ -2065,7 +2065,7 @@ void iexamine::safe( Character &you, const tripoint_bub_ms &examp )
         } else {
             if( one_in( 80000 ) ) {
                 you.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
-                get_map().furn_set( examp, furn_f_safe_o );
+                here.furn_set( examp, furn_f_safe_o );
                 return;
             } else {
                 you.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
@@ -3034,8 +3034,13 @@ void iexamine::harvest_plant( Character &you, const tripoint_bub_ms &examp, bool
             for( item &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
                 if( from_activity ) {
                     i.set_var( "activity_var", you.name );
+                    item_location loc = here.add_item_or_charges_ret_loc( you.pos_bub(), i );
+                    if( loc ) {
+                        you.may_activity_occupancy_after_end_items_loc.push_back( loc );
+                    }
+                } else {
+                    here.add_item_or_charges( you.pos_bub(), i );
                 }
-                here.add_item_or_charges( you.pos_bub(), i );
             }
             here.furn_set( examp, furn_str_id( fp->base ) );
             you.add_msg_if_player( m_neutral, _( "You harvest the plant." ) );
@@ -3248,7 +3253,7 @@ static void pick_firestarter_and_fire( Character &you, const tripoint_bub_ms &ex
     } else {
         you.mod_power_level( -bio_lighter->power_activate );
         you.mod_moves( -to_moves<int>( 1_seconds ) );
-        firestarter_actor::resolve_firestarter_use( &you, &get_map(), examp,
+        firestarter_actor::resolve_firestarter_use( &you, &here, examp,
                 st );
     }
 }
@@ -3410,7 +3415,7 @@ void iexamine::kiln_full( Character &, const tripoint_bub_ms &examp )
             total_volume += item_it->volume();
             item_it = items.erase( item_it );
         } else {
-            item_it++;
+            ++item_it;
         }
     }
 
@@ -3542,7 +3547,7 @@ void iexamine::arcfurnace_full( Character &, const tripoint_bub_ms &examp )
             total_volume += item_it->volume();
             item_it = items.erase( item_it );
         } else {
-            item_it++;
+            ++item_it;
         }
     }
 
@@ -3923,7 +3928,7 @@ void iexamine::fvat_empty( Character &you, const tripoint_bub_ms &examp )
             // This will add items to a space near the vat, because it's flagged as NOITEM.
             item_it = items.erase( item_it );
         } else {
-            item_it++;
+            ++item_it;
             brew_present = true;
         }
     }
@@ -4107,7 +4112,7 @@ void iexamine::fvat_full( Character &you, const tripoint_bub_ms &examp )
 
     const std::string booze_name = brew_i.tname();
     item_location loc( map_cursor( examp ), &*items_here.begin() );
-    if( liquid_handler::handle_liquid( loc ) ) {
+    if( liquid_handler::handle_liquid( loc ) && loc->charges == 0 ) {
         fvat_set_empty( examp );
         add_msg( _( "You squeeze the last drops of %s from the vat." ), booze_name );
     }
@@ -4152,7 +4157,7 @@ void iexamine::compost_empty( Character &you, const tripoint_bub_ms &examp )
             // This will add items to a space near the tank, because it's flagged as NOITEM.
             item_it = items.erase( item_it );
         } else {
-            item_it++;
+            ++item_it;
             compost_present = true;
         }
     }
@@ -4390,7 +4395,7 @@ void iexamine::compost_full( Character &you, const tripoint_bub_ms &examp )
 
     const std::string compost_name = compost_i.tname();
     item_location loc( map_cursor( examp ), &*items_here.begin() );
-    if( liquid_handler::handle_liquid( loc ) ) {
+    if( liquid_handler::handle_liquid( loc ) && loc->charges == 0 ) {
         compost_set_empty( examp );
         add_msg( _( "You squeeze the last drops of %s from the tank." ), compost_name );
     }
@@ -4427,7 +4432,7 @@ static void displace_items_except_one_liquid( const tripoint_bub_ms &examp )
             items.insert( *it );
             it = items.erase( it );
         } else {
-            it++;
+            ++it;
             liquid_present = true;
         }
     }
@@ -4584,7 +4589,7 @@ void iexamine::keg( Character &you, const tripoint_bub_ms &examp )
                     return;
                 }
                 item tmp( drink.typeId(), calendar::turn, charges_held );
-                pour_into_keg( examp, tmp );
+                pour_into_keg( examp, tmp, false );
                 you.use_charges( drink.typeId(), charges_held - tmp.charges );
                 add_msg( _( "You fill the %1$s with %2$s." ), keg_name, drink_nname );
                 you.mod_moves( -to_moves<int>( 10_seconds ) );
@@ -4602,7 +4607,7 @@ void iexamine::keg( Character &you, const tripoint_bub_ms &examp )
  * will be removed from the liquid item.
  * @return Whether any charges have been transferred at all.
  */
-bool iexamine::pour_into_keg( const tripoint_bub_ms &pos, item &liquid )
+bool iexamine::pour_into_keg( const tripoint_bub_ms &pos, item &liquid, bool silent )
 {
     const units::volume keg_cap = get_keg_capacity( pos );
     if( keg_cap <= 0_ml ) {
@@ -4627,7 +4632,9 @@ bool iexamine::pour_into_keg( const tripoint_bub_ms &pos, item &liquid )
         return false;
     }
 
-    add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname(), keg_name );
+    if( !silent ) {
+        add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname(), keg_name );
+    }
     while( liquid.charges > 0 && drink.volume() < keg_cap ) {
         drink.charges++;
         liquid.charges--;
@@ -5041,7 +5048,8 @@ void iexamine::water_source( Character &, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
     item water = here.liquid_from( examp );
-    liquid_handler::handle_liquid( water, nullptr, 0, &examp );
+    liquid_dest_opt liquid_target;
+    liquid_handler::handle_liquid( water, liquid_target, nullptr, 0, &examp );
 }
 
 void iexamine::finite_water_source( Character &, const tripoint_bub_ms &examp )
@@ -5203,14 +5211,9 @@ static void reload_furniture( Character &you, const tripoint_bub_ms &examp, bool
                                       opt.ammo->ammo_type() ) - amount_in_furn;
     const itype *opt_type = opt.ammo->type;
     const int max_amount = std::min( opt.qty(), max_reload_amount );
-    const std::string popupmsg = string_format( _( "Put how many of the %1$s into the %2$s?" ),
-                                 opt_type->nname( max_amount ), f.name() );
-    int amount = string_input_popup()
-                 .title( popupmsg )
-                 .width( 20 )
-                 .text( std::to_string( max_amount ) )
-                 .only_digits( true )
-                 .query_int();
+    int amount = max_amount;
+    query_int( amount, true, _( "Put how many of the %s into the %s?" ), opt_type->nname( max_amount ),
+               f.name() );
     if( amount <= 0 || amount > max_amount ) {
         return;
     }
@@ -5683,20 +5686,13 @@ void iexamine::pay_gas( Character &you, const tripoint_bub_ms &examp )
 
         int maximum_liters = std::min( money / pricePerUnit, tankUnits / 1000 );
 
-        std::string popupmsg = str_to_illiterate_str( string_format(
-                                   _( "How many liters of %s to buy?  Max: %d L.  (0 to cancel)" ), fuelTypeStr, maximum_liters ) );
-        int liters = string_input_popup()
-                     .title( popupmsg )
-                     .width( 20 )
-                     .text( std::to_string( maximum_liters ) )
-                     .only_digits( true )
-                     .query_int();
-        if( liters <= 0 ) {
+        int liters = maximum_liters;
+        if( !query_int( liters, true, str_to_illiterate_str(
+                            _( "How many liters of %s to buy?  Max: %d L." ) ).c_str(),
+                        fuelTypeStr, maximum_liters ) || liters <= 0 ) {
             return;
         }
-        if( liters > maximum_liters ) {
-            liters = maximum_liters;
-        }
+        clamp( liters, 0, maximum_liters );
 
         const std::optional<tripoint_bub_ms> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
@@ -6611,7 +6607,7 @@ static void mill_activate( Character &you, const tripoint_bub_ms &examp )
     for( item &it : here.i_at( examp ) ) {
         if( it.type->milling_data && !it.type->milling_data->into_.is_null() ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.process_temperature_rot( 1, examp, get_map(), nullptr );
+            it.process_temperature_rot( 1, examp, here, nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }
@@ -6746,7 +6742,7 @@ bool iexamine::smoker_fire( Character &you, const tripoint_bub_ms &examp )
 
     for( item &it : here.i_at( examp ) ) {
         if( it.has_flag( flag_SMOKABLE ) ) {
-            it.process_temperature_rot( 1, examp, get_map(), nullptr );
+            it.process_temperature_rot( 1, examp, here, nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }
@@ -7088,16 +7084,9 @@ static void mill_load_food( Character &you, const tripoint_bub_ms &examp,
     const int max_count = std::min( count, max_count_for_capacity );
 
     // ... then ask how many to put it
-    const std::string popupmsg = string_format( _( "Insert how many %s into the mill?" ),
-                                 item::nname( what->typeId(), count ) );
-    int amount = string_input_popup()
-                 .title( popupmsg )
-                 .width( 20 )
-                 .text( std::to_string( max_count ) )
-                 .only_digits( true )
-                 .query_int();
-
-    if( amount == 0 ) {
+    int amount = max_count;
+    if( !query_int( amount, true, _( "Insert how many %s into the mill?" ),
+                    item::nname( what->typeId(), count ) ) || amount <= 0 ) {
         add_msg( m_info, _( "Never mind." ) );
         return;
     } else if( amount > count ) {
@@ -7556,13 +7545,15 @@ void iexamine::open_safe( Character &, const tripoint_bub_ms &examp )
 
 void iexamine::workbench( Character &you, const tripoint_bub_ms &examp )
 {
+    map &here = get_map();
+
     if( get_option<bool>( "WORKBENCH_ALL_OPTIONS" ) ) {
         workbench_internal( you, examp, std::nullopt );
     } else {
-        if( !get_map().i_at( examp ).empty() ) {
+        if( !here.i_at( examp ).empty() ) {
             g->pickup( examp );
         }
-        if( item::type_is_defined( get_map().furn( examp ).obj().deployed_item ) ) {
+        if( item::type_is_defined( here.furn( examp ).obj().deployed_item ) ) {
             deployed_furniture( you, examp );
         }
     }

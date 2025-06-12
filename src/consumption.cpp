@@ -47,6 +47,7 @@
 #include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "monster.h"
 #include "mutation.h"
@@ -1836,10 +1837,10 @@ static bool query_consume_ownership( item &target, Character &p )
 {
     if( !target.is_owned_by( p, true ) ) {
         bool choice = true;
-        if( p.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+        if( p.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
             choice = Pickup::query_thief();
         }
-        if( p.get_value( "THIEF_MODE" ) == "THIEF_HONEST" || !choice ) {
+        if( p.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" || !choice ) {
             return false;
         }
         g->on_witness_theft( target );
@@ -1886,6 +1887,12 @@ static bool consume_med( item &target, Character &you )
         you.modify_sleepiness( comest );
         you.modify_addiction( comest );
         you.modify_morale( target );
+        nutrients food_nutrients = you.compute_effective_nutrients( target );
+        for( const auto &vitamin : food_nutrients.vitamins() ) {
+            std::map<vitamin_id, int> vitamins;
+            vitamins[vitamin.first] = vitamin.second;
+            you.vitamins_mod( you.effect_vitamin_mod( vitamins ) );
+        }
         activate_consume_eocs( you, target );
     } else {
         // Take by mouth

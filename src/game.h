@@ -64,11 +64,13 @@ enum safe_mode_type {
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
 };
 
+class JsonObject;
 class JsonValue;
 class achievements_tracker;
 class avatar;
 class cata_path;
 class creature_tracker;
+class current_map;
 class eoc_events;
 class event_bus;
 class faction_manager;
@@ -134,6 +136,8 @@ struct pulp_data {
     // how far the splatter goes
     int mess_radius = 1;
     // how much damage you deal to corpse every second, average of multiple values
+    float nominal_pulp_power;
+    // The actual power produced, adjusted based on time adjustments.
     float pulp_power;
     // how much stamina is consumed after each punch
     float pulp_effort;
@@ -169,9 +173,11 @@ class game
         friend class editmap;
         friend class main_menu;
         friend class exosuit_interact;
+        friend class swap_map;
         friend achievements_tracker &get_achievements();
         friend event_bus &get_event_bus();
         friend map &get_map();
+        friend map &reality_bubble();
         friend creature_tracker &get_creature_tracker();
         friend Character &get_player_character();
         friend avatar &get_avatar();
@@ -231,10 +237,14 @@ class game
     public:
         void setup();
         /** Saving and loading functions. */
-        void serialize( std::ostream &fout ); // for save
+        void serialize_json( std::ostream &fout ); // for save
         void unserialize( std::istream &fin, const cata_path &path ); // for load
+        void unserialize( std::string fin ); // for load
         void unserialize_master( const cata_path &file_name, std::istream &fin ); // for load
         void unserialize_master( const JsonValue &jv ); // for load
+    private:
+        void unserialize_impl( const JsonObject &data );
+    public:
 
         /** Returns false if saving failed. */
         bool save();
@@ -777,8 +787,7 @@ class game
          */
         void load_map( const tripoint_abs_sm &pos_sm, bool pump_events = false );
         // Removes legacy npctalk_var_ prefix from older versions of the game. Should be removed after 0.J
-        static void legacy_migrate_npctalk_var_prefix( std::unordered_map<std::string, std::string>
-                &map_of_vars );
+        static void legacy_migrate_npctalk_var_prefix( global_variables::impl_t &map_of_vars );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */
@@ -1109,6 +1118,7 @@ class game
         // ########################## DATA ################################
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr; // NOLINT(cata-serialize)
+        pimpl<::current_map> current_map_ptr; // NOLINT(cata-serialize)
         pimpl<avatar> u_ptr; // NOLINT(cata-serialize)
         pimpl<live_view> liveview_ptr; // NOLINT(cata-serialize)
         live_view &liveview; // NOLINT(cata-serialize)
@@ -1122,7 +1132,9 @@ class game
         pimpl<spell_events> spell_events_ptr; // NOLINT(cata-serialize)
         pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
 
-        map &m;
+        map &m; // NOLINT(cata-serialize)
+        // 'current_map' will be identical to 'm' as you can save only at the top of the main loop.
+        ::current_map &current_map; // NOLINT(cata-serialize)
         avatar &u;
         scent_map &scent;
         // scenario is saved in avatar::store

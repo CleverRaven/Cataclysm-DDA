@@ -24,6 +24,8 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bodypart.h"
+#include "butchery.h"
+#include "butchery_requirements.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -68,6 +70,7 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "math_parser_diag_value.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
@@ -76,6 +79,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
+#include "pathfinding.h"
 #include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -109,7 +113,10 @@ static const activity_id ACT_BASH( "ACT_BASH" );
 static const activity_id ACT_BIKERACK_RACKING( "ACT_BIKERACK_RACKING" );
 static const activity_id ACT_BIKERACK_UNRACKING( "ACT_BIKERACK_UNRACKING" );
 static const activity_id ACT_BINDER_COPY_RECIPE( "ACT_BINDER_COPY_RECIPE" );
+static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
+static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
+static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
@@ -121,10 +128,13 @@ static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_DISABLE( "ACT_DISABLE" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
+static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
+static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
 static const activity_id ACT_E_FILE( "ACT_E_FILE" );
+static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_FURNITURE_MOVE( "ACT_FURNITURE_MOVE" );
@@ -153,11 +163,13 @@ static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_PULP( "ACT_PULP" );
+static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_REEL_CABLE( "ACT_REEL_CABLE" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
+static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_STASH( "ACT_STASH" );
 static const activity_id ACT_TENT_DECONSTRUCT( "ACT_TENT_DECONSTRUCT" );
 static const activity_id ACT_TENT_PLACE( "ACT_TENT_PLACE" );
@@ -276,6 +288,8 @@ static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvest
 static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvested_summer" );
 static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
 
+static const trait_id trait_NUMB( "NUMB" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
 static const vproto_id vehicle_prototype_none( "none" );
@@ -356,7 +370,7 @@ bool aim_activity_actor::check_gun_ability_to_shoot( Character &who, item &it )
             who.add_msg_if_player( m_good,
                                    _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, and it works now!" ),
                                    it.tname() );
-            it.faults.erase( faults::random_of_type_item_has( it, gun_mechanical_simple ) );
+            it.remove_single_fault_of_type( gun_mechanical_simple );
             it.set_var( "u_know_round_in_chamber", true );
         } else {
             who.add_msg_if_player( m_bad,
@@ -453,7 +467,8 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     gun_mode gun = weapon->gun_current_mode();
     who.fire_gun( here, fin_trajectory.back(), gun.qty, *gun, reload_loc );
 
-    if( !get_option<bool>( "AIM_AFTER_FIRING" ) ) {
+    if( !get_option<bool>( "AIM_AFTER_FIRING" ) ||
+        weapon.get_item()->has_fault_of_type( gun_mechanical_simple ) ) {
         restore_view();
         return;
     }
@@ -541,7 +556,8 @@ void aim_activity_actor::restore_view() const
     bool changed_z = player_character.view_offset.z() != initial_view_offset.z();
     player_character.view_offset = initial_view_offset;
     if( changed_z ) {
-        get_map().invalidate_map_cache( player_character.view_offset.z() );
+        // reality_bubble to indicate need to adjust when/if remote operation is implemented.
+        reality_bubble().invalidate_map_cache( player_character.view_offset.z() );
         g->invalidate_main_ui_adaptor();
     }
 }
@@ -1661,12 +1677,6 @@ void read_activity_actor::start( player_activity &act, Character &who )
         return;
     }
 
-    // book item_location must be of type character
-    // or else there will be item_location errors while loading
-    if( book.where() != item_location::type::character ) {
-        book = item_location( who, book.get_item() );
-    }
-
     using_ereader = !!ereader;
 
     bktype = book->type->use_methods.count( "MA_MANUAL" ) ?
@@ -2344,7 +2354,7 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
 
         cancel_pickup( who );
 
-        if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        if( who.get_value( "THIEF_MODE_KEEP" ).str() != "YES" ) {
             who.set_value( "THIEF_MODE", "THIEF_ASK" );
         }
 
@@ -2743,9 +2753,8 @@ std::optional<tripoint_bub_ms> lockpick_activity_actor::select_location( avatar 
         return std::nullopt;
     }
 
-    const std::function<bool( const tripoint_bub_ms & )> is_pickable = [&you](
+    const std::function<bool( const tripoint_bub_ms & )> is_pickable = [&you, &here](
     const tripoint_bub_ms & p ) {
-        const map &here = get_map();
         const optional_vpart_position vpart = here.veh_at( p );
         if( p == you.pos_bub() ) {
             return false;
@@ -2765,7 +2774,7 @@ std::optional<tripoint_bub_ms> lockpick_activity_actor::select_location( avatar 
         return target;
     }
 
-    const ter_id &terr_type = get_map().ter( *target );
+    const ter_id &terr_type = here.ter( *target );
     if( *target == you.pos_bub() ) {
         you.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
     } else if( get_creature_tracker().creature_at<npc>( *target ) ) {
@@ -3300,7 +3309,7 @@ std::vector<item_location> efile_activity_actor::filter_edevice_efiles(
             filtered_efiles.emplace_back( *it );
             it = filter_files.erase( it );
         } else {
-            it++;
+            ++it;
         }
     }
     return filtered_efiles;
@@ -3711,7 +3720,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
         } else {
             debugmsg( "Item location/name to be consumed should not be null." );
         }
-        if( player_character.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        if( player_character.get_value( "THIEF_MODE_KEEP" ).str() != "YES" ) {
             player_character.set_value( "THIEF_MODE", "THIEF_ASK" );
         }
     }
@@ -4253,7 +4262,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     // if item_counter has reached 100% or more
     if( craft.item_counter >= 10000000 ) {
         if( rec.is_practice() && !is_long && craft.get_making_batch_size() == 1 ) {
-            if( query_yn( _( "Keep practicing until proficiency increases?" ) ) ) {
+            if( crafter.is_avatar() && query_yn( _( "Keep practicing until proficiency increases?" ) ) ) {
                 is_long = true;
                 *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, location );
             }
@@ -4270,10 +4279,19 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
             }
         }
     } else {
-        if( level_up && craft.get_making().is_practice() &&
-            query_yn( _( "Your proficiency has increased.  Stop practicing?" ) ) ) {
-            crafter.cancel_activity();
-        } else if( craft.item_counter >= craft.get_next_failure_point() ) {
+        if( level_up && craft.get_making().is_practice() ) {
+            if( crafter.is_avatar() ) {
+                if( query_yn( _( "Your proficiency has increased.  Stop practicing?" ) ) ) {
+                    crafter.cancel_activity();
+                    return;
+                }
+            } else if( crafter.is_npc() ) {
+                crafter.cancel_activity();
+                return;
+            }
+        }
+
+        if( craft.item_counter >= craft.get_next_failure_point() ) {
             bool destroy = craft.handle_craft_failure( crafter );
             // If the craft needs to be destroyed, do it and stop crafting.
             if( destroy ) {
@@ -4432,8 +4450,8 @@ void workout_activity_actor::start( player_activity &act, Character &who )
             intensity_modifier = 1;
             break;
     }
-    int length;
-    query_int( length, _( "Train for how long (minutes): " ) );
+    int length = 0;
+    query_int( length, false, _( "Train for how long (minutes): " ) );
     if( length > 0 ) {
         duration = length * 1_minutes;
     } else {
@@ -4535,7 +4553,7 @@ bool workout_activity_actor::query_keep_training( player_activity &act, Characte
             return true;
         case 2:
         default:
-            query_int( length, _( "Train for how long (minutes): " ) );
+            query_int( length, false, _( "Train for how long (minutes): " ) );
             elapsed += act.moves_total - act.moves_left;
             duration = 0_minutes;
             if( length > 0 ) {
@@ -4944,6 +4962,8 @@ void disable_activity_actor::do_turn( player_activity &, Character &who )
 
 void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
 {
+    map &here = get_map();
+
     // Should never be null as we just checked in do_turn
     monster &critter = *get_creature_tracker().creature_at<monster>( target );
 
@@ -4962,11 +4982,11 @@ void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
             }
         }
     } else {
-        get_map().add_item_or_charges( target, critter.to_item() );
+        here.add_item_or_charges( target, critter.to_item() );
         if( !critter.has_flag( mon_flag_INTERIOR_AMMO ) ) {
             for( std::pair<const itype_id, int> &ammodef : critter.ammo ) {
                 if( ammodef.second > 0 ) {
-                    get_map().spawn_item( target.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
+                    here.spawn_item( target.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
                 }
             }
         }
@@ -5479,34 +5499,48 @@ void milk_activity_actor::start( player_activity &act, Character &/*who*/ )
 {
     act.moves_total = total_moves;
     act.moves_left = total_moves;
+    next_unit_move = calendar::turn + time_duration::from_moves( moves_per_unit );
 }
 
 void milk_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    if( monster_coords.empty() ) {
-        debugmsg( "milking activity with no position of monster stored" );
-        act.set_to_null();
-        return;
-    }
     map &here = get_map();
-    const tripoint_bub_ms source_pos = here.get_bub( tripoint_abs_ms( monster_coords.at( 0 ) ) );
+    const tripoint_bub_ms source_pos = here.get_bub( monster_coords );
     monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
     if( source_mon == nullptr ) {
         // We might end up here if the creature dies while being milked
         who.add_msg_if_player( m_bad, _( "The udders slip out of your hands." ) );
         act.set_to_null();
+        return;
+    }
+
+    if( target.dest_opt != LD_NULL ) { // Backward compatibility check 2025-04-29.
+        if( calendar::turn >= next_unit_move ) {
+            // Add one since we've included that in next_unit_move.
+            int units = to_moves<int>( calendar::turn - next_unit_move ) / moves_per_unit + 1;
+            next_unit_move += time_duration::from_moves( moves_per_unit );
+
+            auto milked_item = source_mon->ammo.find( source_mon->type->starting_ammo.begin()->first );
+            units = std::min( units, milked_item->second );
+            item milk( milked_item->first, calendar::turn, units );
+            milk.set_item_temperature( units::from_celsius( 38.6 ) );
+
+            if( liquid_handler::handle_liquid( milk, target, nullptr, 1, nullptr, nullptr, -1,
+                                               source_mon, true ) ) {
+                milked_item->second--;
+                if( milked_item->second == 0 ) {
+                    who.add_msg_if_player( _( "The %s's udders run dry." ), source_mon->get_name() );
+                }
+            }
+        }
     }
 }
 
 void milk_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
-    if( monster_coords.empty() ) {
-        debugmsg( "milking activity with no position of monster stored" );
-        return;
-    }
     map &here = get_map();
-    const tripoint_bub_ms source_pos = here.get_bub( tripoint_abs_ms( monster_coords.at( 0 ) ) );
+    const tripoint_bub_ms source_pos = here.get_bub( monster_coords );
     monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
     if( source_mon == nullptr ) {
         debugmsg( "could not find source creature for liquid transfer" );
@@ -5523,7 +5557,8 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
     }
     item milk( milked_item->first, calendar::turn, milked_item->second );
     milk.set_item_temperature( units::from_celsius( 38.6 ) );
-    if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, source_mon ) ) {
+    if( liquid_handler::handle_liquid( milk, target, nullptr, 1, nullptr, nullptr, -1,
+                                       source_mon ) ) {
         milked_item->second = 0;
         if( milk.charges > 0 ) {
             milked_item->second = milk.charges;
@@ -5533,7 +5568,7 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
     }
     // if the monster was not manually tied up, but needed to be fixed in place temporarily then
     // remove that now.
-    if( !string_values.empty() && string_values[0] == "temp_tie" ) {
+    if( milking_tie ) {
         source_mon->remove_effect( effect_tied );
     }
 }
@@ -5544,7 +5579,26 @@ void milk_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "total_moves", total_moves );
     jsout.member( "monster_coords", monster_coords );
-    jsout.member( "string_values", string_values );
+    jsout.member( "milking_tie", milking_tie );
+    jsout.member( "targer_dest_opt", static_cast<int>( target.dest_opt ) );
+
+    switch( target.dest_opt ) {
+        case LD_ITEM:
+            jsout.member( "target_item_loc", target.item_loc );
+            break;
+
+        case LD_KEG:
+            jsout.member( "target_pos", target.pos );
+            break;
+
+        case LD_NULL:
+        case LD_CONSUME:
+        case LD_GROUND:
+        case LD_VEH:
+            break;
+    }
+    jsout.member( "moves_per_unit", moves_per_unit );
+    jsout.member( "next_unit_move", next_unit_move );
 
     jsout.end_object();
 }
@@ -5556,7 +5610,40 @@ std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonValue &jsi
 
     data.read( "moves_total", actor.total_moves );
     data.read( "monster_coords", actor.monster_coords );
-    data.read( "string_values", actor.string_values );
+    // Backward compatibility introduced 2025-04-29.
+    // When removing it, there's no need for the 'if' check.
+    if( data.read( "milking_tie", actor.milking_tie ) ) {
+        int temp;
+        data.read( "target_dest_opt", temp );
+        actor.target.dest_opt = static_cast<liquid_dest>( temp );
+
+        switch( actor.target.dest_opt ) {
+            case LD_ITEM:
+                data.read( "target_item_loc", actor.target.item_loc );
+                break;
+
+            case LD_KEG:
+                data.read( "target_pos", actor.target.pos );
+                break;
+
+            case LD_NULL:
+            case LD_CONSUME:
+            case LD_GROUND:
+            case LD_VEH:
+                actor.target.dest_opt = LD_NULL;
+                break;
+        }
+
+        data.read( "moves_per_unit", actor.moves_per_unit );
+        data.read( "next_unit_move", actor.next_unit_move );
+    } else {
+        std::string temp;
+        data.read( "string_values", temp );
+        actor.milking_tie = !temp.empty();
+        actor.target.dest_opt = LD_NULL;
+        actor.moves_per_unit = 3000;
+        actor.next_unit_move = calendar::turn;
+    }
 
     return actor.clone();
 }
@@ -6185,7 +6272,7 @@ void outfit_swap_actor::finish( player_activity &act, Character &who )
     map &here = get_map();
     // First, make a new outfit and shove all our existing clothes into it.
     item new_outfit( outfit_item->typeId() );
-    item_location ground = here.add_item_ret_loc( who.pos_bub(), new_outfit, true );
+    item_location ground = here.add_item_or_charges_ret_loc( who.pos_bub(), new_outfit, true );
     if( !ground ) {
         debugmsg( "Failed to swap outfits during outfit_swap_actor::finish" );
         act.set_to_null();
@@ -6194,8 +6281,13 @@ void outfit_swap_actor::finish( player_activity &act, Character &who )
     // Taken-off items are put in this temporary list, then naturally deleted from the world when the function returns.
     std::list<item> it_list;
     for( item_location &worn_item : who.get_visible_worn_items() ) {
+        if( !static_cast<bool>( worn_item ) ) {
+            //Due to the eoc triggered who.takeoff, the item may become invalid.
+            continue;
+        }
         item outfit_component( *worn_item );
-        if( who.takeoff( worn_item, &it_list ) ) {
+        std::size_t old_it_list_size = it_list.size();
+        if( who.takeoff( worn_item, &it_list ) && it_list.size() > old_it_list_size ) {
             ground->force_insert_item( outfit_component, pocket_type::CONTAINER );
         }
     }
@@ -6271,14 +6363,18 @@ void play_with_pet_activity_actor::start( player_activity &act, Character & )
 
 void play_with_pet_activity_actor::finish( player_activity &act, Character &who )
 {
-    who.add_morale( morale_play_with_pet, rng( 3, 10 ), 10, 5_hours, 25_minutes );
-
     if( !playstr.empty() ) {
         who.add_msg_if_player( m_good, playstr, pet_name );
     }
 
-    who.add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
-                           pet_name );
+    if( !who.has_trait( trait_PSYCHOPATH ) && !who.has_trait( trait_NUMB ) ) {
+        who.add_morale( morale_play_with_pet, rng( 3, 10 ), 10, 5_hours, 25_minutes );
+        who.add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
+                               pet_name );
+    } else {
+        who.add_msg_if_player( _( "Your %s seems to enjoy the interaction, but you feel nothing." ),
+                               pet_name );
+    }
     act.set_to_null();
 }
 
@@ -6676,11 +6772,11 @@ static bool check_stealing( Character &who, item &it )
 {
     if( !it.is_owned_by( who, true ) ) {
         // Has the player given input on if stealing is ok?
-        if( who.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+        if( who.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
             Pickup::query_thief();
         }
-        if( who.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
-            if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        if( who.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
+            if( who.get_value( "THIEF_MODE_KEEP" ).str() != "YES" ) {
                 who.set_value( "THIEF_MODE", "THIEF_ASK" );
             }
             return false;
@@ -6910,17 +7006,30 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
     for( int i = 0; i != log_quan; ++i ) {
         item obj( itype_log, calendar::turn );
         obj.set_var( "activity_var", who.name );
-        here.add_item_or_charges( pos, obj );
+        //The item may exceed the capacity of the pos and move to another coordinate.So get loc.
+        item_location loc = here.add_item_or_charges_ret_loc( pos, obj );
+        if( loc ) {
+            who.may_activity_occupancy_after_end_items_loc.push_back( loc );
+        }
+
     }
     for( int i = 0; i != stick_quan; ++i ) {
         item obj( itype_stick_long, calendar::turn );
         obj.set_var( "activity_var", who.name );
-        here.add_item_or_charges( pos, obj );
+        //The item may exceed the capacity of the pos and move to another coordinate.So get loc.
+        item_location loc = here.add_item_or_charges_ret_loc( pos, obj );
+        if( loc ) {
+            who.may_activity_occupancy_after_end_items_loc.push_back( loc );
+        }
     }
     for( int i = 0; i != splint_quan; ++i ) {
         item obj( itype_splinter, calendar::turn );
         obj.set_var( "activity_var", who.name );
-        here.add_item_or_charges( pos, obj );
+        //The item may exceed the capacity of the pos and move to another coordinate.So get loc.
+        item_location loc = here.add_item_or_charges_ret_loc( pos, obj );
+        if( loc ) {
+            who.may_activity_occupancy_after_end_items_loc.push_back( loc );
+        }
     }
     here.ter_set( pos, ter_t_dirt );
     who.add_msg_if_player( m_good, _( "You finish chopping wood." ) );
@@ -7750,8 +7859,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                     return;
                 }
                 std::vector<tripoint_bub_ms> route;
-                route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
-                                    you.get_path_avoid() );
+                route = here.route( you, pathfinding_target::point( src_loc ) );
                 if( route.empty() ) {
                     // can't get there, can't do anything, skip it
                     continue;
@@ -7782,30 +7890,16 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             // adjacent to the loot source tile
             if( !is_adjacent_or_closer ) {
                 std::vector<tripoint_bub_ms> route;
-                bool adjacent = false;
 
                 // get either direct route or route to nearest adjacent tile if
                 // source tile is impassable
-                if( here.passable_through( src_loc ) ) {
-                    route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
-                                        you.get_path_avoid() );
-                } else {
-                    // impassable source tile (locker etc.),
-                    // get route to nearest adjacent tile instead
-                    route = route_adjacent( you, src_loc );
-                    adjacent = true;
-                }
+                route = here.route( you, pathfinding_target::adjacent( src_loc ) );
 
                 // check if we found path to source / adjacent tile
                 if( route.empty() ) {
                     add_msg( m_info, _( "%s can't reach the source tile." ),
                              you.disp_name() );
                     continue;
-                }
-
-                // shorten the route to adjacent tile, if necessary
-                if( !adjacent ) {
-                    route.pop_back();
                 }
 
                 // set the destination and restart activity after player arrives there
@@ -8564,9 +8658,8 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
         corpse.set_flag( flag_PULPED );
     }
 
-    const float corpse_volume = units::to_liter( corpse_mtype->volume );
-
-    if( one_in( corpse_volume / pd.pulp_power ) ) {
+    // Magic number to adjust splatter density to subjective balance.
+    if( one_in( 15000 / pd.pulp_power ) ) {
         // Splatter some blood around
         // Splatter a bit more randomly, so that it looks cooler
         const int radius = pd.mess_radius + x_in_y( pd.pulp_power, 500 ) + x_in_y( pd.pulp_power, 1000 );
@@ -8704,6 +8797,7 @@ void pulp_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "num_corpses", num_corpses );
     jsout.member( "placement", placement );
+    jsout.member( "nominal_pulp_power", pd.nominal_pulp_power );
     jsout.member( "pulp_power", pd.pulp_power );
     jsout.member( "pulp_effort", pd.pulp_effort );
     jsout.member( "mess_radius", pd.mess_radius );
@@ -8734,6 +8828,10 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
     data.read( "num_corpses", actor.num_corpses );
     data.read( "placement", actor.placement );
     data.read( "pulp_power", actor.pd.pulp_power );
+    // Backward compatibility introduced 2025-04-09
+    if( !data.read( "nominal_pulp_power", actor.pd.nominal_pulp_power ) ) {
+        actor.pd.nominal_pulp_power = actor.pd.pulp_power;
+    }
     data.read( "pulp_effort", actor.pd.pulp_effort );
     data.read( "mess_radius", actor.pd.mess_radius );
     data.read( "unpulped_corpses_qty", actor.unpulped_corpses_qty );
@@ -8754,6 +8852,182 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+void butchery_activity_actor::calculate_butchery_data( Character &you, butchery_data &this_bd )
+{
+    item_location &target = this_bd.corpse;
+    item &corpse_item = *target;
+    const mtype &corpse = *target.get_item()->get_mtype();
+
+    std::pair<float, requirement_id> butchery_reqs =
+        corpse.harvest->get_butchery_requirements().get_fastest_requirements( you.crafting_inventory(),
+                corpse.size, this_bd.b_type );
+    this_bd.req_speed_bonus = butchery_reqs.first;
+    this_bd.req = butchery_reqs.second;
+    this_bd.time_to_butcher = time_duration::from_moves( butcher_time_to_cut( you,
+                              *this_bd.corpse.get_item(),
+                              this_bd.b_type ) * this_bd.req_speed_bonus );
+    this_bd.progress = time_duration::from_seconds(
+                           corpse_item.get_var( butcher_progress_var( this_bd.b_type ), 0 ) * this_bd.time_to_butcher );
+
+}
+
+bool butchery_activity_actor::initiate_butchery( player_activity &act, Character &you,
+        butchery_data &this_bd )
+{
+    calculate_butchery_data( you, this_bd );
+
+    map *here = &get_map();
+
+    // spend time to actually strip the corpse?
+    this_bd.corpse->spill_contents( *&here, this_bd.corpse.pos_bub( *here ) );
+
+    if( !set_up_butchery( act, you, this_bd ) ) {
+        return false;
+    };
+    return true;
+}
+
+const activity_id &butchery_activity_actor::get_type() const
+{
+    switch( bd.back().b_type ) {
+        case butcher_type::BLEED: {
+            return ACT_BLEED;
+            break;
+        }
+        case butcher_type::QUICK: {
+            return ACT_BUTCHER;
+            break;
+        }
+        case butcher_type::FULL: {
+            return ACT_BUTCHER_FULL;
+            break;
+        }
+        case butcher_type::FIELD_DRESS: {
+            return ACT_FIELD_DRESS;
+            break;
+        }
+        case butcher_type::SKIN: {
+            return ACT_SKIN;
+            break;
+        }
+        case butcher_type::QUARTER: {
+            return ACT_QUARTER;
+            break;
+        }
+        case butcher_type::DISMEMBER: {
+            return ACT_DISMEMBER;
+            break;
+        }
+        case butcher_type::DISSECT: {
+            return ACT_DISSECT;
+            break;
+        }
+        default : {
+            return ACT_BUTCHER;
+            break;
+        }
+    }
+}
+
+void butchery_activity_actor::do_turn( player_activity &act, Character &you )
+{
+    if( bd.empty() ) {
+        act.moves_left = 0;
+        return;
+    }
+
+    butchery_data *this_bd = &bd.back();
+
+    if( this_bd->progress == 0_seconds ) {
+        if( !initiate_butchery( act, you, *this_bd ) ) {
+            bd.pop_back();
+            if( bd.empty() ) {
+                act.moves_left = 0;
+                return;
+            }
+        }
+    }
+
+    const item_location &target = this_bd->corpse;
+
+    // Corpses can disappear (rezzing!), so check for that
+    if( !target || !target->is_corpse() ) {
+        you.add_msg_if_player( m_info, _( "There's no corpse to butcher!" ) );
+        act.moves_left = 0;
+        return;
+    }
+
+    if( this_bd->progress >= this_bd->time_to_butcher ) {
+        // this corpse is done
+        destroy_the_carcass( *this_bd, you );
+        bd.pop_back();
+        if( bd.empty() ) {
+            act.moves_left = 0;
+            return;
+        }
+    } else {
+        this_bd->progress += 1_seconds;
+    }
+}
+
+void butchery_activity_actor::finish( player_activity &act, Character & /* you */ )
+{
+    act.set_to_null();
+}
+
+void butchery_activity_actor::canceled( player_activity &, Character & )
+{
+    butchery_data *this_bd = &bd.back();
+    item_location &target = this_bd->corpse;
+    item &corpse_item = *target;
+
+    if( target ) {
+        corpse_item.set_var( butcher_progress_var( this_bd->b_type ),
+                             this_bd->progress / this_bd->time_to_butcher );
+    }
+}
+
+void butchery_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    // activity de/serialization is not designed to store raw vectors, so we store vector in it's own key
+    jsout.member( "butchery_vector" );
+    jsout.start_array();
+    for( const butchery_data &bd_instance : bd ) {
+        jsout.start_object();
+        jsout.member( "b_type", bd_instance.b_type );
+        jsout.member( "corpse", bd_instance.corpse );
+        jsout.member( "progress", bd_instance.progress );
+        jsout.member( "req", bd_instance.req );
+        jsout.member( "req_speed_bonus", bd_instance.req_speed_bonus );
+        jsout.member( "time_to_butcher", bd_instance.time_to_butcher );
+        jsout.end_object();
+    }
+    jsout.end_array();
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> butchery_activity_actor::deserialize( JsonValue &jsin )
+{
+    butchery_activity_actor actor;
+    std::vector<butchery_data> new_bd;
+    JsonObject data = jsin.get_object();
+
+    const JsonArray jo_vector = data.get_array( "butchery_vector" );
+    for( const JsonObject jo : jo_vector ) {
+        butchery_data bd_instance;
+        bd_instance.b_type = static_cast<butcher_type>( jo.get_int( "b_type" ) );
+        bd_instance.corpse.deserialize( jo.get_object( "corpse" ) );
+        bd_instance.progress = time_duration::from_seconds<int>( jo.get_int( "progress" ) );
+        bd_instance.req = requirement_id( jo.get_string( "req" ) );
+        bd_instance.req_speed_bonus = jo.get_int( "req_speed_bonus" );
+        bd_instance.time_to_butcher = time_duration::from_seconds<int>( jo.get_int( "time_to_butcher" ) );
+        new_bd.emplace_back( bd_instance );
+    }
+
+    actor.bd = new_bd;
+    return actor.clone();
+}
 
 void wait_stamina_activity_actor::start( player_activity &act, Character & )
 {
@@ -8800,7 +9074,6 @@ std::unique_ptr<activity_actor> wait_stamina_activity_actor::deserialize( JsonVa
     return wait_stamina_activity_actor().clone();
 }
 
-
 namespace activity_actors
 {
 
@@ -8814,6 +9087,8 @@ deserialize_functions = {
     { ACT_BIKERACK_UNRACKING, &bikerack_unracking_activity_actor::deserialize },
     { ACT_BINDER_COPY_RECIPE, &bookbinder_copy_activity_actor::deserialize },
     { ACT_BOLTCUTTING, &boltcutting_activity_actor::deserialize },
+    { ACT_BUTCHER, &butchery_activity_actor::deserialize },
+    { ACT_BUTCHER_FULL, &butchery_activity_actor::deserialize },
     { ACT_CHOP_LOGS, &chop_logs_activity_actor::deserialize },
     { ACT_CHOP_PLANKS, &chop_planks_activity_actor::deserialize },
     { ACT_CHOP_TREE, &chop_tree_activity_actor::deserialize },
@@ -8824,9 +9099,12 @@ deserialize_functions = {
     { ACT_CRAFT, &craft_activity_actor::deserialize },
     { ACT_DISABLE, &disable_activity_actor::deserialize },
     { ACT_DISASSEMBLE, &disassemble_activity_actor::deserialize },
+    { ACT_DISMEMBER, &butchery_activity_actor::deserialize },
+    { ACT_DISSECT, &butchery_activity_actor::deserialize },
     { ACT_DROP, &drop_activity_actor::deserialize },
     { ACT_E_FILE, &efile_activity_actor::deserialize },
     { ACT_EBOOKSAVE, &ebooksave_activity_actor::deserialize },
+    { ACT_FIELD_DRESS, &butchery_activity_actor::deserialize },
     { ACT_FIRSTAID, &firstaid_activity_actor::deserialize },
     { ACT_FORAGE, &forage_activity_actor::deserialize },
     { ACT_FURNITURE_MOVE, &move_furniture_activity_actor::deserialize },
@@ -8854,11 +9132,13 @@ deserialize_functions = {
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_PRYING, &prying_activity_actor::deserialize },
     { ACT_PULP, &pulp_activity_actor::deserialize },
+    { ACT_QUARTER, &butchery_activity_actor::deserialize },
     { ACT_READ, &read_activity_actor::deserialize },
     { ACT_REEL_CABLE, &reel_cable_activity_actor::deserialize },
     { ACT_RELOAD, &reload_activity_actor::deserialize },
     { ACT_SHAVE, &shave_activity_actor::deserialize },
     { ACT_SHEARING, &shearing_activity_actor::deserialize },
+    { ACT_SKIN, &butchery_activity_actor::deserialize },
     { ACT_STASH, &stash_activity_actor::deserialize },
     { ACT_TENT_DECONSTRUCT, &tent_deconstruct_activity_actor::deserialize },
     { ACT_TENT_PLACE, &tent_placement_activity_actor::deserialize },
@@ -8866,8 +9146,8 @@ deserialize_functions = {
     { ACT_UNLOAD, &unload_activity_actor::deserialize },
     { ACT_UNLOAD_LOOT, &unload_loot_activity_actor::deserialize },
     { ACT_VEHICLE_FOLD, &vehicle_folding_activity_actor::deserialize },
-    { ACT_WAIT_STAMINA, &wait_stamina_activity_actor::deserialize },
     { ACT_VEHICLE_UNFOLD, &vehicle_unfolding_activity_actor::deserialize },
+    { ACT_WAIT_STAMINA, &wait_stamina_activity_actor::deserialize },
     { ACT_WASH, &wash_activity_actor::deserialize },
     { ACT_WEAR, &wear_activity_actor::deserialize },
     { ACT_WIELD, &wield_activity_actor::deserialize},

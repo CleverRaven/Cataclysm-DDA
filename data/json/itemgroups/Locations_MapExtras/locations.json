@@ -269,13 +269,7 @@
     "id": "prison_textile",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "item": "blanket", "prob": 25 },
-      { "item": "striped_shirt", "prob": 35 },
-      { "item": "striped_shirt", "prob": 35 },
-      { "item": "striped_pants", "prob": 35 },
-      { "item": "striped_pants", "prob": 35 }
-    ]
+    "entries": [ { "item": "blanket", "prob": 25 }, { "item": "jumpsuit_pocketless", "variant": "orange", "prob": 70 } ]
   },
   {
     "id": "boxing_misc",
@@ -1447,7 +1441,7 @@
       { "item": "3006", "prob": 1, "charges": [ 1, 20 ] },
       { "item": "ksg", "prob": 1, "charges": [ 0, 7 ] },
       { "item": "remington_870_express", "prob": 1, "charges": [ 0, 7 ] },
-      { "item": "benelli_tsa", "variant": "mossberg_500_security", "prob": 1, "charges": [ 0, 6 ] },
+      { "item": "benelli_tsa", "prob": 1, "charges": [ 0, 6 ] },
       { "item": "shot_beanbag", "prob": 25, "charges": [ 1, 10 ] },
       { "item": "gasbomb", "count": [ 1, 6 ], "prob": 20 },
       { "item": "m79", "prob": 8, "charges": 0 },
@@ -1531,7 +1525,7 @@
       { "item": "badge_deputy", "prob": 100 },
       { "item": "cowboy_hat", "prob": 10 },
       { "item": "leather_police_jacket", "variant": "leather_police_jacket", "prob": 25 },
-      { "item": "sheriffshirt", "prob": 100 },
+      { "item": "postman_shirt", "variant": "sheriff", "prob": 100 },
       { "item": "police_belt", "prob": 100 },
       { "group": "cop_shoes", "prob": 100 },
       { "item": "whistle", "prob": 75 },
@@ -1731,6 +1725,9 @@
       { "item": "nun_wimple", "prob": 35 },
       { "item": "thawb", "prob": 10 },
       { "item": "kufi", "prob": 10 },
+      { "item": "hijab", "prob": 10 },
+      { "item": "niqab", "prob": 10 },
+      { "item": "abaya", "prob": 10 },
       { "item": "icon", "prob": 20 }
     ]
   },
@@ -1997,6 +1994,8 @@
       { "item": "voltmeter", "prob": 50 },
       { "item": "multimeter", "prob": 50, "charges": [ 0, 100 ] },
       { "item": "mask_hockey", "prob": 10, "custom-flags": [ "UNDERSIZE" ] },
+      [ "throat_guard_nylon", 2 ],
+      [ "throat_guard_canvas", 2 ],
       [ "hockey_stick", 20 ],
       [ "puck", 20 ],
       [ "jersey", 40 ],
@@ -2025,7 +2024,8 @@
       [ "jewelry_book", 8 ],
       [ "ZSG", 2 ],
       [ "cookies", 50 ],
-      [ "backpack", 38 ],
+      [ "backpack_small", 38 ],
+      [ "backpack", 18 ],
       [ "backpack_denim", 8 ],
       [ "backpack_leather", 18 ],
       [ "slingpack", 18 ],
@@ -2462,6 +2462,7 @@
       [ "glasses_bal", 5 ],
       [ "hat_knit", 25 ],
       [ "backpack", 38 ],
+      [ "backpack_small", 8 ],
       [ "backpack_denim", 8 ],
       [ "backpack_leather", 8 ],
       [ "backpack_tactical_large", 3 ],
@@ -2839,7 +2840,7 @@
         "distribution": [
           { "item": "jersey", "prob": 5 },
           { "item": "longshirt", "prob": 20 },
-          { "item": "striped_shirt", "prob": 10 },
+          { "item": "buttonshirt", "variant": "striped", "prob": 10 },
           { "item": "denim_shirt", "prob": 5 },
           { "item": "sweater", "prob": 20 },
           { "item": "sweatshirt", "prob": 20 },

@@ -1,7 +1,7 @@
 [
   {
     "id": "bigmirror",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "standing mirror" },
     "looks_like": "f_bigmirror",
     "description": "A full-length mirror mounted in a sleek aluminum frame.  Metal stand is currently folded.",
@@ -18,7 +18,7 @@
     "color": "white"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "piano",
     "name": { "str_sp": "piano" },

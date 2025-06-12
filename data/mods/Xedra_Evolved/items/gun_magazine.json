@@ -2,7 +2,8 @@
   {
     "id": "sr1vektor_mag_18rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "SR-1 Vektor 18-round magazine" },
     "description": "An 18-round box magazine for use with the SR-1 Vektor 9x21mm pistol.",
     "weight": "90 g",
@@ -19,7 +20,8 @@
   {
     "id": "aa12_box_mag",
     "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "AA-12 8-round box magazine" },
     "description": "A removable plastic 8-round box magazine, for use with the AA-12 shotgun.",
     "weight": "210 g",
@@ -36,7 +38,8 @@
   {
     "id": "aa12_drum_mag",
     "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "AA-12 32-round drum magazine" },
     "description": "A removable plastic 32-round drum magazine, for use with the HAMMER dual AA-12 turret system.",
     "weight": "1210 g",
@@ -54,7 +57,8 @@
   {
     "id": "aa12_vehicle_drum",
     "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "AA-12 vehicle drum magazine" },
     "description": "A removable plastic 64-round drum magazine, for use with the AA-12 shotgun.",
     "weight": "2210 g",

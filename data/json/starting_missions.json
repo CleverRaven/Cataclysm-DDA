@@ -22,13 +22,7 @@
     "value": 0,
     "end": {
       "effect": [
-        {
-          "u_add_morale": "morale_feeling_good",
-          "bonus": 20,
-          "max_bonus": 50,
-          "duration": "120 minutes",
-          "decay_start": "120 minutes"
-        }
+        { "u_add_morale": "morale_feeling_good", "bonus": 20, "max_bonus": 50, "duration": "6 hours", "decay_start": "3 hours" }
       ]
     }
   },
@@ -49,13 +43,7 @@
     "value": 0,
     "end": {
       "effect": [
-        {
-          "u_add_morale": "morale_feeling_good",
-          "bonus": 20,
-          "max_bonus": 50,
-          "duration": "60 minutes",
-          "decay_start": "60 minutes"
-        }
+        { "u_add_morale": "morale_feeling_good", "bonus": 20, "max_bonus": 50, "duration": "4 hours", "decay_start": "2 hours" }
       ]
     }
   },
@@ -76,13 +64,7 @@
     "value": 0,
     "end": {
       "effect": [
-        {
-          "u_add_morale": "morale_feeling_good",
-          "bonus": 30,
-          "max_bonus": 50,
-          "duration": "60 minutes",
-          "decay_start": "60 minutes"
-        }
+        { "u_add_morale": "morale_feeling_good", "bonus": 30, "max_bonus": 50, "duration": "6 hours", "decay_start": "3 hours" }
       ]
     }
   },
@@ -103,13 +85,7 @@
     "value": 0,
     "end": {
       "effect": [
-        {
-          "u_add_morale": "morale_feeling_good",
-          "bonus": 40,
-          "max_bonus": 50,
-          "duration": "60 minutes",
-          "decay_start": "60 minutes"
-        }
+        { "u_add_morale": "morale_feeling_good", "bonus": 40, "max_bonus": 50, "duration": "6 hours", "decay_start": "3 hours" }
       ]
     }
   },
@@ -126,9 +102,9 @@
       "effect": [
         {
           "u_add_morale": "morale_feeling_good",
-          "bonus": 10,
+          "bonus": 30,
           "max_bonus": 50,
-          "duration": "24 hours",
+          "duration": "48 hours",
           "decay_start": "24 hours"
         }
       ]
@@ -146,13 +122,7 @@
     "value": 0,
     "end": {
       "effect": [
-        {
-          "u_add_morale": "morale_feeling_good",
-          "bonus": 20,
-          "max_bonus": 50,
-          "duration": "120 minutes",
-          "decay_start": "120 minutes"
-        }
+        { "u_add_morale": "morale_feeling_good", "bonus": 20, "max_bonus": 50, "duration": "4 hours", "decay_start": "2 hours" }
       ]
     },
     "origins": [ "ORIGIN_GAME_START" ]
@@ -168,13 +138,7 @@
     "value": 0,
     "end": {
       "effect": [
-        {
-          "u_add_morale": "morale_feeling_good",
-          "bonus": 20,
-          "max_bonus": 50,
-          "duration": "120 minutes",
-          "decay_start": "120 minutes"
-        }
+        { "u_add_morale": "morale_feeling_good", "bonus": 20, "max_bonus": 50, "duration": "6 hours", "decay_start": "3 hours" }
       ]
     },
     "origins": [ "ORIGIN_GAME_START" ]
@@ -196,13 +160,7 @@
     "value": 0,
     "end": {
       "effect": [
-        {
-          "u_add_morale": "morale_feeling_good",
-          "bonus": 20,
-          "max_bonus": 50,
-          "duration": "120 minutes",
-          "decay_start": "120 minutes"
-        }
+        { "u_add_morale": "morale_feeling_good", "bonus": 20, "max_bonus": 50, "duration": "6 hours", "decay_start": "3 hours" }
       ]
     },
     "origins": [ "ORIGIN_GAME_START" ]
@@ -213,7 +171,16 @@
     "name": { "str": "Find a real katana" },
     "description": "The world has ended, but as an authentic samurai you lack a katana, you must find one, quickly.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_item": "katana" },
+    "goal_condition": {
+      "or": [
+        { "u_has_item": "katana" },
+        { "u_has_item": "qt_katana" },
+        { "u_has_item": "mc_katana" },
+        { "u_has_item": "ch_katana" },
+        { "u_has_item": "hc_katana" },
+        { "u_has_item": "lc_katana" }
+      ]
+    },
     "difficulty": 4,
     "value": 0,
     "end": {
@@ -222,8 +189,8 @@
           "u_add_morale": "morale_feeling_good",
           "bonus": 20,
           "max_bonus": 50,
-          "duration": "120 minutes",
-          "decay_start": "120 minutes"
+          "duration": "12 hours",
+          "decay_start": "8 hours"
         }
       ]
     },
@@ -247,13 +214,7 @@
     "value": 0,
     "end": {
       "effect": [
-        {
-          "u_add_morale": "morale_feeling_good",
-          "bonus": 20,
-          "max_bonus": 50,
-          "duration": "120 minutes",
-          "decay_start": "120 minutes"
-        }
+        { "u_add_morale": "morale_feeling_good", "bonus": 20, "max_bonus": 50, "duration": "8 hours", "decay_start": "4 hours" }
       ]
     },
     "origins": [ "ORIGIN_GAME_START" ]
@@ -270,13 +231,7 @@
     "value": 0,
     "end": {
       "effect": [
-        {
-          "u_add_morale": "morale_feeling_good",
-          "bonus": 10,
-          "max_bonus": 50,
-          "duration": "60 minutes",
-          "decay_start": "60 minutes"
-        }
+        { "u_add_morale": "morale_feeling_good", "bonus": 10, "max_bonus": 50, "duration": "3 hours", "decay_start": "2 hours" }
       ]
     }
   },
@@ -288,17 +243,11 @@
     "goal": "MGOAL_KILL_MONSTER_TYPE",
     "monster_type": "mon_bear",
     "monster_kill_goal": 1,
-    "difficulty": 3,
+    "difficulty": 4,
     "value": 0,
     "end": {
       "effect": [
-        {
-          "u_add_morale": "morale_feeling_good",
-          "bonus": 15,
-          "max_bonus": 50,
-          "duration": "120 minutes",
-          "decay_start": "120 minutes"
-        }
+        { "u_add_morale": "morale_feeling_good", "bonus": 25, "max_bonus": 50, "duration": "8 hours", "decay_start": "6 hours" }
       ]
     },
     "origins": [ "ORIGIN_GAME_START" ]
@@ -319,7 +268,7 @@
           "u_add_morale": "morale_feeling_good",
           "bonus": 30,
           "max_bonus": 50,
-          "duration": "12 hours",
+          "duration": "24 hours",
           "decay_start": "12 hours"
         }
       ]
@@ -338,13 +287,7 @@
     "value": 0,
     "end": {
       "effect": [
-        {
-          "u_add_morale": "morale_feeling_good",
-          "bonus": 20,
-          "max_bonus": 50,
-          "duration": "120 minutes",
-          "decay_start": "120 minutes"
-        }
+        { "u_add_morale": "morale_feeling_good", "bonus": 20, "max_bonus": 50, "duration": "8 hours", "decay_start": "6 hours" }
       ]
     },
     "origins": [ "ORIGIN_GAME_START" ]
@@ -364,7 +307,7 @@
           "u_add_morale": "morale_feeling_good",
           "bonus": 50,
           "max_bonus": 50,
-          "duration": "24 hours",
+          "duration": "48 hours",
           "decay_start": "24 hours"
         }
       ]
@@ -378,17 +321,11 @@
     "description": "They took away something from you, something important.  You feel a connection with this weather, maybe you can recover some portion of what you lost in one of these storms.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": { "u_has_trait": "REALITY_GRASP" },
-    "difficulty": 6,
+    "difficulty": 7,
     "value": 0,
     "end": {
       "effect": [
-        {
-          "u_add_morale": "morale_feeling_good",
-          "bonus": 50,
-          "max_bonus": 50,
-          "duration": "24 hours",
-          "decay_start": "24 hours"
-        }
+        { "u_add_morale": "morale_feeling_good", "bonus": 50, "max_bonus": 50, "duration": "7 days", "decay_start": "24 hours" }
       ]
     },
     "origins": [ "ORIGIN_GAME_START" ]
@@ -404,13 +341,7 @@
     "value": 0,
     "end": {
       "effect": [
-        {
-          "u_add_morale": "morale_feeling_good",
-          "bonus": 20,
-          "max_bonus": 50,
-          "duration": "120 minutes",
-          "decay_start": "120 minutes"
-        }
+        { "u_add_morale": "morale_feeling_good", "bonus": 20, "max_bonus": 50, "duration": "4 hours", "decay_start": "2 hours" }
       ]
     },
     "origins": [ "ORIGIN_GAME_START" ]
@@ -427,13 +358,7 @@
     "value": 0,
     "end": {
       "effect": [
-        {
-          "u_add_morale": "morale_feeling_good",
-          "bonus": 20,
-          "max_bonus": 50,
-          "duration": "120 minutes",
-          "decay_start": "120 minutes"
-        }
+        { "u_add_morale": "morale_feeling_good", "bonus": 20, "max_bonus": 50, "duration": "8 hours", "decay_start": "4 hours" }
       ]
     },
     "origins": [ "ORIGIN_GAME_START" ]
@@ -477,7 +402,6 @@
         { "u_has_item": "grim_reaper_robe_faceless" },
         { "u_has_item": "ghost_robe" },
         { "u_has_item": "jedi_cloak" },
-        { "u_has_item": "sheriffshirt" },
         { "u_has_item": "zentai" }
       ]
     },
@@ -487,9 +411,9 @@
       "effect": [
         {
           "u_add_morale": "morale_feeling_good",
-          "bonus": 10,
+          "bonus": 15,
           "max_bonus": 50,
-          "duration": "60 minutes",
+          "duration": "120 minutes",
           "decay_start": "60 minutes"
         }
       ]
@@ -516,9 +440,9 @@
       "effect": [
         {
           "u_add_morale": "morale_feeling_good",
-          "bonus": 10,
+          "bonus": 15,
           "max_bonus": 50,
-          "duration": "60 minutes",
+          "duration": "120 minutes",
           "decay_start": "60 minutes"
         }
       ]
@@ -529,20 +453,14 @@
     "id": "MISSION_STYLISH",
     "type": "mission_definition",
     "name": { "str": "Dress with style" },
-    "description": "You need to always dress in style and fashion.  Find a gown or tuxedo for your personal use.",
+    "description": "You need to always dress in style and fashion.  Find a dress or tuxedo for your personal use.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "or": [ { "u_has_item": "gown" }, { "u_has_item": "sinister_gown" }, { "u_has_item": "tux" } ] },
+    "goal_condition": { "or": [ { "u_has_item": "dress" }, { "u_has_item": "sinister_gown" }, { "u_has_item": "tux" } ] },
     "difficulty": 2,
     "value": 0,
     "end": {
       "effect": [
-        {
-          "u_add_morale": "morale_feeling_good",
-          "bonus": 10,
-          "max_bonus": 50,
-          "duration": "60 minutes",
-          "decay_start": "60 minutes"
-        }
+        { "u_add_morale": "morale_feeling_good", "bonus": 10, "max_bonus": 50, "duration": "3 hours", "decay_start": "2 hours" }
       ]
     },
     "origins": [ "ORIGIN_GAME_START" ]
@@ -576,7 +494,7 @@
           "u_add_morale": "morale_feeling_good",
           "bonus": 10,
           "max_bonus": 50,
-          "duration": "60 minutes",
+          "duration": "120 minutes",
           "decay_start": "60 minutes"
         }
       ]
@@ -594,13 +512,7 @@
     "value": 0,
     "end": {
       "effect": [
-        {
-          "u_add_morale": "morale_feeling_good",
-          "bonus": 50,
-          "max_bonus": 50,
-          "duration": "60 minutes",
-          "decay_start": "60 minutes"
-        }
+        { "u_add_morale": "morale_feeling_good", "bonus": 25, "max_bonus": 50, "duration": "8 hours", "decay_start": "4 hours" }
       ]
     },
     "origins": [ "ORIGIN_GAME_START" ]
@@ -613,6 +525,11 @@
     "goal_condition": { "or": [ { "u_has_item": "strong_antibiotic" }, { "u_has_item": "antibiotic" }, { "u_has_item": "weak_antibiotic" } ] },
     "difficulty": 1,
     "value": 0,
+    "end": {
+      "effect": [
+        { "u_add_morale": "morale_feeling_good", "bonus": 40, "max_bonus": 50, "duration": "8 hours", "decay_start": "1 hours" }
+      ]
+    },
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
@@ -625,6 +542,11 @@
     "difficulty": 1,
     "value": 0,
     "start": { "assign_mission_target": { "om_terrain": "s_air_hangars", "reveal_radius": 5, "om_special": "o_airport" } },
+    "end": {
+      "effect": [
+        { "u_add_morale": "morale_feeling_good", "bonus": 20, "max_bonus": 50, "duration": "6 hours", "decay_start": "3 hours" }
+      ]
+    },
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {

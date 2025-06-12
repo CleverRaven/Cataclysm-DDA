@@ -98,14 +98,14 @@
       "l": { "item": "SUS_janitors_closet", "chance": 100 },
       "a": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 3 ] },
       "á": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 3 ] },
-      "A": { "item": "SUS_trash_dumpster", "chance": 75, "repeat": [ 1, 10 ] },
+      "A": { "item": "SUS_trash_dumpster", "chance": 75 },
       "Y": { "item": "forensic_locker", "chance": 90 },
       "E": { "item": "forensic_lab", "chance": 80, "repeat": [ 2, 6 ] }
     },
     "item": {
       "T": [ { "item": "brush_toilet", "chance": 15 }, { "item": "toilet_paper", "chance": 80, "repeat": [ 1, 2 ] } ],
       "t": { "item": "toilet_paper", "chance": 66, "repeat": [ 1, 3 ] },
-      "j": [ { "item": "toothbrush_plain", "chance": 100 }, { "item": "soap", "chance": 75, "charges": [ 1, 10 ] } ]
+      "j": [ { "item": "toothbrush_plain", "chance": 100 }, { "item": "soap", "chance": 75 } ]
     },
     "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
     "computers": {

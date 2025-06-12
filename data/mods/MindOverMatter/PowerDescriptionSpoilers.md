@@ -194,7 +194,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Prerequisites*: Metabolic Hyperefficiency 8, Adrenaline Trigger 6<br />
 </details>
 <details>
-<summary><h3>Perfected Motion</h3></summary>
+<summary><h3>Perfected Motion (C)</h3></summary>
 
 *Difficulty*: 9<br />
 *Duration*: 5 seconds to 30 seconds, plus 0.5 to 1.1 seconds per level<br />
@@ -202,6 +202,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Channeling Time*: 75 moves, minus 4 moves per level to a minimum of 15<br />
 *Effects*: Increases the psion’s movement rate to an inhuman degree.  Move cost is reduced by 50% plus 1.5% per level, to a maximum of 96% reduced move cost. The psion is also immune to slippery terrain.<br />
 *Prerequisites*: Combat Dance 6, Burst of Speed 12<br />  
+*Note*: Perfected Motion is incompatible with Hurricane Blows
 </details>
 <details>
 <summary><h3>Hurricane Blow</h3></summary>
@@ -212,6 +213,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Channeling Time*: 65 moves, minus 3 moves per level to a minimum of 15<br />
 *Effects*: Allows the psion to strike multiple times in less than a second.  Speed is increased by 400 plus 75 per power level and the psion attacks 25% faster and does 10% more melee damage plus 1.5% per power level, but cannot use ranged attacks or other psionic powers, and the power ends immediately if the psion moves.<br />
 *Prerequisites*: Combat Dance 10, Reflex Enhance 14 *or* Adrenaline Trigger 12<br />
+*Note*:  Hurricane Blows is incompatible with Perfected Motion
 </details>
 </details>
 <details>
@@ -470,10 +472,11 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 
 *Difficulty*: 4<br />
 *Target*: One target within 1 square plus 0.6 squares per power level<br />
-*Duration*: Diminishing returns--stuns the target for 46.2 moves to 76.9 moves at level 1, 170.5 to 264.7 moves at level 5, 272.7 to 454.5 moves at level 10, and so on, following the formula ( (power level * 0.25) * 6) / ((power level * 0.25) + 3 ) to ( (power level * 0.25) * 10 ) / ((power level * 0.25) + 3 )<br />
+*Duration*: From 1 to 3 seconds, plus 0.2 to 0.35 seconds per power level, to a maximum of 5 to 10 seconds<br />
+
 *Stamina Cost*: 5500, minus 150 per level to a minimum of 2500<br />
 *Channeling Time*: 150 moves, minus 5 moves per level to a minimum of 75<br />
-*Effects*: Stuns the target by overloading their nervous system.  It cannot affect targets without a biological nervous system--plants, robots, Nether creatures, fungus, etc.<br />
+*Effects*: Dazes and downs the target by overloading their nervous system.  Within the power duration, the target do nothing but twitch futilely. It cannot affect targets without a biological nervous system--plants, robots, Nether creatures, fungus, etc.<br />
 *Prerequisites*: Spark Sight 6, Voltaic Strikes 5 *or* Static Touch 8<br />
 </details>
 <details>
@@ -1350,7 +1353,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 900, minus 55 per level to a minimum of 350<br />
 *Channeling Time*: 50 moves, minus 3.5 moves per level to a minimum of 5<br />
-*Effects*: The psion vanishes and reappears nearby. They cannot control exactly where they end up. While there is no danger of teleporting into a wall or solid rock, if above ground level it is possible to teleport into open air, after which the psion will fall normally.  The psion may always teleport themselves, and can carry 5L of gear, plus 3.5L per power level<br />
+*Effects*: The psion vanishes and reappears nearby. They cannot control exactly where they end up. While there is no danger of teleporting into a wall or solid rock, if above ground level it is possible to teleport into open air, after which the psion will fall normally.  The psion may always teleport themselves, and can carry 5L of gear, plus 3.5L per power level.<br />
 *Prerequisites*: Starting power<br />
 </details>
 <details>
@@ -1372,7 +1375,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 2500, minus 65 per level to a minimum of 1250<br />
 *Channeling Time*: 65 moves, minus 3 moves per level to a minimum of 15<br />
-*Effects*: Travel a short distance through the Nether and re-emerge nearby, allowing the psion to bypass a door or travel from the ground floor to the second floor.<br />
+*Effects*: Travel a short distance through the Nether and re-emerge nearby, allowing the psion to bypass a door or travel from the ground floor to the second floor.  The psion may always teleport themselves, and can carry 10L of gear, plus 5L per power level.<br />
 *Prerequisites*: Blink 6<br />
 </details>
 <details>
@@ -1570,7 +1573,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Indefinite<br />
 *Stamina Cost*: 10000, minus 250 per level to a minimum of 5000<br />
 *Channeling Time*: 250 moves, minus 10 moves per level to a minimum of 100<br />
-*Effects*: Rip open the fabric of reality, creating a permanent opening to the Nether.  Several denizens of the Nether will also come through the opening; like Breach, the psion has no control over them when they arrive.<br />
+*Effects*: Rip open the fabric of reality, creating an opening to the Nether.  This is generally temporary, though there is a chance equal to your Nether Attunement vitamin / 25 as a percentage (+5% if in near a Nether-related location, +10% if in a Nether related location, +20% if in a portal storm) that the rift is permanent. Several denizens of the Nether will also come through the opening; like Breach, the psion has no control over them when they arrive.<br />
 *Prerequisites*: Gateway 10, Breach 10<br />
 </details>
 </details>

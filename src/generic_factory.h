@@ -133,7 +133,6 @@ const my_class &string_id<my_class>::obj() const
 template<typename T>
 class generic_factory
 {
-
     public:
         virtual ~generic_factory() = default;
 
@@ -446,6 +445,13 @@ class generic_factory
          * Returns all the loaded objects. It can be used to iterate over them.
          */
         const std::vector<T> &get_all() const {
+            return list;
+        }
+        /**
+         * Returns all the loaded objects. It can be used to iterate over them.
+         * Getting modifiable objects should be done sparingly!
+         */
+        std::vector<T> &get_all_mod() {
             return list;
         }
         /**
@@ -929,6 +935,9 @@ bool one_char_symbol_reader( const JsonObject &jo, std::string_view member_name,
  */
 bool unicode_codepoint_from_symbol_reader(
     const JsonObject &jo, std::string_view member_name, uint32_t &member, bool );
+
+//Reads a standard single-float "proportional" entry
+float read_proportional_entry( const JsonObject &jo, std::string_view key );
 
 namespace reader_detail
 {

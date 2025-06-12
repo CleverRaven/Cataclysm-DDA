@@ -13,12 +13,16 @@ mods_this_time = []
 
 exclusions = [
     # Tuple of (mod_id, mod_id) - these two mods will be incompatible
+    # Note that mod_id is case sensitive
 ]
 
 
 def compatible_with(mod, existing_mods):
     if mod in total_conversions and total_conversions & set(existing_mods):
         return False
+    for entry in existing_mods:
+        if mod in all_mod_conflicts[entry] or entry in all_mod_conflicts[mod]:
+            return False
     for entry in exclusions:
         if entry[0] == mod and entry[1] in existing_mods:
             return False
@@ -51,6 +55,7 @@ def print_modlist(modlist, master_list):
 
 
 all_mod_dependencies = {}
+all_mod_conflicts = {}
 total_conversions = set()
 
 for info in glob.glob('data/mods/*/modinfo.json'):
@@ -60,6 +65,7 @@ for info in glob.glob('data/mods/*/modinfo.json'):
                 ("obsolete" not in e or not e["obsolete"])):
             ident = e["id"]
             all_mod_dependencies[ident] = e.get("dependencies", [])
+            all_mod_conflicts[ident] = e.get("conflicts", [])
             if e["category"] == "total_conversion":
                 total_conversions.add(ident)
 

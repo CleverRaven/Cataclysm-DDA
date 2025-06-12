@@ -1,7 +1,7 @@
 [
   {
     "id": "stapler",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "stapler" },
     "description": "A desk tool for fastening sheets of paper together.",
@@ -17,7 +17,7 @@
   },
   {
     "id": "office_holepunch",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "hole puncher" },
     "description": "A metal tool that can punch a single hole in a piece of paper.  I mean, you could do more if you wanted, but you'd have to do them one at a time.  Or, if you really wanted more holes with one punch, I suppose you could fold the paper….  This is a one-cylinder hole puncher.",
@@ -31,7 +31,7 @@
   },
   {
     "id": "office_letter_opener",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "weapons",
     "name": { "str": "letter opener" },
     "description": "A sterling silver letter opener resembling a small dagger, with a sharp point and no cutting edge.  It's used to open mail envelopes neatly and quickly.",
@@ -43,15 +43,16 @@
     "material": [ "silver" ],
     "symbol": ";",
     "techniques": [ "PRECISE" ],
-    "flags": [ "FRAGILE_MELEE", "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "FRAGILE_MELEE", "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "CONDUCTIVE" ],
     "weapon_category": [ "SHIVS" ],
-    "to_hit": 1,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "color": "light_gray",
     "melee_damage": { "bash": 2, "stab": 9 }
   },
   {
     "id": "scissors",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pair of office scissors", "str_pl": "pairs of office scissors" },
     "description": "A long pair of heavy-duty scissors.  You can use them to cut things such as fabric or plastic apart.",
     "ascii_picture": "scissors",
@@ -72,7 +73,8 @@
   },
   {
     "id": "scissors_child",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pair of kiddie scissors", "str_pl": "pairs of kiddie scissors" },
     "description": "A pair of short scissors designed with kids in mind.  You can use them to cut things such as fabric or plastic apart, although they are probably subpar compared to other alternatives.",
     "ascii_picture": "scissors",
@@ -81,7 +83,7 @@
     "longest_side": "13 cm",
     "price": "4 USD",
     "price_postapoc": "15 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": ",",
     "color": "light_red",
@@ -92,7 +94,8 @@
   },
   {
     "id": "scissors_wavy",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pair of wavy scissors", "str_pl": "pairs of wavy scissors" },
     "description": "A pair of wavy artistic scissors.  You can theoretically use them to cut things but you should probably not get your hopes too high.",
     "ascii_picture": "scissors",
@@ -109,7 +112,8 @@
   },
   {
     "id": "pen",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "pen" },
     "description": "A fine metal pen, of much better quality than a disposable model.",
@@ -135,7 +139,8 @@
   },
   {
     "id": "pencil",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pencil" },
     "description": "A sharpened HB Number 2 graphite pencil, equipped with an eraser.",
     "weight": "9 g",
@@ -154,7 +159,8 @@
   },
   {
     "id": "black_pen",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "black pen" },
     "description": "A disposable ballpoint pen, offers a smooth writing experience on paper.  Has the same logo as those disposable lighters.  This one is black.",
     "weight": "9 g",
@@ -173,7 +179,8 @@
   },
   {
     "id": "blue_pen",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "blue pen" },
     "description": "A disposable ballpoint pen, offers a smooth writing experience on paper.  Has the same logo as those disposable lighters.  This one is blue.",
     "weight": "9 g",
@@ -192,7 +199,8 @@
   },
   {
     "id": "red_pen",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "red pen" },
     "description": "A disposable ballpoint pen, offers a smooth writing experience on paper.  Has the same logo as those disposable lighters.  This one is red.",
     "weight": "9 g",
@@ -211,7 +219,8 @@
   },
   {
     "id": "green_pen",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "green pen" },
     "description": "A disposable ballpoint pen, offers a smooth writing experience on paper.  Has the same logo as those disposable lighters.  This one is green.",
     "weight": "9 g",
@@ -230,7 +239,8 @@
   },
   {
     "id": "leather_journal",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "leather journal" },
     "looks_like": "book_nonf_soft_psych_cggamers",

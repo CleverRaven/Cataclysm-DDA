@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "fishing_pond_0_0", "fishing_pond_1_0" ], [ "fishing_pond_0_1", "fishing_pond_1_1" ] ],
     "object": {
       "predecessor_mapgen": "forest_thick",

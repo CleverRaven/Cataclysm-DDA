@@ -88,6 +88,7 @@
       { "trait": "COMMUNE_NIGHT", "prob": 100 },
       { "trait": "VAMPIRE2", "prob": 100 },
       { "trait": "COAGULANTWEAVE", "prob": 100 },
+      { "trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST", "prob": 100 },
       { "trait": "BLOODHEAL", "prob": 100 },
       { "trait": "VAMPIRIC_DODGE", "prob": 100 },
       { "trait": "VAMPIRE_FEAR_GAZE", "prob": 100 },

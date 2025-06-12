@@ -1,7 +1,8 @@
 [
   {
     "id": "light_battery_electronoetic",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "light electronoetic battery", "str_pl": "light electronoetic batteries" },
     "description": "A light battery but with the casing devoid of branding or symbols other than a plus and minus on opposite ends.  It's surprisingly heavy.",
@@ -28,7 +29,8 @@
   {
     "id": "light_battery_electronoetic_refined",
     "copy-from": "light_battery_electronoetic",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "light refined electronoetic battery", "str_pl": "light refined electronoetic batteries" },
     "//": "Capacity 8x normal",
@@ -37,7 +39,8 @@
   },
   {
     "id": "medium_battery_electronoetic",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "medium electronoetic battery", "str_pl": "medium electronoetic batteries" },
     "description": "A medium battery but with the casing devoid of branding or symbols other than a plus and minus on opposite ends.  It's surprisingly heavy.",
@@ -64,7 +67,8 @@
   {
     "id": "medium_battery_electronoetic_refined",
     "copy-from": "medium_battery_electronoetic",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "medium refined electronoetic battery", "str_pl": "medium refined electronoetic batteries" },
     "//": "Capacity 8x normal",
@@ -73,7 +77,8 @@
   },
   {
     "id": "heavy_battery_electronoetic",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "electronoetic tool battery", "str_pl": "electronoetic tool batteries" },
     "description": "A battery cell, compatible with all kinds of industrial-grade equipment and portable tools, but with the casing devoid of branding or symbols other than a plus and minus on opposite ends.  It's surprisingly heavy.",
@@ -101,7 +106,8 @@
   {
     "id": "heavy_battery_electronoetic_refined",
     "copy-from": "medium_battery_electronoetic",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "refined electronoetic tool battery", "str_pl": "refined electronoetic tool batteries" },
     "//": "Capacity 8x normal",

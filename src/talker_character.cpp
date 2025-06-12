@@ -30,6 +30,7 @@
 #include "magic.h"
 #include "map.h"
 #include "martialarts.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "npc.h"
 #include "npctalk.h"
@@ -310,9 +311,9 @@ void talker_character::mutate( const int &highest_cat_chance, const bool &use_vi
 }
 
 void talker_character::mutate_category( const mutation_category_id &mut_cat,
-                                        const bool &use_vitamins )
+                                        const bool &use_vitamins, const bool &true_random )
 {
-    me_chr->mutate_category( mut_cat, use_vitamins );
+    me_chr->mutate_category( mut_cat, use_vitamins, true_random );
 }
 
 void talker_character::mutate_towards( const trait_id &trait, const mutation_category_id &mut_cat,
@@ -560,13 +561,12 @@ void talker_character::remove_effect( const efftype_id &old_effect, const std::s
     me_chr->remove_effect( old_effect, target_part );
 }
 
-std::optional<std::string> talker_character_const::maybe_get_value( const std::string &var_name )
-const
+diag_value const *talker_character_const::maybe_get_value( const std::string &var_name ) const
 {
     return me_chr_const->maybe_get_value( var_name );
 }
 
-void talker_character::set_value( const std::string &var_name, const std::string &value )
+void talker_character::set_value( const std::string &var_name, diag_value const &value )
 {
     me_chr->set_value( var_name, value );
 }

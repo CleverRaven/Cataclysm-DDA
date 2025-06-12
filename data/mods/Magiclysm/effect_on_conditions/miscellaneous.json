@@ -9,7 +9,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_STARE1",
-    "condition": { "u_has_worn_with_flag": "MAGICAL_MIND_PROTECTION" },
+    "condition": { "or": [ { "u_has_flag": "MAGICAL_MIND_PROTECTION" }, { "u_has_worn_with_flag": "MAGICAL_MIND_PROTECTION" } ] },
     "effect": { "u_message": "You sense <npc_name> trying to enter your mind, but your magic protects you!", "type": "warning" },
     "false_effect": { "run_eocs": [ "EOC_STARE2" ] }
   },
@@ -82,6 +82,20 @@
     "effect": [
       { "u_remove_item_with": "mana_leech_shackle" },
       { "u_spawn_item": "mana_leech_shackle_unlocked", "suppress_message": true }
+    ]
+  },
+  {
+    "id": "EOC_WARG_FOOD_ISNT_REAL",
+    "//": "Are you a goblin? If not are you holding Warg food? No you aren't, that's regular meat.",
+    "type": "effect_on_condition",
+    "recurrence": [ "3 seconds", "5 seconds" ],
+    "condition": { "and": [ { "not": { "u_has_trait": "THRESH_SPECIES_GOBLIN" } }, { "u_has_item": "warg_food" } ] },
+    "global": true,
+    "run_for_npcs": true,
+    "effect": [
+      { "u_remove_item_with": "warg_food" },
+      { "npc_remove_item_with": "warg_food" },
+      { "u_spawn_item": "meat", "suppress_message": true }
     ]
   }
 ]

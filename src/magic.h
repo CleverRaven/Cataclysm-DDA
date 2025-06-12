@@ -34,6 +34,7 @@ class JsonOut;
 class nc_color;
 class spell;
 class time_duration;
+struct const_dialogue;
 struct dealt_projectile_attack;
 struct requirement_data;
 
@@ -346,6 +347,9 @@ class spell_type
         // list of valid targets enum
         enum_bitset<spell_target> valid_targets;
 
+        std::function<bool( const_dialogue const & )> condition; // NOLINT(cata-serialize)
+        bool has_condition = false; // NOLINT(cata-serialize)
+
         std::set<mtype_id> targeted_monster_ids;
 
         std::set<species_id> targeted_species_ids;
@@ -368,6 +372,7 @@ class spell_type
          */
         static const std::vector<spell_type> &get_all();
         static void check_consistency();
+        static void finalize_all();
         static void reset_all();
         bool is_valid() const;
 
@@ -679,6 +684,8 @@ class spell
         bool target_by_monster_id( const tripoint_bub_ms &p ) const;
         bool target_by_species_id( const tripoint_bub_ms &p ) const;
         bool ignore_by_species_id( const tripoint_bub_ms &p ) const;
+        bool valid_by_condition( const Creature &caster, const Creature &target ) const;
+        bool valid_by_condition( const Creature &caster ) const;
 
         // picks a random valid tripoint from @area
         std::optional<tripoint_bub_ms> random_valid_target( const Creature &caster,

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "drug_lab",
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -47,7 +46,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "drug_lab_roof",
     "object": {
       "fill_ter": "t_thatch_roof",

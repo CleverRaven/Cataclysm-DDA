@@ -1,7 +1,9 @@
 [
   {
+    "id": "leather_journal_innawood",
     "copy-from": "leather_journal",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "leather journal" },
     "looks_like": "book_nonf_soft_psych_cggamers",
     "use_action": [ "CALORIES_INTAKE_TRACKER" ],
@@ -9,7 +11,7 @@
   },
   {
     "id": "light_battery_shell",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "light battery shell" },
     "description": "This is the outer casing of a light battery.  It will need to be refilled to be useful.",
@@ -24,7 +26,7 @@
   },
   {
     "id": "medium_battery_shell",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "medium battery shell" },
     "description": "This is the outer casing of a medium battery.  It will need to be refilled to be useful.",
@@ -39,7 +41,7 @@
   },
   {
     "id": "heavy_battery_shell",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "heavy battery shell" },
     "description": "This is the outer casing of a heavy battery.  It will need to be refilled to be useful.",
@@ -54,7 +56,8 @@
   },
   {
     "id": "super_glue",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "super_glue",
     "name": { "str": "glue" },
     "description": "A thick, goopy glue that cures fast."

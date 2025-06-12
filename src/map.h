@@ -98,6 +98,7 @@ class map;
 enum class ter_furn_flag : int;
 struct pathfinding_cache;
 struct pathfinding_settings;
+struct pathfinding_target;
 template<typename T>
 struct weighted_int_list;
 struct field_proc_data;
@@ -715,15 +716,23 @@ class map
          * Calculate the best path using A*
          *
          * @param f The source location from which to path.
-         * @param t The destination to which to path.
+         * @param target The destination to which to path.
          * @param settings Structure describing pathfinding parameters.
          * @param pre_closed Never path through those points. They can still be the source or the destination.
          */
-        std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+        std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const pathfinding_target &target,
                                             const pathfinding_settings &settings,
         const std::function<bool( const tripoint_bub_ms & )> &avoid = []( const tripoint_bub_ms & ) {
             return false;
         } ) const;
+
+        /**
+         * Calculate the best path using A*
+         *
+         * @param who The creature to find a path for.
+         * @param target The destination to which to path.
+         */
+        std::vector<tripoint_bub_ms> route( const Creature &who, const pathfinding_target &target ) const;
 
         // Get a straight route from f to t, only along non-rough terrain. Returns an empty vector
         // if that is not possible.
@@ -1263,7 +1272,8 @@ class map
          *  @return reference to dropped (and possibly stacked) item or null item on failure
          *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
          */
-        item_location add_item_ret_loc( const tripoint_bub_ms &pos, item obj, bool overflow = true );
+        item_location add_item_or_charges_ret_loc( const tripoint_bub_ms &pos, item obj,
+                bool overflow = true );
         item &add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow = true );
         item &add_item_or_charges( const tripoint_bub_ms &pos, item obj, int &copies_remaining,
                                    bool overflow = true );
@@ -2238,7 +2248,21 @@ class map
 #endif
 };
 
+// The map the code is currently processing. It is currently (incorrectly) fixed at the
+// reality bubble, but will will have to be constantly adjusted to match the map that's
+// actually processed (so reality bubble coordinates on a mapgen map are actually referring
+// to that map rather than the reality bubble).
 map &get_map();
+
+// The reality bubble map, for when you need it to e.g. determine whether the map
+// you're operating on is the reality bubble. This can be to process things differently
+// between mapgen and the reality bubble, determine whether to carry over map cache info,
+// determine whether to produce a sound, etc.
+// Note that if the game will support more than one reality bubble map for a longer period
+// than a single tick, this operation will have to be split into one for the active bubble
+// for sound etc. processing, and another one for accessing all bubbles for cache
+// synchronization purposes.
+map &reality_bubble();
 
 template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point_rel_sm &s );

@@ -149,8 +149,7 @@
   {
     "id": "linuxtshirt",
     "type": "MIGRATION",
-    "replace": "tshirt",
-    "variant": "tux"
+    "replace": "tshirt"
   },
   {
     "id": "tshirt_tour",
@@ -1680,13 +1679,6 @@
     "replace": "cz75mag_16rd"
   },
   {
-    "id": "mossberg_500",
-    "type": "MIGRATION",
-    "from_variant": "mossberg_500_security",
-    "replace": "benelli_tsa",
-    "variant": "mossberg_500_security"
-  },
-  {
     "id": "bottle_suppressor",
     "type": "MIGRATION",
     "replace": "filter_suppressor"
@@ -2463,5 +2455,130 @@
     "id": "muzzle_brake_mod",
     "type": "MIGRATION",
     "replace": "muzzle_brake"
+  },
+  {
+    "id": "offset_sights_mod",
+    "type": "MIGRATION",
+    "replace": "offset_sights"
+  },
+  {
+    "id": "offset_sight_rail_mod",
+    "type": "MIGRATION",
+    "replace": "offset_sight_rail"
+  },
+  {
+    "id": "rifle_scope_mod",
+    "type": "MIGRATION",
+    "replace": "rifle_scope"
+  },
+  {
+    "id": "acog_scope_mod",
+    "type": "MIGRATION",
+    "replace": "acog_scope"
+  },
+  {
+    "id": "bipod_mod",
+    "type": "MIGRATION",
+    "replace": "bipod"
+  },
+  {
+    "id": "u_shotgun_mod",
+    "type": "MIGRATION",
+    "replace": "u_shotgun"
+  },
+  {
+    "id": "internal_mp3",
+    "type": "MIGRATION",
+    "replace": "manual_swimming"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "suit_bostonchan",
+    "replace": "blazer",
+    "variant": "bostonchan"
+  },
+  {
+    "id": "light_grip",
+    "type": "MIGRATION",
+    "replace": "grip"
+  },
+  {
+    "id": "pistol_grip",
+    "type": "MIGRATION",
+    "replace": "grip"
+  },
+  {
+    "id": "breacher_grip",
+    "type": "MIGRATION",
+    "replace": "grip"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sheriffshirt",
+    "from_variant": "sheriff",
+    "replace": "postman_shirt",
+    "variant": "sheriff"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sheriffshirt",
+    "from_variant": "swat_shirt",
+    "replace": "postman_shirt",
+    "variant": "swat"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "subsuit_xl",
+    "replace": "jumpsuit_pocketless",
+    "variant": "orange"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "striped_shirt",
+    "replace": "buttonshirt",
+    "variant": "striped"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gown",
+    "replace": "dress",
+    "variant": "gown"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "robofac_jumpsuit",
+    "replace": "jumpsuit",
+    "variant": "robofac"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "balaclava_skull",
+    "replace": "balclava",
+    "variant": "skull"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "robofac_head_rig_ir",
+    "replace": "robofac_head_rig_nv"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "exodii_ingot_steel",
+    "replace": "exodii_ingot_lc_steel"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "clay_quern",
+    "replace": "rock_quern"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bowling_axe",
+    "replace": "hatchet"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "spear_forked",
+    "replace": "spear_spike"
   }
 ]

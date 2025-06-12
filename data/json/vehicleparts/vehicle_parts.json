@@ -207,7 +207,7 @@
     "damage_modifier": 60,
     "durability": 95,
     "description": "A small but comfortable bed.",
-    "size": "100 L",
+    "size": "50 L",
     "item": "mattress",
     "comfort": 4,
     "floor_bedding_warmth": 700,
@@ -309,7 +309,6 @@
     "color": "white",
     "durability": 400,
     "description": "An aisle.",
-    "size": "100 L",
     "item": "sheet_metal",
     "location": "center",
     "//": ".5 m square sheet of metal, likely affixed with bolts in places, assume 200 cm weld to install and 50 cm weld to repair",
@@ -326,7 +325,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_lc_steel", 5 ] ] }
     },
-    "flags": [ "AISLE", "BOARDABLE", "CARGO" ],
+    "flags": [ "AISLE", "BOARDABLE" ],
     "breaks_into": [
       { "item": "sheet_metal_small", "count": [ 0, 1 ] },
       { "item": "lc_steel_lump", "count": [ 1, 2 ] },
@@ -366,7 +365,7 @@
     "folded_volume": "12500 ml",
     "item": "foldwoodframe",
     "breaks_into": [ { "item": "splinter", "count": [ 7, 11 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
-    "flags": [ "AISLE", "BOARDABLE", "CARGO" ]
+    "flags": [ "AISLE", "BOARDABLE" ]
   },
   {
     "type": "vehicle_part",
@@ -2294,8 +2293,7 @@
     "durability": 250,
     "description": "A cargo space for carrying livestock.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
     "//1": "240 cm weld to install, 60 cm per damage quadrant to repair",
-    "size": "300 L",
-    "comfort": 2,
+    "size": "200 L",
     "item": "livestock_carrier",
     "location": "center",
     "requirements": {
@@ -2311,7 +2309,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 12 ] ] }
     },
-    "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH", "HUGE_OK", "BED", "BELTABLE" ],
+    "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH", "HUGE_OK" ],
     "breaks_into": [
       { "item": "mc_steel_lump", "count": [ 6, 8 ] },
       { "item": "mc_steel_chunk", "count": [ 6, 8 ] },

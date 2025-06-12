@@ -967,7 +967,7 @@
     "time": "60 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ]
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ]
   },
   {
     "type": "recipe",
@@ -1693,7 +1693,7 @@
     "time": "1 h 30 m",
     "reversible": true,
     "book_learn": [ [ "mag_survival", 4 ], [ "atomic_survival", 3 ], [ "textbook_survival", 2 ] ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_tiny", 8 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_chunk_any", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "rope_natural", 1, "LIST" ] ] ]
@@ -2940,7 +2940,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "angle_grinder", 220 ] ], [ [ "drill_press_tool", 20 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking", "required": true }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "railroad_track_item_half", 1 ] ] ],
     "byproducts": [ [ "mc_steel_lump", 15 ] ]
   },
@@ -2956,7 +2956,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 45 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "DIG", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking", "required": true }, { "proficiency": "prof_redsmithing", "required": true } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "scrap_bronze", 90 ] ] ]
   },

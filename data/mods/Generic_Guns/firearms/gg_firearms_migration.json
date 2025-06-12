@@ -157,7 +157,17 @@
       "TDI_10",
       "draco_9mm",
       "p365",
-      "swbodyguard"
+      "swbodyguard",
+      "glock_42",
+      "glock_23",
+      "glock_27",
+      "glock_30",
+      "glock_36",
+      "glock_43",
+      "glock_43x",
+      "glock_26",
+      "glock_34",
+      "glock_48"
     ],
     "type": "MIGRATION",
     "replace": "pistol_medium"
@@ -232,7 +242,8 @@
       "rio_bravo",
       "henry_golden_boy",
       "sw617",
-      "sr22"
+      "sr22",
+      "glock_44"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"
@@ -459,7 +470,8 @@
       "benelli_tsa",
       "bigun",
       "mossberg_590m",
-      "USAS_12"
+      "USAS_12",
+      "m1014"
     ],
     "type": "MIGRATION",
     "replace": "shot_tactical"
@@ -473,7 +485,10 @@
       "mossberg_590",
       "mossberg_930",
       "remington_870",
-      "remington_870_express"
+      "remington_870_express",
+      "ithaca37",
+      "browning_a5",
+      "remington_1100"
     ],
     "type": "MIGRATION",
     "replace": "shot_pump"

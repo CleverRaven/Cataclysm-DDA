@@ -75,7 +75,7 @@ adds or modifies widget definitions (see [Modding the sidebar](#modding-the-side
 
 For example, here is a widget to display the player character's "Focus" attribute as a number:
 
-```json
+```jsonc
 {
   "id": "focus_num",
   "type": "widget",
@@ -107,7 +107,7 @@ Two fields are required for all widgets:
 **NOTE** For cleanliness and readability, many JSON examples in this document omit "id" and "type",
 because they are always required. Assume they are implied in all examples, unless otherwise noted:
 
-```json
+```jsonc
 {
   "id": "some_unique_id",
   "type": "widget",
@@ -170,7 +170,7 @@ character attributes or other information.
 
 Here is how a simple sidebar definition might look in JSON:
 
-```json
+```jsonc
 {
   "id": "my_sidebar",
   "style": "sidebar",
@@ -205,7 +205,7 @@ to array widgets horizontally, or "rows" to arrange them vertically, one widget 
 will split their horizontal space as equally as possible. Whereas minimum_columns will take their exact
 amount of space (defaulting to space split like columns) with the last column in the row taking all remaining space.
 
-```json
+```jsonc
 [
   {
     "id": "sound_focus_move_layout",
@@ -243,7 +243,7 @@ Str: 8  Dex: 9  Int: 7  Per: 11
 
 These layout widgets can be nested to produce web-style layouts:
 
-```json
+```jsonc
 [
   {
     "id": "overmap_5x5",
@@ -295,7 +295,7 @@ character, but they can also be attributes of the world, environment, or vehicle
 
 For example, a widget to show the current STR stat would define this "var":
 
-```json
+```jsonc
 {
   "var": "stat_str"
 }
@@ -303,7 +303,7 @@ For example, a widget to show the current STR stat would define this "var":
 
 And a widget to show the HP of the right arm would define "var" and "bodypart" like so:
 
-```json
+```jsonc
 {
   "var": "bp_hp",
   "bodypart": "arm_r"
@@ -312,7 +312,7 @@ And a widget to show the HP of the right arm would define "var" and "bodypart" l
 
 Some widgets can take advantage of multiple "bodyparts" like so:
 
-```json
+```jsonc
 {
   "bodyparts": [ "head", "torso", "arm_l", "arm_r" ]
 }
@@ -326,7 +326,7 @@ See [Variables](#variables) for a list of available "var" values.
 The simplest and usually most compact widget for displaying a value, "style": "number" appears as a
 label with an integer number.
 
-```json
+```jsonc
 {
   "style": "number",
   "label": "Focus"
@@ -355,7 +355,7 @@ The graph shows an arrangement of symbols. It has two important parameters:
 
 Given a graph of width 3 with two symbols, "-" and "=":
 
-```json
+```jsonc
 {
   "width": 3,
   "symbols": "-="
@@ -380,7 +380,7 @@ the all-zero state, and one state as each position up to "width" (3) is filled b
 The simplest possible graph is one character wide, with one symbol. It always shows the same value,
 so is not very useful:
 
-```json
+```jsonc
 {
   "width": 1,
   "symbols": "X"
@@ -389,7 +389,7 @@ so is not very useful:
 
 The simplest *useful* graph is one character wide, with two symbols:
 
-```json
+```jsonc
 {
   "width": 1,
   "symbols": "XO"
@@ -401,7 +401,7 @@ and could be used to create a single-character "pain alarm" or "loud sound" widg
 
 Returning to the example with 3 width, and using three symbols, "-", "=", and "#", we may define:
 
-```json
+```jsonc
 {
   "width": 3,
   "symbols": "-=#"
@@ -436,7 +436,7 @@ Also see [Graph widgets](#graph-widgets) for some predefined ones you can use or
 By setting the `arrange` property to `rows`, graphs can be displayed vertically.
 For vertical graphs, `height` should be used instead of `width`.
 
-```json
+```jsonc
 {
   "arrange": "rows",
   "height": 5,
@@ -457,7 +457,7 @@ Text style widgets display text. They can be very powerful, but are also pretty 
 The simplest text widget is one that displays static text using the `string` field. If a text widget
 does not have any clauses or a `var` field, it _must_ have the `string` field. The widget below
 displays a single dot.
-```JSON
+```jsonc
 {
   "id": "lcom_spacer",
   "type": "widget",
@@ -470,7 +470,7 @@ displays a single dot.
 In the vast majority of cases, text widgets will display text conditionally using [clauses](#clauses-and-conditions).
 These clauses use dialogue conditions to determine what text to show and in what color.
 The below widget is a prime example of a text widget, and is used to display a player's thirst level.
-```JSON
+```jsonc
 {
   "id": "thirst_desc_label",
   "type": "widget",
@@ -573,7 +573,7 @@ section within the sidebar.
 
 Labels may be a plain string:
 
-```JSON
+```jsonc
 {
   "id": "sound_num",
   "label": "Sound",
@@ -583,7 +583,7 @@ Labels may be a plain string:
 
 Or it may define a translatable string object, as commonly seen in item names:
 
-```JSON
+```jsonc
 {
   "id": "place_name",
   "label": { "str": "Place", "ctxt": "location" },
@@ -612,7 +612,7 @@ used, but there is also a "pool" method described below.
 With "bucket" fill, positions are filled like a row of buckets, using all symbols in the first
 position before beginning to fill the next position.  This is like the classic 5-bar HP meter.
 
-```json
+```jsonc
 {
   "width": 5,
   "symbols": ".\\|",
@@ -639,7 +639,7 @@ Result:
 Using "pool" fill, positions are filled like a swimming pool, with each symbol filling all positions
 before the next symbol appears.
 
-```json
+```jsonc
 {
   "width": 5,
   "symbols": "-=#",
@@ -686,7 +686,7 @@ The "style" field says what kind of info this widget shows or how it will be ren
 Widgets using `compass_text` expect the additional fields `direction` and `width` to
 identify (respectively) the cardinal direction and number of creatures displayed:
 
-```json
+```jsonc
 {
   "var": "compass_text",
   "direction": "N",
@@ -697,7 +697,7 @@ identify (respectively) the cardinal direction and number of creatures displayed
 `compass_legend_text` makes use of the "height" field (see below), which tells the display
 function to reserve that many lines for the compass legend:
 
-```json
+```jsonc
 {
   "var": "compass_legend_text",
   "height": 3
@@ -733,7 +733,7 @@ The widget's label and text/value can be aligned using the `label_align` and `te
 This is useful for widgets in "rows"-style layouts where the labels are different lengths, as the text
 can be aligned along a common vertical across the column:
 
-```json
+```jsonc
 {
   "label_align": "right",
   "text_align": "left"
@@ -760,7 +760,7 @@ Activity: Brisk
 `pad_labels` can be used on layouts to enable/disable label padding of child widgets.
 It can also be used on non-layout widgets, to disable alignment individually.
 
-```json
+```jsonc
 {
   "pad_labels": true
 }
@@ -778,7 +778,7 @@ For example, a lower movement number (move cost) is better, while higher numbers
 500 is quite bad, while less than 100 is ideal. This range might be colored with green, white, and
 red, given in a "colors" list:
 
-```json
+```jsonc
 {
   "id": "move_num",
   "type": "widget",
@@ -796,7 +796,7 @@ Graphs can be colorized in the same way. For example, the classic stamina graph 
 bar, a dark green `|||||` when full. As stamina diminishes, the bar's color goes to light green,
 yellow, light red, and red. Such coloration could be represented with "colors" like so:
 
-```json
+```jsonc
 {
   "id": "stamina_graph_classic",
   "type": "widget",
@@ -818,7 +818,7 @@ The color scale can be further customized using [`breaks`](#breaks).
 Widgets with "text" style can specify a single-element list of colors to overwrite the text color.
 Here is an example of colored place test:
 
-```json
+```jsonc
 {
   "id": "place_green",
   "type": "widget",
@@ -836,7 +836,7 @@ There must be one break less than the number of colors.
 
 For example, you may want the stamina bar to turn red at much higher values already, as a warning sign:
 
-```json
+```jsonc
 {
   "id": "stamina_graph_classic",
   "type": "widget",
@@ -857,7 +857,7 @@ So, 0 stands for `var_min` and 100 for `var_max`. Values <0 and >100 are allowed
 
 Widgets can use flags to specify special behaviors:
 
-```json
+```jsonc
 {
   "id": "my_widget",
   "type": "widget",
@@ -884,7 +884,7 @@ Here are the flags that can be included:
 Widgets can take advantage of "clauses" - definitions for what text/values to display and
 how to display them. These take the form of a nested object containing several optional fields:
 
-```json
+```jsonc
 {
   "id": "bp_status_indicator_template",
   "type": "widget",
@@ -936,7 +936,7 @@ Some conditions can be specific to certain bodyparts. In order to simplify claus
 Widgets can define a default clause that will be used if none of the clauses in the `clauses`
 array pass their conditions:
 
-```json
+```jsonc
 {
   "id": "observ_widget",
   "type": "widget",
@@ -1096,7 +1096,7 @@ Variable widgets with var `custom` can show any variable object or math expressi
 require a separate `custom_var` field to specify the variable object or math expression in question,
 like so:
 
-```json
+```jsonc
 {
   "var": "custom",
   "custom_var": {
@@ -1258,7 +1258,7 @@ For example, the Magiclysm mod extends the main custom sidebar with two optional
 does this in a JSON file in the mod directory, `data/mods/Magiclysm/ui/sidebar.json`, by defining a
 few custom widgets, then using "copy-from" and "extend" on the custom sidebar object:
 
-```json
+```jsonc
 [
   {
     "copy-from": "custom_sidebar",

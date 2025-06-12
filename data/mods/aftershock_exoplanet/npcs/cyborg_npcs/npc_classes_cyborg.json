@@ -1,0 +1,87 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_HIVE_GANGER",
+    "name": { "str": "Hive Ganger" },
+    "job_description": "I've survived all my life with the whole world against me, how is this any different.",
+    "traits": [ { "group": "BG_survival_story_GANGER" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } },
+      { "skill": "speech", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "worn_override": "NC_GANGER_worn",
+    "carry_override": "NC_GANGER_carried",
+    "weapon_override": "NC_GANGER_wield",
+    "bionics": [
+      { "id": "bio_ankles", "chance": 5 },
+      { "id": "bio_batteries", "chance": 20 },
+      { "id": "bio_carbon", "chance": 30 },
+      { "id": "bio_claws", "chance": 10 },
+      { "id": "bio_noise", "chance": 10 },
+      { "id": "bio_power_weakness", "chance": 5 },
+      { "id": "bio_itchy", "chance": 15 },
+      { "id": "bio_laser", "chance": 10 },
+      { "id": "bio_thumbs", "chance": 10 },
+      { "id": "bio_spasm", "chance": 10 },
+      { "id": "bio_shakes", "chance": 10 },
+      { "id": "bio_dex_enhancer", "chance": 20 },
+      { "id": "bio_sleepy", "chance": 5 },
+      { "id": "bio_heat_absorb", "chance": 20 },
+      { "id": "bio_eye_enhancer", "chance": 20 },
+      { "id": "bio_pokedeye", "chance": 10 },
+      { "id": "bio_hydraulics", "chance": 10 },
+      { "id": "bio_painkiller", "chance": 15 },
+      { "id": "bio_shock", "chance": 10 },
+      { "id": "bio_speed", "chance": 10 },
+      { "id": "bio_str_enhancer", "chance": 15 },
+      { "id": "bio_armor_head", "chance": 3 },
+      { "id": "bio_armor_torso", "chance": 15 },
+      { "id": "bio_armor_arms", "chance": 30 },
+      { "id": "bio_armor_legs", "chance": 25 },
+      { "id": "bio_razors", "chance": 15 },
+      { "id": "bio_power_storage", "chance": 100 },
+      { "id": "bio_torsionratchet", "chance": 20 }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_CYBERNINJA",
+    "name": { "str": "Corporate Wetworks Operative" },
+    "job_description": "I made a good living working in the shadows of the old world.  I can survive it's twilight.",
+    "traits": [
+      { "group": "BG_survival_story_CYBERNINJA" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 6 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 1, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 1, 6 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 1, 6 ] } },
+      { "skill": "smg", "bonus": { "rng": [ 1, 4 ] } }
+    ],
+    "worn_override": "NC_CYBERNINJA_worn",
+    "carry_override": "NC_CYBERNINJA_carried",
+    "weapon_override": "NC_CYBERNINJA_wield",
+    "bionics": [
+      { "id": "bio_carbon", "chance": 80 },
+      { "id": "bio_claws", "chance": 30 },
+      { "id": "bio_dex_enhancer", "chance": 30 },
+      { "id": "bio_eye_enhancer", "chance": 20 },
+      { "id": "bio_hydraulics", "chance": 10 },
+      { "id": "bio_painkiller", "chance": 45 },
+      { "id": "bio_shock", "chance": 10 },
+      { "id": "bio_speed", "chance": 10 },
+      { "id": "bio_str_enhancer", "chance": 15 },
+      { "id": "bio_razors", "chance": 35 },
+      { "id": "bio_power_storage", "chance": 100 },
+      { "id": "bio_metabolics", "chance": 100 }
+    ]
+  }
+]

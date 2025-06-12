@@ -1,0 +1,28 @@
+[
+  {
+    "id": "BGSS_CYBERNINJA_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "As a corporate wetworks specialist I'm used to crazy situations.  But this is like nothing I've ever experienced.",
+    "responses": [
+      { "text": "What are you going to do now?", "topic": "BGSS_CYBERNINJA_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_CYBERNINJA_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "I'm gonna find somewhere that people are making a stand.  And if I can agree with their plans I'll make my stand with them.",
+    "responses": [
+      { "text": "Where is that?", "topic": "BGSS_CYBERNINJA_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_CYBERNINJA_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Right now you are looking like the best leader I've met so far in this Cataclysm.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

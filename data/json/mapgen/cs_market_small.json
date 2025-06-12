@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cs_market_small",
     "object": {
       "fill_ter": "t_sidewalk",
@@ -61,7 +60,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cs_market_small_roof",
     "//": "Obsolete 2024-06-24. Remains to generate in older saves",
     "object": {

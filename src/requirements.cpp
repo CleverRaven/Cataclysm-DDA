@@ -23,6 +23,7 @@
 #include "debug_menu.h"
 #include "enum_traits.h"
 #include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "generic_factory.h"
 #include "inventory.h"
 #include "item.h"
@@ -37,6 +38,7 @@
 #include "pocket_type.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
 
@@ -110,7 +112,7 @@ void quality::load_static( const JsonObject &jo, const std::string &src )
     quality_factory.load( jo, src );
 }
 
-void quality::load( const JsonObject &jo, const std::string_view )
+void quality::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
 
@@ -754,7 +756,7 @@ void requirement_data::reset()
 std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
         const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
         int batch,
-        const std::string_view hilite, requirement_display_flags flags ) const
+        std::string_view hilite, requirement_display_flags flags ) const
 {
     std::vector<std::string> out_buffer;
     if( components.empty() ) {
@@ -772,7 +774,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
 template<typename T>
 std::vector<std::string> requirement_data::get_folded_list( int width,
         const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
-        const std::vector< std::vector<T> > &objs, int batch, const std::string_view hilite,
+        const std::vector< std::vector<T> > &objs, int batch, std::string_view hilite,
         requirement_display_flags flags ) const
 {
     // hack: ensure 'cached' availability is up to date
@@ -861,7 +863,8 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
 }
 
 bool requirement_data::can_make_with_inventory( const read_only_visitable &crafting_inv,
-        const std::function<bool( const item & )> &filter, int batch, craft_flags flags ) const
+        const std::function<bool( const item & )> &filter, int batch, craft_flags flags,
+        bool restrict_volume ) const
 {
     if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -878,7 +881,7 @@ bool requirement_data::can_make_with_inventory( const read_only_visitable &craft
     if( !has_comps( crafting_inv, components, filter, batch ) ) {
         retval = false;
     }
-    if( !check_enough_materials( crafting_inv, filter, batch ) ) {
+    if( !check_enough_materials( crafting_inv, filter, batch, restrict_volume ) ) {
         retval = false;
     }
     return retval;
@@ -1046,20 +1049,36 @@ const T *requirement_data::find_by_type( const std::vector< std::vector<T> > &ve
 }
 
 bool requirement_data::check_enough_materials( const read_only_visitable &crafting_inv,
-        const std::function<bool( const item & )> &filter, int batch ) const
+        const std::function<bool( const item & )> &filter, int batch, bool restrict_volume ) const
 {
     bool retval = true;
+    units::volume total_component_volume = 0_ml;
     for( const auto &component_choices : components ) {
         bool atleast_one_available = false;
+        units::volume max_volume_of_this_comp_choice = 0_ml;
         for( const item_comp &comp : component_choices ) {
             if( check_enough_materials( comp, crafting_inv, filter, batch ) ) {
+                // we need different calculations depending on whether or not the item uses charges...
+                const double relative_amount = comp.type->count_by_charges() ?
+                                               static_cast<double>( comp.count ) / static_cast<double>( comp.type->stack_size ) : comp.count;
+                const units::volume comp_volume = comp.type->volume * relative_amount * batch;
+                // the worst case scenario is used to tally volume
+                max_volume_of_this_comp_choice = std::max( max_volume_of_this_comp_choice, comp_volume );
                 atleast_one_available = true;
             }
         }
+        total_component_volume += max_volume_of_this_comp_choice;
         if( !atleast_one_available ) {
             retval = false;
         }
     }
+
+    // This will be the volume of the resulting in-progress craft item (see item::volume), so we don't want to exceed it.
+    // TODO: Feedback? Some sort of indicator to the player that resulting volume is why it can't be crafted
+    if( restrict_volume && total_component_volume > MAX_ITEM_VOLUME ) {
+        retval = false;
+    }
+
     return retval;
 }
 

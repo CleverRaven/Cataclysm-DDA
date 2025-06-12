@@ -1,0 +1,116 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_AUGUSTMOON_TOOL_TRADER",
+    "name": { "str": "gadget store clerk" },
+    "job_description": "Outfitter Clerk",
+    "common": false,
+    "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "NC_AUGUSTMOON_TOOL_TRADER_worn",
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
+    "skills": [ { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } } ],
+    "shopkeeper_item_group": [ { "group": "afs_augustmoon_tool_trader", "rigid": true } ],
+    "shopkeeper_price_rules": [
+      { "group": "afs_augustmoon_batteries_disposable", "markup": 10 },
+      { "group": "afs_augustmoon_batteries_rechargeable", "markup": 20 },
+      { "group": "afs_augustmoon_tools_premium", "markup": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_augustmoon_tool_trader",
+    "ammo": 100,
+    "magazine": 100,
+    "subtype": "collection",
+    "items": [
+      { "group": "afs_tools_electric_repair", "count": [ 1, 3 ] },
+      { "group": "afs_tools_robot_maintenance", "count": [ 1, 3 ] },
+      { "group": "afs_tools_portable_power", "count": [ 1, 2 ] },
+      { "group": "afs_tools_structural_repair", "count": [ 1, 3 ] },
+      { "group": "afs_tools_programing", "count": [ 1, 1 ] },
+      { "group": "afs_tools_scavenging", "count": [ 6, 12 ] },
+      { "group": "afs_tools_pocket", "count": [ 5, 10 ] },
+      { "item": "afs_thermos", "count": [ 2, 3 ] },
+      { "item": "multi_cooker", "count": [ 1, 1 ] },
+      { "item": "afs_40g_plasma_civ", "count": [ 2, 5 ] },
+      { "item": "afs_heavy_suit_battery_cell", "count": [ 2, 5 ] },
+      { "group": "afs_tools_welding_consumable", "count": [ 6, 8 ] },
+      { "group": "afs_augustmoon_batteries_disposable", "count": [ 5, 10 ] },
+      { "group": "afs_augustmoon_batteries_rechargeable", "count": [ 2, 3 ], "prob": 20 },
+      { "group": "augustmoon_shop_money" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_AUGUSTMOON_TOOL_TRADER_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "legpouch_large" },
+      { "item": "afs_hazard_suit_casual" },
+      { "item": "boots_combat" },
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" }
+    ]
+  },
+  {
+    "id": "afs_augustmoon_batteries_disposable",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [ [ "light_battery_cell", 4 ], [ "light_minus_disposable_cell", 1 ] ]
+  },
+  {
+    "id": "afs_augustmoon_batteries_rechargeable",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [
+      [ "heavy_battery_cell", 2 ],
+      [ "medium_battery_cell", 1 ],
+      [ "light_battery_cell", 3 ],
+      [ "light_minus_battery_cell", 1 ]
+    ]
+  },
+  {
+    "id": "afs_augustmoon_tools_premium",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [
+      [ "electrohack", 20 ],
+      [ "control_laptop", 20 ],
+      [ "folding_solar_panel_v2", 20 ],
+      [ "afs_cRTG", 10 ],
+      [ "afs_40g_plasma_civ", 20 ],
+      [ "afs_imager", 20 ],
+      [ "afs_motion_sensor", 20 ]
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "augustmoon_tool_trader",
+    "name_suffix": "gadget store clerk",
+    "class": "NC_AUGUSTMOON_TOOL_TRADER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_AUGUSTMOON_TOOL_TRADER",
+    "faction": "UICA"
+  },
+  {
+    "id": [ "TALK_AUGUSTMOON_TOOL_TRADER" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The store is full of high tech gadgets, both new and salvaged.  The clerk behind the counter looks up as you enter, and gives you a nod.",
+    "responses": [
+      { "text": "I want to buy some gear.", "topic": "TALK_DONE", "effect": "start_trade" },
+      { "text": "Maybe later.", "topic": "TALK_DONE" }
+    ]
+  }
+]

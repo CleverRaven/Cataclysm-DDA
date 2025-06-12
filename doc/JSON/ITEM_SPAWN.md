@@ -22,7 +22,7 @@ An example: Suppose item A has a probability of 30 and item B has a probability 
 
 The format is this:
 
-```json
+```jsonc
   {
     "type": "item_group",
     "subtype": "<subtype>",
@@ -41,7 +41,7 @@ The format is this:
 to deal with the overflow by setting `on_overflow` to either `discard` to discard items at random until they fit, or `spill` to have the excess items be spawned alongside the container.
 `container-item` can also be an object containing an `item` field specifying the container and a `variant` field specifying said container's variant. Eg.
 
-```json
+```jsonc
     "container-item": { "item": "<container-item-id>", "variant": "<container-item-variant-id>" },
 ```
 
@@ -52,7 +52,7 @@ There are [some caveats](#ammo-and-magazines) to watch out for when using `ammo`
 The `entries` list contains entries, each of which can be one of the following:
 
 1. Item
-    ```json
+    ```jsonc
     { "item": "<item-id>", ... }
     ```
 
@@ -62,14 +62,14 @@ The `entries` list contains entries, each of which can be one of the following:
     ```
 
 3. Distribution
-    ```json
+    ```jsonc
     { "distribution": [
         "An array of entries, each of which can match any of these 4 formats"
     ] }
     ```
 
 4. Collection
-    ```json
+    ```jsonc
     { "collection": [
         "An array of entries, each of which can match any of these 4 formats"
     ] }
@@ -79,7 +79,7 @@ The game decides based on the existence of either the `item` or the `group` valu
 
 Each entry can have more values (shown above as `...`).  They allow further properties of the item(s):
 
-```json
+```jsonc
 "damage": <number>|<array>,
 "count": <number>|<array>,
 "charges": <number>|<array>,
@@ -129,12 +129,12 @@ Current possible values are:
 - "christmas"
 
 `artifact`: This object determines that the item or group that is spawned by this entry will become an artifact. Here is an example:
-```json
+```jsonc
 "artifact": { "procgen_id": "cult", "rules": { "power_level": 1000, "max_attributes": 5, "max_negative_power": -2000 } }
 ```
 The procgen_id relates directly to a `relic_procgen_data` object's id. The `rules` object has three parts.  The first is `power_level`, which is the target power level of the spawned artifact; an artifact's power level is the sum of the power levels of all the parts.  The second, `max_negative_power`, is the sum of only negative power levels of the parts.  The third, `max_attributes`, is the number of parts.
 
-```json
+```jsonc
 "damage": [ 0, 3 ],
 "count": 4
 "charges": [ 10, 100 ]
@@ -166,13 +166,13 @@ be specified for guns and magazines in the entries array to use a non-default am
 
 This:
 
-```json
+```jsonc
 "items": [ "<id-1>", [ "<id-2>", 10 ] ]
 ```
 
 means the same as:
 
-```json
+```jsonc
 "entries": [ { "item": "<id-1>" }, { "item": "<id-2>", "prob": 10 } ]
 ```
 
@@ -180,7 +180,7 @@ In other words: a single string denotes an item id; an array (which must contain
 
 This is true for groups as well:
 
-```json
+```jsonc
 "groups": [ "<id-1>", [ "<id-2>", 10 ] ]
 ```
 
@@ -188,7 +188,7 @@ This format does not support further properties of the created items - the proba
 
 The content of "entries", "items" and "groups" are all added if those members exist.  This will have the item `<id-1>` appear twice in the item group:
 
-```json
+```jsonc
   {
     "items": [ "<id-1>" ],
     "entries": [ { "item": "<id-1>" } ]
@@ -197,7 +197,7 @@ The content of "entries", "items" and "groups" are all added if those members ex
 
 Another example: The group "milk" spawns a container (taken from milk_containers) that contains milk (the maximal amount that fits into the container, because there is no defined charges value).
 
-```json
+```jsonc
   {
     "type" : "item_group",
     "id": "milk_containers",
@@ -221,7 +221,7 @@ Another example: The group "milk" spawns a container (taken from milk_containers
 
 Mods can add entries to item groups by specifying a group with the same id that copies-from the previous group (`"copy-from": group_id`), and encompassing the added items within an `extend` block, like so:
 
-```json
+```jsonc
   {
     "type" : "item_group",
     "id": "milk_containers",
@@ -255,7 +255,7 @@ As an example: monster death drops (`death_drops` entry in the `MONSTER` object,
 
 Therefore, this snippet:
 
-```json
+```jsonc
   {
     "type": "item_group",
     "id": "specific_group_id",
@@ -269,7 +269,7 @@ Therefore, this snippet:
 
 is equivalent to:
 
-```json
+```jsonc
   {
     "death_drops": {
       "subtype": "distribution",
@@ -282,7 +282,7 @@ The inline group is read like any other group and one can use all the properties
 
 Instead of a full JSON object, one can also write a JSON array.  The default subtype is used and the array is read like the "entries" array (see above).  Each entry of that array must be a JSON object. Example:
 
-```json
+```jsonc
   {
     "death_drops": [
       { "item": "sheet_cotton", "damage": 2 }, { "item": "bowling_ball" }

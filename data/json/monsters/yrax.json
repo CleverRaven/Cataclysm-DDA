@@ -281,6 +281,7 @@
     "weight": "8282 kg",
     "diff": 40,
     "speed": 60,
+    "move_skills": { "climb": 9 },
     "material": [ "gold", "steel" ],
     "symbol": "A",
     "aggression": 70,
@@ -300,7 +301,6 @@
       "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "ELECTRONIC",
-      "CLIMBS",
       "NOT_HALLUCINATION",
       "ALWAYS_SEES_YOU",
       "FIREPROOF"

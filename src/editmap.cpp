@@ -480,7 +480,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
         bool draw_veh=true;
     */
 
-    bool game_map = m == &get_map() || w == g->w_terrain;
+    bool game_map = m == &reality_bubble() || w == g->w_terrain;
     const int msize = MAPSIZE_X;
     if( refresh_mplans ) {
         hilights["mplan"].points.clear();
@@ -1225,7 +1225,7 @@ void editmap::edit_rads() const
 {
     map &here = get_map();
     int value = 0;
-    if( query_int( value, _( "Set rads to?  Currently: %d" ), here.get_radiation( target ) ) ) {
+    if( query_int( value, false, _( "Set rads to?  Currently: %d" ), here.get_radiation( target ) ) ) {
         here.set_radiation( target, value );
     }
 }
@@ -1483,12 +1483,10 @@ void editmap::edit_itm()
                     }
                     string_input_popup popup;
                     int retval = 0;
+                    bool confirmed = false;
                     if( imenu.ret < imenu_tags ) {
-                        retval = popup
-                                 .title( "set:" )
-                                 .width( 20 )
-                                 .text( std::to_string( intval ) )
-                                 .query_int();
+                        retval = intval;
+                        confirmed = query_int( retval, true, "set:" );
                     } else if( imenu.ret == imenu_tags ) {
                         strval = popup
                                  .title( _( "Flags:" ) )
@@ -1496,7 +1494,7 @@ void editmap::edit_itm()
                                  .text( strval )
                                  .query_string();
                     }
-                    if( popup.confirmed() ) {
+                    if( popup.confirmed() || confirmed ) {
                         switch( imenu.ret ) {
                             case imenu_bday:
                                 it.set_birthday( time_point::from_turn( retval ) );
@@ -2079,8 +2077,10 @@ void editmap::mapgen_retarget()
         if( const std::optional<tripoint_rel_omt> vec = ctxt.get_direction_rel_omt( action ) ) {
             point_rel_ms vec_ms = coords::project_to<coords::ms>( vec->xy() );
             tripoint_bub_ms ptarget = target + vec_ms;
-            if( get_map().inbounds( ptarget ) &&
-                get_map().inbounds( ptarget + point( SEEX, SEEY ) ) ) {
+            map &here = get_map();
+
+            if( here.inbounds( ptarget ) &&
+                here.inbounds( ptarget + point( SEEX, SEEY ) ) ) {
                 target = ptarget;
 
                 target_list.clear();
