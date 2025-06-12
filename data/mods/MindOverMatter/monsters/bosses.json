@@ -67,12 +67,12 @@
           "accuracy": 6,
           "damage_max_instance": [ { "damage_type": "bash", "amount": 9 } ],
           "condition": { "and": [ { "test_eoc": "is_disarmed" }, { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } ] },
-          "hit_dmg_u": "%1$s hits your %2$s with a pipe in a blur of motion!",
-          "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a pipe in a blur of motion!",
-          "miss_msg_u": "%1$s tries to hit you, but you barely dodge!",
-          "miss_msg_npc": "%1$s tries to hit <npcname>, but they barely dodge!",
-          "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
-          "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+          "hit_dmg_u": "Mathematician A57 hits your %2$s with a pipe in a blur of motion!",
+          "hit_dmg_npc": "Mathematician A57 hits <npcname>'s %2$s with a pipe in a blur of motion!",
+          "miss_msg_u": "Mathematician A57 tries to hit you, but you barely dodge!",
+          "miss_msg_npc": "Mathematician A57 tries to hit <npcname>, but they barely dodge!",
+          "no_dmg_msg_u": "Mathematician A57 hits your %2$s without penetrating your armor.",
+          "no_dmg_msg_npc": "Mathematician A57 hits <npcname>'s %2$s without penetrating their armor."
         },
         {
           "id": "smash",
@@ -97,7 +97,7 @@
           "condition": {
             "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } } ]
           },
-          "message": "%1$s moves so quickly your eyes can barely follow them!"
+          "message": "Mathematician A57 moves so quickly your eyes can barely follow them!"
         },
         [ "BIO_OP_DISARM", 10 ],
         {
@@ -119,7 +119,7 @@
               { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } }
             ]
           },
-          "monster_message": "%1$s's skin takes on a slightly waxen appearance."
+          "monster_message": "Mathematician A57's skin takes on a slightly waxen appearance."
         },
         {
           "id": "psi_transcendant_alpha_heightened_reflexes",
@@ -132,7 +132,7 @@
               { "not": { "u_has_effect": "effect_monster_heightened_reflex_enhanced" } }
             ]
           },
-          "monster_message": "%1$s begins moving much more quickly."
+          "monster_message": "Mathematician A57 begins moving much more quickly."
         },
         {
           "type": "monster_attack",
@@ -147,12 +147,12 @@
           },
           "dodgeable": false,
           "blockable": false,
-          "hit_dmg_u": "%1$s blurs as they explode into motion!",
-          "hit_dmg_npc": "%1$s blurs as they explode into motion!",
-          "miss_msg_u": "%1$s blurs as they explode into motion!",
-          "miss_msg_npc": "%1$s blurs as they explode into motion!",
-          "no_dmg_msg_u": "%1$s blurs as they explode into motion!",
-          "no_dmg_msg_npc": "%1$s blurs as they explode into motion!"
+          "hit_dmg_u": "Mathematician A57 blurs as they explode into motion!",
+          "hit_dmg_npc": "Mathematician A57 blurs as they explode into motion!",
+          "miss_msg_u": "Mathematician A57 blurs as they explode into motion!",
+          "miss_msg_npc": "Mathematician A57 blurs as they explode into motion!",
+          "no_dmg_msg_u": "Mathematician A57 blurs as they explode into motion!",
+          "no_dmg_msg_npc": "Mathematician A57 blurs as they explode into motion!"
         },
         {
           "id": "psi_transcendant_alpha_telegrab",
@@ -160,7 +160,7 @@
           "spell_data": { "id": "telekinetic_pull_monster", "min_level": 3 },
           "cooldown": { "math": [ "5 + rand(10)" ] },
           "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
-          "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
+          "monster_message": "Mathematician A57 stares at %3$s and %3$s is lifted up and pulled towards them!"
         },
         {
           "id": "psi_transcendant_alpha_momentum_alteration",
@@ -170,7 +170,7 @@
           "condition": {
             "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_momentum_alteration" } } ]
           },
-          "monster_message": "The air around %1$s wavers."
+          "monster_message": "The air around Mathematician A57Mathematician A57 wavers."
         },
         {
           "id": "psi_transcendant_alpha_inertial_barrier",
@@ -180,7 +180,7 @@
           "condition": {
             "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
           },
-          "monster_message": "The air around %1$s distorts."
+          "monster_message": "The air around Mathematician A57 distorts."
         },
         [ "PULL_METAL_WEAPON", 10 ],
         {
@@ -196,14 +196,14 @@
             { "id": "psi_vitakinetic_degeneration", "duration": [ 600, 2400 ] }
           ],
           "dodgeable": true,
-          "blockable": true,
+          "blockable": false,
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-          "hit_dmg_u": "%1$s touches you and wounds open on your flesh!",
-          "hit_dmg_npc": "%1$s touches <npcname> and wounds open on their flesh!",
-          "miss_msg_u": "%1$s tries to touch you, but you dodge!",
-          "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",
-          "no_dmg_msg_u": "%1$s touches you but only hits your armor.",
-          "no_dmg_msg_npc": "%1$s touches <npcname> but only hits their armor."
+          "hit_dmg_u": "Mathematician A57 touches you and wounds open on your flesh!",
+          "hit_dmg_npc": "Mathematician A57 touches <npcname> and wounds open on their flesh!",
+          "miss_msg_u": "Mathematician A57 tries to touch you, but you dodge!",
+          "miss_msg_npc": "Mathematician A57 tries to touch <npcname>, but they dodge!",
+          "no_dmg_msg_u": "Mathematician A57 touches you but only hits your armor.",
+          "no_dmg_msg_npc": "Mathematician A57 touches <npcname> but only hits their armor."
         },
         {
           "type": "monster_attack",
@@ -214,15 +214,15 @@
           "move_cost": 60,
           "damage_max_instance": [ { "damage_type": "biological", "amount": 1 } ],
           "dodgeable": true,
-          "blockable": true,
+          "blockable": false,
           "eoc": [ "EOC_FERAL_VITAKIN2_ENERVATING_TOUCH" ],
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-          "hit_dmg_u": "%1$s touches you and you feel weaker!",
-          "hit_dmg_npc": "%1$s touches <npcname> and they flinch!",
-          "miss_msg_u": "%1$s tries to touch you, but you dodge!",
-          "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",
-          "no_dmg_msg_u": "%1$s touches you but only hits your armor.",
-          "no_dmg_msg_npc": "%1$s touches <npcname> but only hits their armor."
+          "hit_dmg_u": "Mathematician A57 touches you and you feel weaker!",
+          "hit_dmg_npc": "Mathematician A57 touches <npcname> and they flinch!",
+          "miss_msg_u": "Mathematician A57 tries to touch you, but you dodge!",
+          "miss_msg_npc": "Mathematician A57 tries to touch <npcname>, but they dodge!",
+          "no_dmg_msg_u": "Mathematician A57 touches you but only hits your armor.",
+          "no_dmg_msg_npc": "Mathematician A57 touches <npcname> but only hits their armor."
         },
         {
           "id": "psi_transcendant_alpha_regeneration",
@@ -231,7 +231,7 @@
           "cooldown": { "math": [ "10 + rand(20)" ] },
           "allow_no_target": true,
           "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_feral_regeneration" } } ] },
-          "monster_message": "%1$s closes their eyes and their wounds begin healing at a rapid pace!"
+          "monster_message": "Mathematician A57 closes their eyes and their wounds begin healing at a rapid pace!"
         }
       ],
       "flags": [ "CLIMBS", "PUSH_VEH", "PUSH_MON", "STUN_IMMUNE", "NO_BREATHE", "NO_FUNG_DMG", "WIELDED_WEAPON" ]
