@@ -50,14 +50,30 @@
     "color": "magenta",
     "hp": 150,
     "regen_morale": true,
-    "regenerates": 5,
+    "regenerates": 2,
     "regeneration_modifiers": [ [ "effect_psi_null", -5 ], [ "effect_feral_regeneration", 5 ] ],
     "bleed_rate": 0,
-    "death_drops": "mon_transcendant_alpha_death_drops",
+    "death_drops": "mon_mathematician_alpha_five_seven_death_drops",
     "zombify_into": "mon_zombie_survivor",
     "extend": {
       "special_attacks": [
         { "id": "feral_weapon_pipe" },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "transcendant_alpha_weapon_pipe",
+          "cooldown": 1,
+          "move_cost": 15,
+          "accuracy": 6,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 9 } ],
+          "condition": { "and": [ { "test_eoc": "is_disarmed" }, { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } ] },
+          "hit_dmg_u": "%1$s hits your %2$s with a pipe in a blur of motion!",
+          "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a pipe in a blur of motion!",
+          "miss_msg_u": "%1$s tries to hit you, but you barely dodge!",
+          "miss_msg_npc": "%1$s tries to hit <npcname>, but they barely dodge!",
+          "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+          "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+        },
         {
           "id": "smash",
           "attack_upper": true,
