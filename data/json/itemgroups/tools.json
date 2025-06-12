@@ -777,7 +777,8 @@
       [ "xacto", 4 ],
       { "group": "cotton_ball_bag_used", "prob": 4 },
       { "group": "cotton_ball_bag_full", "prob": 2 },
-      { "group": "ammo_any_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_random", "prob": 25 },
+      { "group": "ammo_heavy_batteries_full", "prob": 25 },
       [ "acetylene_machine", 1 ],
       { "group": "writing_utensils", "prob": 5 }
     ]
