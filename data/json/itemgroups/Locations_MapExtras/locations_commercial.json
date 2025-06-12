@@ -342,7 +342,7 @@
       [ "hat_chef", 5 ],
       [ "jacket_chef", 5 ],
       { "item": "smart_lamp", "prob": 5, "charges": [ 0, 100 ] },
-      [ "mask_guy_fawkes", 5 ],
+      { "item": "mask_skull", "variant": "guy_fawkes", "prob": 5 },
       { "item": "camera", "prob": 10, "charges": [ 0, 150 ] },
       { "item": "geiger_off", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "rad_monitor", "prob": 1, "charges": [ 0, 50 ] },
