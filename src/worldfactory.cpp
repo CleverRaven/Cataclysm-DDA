@@ -2033,6 +2033,13 @@ void load_external_option( const JsonObject &jo )
 {
     std::string name = jo.get_string( "name" );
     std::string stype = jo.get_string( "stype" );
+    bool stub = jo.get_bool( "stub", false );
+    // This is a hack to aid in migrating options to external without overriding already-set options.
+    // See doc/JSON/OPTIONS.md for more information.
+    if( stub ) {
+        jo.allow_omitted_members();
+        return;
+    }
     options_manager &opts = get_options();
     if( !opts.has_option( name ) ) {
         opts.add_external( name, "external_options", stype );

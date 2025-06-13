@@ -2751,8 +2751,6 @@ void options_manager::add_options_world_default()
     add( "CITY_SIZE", "world_default", translation(), translation(), 0, 16, 8, COPT_ALWAYS_HIDE
        );
 
-    add_empty_line();
-
     add( "CITY_SPACING", "world_default", translation(), translation(), 0, 8, 4, COPT_ALWAYS_HIDE
        );
 
@@ -2780,36 +2778,16 @@ void options_manager::add_options_world_default()
          0.0, 100, 1.0, 0.01, COPT_ALWAYS_HIDE
        );
 
-    add_empty_line();
+    add( "SEASON_LENGTH", "world_default", translation(), translation(), 14, 127, 91,
+         COPT_ALWAYS_HIDE );
 
-    add_option_group( "world_default", Group( "spawn_time_opts", to_translation( "World time options" ),
-                      to_translation( "Options regarding the passage of time in the world." ) ),
-    [&]( const std::string & page_id ) {
-        add( "SEASON_LENGTH", page_id, to_translation( "Season length" ),
-             to_translation( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),
-             14, 127, 91
-           );
+    add( "CONSTRUCTION_SCALING", "world_default", translation(), translation(), 0, 1000, 100,
+         COPT_ALWAYS_HIDE );
 
-        add( "CONSTRUCTION_SCALING", page_id, to_translation( "Construction scaling" ),
-             to_translation( "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length." ),
-             0, 1000, 100
-           );
+    add( "ETERNAL_SEASON", "world_default", translation(), translation(), false, COPT_ALWAYS_HIDE );
 
-        add( "ETERNAL_SEASON", page_id, to_translation( "Eternal season" ),
-             to_translation( "If true, keep the initial season for ever." ),
-             false
-           );
-
-        add( "ETERNAL_TIME_OF_DAY", page_id, to_translation( "Day/night cycle" ),
-        to_translation( "Day/night cycle settings.  'Normal' sets a normal cycle.  'Eternal Day' sets eternal day.  'Eternal Night' sets eternal night." ), {
-            { "normal", to_translation( "Normal" ) },
-            { "day", to_translation( "Eternal Day" ) },
-            { "night", to_translation( "Eternal Night" ) },
-        }, "normal"
-           );
-    } );
-
-    add_empty_line();
+    add( "ETERNAL_TIME_OF_DAY", "world_default", translation(), translation(), "normal", 8,
+         COPT_ALWAYS_HIDE );
 
     add_option_group( "world_default", Group( "misc_worlddef_opts", to_translation( "Misc options" ),
                       to_translation( "Miscellaneous options." ) ),
