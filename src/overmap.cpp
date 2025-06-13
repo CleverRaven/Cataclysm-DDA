@@ -6529,6 +6529,12 @@ pf::directed_path<point_om_omt> overmap::lay_out_connection(
             }
         }
 
+        //forces perpendicular crossing
+        if( subtype->is_perpendicular_crossing() && id->is_rotatable() &&
+            om_direction::are_parallel( cur.dir, id->get_dir() ) ) {
+            return pf::node_score::rejected;
+        }
+
         if( existing_connection && id->is_rotatable() && cur.dir != om_direction::type::invalid &&
             !om_direction::are_parallel( id->get_dir(), cur.dir ) ) {
             return pf::node_score::rejected; // Can't intersect.
