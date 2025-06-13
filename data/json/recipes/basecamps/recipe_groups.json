@@ -205,17 +205,6 @@
         ]
       },
       {
-        "id": "faction_base_saltworks_0",
-        "description": "Saltworks Area",
-        "om_terrains": [
-          "field",
-          "rural_road",
-          "dirt_road_farm_parking",
-          { "om_terrain": "farmland", "om_terrain_match_type": "PREFIX" },
-          { "om_terrain": "hayfield", "om_terrain_match_type": "PREFIX" }
-        ]
-      },
-      {
         "id": "faction_base_storehouse_0",
         "description": "Central Storage Building version 1.  Nice building with free space",
         "om_terrains": [
