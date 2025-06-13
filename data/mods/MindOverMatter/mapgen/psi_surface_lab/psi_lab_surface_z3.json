@@ -248,7 +248,8 @@
         { "chunks": [ "psi_phavian_lab_2partworkspace_back_5x5" ], "x": 91, "y": 106 },
         { "chunks": [ "psi_phavian_lab_2partworkspace_front_5x5" ], "x": 97, "y": 106 },
         { "chunks": [ "psi_phavian_lab_2partworkspace_back_5x5" ], "x": 103, "y": 106 }
-      ]
+      ],
+      "place_monster": [ { "monster": "mon_transcendant_alpha_psion", "x": 56, "y": 84, "chance": 20 } ]
     }
   }
 ]
