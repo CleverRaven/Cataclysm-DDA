@@ -1842,7 +1842,8 @@
       ],
       "palettes": [ "domestic_garden_nest_palette" ],
       "terrain": { "%": "t_sandbox" },
-      "furniture": { "%": "f_sand_castle" }
+      "furniture": { "%": "f_sand_castle" },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
