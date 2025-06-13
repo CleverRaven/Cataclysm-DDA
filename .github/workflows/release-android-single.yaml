@@ -1,0 +1,63 @@
+name: "Experimental Release (Android bundle)"
+
+on:
+  workflow_dispatch:
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  REPOSITORY_NAME: ${{ github.event.repository.name }}
+  ZSTD_CLEVEL: 17
+
+permissions:
+  write-all
+
+jobs:
+  release:
+    name: Create release
+    runs-on: ubuntu-latest
+    outputs:
+      timestamp: ${{ steps.get-timestamp.outputs.time }}
+    steps:
+      - name: Get build timestamp
+        id: get-timestamp
+        run: echo "time=$(/bin/date -u "+%Y-%m-%d-%H%M")" >> $GITHUB_OUTPUT
+      - name: Generate environmental variables
+        id: generate_env_vars
+        run: |
+          echo "tag_name=cdda-experimental-${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
+          echo "release_name=Cataclysm-DDA experimental Android bundle ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@v4
+      - run: |
+          gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}" --target "${{ github.sha }}"
+
+  android_bundle:
+    name: Android Bundle
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Setup Build and Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install gettext
+
+      - name: Build CDDA Android bundle
+        working-directory: ./android
+        run: |
+          echo "${{ secrets.KEYSTORE }}" > release.keystore.asc   
+          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch release.keystore.asc > app/release.keystore 
+          echo "${{ secrets.KEYSTORE_PROPERTIES }}" > keystore.properties.asc   
+          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch keystore.properties.asc > keystore.properties
+          export UPSTREAM_BUILD_NUMBER="$((11581 + ${{ github.run_number }}))"
+          chmod +x gradlew
+          ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
+          mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-android-bundle-${{ needs.release.outputs.timestamp }}.aab
+
+      - name: Upload artifact to release
+        run: |
+          gh release upload cdda-experimental-${{ needs.release.outputs.timestamp }} cdda-android-bundle-${{ needs.release.outputs.timestamp }}.aab
