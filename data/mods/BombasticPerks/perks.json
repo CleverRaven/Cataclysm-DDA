@@ -1272,7 +1272,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-	"category": [ "perk" ],
+    "category": [ "perk" ],
     "enchantments": [
       {
         "condition": "ALWAYS",
