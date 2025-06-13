@@ -1612,6 +1612,19 @@ bool Character::mutate_towards( std::vector<trait_id> muts, const mutation_categ
 
 bool Character::mutate_towards( const trait_id &mut, const mutation_category_id &mut_cat,
                                 const mutation_variant *chosen_var, const bool use_vitamins, bool removed_base_trait )
+
+for( auto &other_mut : get_mutations_in_types( mut.obj().types ) ) {
+    if( has_permanent_trait( other_mut ) && other_mut != mut ) {
+        remove_mutation( other_mut );
+    }
+}
+
+for( auto &canceled_mut : mut.obj().cancels ) {
+    if( has_permanent_trait( canceled_mut ) ) {
+        remove_mutation( canceled_mut );
+    }
+}
+
 {
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
