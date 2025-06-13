@@ -146,7 +146,6 @@
     "id": "whips",
     "type": "requirement",
     "//": "Any weapon that features a handle and flexible lash.",
-    "tools": [ [ [ "salamander_flaming_summon_whip", -1 ] ] ]
+    "extend": { "tools": [ [ [ "salamander_flaming_summon_whip", -1 ] ] ] }
   }
 ]
-
