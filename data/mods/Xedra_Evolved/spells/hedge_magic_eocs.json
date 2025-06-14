@@ -154,6 +154,36 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_HEDGE_FORGETTING_SPELL",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_has_effect": "taint" },
+            { "u_has_effect": "tindrift" },
+            { "u_has_effect": "rat" },
+            { "u_has_effect": "evil" },
+            { "u_has_effect": "effect_evil_eye" },
+            { "u_has_effect": "fearparalyze" }
+          ]
+        },
+        { "math": [ "u_skill('deduction') >= 1" ] }
+      ]
+    },
+    "effect": [
+      {
+                "math": [
+                    "u_skill_exp('deduction', 'format': 'percentage')",
+                    "-=",
+                    "50 - min( (u_skill('deduction') * 5),45)"
+                ]
+            },
+      { "u_message": "You forget key details of universal laws." }
+    ],
+    "false_effect": [ { "u_message": "You must be afflicted from nether creatures for this to have any effect.", "type": "good" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_HEDGE_CLAIRVOYANCE_CONE",
     "effect": [
       { "u_add_effect": "bleed", "intensity": 1, "target_part": "head", "duration": "5 minutes" },
