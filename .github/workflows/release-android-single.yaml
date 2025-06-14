@@ -1,4 +1,4 @@
-name: "Experimental Release (Android bundle)"
+name: "Manual experimental Android aab bundle generator"
 on:
   workflow_dispatch:
 
@@ -44,12 +44,12 @@ jobs:
           export UPSTREAM_BUILD_NUMBER="$((11581 + ${{ github.run_number }}))"
           chmod +x gradlew
           ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
-          mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-android-bundle-${{ steps.vars.outputs.timestamp }}.aab
+          mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-android-bundle-${{ steps.vars.outputs.timestamp }}-${{ github.sha }}.aab
 
       - name: Create GitHub release
         run: |
           gh release create ${{ steps.vars.outputs.tag_name }} \
-            cdda-android-bundle-${{ steps.vars.outputs.timestamp }}-${{ github.sha }}.aab
+            cdda-android-bundle-${{ steps.vars.outputs.timestamp }}-${{ github.sha }}.aab \
             --prerelease \
             --title "${{ steps.vars.outputs.release_name }}" \
             --target "${{ github.sha }}"
