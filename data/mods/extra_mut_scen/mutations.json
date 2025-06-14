@@ -1,0 +1,239 @@
+[
+  {
+    "type": "mutation",
+    "abstract": "MUTAGEN_GLAND_ABSTRACT",
+    "//TODO": "Add more glands as mod_interactions for in repo mod lines",
+    "name": "",
+    "description": "",
+    "points": 0,
+    "time": 3600,
+    "processed_eocs": [ "EOC_AM_BECOME_MUTANT" ],
+    "cancels": [
+      "MUTAGEN_GLAND_ALPHA",
+      "MUTAGEN_GLAND_BATRACHIAN",
+      "MUTAGEN_GLAND_BEAST",
+      "MUTAGEN_GLAND_BIRD",
+      "MUTAGEN_GLAND_CATTLE",
+      "MUTAGEN_GLAND_CEPHALOPOD",
+      "MUTAGEN_GLAND_CHIMERA",
+      "MUTAGEN_GLAND_CHIROPTERAN",
+      "MUTAGEN_GLAND_CRUSTACEAN",
+      "MUTAGEN_GLAND_ELFA",
+      "MUTAGEN_GLAND_FELINE",
+      "MUTAGEN_GLAND_FISH",
+      "MUTAGEN_GLAND_GASTROPOD",
+      "MUTAGEN_GLAND_INSECT",
+      "MUTAGEN_GLAND_LIZARD",
+      "MUTAGEN_GLAND_LUPINE",
+      "MUTAGEN_GLAND_MEDICAL",
+      "MUTAGEN_GLAND_MOUSE",
+      "MUTAGEN_GLAND_PLANT",
+      "MUTAGEN_GLAND_RAPTOR",
+      "MUTAGEN_GLAND_RAT",
+      "MUTAGEN_GLAND_SLIME",
+      "MUTAGEN_GLAND_SPIDER",
+      "MUTAGEN_GLAND_TROGLOBITE",
+      "MUTAGEN_GLAND_URSINE"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_ALPHA",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Alpha" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with alpha traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_ALPHA" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_BATRACHIAN",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Batrachian" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with batrachian traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_BATRACHIAN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_BEAST",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Beast" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with beast traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_BEAST" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_BIRD",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Bird" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with avian traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_BIRD" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_CATTLE",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Cattle" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with bovine traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_CATTLE" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_CEPHALOPOD",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Cephalopod" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with cephalopod traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_CEPHALOPOD" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_CHIMERA",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Chimera" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with chimera traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_CHIMERA" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_CHIROPTERAN",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Chiropteran" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with chiropteran traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_CHIROPTERAN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_CRUSTACEAN",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Crustacean" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with crustacean traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_CRUSTACEAN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_ELFA",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Elf-A" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with elven traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_ELFA" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_FELINE",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Feline" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with feline traits.",
+    "delete": { "cancels": [ "MUTAGEN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_FISH",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Fish" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with fish traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_FISH" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_GASTROPOD",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Gastropod" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with gastropod traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_GASTROPOD" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_INSECT",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Insect" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with insect traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_INSECT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_LIZARD",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Lizard" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with lizard traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_LIZARD" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_LUPINE",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Lupine" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with lupine traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_LUPINE" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_MEDICAL",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Medical" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with medical traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_MEDICAL" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_MOUSE",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Mouse" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with mouse traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_MOUSE" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_PLANT",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Plant" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with plant traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_PLANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_RAPTOR",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Raptor" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with raptor traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_RAPTOR" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_RAT",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Rat" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with rat traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_RAT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_SLIME",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Slime" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with slime traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_SLIME" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_SPIDER",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Spider" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with spider traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_SPIDER" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_TROGLOBITE",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Troglobite" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with troglobite traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_TROGLOBITE" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUTAGEN_GLAND_URSINE",
+    "copy-from": "MUTAGEN_GLAND_ABSTRACT",
+    "name": { "str": "Mutagen Gland - Ursine" },
+    "description": "You were unwittingly subject to next gen CRISPR experimentation that has resulted in you growing a small gland out of your pancreas that gradually mutates you with ursine traits.",
+    "delete": { "cancels": [ "MUTAGEN_GLAND_URSINE" ] }
+  }
+]
