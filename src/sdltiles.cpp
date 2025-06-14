@@ -191,6 +191,10 @@ static void InitSDL()
     SDL_SetHint( SDL_HINT_IME_SUPPORT_EXTENDED_TEXT, "1" );
 #endif
 
+#if defined(SDL_HINT_WINDOWS_DPI_AWARENESS)
+    SDL_SetHint( SDL_HINT_WINDOWS_DPI_AWARENESS, "permonitorv2" );
+#endif
+
 #if defined(SDL_HINT_APP_NAME)
     // Requires SDL 2.0.18. String used multiple ways, one of them is the game
     // identifying itself when asking to inhibit screensaver via dbus under

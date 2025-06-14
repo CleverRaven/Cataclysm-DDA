@@ -636,6 +636,8 @@ void damage_instance::deserialize( const JsonValue &val )
         return du;
     };
 
+    // reset before loading, in case this has already been used
+    clear();
     if( val.test_object() ) {
         add( read_damage_unit( val.get_object() ) );
     } else if( val.test_array() ) {

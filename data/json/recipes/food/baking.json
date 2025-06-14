@@ -14,7 +14,7 @@
     "flags": [ "BLIND_HARD" ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "qualities": [ { "id": "OVEN", "level": 1 } ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ], [ [ "surface_heat", 28, "LIST" ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ] ], [ [ "surface_heat", 28, "LIST" ] ] ],
     "//": "362g of cereal made of 406g of wheat, assuming the difference is chaff.  equivalent to 28u of flour by weight.",
     "components": [ [ [ "wheat", 2 ], [ "buckwheat", 2 ], [ "barley", 2 ] ] ]
   },

@@ -12,7 +12,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ] ] ],
     "components": [
       [ [ "flour", 1 ] ],
       [
@@ -90,7 +90,7 @@
     "book_learn": [ [ "cookbook_mexican", 1 ] ],
     "batch_time_factors": [ 83, 3 ],
     "charges": 50,
-    "tools": [ [ [ "surface_heat", 3, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ], [ [ "rock_quern", -1 ] ] ],
     "components": [ [ [ "any_chili_pepper", 1, "LIST" ] ] ]
   },
   {
@@ -106,7 +106,7 @@
     "book_learn": [ [ "cookbook_mexican", 1 ] ],
     "batch_time_factors": [ 83, 3 ],
     "charges": 50,
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "mortar_pestle", -1 ] ] ],
     "components": [ [ [ "dry_chili", 1 ] ] ]
   },
   {
@@ -157,7 +157,7 @@
     "autolearn": true,
     "book_learn": [ [ "cookbook_mexican", 1 ] ],
     "batch_time_factors": [ 83, 3 ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "rock_quern", -1 ] ] ],
     "components": [ [ [ "dry_corn", 1 ], [ "kernels", 1 ] ] ]
   },
   {
@@ -245,7 +245,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ] ] ],
     "components": [ [ [ "wheat", 1 ], [ "barley", 1 ], [ "starch", 1 ] ] ]
   },
   {
@@ -421,7 +421,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ] ] ],
     "components": [
       [
         [ "buckwheat", 1 ],
@@ -523,7 +523,7 @@
     "book_learn": [ [ "cookbook_italian", 1 ] ],
     "batch_time_factors": [ 83, 3 ],
     "charges": 50,
-    "tools": [ [ [ "surface_heat", 3, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ], [ [ "rock_quern", -1 ] ] ],
     "components": [ [ [ "garlic_clove", 1 ] ] ]
   },
   {
@@ -540,7 +540,7 @@
     "book_learn": [ [ "cookbook_italian", 1 ] ],
     "batch_time_factors": [ 83, 3 ],
     "charges": 50,
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "mortar_pestle", -1 ] ] ],
     "components": [ [ [ "dry_garlic", 1 ] ] ]
   },
   {
@@ -589,7 +589,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ] ] ],
     "components": [ [ [ "bone_edible", 1, "LIST" ] ] ],
     "charges": 4
   },
@@ -729,7 +729,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ] ] ],
     "components": [ [ [ "bone_tainted", 1 ], [ "skewer_bone", 25 ] ] ],
     "charges": 4
   },
@@ -797,7 +797,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ] ] ],
     "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ], [ "endochitin", 1 ], [ "insect_dust", 1 ] ] ],
     "charges": 4
   },
@@ -915,7 +915,7 @@
     "batch_time_factors": [ 20, 1 ],
     "charges": 1,
     "autolearn": true,
-    "tools": [ [ [ "clay_quern", -1 ], [ "rock_quern", -1 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ] ] ],
     "components": [
       [
         [ "almond_shelled", 10 ],
@@ -984,7 +984,7 @@
     "batch_time_factors": [ 20, 1 ],
     "charges": 1,
     "autolearn": true,
-    "tools": [ [ [ "clay_quern", -1 ], [ "rock_quern", -1 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ] ] ],
     "components": [
       [
         [ "seed_cotton_boll", 8 ],

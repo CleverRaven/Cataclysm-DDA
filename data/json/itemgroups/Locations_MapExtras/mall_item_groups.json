@@ -10,7 +10,7 @@
     "ammo": 75,
     "magazine": 100,
     "items": [
-      { "group": "ammo_any_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_unopened", "prob": 50 },
       { "item": "radio", "prob": 30, "charges": 100 },
       { "item": "mp3", "prob": 25, "charges": 100 },
       { "item": "pride_flag", "prob": 1 },
@@ -52,7 +52,8 @@
       { "item": "portable_game", "prob": 60, "charges": 100 },
       [ "bat", 60 ],
       [ "pom_poms", 40 ],
-      [ "backpack", 40 ],
+      [ "backpack_small", 40 ],
+      [ "backpack", 5 ],
       [ "backpack_denim", 5 ],
       { "item": "backpack_giant", "prob": 1 },
       [ "pockknife", 5 ],
@@ -218,7 +219,7 @@
     "items": [
       { "item": "portable_game", "prob": 20, "charges": 100 },
       [ "antenna", 25 ],
-      { "group": "ammo_any_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_unopened", "prob": 50 },
       { "item": "mp3", "prob": 30, "charges": 100 },
       { "group": "new_phones", "prob": 90 },
       { "group": "new_usb_drives", "prob": 10 },

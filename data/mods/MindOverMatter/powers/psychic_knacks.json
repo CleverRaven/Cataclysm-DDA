@@ -42,13 +42,6 @@
     "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('electrokinetic_see_electric') / 2), 1) )" ] }
   },
   {
-    "id": "electrokinetic_see_electric_knack",
-    "copy-from": "electrokinetic_see_electric",
-    "type": "SPELL",
-    "spell_class": "PSYCHIC_KNACK",
-    "difficulty": { "math": [ "max( (u_spell_difficulty('electrokinetic_see_electric') / 2), 1)" ] }
-  },
-  {
     "id": "electrokinetic_pain_immune_knack",
     "copy-from": "electrokinetic_pain_immune",
     "type": "SPELL",
@@ -82,20 +75,6 @@
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
     "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('photokinetic_radio') / 2), 1) )" ] }
-  },
-  {
-    "id": "photokinetic_hide_ugly_knack",
-    "copy-from": "photokinetic_hide_ugly",
-    "type": "SPELL",
-    "spell_class": "PSYCHIC_KNACK",
-    "difficulty": { "math": [ "max( (u_spell_difficulty('photokinetic_hide_ugly') / 2), 1)" ] }
-  },
-  {
-    "id": "photokinetic_radio_knack",
-    "copy-from": "photokinetic_radio",
-    "type": "SPELL",
-    "spell_class": "PSYCHIC_KNACK",
-    "difficulty": { "math": [ "max( (u_spell_difficulty('photokinetic_radio') / 2), 1)" ] }
   },
   {
     "id": "pyrokinetic_flash_knack",

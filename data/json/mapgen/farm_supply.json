@@ -155,7 +155,8 @@
               { "group": "tools_common", "prob": 40 },
               { "group": "tools_entry", "prob": 5 },
               { "group": "consumer_electronics", "prob": 25 },
-              { "group": "ammo_any_batteries_full", "prob": 25 },
+              { "group": "box_of_batteries_unopened", "prob": 25 },
+              { "group": "ammo_heavy_batteries_full", "prob": 25 },
               { "group": "tools_lighting", "prob": 5 }
             ]
           },
@@ -596,7 +597,8 @@
               { "group": "tools_common", "prob": 40 },
               { "group": "tools_entry", "prob": 5 },
               { "group": "consumer_electronics", "prob": 25 },
-              { "group": "ammo_any_batteries_full", "prob": 25 },
+              { "group": "box_of_batteries_unopened", "prob": 25 },
+              { "group": "ammo_heavy_batteries_full", "prob": 25 },
               { "group": "tools_lighting", "prob": 5 }
             ]
           },

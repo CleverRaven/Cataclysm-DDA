@@ -69,6 +69,7 @@ extern const flag_id flag_CAMERA_PRO;
 extern const flag_id flag_CANNIBAL;
 extern const flag_id flag_CANT_HEAL_EVERYONE;
 extern const flag_id flag_CANT_WEAR;
+extern const flag_id flag_CAN_USE_IN_DARK;
 extern const flag_id flag_CARNIVORE_DIET;
 extern const flag_id flag_CARNIVORE_OK;
 extern const flag_id flag_CASING;
