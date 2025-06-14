@@ -1229,17 +1229,29 @@ void deploy_furn_actor::load( const JsonObject &obj, const std::string & )
 
 
 static ret_val<tripoint_bub_ms> check_deploy_square( Character *p, item &it,
-        map *here, const tripoint_bub_ms &pos )
+        map *here, const tripoint_bub_ms &pos, item_location &loc )
 {
     if( p->cant_do_mounted() ) {
         return ret_val<tripoint_bub_ms>::make_failure( pos );
     }
     tripoint_bub_ms pnt( pos );
-    if( pos == p->pos_bub( *here ) ) {
+    const auto choose = [&]() {
         // TODO: Use map aware 'choose_adjacent' when available, or reject operation if not reality bubble map
         if( const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
             pnt = *pnt_;
         } else {
+            return false;
+        }
+        return true;
+    };
+    if( pos == p->pos_bub( *here ) ) {
+        if( !choose() ) {
+            return ret_val<tripoint_bub_ms>::make_failure( pos );
+        }
+    } else if( p->can_stash( it ) ) {
+        // If we could pick it up for ALLOWS_REMOTE_USE items
+        p->assign_activity( pickup_activity_actor( { loc }, { 0 }, p->pos_bub(), false ) );
+        if( !choose() ) {
             return ret_val<tripoint_bub_ms>::make_failure( pos );
         }
     }
@@ -1323,7 +1335,8 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
 std::optional<int> deploy_furn_actor::use( Character *p, item &it,
         map *here, const tripoint_bub_ms &pos ) const
 {
-    ret_val<tripoint_bub_ms> suitable = check_deploy_square( p, it, here, pos );
+    item_location loc = get_item_location( *p, it, here, pos );
+    ret_val<tripoint_bub_ms> suitable = check_deploy_square( p, it, here, pos, loc );
     if( !suitable.success() ) {
         p->add_msg_if_player( m_info, suitable.str() );
         return std::nullopt;
@@ -1331,7 +1344,7 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
 
     here->furn_set( suitable.value(), furn_type, false, false, true );
     it.spill_contents( suitable.value() );
-    get_item_location( *p, it, here, pos ).remove_item();
+    loc.remove_item();
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 0;
 }
@@ -1362,7 +1375,8 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it,
 std::optional<int> deploy_appliance_actor::use( Character *p, item &it,
         map *here, const tripoint_bub_ms &pos ) const
 {
-    ret_val<tripoint_bub_ms> suitable = check_deploy_square( p, it, here, pos );
+    item_location loc = get_item_location( *p, it, here, pos );
+    ret_val<tripoint_bub_ms> suitable = check_deploy_square( p, it, here, pos, loc );
     if( !suitable.success() ) {
         p->add_msg_if_player( m_info, suitable.str() );
         return std::nullopt;
@@ -1373,7 +1387,7 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it,
     // TODO: Use map aware operation when available
     if( place_appliance( *here, suitable.value(),
                          vpart_appliance_from_item( appliance_base ), *p, it ) ) {
-        get_item_location( *p, it, here, pos ).remove_item();
+        loc.remove_item();
         p->mod_moves( -to_moves<int>( 2_seconds ) );
     }
     return 0;
