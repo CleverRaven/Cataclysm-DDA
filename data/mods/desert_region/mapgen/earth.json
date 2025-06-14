@@ -291,44 +291,52 @@
     }
   },
   {
-    "type": "mapgen",
-    "//": "z0 omts, actual mapgen is done by nests in the z-2 versions",
-    "om_terrain": [ "canyon_edge_ground", "canyon_corner_ground", "canyon_2way_ground", "canyon_3way_ground" ],
-    "object": { "fallback_predecessor_mapgen": "field" }
+    "type": "palette",
+    "id": "canyon_edge_parameters",
+    "parameters": {
+      "variant": {
+        "type": "nested_mapgen_id",
+        "scope": "smallmap",
+        "default": { "distribution": [ "24x24_canyon_edge_v1", "24x24_canyon_edge_v2" ] }
+      }
+    }
   },
   {
     "type": "mapgen",
-    "//": "z-1 omts, actual mapgen is done by nests in the z-2 versions",
-    "om_terrain": [ "canyon_edge", "canyon_corner", "canyon_2way", "canyon_3way" ],
-    "object": { "predecessor_mapgen": "open_air" }
+    "//": "z0",
+    "om_terrain": "canyon_edge_ground",
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "palettes": [ "canyon_edge_parameters" ],
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_edge_v1" } ], "x": 0, "y": 0 } ]
+    }
   },
   {
     "type": "mapgen",
+    "//": "z-1",
+    "om_terrain": "canyon_edge",
+    "object": {
+      "predecessor_mapgen": "open_air",
+      "palettes": [ "canyon_edge_parameters" ],
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_edge_v1" } ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "z-2",
     "om_terrain": "canyon_edge_bottom",
     "object": {
       "predecessor_mapgen": "field",
-      "parameters": {
-        "variant": {
-          "type": "nested_mapgen_id",
-          "scope": "omt",
-          "default": { "distribution": [ "24x24_canyon_edge_v1", "24x24_canyon_edge_v2" ] }
-        }
-      },
-      "place_nested": [
-        { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_edge_v1" } ], "x": 0, "y": 0 },
-        { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_edge_v1" } ], "x": 0, "y": 0, "z": 1 },
-        {
-          "chunks": [
-            {
-              "switch": { "param": "variant", "fallback": "24x24_canyon_edge_v1" },
-              "cases": { "24x24_canyon_edge_v1": "24x24_canyon_edge_ground_v1", "24x24_canyon_edge_v2": "24x24_canyon_edge_ground_v2" }
-            }
-          ],
-          "x": 0,
-          "y": 0,
-          "z": 2
-        }
-      ]
+      "palettes": [ "canyon_edge_parameters" ],
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_edge_v1" } ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "canyon",
+    "nested": {
+      "#": { "else_chunks": [ "1x1_sandstone" ], "check_z": [ 0 ] },
+      " ": { "chunks": [ "1x1_open_air" ], "check_z": [ 0 ] }
     }
   },
   {
@@ -362,7 +370,7 @@
         "########################",
         "########################"
       ],
-      "terrain": { "#": "t_sandstone" }
+      "palettes": [ "canyon" ]
     }
   },
   {
@@ -396,77 +404,36 @@
         "########################",
         "########################"
       ],
-      "terrain": { "#": "t_sandstone" }
+      "palettes": [ "canyon" ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "canyon_corner_parameters",
+    "parameters": {
+      "variant": {
+        "type": "nested_mapgen_id",
+        "scope": "smallmap",
+        "default": { "distribution": [ "24x24_canyon_corner_v1", "24x24_canyon_corner_v2" ] }
+      }
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_canyon_edge_ground_v1",
+    "om_terrain": "canyon_corner_ground",
     "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "                        ",
-        "###                 ####",
-        "######          ########",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################"
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "#": "t_null", " ": "t_open_air" }
+      "fallback_predecessor_mapgen": "field",
+      "palettes": [ "canyon_corner_parameters" ],
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_corner_v1" } ], "x": 0, "y": 0 } ]
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_canyon_edge_ground_v2",
+    "om_terrain": "canyon_corner",
     "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "   #####                ",
-        "############          ##",
-        "##############    ######",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################",
-        "########################"
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "#": "t_null", " ": "t_open_air" }
+      "predecessor_mapgen": "open_air",
+      "palettes": [ "canyon_corner_parameters" ],
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_corner_v1" } ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -474,28 +441,8 @@
     "om_terrain": "canyon_corner_bottom",
     "object": {
       "predecessor_mapgen": "field",
-      "parameters": {
-        "variant": {
-          "type": "nested_mapgen_id",
-          "scope": "omt",
-          "default": { "distribution": [ "24x24_canyon_corner_v1", "24x24_canyon_corner_v2" ] }
-        }
-      },
-      "place_nested": [
-        { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_corner_v1" } ], "x": 0, "y": 0 },
-        { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_corner_v1" } ], "x": 0, "y": 0, "z": 1 },
-        {
-          "chunks": [
-            {
-              "switch": { "param": "variant", "fallback": "24x24_canyon_corner_v1" },
-              "cases": { "24x24_canyon_corner_v1": "24x24_canyon_corner_ground_v1", "24x24_canyon_corner_v2": "24x24_canyon_corner_ground_v2" }
-            }
-          ],
-          "x": 0,
-          "y": 0,
-          "z": 2
-        }
-      ]
+      "palettes": [ "canyon_corner_parameters" ],
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_corner_v1" } ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -529,7 +476,7 @@
         "####################### ",
         "####################### "
       ],
-      "terrain": { "#": "t_sandstone" }
+      "palettes": [ "canyon" ]
     }
   },
   {
@@ -563,77 +510,36 @@
         "######################  ",
         "######################  "
       ],
-      "terrain": { "#": "t_sandstone" }
+      "palettes": [ "canyon" ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "canyon_2way_parameters",
+    "parameters": {
+      "variant": {
+        "type": "nested_mapgen_id",
+        "scope": "smallmap",
+        "default": { "distribution": [ "24x24_canyon_2way_v1", "24x24_canyon_2way_v2" ] }
+      }
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_canyon_corner_ground_v1",
+    "om_terrain": "canyon_2way_ground",
     "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "                        ",
-        "###                     ",
-        "#####                   ",
-        "########                ",
-        "##########              ",
-        "############            ",
-        "#############           ",
-        "##############          ",
-        "##############          ",
-        "###############         ",
-        "################        ",
-        "#################       ",
-        "###################     ",
-        "####################    ",
-        "####################    ",
-        "#####################   ",
-        "#####################   ",
-        "#####################   ",
-        "######################  ",
-        "######################  ",
-        "######################  ",
-        "####################### ",
-        "####################### ",
-        "####################### "
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "#": "t_null", " ": "t_open_air" }
+      "fallback_predecessor_mapgen": "field",
+      "palettes": [ "canyon_corner_parameters" ],
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_2way_v1" } ], "x": 0, "y": 0 } ]
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_canyon_corner_ground_v2",
+    "om_terrain": "canyon_2way",
     "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "                        ",
-        "                        ",
-        "#                       ",
-        "##                      ",
-        "###                     ",
-        "####                    ",
-        "####                    ",
-        "#####                   ",
-        "#######                 ",
-        "########                ",
-        "##########              ",
-        "###########             ",
-        "############            ",
-        "############            ",
-        "#############           ",
-        "##############          ",
-        "##############          ",
-        "###############         ",
-        "################        ",
-        "##################      ",
-        "###################     ",
-        "#####################   ",
-        "######################  ",
-        "######################  "
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "#": "t_null", " ": "t_open_air" }
+      "predecessor_mapgen": "open_air",
+      "palettes": [ "canyon_corner_parameters" ],
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_2way_v1" } ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -641,28 +547,8 @@
     "om_terrain": "canyon_2way_bottom",
     "object": {
       "predecessor_mapgen": "field",
-      "parameters": {
-        "variant": {
-          "type": "nested_mapgen_id",
-          "scope": "omt",
-          "default": { "distribution": [ "24x24_canyon_2way_v1", "24x24_canyon_2way_v2" ] }
-        }
-      },
-      "place_nested": [
-        { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_2way_v1" } ], "x": 0, "y": 0 },
-        { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_2way_v1" } ], "x": 0, "y": 0, "z": 1 },
-        {
-          "chunks": [
-            {
-              "switch": { "param": "variant", "fallback": "24x24_canyon_2way_v1" },
-              "cases": { "24x24_canyon_2way_v1": "24x24_canyon_2way_ground_v1", "24x24_canyon_2way_v2": "24x24_canyon_2way_ground_v2" }
-            }
-          ],
-          "x": 0,
-          "y": 0,
-          "z": 2
-        }
-      ]
+      "palettes": [ "canyon_corner_parameters" ],
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_2way_v1" } ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -696,7 +582,7 @@
         " ###################### ",
         " ###################### "
       ],
-      "terrain": { "#": "t_sandstone" }
+      "palettes": [ "canyon" ]
     }
   },
   {
@@ -730,77 +616,36 @@
         " ###################### ",
         " ###################### "
       ],
-      "terrain": { "#": "t_sandstone" }
+      "palettes": [ "canyon" ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "canyon_3way_parameters",
+    "parameters": {
+      "variant": {
+        "type": "nested_mapgen_id",
+        "scope": "smallmap",
+        "default": { "distribution": [ "24x24_canyon_3way_v1", "24x24_canyon_3way_v2" ] }
+      }
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_canyon_2way_ground_v1",
+    "om_terrain": "canyon_3way_ground",
     "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        " ###################### ",
-        " ###################### ",
-        "  ####################  ",
-        "  ####################  ",
-        "  ####################  ",
-        "   ##################   ",
-        "   ##################   ",
-        "    #################   ",
-        "    #################   ",
-        "    #################   ",
-        "    #################   ",
-        "    ################    ",
-        "   #################    ",
-        "   #################    ",
-        "   #################    ",
-        "  ##################    ",
-        "  ##################    ",
-        "  ###################   ",
-        "  ###################   ",
-        "  ###################   ",
-        "  ####################  ",
-        " #####################  ",
-        " ###################### ",
-        " ###################### "
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "#": "t_null", " ": "t_open_air" }
+      "fallback_predecessor_mapgen": "field",
+      "palettes": [ "canyon_3way_parameters" ],
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_3way_v1" } ], "x": 0, "y": 0 } ]
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_canyon_2way_ground_v2",
+    "om_terrain": "canyon_3way",
     "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        " ###################### ",
-        " ###################### ",
-        " #####################  ",
-        "  ####################  ",
-        "  ###################   ",
-        "  ###################   ",
-        "  ###################   ",
-        "  ##################    ",
-        "  ##################    ",
-        "   #################    ",
-        "   #################    ",
-        "   #################    ",
-        "    ################    ",
-        "    #################   ",
-        "    #################   ",
-        "    #################   ",
-        "    #################   ",
-        "   ##################   ",
-        "   ##################   ",
-        "  ####################  ",
-        "  ####################  ",
-        "  ####################  ",
-        " ###################### ",
-        " ###################### "
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "#": "t_null", " ": "t_open_air" }
+      "predecessor_mapgen": "open_air",
+      "palettes": [ "canyon_3way_parameters" ],
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_3way_v1" } ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -808,28 +653,8 @@
     "om_terrain": "canyon_3way_bottom",
     "object": {
       "predecessor_mapgen": "field",
-      "parameters": {
-        "variant": {
-          "type": "nested_mapgen_id",
-          "scope": "omt",
-          "default": { "distribution": [ "24x24_canyon_3way_v1", "24x24_canyon_3way_v2" ] }
-        }
-      },
-      "place_nested": [
-        { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_3way_v1" } ], "x": 0, "y": 0 },
-        { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_3way_v1" } ], "x": 0, "y": 0, "z": 1 },
-        {
-          "chunks": [
-            {
-              "switch": { "param": "variant", "fallback": "24x24_canyon_3way_v1" },
-              "cases": { "24x24_canyon_3way_v1": "24x24_canyon_3way_ground_v1", "24x24_canyon_3way_v2": "24x24_canyon_3way_ground_v2" }
-            }
-          ],
-          "x": 0,
-          "y": 0,
-          "z": 2
-        }
-      ]
+      "palettes": [ "canyon_3way_parameters" ],
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_3way_v1" } ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -863,7 +688,7 @@
         "  ##################### ",
         "  ##################### "
       ],
-      "terrain": { "#": "t_sandstone" }
+      "palettes": [ "canyon" ]
     }
   },
   {
@@ -897,77 +722,7 @@
         "  ####################  ",
         " #####################  "
       ],
-      "terrain": { "#": "t_sandstone" }
-    }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "24x24_canyon_3way_ground_v1",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "          ####          ",
-        "       #########        ",
-        "      ###########       ",
-        "    #############       ",
-        "    ##############      ",
-        "   ################     ",
-        "   #################    ",
-        "   ##################   ",
-        "  ####################  ",
-        "  ##################### ",
-        "  ##################### "
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "#": "t_null", " ": "t_open_air" }
-    }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "24x24_canyon_3way_ground_v2",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "            ######      ",
-        "          ##########    ",
-        "         ###########    ",
-        "         ############   ",
-        "        #############   ",
-        "       ##############   ",
-        "     #################  ",
-        "  ####################  ",
-        " #####################  "
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "#": "t_null", " ": "t_open_air" }
+      "palettes": [ "canyon" ]
     }
   },
   {
@@ -986,5 +741,10 @@
     "type": "palette",
     "id": "trail_path_palette",
     "terrain": { ".": "t_railroad_rubble" }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "1x1_sandstone",
+    "object": { "mapgensize": [ 1, 1 ], "terrain": { " ": "t_sandstone" }, "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ] }
   }
 ]
