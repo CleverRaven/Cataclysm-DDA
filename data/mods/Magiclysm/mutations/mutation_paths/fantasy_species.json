@@ -170,7 +170,12 @@
     "category": [ "SPECIES_DWARF" ],
     "enchantments": [
       {
-        "values": [ { "value": "MOVE_COST", "multiply": 0.05 }, { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": -1 } ]
+        "values": [
+          { "value": "MOVE_COST", "multiply": 0.05 },
+          { "value": "STRENGTH", "add": 2 },
+          { "value": "DEXTERITY", "add": -1 },
+          { "value": "WEIGHT", "multiply": 0.2 }
+        ]
       }
     ]
   },
@@ -310,7 +315,12 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "MAX_HP", "multiply": -0.12 }, { "value": "STRENGTH", "add": -1 }, { "value": "DEXTERITY", "add": 2 } ]
+        "values": [
+          { "value": "MAX_HP", "multiply": -0.12 },
+          { "value": "STRENGTH", "add": -1 },
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "WEIGHT", "multiply": -0.15 }
+        ]
       }
     ]
   },
@@ -725,8 +735,8 @@
     "visibility": 4,
     "ugliness": 1,
     "description": "Ravenfolk are about the same size as humans, though their feathers and wings obviously set them apart.",
-    "//": "Bird mutation path means this mutation is just to prevent multiple species and doesn't need any modifiers.",
-    "category": [ "SPECIES_RAVENFOLK" ]
+    "category": [ "SPECIES_RAVENFOLK" ],
+    "enchantments": [ { "values": [ { "value": "WEIGHT", "multiply": -0.25 } ] } ]
   },
   {
     "type": "mutation",
