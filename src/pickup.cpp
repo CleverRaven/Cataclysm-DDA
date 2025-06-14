@@ -33,6 +33,7 @@
 #include "mapdata.h"
 #include "math_parser_diag_value.h"
 #include "messages.h"
+#include "overmapbuffer.h"
 #include "options.h"
 #include "player_activity.h"
 #include "point.h"
@@ -336,6 +337,12 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
         }
         player_character.flag_encumbrance();
         player_character.invalidate_weight_carried_cache();
+
+        // Remove DROPPED_FAVORITES autonote if exists.
+        const tripoint_abs_omt note_pos = player_character.pos_abs_omt();
+        if( overmap_buffer.note( note_pos ) == newit.display_name() ) {
+            overmap_buffer.delete_note( note_pos );
+        }
     }
 
     return picked_up || !did_prompt;
