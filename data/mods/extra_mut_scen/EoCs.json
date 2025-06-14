@@ -1,7 +1,7 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_IS_GLAND",
+    "id": "EOC_TRAIT_IS_GLAND",
     "condition": {
       "compare_string": [
         { "context_val": "trait" },
@@ -34,26 +34,80 @@
     }
   },
   {
-    "//BEFOREMERGE:": "Consider doing something with crosses_mutation_threshold (flavour text if expected threshold category, negative stuff + replace gland trait with MUTAGEN_AVOID if not? (and hook MUTAGEN_AVOID up bc it doesn't appear to do anything rn?))",
+    "type": "effect_on_condition",
+    "id": "EOC_LOSE_GLAND",
+    "effect": [
+      {
+        "u_message": "You've somehow overcome the genetic reprogramming you were unwillingly made subject to, your gland wilting and becoming benign."
+      },
+      { "u_lose_trait": "MUTAGEN_GLAND_ALPHA" },
+      { "u_lose_trait": "MUTAGEN_GLAND_BATRACHIAN" },
+      { "u_lose_trait": "MUTAGEN_GLAND_BEAST" },
+      { "u_lose_trait": "MUTAGEN_GLAND_BIRD" },
+      { "u_lose_trait": "MUTAGEN_GLAND_CATTLE" },
+      { "u_lose_trait": "MUTAGEN_GLAND_CEPHALOPOD" },
+      { "u_lose_trait": "MUTAGEN_GLAND_CHIMERA" },
+      { "u_lose_trait": "MUTAGEN_GLAND_CHIROPTERAN" },
+      { "u_lose_trait": "MUTAGEN_GLAND_CRUSTACEAN" },
+      { "u_lose_trait": "MUTAGEN_GLAND_ELFA" },
+      { "u_lose_trait": "MUTAGEN_GLAND_FELINE" },
+      { "u_lose_trait": "MUTAGEN_GLAND_FISH" },
+      { "u_lose_trait": "MUTAGEN_GLAND_GASTROPOD" },
+      { "u_lose_trait": "MUTAGEN_GLAND_INSECT" },
+      { "u_lose_trait": "MUTAGEN_GLAND_LIZARD" },
+      { "u_lose_trait": "MUTAGEN_GLAND_LUPINE" },
+      { "u_lose_trait": "MUTAGEN_GLAND_MEDICAL" },
+      { "u_lose_trait": "MUTAGEN_GLAND_MOUSE" },
+      { "u_lose_trait": "MUTAGEN_GLAND_PLANT" },
+      { "u_lose_trait": "MUTAGEN_GLAND_RAPTOR" },
+      { "u_lose_trait": "MUTAGEN_GLAND_RAT" },
+      { "u_lose_trait": "MUTAGEN_GLAND_SLIME" },
+      { "u_lose_trait": "MUTAGEN_GLAND_SPIDER" },
+      { "u_lose_trait": "MUTAGEN_GLAND_TROGLOBITE" },
+      { "u_lose_trait": "MUTAGEN_GLAND_URSINE" }
+    ]
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_GLAND_FLUSH",
     "eoc_type": "EVENT",
     "required_event": "gains_mutation",
     "//": "Purge built up stores of mutagen post mutation and don't build up again for a period of time",
-    "condition": { "and": [ { "not": { "test_eoc": "EOC_IS_GLAND" } }, { "math": [ "has_var(u_mutagen_gland_vitamin)" ] } ] },
+    "condition": { "and": [ { "not": { "test_eoc": "EOC_TRAIT_IS_GLAND" } }, { "math": [ "has_var(u_mutagen_gland_vitamin)" ] } ] },
     "effect": [
-      { "math": [ "u_recently_mutated_cooldown = 36" ] },
+      { "math": [ "u_recently_mutated_cooldown = 36 + u_mutations_gained" ] },
+      { "math": [ "u_mutations_gained++" ] },
       { "math": [ "u_vitamin('mutagen') = max( 0, u_vitamin('mutagen') - u_mutagen_gland_surplus )" ] },
       {
         "math": [ "u_vitamin(u_mutagen_gland_vitamin) = max( 0, u_vitamin(u_mutagen_gland_vitamin) - u_mutagen_gland_surplus )" ]
+      },
+      { "math": [ "u_val('thirst') = min( 400, u_val('thirst') + u_mutagen_gland_surplus )" ] },
+      {
+        "//TODO": "Add simulants/depressants based on whether it was a gland line/not or positive/negative trait or some similar effect?"
+      },
+      { "math": [ "u_mutagen_gland_surplus = 0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GLAND_PASSED_THRESHOLD",
+    "eoc_type": "EVENT",
+    "required_event": "crosses_mutation_threshold",
+    "condition": { "and": [ { "not": { "test_eoc": "EOC_TRAIT_IS_GLAND" } }, { "math": [ "has_var(u_mutagen_gland_vitamin)" ] } ] },
+    "effect": [
+      {
+        "if": { "math": [ "u_has_trait(u_mutagen_gland_threshold)" ] },
+        "then": { "u_message": "You feel as though your experimental gland will fight your body less from now on." },
+        "else": [ { "run_eocs": "EOC_LOSE_GLAND" } ]
       }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_MUTAGEN_GLAND_SETUP",
-    "condition": { "test_eoc": "EOC_IS_GLAND" },
+    "condition": { "test_eoc": "EOC_TRAIT_IS_GLAND" },
     "effect": [
+      { "math": [ "u_mutations_gained = 0" ] },
       { "math": [ "u_recently_mutated_cooldown = 0" ] },
       { "math": [ "u_mutagen_gland_surplus = 0" ] },
       {
@@ -255,22 +309,20 @@
     "type": "effect_on_condition",
     "id": "EOC_AM_BECOME_MUTANT",
     "//": "Counter passive decay and then if haven't mutated recently roll a chance to gain mutagen, lower chance after threshold",
-    "//BEFOREMERGE": "Test numbers until they feel good",
     "condition": { "math": [ "has_var(u_mutagen_gland_vitamin)" ] },
     "effect": [
       { "math": [ "u_vitamin(u_mutagen_gland_vitamin) += 1" ] },
       { "math": [ "u_vitamin('mutagen') += 1" ] },
+      { "math": [ "u_val('thirst') += 1" ] },
       {
         "if": { "math": [ "u_recently_mutated_cooldown <= 0" ] },
         "then": {
           "if": { "math": [ "rng( 0, u_has_trait(u_mutagen_gland_threshold) ? 30 : 5) < 1" ] },
           "then": [
-            {
-              "//BEFOREMERGE": "Should probably consume 'energy' in some form (kcal/thirst/sleepiness etc) or have the mutations do that",
-              "math": [ "u_vitamin(u_mutagen_gland_vitamin) += 50" ]
-            },
+            { "math": [ "u_vitamin(u_mutagen_gland_vitamin) += 50" ] },
             { "math": [ "u_vitamin('mutagen') += 50" ] },
-            { "math": [ "u_mutagen_gland_surplus += 50" ] }
+            { "math": [ "u_mutagen_gland_surplus += 50" ] },
+            { "math": [ "u_val('thirst') += 50" ] }
           ]
         },
         "else": { "math": [ "u_recently_mutated_cooldown -= 1" ] }
