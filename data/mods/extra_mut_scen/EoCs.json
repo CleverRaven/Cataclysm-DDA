@@ -1,62 +1,8 @@
 [
   {
-    "//BEFOREMERGE:": "Consider doing something with crosses_mutation_threshold (flavour text if expected threshold category, negative stuff + replace gland trait with MUTAGEN_AVOID if not? (and hook MUTAGEN_AVOID up bc it doesn't appear to do anything rn?))",
     "type": "effect_on_condition",
-    "id": "EOC_GLAND_FLUSH",
-    "eoc_type": "EVENT",
-    "required_event": "gains_mutation",
-    "//": "Purge built up stores of mutagen post mutation and don't build up again for a period of time",
+    "id": "EOC_IS_GLAND",
     "condition": {
-      "and": [
-        {
-          "not": {
-            "//TODO": "Ideally this would be a test_eoc but I don't think there's any way to do that given it needs the context variable?",
-            "compare_string": [
-              { "context_val": "trait" },
-              "MUTAGEN_GLAND_ALPHA",
-              "MUTAGEN_GLAND_BATRACHIAN",
-              "MUTAGEN_GLAND_BEAST",
-              "MUTAGEN_GLAND_BIRD",
-              "MUTAGEN_GLAND_CATTLE",
-              "MUTAGEN_GLAND_CEPHALOPOD",
-              "MUTAGEN_GLAND_CHIMERA",
-              "MUTAGEN_GLAND_CHIROPTERAN",
-              "MUTAGEN_GLAND_CRUSTACEAN",
-              "MUTAGEN_GLAND_ELFA",
-              "MUTAGEN_GLAND_FELINE",
-              "MUTAGEN_GLAND_FISH",
-              "MUTAGEN_GLAND_GASTROPOD",
-              "MUTAGEN_GLAND_INSECT",
-              "MUTAGEN_GLAND_LIZARD",
-              "MUTAGEN_GLAND_LUPINE",
-              "MUTAGEN_GLAND_MEDICAL",
-              "MUTAGEN_GLAND_MOUSE",
-              "MUTAGEN_GLAND_PLANT",
-              "MUTAGEN_GLAND_RAPTOR",
-              "MUTAGEN_GLAND_RAT",
-              "MUTAGEN_GLAND_SLIME",
-              "MUTAGEN_GLAND_SPIDER",
-              "MUTAGEN_GLAND_TROGLOBITE",
-              "MUTAGEN_GLAND_URSINE"
-            ]
-          }
-        },
-        { "math": [ "has_var(u_mutagen_gland_vitamin)" ] }
-      ]
-    },
-    "effect": [
-      { "math": [ "u_recently_mutated_cooldown = 36" ] },
-      { "math": [ "u_vitamin('mutagen') = max( 0, u_vitamin('mutagen') - u_mutagen_gland_surplus )" ] },
-      {
-        "math": [ "u_vitamin(u_mutagen_gland_vitamin) = max( 0, u_vitamin(u_mutagen_gland_vitamin) - u_mutagen_gland_surplus )" ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_MUTAGEN_GLAND_SETUP",
-    "condition": {
-      "//": "Not necessary but saves defining the common setup variables where no gland is present",
       "compare_string": [
         { "context_val": "trait" },
         "MUTAGEN_GLAND_ALPHA",
@@ -85,7 +31,28 @@
         "MUTAGEN_GLAND_TROGLOBITE",
         "MUTAGEN_GLAND_URSINE"
       ]
-    },
+    }
+  },
+  {
+    "//BEFOREMERGE:": "Consider doing something with crosses_mutation_threshold (flavour text if expected threshold category, negative stuff + replace gland trait with MUTAGEN_AVOID if not? (and hook MUTAGEN_AVOID up bc it doesn't appear to do anything rn?))",
+    "type": "effect_on_condition",
+    "id": "EOC_GLAND_FLUSH",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Purge built up stores of mutagen post mutation and don't build up again for a period of time",
+    "condition": { "and": [ { "not": { "test_eoc": "EOC_IS_GLAND" } }, { "math": [ "has_var(u_mutagen_gland_vitamin)" ] } ] },
+    "effect": [
+      { "math": [ "u_recently_mutated_cooldown = 36" ] },
+      { "math": [ "u_vitamin('mutagen') = max( 0, u_vitamin('mutagen') - u_mutagen_gland_surplus )" ] },
+      {
+        "math": [ "u_vitamin(u_mutagen_gland_vitamin) = max( 0, u_vitamin(u_mutagen_gland_vitamin) - u_mutagen_gland_surplus )" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTAGEN_GLAND_SETUP",
+    "condition": { "test_eoc": "EOC_IS_GLAND" },
     "effect": [
       { "math": [ "u_recently_mutated_cooldown = 0" ] },
       { "math": [ "u_mutagen_gland_surplus = 0" ] },
