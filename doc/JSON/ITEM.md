@@ -3,6 +3,7 @@
 - [Ammo](#ammo)
 - [Ammo Effects](#ammo-effects)
 - [Magazine](#magazine)
+- [Ammunition Type](#ammunition-type)
 - [Armor](#armor)
    * [Armor Portion Data](#armor-portion-data)
       + [Encumbrance](#encumbrance)
@@ -185,7 +186,7 @@ See [GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#to-hit-value)
   "id": "223",            // ID of the ammo
   "type": "ITEM",
   "subtypes": [ "AMMO" ], // Allows the below AMMO fields to be read in addition to generic ITEM fields
-  "ammo_type": "shot",    // Determines where the items can be loaded in. Requires a proper `"ammunition_type"` to be declared (see below). In this case, the `223` rounds can be loaded into magazines that accept `shot`-type ammo
+  "ammo_type": "shot",    // The ammunition_type this ammo counts as when determining which magazines it can be used with [Ammunition Type](#ammunition-type)
   "damage": {             // Ranged damage when fired
     "damage_type": "bullet",  // Type of the damage that would be dealt
     "amount": 39,             // Amount of damage to be dealt
@@ -264,10 +265,10 @@ ammo_effects define what effect the projectile, that you shoot, would have. List
 
 ### Magazine
 
-```C++
+```jsonc
 "type": "ITEM",
 "subtypes": [ "MAGAZINE" ],      // Allows the below MAGAZINE fields to be read in addition to generic ITEM fields
-"ammo_type": [ "40", "357sig" ], // What types of ammo this magazine can be loaded with
+"ammo_type": [ "40", "357sig" ], // String or array of strings. Which ammunition_type(s) this magazine can be loaded with [Ammunition Type](#ammunition-type)
 "capacity" : 15,                 // Capacity of magazine (in equivalent units to ammo charges)
 "count" : 0,                     // Default amount of ammo contained by a magazine (set this for ammo belts)
 "default_ammo": "556",           // If specified override the default ammo (optionally set this for ammo belts)
@@ -276,12 +277,24 @@ ammo_effects define what effect the projectile, that you shoot, would have. List
 "linkage" : "ammolink"           // If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)
 ```
 
+### Ammunition type
+
+ammunition_type represents a category of ammo items that can fit certain magazines, usually representing a caliber.
+
+```jsonc
+  {
+    "type": "ammunition_type",
+    "id": "22",
+    "name": ".22 LR", // Name displayed on guns/magazines that hold this ammunition type along with their specified capacity. Aall items in the category are also shown as possible variants.
+    "default": "22_lr" // Default AMMO item of this category to be used for migration and to determine expected traits of items in the category eg whether they're liquid
+  },
+```
 
 ### Armor
 
 Armor can be defined like this:
 
-```C++
+```jsonc
 "type": "ITEM",
 "subtypes": [ "ARMOR" ],            // Allows the below ARMOR fields to be read in addition to generic ITEM fields
 "covers" : [ "foot_l", "foot_r" ],  // Where it covers.  Use bodypart_id defined in body_parts.json
@@ -685,7 +698,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
         "chance": 60                        // Chance to generate a noise per move, from 0 to 100
       }, 
     "default_magazine": "medium_battery_cell",       // Define the default magazine this item would have when spawned. Can be overwritten by item group
-    "ammo_restriction": { "ammotype": /* count */ }, // Restrict pocket to a given ammo type and count.  This overrides mandatory volume, weight, watertight and airtight to use the given ammo type instead.  A pocket can contain any number of unique ammo types each with different counts, and the container will only hold one type (as of now).  If this is left out, it will be empty.
+    "ammo_restriction": { "44": 5, "9mm": 10, }, // Restrict pocket to a given ammunition_type(s) and respective counts. The container will only hold one ammunition_type at a time but can hold multiple different items in that type. This field is mutually exclusive with "min_item_volume", "max_item_volume", "max_contains_volume", "max_contains_weight", "max_item_length", "min_item_length", "extra_encumbrance", "volume_encumber_modifier", "ripoff" and "activity_noise".
     "flag_restriction": [ "FLAG1", "FLAG2" ],        // Items can only be placed into this pocket if they have a flag that matches one of these flags.
     "item_restriction": [ "item_id" ],               // Only these item IDs can be placed into this pocket. Overrides ammo and flag restrictions.
     "material_restriction": [ "material_id" ],       // Only items that are mainly made of this material can enter.
@@ -757,8 +770,8 @@ Guns can be defined like this:
 "type": "ITEM",
 "subtypes": [ "GUN" ], // Allows the below GUN fields to be read in addition to generic ITEM fields
 "skill": "pistol",         // Skill used for firing
-"ammo": [ "357", "38" ],   // Ammo types accepted for reloading
-"ranged_damage": 0,        // Ranged damage when fired (see #ammo)
+"ammo": [ "357", "38" ],   // Array of string ammunition_type ids to determine which AMMO items should be accepted. (see [Ammunition Type](#ammunition-type))
+"ranged_damage": 0,        // Ranged damage when fired (see [Ammo](#ammo))
 "range": 0,                // Range when fired
 "dispersion": 32,          // Inaccuracy of gun, measured in 100ths of Minutes Of Angle (MOA)
 // When sight_dispersion and aim_speed are present in a gun mod, the aiming system picks the "best"
