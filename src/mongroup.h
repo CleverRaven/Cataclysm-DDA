@@ -97,13 +97,6 @@ struct MonsterGroup {
     bool IsMonsterInGroup( const mtype_id &id ) const;
     bool is_animal = false;
 
-    /*replaces this group after a period of time when exploring an unexplored portion of the map. Used for monster evolution. */
-    bool replace_monster_group = false;
-    /* The monster group to replace this if replace_monster_group == true. */
-    mongroup_id new_monster_group;
-    /* Time until replacement if replace_monster_group == true. */
-    time_duration monster_group_time = 0_turns;
-
     /** Encapsulated by mongroup::is_safe(), but currently not used anywhere.*/
     bool is_safe = false;
     int freq_total = 0; // max number to roll for spawns (non-event)
