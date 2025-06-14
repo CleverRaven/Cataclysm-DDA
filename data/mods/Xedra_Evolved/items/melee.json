@@ -525,5 +525,54 @@
     "copy-from": "knife_rm42",
     "price_postapoc": "100 USD",
     "extend": { "flags": [ "UNBREAKABLE_MELEE" ] }
+  },
+  {
+    "id": "heartvine_whip",
+    "type": "ITEM",
+    "category": "weapons",
+    "name": { "str": "heartvine whip" },
+    "description": "A lengthy vine, growing out of your arm and wrapping around your wrist.  It has a series of long, sharp thorns on the parts away from your body.",
+    "weight": "216 g",
+    "volume": "360 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "dry_plant" ],
+    "symbol": ",",
+    "color": "light_green",
+    "techniques": [ "WHIP_DISARM" ],
+    "flags": [
+      "WOODEN_WEAPON",
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_UNWIELD",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "UNRESTRICTED",
+      "REACH_ATTACK",
+      "REACH3",
+      "WHIP"
+    ],
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "cut": 13 },
+    "weapon_category": [ "WHIPS" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "u_has_wielded_with_flag": "WHIP" },
+            {
+              "or": [
+                { "math": [ "u_mon_species_nearby('RENFIELD', 'radius': 3, 'attitude': 'both') >= 1" ] },
+                { "math": [ "u_mon_species_nearby('VAMPIRE', 'radius': 3, 'attitude': 'both') >= 1" ] }
+              ]
+            }
+          ]
+        },
+        "melee_damage_bonus": [ { "type": "biological", "add": { "math": [ "rng(5,15)" ] } } ],
+        "values": [ { "value": "WEAKPOINT_ACCURACY", "multiply": 1.5 } ]
+      }
+    ]
   }
 ]
