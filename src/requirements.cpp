@@ -11,8 +11,10 @@
 #include <set>
 #include <sstream>
 #include <stack>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 #include "cata_assert.h"
 #include "cata_utility.h"
@@ -27,6 +29,7 @@
 #include "generic_factory.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_components.h"
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "item_tname.h"
@@ -34,10 +37,13 @@
 #include "json.h"
 #include "localized_comparator.h"
 #include "make_static.h"
+#include "messages.h"
 #include "output.h"
 #include "pocket_type.h"
+#include "ret_val.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
@@ -284,8 +290,10 @@ void item_comp::load( const JsonValue &value )
             recoverable = false;
         } else if( flag == "LIST" ) {
             requirement = true;
+        } else if( flag == "CRAFTABLE" ) {
+            craftable = true;
         } else {
-            value.throw_error( R"(expected "LIST" or "NO_RECOVER")" );
+            value.throw_error( R"(expected "LIST", "NO_RECOVER" or CRAFTABLE)" );
         }
     }
     if( count <= 0 ) {
@@ -514,11 +522,12 @@ void requirement_data::save_requirement( const requirement_data &req, const requ
     }
 }
 
+
 template<typename T>
-bool requirement_data::any_marked_available( const std::vector<T> &comps )
+bool requirement_data::any_marked_as_status( const std::vector<T> &comps, available_status status )
 {
     for( const auto &comp : comps ) {
-        if( comp.available == available_status::a_true ) {
+        if( comp.available == status ) {
             return true;
         }
     }
@@ -539,6 +548,7 @@ std::string requirement_data::print_all_objs( const std::string &header,
         []( const T & t ) {
             return t.to_string();
         } );
+
         std::sort( alternatives.begin(), alternatives.end(), localized_compare );
         buffer += string_join( alternatives, _( " or " ) );
     }
@@ -558,6 +568,29 @@ std::string requirement_data::list_all() const
 }
 
 template<typename T>
+static std::vector<T> lst_comp_with_status( const std::vector<T> &comps, available_status status )
+{
+    std::vector<T> ret;
+    for( const T comp : comps ) {
+        if( comp.available == status ) {
+            ret.push_back( comp );
+        }
+    }
+    return ret;
+}
+
+template<typename T>
+static std::vector<std::vector<T>> craftable_comp( const std::vector< std::vector<T> > &objs )
+{
+    std::vector<std::vector<T>> ret;
+
+    for( const std::vector<T> list : objs ) {
+        ret.push_back( lst_comp_with_status( list, available_status::a_craftable ) );
+    }
+    return ret;
+}
+
+template<typename T>
 std::string requirement_data::print_missing_objs( const std::string &header,
         const std::vector< std::vector<T> > &objs )
 {
@@ -565,7 +598,7 @@ std::string requirement_data::print_missing_objs( const std::string &header,
     std::string separator_or = _( " or " );
     std::string buffer;
     for( const auto &list : objs ) {
-        if( any_marked_available( list ) ) {
+        if( any_marked_as_status( list, available_status::a_true ) ) {
             continue;
         }
         if( !buffer.empty() ) {
@@ -591,6 +624,18 @@ std::string requirement_data::list_missing() const
     buffer += print_missing_objs( _( "These tools are missing:" ), qualities );
     buffer += print_missing_objs( _( "These components are missing:" ), components );
     return buffer;
+}
+
+
+
+bool requirement_data::requires_comp_craft( ) const
+{
+    for( const std::vector<item_comp> &comps : components ) {
+        if( any_marked_as_status( comps, available_status::a_craftable ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void quality_requirement::check_consistency( const std::string &display_name ) const
@@ -644,8 +689,8 @@ void requirement_data::check_consistency()
 }
 
 template <typename T>
-void inline_requirements( std::vector<std::vector<T>> &list,
-                          const std::function<const std::vector<std::vector<T>> & ( const requirement_data & )> &getter )
+static void inline_requirements( std::vector<std::vector<T>> &list,
+                                 const std::function<const std::vector<std::vector<T>> & ( const requirement_data & )> &getter )
 {
     // add a single component to the vector. If component already exists, chooses min count
     const auto add_component = []( const T & comp, std::vector<T> &accum ) {
@@ -670,10 +715,17 @@ void inline_requirements( std::vector<std::vector<T>> &list,
         std::function<void( const T &comp )> rec;
         rec = [&]( const T & comp ) {
             // add simple component to the vector
+            if( comp.craftable ) {
+                recipe_id rec = recipe_id( comp.type.c_str() );
+                if( rec.is_valid() ) {
+                    add_msg_debug( debugmode::DF_CRAFTING, "found recipe for component %s", rec.c_str() );
+                }
+            }
             if( !comp.requirement ) {
                 add_component( comp, accum );
                 return;
             }
+
             // otherwise expand component as requirement
             const requirement_id r( comp.type.str() );
             if( !r.is_valid() ) {
@@ -785,7 +837,8 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
 
     std::vector<std::string> out_buffer;
     for( const auto &comp_list : objs ) {
-        const bool has_one = any_marked_available( comp_list );
+        const bool has_one = any_marked_available( comp_list ) ||
+                             any_marked_as_status( comp_list, available_status::a_craftable );
         std::vector<std::string> list_as_string;
         std::vector<std::string> list_as_string_unavailable;
         std::vector<std::string> buffer_has;
@@ -869,6 +922,10 @@ bool requirement_data::can_make_with_inventory( const read_only_visitable &craft
     if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
+    if( craftable_comps.empty() ) {
+        cache_craftable_comps( crafting_inv, filter, batch );
+    }
+
 
     bool retval = true;
     // All functions must be called to update the available settings in the components.
@@ -887,6 +944,54 @@ bool requirement_data::can_make_with_inventory( const read_only_visitable &craft
     return retval;
 }
 
+void requirement_data::cache_craftable_comps( const read_only_visitable &crafting_inv,
+        const std::function<bool( const item & )> &filter, int batch ) const
+{
+    if( !craftable_comps.empty() ) {
+        return;
+    }
+
+    for( const std::vector<item_comp> &set_of_comps : get_components() ) {
+        for( const item_comp &comp : set_of_comps ) {
+            if( comp.has( crafting_inv, filter, batch ) ) {
+                comp.available = available_status::a_true;
+            } else if( comp.get_component_type() == component_type::ITEM && comp.craftable ) {
+                const recipe_id rec( comp.type.c_str() );
+                if( !rec.is_valid() ) {
+                    add_msg( _( "invalid recipe for : %s" ), comp.type.c_str() );
+                    comp.available = available_status::a_false;
+                    continue;
+                }
+                const int num_recipe_craft = std::ceil( static_cast<float>( rec->makes_amount() ) /
+                                                        static_cast<float>( comp.count * batch ) );
+                if( num_recipe_craft <= 0 ) {
+                    add_msg( _( "no requirements? recipe result: %i, num needed: %i" ), rec->makes_amount(),
+                             comp.count * batch );
+                    comp.available = available_status::a_false;
+                } else if( rec->simple_requirements().can_make_with_inventory( crafting_inv, filter,
+                           num_recipe_craft ) ) {
+
+                    //direct recipe for initialized components?
+                    craftable_comps[comp] = &rec.obj();
+                    comp.available = available_status::a_craftable;
+                    add_msg( "%s can be substituted by its recipe", comp.type.c_str() );
+                } else {
+                    comp.available = available_status::a_false;
+                    add_msg( "craftable missing components for %s", comp.type.c_str() );
+                }
+
+            } else {
+
+                // Trying to track down why the crafting tests are failing?
+                // Uncomment the below to see the group of requirements that are lacking satisfaction
+                // Add a printf("\n") to the loop above this to separate different groups onto a separate line
+                printf( "T: %s \n ", comp.type.str().c_str() );
+                comp.available = available_status::a_false;
+            }
+        }
+    }
+}
+
 template<typename T>
 bool requirement_data::has_comps( const read_only_visitable &crafting_inv,
                                   const std::vector< std::vector<T> > &vec,
@@ -895,24 +1000,45 @@ bool requirement_data::has_comps( const read_only_visitable &crafting_inv,
 {
     bool retval = true;
     int total_UPS_charges_used = 0;
-    for( const std::vector<T> &set_of_tools : vec ) {
+    for( const std::vector<T> &set_of_comps : vec ) {
         bool has_tool_in_set = false;
         int UPS_charges_used = std::numeric_limits<int>::max();
         const std::function<void( int )> use_ups = [ &UPS_charges_used ]( int charges ) {
             UPS_charges_used = std::min( UPS_charges_used, charges );
         };
 
-        for( const T &tool : set_of_tools ) {
-            if( tool.has( crafting_inv, filter, batch, flags, use_ups ) ) {
-                tool.available = available_status::a_true;
+        for( const T &comp : set_of_comps ) {
+            if( comp.has( crafting_inv, filter, batch, flags, use_ups ) ) {
+                comp.available = available_status::a_true;
+            } else if( comp.get_component_type() == component_type::ITEM && comp.craftable ) {
+                recipe_id rec( comp.type.c_str() );
+                const int num_recipe_craft = std::ceil( static_cast<float>( rec->makes_amount() ) /
+                                                        static_cast<float>( comp.count * batch ) );
+                if( num_recipe_craft <= 0 ) {
+                    add_msg( _( "no requirements? recipe result: %i, num needed: %i" ), rec->makes_amount(),
+                             comp.count * batch );
+                    comp.available = available_status::a_false;
+                } else if( rec.is_valid() &&
+                           rec->simple_requirements().can_make_with_inventory( crafting_inv, filter,
+                                   num_recipe_craft ) ) {
+                    // craftable_comps[]
+                    comp.available = available_status::a_craftable;
+                    add_msg( "%s can be substituted by its recipe", comp.type.c_str() );
+                    retval = true;
+                } else {
+                    comp.available = available_status::a_false;
+                    add_msg( "craftable missing components for %s", comp.type.c_str() );
+                }
+
             } else {
+
                 // Trying to track down why the crafting tests are failing?
                 // Uncomment the below to see the group of requirements that are lacking satisfaction
                 // Add a printf("\n") to the loop above this to separate different groups onto a separate line
-                // printf( "T: %s ", tool.type.str().c_str() );
-                tool.available = available_status::a_false;
+                printf( "T: %s \n ", comp.type.str().c_str() );
+                comp.available = available_status::a_false;
             }
-            has_tool_in_set = has_tool_in_set || tool.available == available_status::a_true;
+            has_tool_in_set = has_tool_in_set || comp.available >= available_status::a_true;
         }
         if( !has_tool_in_set ) {
             retval = false;
@@ -1011,6 +1137,8 @@ nc_color item_comp::get_color( bool has_one, const read_only_visitable &crafting
 {
     if( available == available_status::a_insufficient ) {
         return c_brown;
+    } else if( available == available_status::a_craftable ) {
+        return c_cyan;
     } else if( has( crafting_inv, filter, batch ) ) {
         const inventory *inv = static_cast<const inventory *>( &crafting_inv );
         // Will use non-empty liquid container
@@ -1086,15 +1214,16 @@ bool requirement_data::check_enough_materials( const item_comp &comp,
         const read_only_visitable &crafting_inv,
         const std::function<bool( const item & )> &filter, int batch ) const
 {
-    if( comp.available != available_status::a_true ) {
+    if( comp.available != available_status::a_true &&
+        comp.available != available_status::a_craftable ) {
         return false;
     }
     const int cnt = std::abs( comp.count ) * batch;
-    const tool_comp *tq = find_by_type( tools, comp.type );
-    if( tq != nullptr && tq->available == available_status::a_true ) {
+    const tool_comp *tool_component = find_by_type( tools, comp.type );
+    if( tool_component != nullptr && tool_component->available == available_status::a_true ) {
         // The very same item type is also needed as tool!
         // Use charges of it, or use it by count?
-        const int tc = tq->by_charges() ? 1 : std::abs( tq->count );
+        const int tool_count = tool_component->by_charges() ? 1 : std::abs( tool_component->count );
         // Check for components + tool count. Check item amount (excludes
         // pseudo items) and tool amount (includes pseudo items)
         // Imagine: required = 1 welder (component) + 1 welder (tool),
@@ -1108,8 +1237,8 @@ bool requirement_data::check_enough_materials( const item_comp &comp,
         // non-available even before this function is called.
         // Only ammo and (some) food is counted by charges, both are unlikely
         // to appear as tool, but it's possible /-:
-        const item_comp i_tmp( comp.type, cnt + tc );
-        const tool_comp t_tmp( comp.type, -( cnt + tc ) ); // not by charges!
+        const item_comp i_tmp( comp.type, cnt + tool_count );
+        const tool_comp t_tmp( comp.type, -( cnt + tool_count ) ); // not by charges!
         // batch factor is explicitly 1, because it's already included in the count.
         if( !i_tmp.has( crafting_inv, filter, 1 ) && !t_tmp.has( crafting_inv, filter, 1 ) ) {
             comp.available = available_status::a_insufficient;
@@ -1127,7 +1256,8 @@ bool requirement_data::check_enough_materials( const item_comp &comp,
             comp.available = available_status::a_insufficient;
         }
     }
-    return comp.available == available_status::a_true;
+    return comp.available == available_status::a_true ||
+           comp.available == available_status::a_craftable;
 }
 
 template <typename T>
