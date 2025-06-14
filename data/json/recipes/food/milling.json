@@ -969,7 +969,14 @@
     "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [
-      [ [ "seed_cotton_boll", 8 ], [ "seed_grapes", 8 ], [ "seed_pumpkin", 8 ], [ "seed_sunflower", 8 ], [ "seed_weed", 8 ] ]
+      [
+        [ "seed_cotton_boll", 8 ],
+        [ "seed_grapes", 8 ],
+        [ "seed_pumpkin", 8 ],
+        [ "seed_sunflower", 8 ],
+        [ "seed_poppy_bud", 8 ],
+        [ "seed_weed", 8 ]
+      ]
     ]
   },
   {
@@ -992,6 +999,7 @@
         [ "seed_sunflower", 8 ],
         [ "seed_canola", 1 ],
         [ "seed_grapes", 8 ],
+        [ "seed_poppy_bud", 8 ],
         [ "seed_weed", 8 ]
       ]
     ]

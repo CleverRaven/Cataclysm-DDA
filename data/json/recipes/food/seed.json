@@ -172,6 +172,13 @@
     "components": [ [ [ "blueberries", 1 ] ] ]
   },
   {
+    "result": "seed_poppy_bud",
+    "type": "recipe",
+    "copy-from": "seed_extraction_cutting",
+    "components": [ [ [ "poppy_bud", 4 ] ] ],
+    "charges": 2
+  },
+  {
     "result": "seed_salsify_raw",
     "type": "recipe",
     "copy-from": "seed_extraction_base",
