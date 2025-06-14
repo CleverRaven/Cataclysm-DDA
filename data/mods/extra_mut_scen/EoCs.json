@@ -81,8 +81,8 @@
       {
         "math": [ "u_vitamin(u_mutagen_gland_vitamin) = max( 0, u_vitamin(u_mutagen_gland_vitamin) - u_mutagen_gland_surplus )" ]
       },
-      { "math": [ "u_val('thirst') = min( 400, u_val('thirst') + u_mutagen_gland_surplus )" ] },
       {
+        "math": [ "u_val('thirst') = min( 400, u_val('thirst') + u_mutagen_gland_surplus )" ],
         "//TODO": "Add simulants/depressants based on whether it was a gland line/not or positive/negative trait or some similar effect?"
       },
       { "math": [ "u_mutagen_gland_surplus = 0" ] }
