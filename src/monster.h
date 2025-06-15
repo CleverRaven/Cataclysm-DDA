@@ -110,7 +110,7 @@ class monster : public Creature
         void hasten_upgrade();
         int get_upgrade_time() const;
         void allow_upgrade();
-        void try_upgrade( bool pin_time );
+        void try_upgrade();
         void set_baby_timer( const time_point &time );
         void try_reproduce();
         void try_biosignature();
@@ -627,8 +627,6 @@ class monster : public Creature
         /**
          * Retroactively update monster.
          * Call this after a preexisting monster has been placed on map.
-         * Don't call for monsters that have been freshly created, it may cause
-         * the monster to upgrade itself into another monster type.
          */
         void on_load();
 
@@ -644,7 +642,7 @@ class monster : public Creature
         std::optional<tripoint_abs_ms> goal;
         bool dead = false;
         /** Normal upgrades **/
-        int next_upgrade_time();
+        int next_upgrade_time() const;
         bool upgrades = false;
         int upgrade_time = 0;
         bool reproduces = false;
