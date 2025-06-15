@@ -485,5 +485,71 @@
       { "u_message": "You are losing your stolen blood through your bleeding wounds!", "type": "bad" },
       { "run_eocs": "EOC_VAMPIRE_BLEED_STOLEN_BLOOD", "time_in_future": [ "10 s", "10 s" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "HYDRATING_GOUT_SYMPTOMS",
+    "recurrence": "1 minute",
+    "global": true,
+    "condition": { "u_has_effect": "xe_hydrating_gout" },
+    "deactivate_condition": { "not": { "u_has_effect": "xe_hydrating_gout" } },
+    "//": "The multiple EOCs are required until multiple If-Then can be part of a single effect.",
+    "effect": [
+      {
+        "math": [ "u_val('thirst')--" ],
+        "run_eocs": [
+          {
+            "id": "HYDRATING_GOUT_SYMPTOMS_LOW",
+            "condition": {
+              "and": [
+                { "x_in_y_chance": { "x": 1, "y": { "math": [ "max( 1, u_val('thirst') )" ] } } },
+                { "math": [ "u_val('thirst') <= 40" ] }
+              ]
+            },
+            "effect": [ { "math": [ "u_val('stim')++" ] } ]
+          },
+          {
+            "id": "HYDRATING_GOUT_SYMPTOMS_MEDIUM",
+            "condition": {
+              "and": [
+                { "x_in_y_chance": { "x": 1, "y": { "math": [ "max( 1,( 15 + u_val('thirst') )" ] } } },
+                { "math": [ "u_val('thirst') <= 0" ] }
+              ]
+            },
+            "effect": [ { "u_add_effect": "nausea", "duration": "1 minute" } ]
+          },
+          {
+            "id": "HYDRATING_GOUT_SYMPTOMS_HIGH",
+            "condition": {
+              "and": [
+                { "x_in_y_chance": { "x": 1, "y": { "math": [ "max( 1, ( 30 + u_val('thirst') )" ] } } },
+                { "math": [ "u_val('thirst') < -20" ] }
+              ]
+            },
+            "effect": [ { "math": [ "u_pain()++" ] } ]
+          },
+          {
+            "id": "HYDRATING_GOUT_SYMPTOMS_EXTREME",
+            "condition": {
+              "and": [
+                { "x_in_y_chance": { "x": 1, "y": { "math": [ "max( 1, ( 90 + u_val('thirst') )" ] } } },
+                { "math": [ "u_val('thirst') < -60" ] }
+              ]
+            },
+            "effect": [ { "u_add_effect": "stunned", "duration": 1 }, { "u_add_effect": "downed", "duration": 1, "force": true } ]
+          },
+          {
+            "id": "HYDRATING_GOUT_SYMPTOMS_LETHAL",
+            "condition": {
+              "and": [
+                { "x_in_y_chance": { "x": 1, "y": { "math": [ "max( 1, ( 200 + u_val('thirst') )" ] } } },
+                { "math": [ "u_val('thirst') < -160" ] }
+              ]
+            },
+            "effect": [ { "math": [ "u_hp('torso')--" ] } ]
+          }
+        ]
+      }
+    ]
   }
 ]
