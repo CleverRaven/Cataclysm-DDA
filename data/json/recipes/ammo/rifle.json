@@ -129,7 +129,7 @@
     "//": "1500 mg gunpowder rounded to 15 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "223_casing", 1 ] ],
+      [ [ "unprimed_223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 15 ], [ "gunpowder_rifle", 15 ] ],
       [ [ "copper", 1 ] ]
@@ -151,7 +151,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "223_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 15 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "unprimed_223_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 15 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_270win_jsp",
@@ -905,7 +905,7 @@
     "//": "1717 mg gunpowder rounded to 17 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "223_casing", 1 ] ],
+      [ [ "unprimed_223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 17 ], [ "gunpowder_rifle", 17 ] ],
       [ [ "copper", 2 ] ]
@@ -929,7 +929,7 @@
     "//": "1717 mg gunpowder rounded to 17 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "223_casing", 1 ] ],
+      [ [ "unprimed_223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 17 ], [ "gunpowder_magnum_pistol", 17 ] ],
       [ [ "copper", 1 ] ],
@@ -952,7 +952,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "223_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 17 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "unprimed_223_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 17 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_556_incendiary",
@@ -971,7 +971,7 @@
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "223_casing", 1 ] ],
+      [ [ "unprimed_223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "chem_black_powder", 17 ] ],
       [ [ "copper", 1 ] ],

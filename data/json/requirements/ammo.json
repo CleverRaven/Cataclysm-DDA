@@ -38,7 +38,7 @@
     "id": "ammo_3006",
     "type": "requirement",
     "//": "Components required for 30-06 ammo",
-    "components": [ [ [ "3006_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
+    "components": [ [ [ "unprimed_3006_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
   },
   {
     "id": "ammo_32",
@@ -157,6 +157,7 @@
       [
         [ "300blk_casing", -1 ],
         [ "223_casing", -1 ],
+        [ "unprimed_223_casing", -1 ],
         [ "223", -1 ],
         [ "556", -1 ],
         [ "556_incendiary", -1 ],
@@ -258,6 +259,7 @@
     "tools": [
       [
         [ "3006_casing", -1 ],
+        [ "unprimed_3006_casing", -1 ],
         [ "3006", -1 ],
         [ "3006fmj", -1 ],
         [ "3006_incendiary", -1 ],
@@ -347,8 +349,10 @@
       [
         [ "123ln_casing", 1 ],
         [ "223_casing", 1 ],
+        [ "unprimed_223_casing", 1 ],
         [ "270win_casing", 1 ],
         [ "3006_casing", 1 ],
+        [ "unprimed_3006_casing", 1 ],
         [ "303_casing", 1 ],
         [ "308_casing", 1 ],
         [ "300blk_casing", 1 ],

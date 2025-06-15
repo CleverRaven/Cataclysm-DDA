@@ -19,6 +19,15 @@
     "volume": "5ml"
   },
   {
+    "id": "unprimed_223_casing",
+    "copy-from": "casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .223 casing" },
+    "description": "An empty casing from a .223 round, with it's primer removed.",
+    "weight": "5 g",
+    "volume": "5ml"
+  },
+  {
     "id": "22_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
@@ -67,6 +76,16 @@
     "type": "ITEM",
     "name": { "str": ".30-06 casing" },
     "description": "An empty casing from a .30-06 round.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
+    "id": "unprimed_3006_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .30-06 casing" },
+    "description": "An empty casing from a .30-06 round, with it's primer removed.",
     "weight": "7 g",
     "volume": "10ml"
   },
