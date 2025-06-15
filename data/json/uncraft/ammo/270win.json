@@ -21,9 +21,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "unprimed_270win_casing", 1 ] ],
-      [ [ "spent_lgrifle_primer", 1 ] ]
-    ]
+    "components": [ [ [ "unprimed_270win_casing", 1 ] ], [ [ "spent_lgrifle_primer", 1 ] ] ]
   }
 ]
