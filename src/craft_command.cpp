@@ -29,6 +29,7 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "messages.h"
 #include "output.h"
 #include "pocket_type.h"
 #include "recipe.h"
@@ -128,6 +129,14 @@ void craft_command::execute( bool only_cache_comps )
     inventory map_inv;
     map_inv.form_from_map( crafter->pos_bub(), PICKUP_RANGE, crafter );
 
+
+    crafting_queue = rec->to_craft( map_inv, batch_size );
+    if( crafting_queue.empty() ) {
+        debugmsg( "no craftable found" );
+        return;
+    }
+    const recipe *current_craft = crafting_queue.back();
+
     if( has_cached_selections() ) {
         std::vector<comp_selection<item_comp>> missing_items = check_item_components_missing( map_inv );
         std::vector<comp_selection<tool_comp>> missing_tools = check_tool_components_missing( map_inv );
@@ -141,7 +150,7 @@ void craft_command::execute( bool only_cache_comps )
     }
 
     if( need_selections ) {
-        if( !crafter->can_make( rec, batch_size ) ) {
+        if( !crafter->can_make( current_craft, batch_size ) ) {
             if( crafter->can_start_craft( rec, recipe_filter_flags::none, batch_size ) ) {
                 if( !query_yn( _( "You don't have enough charges to complete the %s.\n"
                                   "Start crafting anyway?" ), rec->result_name() ) ) {
@@ -158,7 +167,7 @@ void craft_command::execute( bool only_cache_comps )
 
         flags = recipe_filter_flags::no_rotten;
 
-        if( !crafter->can_start_craft( rec, flags, batch_size ) ) {
+        if( !crafter->can_start_craft( current_craft, flags, batch_size ) ) {
             if( !query_yn( _( "This craft will use rotten components.\n"
                               "Start crafting anyway?" ) ) ) {
                 return;
@@ -167,7 +176,7 @@ void craft_command::execute( bool only_cache_comps )
         }
 
         flags |= recipe_filter_flags::no_favorite;
-        if( !crafter->can_start_craft( rec, flags, batch_size ) ) {
+        if( !crafter->can_start_craft( current_craft, flags, batch_size ) ) {
             if( !query_yn( _( "This craft will use favorited components.\n"
                               "Start crafting anyway?" ) ) ) {
                 return;
@@ -177,8 +186,8 @@ void craft_command::execute( bool only_cache_comps )
         }
 
         item_selections.clear();
-        const auto filter = rec->get_component_filter( flags );
-        const requirement_data *needs = rec->deduped_requirements().select_alternative(
+        const auto filter = current_craft->get_component_filter( flags );
+        const requirement_data *needs = current_craft->deduped_requirements().select_alternative(
                                             *crafter, filter, batch_size, craft_flags::start_only );
         if( !needs ) {
             return;
@@ -186,7 +195,7 @@ void craft_command::execute( bool only_cache_comps )
 
         for( const auto &it : needs->get_components() ) {
             comp_selection<item_comp> is =
-                crafter->select_item_component( it, batch_size, map_inv, true, filter, true, true, rec );
+                crafter->select_item_component( it, batch_size, map_inv, true, filter, true, true, current_craft );
             if( is.use_from == usage_from::cancel ) {
                 return;
             }
@@ -197,7 +206,7 @@ void craft_command::execute( bool only_cache_comps )
         for( const auto &it : needs->get_tools() ) {
             comp_selection<tool_comp> ts = crafter->select_tool_component(
             it, batch_size, map_inv, true, true, true, []( int charges ) {
-                return charges / 20 + charges % 20;
+                return ( charges / 20 ) + ( charges % 20 );
             } );
             if( ts.use_from == usage_from::cancel ) {
                 return;
@@ -226,6 +235,7 @@ void craft_command::execute( bool only_cache_comps )
         uistate.recent_recipes.erase( uistate.recent_recipes.begin() );
     }
 }
+
 
 /** Does a string join with ', ' of the components in the passed vector and inserts into 'str' */
 template<typename T>
@@ -428,8 +438,9 @@ item craft_command::create_in_progress_craft()
     // Use up the components and tools
     item_components used;
     std::vector<item_comp> comps_used;
+    const recipe *current_rec = crafting_queue.back();
     if( crafter->has_trait( trait_DEBUG_HS ) ) {
-        return item( rec, batch_size, used, comps_used );
+        return item( current_rec, batch_size, used, comps_used );
     }
 
     if( empty() ) {
@@ -483,7 +494,7 @@ item craft_command::create_in_progress_craft()
         }
     }
 
-    item new_craft( rec, batch_size, used, comps_used );
+    item new_craft( current_rec, batch_size, used, comps_used );
 
     new_craft.set_cached_tool_selections( tool_selections );
     new_craft.set_tools_to_continue( true );

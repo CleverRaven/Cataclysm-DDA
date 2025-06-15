@@ -1,4 +1,5 @@
 #pragma once
+#include "ret_val.h"
 #ifndef CATA_SRC_REQUIREMENTS_H
 #define CATA_SRC_REQUIREMENTS_H
 
@@ -33,6 +34,7 @@ enum class available_status : int {
     a_true = +1, // yes, it's available
     a_false = -1, // no, it's not available
     a_insufficient = 0, // nearly, but not enough for tool+component
+    a_craftable = +2    // item not available, but it is craftable
 };
 
 enum class component_type : int {
@@ -64,6 +66,9 @@ struct component {
     bool recoverable = true;
     // If true, it's not actually a component but a requirement (list of components)
     bool requirement = false;
+
+    bool craftable = false;
+
 
     // needs explicit specification due to the mutable member. update this when you add new
     // members!
@@ -131,6 +136,7 @@ struct quality_requirement {
     int level = 1;
     mutable available_status available = available_status::a_false;
     bool requirement = false; // Currently unused, but here for consistency and templates
+    bool craftable = false;
 
     // needs explicit specification due to the mutable member. update this when you add new
     // members!
@@ -339,6 +345,7 @@ struct requirement_data {
 
         /**
          * Returns true if the requirements are fulfilled by the filtered inventory
+         * FIXME: it checks recursive wether certain components are craftable. Can the components be cached?
          * @param filter should be recipe::get_component_filter() if used with a recipe
          * or is_crafting_component otherwise.
          */
@@ -368,6 +375,12 @@ struct requirement_data {
         static requirement_data continue_requirements( const std::vector<item_comp> &required_comps,
                 const item_components &remaining_comps );
 
+        bool requires_comp_craft( ) const;
+
+        std::map<const item_comp, const recipe *> get_craftable_comps() const {
+            return craftable_comps;
+        };
+
         /**
          * Merge similar quality/tool/component lists.
          * This simplifies the requirement but may make the requirement stricter.
@@ -387,11 +400,25 @@ struct requirement_data {
 
         uint64_t make_hash() const;
 
+
+
     private:
         requirement_id id_ = requirement_id::NULL_ID(); // NOLINT(cata-serialize)
 
         bool blacklisted = false;
 
+        /**
+         * save/cache recipes that can be crafted, so that available_status and recursiveness gets properly saved
+        */
+        mutable std::map<const item_comp, const recipe *> craftable_comps;
+
+        void cache_craftable_comps( const read_only_visitable &crafting_inv,
+                                    const std::function<bool( const item & )> &filter,
+                                    int batch = 1 ) const;
+
+        /*
+         * as far as I can tell this only checks if a component is also needed by quality/tool
+        */
         bool check_enough_materials( const read_only_visitable &crafting_inv,
                                      const std::function<bool( const item & )> &filter, int batch = 1,
                                      bool restrict_volume = true ) const;
@@ -422,12 +449,21 @@ struct requirement_data {
                 std::string_view hilite = {},
                 requirement_display_flags = requirement_display_flags::none ) const;
 
+
         template<typename T>
-        static bool any_marked_available( const std::vector<T> &comps );
+        static std::vector<T> lst_comp_with_status( const std::vector<T> &comps, available_status status );
         template<typename T>
         static void load_obj_list( const JsonArray &jsarr, std::vector< std::vector<T> > &objs );
         template<typename T, typename ID>
         static const T *find_by_type( const std::vector< std::vector<T> > &vec, const ID &type );
+        template<typename T>
+        static bool any_marked_as_status( const std::vector<T> &comps, available_status status );
+
+        template<typename T>
+        static bool any_marked_available( const std::vector<T> &comps ) {
+            return any_marked_as_status( comps, available_status::a_true );
+        }
+
 };
 
 // Sometimes the requirement_data is problematic, because it has overlapping
