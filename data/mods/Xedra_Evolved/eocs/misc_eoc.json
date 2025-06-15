@@ -485,5 +485,14 @@
       { "u_message": "You are losing your stolen blood through your bleeding wounds!", "type": "bad" },
       { "run_eocs": "EOC_VAMPIRE_BLEED_STOLEN_BLOOD", "time_in_future": [ "10 s", "10 s" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_KILL_VAMPIRES_END",
+    "effect": [
+      { "u_message": "The vampire dies, but you know there's more of them out there.  The hunt continues.", "type": "good" },
+      { "math": [ "u_vampires_killed_counter ++" ] },
+      { "assign_mission": "MISSION_KILL_VAMPIRE_ONGOING" }
+    ]
   }
 ]
