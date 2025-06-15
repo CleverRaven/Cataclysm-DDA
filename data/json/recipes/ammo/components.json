@@ -204,7 +204,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "123ln_casing",
+    "result": "unprimed_123ln_casing",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -215,8 +215,8 @@
     "batch_time_factors": [ 40, 5 ],
     "book_learn": [ [ "manual_rifle", 6 ], [ "recipe_bullets", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
-    "tools": [ [ [ "123ln_casing", -1 ] ], [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "303_casing", 1 ] ] ]
+    "tools": [ [ [ "123ln_casing", -1 ], [ "unprimed_123ln_casing", -1 ] ], [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
+    "components": [ [ [ "unprimed_303_casing", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -301,6 +301,6 @@
     "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "50beowulf_casing", 1 ] ] ]
+    "components": [ [ [ "unprimed_50beowulf_casing", 1 ] ] ]
   }
 ]
