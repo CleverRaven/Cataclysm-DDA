@@ -70,9 +70,7 @@
         { "point": "trap", "id": "tr_beartrap", "x": 2, "y": [ 7, 8 ], "repeat": [ 1, 2 ] },
         { "point": "trap", "id": "tr_beartrap", "x": 20, "y": [ 2, 3 ], "repeat": [ 1, 2 ] },
         { "point": "trap", "id": "tr_beartrap", "x": 21, "y": 3, "repeat": [ 1, 2 ] },
-        { "point": "trap", "id": "tr_landmine_buried", "x": [ 5, 8 ], "y": [ 4, 7 ], "repeat": [ 5, 12 ] },
         { "point": "trap", "id": "tr_nailboard", "x": [ 7, 20 ], "y": [ 14, 15 ], "repeat": [ 5, 12 ] },
-        { "point": "trap", "id": "tr_landmine", "x": 5, "y": 14 },
         { "point": "trap", "id": "tr_shotgun_2", "x": 8, "y": 14 },
         { "point": "trap", "id": "tr_shotgun_2", "x": 7, "y": 2 },
         { "point": "trap", "id": "tr_shotgun_1", "x": 17, "y": 11 }
