@@ -217,6 +217,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robe",
+    "category": [ "artifacts", "armor" ],
     "name": { "str": "royal robe" },
     "description": "An ornately decorated robe with an unfamiliar royal symbol on it.  The humanoid figure on the seal has two pairs of eyes.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
@@ -225,6 +226,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "cloak",
+    "category": [ "artifacts", "armor" ],
     "name": { "str": "ancient burial shroud" },
     "description": "A cloak of thin, faded cloth.  The faint silhouette of a long-dead humanoid is barely visible on it.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
@@ -233,6 +235,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "coat_fur",
+    "category": [ "artifacts", "armor" ],
     "name": { "str": "ornate fur coat" },
     "description": "A heavy, finely crafted coat made of the fur of an unidentifiable creature.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
@@ -240,7 +243,7 @@
     "id": "art_mask",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "category": "armor",
+    "category": [ "artifacts", "armor" ],
     "name": { "str": "ancient stone mask" },
     "description": "A sinister mask made of a smooth green stone.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "weight": "750 g",
@@ -262,6 +265,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "helmet_bronze",
+    "category": [ "artifacts", "armor" ],
     "name": { "str": "ancient bronze helmet" },
     "description": "A helmet with an imposing face plate.  Though the corrosion has completely defaced the symbols written on the sides, it seems sturdy.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
@@ -270,6 +274,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_leather",
+    "category": [ "artifacts", "armor" ],
     "name": { "str": "pair of ornate leather gloves", "str_pl": "pairs of ornate leather gloves" },
     "description": "A set of worn leather gloves embossed with gold.  The unidentifiable leather it is made from is oddly soft.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
@@ -278,6 +283,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "boots",
+    "category": [ "artifacts", "armor" ],
     "name": { "str": "pair of ancient leather boots", "str_pl": "pairs of ancient leather boots" },
     "description": "A pair of ancient leather boots.  Though the flaps of leather are crudely sewn together, the red hue it is dyed with is striking.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
@@ -286,6 +292,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "gold_ring",
+    "category": [ "artifacts", "armor" ],
     "name": { "str": "amber ring" },
     "description": "A band of gold with a smooth piece of amber set into it.  A strange worm is encased in the amber, making a perfect spiral with its sealed body.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
@@ -294,6 +301,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "copy-from": "i_staff",
+    "category": [ "artifacts", "weapons" ],
     "name": { "str": "ancient staff" },
     "description": "A well-balanced stick of treated wood with metal caps.  A red stone is embedded in the handle.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
@@ -302,6 +310,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "copy-from": "longsword",
+    "category": [ "artifacts", "weapons" ],
     "name": { "str": "ancient sword" },
     "description": "A sword made out of a striking black metal.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
@@ -310,7 +319,7 @@
     "subtypes": [ "TOOL" ],
     "id": "art_harp",
     "name": { "str": "ancient harp" },
-    "category": "tools",
+    "category": [ "artifacts", "tools" ],
     "weight": "3200 g",
     "color": "brown",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
@@ -355,6 +364,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
+    "category": [ "artifacts", "weapons" ],
     "weapon_category": [ "KNIVES" ],
     "flags": [ "SHEATH_KNIFE", "TRADER_AVOID" ],
     "melee_damage": { "bash": 2, "stab": 13 }
@@ -364,6 +374,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "copy-from": "spear_steel",
+    "category": [ "artifacts", "weapons" ],
     "name": { "str": "ancient spear" },
     "description": "A sturdy wooden pole with a sharp metal spike on the end.  The handle has the symbol of a blue sun on it.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
@@ -372,6 +383,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "copy-from": "club_wooden",
+    "category": [ "artifacts", "weapons" ],
     "name": { "str": "ancient club" },
     "description": "A misshapen rod of gnarled, knotted wood.  The knots in the wood exhibit a strange fractal pattern.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
@@ -379,6 +391,7 @@
     "id": "art_bomorrean",
     "type": "ITEM",
     "copy-from": "art_ring",
+    "category": [ "artifacts", "armor" ],
     "name": { "str": "set of oddly interlocked rings", "str_pl": "sets of oddly interlocked rings" },
     "description": "A set of three rings linked together.  There's something about the way the rings connect to each other that gives you a headache.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
@@ -396,6 +409,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "copy-from": "art_spear",
+    "category": [ "artifacts", "weapons" ],
     "name": { "str": "impossible trident" },
     "description": "A large trident made entirely out of an indiscernible material.  The prong in the middle seems to fade away into nothingness when looked at from the top, but you can clearly see the shaft connecting the tip of the weapon from the bottom.  It's giving you a headache.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "looks_like": "pitchfork",
