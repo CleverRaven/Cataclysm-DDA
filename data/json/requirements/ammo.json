@@ -68,7 +68,7 @@
     "id": "ammo_shot",
     "type": "requirement",
     "//": "Components required for shotgun and signal flare ammo",
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ] ]
+    "components": [ [ [ "unprimed_shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ] ]
   },
   {
     "id": "ammo_357mag",
@@ -104,7 +104,7 @@
     "id": "ammo_410shot",
     "type": "requirement",
     "//": "Components required for .410 ammo",
-    "components": [ [ [ "410shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ] ]
+    "components": [ [ [ "unprimed_410shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ] ]
   },
   {
     "id": "ammo_270win",

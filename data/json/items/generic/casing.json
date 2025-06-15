@@ -927,11 +927,38 @@
     "color": "red"
   },
   {
+    "id": "unprimed_shot_hull",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "primerless 12 gauge hull" },
+    "description": "An empty hull from a 12 gauge shotgun shell, with it's primer removed.",
+    "weight": "8 g",
+    "volume": "12ml",
+    "stackable": true,
+    "material": [ "plastic" ],
+    "symbol": "=",
+    "color": "red"
+  },
+  {
     "id": "410shot_hull",
     "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": ".410 hull" },
     "description": "An empty hull from a .410 shotgun shell.",
+    "weight": "8 g",
+    "volume": "12ml",
+    "stackable": true,
+    "material": [ "plastic" ],
+    "symbol": "=",
+    "looks_like": "shot_hull",
+    "color": "red"
+  },
+  {
+    "id": "unprimed_410shot_hull",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "primerless .410 hull" },
+    "description": "An empty hull from a .410 shotgun shell, with it's primer removed.",
     "weight": "8 g",
     "volume": "12ml",
     "stackable": true,
