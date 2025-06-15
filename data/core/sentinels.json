@@ -1,5 +1,11 @@
 [
   {
+    "type": "ammunition_type",
+    "id": "NULL",
+    "name": "none",
+    "default": "null"
+  },
+  {
     "id": "bp_null",
     "type": "body_part",
     "name": "appendix",

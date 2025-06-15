@@ -64,6 +64,7 @@
 #include "game.h"
 #include "game_inventory.h"
 #include "global_vars.h"
+#include "imgui/imgui.h"
 #include "imgui_demo.h"
 #include "input.h"
 #include "input_context.h"
@@ -109,7 +110,6 @@
 #include "recipe_dictionary.h"
 #include "relic.h"
 #include "requirements.h"
-#include "ret_val.h"
 #include "skill.h"
 #include "sounds.h"
 #include "stomach.h"
@@ -121,7 +121,6 @@
 #include "trait_group.h"
 #include "translation.h"
 #include "translations.h"
-#include "try_parse_integer.h"
 #include "type_id.h"
 #include "uilist.h"
 #include "ui_manager.h"
@@ -236,6 +235,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::OM_TELEPORT: return "OM_TELEPORT";
         case debug_menu::debug_menu_index::OM_TELEPORT_COORDINATES: return "OM_TELEPORT_COORDINATES";
         case debug_menu::debug_menu_index::OM_TELEPORT_CITY: return "OM_TELEPORT_CITY";
+        case debug_menu::debug_menu_index::PRINT_OVERMAPS: return "PRINT_OVERMAP";
         case debug_menu::debug_menu_index::TRAIT_GROUP: return "TRAIT_GROUP";
         case debug_menu::debug_menu_index::ENABLE_ACHIEVEMENTS: return "ENABLE_ACHIEVEMENTS";
         case debug_menu::debug_menu_index::UNLOCK_ALL: return "UNLOCK_ALL";
@@ -499,6 +499,22 @@ void prompt_map_reveal( const std::optional<tripoint_abs_omt> &p )
     }
     vis_sel.query();
     if( vis_sel.ret == UILIST_CANCEL ) {
+        return;
+    }
+    if( vis_sel.ret == static_cast<int>( om_vision_level::full ) ) {
+        if( !!p ) {
+            int reveal_radius = 0;
+            if( query_int( reveal_radius, false,
+                           _( "Overmap reveal radius: (0-5)" ) ) ) {
+                reveal_radius = std::clamp( reveal_radius, 0, 5 );
+            }
+            tripoint_abs_om p_om = project_to<coords::om>( *p );
+            tripoint_range<tripoint_abs_om> p_om_radius = points_in_radius( p_om, reveal_radius );
+
+            for( const tripoint_abs_om &surrounding_om : p_om_radius ) {
+                map_reveal( vis_sel.ret, project_to<coords::omt>( surrounding_om ) );
+            }
+        }
         return;
     }
     map_reveal( vis_sel.ret, p );
@@ -991,6 +1007,7 @@ static int map_uilist()
         { uilist_entry( debug_menu_index::OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
         { uilist_entry( debug_menu_index::MAP_EXTRA, true, 'm', _( "Spawn map extra" ) ) },
         { uilist_entry( debug_menu_index::NESTED_MAPGEN, true, 'n', _( "Spawn nested mapgen" ) ) },
+        { uilist_entry( debug_menu_index::PRINT_OVERMAPS, true, 'v', _( "Print overmaps" ) ) }
     };
 
     return uilist( _( "Map…" ), uilist_initializer );
@@ -1772,51 +1789,10 @@ static void teleport_long()
 static void teleport_overmap( bool specific_coordinates = false )
 {
     Character &player_character = get_player_character();
-    tripoint_abs_omt where;
+    std::optional<tripoint_abs_omt> where;
     if( specific_coordinates ) {
-        const std::string text = string_input_popup()
-                                 .title( _( "Teleport where?" ) )
-                                 .width( 20 )
-                                 .query_string();
-        if( text.empty() ) {
-            return;
-        }
-        const std::vector<std::string> coord_strings = string_split( text, ',' );
-        if( coord_strings.size() < 2 || coord_strings.size() > 3 ) {
-            popup( _( "Error interpreting teleport target: "
-                      "expected two or three comma-separated values; got %zu" ),
-                   coord_strings.size() );
-            return;
-        }
-        std::vector<std::pair<int, int>> coord_ints;
-        for( const std::string &coord_string : coord_strings ) {
-            const std::vector<std::string> coord_parts = string_split( coord_string, '\'' );
-            if( coord_parts.empty() || coord_parts.size() > 2 ) {
-                popup( _( "Error interpreting teleport target: "
-                          "expected an integer or two integers separated by \'; got %s" ), coord_string );
-                return;
-            }
-            ret_val<int> parsed_coord = try_parse_integer<int>( coord_parts[0], true );
-            if( !parsed_coord.success() ) {
-                popup( _( "Error interpreting teleport target: %s" ), parsed_coord.str() );
-                return;
-            }
-            int major_coord = parsed_coord.value();
-            int minor_coord = 0;
-            if( coord_parts.size() >= 2 ) {
-                ret_val<int> parsed_coord2 = try_parse_integer<int>( coord_parts[1], true );
-                if( !parsed_coord2.success() ) {
-                    popup( _( "Error interpreting teleport target: %s" ), parsed_coord2.str() );
-                    return;
-                }
-                minor_coord = parsed_coord2.value();
-            }
-            coord_ints.emplace_back( major_coord, minor_coord );
-        }
-        cata_assert( coord_ints.size() >= 2 );
-        where = tripoint_abs_omt( OMAPX * coord_ints[0].first + coord_ints[0].second,
-                                  OMAPY * coord_ints[1].first + coord_ints[1].second,
-                                  ( coord_ints.size() >= 3 ? coord_ints[2].first : 0 ) );
+        where = string_input_popup().title( _( "Teleport where?" ) ).width(
+                    20 ).query_coordinate_abs_impl();
     } else {
         const std::optional<tripoint_rel_ms> dir_ = choose_direction(
                     _( "Where is the desired overmap?" ) );
@@ -1826,11 +1802,13 @@ static void teleport_overmap( bool specific_coordinates = false )
         const tripoint offset = tripoint( OMAPX * dir_->x(), OMAPY * dir_->y(), dir_->z() );
         where = player_character.pos_abs_omt() + offset;
     }
-    g->place_player_overmap( where );
+    if( !!where ) {
+        g->place_player_overmap( *where );
 
-    const tripoint_abs_om new_pos =
-        project_to<coords::om>( player_character.pos_abs_omt() );
-    add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
+        const tripoint_abs_om new_pos =
+            project_to<coords::om>( player_character.pos_abs_omt() );
+        add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
+    }
 }
 
 static void teleport_city()
@@ -3834,7 +3812,73 @@ static void wind_speed()
     }
 }
 
+//prints overmaps in provided bounds, saves to file, copies to clipboard
+static void print_overmaps()
+{
+    std::optional<tripoint_abs_omt> p1 = string_input_popup().title( _( "Top-left point?" ) ).width(
+            20 ).query_coordinate_abs_impl();
+    if( !!p1 ) {
+        std::optional<tripoint_abs_omt> p2 = string_input_popup().title( _( "Bottom-right point?" ) ).width(
+                20 ).query_coordinate_abs_impl();
+        if( !!p2 ) {
+            if( p1->z() != p2->z() ) {
+                popup( _( "z-values must match!  (provided %d, %d)" ), p1->z(), p2->z() );
+                return;
+            }
+            if( p1->x() > p2->x() || p1->y() > p2->y() ) {
+                popup( _( "Second point was not bottom-left!" ) );
+                return;
+            }
+            tripoint_abs_om p1_om = project_to<coords::om>( *p1 );
+            tripoint_abs_om p2_om = project_to<coords::om>( *p2 );
+            int p1_z = p1_om.z();
+            point_rel_om diff = p2_om.xy() - p1_om.xy();
 
+            std::vector<std::string> final_lines;
+            oter_display_args oter_args( om_vision_level::full );
+            const oter_display_options oter_opts( *p1, 100 );
+
+            for( int row = 0; row <= diff.y(); row++ ) {
+                std::vector<std::vector<std::string>> row_lines;
+                for( int col = 0; col <= diff.x(); col++ ) {
+
+                    const overmap *current_om = overmap_buffer.get_existing( point_abs_om( p1_om.x() + col,
+                                                p1_om.y() + row ) );
+                    std::vector<std::string> om_lines;
+                    for( int j = 0; j < OMAPY; j++ ) {
+                        std::string om_row;
+                        for( int i = 0; i < OMAPX; i++ ) {
+                            om_row += current_om != nullptr ?
+                                      oter_symbol_and_color( current_om->global_base_point() + tripoint_rel_omt( i, j, p1_z ), oter_args,
+                                                             oter_opts ).first
+                                      //current_om->ter( tripoint_om_omt( i, j, p1_z ) )->get_symbol( om_vision_level::full )
+                                      : " ";
+                        }
+                        om_lines.emplace_back( om_row );
+                    }
+                    row_lines.emplace_back( om_lines );
+                }
+                for( int r = 0; r < OMAPY; r++ ) {
+                    std::string final_line;
+                    for( const std::vector<std::string> &iter_om_lines : row_lines ) {
+                        final_line += iter_om_lines[r];
+                    }
+                    final_lines.emplace_back( final_line );
+                }
+            }
+
+            //build string
+            std::string final_text;
+            for( const std::string &line : final_lines ) {
+                final_text += line + '\n';
+            }
+            //copy to clipboard
+            ImGui::SetClipboardText( final_text.c_str() );
+            popup( _( "Copied overmap in points %s, %s to clipboard!" ), p1_om.to_string_writable(),
+                   p2_om.to_string_writable() );
+        }
+    }
+}
 
 static void run_imgui_demo()
 {
@@ -4196,6 +4240,9 @@ void debug()
             break;
         case debug_menu_index::OM_TELEPORT_CITY:
             debug_menu::teleport_city();
+            break;
+        case debug_menu_index::PRINT_OVERMAPS:
+            debug_menu::print_overmaps();
             break;
         case debug_menu_index::TRAIT_GROUP:
             trait_group::debug_spawn();

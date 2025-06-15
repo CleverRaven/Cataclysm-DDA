@@ -6359,7 +6359,8 @@ bool Character::has_calorie_deficit() const
 
 units::mass Character::bodyweight() const
 {
-    return bodyweight_fat() + bodyweight_lean();
+    return std::max( 1_gram, enchantment_cache->modify_value( enchant_vals::mod::WEIGHT,
+                     bodyweight_fat() + bodyweight_lean() ) );
 }
 
 units::mass Character::bodyweight_fat() const

@@ -594,7 +594,7 @@
         "...11   .........     ..",
         "...11   .........    ...",
         "....1   ..........1111..",
-        ".......  ..........4....",
+        ".......  ..........1....",
         "........   ......   ....",
         "..........2.....  ......",
         "..........1....  .......",
@@ -623,20 +623,12 @@
         "G": "f_active_backup_generator",
         "7": "f_console_broken"
       },
-      "traps": {
-        "F": "tr_rollmat",
-        "2": "tr_crossbow",
-        "3": "tr_shotgun_1",
-        "4": "tr_landmine",
-        "5": "tr_boobytrap",
-        "6": "tr_beartrap"
-      },
+      "traps": { "F": "tr_rollmat", "2": "tr_crossbow", "3": "tr_shotgun_1", "5": "tr_boobytrap", "6": "tr_beartrap" },
       "fields": {
         "f": { "field": "fd_fire", "intensity": 1, "age": 10 },
         "1": { "field": "fd_web", "intensity": 1, "age": 10 },
         "2": { "field": "fd_web", "intensity": 1, "age": 10 },
         "3": { "field": "fd_web", "intensity": 1, "age": 10 },
-        "4": { "field": "fd_web", "intensity": 1, "age": 10 },
         "5": { "field": "fd_web", "intensity": 1, "age": 10 },
         "6": { "field": "fd_web", "intensity": 1, "age": 10 }
       },
