@@ -418,7 +418,13 @@ void overmap::unserialize( const JsonObject &jsobj )
             mapgen_args_index.emplace( p.first, &*it );
         }
     }
-    //BEFOREMERGE: Add smallmap_parameter_map unserialize
+    if( jsobj.has_member( "smallmap_arguments_map" ) ) {
+        std::vector<std::pair<point_abs_omt, mapgen_arguments>> flat_smallmap_arguments_map;
+        jsobj.read( "smallmap_arguments_map", flat_smallmap_arguments_map, true );
+        for( const std::pair<point_abs_omt, mapgen_arguments> &p : flat_smallmap_arguments_map ) {
+            smallmap_arguments_map.emplace( p );
+        }
+    }
     // Extract layers first so predecessor deduplication can happen.
     if( jsobj.has_member( "layers" ) ) {
         std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
@@ -1404,7 +1410,17 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
     fout << std::endl;
 
-    //BEFOREMERGE: Add smallmap_parameter_map serialize
+    json.member( "smallmap_arguments_map" );
+    json.start_array();
+    for( const std::pair<const point_abs_omt, mapgen_arguments> &p : smallmap_arguments_map ) {
+        json.start_array();
+        json.write( p.first );
+        p.second.serialize( json );
+        json.end_array();
+    }
+    json.end_array();
+    fout << std::endl;
+
     std::vector<std::pair<om_pos_dir, std::string>> flattened_joins_used(
                 joins_used.begin(), joins_used.end() );
     json.member( "joins_used", flattened_joins_used );

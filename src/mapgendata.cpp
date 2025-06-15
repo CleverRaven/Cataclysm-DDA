@@ -19,10 +19,12 @@
 #include "point.h"
 #include "regional_settings.h"
 
-void mapgen_arguments::merge( const mapgen_arguments &other )
+void mapgen_arguments::merge( const mapgen_arguments &other, bool overwrite )
 {
     for( const std::pair<const std::string, cata_variant> &p : other.map ) {
-        map[p.first] = p.second;
+        if( overwrite || map.find( p.first ) == map.end() ) {
+            map[p.first] = p.second;
+        }
     }
 }
 

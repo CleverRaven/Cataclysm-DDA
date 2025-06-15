@@ -691,7 +691,7 @@ class overmap_special
 
         void force_one_occurrence();
 
-        const mapgen_parameters get_params() const {
+        const mapgen_parameters &get_params() const {
             return mapgen_params_;
         }
         mapgen_arguments get_args( const mapgendata & ) const;

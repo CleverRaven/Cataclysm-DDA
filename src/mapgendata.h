@@ -17,6 +17,7 @@
 #include "debug.h"
 #include "enum_bitset.h"
 #include "jmapgen_flags.h"
+#include "point.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
@@ -58,7 +59,7 @@ struct mapgen_arguments {
         return map == other.map;
     }
 
-    void merge( const mapgen_arguments & );
+    void merge( const mapgen_arguments &, bool overwrite = true );
     void serialize( JsonOut & ) const;
     void deserialize( const JsonValue &ji );
 };
@@ -198,6 +199,9 @@ class mapgendata
         }
         const tripoint_abs_omt &pos() const {
             return pos_;
+        }
+        const mapgen_arguments &get_args() const {
+            return mapgen_args_;
         }
         std::vector<oter_id> get_predecessors() const {
             return predecessors_;

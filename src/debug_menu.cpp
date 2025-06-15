@@ -32,7 +32,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "calendar_ui.h"
-#include "cata_assert.h"
 #include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
