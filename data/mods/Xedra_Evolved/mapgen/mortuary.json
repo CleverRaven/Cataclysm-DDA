@@ -74,7 +74,7 @@
         }
       ],
       "place_item": [         
-       { "item": "scrap_dreamdross", "x": 8, "y": 19, "amount": [ 12, 36 ] } 
+       { "item": "scrap_dreamdross", "x": 8, "y": 19, "amount": [ 6, 18 ] } 
        ],
       "place_items": [
         { "item": "cleaning", "x": 3, "y": [ 19, 20 ], "chance": 50 },
