@@ -53,9 +53,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "unprimed_57mm_casing", 1 ] ],
-      [ [ "spent_smrifle_primer", 1 ] ]
-    ]
+    "components": [ [ [ "unprimed_57mm_casing", 1 ] ], [ [ "spent_smrifle_primer", 1 ] ] ]
   }
 ]

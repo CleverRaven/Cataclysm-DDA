@@ -611,7 +611,12 @@
     "using": [ [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
     "//": "15800 mg gunpowder rounded to 158 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "unprimed_50_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder_large_rifle", 158 ] ], [ [ "copper", 6 ] ] ]
+    "components": [
+      [ [ "unprimed_50_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder_large_rifle", 158 ] ],
+      [ [ "copper", 6 ] ]
+    ]
   },
   {
     "result": "bp_50match",
@@ -1631,7 +1636,12 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "unprimed_123ln_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 32 ] ], [ [ "copper", 2 ] ] ]
+    "components": [
+      [ [ "unprimed_123ln_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "chem_black_powder", 32 ] ],
+      [ [ "copper", 2 ] ]
+    ]
   },
   {
     "result": "reloaded_50beowulf_xtp",
@@ -1724,7 +1734,12 @@
     "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 8 ] ],
     "//": "2120 mg gunpowder rounded to 21 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "unprimed_50beowulf_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 21 ] ], [ [ "copper", 6 ] ] ]
+    "components": [
+      [ [ "unprimed_50beowulf_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "chem_black_powder", 21 ] ],
+      [ [ "copper", 6 ] ]
+    ]
   },
   {
     "result": "reloaded_450_ftx",
