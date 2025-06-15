@@ -2180,7 +2180,7 @@ std::string enum_to_string<mapgen_parameter_scope>( mapgen_parameter_scope v )
     switch( v ) {
         // *INDENT-OFF*
         case mapgen_parameter_scope::overmap_special: return "overmap_special";
-        case mapgen_parameter_scope::smallmap: return "smallmap";
+        case mapgen_parameter_scope::omt_stack: return "omt_stack";
         case mapgen_parameter_scope::omt: return "omt";
         case mapgen_parameter_scope::nest: return "nest";
         // *INDENT-ON*
@@ -2290,15 +2290,15 @@ mapgen_arguments mapgen_parameters::get_args(
             cata_variant value = md.get_arg_or( param_name, param.get( md ) );
             result.emplace( param_name, value );
         }
-        if( param.scope() == mapgen_parameter_scope::smallmap &&
-            scope == mapgen_parameter_scope::omt ) {
-            overmap *om = overmap_buffer.get_existing_om_global( md.pos() ).om;
-            std::optional<cata_variant> v = om->get_existing_smallmap_argument( md.pos().xy(), param_name );
+        if( param.scope() == mapgen_parameter_scope::omt_stack && scope == mapgen_parameter_scope::omt ) {
+            const point_abs_omt &p_scope = md.pos().xy();
+            overmap *om = overmap_buffer.get_existing_om_global( p_scope ).om;
+            std::optional<cata_variant> v = om->get_existing_omt_stack_argument( p_scope, param_name );
             if( !!v ) {
                 result.emplace( param_name, *v );
             } else {
                 cata_variant value = md.get_arg_or( param_name, param.get( md ) );
-                om->add_smallmap_arguments( md.pos().xy(), md.get_args() );
+                om->add_omt_stack_arguments( p_scope, md.get_args() );
                 result.emplace( param_name, value );
             }
         }

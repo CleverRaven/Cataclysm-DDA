@@ -3599,21 +3599,23 @@ std::vector<point_abs_omt> overmap::find_extras( const int z, const std::string 
     return extra_locations;
 }
 
-std::optional<cata_variant> overmap::get_existing_smallmap_argument( const point_abs_omt &p,
+std::optional<cata_variant> overmap::get_existing_omt_stack_argument( const point_abs_omt &p,
         std::string param_name ) const
 {
-    if( auto it_args = smallmap_arguments_map.find( p ); it_args != smallmap_arguments_map.end() ) {
+    auto it_args = omt_stack_arguments_map.find( p );
+    if( it_args != omt_stack_arguments_map.end() ) {
         const std::unordered_map<std::string, cata_variant> &args_map = it_args->second.map;
-        if( auto it_arg = args_map.find( param_name ); it_arg != args_map.end() ) {
+        auto it_arg = args_map.find( param_name );
+        if( it_arg != args_map.end() ) {
             return it_arg->second;
         }
     }
     return std::nullopt;
 }
 
-void overmap::add_smallmap_arguments( const point_abs_omt &p, const mapgen_arguments &args )
+void overmap::add_omt_stack_arguments( const point_abs_omt &p, const mapgen_arguments &args )
 {
-    smallmap_arguments_map[p].merge( args, false );
+    omt_stack_arguments_map[p].merge( args, false );
 }
 
 bool overmap::inbounds( const tripoint_om_omt &p, int clearance )

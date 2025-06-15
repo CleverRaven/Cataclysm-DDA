@@ -14,7 +14,8 @@ enum class mapgen_parameter_scope {
     overmap_special,
     omt,
     // Wants to be equal to omt bc they're evaluated in the same place but that borks enum_to_string
-    smallmap,
+    // Represents a vertical stack of omts sharing the same point_abs_omt
+    omt_stack,
     nest,
     last
 };

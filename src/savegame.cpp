@@ -418,11 +418,11 @@ void overmap::unserialize( const JsonObject &jsobj )
             mapgen_args_index.emplace( p.first, &*it );
         }
     }
-    if( jsobj.has_member( "smallmap_arguments_map" ) ) {
-        std::vector<std::pair<point_abs_omt, mapgen_arguments>> flat_smallmap_arguments_map;
-        jsobj.read( "smallmap_arguments_map", flat_smallmap_arguments_map, true );
-        for( const std::pair<point_abs_omt, mapgen_arguments> &p : flat_smallmap_arguments_map ) {
-            smallmap_arguments_map.emplace( p );
+    if( jsobj.has_member( "omt_stack_arguments_map" ) ) {
+        std::vector<std::pair<point_abs_omt, mapgen_arguments>> flat_omt_stack_arguments_map;
+        jsobj.read( "omt_stack_arguments_map", flat_omt_stack_arguments_map, true );
+        for( const std::pair<point_abs_omt, mapgen_arguments> &p : flat_omt_stack_arguments_map ) {
+            omt_stack_arguments_map.emplace( p );
         }
     }
     // Extract layers first so predecessor deduplication can happen.
@@ -1410,9 +1410,9 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
     fout << std::endl;
 
-    json.member( "smallmap_arguments_map" );
+    json.member( "omt_stack_arguments_map" );
     json.start_array();
-    for( const std::pair<const point_abs_omt, mapgen_arguments> &p : smallmap_arguments_map ) {
+    for( const std::pair<const point_abs_omt, mapgen_arguments> &p : omt_stack_arguments_map ) {
         json.start_array();
         json.write( p.first );
         p.second.serialize( json );
