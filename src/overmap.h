@@ -456,7 +456,9 @@ class overmap
         // open existing overmap, or generate a new one
         void open( overmap_special_batch &enabled_specials );
     public:
-
+        //BEFOREMERGE Should just be a std::unordered_map<point_abs_omt, mapgen_arguments>?
+        std::unordered_map<point_abs_omt, std::unordered_map<std::string, cata_variant>>
+                smallmap_parameter_map;
         /**
          * When monsters despawn during map-shifting they will be added here.
          * map::spawn_monsters will load them and place them into the reality bubble

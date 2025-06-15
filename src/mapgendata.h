@@ -12,7 +12,7 @@
 
 #include "calendar.h"
 #include "cata_variant.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "cube_direction.h"
 #include "debug.h"
 #include "enum_bitset.h"
@@ -113,11 +113,11 @@ inline cata_variant extract_variant_value<cata_variant>( const cata_variant &v )
 class mapgendata
 {
     private:
+        tripoint_abs_omt pos_;
         oter_id terrain_type_;
         float density_;
         time_point when_;
         ::mission *mission_;
-        int zlevel_;
         mapgen_arguments mapgen_args_;
         enum_bitset<jmapgen_flags> mapgen_flags_;
         std::vector<oter_id> predecessors_;
@@ -194,8 +194,10 @@ class mapgendata
             return mission_;
         }
         int zlevel() const {
-            // TODO: should be able to determine this from the map itself
-            return zlevel_;
+            return pos_.z();
+        }
+        const tripoint_abs_omt &pos() const {
+            return pos_;
         }
         std::vector<oter_id> get_predecessors() const {
             return predecessors_;

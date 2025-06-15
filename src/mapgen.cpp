@@ -2180,6 +2180,7 @@ std::string enum_to_string<mapgen_parameter_scope>( mapgen_parameter_scope v )
     switch( v ) {
         // *INDENT-OFF*
         case mapgen_parameter_scope::overmap_special: return "overmap_special";
+        case mapgen_parameter_scope::smallmap: return "smallmap";
         case mapgen_parameter_scope::omt: return "omt";
         case mapgen_parameter_scope::nest: return "nest";
         // *INDENT-ON*
@@ -2287,6 +2288,25 @@ mapgen_arguments mapgen_parameters::get_args(
         const mapgen_parameter &param = p.second;
         if( param.scope() == scope ) {
             cata_variant value = md.get_arg_or( param_name, param.get( md ) );
+            result.emplace( param_name, value );
+        }
+        if( param.scope() == mapgen_parameter_scope::smallmap &&
+            scope == mapgen_parameter_scope::omt ) {
+            //BEFOREMERGE Replace with a std::optional<cata_variant> overmapbuffer::get_existing_smallmap_parameter( const point_abs_omt & )?
+            std::unordered_map<point_abs_omt, std::unordered_map<std::string, cata_variant>>
+                    &all_existing_params = overmap_buffer.get_existing_om_global(
+                                               md.pos() ).om->smallmap_parameter_map;
+            if( auto here_existing_params = all_existing_params.find( md.pos().xy() );
+                here_existing_params != all_existing_params.end() ) {
+                if( auto found_param = here_existing_params->second.find( param_name );
+                    found_param != here_existing_params->second.end() ) {
+                    result.emplace( param_name, found_param->second );
+                    continue;
+                }
+            }
+            cata_variant value = md.get_arg_or( param_name, param.get( md ) );
+            //BEFOREMERGE Replace with a void overmapbuffer::add_smallmap_parameter( const point_abs_omt &, const std::string & )?
+            all_existing_params[md.pos().xy()][param_name] = value;
             result.emplace( param_name, value );
         }
     }
