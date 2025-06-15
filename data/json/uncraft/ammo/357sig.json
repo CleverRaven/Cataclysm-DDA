@@ -7,7 +7,7 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 7 ] ],
-      [ [ "357sig_casing", 1 ] ],
+      [ [ "unprimed_357sig_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 4 ] ],
       [ [ "copper", 1 ] ]
@@ -21,10 +21,18 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 8 ] ],
-      [ [ "357sig_casing", 1 ] ],
+      [ [ "unprimed_357sig_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 5 ] ],
       [ [ "copper", 1 ] ]
     ]
+  },
+  {
+    "result": "357sig_casing",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "unprimed_357sig_casing", 1 ] ], [ [ "spent_smpistol_primer", 1 ] ] ]
   }
 ]

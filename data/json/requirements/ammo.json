@@ -2,19 +2,19 @@
   {
     "id": "ammo_762_25",
     "type": "requirement",
-    "components": [ [ [ "762_25_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+    "components": [ [ [ "unprimed_762_25_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
     "id": "ammo_9mm",
     "type": "requirement",
     "//": "Components required for 9mm ammo",
-    "components": [ [ [ "9mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+    "components": [ [ [ "unprimed_9mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
     "id": "ammo_38spc",
     "type": "requirement",
     "//": "Components required for 38 ammo",
-    "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+    "components": [ [ [ "unprimed_38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
     "id": "ammo_303",
@@ -44,13 +44,13 @@
     "id": "ammo_32",
     "type": "requirement",
     "//": "Components required for 32 ammo",
-    "components": [ [ [ "32_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+    "components": [ [ [ "unprimed_32_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
     "id": "ammo_380",
     "type": "requirement",
     "//": "Components required for 380 ammo",
-    "components": [ [ [ "380_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+    "components": [ [ [ "unprimed_380_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
     "id": "ammo_458wm",
@@ -62,7 +62,7 @@
     "id": "ammo_57",
     "type": "requirement",
     "//": "Components required for 57 ammo",
-    "components": [ [ [ "57mm_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ] ]
+    "components": [ [ [ "unprimed_57mm_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ] ]
   },
   {
     "id": "ammo_shot",
@@ -74,31 +74,31 @@
     "id": "ammo_357mag",
     "type": "requirement",
     "//": "Components required for .357 Magnum ammo",
-    "components": [ [ [ "357mag_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+    "components": [ [ [ "unprimed_357mag_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
     "id": "ammo_357sig",
     "type": "requirement",
     "//": "Components required for .357 SIG ammo",
-    "components": [ [ [ "357sig_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+    "components": [ [ [ "unprimed_357sig_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
     "id": "ammo_10mm",
     "type": "requirement",
     "//": "Components required for 10mm Auto ammo",
-    "components": [ [ [ "10mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+    "components": [ [ [ "unprimed_10mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
     "id": "ammo_45colt",
     "type": "requirement",
     "//": "Components required for .45 Colt ammo",
-    "components": [ [ [ "45colt_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
+    "components": [ [ [ "unprimed_45colt_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
   },
   {
     "id": "ammo_38super",
     "type": "requirement",
     "//": "Components required for .38 Super ammo",
-    "components": [ [ [ "38super_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+    "components": [ [ [ "unprimed_38super_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
     "id": "ammo_410shot",
@@ -128,7 +128,7 @@
     "id": "ammo_460sw",
     "type": "requirement",
     "//": "Components required for .460 S&W ammo",
-    "components": [ [ [ "460sw_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
+    "components": [ [ [ "unprimed_460sw_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
   },
   {
     "id": "22_casehead",
@@ -204,6 +204,7 @@
     "tools": [
       [
         [ "9mm_casing", -1 ],
+        [ "unprimed_9mm_casing", -1 ],
         [ "9mm", -1 ],
         [ "9mmfmj", -1 ],
         [ "9mmP", -1 ],
@@ -224,7 +225,9 @@
     "tools": [
       [
         [ "357sig_casing", -1 ],
+        [ "unprimed_357sig_casing", -1 ],
         [ "40_casing", -1 ],
+        [ "unprimed_40_casing", -1 ],
         [ "40fmj", -1 ],
         [ "40sw", -1 ],
         [ "bp_40fmj", -1 ],
@@ -245,6 +248,7 @@
     "tools": [
       [
         [ "45_casing", -1 ],
+        [ "unprimed_45_casing", -1 ],
         [ "45_acp", -1 ],
         [ "45_jhp", -1 ],
         [ "45_super", -1 ],
@@ -331,25 +335,45 @@
       [
         [ "22_casing", 1 ],
         [ "32_casing", 1 ],
+        [ "unprimed_32_casing", 1 ],
         [ "38_casing", 1 ],
+        [ "unprimed_38_casing", 1 ],
         [ "38super_casing", 1 ],
+        [ "unprimed_38super_casing", 1 ],
         [ "40_casing", 1 ],
+        [ "unprimed_40_casing", 1 ],
         [ "10mm_casing", 1 ],
+        [ "unprimed_10mm_casing", 1 ],
         [ "44_casing", 1 ],
+        [ "unprimed_44_casing", 1 ],
         [ "454_casing", 1 ],
+        [ "unprimed_454_casing", 1 ],
         [ "460sw_casing", 1 ],
+        [ "unprimed_460sw_casing", 1 ],
         [ "45_casing", 1 ],
+        [ "unprimed_45_casing", 1 ],
         [ "45colt_casing", 1 ],
+        [ "unprimed_45colt_casing", 1 ],
         [ "46mm_casing", 1 ],
+        [ "unprimed_46mm_casing", 1 ],
         [ "57mm_casing", 1 ],
+        [ "unprimed_57mm_casing", 1 ],
         [ "500_casing", 1 ],
+        [ "unprimed_500_casing", 1 ],
         [ "762_25_casing", 1 ],
+        [ "unprimed_762_25_casing", 1 ],
         [ "9mm_casing", 1 ],
+        [ "unprimed_9mm_casing", 1 ],
         [ "357sig_casing", 1 ],
+        [ "unprimed_357sig_casing", 1 ],
         [ "357mag_casing", 1 ],
+        [ "unprimed_357mag_casing", 1 ],
         [ "9x18mm_casing", 1 ],
+        [ "unprimed_9x18mm_casing", 1 ],
         [ "380_casing", 1 ],
-        [ "50ae_casing", 1 ]
+        [ "unprimed_380_casing", 1 ],
+        [ "50ae_casing", 1 ],
+        [ "unprimed_50ae_casing", 1 ]
       ]
     ]
   },
