@@ -56,7 +56,7 @@
     "id": "ammo_458wm",
     "type": "requirement",
     "//": "Components required for 458 WM ammo",
-    "components": [ [ [ "458wm_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
+    "components": [ [ [ "unprimed_458wm_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
   },
   {
     "id": "ammo_57",
@@ -122,7 +122,7 @@
     "id": "ammo_300blk",
     "type": "requirement",
     "//": "Components required for .300 AAC Blackout ammo",
-    "components": [ [ [ "300blk_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ] ]
+    "components": [ [ [ "unprimed_300blk_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ] ]
   },
   {
     "id": "ammo_460sw",
@@ -156,6 +156,7 @@
     "tools": [
       [
         [ "300blk_casing", -1 ],
+        [ "unprimed_300blk_casing", -1 ],
         [ "223_casing", -1 ],
         [ "unprimed_223_casing", -1 ],
         [ "223", -1 ],
@@ -283,14 +284,21 @@
     "type": "requirement",
     "//": "References needed for boltfaces and magazines using 7.62x39 or derivatives",
     "tools": [
-      [ [ "762_casing", -1 ], [ "762_jhp", -1 ], [ "762_m87", -1 ], [ "reloaded_762_jhp", -1 ], [ "reloaded_762_m87", -1 ] ]
+      [
+        [ "762_casing", -1 ],
+        [ "unprimed_762_casing", -1 ],
+        [ "762_jhp", -1 ],
+        [ "762_m87", -1 ],
+        [ "reloaded_762_jhp", -1 ],
+        [ "reloaded_762_m87", -1 ]
+      ]
     ]
   },
   {
     "id": "762R_casehead",
     "type": "requirement",
     "//": "References needed for boltfaces and magazines using 7.62x54R or derivatives",
-    "tools": [ [ [ "762R_casing", -1 ], [ "762_54R", -1 ], [ "reloaded_762_54R", -1 ] ] ]
+    "tools": [ [ [ "762R_casing", -1 ], [ "unprimed_762R_casing", -1 ], [ "762_54R", -1 ], [ "reloaded_762_54R", -1 ] ] ]
   },
   {
     "id": "explosives_casting_standard",
@@ -361,6 +369,7 @@
         [ "308_casing", 1 ],
         [ "unprimed_308_casing", 1 ],
         [ "300blk_casing", 1 ],
+        [ "unprimed_300blk_casing", 1 ],
         [ "30carbine_casing", 1 ],
         [ "300_casing", 1 ],
         [ "unprimed_300_casing", 1 ],
@@ -368,11 +377,14 @@
         [ "unprimed_4570_casing", 1 ],
         [ "450_casing", 1 ],
         [ "545_casing", 1 ],
+        [ "unprimed_545_casing", 1 ],
         [ "50beowulf_casing", 1 ],
         [ "762R_casing", 1 ],
+        [ "unprimed_762R_casing", 1 ],
         [ "762_51_casing", 1 ],
         [ "unprimed_762_51_casing", 1 ],
         [ "762_casing", 1 ],
+        [ "unprimed_762_casing", 1 ],
         [ "77arisaka_casing", 1 ]
       ]
     ]
@@ -394,6 +406,7 @@
         [ "unprimed_50_casing", 1 ],
         [ "338lapua_casing", 1 ],
         [ "458wm_casing", 1 ],
+        [ "unprimed_458wm_casing", 1 ],
         [ "shot_hull", 1 ],
         [ "410shot_hull", 1 ],
         [ "273x110casing", 1 ],

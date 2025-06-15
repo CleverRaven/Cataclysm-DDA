@@ -165,12 +165,12 @@
     "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "223_casing", 1 ], [ "300blk_casing", 1 ] ] ]
+    "components": [ [ [ "unprimed_223_casing", 1 ], [ "unprimed_300blk_casing", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "300blk_casing",
+    "result": "unprimed_300blk_casing",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -182,12 +182,12 @@
     "book_learn": [ [ "manual_rifle", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "223_casing", 1 ] ] ]
+    "components": [ [ [ "unprimed_223_casing", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "270win_casing",
+    "result": "unprimed_270win_casing",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -199,7 +199,7 @@
     "book_learn": [ [ "manual_rifle", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "3006_casing", 1 ] ] ]
+    "components": [ [ [ "unprimed_3006_casing", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -284,7 +284,7 @@
     "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "762_51_casing", 1 ], [ "308_casing", 1 ], [ "3006_casing", 1 ] ] ]
+    "components": [ [ [ "unprimed_762_51_casing", 1 ], [ "unprimed_308_casing", 1 ], [ "unprimed_3006_casing", 1 ] ] ]
   },
   {
     "type": "recipe",

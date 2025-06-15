@@ -747,7 +747,7 @@
     "//": "1295 mg gunpowder rounded to 13 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "545_casing", 1 ] ],
+      [ [ "unprimed_545_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 13 ], [ "gunpowder_rifle", 13 ] ],
       [ [ "copper", 1 ] ]
@@ -769,7 +769,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "545_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 13 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "unprimed_545_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 13 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_545_ap",
@@ -789,7 +789,7 @@
     "//": "1295 mg gunpowder rounded to 13 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "545_casing", 1 ] ],
+      [ [ "unprimed_545_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 13 ], [ "gunpowder_rifle", 13 ] ],
       [ [ "copper", 1 ] ]
@@ -811,7 +811,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "545_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 13 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "unprimed_545_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 13 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_300blk",
@@ -1197,7 +1197,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "//": "2851 mg gunpowder rounded to 29 100 mg 'pieces'",
     "components": [
-      [ [ "762R_casing", 1 ] ],
+      [ [ "unprimed_762R_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 29 ], [ "gunpowder_rifle", 29 ], [ "gunpowder_large_rifle", 29 ] ],
       [ [ "copper", 2 ] ]
@@ -1219,7 +1219,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 10 ], [ "ammo_bullet", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "762R_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 29 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "unprimed_762R_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 29 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "reloaded_762_m87",
@@ -1239,7 +1239,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "//": "1535 mg gunpowder rounded to 15 100 mg 'pieces'",
     "components": [
-      [ [ "762_casing", 1 ] ],
+      [ [ "unprimed_762_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 15 ], [ "gunpowder_rifle", 15 ] ],
       [ [ "copper", 2 ] ]
@@ -1261,7 +1261,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "762_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 15 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "unprimed_762_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 15 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "reloaded_762_jhp",
@@ -1281,7 +1281,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "//": "1535 mg gunpowder rounded to 15 100 mg 'pieces'",
     "components": [
-      [ [ "762_casing", 1 ] ],
+      [ [ "unprimed_762_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 15 ], [ "gunpowder_rifle", 15 ] ],
       [ [ "copper", 2 ] ]
@@ -1303,7 +1303,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "762_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 15 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "unprimed_762_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 15 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "type": "recipe",

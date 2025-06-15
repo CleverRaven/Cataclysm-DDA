@@ -514,6 +514,16 @@
     "volume": "7ml"
   },
   {
+    "id": "unprimed_545_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless 5.45x39mm casing" },
+    "description": "An empty casing from a 5.45x39mm round, with it's primer removed.",
+    "weight": "4 g",
+    "volume": "7ml"
+  },
+  {
     "id": "57mm_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
@@ -534,6 +544,16 @@
     "volume": "8ml"
   },
   {
+    "id": "unprimed_458wm_casing",
+    "copy-from": "casing",
+    "looks_like": "50beowulf_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .458 WM casing" },
+    "description": "An empty casing from a .458 Winchester Magnum round, with it's primer removed.",
+    "weight": "13 g",
+    "volume": "8ml"
+  },
+  {
     "id": "762R_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",
@@ -544,12 +564,32 @@
     "volume": "10ml"
   },
   {
+    "id": "unprimed_762R_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless 7.62x54mmR casing" },
+    "description": "An empty casing from a 7.62x54mmR round, with it's primer removed.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
     "id": "762_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
     "name": { "str": "7.62x39mm casing" },
     "description": "An empty casing from a 7.62x39mm round.",
+    "weight": "6 g",
+    "volume": "9ml"
+  },
+  {
+    "id": "unprimed_762_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless 7.62x39mm casing" },
+    "description": "An empty casing from a 7.62x39mm round, with it's primer removed.",
     "weight": "6 g",
     "volume": "9ml"
   },
@@ -657,6 +697,16 @@
     "type": "ITEM",
     "name": { "str": ".300BLK casing" },
     "description": "An empty casing from a .300 AAC Blackout round.",
+    "weight": "6 g",
+    "volume": "9ml"
+  },
+  {
+    "id": "unprimed_300blk_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .300BLK casing" },
+    "description": "An empty casing from a .300 AAC Blackout round, with it's primer removed.",
     "weight": "6 g",
     "volume": "9ml"
   },
