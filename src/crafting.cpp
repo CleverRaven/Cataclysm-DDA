@@ -727,8 +727,12 @@ void Character::make_craft_with_command( const recipe_id &id_to_make, int batch_
     if( !recipe_to_make ) {
         return;
     }
+    if( recipe_to_make.is_recipe_steps() ) {
+        *last_craft = craft_command_steps( &recipe_to_make, batch_size, is_long, this, loc );
+    } else {
+        *last_craft = craft_command( &recipe_to_make, batch_size, is_long, this, loc );
+    }
 
-    *last_craft = craft_command( &recipe_to_make, batch_size, is_long, this, loc );
     last_craft->execute();
 }
 
