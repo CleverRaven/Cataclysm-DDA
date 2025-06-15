@@ -7,6 +7,7 @@
 #include <optional>
 #include <sstream>
 #include <unordered_map>
+#include <utility>
 
 #include "assign.h"
 #include "cached_options.h"
@@ -41,6 +42,7 @@
 #include "output.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
+#include "recipe_step.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id_utils.h"
@@ -58,6 +60,9 @@ static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
+
+
+// move to step
 int recipe::get_difficulty( const Character &crafter ) const
 {
     if( is_practice() && skill_used ) {
@@ -68,6 +73,7 @@ int recipe::get_difficulty( const Character &crafter ) const
     }
 }
 
+// move to step
 int recipe::get_skill_cap() const
 {
     if( is_practice() ) {
@@ -77,12 +83,14 @@ int recipe::get_skill_cap() const
     }
 }
 
+// move to step
 time_duration recipe::batch_duration( const Character &guy, int batch, float multiplier,
                                       size_t assistants ) const
 {
     return time_duration::from_turns( batch_time( guy, batch, multiplier, assistants ) / 100 );
 }
 
+// move to step
 static bool helpers_have_proficiencies( const Character &guy, const proficiency_id &prof )
 {
     for( Character *helper : guy.get_crafting_group() ) {
@@ -93,11 +101,13 @@ static bool helpers_have_proficiencies( const Character &guy, const proficiency_
     return false;
 }
 
+// move to step
 time_duration recipe::time_to_craft( const Character &guy, recipe_time_flag flags ) const
 {
     return time_duration::from_moves( time_to_craft_moves( guy, flags ) );
 }
 
+// move to step
 int64_t recipe::time_to_craft_moves( const Character &guy, recipe_time_flag flags ) const
 {
     if( flags == recipe_time_flag::ignore_proficiencies ) {
@@ -106,6 +116,7 @@ int64_t recipe::time_to_craft_moves( const Character &guy, recipe_time_flag flag
     return time * proficiency_time_maluses( guy );
 }
 
+// move to step
 int64_t recipe::batch_time( const Character &guy, int batch, float multiplier,
                             size_t assistants ) const
 {
@@ -151,6 +162,7 @@ int64_t recipe::batch_time( const Character &guy, int batch, float multiplier,
     return static_cast<int64_t>( total_time );
 }
 
+// move (copy?) to step
 bool recipe::has_flag( const std::string &flag_name ) const
 {
     return flags.count( flag_name );
@@ -281,9 +293,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             autolearn_requirements[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
         }
     }
-
     // Mandatory: This recipe's exertion level
-    mandatory( jo, was_loaded, "activity_level", exertion_str );
+    optional<std::string>( jo, was_loaded, "activity_level", exertion_str, "LIGHT_EXERCISE" );
     // Remove after 0.H
     if( exertion_str == "fake" ) {
         debugmsg( "Depreciated activity level \"fake\" found in recipe %s from source %s. Setting activity level to MODERATE_EXERCISE.",
@@ -296,6 +307,10 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             "activity_level", string_format( "Invalid activity level %s", exertion_str ) );
     }
     exertion = it->second;
+
+
+
+
 
     // Never let the player have a debug or NPC recipe
     if( jo.has_bool( "never_learn" ) ) {
@@ -352,7 +367,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     check_blueprint_needs = false;
     bp_build_reqs.reset();
 
-    if( type == "recipe" ) {
+    if( type == "recipe" || type == "recipe_steps" ) {
 
         mandatory( jo, was_loaded, "category", category );
         mandatory( jo, was_loaded, "subcategory", subcategory );
@@ -440,6 +455,13 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 bp_autocalc = true;
             }
         }
+
+        if( type == "recipe_steps" ) {
+            jo.read( "steps", steps );
+            debugmsg( "%i steps", steps.size() );
+
+        }
+
     } else if( type == "practice" ) {
         mandatory( jo, false, "name", name_ );
         mandatory( jo, was_loaded, "category", category );
@@ -664,6 +686,7 @@ void recipe::finalize()
     }
 }
 
+// move to step
 void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs )
 {
     requirements_ = std::accumulate( reqs.begin(), reqs.end(), requirements_ );
@@ -718,6 +741,7 @@ std::string recipe::get_consistency_error() const
     return std::string();
 }
 
+// move to step
 static void set_new_comps( item &newit, int amount, item_components *used, bool is_food,
                            bool is_cooked )
 {
@@ -845,6 +869,7 @@ static void create_byproducts_legacy( const std::map<itype_id, int> &bplist,
     }
 }
 
+// move to step
 static void create_byproducts_group( const item_group_id &bplist, std::vector<item> &bps_out,
                                      int batch )
 {
@@ -864,6 +889,7 @@ static void create_byproducts_group( const item_group_id &bplist, std::vector<it
     bps_out.insert( bps_out.end(), ret.begin(), ret.end() );
 }
 
+// move to step
 std::vector<item> recipe::create_byproducts( int batch ) const
 {
     std::vector<item> bps;
@@ -876,6 +902,7 @@ std::vector<item> recipe::create_byproducts( int batch ) const
     return bps;
 }
 
+// scan steps
 std::map<itype_id, int> recipe::get_byproducts() const
 {
     std::map<itype_id, int> ret;
@@ -898,11 +925,13 @@ std::map<itype_id, int> recipe::get_byproducts() const
     return ret;
 }
 
+// scan steps
 bool recipe::has_byproducts() const
 {
     return !byproducts.empty() || !!byproduct_group;
 }
 
+// scan/move to steps
 bool recipe::in_byproducts( const itype_id &it ) const
 {
     return ( !byproducts.empty() && byproducts.find( it ) != byproducts.end() ) ||
@@ -1192,7 +1221,6 @@ static std::string required_skills_as_string( const std::vector<std::pair<skill_
 std::string recipe::primary_skill_string( const Character &c ) const
 {
     std::vector<std::pair<skill_id, int>> skillList;
-
     if( skill_used ) {
         skillList.emplace_back( skill_used, get_difficulty( c ) );
     }
@@ -1356,6 +1384,11 @@ bool recipe::is_nested() const
 bool recipe::is_blueprint() const
 {
     return !blueprint.is_empty();
+}
+
+bool recipe::is_recipe_steps() const
+{
+    return !steps.empty();
 }
 
 const update_mapgen_id &recipe::get_blueprint() const
@@ -1551,28 +1584,7 @@ void recipe::incorporate_build_reqs()
     }
 }
 
-void recipe_proficiency::deserialize( const JsonObject &jo )
-{
-    load( jo );
-}
 
-void recipe_proficiency::load( const JsonObject &jo )
-{
-    jo.read( "proficiency", id );
-    jo.read( "required", required );
-    jo.read( "time_multiplier", time_multiplier );
-    _skill_penalty_assigned = jo.read( "skill_penalty", skill_penalty );
-    jo.read( "learning_time_multiplier", learning_time_mult );
-    jo.read( "max_experience", max_experience );
-
-    // TODO: Remove at some point
-    if( jo.has_number( "fail_multiplier" ) ) {
-        debugmsg( "Proficiency %s in a recipe uses 'fail_multiplier' instead of 'skill_penalty'",
-                  id.c_str() );
-        jo.read( "fail_multiplier", skill_penalty );
-        skill_penalty -= 1;
-    }
-}
 
 void book_recipe_data::deserialize( const JsonObject &jo )
 {
