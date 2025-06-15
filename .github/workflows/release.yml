@@ -132,13 +132,6 @@ jobs:
             artifact: android-x32
             ext: apk
             content: application/apk 
-          - name: Android Bundle
-            os: ubuntu-latest
-            mxe: none
-            android: bundle
-            artifact: android-bundle
-            ext: aab
-            content: application/aap
           - name: WebAssembly Bundle
             os: ubuntu-latest
             mxe: none
@@ -328,10 +321,6 @@ jobs:
           then
                ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease
                mv ./app/build/outputs/apk/experimental/release/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk 
-          elif [ ${{ matrix.android }} = bundle ]
-          then
-               ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
-               mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
           fi
       - run: |
           gh release upload cdda-experimental-${{ needs.release.outputs.timestamp }} cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
