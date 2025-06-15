@@ -18,6 +18,13 @@
     ]
   },
   {
+    "id": "test_shopping_cart",
+    "type": "vehicle",
+    "name": "Shopping Cart",
+    "blueprint": [ "o" ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_caster_large", "basketlg#cart" ] } ]
+  },
+  {
     "id": "test_rv",
     "type": "vehicle",
     "name": "RV",
