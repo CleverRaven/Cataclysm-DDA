@@ -315,9 +315,6 @@ Snippetize Tshirt variants
 Exodii Ceramics
 Opiate Vitamin
 Add arab and islamic clothes for women
-Spawn batteries in little boxes
-Whip Weapon Proficiencies
-Add 48in wrenches to sewer related locations.
 
 
 ## Interface:
@@ -824,15 +821,10 @@ Mod Conflicts
 [Xedra Evolved] Remove vampires' free bite, vampires take more mutagen
 [MoM] Hostile NPC dialogue updates
 [MoM] Add psychic knacks
-[Magiclysm] Change Power Linkage search data
 [MoM/XE] Add profession: Mobile Task Force: Psi 7 "Sleepwalkers" 
-[Magiclysm] Rework Manatouched's glow mutations
-[Magiclysm] Black Dragons can get Chrysophilia
 [Bombastic Perks] Limit metamagic perks to Magiclysm
 Aftershock: More mundane tools are available in exoplanet
 [MoM] Add possible `Mathematican A57` boss fight to Research Facility
-[MoM] Add small chance of noetic resonance detector to doctor's office
-[Magiclysm] Edit fantasy species weights
 
 
 ## Balance:
@@ -930,7 +922,6 @@ Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
 World sliders rebalanced to offer differing gameplay experiences
 Some recipes have 'hard' proficiency requirements
-Fix weapon stats for awls, scissors
 
 
 ## Bugfixes:
@@ -1286,18 +1277,11 @@ Continue with destination activity if route is empty
 Allow moving out of impassable, aquatic treated as swimming, non-swimmers can walk in shallow water
 Book recipes are now available through camp crafting
 Fix ranged_damage automatically extending
-Hacksaw requires tempering, screwdrivers require forging
 Remove consumed faction camp calorie stores instead of leaving zombie entries
 Special vision save failure
-Fix extra handling modifier from folding stocks
-[MoM] Fix visitor pass revealing roads
 [Bugfixes] Star vampires no longer drain blood when doing no damage
-Resolve several minor Aftershock Json bugs
-Update AR-15 platforms to use new gun copy-from system
-Players learning from NPCs while blind and teaching NPCs while blind.
+Players learning from NPCs while blind and teaching NPCs while blind is now fixed.
 Attempt to increase average autotravel speed when driving on straight roads
-Fix length for the electric lighter
-Audit "Cut slug"
 remove landmines from weird places
 
 
