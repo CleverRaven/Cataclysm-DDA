@@ -111,7 +111,7 @@
     "id": "changeling_autumn_damage_plants_spell",
     "type": "SPELL",
     "name": "Withering Glare",
-    "description": "With a forceful gaze projecting the energies of the dying the year, you can wither plantlife in moments.  This also applies to mobile or even sapient plants. The glamour <color_yellow>does less damage</color> in spring.",
+    "description": "With a forceful gaze projecting the energies of the dying of the year, you can wither plantlife in moments.  This also applies to mobile or even sapient plants.  The glamour <color_yellow>does less damage</color> in spring.",
     "message": "",
     "flags": [ "NO_HANDS", "NO_LEGS", "SILENT" ],
     "magic_type": "xe_fey_seasonal_magick_autumn",
@@ -125,12 +125,35 @@
     "effect": "ter_transform",
     "effect_str": "ter_changeling_autumn_wither_plants",
     "extra_effects": [ { "id": "changeling_autumn_damage_mobile_plants_spell" } ],
+    "min_range": 15,
+    "max_range": 15,
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_controlling_weather_fog') > -1 ? 50 : max( ( 400 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 6) - (u_skill('deduction') * 10)), 150)"
       ]
     },
     "base_casting_time": 25
+  },
+  {
+    "id": "changeling_autumn_damage_mobile_plants_spell",
+    "type": "SPELL",
+    "name": { "str": "Withering Glare Damage Plants", "//~": "NO_I18N" },
+    "description": { "str": "The part of Withering Glare that damages mobile plants.  You shouldn't see it.", "//~": "NO_I18N" },
+    "message": "",
+    "flags": [ "NO_HANDS", "NO_LEGS", "SILENT" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 3,
+    "effect": "attack",
+    "damage_type": "biological",
+    "min_range": 15,
+    "max_range": 15,
+    "targeted_monster_species": [ "ARVORE", "PLANT" ]
   },
   {
     "id": "changeling_autumn_call_mists_spell",
