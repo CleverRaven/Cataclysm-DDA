@@ -176,6 +176,34 @@ static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 
 static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 
+static item_location get_item_location( Character &p, item &it, map *here,
+                                        const tripoint_bub_ms &pos )
+{
+    // Item on a character
+    if( p.has_item( it ) ) {
+        return item_location( p, &it );
+    }
+
+    // Item in a vehicle
+    if( const optional_vpart_position &vp = here->veh_at( pos ) ) {
+        vehicle_cursor vc( vp->vehicle(), vp->part_index() );
+        bool found_in_vehicle = false;
+        vc.visit_items( [&]( const item * e, item * ) {
+            if( e == &it ) {
+                found_in_vehicle = true;
+                return VisitResponse::ABORT;
+            }
+            return VisitResponse::NEXT;
+        } );
+        if( found_in_vehicle ) {
+            return item_location( vc, &it );
+        }
+    }
+
+    // Item on the map
+    return item_location( map_cursor( here, pos ), &it );
+}
+
 std::unique_ptr<iuse_actor> iuse_transform::clone() const
 {
     return std::make_unique<iuse_transform>( *this );
@@ -1303,8 +1331,9 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
 
     here->furn_set( suitable.value(), furn_type, false, false, true );
     it.spill_contents( suitable.value() );
+    get_item_location( *p, it, here, pos ).remove_item();
     p->mod_moves( -to_moves<int>( 2_seconds ) );
-    return 1;
+    return 0;
 }
 
 std::unique_ptr<iuse_actor> deploy_appliance_actor::clone() const
@@ -1342,13 +1371,12 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it,
     // TODO: Use map aware operation when available
     it.spill_contents( suitable.value() );
     // TODO: Use map aware operation when available
-    if( !place_appliance( *here, suitable.value(),
-                          vpart_appliance_from_item( appliance_base ), *p, it ) ) {
-        // failed to place somehow, cancel!!
-        return 0;
+    if( place_appliance( *here, suitable.value(),
+                         vpart_appliance_from_item( appliance_base ), *p, it ) ) {
+        get_item_location( *p, it, here, pos ).remove_item();
+        p->mod_moves( -to_moves<int>( 2_seconds ) );
     }
-    p->mod_moves( -to_moves<int>( 2_seconds ) );
-    return 1;
+    return 0;
 }
 
 std::unique_ptr<iuse_actor> reveal_map_actor::clone() const
@@ -3117,34 +3145,6 @@ bool repair_item_actor::can_use_tool( const Character &p, const item &tool, bool
     }
 
     return true;
-}
-
-static item_location get_item_location( Character &p, item &it, map *here,
-                                        const tripoint_bub_ms &pos )
-{
-    // Item on a character
-    if( p.has_item( it ) ) {
-        return item_location( p, &it );
-    }
-
-    // Item in a vehicle
-    if( const optional_vpart_position &vp = here->veh_at( pos ) ) {
-        vehicle_cursor vc( vp->vehicle(), vp->part_index() );
-        bool found_in_vehicle = false;
-        vc.visit_items( [&]( const item * e, item * ) {
-            if( e == &it ) {
-                found_in_vehicle = true;
-                return VisitResponse::ABORT;
-            }
-            return VisitResponse::NEXT;
-        } );
-        if( found_in_vehicle ) {
-            return item_location( vc, &it );
-        }
-    }
-
-    // Item on the map
-    return item_location( map_cursor( here, pos ), &it );
 }
 
 std::optional<int> repair_item_actor::use( Character *p, item &it,
