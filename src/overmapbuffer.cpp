@@ -1098,19 +1098,9 @@ void overmapbuffer::add_unique_special( const overmap_special_id &id )
     placed_unique_specials.emplace( id );
 }
 
-void overmapbuffer::add_overmap_unique_special( const overmap_special_id &id )
-{
-    if( contains_unique_special( id ) ) {
-        debugmsg( "Overmap unique overmap special placed more than once: %s", id.str() );
-    }
-    placed_overmap_unique_specials.emplace( id );
-    unique_special_count[id]++;
-}
-
 bool overmapbuffer::contains_unique_special( const overmap_special_id &id ) const
 {
-    return placed_unique_specials.find( id ) != placed_unique_specials.end() ||
-           placed_overmap_unique_specials.find( id ) != placed_overmap_unique_specials.end();
+    return placed_unique_specials.find( id ) != placed_unique_specials.end();
 }
 
 static omt_find_params assign_params(
