@@ -87,7 +87,7 @@
     "name": "Glue the cracks.",
     "success_msg": "You thoroughly glue the entire %s.",
     "time": "5 m",
-    "faults_removed": [ "fault_handle_long_cracked" ],
+    "faults_removed": [ "fault_staff_long_cracked" ],
     "mod_damage": -1000,
     "mod_degradation": -20,
     "requirements": [ [ "glue_any", 25 ] ]
