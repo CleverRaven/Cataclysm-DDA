@@ -52,7 +52,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "charges": 1,
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 1 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "soapy_water", -1 ] ] ],
+    "tools": [ [ [ "punch_nail", -1 ] ], [ [ "soapy_water", -1 ] ] ],
     "components": [ [ [ "spent_smpistol_primer", 1 ] ], [ [ "chem_mercury_fulminate", 1 ], [ "chem_lead_azide", 1 ] ] ]
   },
   {
@@ -64,12 +64,12 @@
     "skill_used": "fabrication",
     "skills_required": [ "gun", 3 ],
     "difficulty": 4,
-    "time": "45 m",
+    "time": "5 m",
     "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "charges": 1,
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 1 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "soapy_water", -1 ] ] ],
+    "tools": [ [ [ "punch_nail", -1 ] ], [ [ "soapy_water", -1 ] ] ],
     "components": [ [ [ "spent_lgpistol_primer", 1 ] ], [ [ "chem_mercury_fulminate", 1 ], [ "chem_lead_azide", 1 ] ] ]
   },
   {
@@ -81,12 +81,12 @@
     "skill_used": "fabrication",
     "skills_required": [ "gun", 3 ],
     "difficulty": 4,
-    "time": "45 m",
+    "time": "5 m",
     "book_learn": [ [ "mag_rifle", 3 ], [ "recipe_bullets", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "charges": 1,
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 1 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "soapy_water", -1 ] ] ],
+    "tools": [ [ [ "punch_nail", -1 ] ], [ [ "soapy_water", -1 ] ] ],
     "components": [ [ [ "spent_smrifle_primer", 1 ] ], [ [ "chem_mercury_fulminate", 1 ], [ "chem_lead_azide", 1 ] ] ]
   },
   {
@@ -98,12 +98,12 @@
     "skill_used": "fabrication",
     "skills_required": [ "gun", 3 ],
     "difficulty": 4,
-    "time": "45 m",
+    "time": "5 m",
     "book_learn": [ [ "mag_rifle", 3 ], [ "recipe_bullets", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "charges": 1,
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 1 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "soapy_water", -1 ] ] ],
+    "tools": [ [ [ "punch_nail", -1 ] ], [ [ "soapy_water", -1 ] ] ],
     "components": [ [ [ "spent_lgrifle_primer", 1 ] ], [ [ "chem_mercury_fulminate", 1 ], [ "chem_lead_azide", 1 ] ] ]
   },
   {
@@ -115,12 +115,12 @@
     "skill_used": "fabrication",
     "skills_required": [ "gun", 3 ],
     "difficulty": 4,
-    "time": "45 m",
+    "time": "5 m",
     "book_learn": [ [ "manual_shotgun", 3 ], [ "recipe_bullets", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "charges": 1,
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 1 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "soapy_water", -1 ] ] ],
+    "tools": [ [ [ "punch_nail", -1 ] ], [ [ "soapy_water", -1 ] ] ],
     "components": [ [ [ "spent_shotgun_primer", 1 ] ], [ [ "chem_mercury_fulminate", 1 ], [ "chem_lead_azide", 1 ] ] ]
   },
   {
