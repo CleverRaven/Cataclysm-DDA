@@ -13,6 +13,8 @@ enum class mapgen_parameter_scope {
     // Should be ordered from most general to most specific
     overmap_special,
     omt,
+    // Wants to be equal to omt bc they're evaluated in the same place but that borks enum_to_string
+    smallmap,
     nest,
     last
 };

@@ -19,10 +19,12 @@
 #include "point.h"
 #include "regional_settings.h"
 
-void mapgen_arguments::merge( const mapgen_arguments &other )
+void mapgen_arguments::merge( const mapgen_arguments &other, bool overwrite )
 {
     for( const std::pair<const std::string, cata_variant> &p : other.map ) {
-        map[p.first] = p.second;
+        if( overwrite || map.find( p.first ) == map.end() ) {
+            map[p.first] = p.second;
+        }
     }
 }
 
@@ -45,10 +47,10 @@ size_t std::hash<mapgen_arguments>::operator()( const mapgen_arguments &args ) c
 static const regional_settings dummy_regional_settings;
 
 mapgendata::mapgendata( map &mp, dummy_settings_t )
-    : density_( 0 )
+    : pos_( tripoint_abs_omt::zero )
+    , density_( 0 )
     , when_( calendar::turn )
     , mission_( nullptr )
-    , zlevel_( 0 )
     , region( dummy_regional_settings )
     , m( mp )
     , default_groundcover( region.default_groundcover )
@@ -60,11 +62,11 @@ mapgendata::mapgendata( map &mp, dummy_settings_t )
 
 mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float density,
                         const time_point &when, ::mission *const miss )
-    : terrain_type_( overmap_buffer.ter( over ) )
+    : pos_( over )
+    , terrain_type_( overmap_buffer.ter( over ) )
     , density_( density )
     , when_( when )
     , mission_( miss )
-    , zlevel_( over.z() )
     , predecessors_( overmap_buffer.predecessors( over ) )
     , t_above( overmap_buffer.ter( over + tripoint::above ) )
     , t_below( overmap_buffer.ter( over + tripoint::below ) )
