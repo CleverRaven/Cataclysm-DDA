@@ -13247,6 +13247,11 @@ bool Character::wield( item_location loc, bool remove_old )
     }
 
     if( remove_old && loc ) {
+        // Remove DROPPED_FAVORITES autonote if exists.
+        if( overmap_buffer.note( pos_abs_omt() ) == loc.get_item()->display_name() ) {
+            overmap_buffer.delete_note( pos_abs_omt() );
+        }
+
         loc.remove_item();
     }
     return true;
