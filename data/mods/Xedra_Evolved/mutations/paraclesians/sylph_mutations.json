@@ -543,7 +543,7 @@
     "prereqs": [ "SYLPH_FAST_CAST" ],
     "category": [ "SYLPH" ],
     "threshreq": [ "THRESH_SYLPH" ],
-    "enchantments": [ "sylph_fast_cast2" ]
+    "enchantments": [ "sylph_fast_cast2", { "values": [ { "value": "WEIGHT", "multiply": -0.1 } ] } ]
   },
   {
     "type": "mutation",
