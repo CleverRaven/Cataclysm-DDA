@@ -488,6 +488,23 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "HYDRATING_GOUT_SYMPTOMS_GRACE_PERIOD",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [ { "compare_string": [ "xe_hydrating_gout", { "context_val": "effect" } ] }, { "math": [ "u_val('thirst') < 0" ] } ]
+    },
+    "//": "As incubation is hardcoded, this EOC will reduce hydration to a manageable level when the disease is obtained to avoid quick painful death.",
+    "effect": [
+      { "math": [ "u_val('thirst') == 0" ] },
+      {
+        "u_message": "The illness you caught thrives in water.  It has taken some from you as it spread through your body, but soon it will flood it and magnify its symptoms proportionally to how hydrated you are.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "HYDRATING_GOUT_SYMPTOMS",
     "recurrence": "1 minute",
     "global": true,
@@ -495,14 +512,14 @@
     "deactivate_condition": { "not": { "u_has_effect": "xe_hydrating_gout" } },
     "//": "The multiple EOCs are required until multiple If-Then can be part of a single effect.",
     "effect": [
+      { "math": [ "u_val('thirst')--" ] },
       {
-        "math": [ "u_val('thirst')--" ],
         "run_eocs": [
           {
             "id": "HYDRATING_GOUT_SYMPTOMS_LOW",
             "condition": {
               "and": [
-                { "x_in_y_chance": { "x": 1, "y": { "math": [ "max( 1, u_val('thirst') )" ] } } },
+                { "x_in_y_chance": { "x": 1, "y": { "math": [ "max(1, u_val('thirst'))" ] } } },
                 { "math": [ "u_val('thirst') <= 40" ] }
               ]
             },
@@ -512,17 +529,17 @@
             "id": "HYDRATING_GOUT_SYMPTOMS_MEDIUM",
             "condition": {
               "and": [
-                { "x_in_y_chance": { "x": 1, "y": { "math": [ "max( 1,( 15 + u_val('thirst') )" ] } } },
+                { "x_in_y_chance": { "x": 1, "y": { "math": [ "max(1, 35 + u_val('thirst'))" ] } } },
                 { "math": [ "u_val('thirst') <= 0" ] }
               ]
             },
-            "effect": [ { "u_add_effect": "nausea", "duration": "1 minute" } ]
+            "effect": [ { "u_add_effect": "shakes", "duration": "1 minute" } ]
           },
           {
             "id": "HYDRATING_GOUT_SYMPTOMS_HIGH",
             "condition": {
               "and": [
-                { "x_in_y_chance": { "x": 1, "y": { "math": [ "max( 1, ( 30 + u_val('thirst') )" ] } } },
+                { "x_in_y_chance": { "x": 1, "y": { "math": [ "max(1, 50 + u_val('thirst'))" ] } } },
                 { "math": [ "u_val('thirst') < -20" ] }
               ]
             },
@@ -532,20 +549,15 @@
             "id": "HYDRATING_GOUT_SYMPTOMS_EXTREME",
             "condition": {
               "and": [
-                { "x_in_y_chance": { "x": 1, "y": { "math": [ "max( 1, ( 90 + u_val('thirst') )" ] } } },
+                { "x_in_y_chance": { "x": 1, "y": { "math": [ "max(1, 110 + u_val('thirst'))" ] } } },
                 { "math": [ "u_val('thirst') < -60" ] }
               ]
             },
-            "effect": [ { "u_add_effect": "stunned", "duration": 1 }, { "u_add_effect": "downed", "duration": 1, "force": true } ]
+            "effect": [ { "u_add_effect": "stunned", "duration": 1 } ]
           },
           {
             "id": "HYDRATING_GOUT_SYMPTOMS_LETHAL",
-            "condition": {
-              "and": [
-                { "x_in_y_chance": { "x": 1, "y": { "math": [ "max( 1, ( 200 + u_val('thirst') )" ] } } },
-                { "math": [ "u_val('thirst') < -160" ] }
-              ]
-            },
+            "condition": { "math": [ "u_val('thirst') <= -100" ] },
             "effect": [ { "math": [ "u_hp('torso')--" ] } ]
           }
         ]

@@ -3770,7 +3770,6 @@
     "max_duration": "26 h",
     "min_intensity": 1,
     "max_intensity": 1,
-    "affected_bodyparts": [ "TORSO" ],
     "symptoms": "xe_hydrating_gout"
   },
   {
@@ -3782,8 +3781,8 @@
     ],
     "apply_memorial_log": "Caught a supernatural illness.",
     "remove_memorial_log": "Got over the hydrating gout.",
-    "apply_message": "You feel excessively, uncomfortably hydrated.",
-    "remove_message": "You feel less turgid.",
+    "apply_message": "You feel you're going to drown in your own body water.",
+    "remove_message": "You no longer fear the absence of thirst.",
     "rating": "bad",
     "immune_flags": [ "NO_THIRST" ],
     "blood_analysis_description": "Unknown water-producing pathogen."
