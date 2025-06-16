@@ -3170,6 +3170,11 @@ oter_id overmap::get_default_terrain( int z ) const
     return settings->default_oter[OVERMAP_DEPTH + z].id();
 }
 
+// underlying bitset default constructs to all 0.
+static std::shared_ptr<map_data_summary> impassable_omt( new map_data_summary() );
+static std::shared_ptr<map_data_summary> passable_omt( new map_data_summary(
+            ~impassable_omt->passable ) );
+
 void overmap::init_layers()
 {
     for( int k = 0; k < OVERMAP_LAYERS; ++k ) {
@@ -3178,6 +3183,8 @@ void overmap::init_layers()
         l.terrain.fill( tid );
         l.visible.fill( om_vision_level::unseen );
         l.explored.fill( false );
+        // Verify this isn't copying!
+        l.map_cache.fill( impassable_omt );
     }
 }
 
@@ -3218,6 +3225,12 @@ void overmap::ter_set( const tripoint_om_omt &p, const oter_id &id )
         }
         // We had a predecessor, and it was the same type as the incoming one
         // Don't push another copy.
+    }
+    // Jank to get something usable populated
+    if( id->get_travel_cost_type() == oter_travel_cost_type::impassable ) {
+        set_passable( project_combine( loc, p ), impassable_omt );
+    } else {
+        set_passable( project_combine( loc, p ), passable_omt );
     }
     current_oter = id;
 }
@@ -3602,6 +3615,69 @@ std::vector<point_abs_omt> overmap::find_extras( const int z, const std::string 
         }
     }
     return extra_locations;
+}
+
+bool overmap::passable( const tripoint_abs_ms &p )
+{
+    point_abs_om overmap_coord;
+    tripoint_om_omt omt_coord;
+    std::tie( overmap_coord, omt_coord ) = project_remain<coords::om>( project_to<coords::omt>( p ) );
+    if( overmap_coord != loc ) {
+        return false;
+    }
+    std::shared_ptr<map_data_summary> &ptr = layer[omt_coord.z() +
+            OVERMAP_DEPTH].map_cache[omt_coord.xy()];
+    if( !ptr ) {
+        // Oh no we aren't populated???
+        // Promote to error later.
+        return false;
+    }
+    point_abs_omt omt_origin;
+    tripoint_omt_ms index;
+    std::tie( omt_origin, index ) = project_remain<coords::omt>( p );
+    return ptr->passable[index.y() * 24 + index.x()];
+}
+
+// For internal use only, just overwrite the pointer.
+void overmap::set_passable( const tripoint_abs_omt &p,
+                            std::shared_ptr<map_data_summary> new_passable )
+{
+    point_abs_om overmap_coord;
+    tripoint_om_omt omt_coord;
+    std::tie( overmap_coord, omt_coord ) = project_remain<coords::om>( p );
+    if( overmap_coord != loc ) {
+        return;
+    }
+    std::shared_ptr<map_data_summary> &ptr = layer[omt_coord.z() +
+            OVERMAP_DEPTH].map_cache[omt_coord.xy()];
+    ptr = new_passable;
+}
+
+void overmap::set_passable( const tripoint_abs_omt &p, const std::bitset<24 * 24> &new_passable )
+{
+    point_abs_om overmap_coord;
+    tripoint_om_omt omt_coord;
+    std::tie( overmap_coord, omt_coord ) = project_remain<coords::om>( p );
+    if( overmap_coord != loc ) {
+        return;
+    }
+    std::shared_ptr<map_data_summary> &ptr = layer[omt_coord.z() +
+            OVERMAP_DEPTH].map_cache[omt_coord.xy()];
+    if( !ptr ) {
+        // Oh no we aren't populated???
+        // Promote to error later.
+        return;
+    }
+    ptr.reset( new map_data_summary( new_passable ) );
+}
+
+bool overmap::inbounds( const tripoint_abs_ms &p )
+{
+    point_abs_om overmap_coord;
+    tripoint_om_omt omt_within_overmap;
+    std::tie( overmap_coord, omt_within_overmap ) =
+        project_remain<coords::om>( project_to<coords::omt> ( p ) );
+    return overmap_coord == loc;
 }
 
 bool overmap::inbounds( const tripoint_om_omt &p, int clearance )
@@ -4419,155 +4495,69 @@ void mongroup::wander( const overmap &om )
     }
 }
 
+monster &overmap::spawn_monster( const tripoint_abs_ms &p, mtype_id id )
+{
+    point_abs_om omp;
+    tripoint_om_sm sm;
+    std::tie( omp, sm ) = project_remain<coords::om>( project_to<coords::sm>( p ) );
+    monster spawnee( id );
+    // TODO: smaller horde monster representation with cleaner API.
+    spawnee.set_pos_abs_only( p );
+    std::unordered_multimap<tripoint_om_sm, monster>::iterator result =
+        monster_map.insert( std::make_pair( sm, spawnee ) );
+    return result->second;
+}
+
 /**
  * Moves hordes around the map according to their behaviour and target.
  * Also, emerge hordes from monsters that are outside the player's view. Currently only works for zombies.
  */
 void overmap::move_hordes()
 {
-    // Prevent hordes to be moved twice by putting them in here after moving.
-    decltype( zg ) tmpzg;
-    //MOVE ZOMBIE GROUPS
-    for( auto it = zg.begin(); it != zg.end(); ) {
-        mongroup &mg = it->second;
-        if( !mg.horde || mg.behaviour == mongroup::horde_behaviour::nemesis ) {
-            //nemesis hordes have their own move function
-            ++it;
-            continue;
-        }
-
-        if( mg.behaviour == mongroup::horde_behaviour::none ) {
-            mg.behaviour =
-                one_in( 2 ) ? mongroup::horde_behaviour::city : mongroup::horde_behaviour::roam;
-        }
-
-        // Gradually decrease interest.
-        mg.dec_interest( 1 );
-
-        if( ( mg.abs_pos.xy() == mg.target ) || mg.interest <= 15 ) {
-            mg.wander( *this );
-        }
-
-        // Decrease movement chance according to the terrain we're currently on.
-        const oter_id &walked_into = ter( project_to<coords::omt>( mg.rel_pos() ) );
-        int movement_chance = 1;
-        if( walked_into == oter_forest || walked_into == oter_forest_water ) {
-            movement_chance = 3;
-        } else if( walked_into == oter_forest_thick ) {
-            movement_chance = 6;
-        } else if( walked_into == oter_river_center ) {
-            movement_chance = 10;
-        }
-
-        // If the average horde speed is 50% that of normal, then the chance to
-        // move should be 1/2 what it would be if the speed was 100%.
-        // Since the max speed for a horde is one map space per 2.5 minutes,
-        // choose that to be the speed of the fastest horde monster, which is
-        // roughly 200 at the time of writing. So a horde with average speed
-        // 200 or over will move at max speed, and slower hordes will move less
-        // frequently. The average horde speed for regular Z's is around 100,
-        // or one space per 5 minutes.
-        if( one_in( movement_chance ) && rng( 0, 100 ) < mg.interest && rng( 0, 200 ) < mg.avg_speed() ) {
-            // TODO: Handle moving to adjacent overmaps.
-            if( mg.abs_pos.x() > mg.target.x() ) {
-                mg.abs_pos.x()--;
-            }
-            if( mg.abs_pos.x() < mg.target.x() ) {
-                mg.abs_pos.x()++;
-            }
-            if( mg.abs_pos.y() > mg.target.y() ) {
-                mg.abs_pos.y()--;
-            }
-            if( mg.abs_pos.y() < mg.target.y() ) {
-                mg.abs_pos.y()++;
-            }
-
-            // Erase the group at it's old location, add the group with the new location
-            tmpzg.emplace( mg.rel_pos(), mg );
-            zg.erase( it++ );
-        } else {
-            ++it;
-        }
-    }
-    // and now back into the monster group map.
-    zg.insert( tmpzg.begin(), tmpzg.end() );
-
-    if( get_option<bool>( "WANDER_SPAWNS" ) ) {
-
-        // Re-absorb zombies into hordes.
-        // Scan over monsters outside the player's view and place them back into hordes.
-        auto monster_map_it = monster_map.begin();
-        while( monster_map_it != monster_map.end() ) {
-            const tripoint_om_sm &p = monster_map_it->first;
-            monster &this_monster = monster_map_it->second;
-
-            // Only zombies on z-level 0 may join hordes.
-            if( p.z() != 0 ) {
-                ++monster_map_it;
+    // TODO: throttle processing of monsters, downgrade size of stored monster entry.
+    for( std::unordered_multimap<tripoint_om_sm, monster>::iterator mon = monster_map.begin();
+         mon != monster_map.end(); ) {
+        // If we have a goal, proceed toward it.
+        tripoint_abs_ms destination = mon->second.pos_abs();
+        destination = mon->second.has_dest() ? mon->second.get_dest() : mon->second.wander_pos;
+        if( destination != mon->second.pos_abs() ) {
+            mon->second.mod_moves( mon->second.get_speed() );
+            if( mon->second.get_moves() <= 0 ) {
+                mon++;
                 continue;
             }
-
-            // Check if the monster is a zombie.
-            const mtype &type = *this_monster.type;
-            if(
-                !type.species.count( species_ZOMBIE ) || // Only add zombies to hordes.
-                this_monster.get_speed() <= 30 || // So are very slow zombies, like crawling zombies.
-                !this_monster.will_join_horde( INT_MAX ) || // So are zombies who won't join a horde of any size.
-                !this_monster.mission_ids.empty() // We mustn't delete monsters that are related to missions.
-            ) {
-                // Don't delete the monster, just increment the iterator.
-                ++monster_map_it;
+            std::vector<tripoint_abs_ms> viable_candidates;
+            // TODO: wandering, pathing.
+            tripoint_abs_ms candidate = line_to( mon->second.pos_abs(), destination ).front();
+            // Call up to overmapbuffer in case it needs to dispatch to an adjacent overmap.
+            if( overmap_buffer.passable( candidate ) ) {
+                viable_candidates.push_back( candidate );
+            }
+            if( viable_candidates.empty() ) {
+                // We're stuck.
+                // TODO: try to wander to get around obstacles, or smash.
+                mon++;
                 continue;
             }
-
-            // Only monsters in the open (fields, forests, roads) are eligible to wander
-            const oter_id &om_here = ter( project_to<coords::omt>( p ) );
-            if( !is_ot_match( "field", om_here, ot_match_type::contains ) &&
-                !is_ot_match( "road", om_here, ot_match_type::contains ) &&
-                !is_ot_match( "forest", om_here, ot_match_type::prefix ) &&
-                !is_ot_match( "swamp", om_here, ot_match_type::prefix ) ) {
-                ++monster_map_it;
-                continue;
+            mon->second.set_pos_abs_only( viable_candidates.front() );
+            // TODO: nuanced move costs.
+            mon->second.mod_moves( -100 );
+            if( viable_candidates.front() == mon->second.get_dest() ) {
+                mon->second.unset_dest();
             }
-
-            // Scan for compatible hordes in this area, selecting the largest.
-            mongroup *add_to_group = nullptr;
-            auto group_bucket = zg.equal_range( p );
-            std::vector<monster>::size_type add_to_horde_size = 0;
-            std::for_each( group_bucket.first, group_bucket.second,
-            [&]( std::pair<const tripoint_om_sm, mongroup> &horde_entry ) {
-                mongroup &horde = horde_entry.second;
-
-                // We only absorb zombies into GROUP_ZOMBIE hordes
-                if( horde.horde && !horde.monsters.empty() && horde.type == GROUP_ZOMBIE &&
-                    horde.monsters.size() > add_to_horde_size ) {
-                    add_to_group = &horde;
-                    add_to_horde_size = horde.monsters.size();
+            if( get_map().inbounds( viable_candidates.front() ) ) {
+                monster *placed_monster =
+                    g->place_critter_around( mon->second.type->id, get_map().get_bub( viable_candidates.front() ), 2 );
+                // TODO: this should be bundled into a constructor.
+                if( mon->second.has_dest() ) {
+                    placed_monster->set_dest( mon->second.get_dest() );
                 }
-            } );
-
-            // Check again if the zombie will join the largest horde, now that we know the accurate size.
-            if( this_monster.will_join_horde( add_to_horde_size ) ) {
-                // If there is no horde to add the monster to, create one.
-                if( add_to_group == nullptr ) {
-                    tripoint_abs_sm abs_pos = project_combine( pos(), p );
-                    mongroup m( GROUP_ZOMBIE, abs_pos, 0 );
-                    m.horde = true;
-                    m.monsters.push_back( this_monster );
-                    m.interest = 0; // Ensures that we will select a new target.
-                    add_mon_group( m );
-                } else {
-                    add_to_group->monsters.push_back( this_monster );
-                }
-            } else { // Bad luck--the zombie would have joined a larger horde, but not this one.  Skip.
-                // Don't delete the monster, just increment the iterator.
-                ++monster_map_it;
+                placed_monster->wander_to( mon->second.wander_pos, mon->second.wandf );
+                mon = monster_map.erase( mon );
                 continue;
             }
-
-            // Delete the monster, continue iterating.
-            monster_map_it = monster_map.erase( monster_map_it );
         }
+        mon++;
     }
 }
 
