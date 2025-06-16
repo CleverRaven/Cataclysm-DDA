@@ -473,5 +473,44 @@
         "max( ( 2000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 10 ) - (u_skill('deduction') * 50)), 500)"
       ]
     }
+  },
+  {
+    "id": "changeling_winter_cut_off_fey_nature_spell",
+    "type": "SPELL",
+    "name": "The Soul of Iron",
+    "description": "Draw on the power of winter to recreate the polar night, blotting out the sun and plunging the nearby area into darkness.  This glamour's duration is <color_green>extended</color> in winter.",
+    "message": "You feel",
+    "flags": [ "VERBAL", "NO_LEGS", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 10,
+    "effect": "attack",
+    "effect_str": "effect_changeling_winter_cut_off_fey_nature",
+    "components": "spell_components_changeling_dreamspark_3",
+    "min_duration": {
+      "math": [
+        "( ( 5978 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 2684) + (u_skill('deduction') * 8225) ) ) * (global_what_is_the_season == 4 ? 1.4 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 28028 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 13630) + (u_skill('deduction') * 30212) ) ) * (global_what_is_the_season == 4 ? 1.4 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 600 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 5 ) - (u_skill('deduction') * 10)), 400)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 2000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 10 ) - (u_skill('deduction') * 50)), 500)"
+      ]
+    }
   }
 ]
