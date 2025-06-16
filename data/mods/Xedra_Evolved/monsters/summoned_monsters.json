@@ -119,10 +119,12 @@
     "grab_strength": 70,
     "vision_day": 10,
     "vision_night": 10,
+    "bleed_rate": 0,
+    "regenerates": 1,
     "special_attacks": [
       {
         "id": "ranged_pull",
-        "cooldown": 6,
+        "cooldown": 3,
         "range": 4,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 2 } ],
         "grab_data": { "exclusive_grab": true, "pull_chance": 100, "pull_weight_ratio": 1 },

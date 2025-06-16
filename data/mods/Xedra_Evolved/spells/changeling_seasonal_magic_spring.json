@@ -330,8 +330,8 @@
     "shape": "blast",
     "difficulty": 7,
     "components": "spell_components_changeling_dreamsparks",
-    "effect": "summon",
-    "effect_str": "mon_spring_changeling_bashing_vine",
+    "effect": "noise",
+    "extra_effects": [ { "id": "changeling_spring_summon_smashing_plants_actual_summon_spell" } ],
     "min_damage": {
       "math": [ "( ( 1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.05) + (u_skill('deduction') * 0.25) ) )" ]
     },
@@ -350,14 +350,28 @@
     },
     "min_range": 20,
     "max_range": 20,
-    "min_aoe": 4,
-    "max_aoe": 4,
+    "min_aoe": 3,
+    "max_aoe": 3,
     "base_energy_cost": {
       "math": [
         "max( ( 750 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 6) - (u_skill('deduction') * 12)), 450)"
       ]
     },
     "base_casting_time": 150
+  },
+  {
+    "type": "SPELL",
+    "copy-from": "changeling_spring_summon_smashing_plants_spell",
+    "id": "changeling_spring_summon_smashing_plants_actual_summon_spell",
+    "//": "This is necessary because the valid_targets of the original prevent the spell from being summoned on the ground around it",
+    "name": { "str": "Gwydion's Wrath Summon", "//~": "NO_I18N" },
+    "description": { "str": "The actual summon spell.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "RANDOM_DURATION" ],
+    "valid_targets": [ "ground" ],
+    "condition": { "math": [ "0 == 0" ] },
+    "effect": "summon",
+    "effect_str": "mon_spring_changeling_bashing_vine",
+    "extra_effects": [  ]
   },
   {
     "id": "changeling_spring_healing_increase_while_outside_spell",

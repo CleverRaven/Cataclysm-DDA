@@ -225,7 +225,7 @@
         "then": [ { "u_add_effect": "effect_changeling_summer_ring_of_flames", "duration": 11 } ],
         "else": [
           { "u_lose_effect": "effect_changeling_summer_ring_of_flames" },
-          { "npc_transform_radius": 10, "ter_furn_transform": "ter_changeling_summer_remove_ring_fire" }
+          { "u_transform_radius": 10, "ter_furn_transform": "ter_changeling_summer_remove_ring_fire" }
         ]
       },
       { "run_eocs": "EOC_CHANGELING_SUMMER_RING_OF_FLAMES_CONTINUOUS", "time_in_future": 10 }
