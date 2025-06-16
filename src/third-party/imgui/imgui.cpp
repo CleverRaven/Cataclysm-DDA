@@ -1467,7 +1467,7 @@ ImGuiIO::ImGuiIO()
     for (int i = 0; i < IM_ARRAYSIZE(MouseDownDuration); i++) MouseDownDuration[i] = MouseDownDurationPrev[i] = -1.0f;
     for (int i = 0; i < IM_ARRAYSIZE(KeysData); i++) { KeysData[i].DownDuration = KeysData[i].DownDurationPrev = -1.0f; }
     AppAcceptingEvents = true;
-    PreEditText[0] = NULL;
+    PreEditText[0] = '\0';
 }
 
 void ImGuiIO::SetPreEditText(const char *str)
@@ -1477,7 +1477,7 @@ void ImGuiIO::SetPreEditText(const char *str)
 
 void ImGuiIO::ClearPreEditText()
 {
-    PreEditText[0] = NULL;
+    PreEditText[0] = '\0';
 }
 
 // Pass in translated ASCII characters for text input.
