@@ -7,10 +7,18 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 5 ] ],
-      [ [ "45colt_casing", 1 ] ],
+      [ [ "unprimed_45colt_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 5 ] ],
       [ [ "copper", 2 ] ]
     ]
+  },
+  {
+    "result": "45colt_casing",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "unprimed_45colt_casing", 1 ] ], [ [ "spent_lgpistol_primer", 1 ] ] ]
   }
 ]

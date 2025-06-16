@@ -9,10 +9,18 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
-      [ [ "30carbine_casing", 1 ] ],
+      [ [ "unprimed_30carbine_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 10 ] ],
       [ [ "copper", 1 ] ]
     ]
+  },
+  {
+    "result": "30carbine_casing",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "unprimed_30carbine_casing", 1 ] ], [ [ "spent_smrifle_primer", 1 ] ] ]
   }
 ]

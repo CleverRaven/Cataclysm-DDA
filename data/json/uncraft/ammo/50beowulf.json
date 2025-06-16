@@ -8,7 +8,7 @@
     "components": [
       [ [ "copper", 3 ] ],
       [ [ "lead", 5 ] ],
-      [ [ "50beowulf_casing", 1 ] ],
+      [ [ "unprimed_50beowulf_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_rifle", 17 ] ]
     ]
@@ -19,6 +19,19 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "copper", 6 ] ], [ [ "50beowulf_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder_rifle", 21 ] ] ]
+    "components": [
+      [ [ "copper", 6 ] ],
+      [ [ "unprimed_50beowulf_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "gunpowder_rifle", 21 ] ]
+    ]
+  },
+  {
+    "result": "50beowulf_casing",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "unprimed_50beowulf_casing", 1 ] ], [ [ "spent_lgpistol_primer", 1 ] ] ]
   }
 ]

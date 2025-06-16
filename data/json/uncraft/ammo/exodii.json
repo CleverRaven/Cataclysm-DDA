@@ -9,10 +9,18 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 3 ] ],
-      [ [ "123ln_casing", 1 ] ],
+      [ [ "unprimed_123ln_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 32 ] ],
       [ [ "copper", 2 ] ]
     ]
+  },
+  {
+    "result": "123ln_casing",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "unprimed_123ln_casing", 1 ] ], [ [ "spent_lgrifle_primer", 1 ] ] ]
   }
 ]

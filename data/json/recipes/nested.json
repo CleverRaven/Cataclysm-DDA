@@ -4477,16 +4477,16 @@
     "description": "Recipes related to constructing casings for ammunition.",
     "skill_used": "fabrication",
     "nested_category_data": [
-      "123ln_casing",
-      "270win_casing",
-      "300blk_casing",
-      "357sig_casing",
-      "380_casing",
-      "38_casing",
-      "40_casing",
-      "45_casing",
-      "45colt_casing",
-      "50ae_casing"
+      "unprimed_123ln_casing",
+      "unprimed_270win_casing",
+      "unprimed_300blk_casing",
+      "unprimed_357sig_casing",
+      "unprimed_380_casing",
+      "unprimed_38_casing",
+      "unprimed_40_casing",
+      "unprimed_45_casing",
+      "unprimed_45colt_casing",
+      "unprimed_50ae_casing"
     ],
     "difficulty": 2
   },
