@@ -199,6 +199,8 @@
         { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 12, "flags": { "south_west": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_ns_long" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
         { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } },
+        { "chunks": [ "culvert_west" ], "x": 0, "y": 5, "predecessors": [ "stream" ] },
+        { "chunks": [ "culvert_east" ], "x": 12, "y": 5, "predecessors": [ "stream" ] },
         {
           "chunks": [ "3x3_road_corner_ne" ],
           "x": 1,

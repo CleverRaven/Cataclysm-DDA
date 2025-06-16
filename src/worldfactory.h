@@ -75,7 +75,7 @@ struct WORLD {
         bool save_exists( const save_t &name ) const;
         void add_save( const save_t &name );
 
-        bool save( bool is_conversion = false ) const;
+        bool save() const;
 
         void load_options( const JsonArray &options_json );
         bool load_options();
@@ -83,6 +83,10 @@ struct WORLD {
         bool save_timestamp() const;
         bool load_timestamp();
         bool create_timestamp();
+
+        bool has_compression_enabled() const;
+        bool set_compression_enabled( bool enabled ) const;
+
 };
 
 class mod_manager;

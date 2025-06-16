@@ -1402,7 +1402,7 @@ std::optional<int> reveal_map_actor::use( Character *p, item &it, map *,
     if( it.already_used_by_player( *p ) ) {
         p->add_msg_if_player( _( "There isn't anything new on the %s." ), it.tname() );
         return std::nullopt;
-    } else if( p->fine_detail_vision_mod() > 4 ) {
+    } else if( p->fine_detail_vision_mod() > 4 && !it.has_flag( flag_CAN_USE_IN_DARK ) ) {
         p->add_msg_if_player( _( "It's too dark to read." ) );
         return std::nullopt;
     }

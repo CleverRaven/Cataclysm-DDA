@@ -1942,7 +1942,7 @@ class weapon_inventory_preset: public inventory_selector_preset
 
             append_cell( [ this ]( const item_location & loc ) {
                 if( deals_melee_damage( *loc ) ) {
-                    return good_bad_none( loc->type->m_to_hit );
+                    return good_bad_none( loc->get_to_hit() );
                 }
                 return std::string();
             }, _( "MELEE" ) );

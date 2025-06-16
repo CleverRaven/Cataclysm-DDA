@@ -1338,9 +1338,7 @@
         "topic": "TALK_PERK_MENU_PLAYSTYLE"
       },
       {
-        "condition": {
-          "or": [ { "mod_is_loaded": "magiclysm" }, { "mod_is_loaded": "mindovermatter" }, { "mod_is_loaded": "xedra_evolved" } ]
-        },
+        "condition": { "mod_is_loaded": "magiclysm" },
         "text": "Metamagic Perks",
         "topic": "TALK_PERK_MENU_METAMAGIC"
       },

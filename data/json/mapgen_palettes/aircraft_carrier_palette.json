@@ -222,7 +222,7 @@
       ],
       "п": [ { "item": "inactive_bots_milspec", "chance": 20, "repeat": [ 0, 3 ] } ],
       "q": [
-        { "item": "batteries", "chance": 45, "repeat": [ 0, 8 ] },
+        { "item": "box_of_batteries_unopened", "chance": 45, "repeat": [ 0, 8 ] },
         { "item": "supplies_electronics", "chance": 55, "repeat": [ 0, 2 ] }
       ],
       "B": [
@@ -239,7 +239,7 @@
         { "item": "supplies_metal", "chance": 30, "repeat": [ 0, 3 ] }
       ],
       "Ω": [
-        { "item": "batteries", "chance": 45, "repeat": [ 0, 2 ] },
+        { "item": "box_of_batteries_unopened", "chance": 45, "repeat": [ 0, 4 ] },
         { "item": "supplies_electronics", "chance": 55, "repeat": [ 0, 2 ] },
         { "item": "chem_home", "chance": 60, "repeat": [ 0, 2 ] },
         { "item": "tailoring_fabric", "chance": 30, "repeat": [ 0, 2 ] },

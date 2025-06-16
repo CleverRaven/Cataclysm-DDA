@@ -63,15 +63,15 @@
       "target": "folding_stock",
       "moves": 120
     },
-    "//": "10 is the modifier that stocked weapons normally get",
-    "handling_modifier": -10,
+    "//": "10 is the modifier that stocked weapons normally get, and due to unbalance from having it folded it's a greater malus.",
+    "handling_modifier": -15,
     "flags": [ "FOLDED_STOCK" ]
   },
   {
     "id": "high_end_folding_stock",
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
-    "name": { "str": "modular folding stock" },
+    "name": { "str": "adjustable folding stock" },
     "description": "A multi position, high-end folding stock which reduces length when folded.  Currently unfolded and ready to shoot.",
     "weight": "200 g",
     "volume": "500 ml",
@@ -92,9 +92,9 @@
       "target": "high_end_folding_stock_folded",
       "moves": 120
     },
-    "//": "benefits of a recoil stock and adjustable stock",
+    "//": "benefits of adjustable stock",
     "dispersion_modifier": -1,
-    "handling_modifier": 5,
+    "handling_modifier": 1,
     "min_skills": [ [ "weapon", 3 ] ]
   },
   {
@@ -111,9 +111,9 @@
       "target": "high_end_folding_stock",
       "moves": 120
     },
-    "//": "10 is the modifier that stocked weapons normally get",
+    "//": "10 is the modifier that stocked weapons normally get, and due to unbalance from having it folded it's a greater malus.",
     "dispersion_modifier": 0,
-    "handling_modifier": -10,
+    "handling_modifier": -15,
     "flags": [ "FOLDED_STOCK" ]
   },
   {
@@ -133,7 +133,6 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "handling_modifier": 2,
     "mod_targets": [ "pistol", "smg", "rifle", "shotgun" ],
     "use_action": {
       "type": "transform",
@@ -159,7 +158,7 @@
       "target": "wire_stock",
       "moves": 120
     },
-    "//": "10 is the modifier that stocked weapons normally get",
+    "//": "10 is the modifier that stocked weapons normally get, but due to it being inline it has no imbalance malus..",
     "handling_modifier": -10,
     "flags": [ "COLLAPSED_STOCK", "IRREMOVABLE" ]
   },
@@ -237,7 +236,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_targets": [ "pistol", "crossbow" ],
+    "mod_targets": [ "pistol" ],
     "handling_modifier": 6,
     "min_skills": [ [ "weapon", 2 ] ]
   },
@@ -359,7 +358,6 @@
       "target": "under_folding_stock_folded",
       "moves": 120
     },
-    "handling_modifier": 8,
     "min_skills": [ [ "weapon", 3 ] ]
   },
   {
@@ -406,7 +404,6 @@
       "target": "sub2000_folding_mechanism_folded",
       "moves": 300
     },
-    "handling_modifier": 10,
     "min_skills": [ [ "weapon", 3 ] ]
   },
   {
@@ -435,7 +432,6 @@
       "target": "sub2000_folding_mechanism",
       "moves": 300
     },
-    "handling_modifier": -10,
     "//": "This mod shouldn't get a folding stock flag. The deployed version of this mod adds extra length to the base gun item, which this folded version removes to simulate the greatly shorter length of the sub2000 when collapsed. Adding a folding stock flag will remove another 20 cm from the base gun, making it only 19 cm long."
   },
   {

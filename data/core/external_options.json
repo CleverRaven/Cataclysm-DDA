@@ -621,5 +621,37 @@
     "//": "Scales experience gained from practicing proficiencies.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables proficiency training except for NPC training.",
     "stype": "float",
     "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SEASON_LENGTH",
+    "//": "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results.",
+    "stub": true,
+    "stype": "int",
+    "value": 91
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CONSTRUCTION_SCALING",
+    "//": "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length.",
+    "stub": true,
+    "stype": "int",
+    "value": 100
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "ETERNAL_SEASON",
+    "//": "If true, keep the initial season for ever.",
+    "stub": true,
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "ETERNAL_TIME_OF_DAY",
+    "//": "Day/night cycle settings.  'normal' sets a normal cycle.  'day' sets eternal day.  'night' sets eternal night.",
+    "stub": true,
+    "stype": "string_input",
+    "value": "normal"
   }
 ]

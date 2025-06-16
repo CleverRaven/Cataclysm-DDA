@@ -130,11 +130,12 @@
   },
   {
     "id": "mossberg_590",
-    "copy-from": "gun_base_shotgun_semi",
+    "copy-from": "gun_base_shotgun_manual",
     "looks_like": "mossberg_500",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "9-round combat shotgun" },
+    "//": "Based on https://www.mossberg.com/590a1-9-shot-51663.html",
     "description": "A military oriented spin on the classic pump-action shotgun recipe, this firearm features an extended magazine tube capable of fielding nine rounds of 12 gauge shotshells.  Sporting a heavier barrel and a bayonet lug, it makes for a highly intimidating weapon, as well as a satisfying answer to most of the nasties you're liable to find in the post-apocalypse.",
     "variant_type": "gun",
     "variants": [
@@ -142,20 +143,16 @@
         "id": "mossberg_590",
         "name": { "str": "Mossberg 590A1 shotgun" },
         "description": "The Mossberg 590A1 is a military and police oriented version of the Mossberg 500.  It features a heavier barrel, a bayonet lug, and a different magazine tube for easier cleaning and maintenance."
-      },
-      {
-        "id": "slp",
-        "name": { "str": "FN SLP MK I shotgun" },
-        "description": "An eminently practical semi-automatic shotgun, Fabrique Nationale's Mk I iteration of their Self-Loading Police brings together an 8-round magazine tube, accessory-ready Picatinny rail, and comfortably rubber-padded grip surfaces.  Per the company's claims, it can dispense 8 servings of 12-gauge-diameter medicine in under a second, and, while you're not sure if that's true or even a good thing, the gun's certain to serve as a good educational tool for disciplining the dead."
       }
     ],
     "ascii_picture": "mossberg590",
-    "weight": "3289 g",
+    "weight": "3175 g",
     "volume": "2548 ml",
-    "longest_side": "1043 mm",
+    "longest_side": "1054 mm",
     "barrel_length": "508 mm",
-    "//": "The true dimensions of the FN SLP are 1092 mm overall length, 558mm barrel length, and 3583 gramme weight.",
-    "price": "700 USD",
+    "price": "910 USD",
+    "material": [ "steel", "aluminum", "plastic" ],
+    "dispersion": 325,
     "clip_size": 9,
     "valid_mod_locations": [
       [ "barrel", 1 ],
@@ -224,11 +221,6 @@
         "id": "mossberg_930",
         "name": { "str": "Mossberg 930 SPX shotgun" },
         "description": "This semi-automatic offering from Mossberg features a recoil reducing gas system, rifle style sights and a factory-installed Picatinny rail.  Affordable pricing and decent ergonomics make this a popular entry-level 3-gun shotgun."
-      },
-      {
-        "id": "m1014",
-        "name": { "str": "M1014 shotgun" },
-        "description": "Benelli's first gas-operated shotgun, featuring dual pistons for enhanced reliability with various loads and a collapsible buttstock that reduces length by almost 8 inches.  Adopted in 1999 as the M1014 Joint Service Combat Shotgun, the Benelli M4 is one of the finest combat shotguns available."
       }
     ],
     "ascii_picture": "mossberg930sxp",
@@ -254,6 +246,46 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 } } ]
+  },
+  {
+    "id": "m1014",
+    "//": "Based on https://www.benelliusa.com/shotguns/m1014-shotguns",
+    "copy-from": "gun_base_shotgun_semi",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "5-round auto-loading combat shotgun" },
+    "description": "A semi-automatic smooth-bore shotgun, this weapon features respectable ergonomics and room for 5 shotshells within its tubular magazine.  Suitable both for competition shooting and offensive combat roles, this firearm is faster to shoot than a traditional pump-action model, with the caveat that it's harder to maintain than its manually operated siblings as it relies on an internal gas system to cycle rounds rather than the user's own physical input.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m1014",
+        "name": { "str": "M1014 shotgun" },
+        "description": "Benelli's first gas-operated shotgun, featuring dual pistons for enhanced reliability with various loads and a collapsible buttstock that reduces length by almost 8 inches.  Adopted in 1999 as the M1014 Joint Service Combat Shotgun, the Benelli M4 is one of the finest combat shotguns available."
+      }
+    ],
+    "ascii_picture": "mossberg930sxp",
+    "weight": "3629 g",
+    "volume": "2623 ml",
+    "longest_side": "1016 mm",
+    "barrel_length": "470 mm",
+    "looks_like": "remington_870",
+    "price": "2 kUSD 299 USD",
+    "material": [ "steel", "aluminum", "plastic" ],
+    "dispersion": 345,
+    "clip_size": 5,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "pipe_double_shotgun",
@@ -313,22 +345,6 @@
         "id": "remington_870",
         "name": { "str": "Remington 870 Wingmaster shotgun" },
         "description": "With over 10 million made, the Remington 870 is one of the most popular shotguns on the market, and finds use with hunters and law enforcement agencies alike thanks to its high accuracy and muzzle velocity.  This one is a 28 inch barreled model for hunting fowl and game."
-      },
-      {
-        "id": "remington_1100",
-        "name": { "str": "Remington 1100 competition shotgun" },
-        "description": "This semi-automatic shotgun features a self compensating gas system that will feed a wide array of shells while also reducing recoil.  Introduced in 1963, it is favored by law enforcement, hunters and competition shooters, and has been the best-selling autoloading shotgun in U.S. history.  This is the nickel finished, teflon coated competition model, with a full length magazine tube and 30 inch barrel.",
-        "ascii_picture": "remington1100"
-      },
-      {
-        "id": "browning_a5",
-        "name": { "str": "Browning Auto 5 shotgun" },
-        "description": "This humble looking shotgun was the earliest successful semi-automatic shotgun, and the second most successful in U.S. history, with over 2.7 million made between 1902 and 1998.  The recoil tuning mechanism under the handguard and long dwell time of the action make for pleasant shooting."
-      },
-      {
-        "id": "ithaca37",
-        "name": { "str": "Ithaca M37 Featherlight shotgun" },
-        "description": "A seasoned veteran of America's sporting culture, the Ithaca M37 is the oldest pump-action shotgun still in active production.  The M37 has served hunters and officers for over eight decades, featuring a bottom-feeding and ejecting design that keeps the action sealed from the elements.  An heirloom that retains its utility all the way from pre-Cataclysm hunting expeditions up into the depths of alien environments, it would be wise to keep it handy, for close encounters."
       }
     ],
     "ascii_picture": "remington870",
@@ -355,6 +371,127 @@
     "clip_size": 5,
     "barrel_volume": "229 ml",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
+  },
+  {
+    "id": "ithaca37",
+    "//": "Based on https://ithacagun.com/product/model-37-featherlight/",
+    "copy-from": "gun_base_shotgun_manual",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "4-round hunting shotgun" },
+    "description": "A 4-round pump-action shotgun, ones like these have existed for many decades, and are still very popular due to their reliability and lethality, whether for hunting or home defense.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ithaca37",
+        "name": { "str": "Ithaca M37 Featherlight shotgun" },
+        "description": "A seasoned veteran of America's sporting culture, the Ithaca M37 is the oldest pump-action shotgun still in active production.  The M37 has served hunters and officers for over eight decades, featuring a bottom-feeding and ejecting design that keeps the action sealed from the elements.  An heirloom that retains its utility all the way from pre-Cataclysm hunting expeditions up into the depths of alien environments, it would be wise to keep it handy, for close encounters."
+      }
+    ],
+    "weight": "3447 g",
+    "volume": "2487 ml",
+    "longest_side": "1210 mm",
+    "barrel_length": "711 mm",
+    "price": "587 USD",
+    "material": [ "steel", "wood" ],
+    "dispersion": 305,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
+    "clip_size": 4,
+    "barrel_volume": "229 ml",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 4 } } ]
+  },
+  {
+    "id": "browning_a5",
+    "//": "Based on https://www.browning.com/products/firearms/shotguns/a5/a5-hunter.html",
+    "copy-from": "gun_base_shotgun_semi",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "4-round semi-auto hunting shotgun" },
+    "description": "A reliable 4 round semi-automatic hunting shotgun, capable of delivering it's lethal shot quicker than a pump action.  However, it cannot cycle lower power loads like birdshot.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "browning_a5",
+        "name": { "str": "Browning Auto 5 shotgun" },
+        "description": "This humble looking shotgun was the earliest successful semi-automatic shotgun, and the second most successful in U.S. history, with over 2.7 million made between 1902 and 1998.  The recoil tuning mechanism under the handguard and long dwell time of the action make for pleasant shooting.  However, despite the name, it only fits 4 in the tube and not 5."
+      }
+    ],
+    "weight": "3033 g",
+    "volume": "2487 ml",
+    "longest_side": "1220 mm",
+    "barrel_length": "660 mm",
+    "price": "1 kUSD 669 USD 99 cent",
+    "material": [ "steel", "wood" ],
+    "dispersion": 305,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "clip_size": 4,
+    "barrel_volume": "229 ml",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 4 } } ]
+  },
+  {
+    "id": "remington_1100",
+    "copy-from": "gun_base_shotgun_semi",
+    "//": "Based on https://www.remarms.com/shotguns/autoloading/model-1100/model-1100-sporting-series.",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "4-round semi-auto fowling shotgun" },
+    "description": "This is a 4 round semi-automatic shotgun, with the ability to automatically cycle birdshot as well.  Not like birdshot will do you much good against the undead.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "remington_1100",
+        "name": { "str": "Remington 1100 competition shotgun" },
+        "description": "This semi-automatic shotgun features a self compensating gas system that will feed a wide array of shells while also reducing recoil.  Introduced in 1963, it is favored by law enforcement, hunters and competition shooters, and has been the best-selling autoloading shotgun in U.S. history.  This is the nickel finished, teflon coated competition model, with a full length magazine tube and 30 inch barrel.",
+        "ascii_picture": "remington1100"
+      }
+    ],
+    "weight": "3629 g",
+    "volume": "2487 ml",
+    "longest_side": "1219 mm",
+    "barrel_length": "711 mm",
+    "price": "587 USD",
+    "material": [ "steel", "wood" ],
+    "dispersion": 305,
+    "min_cycle_recoil": 1400,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
+    "clip_size": 4,
+    "barrel_volume": "229 ml",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 4 } } ]
   },
   {
     "id": "remington_870_breacher",
@@ -768,7 +905,7 @@
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
-      [ "sights", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock accessory", 1 ],
       [ "stock mount", 1 ],
@@ -790,12 +927,6 @@
         "id": "m2_tac",
         "name": { "str": "Benelli M2 Tactical shotgun" },
         "description": "Where the full-sized Benelli M2 shotgun is a hefty stallion, this mission-oriented tactical iteration is a trim race horse, with an 18.5-inch barrel, dimpled grip surfaces, and an underslung pistol grip.  Ghost-ring aperture-sights, a recoil-padded buttstock, and a cryogenically-treated barrel all join hands to ensure that you can carry out your post-Cataclysm farming duties: seeding lead shot into fields of zombies."
-      },
-      {
-        "id": "mossberg_500_security",
-        "name": { "str": "Mossberg 500 Security shotgun" },
-        "description": "The Mossberg 500 is a popular series of pump-action shotguns, often acquired for military use.  It is noted for its high durability and low recoil.  This one is fitted with an 18.5 inch barrel.",
-        "ascii_picture": "mossberg500_sec"
       }
     ],
     "volume": "2519  ml",
@@ -809,6 +940,18 @@
     "barrel_volume": "0 ml",
     "default_mods": [ "recoil_stock" ],
     "//3": "Benelli's assumed to be coming with the ComforTech buttstock fitted.",
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
