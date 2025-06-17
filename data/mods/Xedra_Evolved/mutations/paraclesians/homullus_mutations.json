@@ -946,6 +946,6 @@
     "description": "Once per season, you may engage in a strenuous ritual to reconstruct the mind of someone whose mind was destroyed in the Cataclysm.",
     "category": [ "HOMULLUS" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
-    "spells_learned": [ [ "rebuild_mind", 1 ] ]
+    "spells_learned": [ [ "homullus_spell_rebuild_mind", 1 ] ]
   }
 ]
