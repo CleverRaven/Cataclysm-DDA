@@ -62,9 +62,7 @@
     "faults_removed": [
       "fault_staff_short_chipping",
       "fault_staff_short_cracked",
-      "fault_staff_short_broken_half",
-      "fault_staff_short_broken",
-      "fault_staff_short_off"
+      "fault_staff_short_broken"
     ],
     "mod_damage": -1000,
     "mod_degradation": -100,
@@ -102,8 +100,7 @@
       "fault_staff_long_chipping",
       "fault_staff_long_cracked",
       "fault_staff_long_broken_half",
-      "fault_staff_long_broken",
-      "fault_staff_long_off"
+      "fault_staff_long_broken"
     ],
     "mod_damage": -1000,
     "mod_degradation": -100,
