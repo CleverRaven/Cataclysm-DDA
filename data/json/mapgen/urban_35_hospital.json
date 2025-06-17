@@ -82,7 +82,7 @@
         "N": { "item": "hospital_lab", "chance": 40 },
         "d": { "item": "dissection", "chance": 30 },
         "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
@@ -190,7 +190,7 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
@@ -315,7 +315,7 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
@@ -422,7 +422,7 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
@@ -531,7 +531,7 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
@@ -652,7 +652,7 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
@@ -774,7 +774,7 @@
           { "item": "SUS_pantry", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "groce_condiment", "chance": 20, "repeat": [ 1, 2 ] }
         ],
-        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
         "K": [
           { "item": "doctors_books", "chance": 100, "repeat": [ 1, 2 ] },
           { "item": "lab_bookshelves", "chance": 40, "repeat": [ 1, 2 ] }

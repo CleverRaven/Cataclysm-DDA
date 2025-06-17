@@ -8,7 +8,12 @@
         "run_eocs": [
           {
             "id": "EOC_LIEUTENANT_SPAWN_SHADOW_PREMONITION",
-            "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 1" ] },
+            "condition": {
+              "or": [
+                { "math": [ "u_spell_level('clair_danger_sense') >= 1" ] },
+                { "math": [ "u_spell_level('clair_danger_sense_knack') >= 1" ] }
+              ]
+            },
             "effect": [
               {
                 "u_message": "The darkness takes on a palpable sense of menace.  Something terrible is coming.",
@@ -17,7 +22,7 @@
               },
               {
                 "run_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_NOW",
-                "time_in_future": { "math": [ "(u_spell_level('clair_danger_sense') * 5) + 10" ] }
+                "time_in_future": { "math": [ "( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 5) + 10" ] }
               }
             ],
             "false_effect": [ { "run_eocs": [ "EOC_LIEUTENANT_SPAWN_SHADOW_NOW" ] } ]
@@ -46,7 +51,12 @@
         "run_eocs": [
           {
             "id": "EOC_CAUSE_EARLY_PORTAL_STORM_PREMONITION",
-            "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 1" ] },
+            "condition": {
+              "or": [
+                { "math": [ "u_spell_level('clair_danger_sense') >= 1" ] },
+                { "math": [ "u_spell_level('clair_danger_sense_knack') >= 1" ] }
+              ]
+            },
             "effect": [
               {
                 "u_message": "The air hums like a wire stretched taut and on the verge of breaking.  Any moment, something is going to snap.",
@@ -55,7 +65,7 @@
               },
               {
                 "run_eocs": "EOC_CAUSE_EARLY_PORTAL_STORM_ACTUAL",
-                "time_in_future": { "math": [ "(u_spell_level('clair_danger_sense') * 15) + 15" ] }
+                "time_in_future": { "math": [ "( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 15) + 15" ] }
               }
             ],
             "false_effect": [ { "run_eocs": [ "EOC_CAUSE_EARLY_PORTAL_STORM_ACTUAL" ] } ]
@@ -105,7 +115,12 @@
         "run_eocs": [
           {
             "id": "EOC_BANDIT_ASSASSIN_1_PREMONITION",
-            "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 1" ] },
+            "condition": {
+              "or": [
+                { "math": [ "u_spell_level('clair_danger_sense') >= 1" ] },
+                { "math": [ "u_spell_level('clair_danger_sense_knack') >= 1" ] }
+              ]
+            },
             "effect": [
               {
                 "u_message": "You feel hostile eyes watching you and rapidly getting closer.  Someone has it in for you.",
@@ -114,7 +129,7 @@
               },
               {
                 "run_eocs": "EOC_BANDIT_ASSASSIN_1_ACTUAL_FAR",
-                "time_in_future": { "math": [ "(u_spell_level('clair_danger_sense') * 4) + 5" ] }
+                "time_in_future": { "math": [ "( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 4) + 5" ] }
               }
             ],
             "false_effect": [ { "run_eocs": [ "EOC_BANDIT_ASSASSIN_1_ACTUAL_NEAR" ] } ]
@@ -178,7 +193,12 @@
         "run_eocs": [
           {
             "id": "EOC_BANDIT_ASSASSIN_2_PREMONITION",
-            "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 1" ] },
+            "condition": {
+              "or": [
+                { "math": [ "u_spell_level('clair_danger_sense') >= 1" ] },
+                { "math": [ "u_spell_level('clair_danger_sense_knack') >= 1" ] }
+              ]
+            },
             "effect": [
               {
                 "u_message": "You feel hostile eyes watching you and rapidly getting closer.  Someone has it in for you.",
@@ -187,7 +207,7 @@
               },
               {
                 "run_eocs": "EOC_BANDIT_ASSASSIN_2_ACTUAL_NEAR",
-                "time_in_future": { "math": [ "(u_spell_level('clair_danger_sense') * 4) + 5" ] }
+                "time_in_future": { "math": [ "( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 4) + 5" ] }
               }
             ],
             "false_effect": [ { "run_eocs": [ "EOC_BANDIT_ASSASSIN_2_ACTUAL_FAR" ] } ]
@@ -252,7 +272,12 @@
         "run_eocs": [
           {
             "id": "EOC_BANDIT_ASSASSIN_3_PREMONITION",
-            "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 1" ] },
+            "condition": {
+              "or": [
+                { "math": [ "u_spell_level('clair_danger_sense') >= 1" ] },
+                { "math": [ "u_spell_level('clair_danger_sense_knack') >= 1" ] }
+              ]
+            },
             "effect": [
               {
                 "u_message": "You feel several sets of hostile eyes watching you and rapidly getting closer.  Someone has it in for you.",
@@ -261,7 +286,7 @@
               },
               {
                 "run_eocs": "EOC_BANDIT_ASSASSIN_3_ACTUAL_NEAR",
-                "time_in_future": { "math": [ "(u_spell_level('clair_danger_sense') * 4) + 5" ] }
+                "time_in_future": { "math": [ "( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 4) + 5" ] }
               }
             ],
             "false_effect": [ { "run_eocs": [ "EOC_BANDIT_ASSASSIN_3_ACTUAL_FAR" ] } ]
@@ -326,7 +351,12 @@
         "run_eocs": [
           {
             "id": "EOC_OLD_GUARD_ASSASSIN_PREMONITION",
-            "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 1" ] },
+            "condition": {
+              "or": [
+                { "math": [ "u_spell_level('clair_danger_sense') >= 1" ] },
+                { "math": [ "u_spell_level('clair_danger_sense_knack') >= 1" ] }
+              ]
+            },
             "effect": [
               {
                 "u_message": "You feel several sets of hostile eyes watching you and rapidly getting closer.  Someone has it in for you.",
@@ -335,7 +365,7 @@
               },
               {
                 "run_eocs": "EOC_OLD_GUARD_ASSASSIN_ACTUAL_NEAR",
-                "time_in_future": { "math": [ "(u_spell_level('clair_danger_sense') * 4) + 5" ] }
+                "time_in_future": { "math": [ "( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 4) + 5" ] }
               }
             ],
             "false_effect": [ { "run_eocs": [ "EOC_OLD_GUARD_ASSASSIN_ACTUAL_FAR" ] } ]

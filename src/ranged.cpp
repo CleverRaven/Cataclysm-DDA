@@ -307,7 +307,7 @@ class target_ui
         // List of available weapon aim types
         std::vector<aim_type> aim_types;
         // Currently selected aim mode
-        std::vector<aim_type>::iterator aim_mode;
+        std::vector<aim_type>::iterator aim_mode{ aim_types.begin() };
         // 'Recoil' value the player will reach if they
         // start aiming at cursor position. Equals player's
         // 'recoil' while they are actively spending moves to aim,
@@ -3926,7 +3926,7 @@ void target_ui::draw_ui_window()
 
 aim_type target_ui::get_selected_aim_type() const
 {
-    return this->aim_mode != this->aim_types.cend() ? *( this->aim_mode ) : get_default_aim_type();
+    return this->aim_mode != this->aim_types.end() ? *( this->aim_mode ) : get_default_aim_type();
 }
 
 int target_ui::get_sight_dispersion() const

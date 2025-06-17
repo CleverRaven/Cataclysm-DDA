@@ -69,6 +69,80 @@
         "topic": "TALK_CHRONOMANCER_SPELL_LEVEL_SELECT"
       },
       {
+        "condition": {
+          "and": [
+            { "math": [ "u_spell_level('xedra_chronomancer_time_freeze_target') > 0" ] },
+            { "math": [ "u_spell_level('xedra_chronomancer_time_freeze_target') < xedra_chronomancer_level(1) " ] }
+          ]
+        },
+        "text": "Level [<spell_name:xedra_chronomancer_time_freeze_target>]",
+        "//": "Insight cost is difficulty x spell level for all chronomancy spells.",
+        "effect": [
+          {
+            "math": [
+              "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_time_freeze_target') * u_spell_difficulty('xedra_chronomancer_time_freeze_target')"
+            ]
+          },
+          { "math": [ "_chronomancer_menu_difficulty = 3" ] },
+          { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_time_freeze_target')" ] },
+          {
+            "set_string_var": "<spell_name:xedra_chronomancer_time_freeze_target>",
+            "target_var": { "context_val": "chronomancer_menu_choice_name" }
+          },
+          {
+            "set_string_var": "<spell_description:xedra_chronomancer_time_freeze_target>",
+            "target_var": { "context_val": "chronomancer_menu_choice_description" }
+          },
+          {
+            "set_string_var": "xedra_chronomancer_time_freeze_target",
+            "target_var": { "context_val": "chronomancer_menu_choice_id" }
+          },
+          {
+            "set_string_var": "Requires <u_val:chronomancer_menu_insight_cost> Insight",
+            "target_var": { "context_val": "chronomancer_menu_requirement_description" }
+          },
+          { "set_condition": "chronomancer_menu_spell_conditions", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_CHRONOMANCER_SPELL_LEVEL_SELECT"
+      },
+      {
+        "condition": {
+          "and": [
+            { "math": [ "u_spell_level('xedra_chronomancer_normalize_time') > 0" ] },
+            { "math": [ "u_spell_level('xedra_chronomancer_normalize_time') < xedra_chronomancer_level(1) " ] }
+          ]
+        },
+        "text": "Level [<spell_name:xedra_chronomancer_normalize_time>]",
+        "//": "Insight cost is difficulty x spell level for all chronomancy spells.",
+        "effect": [
+          {
+            "math": [
+              "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_normalize_time') * u_spell_difficulty('xedra_chronomancer_normalize_time')"
+            ]
+          },
+          { "math": [ "_chronomancer_menu_difficulty = 3" ] },
+          { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_normalize_time')" ] },
+          {
+            "set_string_var": "<spell_name:xedra_chronomancer_normalize_time>",
+            "target_var": { "context_val": "chronomancer_menu_choice_name" }
+          },
+          {
+            "set_string_var": "<spell_description:xedra_chronomancer_normalize_time>",
+            "target_var": { "context_val": "chronomancer_menu_choice_description" }
+          },
+          {
+            "set_string_var": "xedra_chronomancer_normalize_time",
+            "target_var": { "context_val": "chronomancer_menu_choice_id" }
+          },
+          {
+            "set_string_var": "Requires <u_val:chronomancer_menu_insight_cost> Insight",
+            "target_var": { "context_val": "chronomancer_menu_requirement_description" }
+          },
+          { "set_condition": "chronomancer_menu_spell_conditions", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_CHRONOMANCER_SPELL_LEVEL_SELECT"
+      },
+      {
         "condition": { "math": [ "u_spell_level('xedra_chronomancer_entropic_burst') <= 0" ] },
         "text": "Learn [<spell_name:xedra_chronomancer_entropic_burst>]",
         "effect": [

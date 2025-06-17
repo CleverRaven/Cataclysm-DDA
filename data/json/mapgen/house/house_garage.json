@@ -15,7 +15,7 @@
         ".o         |+|~~~~~~~~#.",
         ".o7 AAA    |>|~~~~~~~~#.",
         ".#4 JJJJ   |||~~~~~~~~#.",
-        ".#5         6|~~~~~~~~#.",
+        ".#5         6|é~~~~~~~#.",
         ".#1OF23Y    6|qqqqqqqq#.",
         ".#||||||   |||||||||||#.",
         ".#B  S|N    RR|d    hI#.",
@@ -40,6 +40,7 @@
         "G": "t_sidewalk",
         "K": "t_sidewalk",
         "~": "t_thconc_floor",
+        "é": "t_thconc_floor",
         "q": "t_thconc_floor"
       },
       "furniture": { "!": "f_region_flower" },

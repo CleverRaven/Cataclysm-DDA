@@ -170,6 +170,7 @@ namespace io
             case enchant_vals::mod::STAMINA_REGEN_MOD: return "STAMINA_REGEN_MOD";
             case enchant_vals::mod::MOVEMENT_EXERTION_MODIFIER: return "MOVEMENT_EXERTION_MODIFIER";
             case enchant_vals::mod::WEAKPOINT_ACCURACY: return "WEAKPOINT_ACCURACY";
+            case enchant_vals::mod::WEIGHT: return "WEIGHT";
             case enchant_vals::mod::MOTION_ALARM: return "MOTION_ALARM";
             case enchant_vals::mod::NUM_MOD: break;
         }
@@ -777,6 +778,7 @@ void enchant_cache::serialize( JsonOut &jsout ) const
         for( const special_vision_descriptions &struc_desc : struc.special_vision_descriptions_vector ) {
             jsout.start_object();
             jsout.member( "id", struc_desc.id );
+            jsout.member( "text", struc_desc.text );
             jsout.end_object();
         }
         jsout.end_array();

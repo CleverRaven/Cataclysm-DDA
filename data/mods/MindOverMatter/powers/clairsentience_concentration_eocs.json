@@ -12,12 +12,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('clair_better_senses') * 215) + 595) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * 215) + 595) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('clair_better_senses') * 482) + 1264) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * 482) + 1264) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -42,19 +42,23 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 1" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('clair_better_senses')", "+=", "psionic_power_experience_formula()" ] },
+      {
+        "if": { "math": [ "u_spell_level('clair_better_senses') >= 1" ] },
+        "then": { "math": [ "u_spell_exp('clair_better_senses')", "+=", "psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('clair_better_senses_knack')", "+=", "psionic_power_experience_formula()" ] }
+      },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_CLAIR_BETTER_SENSES_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('clair_better_senses') * 215) + 595) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * 215) + 595) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('clair_better_senses') * 482) + 1264) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * 482) + 1264) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -297,6 +301,11 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 2" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
+      {
+        "if": { "math": [ "u_spell_level('clair_danger_sense') >= 1" ] },
+        "then": { "math": [ "u_spell_exp('clair_danger_sense')", "+=", "psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('clair_danger_sense_knack')", "+=", "psionic_power_experience_formula()" ] }
+      },
       { "math": [ "u_spell_exp('clair_danger_sense')", "+=", "psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {

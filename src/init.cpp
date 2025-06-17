@@ -791,6 +791,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Recipe groups" ), &recipe_group::check },
             { _( "Martial arts" ), &finalize_martial_arts },
             { _( "Scenarios" ), &scenario::finalize },
+            { _( "Spells" ), &spell_type::finalize_all },
             { _( "Climbing aids" ), &climbing_aid::finalize },
             { _( "NPC classes" ), &npc_class::finalize_all },
             { _( "Missions" ), &mission_type::finalize },

@@ -155,7 +155,8 @@
               { "group": "tools_common", "prob": 40 },
               { "group": "tools_entry", "prob": 5 },
               { "group": "consumer_electronics", "prob": 25 },
-              { "group": "ammo_any_batteries_full", "prob": 25 },
+              { "group": "box_of_batteries_unopened", "prob": 25 },
+              { "group": "ammo_heavy_batteries_full", "prob": 25 },
               { "group": "tools_lighting", "prob": 5 }
             ]
           },
@@ -310,7 +311,7 @@
           },
           "chance": 100
         },
-        "g": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 0, 2 ] },
+        "g": { "item": "SUS_trash_trashcan", "chance": 70 },
         "D": { "item": "SUS_trash_dumpster", "chance": 70 },
         "$": { "item": "cash_register_random", "chance": 100 },
         "V": { "item": "vending_drink_items", "chance": 70, "repeat": [ 3, 10 ] },
@@ -596,7 +597,8 @@
               { "group": "tools_common", "prob": 40 },
               { "group": "tools_entry", "prob": 5 },
               { "group": "consumer_electronics", "prob": 25 },
-              { "group": "ammo_any_batteries_full", "prob": 25 },
+              { "group": "box_of_batteries_unopened", "prob": 25 },
+              { "group": "ammo_heavy_batteries_full", "prob": 25 },
               { "group": "tools_lighting", "prob": 5 }
             ]
           },
@@ -753,7 +755,7 @@
           },
           "chance": 100
         },
-        "g": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 0, 2 ] },
+        "g": { "item": "SUS_trash_trashcan", "chance": 70 },
         "D": { "item": "SUS_trash_dumpster", "chance": 70 },
         "$": { "item": "cash_register_looted", "chance": 50 },
         "V": { "item": "vending_drink_items", "chance": 20, "repeat": [ 0, 8 ] },

@@ -1056,11 +1056,11 @@ void inventory_column::set_width( const size_t new_width )
     while( width_gap != 0 ) {
         const int step = width_gap > 0 ? -1 : 1;
         // Should return true when lhs < rhs
-        const auto cmp_for_expansion = []( const cell_t &lhs, const cell_t &rhs ) {
+        const auto cmp_for_expansion = []( cell_t &lhs, cell_t &rhs ) {
             return lhs.visible() && lhs.gap() < rhs.gap();
         };
         // Should return true when lhs < rhs
-        const auto cmp_for_shrinking = []( const cell_t &lhs, const cell_t &rhs ) {
+        const auto cmp_for_shrinking = []( cell_t &lhs, cell_t &rhs ) {
             if( !lhs.visible() ) {
                 return false;
             }
