@@ -38,6 +38,7 @@
       [ "well_pump", 10 ],
       { "group": "tools_toolbox", "prob": 5 },
       [ "wrench", 15 ],
+      [ "wrench_48", 30 ],
       [ "bag_canvas", 40 ],
       [ "jumper_cable", 40 ],
       [ "jumper_cable_heavy", 20 ],

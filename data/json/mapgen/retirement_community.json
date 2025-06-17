@@ -116,7 +116,7 @@
         "-": [ { "item": "SUS_appliances_cupboard", "chance": 100 }, { "item": "SUS_cookware", "chance": 100 } ],
         "J": [ { "item": "SUS_pantry", "chance": 100 }, { "item": "SUS_spice_collection", "chance": 100 } ],
         "b": { "item": "homebooks", "chance": 100, "repeat": [ 0, 2 ] },
-        "P": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 2, 6 ] }
+        "P": { "item": "SUS_trash_trashcan", "chance": 100 }
       },
       "place_item": [
         { "item": "television", "x": 10, "y": 17, "chance": 100 },
@@ -1484,7 +1484,7 @@
         "Z": { "item": "SUS_dishes", "chance": 100 },
         "R": { "item": "SUS_kitchen_sink", "chance": 100 },
         "r": { "item": "SUS_dishes", "chance": 100 },
-        "P": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 2, 6 ] }
+        "P": { "item": "SUS_trash_trashcan", "chance": 100 }
       },
       "place_vehicles": [
         { "chance": 15, "rotation": 270, "vehicle": "parking_garage", "x": 4, "y": 3 },
@@ -1729,8 +1729,8 @@
         { "monster": "mon_pigeon", "x": [ 2, 23 ], "y": [ 25, 47 ], "repeat": [ 2, 3 ] }
       ],
       "items": {
-        "Y": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 7 ] },
-        "T": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 7 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 70 },
+        "T": { "item": "SUS_trash_trashcan", "chance": 70 },
         "t": { "item": "barbecue", "chance": 20 },
         "₸": { "item": "liquor_and_spirits", "chance": 100, "repeat": 2 },
         "R": [ { "item": "tools_plumbing", "chance": 50 }, { "item": "tools_general", "chance": 50 } ]
