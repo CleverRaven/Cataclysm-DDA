@@ -93,13 +93,13 @@
     "max_worn": 1
   },
   {
-    "id": "mag_incomplete_weaver",
+    "id": "mag_immature_weaver",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mag_wildwood",
-    "name": { "str": "incomplete wildwood weaver" },
+    "name": { "str": "immature wildwood weaver" },
     "sub": "sewing_kit",
-    "description": "This weaver is incomplete, it needs to be fed with awakened liquid fertilizer to grow. You could still use it's spindly legs as a needle.",
+    "description": "This weaver is immature, it needs to be fed with awakened water to grow. It listfully observes it's surroundings.",
     "weight": "50 g",
     "volume": "125 ml",
     "sided": true,
@@ -115,56 +115,7 @@
     ],
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ],
     "tool_ammo": [ "mag_awakened_water" ],
-    "qualities": [ [ "SEW", 4 ], [ "SEW_CURVED", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "mag_awakened_water": 500 } } ],
-    "use_action": [
-      {
-        "target": "mag_immature_weaver",
-        "msg": "The %s stirs. A pair of it's legs sharpen into an awl and knitting needles. It still has some room to grow.",
-        "active": true,
-        "need_charges": 500,
-        "need_charges_msg": "The weaver does not have enough liquid.",
-        "type": "delayed_transform",
-        "transform_age": 5,
-        "not_ready_msg": "The weaver isn't done growing yet."
-      },
-      {
-        "type": "repair_item",
-        "item_action_type": "repair_fabric",
-        "materials": [
-          "cotton",
-          "leather",
-          "lycra",
-          "nylon",
-          "wool",
-          "fur",
-          "faux_fur",
-          "nomex",
-          "kevlar",
-          "kevlar_layered",
-          "neoprene",
-          "parabolan_wool",
-          "gutskin",
-          "canvas",
-          "black_dragon_hide",
-          "demon_chitin"
-        ],
-        "skill": "tailor",
-        "tool_quality": 1,
-        "cost_scaling": 0.1,
-        "move_cost": 900
-      }
-    ]
-  },
-  {
-    "id": "mag_immature_weaver",
-    "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
-    "name": { "str": "immature wildwood weaver" },
-    "sub": "sewing_kit",
-    "copy-from": "mag_incomplete_weaver",
-    "extend": { "qualities": [ [ "KNIT", 1 ], [ "LEATHER_AWL", 2 ] ] },
-    "description": "This weaver is immature, it needs to be fed with awakened water to grow. It listfully observes it's surroundings.",
+    "qualities": [ [ "SEW", 4 ], [ "SEW_CURVED", 1 ], [ [ "KNIT", 1 ], [ "LEATHER_AWL", 2 ] ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "mag_awakened_water": 350 } } ],
     "use_action": [
       {
@@ -344,10 +295,11 @@
     "coverage": 30,
     "floor_bedding_warmth": 1200,
     "comfort": 5,
+    "max_volume": "500 L",
     "connect_groups": "INDOORFLOOR",
     "deployed_item": "mag_awoken_weaver",
     "examine_action": "deployed_furniture",
-    "flags": [ "PLACE_ITEM", "CONTAINER", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "HIDE_PLACE", "LIQUIDCONT" ],
+    "flags": [ "PLACE_ITEM", "CONTAINER", "x`", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "HIDE_PLACE", "LIQUIDCONT" ],
     "pseudo_tools": [
       { "id": "spinwheelitem" },
       { "id": "mag_awoken_weaver" },
@@ -363,7 +315,11 @@
       "sound": "rrrrip!",
       "sound_fail": "slap!",
       "sound_vol": 8,
-      "items": [ { "item": "mag_brokeweaver" } ]
+      "items": [
+        { "item": "mag_brokeweaver" },
+        { "item": "mag_awakened_water", "count": [ 5, 20 ] },
+        { "item": "scrap_cotton", "count": [ 1, 5 ] }
+      ]
     }
   }
 ]
