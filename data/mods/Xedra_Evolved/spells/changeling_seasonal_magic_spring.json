@@ -317,7 +317,7 @@
     "id": "changeling_spring_summon_smashing_plants_spell",
     "type": "SPELL",
     "name": "Gwydion's Wrath",
-    "description": "Summon the wrath of nature upon a single target, causing thorny vines to grow from the ground and attack them mercilessly.  The target must be outside and on natural ground for the glamour to take effect. The glamour has <color_yellow>reduced duration</color> if used in autumn.",
+    "description": "Summon the wrath of nature upon a single target, causing thorny vines to grow from the ground and attack them mercilessly.  The target must be outside and on natural ground for the glamour to take effect.  The glamour has <color_yellow>reduced duration</color> if used in autumn.",
     "message": "",
     "flags": [ "VERBAL", "NO_HANDS", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_spring",
