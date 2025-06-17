@@ -151,7 +151,6 @@ static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 static const trait_id trait_JITTERY( "JITTERY" );
-static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_LEAVES( "LEAVES" );
 static const trait_id trait_LEAVES2( "LEAVES2" );
 static const trait_id trait_LEAVES3( "LEAVES3" );
@@ -1112,15 +1111,6 @@ void suffer::from_other_mutations( Character &you )
             const translation smokin_hot_fiyah =
                 SNIPPET.random_from_category( "pyromania_withdrawal" ).value_or( translation() );
             you.add_msg_if_player( m_bad, "%s", smokin_hot_fiyah );
-        }
-    }
-    if( you.has_trait( trait_KILLER ) && !you.has_morale( morale_killer_has_killed ) &&
-        calendar::once_every( 2_hours ) ) {
-        you.add_morale( morale_killer_need_to_kill, -1, -30, 24_hours, 24_hours );
-        if( calendar::once_every( 4_hours ) ) {
-            const translation snip = SNIPPET.random_from_category( "killer_withdrawal" ).value_or(
-                                         translation() );
-            you.add_msg_if_player( m_bad, "%s", snip );
         }
     }
 }
