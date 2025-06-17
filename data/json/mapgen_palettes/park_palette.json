@@ -82,10 +82,7 @@
       ",": "t_region_soil"
     },
     "furniture": { "b": "f_bench", "&": "f_trashcan" },
-    "items": {
-      "&": { "item": "SUS_trash_trashcan", "chance": 70 },
-      "b": { "item": "SUS_trash_trashcan", "chance": 2 }
-    },
+    "items": { "&": { "item": "SUS_trash_trashcan", "chance": 70 }, "b": { "item": "SUS_trash_trashcan", "chance": 2 } },
     "vendingmachines": { "V": { "item_group": "vending_drink" } }
   },
   {

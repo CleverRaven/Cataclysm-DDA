@@ -96,10 +96,7 @@
         { "item": "SUS_trash_floor", "chance": 2 },
         { "item": "SUS_trash_forest_manmade", "chance": 1 }
       ],
-      "%": [
-        { "item": "shelter_supplies", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "SUS_trash_trashcan", "chance": 50 }
-      ],
+      "%": [ { "item": "shelter_supplies", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "SUS_trash_trashcan", "chance": 50 } ],
       "U": { "item": "SUS_evac_shelter_supply_closet_used", "chance": 70 },
       "B": { "item": "SUS_evac_shelter_bathroom_supplies_used", "chance": 70 },
       "t": { "item": "SUS_evac_shelter_table_used", "chance": 70 },
@@ -242,10 +239,7 @@
         { "item": "SUS_trash_floor", "chance": 2 },
         { "item": "SUS_trash_forest_manmade", "chance": 1 }
       ],
-      "%": [
-        { "item": "shelter_supplies", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "SUS_trash_trashcan", "chance": 50 }
-      ],
+      "%": [ { "item": "shelter_supplies", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "SUS_trash_trashcan", "chance": 50 } ],
       "U": { "item": "SUS_evac_shelter_supply_closet_used", "chance": 50 },
       "B": { "item": "SUS_evac_shelter_bathroom_supplies_used", "chance": 50 },
       "t": { "item": "SUS_evac_shelter_table_used", "chance": 50 },
