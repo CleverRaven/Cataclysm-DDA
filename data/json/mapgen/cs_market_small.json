@@ -41,7 +41,7 @@
         "!": [ "f_region_flower", "f_null" ]
       },
       "items": {
-        "g": { "item": "SUS_trash_trashcan_public", "chance": 50, "repeat": [ 1, 4 ] },
+        "g": { "item": "SUS_trash_trashcan_public", "chance": 50 },
         "B": { "item": "bulletin_public", "chance": 75 }
       },
       "place_nested": [

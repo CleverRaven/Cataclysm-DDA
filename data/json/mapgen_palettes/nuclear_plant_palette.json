@@ -173,7 +173,7 @@
         { "item": "maps", "chance": 3 },
         { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 0, 2 ] }
       ],
-      "u": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 0, 8 ] },
+      "u": { "item": "SUS_trash_trashcan", "chance": 30 },
       "T": [
         { "item": "SUS_office_mess", "chance": 3, "repeat": [ 1, 2 ] },
         { "item": "office", "chance": 3, "repeat": [ 1, 2 ] },

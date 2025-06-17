@@ -74,12 +74,12 @@
       "X": [
         { "item": "gear_homeless", "chance": 60 },
         { "item": "contraband", "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 5 ] }
+        { "item": "SUS_trash_trashcan", "chance": 20 }
       ],
       "Y": { "item": "unisex_coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
       "l": { "item": "SUS_janitors_closet", "chance": 80 },
       "L": [ { "item": "farming_seeds", "chance": 75, "repeat": [ 1, 4 ] }, { "item": "farming_tools", "chance": 35 } ],
-      "r": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 2 ] },
+      "r": { "item": "SUS_trash_trashcan", "chance": 60 },
       "D": { "item": "SUS_trash_dumpster", "chance": 60 },
       "o": [ { "item": "book_school", "chance": 66, "repeat": [ 4, 8 ] } ],
       "e": [ { "item": "SUS_fridge_stocked", "chance": 80 } ],
