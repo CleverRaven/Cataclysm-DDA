@@ -335,7 +335,7 @@
         "3": { "item": "bed", "chance": 80 },
         "8": { "item": "bed", "chance": 80 },
         "T": { "item": "games", "chance": 5 },
-        "P": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 3, 6 ] },
+        "P": { "item": "SUS_trash_trashcan", "chance": 100 },
         "r": { "item": "groce_frozen", "chance": 100, "repeat": [ 3, 4 ] },
         "a": { "item": "office", "chance": 10 },
         "5": { "item": "nursing_home_clothes", "chance": 80, "repeat": [ 0, 1 ] },
