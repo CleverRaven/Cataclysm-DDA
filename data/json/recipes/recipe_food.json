@@ -4954,7 +4954,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "charges": 1,
-    "tools": [ [ [ "surface_heat", 3, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ], [ [ "rock_quern", -1 ] ] ],
     "components": [ [ [ "oats", 1 ] ] ]
   },
   {
@@ -9527,7 +9527,7 @@
     "autolearn": true,
     "charges": 25,
     "batch_time_factors": [ 83, 3 ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ] ] ],
     "components": [ [ [ "seed_mustard", 1 ] ] ]
   },
   {

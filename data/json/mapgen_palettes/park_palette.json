@@ -63,10 +63,10 @@
     "item": { "g": { "item": "sandbox_kit", "chance": 5 } },
     "items": {
       "x": { "item": "SUS_toilet", "chance": 50 },
-      "&": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 7 ] },
+      "&": { "item": "SUS_trash_trashcan", "chance": 70 },
       "L": [ { "item": "dining", "chance": 10, "repeat": [ 1, 2 ] } ],
       "T": [ { "item": "dining", "chance": 10, "repeat": [ 1, 2 ] } ],
-      "X": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 7 ] }
+      "X": { "item": "SUS_trash_trashcan", "chance": 70 }
     }
   },
   {
@@ -82,10 +82,7 @@
       ",": "t_region_soil"
     },
     "furniture": { "b": "f_bench", "&": "f_trashcan" },
-    "items": {
-      "&": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 7 ] },
-      "b": { "item": "SUS_trash_trashcan", "chance": 2 }
-    },
+    "items": { "&": { "item": "SUS_trash_trashcan", "chance": 70 }, "b": { "item": "SUS_trash_trashcan", "chance": 2 } },
     "vendingmachines": { "V": { "item_group": "vending_drink" } }
   },
   {
@@ -144,7 +141,7 @@
       "O": "f_brazier"
     },
     "items": {
-      "&": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 7 ] },
+      "&": { "item": "SUS_trash_trashcan", "chance": 70 },
       "b": { "item": "SUS_trash_trashcan", "chance": 2 },
       "T": [ { "item": "snacks", "chance": 4 }, { "item": "games", "chance": 2 } ]
     },

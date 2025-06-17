@@ -922,6 +922,9 @@ struct islot_gunmod : common_ranged_data {
     /** Multiplies base loudness as provided by the currently loaded ammo */
     float loudness_multiplier = 1;
 
+    /** Alters the gun to_hit */
+    int to_hit_mod = 0;
+
     /** How much time does this gunmod take to install? */
     time_duration install_time = 0_seconds;
 
@@ -1592,7 +1595,7 @@ struct itype {
         std::string nname( unsigned int quantity ) const;
 
         // Allow direct access to the type id for the few cases that need it.
-        itype_id get_id() const {
+        const itype_id &get_id() const {
             return id;
         }
 

@@ -464,7 +464,7 @@
         ],
         "C": { "item": "home_hw", "chance": 30, "repeat": [ 2, 4 ] },
         "S": { "item": "softdrugs", "chance": 30 },
-        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 2, 4 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20 },
         "L": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ]
       },
       "place_items": [

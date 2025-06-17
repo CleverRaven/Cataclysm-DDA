@@ -409,6 +409,27 @@
     "duration_increment": 72000
   },
   {
+    "id": "armor_frost_counterattack",
+    "type": "SPELL",
+    "name": { "str": "Frost Armor Counterattack", "//~": "NO_I18N" },
+    "description": { "str": "Attacks anyone who hits you when using frost armor", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_DAMAGE", "CONCENTRATE", "SOMATIC", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "slow_freeze_effect",
+    "shape": "blast",
+    "damage_type": "cold",
+    "multiple_projectiles": 2,
+    "min_damage": 8,
+    "max_damage": 24,
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": { "math": [ "100 + ( (u_spell_level('frost_armor') * 2) + (u_spell_level('frost_armor_plus') * 4 ) )" ] },
+    "max_duration": { "math": [ "250 + ( (u_spell_level('frost_armor') * 5) + (u_spell_level('frost_armor_plus') * 8 ) )" ] },
+    "spell_class": "KELVINIST",
+    "magic_type": "magiclysm_generic_magic"
+  },
+  {
     "id": "create_rune_kelvinist",
     "type": "SPELL",
     "name": "Kelvinist Rune",

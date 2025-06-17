@@ -32,7 +32,7 @@
       ],
       "palettes": [ "farm_horse" ],
       "terrain": { "p": "t_grass" },
-      "items": { "k": { "item": "office", "chance": 30 }, "D": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 2, 4 ] } },
+      "items": { "k": { "item": "office", "chance": 30 }, "D": { "item": "SUS_trash_trashcan", "chance": 20 } },
       "place_loot": [ { "item": "television", "x": 21, "y": 6, "chance": 100 } ]
     }
   },

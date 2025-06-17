@@ -467,6 +467,7 @@ class overmap
 
         // parse data in an opened overmap file
         void unserialize( const cata_path &file_name, std::istream &fin );
+        void unserialize( std::istream &fin );
         void unserialize( const JsonObject &jsobj );
         // parse data in an opened omap file
         void unserialize_omap( const JsonValue &jsin, const cata_path &json_path );
@@ -522,6 +523,9 @@ class overmap
 
         void populate_connections_out_from_neighbors( const std::vector<const overmap *>
                 &neighbor_overmaps );
+
+        void log_unique_special( const overmap_special_id &id );
+        bool contains_unique_special( const overmap_special_id &id ) const;
 
         /*
         * checks adjacent overmap in direction for river terrain bordering this overmap

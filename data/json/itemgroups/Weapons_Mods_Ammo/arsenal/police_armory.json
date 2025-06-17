@@ -1859,11 +1859,11 @@
     "//": "Pick a random police shotgun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "benelli_tsa", "variant": "mossberg_500_security", "prob": 30 },
+      { "item": "benelli_tsa", "prob": 30 },
       { "item": "remington_870_express", "prob": 35 },
-      { "item": "mossberg_590", "variant": "mossberg_590", "prob": 23 },
-      { "item": "mossberg_930", "variant": "mossberg_930", "prob": 8 },
-      { "item": "mossberg_930", "variant": "m1014", "prob": 2 },
+      { "item": "mossberg_590", "prob": 23 },
+      { "item": "mossberg_930", "prob": 8 },
+      { "item": "m1014", "prob": 2 },
       { "item": "remington_870_breacher", "prob": 2 }
     ]
   },
