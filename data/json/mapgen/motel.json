@@ -78,7 +78,7 @@
       "n": { "item": "dining", "chance": 6 },
       "C": [ { "item": "cash_register_random", "chance": 100 }, { "item": "stand_flyer", "chance": 50 } ],
       "9": [ { "item": "SUS_janitors_closet", "chance": 40 }, { "item": "tools_toolbox", "chance": 40 } ],
-      "a": { "item": "SUS_trash_trashcan", "repeat": [ 0, 2 ], "chance": 45 },
+      "a": { "item": "SUS_trash_trashcan", "chance": 45 },
       "{": { "item": "SUS_trash_dumpster", "chance": 75 },
       "s": { "item": "public_sink", "chance": 40, "repeat": [ 0, 2 ] },
       "F": { "item": "SUS_fridge_breakroom", "chance": 100 },
@@ -119,7 +119,7 @@
     "items": {
       "@": { "item": "bed", "chance": 50 },
       "L": { "item": "unisex_coat_rack", "chance": 33 },
-      "a": { "item": "SUS_trash_trashcan", "repeat": [ 0, 2 ], "chance": 45 },
+      "a": { "item": "SUS_trash_trashcan", "chance": 45 },
       "8": { "item": "shower", "chance": 33 },
       ":": { "item": "traveler", "chance": 80, "repeat": [ 3, 5 ] },
       "d": { "item": "book_motel", "chance": 100 },

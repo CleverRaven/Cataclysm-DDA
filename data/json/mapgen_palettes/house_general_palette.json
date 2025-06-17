@@ -337,7 +337,7 @@
         { "item": "camping", "chance": 5, "repeat": [ 1, 2 ] }
       ],
       "V": { "item": "home_display_case", "chance": 50 },
-      "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 30 },
       "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
       "2": { "item": "SUS_cookware", "chance": 100 },
       "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
@@ -846,7 +846,7 @@
         { "item": "shower", "chance": 50, "repeat": [ 2, 3 ] }
       ],
       "W": { "item": "laundry", "chance": 75, "repeat": [ 2, 3 ] },
-      "Y": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 3, 5 ] },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 80 },
       "1": [
         { "item": "SUS_dishes", "chance": 100 },
         { "item": "SUS_silverware", "chance": 100 },
@@ -964,7 +964,7 @@
         { "item": "shower", "chance": 50, "repeat": [ 2, 3 ] }
       ],
       "W": { "item": "laundry", "chance": 75, "repeat": [ 2, 3 ] },
-      "Y": { "item": "SUS_trash_trashcan", "chance": 90, "repeat": [ 4, 6 ] },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 90 },
       "1": [
         { "item": "SUS_dishes", "chance": 100 },
         { "item": "SUS_silverware", "chance": 100 },

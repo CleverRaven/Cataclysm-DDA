@@ -16,6 +16,7 @@
 #include "input_context.h"
 #include "mission.h"
 #include "npc.h"
+#include "faction.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "talker.h"
@@ -278,6 +279,11 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
         npc *guy = g->find_npc( miss->get_npc_id() );
         if( guy ) {
             ImGui::TextWrapped( _( "Given by: %s" ), guy->disp_name().c_str() );
+            if( guy->get_faction() ) {
+                ImGui::TextWrapped( _( "Faction: %s" ), guy->get_faction()->name.c_str() );
+            }
+            const tripoint_abs_omt npc_location = guy->pos_abs_omt();
+            ImGui::TextWrapped( _( "Map location: %s" ), npc_location.to_string().c_str() );
         }
     }
     ImGui::Separator();

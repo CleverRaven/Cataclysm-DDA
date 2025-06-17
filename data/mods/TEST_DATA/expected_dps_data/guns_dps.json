@@ -3,7 +3,7 @@
     "type": "test_data",
     "//": "Allow fairly low values, guns are not for bashing",
     "expected_dps": {
-      "modular_m4_carbine": 6.77,
+      "modular_m4_carbine": 7.48,
       "pipe_shotgun": 5.6,
       "glock_18c": 5.09,
       "glock_17": 5.09,
@@ -22,7 +22,7 @@
       "rm103a_pistol": 6.48,
       "modular_deagle": 6.65,
       "walther_ppk": 5.43,
-      "modular_ar15": 6.85,
+      "modular_ar15": 7.57,
       "pressin": 9.67,
       "winchester_1897": 9.41,
       "obrez": 10.98,

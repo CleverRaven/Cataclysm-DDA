@@ -164,7 +164,6 @@
   {
     "id": "outfit_storage",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
     "category": "container",
     "name": { "str": "set of clothes", "str_pl": "sets of clothes" },
     "description": "A bundle of presses, coat hangars, and other miscellaneous items needed to store and keep a good change of clothes.  You can interact with it to swap to the clothes it's currently containing, or put your current clothes in if there's nothing already inside.",

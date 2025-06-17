@@ -331,7 +331,7 @@
   {
     "id": "child_bugout_bag_1",
     "type": "item_group",
-    "container-item": "backpack",
+    "container-item": "backpack_small",
     "on_overflow": "spill",
     "items": [ { "group": "child_bugout" } ]
   },

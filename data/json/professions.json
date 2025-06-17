@@ -1799,10 +1799,9 @@
           { "item": "knife_combat_army", "variant": "m9bayonet", "container-item": "sheath" },
           { "item": "shot_00", "count": 2 },
           {
-            "item": "mossberg_930",
-            "variant": "m1014",
+            "item": "m1014",
             "ammo-item": "shot_00",
-            "charges": 8,
+            "charges": 5,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
           }
         ]
@@ -4918,8 +4917,6 @@
       "both": {
         "entries": [
           { "item": "socks" },
-          { "item": "kufi" },
-          { "item": "thawb" },
           { "item": "lowtops" },
           { "item": "holybook_quran" },
           { "group": "charged_smart_phone" },
@@ -4929,8 +4926,8 @@
           { "item": "pants", "variant": "pants_white" }
         ]
       },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+      "male": { "entries": [ { "item": "briefs" }, { "item": "kufi" }, { "item": "thawb" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" }, { "item": "niqab" }, { "item": "abaya" } ] }
     }
   },
   {
@@ -6234,7 +6231,7 @@
     "npc_background": "BG_survival_story_RURAL",
     "points": 2,
     "skills": [ { "level": 5, "name": "survival" } ],
-    "proficiencies": [ "prof_gross_anatomy", "prof_wp_ungulate" ],
+    "proficiencies": [ "prof_gross_anatomy", "prof_wp_ungulate", "prof_whips_familiar", "prof_whips_pro" ],
     "items": {
       "both": {
         "entries": [
@@ -7487,7 +7484,7 @@
     "description": "You liked to spend your days taking care of the horses and cows, searching the perimeter of the ranch on your steed and looking out for anything suspicious, that's why you managed to escape in time when shit hit the fan.",
     "npc_background": "BG_survival_story_RURAL",
     "points": 3,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning", "prof_whips_familiar", "prof_whips_pro" ],
     "skills": [
       { "level": 4, "name": "survival" },
       { "level": 3, "name": "gun" },
