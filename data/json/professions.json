@@ -5351,7 +5351,7 @@
           { "item": "wristwatch" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "scar_h", "ammo-item": "762_51", "contents-item": "shoulder_strap" },
-          { "item": "katana", "container-item": "scabbard" },
+          { "item": "ch_katana", "container-item": "scabbard" },
           { "group": "starter_rich_wallet_full" }
         ]
       },
@@ -7375,7 +7375,7 @@
           { "item": "geta" },
           { "item": "gloves_wraps" },
           { "item": "bellywrap" },
-          { "item": "katana", "container-item": "scabbard" },
+          { "item": "ch_katana", "container-item": "scabbard" },
           { "group": "starter_wallet_full" },
           { "item": "grenadebandolier", "contents-group": "ninja_grenade_pouch" }
         ]

@@ -79,6 +79,7 @@
       { "group": "jewelry_front", "prob": 40 },
       { "group": "costume_jewelry_vampire", "prob": 5 },
       { "group": "costume_jewelry_dark", "prob": 5 },
+      { "group": "mansion_exotic_weapons", "prob": 75 },
       { "group": "mansion_guns", "prob": 95 },
       { "group": "mansion_guns", "prob": 80 }
     ]
@@ -109,6 +110,31 @@
       { "group": "mansion_guns", "prob": 40 },
       { "group": "mansion_guns", "prob": 80 },
       { "group": "mansion_guns", "prob": 95 }
+    ]
+  },
+  {
+    "id": "mansion_exotic_weapons",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "rapiers", "prob": 80 },
+      { "group": "estocs", "prob": 80 },
+      { "group": "cavalry_sabres", "prob": 60 },
+      { "group": "longswords", "prob": 60 },
+      { "group": "arming_swords", "prob": 60 },
+      { "group": "broadswords", "prob": 60 },
+      { "group": "zweihanders", "prob": 30 },
+      { "group": "kriegsmessers", "prob": 20 },
+      { "group": "katanas", "prob": 30 },
+      { "group": "wakizashis", "prob": 20 },
+      { "group": "nodachis", "prob": 20 },
+      { "group": "cutlasses", "prob": 30 },
+      { "group": "scimitars", "prob": 30 },
+      { "group": "jians", "prob": 20 },
+      { "group": "kukris", "prob": 20 },
+      { "group": "falxes", "prob": 20 },
+      { "group": "talwars", "prob": 20 },
+      { "group": "kilijes", "prob": 20 }
     ]
   },
   {

@@ -107,6 +107,7 @@
       { "group": "guns_rifle_common", "prob": 18 },
       { "group": "guns_shotgun_common", "prob": 2 },
       { "group": "guns_survival", "prob": 1 },
+      { "group": "mansion_exotic_weapons", "prob": 1 },
       { "item": "flaregun", "prob": 25 },
       { "item": "large_repairkit", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "signal_flare", "prob": 20 },

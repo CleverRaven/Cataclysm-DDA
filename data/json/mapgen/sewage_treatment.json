@@ -595,7 +595,7 @@
         "f": { "item": "SUS_fridge_breakroom", "chance": 80, "repeat": [ 1, 2 ] }
       },
       "place_loot": [
-        { "item": "katana", "x": 2, "y": 11, "repeat": 2 },
+        { "item": "ch_katana", "x": 2, "y": 11, "repeat": 2 },
         { "item": "q_staff", "x": 3, "y": 12 },
         { "item": "television", "x": 1, "y": 15 },
         { "item": "judo_belt_orange", "x": 3, "y": 13 },
