@@ -56,12 +56,10 @@
     "name": { "str_sp": "water" },
     "copy-from": "water",
     "calories": 0,
-    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "contamination": [
-      { "disease": "highly_contaminated_food", "probability": 0.1 },
-      { "disease": "bad_food", "probability": 1 },
-      { "disease": "xe_hydrating_gout_incubation", "probability": 0.1 }
-    ]
+    "extend": {
+      "flags": [ "NUTRIENT_OVERRIDE" ],
+      "contamination": [ { "disease": "xe_hydrating_gout_incubation", "probability": 0.1 } ]
+    }
   },
   {
     "id": "water_murky",
@@ -71,11 +69,10 @@
     "name": { "str_sp": "murky water" },
     "copy-from": "water_murky",
     "calories": 0,
-    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "contamination": [
-      { "disease": "highly_contaminated_food", "probability": 100 },
-      { "disease": "xe_hydrating_gout_incubation", "probability": 10 }
-    ]
+    "extend": {
+      "flags": [ "NUTRIENT_OVERRIDE" ],
+      "contamination": [ { "disease": "xe_hydrating_gout_incubation", "probability": 10 } ]
+    }
   },
   {
     "id": "scrap_shadowstuff",
