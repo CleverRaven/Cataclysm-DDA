@@ -60,7 +60,7 @@
     "contamination": [
       { "disease": "highly_contaminated_food", "probability": 0.1 },
       { "disease": "bad_food", "probability": 1 },
-      { "disease": "xe_hydrating_gout", "probability": 0.1 }
+      { "disease": "xe_hydrating_gout_incubation", "probability": 0.1 }
     ]
   },
   {
@@ -72,7 +72,10 @@
     "copy-from": "water_murky",
     "calories": 0,
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "contamination": [ { "disease": "highly_contaminated_food", "probability": 100 }, { "disease": "xe_hydrating_gout", "probability": 10 } ]
+    "contamination": [
+      { "disease": "highly_contaminated_food", "probability": 100 },
+      { "disease": "xe_hydrating_gout_incubation", "probability": 10 }
+    ]
   },
   {
     "id": "scrap_shadowstuff",
