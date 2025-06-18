@@ -269,7 +269,7 @@
     "vendingmachines": { "D": { "item_group": "vending_drink_items" }, "F": { "item_group": "vending_food_items" } },
     "monster": {
       "i": { "monster": "mon_zombie_swimmer_base", "chance": 30 },
-      "↨": { "monster": "mon_gas_zombie", "chance": 5 },
+      "↨": { "monster": "mon_zombie", "chance": 5 },
       "←": { "monster": "mon_zombie_scientist", "chance": 70 }
     }
   },
