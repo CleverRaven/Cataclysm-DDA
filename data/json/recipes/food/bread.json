@@ -249,6 +249,37 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "brioche",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "25 m",
+    "batch_time_factors": [ 75, 4 ],
+    "book_learn": [ [ "baking_book", 3 ], [ "cookbook_daintydishes", 5 ] ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ],
+    "tools": [ [ [ "surface_heat", 14, "LIST" ] ] ],
+    "//": "3u flour, 1u for milk, 4u for oil, 6u for eggs.  I thought the flour used was low, but I saw a recipe I saw used 100g of flour for 5 eggs so this really is correct.",
+    "components": [
+      [ [ "flour_any", 3, "LIST" ] ],
+      [ [ "yeast", 1 ] ],
+      [
+        [ "milk_standard_raw", 1, "LIST" ],
+        [ "lf_milk_standard", 1, "LIST" ],
+        [ "milk_powder", 1 ],
+        [ "con_milk", 1 ]
+      ],
+      [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
+      [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
+      [ [ "any_butter_or_oil", 8, "LIST" ] ],
+      [ [ "water_clean", 1 ] ]
+    ],
+    "charges": 6
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "wastebread",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",

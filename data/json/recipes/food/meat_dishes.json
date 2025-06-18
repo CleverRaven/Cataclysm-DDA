@@ -902,37 +902,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "pie_meat",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "difficulty": 3,
-    "charges": 4,
-    "time": "25 m",
-    "book_learn": [ [ "baking_book", 2 ], [ "scots_cookbook", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ],
-    "tools": [ [ [ "surface_heat", 35, "LIST" ] ] ],
-    "//": "30u for flour, 5 for meat",
-    "components": [
-      [ [ "flour_any", 30, "LIST" ] ],
-      [
-        [ "meat_cooked", 1, "LIST" ],
-        [ "dry_meat", 1 ],
-        [ "can_chicken", 1 ],
-        [ "fish", 1 ],
-        [ "rehydrated_fish", 1 ],
-        [ "dry_fish", 1 ],
-        [ "salted_fish", 1 ],
-        [ "meat_salted", 1 ],
-        [ "fish_canned", 1 ],
-        [ "can_tuna", 1 ]
-      ],
-      [ [ "water_clean", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "chili",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -965,88 +934,6 @@
       [ [ "can_beans", 1 ], [ "raw_beans", 1 ], [ "dry_beans", 1 ] ],
       [ [ "chilly-p", 2 ], [ "any_chili_pepper", 1, "LIST" ] ]
     ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "pizza_supreme",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "difficulty": 3,
-    "time": "30 m",
-    "book_learn": [ [ "cookbook_italian", 3 ] ],
-    "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ],
-    "tools": [ [ [ "surface_heat", 43, "LIST" ] ] ],
-    "//": "30u for flour, 6u for meat, 1u for sauce, 2u for cheese, 4u for veggy",
-    "components": [
-      [ [ "flour_any", 30, "LIST" ] ],
-      [
-        [ "meat_cooked", 2, "LIST" ],
-        [ "can_chicken", 2 ],
-        [ "meat_salted", 2 ],
-        [ "dry_meat", 2 ],
-        [ "fish", 2 ],
-        [ "fish_canned", 2 ],
-        [ "can_tuna", 2 ],
-        [ "salted_fish", 2 ],
-        [ "rehydrated_fish", 2 ],
-        [ "dry_fish", 2 ],
-        [ "tofu", 2 ],
-        [ "dry_tofu", 2 ]
-      ],
-      [
-        [ "veggy_any", 2, "LIST" ],
-        [ "mushroom", 2 ],
-        [ "dry_mushroom", 2 ],
-        [ "morel_cooked", 2 ],
-        [ "mushroom_cooked", 2 ],
-        [ "dry_veggy", 2 ],
-        [ "veggy_pickled", 2 ],
-        [ "pickle", 2 ],
-        [ "dry_corn", 2 ],
-        [ "can_pineapple", 2 ],
-        [ "pineapple_chunks", 2 ]
-      ],
-      [ [ "cheese_standard", 2, "LIST" ] ],
-      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
-      [ [ "water_clean", 1 ] ]
-    ],
-    "charges": 4
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "pizza_meat",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "difficulty": 3,
-    "time": "20 m",
-    "book_learn": [ [ "cookbook_italian", 2 ] ],
-    "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ],
-    "tools": [ [ [ "surface_heat", 35, "LIST" ] ] ],
-    "//": "30u for flour, 4 for meat, 1u for sauce",
-    "components": [
-      [ [ "flour_any", 30, "LIST" ] ],
-      [
-        [ "meat_cooked", 2, "LIST" ],
-        [ "can_chicken", 2 ],
-        [ "meat_salted", 2 ],
-        [ "dry_meat", 2 ],
-        [ "fish", 2 ],
-        [ "fish_canned", 2 ],
-        [ "can_tuna", 2 ],
-        [ "salted_fish", 2 ],
-        [ "rehydrated_fish", 2 ],
-        [ "dry_fish", 2 ]
-      ],
-      [ [ "sauce_red", 1 ], [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
-      [ [ "water_clean", 1 ] ]
-    ],
-    "charges": 4
   },
   {
     "type": "recipe",
