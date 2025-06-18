@@ -5665,11 +5665,13 @@ void Character::toolmod_add( item_location tool, item_location mod )
         return;
     }
 
-    if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
-                   colorize( mod->tname(), mod->color_in_inventory() ),
-                   colorize( tool->tname(), tool->color_in_inventory() ) ) ) {
-        add_msg_if_player( _( "Never mind." ) );
-        return; // player canceled installation
+    if( mod.is_irremovable() ) {
+        if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
+                       colorize( mod->tname(), mod->color_in_inventory() ),
+                       colorize( tool->tname(), tool->color_in_inventory() ) ) ) {
+            add_msg_if_player( _( "Never mind." ) );
+            return; // player canceled installation
+        }
     }
 
     assign_activity( ACT_TOOLMOD_ADD, 1, -1 );
