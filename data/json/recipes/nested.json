@@ -7213,5 +7213,58 @@
     "description": "Recipes related to the production of custom exoskeleton armors.",
     "skill_used": "fabrication",
     "nested_category_data": [ "nested_combat_exoskeleton_armor_reinforcement" ]
+  },
+  {
+    "id": "nested_hoodies",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "hoodies",
+    "description": "Recipes related to the production of hoodies.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hoodie", "hoodie_cropped", "hoodie_cropped_cutting", "nested_hoodies_animal", "nested_hoodies_cropped_animal" ]
+  },
+  {
+    "id": "nested_hoodies_animal",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "animal hoodies",
+    "description": "Recipes related to the production of animal hoodies.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "hoodie_shark",
+      "hoodie_bear",
+      "hoodie_cat",
+      "hoodie_bunny",
+      "hoodie_wolf",
+      "hoodie_lizard",
+      "hoodie_dog",
+      "hoodie_panda",
+      "hoodie_frog"
+    ]
+  },
+  {
+    "id": "nested_hoodies_cropped_animal",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "cropped animal hoodies",
+    "description": "Recipes related to the production of cropped animal hoodies.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "hoodie_cropped_shark",
+      "hoodie_cropped_bear",
+      "hoodie_cropped_cat",
+      "hoodie_cropped_bunny",
+      "hoodie_cropped_wolf",
+      "hoodie_cropped_lizard",
+      "hoodie_cropped_dog",
+      "hoodie_cropped_panda",
+      "hoodie_cropped_frog"
+    ]
   }
 ]
