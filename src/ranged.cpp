@@ -796,7 +796,8 @@ bool Character::handle_gun_damage( item &it )
         return false;
 
         // Chance for the weapon to suffer a failure, caused by the magazine size, quality, or condition
-    } else if( x_in_y( jam_chance, 1 ) && !it.has_var( "u_know_round_in_chamber" ) ) {
+    } else if( x_in_y( jam_chance, 1 ) && !it.has_flag( flag_NEVER_JAMS ) &&
+               !it.has_var( "u_know_round_in_chamber" ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
