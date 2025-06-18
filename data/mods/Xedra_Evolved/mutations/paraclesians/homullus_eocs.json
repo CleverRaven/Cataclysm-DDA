@@ -433,19 +433,23 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_REBUILD_MIND_HANDLING",
-    "condition": {
-      "and": [
-        { "not": { "u_has_flag": "NIGHTMARE" } },
-        { "not": { "u_has_flag": "IRONWROUGHT" } }
-      ]
-    },
+    "condition": { "and": [ { "not": { "u_has_flag": "NIGHTMARE" } }, { "not": { "u_has_flag": "IRONWROUGHT" } } ] },
     "effect": [ { "run_eocs": "EOC_HOMULLUS_REBUILD_MIND_HANDLING_2" } ],
-    "false_effect": [ { "npc_message": "Your target twitches uncontrollably for less than a second, then turns to you with renewed anger." } ]
+    "false_effect": [
+      { "npc_message": "Your target twitches uncontrollably for less than a second, then turns to you with renewed anger." }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_REBUILD_MIND_HANDLING_2",
-    "condition": { "or": [ { "u_has_species": "FERAL" }, { "u_has_species": "RENFIELD" }, { "u_has_species": "HUMAN" }, { "and": [ { "not": { "u_has_species": "ZOMBIE" } }, { "u_has_species": "MUTANT" } ] } ] },
+    "condition": {
+      "or": [
+        { "u_has_species": "FERAL" },
+        { "u_has_species": "RENFIELD" },
+        { "u_has_species": "HUMAN" },
+        { "and": [ { "not": { "u_has_species": "ZOMBIE" } }, { "u_has_species": "MUTANT" } ] }
+      ]
+    },
     "effect": [
       {
         "math": [
@@ -460,13 +464,12 @@
         "then": [
           { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
           { "u_spawn_npc": "personality_reconstruction_template", "real_count": 1, "min_radius": 3, "max_radius": 5 },
-          { "npc_message": "Putting each remaining piece back together and inventing new ones whole cloth when necessary.  You've managed to reconstruct some pale semblance of their original personality." }
+          {
+            "npc_message": "Putting each remaining piece back together and inventing new ones whole cloth when necessary.  You've managed to reconstruct some pale semblance of their original personality."
+          }
         ]
       }
     ],
-    "false_effect": [
-      { "npc_message": "There was nothing there for you to rebuild." }
-      
-    ]
+    "false_effect": [ { "npc_message": "There was nothing there for you to rebuild." } ]
   }
 ]
