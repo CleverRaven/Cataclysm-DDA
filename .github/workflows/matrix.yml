@@ -181,6 +181,7 @@ jobs:
             sound: 1
             localize: 0
             native: linux64
+            sanitize: undefined
             pch: 1
             title: GCC 9, Ubuntu, Tiles, Sound, CMake
             ccache_limit: 1G
