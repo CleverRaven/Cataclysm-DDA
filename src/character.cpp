@@ -5665,7 +5665,7 @@ void Character::toolmod_add( item_location tool, item_location mod )
         return;
     }
 
-    if( mod.is_irremovable() ) {
+    if( mod->is_irremovable() ) {
         if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
                        colorize( mod->tname(), mod->color_in_inventory() ),
                        colorize( tool->tname(), tool->color_in_inventory() ) ) ) {
