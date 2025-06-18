@@ -79,7 +79,7 @@
       { "group": "jewelry_front", "prob": 40 },
       { "group": "costume_jewelry_vampire", "prob": 5 },
       { "group": "costume_jewelry_dark", "prob": 5 },
-      { "group": "mansion_exotic_weapons", "prob": 75 },
+      { "group": "mansion_exotic_weapons", "prob": 5 },
       { "group": "mansion_guns", "prob": 95 },
       { "group": "mansion_guns", "prob": 80 }
     ]
