@@ -117,24 +117,13 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "group": "rapiers", "prob": 80 },
-      { "group": "estocs", "prob": 80 },
-      { "group": "cavalry_sabres", "prob": 60 },
-      { "group": "longswords", "prob": 60 },
-      { "group": "arming_swords", "prob": 60 },
-      { "group": "broadswords", "prob": 60 },
-      { "group": "zweihanders", "prob": 30 },
-      { "group": "kriegsmessers", "prob": 20 },
-      { "group": "katanas", "prob": 30 },
-      { "group": "wakizashis", "prob": 20 },
-      { "group": "nodachis", "prob": 20 },
-      { "group": "cutlasses", "prob": 30 },
-      { "group": "scimitars", "prob": 30 },
-      { "group": "jians", "prob": 20 },
-      { "group": "kukris", "prob": 20 },
-      { "group": "falxes", "prob": 20 },
-      { "group": "talwars", "prob": 20 },
-      { "group": "kilijes", "prob": 20 }
+      { "group": "rapiers", "prob": 50 },
+      { "group": "estocs", "prob": 50 },
+      { "group": "cavalry_sabres", "prob": 25 },
+      { "group": "longswords", "prob": 25 },
+      { "group": "arming_swords", "prob": 25 },
+      { "group": "broadswords", "prob": 25 },
+      { "group": "katanas", "prob": 50 }
     ]
   },
   {
