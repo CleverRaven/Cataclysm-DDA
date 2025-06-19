@@ -915,7 +915,7 @@
       { "u_add_trait": "MAG_STAG_BEETLE_BOND" },
       { "u_activate_trait": "MAG_STAG_BEETLE_BOND" },
       {
-        "u_message": "The wildwood beetle makes it's call.  You feel something large coming, and it is coming fast.",
+        "u_message": "The wildwood beetle makes its call.  You feel something large coming, and it is coming fast.",
         "type": "good"
       },
       { "run_eocs": "EOC_SUMMON_STAG_BEETLE", "time_in_future": [ "5 seconds", "50 seconds" ] },
@@ -924,7 +924,7 @@
     "false_effect": [
       { "run_eocs": "EOC_SUMMON_MUSHROOMS", "time_in_future": [ "25 seconds", "50 seconds" ] },
       {
-        "u_message": "The wildwood beetle makes it's call, but only some small beetles respond.  They'll bring you a small gift.",
+        "u_message": "The wildwood beetle makes its call, but only some small beetles respond.  They'll bring you a small gift.",
         "type": "good"
       }
     ]
