@@ -1714,8 +1714,8 @@ bool Character::consume_effects( item &food )
     stomach.ingest( ingested );
 
     if( ingested.water < 0_ml ) {
-    mod_thirst( -units::to_milliliter( ingested.water) / 5 ); 
-        add_msg_if_player(m_bad, _( "You feel thirstier than before you consumed that!" ));
+        mod_thirst( -units::to_milliliter( ingested.water ) / 5 );
+        add_msg_if_player( m_bad, _( "You feel thirstier than before you consumed that!" ) );
     }
 
     // update speculative values
