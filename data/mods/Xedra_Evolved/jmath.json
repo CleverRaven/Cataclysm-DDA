@@ -216,7 +216,7 @@
     "type": "jmath_function",
     "id": "vampire_total_tier_three_traits",
     "num_args": 0,
-    "return": "u_has_trait('BLOODHASTE') + u_has_trait('HYPNOTIC_GAZE') + u_has_trait('MAGICFORBLOOD') + u_has_trait('BLOODBANK') + u_has_trait('VAMPIRE_COMMAND_BEAST') + u_has_trait('VAMPIRE_EARTH_SLUMBER') + u_has_trait('VAMPIRE_CARDIO_BONUS') + u_has_trait('VAMPIRE_MOTION_ALARM') + u_has_trait('VAMPIRE_BONUS_HP') + u_has_trait('VAMPIRE_STORE_MORE_BLOOD') + u_has_trait('VAMPIRE_INSTANT_BLEED') + u_has_trait('VAMPIRE_BIG_STOMACH') + u_has_trait('VAMPIRE_DETECT_VAMPIRES') + u_has_trait('DHAMPIR_REDUCED_PAIN') + u_has_trait('DHAMPIR_MEND_WOUNDS_FASTER')"
+    "return": "u_has_trait('BLOODHASTE') + u_has_trait('HYPNOTIC_GAZE') + u_has_trait('MAGICFORBLOOD') + u_has_trait('BLOODBANK') + u_has_trait('VAMPIRE_COMMAND_BEAST') + u_has_trait('VAMPIRE_EARTH_SLUMBER') + u_has_trait('VAMPIRE_CARDIO_BONUS') + u_has_trait('VAMPIRE_MOTION_ALARM') + u_has_trait('VAMPIRE_BONUS_HP') + u_has_trait('VAMPIRE_STORE_MORE_BLOOD') + u_has_trait('VAMPIRE_INSTANT_BLEED') + u_has_trait('VAMPIRE_BIG_STOMACH') + u_has_trait('VAMPIRE_DETECT_VAMPIRES') + u_has_trait('DHAMPIR_REDUCED_PAIN') + u_has_trait('DHAMPIR_MEND_WOUNDS_FASTER') + u_has_trait('DHAMPIR_AVOID_EAT_SLEEP_DRINK')"
   },
   {
     "type": "jmath_function",
