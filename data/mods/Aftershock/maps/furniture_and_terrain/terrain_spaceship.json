@@ -293,7 +293,8 @@
       "items": [
         { "item": "polycarbonate_sheet", "count": [ 1, 3 ] },
         { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] },
-        { "item": "plastic_chunk", "count": [ 2, 16 ] }
+        { "item": "plastic_chunk", "count": [ 2, 16 ] },
+        { "item": "element", "count": [ 0, 1 ] }
       ]
     }
   },
