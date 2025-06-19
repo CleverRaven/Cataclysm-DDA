@@ -1350,19 +1350,6 @@
   },
   {
     "type": "mutation",
-    "id": "KILLER",
-    "name": { "str": "Killer Drive" },
-    "points": 2,
-    "description": "You derive enjoyment from killing things.  Putting end to life seem to spark some dark satisfaction and thrill, and you crave it every moment.",
-    "starting_trait": true,
-    "valid": false,
-    "social_modifiers": { "intimidate": 10 },
-    "types": [ "HUMAN_EMPATHY" ],
-    "prereqs": [ "PSYCHOPATH" ],
-    "flags": [ "PSYCHOPATH" ]
-  },
-  {
-    "type": "mutation",
     "id": "MARTIAL_ARTS",
     "name": { "str": "Martial Arts Training" },
     "points": 2,
