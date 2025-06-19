@@ -2564,10 +2564,11 @@
     "deactivate_condition": { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_NO_FUN" } },
     "effect": [
       { "u_lose_morale": "morale_vw_no_fun" },
+      { "math": [ "u_morale_vw_no_fun = 15 + (u_val('morale'))" ] },
       {
         "u_add_morale": "morale_vw_no_fun",
-        "bonus": { "math": [ "u_val('morale')", "-=", "u_val('morale') + 15" ] },
-        "max_bonus": { "math": [ "u_val('morale')", "-=", "u_val('morale') + 15" ] },
+        "bonus": { "math": [ "u_morale_vw_no_fun * -1" ] },
+        "max_bonus": { "math": [ "u_morale_vw_no_fun * -1" ] },
         "duration": "1 hour",
         "decay_start": "1 hour"
       }
