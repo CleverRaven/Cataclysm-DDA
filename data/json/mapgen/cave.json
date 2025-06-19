@@ -453,7 +453,6 @@
       ],
       "terrain": { ".": "t_soil", ",": "t_dirt_underground", "W": "t_dirt_underground", ">": "t_slope_up", "~": "t_water_dp" },
       "furniture": { "W": "f_boulder_small" },
-      "item": { "W": { "item": "longsword", "chance": 100 } },
       "monster": {
         "~": [
           { "monster": "mon_sewer_fish", "chance": 1 },
