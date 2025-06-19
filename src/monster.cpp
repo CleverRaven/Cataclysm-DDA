@@ -78,7 +78,6 @@
 #include "speed_description.h"
 #include "string_formatter.h"
 #include "talker.h"
-#include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
@@ -186,9 +185,6 @@ static const mfaction_str_id monfaction_ant( "ant" );
 static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_nether_player_hate( "nether_player_hate" );
 static const mfaction_str_id monfaction_wasp( "wasp" );
-
-static const morale_type morale_killer_has_killed( "morale_killer_has_killed" );
-static const morale_type morale_killer_need_to_kill( "morale_killer_need_to_kill" );
 
 static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
 static const species_id species_CYBORG( "CYBORG" );
