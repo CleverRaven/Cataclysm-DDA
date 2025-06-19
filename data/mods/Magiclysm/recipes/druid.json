@@ -47,7 +47,13 @@
     "autolearn": true,
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "CHISEL", "level": 2 } ],
     "using": [ [ "mana_energy_strong", 3 ] ],
-    "components": [ [ [ "enchanted_wood", 2 ] ], [ [ "mana_pearl", 2 ] ], [ [ "rune_druid", 1 ] ], [ [ "mag_awakened_water", 50 ] ] ]
+    "components": [
+      [ [ "enchanted_wood", 2 ] ],
+      [ [ "mana_pearl", 2 ] ],
+      [ [ "rune_druid", 1 ] ],
+      [ [ "mag_awakened_water", 50 ] ],
+      [ [ "tallow", 1 ], [ "wax_any", 1, "LIST" ], [ "candle", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
