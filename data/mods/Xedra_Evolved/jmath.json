@@ -295,7 +295,7 @@
     "type": "jmath_function",
     "id": "werewolf_tier_one_traits",
     "num_args": 0,
-    "return": "u_has_trait('WEREWOLF_SMELL_NEARBY_ENEMIES')"
+    "return": "u_has_trait('WEREWOLF_SMELL_NEARBY_ENEMIES') + u_has_trait('WEREWOLF_NO_SCENT')"
   },
   {
     "type": "jmath_function",
@@ -307,7 +307,7 @@
     "type": "jmath_function",
     "id": "werewolf_tier_three_traits",
     "num_args": 0,
-    "return": "u_has_trait('WEREWOLF_PARTIAL_SHIFT')"
+    "return": "u_has_trait('WEREWOLF_PARTIAL_SHIFT') + u_has_trait('WEREWOLF_SILVER_CLAWS')"
   },
   {
     "type": "jmath_function",
@@ -319,6 +319,6 @@
     "type": "jmath_function",
     "id": "werewolf_tier_five_traits",
     "num_args": 0,
-    "return": "u_has_trait('WEREWOLF_SMELL_NEARBY_ENEMIES')"
+    "return": "u_has_trait('WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM')"
   }
 ]

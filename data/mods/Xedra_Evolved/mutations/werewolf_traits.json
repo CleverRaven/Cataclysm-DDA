@@ -12,7 +12,16 @@
     "player_display": false,
     "enchantments": [
       {
-        "values": [ { "value": "MAX_MANA", "add": { "math": [ "(-1000 * (1 + ( (0.2 + (u_val('intelligence') * 0.1 ) - 1) ) )" ] } } ]
+        "values": [
+          {
+            "value": "MAX_MANA",
+            "add": {
+              "math": [
+                "(-200 + (u_val('intelligence') * -100 ) ) + min( ( u_val('strength') * 30 ) + u_val('dexterity') * 15 ) + ( werewolf_tier_one_traits() * 10 ) + ( werewolf_tier_two_traits() * 20 ) + ( werewolf_tier_three_traits() * 30 ) + ( werewolf_tier_four_traits() * 40 ) + ( werewolf_tier_five_traits() * 50 ) ) ,3000)"
+              ]
+            }
+          }
+        ]
       }
     ]
   },
@@ -97,7 +106,7 @@
     "activated_is_setup": true,
     "mana": true,
     "cost": 1,
-    "time": 20,
+    "time": 10,
     "active_flags": [ "NO_SCENT" ]
   },
   {
@@ -114,7 +123,7 @@
     "active": true,
     "activated_is_setup": true,
     "cost": 1,
-    "time": 10,
+    "time": 5,
     "activated_eocs": "EOC_WEREWOLF_SENSE_SPIRITS_AND_ALIENS_ON",
     "deactivated_eocs": "EOC_WEREWOLF_SENSE_SPIRITS_AND_ALIENS_OFF"
   },
@@ -136,6 +145,7 @@
               "or": [
                 { "npc_has_species": "ARVORE" },
                 { "npc_has_species": "CHANGELING" },
+                { "npc_has_species": "CHANGELING_NOBLE" },
                 { "npc_has_species": "IERDE" },
                 { "npc_has_species": "HOMULLUS" },
                 { "npc_has_species": "SALAMANDER" },
@@ -200,5 +210,23 @@
     "valid": false,
     "active": true,
     "activated_eocs": [ "EOC_WEREWOLF_PARTIAL_SHIFT_activated" ]
+  },
+  {
+    "//": "Tier 5 traits begin here",
+    "type": "mutation",
+    "id": "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM",
+    "name": { "str": "Form of the Primal Hunter" },
+    "points": 10,
+    "description": "While in wolf form, you can call on the spirit of the primal wolves of the mythic past and transform into an atavistic creature of nightmare, two meters high at the shoulder, with fur as thick as armor and teeth that can rend steel.  This form also regenerates the same as the war form does.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 3,
+    "time": 1,
+    "activated_eocs": [ "EOC_WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM_activated" ],
+    "deactivated_eocs": [ "EOC_WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM_deactivated" ]
   }
 ]
