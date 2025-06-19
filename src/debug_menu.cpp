@@ -1952,11 +1952,14 @@ static void character_edit_needs_menu( Character &you )
     smenu.addentry( 9, true, 'e', _( "Empty stomach and guts" ) );
 
     const auto &vits = vitamin::all();
+    int vitamin_entry_base = 11; // Start after the last fixed index (10 used above)
+    int vitamin_idx = 0;
     for( const auto &v : vits ) {
-        smenu.addentry( -1, true, 0, _( "%s: daily %d, overall %d" ), v.second.name(),
-                        you.get_daily_vitamin( v.first ), you.vitamin_get( v.first ) );
+        smenu.addentry( vitamin_entry_base + vitamin_idx, true, 0, _( "%s: daily %d, overall %d" ),
+                        v.second.name(), you.get_daily_vitamin( v.first ), you.vitamin_get( v.first ) );
+        ++vitamin_idx;
     }
-
+    
     smenu.query();
     int value;
     switch( smenu.ret ) {
@@ -2030,8 +2033,9 @@ static void character_edit_needs_menu( Character &you )
             you.guts.empty();
             break;
         default:
-            if( smenu.ret >= 10 && smenu.ret < static_cast<int>( vits.size() + 10 ) ) {
-                auto iter = std::next( vits.begin(), smenu.ret - 10 );
+            if( smenu.ret >= vitamin_entry_base &&
+                smenu.ret < vitamin_entry_base + static_cast<int>( vits.size() ) ) {
+                auto iter = std::next( vits.begin(), smenu.ret - vitamin_entry_base );
                 if( query_int( value, false, _( "Set %s to?  Currently: %d" ),
                                iter->second.name(), you.vitamin_get( iter->first ) ) ) {
                     you.vitamin_set( iter->first, value );
