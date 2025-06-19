@@ -225,8 +225,8 @@
     "type": "effect_on_condition",
     "id": "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_periodic",
     "effect": [
-      { "math": [ "u_dhampir_avoid_eat_sleep_drink_counter ++" ] },
-      { "math": [ "u_dhampir_avoid_eat_sleep_drink_long_counter ++ 0" ] },
+      { "math": [ "u_dhampir_avoid_eat_sleep_drink_counter", "++" ] },
+      { "math": [ "u_dhampir_avoid_eat_sleep_drink_long_counter", "++" ] },
       {
         "if": {
           "and": [
@@ -248,8 +248,9 @@
         "if": { "math": [ "(u_dhampir_avoid_eat_sleep_drink_counter / 60) == 1" ] },
         "then": [
           { "math": [ "u_vitamin('human_blood_vitamin') --" ] },
-          { "math": [ "(u_dhampir_avoid_eat_sleep_drink_counter = 0" ] },
-          { "if": { "math": [ "u_calories()", "<", "118000" ] }, "then": { "math": [ "u_calories()", "+=", "2" ] } }
+          { "math": [ "u_dhampir_avoid_eat_sleep_drink_counter = 0" ] },
+          { "if": { "math": [ "u_calories()", "<", "118000" ] }, "then": { "math": [ "u_calories()", "+=", "2" ] } },
+          { "math": [ "u_val('sleep_deprivation') = 0" ] }
         ]
       }
     ]
@@ -258,10 +259,14 @@
     "type": "effect_on_condition",
     "id": "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_deactivated",
     "effect": [
-      { "math": [ "u_val('sleepiness')", "+=", "u_dhampir_avoid_eat_sleep_drink_long_counter / 4" ] },
-      { "math": [ "u_calories()", "-=", "u_dhampir_avoid_eat_sleep_drink_long_counter * 3" ] },
       {
-        "math": [ "u_calories('dont_affect_weariness': true)", "+=", "u_dhampir_avoid_eat_sleep_drink_long_counter * 3" ]
+        "u_message": "You feel a wave of tiredness as you allow mortal needs to assert their will once again.",
+        "type": "bad"
+      },
+      { "math": [ "u_val('sleepiness')", "+=", "u_dhampir_avoid_eat_sleep_drink_long_counter / 200" ] },
+      { "math": [ "u_calories()", "-=", "u_dhampir_avoid_eat_sleep_drink_long_counter * 0.06" ] },
+      {
+        "math": [ "u_calories('dont_affect_weariness': true)", "+=", "u_dhampir_avoid_eat_sleep_drink_long_counter * 0.06" ]
       }
     ]
   }

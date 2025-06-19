@@ -177,6 +177,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN" } },
+            { "not": { "u_has_effect": "effect_dhampir_the_blood_is_the_life" } },
             { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1799" ] }
           ]
         },
@@ -186,6 +187,7 @@
         "condition": {
           "and": [
             { "u_has_trait": "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN" },
+            { "not": { "u_has_effect": "effect_dhampir_the_blood_is_the_life" } },
             { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1799" ] }
           ]
         },
@@ -383,7 +385,8 @@
           { "value": "METABOLISM", "multiply": -1 },
           { "value": "THIRST", "multiply": -1 },
           { "value": "SLEEPINESS", "multiply": -1 }
-        ]
+        ],
+        "ench_effects": [ { "effect": "effect_dhampir_the_blood_is_the_life", "intensity": 1 } ]
       }
     ]
   },

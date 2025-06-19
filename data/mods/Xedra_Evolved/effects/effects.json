@@ -603,6 +603,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_dhampir_the_blood_is_the_life",
+    "//": "Hidden--prevents gaining blood when using The Blood is the Life",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_dhampir_empowered_blood_indicator",
     "name": [ "Empowered Blood" ],
     "desc": [ "Your blood hums with power, allowing you to access more of your vampiric abilities." ]
