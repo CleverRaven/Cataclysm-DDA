@@ -145,7 +145,7 @@
     "copy-from": "mag_wildwood",
     "name": { "str": "immature wildwood weaver" },
     "sub": "sewing_kit",
-    "description": "This weaver is immature, it needs to be fed with awakened water to grow.  It listfully observes it's surroundings.",
+    "description": "This weaver is immature, it needs to be fed with awakened water to grow.  It attentively observes it's surroundings.",
     "weight": "50 g",
     "volume": "125 ml",
     "sided": true,
