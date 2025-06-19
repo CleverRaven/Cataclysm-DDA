@@ -1,127 +1,260 @@
 [
   {
     "type": "palette",
-    "id": "gun_store_palette",
-    "//": " P, U, S, h, F, e, |, o, k, z, c, and > are all still available for more terrain or furniture",
-    "palettes": [ "parametrized_walls_palette" ],
+    "id": "gunstore_palette_unlooted",
+    "parameters": {
+      "interior_wall_type": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_wall_w", 1 ], [ "t_wall_gray", 1 ], [ "t_wall_black", 1 ] ] }
+      }
+    },
     "toilets": { "&": {  } },
     "terrain": {
-      "q": "t_thconc_floor",
-      "&": "t_thconc_floor",
-      ":": "t_window_bars_alarm",
-      "+": [ [ "t_door_metal_pickable", 90 ], [ "t_door_metal_o", 5 ], [ "t_door_metal_c", 15 ] ],
-      "D": [ [ "t_door_o", 40 ], [ "t_door_c", 40 ], [ "t_door_locked_interior", 20 ] ],
-      ",": [ [ "t_region_groundcover_urban", 100 ], [ "t_region_shrub", 10 ] ],
-      "@": "t_region_shrub_decorative",
-      "u": "t_region_shrub",
-      "B": "t_region_groundcover_barren",
+      "C": "t_sidewalk",
+      "D": "t_door_c",
+      "I": { "param": "interior_wall_type", "fallback": "t_brick_wall" },
+      "j": "t_carpet_concrete_red",
+      "M": "t_concrete_wall",
+      "P": "t_door_metal_o",
+      "u": "t_thconc_floor",
+      "x": "t_thconc_floor_no_roof",
+      "Z": "t_bars",
+      "#": "t_brick_wall",
+      ":": "t_window_bars_curtains",
+      "+": "t_door_metal_pickable",
+      ",": "t_region_groundcover_urban",
       "'": "t_sidewalk",
-      "/": "t_sidewalk",
-      "C": "t_thconc_floor",
-      "`": "t_thconc_floor",
       ".": "t_thconc_floor",
-      "a": "t_thconc_floor",
-      "?": "t_thconc_floor",
-      "l": "t_thconc_floor",
-      "E": "t_thconc_floor",
-      "d": "t_thconc_floor",
-      "^": "t_thconc_floor",
-      "Q": "t_thconc_floor",
-      "x": "t_thconc_floor",
-      "X": "t_thconc_floor",
-      "A": "t_thconc_floor",
-      "r": "t_thconc_floor",
-      "R": "t_thconc_floor",
-      "m": "t_thconc_floor",
-      "M": "t_thconc_floor",
-      "T": "t_thconc_floor",
-      "N": "t_thconc_floor",
-      "n": "t_thconc_floor",
-      "K": "t_thconc_floor",
-      "G": "t_thconc_floor",
-      "g": "t_thconc_floor",
-      "f": "t_thconc_floor",
-      "L": "t_thconc_floor",
-      "y": "t_thconc_floor",
-      "Y": "t_thconc_floor",
-      "v": "t_thconc_floor",
-      "=": "t_thconc_floor",
-      "_": "t_pavement",
-      "*": "t_pavement_y",
-      "<": "t_stairs_up",
       ";": "t_gutter_downspout",
-      "W": "t_strconc_wall",
-      "Z": "t_bars"
+      "(": "t_chaingate_c",
+      "%": "t_chainfence"
     },
     "furniture": {
-      "$": "f_atm_off",
-      "C": "f_counter",
-      "R": "f_counter",
-      "3": "f_counter",
-      "a": "f_stool",
-      "?": "f_console_broken",
-      "d": [ [ "f_displaycase", 65 ], [ "f_displaycase_o", 35 ] ],
-      "p": "f_displaycase_b",
-      "n": "f_table",
+      "A": "f_chair",
+      "B": "f_utility_shelf",
+      "C": "f_sandbag_half",
+      "c": "f_counter_gate_c",
+      "d": "f_displaycase_o",
       "E": "f_desk",
-      "^": "f_indoor_plant",
-      "l": "f_locker",
+      "e": "f_gunsafe_o",
+      "F": "f_utility_shelf",
+      "f": "f_fridge",
+      "G": "f_rack",
+      "g": "f_displaycase",
+      "H": "f_displaycase",
+      "h": "f_displaycase",
+      "i": "f_rack",
+      "J": "f_rack",
+      "K": "f_rack",
+      "k": "f_displaycase",
+      "L": "f_gunsafe_c",
+      "l": "f_rack_coat",
       "N": "f_locker",
-      "M": "f_locker",
-      "m": "f_rack",
+      "n": "f_table",
+      "O": "f_rack",
+      "o": "f_rack",
+      "p": "f_sofa",
+      "Q": "f_rack",
+      "q": "f_sink",
+      "R": "f_counter",
+      "r": "f_trashcan",
+      "S": "f_crate_o",
+      "s": [ [ "f_crate_c", 55 ], [ "f_crate_o", 45 ] ],
+      "T": "f_target",
+      "t": "f_rack",
+      "v": "f_rack",
+      "w": "f_dumpster",
+      "x": "f_sandbag_half",
       "Y": "f_rack",
       "y": "f_rack",
-      "F": "f_locker",
-      "Q": "f_rack",
-      "K": "f_rack",
-      "L": [ [ "f_rack_l", 65 ], [ "f_rack", 35 ] ],
-      "G": "f_rack",
-      "v": "f_rack",
-      "q": "f_sink",
-      "r": "f_trashcan",
-      "s": [ [ "f_crate_c", 55 ], [ "f_crate_o", 45 ] ],
-      "S": "f_crate_o",
-      "A": "f_chair",
-      "T": "f_target",
-      "w": "f_dumpster",
-      "X": [ [ "f_gunsafe_ml", 90 ], [ "f_gunsafe_o", 10 ] ],
-      "e": "f_gunsafe_o",
-      "O": [ [ "f_gunsafe_ml", 90 ], [ "f_gunsafe_o", 10 ] ],
-      "x": "f_sandbag_wall",
-      "g": "f_sofa",
-      "f": "f_fridge",
-      "/": "f_flagpole"
+      "3": "f_counter",
+      "4": "f_foot_locker_aluminum",
+      "$": [ [ "f_atm_off", 5 ], [ "f_null", 95 ] ],
+      "?": "f_console_broken",
+      "^": "f_indoor_plant",
+      "!": "f_cardboard_box",
+      "/": "f_locker",
+      "|": "f_locker",
+      "`": "f_rack"
     },
-    "item": { "/": { "item": "american_flag" } },
+    "item": { "F": { "item": "gun_lock", "repeat": [ 5, 20 ] }, "U": { "item": "shredded_rubber", "repeat": [ 200, 500 ] } },
     "items": {
-      "X": { "item": "SUS_gunstore_safe", "chance": 50, "repeat": [ 10, 20 ] },
-      "O": { "item": "guns_common_display", "chance": 75, "repeat": [ 3, 6 ] },
-      "s": { "item": "SUS_gunstore_crate", "chance": 80, "repeat": [ 1, 3 ] },
-      "S": { "item": "SUS_gunstore_crate", "chance": 50, "repeat": [ 1, 3 ] },
-      "`": { "item": "SUS_gunstore_looted_floor", "chance": 20, "repeat": [ 1, 2 ] },
-      "m": { "item": "SUS_gunstore_looted_storage", "chance": 20, "repeat": [ 1, 2 ] },
-      "M": { "item": "SUS_gunstore_looted_storage", "chance": 20, "repeat": [ 1, 2 ] },
-      "d": { "item": "SUS_gunstore_displaycase", "chance": 95 },
-      "p": { "item": "SUS_gunstore_displaycase", "chance": 55 },
+      "B": { "item": "guns_common_boxed", "repeat": [ 3, 12 ] },
+      "E": { "item": "SUS_office_desk", "repeat": 3, "chance": 20 },
+      "f": { "item": "SUS_fridge_breakroom", "repeat": 3, "chance": 35 },
+      "g": { "item": "guns_rifle_common_display", "repeat": [ 1, 5 ] },
+      "H": { "item": "guns_pistol_common_display", "repeat": [ 1, 5 ] },
+      "h": { "item": "guns_shotgun_common_display", "repeat": [ 1, 5 ] },
+      "i": { "item": "ammo_common_boxed", "repeat": 12 },
+      "J": { "item": "mags_common_restricted_packaged", "repeat": [ 8, 20 ] },
       "K": {
         "item": {
-          "//": "gun books kept on racks in the FoH",
           "subtype": "collection",
-          "entries": [ { "group": "book_gunref", "prob": 5 }, { "group": "book_gunmags", "prob": 80 } ]
+          "entries": [ { "group": "book_gunref", "prob": 50 }, { "group": "book_gunmags", "prob": 80 } ]
         },
-        "repeat": 3,
+        "repeat": 12,
         "chance": 75
       },
-      "F": {
+      "l": { "item": "unisex_coat_rack", "repeat": 4, "chance": 75 },
+      "N": { "item": "ear_protection", "repeat": [ 2, 8 ] },
+      "n": {
         "item": {
-          "//": "civilian magazines kept on racks behind the counter in the FoH",
-          "subtype": "collection",
-          "entries": [ { "group": "mags_common", "prob": 70 }, { "group": "mags_common", "prob": 30 } ]
+          "subtype": "distribution",
+          "//": "moderate chance of snacks and mags on tables",
+          "entries": [
+            { "group": "vending_food_items", "prob": 40 },
+            { "group": "vending_drink_items", "prob": 40 },
+            { "group": "book_gunmags", "prob": 10 }
+          ]
         },
-        "repeat": 15,
-        "chance": 65
+        "chance": 30
       },
+      "O": { "item": "SUS_gunstore_optics_packaged", "repeat": [ 8, 16 ] },
+      "o": { "item": "SUS_gunstore_hearing", "repeat": [ 12, 20 ] },
+      "r": { "item": "SUS_trash_trashcan", "chance": 45 },
+      "s": { "item": "SUS_gunstore_crate", "chance": 80, "repeat": [ 1, 3 ] },
+      "S": { "item": "SUS_gunstore_crate", "chance": 50, "repeat": [ 1, 3 ] },
+      "t": { "item": "SUS_gunstore_carry_gear", "repeat": [ 12, 15 ] },
+      "v": {
+        "item": {
+          "subtype": "collection",
+          "entries": [ { "group": "gunmod_common", "prob": 70 }, { "group": "gunmod_rare", "prob": 30 } ]
+        },
+        "repeat": [ 3, 6 ],
+        "chance": 60
+      },
+      "w": { "item": "SUS_trash_dumpster", "chance": 45 },
       "Y": { "item": "SUS_gunstore_gear", "chance": 90, "repeat": [ 1, 4 ] },
+      "=": { "item": "casings", "repeat": 100, "chance": 10 },
+      "`": { "item": "ammo_casings_gunsmith", "repeat": [ 4, 6 ] },
+      "&": { "item": "SUS_toilet", "chance": 50 }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "gunstore_palette_looted",
+    "parameters": {
+      "interior_wall_type": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_wall_w", 1 ], [ "t_wall_gray", 1 ], [ "t_wall_black", 1 ] ] }
+      }
+    },
+    "toilets": { "&": {  } },
+    "terrain": {
+      "C": "t_sidewalk",
+      "D": "t_door_c",
+      "I": { "param": "interior_wall_type", "fallback": "t_brick_wall" },
+      "j": "t_carpet_concrete_red",
+      "W": "t_strconc_wall",
+      "x": "t_thconc_floor_no_roof",
+      "Z": "t_bars",
+      "#": "t_brick_wall",
+      ":": "t_window_bars_domestic",
+      "+": [ [ "t_door_metal_o", 60 ], [ "t_door_metal_c", 40 ] ],
+      ",": "t_region_groundcover_urban",
+      "'": "t_sidewalk",
+      ".": "t_thconc_floor",
+      ";": "t_gutter_downspout",
+      "(": "t_chaingate_c",
+      "%": "t_chainfence"
+    },
+    "furniture": {
+      "A": "f_chair",
+      "B": "f_utility_shelf",
+      "C": "f_sandbag_half",
+      "c": "f_counter_gate_c",
+      "d": "f_displaycase_o",
+      "E": "f_desk",
+      "e": "f_gunsafe_o",
+      "F": "f_utility_shelf",
+      "f": "f_fridge",
+      "G": "f_rack",
+      "g": [ [ "f_displaycase_b", 70 ], [ "f_displaycase_o", 30 ] ],
+      "H": [ [ "f_displaycase_b", 70 ], [ "f_displaycase_o", 30 ] ],
+      "h": [ [ "f_displaycase_b", 70 ], [ "f_displaycase_o", 30 ] ],
+      "i": "f_rack",
+      "J": "f_rack",
+      "K": "f_rack",
+      "k": [ [ "f_displaycase_b", 70 ], [ "f_displaycase_o", 30 ] ],
+      "L": [ [ "f_gunsafe_o", 40 ], [ "f_gunsafe_c", 50 ], [ "f_gunsafe_mj", 10 ] ],
+      "l": "f_rack_coat",
+      "M": "f_locker",
+      "m": "f_rack",
+      "N": "f_locker",
+      "n": "f_table",
+      "O": "f_rack",
+      "o": "f_rack",
+      "p": "f_sofa",
+      "Q": "f_rack",
+      "q": "f_sink",
+      "R": "f_counter",
+      "r": "f_trashcan",
+      "S": "f_crate_o",
+      "s": [ [ "f_crate_c", 55 ], [ "f_crate_o", 45 ] ],
+      "T": "f_target",
+      "t": "f_rack",
+      "v": "f_rack",
+      "w": "f_dumpster",
+      "x": "f_sandbag_half",
+      "Y": "f_rack",
+      "y": "f_rack",
+      "3": "f_counter",
+      "4": "f_foot_locker_aluminum",
+      "$": [ [ "f_atm_off", 5 ], [ "f_null", 95 ] ],
+      "?": "f_console_broken",
+      "^": "f_indoor_plant",
+      "!": "f_cardboard_box",
+      "/": "f_locker",
+      "|": "f_locker",
+      "`": "f_rack"
+    },
+    "item": { "F": { "item": "gun_lock", "repeat": [ 5, 20 ] } },
+    "items": {
+      "B": { "item": "guns_common_boxed", "chance": 15 },
+      "E": { "item": "SUS_office_desk", "repeat": 3, "chance": 20 },
+      "g": { "item": "guns_rifle_common_display", "repeat": [ 0, 1 ], "chance": 30 },
+      "H": { "item": "guns_pistol_common_display", "repeat": [ 0, 1 ], "chance": 30 },
+      "h": { "item": "guns_shotgun_common_display", "repeat": [ 0, 1 ], "chance": 30 },
+      "i": {
+        "item": {
+          "entries": [
+            { "group": "ammo_common_boxed_used", "prob": 25 },
+            { "group": "ammo_common_boxed", "prob": 5 },
+            { "group": "ammo_common_boxed_looted", "prob": 70 }
+          ]
+        },
+        "repeat": [ 0, 8 ],
+        "chance": 70
+      },
+      "J": { "item": "mags_common_restricted_packaged", "repeat": [ 3, 6 ], "chance": 50 },
+      "K": {
+        "item": {
+          "subtype": "collection",
+          "entries": [ { "group": "book_gunref", "prob": 50 }, { "group": "book_gunmags", "prob": 80 } ]
+        },
+        "repeat": 4,
+        "chance": 40
+      },
+      "l": { "item": "unisex_coat_rack", "repeat": 4, "chance": 75 },
+      "N": { "item": "ear_protection", "repeat": [ 2, 8 ] },
+      "n": {
+        "item": {
+          "subtype": "distribution",
+          "//": "moderate chance of snacks and mags on tables",
+          "entries": [
+            { "group": "vending_food_items", "prob": 40 },
+            { "group": "vending_drink_items", "prob": 40 },
+            { "group": "book_gunmags", "prob": 10 }
+          ]
+        },
+        "chance": 30
+      },
+      "O": { "item": "SUS_gunstore_optics_packaged", "repeat": [ 3, 5 ], "chance": 60 },
+      "o": { "item": "SUS_gunstore_hearing", "repeat": [ 10, 16 ] },
+      "r": { "item": "SUS_trash_trashcan", "chance": 45 },
+      "s": { "item": "SUS_gunstore_crate", "chance": 80, "repeat": [ 1, 3 ] },
+      "S": { "item": "SUS_gunstore_crate", "chance": 50, "repeat": [ 1, 3 ] },
+      "t": { "item": "SUS_gunstore_carry_gear", "repeat": [ 5, 7 ], "chance": 60 },
       "v": {
         "item": {
           "//": "gun mods kept on racks in the FoH",
@@ -131,24 +264,8 @@
         "repeat": [ 3, 6 ],
         "chance": 60
       },
-      "l": {
-        "item": {
-          "//": "workers items that were placed in lockers before the CATA, kept in the BoH",
-          "subtype": "collection",
-          "entries": [ { "group": "unisex_coat_rack" } ]
-        },
-        "repeat": 2,
-        "chance": 75
-      },
-      "N": {
-        "item": {
-          "//": "ear protection kept in the proximity of store gun ranges",
-          "subtype": "collection",
-          "entries": [ { "group": "ear_protection", "prob": 30 } ]
-        },
-        "repeat": 8,
-        "chance": 75
-      },
+      "w": { "item": "SUS_trash_dumpster", "chance": 45 },
+      "Y": { "item": "SUS_gunstore_gear", "chance": 60, "repeat": [ 1, 4 ] },
       "y": {
         "item": {
           "//": "gunsmithing tools kept on racks",
@@ -158,88 +275,152 @@
         "repeat": 5,
         "chance": 50
       },
-      "L": {
-        "item": {
-          "//": "locked racks for all common gun type of civilian firearms",
-          "subtype": "collection",
-          "entries": [ { "group": "guns_common_display" } ]
-        },
-        "repeat": [ 1, 3 ],
-        "chance": 80
-      },
-      "f": {
-        "item": { "//": "rec room fridge", "subtype": "collection", "entries": [ { "group": "fridgesnacks" } ] },
-        "repeat": 10,
-        "chance": 35
-      },
-      "R": {
-        "item": {
-          "//": "counters used for shooting at the gun range, chance of spawning any loaded common firearm as well as spent brass",
-          "subtype": "collection",
-          "entries": [ { "group": "guns_common_display", "prob": 25 }, { "group": "casings", "prob": 50 } ]
-        },
-        "repeat": 3,
-        "chance": 80
-      },
-      "r": {
-        "item": { "//": "contents of trashcans in store", "subtype": "collection", "entries": [ { "group": "trash" } ] },
-        "repeat": 5,
-        "chance": 45
-      },
-      "w": {
-        "item": { "//": "contents of dumpsters", "subtype": "collection", "entries": [ { "group": "trash" } ] },
-        "repeat": 30,
-        "chance": 45
-      },
-      "Q": {
-        "item": {
-          "subtype": "collection",
-          "//": "bulk casing on racks in the FoH",
-          "entries": [ { "group": "ammo_casings_gunsmith_bulk" } ]
-        },
-        "repeat": 15,
-        "chance": 35
-      },
-      "=": {
-        "item": {
-          "subtype": "collection",
-          "//": "spent casings scattered around shooting ranges",
-          "entries": [ { "group": "casings" } ]
-        },
-        "repeat": 1,
-        "chance": 50
-      },
-      "C": {
-        "item": {
-          "subtype": "distribution",
-          "//": "low chance of snacks and gun mags on counters",
-          "entries": [
-            { "group": "vending_food_items", "prob": 33 },
-            { "group": "vending_drink_items", "prob": 33 },
-            { "group": "book_gunmags", "prob": 33 }
-          ]
-        },
-        "repeat": 2,
-        "chance": 15
-      },
+      "=": { "item": "casings", "repeat": 100, "chance": 10 },
+      "`": { "item": "ammo_casings_gunsmith", "repeat": [ 0, 2 ], "chance": 60 },
+      "&": { "item": "SUS_toilet", "chance": 50 }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "gunstore_palette_occupied",
+    "parameters": {
+      "interior_wall_type": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_wall_w", 1 ], [ "t_wall_gray", 1 ], [ "t_wall_black", 1 ] ] }
+      }
+    },
+    "toilets": { "&": {  } },
+    "terrain": {
+      "C": "t_sidewalk",
+      "D": "t_door_c",
+      "I": { "param": "interior_wall_type", "fallback": "t_brick_wall" },
+      "j": "t_carpet_concrete_red",
+      "P": "t_door_metal_o",
+      "U": "t_thconc_floor",
+      "W": "t_strconc_wall",
+      "x": "t_thconc_floor_no_roof",
+      "Z": "t_bars",
+      "#": "t_brick_wall",
+      ":": "t_window_bars_curtains",
+      "+": "t_door_metal_interior_locked",
+      ",": "t_region_groundcover_urban",
+      "'": "t_sidewalk",
+      ".": "t_thconc_floor",
+      ";": "t_gutter_downspout",
+      "(": "t_chaingate_c",
+      "%": "t_chainfence"
+    },
+    "traps": { "a": [ "tr_cot" ] },
+    "furniture": {
+      "A": "f_chair",
+      "B": "f_utility_shelf",
+      "C": "f_sandbag_half",
+      "c": "f_counter_gate_c",
+      "d": "f_displaycase_o",
+      "E": "f_desk",
+      "F": "f_utility_shelf",
+      "f": "f_fridge",
+      "G": "f_rack",
+      "g": "f_rack",
+      "i": "f_rack",
+      "j": "f_gunsafe_c",
+      "K": "f_locker",
+      "l": "f_rack_coat",
+      "M": "f_locker",
+      "m": "f_rack",
+      "N": "f_locker",
+      "n": "f_table",
+      "O": "f_rack",
+      "o": "f_crate_o",
+      "p": "f_sofa",
+      "Q": "f_rack",
+      "q": "f_sink",
+      "R": "f_counter",
+      "r": "f_trashcan",
+      "S": "f_crate_o",
+      "T": "f_target",
+      "U": "f_sandbag_half",
+      "v": "f_rack",
+      "w": "f_dumpster",
+      "x": "f_sandbag_half",
+      "Y": "f_rack",
+      "y": "f_rack",
+      "3": "f_counter",
+      "4": "f_foot_locker_aluminum",
+      "$": [ [ "f_atm_off", 5 ], [ "f_null", 95 ] ],
+      "?": "f_console_broken",
+      "^": "f_indoor_plant",
+      "!": "f_cardboard_box",
+      "/": "f_locker"
+    },
+    "items": {
+      "B": { "item": "guns_common_boxed", "repeat": [ 9, 20 ] },
+      "E": { "item": "SUS_office_desk", "repeat": 3, "chance": 20 },
+      "f": { "item": "SUS_fridge_breakroom", "repeat": 3, "chance": 35 },
+      "g": { "item": "cannedfood", "repeat": [ 40, 150 ] },
+      "i": { "item": "ammo_common_boxed_used", "repeat": 6 },
+      "K": { "item": "guns_pistol_common", "repeat": [ 6, 10 ] },
       "n": {
         "item": {
-          "subtype": "distribution",
-          "//": "moderate chance of snacks and mags on tables",
+          "subtype": "collection",
+          "entries": [ { "group": "silverware", "count": [ 2, 4 ] }, { "group": "dinnerware", "count": [ 1, 2 ] } ]
+        }
+      },
+      "O": { "item": "SUS_gunstore_optics_packaged", "repeat": [ 8, 16 ] },
+      "o": {
+        "item": {
+          "subtype": "collection",
           "entries": [
-            { "group": "vending_food_items", "prob": 33 },
-            { "group": "vending_drink_items", "prob": 33 },
-            { "group": "book_gunmags", "prob": 33 }
+            { "group": "SUS_gunstore_hearing", "count": [ 12, 20 ] },
+            { "group": "SUS_gunstore_carry_gear", "count": [ 6, 8 ] },
+            { "item": "blister_pack", "count": [ 14, 30 ] },
+            { "group": "SUS_trash_floor", "count": [ 60, 100 ] }
+          ]
+        }
+      },
+      "t": {
+        "item": {
+          "subtype": "collection",
+          "entries": [
+            { "item": "pipe", "count": [ 12, 18 ], "prob": 80 },
+            { "item": "2x4", "count": [ 6, 8 ], "prob": 80 },
+            { "item": "nail", "count": [ 1, 3 ], "prob": 60 },
+            { "item": "pipe_fittings", "count": [ 4, 6 ], "prob": 40 },
+            { "item": "sheet_metal", "count": [ 8, 10 ], "prob": 70 },
+            { "item": "splinter", "count": [ 1, 2 ], "prob": 30 }
           ]
         },
-        "repeat": 2,
-        "chance": 30
+        "repeat": [ 0, 3 ]
       },
-      "E": {
-        "item": { "subtype": "collection", "//": "items on store desks", "entries": [ { "group": "office_mess" } ] },
-        "repeat": 3,
-        "chance": 20
-      }
+      "w": {
+        "item": {
+          "subtype": "collection",
+          "entries": [
+            { "group": "SUS_trash_dumpster" },
+            { "item": "cup_plastic", "prob": 5 },
+            { "item": "can_food_big", "prob": 10 },
+            { "item": "can_food", "prob": 10 },
+            { "item": "can_medium", "prob": 30 }
+          ]
+        },
+        "chance": 45
+      },
+      ".": {
+        "item": {
+          "subtype": "collection",
+          "entries": [
+            { "item": "wrapper", "prob": 60 },
+            { "item": "bag_plastic_small", "prob": 20 },
+            { "item": "cup_plastic", "prob": 5 },
+            { "item": "can_food_big", "prob": 10 },
+            { "item": "can_food", "prob": 10 },
+            { "item": "can_medium", "prob": 30 },
+            { "item": "splinter", "prob": 10 }
+          ]
+        },
+        "chance": 15
+      },
+      "&": { "item": "SUS_toilet", "chance": 50 }
     }
   }
 ]

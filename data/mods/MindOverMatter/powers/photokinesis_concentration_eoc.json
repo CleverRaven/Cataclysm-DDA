@@ -189,12 +189,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('photokinetic_camouflage') * 48) + 690) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 48) + 690) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('photokinetic_camouflage') * 113) + 1430) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 113) + 1430) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -222,21 +222,29 @@
     "id": "EOC_PHOTOKIN_CAMOUFLAGE_DRAIN",
     "condition": { "u_has_effect": "effect_photokin_camouflage" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
+      {
+        "if": { "math": [ "u_spell_level('photokinetic_camouflage') >= 1" ] },
+        "then": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('photokinetic_camouflage')" ] },
+        "else": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('photokinetic_camouflage_knack')" ] }
+      },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('photokinetic_camouflage')", "+=", "psionic_power_experience_formula()" ] },
+      {
+        "if": { "math": [ "u_spell_level('photokinetic_camouflage') >= 1" ] },
+        "then": { "math": [ "u_spell_exp('photokinetic_camouflage')", "+=", "psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('photokinetic_camouflage_knack')", "+=", "psionic_power_experience_formula()" ] }
+      },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_PHOTOKIN_CAMOUFLAGE_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('photokinetic_camouflage') * 48) + 690) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 48) + 690) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('photokinetic_camouflage') * 113) + 1430) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 113) + 1430) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -257,12 +265,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('photokinetic_hide_ugly') * 22) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) * 22) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('photokinetic_hide_ugly') * 55) + 890) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) * 55) + 890) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -291,21 +299,29 @@
     "id": "EOC_PHOTOKIN_HIDE_UGLY_DRAIN",
     "condition": { "u_has_effect": "effect_photokin_hide_ugly" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
+      {
+        "if": { "math": [ "u_spell_level('photokinetic_hide_ugly') >= 1" ] },
+        "then": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('photokinetic_hide_ugly')" ] },
+        "else": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('photokinetic_hide_ugly_knack')" ] }
+      },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('photokinetic_hide_ugly')", "+=", "psionic_power_experience_formula()" ] },
+      {
+        "if": { "math": [ "u_spell_level('photokinetic_hide_ugly') >= 1" ] },
+        "then": { "math": [ "u_spell_exp('photokinetic_hide_ugly')", "+=", "psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('photokinetic_hide_ugly_knack')", "+=", "psionic_power_experience_formula()" ] }
+      },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_PHOTOKIN_HIDE_UGLY_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('photokinetic_hide_ugly') * 22) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) * 22) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('photokinetic_hide_ugly') * 55) + 890) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) * 55) + 890) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -327,12 +343,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('photokinetic_radio') * 126) + 1456) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('photokinetic_radio') + u_spell_level('photokinetic_radio_knack') ) * 126) + 1456) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('photokinetic_radio') * 772) + 5220) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('photokinetic_radio') + u_spell_level('photokinetic_radio_knack') ) * 772) + 5220) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -356,21 +372,29 @@
     "id": "EOC_PHOTOKIN_RADIO_DRAIN",
     "condition": { "u_has_effect": "effect_photokinetic_radio" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty = 5" ] },
+      {
+        "if": { "math": [ "u_spell_level('photokinetic_radio') >= 1" ] },
+        "then": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('photokinetic_radio')" ] },
+        "else": { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('photokinetic_radio_knack')" ] }
+      },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('photokinetic_radio')", "+=", "psionic_power_experience_formula()" ] },
+      {
+        "if": { "math": [ "u_spell_level('photokinetic_radio') >= 1" ] },
+        "then": { "math": [ "u_spell_exp('photokinetic_radio')", "+=", "psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('photokinetic_radio_knack')", "+=", "psionic_power_experience_formula()" ] }
+      },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_PHOTOKIN_RADIO_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('photokinetic_radio') * 126) + 1456) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('photokinetic_radio') + u_spell_level('photokinetic_radio_knack') ) * 126) + 1456) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('photokinetic_radio') * 772) + 5220) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('photokinetic_radio') + u_spell_level('photokinetic_radio_knack') ) * 772) + 5220) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -492,6 +516,116 @@
           {
             "math": [
               "( (u_spell_level('photokinetic_blinding_glare') * 47) + 178) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LIGHT_ARMY_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_photokin_light_army" } },
+    "effect": [
+      { "u_message": "A myriad of duplicates of yourself appear nearby!", "type": "good" },
+      { "u_add_effect": "effect_photokin_light_army", "duration": "PERMANENT" },
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
+      {
+        "math": [
+          "_real_count_low = ( ( ( u_spell_level('photokinetic_light_army') * 0.75) + 2) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling)"
+        ]
+      },
+      {
+        "math": [
+          "_real_count_high = ( ( ( u_spell_level('photokinetic_light_army') * 1.5) + 5) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling)"
+        ]
+      },
+      {
+        "u_spawn_monster": "mon_photokin_army_image",
+        "real_count": [ { "math": [ "_real_count_low" ] }, { "math": [ "_real_count_high" ] } ],
+        "summoner_is_alpha": true,
+        "lifespan": "15 minutes",
+        "min_radius": 1,
+        "max_radius": 8
+      },
+      {
+        "u_spawn_monster": "mon_photokin_army_image",
+        "real_count": [ { "math": [ "_real_count_low / 1.5" ] }, { "math": [ "_real_count_high / 1.5" ] } ],
+        "summoner_is_alpha": true,
+        "lifespan": "15 minutes",
+        "min_radius": 8,
+        "max_radius": 25
+      },
+      {
+        "u_spawn_monster": "mon_photokin_army_image",
+        "real_count": [ { "math": [ "_real_count_low / 2.5" ] }, { "math": [ "_real_count_high / 2.5" ] } ],
+        "summoner_is_alpha": true,
+        "lifespan": "15 minutes",
+        "min_radius": 25,
+        "max_radius": 40
+      },
+      { "run_eocs": "EOC_PHOTOKIN_LIGHT_ARMY_CONTINUING_CHECK", "time_in_future": 1 },
+      {
+        "run_eocs": "EOC_PHOTOKIN_LIGHT_ARMY_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( u_spell_level('photokinetic_light_army') * 4.50) + 37.40) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( ( u_spell_level('photokinetic_light_army') * 11.00) + 96.50) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PHOTOKIN_REMOVE_LIGHT_ARMY" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_REMOVE_LIGHT_ARMY",
+    "condition": { "u_has_effect": "effect_photokin_light_army" },
+    "effect": [
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_MINUS_ONE", "EOC_POWER_MAINTENANCE_MINUS_ONE" ] },
+      { "u_lose_effect": "effect_photokin_light_army" },
+      {
+        "u_cast_spell": { "id": "photokinetic_light_army_remove", "hit_self": false, "message": "The remaining light duplicates disappear." }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LIGHT_ARMY_CONTINUING_CHECK",
+    "condition": { "math": [ "u_monsters_nearby('mon_photokin_army_image') >= 1" ] },
+    "effect": [ { "run_eocs": "EOC_PHOTOKIN_LIGHT_ARMY_CONTINUING_CHECK", "time_in_future": 1 } ],
+    "false_effect": [
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_MINUS_ONE", "EOC_POWER_MAINTENANCE_MINUS_ONE" ] },
+      { "u_lose_effect": "effect_photokin_light_army" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LIGHT_ARMY_DRAIN",
+    "condition": { "u_has_effect": "effect_photokin_light_army" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = 9" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
+      { "math": [ "u_spell_exp('photokinetic_light_army')", "+=", "psionic_power_experience_formula()" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "run_eocs": "EOC_PHOTOKIN_LIGHT_ARMY_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( u_spell_level('photokinetic_light_army') * 4.50) + 37.40) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( ( u_spell_level('photokinetic_light_army') * 11.00) + 96.50) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

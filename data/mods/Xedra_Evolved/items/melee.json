@@ -1,7 +1,7 @@
 [
   {
     "id": "glass_knife",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "weapons",
     "name": { "str": "glasknife", "str_pl": "glasknives" },
     "description": "This is a knife that seems to be made of glass, but significantly more durable, like some sort of crystal with the strength of metal.",
@@ -23,7 +23,7 @@
   },
   {
     "id": "mirror_march_estoc",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "mirrored estoc" },
@@ -44,24 +44,51 @@
   },
   {
     "id": "winter_lord_estoc",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "name": { "str": "frostrimed estoc" },
     "copy-from": "mirror_march_estoc",
     "description": "This sword is covered in shifting frost and seems to move of its own volition in your hands.",
     "extend": { "flags": [ "RELIC_PINK" ] },
     "relative": { "melee_damage": { "cold": 9 } },
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
-    }
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
+  },
+  {
+    "id": "wild_huntsman_hunting_blade",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "name": { "str": "witchwood sword" },
+    "copy-from": "ch_arming_sword",
+    "looks_like": "bokken",
+    "description": "This sword is made all of a single piece of wood and so black any details are lost.  Some kind of shimmering leather is wrapped around the grip.",
+    "material": [ { "type": "wood", "portion": 1 } ],
+    "price": "1 kUSD 350 USD",
+    "price_postapoc": "500 USD",
+    "proportional": { "melee_damage": { "stab": 0.9 } },
+    "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR", "RELIC_PINK" ] },
+    "delete": { "flags": "CONDUCTIVE" },
+    "relative": { "melee_damage": { "biological": 5 } },
+    "passive_effects": [
+      {
+        "has": "WIELD",
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "BONUS_BLOCK", "add": 1 },
+          { "value": "ATTACK_SPEED", "add": -10 },
+          { "value": "WEAKPOINT_ACCURACY", "multiply": 1 }
+        ]
+      }
+    ]
   },
   {
     "id": "redcap_club",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "name": { "str": "redcap club" },
     "copy-from": "mace",
     "description": "A giant bloodstained club, barely human wieldable with two hands.  You see shadowy tendrils of blood whenever it connects with an enemy, sticking to whatever it hits and burning like acid.",
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "ALWAYS_TWOHAND" ],
-    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "blood_tendrils" } ] } ] }
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "blood_tendrils" } ] } ]
   },
   {
     "id": "blood_tendrils",
@@ -78,7 +105,8 @@
   },
   {
     "id": "pooka_gladius",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "name": { "str": "pooka gladius", "str_pl": "pooka gladii" },
     "copy-from": "wakizashi",
     "description": "A gladius covered in the whorls of Celtic knots.  Sparks seems to pop off the edge of the blade.",
@@ -86,10 +114,10 @@
     "longest_side": "60 cm",
     "material": [ "moon_tears" ],
     "weapon_category": [ "SHORT_SWORDS" ],
-    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "distant_thunder" } ] } ] }
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "distant_thunder" } ] } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "salamagman_handaxe",
     "category": "weapons",
     "price": "124 USD",
@@ -112,7 +140,8 @@
   },
   {
     "id": "salamagman_battleaxe",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "salamagman battle axe" },
     "looks_like": "ch_battleaxe",
     "description": "A huge axe designed for warfare.  Made of forged dreamdross, and enchanted to channel heat into those it wounds.",
@@ -133,7 +162,7 @@
     "melee_damage": { "bash": 19, "cut": 41, "heat": 21 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "salamagman_macuahuitl",
     "name": { "str": "obsidian macuahuitl" },
     "description": "Astute observers of Mesoamerican history may recognize this as a macuahuitl, the favored weapon of the Aztecs.  This macuahuitl looks as though it was made deep inside of a black mirror.",
@@ -158,7 +187,7 @@
   },
   {
     "id": "dreamdross_knife",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "weapons",
     "name": { "str": "dreamdross knife", "str_pl": "dreamdross knives" },
     "description": "Covered with thin layer of dreamdross, this knife is a light and sharp tool to work with.",
@@ -177,7 +206,7 @@
   },
   {
     "id": "dreamdross_club",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "weapons",
     "name": { "str": "dreamdross club" },
     "description": "It was a good tool before, but now it's covered with a thick layer of dreamdross, and it works as a light but deadly weapon.",
@@ -194,7 +223,7 @@
     "weapon_category": [ "MACES" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamdross_bo",
     "symbol": "/",
     "color": "light_gray",
@@ -213,7 +242,7 @@
     "price_postapoc": "10 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_q_staff",
     "copy-from": "bo",
     "name": { "str": "dreamforged quarterstaff", "str_pl": "dreamforged quarterstaves" },
@@ -223,7 +252,7 @@
     "proportional": { "melee_damage": { "bash": 2.5 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_longsword",
     "copy-from": "mc_longsword",
     "name": { "str": "dreamforged longsword" },
@@ -232,7 +261,7 @@
     "proportional": { "melee_damage": { "cut": 0.5 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_warhammer",
     "copy-from": "warhammer",
     "name": { "str": "dreamforged warhammer" },
@@ -241,7 +270,7 @@
     "proportional": { "melee_damage": { "bash": 1.2 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_spear",
     "copy-from": "spear_steel",
     "name": { "str": "dreamforged spear" },
@@ -250,7 +279,7 @@
     "proportional": { "melee_damage": { "stab": 1.2 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_halberd",
     "copy-from": "halberd",
     "name": { "str": "dreamforged halberd" },
@@ -259,7 +288,7 @@
     "proportional": { "melee_damage": { "cut": 1.1 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_glaive",
     "copy-from": "glaive",
     "name": { "str": "dreamforged glaive" },
@@ -268,7 +297,7 @@
     "proportional": { "melee_damage": { "cut": 1.1 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_naginata",
     "copy-from": "naginata",
     "name": { "str_sp": "dreamforged naginata" },
@@ -277,7 +306,7 @@
     "proportional": { "melee_damage": { "cut": 1.1 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_mace",
     "copy-from": "mace",
     "name": { "str": "dreamforged mace" },
@@ -286,7 +315,7 @@
     "proportional": { "melee_damage": { "bash": 0.9 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_morningstar",
     "copy-from": "morningstar",
     "name": { "str": "dreamforged morningstar" },
@@ -295,7 +324,7 @@
     "proportional": { "melee_damage": { "bash": 0.9 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_estoc",
     "copy-from": "mc_estoc",
     "name": { "str": "dreamforged estoc" },
@@ -304,7 +333,7 @@
     "proportional": { "melee_damage": { "stab": 0.5 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_arming_sword",
     "copy-from": "mc_arming_sword",
     "name": { "str": "dreamforged arming sword" },
@@ -313,7 +342,7 @@
     "proportional": { "melee_damage": { "cut": 0.5 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_broadsword",
     "copy-from": "mc_broadsword",
     "name": { "str": "dreamforged broadsword" },
@@ -322,7 +351,7 @@
     "proportional": { "melee_damage": { "cut": 0.5 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_battleaxe",
     "copy-from": "battleaxe",
     "name": { "str": "dreamforged battle axe" },
@@ -331,7 +360,7 @@
     "proportional": { "melee_damage": { "cut": 0.7 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_katana",
     "copy-from": "mc_katana",
     "name": { "str_sp": "dreamforged katana" },
@@ -340,7 +369,7 @@
     "proportional": { "melee_damage": { "cut": 0.3 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_knife_combat",
     "copy-from": "knife_combat_army",
     "name": { "str": "dreamforged army knife", "str_pl": "dreamforged army knives" },
@@ -349,7 +378,7 @@
     "proportional": { "melee_damage": { "stab": 0.6 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_kris",
     "copy-from": "kris",
     "name": { "str": "dreamforged kris", "str_pl": "dreamforged krises" },
@@ -358,7 +387,7 @@
     "proportional": { "melee_damage": { "bash": 0.3, "stab": 0.85 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_kukri",
     "copy-from": "mc_kukri",
     "name": { "str": "dreamforged kukri" },
@@ -367,7 +396,7 @@
     "proportional": { "melee_damage": { "bash": 0.3, "stab": 0.9 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_nodachi",
     "copy-from": "mc_nodachi",
     "name": { "str_sp": "dreamforged nodachi" },
@@ -376,7 +405,7 @@
     "proportional": { "melee_damage": { "cut": 0.3 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_rapier",
     "copy-from": "mc_rapier",
     "name": { "str": "dreamforged rapier" },
@@ -385,7 +414,7 @@
     "proportional": { "melee_damage": { "stab": 0.65 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_tanto",
     "copy-from": "tanto",
     "name": { "str_sp": "dreamforged tanto" },
@@ -394,7 +423,7 @@
     "proportional": { "melee_damage": { "stab": 0.3 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_wakizashi",
     "copy-from": "mc_wakizashi",
     "name": { "str_sp": "dreamforged wakizashi" },
@@ -403,7 +432,7 @@
     "proportional": { "melee_damage": { "cut": 0.3 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_zweihander",
     "copy-from": "mc_zweihander",
     "name": { "str": "dreamforged zweihänder" },
@@ -412,7 +441,7 @@
     "proportional": { "melee_damage": { "bash": 0.3, "cut": 0.6 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_khopesh",
     "copy-from": "khopesh",
     "name": { "str": "dreamforged khopesh", "str_pl": "dreamforged khopeshes" },
@@ -421,7 +450,7 @@
     "proportional": { "melee_damage": { "bash": 0.3, "stab": 0.8 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_lucerne",
     "copy-from": "lucern_hammer",
     "name": { "str": "dreamforged lucerne hammer" },
@@ -431,7 +460,8 @@
   },
   {
     "id": "dreamforged_knuckle",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "dreamforged knuckles" },
     "description": "A pair of thick dreamdross plates covering your proximal phalange.  The dreamdross grants it some minor magical properties, but you can't control their effects.",
     "copy-from": "knuckle_impact",
@@ -440,13 +470,13 @@
   },
   {
     "id": "dreamforged_knuckle_berserk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "berserker knuckles" },
     "description": "A pair of fiery-red knuckles with tiny blades on the end.  They are fed with your energy and the blood of your enemies, and will fuel different items with berserk properties.",
     "//": "You actually can use it with any weapon, because enchantment applied always, both when you wear it or if you wield it, but it doesn't matter, because iirc fists has one of the biggest attack speed in the game, which is the only thing that matter here.",
     "copy-from": "dreamforged_knuckle",
     "proportional": { "melee_damage": { "bash": 0.5 } },
-    "relic_data": { "passive_effects": [ { "id": "BERSERKING" } ] },
     "armor": [
       {
         "encumbrance": 5,
@@ -455,35 +485,40 @@
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
     ],
-    "melee_damage": { "cut": 3 }
+    "melee_damage": { "cut": 3 },
+    "passive_effects": [ { "id": "BERSERKING" } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "copy-from": "dreamforged_glaive",
     "id": "dreamforged_glaive_healing",
     "name": { "str": "glaive of life", "str_pl": "glaives of life" },
     "description": "A two-handed glaive, forged entirely from dreamdross.  It can steal life from creatures it attacks, healing you a bit.",
-    "relic_data": { "passive_effects": [ { "id": "ENCHANTMENT_VAMPIRISM" } ] }
+    "passive_effects": [ { "id": "ENCHANTMENT_VAMPIRISM" } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "dreamforged_tsurugi_speed",
     "copy-from": "dreamforged_broadsword",
     "name": { "str_sp": "tsurugi of speed" },
     "description": "A classic Japanese tsurugi sword with a razor sharp blade.  You start to think you need to move faster, and the effect intensifies when you are surrounded.",
-    "relic_data": { "passive_effects": [ { "id": "MON_NEARBY_SPEED" } ] }
+    "passive_effects": [ { "id": "MON_NEARBY_SPEED" } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "dreamforged_q_staff_exp",
     "copy-from": "dreamforged_q_staff",
     "name": { "str_sp": "bō of practice" },
     "description": "A long, straight stick.  A simple weapon empowered by your experience in fighting against dreadful creatures.",
-    "relic_data": { "passive_effects": [ { "id": "EXP_BASH" } ] }
+    "passive_effects": [ { "id": "EXP_BASH" } ]
   },
   {
     "id": "xedra_chrono_knife",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "monochrome knife", "str_pl": "monochrome knives" },
     "description": "A well designed steel knife that used to be stuck in your belly.  It lightly flickers in the air and is tainted an unnatural gray.  Despite your best efforts, you aren't even able to smear the gray streaks of your blood that remain frozen along the edge, much less damage the actual metal.",

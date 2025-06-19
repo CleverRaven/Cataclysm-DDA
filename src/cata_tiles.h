@@ -2,39 +2,48 @@
 #ifndef CATA_SRC_CATA_TILES_H
 #define CATA_SRC_CATA_TILES_H
 
+#include <array>
+#include <bitset>
 #include <cstddef>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
+#include <string_view>
 #include <tuple>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "animation.h"
-#include "cata_type_traits.h"
+#include "calendar.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cuboid_rectangle.h"
-#include "enums.h"
-#include "lightmap.h"
-#include "line.h"
-#include "map_memory.h"
 #include "mapdata.h"
 #include "options.h"
 #include "pimpl.h"
 #include "point.h"
-#include "sdl_wrappers.h"
 #include "sdl_geometry.h"
+#include "sdl_wrappers.h"
 #include "type_id.h"
+#include "units.h"
 #include "weather.h"
 #include "weighted_list.h"
 
 class Character;
 class JsonObject;
+class cata_path;
+class memorized_tile;
+class monster;
+class nc_color;
 class pixel_minimap;
+enum class direction : unsigned int;
+enum class lit_level : int;
+enum class visibility_type : int;
 
 extern void set_displaybuffer_rendertarget();
-using ter_str_id = string_id<ter_t>;
 
 /** Structures */
 struct tile_type {
@@ -291,6 +300,7 @@ class tileset_cache
                 bool force, bool pump_events, bool terrain );
     private:
         class loader;
+
         std::unordered_map<std::string, std::weak_ptr<tileset>> tilesets_;
 };
 
@@ -611,7 +621,7 @@ class cata_tiles
                                              const std::array<bool, 5> &invisible, bool memorize_only );
         void draw_zlevel_overlay( const tripoint_bub_ms &p, lit_level ll, int &height_3d );
         void draw_entity_with_overlays( const Character &ch, const tripoint_bub_ms &p, lit_level ll,
-                                        int &height_3d );
+                                        int &height_3d, FacingDirection facing_override = FacingDirection::NONE );
         void draw_entity_with_overlays( const Character &ch, const tripoint_abs_omt &p, lit_level ll,
                                         int &height_3d ) {
             draw_entity_with_overlays( ch, tripoint_bub_ms( p.raw() ), ll, height_3d );

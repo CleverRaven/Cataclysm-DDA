@@ -2,7 +2,8 @@
   {
     "abstract": "spell_scroll",
     "name": { "str": "Spell Scroll" },
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "weight": "475 g",
     "volume": "500 ml",
@@ -12,7 +13,8 @@
     "color": "white"
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_crystallize_mana",
     "//": "Classless spell",
@@ -21,7 +23,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "crystallize_mana" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_dark_sight",
     "//": "Classless spell",
@@ -30,7 +33,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "dark_sight" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_sound_bomb",
     "//": "Classless spell",
@@ -39,7 +43,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "sound_bomb" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_invisibility",
     "//": "Technomancer spell",
@@ -48,7 +53,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "invisibility" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_obfuscated_body",
     "//": "Classless spell",
@@ -57,7 +63,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "obfuscated_body" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_thought_shield",
     "//": "Classless spell",
@@ -66,7 +73,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "thought_shield" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_holographic_transposition",
     "//": "Technomancer spell",
@@ -75,7 +83,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "holographic_transposition" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_smite",
     "//": "Animist spell",
@@ -84,7 +93,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "smite" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_recover_mana",
     "//": "Animist spell",
@@ -93,7 +103,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "recover_mana" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_recover_pain",
     "//": "Animist spell",
@@ -102,7 +113,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "recover_pain" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_baleful_polymorph",
     "//": "Technomancer spell",
@@ -111,7 +123,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_baleful_polymorph" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_undead",
     "//": "Animist spell",
@@ -120,7 +133,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "summon_undead" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_rupture",
     "//": "Animist spell",
@@ -129,7 +143,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "rupture" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_devour",
     "//": "Animist spell",
@@ -138,7 +153,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "devour" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_floating_disk",
     "name": { "str": "Scroll of Summon Floating Disk", "str_pl": "Scrolls of Summon Floating Disk" },
@@ -146,7 +162,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "summon_floating_disk" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_undead_swarm",
     "//": "Animist spell",
@@ -155,7 +172,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "summon_undead_swarm" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_convert",
     "//": "Animist spell",
@@ -164,7 +182,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "convert" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_dominate",
     "//": "Animist spell",
@@ -173,7 +192,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "dominate" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_life_detonation",
     "//": "Animist spell",
@@ -182,7 +202,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "life_detonation" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_light_healing",
     "//": "Biomancer spell",
@@ -191,7 +212,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "light_healing" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_pain_split",
     "//": "Biomancer spell",
@@ -200,7 +222,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "pain_split" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_vicious_tentacle",
     "//": "Biomancer spell",
@@ -209,7 +232,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "vicious_tentacle" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_bio_grotesque",
     "//": "Biomancer spell",
@@ -218,7 +242,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "bio_grotesque" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_bio_acidicspray",
     "//": "Biomancer spell",
@@ -227,7 +252,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "bio_acidicspray" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_bio_fleshpouch",
     "//": "Biomancer spell",
@@ -236,7 +262,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "bio_fleshpouch" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_bio_bonespear",
     "//": "Biomancer spell",
@@ -245,7 +272,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "bio_bonespear" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_megablast",
     "//": "Classless spell",
@@ -254,7 +282,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "megablast" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_create_atomic_light",
     "//": "Classless spell1",
@@ -263,7 +292,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "create_atomic_light" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_blinding_flash",
     "//": "Classless spell",
@@ -272,7 +302,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "blinding_flash" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_ethereal_grasp",
     "//": "Classless spell",
@@ -281,7 +312,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "ethereal_grasp" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_protection_aura",
     "//": "Classless spell",
@@ -290,7 +322,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "protection_aura" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_veggrasp",
     "//": "Druid spell",
@@ -299,7 +332,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_veggrasp" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_rootstrike",
     "//": "Druid spell",
@@ -308,7 +342,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_rootstrike" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_woodshaft",
     "//": "Druid spell",
@@ -317,7 +352,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_woodshaft" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_naturebow1",
     "//": "Druid spell",
@@ -326,7 +362,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_naturebow1" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_recover_sleepiness",
     "//": "Druid spell",
@@ -335,7 +372,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "recover_sleepiness" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_cats",
     "//": "Druid spell",
@@ -344,7 +382,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "summon_cats" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_wolf",
     "//": "Druid spell",
@@ -353,7 +392,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "summon_wolf_druid" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_cause_rot",
     "//": "Druid spell",
@@ -362,7 +402,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "cause_rot" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_healing",
     "//": "Druid spell",
@@ -371,7 +412,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_healing" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_healing_herb",
     "//": "Druid spell",
@@ -380,7 +422,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_healing_herb" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_bandage",
     "//": "Druid spell",
@@ -389,7 +432,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_bandage_heal" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_stonefist",
     "//": "Earthshaper spell",
@@ -398,7 +442,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "stonefist" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_seismic_stomp",
     "//": "Earthshaper spell",
@@ -407,7 +452,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "seismic_stomp" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_recover_stamina",
     "//": "Earthshaper spell",
@@ -416,7 +462,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "recover_stamina" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_eshaper_shardspray",
     "//": "Earthshaper spell",
@@ -425,7 +472,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_shardspray" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_eshaper_piercing_bolt",
     "//": "Earthshaper spell",
@@ -434,7 +482,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_piercing_bolt" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_eshaper_shardstorm",
     "//": "Earthshaper spell",
@@ -443,7 +492,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_shardstorm" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_eshaper_rockbolt",
     "//": "Earthshaper spell",
@@ -452,7 +502,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_rockbolt" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_clairvoyance",
     "//": "Earthshaper spell",
@@ -461,7 +512,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "clairvoyance" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_earthshaper_stoneskin",
     "//": "Earthshaper spell",
@@ -470,7 +522,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_stoneskin" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_earthshaper_pillar",
     "//": "Earthshaper spell",
@@ -479,7 +532,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_pillar" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_pertifying_touch",
     "//": "Earthshaper spell",
@@ -488,7 +542,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "pertifying_touch" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_reactive_armor",
     "//": "Earthshaper spell",
@@ -497,7 +552,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "reactive_armor" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_eshaper_impalement",
     "//": "Earthshaper spell",
@@ -506,7 +562,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_impalement" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_eshaper_spawn_tools",
     "//": "Earthshaper spell",
@@ -515,7 +572,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_spawn_tools" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_eshaper_melee_damage",
     "//": "Earthshaper spell",
@@ -524,7 +582,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_melee_damage" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_eshaper_crystal_wrap",
     "//": "Earthshaper spell",
@@ -533,7 +592,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_crystal_wrap" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_shape_of_dust",
     "//": "Earthshaper spell",
@@ -542,7 +602,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "shape_of_dust" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_eshaper_golem",
     "//": "Earthshaper spell",
@@ -551,7 +612,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "summon_eshaper_golem" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_earthshaper_boulder",
     "//": "Earthshaper spell",
@@ -560,7 +622,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_boulder" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_earthshaper_reveal_world_map",
     "//": "Earthshaper spell",
@@ -569,7 +632,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_reveal_world_map" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_point_flare",
     "//": "Kelvinist spell",
@@ -578,7 +642,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "point_flare" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_create_lighter",
     "//": "Kelvinist spell",
@@ -587,7 +652,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "create_lighter" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_ice_spike",
     "//": "Kelvinist spell",
@@ -596,7 +662,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "ice_spike" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_fireball",
     "//": "Kelvinist spell",
@@ -605,7 +672,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "fireball" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_cone_cold",
     "//": "Kelvinist spell",
@@ -614,7 +682,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "cone_cold" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_burning_hands",
     "//": "Kelvinist spell",
@@ -623,7 +692,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "burning_hands" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_frost_spray",
     "//": "Kelvinist spell",
@@ -632,7 +702,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "frost_spray" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_chilling_touch",
     "//": "Kelvinist spell",
@@ -641,7 +712,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "chilling_touch" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_glide_ice",
     "//": "Kelvinist spell",
@@ -650,7 +722,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "glide_ice" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_hoary_blast",
     "//": "Kelvinist spell",
@@ -659,7 +732,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "hoary_blast" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_ice_shield",
     "//": "Kelvinist spell",
@@ -668,7 +742,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "ice_shield" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_frost_armor",
     "//": "Kelvinist spell",
@@ -677,7 +752,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "frost_armor" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_shadow_field",
     "//": "Magus spell",
@@ -686,7 +762,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "shadow_field" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magic_missile",
     "//": "Magus spell",
@@ -695,7 +772,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magic_missile" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_phase_door",
     "//": "Magus spell",
@@ -704,7 +782,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "phase_door" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_gravity_well",
     "//": "Magus spell",
@@ -713,7 +792,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "gravity_well" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_mana_blast",
     "//": "Magus spell",
@@ -722,7 +802,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_mana_blast" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_mana_bolt",
     "//": "Magus spell",
@@ -731,7 +812,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_mana_bolt" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_haste",
     "//": "Magus spell",
@@ -740,7 +822,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_haste" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_slow",
     "//": "Magus spell",
@@ -749,7 +832,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_slow" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_mana_beam",
     "//": "Magus spell",
@@ -758,7 +842,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_mana_beam" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_escape",
     "//": "Magus spell",
@@ -767,7 +852,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_escape" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_cats_grace",
     "//": "Magus spell",
@@ -776,7 +862,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "cats_grace" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_eagles_sight",
     "//": "Magus spell",
@@ -785,7 +872,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "eagles_sight" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_ogres_strength",
     "//": "Magus spell",
@@ -794,7 +882,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "ogres_strength" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_foxs_cunning",
     "//": "Magus spell",
@@ -803,7 +892,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "foxs_cunning" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_focused_bolt",
     "//": "Magus spell",
@@ -812,7 +902,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "focused_bolt" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_shocking_lash",
     "//": "Stormshaper spell",
@@ -821,7 +912,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "shocking_lash" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_jolt",
     "//": "Stormshaper spell",
@@ -830,7 +922,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "jolt" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_lightning_bolt",
     "//": "Stormshaper spell",
@@ -839,7 +932,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "lightning_bolt" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_windstrike",
     "//": "Stormshaper spell",
@@ -848,7 +942,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "windstrike" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_storm_shipwrecker",
     "//": "Stormshaper spell",
@@ -857,7 +952,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "storm_shipwrecker" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_explosive_decompression",
     "//": "Stormshaper spell",
@@ -866,7 +962,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "explosive_decompression" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_vacuum_decompression",
     "//": "Stormshaper spell",
@@ -875,7 +972,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "vacuum_decompression" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_air_bubble",
     "//": "Stormshaper spell",
@@ -884,7 +982,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "air_bubble" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_storm_superconductor",
     "//": "Stormshaper spell",
@@ -893,7 +992,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "storm_superconductor" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_shocking_dash",
     "//": "Stormshaper spell",
@@ -902,7 +1002,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "shocking_dash" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_toxtricity",
     "//": "Stormshaper spell",
@@ -911,7 +1012,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "toxtricity" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_electric_eye",
     "//": "Stormshaper spell",
@@ -920,7 +1022,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "electric_eye" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_electric_waves",
     "//": "Stormshaper spell",
@@ -929,7 +1032,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "electric_waves" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_electric_arts",
     "//": "Stormshaper spell",
@@ -938,7 +1042,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "electric_arts" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_teravolt",
     "//": "Stormshaper spell",
@@ -947,7 +1052,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "summon_teravolt" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_windrun",
     "//": "Stormshaper spell",
@@ -956,7 +1062,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "windrun" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_storm_hammer",
     "//": "Stormshaper spell",
@@ -965,7 +1072,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "storm_hammer" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_stormfist",
     "//": "Stormshaper spell",
@@ -974,7 +1082,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "stormfist" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_bless",
     "//": "Technomancer spell",
@@ -983,7 +1092,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "bless" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_holy_blade",
     "//": "Technomancer spell",
@@ -992,7 +1102,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "holy_blade" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_spirit_armor",
     "//": "Technomancer spell",
@@ -1001,7 +1112,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "spirit_armor" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_create_atomic_lamp",
     "//": "Technomancer spell",
@@ -1010,7 +1122,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "create_atomic_lamp" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_recover_bionic_power",
     "//": "Technomancer spell",
@@ -1019,7 +1132,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "recover_bionic_power" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_taze",
     "//": "Technomancer spell",
@@ -1028,7 +1142,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "taze" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_quantum_tunnel_lesser",
     "//": "Technomancer spell",
@@ -1037,7 +1152,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "quantum_tunnel_lesser" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_synaptic_stimulation",
     "//": "Technomancer spell",
@@ -1046,7 +1162,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "synaptic_stimulation" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_laze",
     "//": "Technomancer spell",
@@ -1055,7 +1172,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "laze" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_animated_blade",
     "//": "Technomancer spell",
@@ -1064,7 +1182,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "animated_blade" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_mirror_image",
     "//": "Technomancer spell",
@@ -1073,7 +1192,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "mirror_image" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_lightning_blast",
     "//": "Stormshaper spell",
@@ -1082,7 +1202,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "lightning_blast" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_necrotic_gaze",
     "//": "Animist spell",
@@ -1091,7 +1212,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "necrotic_gaze" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_purification_seed",
     "//": "Druid spell",
@@ -1100,7 +1222,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "purify_seed" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_x-ray",
     "//": "Technomancer spell",
@@ -1109,7 +1232,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "x-ray" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_overcharge_eyes",
     "//": "Technomancer spell",
@@ -1118,7 +1242,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "overcharge_eyes" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_bleed",
     "//": "Animist spell",
@@ -1127,7 +1252,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "bleed" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_banishment_lesser",
     "//": "Animist spell",
@@ -1136,7 +1262,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "banishment_lesser" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_acid_resistance",
     "//": "Classless spell, black dragon books",
@@ -1146,7 +1273,8 @@
   },
   {
     "id": "lightning_storm_scroll",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Scroll of Lightning Storm", "str_pl": "Scrolls of Lightning Storm" },
     "//": "Stormshaper spell",
     "description": "This scroll details how a spell called 'Lightning Blast' which is commonly used among Stormshapers can be altered to become much more powerful, at a much higher mana cost.",
@@ -1158,7 +1286,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "lightning_storm" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druidic_regrowth",
     "//": "Druid spell",
@@ -1167,7 +1296,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druidic_regrowth" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druidic_healing",
     "//": "Druid spell",
@@ -1176,7 +1306,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druidic_healing" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_move_earth",
     "name": { "str": "Scroll of Move Earth", "str_pl": "Scrolls of Move Earth" },
@@ -1184,7 +1315,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "move_earth" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_paralytic_dart",
     "//": "Biomancer spell",
@@ -1193,7 +1325,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_paralytic_dart" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_visceral_projection",
     "//": "Biomancer spell",
@@ -1202,7 +1335,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_visceral_projection" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_coagulant_weave",
     "//": "Biomancer spell",
@@ -1211,7 +1345,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_coagulant_weave" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_stormshaper_ionization",
     "//": "Stormshaper spell",
@@ -1220,7 +1355,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "stormshaper_ionization" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_wisps",
     "//": "Animist spell",
@@ -1229,7 +1365,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "summon_wisps" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_stormshaper_wall_of_fog",
     "//": "Stormshaper spell",
@@ -1238,7 +1375,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "stormshaper_wall_of_fog" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_knock",
     "name": { "str": "Scroll of Knock", "str_pl": "Scrolls of Knock" },
@@ -1246,7 +1384,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "knock" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_improved_knock",
     "name": { "str": "Scroll of Improved Knock", "str_pl": "Scrolls of Improved Knock" },
@@ -1254,7 +1393,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "improved_knock" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_create_electric_lighter",
     "name": { "str": "Scroll of Fire Spark", "str_pl": "Scrolls of Fire Spark" },
@@ -1262,7 +1402,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "create_electric_lighter" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_repelling_arc",
     "name": { "str": "Scroll of Repelling Arc", "str_pl": "Scrolls of Repelling Arc" },
@@ -1270,7 +1411,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "stormshaper_repelling_arc" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_tornskin",
     "name": { "str": "Sappy Scroll" },
@@ -1278,7 +1420,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_tornskin" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_feralform",
     "name": { "str": "Scroll of Feral Form", "str_pl": "Scrolls of Feral Form" },
@@ -1286,7 +1429,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_feralform" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_flamesword",
     "name": { "str": "Scroll of Flamesword", "str_pl": "Scrolls of Flamesword" },
@@ -1294,7 +1438,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_summon_flamesword" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_flamebreath",
     "name": { "str": "Scroll of Flamebreath", "str_pl": "Scrolls of Flamebreath" },
@@ -1302,7 +1447,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_flamebreath" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_caustic_aura",
     "name": { "str": "Scroll of Caustic Aura", "str_pl": "Scrolls of Caustic Aura" },
@@ -1310,7 +1456,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_caustic_aura" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_boneclub",
     "name": { "str": "Scroll of Decaying Boneclub", "str_pl": "Scrolls of Decaying Boneclub" },
@@ -1318,7 +1465,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "animist_summon_decaying_boneclub" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_disruption_bolt",
     "name": { "str": "Scroll of Disruption Bolt", "str_pl": "Scrolls of Disruption Bolt" },
@@ -1326,7 +1474,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "disruption_bolt" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_impactsling",
     "name": { "str": "Scroll of Impact Sling", "str_pl": "Scrolls of Impact Sling" },
@@ -1334,7 +1483,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_summon_impact_sling" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_knifeshot",
     "name": { "str": "Scroll of Knifeshot", "str_pl": "Scrolls of Knifeshot" },
@@ -1342,7 +1492,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_knifeshot" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_magic_motorcycle",
     "name": { "str": "MICE(R) blueprint" },
@@ -1350,7 +1501,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "summon_magic_motorcycle" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_nova_flare",
     "//": "Kelvinist spell",
@@ -1359,7 +1511,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "nova_flare" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_force_jar",
     "name": { "str": "Scroll of Jar of Force", "str_pl": "Scrolls of Jar of Force" },
@@ -1367,7 +1520,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_force_jar" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_freezing_touch",
     "//": "Kelvinist spell",
@@ -1376,7 +1530,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "freezing_touch" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_natures_commune",
     "//": "Druid spell",
@@ -1385,7 +1540,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_natures_commune" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_seed_of_growth",
     "//": "Druid spell",
@@ -1394,7 +1550,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_growth" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_whisper_leaves",
     "//": "Druid spell",
@@ -1403,7 +1560,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_whisper_leaves" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_earthshaper_danger_sense",
     "//": "Earthshaper spell",
@@ -1412,7 +1570,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_danger_sense" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_earthshaper_fortitude_of_stone",
     "//": "Earthshaper spell",
@@ -1421,7 +1580,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_fortitude_of_stone" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_earthshaper_turning_of_earth",
     "//": "Earthshaper spell",
@@ -1430,7 +1590,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_turning_of_earth" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_harvest_hunter",
     "//": "Druid spell",
@@ -1439,7 +1600,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_harvest_hunter" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_animist_sense_outsiders",
     "//": "Animist spell",
@@ -1448,7 +1610,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "animist_sense_outsiders" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_kelvinist_anti_cold",
     "//": "Kelvinist spell",
@@ -1457,7 +1620,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_anti_cold" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_kelvinist_anti_heat",
     "//": "Kelvinist spell",
@@ -1466,7 +1630,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_anti_heat" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_slowfall",
     "//": "Magus spell",
@@ -1475,7 +1640,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_slowfall" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_spiderclimb",
     "//": "Magus spell",
@@ -1484,7 +1650,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_spiderclimb" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_swim_frog",
     "//": "Biomancer spell",
@@ -1493,7 +1660,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_swim_frog" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_giant_growth",
     "//": "Biomancer spell",
@@ -1502,7 +1670,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_giant_growth" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_remove_instability",
     "//": "Biomancer spell",
@@ -1511,7 +1680,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_remove_instability" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_carrion_feast",
     "//": "Biomancer spell",
@@ -1520,7 +1690,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_carrion_feast" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_classless_watch_spell",
     "//": "Classless spell",
@@ -1529,7 +1700,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "classless_watch_spell" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_teleport_mark",
     "//": "Magus spell",
@@ -1538,7 +1710,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_teleport_mark" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_word_of_recall",
     "//": "Magus spell",
@@ -1547,7 +1720,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_word_of_recall" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_animist_summon_watcher",
     "//": "Animist spell",
@@ -1556,7 +1730,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "animist_summon_watcher" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_beguile_savage_beast",
     "//": "Druid spell",
@@ -1565,7 +1740,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_beguile_savage_beast" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_technomancer_robot_shutdown",
     "//": "Technomancer spell",
@@ -1574,7 +1750,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_robot_shutdown" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_technomancer_conjure_radio",
     "//": "Technomancer spell",
@@ -1583,7 +1760,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_conjure_radio" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_technomancer_conjure_ups",
     "//": "Technomancer spell",
@@ -1592,7 +1770,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_conjure_ups" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_technomancer_welder",
     "//": "Technomancer spell",
@@ -1601,7 +1780,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_welder" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_earthshaper_granite_aegis",
     "//": "Earthshaper spell",
@@ -1610,7 +1790,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_granite_aegis" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_bramble_spear",
     "//": "Druid spell",
@@ -1619,7 +1800,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_bramble_spear" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_summon_tanglevine",
     "//": "Druid spell",
@@ -1628,7 +1810,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_summon_tanglevine" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_thornskin",
     "//": "Druid spell",
@@ -1637,7 +1820,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_thorn_skin" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_summon_brambles",
     "//": "Druid spell",
@@ -1646,7 +1830,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_summon_brambles" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_stormshaper_cloak_of_fog",
     "//": "Stormshaper spell",
@@ -1655,7 +1840,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "stormshaper_cloak_of_fog" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_stormshaper_heart_of_hurricane",
     "//": "Stormshaper spell",
@@ -1664,7 +1850,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "stormshaper_heart_of_hurricane" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_stormshaper_cloak_of_frog",
     "//": "Stormshaper spell",
@@ -1673,7 +1860,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "stormshaper_cloak_of_frog" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_lashing_tentacles",
     "//": "Biomancer spell",
@@ -1682,7 +1870,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_lashing_tentacles" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_cure_disease_minor",
     "//": "Biomancer spell",
@@ -1691,7 +1880,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_cure_disease_minor" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_classless_dispel_magic",
     "//": "Classless spell",
@@ -1700,7 +1890,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "classless_dispel_magic" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_classless_disjunction",
     "//": "Classless spell",
@@ -1709,7 +1900,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "classless_disjunction" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_hyper_regeneration",
     "//": "Biomancer spell",
@@ -1718,7 +1910,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_hyper_regeneration" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_slow_bleeding",
     "//": "Biomancer spell",
@@ -1727,7 +1920,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_slow_bleeding" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_scalpel_fingers",
     "//": "Biomancer spell",
@@ -1736,7 +1930,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_scalpel_fingers" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_caustic_blood",
     "//": "Biomancer spell",
@@ -1745,7 +1940,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_caustic_blood" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_renew_forest_spell",
     "//": "Druid spell",
@@ -1754,7 +1950,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_renew_forest_spell" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_wood_living_tree_spell",
     "//": "Druid spell",
@@ -1763,7 +1960,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_wood_living_tree_spell" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_anti_heat",
     "//": "Druid spell",
@@ -1772,7 +1970,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_anti_heat" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_breathing_underwater",
     "//": "Druid spell",
@@ -1781,7 +1980,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_breathing_underwater" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_disinfectant",
     "//": "Druid spell",
@@ -1790,7 +1990,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_disinfectant" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_water_walking",
     "//": "Druid spell",
@@ -1799,7 +2000,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_water_walking" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_technomancer_recharge_vehicle",
     "//": "Technomancer spell",
@@ -1808,7 +2010,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_recharge_vehicle" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_kelvinist_persuasion_spell",
     "//": "Kelvinist spell",
@@ -1817,7 +2020,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_persuasion_spell" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_kelvinist_extinguish_fire_spell",
     "//": "Kelvinist spell",
@@ -1826,7 +2030,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_extinguish_fire_spell" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_kelvinist_summon_freezer_spell",
     "//": "Kelvinist spell",
@@ -1835,7 +2040,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_summon_freezer_spell" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_earthshaper_harden_earth",
     "//": "Earthshaper spell",
@@ -1844,7 +2050,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_harden_earth" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_earthshaper_sleep_in_earth",
     "//": "Earthshaper spell",
@@ -1853,7 +2060,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_sleep_in_earth" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_classless_clean_clothing_and_self",
     "//": "Classless spell",
@@ -1862,7 +2070,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "classless_clean_clothing_and_self" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_animist_spirit_walking",
     "//": "Animist spell",
@@ -1871,7 +2080,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "animist_spirit_walking" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_stop_attack_shield",
     "//": "Magus spell",
@@ -1880,7 +2090,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_stop_attack_shield" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_traverse_the_wilds",
     "//": "Druid spell",
@@ -1889,7 +2100,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_traverse_the_wilds" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_kelvinist_no_emotion_spell",
     "//": "Kelvinist spell",
@@ -1898,7 +2110,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_no_emotion_spell" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_far_hand_pull",
     "//": "Magus spell",
@@ -1907,7 +2120,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_far_hand_pull" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_animist_mass_hiding_aoe",
     "//": "Animist spell",
@@ -1916,7 +2130,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "animist_mass_hiding_aoe" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_animist_luck_bone",
     "//": "Animist spell",
@@ -1925,7 +2140,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "animist_luck_bone" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_bearmantle",
     "//": "Druid spell",
@@ -1934,7 +2150,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_bearmantle" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_eat_tons_of_food",
     "//": "Biomancer spell",
@@ -1943,7 +2160,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_eat_tons_of_food" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_classless_easy_sleep_spell",
     "//": "Classless spell",
@@ -1952,7 +2170,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "classless_easy_sleep_spell" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_kelvinist_firebolt",
     "//": "Kelvinist spell",
@@ -1961,7 +2180,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_firebolt" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_stormshaper_loud_voice_spell",
     "//": "Kelvinist spell",
@@ -1970,7 +2190,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "stormshaper_loud_voice_spell" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_ranged_increase",
     "//": "Magus spell",
@@ -1979,7 +2200,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_ranged_increase" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_animist_add_evasion_spell",
     "//": "Magus spell",
@@ -1988,7 +2210,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "animist_add_evasion_spell" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_technomancer_gain_electronics_computer_spell",
     "//": "Magus spell",
@@ -1997,7 +2220,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_gain_electronics_computer_spell" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_kelvinist_heat_food",
     "//": "Kelvinist spell",
@@ -2006,7 +2230,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_heat_food" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_diamond_imbuement",
     "//": "Magus spell",
@@ -2015,7 +2240,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_diamond_imbuement" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_animist_slow_food_rotting_spell",
     "//": "Animist spell",
@@ -2024,7 +2250,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "animist_slow_food_rotting_spell" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_earthshaper_repair_metal_stone",
     "//": "Earthshaper spell",
@@ -2033,7 +2260,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_repair_metal_stone" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_technomancer_create_ups_connection",
     "//": "Technomancer spell",
@@ -2042,7 +2270,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_create_ups_connection" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_technomancer_far_sight",
     "//": "Technomancer spell",
@@ -2051,7 +2280,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_far_sight" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_technomancer_pain_ignore",
     "//": "Technomancer spell",
@@ -2060,7 +2290,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_pain_ignore" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_animist_magic_fissile",
     "//": "Animist spell",
@@ -2069,7 +2300,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "animist_magic_fissile" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_animist_vocalize",
     "//": "Animist spell",
@@ -2078,7 +2310,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "animist_cast_spells_when_silent" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_silence",
     "//": "Magus spell",
@@ -2087,7 +2320,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_silence" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_light_target",
     "//": "Magus spell",
@@ -2096,7 +2330,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_light_target" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_classless_restore_crystal_mana",
     "//": "Classless spell",
@@ -2105,7 +2340,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "classless_restore_crystal_mana" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_goodberry",
     "//": "Druid spell",
@@ -2114,7 +2350,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_goodberry" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_animist_do_psionic_damage_to_head",
     "//": "Animist spell",
@@ -2123,7 +2360,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "animist_do_psionic_damage_to_head" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_permanent_light",
     "//": "Magus spell",
@@ -2132,7 +2370,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_permanent_light" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_get_more_blood",
     "//": "Biomancer spell",
@@ -2141,7 +2380,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_get_more_blood" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_create_temporary_spring",
     "//": "Druid spell",
@@ -2150,7 +2390,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_create_temporary_spring" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_cannot_move_attack_or_damage_target",
     "//": "Magus spell",
@@ -2159,7 +2400,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "magus_cannot_move_attack_or_damage_target" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_earthshaper_diggable_teleport",
     "//": "Earthshaper spell",
@@ -2168,7 +2410,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_diggable_teleport" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_turn_tree_into_treant",
     "//": "Druid spell",
@@ -2177,7 +2420,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_turn_tree_into_treant" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_kelvinist_set_everyone_on_fire",
     "//": "Kelvinist spell",
@@ -2186,12 +2430,23 @@
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_set_everyone_on_fire" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_animist_detect_wizards",
     "//": "Animist spell",
     "name": { "str": "Scroll of Witchsight", "str_pl": "Scrolls of Witchsight" },
     "description": "Open up your senses to detect the brighter ley lines of those who habitually use their magic.",
     "use_action": { "type": "learn_spell", "spells": [ "animist_detect_wizards" ] }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_control_mutations",
+    "//": "Biomancer spell",
+    "name": { "str": "Formula of Morphogenic Mastery", "str_pl": "Formulae of Morphogenic Mastery" },
+    "description": "This research paper has an extremely complicated series of formulae with various genetic code diagrams interspersed.  It claims that the spell will allow conscious control over any \"morphogenic alterations\".",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_control_mutations" ] }
   }
 ]

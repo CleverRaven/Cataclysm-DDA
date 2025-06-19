@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "headshop",
     "type": "mapgen",
     "object": {
@@ -72,6 +71,7 @@
           ]
         }
       },
+      "items": { "L": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "L": {  } },
       "place_nested": [ { "chunks": [ [ "null", 2 ], [ "headshop_graffiti_snippet", 98 ] ], "x": 22, "y": 19 } ],
       "place_item": [
@@ -114,7 +114,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "headshop_roof",
     "object": {
       "fill_ter": "t_floor",
@@ -155,8 +154,8 @@
       },
       "items": {
         "I": { "item": "office", "chance": 30 },
-        "f": { "item": "office_paper", "chance": 30 },
-        "y": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 30 },
+        "y": { "item": "SUS_trash_floor", "chance": 20, "repeat": [ 2, 4 ] },
         "C": { "item": "stoner", "chance": 20, "repeat": [ 2, 4 ] },
         "r": { "item": "jar_weed", "chance": 20, "repeat": [ 2, 4 ] }
       },
@@ -184,7 +183,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "headshop_upper_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -219,7 +217,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "headshop_graffiti_snippet",
     "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "headshop_graffiti", "x": 0, "y": 0 } ] }
   }

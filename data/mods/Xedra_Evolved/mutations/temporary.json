@@ -31,6 +31,21 @@
   },
   {
     "type": "mutation",
+    "id": "GOBLIN_FRUIT_MUSIC",
+    "name": { "str": "The fruit's song" },
+    "//": "Until the day EOCs can spawn equiped items, the fruit will give a mutation that holds the music player.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": { "str": "Gives the integrated music player.  Should not be player-visible.", "//~": "NO_I18N" },
+    "integrated_armor": [ "internal_mp3_fruit" ]
+  },
+  {
+    "type": "mutation",
     "id": "ethereal_wings",
     "name": { "str": "Ethereal Wings" },
     "active": true,
@@ -216,6 +231,7 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
+    "integrated_armor": [ "integrated_antlers", "integrated_feline_fur" ],
     "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
     "override_look": { "id": "mon_deer", "tile_category": "monster" }
   },
@@ -421,5 +437,71 @@
     "copy-from": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
     "name": { "str": "Changeling Rock disguise", "//~": "NO_I18N" },
     "override_look": { "id": "f_boulder_medium", "tile_category": "furniture" }
+  },
+  {
+    "type": "mutation",
+    "id": "GOBLIN_FRUIT_ANIMAL_IGNORE",
+    "name": { "str": "Effect of furry fruit", "//~": "NO_I18N" },
+    "description": { "str": "What makes the furry fruit work.  You should never see this.", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false,
+    "points": 0,
+    "ignored_by": [ "MAMMAL", "AMPHIBIAN", "BIRD", "REPTILE", "FISH", "KRAKEN", "INSECT", "CENTIPEDE", "INSECT_FLYING", "SPIDER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WINTER_FEIGN_DEATH_TRAITS",
+    "//": "Also used by vampires",
+    "name": { "str": "Stillness of the Tomb", "//~": "NO_I18N" },
+    "description": { "str": "You are feigning death.  Shhhhhhh!", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false,
+    "points": 0,
+    "ignored_by": [
+      "MAMMAL",
+      "AMPHIBIAN",
+      "MUTANT",
+      "CYBORG",
+      "REPTILE",
+      "FISH",
+      "KRAKEN",
+      "MIGO",
+      "SLIME",
+      "LEECH_PLANT",
+      "INSECT",
+      "CENTIPEDE",
+      "INSECT_FLYING",
+      "SPIDER",
+      "BIRD",
+      "MOLLUSK",
+      "WORM",
+      "ZOMBIE",
+      "NETHER",
+      "PLANT",
+      "FERAL",
+      "ROBOT",
+      "HORROR",
+      "ABERRATION",
+      "HUMAN",
+      "VAMPIRE",
+      "NIGHTMARE",
+      "CHANGELING",
+      "ARVORE",
+      "HOMULLUS",
+      "IERDE",
+      "SALAMANDER",
+      "SYLPH",
+      "UNDINE"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ASTRAL_PROJECTION_APPEARANCE",
+    "name": { "str": "Astral Form", "//~": "NO_I18N" },
+    "description": { "str": "You're a disembodied mind so you're all glowy and blue.  Spooky!", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "override_look": { "id": "mon_hologram", "tile_category": "monster" }
   }
 ]

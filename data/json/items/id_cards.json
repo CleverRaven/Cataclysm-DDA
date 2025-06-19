@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_science",
     "copy-from": "card_plastic_abstract",
     "color": "blue",
@@ -12,7 +12,7 @@
     "category": "keys"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_military",
     "copy-from": "card_plastic_abstract",
     "color": "green",
@@ -24,7 +24,7 @@
     "category": "keys"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_industrial",
     "looks_like": "id_science",
     "copy-from": "card_plastic_abstract",
@@ -37,7 +37,7 @@
     "category": "keys"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_artisan_member",
     "looks_like": "id_science",
     "copy-from": "card_plastic_abstract",
@@ -50,7 +50,7 @@
     "category": "keys"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_science_visitor_1",
     "copy-from": "card_plastic_abstract",
     "color": "blue",
@@ -83,34 +83,34 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_science_maintenance_green",
     "symbol": ",",
     "copy-from": "id_science",
     "name": { "str": "Maintenance: green zone badge" },
     "description": "An employee badge for a maintenance worker.  The reverse side describes the protocol for using it; this could grant access at green zone card readers.",
-    "flags": [ "SCIENCE_CARD_MAINTENANCE_GREEN", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_MAINTENANCE_GREEN", "PRESERVE_SPAWN_LOC", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_science_maintenance_yellow",
     "symbol": ",",
     "copy-from": "id_science",
     "name": { "str": "Maintenance: ocher zone badge" },
     "description": "An employee badge for a maintenance worker.  The reverse side describes the protocol for using it; this could grant access at ocher zone card readers.",
-    "flags": [ "SCIENCE_CARD_MAINTENANCE_YELLOW", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_MAINTENANCE_YELLOW", "PRESERVE_SPAWN_LOC", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_science_maintenance_blue",
     "symbol": ",",
     "copy-from": "id_science",
     "name": { "str": "Maintenance: blue zone badge" },
     "description": "An employee badge for a maintenance worker.  The reverse side describes the protocol for using it; this could grant access at blue zone card readers.",
-    "flags": [ "SCIENCE_CARD_MAINTENANCE_BLUE", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_MAINTENANCE_BLUE", "PRESERVE_SPAWN_LOC", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_science_transport_1",
     "symbol": ",",
     "copy-from": "id_science",
@@ -140,70 +140,70 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_science_security_yellow",
     "symbol": ",",
     "copy-from": "id_science",
     "name": { "str": "Security: yellow zone badge" },
     "description": "An employee badge for a security officer.  The reverse side describes the protocol for using it; this could grant access at yellow zone card readers.",
-    "flags": [ "SCIENCE_CARD_SECURITY_YELLOW", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_SECURITY_YELLOW", "PRESERVE_SPAWN_LOC", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_science_security_magenta",
     "symbol": ",",
     "copy-from": "id_science",
     "name": { "str": "Security: magenta zone badge" },
     "description": "An employee badge for a security officer.  The reverse side describes the protocol for using it; this could grant access at magenta zone card readers.",
-    "flags": [ "SCIENCE_CARD_SECURITY_MAGENTA", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_SECURITY_MAGENTA", "PRESERVE_SPAWN_LOC", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_science_security_black",
     "symbol": ",",
     "copy-from": "id_science",
     "name": { "str": "Security: black zone badge" },
     "description": "An employee badge for a security officer.  The reverse side describes the protocol for using it; this could grant access at black zone card readers.",
-    "flags": [ "SCIENCE_CARD_SECURITY_BLACK", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_SECURITY_BLACK", "PRESERVE_SPAWN_LOC", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_science_mutagen_green",
     "symbol": ",",
     "copy-from": "id_science",
     "name": { "str": "Researcher: light green zone badge" },
     "description": "An employee badge for a research scientist.  The reverse side describes the protocol for using it; this could grant access at light green zone card readers.",
-    "flags": [ "SCIENCE_CARD_MUTAGEN_GREEN", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_MUTAGEN_GREEN", "PRESERVE_SPAWN_LOC", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_science_mutagen_pink",
     "symbol": ",",
     "copy-from": "id_science",
     "name": { "str": "Researcher: pink zone badge" },
     "description": "An employee badge for a research scientist.  The reverse side describes the protocol for using it; this could grant access at pink zone card readers.",
-    "flags": [ "SCIENCE_CARD_MUTAGEN_PINK", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_MUTAGEN_PINK", "PRESERVE_SPAWN_LOC", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_science_mutagen_cyan",
     "symbol": ",",
     "copy-from": "id_science",
     "name": { "str": "Researcher: cyan zone badge" },
     "description": "An employee badge for a research scientist.  The reverse side describes the protocol for using it; this could grant access at cyan zone card readers.",
-    "flags": [ "SCIENCE_CARD_MUTAGEN_CYAN", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_MUTAGEN_CYAN", "PRESERVE_SPAWN_LOC", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_science_medical_red",
     "symbol": ",",
     "copy-from": "id_science",
     "name": { "str": "Doctor: red zone badge" },
     "description": "An employee badge for a medical doctor.  The reverse side describes the protocol for using it; this could grant access at red zone card readers.",
-    "flags": [ "SCIENCE_CARD_MEDICAL_RED", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_MEDICAL_RED", "PRESERVE_SPAWN_LOC", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_science_mu",
     "symbol": ",",
     "copy-from": "id_science",
@@ -213,13 +213,13 @@
     "flags": [ "SCIENCE_CARD_MU_UNIVERSAL", "CREDIT_CARD_SHAPED" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_LIXA",
     "symbol": ",",
     "looks_like": "id_science",
     "name": { "str": "LIXA ID badge" },
     "description": "An ID badge for the LIXA facility, with a photo of an awkwardly smiling scientist on the front.  Instructions on the back explain that this will grant you access to the LIXA experiment floor.",
-    "flags": [ "LIXA_SCIENCE_CARD", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ],
+    "flags": [ "LIXA_SCIENCE_CARD", "PRESERVE_SPAWN_LOC", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ],
     "price_postapoc": "2 USD 50 cent",
     "material": [ "plastic" ],
     "weight": "3 g",
@@ -227,13 +227,13 @@
     "category": "keys"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_LIXA_2",
     "symbol": ",",
     "looks_like": "id_science",
     "name": { "str": "defaced LIXA ID badge" },
     "description": "An ID badge for the LIXA facility, with a photo of an awkwardly smiling scientist on the front.  It is heavily scratched, and there is a line on the back in black marker.",
-    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ],
+    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_LOC", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ],
     "price_postapoc": "2 USD 50 cent",
     "material": [ "plastic" ],
     "weight": "3 g",
@@ -241,7 +241,7 @@
     "category": "keys"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_LIXA_najma",
     "symbol": ",",
     "looks_like": "id_science",
@@ -251,7 +251,7 @@
       "LIXA_SCIENCE_CARD",
       "LIXA_SCIENCE_CARD_2",
       "LIXA_SCIENCE_CARD_3",
-      "PRESERVE_SPAWN_OMT",
+      "PRESERVE_SPAWN_LOC",
       "HINT_THE_LOCATION",
       "CREDIT_CARD_SHAPED"
     ],
@@ -262,7 +262,7 @@
     "category": "keys"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_LIXA_jason",
     "symbol": ",",
     "looks_like": "id_science",
@@ -272,7 +272,7 @@
       "LIXA_SCIENCE_CARD",
       "LIXA_SCIENCE_CARD_2",
       "LIXA_SCIENCE_CARD_3",
-      "PRESERVE_SPAWN_OMT",
+      "PRESERVE_SPAWN_LOC",
       "HINT_THE_LOCATION",
       "CREDIT_CARD_SHAPED"
     ],
@@ -283,7 +283,7 @@
     "category": "keys"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_LIXA_kai_mei",
     "symbol": ",",
     "looks_like": "id_science",
@@ -293,7 +293,7 @@
       "LIXA_SCIENCE_CARD",
       "LIXA_SCIENCE_CARD_2",
       "LIXA_SCIENCE_CARD_3",
-      "PRESERVE_SPAWN_OMT",
+      "PRESERVE_SPAWN_LOC",
       "HINT_THE_LOCATION",
       "CREDIT_CARD_SHAPED"
     ],
@@ -304,7 +304,7 @@
     "category": "keys"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_LIXA_rich",
     "symbol": ",",
     "looks_like": "id_science",
@@ -314,7 +314,7 @@
       "LIXA_SCIENCE_CARD",
       "LIXA_SCIENCE_CARD_2",
       "LIXA_SCIENCE_CARD_3",
-      "PRESERVE_SPAWN_OMT",
+      "PRESERVE_SPAWN_LOC",
       "HINT_THE_LOCATION",
       "CREDIT_CARD_SHAPED"
     ],
@@ -325,13 +325,13 @@
     "category": "keys"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_LIXA_mil",
     "symbol": ",",
     "looks_like": "id_LIXA_mil",
     "name": { "str": "LIXA military police badge" },
     "description": "An id card bearing the name, rank, and serial number of a soldier stationed at LIXA.",
-    "flags": [ "LIXA_MILITARY_CARD", "LIXA_SCIENCE_CARD", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ],
+    "flags": [ "LIXA_MILITARY_CARD", "LIXA_SCIENCE_CARD", "PRESERVE_SPAWN_LOC", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ],
     "price_postapoc": "2 USD 50 cent",
     "material": [ "plastic" ],
     "weight": "3 g",
@@ -339,7 +339,7 @@
     "category": "keys"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "warehouse_rebooter",
     "color": "blue",
     "symbol": "%",
@@ -348,7 +348,7 @@
     "price": "0 cent",
     "volume": "250 ml",
     "weight": "500 g",
-    "material": [ "plastic", "steel" ],
+    "material": [ "plastic", "qt_steel" ],
     "flags": [ "TRADER_AVOID" ],
     "price_postapoc": "0 cent",
     "category": "keys"

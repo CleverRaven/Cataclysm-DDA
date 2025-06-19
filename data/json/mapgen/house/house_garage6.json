@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_garage6" ],
     "//": "two bedroom one bath single garage home.",
     "object": {
@@ -12,7 +11,7 @@
         "..##oooo##%`%#======##!`",
         "..#,____,#$?$#~~~~~~&#!`",
         "..#__//__#!`!#~~~~~~~#!`",
-        ".%o__ff__o%`%o~~~~~~~#%`",
+        ".%o__ff__o%`%o~~~~~~é#%`",
         ".%o__//__o%`%o~~~~~~~*``",
         ".^#______#!`!#~~~~~~q#!.",
         "..#347__6#!`!#~~~~~~q#..",
@@ -46,6 +45,7 @@
         "W": "t_thconc_floor",
         "Z": "t_thconc_floor",
         "N": "t_thconc_floor",
+        "é": "t_thconc_floor",
         "`": "t_concrete",
         "?": "t_fencegate_c",
         "$": "t_fence",
@@ -84,7 +84,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_garage6_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -120,7 +119,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_garage6_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -135,13 +133,13 @@
         "  |......|   |.......|  ",
         "  |......|   |.......|  ",
         "  |.....Z|   |.......|  ",
-        "  |F....J|   |.......|  ",
+        "  |â....J|   |.......|  ",
         "  |.....W|   |.......|  ",
         "  |..A..g|   |.......|  ",
         "  |......|||||.......|  ",
         "  |..................|  ",
-        "  |1.....%.<.%.4.....|  ",
-        "  |......%%%%%.......|  ",
+        "  |1.....|.<.|.4.....|  ",
+        "  |......|||||.......|  ",
         "  |.......zz.z.......|  ",
         "  |..........z.......|  ",
         "  |..................|  ",
@@ -150,7 +148,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [

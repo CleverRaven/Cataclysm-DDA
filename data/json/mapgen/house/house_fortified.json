@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_fortified" ],
     "//": "fortified houses shouldn't be common",
     "object": {
@@ -67,7 +66,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_fortified_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -103,7 +101,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_fortified_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -129,11 +126,11 @@
         " |||||||||||..........| ",
         "           |..........| ",
         "           |..........| ",
-        "           |........gF| ",
+        "           |........gâ| ",
         "           |||||||||||| ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": { "chunks": [ [ "null", 60 ], [ "recroom_12x12", 30 ], [ "tvroom_12x12", 30 ], [ "workoutroom_12x12", 10 ] ] },
         "2": {

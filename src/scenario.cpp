@@ -2,21 +2,20 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <ostream>
+#include <unordered_set>
 
 #include "achievement.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
-#include "map_extras.h"
 #include "mission.h"
 #include "mutation.h"
 #include "options.h"
-#include "past_games_info.h"
 #include "past_achievements_info.h"
 #include "profession.h"
 #include "rng.h"
 #include "start_location.h"
-#include "string_id.h"
 #include "translations.h"
 
 static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
@@ -56,7 +55,7 @@ void scenario::load_scenario( const JsonObject &jo, const std::string &src )
     all_scenarios.load( jo, src );
 }
 
-void scenario::load( const JsonObject &jo, const std::string_view )
+void scenario::load( const JsonObject &jo, std::string_view )
 {
     // TODO: pretty much the same as in profession::load, but different contexts for pgettext.
     // TODO: maybe combine somehow?
@@ -105,6 +104,7 @@ void scenario::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "requirement", _requirement );
 
     optional( jo, was_loaded, "reveal_locale", reveal_locale, true );
+    optional( jo, was_loaded, "distance_initial_visibility", distance_initial_visibility, 15 );
 
     optional( jo, was_loaded, "eoc", _eoc, auto_flags_reader<effect_on_condition_id> {} );
 
@@ -342,12 +342,12 @@ bool scenario::scen_is_blacklisted() const
     return sc_blacklist.scenarios.count( id ) != 0;
 }
 
-void scen_blacklist::load_scen_blacklist( const JsonObject &jo, const std::string_view src )
+void scen_blacklist::load_scen_blacklist( const JsonObject &jo, std::string_view src )
 {
     sc_blacklist.load( jo, src );
 }
 
-void scen_blacklist::load( const JsonObject &jo, const std::string_view )
+void scen_blacklist::load( const JsonObject &jo, std::string_view )
 {
     if( !scenarios.empty() ) {
         DebugLog( D_INFO, DC_ALL ) <<
@@ -561,6 +561,11 @@ std::optional<achievement_id> scenario::get_requirement() const
 bool scenario::get_reveal_locale() const
 {
     return reveal_locale;
+}
+
+bool scenario::get_distance_initial_visibility() const
+{
+    return distance_initial_visibility;
 }
 
 void scenario::normalize_calendar() const

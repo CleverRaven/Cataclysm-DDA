@@ -108,5 +108,70 @@
       ]
     },
     "effect": [ { "math": [ "u_proficiency('prof_psionic_minimum_requirements', 'format': 'percent', 'direct': true) += 100" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_GAME_ONGOING_GRANT_BIOKINETIC_CRAFTING_PROFICIENCY",
+    "recurrence": 1,
+    "condition": { "u_has_trait": "BIOKINETIC" },
+    "deactivate_condition": {
+      "or": [ { "u_has_proficiency": "prof_psionic_minimum_requirements_biokinesis" }, { "not": { "u_has_trait": "BIOKINETIC" } } ]
+    },
+    "effect": [
+      {
+        "math": [ "u_proficiency('prof_psionic_minimum_requirements_biokinesis', 'format': 'percent', 'direct': true) += 100" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_GAME_ONGOING_GRANT_PYROKINETIC_CRAFTING_PROFICIENCY",
+    "recurrence": 1,
+    "condition": { "u_has_trait": "PYROKINETIC" },
+    "deactivate_condition": {
+      "or": [
+        { "u_has_proficiency": "prof_psionic_minimum_requirements_pyrokinesis" },
+        { "not": { "u_has_trait": "PYROKINETIC" } }
+      ]
+    },
+    "effect": [
+      {
+        "math": [ "u_proficiency('prof_psionic_minimum_requirements_pyrokinesis', 'format': 'percent', 'direct': true) += 100" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_GAME_ONGOING_GRANT_TELEPORTATION_CRAFTING_PROFICIENCY",
+    "recurrence": 1,
+    "condition": { "u_has_trait": "TELEPORTER" },
+    "deactivate_condition": {
+      "or": [
+        { "u_has_proficiency": "prof_psionic_minimum_requirements_teleportation" },
+        { "not": { "u_has_trait": "TELEPORTER" } }
+      ]
+    },
+    "effect": [
+      {
+        "math": [ "u_proficiency('prof_psionic_minimum_requirements_teleportation', 'format': 'percent', 'direct': true) += 100" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_GAME_ONGOING_GRANT_VITAKINETIC_CRAFTING_PROFICIENCY",
+    "recurrence": 1,
+    "condition": { "u_has_trait": "VITAKINETIC" },
+    "deactivate_condition": {
+      "or": [
+        { "u_has_proficiency": "prof_psionic_minimum_requirements_vitakinesis" },
+        { "not": { "u_has_trait": "VITAKINETIC" } }
+      ]
+    },
+    "effect": [
+      {
+        "math": [ "u_proficiency('prof_psionic_minimum_requirements_vitakinesis', 'format': 'percent', 'direct': true) += 100" ]
+      }
+    ]
   }
 ]

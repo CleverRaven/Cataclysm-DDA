@@ -613,5 +613,133 @@
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Cafe",
+    "id": [ "afs_cafe_a1_floor_1", "afs_cafe_a1_floor_2" ],
+    "sym": "c",
+    "color": "light_cyan",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Saloon",
+    "id": [ "afs_saloon_1_floor_1", "afs_saloon_1_floor_2" ],
+    "sym": "s",
+    "color": "light_cyan",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Garage",
+    "id": [ "afs_garage_a1_floor_1", "afs_garage_a1_floor_2", "afs_garage_2_a1_floor_1", "afs_garage_2_a1_floor_2" ],
+    "sym": "g",
+    "color": "yellow",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "EV Charging Station",
+    "id": [ "afs_ev_station_a1_floor_1", "afs_ev_station_a1_floor_2" ],
+    "sym": "e",
+    "color": "light_blue",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Aerodrone Landing Pad",
+    "id": [ "afs_aerodrone_landing_pad_a1_floor_1", "afs_aerodrone_landing_pad_a1_floor_2" ],
+    "sym": "H",
+    "color": "light_blue",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Clothing Store",
+    "id": [ "afs_clothing_store_a1_floor_1", "afs_clothing_store_a1_floor_2" ],
+    "sym": "c",
+    "color": "light_green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Sporting Goods",
+    "id": [ "afs_sporting_goods_store_a1_floor_1", "afs_sporting_goods_store_a1_floor_2" ],
+    "sym": "S",
+    "color": "cyan",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Urban Farm",
+    "id": [ "afs_small_urban_farm_a1_floor_1", "afs_small_urban_farm_a1_floor_2", "afs_small_urban_farm_a1_floor_3" ],
+    "sym": "F",
+    "color": "green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Office",
+    "id": [ "afs_small_office_a1_floor_1", "afs_small_office_a1_floor_2", "afs_small_office_a1_floor_3" ],
+    "sym": "o",
+    "color": "light_cyan",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Grocer",
+    "id": [ "afs_grocer_a1_floor_1", "afs_grocer_a1_floor_2", "afs_grocer_a1_floor_3" ],
+    "sym": "g",
+    "color": "light_green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Clinic",
+    "id": [ "afs_clinic_a1_floor_1", "afs_clinic_a1_floor_2" ],
+    "sym": "C",
+    "color": "light_red",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Gas Station",
+    "id": [ "s_gas" ],
+    "sym": "G",
+    "color": "light_blue",
+    "see_cost": "high",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Gas Station Roof",
+    "id": [ "s_gas_roof" ],
+    "sym": "G",
+    "color": "light_blue",
+    "see_cost": "low",
+    "mondensity": 2
   }
 ]

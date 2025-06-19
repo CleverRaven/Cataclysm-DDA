@@ -1,26 +1,28 @@
 #include "trap.h"
 
-#include <algorithm>
 #include <cmath>
-#include <set>
+#include <typeinfo>
 #include <vector>
 
 #include "assign.h"
+#include "bodypart.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "json.h"
-#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "translations.h"
 
 static const flag_id json_flag_ECHOLOCATION_DETECTABLE( "ECHOLOCATION_DETECTABLE" );
 static const flag_id json_flag_SONAR_DETECTABLE( "SONAR_DETECTABLE" );
@@ -112,7 +114,7 @@ void trap::load_trap( const JsonObject &jo, const std::string &src )
     trap_factory.load( jo, src );
 }
 
-void trap::load( const JsonObject &jo, const std::string_view )
+void trap::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name_ );
@@ -336,12 +338,12 @@ void trap::trigger( const tripoint_bub_ms &pos ) const
 
 void trap::trigger( const tripoint_bub_ms &pos, Creature &creature ) const
 {
-    return trigger( pos, &creature, nullptr );
+    trigger( pos, &creature, nullptr );
 }
 
 void trap::trigger( const tripoint_bub_ms &pos, item &item ) const
 {
-    return trigger( pos, nullptr, &item );
+    trigger( pos, nullptr, &item );
 }
 
 void trap::trigger( const tripoint_bub_ms &pos, Creature *creature, item *item ) const
@@ -408,7 +410,7 @@ void trap::on_disarmed( map &m, const tripoint_bub_ms &p ) const
         const int charges = std::get<2>( i );
         m.spawn_item( p.xy(), item_type, quantity, charges );
     }
-    for( const tripoint_bub_ms &dest : m.points_in_radius( tripoint_bub_ms( p ), trap_radius ) ) {
+    for( const tripoint_bub_ms &dest : m.points_in_radius( p, trap_radius ) ) {
         m.remove_trap( dest );
     }
 }

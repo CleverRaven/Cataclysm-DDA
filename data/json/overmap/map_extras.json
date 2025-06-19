@@ -24,6 +24,17 @@
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
+    "id": "mx_dormant",
+    "type": "map_extra",
+    "name": { "str": "Corpses" },
+    "description": "There are a lot of dead corpses here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_dormant" },
+    "min_max_zlevel": [ -7, 7 ],
+    "sym": "d",
+    "color": "light_red",
+    "flags": [ "MAN_MADE", "CLASSIC" ]
+  },
+  {
     "id": "mx_drugdeal",
     "type": "map_extra",
     "name": { "str": "Drug Deal" },
@@ -177,7 +188,8 @@
     "min_max_zlevel": [ -5, 5 ],
     "sym": "P",
     "color": "magenta",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "PORTAL" ]
   },
   {
     "id": "mx_portal_in",
@@ -188,7 +200,8 @@
     "min_max_zlevel": [ -5, 5 ],
     "sym": "P",
     "color": "magenta",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "PORTAL" ]
   },
   {
     "id": "mx_exocrash_1",
@@ -247,7 +260,8 @@
     "min_max_zlevel": [ -1, -1 ],
     "sym": "S",
     "color": "yellow",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "SPIDER" ]
   },
   {
     "id": "mx_house_wasp",
@@ -258,7 +272,8 @@
     "min_max_zlevel": [ 0, 10 ],
     "sym": "W",
     "color": "yellow",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "WASP" ]
   },
   {
     "id": "mx_bugout",
@@ -276,7 +291,7 @@
     "id": "mx_spider",
     "type": "map_extra",
     "name": { "str": "Spiders" },
-    "description": "This area is covered with webs.  Probably spiders are nearby",
+    "description": "This area is covered with webs.  Probably spiders are nearby.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_spider" },
     "min_max_zlevel": [ -2, 0 ],
     "sym": "S",
@@ -364,23 +379,6 @@
     "type": "map_extra",
     "copy-from": "mx_pond_forest",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_forest_2" },
-    "min_max_zlevel": [ 0, 0 ],
-    "flags": [ "CLASSIC", "WATER" ]
-  },
-  {
-    "id": "mx_pond_swamp",
-    "type": "map_extra",
-    "name": { "str": "bog" },
-    "description": "Small bog is here.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_swamp" },
-    "min_max_zlevel": [ 0, 0 ],
-    "flags": [ "CLASSIC", "WATER" ]
-  },
-  {
-    "id": "mx_pond_swamp_2",
-    "type": "map_extra",
-    "copy-from": "mx_pond_swamp",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_swamp_2" },
     "min_max_zlevel": [ 0, 0 ],
     "flags": [ "CLASSIC", "WATER" ]
   },
@@ -580,7 +578,8 @@
     "min_max_zlevel": [ 0, 9 ],
     "sym": "W",
     "color": "yellow",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "WASP" ]
   },
   {
     "id": "mx_nest_dermatik",
@@ -591,7 +590,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "D",
     "color": "brown",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "WASP" ]
   },
   {
     "id": "mx_prison_bus",
@@ -703,7 +703,8 @@
     "name": { "str": "Beehive" },
     "description": "An ordinary beehive.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_beehive_natural" },
-    "min_max_zlevel": [ 0, 0 ]
+    "min_max_zlevel": [ 0, 0 ],
+    "flags": [ "BEE" ]
   },
   {
     "id": "mx_worm_sign",

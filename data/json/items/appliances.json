@@ -1,6 +1,7 @@
 [
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "oven",
     "looks_like": "f_oven",
     "symbol": "#",
@@ -16,7 +17,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "120 L", "max_contains_weight": "200 kg" } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "stationary_water_purifier",
     "looks_like": "f_water_purifier",
     "symbol": "W",
@@ -29,7 +30,7 @@
     "weight": "20 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "arcade_machine",
     "looks_like": "f_arcade_machine",
     "symbol": "6",
@@ -42,9 +43,9 @@
     "weight": "77 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "arc_furnace",
-    "looks_like": "f_arc_furnace",
+    "looks_like": "f_arcfurnace_empty",
     "symbol": "U",
     "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.  Needs to be placed and plugged into a power source.",
     "color": "blue",
@@ -55,7 +56,7 @@
     "weight": "1024 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "drill_press",
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -69,7 +70,7 @@
     "weight": "114 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tablesaw",
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -83,7 +84,7 @@
     "weight": "130 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mitresaw",
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -97,7 +98,7 @@
     "weight": "30 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bandsaw",
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -111,7 +112,7 @@
     "weight": "225 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "router",
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -125,7 +126,7 @@
     "weight": "500 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "planer",
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -139,7 +140,7 @@
     "weight": "130 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "jointer",
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -153,7 +154,7 @@
     "weight": "300 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hydraulic_press",
     "looks_like": "f_hydraulic_press",
     "symbol": "7",
@@ -167,7 +168,7 @@
     "weight": "76 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "air_compressor",
     "looks_like": "f_standing_tank",
     "symbol": "7",
@@ -182,7 +183,8 @@
   },
   {
     "id": "autoclave",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "disconnected autoclave" },
     "description": "An autoclave, used to sterilize equipment with pressurized steam.  It requires a massive amount of power, so it will need to be plugged into a power grid.",
     "weight": "34500 g",
@@ -208,7 +210,7 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wall_light",
     "name": { "str": "disconnected wall light" },
     "description": "A wall light that provides illumination when plugged into a grid.",
@@ -224,7 +226,7 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "standing_lamp",
     "name": { "str": "disconnected standing lamp" },
     "description": "A tall standing lamp that provides illumination when plugged into a power outlet.",
@@ -241,7 +243,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "standing_floodlight",
     "name": { "str": "disconnected standing floodlight" },
     "description": "A large, heavy light designed to illuminate wide areas when plugged into a power outlet.",
@@ -257,7 +259,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "standing_directed_floodlight",
     "name": { "str": "disconnected standing directed floodlight" },
     "description": "A large, heavy light designed to illuminate a wide semicircle in a chosen direction when plugged into a power outlet.",
@@ -274,7 +276,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wall_wiring",
     "name": { "str": "wall wiring" },
     "description": "Electric wires used to run power through walls.",
@@ -287,7 +289,7 @@
     "color": "white"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "foot_locker_recharge_station",
     "name": { "str": "disconnected foot locker recharging station" },
@@ -304,7 +306,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "200 L", "max_contains_weight": "400 kg" } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "box_battery_charger",
     "name": { "str": "disconnected box battery charger" },
@@ -321,7 +323,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "50 L", "max_contains_weight": "100 kg" } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "compact_ASRG_containment",
     "name": { "str": "disconnected advanced Stirling radioisotope generator" },
@@ -343,7 +345,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "oxygen_concentrator",
     "name": { "str_sp": "oxygen concentrator" },
@@ -358,7 +360,7 @@
     "color": "light_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "hd_compressor_unit",
     "name": { "str_sp": "high pressure compressor unit" },
@@ -373,7 +375,7 @@
     "color": "light_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "glassblowers_crucible",
     "name": { "str": "disconnected glassblower's crucible" },

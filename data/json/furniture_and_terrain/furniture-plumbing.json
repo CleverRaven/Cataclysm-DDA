@@ -82,6 +82,28 @@
   },
   {
     "type": "furniture",
+    "id": "f_sink_gravity",
+    "copy-from": "f_sink",
+    "name": "sink with gravity-feed tank",
+    "symbol": "&",
+    "description": "A water basin with flowing water, fed by a tank suspended above.  A luxury when the water main is unavailable.  This one has a hand pump to refill from groundwater.",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "whunk!",
+      "items": [
+        { "item": "cu_pipe", "prob": 50 },
+        { "item": "water_faucet", "prob": 50 },
+        { "item": "pipe_fittings", "count": [ 0, 2 ] },
+        { "item": "30gal_barrel", "prob": 60 }
+      ]
+    },
+    "//COMMENT": "Currently only used in NPC faction camps. Note that this is an infinite source of water if you use it elsewhere.",
+    "examine_action": "water_source"
+  },
+  {
+    "type": "furniture",
     "id": "f_toilet",
     "name": "toilet",
     "symbol": "o",
@@ -128,7 +150,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "lc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 2 ] },
@@ -162,7 +184,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 4, 14 ] },
-        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 6 ] },
         { "item": "sheet_metal", "count": [ 4, 12 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 1, 4 ] },
@@ -194,7 +216,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "lc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "cable", "charges": [ 1, 15 ] },

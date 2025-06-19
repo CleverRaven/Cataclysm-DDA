@@ -13,7 +13,7 @@
     "replace": "grenade_casing"
   },
   {
-    "id": [ "357mag_casing", "44_casing", "454_casing", "46mm_casing", "500_casing" ],
+    "id": [ "357mag_casing", "44_casing", "454_casing", "46mm_casing", "500_casing", "460sw_casing" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_casing"
   },

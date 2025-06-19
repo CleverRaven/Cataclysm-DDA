@@ -2,7 +2,7 @@
 
 Monsters include not just zombies, but fish, dogs, moose, Mi-gos, manhacks, and even stationary installations like turrets. They are defined in JSON objects with "type" set to "MONSTER":
 
-```JSON
+```jsonc
 {
   "type": "MONSTER",
   "id": "mon_foo",
@@ -81,6 +81,7 @@ Property                 | Description
 `placate_triggers`       | (array of strings) Triggers that lower monster aggression (same flags as fear)
 `chat_topics`            | (array of strings) Conversation topics if dialog is opened with the monster
 `revert_to_itype`        | (string) Item monster can be converted to when friendly (ex. to deconstruct turrets)
+`broken_itype`           | (string) Item that will spawn when the monster dies with `corpse_type` set to `BROKEN`. Can be left empty to create a `broken_` item based on the monster's `id`. 
 `mech_weapon`            | (string) If this monster is a rideable mech with built-in weapons, this is the weapons id
 `mech_str_bonus`         | (integer) If this monster is a rideable mech with enhanced strength, this is the strength it gives to the player when ridden
 `mech_battery`           | (string) If this monster is a rideable mech, this is battery's id. Does not support objects or arrays (i.e. ONE battery id only)
@@ -108,6 +109,8 @@ Property                 | Description
 `absorb_material`        | (array of string) For monsters with the `ABSORB_ITEMS` special attack. Specifies the types of materials that the monster will seek to absorb. Items with multiple materials will be matched as long as it is made of at least one of the materials in this list. If not specified the monster will absorb all materials.
 `no_absorb_material`        | (array of string) For monsters with the `ABSORB_ITEMS` special attack. Specifies the types of materials that the monster is unable to absorb. This takes precedence over absorb_material; even if the monster is whitelisted for this material, it cannot do so if any of its materials are found here. If not specified, there are no limits placed on what was whitelisted.
 `split_move_cost`        | (int) For monsters with the `SPLIT` special attack. Determines the move cost when splitting into a copy of itself.
+`revive_forms`           | (array of objects) allows to define conditional monster 
+`move_skills`           | (object with optional members) allows to define how well the monster moves on difficult terrain. Skill can range from 0-10.
 
 Properties in the above tables are explained in more detail in the sections below.
 
@@ -115,17 +118,17 @@ Properties in the above tables are explained in more detail in the sections belo
 ## "name"
 (string or object, required)
 
-```JSON
+```jsonc
 "name": "cow"
 ```
 
-```JSON
+```jsonc
 "name": { "ctxt": "fish", "str": "pike", "str_pl": "pikes" }
 ```
 
 or, if the singular and plural forms are the same:
 
-```JSON
+```jsonc
 "name": { "ctxt": "fish", "str_sp": "bass" }
 ```
 
@@ -155,7 +158,7 @@ In mainline game it can be HUMAN, ROBOT, ZOMBIE, MAMMAL, BIRD, FISH, REPTILE, WO
 ## "volume"
 (string, required)
 
-```JSON
+```jsonc
 "volume": "40 L"
 ```
 The numeric part of the string must be an integer. Accepts L, and ml as units. Note that l and mL are not currently accepted.
@@ -163,7 +166,7 @@ The numeric part of the string must be an integer. Accepts L, and ml as units. N
 ## "weight"
 (string, required)
 
-```JSON
+```jsonc
 "weight": "3 kg"
 ```
 The numeric part of the string must be an integer. Use the largest unit you can keep full precision with. For example: 3 kg, not 3000 g. Accepts g and kg as units.
@@ -300,7 +303,7 @@ Field               | Description
 
 Example:
 
-```JSON
+```jsonc
 "melee_damage": [
   {
     "damage_type": "electric",
@@ -332,7 +335,7 @@ Base intensity of the grab effect applied by this monster as used by a `grab`-ty
 
 Monster protection from various types of damage. Any `damage_type` id can be used here, see `damage_types.json`.
 
-```JSON
+```jsonc
 "armor": { "bash": 7, "cut": 7, "acid": 4, "bullet": 6, "electric": 2 }
 ```
 
@@ -401,7 +404,7 @@ A monster should have at most 1 default weakpoint.
 Each string refers to the id of a separate `"weakpoint_set"` type JSON object (See [Weakpoint Sets](JSON_INFO.md#weakpoint-sets) for details).
 
 Each subsequent weakpoint set overwrites weakpoints with the same id from the previous set. This allows hierarchical sets that can be applied from general -> specific, so that general weakpoint sets can be reused for many different monsters, and more specific sets can override some general weakpoints for specific monsters. For example:
-```json
+```jsonc
 "weakpoint_sets": [ "humanoid", "zombie_headshot", "riot_gear" ]
 ```
 In the example above, the `"humanoid"` weakpoint set is applied as a base, then the `"zombie_headshot"` set overwrites any previously defined weakpoints with the same id (ex: "wp_head_stun"). Then the `"riot_gear"` set overwrites any matching weakpoints from the previous sets with armour-specific weakpoints. Finally, if the monster type has an inline `"weakpoints"` definition, those weakpoints overwrite any matching weakpoints from all sets.
@@ -451,11 +454,11 @@ An item group that is used to spawn items when the monster dies. This can be an 
 (object, optional)
 
 How the monster behaves on death.
-```cpp
+```jsonc
 {
     "corpse_type": "NORMAL", // can be: BROKEN, NO_CORPSE, NORMAL (default)
     "message": "The %s dies!", // substitute %s for the monster's name.
-    "effect": { "id": "death_boomer", "hit_self": true }  // the spell that gets called when the monster dies.  follows the syntax of fake_spell.
+    "effect": { "id": "death_boomer", "hit_self": true }, // the spell that gets called when the monster dies.  follows the syntax of fake_spell.
     "eoc": "debug_eoc_message",  // eoc that would be run when monster dies. Alpha talker is monster, beta talker is player (always).
 }
 ```
@@ -496,7 +499,7 @@ What makes the monster afraid / angry / what calms it. See [JSON_FLAGS.md](JSON_
 
 Lists possible chat topics that will be used as dialogue display when talking to a monster, done by `e`xamining it and `c`hatting with it. The creature in question must be friendly to the player in order to talk to it, or have the `CONVERSATION` flag. Alternatively an EOC spell/special attack between a player and monster can start a conversation using the `open_dialogue` effect, see [NPCs.md](NPCs.md) for more details.  Monsters can be assigned variables, but cannot trade with the exchange interface. Listing multiple chat topics will cause the game to crash. This must be defined as an array.
 
-```JSON
+```jsonc
 "chat_topics": [ "TALK_FREE_MERCHANTS_MERCHANT" ]
 ```
 
@@ -510,7 +513,7 @@ If not empty and a valid item id, the monster can be converted into this item by
 
 An object containing ammo that newly spawned monsters start with. This is useful for a monster that has a special attack that consumes ammo. Example:
 
-```JSON
+```jsonc
 "starting_ammo": { "9mm": 100, "40mm_frag": 100 }
 ```
 
@@ -521,7 +524,7 @@ Controls how this monster is upgraded over time. It can either be the single val
 
 Example:
 
-```JSON
+```jsonc
 "upgrades": {
   "into_group": "GROUP_ZOMBIE_UPGRADE",
   "half_life": 28
@@ -532,7 +535,7 @@ The upgrades object may have the following members:
 
 Field               | Description
 ---                 | ---
-`half_life`         | (int) Days in which half of the monsters upgrade according to an approximated exponential progression. It is multiplied with the evolution scaling factor (at the time of this writing, 4).
+`half_life`         | (int) Days in which half of the monsters upgrade according to an approximated exponential progression. It is multiplied with the evolution scaling factor which defaults to 1.
 `into_group`        | (string, optional) The upgraded monster's type is taken from the specified group.
 `into`              | (string, optional) The upgraded monster's type.
 `age_grow`          | (int, optional) Number of days needed for monster to change into another monster. Does not scale with the evolution factor.
@@ -557,6 +560,24 @@ Field          | Description
 When defined the monster's unpulped corpse will rise, zombifying into the defined (different) monster. For mutated animals (including giant arthropods) the `mon_meat_cocoon` line of monsters should be defined, depending on the monster's weight:
 No cocoon below 10 kg; 10 - 35 kg monsters zombify into the tiny cocoon; 36 - 100 kg monsters turn into the small cocoon; 101 - 300 kg monsters turn into the medium cocoon; 301+ kg monsters turn into a large cocoon.
 
+## "revive_forms"
+
+Advanced form of `zombify_into`, allows to specify reviving into different monsters depending on condition;
+
+```jsonc
+    "revive_forms": [
+      {
+        // condition as dialogue condition, but with neither alpha nor beta talkers
+        // instead context variables `loc` (location of corpse) and `corpse_damage` are exposed
+        // can be omitted, in this case condition would be assumed to always be TRUE
+        "condition": { "map_terrain_with_flag": "SWIMMABLE", "loc": { "context_val": "loc" } },
+        // either `monster` or `monster_group` should be used
+        "monster": "pseudo_debug_mon",
+        "monster_group": "GROUP_ANIMALPOUND_CATS"
+      }
+    ],
+```
+
 ## "baby_flags"
 (Array, optional)
 Designate seasons during which this monster is capable of reproduction. ie: `[ "SPRING", "SUMMER" ]`
@@ -565,7 +586,7 @@ Designate seasons during which this monster is capable of reproduction. ie: `[ "
 (array of objects, optional)
 
 A set of items that are given to the player when they shear this monster. These entries can be duplicates and are one of these 4 types:
-```cpp
+```jsonc
 "shearing": [
     {
         "result": "wool",
@@ -592,7 +613,7 @@ This means that when this monster is sheared, it will give: 100 units of wool, 1
 (string, optional)
 
 By default monsters will use the `"DEFAULT"` speed description.
-```JSON
+```jsonc
 "speed_description": "SPEED_DESCRIPTION_ID"
 ```
 
@@ -600,7 +621,7 @@ By default monsters will use the `"DEFAULT"` speed description.
 (object, optional)
 
 Decides whether this monster can be tamed. `%s` is the monster name.
-```cpp
+```jsonc
 "petfood": {
     "food": [ "CATFOOD", "YULECATFOOD" ], // food categories this monster accepts
     "feed": "The gigantic %s decides not to maul you today.", // (optional) message when feeding the monster the food
@@ -613,7 +634,7 @@ Decides whether this monster can be tamed. `%s` is the monster name.
 
 A special defense attack, triggered when the monster is attacked. It should contain an array with the id of the defense (see Monster defense attacks in [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md)) and the chance for that defense to be actually triggered. Example:
 
-```JSON
+```jsonc
 "special_when_hit": [ "ZAPBACK", 100 ]
 ```
 
@@ -622,7 +643,7 @@ A special defense attack, triggered when the monster is attacked. It should cont
 
 A set of effects that may get applied to the attacked creature when the monster successfully attacks. Example:
 
-```JSON
+```jsonc
 "attack_effs": [
   {
     "id": "paralyzepoison",
@@ -654,9 +675,22 @@ Field                | Description
 `max_length`         | (int, default -1) Maximum total length of path
 `bash_strength`      | (int, default -1) Monster strength when bashing through an obstacle
 `allow_open_doors`   | (bool, default false) Monster knows how to open doors
+`allow_unlock_doors` | (bool, default false) Monster knows how to unlock doors
 `avoid_traps`        | (bool, default false) Monster avoids stepping into traps
 `allow_climb_stairs` | (bool, default true) Monster may climb stairs
+`avoid_rough_terrain` | (bool, default false) Monster may avoid rough terrain like rubble
 `avoid_sharp`        | (bool, default false) Monster may avoid sharp things like barbed wire
+`avoid_dangerous_fields` | (bool, default false) Monster may avoid dangerous fields like fire or acid
+
+## "move_skills"
+(object, optional)
+
+Field                | Description
+---                  | ---
+`swim`               | (int, 0-10,optional) swimming monsters ignore SWIMMABLE terrain-cost. Instead it applies a flat movecost penalty inversly related to the skill.
+`dig`                | (int, 0-10, optional) swimming monsters ignore DIGGABLE terrain-cost. Instead it applies a flat movecost penalty inversly related to the skill.
+`climb`              | (int, 0-10, optional) climbing monsters can climb CLIMBABLE ter/furn and can use DIFFICULT_Z ter/furn (i.e. ladders). The ter/furn cost gets multiplied by the skill modifier
+
 
 ## "special_attacks"
 

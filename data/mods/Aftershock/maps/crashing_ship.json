@@ -14,7 +14,6 @@
     "//6": "Launch Bay (Bottom Center): A long launch bay with a ramp for ground vehicles to embark/disembark.",
     "//7": "Vehicle Bay (Bottom Right): Escape pod bays are near the central corridor. Storage for ground vehicles.",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "crashing_ship_3", "crashing_ship_2", "crashing_ship_1" ],
       [ "crashing_ship_6", "crashing_ship_5", "crashing_ship_4" ],
@@ -153,7 +152,7 @@
         "p": "t_foamcrete_floor_seal",
         "z": "t_escape_pod_floor"
       },
-      "vendingmachines": { "V": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true } },
+      "vendingmachines": { "V": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true, "networked": true } },
       "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 19, "y": 14 } ],
       "mapping": {
         "e": { "items": [ { "item": "afs_ballistic_armory", "chance": 20 } ] },
@@ -177,7 +176,7 @@
           ]
         },
         "T": { "items": [ { "item": "afs_todd_howard", "chance": 1 } ] },
-        "c": { "items": [ { "item": "afs_escapepod_shootout", "chance": 100, "container-item": "corpse" } ] },
+        "c": { "items": [ { "item": "afs_escapepod_shootout", "chance": 100 } ] },
         "C": {
           "items": [
             { "item": "hardware_bulk", "chance": 25 },
@@ -187,7 +186,7 @@
           ]
         },
         "E": { "items": [ { "item": "afs_tools_space_emergency", "chance": 100 } ] },
-        "w": { "items": [ { "item": "office_mess", "chance": 75 } ] },
+        "w": { "items": [ { "item": "SUS_office_mess", "chance": 75 } ] },
         "t": { "items": [ { "item": "afs_mess_hall", "chance": 80 } ] },
         "H": { "items": [ { "item": "afs_exosuit_worker", "chance": 75 } ] },
         "h": { "items": [ { "item": "afs_exosuit_light_worker", "chance": 75 } ] }

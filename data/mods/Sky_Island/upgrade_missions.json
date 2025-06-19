@@ -32,7 +32,7 @@
   },
   {
     "id": "upgradekey_scouting1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Scouting Lens", "str_pl": "Scouting Lenses" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 1",
@@ -56,14 +56,7 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [
-        [ "glasses_eye", 1 ],
-        [ "glasses_bifocal", 1 ],
-        [ "glasses_reading", 1 ],
-        [ "fancy_glasses_eye", 1 ],
-        [ "fancy_glasses_bifocal", 1 ],
-        [ "fancy_glasses_reading", 1 ]
-      ],
+      [ [ "glasses_eye", 1 ], [ "glasses_bifocal", 1 ], [ "glasses_reading", 1 ] ],
       [ [ "pipe", 1 ] ],
       [ [ "wire", 5 ] ],
       [ [ "tinder", 5 ] ],
@@ -103,7 +96,7 @@
   },
   {
     "id": "upgradekey_scouting2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Scouting Scope" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 2",
@@ -168,7 +161,7 @@
   },
   {
     "id": "upgradekey_scouting3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Vision Amplifier" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 3",
@@ -233,7 +226,7 @@
   },
   {
     "id": "upgradekey_scouting4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Third Eye Charm" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 4",
@@ -299,7 +292,7 @@
   },
   {
     "id": "upgradekey_scouting5",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Eye of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 5",
@@ -366,7 +359,7 @@
   },
   {
     "id": "upgradekey_landing1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Landing Pad" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 1",
@@ -431,7 +424,7 @@
   },
   {
     "id": "upgradekey_landing2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Safety Net" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 2",
@@ -498,7 +491,7 @@
   },
   {
     "id": "upgradekey_landing3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Warped Parachute" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 3",
@@ -564,7 +557,7 @@
   },
   {
     "id": "upgradekey_landing4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Ethereal Cushion" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 4",
@@ -631,7 +624,7 @@
   },
   {
     "id": "upgradekey_landing5",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Grace of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 5",
@@ -655,7 +648,7 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "chainmail_suit_faraday", 1 ], [ "sharksuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
+      [ [ "chainmail_suit_faraday", 1 ], [ "fursuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
       [ [ "warptoken", 12 ] ],
       [ [ "book_fict_soft_ya_myeyes", 1 ] ],
       [ [ "fur", 40 ] ],
@@ -697,7 +690,7 @@
   },
   {
     "id": "upgradekey_stability1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Warped Tincture" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 1",
@@ -763,7 +756,7 @@
   },
   {
     "id": "upgradekey_stability2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Surreal Shield" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 2",
@@ -831,7 +824,7 @@
   },
   {
     "id": "upgradekey_stability3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Warpstream Plating" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 3",
@@ -907,7 +900,7 @@
   },
   {
     "id": "upgradekey_stability4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Fortitude of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 4",
@@ -972,7 +965,7 @@
   },
   {
     "id": "upgradekey_slaughter",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Vengeance of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Slaughter Missions",
@@ -1030,7 +1023,7 @@
   },
   {
     "id": "upgradekey_exit1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Escape Charm" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Two Exits per Expedition",
@@ -1099,7 +1092,7 @@
   },
   {
     "id": "upgradekey_exit2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Blindfold of Egress", "str_pl": "Blindfolds of Egress" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Three Exits per Expedition",
@@ -1163,7 +1156,7 @@
   },
   {
     "id": "upgradekey_bonusmissions1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Warped Decree" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Expedition Missions",
@@ -1231,7 +1224,7 @@
   },
   {
     "id": "upgradekey_bonusmissions2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Order's Blade" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Two Missions per Expedition",
@@ -1300,7 +1293,7 @@
   },
   {
     "id": "upgradekey_bonusmissions3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Hand of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Three Missions per Expedition",
@@ -1379,7 +1372,7 @@
   },
   {
     "id": "upgradekey_hardmissions1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Ordinator's Sigil" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Harder Missions",
@@ -1446,7 +1439,7 @@
   },
   {
     "id": "upgradekey_hardmissions2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Will of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Hardest Missions",
@@ -1506,6 +1499,7 @@
         { "u_learn_recipe": "warp_carrier" },
         { "u_learn_recipe": "recipe_craft_random_artifact" },
         { "u_learn_recipe": "warp_vortex_token" },
+        { "u_learn_recipe": "warp_healing_salve" },
         { "u_learn_recipe": "warphaulbag" },
         { "u_learn_recipe": "sky_island_warped_pond" },
         {
@@ -1521,7 +1515,7 @@
   },
   {
     "id": "upgradekey_rankup1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Proof of Determination", "str_pl": "Proofs of Determination" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Island Rank Up 1",
@@ -1595,7 +1589,7 @@
   },
   {
     "id": "upgradekey_rankup2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Proof of Mastery", "str_pl": "Proofs of Mastery" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Island Rank Up 2",
@@ -1663,7 +1657,7 @@
   },
   {
     "id": "upgradekey_raidlength1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Warped Hourglass", "str_pl": "Warped Hourglasses" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Large Expeditions",
@@ -1727,7 +1721,7 @@
   },
   {
     "id": "upgradekey_raidlength2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Watch of Flowing Time" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Extended Expeditions",
@@ -1791,7 +1785,7 @@
   },
   {
     "id": "upgradekey_basementsunlock",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Basement Locator" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Unlock Start Location: Basements",
@@ -1815,15 +1809,7 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [
-        [ "wolfsuit", 1 ],
-        [ "dragonsuit", 1 ],
-        [ "felinesuit", 1 ],
-        [ "dinosuit", 1 ],
-        [ "sharksuit", 1 ],
-        [ "wolfsuit", 1 ],
-        [ "wolfsuit", 1 ]
-      ],
+      [ [ "fursuit", 1 ] ],
       [ [ "bodypillow", 2 ] ],
       [ [ "catan", 1 ] ],
       [ [ "dnd", 1 ] ],
@@ -1865,7 +1851,7 @@
   },
   {
     "id": "upgradekey_roofsunlock",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Rooftop Locator" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Unlock Start Location: Roofs",
@@ -1933,7 +1919,7 @@
   },
   {
     "id": "upgradekey_labsunlock",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Laboratory Locator" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Unlock Start Location: Labs",
@@ -1999,7 +1985,7 @@
   },
   {
     "id": "buildkey_base1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Mouth of the Island" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Bunker Entrance",
@@ -2065,7 +2051,7 @@
   },
   {
     "id": "buildkey_bigroom1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Miner's Cameo" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Main Room 1",
@@ -2094,7 +2080,7 @@
       [ [ "hinge", 5 ] ],
       [ [ "nail", 20 ] ],
       [ [ "nuts_bolts", 15 ] ],
-      [ [ "box_medium", 4 ], [ "box_large", 2 ], [ "box_oversize", 1 ] ],
+      [ [ "box_medium", 4 ], [ "box_large", 1 ], [ "box_oversize", 2 ] ],
       [ [ "cordage", 5, "LIST" ] ]
     ]
   },
@@ -2129,7 +2115,7 @@
   },
   {
     "id": "buildkey_bigroom2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Hollow Carver" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Main Room 2",
@@ -2191,7 +2177,7 @@
   },
   {
     "id": "buildkey_bigroom3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Warped Reinforcement" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Main Room 3",
@@ -2256,7 +2242,7 @@
   },
   {
     "id": "buildkey_bigroom4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Cavernous Soul" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Main Room 4",
@@ -2327,7 +2313,7 @@
   },
   {
     "id": "buildkey_centralskylight2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Glass Figurine" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Central Skylight 2",
@@ -2390,7 +2376,7 @@
   },
   {
     "id": "buildkey_centralskylight3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Crystalline Mirror" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Central Skylight 3",
@@ -2454,7 +2440,7 @@
   },
   {
     "id": "buildkey_centralskylight4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Transparent Cube" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Central Skylight 4",
@@ -2518,7 +2504,7 @@
   },
   {
     "id": "buildkey_climatecontrol",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Lukewarm Sphere" },
     "description": "This strange metaphysical artifact is used to build infrastructure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Climate Control",
@@ -2587,7 +2573,7 @@
   },
   {
     "id": "buildkey_westroom1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Miner's Cameo (West)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: West Room 1",
@@ -2616,7 +2602,7 @@
       [ [ "hinge", 5 ] ],
       [ [ "nail", 20 ] ],
       [ [ "nuts_bolts", 15 ] ],
-      [ [ "box_medium", 4 ], [ "box_large", 2 ], [ "box_oversize", 1 ] ],
+      [ [ "box_medium", 4 ], [ "box_large", 1 ], [ "box_oversize", 2 ] ],
       [ [ "cordage", 5, "LIST" ] ]
     ]
   },
@@ -2651,7 +2637,7 @@
   },
   {
     "id": "buildkey_westroom2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Hollow Carver (West)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: West Room 2",
@@ -2713,7 +2699,7 @@
   },
   {
     "id": "buildkey_westroom3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Warped Reinforcement (West)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: West Room 3",
@@ -2778,7 +2764,7 @@
   },
   {
     "id": "buildkey_westroom4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Crystalline Glass (West)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: West Room Gallery",
@@ -2849,7 +2835,7 @@
   },
   {
     "id": "buildkey_west_side_rooms",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Inverted Cube (West)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: West Side Rooms",
@@ -2930,7 +2916,7 @@
   },
   {
     "id": "buildkey_eastroom1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Miner's Cameo (East)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: East Room 1",
@@ -2959,7 +2945,7 @@
       [ [ "hinge", 5 ] ],
       [ [ "nail", 20 ] ],
       [ [ "nuts_bolts", 15 ] ],
-      [ [ "box_medium", 4 ], [ "box_large", 2 ], [ "box_oversize", 1 ] ],
+      [ [ "box_medium", 4 ], [ "box_large", 1 ], [ "box_oversize", 2 ] ],
       [ [ "cordage", 5, "LIST" ] ]
     ]
   },
@@ -2994,7 +2980,7 @@
   },
   {
     "id": "buildkey_eastroom2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Hollow Carver (East)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: East Room 2",
@@ -3056,7 +3042,7 @@
   },
   {
     "id": "buildkey_eastroom3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Warped Reinforcement (East)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: east Room 3",
@@ -3121,7 +3107,7 @@
   },
   {
     "id": "buildkey_eastroom4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Crystalline Glass (East)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: East Room Gallery",
@@ -3192,7 +3178,7 @@
   },
   {
     "id": "buildkey_east_side_rooms",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Inverted Cube (East)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: East Side Rooms",
@@ -3273,7 +3259,7 @@
   },
   {
     "id": "buildkey_northroom1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Miner's Cameo (North)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: North Room 1",
@@ -3342,7 +3328,7 @@
   },
   {
     "id": "buildkey_northroom2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Hollow Carver (North)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: North Room 2",
@@ -3410,7 +3396,7 @@
   },
   {
     "id": "buildkey_northroom3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Warped Reinforcement (north)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: North Room 3",
@@ -3479,7 +3465,7 @@
   },
   {
     "id": "buildkey_northroom4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Cavernous Soul (North)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: North Room 4",
@@ -3552,7 +3538,7 @@
   },
   {
     "id": "buildkey_north_side_rooms",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Inverted Cube (North)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: North Side Rooms",
@@ -3832,5 +3818,83 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [ [ [ "warptoken", 5 ] ] ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_sunblock",
+    "type": "mission_definition",
+    "name": "Upgrade: Personal sunblock",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Solar Refractor from sunglasses, glass and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: The sun's rays cannot affect you while on the island.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_sunblock",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_sunblock" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: The sun's rays cannot affect you while on the island.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "u_add_trait": "mut_skyisland_sunblock" },
+        { "u_forget_recipe": "upgradekey_sunblock" },
+        {
+          "u_message": "The sun's rays shift a little.  As long as you are on the island, any harm they could do to you will be negated.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_sunblock",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Solar Refractor" },
+    "description": "This strange metaphysical artifact will make the island protect your skin from the sun while you are not earthside.  If your skin doesn't burn as the sun shines on it, this artifact will not do much to help but still won't hinder.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: personal sunblock.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_sunblock",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "//": "Intended to be a very early-game craft, as the bunker and constructing on the surface makes it mostly obsolete.",
+    "//2": "The amount of glass shards is equal to the amount disassembling a standing mirror would give.",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [
+        [ "sunglasses", 1 ],
+        [ "sunglasses_eye", 1 ],
+        [ "sunglasses_bifocal", 1 ],
+        [ "sunglasses_reading", 1 ],
+        [ "fitover_sunglasses", 1 ]
+      ],
+      [
+        [ "sunglasses", 1 ],
+        [ "sunglasses_eye", 1 ],
+        [ "sunglasses_bifocal", 1 ],
+        [ "sunglasses_reading", 1 ],
+        [ "fitover_sunglasses", 1 ]
+      ],
+      [ [ "umbrella", 1 ], [ "teleumbrella", 1 ] ],
+      [ [ "sundress", 1 ] ],
+      [ [ "glass_shard", 176 ] ]
+    ]
   }
 ]

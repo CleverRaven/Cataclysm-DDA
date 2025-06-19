@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sword_wood",
     "symbol": "!",
     "color": "brown",
@@ -15,10 +15,11 @@
     "flags": [ "BELT_CLIP" ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
     "techniques": [ "WBLOCK_1" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "melee_damage": { "bash": 12, "cut": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sword_wood_large",
     "symbol": "!",
     "color": "brown",
@@ -34,10 +35,11 @@
     "flags": [ "BELT_CLIP", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "GREAT_SWORDS" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
+    "faults": [ { "fault_group": "staff_long" } ],
     "melee_damage": { "bash": 16, "cut": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sword_nail",
     "symbol": "!",
     "color": "light_gray",
@@ -52,10 +54,11 @@
     "techniques": [ "WBLOCK_1" ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
     "flags": [ "FRAGILE_MELEE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "melee_damage": { "bash": 12, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sword_crude",
     "symbol": "!",
     "color": "light_gray",
@@ -71,10 +74,11 @@
     "weapon_category": [ "MEDIUM_SWORDS" ],
     "qualities": [ [ "BUTCHER", -50 ] ],
     "techniques": [ "WBLOCK_1" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "melee_damage": { "bash": 6, "cut": 18 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sword_crude_large",
     "symbol": "!",
     "color": "brown",
@@ -91,10 +95,11 @@
     "weapon_category": [ "GREAT_SWORDS" ],
     "qualities": [ [ "BUTCHER", -50 ] ],
     "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
+    "faults": [ { "fault_group": "staff_long" } ],
     "melee_damage": { "bash": 12, "cut": 20 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sword_sheets_welded",
     "symbol": "!",
     "color": "light_gray",
@@ -124,10 +129,11 @@
     "weapon_category": [ "MEDIUM_SWORDS" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -5 ] ],
     "techniques": [ "WBLOCK_2" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 6, "cut": 22 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sword_sheets_welded_large",
     "symbol": "!",
     "color": "light_gray",
@@ -157,10 +163,11 @@
     "weapon_category": [ "GREAT_SWORDS" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -20 ] ],
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 7 } ],
     "melee_damage": { "bash": 8, "cut": 32 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sword_metal",
     "symbol": "!",
     "color": "light_gray",
@@ -177,10 +184,11 @@
     "weapon_category": [ "MEDIUM_SWORDS" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 2 ] ],
     "techniques": [ "WBLOCK_2" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 7, "cut": 23 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sword_metal_large",
     "name": { "str": "metal greatsword" },
     "description": "A large, crudely-forged blade.  It's too big to be called a sword.  Too massive, too thick, too heavy, and far too rough.",
@@ -199,11 +207,13 @@
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "GREAT_SWORDS" ],
     "category": "weapons",
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 7 } ],
     "melee_damage": { "bash": 20, "cut": 30 }
   },
   {
     "id": "sword_metal_fencing",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "metal fencing sword" },
     "description": "Calling this a rapier is a stretch.  It's robust and very pointy, but more akin to a long metal spike with a handguard than the elegant swords of the Renaissance.",
     "looks_like": "rapier",
@@ -220,11 +230,13 @@
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
     "category": "weapons",
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 6, "stab": 22 }
   },
   {
     "id": "switchblade",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "switchblade" },
     "description": "A long, thin knife with a spring-loaded blade that rests inside the handle while not in use.",
@@ -238,10 +250,10 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
-    "techniques": [ "RAPID" ],
     "flags": [ "ALLOWS_BODY_BLOCK", "CONDUCTIVE", "NO_SALVAGE" ],
     "weapon_category": [ "SHIVS" ],
     "variant_type": "generic",
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 2 } ],
     "variants": [
       {
         "id": "switchblade_balisong",
@@ -259,7 +271,8 @@
   },
   {
     "id": "knife_folding",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "folding knife", "str_pl": "folding knives" },
     "description": "A small folding knife with a locking blade and a pocket clip.  Not as good a weapon as a solid fixed-blade knife, but better than a penknife.",
     "weight": "80 g",
@@ -274,11 +287,13 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "BELT_CLIP", "ALLOWS_BODY_BLOCK", "CONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 2 } ],
     "melee_damage": { "stab": 12 }
   },
   {
     "id": "utility_knife_folding",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "utility folding knife", "str_pl": "utility folding knives" },
     "description": "A 'Hideman' brand folding knife, this model includes extra utility options such as a screwdriver, awl, and small pry bar.",
     "looks_like": "knife_folding",
@@ -294,11 +309,13 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ], [ "SCREW", 1 ], [ "PRYING_NAIL", 1 ], [ "LEATHER_AWL", 2 ] ],
     "flags": [ "BELT_CLIP", "ALLOWS_BODY_BLOCK", "CONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "stab": 12 }
   },
   {
     "id": "knife_combat_marine",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "GUNMOD" ],
     "category": "weapons",
     "name": { "str": "USMC bayonet" },
     "description": "A modern bayonet in use with the US Marine Corps, adopted in an effort to improve USMC hand-to-hand fighting capabilities.  The bayonet is optimized to function as a fighting knife, sporting an ergonomic handle that will minimize hand fatigue during combat.  The blade tip is sharper in profile than other bayonets to assist in penetrating body armor, and also features a small serrated section to provide for some utility.",
@@ -313,31 +330,6 @@
     "symbol": ";",
     "color": "dark_gray",
     "looks_like": "knife_combat",
-    "gunmod_data": {
-      "location": "bayonet lug",
-      "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-      "is_bayonet": true,
-      "blacklist_mod": [
-        "crafted_suppressor",
-        "filter_suppressor",
-        "shot_suppressor",
-        "suppressor",
-        "suppressor_compact",
-        "m203",
-        "m203_mod",
-        "m320_mod_mod",
-        "m320_mod",
-        "M6_shotgun",
-        "makeshift_bayonet",
-        "m26_mass",
-        "m26_mass_mod",
-        "masterkey",
-        "masterkey_mod",
-        "u_shotgun",
-        "u_shotgun_mod"
-      ],
-      "install_time": "5 s"
-    },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
@@ -350,12 +342,35 @@
       "NO_SALVAGE",
       "CONDUCTIVE"
     ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "stab": 22 }
+    "melee_damage": { "stab": 22 },
+    "location": "bayonet lug",
+    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+    "is_bayonet": true,
+    "blacklist_mod": [
+      "crafted_suppressor",
+      "filter_suppressor",
+      "shot_suppressor",
+      "suppressor",
+      "suppressor_compact",
+      "m203",
+      "m203_mod",
+      "m320_mod_mod",
+      "m320_mod",
+      "M6_shotgun",
+      "m26_mass",
+      "m26_mass_mod",
+      "masterkey",
+      "masterkey_mod",
+      "u_shotgun"
+    ],
+    "install_time": "5 s"
   },
   {
     "id": "knife_combat_army",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "GUNMOD" ],
     "category": "weapons",
     "name": { "str": "Bayonet" },
     "description": "The current issue Army bayonet, before the Cataclysm anyways.  It is thick, heavy, and surprisingly sharp.  This bayonet also functions as a wire cutter, and a mediocre saw for cutting through aircraft fuselage.  That the handle and tang can be completely disassembled from the blade is surely a fact of great comfort to the soldier, survivalist, and you.",
@@ -369,6 +384,13 @@
         "id": "akbayonet",
         "name": { "str": "AK bayonet" },
         "description": "A 6H4 bayonet for Kalashnikov pattern rifles, usually imported military surplus from eastern bloc countries.  The blade is made of stainless steel and the handle of a lightweight and durable plastic.  It features a middling metal saw on the spine of the blade, and can function as a wire cutter as well.  Though it is quite sturdy, it can't hold an edge very well."
+      },
+      {
+        "id": "exodiibayonet",
+        "name": { "str": "L-backswerda" },
+        "description": "A bayonet, although not of any model you're familiar with.  Despite differences in appearance it seems analogous to any other bayonet - The chrome shaded blade is worn but well-maintained, with a grooved edge on its back to act as a sawing implement.  The handle and guard have some additional mechanisms installed to help affix it to a variety of firearms.",
+        "weight": 0,
+        "append": false
       }
     ],
     "//": "An M9 Bayonet.",
@@ -382,31 +404,6 @@
     "symbol": ";",
     "color": "dark_gray",
     "looks_like": "knife_combat",
-    "gunmod_data": {
-      "location": "bayonet lug",
-      "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-      "is_bayonet": true,
-      "blacklist_mod": [
-        "crafted_suppressor",
-        "filter_suppressor",
-        "shot_suppressor",
-        "suppressor",
-        "suppressor_compact",
-        "m203",
-        "m203_mod",
-        "m320_mod_mod",
-        "m320_mod",
-        "M6_shotgun",
-        "makeshift_bayonet",
-        "m26_mass",
-        "m26_mass_mod",
-        "masterkey",
-        "masterkey_mod",
-        "u_shotgun",
-        "u_shotgun_mod"
-      ],
-      "install_time": "5 s"
-    },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "qualities": [ [ "CUT", 2 ], [ "SAW_M", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
@@ -419,12 +416,35 @@
       "NO_SALVAGE",
       "CONDUCTIVE"
     ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "stab": 20 }
+    "melee_damage": { "stab": 20 },
+    "location": "bayonet lug",
+    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+    "is_bayonet": true,
+    "blacklist_mod": [
+      "crafted_suppressor",
+      "filter_suppressor",
+      "shot_suppressor",
+      "suppressor",
+      "suppressor_compact",
+      "m203",
+      "m203_mod",
+      "m320_mod_mod",
+      "m320_mod",
+      "M6_shotgun",
+      "m26_mass",
+      "m26_mass_mod",
+      "masterkey",
+      "masterkey_mod",
+      "u_shotgun"
+    ],
+    "install_time": "5 s"
   },
   {
     "id": "knife_combat",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "GUNMOD" ],
     "category": "weapons",
     "name": { "str": "National Guard bayonet" },
     "description": "A Cold War era Army bayonet that has only partially been replaced by newer models.  It has an apocalypse-proof full-tang, double-edged high steel blade terminating in a spear point.  The no-frills design makes for both a good fighting knife and bayonet, a fact that was appreciated when reserve stocks of these were issued out to National Guardsmen.",
@@ -438,31 +458,6 @@
     "material": [ "hc_steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "gunmod_data": {
-      "location": "bayonet lug",
-      "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-      "is_bayonet": true,
-      "blacklist_mod": [
-        "crafted_suppressor",
-        "filter_suppressor",
-        "shot_suppressor",
-        "suppressor",
-        "suppressor_compact",
-        "m203",
-        "m203_mod",
-        "m320_mod_mod",
-        "m320_mod",
-        "M6_shotgun",
-        "makeshift_bayonet",
-        "m26_mass",
-        "m26_mass_mod",
-        "masterkey",
-        "masterkey_mod",
-        "u_shotgun",
-        "u_shotgun_mod"
-      ],
-      "install_time": "5 s"
-    },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
@@ -475,12 +470,35 @@
       "NO_SALVAGE",
       "CONDUCTIVE"
     ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "stab": 21 }
+    "melee_damage": { "stab": 21 },
+    "location": "bayonet lug",
+    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+    "is_bayonet": true,
+    "blacklist_mod": [
+      "crafted_suppressor",
+      "filter_suppressor",
+      "shot_suppressor",
+      "suppressor",
+      "suppressor_compact",
+      "m203",
+      "m203_mod",
+      "m320_mod_mod",
+      "m320_mod",
+      "M6_shotgun",
+      "m26_mass",
+      "m26_mass_mod",
+      "masterkey",
+      "masterkey_mod",
+      "u_shotgun"
+    ],
+    "install_time": "5 s"
   },
   {
     "id": "knife_hunting",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "hunting knife", "str_pl": "hunting knives" },
     "//": "Highest non-powertool butchering quality.  It's made for skinning and butchering game, which is what you're generally doing.  Based on Buck 103 skinner.",
@@ -498,11 +516,13 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "CONDUCTIVE", "DURABLE_MELEE" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "cut": 12 }
   },
   {
     "id": "knife_KABAR",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "KA-BAR knife", "str_pl": "KA-BAR knives" },
     "description": "The KA-BAR was developed by the United States Marine Corps in 1942 by modifying hunting knife designs to be more soldier-proof.  The handle is made of stacked leather washers, and the blade is made of easy to sharpen high steel, making for a popular fighting, hunting and utility knife.  The blade is marked 'USMC'.",
@@ -520,12 +540,13 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 27 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "CONDUCTIVE", "DURABLE_MELEE" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "stab": 21 }
   },
   {
     "id": "knife_rambo",
     "copy-from": "mc_knife_rambo",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "survival knife", "str_pl": "survival knives" },
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.",
     "replace_materials": { "mc_steel": "steel" }
@@ -534,7 +555,7 @@
     "id": "lc_knife_rambo",
     "copy-from": "mc_knife_rambo",
     "looks_like": "knife_rambo",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "mild steel survival knife", "str_pl": "mild steel survival knives" },
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.  It's custom-made of mild steel, you could probably find better in a hunting store.",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "good" },
@@ -546,7 +567,7 @@
   {
     "id": "mc_knife_rambo",
     "looks_like": "knife_rambo",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "weapons",
     "name": { "str": "medium steel survival knife", "str_pl": "medium steel survival knives" },
     "//": "This isn't really supposed to be a very good knife, or a very good saw.  It's more for looking scary.",
@@ -576,13 +597,14 @@
         "description": "A hidden handle compartment.  Unscrew the compass to access."
       }
     ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "stab": 14 }
   },
   {
     "id": "hc_knife_rambo",
     "copy-from": "mc_knife_rambo",
     "looks_like": "knife_rambo",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "high steel survival knife", "str_pl": "high steel survival knives" },
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.  A competent weapon and tool, if not the best at any of them.",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -593,7 +615,7 @@
     "id": "ch_knife_rambo",
     "copy-from": "mc_knife_rambo",
     "looks_like": "knife_rambo",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "hardened steel survival knife", "str_pl": "hardened steel survival knives" },
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.  Now this, this is a knife.",
     "replace_materials": { "mc_steel": "ch_steel" },
@@ -604,7 +626,7 @@
     "id": "qt_knife_rambo",
     "copy-from": "mc_knife_rambo",
     "looks_like": "knife_rambo",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "tempered steel survival knife", "str_pl": "tempered steel survival knives" },
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.  Time to go Rambo on this apocalypse.",
     "replace_materials": { "mc_steel": "qt_steel" },
@@ -613,7 +635,8 @@
   },
   {
     "id": "knife_rm42",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "F-S fighting knife", "str_pl": "F-S fighting knives" },
     "description": "Arguably the most famous combat knife in military history, this blackened double-edged knife is made of drop-forged steel and knurled brass.  The balance of the knife is such that it can be tossed from one hand to the other instinctively, and the spear point allows for easy insertion into an unsuspecting foe's heart.  While this knife is great in a fight, it's not very good as a tool.  The ricasso declares this to be a 'Fairbairn-Sykes knife', with a National Stocking Number of '1095-99-963-2037'.",
@@ -631,11 +654,13 @@
     "thrown_damage": [ { "damage_type": "stab", "amount": 22 } ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "stab": 19 }
   },
   {
     "id": "knife_swissarmy",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Swiss Army knife", "str_pl": "Swiss Army knives" },
     "//": "The swiss army knife is a bit more of a knife than a toolkit.",
     "description": "An iconic pocket knife imported from Europe.  Its red plastic handle conceals many small tools.",
@@ -651,12 +676,14 @@
     "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "SCREW", 1 ], [ "LEATHER_AWL", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "stab": 6 },
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "knife_trench",
     "copy-from": "mc_knife_trench",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "trench knife", "str_pl": "trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.",
     "replace_materials": { "mc_steel": "steel" }
@@ -665,7 +692,8 @@
     "id": "lc_knife_trench",
     "copy-from": "mc_knife_trench",
     "looks_like": "knife_trench",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel trench knife", "str_pl": "mild steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is poorly made of mild steel with barely a proper grip.",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "good" },
@@ -676,7 +704,8 @@
   },
   {
     "id": "mc_knife_trench",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "looks_like": "knife_trench",
     "name": { "str": "medium steel trench knife", "str_pl": "medium steel trench knives" },
@@ -695,13 +724,15 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "stab": 18 }
   },
   {
     "id": "hc_knife_trench",
     "copy-from": "mc_knife_trench",
     "looks_like": "knife_trench",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "high steel trench knife", "str_pl": "high steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is made of high steel and is probably as good as a WWI trench knife.",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -712,7 +743,8 @@
     "id": "ch_knife_trench",
     "copy-from": "mc_knife_trench",
     "looks_like": "knife_trench",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel trench knife", "str_pl": "hardened steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is made of hardened steel, an officer's weapon if ever there was one.",
     "replace_materials": { "mc_steel": "ch_steel" },
@@ -723,7 +755,8 @@
     "id": "qt_knife_trench",
     "copy-from": "mc_knife_trench",
     "looks_like": "knife_trench",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel trench knife", "str_pl": "tempered steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is made of tempered steel, and you feel you could hold a trench against an army of zombies with it.",
     "replace_materials": { "mc_steel": "qt_steel" },
@@ -732,7 +765,8 @@
   },
   {
     "id": "makeshift_knife",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "makeshift knife", "str_pl": "makeshift knives" },
     "description": "A knife consisting of a long, somewhat sharpened spike and a tightly-wrapped rag as a handle.  Not as good as a real knife, but it'll do in a pinch.",
     "weight": "575 g",
@@ -747,12 +781,32 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 11 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 3 } ],
     "melee_damage": { "stab": 10 }
+  },
+  {
+    "type": "ITEM",
+    "id": "glass_shiv",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": { "str": "glass shiv" },
+    "description": "A glass shard with wrapping at one end so it can be safely wielded.",
+    "material": [ { "type": "glass", "portion": 13 }, { "type": "cotton", "portion": 1 } ],
+    "weight": "193 g",
+    "price_postapoc": "10 cent",
+    "volume": "82 ml",
+    "longest_side": "15 cm",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "good" },
+    "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
+    "qualities": [ [ "BUTCHER", -18 ] ],
+    "melee_damage": { "cut": 6 }
   },
   {
     "id": "bone_knife",
     "name": { "str": "bone shiv" },
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "description": "A femur or other bone, about 20 cm long, which has been broken at one end and sharpened into a cutting tool.  Its jagged edge is wicked but fragile.",
     "symbol": "/",
     "color": "white",
@@ -767,11 +821,13 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "SHEATH_KNIFE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general" } ],
     "melee_damage": { "stab": 12 }
   },
   {
     "id": "knife_baselard",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "baselard" },
     "description": "A medieval dagger forged from rough iron.  It is not the sharpest tool in the shed, but it is certainly one of the largest.",
     "category": "weapons",
@@ -779,6 +835,7 @@
     "volume": "187 ml",
     "longest_side": "36 cm",
     "price": "195 USD 90 cent",
+    "price_postapoc": "15 USD",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "good" },
     "material": [ "iron" ],
     "symbol": ";",
@@ -786,11 +843,13 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 15 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 2 } ],
     "melee_damage": { "stab": 17 }
   },
   {
     "id": "makeshift_machete",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "makeshift machete" },
     "description": "A large blade with one end wrapped in duct tape to make a crude handle, making it easier to wield as a rough machete.",
@@ -807,11 +866,13 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 4 } ],
     "melee_damage": { "cut": 16 }
   },
   {
     "id": "machete",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "machete" },
     "//": "Based on OKC 1-18 machete.",
@@ -830,12 +891,14 @@
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 4 } ],
     "melee_damage": { "cut": 21 }
   },
   {
     "id": "survivor_machete",
     "copy-from": "machete",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "combat machete" },
     "description": "This common gardening tool has been customized and rebalanced to improve its performance as a weapon.",
     "extend": { "techniques": [ "RAPID" ] },
@@ -849,7 +912,8 @@
   {
     "id": "survivor_machete_qt",
     "copy-from": "survivor_machete",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel combat machete" },
     "description": "This common gardening tool has been customized, rebalanced and tempered to dramatically improve its performance as a weapon.",
     "variants": [
@@ -878,7 +942,8 @@
   {
     "id": "machete_gimmick",
     "name": { "str": "machete multitool" },
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "description": "A thin, wobbly steel blade with sawteeth on one side and a flat chisel tip for digging.  More of a jackass of all trades than a jack of them.",
     "longest_side": "33 cm",
     "symbol": "/",
@@ -892,12 +957,14 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ], [ "SAW_W", 1 ], [ "DIG", 1 ], [ "PRY", 1 ] ],
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "weapon_category": [ "SHORT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "cut": 11 }
   },
   {
     "id": "cavalry_sabre",
     "copy-from": "mc_cavalry_sabre",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "cavalry saber" },
     "description": "A curved sword associated with cavalry from the Early Modern period onward.  Lightweight, but a deadly slashing weapon.",
     "replace_materials": { "mc_steel": "steel" }
@@ -905,7 +972,8 @@
   {
     "id": "lc_cavalry_sabre",
     "copy-from": "mc_cavalry_sabre",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel cavalry saber" },
     "description": "A curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "weight": "910 g",
@@ -917,7 +985,8 @@
   },
   {
     "id": "mc_cavalry_sabre",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "looks_like": "cavalry_sabre",
     "name": { "str": "medium steel cavalry saber" },
     "category": "weapons",
@@ -936,12 +1005,14 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_SWORD", "CONDUCTIVE", "DURABLE_MELEE" ],
     "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 5, "cut": 27 }
   },
   {
     "id": "hc_cavalry_sabre",
     "copy-from": "mc_cavalry_sabre",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "high steel cavalry saber" },
     "description": "A curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -950,7 +1021,8 @@
   },
   {
     "id": "ch_cavalry_sabre",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "mc_cavalry_sabre",
     "name": { "str": "hardened steel cavalry saber" },
     "description": "A curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
@@ -960,7 +1032,8 @@
   },
   {
     "id": "qt_cavalry_sabre",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "mc_cavalry_sabre",
     "name": { "str": "tempered steel cavalry saber" },
     "description": "A curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
@@ -971,7 +1044,8 @@
   {
     "id": "cavalry_sabre_fake",
     "copy-from": "mc_cavalry_sabre",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "cavalry saber" },
     "description": "A dull, cheaply-made replica of a curved sword associated with cavalry from the Early Modern period onwards.",
     "replace_materials": { "mc_steel": "aluminum", "leather": "nylon" },
@@ -981,7 +1055,8 @@
   },
   {
     "id": "kris",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "kris", "str_pl": "krises" },
     "description": "This wavy-bladed dagger is from Southeast Asia.  The design of the blade causes it to make broad, painful wounds.",
@@ -998,13 +1073,15 @@
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "stab": 19 }
   },
   {
     "id": "kris_fake",
     "copy-from": "kris",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "kris", "str_pl": "krises" },
     "description": "A dull, cheap replica of a wavy-bladed dagger from Southeast Asia.",
     "replace_materials": { "steel": "aluminum" },
@@ -1015,7 +1092,9 @@
   {
     "id": "kukri",
     "copy-from": "mc_kukri",
-    "type": "TOOL",
+    "looks_like": "kukri",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "kukri" },
     "description": "This versatile implement is a modern take on a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, it can be used as both a tool and a weapon.",
     "replace_materials": { "mc_steel": "steel", "wood": "plastic" }
@@ -1023,7 +1102,9 @@
   {
     "id": "lc_kukri",
     "copy-from": "mc_kukri",
-    "type": "TOOL",
+    "looks_like": "kukri",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel kukri" },
     "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of mild steel, and barely has a proper handle.  You'd probably find a better version in a store somewhere.",
     "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
@@ -1034,7 +1115,8 @@
   },
   {
     "id": "mc_kukri",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "medium steel kukri" },
     "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of medium steel, and is about what you'd expect to see in a hunting shop.",
@@ -1048,16 +1130,19 @@
     "repairs_with": [ "mc_steel" ],
     "symbol": "/",
     "color": "dark_gray",
+    "looks_like": "kukri",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ],
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "cut": 20 }
   },
   {
     "id": "hc_kukri",
     "copy-from": "mc_kukri",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "high steel kukri" },
     "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of high steel and is a well-made piece.",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -1067,7 +1152,8 @@
   {
     "id": "ch_kukri",
     "copy-from": "mc_kukri",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel kukri" },
     "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of hardened steel and is a fine tool and weapon.",
     "replace_materials": { "mc_steel": "ch_steel" },
@@ -1077,7 +1163,8 @@
   {
     "id": "qt_kukri",
     "copy-from": "mc_kukri",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel kukri" },
     "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of tempered steel and truly a weapon worthy of a post apocalyptic gurkha.",
     "replace_materials": { "mc_steel": "qt_steel" },
@@ -1088,7 +1175,8 @@
     "id": "jian",
     "copy-from": "mc_jian",
     "looks_like": "arming_sword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "jian" },
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao saber, qiang spear, and gun staff.",
     "replace_materials": { "mc_steel": "steel" }
@@ -1097,7 +1185,8 @@
     "id": "lc_jian",
     "copy-from": "mc_jian",
     "looks_like": "jian",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "mild steel jian" },
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao saber, qiang spear, and gun staff.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "proportional": { "price_postapoc": 0.75, "price": 0.75 },
@@ -1108,7 +1197,8 @@
   },
   {
     "id": "mc_jian",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "looks_like": "jian",
     "name": { "str_sp": "medium steel jian" },
@@ -1127,12 +1217,14 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 5, "cut": 29 }
   },
   {
     "id": "hc_jian",
     "looks_like": "jian",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "mc_jian",
     "name": { "str_sp": "high steel jian" },
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao saber, qiang spear, and gun staff.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
@@ -1143,7 +1235,8 @@
   {
     "id": "ch_jian",
     "looks_like": "jian",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "mc_jian",
     "name": { "str_sp": "hardened steel jian" },
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao saber, qiang spear, and gun staff.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
@@ -1154,7 +1247,8 @@
   {
     "id": "qt_jian",
     "looks_like": "jian",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "mc_jian",
     "name": { "str_sp": "tempered steel jian" },
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao saber, qiang spear, and gun staff.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
@@ -1166,7 +1260,8 @@
     "id": "jian_inferior",
     "looks_like": "jian",
     "copy-from": "mc_jian",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "jian" },
     "description": "An ancient Chinese doubled-edged straight sword.  The sword is quite worn, and bent at an odd angle.",
     "proportional": { "melee_damage": { "bash": 3.9, "cut": 0.25 }, "price_postapoc": 0.1, "price": 0.1 },
@@ -1177,7 +1272,7 @@
     "id": "jian_fake",
     "looks_like": "jian",
     "copy-from": "mc_jian",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "jian" },
     "description": "A dull, cheaply-made replica of an ancient Chinese doubled-edged straight sword, with an ornate guard.",
     "proportional": { "melee_damage": { "bash": 1.9, "cut": 0.07 }, "price_postapoc": 0.05, "price": 0.05 },
@@ -1189,7 +1284,8 @@
     "id": "scimitar",
     "copy-from": "mc_scimitar",
     "looks_like": "katana",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.",
     "replace_materials": { "mc_steel": "steel", "leather": "wood" }
@@ -1197,7 +1293,8 @@
   {
     "id": "lc_scimitar",
     "copy-from": "mc_scimitar",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "proportional": { "price_postapoc": 0.75, "price": 0.75 },
@@ -1208,7 +1305,8 @@
   },
   {
     "id": "mc_scimitar",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "medium steel shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
@@ -1227,11 +1325,13 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 5, "cut": 30 }
   },
   {
     "id": "hc_scimitar",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "mc_scimitar",
     "name": { "str": "high steel shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
@@ -1241,7 +1341,8 @@
   },
   {
     "id": "ch_scimitar",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "mc_scimitar",
     "name": { "str": "hardened steel shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
@@ -1251,7 +1352,8 @@
   },
   {
     "id": "qt_scimitar",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "mc_scimitar",
     "name": { "str": "tempered steel shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
@@ -1262,7 +1364,8 @@
   {
     "id": "scimitar_inferior",
     "copy-from": "mc_scimitar",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  This one seems oddly dull and worn.",
     "proportional": { "melee_damage": { "bash": 3.9, "cut": 0.25 }, "price": 0.1, "price_postapoc": 0.1 },
@@ -1272,7 +1375,7 @@
   {
     "id": "scimitar_fake",
     "copy-from": "mc_scimitar",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "shamshir" },
     "description": "A dull, cheaply-made replica of a curved sword associated with various Middle Eastern and Central Asian countries.",
     "proportional": { "melee_damage": { "bash": 1.9, "cut": 0.07 }, "price": 0.05, "price_postapoc": 0.05 },
@@ -1283,7 +1386,7 @@
   {
     "id": "estoc",
     "copy-from": "mc_estoc",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "estoc" },
     "description": "A thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard compared to smaller swords.",
     "replace_materials": { "mc_steel": "steel" }
@@ -1291,7 +1394,7 @@
   {
     "id": "lc_estoc",
     "copy-from": "mc_estoc",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "mild steel estoc" },
     "description": "A thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "good" },
@@ -1302,7 +1405,7 @@
   },
   {
     "id": "mc_estoc",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "weapons",
     "name": { "str": "medium steel estoc" },
     "description": "A thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
@@ -1321,12 +1424,13 @@
     "weapon_category": [ "LONG_THRUSTING_SWORDS" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 11, "stab": 36 }
   },
   {
     "id": "hc_estoc",
     "copy-from": "mc_estoc",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "high steel estoc" },
     "description": "A thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -1336,7 +1440,7 @@
   {
     "id": "ch_estoc",
     "copy-from": "mc_estoc",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "hardened steel estoc" },
     "description": "A thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
@@ -1346,7 +1450,7 @@
   {
     "id": "qt_estoc",
     "copy-from": "mc_estoc",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "tempered steel estoc" },
     "description": "A thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
@@ -1356,7 +1460,7 @@
   {
     "id": "estoc_inferior",
     "copy-from": "mc_estoc",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "estoc" },
     "description": "A thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard compared to smaller swords.  It seems a bit too bendy.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "good" },
@@ -1367,7 +1471,7 @@
   {
     "id": "estoc_fake",
     "copy-from": "mc_estoc",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "estoc" },
     "description": "A dull, cheaply-made replica of a thin thrusting sword predating the rapier.  It requires a larger baldric or scabbard compared to smaller swords.",
     "proportional": { "melee_damage": { "bash": 1.2, "stab": 0.08 }, "price": 0.05, "price_postapoc": 0.05 },
@@ -1379,7 +1483,8 @@
   {
     "id": "longsword",
     "copy-from": "mc_longsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "longsword" },
     "description": "A classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  It's well-balanced and surprisingly easy to use due to its two-handed grip, but requires a larger baldric or scabbard compared to smaller swords.",
     "replace_materials": { "mc_steel": "steel" }
@@ -1387,7 +1492,8 @@
   {
     "id": "lc_longsword",
     "copy-from": "mc_longsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel longsword" },
     "description": "A classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  It's well-balanced and surprisingly easy to use due to its two-handed grip, but requires a larger baldric or scabbard, compared to smaller swords.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
@@ -1398,7 +1504,8 @@
   },
   {
     "id": "mc_longsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "medium steel longsword" },
     "description": "A classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  It's well-balanced and surprisingly easy to use due to its two-handed grip, but requires a larger baldric or scabbard, compared to smaller swords.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
@@ -1417,12 +1524,14 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "weapon_category": [ "LONG_SWORDS", "LONG_THRUSTING_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 9, "cut": 36 }
   },
   {
     "id": "hc_longsword",
     "copy-from": "mc_longsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "high steel longsword" },
     "description": "A classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  It's well-balanced and surprisingly easy to use due to its two-handed grip, but requires a larger baldric or scabbard, compared to smaller swords.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -1432,7 +1541,8 @@
   {
     "id": "ch_longsword",
     "copy-from": "mc_longsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel longsword" },
     "description": "A classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  It's well-balanced and surprisingly easy to use due to its two-handed grip, but requires a larger baldric or scabbard, compared to smaller swords.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
@@ -1442,7 +1552,8 @@
   {
     "id": "qt_longsword",
     "copy-from": "mc_longsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel longsword" },
     "description": "A classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  It's well-balanced and surprisingly easy to use due to its two-handed grip, but requires a larger baldric or scabbard, compared to smaller swords.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
@@ -1452,7 +1563,8 @@
   {
     "id": "longsword_inferior",
     "copy-from": "mc_longsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "longsword" },
     "description": "A classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  You feel like the pommel could just snap off if you used it.",
     "replace_materials": { "mc_steel": "budget_steel" },
@@ -1462,7 +1574,8 @@
   {
     "id": "longsword_fake",
     "copy-from": "mc_longsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "longsword" },
     "description": "A dull, cheaply-made replica of the classic medieval longsword.  It requires a larger baldric or scabbard compared to smaller swords.",
     "replace_materials": { "mc_steel": "aluminum", "leather": "nylon" },
@@ -1473,7 +1586,8 @@
   {
     "id": "arming_sword",
     "copy-from": "mc_arming_sword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "arming sword" },
     "description": "A classic medieval sword, just the right size to use one-handed.",
     "replace_materials": { "mc_steel": "steel" }
@@ -1481,7 +1595,8 @@
   {
     "id": "lc_arming_sword",
     "copy-from": "mc_arming_sword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel arming sword" },
     "description": "A classic medieval sword, just the right size to use one-handed.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
@@ -1492,7 +1607,8 @@
   },
   {
     "id": "mc_arming_sword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "medium steel arming sword" },
     "description": "A classic medieval sword, just the right size to use one-handed.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
@@ -1511,12 +1627,14 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 6, "cut": 30 }
   },
   {
     "id": "hc_arming_sword",
     "copy-from": "mc_arming_sword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "high steel arming sword" },
     "description": "A classic medieval sword, just the right size to use one-handed.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -1526,7 +1644,8 @@
   {
     "id": "ch_arming_sword",
     "copy-from": "mc_arming_sword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel arming sword" },
     "description": "A classic medieval sword, just the right size to use one-handed.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
@@ -1536,7 +1655,8 @@
   {
     "id": "qt_arming_sword",
     "copy-from": "mc_arming_sword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel arming sword" },
     "description": "A classic medieval sword, just the right size to use one-handed.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
@@ -1546,7 +1666,8 @@
   {
     "id": "arming_sword_inferior",
     "copy-from": "mc_arming_sword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "arming sword" },
     "description": "A classic medieval sword, just the right size to use one-handed.  This one doesn't seem to have been made right.",
     "replace_materials": { "mc_steel": "budget_steel" },
@@ -1556,7 +1677,7 @@
   {
     "id": "arming_sword_fake",
     "copy-from": "mc_arming_sword",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "arming sword" },
     "description": "A dull, cheaply-made replica of a classic medieval sword, just the right size to use one-handed.",
     "replace_materials": { "mc_steel": "aluminum", "leather": "nylon" },
@@ -1566,7 +1687,8 @@
   },
   {
     "id": "sword_xiphos",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "xiphos", "str_pl": "xiphe" },
     "description": "A bronze sword of ancient Greek origin, wielded as a sidearm to the dory spear.",
@@ -1583,11 +1705,13 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ],
     "weapon_category": [ "SHORT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 6, "cut": 28 }
   },
   {
     "id": "khopesh",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "khopesh", "str_pl": "khopeshes" },
     "description": "This ancient bronze weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.",
@@ -1604,11 +1728,13 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 9, "cut": 27 }
   },
   {
     "id": "dao",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str_sp": "dao" },
     "description": "An ancient Chinese sword consisting of a curved blade and a guard with a cupped design.  Existing since the Shang dynasty, this one is made of bronze.  One of the four major weapons in folklore, alongside the jian sword, qiang spear, and gun staff.",
@@ -1625,11 +1751,13 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 8, "cut": 24 }
   },
   {
     "id": "sword_bronze",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "bronze sword" },
     "description": "An imitation of a sword made from bronze.  It is a capable weapon, but it cannot compare to actual swords.",
@@ -1647,11 +1775,13 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 2 ] ],
     "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ],
     "weapon_category": [ "SHORT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 6, "cut": 21 }
   },
   {
     "id": "sword_bayonet",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "GUNMOD" ],
     "category": "weapons",
     "name": { "str": "sword bayonet" },
     "description": "A long, knife bladed bayonet that can be attached to the front of a rifle, converting it into a pike.  It is long enough to be used as a short sword when unmounted.",
@@ -1665,42 +1795,40 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "gunmod_data": {
-      "location": "bayonet lug",
-      "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-      "is_bayonet": true,
-      "blacklist_mod": [
-        "crafted_suppressor",
-        "filter_suppressor",
-        "shot_suppressor",
-        "suppressor",
-        "suppressor_compact",
-        "m203",
-        "m203_mod",
-        "m320_mod_mod",
-        "m320_mod",
-        "M6_shotgun",
-        "makeshift_bayonet",
-        "m26_mass",
-        "m26_mass_mod",
-        "masterkey",
-        "masterkey_mod",
-        "u_shotgun",
-        "u_shotgun_mod"
-      ],
-      "install_time": "5 s"
-    },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "DURABLE_MELEE", "PUMP_RAIL_COMPATIBLE", "SHEATH_SWORD" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "weapon_category": [ "SHORT_SWORDS" ],
-    "melee_damage": { "bash": 7, "stab": 21 }
+    "melee_damage": { "bash": 7, "stab": 21 },
+    "location": "bayonet lug",
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+    "is_bayonet": true,
+    "blacklist_mod": [
+      "crafted_suppressor",
+      "filter_suppressor",
+      "shot_suppressor",
+      "suppressor",
+      "suppressor_compact",
+      "m203",
+      "m203_mod",
+      "m320_mod_mod",
+      "m320_mod",
+      "M6_shotgun",
+      "m26_mass",
+      "m26_mass_mod",
+      "masterkey",
+      "masterkey_mod",
+      "u_shotgun"
+    ],
+    "install_time": "5 s"
   },
   {
     "id": "tanto",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str_sp": "tanto" },
     "description": "Long Japanese knives like this more-modern remake were the samurai's backup weapon, before the advent of the larger wakizashi.  It's still a deadly blade, even if it's smaller than its more famous relatives.",
@@ -1717,12 +1845,14 @@
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 2, "stab": 18 }
   },
   {
     "id": "tanto_inferior",
     "copy-from": "tanto",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "tanto" },
     "description": "Long Japanese knives like this more-modern remake were the samurai's backup weapon, before the advent of the larger wakizashi.  This one doesn't feel well-balanced.",
     "replace_materials": { "steel": "budget_steel" },
@@ -1732,7 +1862,8 @@
   {
     "id": "tanto_fake",
     "copy-from": "tanto",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "tanto" },
     "description": "A dull, cheaply-made replica of a long Japanese knife, typically used as a samurai's backup weapon.",
     "replace_materials": { "steel": "aluminum", "leather": "nylon" },
@@ -1743,7 +1874,8 @@
   {
     "id": "wakizashi",
     "copy-from": "mc_wakizashi",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "wakizashi" },
     "description": "A comparatively-common Japanese short sword.  Smaller and lighter than a katana, but still effective in combat.",
     "replace_materials": { "mc_steel": "steel" }
@@ -1751,7 +1883,8 @@
   {
     "id": "lc_wakizashi",
     "copy-from": "mc_wakizashi",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "mild steel wakizashi" },
     "description": "A comparatively-common Japanese short sword.  Smaller and lighter than a katana, but still effective in combat.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
@@ -1762,7 +1895,8 @@
   },
   {
     "id": "mc_wakizashi",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str_sp": "medium steel wakizashi" },
     "description": "A comparatively-common Japanese short sword.  Smaller and lighter than a katana, but still effective in combat.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
@@ -1781,12 +1915,14 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 2, "cut": 32 }
   },
   {
     "id": "hc_wakizashi",
     "copy-from": "mc_wakizashi",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "high steel wakizashi" },
     "description": "A comparatively-common Japanese short sword.  Smaller and lighter than a katana, but still effective in combat.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -1796,7 +1932,8 @@
   {
     "id": "ch_wakizashi",
     "copy-from": "mc_wakizashi",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "hardened steel wakizashi" },
     "description": "A comparatively-common Japanese short sword.  Smaller and lighter than a katana, but still effective in combat.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
@@ -1806,7 +1943,8 @@
   {
     "id": "qt_wakizashi",
     "copy-from": "mc_wakizashi",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "tempered steel wakizashi" },
     "description": "A comparatively-common Japanese short sword.  Smaller and lighter than a katana, but still effective in combat.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
@@ -1816,7 +1954,8 @@
   {
     "id": "wakizashi_inferior",
     "copy-from": "mc_wakizashi",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "wakizashi" },
     "description": "A comparatively common Japanese short sword.  There's something not quite right about this one.",
     "replace_materials": { "mc_steel": "budget_steel" },
@@ -1826,7 +1965,8 @@
   {
     "id": "wakizashi_fake",
     "copy-from": "mc_wakizashi",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "wakizashi" },
     "description": "A dull, cheap replica of the more common wakizashi.  Smaller and lighter than a katana, but still effective in combat.",
     "replace_materials": { "mc_steel": "aluminum", "leather": "nylon" },
@@ -1837,7 +1977,8 @@
   {
     "id": "zweihander",
     "copy-from": "mc_zweihander",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "zweihänder" },
     "description": "A huge two-handed sword from Germany.  It packs a real wallop.",
     "replace_materials": { "mc_steel": "steel" }
@@ -1845,7 +1986,8 @@
   {
     "id": "lc_zweihander",
     "copy-from": "mc_zweihander",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel zweihänder" },
     "description": "A huge two-handed sword from Germany.  It packs a real wallop.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
@@ -1856,7 +1998,8 @@
   },
   {
     "id": "mc_zweihander",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "medium steel zweihänder" },
     "description": "A huge two-handed sword from Germany.  It packs a real wallop.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
@@ -1875,12 +2018,14 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -30 ] ],
     "weapon_category": [ "LONG_THRUSTING_SWORDS", "GREAT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 10, "cut": 36 }
   },
   {
     "id": "hc_zweihander",
     "copy-from": "mc_zweihander",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "high steel zweihänder" },
     "description": "A huge two-handed sword from Germany.  It packs a real wallop.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -1890,7 +2035,8 @@
   {
     "id": "ch_zweihander",
     "copy-from": "mc_zweihander",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel zweihänder" },
     "description": "A huge two-handed sword from Germany.  It packs a real wallop.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
@@ -1900,7 +2046,8 @@
   {
     "id": "qt_zweihander",
     "copy-from": "mc_zweihander",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel zweihänder" },
     "description": "A huge two-handed sword from Germany.  It packs a real wallop.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
@@ -1910,7 +2057,8 @@
   {
     "id": "zweihander_inferior",
     "copy-from": "mc_zweihander",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "zweihänder" },
     "description": "A huge two-handed sword from Germany.  You're not quite sure it's supposed to be this bendy.",
     "replace_materials": { "mc_steel": "budget_steel" },
@@ -1920,7 +2068,7 @@
   {
     "id": "zweihander_fake",
     "copy-from": "mc_zweihander",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "zweihänder" },
     "description": "A dull, cheaply-made replica of a huge two-handed sword from Germany.  Even blunted, it still packs a wallop.",
     "replace_materials": { "mc_steel": "aluminum", "leather": "nylon" },
@@ -1930,7 +2078,8 @@
   },
   {
     "id": "karambit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "karambit" },
     "description": "A traditional Indonesian small knife.  This one is sharp and could be an effective weapon.",
     "looks_like": "kirpan",
@@ -1946,11 +2095,13 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 3 } ],
     "melee_damage": { "stab": 10 }
   },
   {
     "id": "kirpan",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "kirpan" },
     "description": "A ceremonial dagger carried by Sikh men.  This one is sharp and could be an effective weapon.",
     "looks_like": "kukri",
@@ -1967,12 +2118,14 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 4 } ],
     "melee_damage": { "stab": 16 }
   },
   {
     "id": "kirpan_cheap",
     "copy-from": "kirpan",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "kirpan" },
     "description": "A ceremonial dagger carried by Sikh men.  This one is not particularly well-made.",
     "replace_materials": { "steel": "budget_steel" },
@@ -1983,7 +2136,8 @@
   {
     "id": "nodachi",
     "copy-from": "mc_nodachi",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "nodachi" },
     "description": "A huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.",
     "replace_materials": { "mc_steel": "steel" }
@@ -1991,7 +2145,8 @@
   {
     "id": "lc_nodachi",
     "copy-from": "mc_nodachi",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "mild steel nodachi" },
     "description": "A huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
@@ -2002,7 +2157,8 @@
   },
   {
     "id": "mc_nodachi",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str_sp": "medium steel nodachi" },
     "description": "A huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
@@ -2021,12 +2177,14 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
     "weapon_category": [ "GREAT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 6, "cut": 46 }
   },
   {
     "id": "hc_nodachi",
     "copy-from": "mc_nodachi",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "high steel nodachi" },
     "description": "A huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -2036,7 +2194,8 @@
   {
     "id": "ch_nodachi",
     "copy-from": "mc_nodachi",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "hardened steel nodachi" },
     "description": "A huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
@@ -2046,7 +2205,8 @@
   {
     "id": "qt_nodachi",
     "copy-from": "mc_nodachi",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "tempered steel nodachi" },
     "description": "A huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
@@ -2056,7 +2216,7 @@
   {
     "id": "nodachi_inferior",
     "copy-from": "mc_nodachi",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "nodachi" },
     "description": "A huge, curved, two-handed sword from Japan.  It is surprisingly light for its size, but also much bendier than a sword should be.",
     "replace_materials": { "mc_steel": "budget_steel" },
@@ -2066,7 +2226,7 @@
   {
     "id": "nodachi_fake",
     "copy-from": "mc_nodachi",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "nodachi" },
     "description": "A dull, cheaply-made replica of a huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.",
     "replace_materials": { "mc_steel": "aluminum", "leather": "nylon" },
@@ -2076,7 +2236,7 @@
   },
   {
     "id": "fencing_foil",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -2092,11 +2252,12 @@
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 1, "stab": 2 }
   },
   {
     "id": "fencing_foil_sharpened",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "fencing_foil",
     "looks_like": "fencing_foil",
     "name": { "str": "sharpened foil" },
@@ -2105,11 +2266,11 @@
   },
   {
     "id": "shock_foil",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "fencing_foil_sharpened",
     "name": { "str": "electrified foil" },
     "description": "The modifications made to this fencing foil may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  Thrusting the sharpened tip into a foe and activating the momentary switch will deliver a painful electric shock.",
-    "ammo": [ "battery" ],
     "charges_per_use": 2,
     "price_postapoc": "12 USD 50 cent",
     "use_action": [ "TAZER" ],
@@ -2122,11 +2283,12 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "fencing_epee",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "fencing épée" },
@@ -2141,11 +2303,12 @@
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 3, "stab": 7 }
   },
   {
     "id": "fencing_epee_sharpened",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "fencing_epee",
     "looks_like": "fencing_epee",
     "name": { "str": "sharpened épée" },
@@ -2154,13 +2317,13 @@
   },
   {
     "id": "shock_epee",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "copy-from": "fencing_epee_sharpened",
     "looks_like": "fencing_epee",
     "name": { "str": "electrified épée" },
     "description": "The modifications made to this fencing épée may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  Thrusting the sharpened tip into a foe and activating the momentary switch will deliver a painful electric shock.",
-    "ammo": [ "battery" ],
     "price_postapoc": "12 USD 50 cent",
     "charges_per_use": 2,
     "use_action": [ "TAZER" ],
@@ -2173,11 +2336,12 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "fencing_sabre",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "fencing saber" },
@@ -2192,11 +2356,12 @@
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 1, "stab": 6 }
   },
   {
     "id": "fencing_sabre_sharpened",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "fencing_sabre",
     "looks_like": "fencing_sabre",
     "name": { "str": "sharpened saber" },
@@ -2205,13 +2370,13 @@
   },
   {
     "id": "shock_sabre",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "copy-from": "fencing_sabre_sharpened",
     "looks_like": "fencing_sabre",
     "name": { "str": "electrified saber" },
     "description": "The modifications made to this fencing saber may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired to the tip along the saber's groove.  Thrusting the sharpened tip into a foe and activating the momentary switch will deliver a painful electric shock.",
-    "ammo": [ "battery" ],
     "price_postapoc": "12 USD 50 cent",
     "charges_per_use": 2,
     "use_action": [ "TAZER" ],
@@ -2224,11 +2389,12 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "hollow_cane",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "brown",
     "name": { "str": "hollow cane" },
@@ -2253,14 +2419,15 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
-    "extend": { "flags": [ "CRUTCHES" ] },
+    "flags": [ "CRUTCHES" ],
     "weapon_category": [ "BATONS" ],
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "melee_damage": { "bash": 3 }
   },
   {
     "id": "sword_cane",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "sword cane" },
@@ -2276,12 +2443,14 @@
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 2, "stab": 25 }
   },
   {
     "id": "broadsword",
     "copy-from": "mc_broadsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "broadsword" },
     "description": "An Early Modern sword that saw use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.",
     "replace_materials": { "mc_steel": "steel" }
@@ -2289,7 +2458,8 @@
   {
     "id": "lc_broadsword",
     "copy-from": "mc_broadsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel broadsword" },
     "description": "An early modern sword that saw use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
@@ -2300,7 +2470,8 @@
   },
   {
     "id": "mc_broadsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "medium steel broadsword" },
     "description": "An early modern sword that saw use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
@@ -2319,12 +2490,14 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 6, "cut": 28 }
   },
   {
     "id": "hc_broadsword",
     "copy-from": "mc_broadsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "high steel broadsword" },
     "description": "An early modern sword that saw use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -2334,7 +2507,8 @@
   {
     "id": "ch_broadsword",
     "copy-from": "mc_broadsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel broadsword" },
     "description": "An early modern sword that saw use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
@@ -2344,7 +2518,8 @@
   {
     "id": "qt_broadsword",
     "copy-from": "mc_broadsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel broadsword" },
     "description": "An early modern sword that saw use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
@@ -2354,7 +2529,8 @@
   {
     "id": "broadsword_inferior",
     "copy-from": "mc_broadsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "broadsword" },
     "description": "An Early Modern sword that saw use in the 16th, 17th, and 18th centuries.  This sword appears to be made very poorly, but it should still stand up to a few swings.",
     "replace_materials": { "mc_steel": "budget_steel" },
@@ -2364,7 +2540,8 @@
   {
     "id": "broadsword_fake",
     "copy-from": "mc_broadsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "broadsword" },
     "description": "A dull, cheaply-made replica of an Early Modern sword that saw use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.",
     "replace_materials": { "mc_steel": "aluminum", "leather": "nylon" },
@@ -2375,7 +2552,8 @@
   {
     "id": "rapier",
     "copy-from": "mc_rapier",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "rapier" },
     "description": "A thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.",
     "replace_materials": { "mc_steel": "steel" }
@@ -2383,7 +2561,8 @@
   {
     "id": "lc_rapier",
     "copy-from": "mc_rapier",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel rapier" },
     "description": "A thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
@@ -2394,7 +2573,8 @@
   },
   {
     "id": "mc_rapier",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "medium steel rapier" },
     "description": "A thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
@@ -2413,12 +2593,14 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 3, "stab": 29 }
   },
   {
     "id": "hc_rapier",
     "copy-from": "mc_rapier",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "high steel rapier" },
     "description": "A thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -2428,7 +2610,8 @@
   {
     "id": "ch_rapier",
     "copy-from": "mc_rapier",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel rapier" },
     "description": "A thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
@@ -2438,7 +2621,8 @@
   {
     "id": "qt_rapier",
     "copy-from": "mc_rapier",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel rapier" },
     "description": "A thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
@@ -2448,7 +2632,8 @@
   {
     "id": "rapier_fake",
     "copy-from": "mc_rapier",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "rapier" },
     "description": "A blunted, cheap replica of a thin sword with an ornate handguard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.",
     "replace_materials": { "mc_steel": "aluminum", "leather": "nylon" },
@@ -2459,7 +2644,8 @@
   {
     "id": "katana",
     "copy-from": "mc_katana",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "katana" },
     "description": "A rare sword from Japan.  Deadly against unarmored targets, and still very effective against armor.",
     "replace_materials": { "mc_steel": "steel" }
@@ -2467,7 +2653,8 @@
   {
     "id": "lc_katana",
     "copy-from": "mc_katana",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "mild steel katana" },
     "description": "A rare sword from Japan.  Deadly against unarmored targets, and still very effective against armor.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
@@ -2478,7 +2665,8 @@
   },
   {
     "id": "mc_katana",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str_sp": "medium steel katana" },
     "description": "A rare sword from Japan.  Deadly against unarmored targets, and still very effective against armor.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
@@ -2498,12 +2686,14 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "weapon_category": [ "LONG_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 5, "cut": 33 }
   },
   {
     "id": "hc_katana",
     "copy-from": "mc_katana",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "high steel katana" },
     "description": "A rare sword from Japan.  Deadly against unarmored targets, and still very effective against armor.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -2513,7 +2703,8 @@
   {
     "id": "ch_katana",
     "copy-from": "mc_katana",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "hardened steel katana" },
     "description": "A rare sword from Japan.  Deadly against unarmored targets, and still very effective against armor.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
@@ -2523,7 +2714,8 @@
   {
     "id": "qt_katana",
     "copy-from": "mc_katana",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "tempered steel katana" },
     "description": "A rare sword from Japan.  Deadly against unarmored targets, and still very effective against armor.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
@@ -2533,7 +2725,8 @@
   {
     "id": "katana_inferior",
     "copy-from": "mc_katana",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "katana" },
     "description": "A rare sword from Japan.  While it's got the right edge and weight, the pommel feels like it'll just snap off, and the blade seems pretty worn.",
     "replace_materials": { "mc_steel": "budget_steel" },
@@ -2543,7 +2736,8 @@
   {
     "id": "katana_fake",
     "copy-from": "mc_katana",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "katana" },
     "description": "A dull, cheaply-made replica of a rare sword from Japan.",
     "replace_materials": { "mc_steel": "aluminum", "leather": "nylon" },
@@ -2553,7 +2747,8 @@
   },
   {
     "id": "jade_nagamaki",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "qt_katana",
     "name": { "str_sp": "jade nagamaki" },
     "description": "A master smith painstakingly flaked its flowing blade from meteoric sea-green stone.  The hilt's cordage is speckled by gold flakes from the tumultuous waters where the blade was whet, and the chosen tsuba depicts an all-devouring snake.",
@@ -2569,7 +2764,8 @@
   },
   {
     "id": "butterfly_swords",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "butterfly sword" },
@@ -2586,12 +2782,14 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 6, "cut": 30 }
   },
   {
     "id": "cutlass",
     "copy-from": "mc_cutlass",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "cutlass", "str_pl": "cutlasses" },
     "description": "A broad saber known for its use by sailors and pirates, as its short blade is easy to handle in close quarters.",
     "replace_materials": { "mc_steel": "steel" }
@@ -2599,7 +2797,8 @@
   {
     "id": "lc_cutlass",
     "copy-from": "mc_cutlass",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel cutlass", "str_pl": "mild steel cutlasses" },
     "description": "A broad saber known for its use by sailors and pirates, as its short blade is easy to handle in close quarters.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
@@ -2610,7 +2809,8 @@
   },
   {
     "id": "mc_cutlass",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "medium steel cutlass", "str_pl": "medium steel cutlasses" },
     "description": "A broad saber known for its use by sailors and pirates, as its short blade is easy to handle in close quarters.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
@@ -2629,12 +2829,14 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 5, "cut": 27 }
   },
   {
     "id": "hc_cutlass",
     "copy-from": "mc_cutlass",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "high steel cutlass", "str_pl": "high steel cutlasses" },
     "description": "A broad saber known for its use by sailors and pirates, as its short blade is easy to handle in close quarters.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -2644,7 +2846,8 @@
   {
     "id": "ch_cutlass",
     "copy-from": "mc_cutlass",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel cutlass", "str_pl": "hardened steel cutlasses" },
     "description": "A broad saber known for its use by sailors and pirates, as its short blade is easy to handle in close quarters.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
@@ -2654,7 +2857,8 @@
   {
     "id": "qt_cutlass",
     "copy-from": "mc_cutlass",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel cutlass", "str_pl": "tempered steel cutlasses" },
     "description": "A broad saber known for its use by sailors and pirates, as its short blade is easy to handle in close quarters.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
@@ -2664,7 +2868,8 @@
   {
     "id": "cutlass_inferior",
     "copy-from": "mc_cutlass",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "cutlass", "str_pl": "cutlasses" },
     "description": "A broad saber known for its use by sailors and pirates.  This sword appears to be made very poorly, but it should still stand up to a few swings.",
     "replace_materials": { "mc_steel": "budget_steel" },
@@ -2674,7 +2879,8 @@
   {
     "id": "cutlass_fake",
     "copy-from": "mc_cutlass",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "cutlass", "str_pl": "cutlasses" },
     "description": "A dull, cheaply-made replica of a broad saber known for its use by sailors and pirates.",
     "replace_materials": { "mc_steel": "aluminum", "leather": "nylon" },
@@ -2685,7 +2891,8 @@
   {
     "id": "kriegsmesser",
     "copy-from": "mc_kriegsmesser",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "kriegsmesser" },
     "description": "A single-edged two-handed sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.",
     "replace_materials": { "mc_steel": "steel" }
@@ -2693,7 +2900,8 @@
   {
     "id": "lc_kriegsmesser",
     "copy-from": "mc_kriegsmesser",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel kriegsmesser" },
     "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "neutral" },
@@ -2704,7 +2912,8 @@
   },
   {
     "id": "mc_kriegsmesser",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "medium steel kriegsmesser" },
     "description": "A single-edged two-handed sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
@@ -2723,12 +2932,14 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -5 ] ],
     "weapon_category": [ "GREAT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 14, "cut": 35 }
   },
   {
     "id": "hc_kriegsmesser",
     "copy-from": "mc_kriegsmesser",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "high steel kriegsmesser" },
     "description": "A single-edged two-handed sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -2738,7 +2949,8 @@
   {
     "id": "ch_kriegsmesser",
     "copy-from": "mc_kriegsmesser",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel kriegsmesser" },
     "description": "A single-edged two-handed sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
@@ -2748,7 +2960,8 @@
   {
     "id": "qt_kriegsmesser",
     "copy-from": "mc_kriegsmesser",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel kriegsmesser" },
     "description": "A single-edged two-handed sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
@@ -2758,7 +2971,8 @@
   {
     "id": "falx",
     "copy-from": "mc_falx",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "falx", "str_pl": "falxes" },
     "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.",
     "replace_materials": { "mc_steel": "steel", "leather": "wood" }
@@ -2766,7 +2980,8 @@
   {
     "id": "lc_falx",
     "copy-from": "mc_falx",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel falx", "str_pl": "mild steel falxes" },
     "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "neutral" },
@@ -2777,7 +2992,8 @@
   },
   {
     "id": "mc_falx",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "medium steel falx", "str_pl": "medium steel falxes" },
     "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
@@ -2796,12 +3012,14 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -14 ] ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 5, "cut": 26 }
   },
   {
     "id": "hc_falx",
     "copy-from": "mc_falx",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "high steel falx", "str_pl": "high steel falxes" },
     "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -2811,7 +3029,8 @@
   {
     "id": "ch_falx",
     "copy-from": "mc_falx",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel falx", "str_pl": "hardened steel falxes" },
     "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
@@ -2821,7 +3040,8 @@
   {
     "id": "qt_falx",
     "copy-from": "mc_falx",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel falx", "str_pl": "tempered steel falxes" },
     "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
@@ -2829,7 +3049,7 @@
     "relative": { "melee_damage": { "cut": 4 }, "qualities": [ [ "BUTCHER", 3 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "//": "Do these even exist? Answer: yeah they did, at least there are two instances from ancient Egypt( although this one was more for ceremonies ) and by Shaolin(see Monk's spade')",
     "id": "lajatang",
     "symbol": "/",
@@ -2848,11 +3068,13 @@
     "longest_side": "180 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -18 ] ],
+    "faults": [ { "fault_group": "handle_long" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 4, "cut": 26 }
   },
   {
     "id": "combatsaw_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "combat chainsaw (off)", "str_pl": "combat chainsaws (off)" },
     "description": "A chainsaw that has been lightened, tuned, and extensively modified to be easier to handle as a weapon.  Unfortunately, these modifications have rendered it much less effective as a woodcutting tool.",
@@ -2865,7 +3087,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo": [ "gasoline" ],
     "charges_per_use": 5,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 450 } } ],
     "use_action": {
@@ -2889,12 +3110,14 @@
     },
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "combatsaw_on",
     "copy-from": "combatsaw_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "combat chainsaw (on)", "str_pl": "combat chainsaws (on)" },
     "description": "This combat chainsaw is on, and is continuously draining gasoline.  Use it to turn it off.",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "every", "balance": "neutral" },
@@ -2935,7 +3158,8 @@
   },
   {
     "id": "e_combatsaw_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "electric combat chainsaw (off)", "str_pl": "electric combat chainsaws (off)" },
     "description": "An electric chainsaw that has been lightened, tuned, and extensively modified to be easier to handle as a weapon.  Unfortunately, these modifications have rendered it much less effective as a woodcutting tool.",
@@ -2948,7 +3172,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": {
       "type": "effect_on_conditions",
@@ -2971,6 +3194,7 @@
     },
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "ALWAYS_TWOHAND", "FRAGILE_MELEE", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -2979,12 +3203,14 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "e_combatsaw_on",
     "copy-from": "e_combatsaw_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "electric combat chainsaw (on)", "str_pl": "electric combat chainsaws (on)" },
     "description": "This electric combat chainsaw is on, and is continuously draining power.  Use it to turn it off.",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "every", "balance": "neutral" },
@@ -3024,7 +3250,7 @@
     "relative": { "melee_damage": { "cut": 50 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "punch_dagger",
     "name": { "str": "punch dagger" },
     "description": "A short, sharp double-edged dagger made to be gripped in the palm, with the blade protruding between the fingers.",
@@ -3040,10 +3266,11 @@
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 14 ] ],
+    "faults": [ { "fault_group": "blade_general" } ],
     "melee_damage": { "stab": 14 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "knuckle_katar",
     "symbol": "!",
     "color": "dark_gray",
@@ -3058,10 +3285,11 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "techniques": [ "WBLOCK_1" ],
     "melee_damage": { "bash": 3, "stab": 14 },
+    "faults": [ { "fault_group": "blade_general" } ],
     "weapon_category": [ "SHIVS" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bagh_nakha",
     "name": { "str_sp": "tiger claws" },
     "description": "Also called bagh nakha or iron paw, this small claw-like bladed weapon from India is designed to be concealed under and against the palm.",
@@ -3076,11 +3304,13 @@
     "price": "200 USD",
     "price_postapoc": "2 USD 50 cent",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ],
+    "faults": [ { "fault_group": "blade_general" } ],
     "melee_damage": { "bash": 2, "cut": 15 }
   },
   {
     "id": "enfield_bayonet",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "GUNMOD" ],
     "category": "weapons",
     "name": { "str": "Enfield No. 4 bayonet" },
     "description": "This is a vintage spike bayonet for the British Lee Enfield No. 4 rifle, featuring a distinct cruciform blade and socket-based mounting system.",
@@ -3095,41 +3325,38 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "gunmod_data": {
-      "location": "bayonet lug",
-      "mod_targets": [ "number4_mki" ],
-      "is_bayonet": true,
-      "blacklist_mod": [
-        "crafted_suppressor",
-        "filter_suppressor",
-        "shot_suppressor",
-        "suppressor",
-        "suppressor_compact",
-        "m203",
-        "m203_mod",
-        "m320_mod_mod",
-        "m320_mod",
-        "M6_shotgun",
-        "makeshift_bayonet",
-        "m26_mass",
-        "m26_mass_mod",
-        "masterkey",
-        "masterkey_mod",
-        "u_shotgun",
-        "u_shotgun_mod"
-      ],
-      "install_time": "5 s"
-    },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "KNIVES" ]
+    "weapon_category": [ "KNIVES" ],
+    "location": "bayonet lug",
+    "mod_targets": [ "number4_mki" ],
+    "is_bayonet": true,
+    "blacklist_mod": [
+      "crafted_suppressor",
+      "filter_suppressor",
+      "shot_suppressor",
+      "suppressor",
+      "suppressor_compact",
+      "m203",
+      "m203_mod",
+      "m320_mod_mod",
+      "m320_mod",
+      "M6_shotgun",
+      "m26_mass",
+      "m26_mass_mod",
+      "masterkey",
+      "masterkey_mod",
+      "u_shotgun"
+    ],
+    "install_time": "5 s"
   },
   {
     "id": "arisaka_bayonet",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "GUNMOD" ],
     "category": "weapons",
     "name": { "str": "Type 30 bayonet" },
     "description": "An essential tool within any 20th-century Japanese soldier's toolbox, the Type 30 is a massive, single-edged sword-style bayonet intended for use with Arisaka rifles and even light machineguns.  Possessing a J-shaped quillon guard for hooking an opponent's weapon during combat, the bayonet, when dismounted, acts like a particularly sizable machete.",
@@ -3142,42 +3369,40 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "gunmod_data": {
-      "location": "bayonet lug",
-      "mod_targets": [ "type99", "type_99_sniper" ],
-      "is_bayonet": true,
-      "blacklist_mod": [
-        "crafted_suppressor",
-        "filter_suppressor",
-        "shot_suppressor",
-        "suppressor",
-        "suppressor_compact",
-        "m203",
-        "m203_mod",
-        "m320_mod_mod",
-        "m320_mod",
-        "M6_shotgun",
-        "makeshift_bayonet",
-        "m26_mass",
-        "m26_mass_mod",
-        "masterkey",
-        "masterkey_mod",
-        "u_shotgun",
-        "u_shotgun_mod"
-      ],
-      "install_time": "5 s"
-    },
     "techniques": [ "WBLOCK_2" ],
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "faults": [ { "fault_group": "blade_general" } ],
     "weapon_category": [ "SHORT_SWORDS" ],
-    "melee_damage": { "bash": 5, "cut": 20 }
+    "melee_damage": { "bash": 5, "cut": 20 },
+    "location": "bayonet lug",
+    "mod_targets": [ "type99", "type_99_sniper" ],
+    "is_bayonet": true,
+    "blacklist_mod": [
+      "crafted_suppressor",
+      "filter_suppressor",
+      "shot_suppressor",
+      "suppressor",
+      "suppressor_compact",
+      "m203",
+      "m203_mod",
+      "m320_mod_mod",
+      "m320_mod",
+      "M6_shotgun",
+      "m26_mass",
+      "m26_mass_mod",
+      "masterkey",
+      "masterkey_mod",
+      "u_shotgun"
+    ],
+    "install_time": "5 s"
   },
   {
     "id": "lc_talwar",
     "copy-from": "mc_talwar",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "mild steel talwar" },
     "description": "A curved sword used by the Raj of India in the 16th century, a talwar is usually impeccably decorated and able to take off a limb with a single swipe.\n\nThis one however is made of mild steel and lacks even a proper grip, you can definitely do better.",
@@ -3189,7 +3414,8 @@
   },
   {
     "id": "mc_talwar",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "medium steel talwar" },
     "description": "A curved sword used by the Raj of India in the 16th century, a talwar is usually impeccably decorated and able to take off a limb with a single swipe.\n\nThis one has a proper grip and is made of medium steel, but doesn't have the distinctive circular pommel yet.",
     "weight": "1450 g",
@@ -3207,12 +3433,14 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 7 ] ],
     "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 5, "cut": 34 }
   },
   {
     "id": "hc_talwar",
     "copy-from": "mc_talwar",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "high steel talwar" },
     "description": "A curved sword used by the Raj of India in the 16th century, a talwar is usually impeccably decorated and able to take off a limb with a single swipe.\n\nThis one has a proper grip and is made of high steel, you've even gotten the circular pommel right!",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -3222,7 +3450,8 @@
   {
     "id": "ch_talwar",
     "copy-from": "mc_talwar",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel talwar" },
     "description": "A curved sword used by the Raj of India in the 16th century, a talwar is usually impeccably decorated and able to take off a limb with a single swipe.\n\nThis one has a proper grip and is made of hardened steel and is otherwise a fine weapon.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
@@ -3232,7 +3461,8 @@
   {
     "id": "qt_talwar",
     "copy-from": "mc_talwar",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel talwar" },
     "description": "A curved sword used by the Raj of India in the 16th century, a talwar is usually impeccably decorated and able to take off a limb with a single swipe.\n\nThis one has a proper grip and is made of tempered steel, and pre-apocalypse a Raj could have used it.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
@@ -3242,7 +3472,8 @@
   {
     "id": "lc_kilij",
     "copy-from": "mc_kilij",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel kilij", "str_pl": "mild steel kilijes" },
     "description": "A Turkish saber, the kilij is quite a bit heavier than most Middle Eastern sabers and has a distinctive wide tip called a yelman, which gives it vicious cutting power but means it requires a special scabbard.\n\nThis one has been made of mild steel, and doesn't even have a proper grip or truly sharp edge.",
     "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "neutral" },
@@ -3253,7 +3484,8 @@
   },
   {
     "id": "mc_kilij",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "medium steel kilij", "str_pl": "medium steel kilijes" },
     "description": "A Turkish saber, the kilij is quite a bit heavier than most Middle Eastern sabers and has a distinctive wide tip called a yelman, which gives it vicious cutting power but means it requires a special scabbard.\n\nThis one has a proper grip and is made of medium steel.",
@@ -3272,12 +3504,14 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 7 ] ],
     "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 5, "cut": 41 }
   },
   {
     "id": "hc_kilij",
     "copy-from": "mc_kilij",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "high steel kilij", "str_pl": "high steel kilijes" },
     "description": "A Turkish saber, the kilij is quite a bit heavier than most Middle Eastern sabers and has a distinctive wide tip called a yelman, which gives it vicious cutting power but means it requires a special scabbard.\n\nThis one has a proper grip and is made of high steel.",
     "replace_materials": { "mc_steel": "hc_steel" },
@@ -3287,7 +3521,8 @@
   {
     "id": "ch_kilij",
     "copy-from": "mc_kilij",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel kilij", "str_pl": "hardened steel kilijes" },
     "description": "A Turkish saber, the kilij is quite a bit heavier than most Middle Eastern sabers and has a distinctive wide tip called a yelman, which gives it vicious cutting power but means it requires a special scabbard.\n\nThis one has a proper grip and is made of hardened steel.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
@@ -3297,7 +3532,8 @@
   {
     "id": "qt_kilij",
     "copy-from": "mc_kilij",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel kilij", "str_pl": "tempered steel kilijes" },
     "description": "A Turkish saber, the kilij is quite a bit heavier than most Middle Eastern sabers and has a distinctive wide tip called a yelman, which gives it vicious cutting power but means it requires a special scabbard.\n\nThis one is made of tempered steel, and has a razor's edge and is impeccably balanced.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },

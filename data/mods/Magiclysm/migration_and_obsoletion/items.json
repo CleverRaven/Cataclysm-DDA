@@ -1,7 +1,8 @@
 [
   {
     "id": "aura_druid_waterwalk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "Waterstrider's Walk",
     "description": "You can easily walk on the surface of the water.",
     "weight": "0 g",
@@ -13,7 +14,6 @@
     "flags": [
       "AURA",
       "SEMITANGIBLE",
-      "ONLY_ONE",
       "PADDED",
       "INTEGRATED",
       "ALLOWS_NATURAL_ATTACKS",
@@ -25,20 +25,20 @@
       "NONCONDUCTIVE",
       "FLOTATION"
     ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [ { "value": "MAX_MANA", "add": 0 } ],
-          "ench_effects": [ { "effect": "effect_item_protection_water", "intensity": 1 } ]
-        }
-      ]
-    }
+    "max_worn": 1,
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [ { "value": "MAX_MANA", "add": 0 } ],
+        "ench_effects": [ { "effect": "effect_item_protection_water", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "id": "aura_caustic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "acid aura",
     "description": "An aura of thin acid, swirling around your body ready to corrode when struck or while striking.",
     "weight": "1 g",
@@ -46,70 +46,68 @@
     "symbol": "o",
     "color": "blue",
     "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "OVERSIZE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": { "passive_effects": [ { "id": "ench_aura_caustic" } ] }
+    "flags": [ "AURA", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
+    "max_worn": 1,
+    "passive_effects": [ { "id": "ench_aura_caustic" } ]
   },
   {
     "id": "technomancer_summoned_ups_2",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
     "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
     "copy-from": "technomancer_summoned_ups",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2000 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed.",
+    "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true }
   },
   {
     "id": "technomancer_summoned_ups_3",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
     "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
     "copy-from": "technomancer_summoned_ups",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 4000 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed.",
+    "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true }
   },
   {
     "id": "technomancer_summoned_ups_4",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
     "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
     "copy-from": "technomancer_summoned_ups",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 8000 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed.",
+    "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true }
   },
   {
     "id": "technomancer_summoned_ups_5",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
     "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
     "copy-from": "technomancer_summoned_ups",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 16000 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed.",
+    "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true }
   },
   {
     "id": "technomancer_summoned_ups_6",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
     "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
     "copy-from": "technomancer_summoned_ups",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 32000 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed.",
+    "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_zombie",
     "//": "obsoleted",
@@ -118,7 +116,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "summon_undead" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_skeleton",
     "//": "obsoleted",
@@ -127,7 +126,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "summon_undead" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_decayed_pouncer",
     "//": "obsoleted",
@@ -138,7 +138,8 @@
   {
     "id": "shotcestus",
     "copy-from": "shotgun_base",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "shotcestus", "str_pl": "shotcestuses" },
     "description": "A sawn-off double-barrel shotgun mounted on a metal cestus.  The lack of a stock to absorb recoil means some strength is required to fire.",
     "weight": "1566 g",
@@ -148,7 +149,6 @@
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "min_strength": 7,
     "flags": [ "DURABLE_MELEE", "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE", "OBSOLETE" ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ],
     "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ],
     "melee_damage": { "bash": 12 }
@@ -160,7 +160,8 @@
   },
   {
     "id": "obfuscating_aura",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "obfuscating aura",
     "description": "An all-encompassing, invisible layer of magic distorts light around your body.  Allows you to dodge two extra attacks in a given turn.",
     "weight": "1g",
@@ -173,25 +174,26 @@
       "AURA",
       "SEMITANGIBLE",
       "OVERSIZE",
-      "ONLY_ONE",
       "TRADER_AVOID",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 0,
         "coverage": 100,
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
-    ]
+    ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ]
   },
   {
     "id": "shape_of_dust",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "dust cloak",
     "description": "You are unseen in between of the sand that cover you.",
     "weight": "1 g",
@@ -200,31 +202,22 @@
     "color": "brown",
     "looks_like": "cloak",
     "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "OVERSIZE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
-          "emitter": "emit_eshaper_dust",
-          "values": [ { "value": "BONUS_DODGE", "add": 2 } ]
-        }
-      ]
-    }
+    "flags": [ "AURA", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
+    "max_worn": 1,
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+        "emitter": "emit_eshaper_dust",
+        "values": [ { "value": "BONUS_DODGE", "add": 2 } ]
+      }
+    ]
   },
   {
     "id": "acid_res_aura",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "acid resistance aura" },
     "description": "An all-encompassing, invisible layer of protection against acid.",
     "weight": "1g",
@@ -237,13 +230,13 @@
       "AURA",
       "SEMITANGIBLE",
       "OVERSIZE",
-      "ONLY_ONE",
       "TRADER_AVOID",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 0,
@@ -254,7 +247,8 @@
   },
   {
     "id": "acid_res_aura_greater",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "greater acid resistance aura",
     "description": "An all-encompassing, invisible layer of protection against acid.",
     "weight": "1g",
@@ -267,13 +261,13 @@
       "AURA",
       "SEMITANGIBLE",
       "OVERSIZE",
-      "ONLY_ONE",
       "TRADER_AVOID",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 0,
@@ -284,7 +278,8 @@
   },
   {
     "id": "thorns_electric",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "aura of repelling arc", "str_pl": "auras of repelling arc" },
     "description": "An invisible aura that strikes melee attackers with arcs of electricity.",
     "weight": "1 g",
@@ -292,16 +287,8 @@
     "symbol": "o",
     "color": "blue",
     "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "OVERSIZE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "thorns_zap" } ] } ] }
+    "flags": [ "AURA", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
+    "max_worn": 1,
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "thorns_zap" } ] } ]
   }
 ]

@@ -1,10 +1,9 @@
-#include <algorithm>
 #include <functional>
-#include <iosfwd>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
+#include <string_view>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -12,16 +11,19 @@
 #include "cata_assert.h"
 #include "character.h"
 #include "city.h"
-#include "coordinates.h"
 #include "condition.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "game.h"
-#include "json.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapgen_functions.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "mission.h"
 #include "npc.h"
@@ -121,7 +123,6 @@ tripoint_abs_omt mission_util::reveal_om_ter( const std::string &omter, int reve
  */
 static tripoint_abs_omt random_house_in_city( const city_reference &cref )
 {
-    // TODO: fix point types
     const tripoint_abs_omt city_center_omt =
         project_to<coords::omt>( cref.abs_sm_pos );
     std::vector<tripoint_abs_omt> valid;
@@ -180,7 +181,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     tripoint_abs_omt target_pos = tripoint_abs_omt::invalid;
 
     if( params.target_var.has_value() ) {
-        return project_to<coords::omt>( get_tripoint_from_var( params.target_var.value(), d, false ) );
+        return project_to<coords::omt>( read_var_value( *params.target_var, d ).tripoint() );
     }
 
     omt_find_params find_params;
@@ -196,6 +197,15 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     find_params.cant_see = params.cant_see;
     find_params.existing_only = true;
 
+    if( params.overmap_special.has_value() ) {
+        const overmap_special_id special_id = static_cast<overmap_special_id>(
+                ( *params.overmap_special ).evaluate( d ) );
+
+        if( overmap_buffer.contains_unique_special( special_id ) ) {
+            find_params.om_special = special_id;
+            return overmap_buffer.find_existing_globally_unique( origin_pos, find_params );
+        }
+    }
     auto get_target_position = [&]() {
         // Either find a random or closest match, based on the criteria.
         if( params.random ) {
@@ -416,7 +426,7 @@ mission_target_params mission_util::parse_mission_om_target( const JsonObject &j
         jo.throw_error_at( "search_range",
                            "There's no reason to change max search range if your search isn't random." );
     }
-    p.search_range  = get_dbl_or_var( jo, "search_range", false, OMAPX * 14 );
+    p.search_range  = get_dbl_or_var( jo, "search_range", false, OMAPX * 3 );
     p.min_distance  = get_dbl_or_var( jo, "min_distance", false );
 
     if( jo.has_member( "offset_x" ) || jo.has_member( "offset_y" ) || jo.has_member( "offset_z" ) ) {
@@ -531,7 +541,7 @@ bool mission_util::load_funcs( const JsonObject &jo,
     return true;
 }
 
-bool mission_type::parse_funcs( const JsonObject &jo, const std::string_view src,
+bool mission_type::parse_funcs( const JsonObject &jo, std::string_view src,
                                 std::function<void( mission * )> &phase_func )
 {
     std::vector<std::function<void( mission *miss )>> funcs;

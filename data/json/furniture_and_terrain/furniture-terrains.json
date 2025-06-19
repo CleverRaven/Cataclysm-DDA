@@ -1118,7 +1118,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "steel_chunk", "count": [ 6, 15 ] },
+        { "item": "lc_steel_chunk", "count": [ 6, 15 ] },
         { "item": "scrap", "count": [ 5, 20 ] },
         { "item": "rope_6", "count": [ 1, 3 ] }
       ]
@@ -1168,7 +1168,7 @@
       "items": [
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 20 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "cable", "charges": [ 0, 1 ] },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
@@ -2016,7 +2016,7 @@
     "color": "dark_gray",
     "move_cost_mod": 4,
     "coverage": 40,
-    "description": "An area of heaped large rocks, not easily traversable",
+    "description": "An area of heaped large rocks, not easily traversable.",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
     "deconstruct": { "items": [ { "item": "rock_large", "count": 166 } ] },

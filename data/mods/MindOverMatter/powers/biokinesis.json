@@ -181,7 +181,7 @@
     "damage_type": "biological",
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('biokin_dash') * 0.5) + 3 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 12)"
+        "min( ( ( (u_spell_level('biokin_dash') * 0.5) + 3 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 12) * (u_effect_intensity('effect_biokin_combat_dance') > -1 ? (1.25 + (u_spell_level('biokin_combat_dance') * 0.03) ) : 1 )"
       ]
     },
     "max_range": 12
@@ -535,11 +535,31 @@
     }
   },
   {
-    "id": "biokin_combat_dance",
+    "id": "biokin_vitaminosis",
     "type": "SPELL",
-    "name": "[Ψ]Combat Dance",
-    "description": "You can flood your body with psionic power to enhance your combat prowess.",
-    "message": "A surge of power fills your body and you begin moving with terrible purpose!",
+    "name": "[Ψ]Vitaminosis",
+    "description": "Enter a trance and hyper focus on a narrow segment of your metabolism, supercharging your body's ability to create vitamins and expanding it beyond its normal range.  These vitamins will be created directly from your stored calories.",
+    "message": "You enter a trance and submerge your awareness into your body.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_VITAMINOSIS",
+    "shape": "blast",
+    "base_energy_cost": 8000,
+    "base_casting_time": 500
+  },
+  {
+    "id": "biokin_guided_evolution",
+    "type": "SPELL",
+    "name": "[Ψ]Guided Evolution (C)",
+    "description": "With a large amount of focus, you can maintain a targeted control over any alterations to your body.  Whenever you mutate, you will have additional options to select from.  This power does not cause you to mutate on its own.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.  It requires <color_yellow>even more concentration</color> than usual.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
@@ -548,32 +568,74 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_biokin_combat_dance",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_GUIDED_EVOLUTION_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('biokin_combat_dance') * 500) + 4000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( u_spell_level('biokin_guided_evolution') * 25000 ) + 270000 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('biokin_combat_dance') * 1100) + 20000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( u_spell_level('biokin_guided_evolution') * 50000 ) + 675000 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "base_energy_cost": 5500,
-    "final_energy_cost": 2250,
-    "energy_increment": -125,
-    "base_casting_time": 100,
-    "final_casting_time": 40,
-    "casting_time_increment": -4
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_guided_evolution') > -1 ? 0 : max( 8000 - ( u_spell_level('biokin_guided_evolution') * 250 ), 4000 )"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_guided_evolution') > -1 ? 10 : max( 250 - ( u_spell_level('biokin_guided_evolution') * 13 ), 50 )"
+      ]
+    }
+  },
+  {
+    "id": "biokin_combat_dance",
+    "type": "SPELL",
+    "name": "[Ψ]Combat Dance (C)",
+    "description": "You can flood your body with psionic power to enhance your combat prowess.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_COMBAT_DANCE_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('biokin_combat_dance') * 1200) + 4000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('biokin_combat_dance') * 5900) + 20000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_combat_dance') > -1 ? 0 : max( 5500 - ( u_spell_level('biokin_combat_dance') * 125 ), 2250 )"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_combat_dance') > -1 ? 10 : max( 100 - ( u_spell_level('biokin_combat_dance') * 4 ), 40 )"
+      ]
+    }
   },
   {
     "id": "biokin_perfected_motion",
     "type": "SPELL",
-    "name": "[Ψ]Perfected Motion",
-    "description": "Your control over your body allows you to move incredibly quickly.  While this does not allow you to attack more quickly, you can cross distances in the blink of an eye and outrun a cheetah.  You could even run on water, though not walk on it.\n\nPerfected Motion <color_red>cannot be active</color> with Hurricane Blows.",
-    "message": "The world around you slows down to a crawl.",
+    "name": "[Ψ]Perfected Motion (C)",
+    "description": "Your control over your body allows you to move incredibly quickly.  While this does not allow you to attack more quickly, you can cross distances in the blink of an eye and outrun a cheetah.  You could even run on water, though not walk on it.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.\n\nPerfected Motion <color_red>cannot be active</color> with Hurricane Blows.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
@@ -582,8 +644,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 9,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_biokin_perfected_motion",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_PERFECTED_MOTION_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -595,12 +657,16 @@
         "( (u_spell_level('biokin_perfected_motion') * 110) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "base_energy_cost": 8000,
-    "final_energy_cost": 3500,
-    "energy_increment": -175,
-    "base_casting_time": 75,
-    "final_casting_time": 15,
-    "casting_time_increment": -4
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_perfected_motion') > -1 ? 0 : max( 8000 - ( u_spell_level('biokin_perfected_motion') * 175 ), 3500 )"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_perfected_motion') > -1 ? 10 : max( 75 - ( u_spell_level('biokin_perfected_motion') * 4 ), 15 )"
+      ]
+    }
   },
   {
     "id": "biokin_hurricane_blows",

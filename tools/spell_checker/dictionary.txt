@@ -4,6 +4,8 @@ AAC
 AAR
 AB
 Abanaderly
+abaya
+abayas
 Abbie
 Abby
 ABC
@@ -1494,6 +1496,8 @@ devs
 dex
 Dhamma
 Dhammapada
+dhampir
+dhampirs
 dharmachakra
 diaspora
 dichloroisocyanurate
@@ -2064,7 +2068,9 @@ flockshot
 floorplan
 Florida
 Florunner
+fluffernutter
 fluffies
+Fluffycats
 fluidic
 fluorescents
 fluoxetine
@@ -2617,6 +2623,7 @@ Hiep
 Higgins
 highschool
 hijab
+hijabs
 Himalayan
 Hindu
 Hinduism
@@ -4308,6 +4315,8 @@ Ninhursag
 ninjutsu
 niño
 Nipâta
+niqab
+niqabs
 Nishan
 Niten
 Nitron
@@ -4784,6 +4793,7 @@ Plympton
 PM
 pm
 PMC
+pocketless
 podling
 podlings
 pokeball
@@ -4851,6 +4861,7 @@ precombined
 predatorially
 premade
 premeasured
+premotion
 preoptic
 prepended
 PrepNet
@@ -5302,6 +5313,7 @@ Samoyed
 Samoyeds
 Samuel
 Samuels
+Samurais
 Sanatsugâtîya
 Sanchez
 sanctacaris
@@ -6535,6 +6547,7 @@ Unicode
 unitard
 unitards
 unjacketed
+unknowable
 unlife
 unlively
 unlockable
@@ -6635,6 +6648,7 @@ valhallists
 valknut
 valkyries
 Valzain
+vampiric
 VanBuren
 Vancian
 Vaneigem
@@ -6815,6 +6829,7 @@ weaponized
 weaponizing
 weaponsmith
 weaponsmiths
+wearables
 Weatherby
 Webber
 WebbStar

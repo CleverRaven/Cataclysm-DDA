@@ -145,7 +145,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "sewage_treatment_0_0_0", "sewage_treatment_1_0_0" ], [ "sewage_treatment_0_1_0", "sewage_treatment_1_1_0" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -232,15 +231,16 @@
         "g": { "item": "supplies_hardware", "chance": 40 },
         "R": { "item": "tools_plumbing", "chance": 60 },
         "M": { "item": "treatment_chemicals", "chance": 80 },
-        "A": { "item": "trash", "chance": 80 },
+        "A": { "item": "SUS_trash_dumpster", "chance": 80 },
         "{": [ { "item": "sewage_plant", "chance": 30 }, { "item": "supplies_plumbing", "chance": 20 } ],
-        "f": { "item": "fridgesnacks", "chance": 70, "repeat": [ 1, 3 ] },
+        "f": { "item": "SUS_fridge_breakroom", "chance": 70, "repeat": [ 1, 3 ] },
         "c": { "item": "office_breakroom", "chance": 60, "repeat": [ 1, 2 ] },
         "l": { "item": "clothing_work_set", "chance": 40 },
         "d": { "item": "office", "chance": 60 },
-        "a": { "item": "trash", "chance": 30, "repeat": [ 1, 3 ] },
-        "r": { "item": "trash", "chance": 30 },
-        "[": { "item": "office_mess", "chance": 50, "repeat": [ 1, 3 ] }
+        "a": { "item": "SUS_trash_trashcan", "chance": 30 },
+        "r": { "item": "SUS_trash_trashcan", "chance": 30 },
+        "[": { "item": "SUS_office_desk", "chance": 50, "repeat": [ 1, 3 ] },
+        "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "computers": {
         "8": {
@@ -264,7 +264,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "sewage_treatment_0_0_roof", "sewage_treatment_1_0_roof" ],
       [ "sewage_treatment_0_1_roof", "sewage_treatment_1_1_roof" ]
@@ -334,7 +333,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewage_treatment_1_0_upper_roof" ],
     "object": {
       "rows": [
@@ -368,7 +366,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "sewage_treatment_0_0_-1", "sewage_treatment_1_0_-1", "sewage_treatment_2_0_-1" ],
       [ "sewage_treatment_0_1_-1", "sewage_treatment_1_1_-1", "sewage_treatment_2_1_-1" ]
@@ -454,13 +451,17 @@
         "{": [ { "item": "sewage_plant", "chance": 50 }, { "item": "supplies_plumbing", "chance": 30 } ],
         "r": { "item": "tools_electronics", "chance": 40, "repeat": [ 1, 3 ] },
         "w": { "item": "supplies_hardware", "chance": 50 },
-        "`": [ { "item": "sewer", "chance": 20 }, { "item": "trash_forest", "chance": 10 }, { "item": "trash", "chance": 10 } ],
+        "`": [
+          { "item": "sewer", "chance": 20 },
+          { "item": "SUS_trash_forest_manmade", "chance": 10 },
+          { "item": "SUS_trash_floor", "chance": 10 }
+        ],
         "0": [ { "item": "tools_science", "chance": 50 }, { "item": "sewage_samples", "chance": 20 } ],
         "h": { "item": "chem_home", "chance": 50, "repeat": [ 1, 3 ] },
-        "D": { "item": "office_mess", "chance": 40 },
+        "D": { "item": "SUS_office_desk", "chance": 40 },
         "t": { "item": "electronics", "chance": 30 },
-        "[": [ { "item": "office_mess", "chance": 30 }, { "item": "sewage_samples", "chance": 10 } ],
-        "1": { "item": "trash", "chance": 50 }
+        "[": [ { "item": "SUS_office_mess", "chance": 30 }, { "item": "sewage_samples", "chance": 10 } ],
+        "1": { "item": "SUS_trash_trashcan", "chance": 50 }
       },
       "place_loot": [
         { "group": "sewage_plant", "x": [ 17, 20 ], "y": 4, "chance": 70 },
@@ -487,7 +488,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewage_treatment_0_1_-1" ],
     "//": "10% chance of a hidden CHUD lair",
     "weight": 25,
@@ -536,7 +536,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "sewage_treatment_0_1_-1" ],
     "//": "Easter egg - TMNT reference",
     "weight": 1,
@@ -593,7 +592,7 @@
         "r": { "item": "tools_electronics", "chance": 30, "repeat": [ 1, 3 ] },
         "D": { "item": "dojo_manuals", "chance": 60, "repeat": [ 1, 2 ] },
         "[": { "item": "bed", "chance": 60 },
-        "f": { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 2 ] }
+        "f": { "item": "SUS_fridge_breakroom", "chance": 80, "repeat": [ 1, 2 ] }
       },
       "place_loot": [
         { "item": "katana", "x": 2, "y": 11, "repeat": 2 },

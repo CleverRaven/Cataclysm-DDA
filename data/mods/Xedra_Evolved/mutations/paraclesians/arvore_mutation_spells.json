@@ -44,8 +44,8 @@
         },
         "descriptions": [
           {
-            "id": "moving_creature",
-            "symbol": "?",
+            "id": "human_sense",
+            "symbol": "@",
             "color": "c_white",
             "text": "The forest nervously whispers to you about the presence of humans."
           }
@@ -852,6 +852,7 @@
     "flags": [ "VERBAL", "SOMATIC" ],
     "valid_targets": [ "ground" ],
     "skill": "deduction",
+    "spell_class": "ARVORE",
     "max_level": { "math": [ "int_to_level(1)" ] },
     "difficulty": 3,
     "effect": "ter_transform",

@@ -126,7 +126,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "EOC_BEM_HUMAN_SAMPLE_BUY_MAP",
     "object": { "place_loot": [ { "group": "BEM_human_sample_drop", "x": 13, "y": 4, "repeat": [ 1, 3 ] } ] }
   },

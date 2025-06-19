@@ -134,5 +134,24 @@
     "max_intensity": 106,
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 16 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_health_bonus",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "30 seconds",
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_health_penalty",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "bad",
+    "max_duration": "30 seconds",
+    "base_mods": { "health_min": [ -1 ], "health_chance": [ 2 ] }
   }
 ]

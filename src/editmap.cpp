@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
@@ -56,7 +57,7 @@
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "vehicle.h"
@@ -479,7 +480,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
         bool draw_veh=true;
     */
 
-    bool game_map = m == &get_map() || w == g->w_terrain;
+    bool game_map = m == &reality_bubble() || w == g->w_terrain;
     const int msize = MAPSIZE_X;
     if( refresh_mplans ) {
         hilights["mplan"].points.clear();
@@ -774,7 +775,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     const level_cache &map_cache = here.get_cache( target.z() );
 
     Character &player_character = get_player_character();
-    const std::string u_see_msg = player_character.sees( target ) ? _( "yes" ) : _( "no" );
+    const std::string u_see_msg = player_character.sees( here, target ) ? _( "yes" ) : _( "no" );
     mvwprintw( w_info, point( 1, off++ ), _( "dist: %d u_see: %s veh: %s scent: %d" ),
                rl_dist( player_character.pos_bub(), target ), u_see_msg, veh_msg, get_scent().get( target ) ); // 6
     mvwprintw( w_info, point( 1, off++ ), _( "sight_range: %d, noon_sight_range: %d," ),
@@ -1224,7 +1225,7 @@ void editmap::edit_rads() const
 {
     map &here = get_map();
     int value = 0;
-    if( query_int( value, _( "Set rads to?  Currently: %d" ), here.get_radiation( target ) ) ) {
+    if( query_int( value, false, _( "Set rads to?  Currently: %d" ), here.get_radiation( target ) ) ) {
         here.set_radiation( target, value );
     }
 }
@@ -1482,12 +1483,10 @@ void editmap::edit_itm()
                     }
                     string_input_popup popup;
                     int retval = 0;
+                    bool confirmed = false;
                     if( imenu.ret < imenu_tags ) {
-                        retval = popup
-                                 .title( "set:" )
-                                 .width( 20 )
-                                 .text( std::to_string( intval ) )
-                                 .query_int();
+                        retval = intval;
+                        confirmed = query_int( retval, true, "set:" );
                     } else if( imenu.ret == imenu_tags ) {
                         strval = popup
                                  .title( _( "Flags:" ) )
@@ -1495,7 +1494,7 @@ void editmap::edit_itm()
                                  .text( strval )
                                  .query_string();
                     }
-                    if( popup.confirmed() ) {
+                    if( popup.confirmed() || confirmed ) {
                         switch( imenu.ret ) {
                             case imenu_bday:
                                 it.set_birthday( time_point::from_turn( retval ) );
@@ -1837,7 +1836,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     const oter_id orig_oters = omt_ref;
     overmap_buffer.ter_set( omt_pos, oter_id( gmenu.ret ) );
     smallmap tmpmap;
-    tmpmap.generate( omt_pos, calendar::turn, false );
+    tmpmap.generate( omt_pos, calendar::turn, false, run_post_process );
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
@@ -1849,6 +1848,9 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     gpmenu.addentry( pgettext( "map generator", "Rotate" ) );
     gpmenu.addentry( pgettext( "map generator", "Apply" ) );
     gpmenu.addentry( pgettext( "map generator", "Change Overmap (Doesn't Apply)" ) );
+    std::string on_or_off = run_post_process ? _( "ON" ) : _( "OFF" );
+    gpmenu.addentry( pgettext( "map generator",
+                               string_format( "Toggle post-process generators (Currently %s)", on_or_off ).c_str() ) );
 
     gpmenu.input_category = "MAPGEN_PREVIEW";
     gpmenu.additional_actions = {
@@ -1929,7 +1931,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                         std::swap( *destsm, *srcsm );
 
                         for( auto &veh : destsm->vehicles ) {
-                            veh->sm_pos = rebase_bub( dest_pos );
+                            veh->sm_pos = here.get_abs_sub().xy() + dest_pos;
                         }
 
                         if( !destsm->spawns.empty() ) {                             // trigger spawnpoints
@@ -1958,12 +1960,14 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
                    orig_oters->get_name( om_vision_level::full ), orig_oters.id().str(),
                    omt_ref->get_name( om_vision_level::full ), omt_ref.id().str() );
+        } else if( gpmenu.ret == 4 ) {
+            run_post_process = !run_post_process;
         }
         showpreview = gpmenu.ret == UILIST_TIMEOUT ? !showpreview : true;
-    } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != UILIST_CANCEL );
+    } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != 4 && gpmenu.ret != UILIST_CANCEL );
 
-    if( gpmenu.ret != 2 &&  // we didn't apply, so restore the original om_ter
-        gpmenu.ret != 3 ) { // chose to change oter_id but not apply mapgen
+    // we didn't apply, so restore the original om_ter
+    if( gpmenu.ret != 2 && gpmenu.ret != 3  && gpmenu.ret != 4 ) {
         overmap_buffer.ter_set( omt_pos, orig_oters );
     }
     gmenu.border_color = c_magenta;
@@ -2073,8 +2077,10 @@ void editmap::mapgen_retarget()
         if( const std::optional<tripoint_rel_omt> vec = ctxt.get_direction_rel_omt( action ) ) {
             point_rel_ms vec_ms = coords::project_to<coords::ms>( vec->xy() );
             tripoint_bub_ms ptarget = target + vec_ms;
-            if( get_map().inbounds( ptarget ) &&
-                get_map().inbounds( ptarget + point( SEEX, SEEY ) ) ) {
+            map &here = get_map();
+
+            if( here.inbounds( ptarget ) &&
+                here.inbounds( ptarget + point( SEEX, SEEY ) ) ) {
                 target = ptarget;
 
                 target_list.clear();
@@ -2105,6 +2111,7 @@ void editmap::edit_mapgen()
     gmenu.input_category = "EDIT_MAPGEN";
     gmenu.additional_actions = {
         { "EDITMAP_MOVE", translation() },
+        { "EDITMAP_TOGGLE_POST_PROCESS_GENERATORS", translation() },
         { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
     };
     gmenu.allow_additional = true;
@@ -2150,8 +2157,9 @@ void editmap::edit_mapgen()
         blink = true;
 
         input_context ctxt( gmenu.input_category, keyboard_mode::keycode );
-        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s" ),
+        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s" ),
                                        ctxt.describe_key_and_name( "EDITMAP_MOVE" ),
+                                       ctxt.describe_key_and_name( "EDITMAP_TOGGLE_POST_PROCESS_GENERATORS" ),
                                        ctxt.describe_key_and_name( "CONFIRM" ) );
         info_title_curr = pgettext( "map generator", "Mapgen stamp" );
         do_ui_invalidation();
@@ -2166,6 +2174,8 @@ void editmap::edit_mapgen()
         } else if( gmenu.ret == UILIST_ADDITIONAL ) {
             if( gmenu.ret_act == "EDITMAP_MOVE" ) {
                 mapgen_retarget();
+            } else if( gmenu.ret_act == "EDITMAP_TOGGLE_POST_PROCESS_GENERATORS" ) {
+                run_post_process = !run_post_process;
             }
         }
     } while( gmenu.ret != UILIST_CANCEL );

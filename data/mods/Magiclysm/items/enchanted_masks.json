@@ -1,7 +1,8 @@
 [
   {
     "abstract": "mmask",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "name": { "str": "magic mask", "//~": "NO_I18N" },
     "description": { "str": "A generic magic mask.", "//~": "NO_I18N" },
@@ -19,7 +20,8 @@
     "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes", "mouth" ], "rigid_layer_only": true } ]
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "id": "mmask_disappearance",
     "name": { "str": "mask of disappearance", "str_pl": "masks of disappearance" },
     "description": "A mask with no facial features at all, just eye and mouth holes, upon activation it makes everything ignore your presence for a while.",
@@ -28,22 +30,21 @@
     "material": [ "steel", "leather" ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": { "type": "cast_spell", "spell_id": "invisibility", "no_fail": true, "level": 15, "need_worn": true },
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "12 h", "regenerate_ammo": true } },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 1 } } ],
+    "charge_info": { "recharge_type": "periodic", "time": "12 h", "regenerate_ammo": true }
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "id": "mmask_vision",
     "name": { "str": "mask of perfect vision", "str_pl": "masks of perfect vision" },
     "description": "A decidedly steampunk-looking half mask that covers the eye area of the face, it has large lenses that correct and greatly enhance the vision of the wearer.",
     "copy-from": "mmask",
     "environmental_protection": 6,
     "material": [ "steel", "leather" ],
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "ZOOM", "NORMAL", "SKINTIGHT" ],
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "ZOOM", "NORMAL", "SKINTIGHT" ],
     "qualities": [ [ "GLARE", 1 ] ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "multiply": 0.25 } ] } ]
-    },
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "multiply": 0.25 } ] } ]
   }
 ]

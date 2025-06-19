@@ -9,7 +9,7 @@
     "description": "Your skin has turned the color of manganese stained soil.  Your skin is now a purplish black.  This has no gameplay effects.",
     "types": [ "skin_tone" ],
     "leads_to": [ "IERDE_SKIN_2" ],
-    "category": [ "IERDE" ]
+    "category": [ "IERDE", "FAIR_FOLK_COMMONER_TROW" ]
   },
   {
     "type": "mutation",
@@ -20,7 +20,7 @@
     "ugliness": 3,
     "description": "Your skin has toughened and formed pebble-like growths in some places, acting as natural armor.  Somewhat reduces wet effects.",
     "types": [ "SKIN" ],
-    "category": [ "IERDE" ],
+    "category": [ "IERDE", "FAIR_FOLK_COMMONER_TROW" ],
     "prereqs": [ "IERDE_SKIN_1" ],
     "changes_to": [ "IERDE_SKIN_3" ],
     "wet_protection": [
@@ -36,6 +36,7 @@
       { "part": "torso", "ignored": 6 }
     ],
     "integrated_armor": [ "integrated_pebbled" ],
+    "enchantments": [ { "values": [ { "value": "WEIGHT", "multiply": 0.15 } ] } ],
     "flags": [ "TOUGH_FEET", "BARKY" ]
   },
   {
@@ -64,6 +65,7 @@
       { "part": "torso", "ignored": 30 }
     ],
     "integrated_armor": [ "integrated_granite_skin" ],
+    "enchantments": [ { "values": [ { "value": "WEIGHT", "multiply": 0.35 } ] } ],
     "flags": [ "TOUGH_FEET", "BARKY" ]
   },
   {
@@ -531,7 +533,7 @@
     "changes_to": [ "IERDE_TOUGH2" ],
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_SKIN_1", "IERDE_SKIN_2", "IERDE_SKIN_3" ],
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.15 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.15 }, { "value": "WEIGHT", "multiply": 0.05 } ] } ]
   },
   {
     "type": "mutation",
@@ -543,7 +545,7 @@
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_SKIN_2", "IERDE_SKIN_3" ],
     "prereqs2": [ "IERDE_TOUGH" ],
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.3 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.3 }, { "value": "WEIGHT", "multiply": 0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -555,7 +557,7 @@
     "threshreq": [ "THRESH_IERDE" ],
     "prereqs": [ "IERDE_SKIN_3" ],
     "prereqs2": [ "IERDE_TOUGH2" ],
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.45 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.45 }, { "value": "WEIGHT", "multiply": 0.15 } ] } ]
   },
   {
     "type": "mutation",
@@ -693,7 +695,7 @@
     "cost": 1,
     "time": 5000,
     "activation_msg": "Your feelings calcify.",
-    "activated_eocs": [ "EOC_IERDE_STONE_MEDITATIONS" ]
+    "activated_eocs": [ "EOC_FULL_MORALE_NEUTRALIZATION" ]
   },
   {
     "type": "mutation",
@@ -751,7 +753,7 @@
     "category": [ "IERDE" ],
     "threshreq": [ "THRESH_IERDE" ],
     "enchantments": [
-      { "values": [ { "value": "FORCEFIELD", "add": 0.15 } ] },
+      { "values": [ { "value": "WEIGHT", "multiply": 0.1 }, { "value": "FORCEFIELD", "add": 0.15 } ] },
       { "ench_effects": [ { "effect": "effect_ierde_limb_breaking_stopper", "intensity": 1 } ] }
     ]
   }

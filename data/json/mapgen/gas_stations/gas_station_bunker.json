@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_gas_g0_roof" ], [ "s_gas_g1_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -62,7 +61,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_gas_g0" ], [ "s_gas_g1" ] ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
@@ -163,13 +161,13 @@
       "items": { "T": { "item": "SUS_toilet", "chance": 100 } },
       "place_loot": [
         { "group": "cash_register_random", "x": [ 4, 7 ], "y": 30 },
-        { "group": "trash", "chance": 80, "repeat": 5, "x": [ 6, 6 ], "y": 27 },
+        { "group": "SUS_trash_trashcan", "chance": 80, "repeat": 5, "x": [ 6, 6 ], "y": 27 },
         { "group": "behindcounter", "chance": 80, "repeat": 5, "x": [ 4, 6 ], "y": 33 },
         { "group": "snacks", "chance": 80, "repeat": 5, "x": [ 9, 10 ], "y": [ 26, 28 ] },
         { "group": "snacks", "chance": 80, "repeat": 5, "x": [ 12, 13 ], "y": [ 26, 28 ] },
         { "group": "snacks_fancy", "chance": 80, "repeat": 5, "x": [ 15, 16 ], "y": [ 26, 28 ] },
         { "group": "tools_common", "chance": 80, "repeat": 3, "x": 18, "y": [ 26, 28 ] },
-        { "group": "fridgesnacks", "chance": 80, "repeat": 8, "x": [ 10, 15 ], "y": 31 },
+        { "group": "SUS_fridge_snacks", "chance": 80, "repeat": 3, "x": [ 10, 15 ], "y": 31 },
         { "group": "tools_common", "chance": 60, "repeat": 2, "x": 10, "y": 36 },
         { "group": "cleaning_bulk", "chance": 60, "repeat": 2, "x": 10, "y": 35 },
         { "group": "office", "chance": 80, "repeat": 2, "x": [ 6, 7 ], "y": 36 },
@@ -190,7 +188,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "s_gas_g1_bunker_below",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -209,7 +206,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_gas_b11",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -276,7 +272,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_gas_b20" ], [ "s_gas_b21" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -407,7 +402,7 @@
       "vendingmachines": { "Ú": { "item_group": "vending_drink", "lootable": true }, "Ó": { "item_group": "vending_food", "lootable": true } },
       "toilets": { "n": {  } },
       "items": {
-        ".": { "item": "office_mess", "chance": 2 },
+        ".": { "item": "SUS_office_mess", "chance": 2 },
         "1": [ { "item": "SUS_silverware", "chance": 100 }, { "item": "SUS_utensils", "chance": 100 } ],
         "2": [ { "item": "SUS_cookware", "chance": 100 }, { "item": "SUS_appliances_cupboard", "chance": 70 } ],
         "I": [ { "item": "SUS_fridge_survivor", "chance": 90 }, { "item": "MRE", "chance": 50, "repeat": [ 1, 4 ] } ],

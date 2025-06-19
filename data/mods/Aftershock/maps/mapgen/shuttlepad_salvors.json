@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "afs_shuttlepad_salvors_a1_1", "afs_shuttlepad_salvors_a2_1" ],
       [ "afs_shuttlepad_salvors_b1_1", "afs_shuttlepad_salvors_b2_1" ]
@@ -12,21 +11,21 @@
         "   ℗℗ ℗℗℗         -            ℗℗℗ ℗℗℗          ",
         " |||####|||||   - - - - »»» ║║║║║####║║║℗ Χ     ",
         " |ΩΩÖÖÖÖ×Ω|<|   --- --- »»» ║©q««¬ffύ.ª║℗   ℗℗  ",
-        "‘$ΩΩéΩΩéΩΩ|‘|℗ ║║║║║║║-     ║©..,.h.,.l║ ℗℗℗Χ℗℗ ",
-        "‘$Ω$$$$$$Ω|‘|℗℗║~╡FoU║-℗  ¦¦-·...h..q.║║ ╡╡###╡℗",
-        "‘$ΩΩΩΩΩΩΩΩ|‘|ØÙ╡1╡...║║℗℗ ¦ë-·ì--ffύq©║╡╡╡ÂÃÂÂ╡╡",
-        " $ΩΩΩΩΩΩΩΩ|‘ω‘‘╡..qq.@# ℗ ¦1-·ìì--║║║║║╡∙Å∙∙Ñ∙Ã╡",
-        "‘$Ω$$$$$$Ω|‘‘‘‘╡kh,..y#℗ Χ¦···ýí4·ýïðð¦╡ÆÇ∙ÂÂ∙∙╡",
-        "‘$ΩΩéÚΩéΩΩ1‘‘‘Ù╡k±««.h#℗ ¦¦¦¦ñ··ò····ð¦╡∙È∙∙Ñ∙∙╡",
-        " |ÛÜÝÝÝÞÙΩ|‘‘Ø2╡╡╡╡╡1╡║¦¦¦óó-¦1¦¦¦$$$¦¦╡╡╡Ã∙∙∙Ã╡",
-        " ||=====|1|‘‘‘Ù╡p.j²..#ôõö·ó-y.o-ß‘‘‘àßÙá╡╡$$$╡╡",
-        " |ÛÜÝÝÝÞÙΩ|‘‘‘‘$..jj±J#·ý··ó║h.U-ß‘é‘‘‘‘‘‘‘‘é‘ ‘",
-        "‘$ΩΩéÚΩéΩΩ1‘‘‘‘$..,...#····÷║.,k║‘╡‘‘Ù╡‘‘â╡‘‘Ù╡‘",
-        "‘$Ω$$$$$$Ω|‘‘Ø‘$..qq║║║í·¦1¦║@h±║‘Ù Ψ℗℗‘℗℗‘‘‘2¼℗",
-        " $ΩΩΩΩΩΩΩΩ|‘‘‘Ù╡║║║║║--öò¦‘½║║║║║‘╡ »» ℗¾‘‘Ù½¼¼¼",
-        "‘$ΩΩΩΩΩΩΩΩ|‘‘ Ψ -- -- -‘ ‘      2   »» ℗½‘ω¦╡╡¦¦",
-        "‘$Ω$$$$$$Ω|‘‘‘‘‘‘- -  ‘ ‘╫╫╫╫╫╫╫╫╫  »» ¿‘‘ -ò·ø¦",
-        "‘$ΩΩéΩΩéΩΩ|‘‘‘‘‘‘‘‘‘‘‘‘‘À╫‘ã‘ã‘ã‘╫℗ ℗℗¾‘‘‘ -4ýù¦",
+        "‘-ΩΩéΩΩéΩΩ|‘|℗ ║║║║║║║-     ║©..,.h.,.l║ ℗℗℗Χ℗℗ ",
+        "‘-Ω$$$$$$Ω|‘|℗℗║~╡FoU║-℗  ¦¦-·...h..q.║║ ╡╡###╡℗",
+        "‘-ΩΩΩΩΩΩΩΩ|‘|ØÙ╡1╡...║║℗℗ ¦ë-·ì--ffύq©║╡╡╡ÂÃÂÂ╡╡",
+        " -ΩΩΩΩΩΩΩΩ|‘ω‘‘╡..qq.@# ℗ ¦1-·ìì--║║║║║╡∙Å∙∙Ñ∙Ã╡",
+        "‘-Ω$$$$$$Ω|‘‘‘‘╡kh,..y#℗ Χ¦···ýλ4·ýïðð¦╡ÆÇ∙ÂÂ∙∙╡",
+        "‘-ΩΩΩΩΩΩΩΩ5‘‘‘Ù╡k±««.h#℗ ¦¦¦¦ñ··ò····ð¦╡∙È∙∙Ñ∙∙╡",
+        " |ΩΩΩΩΩΩΩΩ|‘‘Ø2╡╡╡╡╡1╡║¦¦¦óó-¦5¦¦¦$$$¦¦╡╡╡Ã∙∙∙Ã╡",
+        " ||=====|5|‘‘‘Ù╡p.j²..#ôõö·ó-y.o-ß‘‘‘àßÙá╡╡$$$╡╡",
+        " |ÜÜÝÝÝÞÙΩ|‘‘‘‘$..jj±J#·ý··ó║h.U-ß‘é‘‘‘‘‘‘‘‘é‘ ‘",
+        "‘$ΩΩéÚϋéΩΩ1‘‘‘‘$..,...#····÷║.,k║‘╡‘‘Ù╡‘‘â╡‘‘Ù╡‘",
+        "‘$Ω$$$$$$Ü|‘‘Ø‘$..qq║║║í·¦1¦║@h±║‘Ù Ψ℗℗‘℗℗‘‘‘2¼℗",
+        " $ΩΩΩΩΩΩΩÜ|‘‘‘Ù╡║║║║║--öò¦‘½║║║║║‘╡ »» ℗¾‘‘Ù½¼¼¼",
+        "‘$ΩΩΩΩΩΩΩÜ|‘‘ Ψ -- -- -‘ ‘      2   »» ℗½‘ω¦╡╡¦¦",
+        "‘$Ω$$$$$$Ü|‘‘‘‘‘‘- -  ‘ ‘╫╫╫╫╫╫╫╫╫  »» ¿‘‘ -ò·ø¦",
+        "‘$ΩΩéΩΩéΩΩ|‘‘‘‘‘‘ի‘ի‘‘‘‘À╫‘ã‘ã‘ã‘╫℗ ℗℗¾‘‘‘ -4ýù¦",
         " |ΩΩÖÖÖÖ×Ω|‘ ℗¾℗‘‘‘‘‘‘‘ À╫ ‘‘‘ ‘ ╫℗℗ÀÀ‘‘‘‘ä¦ìì·#",
         " |||####|||    ℗   ℗¾‘‘‘ ╫╫╫╫‘╫╫╫╫½¾‘‘‘‘‘Ψä¦¦··#",
         "   ℗℗℗℗℗            ℗‘‘‘   ω‘‘℗¾¼¼‘‘‘╡ÅÅ╡‘ á¦·ú¦",
@@ -59,10 +58,31 @@
         " ╫╫╫╫╫╫╫╫╫╫╫╫╫╫╫╫╫╫╫╫╫℗‘‘    ψ                  "
       ],
       "palettes": [ "afs_habitat_structure", "afs_habitat_exterior", "afs_habitat_residential_furnishing" ],
-      "npcs": { "ω": { "class": "uica_ground_soldier" }, "χ": { "class": "uica_ground_soldier" } },
+      "place_zones": [
+        { "type": "LOOT_ITEM_GROUP", "filter": "afs_vehicle_merchant", "faction": "UICA", "x": 9, "y": [ 13, 16 ] },
+        { "type": "LOOT_ITEM_GROUP", "filter": "afs_vehicle_merchant", "faction": "UICA", "x": 3, "y": 11 },
+        { "type": "LOOT_UNSORTED", "faction": "UICA", "x": 3, "y": 11 },
+        { "type": "LOOT_ITEM_GROUP", "filter": "afs_salvor_fabricator_trade", "faction": "UICA", "x": 29, "y": 8 },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "afs_salvor_fabricator_trade",
+          "faction": "UICA",
+          "x": 30,
+          "y": [ 5, 6 ]
+        },
+        { "type": "LOOT_ITEM_GROUP", "filter": "afs_salvor_fabricator_trade", "faction": "UICA", "x": 31, "y": 6 },
+        { "type": "LOOT_UNSORTED", "faction": "UICA", "x": 31, "y": 6 }
+      ],
+      "npcs": {
+        "ω": { "class": "uica_ground_soldier" },
+        "χ": { "class": "uica_ground_soldier" },
+        "ϋ": { "class": "uica_vehicle_merchant" },
+        "ի": { "class": "salvor_camp_solo" },
+        "λ": { "class": "salvor_fabricator" }
+      },
       "monster": {
         "ψ": { "monster": "mon_uica_tankbot" },
-        "Ψ": { "monster": "mon_uica_milbot_556" },
+        "Ψ": { "monster": "mon_uica_imaginifer" },
         "Χ": { "monster": "afs_mon_rabbit" }
       },
       "items": {
@@ -78,14 +98,17 @@
         "Υ": { "item": "afs_tools_robot_maintenance", "repeat": [ 5, 8 ], "chance": 60 },
         "Ϋ": { "item": "afs_machinery_maintenance_scrapgroup", "repeat": [ 10, 25 ], "chance": 60 }
       },
+      "place_vehicles": [ { "vehicle": "uica_lynx_ex", "x": 6, "y": 5, "status": 0 } ],
       "terrain": {
         "1": "t_door_metal_c",
         "2": "t_ladder_up",
         "3": "t_radio_tower",
         "4": "t_strconc_floor",
+        "5": "t_door_metal_locked",
         "=": "t_wall_prefab_glass",
         " ": "t_region_groundcover_urban",
         "‘": "t_strconc_floor",
+        "ի": "t_strconc_floor",
         "║": "t_afs_space_ship_hull_wall",
         "╡": "t_scrap_wall",
         ".": "t_metal_floor",
@@ -162,7 +185,10 @@
         "ω": "t_strconc_floor",
         "ψ": "t_region_groundcover_urban",
         "Ψ": "t_region_groundcover_urban",
-        "χ": "t_metal_floor"
+        "χ": "t_metal_floor",
+        "ϋ": "t_strconc_floor_heated",
+        "υ": "t_strconc_floor_heated",
+        "λ": "t_thconc_floor_no_roof"
       },
       "furniture": {
         "4": "f_console",
@@ -239,13 +265,14 @@
         "φ": "f_rack",
         "Ύ": "f_rack",
         "Υ": "f_rack",
-        "Ϋ": "f_rack"
+        "Ϋ": "f_rack",
+        "υ": "f_sealed_intermodal_crate",
+        "λ": "f_stool"
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "afs_shuttlepad_salvors_a1_2", "afs_shuttlepad_salvors_a2_2" ],
       [ "afs_shuttlepad_salvors_b1_2", "afs_shuttlepad_salvors_b2_2" ]
@@ -339,7 +366,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "afs_shuttlepad_salvors_a1_3", "afs_shuttlepad_salvors_a2_3" ],
       [ "afs_shuttlepad_salvors_b1_3", "afs_shuttlepad_salvors_b2_3" ]
@@ -412,7 +438,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "afs_shuttlepad_salvors_a1_4", "afs_shuttlepad_salvors_a2_4" ],
       [ "afs_shuttlepad_salvors_b1_4", "afs_shuttlepad_salvors_b2_4" ]
@@ -478,6 +503,22 @@
         "4": "f_vent_pipe",
         "5": "f_small_satellite_dish"
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "afs_shuttlepad_salvors_garage_open",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_grate", "x": 1, "y": 3 },
+        { "point": "terrain", "id": "t_grate", "x": 1, "y": 4 },
+        { "point": "terrain", "id": "t_grate", "x": 1, "y": 5 },
+        { "point": "terrain", "id": "t_grate", "x": 1, "y": 6 },
+        { "point": "terrain", "id": "t_grate", "x": 1, "y": 7 },
+        { "point": "terrain", "id": "t_grate", "x": 1, "y": 8 },
+        { "point": "terrain", "id": "t_door_metal_c", "x": 10, "y": 8 },
+        { "point": "terrain", "id": "t_door_metal_c", "x": 9, "y": 10 }
+      ]
     }
   }
 ]

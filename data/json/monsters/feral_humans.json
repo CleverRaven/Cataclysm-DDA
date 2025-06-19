@@ -7,11 +7,12 @@
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",
-    "species": [ "FERAL" ],
+    "species": [ "FERAL", "HUMAN" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 84,
     "speed": 100,
+    "move_skills": { "climb": 8 },
     "material": [ "flesh" ],
     "symbol": "@",
     "color": "magenta",
@@ -47,10 +48,11 @@
       },
       { "id": "feral_weapon_pipe" },
       [ "BROWSE", 100 ],
-      [ "EAT_FOOD", 100 ]
+      [ "EAT_FOOD", 100 ],
+      [ "PARROT_AT_DANGER", 0 ]
     ],
     "death_drops": "feral_humans_death_drops_pipe",
-    "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 360, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
@@ -104,7 +106,11 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 4,
     "vision_night": 15,
-    "special_attacks": [ { "id": "scratch", "min_mul": 0.5, "cooldown": 10 }, { "type": "bite", "min_mul": 0.7, "cooldown": 15 } ],
+    "special_attacks": [
+      { "id": "scratch", "min_mul": 0.5, "cooldown": 10 },
+      { "type": "bite", "min_mul": 0.7, "cooldown": 15 },
+      [ "PARROT_AT_DANGER", 0 ]
+    ],
     "death_drops": "default_zombie_death_drops",
     "dissect": "dissect_troglobite_sample_small",
     "zombify_into": "mon_zombie_shady",
@@ -130,7 +136,8 @@
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The feral human throws a rock!"
       },
-      { "id": "feral_weapon_crowbar" }
+      { "id": "feral_weapon_crowbar" },
+      [ "PARROT_AT_DANGER", 0 ]
     ],
     "death_drops": "feral_humans_death_drops_crowbar",
     "fungalize_into": "mon_feral_human_crowbar_fungal_infected"
@@ -141,7 +148,7 @@
     "name": { "str": "deranged axeman", "str_pl": "deranged axemen" },
     "description": "They stumble along dragging a large bloodstained axe.  Their face is twisted into a sadistic grin, and they walk among the dead as though already one of them.",
     "copy-from": "mon_feral_human_pipe",
-    "special_attacks": [ { "id": "feral_weapon_axe" } ],
+    "special_attacks": [ { "id": "feral_weapon_axe" }, [ "PARROT_AT_DANGER", 0 ] ],
     "death_drops": "feral_humans_death_drops_axe",
     "fungalize_into": "mon_feral_human_axe_fungal_infected"
   },
@@ -166,7 +173,8 @@
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The feral human throws a rock!"
       },
-      { "id": "feral_weapon_hammer" }
+      { "id": "feral_weapon_hammer" },
+      [ "PARROT_AT_DANGER", 0 ]
     ],
     "death_drops": "feral_humans_death_drops_tool"
   },
@@ -203,7 +211,7 @@
     "description": "Delicate fungal stalks sprout in rows from sores covering this person's body, and their facial expression is pure agony.",
     "copy-from": "mon_feral_human_pipe",
     "default_faction": "fungus",
-    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "upgrades": { "half_life": 56, "into": "mon_fungaloid" },
     "extend": { "special_attacks": [ [ "FUNGUS", 40 ] ], "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] },
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } }
   },
@@ -213,7 +221,7 @@
     "description": "Delicate fungal stalks sprout in rows from sores on this person's arms, and their facial expression is pure agony.  Their mouth opens and closes softly in a silent moan.",
     "copy-from": "mon_feral_human_crowbar",
     "default_faction": "fungus",
-    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "upgrades": { "half_life": 56, "into": "mon_fungaloid" },
     "extend": { "special_attacks": [ [ "FUNGUS", 40 ] ], "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] },
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } }
   },
@@ -223,7 +231,7 @@
     "description": "Delicate fungal stalks sprout in rows from sores on this person's arms, and their facial expression is pure agony.",
     "copy-from": "mon_feral_human_axe",
     "default_faction": "fungus",
-    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "upgrades": { "half_life": 56, "into": "mon_fungaloid" },
     "extend": { "special_attacks": [ [ "FUNGUS", 40 ] ], "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] },
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } }
   },
@@ -254,7 +262,7 @@
     "special_attacks": [ { "id": "feral_weapon_baton-extended" } ],
     "death_drops": "feral_security_death_drops_9mm",
     "zombify_into": "mon_zombie_labsecurity",
-    "extend": { "flags": [ "CLIMBS" ], "weakpoint_sets": [ "wps_humanoid_body_armor" ], "families": [ "prof_wp_syn_armored" ] },
+    "extend": { "weakpoint_sets": [ "wps_humanoid_body_armor" ], "families": [ "prof_wp_syn_armored" ] },
     "armor": { "bash": 4, "cut": 6, "stab": 4, "bullet": 4 }
   },
   {
@@ -262,7 +270,7 @@
     "type": "MONSTER",
     "copy-from": "mon_feral_labsecurity_9mm",
     "description": "At first glance, this disheveled figure could almost pass for a survivor, but the bloodshot eyes give them away as one of the humans who have gone feral and joined the undead without dying.  Their uniform suggests that this was at some point a security guard, and they still carry a stun gun and a heavy-duty flashlight that looks like it could easily double as a club.",
-    "special_attacks": [ [ "TAZER", 10 ], { "id": "feral_weapon_heavy_flashlight" } ],
+    "special_attacks": [ [ "TAZER", 10 ], { "id": "feral_weapon_heavy_flashlight" }, [ "PARROT_AT_DANGER", 0 ] ],
     "luminance": 500,
     "death_drops": "feral_security_death_drops_flashlight"
   },
@@ -275,9 +283,7 @@
     "copy-from": "mon_feral_human_pipe",
     "melee_skill": 2,
     "special_attacks": [ { "id": "feral_weapon_broom" }, [ "BROWSE", 100 ], [ "EAT_FOOD", 100 ], [ "PARROT_AT_DANGER", 0 ] ],
-    "extend": { "flags": [ "CLIMBS" ] },
     "delete": { "flags": [ "BASHES", "GROUP_BASH" ] },
-    "//2": "Removed bashing and added CLIMBS to avoid them from trashing too much the mansion.",
     "death_drops": "feral_maids_death_drops_broom"
   },
   {
@@ -333,7 +339,7 @@
       "flags": [ "LOUDMOVES", "BASHES", "GROUP_BASH" ],
       "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ]
     },
-    "delete": { "flags": [ "CLIMBS" ] },
+    "delete": { "move_skills": { "climb": 8 } },
     "//": "No synthetic armor proficiency because plate armor doesn't work the same as modern armor",
     "armor": { "bash": 20, "cut": 20, "stab": 15, "bullet": 12 }
   },
@@ -356,10 +362,10 @@
     "aggression": 75,
     "dodge": 3,
     "vision_day": 50,
-    "special_attacks": [ { "id": "feral_weapon_mace_pipe" } ],
+    "special_attacks": [ { "id": "feral_weapon_mace_pipe" }, [ "PARROT_AT_DANGER", 0 ] ],
     "death_drops": "mon_feral_prepper_mace_death_drops",
     "zombify_into": "mon_zombie_survivor",
-    "extend": { "flags": [ "CLIMBS" ], "weakpoint_sets": [ "wps_humanoid_light_armor" ], "families": [ "prof_wp_syn_armored" ] },
+    "extend": { "weakpoint_sets": [ "wps_humanoid_light_armor" ], "families": [ "prof_wp_syn_armored" ] },
     "armor": { "bash": 4, "cut": 4, "acid": 4, "bullet": 4 }
   },
   {
@@ -368,7 +374,7 @@
     "copy-from": "mon_feral_prepper_mace",
     "name": { "str": "feral prepper" },
     "description": "A quick glance at this person would suggest that they have prepared well enough for the apocalypse, with their armor equipped and some military-grade knife in their hands.  Unfortunately, their bloodshot eyes, and the excluding treatment by the undead, shows that they have turned feral.",
-    "special_attacks": [ { "id": "feral_weapon_knife_combat_low_skill" } ],
+    "special_attacks": [ { "id": "feral_weapon_knife_combat_low_skill" }, [ "PARROT_AT_DANGER", 0 ] ],
     "death_drops": "mon_feral_prepper_knife_death_drops"
   },
   {
@@ -387,11 +393,10 @@
     "vision_day": 50,
     "luminance": 500,
     "death_drops": "mon_feral_survivalist_death_drops",
-    "special_attacks": [ { "id": "feral_weapon_makeshift_machete" } ],
+    "special_attacks": [ { "id": "feral_weapon_makeshift_machete" }, [ "PARROT_AT_DANGER", 0 ] ],
     "zombify_into": "mon_zombie_survivor",
     "delete": { "anger_triggers": [ "HURT" ] },
     "extend": {
-      "flags": [ "CLIMBS" ],
       "anger_triggers": [ "STALK" ],
       "weakpoint_sets": [ "wps_humanoid_light_armor" ],
       "families": [ "prof_wp_syn_armored" ]
@@ -412,12 +417,11 @@
     "dodge": 3,
     "vision_day": 50,
     "luminance": 500,
-    "special_attacks": [ { "id": "feral_weapon_feral_militia_gun" } ],
+    "special_attacks": [ { "id": "feral_weapon_feral_militia_gun" }, [ "PARROT_AT_DANGER", 0 ] ],
     "death_drops": "mon_feral_militia_death_drops",
     "zombify_into": "mon_zombie_milbase_personnel",
     "delete": { "anger_triggers": [ "HURT" ] },
     "extend": {
-      "flags": [ "CLIMBS" ],
       "anger_triggers": [ "STALK" ],
       "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
       "families": [ "prof_wp_syn_armored" ]
@@ -436,7 +440,7 @@
     "dodge": 4,
     "vision_night": 5,
     "death_drops": "mon_feral_soldier_death_drops",
-    "special_attacks": [ { "id": "feral_weapon_knife_combat" } ],
+    "special_attacks": [ { "id": "feral_weapon_knife_combat" }, [ "PARROT_AT_DANGER", 0 ] ],
     "zombify_into": "mon_zombie_soldier",
     "extend": { "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ], "families": [ "prof_wp_syn_armored" ] },
     "armor": { "bash": 4, "cut": 9, "bullet": 7, "electric": 3 }
@@ -451,8 +455,7 @@
     "melee_skill": 6,
     "vision_day": 50,
     "special_attacks": [ { "id": "feral_weapon_shotgun_melee" } ],
-    "death_drops": "mon_feral_jackboot_death_drops",
-    "extend": { "flags": [ "CLIMBS" ] }
+    "death_drops": "mon_feral_jackboot_death_drops"
   },
   {
     "id": "mon_feral_swimmer_kickboard",
@@ -461,7 +464,7 @@
     "description": "Clad in swimwear and with a stick in hand, this once normal person is now a bloodthirsty maniac.",
     "copy-from": "mon_feral_human_pipe",
     "color": "light_blue",
-    "special_attacks": [ { "id": "feral_weapon_stick" } ],
+    "special_attacks": [ { "id": "feral_weapon_stick" }, [ "PARROT_AT_DANGER", 0 ] ],
     "death_drops": "feral_swimmer_death_drops_kickboard",
     "zombify_into": "mon_zombie_swimmer_base"
   },
@@ -475,7 +478,7 @@
     "aggression": 40,
     "dodge": 2,
     "death_drops": "mon_feral_sailor_death_drops",
-    "special_attacks": [ { "id": "feral_weapon_wrench_large" } ],
+    "special_attacks": [ { "id": "feral_weapon_wrench_large" }, [ "PARROT_AT_DANGER", 0 ] ],
     "zombify_into": "mon_zombie_sailor",
     "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 2 }
   },
@@ -484,7 +487,7 @@
     "type": "MONSTER",
     "copy-from": "mon_feral_sailor_wrench",
     "description": "Spattered from head to toe in large swaths of dried viscera, the deep blue of this person's tattered naval uniform has been stained the color of rust.  Having seemingly had enough presence of mind to consider arming itself, this former crewman carries a crash axe in its shaking hands.  The veins on the back of their neck are visibly bulging, their eyes bloodshot, and a mass of crisscrossing blackened veins stand out against the pale skin of their face as they regard the area around them for perceived threats.",
-    "special_attacks": [ { "id": "feral_weapon_crash_axe" } ],
+    "special_attacks": [ { "id": "feral_weapon_crash_axe" }, [ "PARROT_AT_DANGER", 0 ] ],
     "death_drops": "mon_feral_sailor_axe_death_drops"
   },
   {
@@ -492,7 +495,7 @@
     "type": "MONSTER",
     "copy-from": "mon_feral_sailor_wrench",
     "description": "Clutching a stout mop in their quivering hands, this crewman was presumably assigned to basic deck sweeping in their final moments, before the Cataclysm struck and stripped them of their humanity.  Dressed in basic naval fatigues, you'd be forgiven for believing them to be another survivor.  However, their bloodshot eyes, blackened veins, and spastic twitching tell a far different story.",
-    "special_attacks": [ { "id": "feral_weapon_mop_folded" } ],
+    "special_attacks": [ { "id": "feral_weapon_mop_folded" }, [ "PARROT_AT_DANGER", 0 ] ],
     "death_drops": "mon_feral_sailor_mop_death_drops"
   },
   {
@@ -500,7 +503,7 @@
     "type": "MONSTER",
     "copy-from": "mon_feral_sailor_wrench",
     "description": "Still dressed in a grease spattered uniform, this crewman appears to have once been a naval engineer.  With tangled hair, oil stained working attire, and a lug wrench clenched in their fist, you assume that they were either assigned to shipside maintenance or responsible for servicing onboard aircraft.  Now all that's left of the crewman that this person once was is a madly twitching, psychopathic monster.",
-    "special_attacks": [ { "id": "feral_weapon_lug_wrench" } ],
+    "special_attacks": [ { "id": "feral_weapon_lug_wrench" }, [ "PARROT_AT_DANGER", 0 ] ],
     "death_drops": "mon_feral_sailor_lug_wrench_death_drops"
   },
   {
@@ -534,10 +537,9 @@
     "color": "light_blue",
     "dodge": 3,
     "diff": 4,
-    "special_attacks": [ { "id": "feral_weapon_m18" } ],
+    "special_attacks": [ { "id": "feral_weapon_m18" }, [ "PARROT_AT_DANGER", 0 ] ],
     "death_drops": "mon_feral_officer_death_drops",
-    "zombify_into": "mon_zombie_officer",
-    "extend": { "flags": [ "CLIMBS" ] }
+    "zombify_into": "mon_zombie_officer"
   },
   {
     "id": "mon_feral_cop",
@@ -551,7 +553,7 @@
     "aggression": 100,
     "melee_skill": 6,
     "dodge": 3,
-    "special_attacks": [ [ "PARROT", 200 ], [ "BLOW_WHISTLE", 25 ], { "id": "feral_weapon_PR24" } ],
+    "special_attacks": [ [ "PARROT", 200 ], [ "BLOW_WHISTLE", 25 ], { "id": "feral_weapon_PR24" }, [ "PARROT_AT_DANGER", 0 ] ],
     "death_drops": "mon_feral_cop_death_drops",
     "fungalize_into": "mon_feral_cop_fungal_infected",
     "zombify_into": "mon_zombie_cop",
@@ -569,5 +571,17 @@
     "speed": 85,
     "description": "A maddened and crazed police officer infected by the fungus.  Their body armor is overgrown with fungal matter.  Though obviously in pain they don't seem any less keen to batter you to death with their baton.",
     "extend": { "flags": [ "NO_FUNG_DMG" ], "species": [ "FUNGUS" ] }
+  },
+  {
+    "id": "mon_feral_prisoner",
+    "type": "MONSTER",
+    "name": { "str": "feral prisoner" },
+    "description": "This frenzied prisoner has somehow avoided turning into one of the undead thus far, though seeing how zombies seem to ignore this shiv-wielding, blood-stained maniac, they are likely not far off from that fate.",
+    "copy-from": "mon_feral_human_pipe",
+    "melee_skill": 5,
+    "dodge": 3,
+    "death_drops": "feral_prisoner_death_drops",
+    "special_attacks": [ { "id": "feral_weapon_shiv" }, [ "PARROT_AT_DANGER", 0 ] ],
+    "zombify_into": "mon_zombie_prisoner"
   }
 ]

@@ -1,16 +1,19 @@
 #include <algorithm>
 #include <memory>
 #include <ostream>
+#include <string>
 #include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "line.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
 #include "npc.h"
@@ -59,9 +62,10 @@ static std::ostream &operator<<( std::ostream &stream, const throw_test_pstats &
 static void reset_player( Character &you, const throw_test_pstats &pstats,
                           const tripoint_bub_ms &pos )
 {
+    map &here = get_map();
     clear_character( you );
     CHECK( !you.in_vehicle );
-    you.setpos( pos );
+    you.setpos( here, pos );
     you.str_max = pstats.str;
     you.dex_max = pstats.dex;
     you.per_max = pstats.per;

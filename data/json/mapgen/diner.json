@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_3" ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
@@ -60,7 +59,7 @@
         "t": "f_table"
       },
       "toilets": { "T": {  } },
-      "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] } },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 }, "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] } },
       "place_items": [
         { "item": "diner_food", "x": [ 4, 17 ], "y": [ 14, 14 ], "chance": 75, "repeat": [ 1, 8 ] },
         { "item": "diner_back", "x": [ 4, 16 ], "y": [ 16, 16 ], "chance": 95, "repeat": [ 1, 8 ] },
@@ -71,7 +70,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_roof_3" ],
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -103,7 +101,7 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_tar_flat_roof" },
-      "place_items": [ { "item": "roof_trash", "x": [ 4, 16 ], "y": [ 7, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 4, 16 ], "y": [ 7, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [

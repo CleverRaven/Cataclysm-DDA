@@ -6,11 +6,13 @@
     "terrain": {
       "^": "t_railroad_rubble",
       "-": "t_railroad_tie",
+      "/": "t_railroad_tie_d",
       "D": "t_railroad_track_d",
       "X": "t_railroad_track",
       "x": "t_railroad_track_on_tie",
       "S": "t_buffer_stop",
-      ".": "t_region_soil",
+      " ": "t_region_groundcover",
+      ".": [ [ "t_railroad_rubble", 2 ], "t_region_groundcover" ],
       "9": "t_region_groundcover_urban"
     }
   },
@@ -42,7 +44,8 @@
       "1": "t_railroad_crossing_signal",
       "2": [ "t_crossbuck_wood", "t_crossbuck_metal" ],
       "S": "t_buffer_stop",
-      "r": "t_railing"
+      "r": "t_railing",
+      "3": "t_railroad_track_recessed"
     }
   },
   {
@@ -85,9 +88,9 @@
       "&": "f_trashcan"
     },
     "items": {
-      "a": { "item": "trash", "chance": 30 },
-      "!": { "item": "trash", "chance": 30 },
-      "&": { "item": "trash", "chance": 30 },
+      "a": { "item": "SUS_trash_trashcan", "chance": 30 },
+      "!": { "item": "SUS_trash_trashcan", "chance": 30 },
+      "&": { "item": "SUS_trash_trashcan", "chance": 30 },
       "d": { "item": "office", "chance": 30 },
       "C": [ { "item": "office", "chance": 30 }, { "item": "cash_register_random", "chance": 100 } ],
       "l": { "item": "clothing_work_set", "chance": 30 },
@@ -98,7 +101,8 @@
         { "item": "alcohol", "chance": 5 },
         { "item": "snacks", "chance": 20 },
         { "item": "manuals", "chance": 2 }
-      ]
+      ],
+      "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "toilets": { "T": {  } },
     "vehicles": { "Á": { "vehicle": "parkinglotbasic", "chance": 15, "rotation": 180 } }

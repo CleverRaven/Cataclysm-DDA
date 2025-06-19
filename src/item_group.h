@@ -2,7 +2,8 @@
 #ifndef CATA_SRC_ITEM_GROUP_H
 #define CATA_SRC_ITEM_GROUP_H
 
-#include <iosfwd>
+#include <cstddef>
+#include <map>
 #include <memory>
 #include <optional>
 #include <set>
@@ -11,11 +12,13 @@
 #include <utility>
 #include <vector>
 
+#include "enums.h"
 #include "item.h"
 #include "relic.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
+class Item_spawn_data;
 class JsonObject;
 class JsonValue;
 class time_point;

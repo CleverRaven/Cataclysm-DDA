@@ -208,25 +208,6 @@
     "range_increment": 1
   },
   {
-    "id": "electrokinetic_paralysis_monster",
-    "type": "SPELL",
-    "name": { "str": "[Ψ]Neural Spasms Monster", "//~": "NO_I18N" },
-    "description": { "str": "Cause an electrical burst in the target's nervous system, stunning them briefly.", "//~": "NO_I18N" },
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
-    "max_level": 20,
-    "effect": "attack",
-    "effect_str": "stunned",
-    "shape": "blast",
-    "min_duration": 100,
-    "max_duration": 400,
-    "min_range": 3,
-    "max_range": 23,
-    "range_increment": 1
-  },
-  {
     "id": "electrokinetic_revive_monster",
     "type": "SPELL",
     "name": { "str": "[Ψ]Revivification Monster", "//~": "NO_I18N" },
@@ -317,6 +298,26 @@
     "energy_increment": -216,
     "base_casting_time": 100,
     "final_casting_time": 100,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "photokinetic_light_explosion_monster",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Blinding Explosion Monster", "//~": "NO_I18N" },
+    "description": { "str": "When you die, you burst apart in an explosion of light.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "blind",
+    "shape": "blast",
+    "difficulty": 1,
+    "max_level": 20,
+    "min_aoe": 1,
+    "max_aoe": 10,
+    "aoe_increment": 1,
+    "min_duration": 500,
+    "max_duration": 5000,
+    "duration_increment": 10,
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
@@ -1043,6 +1044,20 @@
     "max_damage": 4
   },
   {
+    "id": "whispering_amalgamation_telepathic_whispering_spell",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Telepathic Amalgamation Whispering", "//~": "NO_I18N" },
+    "description": { "str": "Amalgamation whispers into your mind, distracting you.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_PROJECTILE" ],
+    "effect": "attack",
+    "effect_str": "effect_whispering_amalgamation_whispers",
+    "shape": "blast",
+    "min_range": 30,
+    "min_duration": 300,
+    "max_duration": 300
+  },
+  {
     "id": "telepathic_shrieking_monster",
     "type": "SPELL",
     "name": { "str": "[Ψ]Telepathic Shrieking Monster", "//~": "NO_I18N" },
@@ -1206,6 +1221,34 @@
     "min_range": 1,
     "energy_source": "NONE",
     "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "type": "SPELL",
+    "id": "teleporter_warped_strikes_monster",
+    "name": { "str": "Warped Strikes Monster enemy check", "//~": "NO_I18N" },
+    "description": { "str": "Preps for using Warped Strikes when a hostile target is detected.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "attack",
+    "extra_effects": [ { "id": "teleporter_warped_strikes_monster_self", "hit_self": true } ],
+    "shape": "blast",
+    "min_range": 60,
+    "max_range": 60
+  },
+  {
+    "type": "SPELL",
+    "id": "teleporter_warped_strikes_monster_self",
+    "name": { "str": "Warped Strikes Monster Effect", "//~": "NO_I18N" },
+    "description": { "str": "Grants the Warped Strikes effect to a monster.", "//~": "NO_I18N" },
+    "flags": [ "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN", "RANDOM_DURATION" ],
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "effect_monster_warped_strikes",
+    "shape": "blast",
+    "min_duration": 6000,
+    "max_duration": 24000
   },
   {
     "id": "teleporter_breach_monster",

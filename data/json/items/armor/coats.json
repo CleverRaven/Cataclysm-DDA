@@ -1,7 +1,8 @@
 [
   {
     "id": "bunker_coat",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "turnout coat" },
     "description": "A heavy protective coat worn by firefighters, highly resistant to heat and flame.",
@@ -47,7 +48,8 @@
   },
   {
     "id": "cassock",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "cassock" },
     "description": "A piece of clerical clothing, usually worn by Christian priests.",
     "weight": "1200 g",
@@ -75,7 +77,8 @@
   },
   {
     "id": "coat_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "fur coat" },
     "description": "A fur coat with a couple small pockets.  Extremely warm.",
     "weight": "1677 g",
@@ -117,7 +120,7 @@
     "warmth": 80,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "variant_type": "generic",
     "variants": [
       {
@@ -166,7 +169,7 @@
         "id": "bomber_beaver_fur",
         "name": { "str": "beaver skin bomber jacket" },
         "description": "The skins of what used to be several beavers have taken to the skies within the composition of this sleek-fitting flight jacket, or, rather, they would if the coat were in any way designed to be a practical piece of kit.  With a soft spread of brown fur lining the inside of this wide-necked overcoat and its exterior finished in a bold, glossy black color, it's safe to say that this garment belongs more within a ski chalet than the cockpit of a fighter craft.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 6
       },
       {
@@ -207,7 +210,8 @@
   },
   {
     "id": "xl_coat_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "fur coat" },
     "copy-from": "coat_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -215,7 +219,8 @@
   },
   {
     "id": "xs_coat_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "coat_fur",
     "name": { "str": "fur coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -223,19 +228,21 @@
   },
   {
     "id": "coat_faux_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "coat_fur",
     "looks_like": "coat_fur",
     "name": { "str": "faux fur coat" },
     "description": "A garishly-colored faux fur coat with a couple small pockets.  Although not as warm as natural fur, it gives you some of that unique flair.",
     "material": [ "faux_fur", "cotton" ],
     "color": "pink",
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "warmth": 70
   },
   {
     "id": "xl_coat_faux_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "faux fur coat" },
     "copy-from": "coat_faux_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -243,7 +250,8 @@
   },
   {
     "id": "xs_coat_faux_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "coat_faux_fur",
     "name": { "str": "faux fur coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -251,7 +259,8 @@
   },
   {
     "id": "coat_lab",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "lab coat" },
     "description": "A long white coat with several large pockets.  Comes with a very nice pocket protector.",
     "weight": "580 g",
@@ -296,7 +305,8 @@
   },
   {
     "id": "coat_rain",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "rain coat" },
     "description": "A vinyl coat with a hood and two very large pockets, meant to provide protection from rain.",
     "weight": "960 g",
@@ -349,7 +359,8 @@
   },
   {
     "id": "coat_gut",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "gutskin parka" },
     "description": "An intricately sewn coat of treated and split intestines, prized for its light weight and waterproof qualities among the indigenous peoples of the arctic.",
     "weight": "200 g",
@@ -376,7 +387,8 @@
   },
   {
     "id": "coat_winter",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "winter coat" },
     "description": "A padded coat with deep pockets and a hood.  Very warm.",
     "weight": "1340 g",
@@ -428,7 +440,8 @@
   },
   {
     "id": "duster",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "duster" },
     "description": "A rugged full-length duster coat.  Has many pockets for storage.",
     "weight": "2800 g",
@@ -501,7 +514,8 @@
   },
   {
     "id": "duster_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "fur duster" },
     "description": "A thick fur full-length duster.  Has many pockets for storage.",
     "weight": "2362 g",
@@ -574,7 +588,8 @@
   },
   {
     "id": "xl_duster_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "fur duster" },
     "copy-from": "duster_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -582,7 +597,8 @@
   },
   {
     "id": "xs_duster_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "duster_fur",
     "name": { "str": "fur duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -590,7 +606,8 @@
   },
   {
     "id": "xl_duster",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "duster" },
     "copy-from": "duster",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -598,7 +615,8 @@
   },
   {
     "id": "xs_duster",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "duster",
     "name": { "str": "duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -606,7 +624,8 @@
   },
   {
     "id": "duster_faux_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "duster_fur",
     "looks_like": "duster_fur",
     "name": { "str": "faux fur duster" },
@@ -617,7 +636,8 @@
   },
   {
     "id": "xl_duster_faux_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "faux fur duster" },
     "copy-from": "duster_faux_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -625,7 +645,8 @@
   },
   {
     "id": "xs_duster_faux_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "duster_faux_fur",
     "name": { "str": "faux fur duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -633,7 +654,8 @@
   },
   {
     "id": "duster_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leather duster" },
     "description": "A thick leather full-length duster.  Has many pockets for storage.",
     "weight": "2655 g",
@@ -706,7 +728,8 @@
   },
   {
     "id": "xl_duster_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leather duster" },
     "copy-from": "duster_leather",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -714,7 +737,8 @@
   },
   {
     "id": "xs_duster_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "duster_leather",
     "name": { "str": "leather duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -722,7 +746,8 @@
   },
   {
     "id": "greatcoat",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "greatcoat" },
     "description": "A heavy, full-length wool coat.  Cumbersome, but warm and with deep pockets.",
     "weight": "2428 g",
@@ -782,7 +807,8 @@
   },
   {
     "id": "hakama_gi",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "hakama" },
     "description": "Plain black hakama for use in kendo and other martial arts.",
     "weight": "350 g",
@@ -808,7 +834,8 @@
   },
   {
     "id": "hakama",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "hakama" },
     "description": "A flowing, pleated garment which can be worn over a kimono.",
     "weight": "500 g",
@@ -834,7 +861,8 @@
   },
   {
     "id": "house_coat",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "bathrobe" },
     "description": "An outer garment of absorbent, towel-like material traditionally worn to cover one's nakedness to and from the bath.  It makes you wish you had running water to bathe with.",
     "weight": "580 g",
@@ -882,7 +910,8 @@
     "id": "jacket_army",
     "//": "Intended to be, and modeled off of, an M65 combat jacket.",
     "//2": "Considering that this is a stand-in for both original and reproduction M65 jackets, we're basing our overall dimensions and price on: https://www.helikon-tex.com/en_eur/ku-c65-dc-covert-m-65-jacket.html",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "looks_like": "coat_winter",
     "name": { "str": "army jacket" },
     "description": "A vintage article of military surplus with an adjustable waist drawstring, or at least a civilian reproduction of one — it's resplendent with a cotton liner, an integral hood tucked away in a zip-up pouch in the collar, and epaulettes upon the shoulders.",
@@ -1028,7 +1057,7 @@
         "id": "m65_black",
         "name": { "str": "urban black combat jacket" },
         "description": "Fitted with a brass main zip and corresponding buttons, this entire jacket forgoes frivolities and is, instead, dyed a solid shade of midnight black.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 25,
         "append": true
       },
@@ -1062,7 +1091,8 @@
   },
   {
     "id": "jacket_army_modern",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "combat blouse" },
     "description": "A sleek blouse in a camouflage pattern with angled breast pockets and lots of loop velcro for affixing patches.  You might call it a jacket but it's really a blouse.  It has a pocket for your pen!",
     "weight": "650 g",
@@ -1121,7 +1151,8 @@
   },
   {
     "id": "jacket_chef",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "chef's jacket" },
     "description": "A double-breasted uniform to protect against the heat of the kitchen.",
     "weight": "720 g",
@@ -1226,7 +1257,8 @@
   },
   {
     "id": "jacket_evac",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "emergency jacket" },
     "description": "A bright, cheaply made FEMA-issue windbreaker jacket with a hood.  One size, fits none.  Helps keep you unfrozen & visible for rescuers.",
     "weight": "197 g",
@@ -1278,7 +1310,8 @@
   },
   {
     "id": "jacket_flannel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "flannel jacket" },
     "description": "A jacket made from flannel, favored by outdoorsy types.",
     "weight": "958 g",
@@ -1315,7 +1348,8 @@
   },
   {
     "id": "jacket_jean",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "jean jacket" },
     "description": "A jacket made from denim.",
     "//": "Mediumweight 14 oz denim jacket.",
@@ -1366,7 +1400,8 @@
   },
   {
     "id": "vest_jean",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "jean vest" },
     "description": "A vest made from denim.",
     "weight": "600 g",
@@ -1415,7 +1450,8 @@
   },
   {
     "id": "jacket_ninja",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "ninja jacket" },
     "description": "This is a wrap over black jacket.  Commonly used by stealthy individuals hiding in the dark of the night.  It includes a pair of cotton gauntlets and a sash.",
     "weight": "120 g",
@@ -1463,9 +1499,10 @@
   },
   {
     "id": "jacket_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leather jacket" },
-    "description": "A jacket made from leather.  Offers more protection than your average cotton or denim jacket.",
+    "description": "A jacket made from leather, offering more protection than your average cotton or denim jacket.",
     "weight": "1450 g",
     "volume": "2000 ml",
     "price": "179 USD",
@@ -1512,103 +1549,43 @@
     "warmth": 25,
     "material_thickness": 1.0,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
-  },
-  {
-    "id": "jacket_leather_red",
-    "type": "ARMOR",
-    "name": { "str": "red leather jacket" },
-    "description": "A candy-apple-red leather jacket with black strips and shoulder protrusions.  It has a number of zippers and snaps in the front and a low-cut neck.  The leather it's made of isn't especially thick, so it's not as protective as you might have liked.",
-    "weight": "1000 g",
-    "volume": "1500 ml",
-    "price": "179 USD",
-    "price_postapoc": "5 USD",
-    "material": [ "leather" ],
-    "symbol": "[",
-    "looks_like": "jacket_leather",
-    "color": "red",
-    "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 6, 10 ] },
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 90, "encumbrance": [ 0, 0 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
-    ],
-    "pocket_data": [
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "variant_type": "generic",
+    "variants": [
       {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 80,
-        "max_item_length": "10 cm"
+        "id": "jacket_leather_black",
+        "name": { "str": "black leather jacket" },
+        "description": "This one is a dark black.",
+        "weight": 100,
+        "append": true
       },
       {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 80,
-        "max_item_length": "10 cm"
+        "id": "jacket_leather_brown",
+        "name": { "str": "brown leather jacket" },
+        "description": "This one is a dark shade of brown.",
+        "weight": 100,
+        "append": true
       },
       {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 80,
-        "max_item_length": "10 cm"
+        "id": "jacket_leather_biker",
+        "name": { "str": "biker leather jacket" },
+        "description": "This one has the symbol of a local biker gang on it.",
+        "weight": 10,
+        "append": true
       },
       {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 80,
-        "max_item_length": "10 cm"
+        "id": "jacket_leather_red",
+        "name": { "str": "red leather jacket" },
+        "description": "This one is bright red.",
+        "weight": 1,
+        "append": true
       }
-    ],
-    "warmth": 20,
-    "material_thickness": 0.75,
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
-  },
-  {
-    "id": "gosling_jacket",
-    "type": "ARMOR",
-    "name": { "str": "scorpion ornamented jacket" },
-    "description": "A light cotton padded nylon jacket with a white surface.  It has two pockets on the front, mainly for putting your hands in.  A golden scorpion is embedded on its back.  Fit for a real human being, and a real hero.",
-    "weight": "900 g",
-    "volume": "1500 ml",
-    "price": "80 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "material": [ "nylon", "cotton" ],
-    "symbol": "[",
-    "looks_like": "jacket_leather",
-    "color": "white",
-    "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 5, 8 ] },
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 3, 3 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 6, 6 ] }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "400 ml",
-        "max_contains_weight": "1 kg",
-        "moves": 70,
-        "max_item_length": "10 cm"
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "400 ml",
-        "max_contains_weight": "1 kg",
-        "moves": 70,
-        "max_item_length": "10 cm"
-      }
-    ],
-    "warmth": 15,
-    "material_thickness": 0.8,
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    ]
   },
   {
     "id": "jacket_light",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "light jacket" },
     "description": "A thin cotton jacket with a hood.  Good for brisk weather.",
     "weight": "227 g",
@@ -1645,7 +1622,8 @@
   },
   {
     "id": "jacket_windbreaker",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "windbreaker" },
     "description": "A light synthetic jacket with a hood.  Not very warm, but will keep out the rain.",
     "weight": "280 g",
@@ -1700,7 +1678,8 @@
   },
   {
     "id": "jacket_varsity",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "varsity jacket" },
     "description": "A cotton varsity jacket, the type that the jocks in a highschool or a college would wear.",
     "weight": "700 g",
@@ -1771,7 +1750,7 @@
         "id": "black_varsity_jacket",
         "name": { "str": "black varsity jacket" },
         "description": "This one is completely black.  At least a dozen different patches are sewn on it.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 10,
         "append": true
       },
@@ -1787,7 +1766,7 @@
         "id": "black_red_varsity_jacket",
         "name": { "str": "Crimson Bulls varsity jacket" },
         "description": "This one's torso is black and its arms are red.  It has an angry looking red bull ready to charge on its back.  Across the front writes \"BULLS\".",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 10,
         "append": true
       },
@@ -1819,7 +1798,8 @@
   },
   {
     "id": "judo_gi",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "judo gi" },
     "description": "Plain white judo gi.",
     "weight": "1000 g",
@@ -1842,7 +1822,8 @@
   },
   {
     "id": "karate_gi",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "karate gi" },
     "description": "Plain white karate gi.  Made from loose and flowing cotton.",
     "weight": "400 g",
@@ -1865,7 +1846,8 @@
   },
   {
     "id": "kariginu",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "kariginu" },
     "description": "A traditional, ankle-length Shinto robe with several layers and very wide sleeves.",
     "weight": "1400 g",
@@ -1883,7 +1865,8 @@
   },
   {
     "id": "kasaya",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "kasaya" },
     "description": "A traditional, ankle-length Buddhist robe, stitched together from three pieces of traditional saffron dyed cloth.",
     "weight": "1550 g",
@@ -1911,7 +1894,8 @@
   },
   {
     "id": "keikogi",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "keikogi" },
     "description": "Plain white keikogi for use in martial arts.",
     "weight": "250 g",
@@ -1938,7 +1922,8 @@
   },
   {
     "id": "kimono",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "kimono" },
     "description": "A traditional, ankle-length Japanese robe, wrapped around the body with a sash.",
     "weight": "1200 g",
@@ -1976,7 +1961,8 @@
   },
   {
     "id": "yukata",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "yukata" },
     "description": "An easy-to-wear, breezy robe secured with a sash.  Essentially Japanese pajamas.  Great for summer nights.",
     "weight": "900 g",
@@ -2014,7 +2000,8 @@
   },
   {
     "id": "haori",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "haori" },
     "description": "A loose coat with wide sleeves that is worn unfastened over a kimono.  It is jet black with sparse, tasteful golden embroidery.",
     "weight": "800 g",
@@ -2041,7 +2028,8 @@
   },
   {
     "id": "kittel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "kittel" },
     "description": "A white, knee-length cotton robe, traditionally worn by Jews on special occasions.",
     "weight": "1000 g",
@@ -2069,7 +2057,9 @@
   },
   {
     "id": "leather_police_jacket",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
     "name": { "str": "motorcycle jacket" },
     "description": "A thick and heavy leather jacket used most commonly by motorcyclists, equestrians and Australian vigilantes.",
     "weight": "2700 g",
@@ -2117,7 +2107,7 @@
     "warmth": 30,
     "material_thickness": 1.5,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "STURDY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "STURDY", "RAINPROOF" ],
     "variant_type": "generic",
     "variants": [
       {
@@ -2147,7 +2137,8 @@
   },
   {
     "id": "peacoat",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "peacoat" },
     "description": "A heavy wool coat, warm and with deep pockets.",
     "weight": "1800 g",
@@ -2199,7 +2190,8 @@
   },
   {
     "id": "robe",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "robe" },
     "description": "A loose-fitting outer garment with sleeves and a mysterious amount of well-hidden pockets.",
     "weight": "1000 g",
@@ -2283,7 +2275,8 @@
   },
   {
     "id": "ghost_robe",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "ghost's robe" },
     "description": "A white hooded ghost's robe characteristic of souls that haunt the living world.",
     "weight": "348 g",
@@ -2318,7 +2311,8 @@
   },
   {
     "id": "ghost_robe_sheet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "cheap ghost's robe" },
     "description": "A cheap ghost costume comprised of a white sheet with two eye holes cut out.  A simple hat is worn underneath to keep the sheet in place.",
     "weight": "880 g",
@@ -2355,7 +2349,8 @@
   },
   {
     "id": "grim_reaper_robe",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "grim reaper's robe" },
     "description": "A black hooded grim reaper's robe with a face cover to hide the user's lack of facial skin.  It pairs nicely with a scythe.  Use it to remove the face cover and show yourself before your victims.",
     "weight": "453 g",
@@ -2398,7 +2393,8 @@
   {
     "id": "grim_reaper_robe_faceless",
     "copy-from": "grim_reaper_robe",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "grim reaper's robe (faceless)", "str_pl": "grim reaper's robes (faceless)" },
     "description": "A black hooded grim reaper's robe with the face cover removed to show the user's lack of facial skin.  It pairs nicely with a scythe.  Use it to hide your lack of facial features.",
     "//": "'Faceless' as in 'face cover'less and because, without the cover of darkness (A black face cover) a real grim reaper would really be faceless",
@@ -2429,7 +2425,8 @@
   },
   {
     "id": "robe_wizard",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "wizard robe" },
     "description": "A mysterious and arcane-looking robe, signifying status in the wizarding world.  It has a hood and some pockets for your magical artifacts.",
     "weight": "911 g",
@@ -2484,7 +2481,8 @@
   },
   {
     "id": "samghati",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "samghati" },
     "description": "A traditional, double-layered Buddhist coat.  Used as an outer cloak for various occasions.",
     "weight": "800 g",
@@ -2512,7 +2510,8 @@
   },
   {
     "id": "santa_jacket",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Santa jacket" },
     "description": "A red jacket, trimmed with white faux fur, commonly used by bearded men on Christmas.  Warm and has a couple of small pockets.",
     "weight": "1500 g",
@@ -2571,7 +2570,8 @@
   },
   {
     "id": "santa_jacket_short",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "short Santa jacket" },
     "description": "A short red jacket with white faux fur as trim, similar to a Santa jacket but sleeveless, for a more revealing look on Christmas.",
     "weight": "1200 g",
@@ -2579,7 +2579,7 @@
     "price": "180 USD",
     "price_postapoc": "70 cent",
     "symbol": "[",
-    "looks_like": "jacket_leather_red",
+    "looks_like": "jacket_leather",
     "color": "red",
     "armor": [
       {
@@ -2614,7 +2614,8 @@
   },
   {
     "id": "ski_jacket",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "ski jacket" },
     "description": "An insulated, breathable hoodie made for alpine skiing.  Very warm, and with sizable pockets.",
     "weight": "1105 g",
@@ -2673,7 +2674,8 @@
   },
   {
     "id": "sleeveless_duster",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "sleeveless duster" },
     "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "description": "A rugged full-length duster that leaves your arms unencumbered.  Has plenty of storage space due to its many pockets.",
@@ -2752,7 +2754,8 @@
   },
   {
     "id": "sleeveless_duster_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "sleeveless fur duster" },
     "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "description": "A thick fur full-length duster without sleeves, leaving your arms unencumbered.  Has plenty of storage space due to its many pockets.",
@@ -2831,7 +2834,8 @@
   },
   {
     "id": "sleeveless_duster_faux_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "sleeveless_duster_fur",
     "name": { "str": "sleeveless faux fur duster" },
     "description": "A thick, sleeveless faux fur duster, falling below your knees.  Has many pockets for storing things.",
@@ -2841,7 +2845,8 @@
   },
   {
     "id": "sleeveless_duster_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "sleeveless leather duster" },
     "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "description": "A thick leather full-length duster without sleeves, leaving your arms unencumbered.  Has plenty of storage space due to its many pockets.",
@@ -2920,7 +2925,8 @@
   },
   {
     "id": "sleeveless_trenchcoat",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "sleeveless trenchcoat" },
     "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "description": "A thick canvas trenchcoat that leaves your arms unencumbered.  Has plenty of storage space due to its many pockets.",
@@ -2968,7 +2974,8 @@
   },
   {
     "id": "sleeveless_trenchcoat_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "sleeveless fur trenchcoat" },
     "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "description": "A thick fur trenchcoat without sleeves, leaving your arms unencumbered.  Has plenty of storage space due to its many pockets.",
@@ -3016,7 +3023,8 @@
   },
   {
     "id": "sleeveless_trenchcoat_faux_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "sleeveless_trenchcoat_fur",
     "name": { "str": "sleeveless faux fur trenchcoat" },
     "description": "A thick faux fur trenchcoat without sleeves.  Has plenty of storage space, and looks pretty good.",
@@ -3026,7 +3034,8 @@
   },
   {
     "id": "sleeveless_trenchcoat_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "sleeveless leather trenchcoat" },
     "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "description": "A thick leather trenchcoat without sleeves, leaving your arms unencumbered.  Has plenty of storage space due to its many pockets.",
@@ -3074,7 +3083,8 @@
   },
   {
     "id": "sleeveless_tunic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "sleeveless tunic" },
     "description": "A sleeveless cloth garment that covers the torso and legs.",
     "weight": "240 g",
@@ -3107,7 +3117,8 @@
   },
   {
     "id": "thawb",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "thawb" },
     "description": "A long, loose-fitting robe with wide sleeves.  A traditional Arab garment.",
     "weight": "1200 g",
@@ -3125,7 +3136,8 @@
   },
   {
     "id": "trenchcoat",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "trenchcoat" },
     "description": "A thick canvas trenchcoat, lined with pockets.  Great for storage.",
     "weight": "2240 g",
@@ -3167,7 +3179,8 @@
   },
   {
     "id": "trenchcoat_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "fur trenchcoat" },
     "description": "A thick fur trenchcoat, lined with pockets.  Great for storage.",
     "weight": "1750 g",
@@ -3209,7 +3222,8 @@
   },
   {
     "id": "trenchcoat_faux_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "trenchcoat_fur",
     "name": { "str": "faux fur trenchcoat" },
     "description": "A thick faux fur trenchcoat, lined with pockets.  Great for storage, and makes you the talk of the town.",
@@ -3219,7 +3233,8 @@
   },
   {
     "id": "trenchcoat_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leather trenchcoat" },
     "description": "A thick leather trenchcoat, lined with pockets.  Great for storage.",
     "weight": "1967 g",
@@ -3261,7 +3276,8 @@
   },
   {
     "id": "tunic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tunic" },
     "description": "A simple garment long enough to cover down to the knees.",
     "weight": "250 g",
@@ -3290,7 +3306,8 @@
   },
   {
     "id": "tunic_rag",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "rag tunic" },
     "description": "A poorly-made long tunic with a string tied around the waist to keep it all in place.",
     "weight": "683 g",
@@ -3318,7 +3335,8 @@
   },
   {
     "id": "tux",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tuxedo" },
     "description": "A full-body tuxedo.  Makes the apocalypse feel a little more classy.",
     "weight": "1587 g",
@@ -3380,11 +3398,12 @@
     ],
     "warmth": 30,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "POCKETS", "SUPER_FANCY", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
     "id": "waistcoat",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "waistcoat" },
     "description": "An elegant waistcoat.  Ideal for those occasions when wearing only a shirt would be too casual and a suit would be overdoing it.",
     "weight": "516 g",
@@ -3420,7 +3439,7 @@
     ],
     "warmth": 5,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "encumbrance": [ 2, 5 ], "coverage": 60 },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 80 },
@@ -3433,7 +3452,8 @@
   },
   {
     "id": "winter_jacket_army",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "army winter jacket" },
     "description": "A hooded jacket with lots of pockets, thickly padded for warmth.  Favored by the military.",
     "weight": "1000 g",
@@ -3498,7 +3518,8 @@
   },
   {
     "id": "trenchcoat_steampunk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "steampunk trenchcoat" },
     "description": "A thick black leather steampunk themed trenchcoat.  Unlike a regular trenchcoat, this one has no pockets.",
     "weight": "1967 g",
@@ -3508,7 +3529,7 @@
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "trenchcoat",
-    "color": "black",
+    "color": "dark_gray",
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 11, 17 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] },
@@ -3532,7 +3553,8 @@
   },
   {
     "id": "plaguedoctor_robe",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "plague robe" },
     "description": "A dark robbed cassock worn by plague doctors.",
     "weight": "1300 g",
@@ -3560,7 +3582,8 @@
   },
   {
     "id": "nun_habit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "nun habit" },
     "description": "A dark piece of clerical clothing.  Typically worn by Christian nuns.",
     "weight": "1200 g",
@@ -3589,7 +3612,8 @@
   {
     "id": "tacjacket",
     "//": "Based off of: https://www.helikon-tex.com/en_eur/ku-gun-fm-gunfighter-jacket-shark-skin-windblocker.html",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "looks_like": "jacket_army",
     "name": { "str": "tactical jacket" },
     "description": "A hefty camouflage jacket rattling with a spade of zippers, press-studs, and attachment points, featuring a high mandarin collar, Velcro cuffs, plates for ID tags, and enough pockets to make your internal Militiaman weep for joy.",
@@ -3796,10 +3820,28 @@
         "id": "tacjacket_black_camo",
         "name": { "str": "urban-black tactical jacket" },
         "description": "Pitch-black, from its mandarin collar to its hems, this jacket is a coat for the aspiring nocturnal operator, tacticool edge lord, and those in the business to be afoot during the small hours of the night.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 15,
         "append": true
       }
     ]
+  },
+  {
+    "id": "abaya",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": "abaya",
+    "description": "A loose-fitting, full-length outer garment generally worn over clothing by Muslim women.",
+    "weight": "600 g",
+    "volume": "2 L",
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
+    "symbol": "Y",
+    "color": "dark_gray",
+    "material": [ "cotton" ],
+    "material_thickness": 0.2,
+    "warmth": 5,
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [ { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100 } ]
   }
 ]

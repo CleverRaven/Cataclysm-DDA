@@ -2,16 +2,14 @@
 #ifndef CATA_SRC_MAPBUFFER_H
 #define CATA_SRC_MAPBUFFER_H
 
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
 
-#include "coords_fwd.h"
-#include "point.h"
+#include "coordinates.h"
 
-class cata_path;
 class JsonArray;
+class cata_path;
 class submap;
 
 /**

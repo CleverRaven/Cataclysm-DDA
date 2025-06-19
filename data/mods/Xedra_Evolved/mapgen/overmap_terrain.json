@@ -40,12 +40,13 @@
       "field_office_19",
       "field_office_20"
     ],
-    "copy-from": "generic_large_office_tower"
+    "copy-from": "generic_large_office_tower",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
     "id": "boann_sidhe_island",
-    "name": "forest?",
+    "name": "ancient building",
     "sym": "F",
     "color": "c_light_green",
     "looks_like": "forest",
@@ -65,7 +66,8 @@
   {
     "type": "overmap_terrain",
     "id": [ "safe_house" ],
-    "copy-from": "generic_city_house"
+    "copy-from": "generic_city_house",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -75,7 +77,8 @@
   {
     "type": "overmap_terrain",
     "id": [ "safe_house_basement" ],
-    "copy-from": "generic_city_house_basement"
+    "copy-from": "generic_city_house_basement",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",

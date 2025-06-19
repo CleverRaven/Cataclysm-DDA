@@ -2,7 +2,7 @@
   {
     "abstract": "base_silverware",
     "name": { "str_sp": "generic silverware", "//~": "NO_I18N" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": { "str": "generic item template", "//~": "NO_I18N" },
     "symbol": ";",
     "color": "light_gray",
@@ -17,7 +17,7 @@
   {
     "abstract": "base_utensil",
     "name": { "str": "generic utensil", "//~": "NO_I18N" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": { "str": "generic item template", "//~": "NO_I18N" },
     "symbol": ";",
     "color": "light_gray",
@@ -32,7 +32,7 @@
   {
     "abstract": "base_plastic_silverware",
     "name": { "str_sp": "generic plastic silverware", "//~": "NO_I18N" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": { "str": "generic item template", "//~": "NO_I18N" },
     "symbol": ";",
     "color": "light_gray",
@@ -46,7 +46,7 @@
     "abstract": "base_ceramic_dish",
     "name": { "str": "generic ceramic dish", "str_pl": "generic ceramic dishes", "//~": "NO_I18N" },
     "description": { "str": "generic item template", "//~": "NO_I18N" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": ")",
     "color": "yellow",
     "price": "12 USD",
@@ -62,7 +62,7 @@
     "abstract": "base_glass_dish",
     "name": { "str": "generic glass dish", "str_pl": "generic glass dishes", "//~": "NO_I18N" },
     "description": { "str": "generic item template", "//~": "NO_I18N" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": ")",
     "color": "cyan",
     "price": "14 USD",
@@ -78,7 +78,7 @@
     "abstract": "base_tin_dish",
     "name": { "str": "generic tin dish", "str_pl": "generic tin dishes", "//~": "NO_I18N" },
     "description": { "str": "generic item template", "//~": "NO_I18N" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": ")",
     "color": "light_gray",
     "price": "4 USD",
@@ -93,7 +93,7 @@
     "abstract": "base_plastic_dish",
     "name": { "str": "generic plastic dish", "str_pl": "generic plastic dishes", "//~": "NO_I18N" },
     "description": { "str": "generic item template", "//~": "NO_I18N" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": ")",
     "color": "light_cyan",
     "price": "4 USD",
@@ -106,7 +106,7 @@
     "abstract": "base_cookpot",
     "name": { "str": "generic cook pot", "//~": "NO_I18N" },
     "description": { "str": "generic item template", "//~": "NO_I18N" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": ")",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "price": "45 USD",
@@ -117,17 +117,18 @@
   },
   {
     "copy-from": "base_ceramic_dish",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "ceramic_plate",
     "volume": "125 ml",
+    "longest_side": "26 cm",
     "name": { "str": "ceramic plate" },
     "symbol": ",",
     "description": "A ceramic dinner plate, unremarkable in every way.",
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "id": "ceramic_bowl",
     "name": { "str": "ceramic bowl" },
@@ -135,6 +136,7 @@
     "description": "A perfectly ordinary ceramic soup bowl.",
     "copy-from": "base_ceramic_dish",
     "volume": "625 ml",
+    "longest_side": "13 cm",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -148,7 +150,7 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "id": "ceramic_cup",
     "name": { "str": "ceramic cup" },
@@ -176,7 +178,7 @@
     "//3": "Based on https://www.dimensions.com/element/ikea-vardagen-coffee-cup-saucer"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "id": "ceramic_mug",
     "name": { "str": "coffee mug" },
@@ -403,9 +405,10 @@
     "//": "Based on https://www.amazon.com/dp/B0B6CWNKCP"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "tin_plate",
+    "longest_side": "26 cm",
     "name": { "str": "tin plate" },
     "symbol": ",",
     "description": "A tin dinner plate, lightweight and clanky.",
@@ -414,7 +417,7 @@
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "id": "tin_cup",
     "name": { "str": "tin cup" },
@@ -436,13 +439,14 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "id": "bowl_pewter",
     "name": { "str": "pewter bowl" },
     "description": "A small pewter serving bowl without a lid.  Holds 250 mL of liquid.",
     "copy-from": "base_tin_dish",
     "symbol": "u",
+    "longest_side": "11 cm",
     "pocket_data": [
       {
         "max_contains_volume": "250 ml",
@@ -456,9 +460,10 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "glass_plate",
+    "longest_side": "26 cm",
     "name": { "str": "glass plate" },
     "symbol": ",",
     "description": "A glass dinner plate, for people who don't have clumsy children.",
@@ -467,7 +472,7 @@
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "id": "glass",
     "name": { "str": "drinking glass", "str_pl": "drinking glasses" },
@@ -475,6 +480,7 @@
     "description": "A tall drinking glass.",
     "copy-from": "base_glass_dish",
     "volume": "620 ml",
+    "longest_side": "16 cm",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -488,7 +494,7 @@
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "id": "wine_glass",
     "volume": "420 ml",
@@ -513,7 +519,7 @@
     "//": "Based on https://www.amazon.com/dp/B01M4OEU65"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "id": "glass_bowl",
     "name": { "str": "glass bowl" },
@@ -521,6 +527,7 @@
     "description": "A glass bowl for soup or dessert.",
     "copy-from": "base_glass_dish",
     "volume": "620 ml",
+    "longest_side": "13 cm",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -534,9 +541,10 @@
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "plastic_plate",
+    "longest_side": "26 cm",
     "name": { "str": "plastic plate" },
     "symbol": ",",
     "description": "A durable plastic plate, the sort you might use as patio dishware.",
@@ -544,7 +552,7 @@
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "id": "tumbler_plastic",
     "name": { "str": "plastic tumbler" },
@@ -564,7 +572,7 @@
   },
   {
     "id": "bowl_plastic",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "plastic tupperware" },
     "symbol": "u",
@@ -590,7 +598,7 @@
   },
   {
     "id": "plastic_bowl_kids",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "kiddie bowl" },
     "symbol": "u",
@@ -624,7 +632,7 @@
   },
   {
     "id": "sippy_cup",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "sippy cup" },
     "symbol": "u",
@@ -644,7 +652,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "fork",
     "name": { "str": "fork" },
@@ -661,7 +669,7 @@
     "//": "Based on https://www.amazon.com/dp/B086D4PV2G"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "plastic_fork",
     "name": { "str": "plastic fork" },
@@ -676,7 +684,7 @@
     "melee_damage": { "bash": 1, "stab": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "spoon",
     "name": { "str": "spoon" },
@@ -691,7 +699,7 @@
     "//": "Based on https://www.amazon.com/dp/B0886HQRD3"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "plastic_spoon",
     "name": { "str": "plastic spoon" },
@@ -704,7 +712,7 @@
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "plastic_spoon_kids",
     "name": { "str": "kiddie spoon" },
@@ -723,7 +731,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "knife_butter",
     "name": { "str": "butter knife", "str_pl": "butter knives" },
@@ -740,7 +748,7 @@
     "//": "Based on https://www.amazon.com/dp/B08NFVGSRJ"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "plastic_knife",
     "name": { "str": "plastic knife", "str_pl": "plastic knives" },
@@ -755,7 +763,7 @@
     "melee_damage": { "bash": 1, "stab": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "plastic_straw",
     "name": { "str": "plastic straw" },
@@ -764,7 +772,7 @@
     "copy-from": "base_plastic_silverware"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "corkscrew",
     "name": { "str": "corkscrew" },
@@ -782,7 +790,7 @@
     "//2": "Based on https://www.amazon.com/dp/B081R28ZLP"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "peeler",
     "name": { "str": "vegetable peeler" },
@@ -799,7 +807,7 @@
     "//": "Based on https://www.amazon.com/dp/B00004OCIP"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "bottle_opener",
     "name": { "str": "bottle opener" },
@@ -831,7 +839,7 @@
     "//": "Based on https://www.amazon.com/dp/B087QF9SWM"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "spork",
     "name": { "str": "spork" },
@@ -843,7 +851,7 @@
     "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "foon",
     "name": { "str": "foon" },
@@ -855,7 +863,7 @@
     "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "chopsticks",
     "name": { "str": "chopsticks", "str_pl": "pairs of chopsticks" },
@@ -875,7 +883,7 @@
     "//": "Based on https://www.amazon.com/dp/B07N47CN44"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "ladle",
     "name": { "str": "ladle" },
@@ -884,7 +892,7 @@
     "copy-from": "base_utensil"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "whisk",
     "name": { "str": "whisk" },
@@ -900,7 +908,7 @@
     "//2": "Based on https://www.dimensions.com/element/ikea-koncis-whisk"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "potato_masher",
     "name": { "str": "potato masher" },
@@ -909,7 +917,7 @@
     "copy-from": "base_utensil"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "garlic_press",
     "name": { "str": "garlic press", "str_pl": "garlic presses" },
@@ -924,7 +932,7 @@
     "//": "Based on https://www.amazon.com/dp/B07N7KFHVH"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "can_opener",
     "name": { "str": "can opener" },
@@ -939,7 +947,7 @@
     "//": "Based on https://www.amazon.com/dp/B087MSWH65 with the volume multiplied by 0.85 - otherwise the volume is way higher than it should be since Amazon lists package volume"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "carving_fork",
     "name": { "str": "carving fork" },
@@ -957,7 +965,7 @@
     "//": "Based on https://www.amazon.com/dp/B083FJXZM5"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "spatula",
     "name": { "str": "spatula" },
@@ -972,7 +980,7 @@
     "//": "Based on https://www.amazon.com/dp/B001BKWXOY"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "rolling_pin",
     "name": { "str": "rolling pin" },
@@ -992,7 +1000,7 @@
     "//": "Based on https://www.amazon.com/dp/B000ARPJRM"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "id": "pot",
     "name": { "str": "pot" },
@@ -1017,7 +1025,7 @@
     "//": "Based on https://www.amazon.com/dp/B087PB2L83"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "id": "iron_pot",
     "name": { "str": "cast-iron pot" },
@@ -1041,7 +1049,7 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "id": "pot_copper",
     "name": { "str": "copper pot" },
@@ -1064,7 +1072,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "id": "casserole",
     "name": { "str": "casserole pot" },
@@ -1089,7 +1097,7 @@
     "//": "Based on https://www.amazon.com/dp/B08J7TPT98"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "id": "stock_pot",
     "name": { "str": "stock pot" },
@@ -1115,7 +1123,7 @@
   },
   {
     "id": "pot_canning",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "canning pot" },
     "description": "A very large 20 liter pot, primarily meant for canning food in glass jars via the water bath method, though it can cook normal foods just as well.  Canning foods with it will require a lot of water.  If you're only canning a couple of jars at a time, you'd fill it up with rocks or something to displace the water above the lids.",
@@ -1145,7 +1153,8 @@
   },
   {
     "id": "pot_canning_clay",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "clay canning pot" },
     "looks_like": "pot_canning",
     "description": "A very large 25 liter earthenware pot, primarily meant for canning food via the water bath method, though it can cook normal foods just as well.  Canning foods with it will require a lot of water.  If you're only canning a couple of jars at a time, you'd fill it up with rocks or something to displace the water above the lids.",
@@ -1172,7 +1181,7 @@
     "melee_damage": { "bash": 9 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "id": "pan",
     "name": { "str": "cast-iron frying pan" },
@@ -1200,7 +1209,7 @@
     "//": "Based on https://www.amazon.com/dp/B00006JSUA BUT volume calculated as a cylinder - 2 inches height x 10.68 inches diameter"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "id": "steel_pan",
     "name": { "str": "steel frying pan" },
@@ -1225,7 +1234,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "id": "copper_pan",
     "name": { "str": "copper frying pan" },
@@ -1251,7 +1260,7 @@
   },
   {
     "id": "pot_makeshift",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "makeshift pot" },
     "description": "A sheet of metal crudely hammered into a cooking pot.  Good enough to cook food and boil water, but not as useful as proper cookware.",
@@ -1280,7 +1289,7 @@
   },
   {
     "id": "pot_makeshift_copper",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "makeshift copper pot" },
     "description": "A cooking pot crudely hammered out of copper.  Good enough to cook food and boil water, but not as useful as proper cookware.",
@@ -1308,7 +1317,7 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "id": "kettle",
     "name": { "str": "kettle" },
@@ -1327,7 +1336,7 @@
     "//2": "Based on https://www.amazon.com/dp/B0858VCYTB"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "id": "coffeepot",
     "name": { "str": "coffee pot" },
@@ -1346,7 +1355,7 @@
     "name": { "str": "mesh colander" },
     "category": "tools",
     "description": "A stainless steel mesh colander, for washing rice and vegetables, or straining liquid off from noodles or other foods.",
-    "type": "GENERIC",
+    "type": "ITEM",
     "volume": "500 ml",
     "weight": "318 g",
     "symbol": ")",
@@ -1358,7 +1367,7 @@
     "id": "splatter_guard",
     "name": { "str": "splatter guard" },
     "description": "A stainless steel mesh screen for preventing flying oil from getting all over your nice counters (or you) when frying.",
-    "type": "GENERIC",
+    "type": "ITEM",
     "volume": "500 ml",
     "weight": "357 g",
     "symbol": ")",
@@ -1368,7 +1377,7 @@
   },
   {
     "id": "cutting_board",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "cutting board" },
     "description": "A large, flat piece of wood for chopping vegetables on without ruining your knife or your countertop.",
@@ -1391,7 +1400,7 @@
     "name": { "str": "meal tray" },
     "description": "A stainless steel tray used for serving food in cafeterias, mess halls, or similar places.",
     "looks_like": "tin_plate",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": ")",
     "color": "light_gray",
     "price": "10 cent",
@@ -1403,7 +1412,7 @@
     "use_action": [ "HEAT_SOLID_ITEMS" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "pizza_cutter",
     "name": { "str": "pizza cutter" },
@@ -1418,7 +1427,7 @@
     "//": "Based on https://www.amazon.com/dp/B07YP2VL68"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "icecream_scoop",
     "name": { "str": "icecream scoop" },
@@ -1428,7 +1437,7 @@
     "copy-from": "base_silverware"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "cheese_grater",
     "name": { "str": "cheese grater" },
@@ -1437,7 +1446,7 @@
     "copy-from": "base_silverware"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "id": "dutch_oven",
     "name": { "str": "cast-iron dutch oven" },
@@ -1453,7 +1462,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "id": "improvised_oven",
     "name": { "str": "improvised oven" },
@@ -1477,7 +1486,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "id": "clay_dutch_oven",
     "name": { "str": "clay pot oven" },
@@ -1494,7 +1503,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "aluminum_pan",
     "name": { "str": "aluminum frying pan" },
     "description": "An aluminum frying pan.  Makes a decent melee weapon, and is used for cooking.",
@@ -1506,7 +1515,7 @@
     "melee_damage": { "bash": 7 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pot_aluminum",
     "name": { "str": "aluminum pot" },
     "description": "A cooking pot, useful for boiling water and making all kinds of food.  Made from aluminum.",

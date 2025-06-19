@@ -14,7 +14,7 @@
     "flags": [ "BLIND_HARD" ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "qualities": [ { "id": "OVEN", "level": 1 } ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ], [ [ "surface_heat", 28, "LIST" ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ] ], [ [ "surface_heat", 28, "LIST" ] ] ],
     "//": "362g of cereal made of 406g of wheat, assuming the difference is chaff.  equivalent to 28u of flour by weight.",
     "components": [ [ [ "wheat", 2 ], [ "buckwheat", 2 ], [ "barley", 2 ] ] ]
   },
@@ -83,12 +83,65 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "walnut_shelled", 4 ] ],
-      [ [ "honey_bottled", 1 ], [ "syrup", 1 ] ],
+      [ [ "honey_bottled", 1 ], [ "syrup", 1 ], [ "syrup_corn", 1 ] ],
       [ [ "any_butter", 1, "LIST" ] ],
       [ [ "sugar", 2 ] ],
       [ [ "flour_any", 10, "LIST" ] ],
       [ [ "cinnamon", 1 ] ],
       [ [ "water", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "religieuse_au_chocolat",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "difficulty": 7,
+    "time": "2 hours",
+    "batch_time_factors": [ 40, 1 ],
+    "charges": 10,
+    "book_learn": [ [ "baking_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "OVEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 40, "LIST" ] ] ],
+    "components": [
+      [ [ "eggs_any_shape", 5, "LIST" ] ],
+      [ [ "any_butter", 14, "LIST" ] ],
+      [ [ "salt", 1 ] ],
+      [ [ "chocolate", 1 ] ],
+      [ [ "buttercream", 6 ] ],
+      [ [ "flour_any", 16, "LIST" ] ],
+      [ [ "sugar", 20 ] ],
+      [ [ "water", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "gateau_st_honore",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "difficulty": 9,
+    "time": "4 hours",
+    "batch_time_factors": [ 40, 1 ],
+    "charges": 10,
+    "book_learn": [ [ "baking_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "OVEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 40, "LIST" ] ] ],
+    "components": [
+      [ [ "eggs_any_shape", 14, "LIST" ] ],
+      [ [ "any_butter", 36, "LIST" ] ],
+      [ [ "salt", 2 ] ],
+      [ [ "cornmeal", 1 ] ],
+      [ [ "milk", 6 ], [ "milk_raw", 6 ] ],
+      [ [ "milk_cream_whipped", 1 ] ],
+      [ [ "flour_any", 16, "LIST" ] ],
+      [ [ "sugar", 30 ] ],
+      [ [ "water", 3 ] ]
     ]
   }
 ]

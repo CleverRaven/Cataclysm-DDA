@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "bandit_camp_1", "bandit_camp_2" ], [ "bandit_camp_3", "bandit_camp_4" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -108,7 +107,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "bandit_camp_1_roof", "bandit_camp_2_roof" ], [ "bandit_camp_3_roof", "bandit_camp_4_roof" ] ],
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -163,7 +161,7 @@
         "                                                "
       ],
       "palettes": [ "roof_palette" ],
-      "items": { ",": { "item": "roof_trash", "chance": 5 } },
+      "items": { ",": { "item": "SUS_trash_roof", "chance": 5 } },
       "terrain": { ",": "t_shingle_flat_roof", ".": "t_flat_roof" }
     }
   }

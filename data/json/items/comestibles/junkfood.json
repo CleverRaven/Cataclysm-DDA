@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "toastem",
     "name": { "str": "toast-em" },
     "weight": "50 g",
@@ -21,7 +22,8 @@
     "fun": 20
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "toastem2",
     "name": { "str": "toast-em" },
     "copy-from": "toastem",
@@ -29,7 +31,8 @@
     "fun": 15
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "toastem3",
     "name": { "str": "toast-em" },
     "copy-from": "toastem",
@@ -37,7 +40,8 @@
     "fun": 10
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "toastem4",
     "name": { "str": "homemade toast-em" },
     "copy-from": "toastem",
@@ -45,7 +49,8 @@
     "fun": 10
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "toasterpastryfrozen",
     "name": { "str": "toaster pastry (uncooked)", "str_pl": "toaster pastries (uncooked)" },
     "weight": "52 g",
@@ -66,7 +71,8 @@
     "vitamins": [ [ "iron", 10 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "toasterpastry",
     "name": { "str": "toaster pastry", "str_pl": "toaster pastries" },
     "copy-from": "toasterpastryfrozen",
@@ -75,7 +81,8 @@
     "fun": 20
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "homemade_toasterpastry",
     "name": { "str": "toaster pastry", "str_pl": "toaster pastries" },
     "copy-from": "toasterpastryfrozen",
@@ -84,7 +91,8 @@
     "fun": 20
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "homemade_toasterpastry2",
     "name": { "str": "toaster pastry with buttercream", "str_pl": "toaster pastries with buttercream" },
     "copy-from": "toasterpastryfrozen",
@@ -94,7 +102,8 @@
     "fun": 30
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "buttercream",
     "name": { "str": "buttercream icing", "str_pl": "cups of buttercream icing" },
     "weight": "32 g",
@@ -113,7 +122,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chips2",
     "name": { "str_sp": "potato chips" },
     "copy-from": "chips",
@@ -121,7 +131,8 @@
     "fun": 3
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chips3",
     "name": { "str_sp": "potato chips" },
     "copy-from": "chips",
@@ -130,7 +141,8 @@
     "fun": 12
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pretzels",
     "name": { "str_sp": "pretzels" },
     "weight": "62 g",
@@ -151,7 +163,8 @@
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chocpretzels",
     "name": { "str_sp": "chocolate-covered pretzel" },
     "weight": "96 g",
@@ -172,7 +185,8 @@
     "vitamins": [ [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chocolate",
     "name": { "str": "chocolate bar" },
     "weight": "43 g",
@@ -192,7 +206,8 @@
     "fun": 10
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "marshmallow",
     "name": { "str_sp": "marshmallows" },
     "weight": "53 g",
@@ -212,7 +227,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "smores",
     "name": { "str_sp": "s'mores" },
     "weight": "180 g",
@@ -232,7 +248,8 @@
     "fun": 20
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "candy",
     "name": { "str_sp": "peanut butter candy" },
     "weight": "33 g",
@@ -254,7 +271,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "candy2",
     "name": { "str_sp": "chocolate candy" },
     "weight": "33 g",
@@ -275,7 +293,8 @@
     "fun": 3
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "candy3",
     "name": { "str_sp": "chewy candy" },
     "weight": "33 g",
@@ -296,7 +315,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "candy4",
     "name": { "str_sp": "gummy candy" },
     "weight": "33 g",
@@ -317,7 +337,8 @@
     "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "candy5",
     "name": { "str_sp": "vegan gummy candy" },
     "weight": "33 g",
@@ -338,14 +359,16 @@
     "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "candy3gator",
     "name": { "str_sp": "chewy reptilian candy" },
     "copy-from": "candy3",
     "description": "A handful of colorful fruit-flavored chewy candies shaped in a reptilian fashion.  Made by SugarRush."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cow_candy",
     "name": { "str_sp": "candy cattle" },
     "description": "A handful of chocolate candies shaped like cows.",
@@ -354,7 +377,8 @@
     "color": "brown"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "licorice",
     "name": { "str_sp": "licorice" },
     "container": "bag_plastic_small",
@@ -375,7 +399,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "powder_candy",
     "name": { "str_sp": "powder candy sticks" },
     "weight": "46 g",
@@ -396,7 +421,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE", "ARMOR" ],
     "id": "candy_bracelet",
     "name": { "str": "candy bracelet" },
     "looks_like": "copper_bracelet",
@@ -404,14 +430,13 @@
     "description": "A candy bracelet made by stringing candies onto a thread.  In theory, you could both wear and eat the bracelet.",
     "copy-from": "candy4",
     "material": [ "junk" ],
-    "armor_data": {
-      "sided": true,
-      "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
-    },
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "sided": true,
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "maple_candy",
     "name": { "str_sp": "maple syrup candy" },
     "weight": "18 g",
@@ -433,7 +458,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "grahmcrackers",
     "name": { "str": "graham cracker" },
     "weight": "31 g",
@@ -454,14 +480,16 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "grahmcrackers_roe",
     "name": { "str_sp": "graham cracker chunks" },
     "copy-from": "grahmcrackers",
     "description": "These dry, sugary cracker pellets will leave you thirsty, and they're not the right size to make s'mores with.  Made by SugarRush!"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cookies",
     "name": { "str": "cookie" },
     "weight": "11 g",
@@ -483,14 +511,16 @@
     "fun": 7
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cookies_egg",
     "name": { "str": "cookie egg" },
     "copy-from": "cookies",
     "description": "A sweet, delicious cookie, shaped like an egg.  Made by SugarRush!"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "syrup",
     "name": { "str_sp": "maple syrup" },
     "weight": "21 g",
@@ -512,7 +542,8 @@
     "freezing_point": -57
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "beet_syrup",
     "name": { "str_sp": "sugar beet syrup" },
     "weight": "15 g",
@@ -532,7 +563,54 @@
     "charges": 16
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "syrup_simple",
+    "name": { "str_sp": "simple syrup" },
+    "weight": "21 g",
+    "color": "light_gray",
+    "container": "bottle_glass",
+    "spoils_in": "30 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 16,
+    "calories": 34,
+    "description": "A simple syrup, made of just sugar and water.  Used usually as a sweetener for stuff like cocktails.",
+    "price": "6 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "material": [ "water" ],
+    "volume": "250 ml",
+    "phase": "liquid",
+    "charges": 16,
+    "fun": -1,
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "freezing_point": -57
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "syrup_corn",
+    "name": { "str_sp": "corn syrup" },
+    "weight": "21 g",
+    "color": "yellow",
+    "container": "bottle_glass",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 1,
+    "calories": 60,
+    "description": "A syrup made from corn.",
+    "price": "6 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "material": [ "junk" ],
+    "volume": "250 ml",
+    "phase": "liquid",
+    "charges": 16,
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "freezing_point": -57
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "jihelucake",
     "name": { "str": "cake" },
     "weight": "38 g",
@@ -550,7 +628,8 @@
     "fun": 15
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cake2",
     "name": { "str": "cake" },
     "spoils_in": "4 days",
@@ -559,7 +638,8 @@
     "description": "Delicious chocolate cake.  It has all the icing.  All of it."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cake3",
     "name": { "str": "cake" },
     "spoils_in": "4 days",
@@ -570,7 +650,8 @@
     "fun": 20
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "debug_calories",
     "name": { "str": "unholy debug angel cake" },
     "spoils_in": "4 days",
@@ -580,7 +661,8 @@
     "fun": 20
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "choco_coffee_beans",
     "name": { "str_sp": "chocolate-covered coffee beans" },
     "weight": "30 g",
@@ -605,7 +687,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fries",
     "name": { "str_sp": "fast-food French fries" },
     "weight": "71 g",
@@ -627,7 +710,8 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fresh_fries",
     "name": { "str_sp": "French fries" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "groundnut_prepared", "name": { "str_sp": "ground nut fries" } } ],
@@ -636,7 +720,8 @@
     "fun": 3
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mintpatties",
     "name": { "str": "peppermint patty", "str_pl": "peppermint patties" },
     "weight": "43 g",
@@ -657,7 +742,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "neccowafers",
     "name": { "str_sp": "Necco wafers" },
     "weight": "60 g",
@@ -679,7 +765,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "candycigarette",
     "name": { "str": "candy cigarette" },
     "weight": "18 g",
@@ -701,7 +788,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sugar_fried",
     "name": { "str_sp": "caramel" },
     "weight": "30 g",
@@ -721,7 +809,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "caramel_apple",
     "name": { "str": "caramel apple" },
     "weight": "192 g",
@@ -740,7 +829,8 @@
     "fun": 5
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chips",
     "name": { "str_sp": "potato chips" },
     "weight": "28 g",
@@ -761,7 +851,8 @@
     "fun": 6
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "nachos",
     "name": { "str_sp": "tortilla chips" },
     "weight": "60 g",
@@ -782,7 +873,8 @@
     "fun": 8
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "nachosc",
     "name": { "str_sp": "cheese nachos" },
     "weight": "150 g",
@@ -804,7 +896,8 @@
     "vitamins": [ [ "calcium", 12 ], [ "iron", 6 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "nachosm",
     "name": { "str_sp": "meat nachos" },
     "conditional_names": [
@@ -831,7 +924,8 @@
     "vitamins": [ [ "vitC", 5 ], [ "calcium", 2 ], [ "iron", 24 ], [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "nachosmc",
     "name": { "str_sp": "meat nachos with cheese" },
     "conditional_names": [
@@ -862,7 +956,8 @@
     "vitamins": [ [ "calcium", 10 ], [ "iron", 12 ], [ "meat_allergen", 1 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "nachosv",
     "copy-from": "nachos",
     "name": { "str_sp": "vegetarian nachos" },
@@ -882,7 +977,8 @@
     "vitamins": [ [ "calcium", 8 ], [ "iron", 17 ], [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "nachosvc",
     "copy-from": "nachos",
     "name": { "str_sp": "vegetarian nachos with cheese" },
@@ -903,7 +999,8 @@
     "vitamins": [ [ "calcium", 13 ], [ "iron", 17 ], [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "porkstick",
     "name": { "str": "pork stick" },
     "weight": "56 g",
@@ -924,7 +1021,8 @@
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "junk_burrito",
     "name": { "str": "microwave burrito" },
     "weight": "142 g",
@@ -947,7 +1045,8 @@
     "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "frozen_dinner",
     "name": { "str_sp": "uncooked TV dinner" },
     "weight": "453 g",
@@ -969,7 +1068,8 @@
     "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cooked_dinner",
     "name": { "str_sp": "cooked TV dinner" },
     "weight": "450 g",
@@ -991,7 +1091,8 @@
     "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fchicken",
     "name": { "str_sp": "deep-fried chicken" },
     "weight": "168 g",
@@ -1011,7 +1112,8 @@
     "vitamins": [ [ "iron", 4 ], [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chilidogs",
     "name": { "str": "chili dog" },
     "weight": "318 g",
@@ -1039,7 +1141,8 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "corndogs_frozen",
     "name": { "str": "uncooked corn dog" },
     "weight": "78 g",
@@ -1059,7 +1162,8 @@
     "vitamins": [ [ "calcium", 6 ], [ "iron", 8 ], [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "corndogs_cooked",
     "name": { "str": "cooked corn dog" },
     "copy-from": "corndogs_frozen",
@@ -1070,7 +1174,8 @@
     "fun": 18
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "corndogs_homemade",
     "name": { "str": "homemade corn dog" },
     "copy-from": "corndogs_frozen",
@@ -1081,7 +1186,8 @@
     "volume": "250 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "choc_pancakes",
     "copy-from": "pancakes",
     "name": { "str": "chocolate pancake" },
@@ -1097,7 +1203,8 @@
     "vitamins": [ [ "calcium", 5 ], [ "iron", 17 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "choc_waffles",
     "name": { "str": "chocolate waffle" },
     "weight": "70 g",
@@ -1117,7 +1224,8 @@
     "vitamins": [ [ "calcium", 25 ], [ "iron", 25 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "can_cheese",
     "name": { "str": "cheese spread" },
     "weight": "30 g",
@@ -1138,7 +1246,8 @@
     "vitamins": [ [ "calcium", 15 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cheese_fries",
     "name": { "str_sp": "cheese fries" },
     "weight": "101 g",
@@ -1160,7 +1269,8 @@
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 17 ], [ "iron", 3 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "onion_rings",
     "name": { "str_sp": "onion rings" },
     "weight": "166 g",
@@ -1181,7 +1291,8 @@
     "vitamins": [ [ "calcium", 4 ], [ "iron", 7 ], [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hotdogs_frozen",
     "name": { "str": "uncooked hot dog" },
     "weight": "43 g",
@@ -1203,7 +1314,8 @@
   },
   {
     "id": "hotdogs_campfire",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "campfire hot dog" },
     "copy-from": "hotdogs_frozen",
     "description": "A simple hot dog, cooked over an open fire.  Would be better on a bun, but it's quite an improvement over eating it uncooked.",
@@ -1211,7 +1323,8 @@
     "volume": "187 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hotdogs_cooked",
     "name": { "str": "cooked hot dog" },
     "weight": "383 g",
@@ -1239,7 +1352,8 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hotdogs_newyork",
     "name": { "str": "new york wiener" },
     "copy-from": "hotdogs_cooked",
@@ -1253,7 +1367,8 @@
     "//": "The fun value is high to justify crafting this versus a normal hot dog."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "maltballs",
     "name": { "str_sp": "malted milk balls" },
     "weight": "40 g",
@@ -1276,7 +1391,8 @@
     "fun": 6
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "candy_coated_peanuts",
     "name": { "ctxt": "candy-coated peanuts", "str_sp": "candy-coated peanuts" },
     "weight": "30 g",
@@ -1299,7 +1415,8 @@
     "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ], [ "junk_allergen", 1 ], [ "nut_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "freeze_dried_meal",
     "name": { "str": "freeze-dried meal" },
     "weight": "175 g",
@@ -1320,7 +1437,8 @@
     "fun": -2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "freeze_dried_meal_hydrated",
     "name": { "str": "rehydrated freeze-dried meal" },
     "weight": "675 g",
@@ -1341,7 +1459,8 @@
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chocolate_military",
     "name": { "str": "military chocolate bar" },
     "color": "brown",
@@ -1359,7 +1478,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "gelatin_dessert_powder",
     "name": { "str_sp": "gelatin dessert powder" },
     "weight": "175 g",
@@ -1380,7 +1500,8 @@
     "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "gelatin_dessert_base",
     "name": "unflavored gelatin dessert",
     "weight": "232 g",
@@ -1400,7 +1521,8 @@
     "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "gelatin_dessert_processed",
     "name": "processed gelatin dessert",
     "description": "A jiggly, sugary, fruit-flavored treat made from boxed mix.  A kid favorite pre-Cataclysm.",
@@ -1408,7 +1530,8 @@
     "copy-from": "gelatin_dessert_base"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "gelatin_dessert_homemade",
     "name": "homemade gelatin dessert",
     "color": "light_red",
@@ -1417,7 +1540,8 @@
     "copy-from": "gelatin_dessert_base"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "gelatin_dessert_fruit",
     "name": "fruit filled gelatin dessert",
     "color": "light_red",
@@ -1426,7 +1550,8 @@
     "copy-from": "gelatin_dessert_base"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "gelatin_dessert_vegan",
     "name": "vegan gelatin dessert",
     "color": "light_green",
@@ -1437,7 +1562,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "gelatin_dessert_vegan_fruit",
     "name": "fruit filled vegan gelatin dessert",
     "color": "light_green",
@@ -1448,7 +1574,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pasta_carbonara",
     "name": { "str_sp": "pasta carbonara" },
     "weight": "209 g",
@@ -1471,7 +1598,8 @@
     "fun": 8
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "amatriciana_pasta",
     "name": { "str_sp": "amatriciana pasta" },
     "weight": "209 g",
@@ -1494,7 +1622,8 @@
     "fun": 8
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "crepe_plain",
     "name": { "str": "plain crepe" },
     "description": "Krampouezh, known worldwide as 'crepe' is a traditional, thin Breton pancake.",
@@ -1515,7 +1644,8 @@
     "vitamins": [ [ "calcium", 6 ], [ "iron", 4 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "crepe",
     "name": { "str": "crepe" },
     "description": "Krampouezh, known worldwide as 'crepe' is a traditional, thin Breton pancake.",
@@ -1534,5 +1664,30 @@
     "calories": 180,
     "fun": 3,
     "vitamins": [ [ "calcium", 6 ], [ "iron", 4 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "marshmallow_fluff",
+    "//": "Based on https://www.target.com/p/marshmallow-fluff-frosting-16oz/-/A-14773337",
+    "name": { "str_sp": "marshmallow fluff" },
+    "weight": "11 g",
+    "color": "white",
+    "spoils_in": "90 days",
+    "container": "jar_glass_sealed",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "calories": 40,
+    "description": "Delicious and creamy delight, half of the famous Fluffernutter.",
+    "price": "2 USD 99 cent",
+    "price_postapoc": "10 USD",
+    "material": [ "junk", "egg" ],
+    "sealed": true,
+    "volume": "500 ml",
+    "phase": "liquid",
+    "charges": 40,
+    "fun": 10,
+    "flags": [ "USE_EAT_VERB" ],
+    "vitamins": [ [ "junk_allergen", 1 ], [ "egg_allergen", 1 ] ]
   }
 ]

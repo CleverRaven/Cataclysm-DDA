@@ -3,32 +3,30 @@
 #include <algorithm>
 #include <array>
 #include <cstddef>
+#include <initializer_list>
 #include <iterator>
 #include <memory>
 #include <numeric>
 #include <utility>
 
 #include "action.h"
-#include "activity_type.h"
 #include "avatar.h"
 #include "build_reqs.h"
 #include "calendar.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "color.h"
 #include "construction_category.h"
 #include "construction_group.h"
 #include "coordinates.h"
+#include "crafting.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "cursesport.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
@@ -37,12 +35,11 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_stack.h"
 #include "iteminfo_query.h"
 #include "iuse.h"
-#include "json_error.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "messages.h"
@@ -50,13 +47,11 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
-#include "overmap.h"
 #include "panels.h"
 #include "player_activity.h"
 #include "point.h"
 #include "requirements.h"
 #include "rng.h"
-#include "sdltiles.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -64,14 +59,22 @@
 #include "translation_cache.h"
 #include "translations.h"
 #include "trap.h"
-#include "ui.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+#if defined(TILES)
+#include "cached_options.h"    // for use_tiles
+#include "cata_tiles.h"        // for cata_tiles
+#include "cuboid_rectangle.h"  // for half_open_rectangle
+#include "cursesport.h"        // for get_scaling_factor (??)
+#include "sdltiles.h"          // for tilecontext
+#endif
 
 class read_only_visitable;
 
@@ -588,7 +591,8 @@ construction_id construction_menu( const bool blueprint )
                     continue;
                 }
                 // Update the cached availability of components and tools in the requirement object
-                current_con->requirements->can_make_with_inventory( total_inv, is_crafting_component );
+                current_con->requirements->can_make_with_inventory( total_inv, is_crafting_component, 1,
+                        craft_flags::none, false );
 
                 std::vector<std::string> current_buffer;
 
@@ -1058,6 +1062,8 @@ construction_id construction_menu( const bool blueprint )
                     if( constructs[select] != construction_group_deconstruct_simple_furniture &&
                         !player_can_see_to_build( player_character, constructs[select] ) ) {
                         add_msg( m_info, _( "It is too dark to construct right now." ) );
+                    } else if( !g->warn_player_maybe_anger_local_faction( true ) ) {
+                        continue; // player declined to mess with faction's stuff
                     } else {
                         draw_preview.reset();
                         restore_view.reset();
@@ -1132,7 +1138,8 @@ bool player_can_build( Character &you, const read_only_visitable &inv, const con
     }
 
     // check for construction spot can be skipped by using can_construct_skip
-    return con.requirements->can_make_with_inventory( inv, is_crafting_component ) &&
+    return con.requirements->can_make_with_inventory( inv, is_crafting_component, 1, craft_flags::none,
+            false ) &&
            ( can_construct_skip || can_construct( con ) );
 }
 
@@ -1657,7 +1664,7 @@ void construct::done_grave( const tripoint_bub_ms &p, Character &player_characte
     }
     if( player_character.has_quality( qual_CUT ) ) {
         iuse::handle_ground_graffiti( player_character, nullptr, _( "Inscribe something on the grave?" ),
-                                      p );
+                                      &here, p );
     } else {
         add_msg( m_neutral,
                  _( "Unfortunately you don't have anything sharp to place an inscription on the grave." ) );
@@ -1719,7 +1726,7 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
     const item &base = components.front();
 
     veh->name = name;
-    const int partnum = veh->install_part( point_rel_ms::zero, vpart_from_item( base.typeId() ),
+    const int partnum = veh->install_part( here, point_rel_ms::zero, vpart_from_item( base.typeId() ),
                                            item( base ) );
     veh->part( partnum ).set_flag( vp_flag::unsalvageable_flag );
 
@@ -1730,9 +1737,10 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
 
 void construct::done_wiring( const tripoint_bub_ms &p, Character &who )
 {
-    get_map().partial_con_remove( p );
+    map &here = get_map();
+    here.partial_con_remove( p );
 
-    place_appliance( p, vpart_from_item( itype_wall_wiring ), who );
+    place_appliance( here, p, vpart_from_item( itype_wall_wiring ), who );
 }
 
 void construct::done_appliance( const tripoint_bub_ms &p, Character &who )
@@ -1756,7 +1764,7 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character &who )
     const item &base = components.front();
     const vpart_id &vpart = vpart_appliance_from_item( base.typeId() );
 
-    place_appliance( p, vpart, who, base );
+    place_appliance( here, p, vpart, who, base );
 }
 
 void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_character )
@@ -2517,9 +2525,9 @@ void finalize_constructions()
 }
 
 build_reqs get_build_reqs_for_furn_ter_ids(
-    const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids,
-    ter_id const &base_ter )
+    const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids )
 {
+    ter_id const &base_ter = ter_t_dirt.id();
     build_reqs total_reqs;
 
     if( !finalized ) {

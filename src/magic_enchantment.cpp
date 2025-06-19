@@ -1,26 +1,31 @@
 #include "magic_enchantment.h"
 
-#include <cstdlib>
+#include <memory>
 #include <set>
 #include <string>
 
-#include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "condition.h"
+#include "coordinates.h"
 #include "creature.h"
+#include "damage.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "dialogue_helpers.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"
 #include "map.h"
-#include "point.h"
+#include "mod_tracker.h"
+#include "monster.h"
 #include "rng.h"
 #include "skill.h"
+#include "talker.h"
 #include "units.h"
 
 namespace io
@@ -76,6 +81,7 @@ namespace io
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
             case enchant_vals::mod::REGEN_HP_AWAKE: return "REGEN_HP_AWAKE";
             case enchant_vals::mod::MUT_INSTABILITY_MOD: return "MUT_INSTABILITY_MOD";
+            case enchant_vals::mod::MUT_ADDITIONAL_OPTIONS: return "MUT_ADDITIONAL_OPTIONS";
             case enchant_vals::mod::RANGE_DODGE: return "RANGE_DODGE";
             case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
@@ -89,6 +95,7 @@ namespace io
             case enchant_vals::mod::PAIN_PENALTY_MOD_PER: return "PAIN_PENALTY_MOD_PER";
             case enchant_vals::mod::PAIN_PENALTY_MOD_SPEED: return "PAIN_PENALTY_MOD_SPEED";
             case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
+            case enchant_vals::mod::MELEE_RANGE_MODIFIER: return "MELEE_RANGE_MODIFIER";
             case enchant_vals::mod::MELEE_TO_HIT: return "MELEE_TO_HIT";
             case enchant_vals::mod::RANGED_DAMAGE: return "RANGED_DAMAGE";
 			case enchant_vals::mod::RANGED_ARMOR_PENETRATION: return "RANGED_ARMOR_PENETRATION";
@@ -163,6 +170,8 @@ namespace io
             case enchant_vals::mod::STAMINA_REGEN_MOD: return "STAMINA_REGEN_MOD";
             case enchant_vals::mod::MOVEMENT_EXERTION_MODIFIER: return "MOVEMENT_EXERTION_MODIFIER";
             case enchant_vals::mod::WEAKPOINT_ACCURACY: return "WEAKPOINT_ACCURACY";
+            case enchant_vals::mod::WEIGHT: return "WEIGHT";
+            case enchant_vals::mod::MOTION_ALARM: return "MOTION_ALARM";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );
@@ -189,7 +198,7 @@ bool string_id<enchantment>::is_valid() const
 
 template<typename TKey>
 void load_add_and_multiply( const JsonObject &jo, const bool &is_child,
-                            const std::string_view array_key, const std::string &type_key, std::map<TKey, dbl_or_var> &add_map,
+                            std::string_view array_key, const std::string &type_key, std::map<TKey, dbl_or_var> &add_map,
                             std::map<TKey, dbl_or_var> &mult_map )
 {
     if( !is_child && jo.has_array( array_key ) ) {
@@ -219,7 +228,7 @@ void load_add_and_multiply( const JsonObject &jo, const bool &is_child,
 }
 
 template<typename TKey>
-void load_add_and_multiply( const JsonObject &jo, const std::string_view array_key,
+void load_add_and_multiply( const JsonObject &jo, std::string_view array_key,
                             const std::string &type_key, std::map<TKey, double> &add_map, std::map<TKey, double> &mult_map )
 {
     if( jo.has_array( array_key ) ) {
@@ -252,7 +261,7 @@ void enchantment::reset()
 }
 
 enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv,
-        const std::string_view src,
+        std::string_view src,
         std::string &inline_id )
 {
     if( jv.test_string() ) {
@@ -316,7 +325,6 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
 
 bool enchantment::is_active( const monster &mon ) const
 {
-    //This is very limited at the moment. Basically, we can't use any conditions except "ALWAYS"
     if( active_conditions.second == condition::ALWAYS ) {
         return true;
     }
@@ -398,7 +406,7 @@ void enchantment::bodypart_changes::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void enchantment::load( const JsonObject &jo, const std::string_view,
+void enchantment::load( const JsonObject &jo, std::string_view,
                         const std::optional<std::string> &inline_id, bool is_child )
 {
     optional( jo, was_loaded, "id", id, enchantment_id( inline_id.value_or( "" ) ) );
@@ -462,6 +470,9 @@ void enchantment::load( const JsonObject &jo, const std::string_view,
     load_add_and_multiply<skill_id>( jo, is_child, "skills", "value",
                                      skill_values_add, skill_values_multiply );
 
+    load_add_and_multiply<bodypart_str_id>( jo, is_child, "encumbrance_modifier", "part",
+                                            encumbrance_values_add, encumbrance_values_multiply );
+
     load_add_and_multiply<damage_type_id>( jo, is_child, "melee_damage_bonus", "type",
                                            damage_values_add, damage_values_multiply );
 
@@ -497,7 +508,7 @@ void enchantment::load( const JsonObject &jo, const std::string_view,
     }
 }
 
-void enchant_cache::load( const JsonObject &jo, const std::string_view,
+void enchant_cache::load( const JsonObject &jo, std::string_view,
                           const std::optional<std::string> &inline_id )
 {
     enchantment::load( jo, "", inline_id, true );
@@ -574,6 +585,9 @@ void enchant_cache::load( const JsonObject &jo, const std::string_view,
 
     load_add_and_multiply<skill_id>( jo, "skills", "value",
                                      skill_values_add, skill_values_multiply );
+
+    load_add_and_multiply<bodypart_str_id>( jo, "encumbrance_modifier", "part",
+                                            encumbrance_values_add, encumbrance_values_multiply );
 
     load_add_and_multiply<damage_type_id>( jo, "melee_damage_bonus", "type",
                                            damage_values_add, damage_values_multiply );
@@ -709,6 +723,21 @@ void enchant_cache::serialize( JsonOut &jsout ) const
     }
     jsout.end_array();
 
+    jsout.member( "encumbrance_modifier" );
+    jsout.start_array();
+    for( const body_part_type &bt : body_part_type::get_all() ) {
+        jsout.start_object();
+        jsout.member( "part", bt.id );
+        if( get_encumbrance_add( bt.id ) != 0 ) {
+            jsout.member( "add", get_encumbrance_add( bt.id ) );
+        }
+        if( get_encumbrance_multiply( bt.id ) != 0 ) {
+            jsout.member( "multiply", get_encumbrance_multiply( bt.id ) );
+        }
+        jsout.end_object();
+    }
+    jsout.end_array();
+
     jsout.member( "incoming_damage_mod" );
     jsout.start_array();
     for( const damage_type &dt : damage_type::get_all() ) {
@@ -749,6 +778,7 @@ void enchant_cache::serialize( JsonOut &jsout ) const
         for( const special_vision_descriptions &struc_desc : struc.special_vision_descriptions_vector ) {
             jsout.start_object();
             jsout.member( "id", struc_desc.id );
+            jsout.member( "text", struc_desc.text );
             jsout.end_object();
         }
         jsout.end_array();
@@ -821,6 +851,16 @@ void enchant_cache::force_add( const enchant_cache &rhs )
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
         damage_values_multiply[pair_values.first] += pair_values.second;
+    }
+
+    for( const std::pair<const bodypart_str_id, double> &pair_values : rhs.encumbrance_values_add ) {
+        encumbrance_values_add[pair_values.first] += pair_values.second;
+    }
+    for( const std::pair<const bodypart_str_id, double> &pair_values :
+         rhs.encumbrance_values_multiply ) {
+        // values do not multiply against each other, they add.
+        // so +10% and -10% will add to 0%
+        encumbrance_values_multiply[pair_values.first] += pair_values.second;
     }
 
     for( const std::pair<const damage_type_id, double> &pair_values : rhs.armor_values_add ) {
@@ -931,6 +971,23 @@ void enchant_cache::force_add_with_dialogue( const enchantment &rhs, const const
             skill_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
         } else {
             skill_values_multiply[pair_values.first] += pair_values.second.constant();
+        }
+    }
+
+    for( const std::pair<const bodypart_str_id, dbl_or_var> &pair_values :
+         rhs.encumbrance_values_add ) {
+        if( evaluate ) {
+            encumbrance_values_add[pair_values.first] += pair_values.second.evaluate( d );
+        } else {
+            encumbrance_values_add[pair_values.first] += pair_values.second.constant();
+        }
+    }
+    for( const std::pair<const bodypart_str_id, dbl_or_var> &pair_values :
+         rhs.encumbrance_values_multiply ) {
+        if( evaluate ) {
+            encumbrance_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
+        } else {
+            encumbrance_values_multiply[pair_values.first] += pair_values.second.constant();
         }
     }
 
@@ -1080,8 +1137,8 @@ enchantment::special_vision enchantment::get_vision( const const_dialogue &d ) c
         return {};
     }
 
-    const double distance = rl_dist_exact( d.const_actor( true )->pos_bub(),
-                                           d.const_actor( false )->pos_bub() );
+    const double distance = rl_dist_exact( d.const_actor( true )->pos_abs(),
+                                           d.const_actor( false )->pos_abs() );
 
     // first iterate over structs that has ignores_aiming_cone true
     // to prevent cata_tiles::draw_critter_at() from picking texture
@@ -1150,6 +1207,15 @@ int enchant_cache::get_damage_add( const damage_type_id &value ) const
     return found->second;
 }
 
+int enchant_cache::get_encumbrance_add( const bodypart_str_id &value ) const
+{
+    const auto found = encumbrance_values_add.find( value );
+    if( found == encumbrance_values_add.cend() ) {
+        return 0;
+    }
+    return found->second;
+}
+
 int enchant_cache::get_armor_add( const damage_type_id &value ) const
 {
     const auto found = armor_values_add.find( value );
@@ -1183,8 +1249,8 @@ enchant_cache::special_vision enchant_cache::get_vision( const const_dialogue &d
         return {};
     }
 
-    const double distance = rl_dist_exact( d.const_actor( true )->pos_bub(),
-                                           d.const_actor( false )->pos_bub() );
+    const double distance = rl_dist_exact( d.const_actor( true )->pos_abs(),
+                                           d.const_actor( false )->pos_abs() );
 
     for( const special_vision &struc : special_vision_vector ) {
         if( struc.ignores_aiming_cone && struc.range >= distance && struc.condition( d ) ) {
@@ -1244,6 +1310,15 @@ double enchant_cache::get_armor_multiply( const damage_type_id &value ) const
 {
     const auto found = armor_values_multiply.find( value );
     if( found == armor_values_multiply.cend() ) {
+        return 0;
+    }
+    return found->second;
+}
+
+double enchant_cache::get_encumbrance_multiply( const bodypart_str_id &value ) const
+{
+    const auto found = encumbrance_values_multiply.find( value );
+    if( found == encumbrance_values_multiply.cend() ) {
         return 0;
     }
     return found->second;
@@ -1316,6 +1391,13 @@ double enchant_cache::modify_melee_damage( const damage_type_id &mod_val, double
 {
     value += get_damage_add( mod_val );
     value *= 1.0 + get_damage_multiply( mod_val );
+    return value;
+}
+
+double enchant_cache::modify_encumbrance( const bodypart_str_id &mod_val, double value ) const
+{
+    value += get_encumbrance_add( mod_val );
+    value *= 1.0 + get_encumbrance_multiply( mod_val );
     return value;
 }
 
@@ -1473,6 +1555,8 @@ void enchant_cache::clear()
     damage_values_multiply.clear();
     armor_values_add.clear();
     armor_values_multiply.clear();
+    encumbrance_values_add.clear();
+    encumbrance_values_multiply.clear();
     extra_damage_add.clear();
     extra_damage_multiply.clear();
     special_vision_vector.clear();

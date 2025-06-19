@@ -3,25 +3,41 @@
     "type": "keybinding",
     "id": "UILIST.UP",
     "name": "Pan up",
-    "bindings": [ { "input_method": "keyboard_any", "key": "UP" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "UP" },
+      { "input_method": "keyboard_any", "key": "8" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_8" }
+    ]
   },
   {
     "type": "keybinding",
     "id": "UILIST.DOWN",
     "name": "Pan down",
-    "bindings": [ { "input_method": "keyboard_any", "key": "DOWN" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "DOWN" },
+      { "input_method": "keyboard_any", "key": "2" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_2" }
+    ]
   },
   {
     "type": "keybinding",
     "id": "UILIST.LEFT",
     "name": "Pan left",
-    "bindings": [ { "input_method": "keyboard_any", "key": "LEFT" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "LEFT" },
+      { "input_method": "keyboard_any", "key": "4" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_4" }
+    ]
   },
   {
     "type": "keybinding",
     "id": "UILIST.RIGHT",
     "name": "Pan right",
-    "bindings": [ { "input_method": "keyboard_any", "key": "RIGHT" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "RIGHT" },
+      { "input_method": "keyboard_any", "key": "6" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_6" }
+    ]
   },
   {
     "type": "keybinding",
@@ -2027,6 +2043,12 @@
   },
   {
     "type": "keybinding",
+    "id": "EDITMAP_TOGGLE_POST_PROCESS_GENERATORS",
+    "name": "Toggle post-process generators",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "EDITMAP_TAB",
     "name": "Switch to move point / confirm",
     "bindings": [ { "input_method": "keyboard_any", "key": "TAB" } ]
@@ -2315,55 +2337,35 @@
     "name": "Center view",
     "category": "DEFAULTMODE",
     "id": "center",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": ":" },
-      { "input_method": "keyboard_code", "key": ";", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "JOY_8" }
-    ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_8" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view north",
     "category": "DEFAULTMODE",
     "id": "shift_n",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": "K" },
-      { "input_method": "keyboard_code", "key": "k", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "JOY_21" }
-    ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_21" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view east",
     "category": "DEFAULTMODE",
     "id": "shift_e",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": "L" },
-      { "input_method": "keyboard_code", "key": "l", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "JOY_22" }
-    ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_22" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view south",
     "category": "DEFAULTMODE",
     "id": "shift_s",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": "J" },
-      { "input_method": "keyboard_code", "key": "j", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "JOY_23" }
-    ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_23" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view west",
     "category": "DEFAULTMODE",
     "id": "shift_w",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": "H" },
-      { "input_method": "keyboard_code", "key": "h", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "JOY_24" }
-    ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_24" } ]
   },
   {
     "type": "keybinding",

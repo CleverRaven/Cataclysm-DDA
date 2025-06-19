@@ -1,60 +1,50 @@
 #include "map_extras.h"
 
-#include <algorithm>
 #include <array>
 #include <cstdlib>
 #include <functional>
 #include <map>
-#include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "auto_note.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "cellular_automata.h"
 #include "character_id.h"
-#include "city.h"
-#include "colony.h"
 #include "coordinates.h"
-#include "creature_tracker.h"
+#include "current_map.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "field_type.h"
+#include "flexbuffer_json.h"
 #include "fungal_effects.h"
-#include "game.h"
-#include "game_constants.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
-#include "json.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
-#include "mongroup.h"
-#include "options.h"
-#include "overmap.h"
+#include "omdata.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "regional_settings.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sets_intersect.h"
 #include "string_formatter.h"
-#include "string_id.h"
-#include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -91,6 +81,7 @@ static const furn_str_id furn_f_sign_warning( "f_sign_warning" );
 static const furn_str_id furn_f_tourist_table( "f_tourist_table" );
 static const furn_str_id furn_f_wreckage( "f_wreckage" );
 
+static const item_group_id Item_spawn_data_SUS_trash_floor( "SUS_trash_floor" );
 static const item_group_id Item_spawn_data_ammo_casings( "ammo_casings" );
 static const item_group_id Item_spawn_data_army_bed( "army_bed" );
 static const item_group_id Item_spawn_data_everyday_corpse( "everyday_corpse" );
@@ -99,7 +90,6 @@ static const item_group_id Item_spawn_data_mine_equipment( "mine_equipment" );
 static const item_group_id
 Item_spawn_data_mon_zombie_soldier_death_drops( "mon_zombie_soldier_death_drops" );
 static const item_group_id Item_spawn_data_remains_human_generic( "remains_human_generic" );
-static const item_group_id Item_spawn_data_trash_cart( "trash_cart" );
 
 static const itype_id itype_223_casing( "223_casing" );
 static const itype_id itype_762_51_casing( "762_51_casing" );
@@ -373,25 +363,24 @@ static bool mx_helicopter( map &m, const tripoint_abs_sm &abs_sub )
         // we can rotate it and calculate its bounding box, but don't place it on the map.
         vehicle veh( crashed_hull );
         veh.turn( dir1 );
-        // Get the bounding box, centered on mount(0,0), move the wreckage forward/backward
-        // half it's length so that it spawns more over the center of the debris area
+        // Find where the center of the vehicle is and adjust the spawn position to get it centered in the
+        // debris area.
         const bounding_box bbox = veh.get_bounding_box();
-        const point_rel_ms length( std::abs( bbox.p2.x() - bbox.p1.x() ),
-                                   std::abs( bbox.p2.y() - bbox.p1.y() ) );
-        const point_rel_ms offset( veh.dir_vec().x * length.x() / 2, veh.dir_vec().y * length.y() / 2 );
-        const point_rel_ms min( std::abs( bbox.p1.x() ), std::abs( bbox.p1.y() ) );
-        const int x_max = SEEX * 2 - bbox.p2.x() - 1;
-        const int y_max = SEEY * 2 - bbox.p2.y() - 1;
 
+        point_rel_ms center_offset = {( bbox.p1.x() + bbox.p2.x() ) / 2, ( bbox.p1.y() + bbox.p2.y() ) / 2};
         // Clamp x1 & y1 such that no parts of the vehicle extend over the border of the submap.
-        wreckage_pos = { clamp( c.x() + offset.x(), min.x(), x_max ), clamp( c.y() + offset.y(), min.y(), y_max ), abs_sub.z()};
+
+        wreckage_pos = { clamp( c.x() - center_offset.x(), std::abs( bbox.p1.x() ), SEEX * 2 - 1 - std::abs( bbox.p2.x() ) ),
+                         clamp( c.y() - center_offset.y(), std::abs( bbox.p1.y() ), SEEY * 2 - 1 - std::abs( bbox.p2.y() ) ),
+                         abs_sub.z()
+                       };
     }
 
     vehicle *wreckage = m.add_vehicle( crashed_hull, wreckage_pos, dir1, rng( 1, 33 ), 1 );
 
-    const auto controls_at = []( vehicle * wreckage, const tripoint_bub_ms & pos ) {
-        return !wreckage->get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() ||
-               !wreckage->get_parts_at( pos, "CTRL_ELECTRONIC", part_status_flag::any ).empty();
+    const auto controls_at = [&m]( vehicle * wreckage, const tripoint_bub_ms & pos ) {
+        return !wreckage->get_parts_at( &m, pos, "CONTROLS", part_status_flag::any ).empty() ||
+               !wreckage->get_parts_at( &m, pos, "CTRL_ELECTRONIC", part_status_flag::any ).empty();
     };
 
     if( wreckage != nullptr ) {
@@ -403,7 +392,7 @@ static bool mx_helicopter( map &m, const tripoint_abs_sm &abs_sub )
             case 3:
                 // Full clown car
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
-                    const tripoint_bub_ms pos = vp.pos_bub();
+                    const tripoint_bub_ms pos = vp.pos_bub( m );
                     // Spawn pilots in seats with controls.CTRL_ELECTRONIC
                     if( controls_at( wreckage, pos ) ) {
                         m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), pos.z(), 1, true );
@@ -417,7 +406,7 @@ static bool mx_helicopter( map &m, const tripoint_abs_sm &abs_sub )
             case 5:
                 // 2/3rds clown car
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
-                    const tripoint_bub_ms pos = vp.pos_bub();
+                    const tripoint_bub_ms pos = vp.pos_bub( m );
                     // Spawn pilots in seats with controls.
                     if( controls_at( wreckage, pos ) ) {
                         m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), pos.z(), 1, true );
@@ -430,7 +419,7 @@ static bool mx_helicopter( map &m, const tripoint_abs_sm &abs_sub )
             case 6:
                 // Just pilots
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
-                    const tripoint_bub_ms pos = vp.pos_bub();
+                    const tripoint_bub_ms pos = vp.pos_bub( m );
                     m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), pos.z(), 1, true );
                     delete_items_at_mount( *wreckage, vp.mount_pos() ); // delete corpse items
                 }
@@ -492,8 +481,15 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
     }
 
     tinymap m;
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *m.cast_to_map() );
+
     if( bridge_at_north && road_at_south ) {
-        m.load( abs_omt + point::south, false );
+        // Remove vehicles. They don't make sense here, and may cause collision crashes.
+        m.load( abs_omt + point::south, true );
+        for( wrapped_vehicle &veh : m.get_vehicles() ) {
+            m.cast_to_map()->detach_vehicle( veh.v );
+        }
 
         //Sandbag block at the left edge
         line_furn( &m, furn_f_sandbag_half, point_omt_ms( 3, 4 ), point_omt_ms( 3, 7 ) );
@@ -600,7 +596,12 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
     }
 
     if( bridge_at_south && road_at_north ) {
-        m.load( abs_omt + point::north, false );
+        // Remove vehicles. They don't make sense here, and may cause collision crashes.
+        m.load( abs_omt + point::north, true );
+        for( wrapped_vehicle &veh : m.get_vehicles() ) {
+            m.cast_to_map()->detach_vehicle( veh.v );
+        }
+
         //Two horizontal lines of sandbags
         line_furn( &m, furn_f_sandbag_half, point_omt_ms( 5, 15 ), point_omt_ms( 10, 15 ) );
         line_furn( &m, furn_f_sandbag_half, point_omt_ms( 13, 15 ), point_omt_ms( 18, 15 ) );
@@ -709,7 +710,12 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
     }
 
     if( bridge_at_west && road_at_east ) {
-        m.load( abs_omt + point::east, false );
+        // Remove vehicles. They don't make sense here, and may cause collision crashes.
+        m.load( abs_omt + point::east, true );
+        for( wrapped_vehicle &veh : m.get_vehicles() ) {
+            m.cast_to_map()->detach_vehicle( veh.v );
+        }
+
         //Draw walls of first tent
         square_furn( &m, furn_f_canvas_wall, point_omt_ms( 0, 3 ), point_omt_ms( 4, 13 ) );
 
@@ -863,7 +869,12 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
     }
 
     if( bridge_at_east && road_at_west ) {
-        m.load( abs_omt + point::west, false );
+        // Remove vehicles. They don't make sense here, and may cause collision crashes.
+        m.load( abs_omt + point::west, true );
+        for( wrapped_vehicle &veh : m.get_vehicles() ) {
+            m.cast_to_map()->detach_vehicle( veh.v );
+        }
+
         //Spawn military cargo truck blocking the entry
         m.add_vehicle( vehicle_prototype_military_cargo_truck, tripoint_omt_ms( 15, 11, abs_sub.z() ),
                        270_degrees, 70, 1 );
@@ -940,7 +951,7 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
                 }
             }
             //Spawn trash in a crate and its surroundings
-            m.place_items( Item_spawn_data_trash_cart, 80, { 19, 11, abs_sub.z()},
+            m.place_items( Item_spawn_data_SUS_trash_floor, 80, { 19, 11, abs_sub.z()},
             { 21, 13, abs_sub.z()}, false, calendar::start_of_cataclysm );
         } else {
             m.spawn_item( tripoint_omt_ms{ 20, 11, abs_sub.z()}, itype_hatchet );
@@ -948,7 +959,7 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
             m.spawn_item( tripoint_omt_ms{ 20, 14, abs_sub.z()}, itype_acoustic_guitar );
 
             //Spawn trash in a crate
-            m.place_items( Item_spawn_data_trash_cart, 80, { 20, 12, abs_sub.z()},
+            m.place_items( Item_spawn_data_SUS_trash_floor, 80, { 20, 12, abs_sub.z()},
             { 20, 12, abs_sub.z()}, false, calendar::start_of_cataclysm );
         }
 
@@ -1798,7 +1809,7 @@ static bool mx_looters( map &m, const tripoint_abs_sm &abs_sub )
 {
     const tripoint_bub_ms center( rng( 5, SEEX * 2 - 5 ), rng( 5, SEEY * 2 - 5 ), abs_sub.z() );
     //25% chance to spawn a corpse with some blood around it
-    if( one_in( 4 ) && m.passable( center ) ) {
+    if( one_in( 4 ) && m.passable_through( center ) ) {
         m.add_corpse( center );
         for( int i = 0; i < rng( 1, 3 ); i++ ) {
             m.add_field( random_entry( m.points_in_radius( center, 1 ) ), fd_blood, rng( 1, 3 ) );
@@ -1810,7 +1821,7 @@ static bool mx_looters( map &m, const tripoint_abs_sm &abs_sub )
     for( int i = 0; i < num_looters; i++ ) {
         if( const std::optional<tripoint_bub_ms> pos_ = random_point( m.points_in_radius( center, rng( 1,
         4 ) ), [&]( const tripoint_bub_ms & p ) {
-        return m.passable( p );
+        return m.passable_through( p );
         } ) ) {
             m.place_npc( pos_->xy(), string_id<npc_template>( one_in( 2 ) ? "thug" : "bandit" ) );
             m.place_npc( pos_->xy(), string_id<npc_template>( one_in( 2 ) ? "thug" : "bandit" ) );
@@ -1826,7 +1837,7 @@ static bool mx_corpses( map &m, const tripoint_abs_sm &abs_sub )
     //Spawn up to 5 human corpses in random places
     for( int i = 0; i < num_corpses; i++ ) {
         const tripoint_bub_ms corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z()};
-        if( m.passable( corpse_location ) ) {
+        if( m.passable_through( corpse_location ) ) {
             m.add_field( corpse_location, fd_blood, rng( 1, 3 ) );
             m.put_items_from_loc( Item_spawn_data_everyday_corpse, corpse_location );
             //50% chance to spawn blood in every tile around every corpse in 1-tile radius
@@ -2109,7 +2120,7 @@ bool map_extra::is_valid_for( const mapgendata &md ) const
     return true;
 }
 
-void map_extra::load( const JsonObject &jo, const std::string_view )
+void map_extra::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "description", description_ );

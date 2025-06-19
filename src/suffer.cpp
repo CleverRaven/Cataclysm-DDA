@@ -1,29 +1,33 @@
-#include <cctype>
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstdlib>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
 #include <optional>
 #include <string>
-#include <tuple>
+#include <type_traits>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "activity_handlers.h"
+#include "activity_tracker.h"
 #include "addiction.h"
 #include "bionics.h"
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
+#include "color.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
-#include "display.h"
+#include "dialogue.h"
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "enums.h"
@@ -36,35 +40,33 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "lightmap.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
-#include "memory_fast.h"
+#include "map_iterator.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "npc.h"
 #include "options.h"
 #include "output.h"
-#include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
 #include "rng.h"
-#include "skill.h"
 #include "sounds.h"
 #include "stomach.h"
-#include "string_formatter.h"
+#include "talker.h"
 #include "teleport.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
 #include "units.h"
 #include "weather.h"
-#include "weather_type.h"
 
 static const addiction_id addiction_alcohol( "alcohol" );
 static const addiction_id addiction_nicotine( "nicotine" );
@@ -437,7 +439,7 @@ void suffer::from_addictions( Character &you )
 
 void suffer::while_awake( Character &you, const int current_stim )
 {
-    if( you.weight_carried() > 4 * you.weight_capacity() ) {
+    if( you.weight_carried() > you.max_pickup_capacity() ) {
         if( you.has_effect( effect_downed ) ) {
             you.add_effect( effect_downed, 1_turns, false, 0, true );
         } else {
@@ -1621,7 +1623,7 @@ void suffer::from_artifact_resonance( Character &you, int amt )
             } else if( rng_outcome == 2 ) {
                 you.add_msg_player_or_npc( m_bad, _( "The air folds and distorts around you." ),
                                            _( "The air folds and distorts around <npcname>." ) );
-                teleport::teleport( you );
+                teleport::teleport_creature( you );
             } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad, _( "You're bombarded with radioactive energy!" ),
                                            _( "<npcname> is bombarded with radioactive energy!" ) );
@@ -1634,7 +1636,7 @@ void suffer::from_artifact_resonance( Character &you, int amt )
             if( rng_outcome == 1  && !you.in_vehicle ) {
                 you.add_msg_player_or_npc( m_bad, _( "You suddenly shift slightly." ),
                                            _( "<npcname> suddenly shifts slightly." ) );
-                teleport::teleport( you, 1, 1, true, false );
+                teleport::teleport_creature( you, 1, 1, true, false );
             } else if( rng_outcome == 2 ) {
                 you.add_msg_player_or_npc( m_bad,
                                            _( "You hear a painfully loud grinding noise from your location." ),
@@ -1954,7 +1956,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
     const int torso_wetness = get_part_wetness( bodypart_id( "torso" ) );
     if( torso_wetness >= get_part_drench_capacity( bodypart_id( "torso" ) ) / 2.0 &&
         has_effect( effect_masked_scent ) &&
-        get_value( "waterproof_scent" ).empty() ) {
+        !maybe_get_value( "waterproof_scent" ) ) {
         add_msg_if_player( m_info, _( "The water washes away the scent." ) );
         restore_scent();
     }

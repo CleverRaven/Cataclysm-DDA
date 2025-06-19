@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_daycare" ],
     "object": {
       "fill_ter": "t_floor",
@@ -78,7 +77,7 @@
       "toilets": { "&": {  } },
       "item": { "B": { "item": "child_book", "repeat": [ 1, 4 ], "chance": 66 } },
       "items": {
-        "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 30 },
         "C": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
         "c": [
           { "item": "SUS_breakfast_cupboard", "chance": 30 },
@@ -107,7 +106,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_daycare_roof",
     "object": {
       "fill_ter": "t_flat_roof",

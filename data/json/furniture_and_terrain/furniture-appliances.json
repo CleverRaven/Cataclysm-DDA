@@ -14,7 +14,7 @@
       "items": [
         { "item": "pipe", "count": 1 },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "cu_pipe", "count": [ 2, 5 ] },
@@ -32,7 +32,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 2 ] },
@@ -56,7 +56,7 @@
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
@@ -71,7 +71,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
@@ -103,7 +103,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "cotton_patchwork", "count": [ 5, 10 ] },
@@ -130,7 +130,7 @@
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "element", "count": [ 2, 3 ] },
@@ -148,7 +148,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 0, 6 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "pipe_fittings", "count": [ 1, 3 ] },
@@ -174,7 +174,7 @@
       "items": [
         { "item": "pipe", "count": 1 },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "cu_pipe", "count": [ 2, 5 ] },
@@ -190,7 +190,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 2 ] },
@@ -220,7 +220,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
@@ -264,7 +264,7 @@
       "items": [
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "scrap", "count": [ 0, 6 ] },
         { "item": "element", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 3 ] }
@@ -288,7 +288,7 @@
       "items": [
         { "item": "sheet_metal", "count": 4 },
         { "item": "sheet_metal_small", "count": [ 10, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 3 ] },
         { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "cable", "charges": 3 },
         { "item": "pilot_light", "count": 1 }
@@ -303,7 +303,7 @@
       "items": [
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "scrap", "count": [ 0, 6 ] },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "pilot_light", "count": 1 }
@@ -337,7 +337,7 @@
       "items": [
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "scrap", "count": [ 0, 6 ] },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "pilot_light", "count": 1 },
@@ -431,8 +431,8 @@
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "steel_lump", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_lump", "count": [ 1, 3 ] },
         { "item": "plastic_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 4 ] },
@@ -448,7 +448,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "pipe", "count": [ 1, 2 ] },
@@ -541,8 +541,8 @@
         { "item": "pipe", "count": [ 6, 12 ] },
         { "item": "rebar", "count": [ 6, 12 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "steel_lump", "count": [ 4, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_lump", "count": [ 4, 6 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 8, 10 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
@@ -559,8 +559,8 @@
         { "item": "pipe", "count": [ 1, 10 ] },
         { "item": "rebar", "count": [ 1, 10 ] },
         { "item": "scrap", "count": [ 6, 16 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "steel_lump", "count": [ 0, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_lump", "count": [ 0, 6 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
@@ -593,7 +593,7 @@
         { "item": "power_supply", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 16, 24 ] },
         { "item": "plastic_chunk", "count": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": 12 }
+        { "item": "mc_steel_chunk", "count": 12 }
       ]
     }
   },
@@ -620,7 +620,7 @@
         { "item": "power_supply", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 16, 24 ] },
         { "item": "plastic_chunk", "count": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": 12 }
+        { "item": "mc_steel_chunk", "count": 12 }
       ]
     }
   },
@@ -643,7 +643,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "plastic_chunk", "count": [ 4, 7 ] },
-        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 3, 6 ] },
         { "item": "sheet_metal_small", "count": [ 4, 8 ] },
         { "item": "scrap", "count": [ 4, 7 ] },
         { "item": "element", "count": [ 0, 2 ] },
@@ -672,7 +672,7 @@
       "items": [
         { "item": "plastic_chunk", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 6, 12 ] },
-        { "item": "steel_chunk", "count": [ 8, 16 ] },
+        { "item": "mc_steel_chunk", "count": [ 8, 16 ] },
         { "item": "sheet_metal_small", "count": [ 1, 4 ] }
       ]
     }

@@ -1,6 +1,73 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_CLAIR_BETTER_SENSES_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_clair_better_senses" } },
+    "effect": [
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_message": "All of your senses are enhanced.", "type": "good" },
+      { "u_add_effect": "effect_clair_better_senses", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_CLAIR_BETTER_SENSES_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * 215) + 595) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * 482) + 1264) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_CLAIR_REMOVE_BETTER_SENSES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_REMOVE_BETTER_SENSES",
+    "condition": { "u_has_effect": "effect_clair_better_senses" },
+    "effect": [
+      { "u_message": "The world now seems separated from you by a thin veil.", "type": "good" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
+      { "u_lose_effect": "effect_clair_better_senses" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_BETTER_SENSES_DRAIN",
+    "condition": { "u_has_effect": "effect_clair_better_senses" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = 1" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
+      {
+        "if": { "math": [ "u_spell_level('clair_better_senses') >= 1" ] },
+        "then": { "math": [ "u_spell_exp('clair_better_senses')", "+=", "psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('clair_better_senses_knack')", "+=", "psionic_power_experience_formula()" ] }
+      },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "run_eocs": "EOC_CLAIR_BETTER_SENSES_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * 215) + 595) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * 482) + 1264) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CLAIR_NIGHT_EYES_INITIATE",
     "condition": { "not": { "u_has_effect": "effect_clair_night_eyes" } },
     "effect": [
@@ -234,6 +301,11 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 2" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
+      {
+        "if": { "math": [ "u_spell_level('clair_danger_sense') >= 1" ] },
+        "then": { "math": [ "u_spell_exp('clair_danger_sense')", "+=", "psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('clair_danger_sense_knack')", "+=", "psionic_power_experience_formula()" ] }
+      },
       { "math": [ "u_spell_exp('clair_danger_sense')", "+=", "psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {

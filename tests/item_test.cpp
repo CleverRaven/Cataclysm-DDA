@@ -1,27 +1,42 @@
-#include "cata_catch.h"
-#include "item.h"
-
+#include <array>
 #include <cmath>
+#include <functional>
 #include <initializer_list>
 #include <limits>
+#include <list>
+#include <map>
 #include <memory>
+#include <optional>
+#include <set>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
 #include "avatar_action.h"
+#include "bodypart.h"
 #include "calendar.h"
+#include "cata_catch.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "flag.h"
 #include "game.h"
+#include "item.h"
 #include "item_category.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
+#include "material.h"
 #include "math_defines.h"
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
+#include "point.h"
 #include "ret_val.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
 #include "test_data.h"
 #include "type_id.h"
 #include "units.h"
@@ -56,20 +71,17 @@ static const itype_id itype_chem_black_powder( "chem_black_powder" );
 static const itype_id itype_chem_muriatic_acid( "chem_muriatic_acid" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_duffelbag( "duffelbag" );
-static const itype_id itype_gunpowder( "gunpowder" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_hat_hard( "hat_hard" );
 static const itype_id itype_jeans( "jeans" );
 static const itype_id itype_legrig( "legrig" );
 static const itype_id itype_money( "money" );
 static const itype_id itype_neccowafers( "neccowafers" );
-static const itype_id itype_nitrox( "nitrox" );
 static const itype_id itype_pale_ale( "pale_ale" );
 static const itype_id itype_rocuronium( "rocuronium" );
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
 static const itype_id itype_single_malt_whiskey( "single_malt_whiskey" );
 static const itype_id itype_software_hacking( "software_hacking" );
-static const itype_id itype_software_useless( "software_useless" );
 static const itype_id itype_test_armguard( "test_armguard" );
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_consolidate( "test_consolidate" );
@@ -333,7 +345,7 @@ static void check_spawning_in_container( const itype_id &item_type )
             return it.typeId() == test_item.typeId();
         } ) );
     } else if( test_item.is_software() ) {
-        REQUIRE( container_item.is_software_storage() );
+        REQUIRE( container_item.is_estorage() );
         const std::vector<const item *> softwares = container_item.softwares();
         CHECK( !softwares.empty() );
         for( const item *itm : softwares ) {
@@ -347,8 +359,6 @@ static void check_spawning_in_container( const itype_id &item_type )
 TEST_CASE( "items_spawn_in_their_default_containers", "[item]" )
 {
     check_spawning_in_container( itype_water );
-    check_spawning_in_container( itype_gunpowder );
-    check_spawning_in_container( itype_nitrox );
     check_spawning_in_container( itype_ammonia_hydroxide );
     check_spawning_in_container( itype_detergent );
     check_spawning_in_container( itype_pale_ale );
@@ -356,7 +366,6 @@ TEST_CASE( "items_spawn_in_their_default_containers", "[item]" )
     check_spawning_in_container( itype_rocuronium );
     check_spawning_in_container( itype_chem_muriatic_acid );
     check_spawning_in_container( itype_chem_black_powder );
-    check_spawning_in_container( itype_software_useless );
 }
 
 TEST_CASE( "item_variables_round-trip_accurately", "[item]" )
@@ -366,8 +375,8 @@ TEST_CASE( "item_variables_round-trip_accurately", "[item]" )
     CHECK( i.get_var( "A", 0 ) == 17 );
     i.set_var( "B", 0.125 );
     CHECK( i.get_var( "B", 0.0 ) == 0.125 );
-    i.set_var( "C", tripoint_abs_omt( 2, 3, 4 ) );
-    CHECK( i.get_var( "C", tripoint_abs_omt::zero ) == tripoint_abs_omt( 2, 3, 4 ) );
+    i.set_var( "C", tripoint_abs_ms( 2, 3, 4 ) );
+    CHECK( i.get_var( "C", tripoint_abs_ms::zero ) == tripoint_abs_ms( 2, 3, 4 ) );
 }
 
 TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" )
@@ -1036,7 +1045,7 @@ TEST_CASE( "item_single_type_contents", "[item]" )
         item usb_drive( itype_usb_drive );
         item software_hacking( itype_software_hacking );
         REQUIRE( usb_drive.get_category_of_contents().id == item_category_tools );
-        REQUIRE( usb_drive.put_in( software_hacking, pocket_type::SOFTWARE ).success() );
+        REQUIRE( usb_drive.put_in( software_hacking, pocket_type::E_FILE_STORAGE ).success() );
         CHECK( usb_drive.get_category_of_contents().id == item_category_tools );
     }
 }

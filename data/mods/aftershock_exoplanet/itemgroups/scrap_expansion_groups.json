@@ -1,0 +1,96 @@
+[
+  {
+    "//": "This file is for expanding vanilla item groups with Aftershock scrap",
+    "id": "surgery",
+    "type": "item_group",
+    "copy-from": "surgery",
+    "extend": {
+      "items": [
+        [ "bionic_maintenance_toolkit", 20 ],
+        { "group": "afs_biomedical_scrapgroup", "prob": 30 },
+        { "group": "afs_advanced_biomaterial_scrapgroup", "prob": 5 },
+        { "group": "afs_advanced_neural_io_scrapgroup", "prob": 5 }
+      ]
+    }
+  },
+  {
+    "id": "supplies_metal",
+    "type": "item_group",
+    "copy-from": "supplies_metal",
+    "extend": {
+      "items": [
+        { "group": "afs_basic_material_scrapgroup", "prob": 50 },
+        { "group": "afs_common_material_scrapgroup", "prob": 35 },
+        { "group": "afs_advanced_material_scrapgroup", "prob": 5 }
+      ]
+    }
+  },
+  {
+    "id": "mut_lab",
+    "type": "item_group",
+    "copy-from": "mut_lab",
+    "extend": { "items": [ { "group": "afs_advanced_biomaterial_scrapgroup", "prob": 20 } ] }
+  },
+  {
+    "id": "supplies_mechanics",
+    "type": "item_group",
+    "copy-from": "supplies_mechanics",
+    "extend": { "items": [ { "group": "afs_machinery_maintenance_scrapgroup", "prob": 40 } ] }
+  },
+  {
+    "id": "hospital_lab",
+    "type": "item_group",
+    "copy-from": "hospital_lab",
+    "extend": {
+      "items": [ { "group": "afs_biomedical_scrapgroup", "prob": 20 }, { "group": "afs_advanced_neural_io_scrapgroup", "prob": 10 } ]
+    }
+  },
+  {
+    "id": "mischw",
+    "type": "item_group",
+    "subtype": "collection",
+    "copy-from": "mischw",
+    "extend": { "items": [ { "group": "afs_machinery_maintenance_scrapgroup", "prob": 20 } ] }
+  },
+  {
+    "id": "science",
+    "type": "item_group",
+    "copy-from": "science",
+    "extend": {
+      "items": [
+        { "group": "afs_advanced_magnet_scrapgroup", "prob": 20 },
+        { "group": "afs_advanced_heat_scrapgroup", "prob": 2 },
+        { "group": "afs_advanced_biomaterial_scrapgroup", "prob": 2 },
+        { "group": "afs_advanced_optics_scrapgroup", "prob": 20 }
+      ]
+    }
+  },
+  {
+    "id": "tools_robotics",
+    "type": "item_group",
+    "copy-from": "tools_robotics",
+    "extend": {
+      "items": [
+        { "group": "afs_robotics_scrapgroup", "prob": 60 },
+        { "group": "afs_advanced_circuitry_scrapgroup", "prob": 2 },
+        { "group": "afs_advanced_magnet_scrapgroup", "prob": 10 },
+        { "group": "afs_advanced_energy_storage_scrapgroup", "prob": 2 },
+        { "group": "afs_advanced_energy_storage_scrapgroup", "prob": 2 },
+        { "group": "afs_advanced_heat_scrapgroup", "prob": 2 },
+        { "group": "afs_advanced_material_scrapgroup", "prob": 2 },
+        { "group": "afs_advanced_optics_scrapgroup", "prob": 30 }
+      ]
+    }
+  },
+  {
+    "id": "supplies_reagents_lab",
+    "type": "item_group",
+    "copy-from": "supplies_reagents_lab",
+    "extend": {
+      "items": [
+        { "group": "afs_common_biomaterial_scrapgroup", "prob": 50 },
+        { "group": "afs_advanced_biomaterial_scrapgroup", "prob": 10 }
+      ]
+    }
+  }
+]

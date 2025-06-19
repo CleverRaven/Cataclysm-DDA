@@ -1,11 +1,12 @@
 #include "point.h"
 
-#include <cmath>
 #include <algorithm>
+#include <cmath>
+#include <locale>
 #include <sstream>
 #include <string>
-#include <type_traits>
 
+#include "cata_assert.h"
 #include "debug.h"
 
 point point::from_string( const std::string &s )
@@ -104,17 +105,34 @@ std::ostream &operator<<( std::ostream &os, const tripoint &pos )
 std::istream &operator>>( std::istream &is, point &pos )
 {
     char c;
-    is.get( c ) &&c == '(' &&is >> pos.x &&is.get( c ) &&c == ',' &&is >> pos.y &&
-                                is.get( c ) &&c == ')';
+    // silence -Wunused-value
+    static_cast<void>( is.get( c ) && c == '(' && is >> pos.x && is.get( c ) && c == ',' &&
+                       is >> pos.y && is.get( c ) && c == ')' );
     return is;
 }
 
 std::istream &operator>>( std::istream &is, tripoint &pos )
 {
     char c;
-    is.get( c ) &&c == '(' &&is >> pos.x &&is.get( c ) &&c == ',' &&is >> pos.y &&
-                                is.get( c ) &&c == ',' &&is >> pos.z &&is.get( c ) &&c == ')';
+    static_cast<void>( is.get( c ) && c == '(' && is >> pos.x && is.get( c ) && c == ',' &&
+                       is >> pos.y && is.get( c ) && c == ',' && is >> pos.z && is.get( c ) && c == ')' );
     return is;
+}
+
+std::optional<int> rectangle_size( int min_dist, int max_dist )
+{
+    min_dist = std::max( min_dist, 0 );
+    max_dist = std::max( max_dist, 0 );
+
+    if( min_dist > max_dist ) {
+        return std::nullopt;
+    }
+
+    const int min_edge = min_dist * 2 + 1;
+    const int max_edge = max_dist * 2 + 1;
+
+    const int n = max_edge * max_edge - ( min_edge - 2 ) * ( min_edge - 2 ) + ( min_dist == 0 ? 1 : 0 );
+    return n;
 }
 
 std::vector<tripoint> closest_points_first( const tripoint &center, int max_dist )
@@ -124,14 +142,19 @@ std::vector<tripoint> closest_points_first( const tripoint &center, int max_dist
 
 std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist, int max_dist )
 {
-    const std::vector<point> points = closest_points_first( center.xy(), min_dist, max_dist );
+    std::optional<int> n = rectangle_size( min_dist, max_dist );
+
+    if( n == std::nullopt ) {
+        return {};
+    }
 
     std::vector<tripoint> result;
-    result.reserve( points.size() );
+    result.reserve( *n );
 
-    for( const point &p : points ) {
-        result.emplace_back( p, center.z );
-    }
+    find_point_closest_first( center, min_dist, max_dist, [&result]( const tripoint & p ) {
+        result.push_back( p );
+        return false;
+    } );
 
     return result;
 }
@@ -143,42 +166,26 @@ std::vector<point> closest_points_first( const point &center, int max_dist )
 
 std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist )
 {
-    min_dist = std::max( min_dist, 0 );
-    max_dist = std::max( max_dist, 0 );
+    std::optional<int> n = rectangle_size( min_dist, max_dist );
 
-    if( min_dist > max_dist ) {
+    if( n == std::nullopt ) {
         return {};
     }
 
-    const int min_edge = min_dist * 2 + 1;
-    const int max_edge = max_dist * 2 + 1;
-
-    const int n = max_edge * max_edge - ( min_edge - 2 ) * ( min_edge - 2 );
-    const bool is_center_included = min_dist == 0;
-
     std::vector<point> result;
-    result.reserve( n + ( is_center_included ? 1 : 0 ) );
+    result.reserve( *n );
 
-    if( is_center_included ) {
-        result.push_back( center );
-    }
-
-    int x_init = std::max( min_dist, 1 );
-    point p( x_init, 1 - x_init );
-
-    point d( point::east );
-
-    for( int i = 0; i < n; i++ ) {
-        result.push_back( center + p );
-
-        if( p.x == p.y || ( p.x < 0 && p.x == -p.y ) || ( p.x > 0 && p.x == 1 - p.y ) ) {
-            std::swap( d.x, d.y );
-            d.x = -d.x;
-        }
-
-        p.x += d.x;
-        p.y += d.y;
-    }
+    find_point_closest_first( center, min_dist, max_dist, [&result]( const point & p ) {
+        result.push_back( p );
+        return false;
+    } );
 
     return result;
+}
+
+template <typename PredicateFn, typename Point>
+std::optional<Point> find_point_closest_first( const Point &center, int max_dist,
+        PredicateFn &&fn )
+{
+    return find_point_closest_first( center, 0, max_dist, fn );
 }

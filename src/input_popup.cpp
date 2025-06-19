@@ -1,12 +1,15 @@
 #include "input_popup.h"
 
-#include "cata_utility.h"
+#include <cstddef>
+
 #include "imgui/imgui.h"
-#include "imgui/imgui_internal.h"
 #include "imgui/imgui_stdlib.h"
-#include "ui.h"
-#include "uistate.h"
+#include "input_enums.h"
+#include "text.h"
+#include "translations.h"
+#include "uilist.h"
 #include "ui_manager.h"
+#include "uistate.h"
 
 input_popup::input_popup( int width, const std::string &title, const point &pos,
                           ImGuiWindowFlags flags ) :

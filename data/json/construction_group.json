@@ -41,6 +41,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_arc_furnace",
+    "name": "Place Arc Furnace"
+  },
+  {
+    "type": "construction_group",
     "id": "build_armchair",
     "name": "Place an armchair"
   },
@@ -798,6 +803,11 @@
     "type": "construction_group",
     "id": "build_brick_fireplace",
     "name": "Build Brick Fireplace"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_stone_fireplace",
+    "name": "Build Stone Fireplace"
   },
   {
     "type": "construction_group",

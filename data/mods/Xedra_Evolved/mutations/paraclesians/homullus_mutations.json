@@ -1,6 +1,5 @@
 [
   {
-    "//": "When any new mutation is added, make sure to add it to the jmath statement paraclesian_homullus_total_mutations",
     "type": "mutation",
     "id": "HOMULLUS_SKIN_1",
     "name": { "str": "Mannequin Skin" },
@@ -113,6 +112,52 @@
     "prereqs": [ "HOMULLUS_BETTER_AT_LYING" ],
     "category": [ "HOMULLUS" ],
     "spells_learned": [ [ "homullus_charm_feral_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "FREE_WILL",
+    "name": { "str": "Free Will" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Dollkin has resistance to attacks on its ability to act on it's choices.",
+    "category": [ "HOMULLUS" ],
+    "flags": [ "PSYSHIELD_PARTIAL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SENSE_THE_TOOLMAKERS",
+    "name": { "str": "Sense the Toolmakers" },
+    "points": 1,
+    "description": "Your powers enhance your mundane senses and allow you to detect human beings.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "condition": { "or": [ { "npc_has_species": "HUMAN" }, { "npc_has_species": "FERAL" }, { "npc_has_species": "RENFIELD" } ] },
+            "distance": { "math": [ "u_val('perception') * 1.5" ] },
+            "descriptions": [ { "id": "human_sense", "text": "You sense a human here.", "symbol": "@", "color": "c_white" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "SENSE_THE_NIGHT_HUNTERS",
+    "name": { "str": "Sense the Night Hunters" },
+    "points": 1,
+    "description": "This and other abilities native to Dollkin suggest that if vampires did create cities to concentrate their prey, something evolved afterwards to complicate the hunting grounds.",
+    "flags": [ "ENHANCED_VISION", "WATCH" ],
+    "player_display": true,
+    "purifiable": false,
+    "spells_learned": [ [ "homullus_sense_vampires", 1 ] ]
   },
   {
     "type": "mutation",
@@ -322,7 +367,7 @@
     "prereqs": [ "HOMULLUS_CBM_MANA_1", "HOMULLUS_CBM_MANA_2" ],
     "enchantments": [
       {
-        "values": [ { "value": "BIONIC_POWER", "add": { "math": [ "paraclesian_homullus_total_mutations(1) * 50000000" ] } } ]
+        "values": [ { "value": "BIONIC_POWER", "add": { "math": [ "u_sum_traits_of_category_char_has('HOMULLUS') * 50000000" ] } } ]
       }
     ]
   },
@@ -671,6 +716,18 @@
     "category": [ "HOMULLUS" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "multiply": 0.33 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "DEATH_IS_BUT_A_DOOR",
+    "name": { "str": "Death Is But A Door" },
+    "points": 7,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "One person may die, but their compatriots will carry their torch.  You too will have your legacy maintained if you die, but in a way far less metaphorical.  When you die, you will reincarnate within any nearby human, immediately shifting their form to match your own.  You will not be able to do this more than once per month.",
+    "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "//": "An ability that allows the Homullus to be reborn instantly upon death in a nearby feral monster or npc.  If one is not nearby the power will fail."
   },
   {
     "type": "mutation",

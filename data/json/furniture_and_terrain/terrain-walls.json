@@ -156,7 +156,6 @@
       "ter_set": "t_null",
       "items": [
         { "item": "2x4", "count": [ 0, 5 ] },
-        { "item": "wood_panel", "count": [ 0, 1 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
       ]
@@ -969,7 +968,7 @@
     "oxytorch": {
       "result": "t_scrap_wall_halfway",
       "duration": "14 seconds",
-      "byproducts": [ { "item": "steel_plate", "count": [ 2, 3 ] }, { "item": "steel_chunk", "count": [ 12, 20 ] } ]
+      "byproducts": [ { "item": "steel_plate", "count": [ 2, 3 ] }, { "item": "lc_steel_chunk", "count": [ 12, 20 ] } ]
     },
     "bash": {
       "str_min": 200,
@@ -978,8 +977,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_null",
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
     }
@@ -997,7 +996,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_null",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+      "items": [ { "item": "lc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
     }
   },
   {
@@ -1099,7 +1098,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_pit_shallow",
-      "items": [ { "item": "steel_chunk", "count": [ 10, 22 ] } ]
+      "items": [ { "item": "lc_steel_chunk", "count": [ 10, 22 ] } ]
     }
   },
   {
@@ -1119,7 +1118,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_pit_shallow",
-      "items": [ { "item": "steel_chunk", "count": [ 5, 11 ] } ]
+      "items": [ { "item": "lc_steel_chunk", "count": [ 5, 11 ] } ]
     }
   },
   {
@@ -1172,6 +1171,29 @@
       ]
     },
     "shoot": { "chance_to_hit": 25, "reduce_damage": [ 20, 40 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 100 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_burnt",
+    "name": "burnt wall",
+    "looks_like": "t_wall_wood_broken",
+    "description": "Whatever this wall used to be made of, it's little more than charred remains now.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 35,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "ash", "count": [ 200, 500 ] }, { "item": "scrap", "count": [ 2, 5 ] } ]
+    },
+    "shoot": { "chance_to_hit": 25, "reduce_damage": [ 5, 10 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 5, 20 ] }
   },
   {
     "type": "terrain",
@@ -1359,7 +1381,7 @@
         { "item": "pipe", "count": [ 1, 6 ] },
         { "item": "scrap", "count": [ 1, 40 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 30 ] }
+        { "item": "budget_steel_chunk", "count": [ 1, 30 ] }
       ]
     }
   },
@@ -1678,8 +1700,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_floor",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_lump", "prob": 25 },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
@@ -1789,6 +1811,7 @@
     "copy-from": "t_abstract_wall_earthen",
     "name": "solid earth",
     "description": "A wall of solid earth.",
+    "extend": { "flags": [ "NATURAL_UNDERGROUND" ] },
     "delete": { "flags": [ "AUTO_WALL_SYMBOL" ] },
     "roof": "t_dirt",
     "bash": {
@@ -1808,6 +1831,7 @@
     "name": "solid rock",
     "description": "A wall of solid rock, could be full of all kinds of interesting things.  Best grab your pickaxe or equivalent digging implement, and strike the earth!",
     "color": "white",
+    "extend": { "flags": [ "NATURAL_UNDERGROUND" ] },
     "delete": { "flags": [ "AUTO_WALL_SYMBOL" ] },
     "roof": "t_rock_floor_no_roof",
     "bash": {
@@ -1830,7 +1854,7 @@
     "color": "red",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
@@ -1850,7 +1874,7 @@
     "color": "green",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
@@ -1870,7 +1894,7 @@
     "color": "blue",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
@@ -1954,7 +1978,7 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_sidewalk",
-      "items": [ { "item": "rock", "count": [ 6, 13 ] }, { "item": "steel_chunk", "count": [ 1, 3 ] } ]
+      "items": [ { "item": "rock", "count": [ 6, 13 ] }, { "item": "mc_steel_chunk", "count": [ 1, 3 ] } ]
     }
   },
   {
@@ -1978,8 +2002,8 @@
       "sound_fail": "whump!",
       "ter_set": "t_concrete",
       "items": [
-        { "item": "steel_lump", "count": [ 0, 2 ] },
-        { "item": "steel_chunk", "count": [ 2, 6 ] },
+        { "item": "mc_steel_lump", "count": [ 0, 2 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 6 ] },
         { "item": "scrap", "count": [ 5, 18 ] }
       ]
     },
@@ -1987,8 +2011,8 @@
       "ter_set": "t_concrete",
       "items": [
         { "item": "frame", "count": [ 6, 8 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "mc_steel_lump", "count": [ 1, 2 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 6 ] },
         { "item": "scrap", "count": [ 4, 8 ] }
       ]
     }
@@ -2014,8 +2038,8 @@
       "sound_fail": "whump!",
       "ter_set": "t_concrete",
       "items": [
-        { "item": "steel_lump", "prob": 50 },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_lump", "prob": 50 },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "scrap", "count": [ 2, 9 ] }
       ]
     },
@@ -2023,8 +2047,8 @@
       "ter_set": "t_concrete",
       "items": [
         { "item": "pipe", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "mc_steel_lump", "count": [ 1, 2 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 6 ] },
         { "item": "scrap", "count": [ 2, 4 ] }
       ]
     }
@@ -2074,5 +2098,17 @@
     "copy-from": "t_column",
     "name": "pillar",
     "description": "A concrete column that helps keep the mine's ceiling and walls from collapsing."
+  },
+  {
+    "type": "terrain",
+    "id": "t_foam_wall",
+    "copy-from": "t_abstract_wall_concrete",
+    "name": "hardened resin mass",
+    "looks_like": "t_wax",
+    "color": "white",
+    "flags": [ "NOITEM", "MINEABLE", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
+    "roof": "t_foam_roof",
+    "description": "A mass of expansive foam that has hardened like a rock, tough enough to stop most zombies from breaking through.  It's big enough to walk ontop of.",
+    "bash": { "str_min": 38, "str_max": 120, "sound": "crunch!", "sound_fail": "whump!", "ter_set": "t_null" }
   }
 ]

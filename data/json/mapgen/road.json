@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "road_end",
     "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
@@ -45,7 +44,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_end_straight",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -118,7 +116,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_end_cul_de_sac",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -161,7 +158,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "road_straight",
     "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
@@ -203,6 +199,8 @@
         { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 12, "flags": { "south_west": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_ns_long" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
         { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } },
+        { "chunks": [ "culvert_west" ], "x": 0, "y": 5, "predecessors": [ "stream" ] },
+        { "chunks": [ "culvert_east" ], "x": 12, "y": 5, "predecessors": [ "stream" ] },
         {
           "chunks": [ "3x3_road_corner_ne" ],
           "x": 1,
@@ -255,7 +253,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "road_curved",
     "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
@@ -305,7 +302,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "road_curved_bend",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -329,7 +325,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "road_curved_bend_not_connected_bend_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -352,7 +347,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_curved_curvy",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -422,7 +416,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_curved_diagonal",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -477,7 +470,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_curved_layby",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -520,8 +512,8 @@
       "furniture": { "t": "f_table", "X": "f_trashcan" },
       "items": {
         "t": { "item": "fast_food", "chance": 33, "repeat": [ 0, 2 ] },
-        "x": { "item": "trash", "chance": 50, "repeat": [ 0, 5 ] },
-        "X": { "item": "trash", "chance": 50, "repeat": [ 0, 5 ] }
+        "x": { "item": "SUS_trash_floor", "chance": 50, "repeat": [ 0, 5 ] },
+        "X": { "item": "SUS_trash_trashcan_public", "chance": 50 }
       },
       "place_nested": [
         { "chunks": [ [ "24x24_road_curved_layby_vehicles", 1 ], [ "null", 3 ] ], "x": 0, "y": 0 },
@@ -535,7 +527,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "road_tee",
     "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
@@ -568,6 +559,7 @@
       ],
       "palettes": [ "road_palette" ],
       "place_nested": [
+        { "chunks": [ "1x1_stop_sign" ], "x": 20, "y": 20 },
         { "chunks": [ "24x24_sidewalk_ew_long" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
         { "chunks": [ "12x12_sidewalk_ew_half" ], "x": 12, "y": 0, "flags": { "north_east": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_esw_corner_half_e" ], "x": 0, "y": 0, "flags": { "east": [ "SIDEWALK" ] } },
@@ -719,6 +711,17 @@
           }
         },
         {
+          "chunks": [ "24x24_stop_signs", "null" ],
+          "x": 0,
+          "y": 0,
+          "flags": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
+        {
           "chunks": [ "24x24_marked_crosswalks" ],
           "x": 0,
           "y": 0,
@@ -737,7 +740,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "road_four_way", "road_nesw_manhole" ],
     "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
@@ -796,7 +798,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_four_way_crossroad",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -1049,6 +1050,17 @@
             "north_west": [ "SIDEWALK" ]
           }
         },
+        {
+          "chunks": [ "24x24_stop_signs", "null" ],
+          "x": 0,
+          "y": 0,
+          "flags": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
         { "chunks": [ "24x24_marked_crosswalks" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_four_way_crossroad_vehicles" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 }
@@ -1058,7 +1070,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_four_way_rotary",
     "object": {
       "mapgensize": [ 24, 24 ],

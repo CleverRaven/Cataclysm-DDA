@@ -4,29 +4,31 @@
 
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <optional>
 #include <set>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "coords_fwd.h"
 #include "enums.h"
 #include "item_pocket.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
-#include "units_fwd.h"
+#include "units.h"
 #include "visitable.h"
 
 class Character;
+class JsonObject;
 class JsonOut;
 class item;
 class item_location;
 class iteminfo_query;
+class map;
 struct iteminfo;
-struct tripoint;
 
 /// NEW!ness to player, if they seen such item already
 enum class content_newness {
@@ -44,11 +46,20 @@ class item_contents
 
         /**
          * Return an item_location and a pointer to the best pocket that can contain the item @it.
-         * Check all items contained in every pocket of CONTAINER pocket type.
+         * if param allow_nested=true Check all items contained in every pocket of CONTAINER pocket type,
+         * otherwise, only check this item contents' pockets.
+         * @param it the item that function will find the best pocket that can contain it
+         * @param this_loc location of it
+         * @param avoid item that will be avoided in recursive lookup item pocket
+         * @param allow_sealed allow use sealed pocket
+         * @param ignore_settings ignore pocket setting
+         * @param nested whether the current call is nested (used recursively).
+         * @param ignore_rigidity ignore pocket rigid
+         * @param allow_nested whether nested pockets should be checked
          */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &this_loc,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
-                bool nested = false, bool ignore_rigidity = false );
+                bool nested = false, bool ignore_rigidity = false, bool allow_nested = true );
 
         units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::length min_containable_length() const;
@@ -69,20 +80,21 @@ class item_contents
          * physical pockets.
          * @param it the item being put in
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
+         * @param ignore_non_container_pocket ignore magazine pockets, such as weapon magazines
          * @param remaining_parent_volume if we are nesting things without concern for rigidity we need to be careful about overfilling pockets
          * this tracks the remaining volume of any parent pockets
          */
         ret_val<void> can_contain( const item &it, bool ignore_pkt_settings = true,
-                                   bool is_pick_up_inv = false,
+                                   bool ignore_non_container_pocket = false,
                                    units::volume remaining_parent_volume = 10000000_ml ) const;
         ret_val<void> can_contain( const item &it, int &copies_remaining, bool ignore_pkt_settings = true,
-                                   bool is_pick_up_inv = false,
+                                   bool ignore_non_container_pocket = false,
                                    units::volume remaining_parent_volume = 10000000_ml ) const;
         ret_val<void> can_contain_rigid( const item &it, bool ignore_pkt_settings = true,
-                                         bool is_pick_up_inv = false ) const;
+                                         bool ignore_non_container_pocket = false ) const;
         ret_val<void> can_contain_rigid( const item &it, int &copies_remaining,
                                          bool ignore_pkt_settings = true,
-                                         bool is_pick_up_inv = false ) const;
+                                         bool ignore_non_container_pocket = false ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
 
         bool contains_no_solids() const;
@@ -120,10 +132,14 @@ class item_contents
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top( pocket_type pk_type ) const;
 
-        /** returns a list of pointers to all top-level items that are not mods */
+        /** returns a list of pointers to all top-level items in standard pockets */
         std::list<item *> all_items_top();
-        /** returns a list of pointers to all top-level items that are not mods */
+        /** returns a list of pointers to all top-level items in standard pockets */
         std::list<const item *> all_items_top() const;
+        /** returns a list of pointers to all top-level items in container-like pockets */
+        std::list<item *> all_items_container_top();
+        /** returns a list of pointers to all top-level items in container-like pockets */
+        std::list<const item *> all_items_container_top() const;
 
         /** returns a list of pointers to all visible or remembered content items that are not mods */
         std::list<item *> all_known_contents();
@@ -149,6 +165,9 @@ class item_contents
 
         std::vector<item *> ebooks();
         std::vector<const item *> ebooks() const;
+
+        std::vector<item *> efiles();
+        std::vector<const item *> efiles() const;
 
         std::vector<item *> cables();
         std::vector<const item *> cables() const;
@@ -183,6 +202,12 @@ class item_contents
          * Does not guarantee that an item of that size can be inserted.
          */
         units::volume total_container_capacity( bool unrestricted_pockets_only = false ) const;
+        /**
+         * Return capacity of the biggest pocket. Ignore blacklist restrictions etc.
+         *
+         * Useful for quick can_contain rejection.
+         */
+        units::volume biggest_pocket_capacity() const;
 
         /** Get the total volume of every is_standard_type container. */
         units::volume total_standard_capacity( bool unrestricted_pockets_only = false ) const;
@@ -301,8 +326,9 @@ class item_contents
         item_pocket *contained_where( const item &contained );
         void on_pickup( Character &guy, item *avoid = nullptr );
         bool spill_contents( const tripoint_bub_ms &pos );
+        bool spill_contents( map *here, const tripoint_bub_ms &pos );
         /** Spill items that don't fit in the container. */
-        void overflow( const tripoint_bub_ms &pos, const item_location &loc );
+        void overflow( map &here, const tripoint_bub_ms &pos, const item_location &loc );
         void clear_items();
         /** Clear all items from magazine type pockets. */
         void clear_magazines();
@@ -322,6 +348,7 @@ class item_contents
         void heat_up();
         /** Return the amount of ammo consumed. */
         int ammo_consume( int qty, const tripoint_bub_ms &pos, float fuel_efficiency = -1.0 );
+        int ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, float fuel_efficiency = -1.0 );
         item *magazine_current();
         std::set<ammotype> ammo_types() const;
         int ammo_capacity( const ammotype &ammo ) const;

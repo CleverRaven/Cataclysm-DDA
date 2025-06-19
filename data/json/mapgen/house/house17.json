@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_17" ],
     "object": {
       "fill_ter": "t_floor",
@@ -21,7 +20,7 @@
         ".#+|I  ##o**o##  I|+#...",
         ".#D|I y|y    y|y I|D#...",
         ".###|+||R    R||+|||#...",
-        "..^#6 6Y          |>#...",
+        "..^#6 éY          |>#...",
         "...#1       HHHHH + #...",
         "...oO  CJA sH   H |q#...",
         "...o2  5JA sH l H ||#o#.",
@@ -38,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_17_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -74,7 +72,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_17_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -97,14 +94,14 @@
         "   |...............<|   ",
         "   |................|   ",
         "   |................|   ",
-        "   |..............%+||| ",
-        "   |..............%..J| ",
-        "   ||||||||%+%|||||..Z| ",
-        "          |F.g|   |UWJ| ",
+        "   |..............|+||| ",
+        "   |..............|..J| ",
+        "   |||||||||+||||||..Z| ",
+        "          |â.g|   |UWJ| ",
         "          |||||   ||||| ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ]
+      "palettes": [ "standard_and_variant_domestic_basement_palette" ]
     }
   }
 ]

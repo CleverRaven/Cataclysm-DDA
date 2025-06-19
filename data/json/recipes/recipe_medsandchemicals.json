@@ -114,21 +114,13 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
     "skill_used": "chemistry",
-    "difficulty": 4,
     "time": "30 m",
-    "book_learn": [ [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_intro_chemistry" },
-      { "proficiency": "prof_inorganic_chemistry" },
-      { "proficiency": "prof_pharmaceutical" }
-    ],
+    "autolearn": [ [ "chemistry", 2 ] ],
+    "book_learn": [ [ "textbook_chemistry", 1 ], [ "adv_chemistry", 1 ], [ "recipe_labchem", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "coke", 12 ] ],
-      [ [ "ammonia_liquid", 1 ], [ "chem_baking_soda", 20 ] ]
-    ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "coke", 12 ] ], [ [ "chem_baking_soda", 20 ] ] ],
     "charges": 4
   },
   {
@@ -235,6 +227,8 @@
         [ "honeydew", 2 ],
         [ "honey_bottled", 2 ],
         [ "syrup", 2 ],
+        [ "syrup_simple", 2 ],
+        [ "syrup_corn", 2 ],
         [ "wax", 1 ]
       ]
     ]
@@ -1527,11 +1521,9 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
-    "difficulty": 5,
     "charges": 100,
     "time": "5 m",
-    "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 5 ], [ "textbook_chemistry", 7 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "book_learn": [ [ "textbook_anarch", 0 ], [ "recipe_labchem", 5 ], [ "textbook_chemistry", 7 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "using": [ [ "fuel_liquid", 6 ] ],
     "components": [ [ [ "chem_ammonium_nitrate", 94 ], [ "chem_ammonium_nitrate_pellets", 94 ] ] ]
@@ -2237,7 +2229,7 @@
     "skill_used": "chemistry",
     "difficulty": 2,
     "time": "5 m",
-    "charges": 50,
+    "charges": 10,
     "batch_time_factors": [ 80, 1 ],
     "book_learn": [ [ "reference_cooking", 4 ] ],
     "proficiencies": [
@@ -2247,7 +2239,7 @@
     ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "syringe", -1 ] ], [ [ "surface_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "chem_citric_acid", 9 ] ], [ [ "coke", 1 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "chem_citric_acid", 9 ] ], [ [ "coke", 20 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",

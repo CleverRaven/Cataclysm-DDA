@@ -1,33 +1,35 @@
 #include "mission.h" // IWYU pragma: associated
 
+#include <array>
+#include <cstddef>
 #include <memory>
-#include <new>
 #include <optional>
+#include <set>
 #include <vector>
 
 #include "avatar.h"
 #include "character.h"
 #include "computer.h"
 #include "coordinates.h"
+#include "current_map.h"
 #include "debug.h"
-#include "enum_traits.h"
+#include "dialogue.h"
 #include "game.h"
-#include "game_constants.h"
 #include "item.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "npc.h"
-#include "omdata.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "translations.h"
-#include "units.h"
 
 static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_console( "f_console" );
@@ -175,6 +177,8 @@ void mission_start::place_npc_software( mission *miss )
 
     tinymap compmap;
     compmap.load( place, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *compmap.cast_to_map() );
     tripoint_omt_ms comppoint;
 
     oter_id oter = overmap_buffer.ter( place );
@@ -217,6 +221,8 @@ void mission_start::place_deposit_box( mission *miss )
 
     tinymap compmap;
     compmap.load( site, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *compmap.cast_to_map() );
     std::vector<tripoint_omt_ms> valid;
     for( const tripoint_omt_ms &p : compmap.points_on_zlevel() ) {
         if( compmap.ter( p ) == ter_t_floor ) {
@@ -352,6 +358,8 @@ void static create_lab_consoles(
 
         tinymap compmap;
         compmap.load( om_place, false );
+        // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+        swap_map swap( *compmap.cast_to_map() );
 
         tripoint_omt_ms comppoint = find_potential_computer_point( compmap );
 
@@ -373,7 +381,10 @@ void mission_start::create_lab_console( mission *miss )
     tripoint_abs_omt loc = player_character.pos_abs_omt();
     loc.z() = -1;
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, "lab", 0, false );
-
+    if( place == tripoint_abs_omt::invalid ) {
+        debugmsg( "Mission target lab not found" );
+        return;
+    }
     create_lab_consoles( miss, place, "lab", 2, _( "Workstation" ),
                          _( "Download Memory Contents" ) );
 
@@ -389,6 +400,10 @@ void mission_start::create_hidden_lab_console( mission *miss )
     tripoint_abs_omt loc = player_character.pos_abs_omt();
     loc.z() = -1;
     tripoint_abs_omt place = overmap_buffer.find_closest( loc, "basement_hidden_lab_stairs", 0, false );
+    if( place == tripoint_abs_omt::invalid ) {
+        debugmsg( "Mission target basement_hidden_lab_stairs not found" );
+        return;
+    }
     place.z() = -2;  // then go down 1 z-level to place consoles.
 
     create_lab_consoles( miss, place, "lab", 3, _( "Workstation" ),
@@ -406,7 +421,10 @@ void mission_start::create_ice_lab_console( mission *miss )
     tripoint_abs_omt loc = player_character.pos_abs_omt();
     loc.z() = -4;
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, "ice_lab", 0, false );
-
+    if( place == tripoint_abs_omt::invalid ) {
+        debugmsg( "Mission target ice_lab not found" );
+        return;
+    }
     create_lab_consoles( miss, place, "ice_lab", 3, _( "Durable Storage Archive" ),
                          _( "Download Archives" ) );
 

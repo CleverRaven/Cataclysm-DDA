@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "whately_lmoe" ],
     "//": "Above ground",
     "object": {
@@ -38,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "whately_lmoe_roof" ],
     "//": "Above ground",
     "object": {
@@ -75,7 +73,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "whately_lmoe_under_first_floor" ],
     "//": "Residence of Cyrus Whately and his clan",
     "object": {
@@ -113,7 +110,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "whately_lmoe_under_second_floor" ],
     "//": "Whately clan dwellings.",
     "//2": "This is a commercially built 4-bed LMOE shelter based on IRL plans.",
@@ -221,6 +217,7 @@
       "{": "f_rack",
       "}": "f_bookcase"
     },
+    "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "t": {  } }
   },
   {
@@ -230,14 +227,14 @@
       "b": [ { "item": "manuals", "chance": 60 }, { "item": "textbooks", "chance": 40 } ],
       "B": { "item": "bed", "chance": 70, "repeat": [ 1, 2 ] },
       "c": { "item": "hardware", "chance": 50 },
-      "C": [ { "item": "dining", "chance": 30, "repeat": [ 1, 3 ] }, { "item": "oven", "chance": 20 } ],
+      "C": [ { "item": "dining", "chance": 30, "repeat": [ 1, 3 ] }, { "item": "SUS_oven", "chance": 20 } ],
       "d": { "item": "allclothes", "chance": 80, "repeat": [ 2, 4 ] },
       "D": { "item": "office", "chance": 70 },
       "l": { "item": "hardware", "chance": 50, "repeat": [ 1, 2 ] },
       "L": { "item": "dining", "chance": 30 },
       "r": { "item": "stash_wood", "chance": 85 },
       "R": { "item": "hardware", "chance": 80 },
-      "S": { "item": "oven", "chance": 80 },
+      "S": { "item": "SUS_oven", "chance": 80 },
       "T": { "item": "tools_common", "chance": 60, "repeat": [ 1, 2 ] },
       "U": { "item": "gear_survival", "chance": 20, "repeat": [ 3, 5 ] },
       "u": [ { "item": "cannedfood", "chance": 20, "repeat": [ 1, 5 ] }, { "item": "pasta", "chance": 10, "repeat": [ 1, 3 ] } ],
@@ -246,7 +243,7 @@
       "w": { "item": "allclothes", "chance": 80, "repeat": [ 2, 4 ] },
       "Y": [ { "item": "jackets", "chance": 15 }, { "item": "hatstore_hats", "chance": 15 }, { "item": "winter", "chance": 10 } ],
       "^": { "item": "shelter", "chance": 30 },
-      "{": [ { "item": "lmoe_guns", "chance": 80 }, { "item": "ammo", "chance": 5, "repeat": [ 3, 7 ] } ],
+      "{": [ { "item": "lmoe_guns", "chance": 80 }, { "item": "ammo_common_boxed", "chance": 5, "repeat": [ 3, 7 ] } ],
       "}": { "item": "novels", "chance": 90, "repeat": [ 3, 8 ] }
     }
   },

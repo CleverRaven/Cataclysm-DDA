@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_toolshed" ],
     "object": {
       "fill_ter": "t_floor",
@@ -17,7 +16,7 @@
         ".ob @@I |6  hfh  JJJJJ#.",
         ".#|||||+|   hfh      7#.",
         ".#v|d                Oo.",
-        ".#>+      y   y 341F52#.",
+        ".#>+      y   yé341F52#.",
         ".#||+|##[###[###o######.",
         ".oB  S#~~~~~~~..%%jjj%$.",
         ".#B8 t#~~GKG~~.....~..$.",
@@ -61,7 +60,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_toolshed_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -97,16 +95,15 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_toolshed_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
         "                        ",
         " |||||||||||||||||||||| ",
-        " |S8%F.g%.z.2.........| ",
-        " |t.%%++%z............| ",
-        " |%+%.................| ",
+        " |S8|â.g|.z.2.........| ",
+        " |t.||++|z............| ",
+        " ||+|.................| ",
         " |....................| ",
         " |.1..................| ",
         " |....................| ",
@@ -114,7 +111,7 @@
         " |....................| ",
         " |....................| ",
         " |<...................| ",
-        " |%%+%||||||||||||||||| ",
+        " |||+|||||||||||||||||| ",
         " |W..J|                 ",
         " |Z..J|                 ",
         " ||||||                 ",
@@ -127,7 +124,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [

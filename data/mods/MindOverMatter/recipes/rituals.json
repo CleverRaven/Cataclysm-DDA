@@ -35,7 +35,8 @@
     "proficiencies": [
       { "proficiency": "prof_psionic_basic", "required": true },
       { "proficiency": "prof_psionic_ritual", "required": false },
-      { "proficiency": "prof_psionic_containment", "required": false }
+      { "proficiency": "prof_psionic_containment", "required": false },
+      { "proficiency": "prof_psionic_minimum_requirements_biokinesis", "required": true }
     ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -100,6 +101,84 @@
             "u_message": "Your mastery of biokinesis isn't deep enough to succeed.  You'll need to develop your powers and try again."
           },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,30 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "study Proposal: TURQUOISE KEYSTONE",
+    "id": "learn_psionic_teleportation_warp_combat",
+    "description": "Study and attempt to internalize the practices in the Proposal: TURQUOISE KEYSTONE document.  This seems extremely complex and demanding; it may take you more than one attempt to understand it.",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_RITUALS",
+    "skill_used": "metaphysics",
+    "difficulty": 8,
+    "time": "8 h",
+    "book_learn": [ [ "phavian_psionic_teleportation_combat_book", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_psionic_basic", "required": true },
+      { "proficiency": "prof_psionic_ritual", "required": true },
+      { "proficiency": "prof_psionic_containment", "required": false },
+      { "proficiency": "prof_psionic_minimum_requirements_teleportation", "required": true }
+    ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_UNLOCK_TELEPORTATION_WARP_COMBAT",
+        "condition": {
+          "and": [
+            {
+              "or": [ { "math": [ "u_spell_level('teleport_blink') >= 12" ] }, { "math": [ "u_spell_level('teleport_phase') >= 8" ] } ]
+            },
+            {
+              "or": [ { "math": [ "u_spell_level('teleport_stride') >= 8" ] }, { "math": [ "u_spell_level('teleport_collapse') >= 6" ] } ]
+            },
+            { "math": [ "u_spell_level('teleport_ephemeral_walk') >= 7" ] },
+            { "math": [ "u_spell_level('teleport_warped_strikes') >= 6" ] }
+          ]
+        },
+        "effect": {
+          "run_eocs": {
+            "id": "EOC_UNLOCK_TELEPORTATION_WARP_COMBAT_2",
+            "condition": {
+              "and": [
+                {
+                  "or": [
+                    { "roll_contested": { "math": [ "u_skill('unarmed')" ] }, "difficulty": 13 },
+                    { "roll_contested": { "math": [ "u_skill('melee')" ] }, "difficulty": 13 }
+                  ]
+                },
+                { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 15 }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "You've done it.  After long effort, you've mastered the TURQUOISE KEYSTONE protocols.  Your enemies will never be able to stop your blows now.",
+                "type": "good"
+              },
+              { "math": [ "u_spell_level('teleport_warper_combat') = 1" ] },
+              { "u_learn_recipe": "practice_teleport_warper_combat" },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
+              { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+            ],
+            "false_effect": [
+              {
+                "u_message": "You just couldn't master the forms and the meditations eluded you.  You'll need to try again.",
+                "type": "bad"
+              },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
+              { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+            ]
+          }
+        },
+        "false_effect": [
+          {
+            "u_message": "Your mastery of teleportation isn't deep enough to succeed.  You'll need to develop your powers and try again."
+          },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }

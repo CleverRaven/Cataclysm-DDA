@@ -4,23 +4,23 @@
 #include <cmath>
 #include <cstdint>
 #include <cstdlib>
+#include <memory>
 #include <optional>
 #include <string>
-#include <type_traits>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
-#include "colony.h"
-#include "damage.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
 #include "iexamine.h"
 #include "inventory_ui.h" // auto inventory blocking
+#include "item_components.h"
+#include "item_contents.h"
 #include "item_stack.h"
 #include "itype.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -30,11 +30,11 @@
 #include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
-#include "ret_val.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vpart_position.h"
 
 static const itype_id itype_acetaminophen( "acetaminophen" );
@@ -50,8 +50,6 @@ static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
 
 static const material_id material_iron( "iron" );
-
-struct itype;
 
 const invlet_wrapper
 inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()+.:;=@[\\]^_{|}" );
@@ -486,21 +484,28 @@ void inventory::form_from_map( const tripoint_bub_ms &origin, int range, const C
                                bool assign_invlet,
                                bool clear_path )
 {
-    map &m = get_map();
+    inventory::form_from_map( &get_map(), origin, range, pl, assign_invlet, clear_path );
+}
+
+void inventory::form_from_map( map *here, const tripoint_bub_ms &origin, int range,
+                               const Character *pl,
+                               bool assign_invlet,
+                               bool clear_path )
+{
     // Populate a grid of spots that can be reached
     // If we need a clear path we care about the reachability of points
     if( clear_path ) {
-        const std::vector<tripoint_bub_ms> &reachable_pts = m.reachable_flood_steps( origin, range, 1,
+        const std::vector<tripoint_bub_ms> &reachable_pts = here->reachable_flood_steps( origin, range, 1,
                 100 );
-        form_from_map( m, reachable_pts, pl, assign_invlet );
+        form_from_map( *here, reachable_pts, pl, assign_invlet );
     } else {
         std::vector<tripoint_bub_ms> reachable_pts;
         // Fill reachable points with points_in_radius
-        tripoint_range<tripoint_bub_ms> in_radius = m.points_in_radius( origin, range );
+        tripoint_range<tripoint_bub_ms> in_radius = here->points_in_radius( origin, range );
         for( const tripoint_bub_ms &p : in_radius ) {
             reachable_pts.emplace_back( p );
         }
-        form_from_map( m, reachable_pts, pl, assign_invlet );
+        form_from_map( *here, reachable_pts, pl, assign_invlet );
     }
 }
 
@@ -550,7 +555,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const C
                     }
                     if( amount > 0 ) {
                         item furn_ammo( ammo_id, calendar::turn, amount );
-                        furn_item->put_in( furn_ammo, pocket_type::MAGAZINE );
+                        furn_item->force_insert_item( furn_ammo, pocket_type::MAGAZINE );
                     }
                 }
             }
@@ -595,7 +600,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const C
 
         // form from vehicle
         if( optional_vpart_position vp = m.veh_at( p ) ) {
-            vp->form_inventory( *this );
+            vp->form_inventory( m, *this );
         }
     }
     pts.clear();
@@ -1111,6 +1116,12 @@ const itype_bin &inventory::get_binned_items() const
         binned_items[ e->typeId() ].push_back( e );
         for( const item *it : e->softwares() ) {
             binned_items[it->typeId()].push_back( it );
+        }
+        // list stored ebooks
+        if( e->is_estorage() && !e->is_broken_on_active() ) {
+            for( const item *book : e->get_contents().ebooks() ) {
+                binned_items[ book->typeId() ].push_back( book );
+            }
         }
         return VisitResponse::NEXT;
     } );

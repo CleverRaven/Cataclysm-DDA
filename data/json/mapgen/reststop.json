@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_restparking_1", "s_restparking_2" ], [ "s_reststop_1", "s_reststop_2" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -99,8 +98,8 @@
       "vendingmachines": { "%": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "items": {
         "B": { "item": "SUS_toilet", "chance": 30 },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
-        "E": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
+        "Y": { "item": "SUS_trash_trashcan_public", "chance": 20 },
+        "E": { "item": "SUS_trash_trashcan_public", "chance": 20 }
       },
       "vehicles": {
         "1": { "vehicle": "parking_garage", "chance": 20, "rotation": 270 },
@@ -123,7 +122,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_reststop_1_roof", "s_reststop_2_roof" ] ],
     "object": {
       "fill_ter": "t_tar_flat_roof",

@@ -15,7 +15,14 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "holster_glock19_fed",
-    "entries": [ { "item": "glock_19", "variant": "glock_19_cop", "charges": 15, "contents-item": [ "red_dot_sight" ] } ]
+    "entries": [
+      {
+        "item": "glock_19",
+        "variant": "glock_19_cop",
+        "charges": 15,
+        "contents-item": [ "red_dot_sight", "sights_mount_pistol" ]
+      }
+    ]
   },
   {
     "type": "item_group",
@@ -452,10 +459,7 @@
   {
     "type": "profession_item_substitutions",
     "item": "blazer",
-    "sub": [
-      { "present": [ "WOOLALLERGY" ], "new": [ "jacket_leather_red" ] },
-      { "present": [ "VEGAN" ], "new": [ "jacket_light" ] }
-    ]
+    "sub": [ { "present": [ "WOOLALLERGY" ], "new": [ "jacket_leather" ] }, { "present": [ "VEGAN" ], "new": [ "jacket_light" ] } ]
   },
   {
     "type": "profession_item_substitutions",
@@ -515,18 +519,7 @@
   {
     "type": "profession_item_substitutions",
     "item": "sunglasses",
-    "sub": [
-      { "present": [ "HYPEROPIC" ], "new": [ "fitover_sunglasses" ] },
-      { "present": [ "MYOPIC" ], "new": [ "fitover_sunglasses" ] }
-    ]
-  },
-  {
-    "type": "profession_item_substitutions",
-    "item": "fancy_sunglasses",
-    "sub": [
-      { "present": [ "HYPEROPIC" ], "new": [ "fitover_sunglasses" ] },
-      { "present": [ "MYOPIC" ], "new": [ "fitover_sunglasses" ] }
-    ]
+    "sub": [ { "present": [ "HYPEROPIC", "MYOPIC" ], "new": [ "fitover_sunglasses" ] } ]
   },
   {
     "type": "profession_item_substitutions",
@@ -1020,7 +1013,7 @@
           { "item": "gloves_rubber" },
           { "item": "glasses_safety" },
           { "item": "wristwatch" },
-          { "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_gray" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" }
         ]
@@ -1047,11 +1040,7 @@
     "items": {
       "both": {
         "items": [ "dress_shirt", "socks", "boots", "coat_lab", "gloves_rubber", "glasses_safety", "wristwatch" ],
-        "entries": [
-          { "group": "charged_smart_phone" },
-          { "group": "starter_wallet_full" },
-          { "item": "pants", "variant": "pants_stone" }
-        ]
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" }, { "item": "pants", "variant": "pants_gray" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -1074,7 +1063,7 @@
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "boots_steel" },
-          { "item": "duct_tape" },
+          { "group": "duct_tape_roll" },
           { "item": "screwdriver" },
           { "item": "wristwatch" },
           { "item": "mag_cars" },
@@ -1229,7 +1218,7 @@
           { "item": "basketball" },
           { "item": "sports_drink" },
           { "item": "runner_bag" },
-          { "item": "jersey", "snippets": [ "basin" ] },
+          { "item": "jersey", "variant": "sportsteam" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" }
         ]
@@ -1265,7 +1254,7 @@
           { "item": "football", "custom-flags": [ "auto_wield" ] },
           { "item": "knee_pads" },
           { "item": "sports_drink" },
-          { "item": "jersey", "snippets": [ "endsville" ] },
+          { "item": "jersey", "variant": "sportsteam" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_blue" }
@@ -1334,7 +1323,7 @@
           { "item": "sports_drink" },
           { "item": "wristwatch" },
           { "item": "fanny" },
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" }
         ]
@@ -1373,7 +1362,7 @@
           { "item": "boots" },
           { "item": "beret" },
           { "item": "silver_watch" },
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "item": "binoculars" },
           { "item": "cigar", "entry-wrapper": "case_cigar", "count": 2 },
           { "item": "id_military", "container-item": "wallet_leather" },
@@ -1810,10 +1799,9 @@
           { "item": "knife_combat_army", "variant": "m9bayonet", "container-item": "sheath" },
           { "item": "shot_00", "count": 2 },
           {
-            "item": "mossberg_930",
-            "variant": "m1014",
+            "item": "m1014",
             "ammo-item": "shot_00",
-            "charges": 8,
+            "charges": 5,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
           }
         ]
@@ -2594,7 +2582,7 @@
           { "item": "polo_shirt" },
           { "item": "boots" },
           { "item": "wristwatch" },
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] }
@@ -2643,7 +2631,7 @@
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
           { "item": "kevlar_harness", "container-item": "runner_bag" },
-          { "item": "sheriffshirt", "variant": "sheriff" }
+          { "item": "postman_shirt", "variant": "sheriff" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -2688,7 +2676,7 @@
           { "group": "starter_wallet_full" },
           { "group": "holster_supp_usp9", "container-item": "XL_holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp9" },
-          { "item": "sheriffshirt", "variant": "sheriff" }
+          { "item": "postman_shirt", "variant": "sheriff" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -2808,7 +2796,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
-          { "item": "sheriffshirt", "variant": "sheriff" }
+          { "item": "postman_shirt", "variant": "sheriff" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -2845,7 +2833,7 @@
           { "group": "starter_wallet_full" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_ref_lighter" },
-          { "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_gray" },
           { "group": "speedloaders_s&w619_magnum" },
           { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 7, "container-item": "holster" }
         ]
@@ -2902,7 +2890,7 @@
           { "group": "swat_ballistic_vest_pristine" },
           { "group": "charged_two_way_radio" },
           { "group": "starter_wallet_full" },
-          { "item": "sheriffshirt", "variant": "swat_shirt" },
+          { "item": "postman_shirt", "variant": "swat" },
           { "group": "army_mags_mp5" },
           { "group": "army_mags_usp9" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -2961,7 +2949,7 @@
           { "group": "swat_ballistic_vest_pristine" },
           { "group": "charged_two_way_radio" },
           { "group": "starter_wallet_full" },
-          { "item": "sheriffshirt", "variant": "swat_shirt" },
+          { "item": "postman_shirt", "variant": "swat" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc2" },
@@ -3023,7 +3011,7 @@
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
           { "item": "762_51", "charges": 20 },
           { "item": "M24", "ammo-item": "762_51", "charges": 5, "contents-item": "shoulder_strap" },
-          { "item": "sheriffshirt", "variant": "sheriff" }
+          { "item": "postman_shirt", "variant": "sheriff" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -3116,7 +3104,7 @@
           { "item": "gloves_leather", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
-          { "item": "sheriffshirt", "variant": "sheriff" }
+          { "item": "postman_shirt", "variant": "sheriff" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -3165,7 +3153,7 @@
           { "item": "boots_steel" },
           { "item": "pants_cargo" },
           { "item": "jacket_leather" },
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "item": "hat_boonie" },
           { "item": "diving_watch" },
           { "item": "caff_gum" },
@@ -3514,7 +3502,7 @@
           { "item": "hat_ball" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_gray" },
           { "item": "tank_top", "variant": "tank_top_generic" }
         ]
       },
@@ -3707,7 +3695,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
-          { "item": "sheriffshirt", "variant": "sheriff" }
+          { "item": "postman_shirt", "variant": "sheriff" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -3744,7 +3732,7 @@
           { "item": "elbow_pads" },
           { "item": "slingpack" },
           { "item": "kevlar" },
-          { "item": "balclava" },
+          { "item": "balclava", "variant": "black" },
           { "item": "knee_pads" },
           { "item": "beret" },
           { "item": "wristwatch" },
@@ -3817,7 +3805,7 @@
           { "item": "roadmap" },
           { "item": "sm_extinguisher", "charges": 10 },
           { "item": "trailmap" },
-          { "item": "sheriffshirt", "variant": "sheriff" }
+          { "item": "postman_shirt", "variant": "sheriff" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -3962,7 +3950,7 @@
           { "item": "memory_card" },
           { "item": "usb_drive" },
           { "item": "portable_game", "charges": 150 },
-          { "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_gray" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "group": "charged_laptop" }
@@ -4136,7 +4124,7 @@
     "npc_background": "BG_survival_story_EVACUEE",
     "points": -1,
     "items": {
-      "both": [ "subsuit_xl" ],
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
@@ -4376,6 +4364,10 @@
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "tank_top" },
+          { "item": "fur_cat_ears" },
+          { "item": "fur_cat_tail" },
+          { "item": "fur_collar" },
+          { "item": "sewing_kit", "charges": 200 },
           { "item": "mbag" },
           { "item": "mag_animecon" },
           { "item": "cheeseburger" },
@@ -4573,7 +4565,7 @@
     "npc_background": "BG_survival_story_PRISONER",
     "points": -1,
     "items": {
-      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks" ],
+      "both": { "items": [ "sneakers", "socks", { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
@@ -4593,7 +4585,7 @@
       { "level": 2, "name": "traps" }
     ],
     "items": {
-      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
+      "both": { "items": [ "sneakers", "socks", "glass_shiv", { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
@@ -4610,7 +4602,7 @@
     "skills": [ { "level": 3, "name": "melee" }, { "level": 3, "name": "stabbing" }, { "level": 2, "name": "unarmed" } ],
     "traits": [ "KILLER" ],
     "items": {
-      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
+      "both": { "items": [ "sneakers", "socks", "glass_shiv", { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
@@ -4640,8 +4632,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "striped_shirt" },
-          { "item": "striped_pants" },
+          { "item": "jumpsuit_pocketless", "variant": "orange" },
           { "item": "sneakers" },
           { "item": "socks" },
           { "item": "knife_rm42", "container-item": "gartersheath1" },
@@ -4662,7 +4653,7 @@
     "points": 0,
     "skills": [ { "level": 4, "name": "speech" }, { "level": 3, "name": "computer" } ],
     "items": {
-      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "rock_sock" ],
+      "both": { "items": [ "sneakers", "socks", "rock_sock", { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
@@ -4679,8 +4670,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "striped_shirt" },
-          { "item": "striped_pants" },
+          { "item": "jumpsuit_pocketless", "variant": "orange" },
           { "item": "sneakers" },
           { "item": "socks" },
           { "item": "adderall" },
@@ -4704,7 +4694,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "striped_shirt" },
+          { "item": "jumpsuit_pocketless", "variant": "orange" },
           { "item": "striped_pants" },
           { "item": "sneakers" },
           { "item": "socks" },
@@ -4728,7 +4718,7 @@
     "traits": [ "ANIMALEMPATH" ],
     "pets": [ { "name": "mon_black_rat", "amount": 13 } ],
     "items": {
-      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "fried_seeds" ],
+      "both": { "items": [ "sneakers", "socks", "fried_seeds", { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
@@ -4748,7 +4738,7 @@
         "entries": [
           { "item": "socks" },
           { "item": "sneakers" },
-          { "item": "striped_shirt" },
+          { "item": "buttonshirt", "variant": "striped" },
           { "item": "hoodie" },
           { "item": "gloves_light" },
           { "item": "mask_ski" },
@@ -4812,7 +4802,7 @@
           { "item": "holybook_bible1" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "holy_symbol", "variant": "general_necklace" }
+          { "item": "holy_symbol", "variant": "cross_necklace" }
         ]
       },
       "male": {
@@ -4837,7 +4827,7 @@
           { "item": "holybook_bible4" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "holy_symbol", "variant": "catholic_necklace" }
+          { "item": "holy_symbol", "variant": "cross_necklace" }
         ]
       },
       "male": {
@@ -4927,8 +4917,6 @@
       "both": {
         "entries": [
           { "item": "socks" },
-          { "item": "kufi" },
-          { "item": "thawb" },
           { "item": "lowtops" },
           { "item": "holybook_quran" },
           { "group": "charged_smart_phone" },
@@ -4938,8 +4926,8 @@
           { "item": "pants", "variant": "pants_white" }
         ]
       },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+      "male": { "entries": [ { "item": "briefs" }, { "item": "kufi" }, { "item": "thawb" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" }, { "item": "niqab" }, { "item": "abaya" } ] }
     }
   },
   {
@@ -4963,7 +4951,7 @@
           { "item": "holybook_talmud" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "holy_symbol", "variant": "jewish_necklace1" },
+          { "item": "holy_symbol", "variant": "jewish_necklace" },
           { "item": "pants", "variant": "pants_black" }
         ]
       },
@@ -5024,7 +5012,7 @@
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "group": "charged_laptop" },
-          { "item": "holy_symbol", "variant": "general_necklace" },
+          { "item": "holy_symbol", "variant": "cross_necklace" },
           { "item": "pants", "variant": "pants_black" }
         ]
       },
@@ -5406,7 +5394,7 @@
           { "item": "socks" },
           { "item": "winter_pants_army" },
           { "item": "winter_jacket_army" },
-          { "item": "balclava" },
+          { "item": "balclava", "variant": "black" },
           { "item": "boots_combat" },
           { "item": "winter_gloves_army" },
           { "item": "tac_helmet" },
@@ -5665,8 +5653,6 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "hoodie" },
-          { "item": "hoodie_cropped" },
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "elbow_pads" },
@@ -5677,13 +5663,11 @@
           { "item": "wristwatch" },
           { "item": "sports_drink" },
           { "group": "charged_smart_phone" },
-          { "group": "starter_wallet_full" },
-          { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "tshirt_cropped" }
+          { "group": "starter_wallet_full" }
         ]
       },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "boy_shorts" } ] }
+      "male": { "entries": [ { "item": "briefs" }, { "item": "hoodie" }, { "item": "tshirt" } ] },
+      "female": { "entries": [ { "item": "boy_shorts" }, { "item": "hoodie_cropped" }, { "item": "tshirt_cropped" } ] }
     },
     "age_lower": 16,
     "age_upper": 21
@@ -5701,8 +5685,6 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "hoodie" },
-          { "item": "hoodie_cropped" },
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "elbow_pads" },
@@ -5714,13 +5696,11 @@
           { "item": "wristwatch" },
           { "item": "sports_drink" },
           { "group": "charged_smart_phone" },
-          { "group": "starter_wallet_full" },
-          { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "tshirt_cropped" }
+          { "group": "starter_wallet_full" }
         ]
       },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "boy_shorts" } ] }
+      "male": { "entries": [ { "item": "briefs" }, { "item": "hoodie" }, { "item": "tshirt" } ] },
+      "female": { "entries": [ { "item": "boy_shorts" }, { "item": "hoodie_cropped" }, { "item": "tshirt_cropped" } ] }
     },
     "age_lower": 16,
     "age_upper": 21
@@ -5743,8 +5723,6 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "hoodie" },
-          { "item": "hoodie_cropped" },
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "sneakers" },
@@ -5759,13 +5737,11 @@
           { "item": "slingshot" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "group": "charged_matches" },
-          { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "tshirt_cropped" }
+          { "group": "charged_matches" }
         ]
       },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "boy_shorts" } ] }
+      "male": { "entries": [ { "item": "briefs" }, { "item": "hoodie" }, { "item": "tshirt" } ] },
+      "female": { "entries": [ { "item": "boy_shorts" }, { "item": "hoodie_cropped" }, { "item": "tshirt_cropped" } ] }
     },
     "age_lower": 16,
     "age_upper": 18
@@ -5883,7 +5859,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "tshirt", "variant": "tux" },
+          { "item": "tshirt" },
           { "item": "jacket_light" },
           { "item": "jeans" },
           { "item": "socks" },
@@ -6072,21 +6048,19 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "hoodie" },
-          { "item": "hoodie_cropped" },
           { "item": "pants_cargo" },
           { "item": "socks_ankle" },
           { "item": "sneakers" },
           { "item": "runner_bag" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
-          { "group": "starter_wallet_full" },
-          { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "tshirt_cropped" }
+          { "group": "starter_wallet_full" }
         ]
       },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+      "male": { "entries": [ { "item": "briefs" }, { "item": "tshirt" }, { "item": "hoodie" } ] },
+      "female": {
+        "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" }, { "item": "hoodie_cropped" }, { "item": "tshirt_cropped" } ]
+      }
     },
     "age_lower": 18
   },
@@ -6113,13 +6087,11 @@
           { "group": "charged_smart_phone" },
           { "group": "starter_rich_wallet_full" },
           { "item": "camera", "charges": 300 },
-          { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "tshirt_cropped" },
           { "item": "pants", "variant": "pants_black" }
         ]
       },
-      "male": { "entries": [ { "item": "boxer_shorts" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+      "male": { "entries": [ { "item": "boxer_shorts" }, { "item": "tshirt" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "tshirt_cropped" }, { "item": "panties" } ] }
     }
   },
   {
@@ -6259,7 +6231,7 @@
     "npc_background": "BG_survival_story_RURAL",
     "points": 2,
     "skills": [ { "level": 5, "name": "survival" } ],
-    "proficiencies": [ "prof_gross_anatomy", "prof_wp_ungulate" ],
+    "proficiencies": [ "prof_gross_anatomy", "prof_wp_ungulate", "prof_whips_familiar", "prof_whips_pro" ],
     "items": {
       "both": {
         "entries": [
@@ -6305,7 +6277,7 @@
       "both": {
         "entries": [
           { "item": "jacket_jean" },
-          { "item": "tshirt", "variant": "power" },
+          { "item": "tshirt", "variant": "band" },
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "boots_steel" },
@@ -6337,7 +6309,7 @@
         "magazine": 100,
         "entries": [
           { "item": "mbag" },
-          { "item": "tshirt", "variant": "power" },
+          { "item": "tshirt", "variant": "band" },
           { "item": "shorts_cargo" },
           { "item": "socks" },
           { "item": "sneakers" },
@@ -6423,7 +6395,7 @@
             "container-item": "western_holster",
             "contents-group": "bandolier_ww_gunslinger"
           },
-          { "item": "sheriffshirt", "variant": "sheriff" }
+          { "item": "postman_shirt", "variant": "sheriff" }
         ]
       }
     }
@@ -6442,7 +6414,7 @@
       "both": {
         "entries": [
           { "item": "gold_watch" },
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "item": "water_mineral" },
           { "item": "money_strap_twenty" },
           { "group": "charged_cigs" },
@@ -6885,7 +6857,7 @@
           { "item": "longshirt" },
           { "item": "kevlar" },
           { "item": "mbag" },
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "item": "socks" },
           { "item": "lowtops" },
           { "item": "pockknife" },
@@ -7303,7 +7275,7 @@
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
-          { "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_gray" },
           {
             "item": "light_minus_battery_cell",
             "ammo-item": "battery",
@@ -7512,7 +7484,7 @@
     "description": "You liked to spend your days taking care of the horses and cows, searching the perimeter of the ranch on your steed and looking out for anything suspicious, that's why you managed to escape in time when shit hit the fan.",
     "npc_background": "BG_survival_story_RURAL",
     "points": 3,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning", "prof_whips_familiar", "prof_whips_pro" ],
     "skills": [
       { "level": 4, "name": "survival" },
       { "level": 3, "name": "gun" },
@@ -7706,73 +7678,30 @@
     "id": "hitman",
     "name": { "male": "Hitman", "female": "Hitwoman" },
     "requirement": "achievement_kill_100_monsters",
-    "description": "You were the best undercover agent they had, with a mission so vital that you had to take it even with the riots going on.  Your target seems to have turned feral as well as your contact, you are all alone now.",
+    "description": "You did the wet work for a gang, mafia, or whatever person had enough money.  You were no trained assassin, but you know how to shoot a gun and get out of dodge quickly.",
     "npc_background": "BG_survival_story_CRIMINAL",
-    "points": 6,
-    "skills": [
-      { "level": 5, "name": "gun" },
-      { "level": 5, "name": "pistol" },
-      { "level": 4, "name": "melee" },
-      { "level": 4, "name": "stabbing" },
-      { "level": 4, "name": "unarmed" },
-      { "level": 4, "name": "dodge" },
-      { "level": 4, "name": "speech" }
-    ],
-    "proficiencies": [
-      "prof_gunsmithing_basic",
-      "prof_spotting",
-      "prof_wp_syn_armored",
-      "prof_auto_pistols_familiar",
-      "prof_auto_pistols_pro",
-      "prof_unarmed_familiar",
-      "prof_unarmed_pro",
-      "prof_gross_anatomy"
-    ],
+    "points": 4,
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 3, "name": "driving" } ],
+    "proficiencies": [ "prof_auto_pistols_familiar", "prof_driver" ],
     "items": {
       "both": {
         "entries": [
-          { "item": "fancy_sunglasses" },
-          { "item": "platinum_watch" },
-          { "item": "knit_scarf_loose" },
-          { "item": "gloves_liner" },
-          { "item": "polaroid_photo" },
-          { "item": "suppressor" },
-          { "item": "tele_sight_pistol" },
+          { "item": "sunglasses" },
+          { "item": "hat_ball" },
+          { "item": "gloves_medical" },
+          { "item": "sneakers" },
           { "group": "charged_cell_phone" },
+          { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "glock_29", "ammo-item": "10mm_fmj", "charges": 15 },
-          { "item": "glock_20mag", "ammo-item": "10mm_fmj", "charges": 15, "container-item": "bbholster" }
-        ]
-      },
-      "male": {
-        "entries": [
-          { "item": "briefs" },
+          { "item": "longshirt" },
           { "item": "socks" },
-          { "item": "dress_shoes" },
-          { "item": "bowhat" },
-          { "item": "suit" },
-          { "item": "tie_necktie" },
-          { "item": "tieclip" },
-          { "item": "leather_belt" },
-          { "item": "briefcase" },
-          { "item": "cufflinks_intricate" }
+          { "item": "jeans" },
+          { "item": "glock_17", "ammo-item": "9mm", "charges": 17 },
+          { "item": "glock17_17", "ammo-item": "9mm", "charges": 17, "container-item": "bbholster" }
         ]
       },
-      "female": {
-        "entries": [
-          { "item": "panties" },
-          { "item": "bra" },
-          { "item": "stockings", "variant": "stockings_black" },
-          { "item": "garter_belt" },
-          { "item": "heels" },
-          { "item": "hat_cotton" },
-          { "item": "dress" },
-          { "item": "purse" },
-          { "item": "platinum_ear" },
-          { "item": "platinum_necklace" },
-          { "item": "platinum_hairpin" }
-        ]
-      }
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "panties" }, { "item": "bra" } ] }
     },
     "missions": [ "MISSION_ASSASSINATION" ]
   },
@@ -7802,7 +7731,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "item": "platinum_watch" },
           { "item": "knit_scarf_loose" },
           { "item": "gloves_liner" },
@@ -8015,7 +7944,7 @@
         "entries": [
           { "item": "jeans" },
           { "item": "tshirt" },
-          { "item": "gosling_jacket" },
+          { "item": "jacket_leather" },
           { "item": "gloves_fingerless" },
           { "item": "socks" },
           { "item": "sneakers" },
@@ -8152,6 +8081,18 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "futile_fighter",
+    "name": "Futile Fighter",
+    "description": "The cataclysm may have caught you off guard, but you're not going down without a fight!",
+    "points": -1,
+    "items": {
+      "both": { "entries": [ { "item": "tank_top" }, { "item": "jeans" }, { "item": "flip_flops" }, { "item": "stick" } ] },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "panties" } ] }
     }
   }
 ]

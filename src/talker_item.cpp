@@ -1,11 +1,18 @@
 #include "talker_item.h"
 
+#include <vector>
+
+#include "bodypart.h"
+#include "cata_utility.h"
 #include "character.h"
+#include "coordinates.h"
+#include "debug.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
-#include "magic.h"
-#include "point.h"
-#include "vehicle.h"
+#include "math_parser_diag_value.h"
+#include "messages.h"
+#include "units.h"
 
 static const ammotype ammo_battery( "battery" );
 
@@ -21,34 +28,29 @@ std::string talker_item_const::get_name() const
     return me_it_const->get_item()->type_name();
 }
 
-int talker_item_const::posx() const
+int talker_item_const::posx( const map &here ) const
 {
-    return me_it_const->pos_bub().x();
+    return me_it_const->pos_bub( here ).x();
 }
 
-int talker_item_const::posy() const
+int talker_item_const::posy( const map &here ) const
 {
-    return me_it_const->pos_bub().y();
+    return me_it_const->pos_bub( here ).y();
 }
 
 int talker_item_const::posz() const
 {
-    return me_it_const->pos_bub().z();
+    return me_it_const->pos_abs().z();
 }
 
-tripoint talker_item_const::pos() const
+tripoint_bub_ms talker_item_const::pos_bub( const map &here ) const
 {
-    return me_it_const->pos_bub().raw();
-}
-
-tripoint_bub_ms talker_item_const::pos_bub() const
-{
-    return me_it_const->pos_bub();
+    return me_it_const->pos_bub( here );
 }
 
 tripoint_abs_ms talker_item_const::pos_abs() const
 {
-    return get_map().get_abs( me_it_const->pos_bub() );
+    return me_it_const->pos_abs();
 }
 
 tripoint_abs_omt talker_item_const::pos_abs_omt() const
@@ -56,9 +58,9 @@ tripoint_abs_omt talker_item_const::pos_abs_omt() const
     return get_player_character().pos_abs_omt();
 }
 
-std::optional<std::string> talker_item_const::maybe_get_value( const std::string &var_name ) const
+diag_value const *talker_item_const::maybe_get_value( const std::string &var_name ) const
 {
-    return me_it_const->get_item()->maybe_get_var( var_name );
+    return me_it_const->get_item()->maybe_get_value( var_name );
 }
 
 bool talker_item_const::has_flag( const flag_id &f ) const
@@ -96,7 +98,7 @@ int talker_item_const::get_hp_max( const bodypart_id & ) const
 
 units::energy talker_item_const::power_cur() const
 {
-    return 1_mJ * me_it_const->get_item()->ammo_remaining();
+    return 1_mJ * me_it_const->get_item()->ammo_remaining( );
 }
 
 units::energy talker_item_const::power_max() const
@@ -131,7 +133,12 @@ int talker_item_const::get_weight() const
     return units::to_milligram( me_it_const->get_item()->weight() );
 }
 
-void talker_item::set_value( const std::string &var_name, const std::string &value )
+int talker_item_const::get_quality( const std::string &quality, bool strict ) const
+{
+    return me_it_const->get_quality( quality, strict );
+}
+
+void talker_item::set_value( const std::string &var_name, diag_value const &value )
 {
     me_it->get_item()->set_var( var_name, value );
 }
@@ -157,7 +164,18 @@ void talker_item::set_degradation( int set )
     me_it->get_item()->set_degradation( set );
 }
 
-void talker_item::die()
+void talker_item::die( map * )
 {
     me_it->remove_item();
+}
+
+void talker_item::set_fault( const fault_id &fault_id, bool force, bool message )
+{
+    me_it->get_item()->set_fault( fault_id, force, message );
+}
+
+void talker_item::set_random_fault_of_type( const std::string &fault_type, bool force,
+        const bool message )
+{
+    me_it->get_item()->set_random_fault_of_type( fault_type, force, message );
 }

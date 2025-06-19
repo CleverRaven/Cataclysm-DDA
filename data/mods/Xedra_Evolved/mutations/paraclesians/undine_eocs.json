@@ -178,7 +178,7 @@
     "type": "effect_on_condition",
     "id": "EOC_UNDINE_GOBLIN_FRUIT",
     "condition": { "test_eoc": "EOC_CONDITION_UNDINE_CLOSE_TO_OR_IN_WATER" },
-    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_undine", "use_item_group": true, "suppress_message": true },
     "false_effect": [
       {
         "u_message": "You must be standing in water or near a large body of water to call forth a goblin fruit.",

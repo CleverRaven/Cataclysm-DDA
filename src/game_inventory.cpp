@@ -1,10 +1,12 @@
 #include "game_inventory.h"
 
+#include <imgui/imgui.h>
 #include <algorithm>
 #include <bitset>
-#include <cstddef>
+#include <cmath>
 #include <functional>
 #include <iterator>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -12,7 +14,6 @@
 #include <string>
 #include <vector>
 
-#include "activity_type.h"
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -20,28 +21,36 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_id.h"
 #include "color.h"
-#include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "display.h"
 #include "enums.h"
 #include "flag.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input.h"
 #include "input_context.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "map.h"
+#include "mapdata.h"
 #include "messages.h"
+#include "npc.h"
 #include "npctrade.h"
 #include "options.h"
+#include "output.h"
 #include "pimpl.h"
+#include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -50,13 +59,14 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "text.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
-#include "veh_type.h"
 #include "vitamin.h"
 
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
@@ -64,12 +74,10 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
-static const bionic_id bio_fitnessband( "bio_fitnessband" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const flag_id json_flag_CALORIES_INTAKE( "CALORIES_INTAKE" );
-
-static const itype_id itype_fitness_band( "fitness_band" );
+static const flag_id json_flag_CALORIE_BURN( "CALORIE_BURN" );
 
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
@@ -77,6 +85,8 @@ static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
+
+static const skill_id skill_computer( "computer" );
 
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
@@ -154,11 +164,8 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         inv_s.add_contained_items( container );
     } else {
         // Default behavior.
-        inv_s.add_character_items( u );
-        inv_s.add_nearby_items( radius );
-        if( add_ebooks ) {
-            inv_s.add_character_ebooks( u );
-        }
+        inv_s.add_character_items( u, add_ebooks );
+        inv_s.add_nearby_items( radius, add_ebooks );
     }
 
     if( u.has_activity( consuming ) ) {
@@ -577,7 +584,7 @@ class pickup_inventory_preset : public inventory_selector_preset
             if( ignore_liquidcont && loc.where() == item_location::type::map &&
                 !loc->made_of( phase_id::SOLID ) ) {
                 map &here = get_map();
-                if( here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
+                if( here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub( here ) ) ) {
                     return false;
                 }
             }
@@ -779,12 +786,14 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
+            map &here = get_map();
+
             const item &med = *loc;
 
             if(
                 ( loc->made_of_from_type( phase_id::LIQUID ) &&
                   loc.where() != item_location::type::container ) &&
-                !get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
+                !here.has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub( here ) ) ) {
                 return _( "Can't drink spilt liquids." );
             }
             if(
@@ -923,8 +932,10 @@ static std::string get_consume_needs_hint( Character &you )
     int kcal_ingested_yesterday = you.as_avatar()->get_daily_ingested_kcal( true );
     int kcal_spent_today = you.as_avatar()->get_daily_spent_kcal( false );
     int kcal_spent_yesterday = you.as_avatar()->get_daily_spent_kcal( true );
-    bool has_fitness_band =  you.is_wearing( itype_fitness_band ) || you.has_bionic( bio_fitnessband );
-    bool has_tracker = has_fitness_band || you.cache_has_item_with( json_flag_CALORIES_INTAKE );
+    bool has_fitness_band =  you.cache_has_item_with( json_flag_CALORIE_BURN ) ||
+                             you.has_flag( json_flag_CALORIE_BURN );
+    bool has_tracker = has_fitness_band || you.cache_has_item_with( json_flag_CALORIES_INTAKE ) ||
+                       you.has_flag( json_flag_CALORIES_INTAKE );
 
     std::string kcal_estimated_intake;
     if( kcal_ingested_today == 0 ) {
@@ -1294,7 +1305,7 @@ class gunmod_remove_inventory_preset : public inventory_selector_preset
                   mod.type->gunmod->location.name() == "mechanism" ||
                   mod.type->gunmod->location.name() == "loading port" ||
                   mod.type->gunmod->location.name() == "bore" ) &&
-                ( gun.ammo_remaining() > 0 || gun.magazine_current() ) ) {
+                ( gun.ammo_remaining( ) > 0 || gun.magazine_current() ) ) {
                 return _( "must be unloaded before removing this mod" );
             }
 
@@ -1353,7 +1364,7 @@ class ereader_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_ebook_storage();
+            return loc->is_estorage();
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -1459,20 +1470,18 @@ class read_inventory_preset: public pickup_inventory_preset
 
         bool is_shown( const item_location &loc ) const override {
             const item_location p_loc = loc.parent_item();
-
             return ( loc->is_book() || loc->type->can_use( "learn_spell" ) ) &&
-                   ( p_loc.where() == item_location::type::invalid || !p_loc->is_ebook_storage() ||
-                     !p_loc->uses_energy() ||
-                     p_loc->energy_remaining( p_loc.carrier(), false ) >= 1_kJ );
+                   ( !p_loc || ( !p_loc->is_estorage() || p_loc->is_estorage_usable( you ) ) );
         }
 
         std::string get_denial( const item_location &loc ) const override {
             std::vector<std::string> denials;
-            if( you.get_book_reader( *loc, denials ) == nullptr && !denials.empty() &&
-                !loc->type->can_use( "learn_spell" ) ) {
+            if( ( you.get_book_reader( *loc, denials ) == nullptr &&
+                  !denials.empty() &&
+                  !loc->type->can_use( "learn_spell" ) ) ) {
                 return denials.front();
             }
-            return pickup_inventory_preset::get_denial( loc );
+            return pickup_inventory_preset::get_denial( loc.is_efile() ? loc.parent_item() : loc );
         }
 
         std::function<bool( const inventory_entry & )> get_filter( const std::string &filter ) const
@@ -1607,22 +1616,25 @@ item_location game_menus::inv::ebookread( Character &you, item_location &ereader
 drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereader )
 {
     std::set<itype_id> already_saved;
-    for( const item *ebook : ereader->ebooks() ) {
-        if( !ebook->is_book() ) {
-            debugmsg( "ebook type pocket contains non-book item %s", ebook->typeId().str() );
-            continue;
+    for( const item *efile : ereader->efiles() ) {
+        if(
+            efile->is_estorable() &&
+            efile->is_ecopiable()
+            //already_saved.find(ebook->typeId()) == already_saved.end()
+        ) {
+            already_saved.insert( efile->typeId() );
         }
-
-        already_saved.insert( ebook->typeId() );
     }
+
     const inventory_filter_preset preset( [&who, &already_saved]( const item_location & loc ) {
-        return loc->is_book()
-               && loc->type->book->is_scannable
-               && !already_saved.count( loc->typeId() )
-               && loc->is_owned_by( who, true );
+
+        return ( loc->is_owned_by( who, true ) &&
+                 loc->is_estorable() &&
+                 loc->is_ecopiable() &&
+                 !already_saved.count( loc->typeId() ) );
     } );
 
-    const int available_charges = ereader->ammo_remaining();
+    const int available_charges = ereader->ammo_remaining( );
     auto make_raw_stats = [&available_charges, &ereader](
                               const std::vector<std::pair<item_location, int>> &locs
     ) {
@@ -1652,12 +1664,213 @@ drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereade
                                    make_raw_stats, /*allow_select_contained=*/true );
     inv_s.add_character_items( who );
     inv_s.add_nearby_items( PICKUP_RANGE );
+    inv_s.remove_duplicate_itypes( true );
     inv_s.set_title( _( "Scan which books?" ) );
     if( inv_s.empty() ) {
         popup( std::string( _( "You have no books to scan." ) ), PF_GET_KEY );
         return drop_locations();
     }
     return inv_s.execute();
+}
+
+drop_locations game_menus::inv::edevice_select( Character &who, item_location &used_edevice,
+        bool browse_equals, bool auto_include_used_edevice, bool unusable_only, efile_action action )
+{
+    const map &here = get_map();
+
+    const inventory_filter_preset preset( [&]( const item_location & loc ) {
+        //make sure this is an edevice before we make edevice calls
+        if( loc->is_estorage() && loc->is_owned_by( who, true ) && who.sees( here, loc.pos_bub( here ) ) ) {
+            efile_activity_actor::edevice_compatible compat =
+                efile_activity_actor::edevices_compatible( used_edevice, loc );
+            bool is_tool_has_charge = !loc->is_tool() || loc->ammo_sufficient( &who );
+            bool used_edevice_check = auto_include_used_edevice || loc != used_edevice;
+            bool has_use_check = !unusable_only || !efile_activity_actor::edevice_has_use( loc.get_item() );
+            bool browsed_equal_check = browse_equals == loc->is_browsed();
+            bool fast_transfer = compat == efile_activity_actor::edevice_compatible::ECOMPAT_FAST;
+            bool no_files_check = !( action == EF_MOVE_ONTO_THIS || action == EF_COPY_ONTO_THIS )
+                                  || ( loc->is_browsed() && !loc->efiles().empty() );
+            bool compatible_check = ( action == EF_BROWSE && browse_equals ) ||
+                                    //if browsing, no compatibility check
+                                    ( action == EF_READ && fast_transfer ) || //if reading, only fast-compatible edevices
+                                    compat != efile_activity_actor::edevice_compatible::ECOMPAT_NONE; //otherwise, any compatible edevice
+            bool is_not_forbidden = true;
+            for( const pocket_data &pocket : loc->type->pockets ) {
+                if( pocket.type == pocket_type::E_FILE_STORAGE && pocket.forbidden ) {
+                    is_not_forbidden = false;
+                }
+            }
+
+            bool preset_bool = is_tool_has_charge &&
+                               used_edevice_check &&
+                               has_use_check &&
+                               browsed_equal_check &&
+                               compatible_check &&
+                               no_files_check &&
+                               is_not_forbidden;
+            if( preset_bool ) {
+                add_msg_debug( debugmode::DF_ACT_EBOOK, string_format( "found edevice %s", loc->display_name() ) );
+            }
+            return preset_bool;
+        }
+        return false;
+    } );
+
+    std::string action_name = efile_activity_actor::efile_action_name( action, false, true );
+    std::string inv_title = _( action_name );
+    std::string used_device_name;
+    if( efile_activity_actor::efile_action_exclude_used( action ) ) {
+        used_device_name = string_format( _( " (using %s)?" ), used_edevice->display_name() );
+    } else {
+        used_device_name = "?";
+    }
+
+    if( action == EF_READ || efile_activity_actor::efile_action_is_from( action ) ) {
+        inventory_pick_selector select_one_edevice( who, preset );
+        select_one_edevice.add_character_items( who );
+        select_one_edevice.add_nearby_items( PICKUP_RANGE );
+        inv_title += _( " which device" ) + used_device_name;
+        select_one_edevice.set_title( inv_title );
+        if( select_one_edevice.empty() ) {
+            popup( std::string( _( "You have no eligible devices to " + action_name + "." ) ), PF_GET_KEY );
+            return drop_locations();
+        }
+        drop_locations returned_device;
+        item_location selected_device = select_one_edevice.execute();
+        if( selected_device ) {
+            returned_device.emplace_back( selected_device, 1 );
+        }
+        return returned_device;
+    } else {
+        inventory_multiselector inv_s( who, preset, _( "Select devices to " + action_name ) );
+        inv_s.add_character_items( who );
+        inv_s.add_nearby_items( PICKUP_RANGE );
+        inv_title += _( " which devices" ) + used_device_name;
+        inv_s.set_title( inv_title );
+        if( inv_s.empty() ) {
+            popup( std::string( _( "You have no eligible devices to " + action_name + "." ) ), PF_GET_KEY );
+            return drop_locations();
+        }
+        return inv_s.execute();
+    }
+}
+
+drop_locations game_menus::inv::efile_select( Character &who, item_location &used_edevice,
+        const std::vector<item_location> &target_edevices, efile_action action, bool from_used_edevice )
+{
+    item_location to_edevice = used_edevice;
+    std::vector<item_location> from_edevices = target_edevices;
+
+    if( from_used_edevice ) {
+        //swap targets if this is a "from" action
+        to_edevice = target_edevices.front();
+        from_edevices = { used_edevice };
+    }
+
+    item_location external_transfer_edevice;
+    bool copying = action == EF_COPY_FROM_THIS || action == EF_COPY_ONTO_THIS;
+    bool wiping = action == EF_WIPE;
+
+    const inventory_filter_preset preset( [&copying]( const item_location & loc ) {
+        return loc.is_efile() && ( !copying || loc->is_ecopiable() );
+    } );
+
+    const int available_charges = to_edevice->ammo_remaining( );
+    auto make_raw_stats = [&]( const std::vector<std::pair<item_location, int>> &locs ) {
+        std::vector<item_location> efiles;
+        efiles.reserve( locs.size() );
+        for( const auto &drop : locs ) {
+            for( int i = 0; i < drop.second; i++ ) {
+                efiles.emplace_back( drop.first );
+            }
+        }
+        time_duration required_time = efile_activity_actor::total_processing_time( used_edevice,
+                                      target_edevices, efiles,
+                                      action, who, who.get_skill_level( skill_computer ) < 1 );
+        units::ememory total_memory;
+        bool edevice_slow_transfer = false;
+        for( const item_location &efile : efiles ) {
+            item_location efile_parent_device = efile.parent_item();
+            if( !wiping ) {
+                if( efile_activity_actor::edevices_compatible( to_edevice, efile_parent_device ) !=
+                    efile_activity_actor::edevice_compatible::ECOMPAT_FAST ) {
+                    if( !efile_activity_actor::find_external_transfer_estorage( who, efile,
+                            to_edevice, efile_parent_device ) ) {
+                        edevice_slow_transfer = true;
+                    }
+                }
+            }
+            efile_transfer transfer( to_edevice, efile_parent_device );
+            required_time += efile_activity_actor::efile_processing_time( efile, transfer, action,
+                             who, who.get_skill_level( skill_computer ) < 1 );
+            total_memory += efile->ememory_size();
+        }
+        const int required_charges = required_time / efile_activity_actor::charge_per_transfer_time;
+
+        auto int_to_str = []( int val ) -> std::string {
+            return string_format( "%d", val );
+        };
+        const units::ememory memory_max = wiping ? to_edevice->total_ememory() :
+                                          to_edevice->remaining_ememory();
+        const bool over_memory_limit = total_memory > memory_max;
+        std::string total_memory_str = units::display( total_memory );
+        const std::string ememory = string_format( "%s / %s", over_memory_limit ?
+                                    colorize( total_memory_str, c_red ) : total_memory_str, units::display( memory_max ) );
+        const std::string charges = string_join( display_stat( "", required_charges,
+                                    available_charges,
+                                    int_to_str ), "" );
+        const std::string time_label = !edevice_slow_transfer ?
+                                       _( "Estimated time:" ) :
+                                       colorize( _( "Estimated time (slow!):" ), c_yellow );
+        const std::string time = colorize( to_string( required_time, true ),
+                                           c_light_gray );
+        return inventory_selector::stats{ {
+                {{ _( "Processed / Available Memory: " ), ememory }},
+                {{ _( "Charges" ), charges }},
+                {{ time_label, time}}
+            } };
+    };
+
+    std::string action_name = efile_activity_actor::efile_action_name( action );
+
+    if( action == EF_READ ) {
+        inventory_pick_selector select_one_file( who, preset );
+        select_one_file.add_contained_efiles( used_edevice );
+        select_one_file.set_title( action_name + _( " which files?" ) );
+        if( select_one_file.empty() ) {
+            return drop_locations();
+        }
+        return { { select_one_file.execute(), 1 } };
+    }
+    inventory_multiselector select_multiple_efiles( who, preset, _( "Files selected:" ),
+            make_raw_stats, /*allow_select_contained=*/true );
+    if( !wiping ) {
+        select_multiple_efiles.set_hint(
+            _( "Using two devices without high-speed compatibility will result in longer transfer times.\nHaving an external storage device compatible with both devices can avoid this." ) );
+    }
+    for( item_location loc : from_edevices ) {
+        select_multiple_efiles.add_contained_efiles( loc );
+    }
+    if( select_multiple_efiles.empty() ) {
+        popup( std::string( _( "You have no files to " + action_name + "." ) ), PF_GET_KEY );
+        return drop_locations();
+    }
+    select_multiple_efiles.set_title( _( "Select files to " + action_name ) );
+    bool done = false;
+    drop_locations selected_efiles;
+    while( !done ) {
+        selected_efiles = select_multiple_efiles.execute();
+        units::ememory total_ememory = 0_KB;
+        for( drop_location &d : selected_efiles ) {
+            total_ememory += d.first->ememory_size();
+        }
+        if( wiping || ( total_ememory < to_edevice->remaining_ememory() || selected_efiles.empty() ) ) {
+            done = true;
+        } else {
+            popup( std::string( _( "Selected file size exceeds available storage size." ) ), PF_GET_KEY );
+        }
+    }
+    return selected_efiles;
 }
 
 class steal_inventory_preset : public pickup_inventory_preset
@@ -1729,7 +1942,7 @@ class weapon_inventory_preset: public inventory_selector_preset
 
             append_cell( [ this ]( const item_location & loc ) {
                 if( deals_melee_damage( *loc ) ) {
-                    return good_bad_none( loc->type->m_to_hit );
+                    return good_bad_none( loc->get_to_hit() );
                 }
                 return std::string();
             }, _( "MELEE" ) );
@@ -2508,8 +2721,8 @@ static item_location autodoc_internal( Character &you, Character &patient,
                 return it.has_quality( qual_ANESTHESIA );
             } );
             for( const item *anesthesia_item : a_filter ) {
-                if( anesthesia_item->ammo_remaining() >= 1 ) {
-                    drug_count += anesthesia_item->ammo_remaining();
+                if( anesthesia_item->ammo_remaining( ) >= 1 ) {
+                    drug_count += anesthesia_item->ammo_remaining( );
                 }
             }
             hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
@@ -2851,13 +3064,14 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
         bool is_shown( const item_location &loc ) const override {
             // todo: allow to reload a magazine/magazine well from a container pocket on the same item
+            map &here = get_map();
+
             if( loc.parent_item() == target ) {
                 return false;
             }
 
             if( loc->made_of( phase_id::LIQUID ) && loc.where() == item_location::type::map ) {
-                map &here = get_map();
-                if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
+                if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub( here ) ) ) {
                     return false;
                 }
             }
@@ -2866,7 +3080,7 @@ class select_ammo_inventory_preset : public inventory_selector_preset
                 return false;
             }
 
-            if( !empty && loc->is_magazine() && !loc->ammo_remaining() ) {
+            if( !empty && loc->is_magazine() && !loc->ammo_remaining( ) ) {
                 return false;
             }
 
@@ -2874,7 +3088,8 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
             for( item_location &p : opts ) {
                 if( ( loc->has_flag( flag_SPEEDLOADER ) && p->allows_speedloader( loc->typeId() ) &&
-                      loc->ammo_remaining() > 1 && p->ammo_remaining() < 1 ) && p.can_reload_with( loc, true ) ) {
+                      loc->ammo_remaining( ) > 1 && p->ammo_remaining( ) < 1 ) &&
+                    p.can_reload_with( loc, true ) ) {
                     return true;
                 }
 
@@ -2891,16 +3106,16 @@ class select_ammo_inventory_preset : public inventory_selector_preset
             item_location left = lhs.any_item();
             item_location right = rhs.any_item();
 
-            if( left->ammo_remaining() == 0 || right->ammo_remaining() == 0 ) {
-                return ( left->ammo_remaining() != 0 ) > ( right->ammo_remaining() != 0 );
+            if( left->ammo_remaining( ) == 0 || right->ammo_remaining( ) == 0 ) {
+                return ( left->ammo_remaining( ) != 0 ) > ( right->ammo_remaining( ) != 0 );
             }
 
             if( left.obtain_cost( you ) != right.obtain_cost( you ) ) {
                 return left.obtain_cost( you ) < right.obtain_cost( you );
             }
 
-            if( left->ammo_remaining() != right->ammo_remaining() ) {
-                return left->ammo_remaining() > right->ammo_remaining();
+            if( left->ammo_remaining( ) != right->ammo_remaining( ) ) {
+                return left->ammo_remaining( ) > right->ammo_remaining( );
             }
 
             return inventory_selector_preset::sort_compare( lhs, rhs );

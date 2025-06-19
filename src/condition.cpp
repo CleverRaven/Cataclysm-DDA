@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <array>
 #include <climits>
-#include <cmath>
 #include <cstddef>
 #include <functional>
 #include <map>
@@ -11,7 +10,6 @@
 #include <optional>
 #include <queue>
 #include <set>
-#include <stdexcept>
 #include <string>
 #include <type_traits>
 #include <unordered_map>
@@ -20,13 +18,14 @@
 #include <variant>
 #include <vector>
 
-#include "action.h"
 #include "avatar.h"
+#include "basecamp.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "character.h"
+#include "character_id.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "dialogue_helpers.h"
@@ -37,22 +36,25 @@
 #include "faction.h"
 #include "field.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
+#include "game_constants.h"
 #include "generic_factory.h"
 #include "global_vars.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_location.h"
-#include "json_error.h"
-#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "math_parser.h"
 #include "math_parser_type.h"
+#include "memory_fast.h"
+#include "messages.h"
+#include "math_parser_diag_value.h"
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -60,17 +62,15 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "point.h"
-#include "popup.h"
 #include "profession.h"
-#include "ranged.h"
 #include "recipe_groups.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "talker.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
@@ -80,8 +80,7 @@
 #include "widget.h"
 #include "worldfactory.h"
 
-class Creature;
-class basecamp;
+// IWYU pragma: no_forward_declare cardinal_direction // need its enum_traits
 class recipe;
 struct mapgen_arguments;
 
@@ -168,15 +167,9 @@ std::shared_ptr<math_exp> &defer_math( JsonObject const &jo, std::string_view st
 
 }  // namespace
 
-std::string get_talk_varname( const JsonObject &jo, std::string_view member,
-                              bool check_value, dbl_or_var &default_val )
+std::string get_talk_varname( const JsonObject &jo, std::string_view member )
 {
-    if( check_value && !( jo.has_string( "value" ) ||
-                          jo.has_array( "possible_values" ) ) ) {
-        jo.throw_error( "invalid " + std::string( member ) + " condition in " + jo.str() );
-    }
     const std::string &var_basename = jo.get_string( std::string( member ) );
-    default_val = get_dbl_or_var( jo, "default", false );
     return var_basename;
 }
 
@@ -191,8 +184,7 @@ std::string get_talk_var_basename( const JsonObject &jo, std::string_view member
     return var_basename;
 }
 
-dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, std::string_view member, bool required,
-                                     double default_val )
+dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv )
 {
     dbl_or_var_part ret_val;
     if( jv.test_float() ) {
@@ -203,13 +195,11 @@ dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, std::string_view membe
             ret_val.math_val.emplace();
             ret_val.math_val->from_json( jo, "math", math_type_t::ret );
         } else {
-            jo.allow_omitted_members();
             ret_val.var_val = read_var_info( jo );
+            optional( jo, false, "default", ret_val.default_val );
         }
-    } else if( required ) {
-        jv.throw_error( "No valid value for " + std::string( member ) );
     } else {
-        ret_val.dbl_val = default_val;
+        jv.throw_error( "Value must be a float or a variable object" );
     }
     return ret_val;
 }
@@ -220,23 +210,34 @@ dbl_or_var get_dbl_or_var( const JsonObject &jo, std::string_view member, bool r
     dbl_or_var ret_val;
     if( jo.has_array( member ) ) {
         JsonArray ja = jo.get_array( member );
-        ret_val.min = get_dbl_or_var_part( ja.next_value(), member );
-        ret_val.max = get_dbl_or_var_part( ja.next_value(), member );
+        ret_val.min = get_dbl_or_var_part( ja.next_value() );
+        ret_val.max = get_dbl_or_var_part( ja.next_value() );
         ret_val.pair = true;
+    } else if( jo.has_member( member ) ) {
+        ret_val.min = get_dbl_or_var_part( jo.get_member( member ) );
     } else if( required ) {
-        ret_val.min = get_dbl_or_var_part( jo.get_member( member ), member, required, default_val );
+        jo.throw_error( "No valid value for " + std::string( member ) );
     } else {
-        if( jo.has_member( member ) ) {
-            ret_val.min = get_dbl_or_var_part( jo.get_member( member ), member, required, default_val );
-        } else {
-            ret_val.min.dbl_val = default_val;
-        }
+        ret_val.min.dbl_val = default_val;
     }
     return ret_val;
 }
 
-duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::string_view &member,
-        bool required, time_duration default_val )
+dbl_or_var get_dbl_or_var( const JsonValue &jv )
+{
+    dbl_or_var ret_val;
+    if( jv.test_array() ) {
+        JsonArray ja = jv.get_array();
+        ret_val.min = get_dbl_or_var_part( ja.next_value() );
+        ret_val.max = get_dbl_or_var_part( ja.next_value() );
+        ret_val.pair = true;
+    } else {
+        ret_val.min = get_dbl_or_var_part( jv );
+    }
+    return ret_val;
+}
+
+duration_or_var_part get_duration_or_var_part( const JsonValue &jv )
 {
     duration_or_var_part ret_val;
     if( jv.test_string() ) {
@@ -253,35 +254,41 @@ duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::s
             ret_val.math_val.emplace();
             ret_val.math_val->from_json( jo, "math", math_type_t::ret );
         } else {
-            jo.allow_omitted_members();
             ret_val.var_val = read_var_info( jo );
+            if( jo.has_int( "default" ) ) {
+                ret_val.default_val = time_duration::from_turns( jo.get_int( "default" ) );
+            } else if( jo.has_string( "default" ) ) {
+                std::string const &def_str = jo.get_string( "default" );
+                if( def_str == "infinite" ) {
+                    ret_val.default_val = time_duration::from_turns( calendar::INDEFINITELY_LONG );
+                } else {
+                    JsonValue const &jv_def = jo.get_member( "default" );
+                    ret_val.default_val = read_from_json_string<time_duration>( jv_def, time_duration::units );
+                }
+            }
         }
-    } else if( required ) {
-        jv.throw_error( "No valid value for " + std::string( member ) );
     } else {
-        ret_val.dur_val = default_val;
+        jv.throw_error( "Value must be a time string, or an integer, or a variable object" );
     }
     return ret_val;
 }
 
-duration_or_var get_duration_or_var( const JsonObject &jo, const std::string_view &member,
+duration_or_var get_duration_or_var( const JsonObject &jo, std::string_view member,
                                      bool required,
                                      time_duration default_val )
 {
     duration_or_var ret_val;
     if( jo.has_array( member ) ) {
         JsonArray ja = jo.get_array( member );
-        ret_val.min = get_duration_or_var_part( ja.next_value(), member );
-        ret_val.max = get_duration_or_var_part( ja.next_value(), member );
+        ret_val.min = get_duration_or_var_part( ja.next_value() );
+        ret_val.max = get_duration_or_var_part( ja.next_value() );
         ret_val.pair = true;
+    } else if( jo.has_member( member ) ) {
+        ret_val.min = get_duration_or_var_part( jo.get_member( member ) );
     } else if( required ) {
-        ret_val.min = get_duration_or_var_part( jo.get_member( member ), member, required, default_val );
+        jo.throw_error( "No valid value for " + std::string( member ) );
     } else {
-        if( jo.has_member( member ) ) {
-            ret_val.min = get_duration_or_var_part( jo.get_member( member ), member, required, default_val );
-        } else {
-            ret_val.min.dur_val = default_val;
-        }
+        ret_val.min.dur_val = default_val;
     }
     return ret_val;
 }
@@ -293,7 +300,7 @@ str_or_var get_str_or_var( const JsonValue &jv, std::string_view member, bool re
     if( jv.test_string() ) {
         ret_val.str_val = jv.get_string();
     } else if( jv.test_object() ) {
-        ret_val = get_str_or_var( jv.get_object(), member, default_val );
+        ret_val = get_str_or_var_part( jv.get_object() );
     } else if( required ) {
         jv.throw_error( "No valid value for " + std::string( member ) );
     } else {
@@ -302,8 +309,7 @@ str_or_var get_str_or_var( const JsonValue &jv, std::string_view member, bool re
     return ret_val;
 }
 
-str_or_var get_str_or_var( const JsonObject &jo, std::string_view,
-                           std::string_view default_val )
+str_or_var get_str_or_var_part( const JsonObject &jo )
 {
     str_or_var ret_val;
     if( jo.has_member( "mutator" ) ) {
@@ -311,7 +317,9 @@ str_or_var get_str_or_var( const JsonObject &jo, std::string_view,
         ret_val.function = conditional_t::get_get_string( jo );
     } else {
         ret_val.var_val = read_var_info( jo );
-        ret_val.default_val = default_val;
+        if( jo.has_string( "default" ) ) {
+            ret_val.default_val = jo.get_string( "default" );
+        }
     }
     return ret_val;
 }
@@ -331,7 +339,7 @@ translation_or_var get_translation_or_var( const JsonValue &jv, std::string_view
 {
     translation_or_var ret_val;
     if( jv.test_object() ) {
-        ret_val = get_translation_or_var( jv.get_object(), member, default_val );
+        ret_val = get_translation_or_var( jv.get_object() );
     } else {
         translation str_val;
         if( jv.read( str_val ) ) {
@@ -345,8 +353,7 @@ translation_or_var get_translation_or_var( const JsonValue &jv, std::string_view
     return ret_val;
 }
 
-translation_or_var get_translation_or_var( const JsonObject &jo, std::string_view,
-        const translation &default_val )
+translation_or_var get_translation_or_var( const JsonObject &jo )
 {
     translation_or_var ret_val;
     translation str_val;
@@ -357,137 +364,65 @@ translation_or_var get_translation_or_var( const JsonObject &jo, std::string_vie
             // if we have a mutator then process that here.
             ret_val.function = conditional_t::get_get_translation( jo );
         } else {
-            ret_val.var_val = read_translation_var_info( jo );
-            ret_val.default_val = default_val;
+            ret_val.var_val = read_var_info( jo );
+            if( jo.has_string( "default" ) ) {
+                // NOLINTNEXTLINE(cata-json-translation-input)
+                ret_val.default_val = to_translation( jo.get_string( "default" ) );
+            }
         }
     }
     return ret_val;
 }
 
 str_translation_or_var get_str_translation_or_var(
-    const JsonValue &jv, std::string_view member, bool required,
-    std::string_view str_default_val, const translation &translation_default_val )
+    const JsonValue &jv, std::string_view member, bool required )
 {
     str_translation_or_var ret_val;
     if( jv.test_object() ) {
         const JsonObject &jo = jv.get_object();
         if( jo.get_bool( "i18n", false ) ) {
-            ret_val.val = get_translation_or_var( jo, member, translation_default_val );
+            ret_val.val = get_translation_or_var( jo );
         } else {
-            ret_val.val = get_str_or_var( jo, member, str_default_val );
+            ret_val.val = get_str_or_var_part( jo );
         }
     } else {
-        ret_val.val = get_str_or_var( jv, member, required, str_default_val );
+        ret_val.val = get_str_or_var( jv, member, required );
     }
     return ret_val;
 }
 
-tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, const_dialogue const &d,
-                                       bool is_npc )
+var_info read_var_info( const JsonObject &jo )
 {
-    if( var.has_value() ) {
-        std::string value = read_var_value( var.value(), d );
-        if( !value.empty() ) {
-            return tripoint_abs_ms( tripoint::from_string( value ) );
-        }
-    }
-    if( !d.has_actor( is_npc ) ) {
-        debugmsg( "Tried to access location of invalid %s talker.  %s", is_npc ? "beta" : "alpha",
-                  d.get_callstack() );
-        return tripoint_abs_ms::invalid;
-    }
-    return get_map().get_abs( d.const_actor( is_npc )->pos_bub() );
-}
-
-template<class T>
-static T abstract_read_var_info_no_translation( std::string && );
-
-template<>
-std::string abstract_read_var_info_no_translation( std::string &&s )
-{
-    return std::move( s );
-}
-
-template<>
-translation abstract_read_var_info_no_translation( std::string &&s )
-{
-    return no_translation( s );
-}
-
-template<class T>
-static abstract_var_info<T> abstract_read_var_info( const JsonObject &jo )
-{
-    T default_val;
-    dbl_or_var empty;
-    var_type type;
+    var_type type{ var_type::last };
     std::string name;
-    if( jo.has_member( "default_str" ) ) {
-        jo.read( "default_str", default_val );
-    } else if( jo.has_string( "default" ) ) {
-        std::string tmp = std::to_string( to_turns<int>( read_from_json_string<time_duration>
-                                          ( jo.get_member( "default" ), time_duration::units ) ) );
-        default_val = abstract_read_var_info_no_translation<T>( std::move( tmp ) );
-    } else if( jo.has_float( "default" ) ) {
-        std::string tmp = std::to_string( jo.get_float( "default" ) );
-        default_val = abstract_read_var_info_no_translation<T>( std::move( tmp ) );
-    }
 
-    if( jo.has_string( "var_name" ) ) {
-        name = jo.get_string( "var_name" );
-    }
     if( jo.has_member( "u_val" ) ) {
         type = var_type::u;
-        if( name.empty() ) {
-            name = get_talk_varname( jo, "u_val", false, empty );
-        }
+        name = get_talk_varname( jo, "u_val" );
     } else if( jo.has_member( "npc_val" ) ) {
         type = var_type::npc;
-        if( name.empty() ) {
-            name = get_talk_varname( jo, "npc_val", false, empty );
-        }
+        name = get_talk_varname( jo, "npc_val" );
     } else if( jo.has_member( "global_val" ) ) {
         type = var_type::global;
-        if( name.empty() ) {
-            name = get_talk_varname( jo, "global_val", false, empty );
-        }
+        name = get_talk_varname( jo, "global_val" );
     } else if( jo.has_member( "var_val" ) ) {
         type = var_type::var;
-        if( name.empty() ) {
-            name = get_talk_varname( jo, "var_val", false, empty );
-        }
+        name = get_talk_varname( jo, "var_val" );
     } else if( jo.has_member( "context_val" ) ) {
         type = var_type::context;
-        if( name.empty() ) {
-            name = get_talk_varname( jo, "context_val", false, empty );
-        }
-    } else if( jo.has_member( "faction_val" ) ) {
-        type = var_type::faction;
-        if( name.empty() ) {
-            name = get_talk_varname( jo, "faction_val", false, empty );
-        }
-    } else if( jo.has_member( "party_val" ) ) {
-        type = var_type::party;
-        if( name.empty() ) {
-            name = get_talk_varname( jo, "party_val", false, empty );
-        }
+        name = get_talk_varname( jo, "context_val" );
     } else {
         jo.throw_error( "Invalid variable type." );
     }
-    return abstract_var_info<T>( type, name, default_val );
+    return { type, name };
 }
 
-var_info read_var_info( const JsonObject &jo )
+namespace
 {
-    return abstract_read_var_info<std::string>( jo );
-}
 
-translation_var_info read_translation_var_info( const JsonObject &jo )
-{
-    return abstract_read_var_info<translation>( jo );
-}
-
-void write_var_value( var_type type, const std::string &name, dialogue *d,
-                      const std::string &value, int call_depth )
+template<typename T>
+void _write_var_value( var_type type, const std::string &name, dialogue *d,
+                       T const &value )
 {
     global_variables &globvars = get_globals();
     std::string ret;
@@ -497,15 +432,9 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
             globvars.set_global_value( name, value );
             break;
         case var_type::var:
-            ret = d->get_value( name );
+            ret = d->get_value( name ).str();
             vinfo = process_variable( ret );
-            if( call_depth > 1000 ) {
-                debugmsg( "Possible infinite loop detected: var_val points to itself or forms a cycle.  %s->%s %s",
-                          name, vinfo.name, d->get_callstack() );
-            } else {
-                write_var_value( vinfo.type, vinfo.name, d, value,
-                                 call_depth + 1 );
-            }
+            _write_var_value( vinfo.type, vinfo.name, d, value );
             break;
         case var_type::u:
             if( d->has_alpha ) {
@@ -521,12 +450,6 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
                 debugmsg( "Tried to use an invalid beta talker.  %s", d->get_callstack() );
             }
             break;
-        case var_type::faction:
-            debugmsg( "Not implemented yet." );
-            break;
-        case var_type::party:
-            debugmsg( "Not implemented yet." );
-            break;
         case var_type::context:
             d->set_value( name, value );
             break;
@@ -536,32 +459,30 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
     }
 }
 
-void write_var_value( var_type type, const std::string &name, const_dialogue const &d,
-                      const std::string &value )
+} // namespace
+
+void write_var_value( var_type type, const std::string &name, dialogue *d,
+                      std::string const &value )
 {
-    switch( type ) {
-        case var_type::global:
-            get_globals().set_global_value( name, value );
-            break;
-        case var_type::context:
-        case var_type::var:
-        case var_type::u:
-        case var_type::npc:
-        case var_type::faction:
-        case var_type::party:
-            debugmsg( "Only global variables can be assigned from an eval function.\n%s", d.get_callstack() );
-            break;
-        default:
-            debugmsg( "Invalid type." );
-            break;
-    }
+    _write_var_value( type, name, d, value );
 }
 
 void write_var_value( var_type type, const std::string &name, dialogue *d,
                       double value )
 {
-    // NOLINTNEXTLINE(cata-translate-string-literal)
-    write_var_value( type, name, d, string_format( "%g", value ) );
+    _write_var_value( type, name, d, value );
+}
+
+void write_var_value( var_type type, const std::string &name, dialogue *d,
+                      tripoint_abs_ms const &value )
+{
+    _write_var_value( type, name, d, value );
+}
+
+void write_var_value( var_type type, const std::string &name, dialogue *d,
+                      diag_value const &value )
+{
+    _write_var_value( type, name, d, value );
 }
 
 static bodypart_id get_bp_from_str( const std::string &ctxt )
@@ -693,6 +614,17 @@ conditional_t::func f_has_flag( const JsonObject &jo, std::string_view member,
             return actor->crossed_threshold();
         }
         return actor->has_flag( json_character_flag( trait_flag_to_check.evaluate( d ) ) );
+    };
+}
+
+conditional_t::func f_has_part_flag( const JsonObject &jo, std::string_view member,
+                                     bool is_npc )
+{
+    str_or_var trait_flag_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    bool enabled = jo.get_bool( "enabled", false );
+    return [trait_flag_to_check, enabled, is_npc]( const_dialogue const & d ) {
+        const_talker const *actor = d.const_actor( is_npc );
+        return actor->has_part_flag( trait_flag_to_check.evaluate( d ), enabled );
     };
 }
 
@@ -886,7 +818,7 @@ conditional_t::func f_has_item( const JsonObject &jo, std::string_view member, b
     };
 }
 
-conditional_t::func f_has_items( const JsonObject &jo, const std::string_view member,
+conditional_t::func f_has_items( const JsonObject &jo, std::string_view member,
                                  bool is_npc )
 {
     JsonObject has_items = jo.get_object( member );
@@ -917,7 +849,7 @@ conditional_t::func f_has_items( const JsonObject &jo, const std::string_view me
     }
 }
 
-conditional_t::func f_has_items_sum( const JsonObject &jo, const std::string_view member,
+conditional_t::func f_has_items_sum( const JsonObject &jo, std::string_view member,
                                      bool is_npc )
 {
     std::vector<std::pair<str_or_var, dbl_or_var>> item_and_amount;
@@ -1167,7 +1099,7 @@ conditional_t::func f_npc_role_nearby( const JsonObject &jo, std::string_view me
         const std::vector<npc *> available = g->get_npcs_if( [&]( const npc & guy ) {
             return d.const_actor( false )->posz() == guy.posz() &&
                    guy.companion_mission_role_id == role.evaluate( d ) &&
-                   ( rl_dist( d.const_actor( false )->pos_bub(), guy.pos_bub() ) <= 48 );
+                   ( rl_dist( d.const_actor( false )->pos_abs(), guy.pos_abs() ) <= 48 );
         } );
         return !available.empty();
     };
@@ -1384,25 +1316,36 @@ conditional_t::func f_is_furniture( bool is_npc )
     };
 }
 
-conditional_t::func f_player_see( bool is_npc )
+conditional_t::func f_is_vehicle( bool is_npc )
 {
     return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->get_const_vehicle();
+    };
+}
+
+conditional_t::func f_player_see( bool is_npc )
+{
+    const map &here = get_map();
+
+    return [is_npc, &here]( const_dialogue const & d ) {
         const Creature *c = d.const_actor( is_npc )->get_const_creature();
         if( c ) {
-            return get_player_view().sees( *c );
+            return get_player_view().sees( here, *c );
         } else {
-            return get_player_view().sees( d.const_actor( is_npc )->pos_bub() );
+            return get_player_view().sees( here,  d.const_actor( is_npc )->pos_bub( here ) );
         }
     };
 }
 
 conditional_t::func f_see_opposite( bool is_npc )
 {
-    return [is_npc]( const_dialogue const & d ) {
+    const map &here = get_map();
+
+    return [is_npc, &here]( const_dialogue const & d ) {
         if( d.const_actor( is_npc )->get_const_creature() &&
             d.const_actor( !is_npc )->get_const_creature() ) {
             return d.const_actor( is_npc )->get_const_creature()->sees(
-                       *d.const_actor( !is_npc )->get_const_creature() );
+                       here, *d.const_actor( !is_npc )->get_const_creature() );
         } else {
             return false;
         }
@@ -1438,6 +1381,83 @@ conditional_t::func f_has_beta()
 {
     return []( const_dialogue const & d ) {
         return d.has_beta;
+    };
+}
+
+conditional_t::func f_is_driven( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_driven();
+    };
+}
+
+conditional_t::func f_is_remote_controlled( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_remote_controlled();
+    };
+}
+
+conditional_t::func f_can_fly( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->can_fly();
+    };
+}
+
+conditional_t::func f_is_flying( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_flying();
+    };
+}
+
+conditional_t::func f_can_float( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->can_float();
+    };
+}
+
+conditional_t::func f_is_floating( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_floating();
+    };
+}
+
+conditional_t::func f_is_falling( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_falling();
+    };
+}
+
+conditional_t::func f_is_skidding( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_skidding();
+    };
+}
+
+conditional_t::func f_is_sinking( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_sinking();
+    };
+}
+
+conditional_t::func f_is_on_rails( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_on_rails();
+    };
+}
+
+conditional_t::func f_is_avatar_passenger( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_passenger( get_player_character() );
     };
 }
 
@@ -1587,7 +1607,7 @@ conditional_t::func f_follower_present( const JsonObject &jo, std::string_view m
         !npc_to_check->is_following() ) {
             return false;
         }
-        return rl_dist( npc_to_check->pos_bub(), d_npc->pos_bub() ) < 5 &&
+        return rl_dist( npc_to_check->pos_abs(), d_npc->pos_abs() ) < 5 &&
                get_map().clear_path( npc_to_check->pos_bub(), d_npc->pos_bub(), 5, 0, 100 );
     };
 }
@@ -1625,9 +1645,11 @@ conditional_t::func f_has_weapon( bool is_npc )
 
 conditional_t::func f_is_controlling_vehicle( bool is_npc )
 {
-    return [is_npc]( const_dialogue const & d ) {
+    const map &here = get_map();
+
+    return [is_npc, &here]( const_dialogue const & d ) {
         const_talker const *actor = d.const_actor( is_npc );
-        if( const optional_vpart_position &vp = get_map().veh_at( actor->pos_bub() ) ) {
+        if( const optional_vpart_position &vp = here.veh_at( actor->pos_bub( here ) ) ) {
             return actor->is_in_control_of( vp->vehicle() );
         }
         return false;
@@ -1636,9 +1658,11 @@ conditional_t::func f_is_controlling_vehicle( bool is_npc )
 
 conditional_t::func f_is_driving( bool is_npc )
 {
-    return [is_npc]( const_dialogue const & d ) {
+    const map &here = get_map();
+
+    return [is_npc, &here]( const_dialogue const & d ) {
         const_talker const *actor = d.const_actor( is_npc );
-        if( const optional_vpart_position &vp = get_map().veh_at( actor->pos_bub() ) ) {
+        if( const optional_vpart_position &vp = here.veh_at( actor->pos_abs( ) ) ) {
             return vp->vehicle().is_moving() && actor->is_in_control_of( vp->vehicle() );
         }
         return false;
@@ -1666,10 +1690,31 @@ conditional_t::func f_is_outside( bool is_npc )
     };
 }
 
+conditional_t::func f_tile_is_outside( const JsonObject &jo, std::string_view member )
+{
+    std::optional<var_info> loc_var;
+    if( jo.has_object( member ) ) {
+        loc_var = read_var_info( jo.get_object( member ) );
+    }
+
+    return [loc_var]( const_dialogue const & d ) {
+        map &here = get_map();
+        tripoint_abs_ms target_location;
+        if( loc_var.has_value() ) {
+            target_location = read_var_value( *loc_var, d ).tripoint();
+        } else {
+            target_location = d.const_actor( false )->pos_abs();
+        }
+        return here.is_outside( here.get_bub( target_location ) );
+    };
+}
+
 conditional_t::func f_is_underwater( bool is_npc )
 {
-    return [is_npc]( const_dialogue const & d ) {
-        return get_map().is_divable( d.const_actor( is_npc )->pos_bub() );
+    const map &here = get_map();
+
+    return [is_npc, &here]( const_dialogue const & d ) {
+        return here.is_divable( d.const_actor( is_npc )->pos_bub( here ) );
     };
 }
 
@@ -1691,10 +1736,11 @@ conditional_t::func f_line_of_sight( const JsonObject &jo, std::string_view memb
         with_fields = jo.get_bool( "with_fields" );
     }
     return [range, loc_var_1, loc_var_2, with_fields]( const_dialogue const & d ) {
-        tripoint_bub_ms loc_1 = get_map().get_bub( get_tripoint_from_var( loc_var_1, d, false ) );
-        tripoint_bub_ms loc_2 = get_map().get_bub( get_tripoint_from_var( loc_var_2, d, false ) );
+        map &here = get_map();
+        tripoint_bub_ms loc_1 = here.get_bub( read_var_value( loc_var_1, d ).tripoint() );
+        tripoint_bub_ms loc_2 = here.get_bub( read_var_value( loc_var_2, d ).tripoint() );
 
-        return get_map().sees( loc_1, loc_2, range.evaluate( d ), with_fields );
+        return here.sees( loc_1, loc_2, range.evaluate( d ), with_fields );
     };
 }
 
@@ -1713,68 +1759,7 @@ conditional_t::func f_query( const JsonObject &jo, std::string_view member, bool
     };
 }
 
-conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member, bool is_npc )
-{
-    std::string type = jo.get_string( member.data() );
-    var_info target_var = read_var_info( jo.get_object( "target_var" ) );
-    if( target_var.type != var_type::global ) {
-        jo.throw_error_at( "target_var", "Only global variables can be used as targets for u_query" ) ;
-    }
-    std::string message;
-    if( jo.has_member( "message" ) ) {
-        message = jo.get_string( "message" );
-    }
-    dbl_or_var range;
-    if( jo.has_member( "range" ) ) {
-        range = get_dbl_or_var( jo, "range" );
-    }
-    bool z_level = jo.get_bool( "z_level", false );
-    return [type, target_var, message, range, z_level, is_npc]( const_dialogue const & d ) {
-        std::optional<tripoint_bub_ms> loc;
-        Character const *ch = d.const_actor( is_npc )->get_const_character();
-        if( ch && ch->as_avatar() ) {
-            if( type == "anywhere" ) {
-                if( !message.empty() ) {
-                    static_popup popup;
-                    popup.on_top( true );
-                    popup.message( "%s", message );
-                }
-                tripoint_bub_ms center = d.const_actor( is_npc )->pos_bub();
-                const look_around_params looka_params = { true, center, center, false, true, true, z_level };
-                loc = g->look_around( looka_params ).position;
-            } else if( type == "line_of_sight" ) {
-                if( !message.empty() ) {
-                    static_popup popup;
-                    popup.on_top( true );
-                    popup.message( "%s", message );
-                }
-                avatar dummy;
-                dummy.set_pos_abs_only( get_avatar().pos_abs() );
-                target_handler::trajectory traj = target_handler::mode_select_only( dummy, range.evaluate( d ) );
-                if( !traj.empty() ) {
-                    loc = traj.back();
-                }
-            } else if( type == "around" ) {
-                if( !message.empty() ) {
-                    loc = choose_adjacent( message );
-                } else {
-                    loc = choose_adjacent( _( "Choose direction" ) );
-                }
-            } else {
-                debugmsg( string_format( "Invalid selection type: %s", type ) );
-            }
-
-        }
-        if( loc.has_value() ) {
-            tripoint_abs_ms pos_global = get_map().get_abs( *loc );
-            write_var_value( target_var.type, target_var.name, d,
-                             pos_global.to_string() );
-        }
-        return loc.has_value();
-    };
-}
-
-conditional_t::func f_x_in_y_chance( const JsonObject &jo, const std::string_view member )
+conditional_t::func f_x_in_y_chance( const JsonObject &jo, std::string_view member )
 {
     const JsonObject &var_obj = jo.get_object( member );
     dbl_or_var dovx = get_dbl_or_var( var_obj, "x" );
@@ -1804,11 +1789,12 @@ conditional_t::func f_map_ter_furn_with_flag( const JsonObject &jo, std::string_
         terrain = false;
     }
     return [terrain, furn_type, loc_var]( const_dialogue const & d ) {
-        tripoint_bub_ms loc = get_map().get_bub( get_tripoint_from_var( loc_var, d, false ) );
+        map &here = get_map();
+        tripoint_bub_ms loc = here.get_bub( read_var_value( loc_var, d ).tripoint() );
         if( terrain ) {
-            return get_map().ter( loc )->has_flag( furn_type.evaluate( d ) );
+            return here.ter( loc )->has_flag( furn_type.evaluate( d ) );
         } else {
-            return get_map().furn( loc )->has_flag( furn_type.evaluate( d ) );
+            return here.furn( loc )->has_flag( furn_type.evaluate( d ) );
         }
     };
 }
@@ -1819,13 +1805,14 @@ conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view me
     var_info loc_var = read_var_info( jo.get_object( "loc" ) );
 
     return [member, furn_type, loc_var]( const_dialogue const & d ) {
-        tripoint_bub_ms loc = get_map().get_bub( get_tripoint_from_var( loc_var, d, false ) );
+        map &here = get_map();
+        tripoint_bub_ms loc = here.get_bub( read_var_value( loc_var, d ).tripoint() );
         if( member == "map_terrain_id" ) {
-            return get_map().ter( loc ) == ter_id( furn_type.evaluate( d ) );
+            return here.ter( loc ) == ter_id( furn_type.evaluate( d ) );
         } else if( member == "map_furniture_id" ) {
-            return get_map().furn( loc ) == furn_id( furn_type.evaluate( d ) );
+            return here.furn( loc ) == furn_id( furn_type.evaluate( d ) );
         } else if( member == "map_field_id" ) {
-            const field &fields_here = get_map().field_at( loc );
+            const field &fields_here = here.field_at( loc );
             return !!fields_here.find_field( field_type_id( furn_type.evaluate( d ) ) );
         } else {
             debugmsg( "Invalid map id: %s", member );
@@ -1836,10 +1823,9 @@ conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view me
 
 conditional_t::func f_map_in_city( const JsonObject &jo, std::string_view member )
 {
-    str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
+    var_info target = read_var_info( jo.get_member( member ) );
     return [target]( const_dialogue const & d ) {
-        tripoint_abs_omt target_pos = project_to<coords::omt>( tripoint_abs_ms( tripoint::from_string(
-                                          target.evaluate( d ) ) ) );
+        tripoint_abs_omt target_pos = project_to<coords::omt>( read_var_value( target, d ).tripoint() );
 
         // TODO: Remove this in favour of a seperate condition for location z-level that can be used in conjunction with this map_in_city as needed
         if( target_pos.z() < -1 ) {
@@ -1948,7 +1934,7 @@ conditional_t::func f_has_ammo()
     };
 }
 
-conditional_t::func f_math( const JsonObject &jo, const std::string_view member )
+conditional_t::func f_math( const JsonObject &jo, std::string_view member )
 {
     eoc_math math;
     math.from_json( jo, member, math_type_t::compare );
@@ -1995,7 +1981,7 @@ conditional_t::func f_has_reason()
     };
 }
 
-conditional_t::func f_roll_contested( const JsonObject &jo, const std::string_view member )
+conditional_t::func f_roll_contested( const JsonObject &jo, std::string_view member )
 {
     dbl_or_var get_check = get_dbl_or_var( jo, member );
     dbl_or_var difficulty = get_dbl_or_var( jo, "difficulty", true );
@@ -2099,32 +2085,35 @@ conditional_t::func f_is_deaf( bool is_npc )
 conditional_t::func f_is_on_terrain( const JsonObject &jo, std::string_view member,
                                      bool is_npc )
 {
+    const map &here = get_map();
+
     str_or_var terrain_type = get_str_or_var( jo.get_member( member ), member, true );
-    return [terrain_type, is_npc]( const_dialogue const & d ) {
-        map &here = get_map();
-        return here.ter( d.const_actor( is_npc )->pos_bub() ) == ter_id( terrain_type.evaluate( d ) );
+    return [terrain_type, is_npc, &here]( const_dialogue const & d ) {
+        return here.ter( d.const_actor( is_npc )->pos_bub( here ) ) == ter_id( terrain_type.evaluate( d ) );
     };
 }
 
 conditional_t::func f_is_on_terrain_with_flag( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
+    const map &here = get_map();
+
     str_or_var terrain_type = get_str_or_var( jo.get_member( member ), member, true );
-    return [terrain_type, is_npc]( const_dialogue const & d ) {
-        map &here = get_map();
-        return here.ter( d.const_actor( is_npc )->pos_bub() )->has_flag( terrain_type.evaluate( d ) );
+    return [terrain_type, is_npc, &here]( const_dialogue const & d ) {
+        return here.ter( d.const_actor( is_npc )->pos_bub( here ) )->has_flag( terrain_type.evaluate( d ) );
     };
 }
 
 conditional_t::func f_is_in_field( const JsonObject &jo, std::string_view member,
                                    bool is_npc )
 {
+    const map &here = get_map();
+
     str_or_var field_type = get_str_or_var( jo.get_member( member ), member, true );
-    return [field_type, is_npc]( const_dialogue const & d ) {
-        map &here = get_map();
+    return [field_type, is_npc, &here]( const_dialogue const & d ) {
         field_type_id ft = field_type_id( field_type.evaluate( d ) );
         for( const std::pair<const field_type_id, field_entry> &f : here.field_at( d.const_actor(
-                    is_npc )->pos_bub() ) ) {
+                    is_npc )->pos_bub( here ) ) ) {
             if( f.second.get_field_type() == ft ) {
                 return true;
             }
@@ -2145,9 +2134,9 @@ conditional_t::func f_has_move_mode( const JsonObject &jo, std::string_view memb
 conditional_t::func f_can_see_location( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
-    str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
+    var_info target = read_var_info( jo.get_member( member ) );
     return [is_npc, target]( const_dialogue const & d ) {
-        tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
+        tripoint_abs_ms const &target_pos = read_var_value( target, d ).tripoint();
         return d.const_actor( is_npc )->can_see_location( get_map().get_bub( target_pos ) );
     };
 }
@@ -2160,6 +2149,7 @@ conditional_t::func f_using_martial_art( const JsonObject &jo, std::string_view 
         return d.const_actor( is_npc )->using_martial_art( matype_id( style_to_check.evaluate( d ) ) );
     };
 }
+
 
 } // namespace
 } // namespace conditional_fun
@@ -2200,14 +2190,6 @@ static std::function<T( const_dialogue const & )> get_get_str_( const JsonObject
             return ret_func( d.const_actor( false )->get_random_technique( *d.const_actor(
                                  true )->get_const_creature(),
                              crit, dodge_counter, block_counter, bl ).str() );
-        };
-    } else if( mutator == "u_loc_relative" || mutator == "npc_loc_relative" ) {
-        str_or_var target = get_str_or_var( jo.get_member( "target" ), "target" );
-        bool use_beta_talker = mutator == "npc_loc_relative";
-        return [target, use_beta_talker, ret_func]( const_dialogue const & d ) {
-            tripoint_abs_ms char_pos = get_map().get_abs( d.const_actor( use_beta_talker )->pos_bub() );
-            tripoint_abs_ms target_pos = char_pos + tripoint::from_string( target.evaluate( d ) );
-            return ret_func( target_pos.to_string() );
         };
     } else if( mutator == "topic_item" ) {
         return [ret_func]( const_dialogue const & d ) {
@@ -2285,6 +2267,9 @@ std::function<std::string( const_dialogue const & )> conditional_t::get_get_stri
 
 namespace
 {
+// *******
+// Stop adding garbage to this list and write specific math functions instead
+// *******
 std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_get_vals = {
     { "activity_level", &const_talker::get_activity_level },
     { "age", &const_talker::get_age },
@@ -2316,8 +2301,6 @@ std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_ge
     { "perception_bonus", &const_talker::get_per_bonus },
     { "perception", &const_talker::per_cur },
     { "pkill", &const_talker::get_pkill },
-    { "pos_x", &const_talker::posx },
-    { "pos_y", &const_talker::posy },
     { "pos_z", &const_talker::posz },
     { "rad", &const_talker::get_rad },
     { "size", &const_talker::get_size },
@@ -2329,77 +2312,73 @@ std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_ge
     { "strength_bonus", &const_talker::get_str_bonus },
     { "strength", &const_talker::str_cur },
     { "thirst", &const_talker::get_thirst },
-    { "count", &const_talker::get_count }
+    { "count", &const_talker::get_count },
+    { "vehicle_facing", &const_talker::get_vehicle_facing },
+    { "current_speed", &const_talker::get_current_speed },
+    { "unloaded_weight", &const_talker::get_unloaded_weight },
+    { "friendly_passenger_count", &const_talker::get_friendly_passenger_count },
+    { "hostile_passenger_count", &const_talker::get_hostile_passenger_count }
 };
 } // namespace
 
-// Consider adding new, single-purpose math functions instead of feeding this monster another else-if
-std::function<double( const_dialogue const & )>
-conditional_t::get_get_dbl( std::string_view checked_value, char scope )
+// *******
+// Stop adding garbage to this function and write specific math functions instead
+// *******
+double  conditional_t::get_legacy_dbl( const_dialogue const &d, std::string_view checked_value,
+                                       char scope )
 {
     const bool is_npc = scope == 'n';
 
     if( auto iter = f_get_vals.find( checked_value ); iter != f_get_vals.end() ) {
-        return [is_npc, func = iter->second ]( const_dialogue const & d ) {
-            return ( d.const_actor( is_npc )->*func )();
-        };
+        return ( d.const_actor( is_npc )->*( iter->second ) )();
 
     } else if( checked_value == "allies" ) {
         if( is_npc ) {
-            throw math::syntax_error( "Can't get allies count for NPCs" );
+            throw math::runtime_error( "Can't get allies count for NPCs" );
         }
-        return []( const_dialogue const & /* d */ ) {
-            return static_cast<double>( g->allies().size() );
-        };
+        return static_cast<double>( g->allies().size() );
     } else if( checked_value == "dodge" ) {
-        return [is_npc]( const_dialogue const & d ) {
-            return d.const_actor( is_npc )->get_const_character()->get_dodge();
-        };
+        return d.const_actor( is_npc )->get_const_character()->get_dodge();
     } else if( checked_value == "power_percentage" ) {
-        return [is_npc]( const_dialogue const & d ) {
-            // Energy in milijoule
-            units::energy::value_type power_max = d.const_actor( is_npc )->power_max().value();
-            if( power_max == 0 ) {
-                return 0.0; //Default value if character does not have power, avoids division with 0.
-            }
-            return static_cast<double>( d.const_actor( is_npc )->power_cur().value() * 100.0L / power_max );
-        };
+        // Energy in milijoule
+        units::energy::value_type power_max = d.const_actor( is_npc )->power_max().value();
+        if( power_max == 0 ) {
+            return 0.0; //Default value if character does not have power, avoids division with 0.
+        }
+        return static_cast<double>( d.const_actor( is_npc )->power_cur().value() * 100.0L / power_max );
     } else if( checked_value == "mana_percentage" ) {
-        return [is_npc]( const_dialogue const & d ) {
-            int mana_max = d.const_actor( is_npc )->mana_max();
-            if( mana_max == 0 ) {
-                return 0.0; //Default value if character does not have mana, avoids division with 0.
-            }
-            return d.const_actor( is_npc )->mana_cur() * 100.0 / mana_max;
-        };
+        int mana_max = d.const_actor( is_npc )->mana_max();
+        if( mana_max == 0 ) {
+            return 0.0; //Default value if character does not have mana, avoids division with 0.
+        }
+        return d.const_actor( is_npc )->mana_cur() * 100.0 / mana_max;
     } else if( checked_value == "body_temp" ) {
-        return [is_npc]( const_dialogue const & d ) {
-            return units::to_legacy_bodypart_temp( d.const_actor( is_npc )->get_body_temp() );
-        };
+        return units::to_legacy_bodypart_temp( d.const_actor( is_npc )->get_body_temp() );
     } else if( checked_value == "body_temp_delta" ) {
-        return [is_npc]( const_dialogue const & d ) {
-            return units::to_legacy_bodypart_temp_delta( d.const_actor( is_npc )->get_body_temp_delta() );
-        };
+        return units::to_legacy_bodypart_temp_delta( d.const_actor( is_npc )->get_body_temp_delta() );
     } else if( checked_value == "power" ) {
-        return [is_npc]( const_dialogue const & d ) {
-            // Energy in milijoule
-            return static_cast<double>( d.const_actor( is_npc )->power_cur().value() );
-        };
+        // Energy in milijoule
+        return static_cast<double>( d.const_actor( is_npc )->power_cur().value() );
     } else if( checked_value == "power_max" ) {
-        return [is_npc]( const_dialogue const & d ) {
-            // Energy in milijoule
-            return static_cast<double>( d.const_actor( is_npc )->power_max().value() );
-        };
+        // Energy in milijoule
+        return static_cast<double>( d.const_actor( is_npc )->power_max().value() );
+    } else if( checked_value == "pos_x" ) {
+        return static_cast<double>( d.const_actor( is_npc )->pos_abs().x() );
+    } else if( checked_value == "pos_y" ) {
+        return static_cast<double>( d.const_actor( is_npc )->pos_abs( ).y() );
     }
-
-    throw math::syntax_error( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
+    throw math::runtime_error( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
 }
 
 namespace
 {
+// *******
+// Stop adding garbage to this list and write specific math functions instead
+// *******
 std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals = {
     { "age", &talker::set_age },
     { "anger", &talker::set_anger },
+    { "cash", &talker::set_cash },
     { "dexterity_base", &talker::set_dex_max },
     { "dexterity_bonus", &talker::set_dex_bonus },
     { "exp", &talker::set_kill_xp },
@@ -2423,60 +2402,43 @@ std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals
 };
 } // namespace
 
-// Consider adding new, single-purpose math functions instead of feeding this monster another else-if
-std::function<void( dialogue &, double )>
-conditional_t::get_set_dbl( std::string_view checked_value, char scope )
+// *******
+// Stop adding garbage to this function and write specific math functions instead
+// *******
+void conditional_t::set_legacy_dbl( dialogue &d, double input, std::string_view checked_value,
+                                    char scope )
 {
     const bool is_npc = scope == 'n';
 
     if( auto iter = f_set_vals.find( checked_value ); iter != f_set_vals.end() ) {
-        return [is_npc, func = iter->second ]( dialogue & d, double input ) {
-            ( d.actor( is_npc )->*func )( input );
-        };
+        ( d.actor( is_npc )->*( iter->second ) )( input );
 
     } else if( checked_value == "owed" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            d.actor( is_npc )->add_debt( input - d.actor( is_npc )->debt() );
-        };
+        d.actor( is_npc )->add_debt( input - d.actor( is_npc )->debt() );
     } else if( checked_value == "sold" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            d.actor( is_npc )->add_sold( input - d.actor( is_npc )->sold() );
-        };
+        d.actor( is_npc )->add_sold( input - d.actor( is_npc )->sold() );
     } else if( checked_value == "pos_x" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            tripoint_bub_ms const tr = d.actor( is_npc )->pos_bub();
-            d.actor( is_npc )->set_pos( tripoint_bub_ms( int( input ), tr.y(), tr.z() ) );
-        };
+        tripoint_abs_ms const tr = d.actor( is_npc )->pos_abs();
+        d.actor( is_npc )->set_pos( tripoint_abs_ms( static_cast<int>( input ), tr.y(), tr.z() ) );
     } else if( checked_value == "pos_y" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            tripoint_bub_ms const tr = d.actor( is_npc )->pos_bub();
-            d.actor( is_npc )->set_pos( tripoint_bub_ms( tr.x(), int( input ), tr.z() ) );
-        };
+        tripoint_abs_ms const tr = d.actor( is_npc )->pos_abs();
+        d.actor( is_npc )->set_pos( tripoint_abs_ms( tr.x(), static_cast<int>( input ), tr.z() ) );
     } else if( checked_value == "pos_z" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            tripoint_bub_ms const tr = d.actor( is_npc )->pos_bub();
-            d.actor( is_npc )->set_pos( tripoint_bub_ms( tr.xy(), input ) );
-        };
+        tripoint_abs_ms const tr = d.actor( is_npc )->pos_abs();
+        d.actor( is_npc )->set_pos( tripoint_abs_ms( tr.xy(), static_cast<int>( input ) ) );
     } else if( checked_value == "power" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            // Energy in milijoule
-            d.actor( is_npc )->set_power_cur( 1_mJ * input );
-        };
+        // Energy in milijoule
+        d.actor( is_npc )->set_power_cur( 1_mJ * input );
     } else if( checked_value == "power_percentage" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            // Energy in milijoule
-            d.actor( is_npc )->set_power_cur( ( d.actor( is_npc )->power_max() * input ) / 100 );
-        };
+        // Energy in milijoule
+        d.actor( is_npc )->set_power_cur( ( d.actor( is_npc )->power_max() * input ) / 100 );
     } else if( checked_value == "focus" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            d.actor( is_npc )->mod_focus( input - d.actor( is_npc )->focus_cur() );
-        };
+        d.actor( is_npc )->mod_focus( input - d.actor( is_npc )->focus_cur() );
     } else if( checked_value == "mana_percentage" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            d.actor( is_npc )->set_mana_cur( ( d.actor( is_npc )->mana_max() * input ) / 100 );
-        };
+        d.actor( is_npc )->set_mana_cur( ( d.actor( is_npc )->mana_max() * input ) / 100 );
+    } else {
+        throw math::runtime_error( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
     }
-    throw math::syntax_error( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
 }
 
 void deferred_math::_validate_type() const
@@ -2541,6 +2503,7 @@ parsers = {
     {"u_has_perception", "npc_has_perception", jarg::member | jarg::array, &conditional_fun::f_has_perception },
     {"u_has_part_temp", "npc_has_part_temp", jarg::member | jarg::array, &conditional_fun::f_has_part_temp },
     {"u_is_wearing", "npc_is_wearing", jarg::member, &conditional_fun::f_is_wearing },
+    {"is_outside", jarg::member, &conditional_fun::f_tile_is_outside },
     {"u_has_item", "npc_has_item", jarg::member, &conditional_fun::f_has_item },
     {"u_has_item_with_flag", "npc_has_item_with_flag", jarg::member, &conditional_fun::f_has_item_with_flag },
     {"u_has_items", "npc_has_items", jarg::member, &conditional_fun::f_has_items },
@@ -2551,7 +2514,6 @@ parsers = {
     {"u_has_effect", "npc_has_effect", jarg::member, &conditional_fun::f_has_effect },
     {"u_need", "npc_need", jarg::member, &conditional_fun::f_need },
     {"u_query", "npc_query", jarg::member, &conditional_fun::f_query },
-    {"u_query_tile", "npc_query_tile", jarg::member, &conditional_fun::f_query_tile },
     {"u_at_om_location", "npc_at_om_location", jarg::member, &conditional_fun::f_at_om_location },
     {"u_near_om_location", "npc_near_om_location", jarg::member, &conditional_fun::f_near_om_location },
     { "follower_present", jarg::string, &conditional_fun::f_follower_present},
@@ -2600,6 +2562,7 @@ parsers = {
     {"compare_string_match_all", jarg::member, &conditional_fun::f_compare_string_match_all },
     {"get_condition", jarg::member, &conditional_fun::f_get_condition },
     {"test_eoc", jarg::member, &conditional_fun::f_test_eoc },
+    {"u_has_part_flag", "npc_has_part_flag", jarg::string, &conditional_fun::f_has_part_flag },
 };
 
 // When updating this, please also update `dynamic_line_string_keys` in
@@ -2644,7 +2607,6 @@ parsers_simple = {
     {"u_is_riding", "npc_is_riding", &conditional_fun::f_is_riding },
     {"is_day", &conditional_fun::f_is_day },
     {"u_has_stolen_item", "npc_has_stolen_item", &conditional_fun::f_has_stolen_item },
-    {"u_is_outside", "is_outside", &conditional_fun::f_is_outside },
     {"u_is_outside", "npc_is_outside", &conditional_fun::f_is_outside },
     {"u_is_underwater", "npc_is_underwater", &conditional_fun::f_is_underwater },
     {"u_has_camp", &conditional_fun::f_u_has_camp },
@@ -2664,19 +2626,31 @@ parsers_simple = {
     {"u_is_monster", "npc_is_monster", &conditional_fun::f_is_monster },
     {"u_is_item", "npc_is_item", &conditional_fun::f_is_item },
     {"u_is_furniture", "npc_is_furniture", &conditional_fun::f_is_furniture },
+    {"u_is_vehicle", "npc_is_vehicle", &conditional_fun::f_is_vehicle },
     {"has_ammo", &conditional_fun::f_has_ammo },
     {"player_see_u", "player_see_npc", &conditional_fun::f_player_see },
     {"u_see_npc", "npc_see_u", &conditional_fun::f_see_opposite },
     {"u_see_npc_loc", "npc_see_u_loc", &conditional_fun::f_see_opposite_coordinates },
     {"has_alpha", &conditional_fun::f_has_alpha },
     {"has_beta", &conditional_fun::f_has_beta },
+    {"u_is_driven", "npc_is_driven", &conditional_fun::f_is_driven },
+    {"u_is_remote_controlled", "npc_is_remote_controlled", &conditional_fun::f_is_remote_controlled },
+    {"u_can_fly", "npc_can_fly", &conditional_fun::f_can_fly },
+    {"u_is_flying", "npc_is_flying", &conditional_fun::f_is_flying },
+    {"u_can_float", "npc_can_float", &conditional_fun::f_can_float },
+    {"u_is_floating", "npc_is_floating", &conditional_fun::f_is_floating },
+    {"u_is_falling", "npc_is_falling", &conditional_fun::f_is_falling },
+    {"u_is_skidding", "npc_is_skidding", &conditional_fun::f_is_skidding },
+    {"u_is_sinking", "npc_is_sinking", &conditional_fun::f_is_sinking },
+    {"u_is_on_rails", "npc_is_on_rails", &conditional_fun::f_is_on_rails },
+    {"u_is_avatar_passenger", "npc_is_avatar_passenger", &conditional_fun::f_is_avatar_passenger },
 };
 
 conditional_t::conditional_t( const JsonObject &jo )
 {
     // improve the clarity of NPC setter functions
     bool found_sub_member = false;
-    const auto parse_array = []( const JsonObject & jo, const std::string_view type ) {
+    const auto parse_array = []( const JsonObject & jo, std::string_view type ) {
         std::vector<conditional_t> conditionals;
         for( const JsonValue entry : jo.get_array( type ) ) {
             if( entry.test_string() ) {

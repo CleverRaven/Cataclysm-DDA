@@ -86,7 +86,7 @@
     "proficiencies": [ { "proficiency": "prof_psionic_ritual", "time_multiplier": 1, "skill_penalty": 0 } ],
     "time": "1 h",
     "qualities": [ { "id": "MATRIX_CHANNEL", "level": 1 } ],
-    "tools": [ [ [ "matrix_shard", 1 ], [ "matrix_crystal_drained", 1 ] ] ],
+    "tools": [ [ [ "matrix_shard", -1 ], [ "matrix_crystal_drained", -1 ] ] ],
     "book_learn": [ [ "manual_psionic_ritual", 4 ] ],
     "flags": [ "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ]
   },
@@ -116,7 +116,10 @@
     "description": "Practice maintaining your focus on a specific thought or image even when uncomfortable or distracted.",
     "skill_used": "metaphysics",
     "practice_data": { "min_difficulty": 5, "max_difficulty": 5, "skill_limit": 5 },
-    "proficiencies": [ { "proficiency": "prof_concentration_intermediate", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "proficiencies": [
+      { "proficiency": "prof_concentration_basic", "required": true },
+      { "proficiency": "prof_concentration_intermediate", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
     "time": "1 h",
     "components": [  ],
     "book_learn": [ [ "manual_meditation_int", 5 ] ],

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_35_1", "urban_35_2" ], [ "urban_35_3", "urban_35_4" ] ],
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -68,12 +67,12 @@
         "p": [
           { "item": "restaur_fridge", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "baked_goods", "chance": 40 },
-          { "item": "fridge", "chance": 90, "repeat": [ 1, 2 ] }
+          { "item": "SUS_fridge", "chance": 90, "repeat": [ 1, 2 ] }
         ],
         "³": [
           { "item": "restaur_kitchen", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "groce_bread", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "pantry", "chance": 60, "repeat": [ 1, 2 ] },
+          { "item": "SUS_pantry", "chance": 60, "repeat": [ 1, 2 ] },
           { "item": "cannedfood", "chance": 60, "repeat": [ 1, 2 ] },
           { "item": "groce_condiment", "chance": 20, "repeat": [ 1, 2 ] }
         ],
@@ -82,9 +81,9 @@
         "u": { "item": "dissection", "chance": 40 },
         "N": { "item": "hospital_lab", "chance": 40 },
         "d": { "item": "dissection", "chance": 30 },
-        "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -126,7 +125,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_35_5", "urban_35_6", "urban_35_34" ], [ "urban_35_7", "urban_35_8", "urban_35_35" ] ],
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -191,9 +189,9 @@
           { "item": "vending_drink", "chance": 30 },
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
-        "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -255,7 +253,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_35_9", "urban_35_10" ], [ "urban_35_11", "urban_35_12" ] ],
     "//": "patient floor",
     "object": {
@@ -317,9 +314,9 @@
           { "item": "vending_drink", "chance": 30 },
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
-        "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -363,7 +360,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_35_13", "urban_35_14" ], [ "urban_35_15", "urban_35_16" ] ],
     "//": "patient floor",
     "object": {
@@ -425,9 +421,9 @@
           { "item": "vending_drink", "chance": 30 },
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
-        "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -473,7 +469,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "surgical floor",
     "om_terrain": [ [ "urban_35_17", "urban_35_18" ], [ "urban_35_19", "urban_35_20" ] ],
     "object": {
@@ -511,7 +506,7 @@
         "#  ||||||||||RS|  >|F||                 |   #...",
         "#  )QQQQQQQQ)z $   |F +    |oo*oo|oo*ooo|   #...",
         "#  (        (  |  <|F |    |     |      |   o...",
-        "#  |XXX XXOO|||||||||||    |D Я4s|D ml s|   o...",
+        "#  |XXX XXOO|||||||||||    |D Я4s|D  Я4s|   o...",
         "#  ||||()||||W |T|T| W|    |QeA s|QeA  s|   #...",
         "#  |z    BBB|    |    |    ||||||||||||||   #...",
         "#  $        |||+||||+||    $                o...",
@@ -535,9 +530,9 @@
           { "item": "vending_drink", "chance": 30 },
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
-        "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -583,7 +578,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "maternity floor",
     "om_terrain": [ [ "urban_35_21", "urban_35_22" ], [ "urban_35_23", "urban_35_24" ] ],
     "object": {
@@ -657,9 +651,9 @@
           { "item": "vending_drink", "chance": 30 },
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
-        "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -705,7 +699,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "admin and cafe floor",
     "om_terrain": [ [ "urban_35_25", "urban_35_26" ], [ "urban_35_27", "urban_35_28" ] ],
     "object": {
@@ -767,10 +760,10 @@
         "p": [
           { "item": "restaur_fridge", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "baked_goods", "chance": 20 },
-          { "item": "fridge", "chance": 10, "repeat": [ 1, 2 ] }
+          { "item": "SUS_fridge", "chance": 10, "repeat": [ 1, 2 ] }
         ],
-        "M": { "item": "oven", "chance": 20, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 20, "repeat": [ 1, 2 ] },
+        "M": { "item": "SUS_oven", "chance": 20, "repeat": [ 1, 2 ] },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 20, "repeat": [ 1, 2 ] },
         "7": { "item": "bed", "chance": 20, "repeat": [ 1, 2 ] },
         "V": { "item": "textbooks", "chance": 20, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 20, "repeat": [ 1, 2 ] },
@@ -778,10 +771,10 @@
         "F": [
           { "item": "restaur_kitchen", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "groce_bread", "chance": 20, "repeat": [ 1, 2 ] },
-          { "item": "pantry", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "SUS_pantry", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "groce_condiment", "chance": 20, "repeat": [ 1, 2 ] }
         ],
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80 },
         "K": [
           { "item": "doctors_books", "chance": 100, "repeat": [ 1, 2 ] },
           { "item": "lab_bookshelves", "chance": 40, "repeat": [ 1, 2 ] }
@@ -814,7 +807,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_35_29", "urban_35_30" ], [ "urban_35_31", "urban_35_32" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -893,7 +885,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "urban_35_33" ],
     "object": {
       "fill_ter": "t_flat_roof",

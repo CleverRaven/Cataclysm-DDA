@@ -19,6 +19,7 @@
       { "group": "guns_pistol_common_223", "prob": 33 },
       { "group": "guns_pistol_common_300", "prob": 8 },
       { "group": "guns_pistol_common_57", "prob": 2 },
+      { "group": "guns_pistol_common_460", "prob": 2 },
       { "group": "guns_pistol_common_32", "prob": 1 },
       { "group": "guns_pistol_common_45colt", "prob": 1 },
       { "group": "guns_pistol_common_38super", "prob": 1 },
@@ -66,6 +67,7 @@
       { "group": "guns_pistol_common_display_223", "prob": 17 },
       { "group": "guns_pistol_common_display_300", "prob": 8 },
       { "group": "guns_pistol_common_display_57", "prob": 2 },
+      { "group": "guns_pistol_common_display_460", "prob": 2 },
       { "group": "guns_pistol_common_display_32", "prob": 1 },
       { "group": "guns_pistol_common_display_38super", "prob": 1 },
       { "group": "guns_pistol_common_display_other", "prob": 2 }
@@ -85,6 +87,7 @@
       { "item": "bfr", "prob": 4 },
       { "item": "raging_bull", "prob": 4 },
       { "item": "sw_500", "prob": 7 },
+      { "item": "460_xvr", "prob": 6 },
       { "group": "modular_deagle_50", "prob": 2 }
     ]
   },
@@ -553,34 +556,10 @@
         "contents-item": "shoulder_strap",
         "prob": 1
       },
-      {
-        "item": "benelli_tsa",
-        "variant": "mossberg_500_security",
-        "charges": [ 0, 6 ],
-        "contents-item": "shoulder_strap",
-        "prob": 4
-      },
-      {
-        "item": "mossberg_590",
-        "variant": "mossberg_590",
-        "charges": [ 0, 9 ],
-        "contents-item": "shoulder_strap",
-        "prob": 1
-      },
-      {
-        "item": "mossberg_930",
-        "variant": "mossberg_930",
-        "charges": [ 0, 8 ],
-        "contents-item": "shoulder_strap",
-        "prob": 7
-      },
-      {
-        "item": "mossberg_930",
-        "variant": "m1014",
-        "charges": [ 0, 8 ],
-        "contents-item": "shoulder_strap",
-        "prob": 2
-      },
+      { "item": "benelli_tsa", "charges": [ 0, 6 ], "contents-item": "shoulder_strap", "prob": 4 },
+      { "item": "mossberg_590", "charges": [ 0, 9 ], "contents-item": "shoulder_strap", "prob": 1 },
+      { "item": "mossberg_930", "charges": [ 0, 8 ], "contents-item": "shoulder_strap", "prob": 7 },
+      { "item": "m1014", "charges": [ 0, 5 ], "contents-item": "shoulder_strap", "prob": 2 },
       { "item": "remington_870_express", "charges": [ 0, 7 ], "contents-item": "shoulder_strap", "prob": 7 },
       { "item": "remington_700", "charges": [ 0, 4 ], "contents-item": "shoulder_strap", "prob": 2 },
       { "item": "M24", "charges": [ 0, 5 ], "contents-item": "shoulder_strap", "prob": 10 }
@@ -619,28 +598,10 @@
       },
       { "item": "ruger_mini", "ammo-item": "223", "charges": 20, "contents-item": "shoulder_strap", "prob": 5 },
       { "item": "steyr_aug", "ammo-item": "556_mk318", "charges": 30, "contents-item": "shoulder_strap", "prob": 1 },
-      {
-        "item": "benelli_tsa",
-        "variant": "mossberg_500_security",
-        "charges": 6,
-        "contents-item": "shoulder_strap",
-        "prob": 2
-      },
-      {
-        "item": "mossberg_590",
-        "variant": "mossberg_590",
-        "charges": 9,
-        "contents-item": "shoulder_strap",
-        "prob": 1
-      },
-      {
-        "item": "mossberg_930",
-        "variant": "mossberg_930",
-        "charges": 8,
-        "contents-item": "shoulder_strap",
-        "prob": 5
-      },
-      { "item": "mossberg_930", "variant": "m1014", "charges": 8, "contents-item": "shoulder_strap", "prob": 1 },
+      { "item": "benelli_tsa", "charges": 6, "contents-item": "shoulder_strap", "prob": 2 },
+      { "item": "mossberg_590", "charges": 9, "contents-item": "shoulder_strap", "prob": 1 },
+      { "item": "mossberg_930", "charges": 8, "contents-item": "shoulder_strap", "prob": 5 },
+      { "item": "m1014", "charges": 5, "contents-item": "shoulder_strap", "prob": 1 },
       { "item": "remington_870_express", "charges": 7, "contents-item": "shoulder_strap", "prob": 3 }
     ]
   },
@@ -785,7 +746,6 @@
         "collection": [
           {
             "item": "benelli_tsa",
-            "variant": "mossberg_500_security",
             "charges": [ 0, 6 ],
             "contents-item": "shoulder_strap",
             "damage": [ 0, 3 ],
@@ -799,7 +759,6 @@
         "collection": [
           {
             "item": "mossberg_590",
-            "variant": "mossberg_590",
             "charges": [ 0, 9 ],
             "contents-item": "shoulder_strap",
             "damage": [ 0, 3 ],
@@ -813,7 +772,6 @@
         "collection": [
           {
             "item": "mossberg_930",
-            "variant": "mossberg_930",
             "charges": [ 0, 8 ],
             "contents-item": "shoulder_strap",
             "damage": [ 0, 3 ],
@@ -825,14 +783,7 @@
       },
       {
         "collection": [
-          {
-            "item": "mossberg_930",
-            "variant": "m1014",
-            "charges": [ 0, 8 ],
-            "contents-item": "shoulder_strap",
-            "damage": [ 0, 3 ],
-            "dirt": [ 0, 7050 ]
-          },
+          { "item": "m1014", "charges": [ 0, 5 ], "contents-item": "shoulder_strap", "damage": [ 0, 3 ], "dirt": [ 0, 7050 ] },
           { "group": "field_shotgun" }
         ],
         "prob": 1
@@ -892,13 +843,6 @@
     "id": "sidearms_cop",
     "items": [
       { "item": "glock_19", "prob": 15, "charges": [ 0, 15 ] },
-      {
-        "item": "glock_19",
-        "variant": "glock_19_cop",
-        "prob": 2,
-        "contents-item": [ "red_dot_sight" ],
-        "charges": [ 0, 15 ]
-      },
       { "item": "glock_22", "prob": 20, "ammo-item": "40sw", "charges": [ 0, 15 ] },
       { "item": "m9", "variant": "m9", "prob": 5, "charges": [ 0, 15 ] },
       { "item": "sig_40", "prob": 20, "charges": [ 0, 12 ] },
@@ -936,6 +880,13 @@
         "collection": [
           { "item": "m9", "variant": "m9", "prob": 100, "charges": [ 0, 15 ], "damage": [ 0, 3 ], "dirt": [ 0, 7050 ] },
           { "group": "field_m9" }
+        ],
+        "prob": 3
+      },
+      {
+        "collection": [
+          { "item": "glock_34", "prob": 100, "charges": [ 0, 15 ], "damage": [ 0, 3 ], "dirt": [ 0, 7050 ] },
+          { "group": "field_glock_34" }
         ],
         "prob": 3
       },
@@ -1034,6 +985,7 @@
       { "group": "field_glock_19", "prob": 50 },
       { "group": "field_glock_17", "prob": 60 },
       { "group": "field_m9", "prob": 3 },
+      { "group": "field_glock_34", "prob": 3 },
       { "group": "field_sp2022_9mm", "prob": 10 },
       { "group": "field_px4_9mm", "prob": 5 },
       { "group": "field_usp_9mm", "prob": 3 },
@@ -1201,14 +1153,7 @@
       },
       {
         "collection": [
-          {
-            "item": "mossberg_930",
-            "variant": "m1014",
-            "charges": [ 0, 8 ],
-            "contents-item": "shoulder_strap",
-            "damage": [ 0, 3 ],
-            "dirt": [ 0, 7050 ]
-          },
+          { "item": "m1014", "charges": [ 0, 5 ], "contents-item": "shoulder_strap", "damage": [ 0, 3 ], "dirt": [ 0, 7050 ] },
           { "group": "field_shotgun" }
         ],
         "prob": 1
@@ -1319,6 +1264,7 @@
     "id": "sidearms_operator",
     "items": [
       { "item": "glock_19", "prob": 15, "charges": [ 0, 15 ] },
+      { "item": "glock_34", "prob": 15, "charges": [ 0, 15 ] },
       { "item": "glock_22", "prob": 20, "ammo-item": "40sw", "charges": [ 0, 15 ] },
       { "item": "m9", "variant": "m9", "prob": 5, "charges": [ 0, 15 ] },
       { "item": "sig_40", "prob": 20, "charges": [ 0, 12 ] },
@@ -1365,6 +1311,7 @@
     "items": [
       { "group": "field_glock_19", "prob": 15 },
       { "group": "field_glock_22", "prob": 20 },
+      { "group": "field_glock_34", "prob": 3 },
       { "group": "field_m9", "prob": 5 },
       { "group": "field_sig_40", "prob": 20 },
       { "group": "field_usp_45", "prob": 10 },

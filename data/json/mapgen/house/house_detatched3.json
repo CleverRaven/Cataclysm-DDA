@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "house_detatched3",
     "type": "mapgen",
     "object": {
@@ -8,7 +7,7 @@
       "rows": [
         "....%...```..%%.p..`....",
         ".######o#*#o######.`....",
-        ".#766|R     L|t-9#.`....",
+        ".#76é|R     L|t-9#.`....",
         ".oO Y|R      +---#^`....",
         ".#1         y|8--#%`....",
         ".#5      h  s|S-Q#%`....",
@@ -65,7 +64,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_detatched3_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -101,17 +99,16 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_detatched3_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
         "                        ",
         " |||||||||||||||||      ",
-        " |1.........%..UU|      ",
+        " |1.........|..UU|      ",
         " |...............|      ",
         " |...............|      ",
-        " |..............F|      ",
+        " |..............â|      ",
         " |..............g|      ",
         " |...............|      ",
         " |..............<|      ",
@@ -131,7 +128,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [ [ "null", 70 ], [ "11x11_gym_open", 10 ], [ "11x11_recroom_open", 30 ], [ "room_11x11_apartment_E", 10 ] ]

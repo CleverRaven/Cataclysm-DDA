@@ -2,32 +2,40 @@
 
 #include <algorithm>
 #include <climits>
+#include <functional>
+#include <optional>
 
+#include "assign.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_variant.h"
+#include "character.h"
 #include "city.h"
 #include "clzones.h"
-#include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "current_map.h"
 #include "debug.h"
-#include "effect_source.h"
 #include "enum_conversions.h"
+#include "enums.h"
 #include "field_type.h"
-#include "game_constants.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "options.h"
+#include "mapgen_parameter.h"
+#include "mapgendata.h"
+#include "mdarray.h"
+#include "omdata.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "rng.h"
+#include "translations.h"
 
 class item;
 
@@ -302,7 +310,7 @@ std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
     const std::pair<tripoint_om_omt, omt_types_parameters> random_valid = random_entry( valid,
             std::make_pair( tripoint_om_omt::invalid, omt_types_parameters() ) );
     const tripoint_om_omt omtstart = random_valid.first;
-    if( omtstart.raw() != tripoint::min ) {
+    if( omtstart != tripoint_om_omt::min ) {
         return std::make_pair( project_combine( origin.pos_om, omtstart ), random_valid.second.parameters );
     }
     // Should never happen, if it does we messed up.
@@ -367,6 +375,8 @@ void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
     // Now prepare the initial map (change terrain etc.)
     tinymap player_start;
     player_start.load( omtstart, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *player_start.cast_to_map() );
     prepare_map( player_start );
     player_start.save();
 }
@@ -408,7 +418,7 @@ static int rate_location( map &m, const tripoint_bub_ms &p,
         }
 
         const tripoint_bub_ms pt( add_p, p.z() );
-        if( m.passable( pt ) ||
+        if( m.passable_through( pt ) ||
             m.bash_resistance( pt ) <= bash_str ||
             m.open_door( get_avatar(), pt, !m.is_outside( from ), true ) ) {
             st.push_back( pt );
@@ -515,7 +525,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
         }
     }
 
-    you.setpos( best_spot );
+    you.setpos( here, best_spot );
 
     if( !found_good_spot ) {
         debugmsg( "Could not find a good starting place for character" );
@@ -527,6 +537,8 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
 {
     tinymap m;
     m.load( omtstart, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *m.cast_to_map() );
     m.build_outside_cache( m.get_abs_sub().z() );
     point_bub_ms player_pos = get_player_character().pos_bub().xy();
     const point_bub_ms u( player_pos.x() % HALF_MAPSIZE_X, player_pos.y() % HALF_MAPSIZE_Y );

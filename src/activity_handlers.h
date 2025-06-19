@@ -8,7 +8,6 @@
 #include <map>
 #include <optional>
 #include <string>
-#include <unordered_set>
 #include <vector>
 
 #include "coords_fwd.h"
@@ -19,6 +18,7 @@
 class Character;
 class item;
 class item_location;
+class map;
 class player_activity;
 
 template<typename Point, typename Container>
@@ -49,18 +49,6 @@ enum class requirement_check_result : int {
     SKIP_LOCATION_NO_MATCH, // No matches found
     CAN_DO_LOCATION,
     RETURN_EARLY       //another activity like a fetch activity has been started.
-};
-
-enum class butcher_type : int {
-    BLEED,          // bleeding a corpse
-    QUICK,          // quick butchery
-    FULL,           // full workshop butchery
-    FIELD_DRESS,    // field dressing a corpse
-    SKIN,           // skinning a corpse
-    QUARTER,        // quarter a corpse
-    DISMEMBER,      // destroy a corpse
-    DISSECT,        // dissect a corpse for CBMs
-    NUM_TYPES       // always keep at the end, number of butchery types
 };
 
 enum class do_activity_reason : int {
@@ -163,8 +151,6 @@ struct activity_reason_info {
     }
 };
 
-int butcher_time_to_cut( Character &you, const item &corpse_item, butcher_type action );
-
 // activity_item_handling.cpp
 void activity_on_turn_drop();
 void activity_on_turn_move_loot( player_activity &act, Character &you );
@@ -174,7 +160,6 @@ bool generic_multi_activity_handler( player_activity &act, Character &you,
 void activity_on_turn_fetch( player_activity &, Character *you );
 int get_auto_consume_moves( Character &you, bool food );
 bool try_fuel_fire( player_activity &act, Character &you, bool starting_fire = false );
-double butcher_get_progress( const item &corpse_item, butcher_type action );
 
 enum class item_drop_reason : int {
     deliberate,
@@ -185,10 +170,15 @@ enum class item_drop_reason : int {
 
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items );
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items,
-                               const tripoint_bub_ms &where, bool force_ground = false );
+                               map *here, const tripoint_bub_ms &where, bool force_ground = false );
+std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you, item_drop_reason,
+        const std::list<item> &items );
+std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you, item_drop_reason,
+        const std::list<item> &items, map *here, const tripoint_bub_ms &where,
+        bool force_ground = false );
 std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
                                         const std::list<item> &items,
-                                        const tripoint_bub_ms &where );
+                                        map *here, const tripoint_bub_ms &where );
 // used in unit tests to avoid triggering user input
 void repair_item_finish( player_activity *act, Character *you, bool no_menu );
 
@@ -204,7 +194,6 @@ void adv_inventory_do_turn( player_activity *act, Character *you );
 void armor_layers_do_turn( player_activity *act, Character *you );
 void atm_do_turn( player_activity *act, Character *you );
 void build_do_turn( player_activity *act, Character *you );
-void butcher_do_turn( player_activity *act, Character *you );
 void dismember_do_turn( player_activity *act, Character *you );
 void chop_trees_do_turn( player_activity *act, Character *you );
 void consume_drink_menu_do_turn( player_activity *act, Character *you );
@@ -250,7 +239,6 @@ do_turn_functions;
 
 /** activity_finish functions: */
 void atm_finish( player_activity *act, Character *you );
-void butcher_finish( player_activity *act, Character *you );
 void eat_menu_finish( player_activity *act, Character *you );
 void fish_finish( player_activity *act, Character *you );
 void generic_game_finish( player_activity *act, Character *you );
@@ -283,6 +271,8 @@ int move_cost_cart( const item &it, const tripoint_bub_ms &src, const tripoint_b
                     const units::volume &capacity );
 int move_cost_inv( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest );
 
+void clean_may_activity_occupancy_items_var( Character &you );
+void clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( Character &you );
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 finish_functions;

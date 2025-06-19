@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "stadium_football_1_0",
@@ -95,7 +94,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "stadium_football_0_0", "stadium_football_8_0" ],
       [ "stadium_football_0_1", "stadium_football_8_1" ],
@@ -190,7 +188,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "stadium_football_0_3", "stadium_football_8_3" ],
       [ "stadium_football_0_4", "stadium_football_8_4" ],
@@ -312,7 +309,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "stadium_football_1_1",
@@ -569,10 +565,7 @@
         { "group": "SUS_coffee_cupboard", "x": 155, "y": 44, "chance": 60 },
         { "group": "SUS_coffee_cupboard", "x": 155, "y": 45, "chance": 60 }
       ],
-      "place_vehicles": [
-        { "vehicle": "football_vehicles", "x": 109, "y": 34, "chance": 100 },
-        { "vehicle": "football_vehicles", "x": 59, "y": 87, "chance": 100 }
-      ],
+      "place_vehicles": [ { "vehicle": "football_vehicles", "x": 109, "y": 34 }, { "vehicle": "football_vehicles", "x": 59, "y": 87 } ],
       "place_monsters": [
         { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.2 },
         { "monster": "GROUP_HOUSE", "x": [ 24, 47 ], "y": [ 0, 23 ], "density": 0.2 },
@@ -603,7 +596,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "stadium_football_1_1_1",
@@ -698,7 +690,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "stadium_football_1_2_1", "stadium_football_7_2_1" ],
       [ "stadium_football_1_3_1", "stadium_football_7_3_1" ],
@@ -794,7 +785,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "stadium_football_2_3_1", "stadium_football_6_3_1" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -829,7 +819,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "stadium_football_1_1_2",
@@ -924,7 +913,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "stadium_football_1_2_2", "stadium_football_7_2_2" ],
       [ "stadium_football_1_3_2", "stadium_football_7_3_2" ],
@@ -1020,7 +1008,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "stadium_football_1_1_3",
@@ -1115,7 +1102,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "stadium_football_1_2_3", "stadium_football_7_2_3" ],
       [ "stadium_football_1_3_3", "stadium_football_7_3_3" ],
@@ -1211,7 +1197,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "stadium_football_2_1_4",
@@ -1298,7 +1283,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "stadium_football_2_1_5",

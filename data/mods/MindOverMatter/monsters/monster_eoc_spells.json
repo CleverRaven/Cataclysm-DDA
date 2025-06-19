@@ -260,6 +260,45 @@
     ]
   },
   {
+    "id": "electrokinetic_paralysis_monster",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Neural Spasms Monster", "//~": "NO_I18N" },
+    "description": { "str": "Cause an electrical burst in the target's nervous system, stunning them briefly.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "max_level": 20,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_MONSTER_PARALYSIS",
+    "shape": "blast",
+    "min_duration": 150,
+    "max_duration": 400,
+    "min_range": 3,
+    "max_range": 23,
+    "range_increment": 1
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_MONSTER_PARALYSIS",
+    "effect": [
+      { "math": [ "_duration = rng(1.5, 4)" ] },
+      {
+        "if": {
+          "not": {
+            "u_has_any_effect": [ "effect_electrokinetic_speed_boost", "effect_monster_neuro_acceleration", "effect_monster_neuro_acceleration" ]
+          }
+        },
+        "then": [
+          { "u_add_effect": "downed", "duration": { "math": [ "_duration" ] } },
+          { "u_add_effect": "psi_dazed", "duration": { "math": [ "_duration" ] } },
+          { "u_add_effect": "effect_electrokin_paralysis", "duration": { "math": [ "_duration" ] } }
+        ],
+        "else": { "u_message": "Your control over your own nerve impulses prevent the attack from taking hold.", "type": "good" }
+      }
+    ]
+  },
+  {
     "id": "electrokinetic_power_draining",
     "type": "SPELL",
     "name": { "str": "[Ψ]Electrokinetic Power Draining Spell", "//~": "NO_I18N" },
@@ -313,7 +352,7 @@
                     "condition": { "not": { "u_has_effect": "effect_electrokin_personal_battery" } },
                     "effect": {
                       "u_run_inv_eocs": "random",
-                      "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER" ] } ],
+                      "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER", "IS_UPS" ] } ],
                       "true_eocs": [
                         {
                           "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_INV_RESULT",
@@ -486,5 +525,86 @@
         "max_radius": 3
       }
     ]
+  },
+  {
+    "type": "SPELL",
+    "id": "whispering_amalgamation_apply_mindsight",
+    "name": { "str": "Eater apply mindsight", "//~": "NO_I18N" },
+    "description": "Add the effect to give the whispering_amalgamation mindsight.",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_WHISPERING_AMALGAMATION_MINDSIGHT",
+    "shape": "blast",
+    "min_range": 0,
+    "max_range": 0,
+    "min_duration": 900000,
+    "max_duration": 900000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WHISPERING_AMALGAMATION_MINDSIGHT",
+    "effect": [
+      { "u_add_effect": "eff_mind_seeing_bonus_30", "duration": 9000 },
+      { "u_add_effect": "eff_mind_seeing_bonus_10", "duration": 9000 }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "amalgamation_telekinetic_shielder_shield_other_spell",
+    "name": { "str": "Inertial Barrier Guardian Amalgamation Shield Detector", "//~": "NO_I18N" },
+    "description": { "str": "Preps for using Inertial Barrier when a hostile target is detected.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AMALGAMATION_TELEKINETIC_SHIELDER_APPLICATION",
+    "shape": "blast",
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_range": 20,
+    "max_range": 20
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AMALGAMATION_TELEKINETIC_SHIELDER_APPLICATION",
+    "condition": { "math": [ "u_mon_species_nearby('ZOMBIE', 'FERAL', 'radius': 25, 'attitude': 'both') > 0" ] },
+    "//": "Until monsters can actually use spells on allies, the buff has to check from the target's location.",
+    "effect": [
+      { "u_cast_spell": { "id": "amalgamation_telekinetic_shielder_shield_other_spell_self_casting", "hit_self": true } },
+      { "npc_add_effect": "effect_amalgamation_telekinetic_shielder_counter", "duration": 60 }
+    ]
+  },
+  {
+    "id": "amalgamation_telekinetic_shielder_shield_other_spell_self_casting",
+    "type": "SPELL",
+    "name": { "str": "Inertial Barrier Guardian Amalgamation Random Self Spell", "//~": "NO_I18N" },
+    "description": { "str": "I don't know why this spell is necessary, but it is.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT" ],
+    "effect": "noise",
+    "min_damage": 0,
+    "max_damage": 0,
+    "shape": "blast",
+    "extra_effects": [ { "id": "amalgamation_telekinetic_shielder_shield_other_spell_apply_shield" } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "amalgamation_telekinetic_shielder_shield_other_spell_apply_shield",
+    "name": { "str": "Inertial Barrier Guardian Amalgamation Shield Applicator", "//~": "NO_I18N" },
+    "description": { "str": "The actual power that applies Inertial Barrier to an ally.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "RANDOM_TARGET", "RANDOM_DURATION" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "effect_monster_inertial_barrier",
+    "shape": "blast",
+    "min_range": 25,
+    "max_range": 25,
+    "min_duration": 4500,
+    "max_duration": 7500,
+    "targeted_monster_species": [ "ZOMBIE", "FERAL" ],
+    "ignored_monster_species": [ "PSI_NULL" ]
   }
 ]

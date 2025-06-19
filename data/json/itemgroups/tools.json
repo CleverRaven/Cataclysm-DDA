@@ -102,7 +102,7 @@
       [ "screwdriver", 100 ],
       [ "screwdriver_set", 50 ],
       [ "socket_screwdriver_set", 10 ],
-      [ "duct_tape", 10 ],
+      { "group": "duct_tape_roll_part", "prob": 10 },
       { "group": "superglue", "prob": 10 },
       [ "tin_snips", 10 ],
       [ "wrench", 20 ],
@@ -286,7 +286,8 @@
     "items": [
       { "group": "tools_common_small", "prob": 100 },
       [ "wrench", 200 ],
-      [ "wrench_large", 20 ],
+      [ "wrench_large", 50 ],
+      [ "wrench_48", 50 ],
       [ "big_pliers", 10 ],
       [ "claw_bar", 2 ],
       [ "crowbar", 10 ],
@@ -508,7 +509,7 @@
     "subtype": "collection",
     "container-item": "1st_aid_box",
     "items": [
-      { "item": "medical_tape", "charges": 20 },
+      { "group": "medical_tape_roll_part" },
       { "group": "bottle_otc_painkiller_10" },
       { "item": "disinfectant" },
       { "item": "saline" },
@@ -537,7 +538,7 @@
     "subtype": "collection",
     "container-item": "1st_aid_box",
     "items": [
-      { "item": "medical_tape", "charges": [ 0, 20 ] },
+      { "group": "medical_tape_roll_part", "prob": 70 },
       { "group": "bottle_otc_painkiller_0_10" },
       { "item": "disinfectant", "charges": [ 0, 5 ] },
       { "item": "saline", "prob": 60 },
@@ -568,7 +569,7 @@
     "subtype": "collection",
     "container-item": "ifak_pouch",
     "items": [
-      { "item": "medical_tape", "charges": 20 },
+      { "group": "medical_tape_roll_part" },
       { "item": "tourniquet_upper" },
       { "group": "quikclot_bag_plastic_5" },
       { "item": "bandages", "count": 9 },
@@ -585,7 +586,7 @@
     "subtype": "collection",
     "container-item": "ifak_pouch",
     "items": [
-      { "item": "medical_tape", "charges": [ 0, 20 ] },
+      { "group": "medical_tape_roll_part", "prob": 20 },
       { "item": "tourniquet_upper", "prob": 20 },
       { "group": "quikclot_bag_plastic_0_5" },
       { "item": "bandages", "count": [ 0, 9 ] },
@@ -777,7 +778,8 @@
       [ "xacto", 4 ],
       { "group": "cotton_ball_bag_used", "prob": 4 },
       { "group": "cotton_ball_bag_full", "prob": 2 },
-      { "group": "ammo_any_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_random", "prob": 25 },
+      { "group": "ammo_heavy_batteries_full", "prob": 25 },
       [ "acetylene_machine", 1 ],
       { "group": "writing_utensils", "prob": 5 }
     ]
@@ -818,7 +820,7 @@
   {
     "type": "item_group",
     "id": "tools_robotics",
-    "//": "tools and equipment you might find on robotics laboratories.",
+    "//": "tools and equipment you might find on robotics laboratories, like LIXA or Hub01",
     "items": [
       [ "recipe_lab_elec", 4 ],
       { "item": "UPS_OFF", "prob": 6, "charges": [ 0, 1000 ] },
@@ -827,7 +829,7 @@
       { "item": "smart_lamp", "prob": 2, "charges": [ 0, 100 ] },
       [ "bot_manhack", 2 ],
       [ "teleporter", 1 ],
-      { "item": "laptop", "prob": 4, "charges": [ 0, 500 ] },
+      { "group": "used_laptops", "prob": 4, "contents-group": "efiles_science" },
       { "item": "plut_cell", "prob": 4, "charges": [ 1, 5 ] },
       { "group": "superglue", "prob": 30 },
       [ "pliers", 10 ],
@@ -836,7 +838,7 @@
       [ "glasses_safety", 20 ],
       [ "vac_mold", 10 ],
       [ "polycarbonate_sheet", 50 ],
-      [ "duct_tape", 8 ],
+      { "group": "duct_tape_roll_part", "prob": 8 },
       { "item": "misc_repairkit", "prob": 15 },
       { "item": "welder", "prob": 10 },
       { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },

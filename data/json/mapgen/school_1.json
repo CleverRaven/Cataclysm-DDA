@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "school_1_3", "school_1_2", "school_1_1" ],
       [ "school_1_6", "school_1_5", "school_1_4" ],
@@ -100,7 +99,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "null", "school_2_2", "school_2_1" ],
       [ "school_2_6", "school_2_5", "school_2_4" ],
@@ -196,7 +194,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "null", "school_3_2", "school_3_1" ],
       [ "school_3_6", "school_3_5", "school_3_4" ],
@@ -292,7 +289,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "null", "school_4_2", "school_4_1" ],
       [ "school_4_6", "school_4_5", "school_4_4" ],
@@ -393,7 +389,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "school_5_6" ],
     "object": {
       "rows": [
@@ -532,7 +527,7 @@
       ".": { "item": "school", "chance": 1 },
       "d": { "item": "school", "chance": 50 },
       "D": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
-      "e": [ { "item": "fridge", "chance": 65, "repeat": [ 1, 3 ] }, { "item": "fridgesnacks", "chance": 15 } ],
+      "e": [ { "item": "SUS_fridge", "chance": 65, "repeat": [ 1, 3 ] }, { "item": "SUS_fridge_snacks", "chance": 45 } ],
       "g": { "item": "cleaning", "chance": 80, "repeat": [ 1, 3 ] },
       "k": { "item": "chem_school", "chance": 80, "repeat": [ 1, 4 ] },
       "l": { "item": "school", "chance": 60 },
@@ -543,9 +538,10 @@
       ],
       "p": { "item": "gym_school", "chance": 70, "repeat": [ 1, 5 ] },
       "R": { "item": "tools_plumbing", "chance": 55, "repeat": [ 1, 2 ] },
+      "T": { "item": "SUS_toilet", "chance": 50 },
       "t": { "item": "dining", "chance": 33, "repeat": [ 1, 2 ] },
       "u": { "item": "child_items", "chance": 1 },
-      "F": { "item": "file_room", "chance": 85, "repeat": [ 1, 4 ] },
+      "F": { "item": "SUS_office_filing_cabinet", "chance": 85, "repeat": [ 1, 4 ] },
       "U": [
         { "item": "snacks", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "cannedfood_commercial", "chance": 70, "repeat": [ 1, 3 ] },

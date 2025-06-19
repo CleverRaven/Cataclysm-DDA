@@ -25,7 +25,7 @@ concurrency:
 # - RELEASE=1
 # - CMAKE=1
 # - LOCALIZE=0
-# - LTO=1
+# - LTO=1 (to catch ODR violations)
 # - LIBBACKTRACE=1 (on Linux and Windows)
 # - Tests with important mods enabled (Magiclysm)
 # - A clang-tidy run
@@ -35,6 +35,22 @@ concurrency:
 # To see what toolchains are available, the following may be useful:
 # https://launchpad.net/%7Eubuntu-toolchain-r/+archive/ubuntu/test/+index
 # https://apt.llvm.org/
+# For github provided runners: https://github.com/actions/runner-images
+# See also our publicized docs about compiler support: https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/c++/COMPILER_SUPPORT.md
+#
+# At the time of writing (Jan 2025), the feature matrix for the above criteria looks like this:
+# | name                                 | OS       | compiler | newest/ oldest | tiles | sound | localize | cmake | backtrace | lto | sanitize | mods |
+# | ------------------------------------ | -------- | -------- | -------------- | ----- | ----- | -------- | ----- | --------- | --- | -------- | ---- |
+# | Basic Build and Test                 | ubuntu   | clang-13 | oldest (clang) |       |       | yes      |       |           |     |          | yes  |
+# | Clang 18, Ubuntu, Tiles, ASan        | ubuntu   | clang-18 | newest (clang) | yes   |       | yes      |       | yes       |     | address  |      |
+# | GCC 9, Curses, LTO                   | ubuntu   | gcc-9    | oldest   (gcc) |       |       | yes      |       | yes       | yes |          |      |
+# | GCC 12, Ubuntu, Curses, ASan         | ubuntu   | gcc-12   | newest*  (gcc) |       |       | yes      |       |           |     | address  |      |
+# | GCC 9, Ubuntu, Tiles, Sound, CMake   | ubuntu   | gcc-9    | oldest   (gcc) | yes   | yes   |          | yes   |           |     |          |      |
+# | macOS 13, Apple Clang 15             | macOS 13 | apple clang-15  |  N/A    | yes   | yes   | yes      |       |           |     |          |      |
+# | Windows (in msvc-full-features.yml)  | windows  | msvc     |     N/A        | yes   | yes   | yes      |       | yes?      |     |          |      |
+#
+# gcc-12 is not actually newest. gcc-14 exists, but it's failing the asan tests on newer (24.04) ubuntu runners for whatever reason.
+# See https://github.com/CleverRaven/Cataclysm-DDA/pull/79517#issuecomment-2635790180 for a tiny bit more context
 
 jobs:
   skip-duplicates-code:
@@ -47,6 +63,7 @@ jobs:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@master
         with:
+          skip_after_successful_duplicate: 'false'
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "data/**", "lang/**"]'
   skip-duplicates-data:
     continue-on-error: true
@@ -58,6 +75,7 @@ jobs:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@master
         with:
+          skip_after_successful_duplicate: 'false'
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**"]'
   matrix-variables:
     permissions:
@@ -71,9 +89,9 @@ jobs:
     steps:
       - id: matrix_vars
         run: |
-          echo "fail_fast=$([ "$GITHUB_REF_NAME" = "master" ] && echo false || echo true)" >> $GITHUB_OUTPUT
+          echo "fail_fast=$([ "$GITHUB_REF_NAME" = "master" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo false || echo true)" >> $GITHUB_OUTPUT
           echo "skip_tests=$([ "$GITHUB_REF_NAME" = "master" ] && echo true || echo false)" >> $GITHUB_OUTPUT
-          echo "max_parallel=$([ "$GITHUB_REF_NAME" = "master" ] && echo 20 || echo 1)" >> $GITHUB_OUTPUT
+          echo "max_parallel=$([ "$GITHUB_REF_NAME" = "master" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo 20 || echo 1)" >> $GITHUB_OUTPUT
   varied_builds:
     needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables ]
     strategy:
@@ -81,8 +99,8 @@ jobs:
       max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
       matrix:
         include:
-          - compiler: clang++-10
-            os: ubuntu-20.04
+          - compiler: clang++-13
+            os: ubuntu-22.04
             tiles: 0
             sound: 0
             cmake: 0
@@ -93,9 +111,9 @@ jobs:
             archive-success: basic-build
             dont_skip_data_only_changes: 1
             mods: --mods=magiclysm
-            title: Basic Build and Test (Clang 10, Ubuntu, Curses)
+            title: Basic Build and Test (Clang oldest supported, Ubuntu, Curses)
             ccache_limit: 4.5G
-            ccache_key: linux-llvm-10-break1
+            ccache_key: linux-llvm-13
 
           - compiler: clang++
             os: macos-13
@@ -105,9 +123,13 @@ jobs:
             tiles: 1
             sound: 1
             localize: 1
-            title: Clang 14, macOS 12, Tiles, Sound, x64 and arm64 Universal Binary
+            title: macOS 13, Apple Clang 15, Tiles, Sound, x64 and arm64 Universal Binary
             ccache_limit: 10G
-            ccache_key: macos-llvm-14-universal-break1
+            ccache_key: macos-llvm-15-universal
+
+          - title: Android x64 (build only)
+            os: ubuntu-latest
+            android: arm64
 
           - compiler: g++-9
             os: ubuntu-22.04
@@ -125,8 +147,8 @@ jobs:
             ccache_limit: 7.5G
             ccache_key: linux-gcc-9-lto
 
-          - compiler: clang++-12
-            os: ubuntu-22.04
+          - compiler: clang++-18
+            os: ubuntu-latest
             cmake: 0
             tiles: 1
             sound: 0
@@ -134,13 +156,12 @@ jobs:
             native: linux64
             pch: 1
             sanitize: address
-            cxxflags: --gcc-toolchain=/opt/mock-gcc-11
             dont_skip_data_only_changes: 1
-            title: Clang 12, Ubuntu, Tiles, ASan
+            title: Clang 18, Ubuntu, Tiles, ASan
             ccache_limit: 6G
-            ccache_key: linux-llvm-12-asan
+            ccache_key: linux-llvm-18-asan
 
-          - compiler: g++-11
+          - compiler: g++-12
             os: ubuntu-22.04
             cmake: 0
             tiles: 0
@@ -149,9 +170,9 @@ jobs:
             native: linux64
             pch: 1
             sanitize: address
-            title: GCC 11, Ubuntu, Curses, ASan
+            title: GCC 12, Ubuntu, Curses, ASan
             ccache_limit: 6.5G
-            ccache_key: linux-gcc-11-asan
+            ccache_key: linux-gcc-12-asan
 
           - compiler: g++-9
             os: ubuntu-22.04
@@ -160,6 +181,7 @@ jobs:
             sound: 1
             localize: 0
             native: linux64
+            sanitize: undefined
             pch: 1
             title: GCC 9, Ubuntu, Tiles, Sound, CMake
             ccache_limit: 1G
@@ -173,6 +195,7 @@ jobs:
         COMPILER: ${{ matrix.compiler }}
         MXE_TARGET: ${{ matrix.mxe_target }}
         WINE: ${{ matrix.wine }}
+        ANDROID: ${{ matrix.android }}
         OS: ${{ matrix.os }}
         TILES: ${{ matrix.tiles }}
         SOUND: ${{ matrix.sound }}
@@ -197,17 +220,17 @@ jobs:
         CCACHE_NOCOMPRESS: true
         SKIP: >-
           ${{
-          ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang 10, Ubuntu, Curses)' ) ||
+          ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang 13, Ubuntu, Curses)' ) ||
           ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) ||
           ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' )
           }}
-        SKIP_TESTS: ${{ needs.matrix-variables.outputs.skip_tests }}
+        SKIP_TESTS: ${{ fromJSON(needs.matrix-variables.outputs.skip_tests) || (matrix.android != '') }}
     steps:
     - name: Maximize build space
       if: ${{ runner.os == 'Linux' }}
       uses: AdityaGarg8/remove-unwanted-software@v4.1
       with:
-        remove-android: 'true'
+        remove-android: ${{ matrix.android == '' }}
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
       uses: actions/checkout@v4
@@ -228,26 +251,14 @@ jobs:
           sudo apt-get remove --purge -y ccache
           curl -sL https://github.com/ccache/ccache/releases/download/v4.10.2/ccache-4.10.2-linux-x86_64.tar.xz | sudo tar Jxvf - --strip-components 1 -C /usr/bin ccache-4.10.2-linux-x86_64/ccache
           ccache --version
-    - name: install Clang 12 (Ubuntu)
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-12') }}
-      run: |
-          sudo apt-get install clang-12
-    - name: set up a mock GCC toolchain root for Clang (Ubuntu)
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-12') }}
-      run: |
-        sudo mkdir /opt/mock-gcc-11
-        sudo ln -s /usr/include /opt/mock-gcc-11/include
-        sudo ln -s /usr/bin /opt/mock-gcc-11/bin
-        sudo mkdir -p /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu
-        sudo ln -s /usr/lib/gcc/x86_64-linux-gnu/11 /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu/11
     - name: install runtime dependencies (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
       uses: BrettDong/setup-sdl2-frameworks@v1
       with:
-        sdl2: latest
-        sdl2-ttf: latest
-        sdl2-image: latest
-        sdl2-mixer: latest
+        sdl2: 2.30.11
+        sdl2-ttf: 2.24.0
+        sdl2-image: 2.8.4
+        sdl2-mixer: 2.8.0
     - name: install build dependencies (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
       run: |
@@ -255,8 +266,10 @@ jobs:
     - name: install macports (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' && matrix.tiles == 1 }}
       uses: melusina-org/setup-macports@v1
-      with:
-        parameters: '.github/macports/macports.yml'
+    - name: install macports packages (mac)
+      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' && matrix.tiles == 1 }}
+      run: |
+        sudo port install freetype +universal pkgconfig +universal
     - name: prepare
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/requirements.sh
@@ -269,7 +282,7 @@ jobs:
         echo "ccache-path=$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.cache/ccache')" >> $GITHUB_OUTPUT
       shell: bash
     - name: ccache cache files
-      if: ${{ env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
+      if: ${{ env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) && matrix.ccache_key != '' }}
       uses: actions/cache@v4
       with:
         path: ${{ steps.get-vars.outputs.ccache-path }}
@@ -278,11 +291,18 @@ jobs:
         restore-keys: |
           ccache-master-${{ matrix.ccache_key }}--
     - uses: ammaraskar/gcc-problem-matcher@master
-    - name: build
+
+    - name: Set up JDK 8 (android)
+      if: runner.os == 'Linux' && matrix.android != 'none'
+      uses: actions/setup-java@v4
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+    - name: Build CDDA
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/gha_compile_only.sh
     - name: post-build ccache manipulation
-      if: ${{ env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
+      if: ${{ env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') && matrix.ccache_key != '' }}
       run: |
         ccache --show-stats --verbose
         NOW=`/bin/date +%s`

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "fire_station" ],
     "object": {
       "fill_ter": "t_floor",
@@ -71,6 +70,7 @@
         "r": { "item": "fireman_doc", "chance": 50, "repeat": [ 1, 2 ] },
         "d": { "item": "dresser", "chance": 66, "repeat": [ 1, 3 ] },
         "t": [ { "item": "novels", "chance": 33 }, { "item": "dining", "chance": 33 } ],
+        "T": { "item": "SUS_toilet", "chance": 50 },
         "l": [
           { "item": "fireman_gear", "chance": 70 },
           { "item": "fireman_boots", "chance": 70 },
@@ -91,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "fire_station_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -140,7 +139,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "fire_station_1" ],
     "object": {
       "fill_ter": "t_floor",
@@ -223,6 +221,7 @@
         "d": { "item": "dresser", "chance": 66, "repeat": [ 1, 3 ] },
         "t": [ { "item": "novels", "chance": 33 }, { "item": "dining", "chance": 33 } ],
         "B": { "item": "novels", "chance": 80, "repeat": [ 4, 10 ] },
+        "T": { "item": "SUS_toilet", "chance": 50 },
         "l": [
           { "item": "fireman_doc", "chance": 50, "repeat": [ 1, 2 ] },
           { "item": "fireman_gear", "chance": 70 },
@@ -250,7 +249,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "fire_station_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

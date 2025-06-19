@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_garage" ],
     "object": {
       "fill_ter": "t_floor",
@@ -16,7 +15,7 @@
         ".o         |+|~~~~~~~~#.",
         ".o7 AAA    |>|~~~~~~~~#.",
         ".#4 JJJJ   |||~~~~~~~~#.",
-        ".#5         6|~~~~~~~~#.",
+        ".#5         6|é~~~~~~~#.",
         ".#1OF23Y    6|qqqqqqqq#.",
         ".#||||||   |||||||||||#.",
         ".#B  S|N    RR|d    hI#.",
@@ -41,6 +40,7 @@
         "G": "t_sidewalk",
         "K": "t_sidewalk",
         "~": "t_thconc_floor",
+        "é": "t_thconc_floor",
         "q": "t_thconc_floor"
       },
       "furniture": { "!": "f_region_flower" },
@@ -55,7 +55,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_garage_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -91,7 +90,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_garage_basement",
     "weight": 190,
     "object": {
@@ -109,7 +107,7 @@
         " |....................| ",
         " |....................| ",
         " |g...................| ",
-        " |F...................| ",
+        " |â...................| ",
         " |....................| ",
         " |J...................| ",
         " |J...................| ",
@@ -122,12 +120,11 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ]
+      "palettes": [ "standard_and_variant_domestic_basement_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_garage_basement",
     "weight": 10,
     "object": {

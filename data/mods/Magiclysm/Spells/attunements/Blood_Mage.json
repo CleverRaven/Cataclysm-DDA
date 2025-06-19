@@ -26,33 +26,33 @@
   },
   {
     "id": "demon_possession_aura",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "Ixythyug the Destroyer's soul",
     "description": "RIP AND TEAR",
     "weight": "1 g",
     "volume": "1 ml",
     "symbol": "o",
     "color": "white",
-    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "mutations": [
-            "DEMON_HORNS",
-            "DEMON_HOOVES",
-            "DEMON_POSSES",
-            "DEMON_CLAWS",
-            "DEMON_SKIN",
-            "DEMON_TAIL",
-            "DEMON_HUGE",
-            "NOPAIN",
-            "FACIAL_HAIR_GOATEE"
-          ]
-        }
-      ]
-    }
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "max_worn": 1,
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "mutations": [
+          "DEMON_HORNS",
+          "DEMON_HOOVES",
+          "DEMON_POSSES",
+          "DEMON_CLAWS",
+          "DEMON_SKIN",
+          "DEMON_TAIL",
+          "DEMON_HUGE",
+          "NOPAIN",
+          "FACIAL_HAIR_GOATEE"
+        ]
+      }
+    ]
   },
   {
     "id": "demonic_possession",

@@ -1,7 +1,7 @@
 [
   {
     "id": "shrink_wrap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "shrink wrapping" },
     "looks_like": "bag_plastic",
@@ -16,7 +16,7 @@
   },
   {
     "id": "trashcan",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "trash can" },
     "looks_like": "f_trashcan",
@@ -45,7 +45,7 @@
   },
   {
     "id": "trashcan_large",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "industrial trash can" },
     "looks_like": "f_recycle_bin",
@@ -74,7 +74,7 @@
   },
   {
     "id": "saline_bag_250_empty",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "small liquid bag" },
     "description": "Small bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
@@ -100,7 +100,7 @@
   },
   {
     "id": "saline_bag_500_empty",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "medium liquid bag" },
     "description": "Bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
     "copy-from": "saline_bag_250_empty",
@@ -121,7 +121,7 @@
   },
   {
     "id": "saline_bag_1000_empty",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "large liquid bag" },
     "description": "Large bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
     "copy-from": "saline_bag_250_empty",
@@ -142,7 +142,7 @@
   },
   {
     "id": "saline_bag_2000_empty",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "huge liquid bag" },
     "description": "Huge bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
     "copy-from": "saline_bag_250_empty",
@@ -163,10 +163,10 @@
   },
   {
     "id": "outfit_storage",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "set of clothes", "str_pl": "sets of clothes" },
-    "description": "A bundle of presses, coat hangars, and other miscellaneous items needed to store and keep a good change of clothes.  You can interact with it to swap to the clothes it's currently containing, or disassemble it to get the clothes back.",
+    "description": "A bundle of presses, coat hangars, and other miscellaneous items needed to store and keep a good change of clothes.  You can interact with it to swap to the clothes it's currently containing, or put your current clothes in if there's nothing already inside.",
     "weight": "1 kg",
     "volume": "1 L",
     "longest_side": "150 cm",
@@ -184,12 +184,12 @@
       }
     ],
     "symbol": "#",
-    "color": "black",
+    "color": "dark_gray",
     "flags": [ "SINGLE_USE", "NO_SALVAGE", "NO_RELOAD" ]
   },
   {
     "id": "box_paper_small",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "small paper box", "str_pl": "small paper boxes" },
     "looks_like": "box_tea",
@@ -205,7 +205,7 @@
   },
   {
     "id": "wrapping_vacuumed",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "looks_like": "bag_plastic",
     "name": { "str": "vacuum-sealed package" },
@@ -226,5 +226,73 @@
         "sealed_data": { "spoil_multiplier": 0.5 }
       }
     ]
+  },
+  {
+    "id": "basket_laundry",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "laundry basket" },
+    "description": "A plastic basket meant for storing and hauling clothing.",
+    "weight": "680 g",
+    "volume": "52500 ml",
+    "price": "75 cent",
+    "price_postapoc": "10 cent",
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "looks_like": "plastic_shopping_bag",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "12 kg",
+        "max_item_length": "80 cm",
+        "moves": 300
+      }
+    ],
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "wicker_basket_large",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "large wicker basket" },
+    "description": "A large handmade straw basket.  Unwieldy but spacious.",
+    "weight": "400 g",
+    "volume": "52500 ml",
+    "price": "2 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "dry_plant" ],
+    "symbol": ")",
+    "looks_like": "straw_basket",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "80 cm",
+        "moves": 300
+      }
+    ]
+  },
+  {
+    "id": "bag_paper_charcoal",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "paper sack" },
+    "looks_like": "bag_plastic",
+    "description": "Bulky paper bag, generally used to store light materials like charcoal.",
+    "//": "for 16 lbs of charcoal (6978 units, rounded up to 7000)",
+    "weight": "300 g",
+    "volume": "600 ml",
+    "price": "85 cent",
+    "price_postapoc": "1 cent",
+    "material": [ "paper" ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "40 L", "max_contains_weight": "13 kg", "moves": 500 } ],
+    "symbol": ")",
+    "color": "white"
   }
 ]

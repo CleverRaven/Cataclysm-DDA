@@ -7,7 +7,7 @@
     "entries": [
       {
         "distribution": [
-          { "item": "cig", "prob": 70, "count": [ 1, 10 ], "container-item": "null", "entry-wrapper": "box_cigarette" },
+          { "group": "cigarettes_opened", "prob": 70, "entry-wrapper": "box_cigarette" },
           {
             "collection": [
               { "item": "tobacco", "count": [ 1, 20 ], "container-item": "null", "entry-wrapper": "bag_plastic" },
@@ -204,32 +204,6 @@
       { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 20 },
       { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 3 },
       { "item": "material_zincite", "count": [ 0, 5 ], "prob": 5 }
-    ]
-  },
-  {
-    "id": "office_paper",
-    "type": "item_group",
-    "subtype": "collection",
-    "//": "Random paper/data items. for filing cabinets or other office locations",
-    "items": [
-      { "group": "oa_discarded_news", "count": [ 2, 12 ], "prob": 20 },
-      { "group": "flask_liquor", "prob": 10 },
-      { "group": "elecsto_pcs", "count": [ 1, 2 ], "prob": 10 },
-      { "item": "file", "count": [ 1, 8 ], "prob": 50 },
-      { "group": "elecsto_stor", "count": [ 1, 2 ], "prob": 30 },
-      { "item": "office_holepunch", "prob": 30 },
-      { "item": "money_strap_twenty", "count": [ 1, 10 ], "prob": 20 },
-      { "item": "scorecard", "count": [ 1, 10 ], "prob": 10 },
-      { "item": "survnote", "prob": 10 },
-      { "item": "flyer", "count": [ 1, 10 ], "prob": 30 },
-      { "item": "character_sheet", "count": [ 1, 2 ], "prob": 5 },
-      { "item": "phonebook", "prob": 10 },
-      { "item": "magic_8_ball", "prob": 5 },
-      { "item": "family_photo", "prob": 5 },
-      { "item": "coin_quarter", "prob": 5 },
-      { "item": "RPG_die", "prob": 5 },
-      { "item": "metal_RPG_die", "prob": 1 },
-      { "item": "memory_card_unread", "count": [ 1, 5 ], "prob": 30 }
     ]
   },
   {

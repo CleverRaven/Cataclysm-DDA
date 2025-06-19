@@ -18,6 +18,7 @@ on:
       - 'Makefile'
       - 'README*'
       - 'src/**'
+  workflow_dispatch:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -58,7 +59,7 @@ jobs:
           - name: Windows Tiles x64 MSVC
             artifact: windows-with-graphics-x64
             arch: x64
-            os: windows-2019
+            os: windows-2022
             mxe: none
             ext: zip
             content: application/zip
@@ -66,13 +67,13 @@ jobs:
           - name: Windows Tiles Sounds x64 MSVC
             artifact: windows-with-graphics-and-sounds-x64
             arch: x64
-            os: windows-2019
+            os: windows-2022
             mxe: none
             ext: zip
             content: application/zip
             sound: 1
           - name: Linux Tiles x64
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             mxe: none
             android: none
             libbacktrace: 1
@@ -82,7 +83,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: Linux Tiles Sounds x64
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             mxe: none
             android: none
             libbacktrace: 1
@@ -92,7 +93,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: Linux Curses x64
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             mxe: none
             android: none
             libbacktrace: 1
@@ -131,13 +132,6 @@ jobs:
             artifact: android-x32
             ext: apk
             content: application/apk 
-          - name: Android Bundle
-            os: ubuntu-latest
-            mxe: none
-            android: bundle
-            artifact: android-bundle
-            ext: aab
-            content: application/aap
           - name: WebAssembly Bundle
             os: ubuntu-latest
             mxe: none
@@ -163,6 +157,9 @@ jobs:
       - name: Install dependencies (windows msvc) (0/4)
         if: runner.os == 'Windows'
         uses: lukka/get-cmake@latest
+        with:
+          # 4.0.0 has issues compiling old packages in vcpkg
+          cmakeVersion: 3.31.6
       - name: Install dependencies (windows msvc) (1/4)
         if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v2
@@ -221,10 +218,10 @@ jobs:
         if: runner.os == 'macOS'
         uses: BrettDong/setup-sdl2-frameworks@v2
         with:
-          sdl2: latest
-          sdl2-ttf: latest
-          sdl2-image: latest
-          sdl2-mixer: latest
+          sdl2: 2.30.11
+          sdl2-ttf: 2.24.0
+          sdl2-image: 2.8.4
+          sdl2-mixer: 2.8.0
       - name: Install build dependencies (mac)
         if: runner.os == 'macOS'
         run: |
@@ -233,8 +230,10 @@ jobs:
       - name: install macports (mac)
         if: runner.os == 'macOS' && matrix.tiles == 1
         uses: melusina-org/setup-macports@v1
-        with:
-          parameters: '.github/macports/macports.yml'
+      - name: install macports packages (mac)
+        if: runner.os == 'macOS' && matrix.tiles == 1
+        run: |
+          sudo port install freetype +universal pkgconfig +universal
       - name: Create VERSION.TXT
         shell: bash
         run: |
@@ -322,10 +321,6 @@ jobs:
           then
                ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease
                mv ./app/build/outputs/apk/experimental/release/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk 
-          elif [ ${{ matrix.android }} = bundle ]
-          then
-               ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
-               mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
           fi
       - run: |
           gh release upload cdda-experimental-${{ needs.release.outputs.timestamp }} cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}

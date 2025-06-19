@@ -23,6 +23,9 @@ struct ammo_effect;
 using ammo_effect_id = int_id<ammo_effect>;
 using ammo_effect_str_id = string_id<ammo_effect>;
 
+class anatomy;
+using anatomy_id = string_id<anatomy>;
+
 struct attack_vector;
 using attack_vector_id = string_id<attack_vector>;
 
@@ -99,6 +102,9 @@ using fault_id = string_id<fault>;
 
 class fault_fix;
 using fault_fix_id = string_id<fault_fix>;
+
+class fault_group;
+using fault_group_id = string_id<fault_group>;
 
 struct field_type;
 using field_type_id = int_id<field_type>;
@@ -272,6 +278,9 @@ using proficiency_category_id = string_id<proficiency_category>;
 
 class proficiency;
 using proficiency_id = string_id<proficiency>;
+
+class relic_procgen_data;
+using relic_procgen_id = string_id<relic_procgen_data>;
 
 struct ter_t;
 using ter_id = int_id<ter_t>;

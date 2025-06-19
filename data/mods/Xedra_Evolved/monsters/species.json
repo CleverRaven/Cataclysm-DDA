@@ -9,8 +9,19 @@
   },
   {
     "type": "SPECIES",
+    "id": "NIGHT_CREATURE",
+    "description": "One of the children of the night"
+  },
+  {
+    "type": "SPECIES",
     "id": "CHANGELING",
     "description": "a creature from under the hill",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "CHANGELING_NOBLE",
+    "description": "one of the leaders of the people under the hill",
     "fear_triggers": [ "HURT" ]
   },
   {
@@ -64,8 +75,20 @@
   },
   {
     "type": "SPECIES",
+    "id": "VAMPIRE_ANATHEMA",
+    "description": "a being who devoured vampires to become better at killing them.",
+    "flags": [ "NO_NECRO", "VAMP_VIRUS", "DRACULIN_IMMUNE" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "NIGHTMARE",
     "description": "creatures made from dreams, technically not alive",
     "flags": [ "DRACULIN_IMMUNE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "GRACKEN",
+    "description": "Grackens from the nether",
+    "fear_triggers": [ "HURT" ]
   }
 ]

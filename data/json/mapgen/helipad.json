@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": [ [ "helipad_nw", "helipad_ne" ], [ "helipad_sw", "helipad_se" ] ],
     "type": "mapgen",
     "weight": 500,
@@ -135,7 +134,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "helipad2f_nw", "helipad2f_ne" ], [ "helipad2f_sw", "helipad2f_se" ] ],
     "type": "mapgen",
     "object": {
@@ -198,7 +196,7 @@
         "h": { "item": "SUS_bathroom_sink", "chance": 50 },
         "S": { "item": "SUS_bathroom_sink", "chance": 90 },
         "L": { "item": "army_personal_locker", "repeat": [ 0, 4 ], "chance": 50 },
-        "=": { "item": "roof_trash", "chance": 2 },
+        "=": { "item": "SUS_trash_roof", "chance": 2 },
         "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_monster": [
@@ -221,7 +219,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "helipad_roof_nw", "helipad_roof_ne" ], [ "helipad_roof_sw", "helipad_roof_se" ] ],
     "type": "mapgen",
     "object": {

@@ -1,7 +1,7 @@
 [
   {
     "id": "2h_flail_steel",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "weapons",
     "name": { "str": "war flail" },
     "description": "A stout pole with a large flanged mace head attached to the end with a short chain, a purpose-made combat version of the peasant flail.  It specializes in threshing people in metal armor, rather than grain.",
@@ -16,12 +16,13 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "faults": [ { "fault_group": "handle_long" } ],
     "weapon_category": [ "FLAILS" ],
     "melee_damage": { "bash": 50 }
   },
   {
     "id": "2h_flail_wood",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "weapons",
     "name": { "str": "peasant flail" },
     "description": "A stout pole with a wooden club attached to the end with a leather cord.  This farming tool was historically used to thresh wheat and occasionally people when the peasants got angry at their feudal lords.",
@@ -37,10 +38,11 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "FLAILS" ],
+    "faults": [ { "fault_group": "handle_long" } ],
     "melee_damage": { "bash": 35 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "2h_club_kanabo_studded",
     "name": { "str_sp": "studded kanabō" },
     "description": "A two-handed war club used in feudal Japan by samurai against armored opponents.  Made from hardwood with metal stud inlays.",
@@ -58,19 +60,20 @@
     "volume": "2700 ml",
     "price": "500 USD",
     "price_postapoc": "20 USD",
+    "faults": [ { "fault_group": "handle_long" } ],
     "melee_damage": { "bash": 44 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "2h_club_kanabo_spiked",
     "copy-from": "2h_club_kanabo_studded",
     "name": { "str_sp": "spiked kanabō" },
     "description": "A two-handed war club used in feudal Japan by samurai against armored opponents.  Made from hardwood with metal spike inlays.",
     "looks_like": "nailbat",
-    "melee_damage": { "bash": 39, "stab": 7 }
+    "relative": { "melee_damage": { "bash": -5, "stab": 7 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bat",
     "name": { "str": "baseball bat" },
     "description": "A sturdy wooden bat used to play the great American pastime.  Makes for a great melee weapon too.",
@@ -82,14 +85,15 @@
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "volume": "1750 ml",
     "price": "160 USD",
     "melee_damage": { "bash": 22 },
+    "faults": [ { "fault_group": "staff_short" } ],
     "weapon_category": [ "MACES" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bat_metal",
     "name": { "str": "aluminum bat" },
     "description": "An aluminum baseball bat with a plastic handle, lighter than a wooden bat and a little easier to swing as a result.",
@@ -109,7 +113,7 @@
     "weapon_category": [ "MACES" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bat_nerf",
     "name": { "str": "foam rubber bat" },
     "description": "A baseball bat made of foam rubber with a plastic handle.  Light and easy to wield, but almost completely ineffective if your goal is to hurt someone.",
@@ -124,7 +128,7 @@
     "price": "25 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "baton",
     "category": "weapons",
     "name": { "str": "expandable baton" },
@@ -143,51 +147,31 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "baton-extended",
-    "category": "weapons",
+    "copy-from": "baton",
     "name": { "str": "expandable baton (extended)", "str_pl": "expandable batons (extended)" },
     "description": "A telescoping baton that collapses for easy storage.  Makes a good melee weapon.  Activate to collapse.",
-    "weight": "606 g",
     "volume": "260 ml",
     "longest_side": "60 cm",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "good" },
-    "price_postapoc": "7 USD 50 cent",
-    "color": "dark_gray",
-    "symbol": "/",
-    "material": [ { "type": "steel", "portion": 7 }, { "type": "plastic", "portion": 3 } ],
     "techniques": [ "WBLOCK_1", "RAPID", "PRECISE" ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "weapon_category": [ "BATONS" ],
     "use_action": { "menu_text": "Collapse", "type": "transform", "target": "baton", "msg": "You collapse your baton." },
-    "price": "229 USD",
     "melee_damage": { "bash": 10 }
   },
   {
     "id": "battleaxe",
-    "type": "TOOL",
+    "copy-from": "mc_battleaxe",
+    "type": "ITEM",
     "name": { "str": "battle axe" },
     "description": "A huge axe designed for warfare.  Though intended for use as a weapon, it can also be pressed into service as a rather clumsy woodcutting tool.",
-    "weight": "2002 g",
-    "volume": "2500 ml",
-    "longest_side": "100 cm",
-    "price": "400 USD",
-    "price_postapoc": "120 USD",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
-    "material": [ "steel", "wood" ],
-    "symbol": "/",
-    "color": "light_gray",
-    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -20 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
-    "category": "weapons",
-    "melee_damage": { "bash": 19, "cut": 38 }
+    "material": [ "steel", "wood" ]
   },
   {
     "id": "battleaxe_fake",
     "copy-from": "battleaxe",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "battle axe" },
     "description": "A dull, cheaply-made replica of a huge axe designed for warfare.",
     "proportional": { "melee_damage": { "cut": 0.1 } },
@@ -202,7 +186,7 @@
   {
     "id": "battleaxe_inferior",
     "copy-from": "battleaxe",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "battle axe" },
     "description": "A huge axe designed for warfare.  Or it would be, but the axe heads aren't seated properly at all.",
     "proportional": { "melee_damage": { "bash": 2, "cut": 0.25 } },
@@ -214,29 +198,17 @@
   },
   {
     "id": "lc_battleaxe",
-    "type": "TOOL",
+    "copy-from": "mc_battleaxe",
+    "type": "ITEM",
     "name": { "str": "mild steel battle axe" },
     "description": "A huge axe designed for warfare.  Made of mild steel, it's passable as a weapon, but lacking a proper grip or a razor sharp edge leaves it somewhat lacking.",
-    "weight": "2002 g",
-    "volume": "2500 ml",
-    "longest_side": "100 cm",
-    "price": "400 USD",
-    "price_postapoc": "120 USD",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "lc_steel", "wood" ],
-    "symbol": "/",
-    "color": "light_gray",
-    "looks_like": "battleaxe",
-    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -20 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
-    "category": "weapons",
-    "melee_damage": { "bash": 19, "cut": 34 }
+    "relative": { "melee_damage": { "cut": -4 } }
   },
   {
     "id": "mc_battleaxe",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "medium steel battle axe" },
     "description": "A huge axe designed for warfare.  Made of medium steel, this isn't the greatest weapon ever forged but it has a decent edge and a real handle.",
     "weight": "2202 g",
@@ -244,7 +216,7 @@
     "longest_side": "100 cm",
     "price": "400 USD",
     "price_postapoc": "120 USD",
-    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "mc_steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
@@ -252,79 +224,43 @@
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -20 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE" ],
+    "faults": [ { "fault_group": "handle_long" } ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
     "category": "weapons",
     "melee_damage": { "bash": 19, "cut": 38 }
   },
   {
     "id": "hc_battleaxe",
-    "type": "TOOL",
+    "copy-from": "mc_battleaxe",
+    "type": "ITEM",
     "name": { "str": "high steel battle axe" },
     "description": "A huge axe designed for warfare.  Made of high steel, this is a solid, dependable weapon.",
-    "weight": "2202 g",
-    "volume": "2500 ml",
-    "longest_side": "100 cm",
-    "price": "400 USD",
-    "price_postapoc": "120 USD",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "hc_steel", "wood" ],
-    "symbol": "/",
-    "color": "light_gray",
-    "looks_like": "battleaxe",
-    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -20 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
-    "category": "weapons",
-    "melee_damage": { "bash": 19, "cut": 40 }
+    "relative": { "melee_damage": { "cut": 2 } }
   },
   {
     "id": "ch_battleaxe",
-    "type": "TOOL",
+    "copy-from": "mc_battleaxe",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel battle axe" },
     "description": "A huge axe designed for warfare.  Made of hardened steel, this would be the envy of any Viking raider.",
-    "weight": "2102 g",
-    "volume": "2500 ml",
-    "longest_side": "100 cm",
-    "price": "400 USD",
-    "price_postapoc": "120 USD",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "ch_steel", "wood" ],
-    "symbol": "/",
-    "color": "light_gray",
-    "looks_like": "battleaxe",
-    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -20 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
-    "category": "weapons",
-    "melee_damage": { "bash": 19, "cut": 41 }
+    "relative": { "melee_damage": { "cut": 3 } }
   },
   {
     "id": "qt_battleaxe",
-    "type": "TOOL",
+    "copy-from": "mc_battleaxe",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel battle axe" },
     "description": "A huge axe designed for warfare.  Made of tempered steel, this is a weapon that could fell a jötunn.",
-    "weight": "2102 g",
-    "volume": "2500 ml",
-    "longest_side": "100 cm",
-    "price": "400 USD",
-    "price_postapoc": "120 USD",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "material": [ "qt_steel", "wood" ],
-    "symbol": "/",
-    "color": "light_gray",
-    "looks_like": "battleaxe",
-    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -20 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
-    "category": "weapons",
-    "melee_damage": { "bash": 19, "cut": 42 }
+    "relative": { "melee_damage": { "cut": 4 } }
   },
   {
     "id": "blackjack",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "dark_gray",
     "name": { "str": "blackjack" },
@@ -334,6 +270,7 @@
     "material": [ "leather", "lead" ],
     "techniques": [ "PRECISE", "RAPID" ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
+    "faults": [ { "fault_group": "handle_long" } ],
     "weight": "450 g",
     "volume": "350 ml",
     "longest_side": "20 cm",
@@ -343,7 +280,7 @@
   },
   {
     "id": "bokken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "brown",
     "name": { "str_sp": "bokken" },
@@ -354,6 +291,7 @@
     "ascii_picture": "bokken",
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "weight": "700 g",
     "volume": "2 L",
     "longest_side": "100 cm",
@@ -366,7 +304,7 @@
   {
     "id": "bokken_fake",
     "copy-from": "bokken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "brown",
     "looks_like": "bokken",
@@ -375,7 +313,6 @@
     "proportional": { "melee_damage": { "bash": 0.5 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
-    "material": [ "wood" ],
     "weight": "480 g",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" },
     "price": "125 USD",
@@ -384,7 +321,7 @@
   {
     "id": "bokken_inferior",
     "copy-from": "bokken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "brown",
     "looks_like": "bokken",
@@ -399,25 +336,7 @@
     "price_postapoc": "7 USD 50 cent"
   },
   {
-    "type": "GENERIC",
-    "id": "bowling_axe",
-    "name": { "str": "The 7-10 Split", "str_pl": "7-10 Splits" },
-    "description": "An improvised weapon made from a bowling pin with two spikes attached in the shape of a 'T'.",
-    "weight": "2433 g",
-    "price": "180 USD",
-    "price_postapoc": "50 cent",
-    "color": "brown",
-    "symbol": "/",
-    "material": [ "wood", "steel" ],
-    "techniques": [ "WBLOCK_1" ],
-    "volume": "1750 ml",
-    "longest_side": "40 cm",
-    "to_hit": { "grip": "none", "length": "short", "surface": "point", "balance": "neutral" },
-    "flags": [ "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 14, "stab": 14 }
-  },
-  {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bowling_pin",
     "name": { "str": "bowling pin" },
     "description": "A standard bowling pin.  Makes a decent melee weapon, if somewhat short.",
@@ -428,6 +347,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "volume": "2250 ml",
     "longest_side": "40 cm",
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "neutral" },
@@ -435,26 +355,28 @@
     "melee_damage": { "bash": 11 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bwirebat",
+    "copy-from": "bat",
     "name": { "str": "barbed wire bat" },
     "description": "A baseball bat wrapped with barbed wire.  A brutal melee weapon.",
-    "weight": "1420 g",
-    "price_postapoc": "12 USD 50 cent",
-    "color": "brown",
-    "symbol": "/",
     "material": [ "wood", "steel" ],
-    "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
-    "volume": "2 L",
-    "longest_side": "90 cm",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
-    "price": "200 USD",
-    "melee_damage": { "bash": 22, "cut": 8 },
-    "weapon_category": [ "MACES" ]
+    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "relative": { "melee_damage": { "cut": 8 }, "weight": "287 g", "volume": "250 ml", "price_postapoc": "5 USD" }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "id": "nutboltbat",
+    "copy-from": "bat",
+    "looks_like": "nailbat",
+    "name": { "str": "bolt studded bat" },
+    "description": "A baseball bat with bolts drilled into it, concentrating the force of an impact onto a smaller point like a real mace.",
+    "material": [ "wood", "steel" ],
+    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "relative": { "melee_damage": { "bash": 5 }, "weight": "48 g", "volume": "250 ml", "price_postapoc": "5 USD" }
+  },
+  {
+    "type": "ITEM",
     "id": "cane",
     "name": { "str": "walking cane" },
     "description": "Handicapped or not, you always walk in style.  Consisting of a metal headpiece and a wooden body, this makes a great bashing weapon in a pinch.",
@@ -464,6 +386,7 @@
     "material": [ "wood", "aluminum" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE", "CRUTCHES" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "weapon_category": [ "BATONS" ],
     "volume": "1 L",
     "longest_side": "80 cm",
@@ -473,7 +396,7 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sinister_cane",
     "name": { "str": "sinister cane" },
     "description": "A sinister looking cane made of plastic.  It has a shiny red orb gripped by claws at the handle.",
@@ -488,7 +411,8 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wizard_cane_cheap",
     "name": { "str": "cheap wizard cane (off)", "str_pl": "cheap wizard canes (off)" },
     "description": "An arcane but cheap-looking cane made of plastic.  It has a white light-up orb on the end.  Using it will turn it on and provide a weak light.",
@@ -501,7 +425,6 @@
     "price_postapoc": "20 cent",
     "extend": { "flags": [ "FRAGILE_MELEE", "WATER_BREAK_ACTIVE" ] },
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the wizard cane on.",
@@ -518,12 +441,14 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "wizard_cane_cheap_on",
     "copy-from": "wizard_cane_cheap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "cheap wizard cane (on)", "str_pl": "cheap wizard canes (on)" },
     "color": "blue",
     "power_draw": "1 W",
@@ -539,7 +464,8 @@
     "delete": { "flags": [ "WATER_BREAK_ACTIVE" ] }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wizard_cane",
     "name": { "str": "wizard cane (off)", "str_pl": "wizard canes (off)" },
     "description": "An arcane-looking cane made of wood and aluminum.  It has a white light-up orb on the end.  Using it will turn it on and illuminate the area around you.",
@@ -552,7 +478,6 @@
     "price_postapoc": "1 USD 50 cent",
     "extend": { "flags": [ "WATER_BREAK_ACTIVE" ] },
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the wizard cane on.",
@@ -569,12 +494,14 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "wizard_cane_on",
     "copy-from": "wizard_cane",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "wizard cane (on)", "str_pl": "wizard canes (on)" },
     "color": "blue",
     "power_draw": "10 W",
@@ -590,26 +517,20 @@
     "delete": { "flags": [ "WATER_BREAK_ACTIVE" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "makeshift_cane",
+    "copy-from": "cane",
     "name": { "str": "makeshift walking cane" },
     "description": "An improvised cane.  It also works as a basic bashing weapon in a pinch.",
-    "weight": "453 g",
-    "color": "dark_gray",
-    "symbol": "/",
     "material": [ "wood" ],
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "NONCONDUCTIVE", "CRUTCHES" ],
-    "weapon_category": [ "BATONS" ],
-    "volume": "1 L",
-    "longest_side": "80 cm",
+    "flags": [ "CRUTCHES" ],
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price": "16 USD",
     "price_postapoc": "10 cent",
-    "melee_damage": { "bash": 7 }
+    "relative": { "melee_damage": { "bash": -3 } }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "club_wooden",
     "name": { "str": "wooden club" },
     "description": "A plank of wood that's been snapped in half, with a crude handle whittled into one end.  It looks like a poorly-made cricket bat.",
@@ -621,6 +542,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
     "weapon_category": [ "MACES" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "volume": "2200 ml",
     "longest_side": "65 cm",
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
@@ -628,28 +550,24 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "club_wooden_large",
+    "copy-from": "club_wooden",
     "name": { "str": "large wooden club" },
     "description": "A long plank of wood with a crude handle whittled into one end.  It's barely an improvement, but at least it is slightly easier to wield than just the plank on its own.",
     "weight": "2400 g",
-    "price_postapoc": "10 cent",
-    "color": "brown",
-    "symbol": "/",
     "looks_like": "2x4",
-    "material": [ "wood" ],
-    "flags": [ "FRAGILE_MELEE" ],
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "weapon_category": [ "GREAT_HAMMERS" ],
     "techniques": [ "BRUTAL", "SWEEP" ],
     "volume": "4300 ml",
     "longest_side": "130 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
-    "price": "1 USD",
-    "melee_damage": { "bash": 16 }
+    "relative": { "melee_damage": { "bash": 4 } }
   },
   {
     "id": "crutches",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "dark_gray",
     "name": { "str": "crutches", "str_pl": "pairs of crutches" },
@@ -658,6 +576,7 @@
     "material": [ "aluminum" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "FRAGILE_MELEE", "CRUTCHES" ],
+    "faults": [ { "fault_group": "staff_long" } ],
     "weight": "2200 g",
     "volume": "1500 ml",
     "longest_side": "150 cm",
@@ -668,7 +587,7 @@
   },
   {
     "id": "makeshift_crutches",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "dark_gray",
     "name": { "str": "makeshift crutches", "str_pl": "pairs of makeshift crutches" },
@@ -677,6 +596,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "CRUTCHES" ],
+    "faults": [ { "fault_group": "staff_long" } ],
     "weight": "2200 g",
     "volume": "1500 ml",
     "longest_side": "150 cm",
@@ -686,7 +606,7 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "weapons",
     "id": "cudgel",
     "name": { "str": "cudgel" },
@@ -697,6 +617,7 @@
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "flags": [ "BELT_CLIP" ],
     "weapon_category": [ "BATONS" ],
     "volume": "600 ml",
@@ -706,25 +627,7 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "type": "GENERIC",
-    "id": "glass_shiv",
-    "symbol": ",",
-    "color": "light_cyan",
-    "name": { "str": "glass shiv" },
-    "description": "A glass shard with wrapping at one end so it can be safely wielded.",
-    "material": [ { "type": "glass", "portion": 13 }, { "type": "cotton", "portion": 1 } ],
-    "weight": "193 g",
-    "price_postapoc": "10 cent",
-    "volume": "82 ml",
-    "longest_side": "15 cm",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "good" },
-    "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "SHIVS" ],
-    "qualities": [ [ "BUTCHER", -18 ] ],
-    "melee_damage": { "cut": 6 }
-  },
-  {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "golf_club",
     "symbol": ";",
     "color": "light_gray",
@@ -742,7 +645,7 @@
     "melee_damage": { "bash": 11 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hammer_sledge",
     "name": { "str": "sledge hammer" },
     "description": "A large, heavy hammer.  A very hard-hitting melee weapon, but it's slow to swing and will probably exhaust you quickly.",
@@ -751,6 +654,7 @@
     "symbol": "/",
     "material": [ "wood", "steel" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "faults": [ { "fault_group": "handle_long" } ],
     "weapon_category": [ "GREAT_HAMMERS" ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "volume": "1250 ml",
@@ -762,67 +666,55 @@
     "melee_damage": { "bash": 50 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hammer_sledge_short",
+    "copy-from": "hammer_sledge",
     "name": { "str": "short sledge hammer" },
     "description": "A sledge hammer with a notably shorter handle.  This makes it worse as a melee weapon, but a more portable tool.",
-    "weight": "4000 g",
-    "color": "brown",
-    "symbol": "/",
-    "material": [ "wood", "steel" ],
     "looks_like": "hammer_sledge",
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "ALLOWS_BODY_BLOCK" ],
-    "volume": "900 ml",
-    "longest_side": "60 cm",
+    "faults": [ { "fault_group": "handle_short" } ],
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "price": "120 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 35 }
+    "relative": {
+      "melee_damage": { "bash": -15 },
+      "weight": "-250 g",
+      "volume": "-350 ml",
+      "longest_side": "-20 cm",
+      "price_postapoc": "-2 USD 50 cent"
+    }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hammer_sledge_engineer",
+    "copy-from": "hammer_sledge",
     "name": { "str": "engineer's hammer" },
     "description": "A stout and hefty hammer, more akin to a sledge than a typical ball-peen.  Useful for portable demolition work, but very unwieldy as a weapon.",
-    "weight": "2000 g",
-    "color": "brown",
-    "symbol": "/",
-    "material": [ "wood", "steel" ],
-    "looks_like": "hammer_sledge",
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "handle_short" } ],
     "techniques": [ "WBLOCK_1" ],
-    "volume": "600 ml",
-    "longest_side": "40 cm",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "uneven" },
-    "price": "60 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "qualities": [ [ "HAMMER", 2 ] ],
-    "melee_damage": { "bash": 25 }
+    "proportional": {
+      "price": 0.5,
+      "weight": 0.5,
+      "volume": 0.5,
+      "longest_side": 0.5,
+      "price_postapoc": 0.5,
+      "melee_damage": { "bash": 0.5 }
+    },
+    "relative": { "qualities": [ [ "HAMMER", 1 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hammer_sledge_heavy",
+    "copy-from": "hammer_sledge",
     "name": { "str": "heavy sledge hammer" },
     "description": "A large sledge hammer with a massive, heavy head.  This unwieldy tool is meant to break concrete, rock, brick, anything really.",
-    "weight": "9500 g",
-    "color": "brown",
-    "symbol": "/",
-    "material": [ "wood", "steel" ],
-    "looks_like": "hammer_sledge",
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "GREAT_HAMMERS" ],
-    "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "volume": "1700 ml",
-    "longest_side": "100 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "clumsy" },
-    "price": "240 USD",
-    "price_postapoc": "7 USD 50 cent",
-    "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 80 }
+    "proportional": { "price_postapoc": 2, "price": 2 },
+    "relative": { "melee_damage": { "bash": 30 }, "weight": "5250 g", "volume": "450 ml", "longest_side": "20 cm" }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hockey_stick",
     "symbol": ";",
     "color": "white",
@@ -834,6 +726,7 @@
     "techniques": [ "WBLOCK_1", "SWEEP", "WIDE" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "flags": [ "SHEATH_SPEAR", "NONCONDUCTIVE" ],
+    "faults": [ { "fault_group": "staff_long" } ],
     "weight": "420 g",
     "volume": "1750 ml",
     "longest_side": "150 cm",
@@ -841,7 +734,7 @@
     "melee_damage": { "bash": 14, "stab": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "homewrecker",
     "name": { "str": "homewrecker" },
     "description": "A long piece of wood with several chunks of steel firmly tied to it.  The resulting weapon is unwieldy and slow but very heavy hitting.",
@@ -856,12 +749,14 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "weapon_category": [ "GREAT_HAMMERS" ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
+    "//": "todo: add specific fault for chunks falling off?",
+    "faults": [ { "fault_group": "staff_short" } ],
     "price": "80 USD",
     "price_postapoc": "50 cent",
     "melee_damage": { "bash": 35, "stab": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "glass_macuahuitl",
     "name": { "str": "glass bladed macuahuitl" },
     "description": "A flat wooden club with sharpened pieces of glass stuck to both sides.  Somewhat accurate to the actual thing.",
@@ -874,13 +769,14 @@
     "material": [ "wood", "glass" ],
     "longest_side": "100 cm",
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "weapon_category": [ "GREAT_HAMMERS" ],
     "techniques": [ "WBLOCK_1", "WIDE" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
     "melee_damage": { "bash": 16, "cut": 10 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "teeth_macuahuitl",
     "name": { "str": "teeth-bladed macuahuitl" },
     "description": "A flat wooden club with impossibly-sharp teeth stuck to both sides.  Fragile yet very sharp.",
@@ -893,13 +789,14 @@
     "material": [ "wood", "bone" ],
     "longest_side": "100 cm",
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "weapon_category": [ "GREAT_HAMMERS" ],
     "techniques": [ "WBLOCK_1", "WIDE" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
     "melee_damage": { "bash": 16, "cut": 12 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "aztec_sword_stone",
     "name": { "str": "stone lined macuahuitl" },
     "description": "An improvised version of the close combat weapon that was mainly used by Aztecs.  It's not very sturdy, but it will break someone's skull open and give them a good cut.",
@@ -912,13 +809,14 @@
     "material": [ "wood", "stone" ],
     "longest_side": "100 cm",
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "weapon_category": [ "GREAT_HAMMERS" ],
     "techniques": [ "WBLOCK_1", "WIDE" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
     "melee_damage": { "bash": 20, "cut": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "aztec_sword_scrap",
     "name": { "str": "makeshift macuahuitl" },
     "description": "A poor imitation of the close combat weapon affiliated with Aztec warriors, made with a large wooden club and carefully hammered razors.  Although not very sturdy, it delivers some nasty cuts and bruises.",
@@ -931,13 +829,14 @@
     "material": [ "wood" ],
     "longest_side": "100 cm",
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "weapon_category": [ "GREAT_HAMMERS" ],
     "techniques": [ "WBLOCK_1", "WIDE" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
     "melee_damage": { "bash": 16, "cut": 12 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lc_aztec_sword",
     "name": { "str": "mild steel bladed macuahuitl" },
     "description": "A modern reimagining of the large close combat weapon affiliated with Aztec warriors, made of a sturdy wooden club and sharp blades forged from mild steel.  Blades are definitely sturdier than obsidian ones.  Not great, not terrible.",
@@ -950,13 +849,14 @@
     "material": [ "wood", "lc_steel" ],
     "longest_side": "100 cm",
     "flags": [ "NONCONDUCTIVE", "DURABLE_MELEE" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "weapon_category": [ "GREAT_HAMMERS" ],
     "techniques": [ "WBLOCK_2", "WIDE", "SWEEP" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "melee_damage": { "bash": 24, "cut": 15 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mc_aztec_sword",
     "name": { "str": "medium steel bladed macuahuitl" },
     "description": "A modern reimagining of the large close combat weapon affiliated with Aztec warriors, made of a sturdy wooden club and sharp blades forged from medium steel.  Blades are definitely sturdier than obsidian ones.",
@@ -967,7 +867,7 @@
     "melee_damage": { "bash": 24, "cut": 18 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hc_aztec_sword",
     "name": { "str": "high steel bladed macuahuitl" },
     "description": "A modern reimagining of the large close combat weapon affiliated with Aztec warriors, made of a sturdy wooden club and sharp blades forged from high steel.  Blades are definitely sturdier than obsidian ones.",
@@ -978,7 +878,7 @@
     "melee_damage": { "bash": 24, "cut": 22 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ch_aztec_sword",
     "name": { "str": "hardened steel bladed macuahuitl" },
     "description": "A modern reimagining of the large close combat weapon affiliated with Aztec warriors, made of a sturdy wooden club and sharp blades forged from hardened steel.  Blades are definitely sturdier than obsidian ones.",
@@ -989,7 +889,7 @@
     "melee_damage": { "bash": 24, "cut": 26 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "qt_aztec_sword",
     "name": { "str": "tempered steel bladed macuahuitl" },
     "description": "A modern reimagining of the large close combat weapon affiliated with Aztec warriors, made of a sturdy wooden club and sharp blades forged from tempered steel.  You can single-handedly avenge the fallen nations of Mesoamerica with this one.",
@@ -1000,7 +900,7 @@
     "melee_damage": { "bash": 24, "cut": 30 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "i_staff",
     "symbol": "/",
     "color": "brown",
@@ -1012,6 +912,7 @@
     "material": [ "wood", "iron" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "DURABLE_MELEE" ],
+    "faults": [ { "fault_group": "staff_long" } ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "weight": "1750 g",
     "volume": "1550 ml",
@@ -1022,7 +923,7 @@
     "melee_damage": { "bash": 27 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lc_steel_staff",
     "symbol": "/",
     "color": "brown",
@@ -1034,6 +935,7 @@
     "material": [ "wood", "lc_steel" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "DURABLE_MELEE" ],
+    "faults": [ { "fault_group": "staff_long" } ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "weight": "1750 g",
     "volume": "1550 ml",
@@ -1044,7 +946,7 @@
     "melee_damage": { "bash": 28 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mc_steel_staff",
     "symbol": "/",
     "color": "brown",
@@ -1056,6 +958,7 @@
     "material": [ "wood", "mc_steel" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "DURABLE_MELEE" ],
+    "faults": [ { "fault_group": "staff_long" } ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "weight": "1750 g",
     "volume": "1550 ml",
@@ -1066,7 +969,7 @@
     "melee_damage": { "bash": 29 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hc_steel_staff",
     "symbol": "/",
     "color": "brown",
@@ -1078,6 +981,7 @@
     "material": [ "wood", "hc_steel" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "DURABLE_MELEE" ],
+    "faults": [ { "fault_group": "staff_long" } ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "weight": "1750 g",
     "volume": "1550 ml",
@@ -1088,7 +992,7 @@
     "melee_damage": { "bash": 30 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ch_steel_staff",
     "symbol": "/",
     "color": "brown",
@@ -1100,6 +1004,7 @@
     "material": [ "wood", "ch_steel" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "DURABLE_MELEE" ],
+    "faults": [ { "fault_group": "staff_long" } ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "weight": "1750 g",
     "volume": "1550 ml",
@@ -1110,7 +1015,7 @@
     "melee_damage": { "bash": 31 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "qt_steel_staff",
     "symbol": "/",
     "color": "brown",
@@ -1122,6 +1027,7 @@
     "material": [ "wood", "qt_steel" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "DURABLE_MELEE" ],
+    "faults": [ { "fault_group": "staff_long" } ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "weight": "1750 g",
     "volume": "1550 ml",
@@ -1133,7 +1039,7 @@
   },
   {
     "id": "lucern_hammer",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "lucerne hammer" },
@@ -1142,6 +1048,7 @@
     "price": "500 USD",
     "material": [ "wood", "steel" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "SPEAR", "ALWAYS_TWOHAND" ],
+    "faults": [ { "fault_group": "handle_long" } ],
     "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
     "weight": "3200 g",
     "volume": "3750 ml",
@@ -1156,7 +1063,7 @@
   {
     "id": "lucern_hammerfake",
     "copy-from": "lucern_hammer",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "lucerne hammer" },
     "description": "A cheap piece of crap imitation of a versatile polearm with a spiked hammer head, probably meant to be used for LARPing.",
     "proportional": { "melee_damage": { "bash": 0.5, "stab": 0.1 } },
@@ -1169,7 +1076,7 @@
   },
   {
     "id": "homemade_polehammer",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "looks_like": "lucern_hammer",
@@ -1178,6 +1085,7 @@
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "material": [ "wood", "steel" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "faults": [ { "fault_group": "handle_long" } ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
     "weight": "1500 g",
     "volume": "1250 ml",
@@ -1192,7 +1100,7 @@
   {
     "id": "homemade_polehammer_makeshift",
     "copy-from": "homemade_polehammer",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "makeshift homemade polehammer" },
     "description": "A standard hammerhead mounted at the end of a long stick.  It is far from being a proper weapon, but it allows you to bash zombie heads from a safe distance.",
     "delete": { "flags": [ "DURABLE_MELEE" ] },
@@ -1204,7 +1112,7 @@
     "melee_damage": { "bash": 27 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mace",
     "name": { "str": "mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  It is heavy and slow to swing, but its crushing damage is devastating.",
@@ -1214,6 +1122,7 @@
     "material": [ "steel", "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "handle_short" } ],
     "weapon_category": [ "MACES" ],
     "volume": "1250 ml",
     "longest_side": "80 cm",
@@ -1228,7 +1137,7 @@
   {
     "id": "mace_fake",
     "copy-from": "mace",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "mace" },
     "description": "A light, cheaply-made replica of a medieval weapon that would normally consist of a wood handle with a heavy metal head.",
     "proportional": { "melee_damage": { "bash": 0.38 } },
@@ -1242,7 +1151,7 @@
   {
     "id": "mace_inferior",
     "copy-from": "mace",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  The head feels a bit loose.",
     "proportional": { "melee_damage": { "bash": 0.55 } },
@@ -1253,7 +1162,7 @@
     "price_postapoc": "10 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lc_mace",
     "looks_like": "mace",
     "name": { "str": "mild steel mace" },
@@ -1264,6 +1173,7 @@
     "material": [ "lc_steel", "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "handle_short" } ],
     "weapon_category": [ "MACES" ],
     "volume": "1250 ml",
     "longest_side": "80 cm",
@@ -1276,7 +1186,7 @@
     "melee_damage": { "bash": 38 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mc_mace",
     "looks_like": "mace",
     "name": { "str": "medium steel mace" },
@@ -1287,6 +1197,7 @@
     "material": [ "mc_steel", "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "handle_short" } ],
     "weapon_category": [ "MACES" ],
     "volume": "1250 ml",
     "longest_side": "80 cm",
@@ -1299,7 +1210,7 @@
     "melee_damage": { "bash": 40 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hc_mace",
     "looks_like": "mace",
     "name": { "str": "high steel mace" },
@@ -1310,6 +1221,7 @@
     "material": [ "hc_steel", "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "handle_short" } ],
     "weapon_category": [ "MACES" ],
     "volume": "1250 ml",
     "longest_side": "80 cm",
@@ -1322,7 +1234,7 @@
     "melee_damage": { "bash": 41 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ch_mace",
     "looks_like": "mace",
     "name": { "str": "hardened steel mace" },
@@ -1333,6 +1245,7 @@
     "material": [ "ch_steel", "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "handle_short" } ],
     "weapon_category": [ "MACES" ],
     "volume": "1250 ml",
     "longest_side": "80 cm",
@@ -1345,7 +1258,7 @@
     "melee_damage": { "bash": 42 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "qt_mace",
     "looks_like": "mace",
     "name": { "str": "tempered steel mace" },
@@ -1356,6 +1269,7 @@
     "material": [ "qt_steel", "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "handle_short" } ],
     "weapon_category": [ "MACES" ],
     "volume": "1250 ml",
     "longest_side": "80 cm",
@@ -1368,7 +1282,7 @@
     "melee_damage": { "bash": 43 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mace_simple",
     "name": { "str": "simple mace" },
     "copy-from": "mace_trench",
@@ -1379,7 +1293,7 @@
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mace_trench",
     "name": { "str": "trench mace" },
     "description": "A mace made from a circular chunk of steel pinned to the end of a stick.  You can feel your inner Trench Raider come alive when you wield it.",
@@ -1390,6 +1304,7 @@
     "material": [ "steel", "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
+    "faults": [ { "fault_group": "handle_short" } ],
     "weapon_category": [ "MACES" ],
     "volume": "1250 ml",
     "longest_side": "60 cm",
@@ -1400,7 +1315,7 @@
     "melee_damage": { "bash": 22 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mace_pipe",
     "name": { "str": "pipe mace" },
     "description": "A pipe with a handful of pipe fittings screwed onto the end to give it a weighty head for bashing.",
@@ -1421,7 +1336,7 @@
     "melee_damage": { "bash": 20 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mace_pipe_large",
     "name": { "str": "great pipe mace" },
     "description": "Two pipes fitted end-to-end with more pipe fittings screwed onto the far end.  The result is a large, but awkward bludgeon.",
@@ -1441,7 +1356,7 @@
     "melee_damage": { "bash": 28 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "staff_pipe",
     "name": { "str": "pipe staff" },
     "description": "Three pipes fitted end-to-end in a heavy facsimile of a quarterstaff.",
@@ -1461,7 +1376,7 @@
     "melee_damage": { "bash": 21 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mace_bronze",
     "name": { "str": "bronze mace" },
     "description": "While nothing more than a bronze sphere on a stick, it is still surprisingly effective.",
@@ -1472,6 +1387,7 @@
     "material": [ "bronze", "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "DURABLE_MELEE" ],
+    "faults": [ { "fault_group": "handle_short" } ],
     "weapon_category": [ "MACES" ],
     "volume": "1250 ml",
     "longest_side": "60 cm",
@@ -1483,7 +1399,7 @@
   },
   {
     "id": "makeshift_sap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "dark_gray",
     "name": { "str": "makeshift sap" },
@@ -1501,7 +1417,7 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mjolnir",
     "name": { "str": "Mjölnir" },
     "description": "A large hammer, forged from the heart of a dying star.  It bears the inscription:\n\nWhosoever holds this hammer,\nIf he be worthy,\nShall possess the power to…\nCRUSH!'",
@@ -1520,7 +1436,7 @@
     "melee_damage": { "bash": 9999 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "morningstar",
     "name": { "str": "morningstar" },
     "description": "A medieval weapon consisting of a wood handle with a heavy, spiked metal ball on the end.  It deals devastating crushing damage, and the spikes easily puncture soft targets.",
@@ -1534,6 +1450,7 @@
     "longest_side": "80 cm",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "handle_short" } ],
     "weapon_category": [ "MACES" ],
     "price": "1 kUSD 200 USD",
     "price_postapoc": "80 USD",
@@ -1544,7 +1461,7 @@
   {
     "id": "morningstar_fake",
     "copy-from": "morningstar",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "morningstar" },
     "description": "A light, cheaply-made replica of a medieval weapon that would normally consist of a wood handle with a heavy, spiked metal ball on the end.",
     "proportional": { "melee_damage": { "bash": 0.35, "stab": 0.1 } },
@@ -1559,7 +1476,7 @@
   {
     "id": "morningstar_inferior",
     "copy-from": "morningstar",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "morningstar" },
     "description": "A medieval weapon consisting of a wood handle with a heavy, spiked metal ball on the end.  The weight feels off on this one, and the spikes are blunted.",
     "proportional": { "melee_damage": { "bash": 0.7, "stab": 0.1 } },
@@ -1571,7 +1488,7 @@
     "price_postapoc": "10 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "nailbat",
     "name": { "str": "nail bat" },
     "description": "A baseball bat with several nails driven through it, an excellent melee weapon.",
@@ -1584,13 +1501,14 @@
     "longest_side": "90 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "price": "160 USD",
     "price_postapoc": "17 USD 50 cent",
     "melee_damage": { "bash": 22, "stab": 4 },
     "weapon_category": [ "MACES" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "nailboard",
     "name": { "str": "nailboard" },
     "description": "A plank of wood with several nails through one end; essentially a simple mace.  Makes an acceptable melee weapon.",
@@ -1604,12 +1522,13 @@
     "longest_side": "65 cm",
     "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "neutral" },
     "flags": [  ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "price": "1 USD",
     "price_postapoc": "50 cent",
     "melee_damage": { "bash": 12, "stab": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pool_cue",
     "name": { "str": "pool cue" },
     "description": "A hardwood stick designed for hitting colorful balls around a felt table.  Truly, the coolest of sports.",
@@ -1626,11 +1545,12 @@
     "price": "15 USD",
     "price_postapoc": "50 cent",
     "flags": [ "FRAGILE_MELEE" ],
+    "faults": [ { "fault_group": "staff_long" } ],
     "melee_damage": { "bash": 8 },
     "//2": "Based on https://www.amazon.com/dp/B08183YH7Q"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "PR24-extended",
     "category": "weapons",
     "name": { "str": "PR-24 baton (extended)", "str_pl": "PR-24 batons (extended)" },
@@ -1651,7 +1571,7 @@
     "melee_damage": { "bash": 14 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "PR24-retracted",
     "category": "weapons",
     "name": { "str": "PR-24 baton (retracted)", "str_pl": "PR-24 batons (retracted)" },
@@ -1671,7 +1591,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "q_staff",
     "symbol": "/",
     "color": "brown",
@@ -1681,6 +1601,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "weight": "1099 g",
     "volume": "1293 ml",
@@ -1691,7 +1612,7 @@
     "melee_damage": { "bash": 16 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bo",
     "symbol": "/",
     "color": "brown",
@@ -1702,6 +1623,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "weight": "1110 g",
     "volume": "1272 ml",
@@ -1712,7 +1634,7 @@
     "melee_damage": { "bash": 19 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "rock_sock",
     "symbol": ";",
     "color": "white",
@@ -1729,7 +1651,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sharp_toothbrush",
     "symbol": ",",
     "color": "light_blue",
@@ -1749,7 +1671,7 @@
   },
   {
     "id": "shillelagh",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "brown",
     "name": { "str": "shillelagh" },
@@ -1758,6 +1680,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "weapon_category": [ "BATONS" ],
     "weight": "910 g",
     "volume": "1500 ml",
@@ -1769,7 +1692,7 @@
   },
   {
     "id": "shillelagh_weighted",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "looks_like": "shillelagh",
     "color": "brown",
@@ -1779,6 +1702,7 @@
     "material": [ "lead", "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "handle_long" } ],
     "weapon_category": [ "BATONS" ],
     "weight": "1135 g",
     "volume": "1500 ml",
@@ -1790,7 +1714,7 @@
   },
   {
     "id": "shillelagh_fake",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "looks_like": "shillelagh",
     "color": "brown",
@@ -1800,6 +1724,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "FRAGILE_MELEE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "weapon_category": [ "BATONS" ],
     "weight": "850 g",
     "volume": "1500 ml",
@@ -1811,7 +1736,8 @@
   },
   {
     "id": "shock_staff",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "powered quarterstaff", "str_pl": "powered quarterstaves" },
     "description": "An ironshod quarterstaff that has a high-voltage stun gun built into the handle.  The stun gun is wired to the metal caps at either end of the staff, allowing you to zap a dangerous opponent should beating them senseless with it prove too hazardous.",
@@ -1824,12 +1750,12 @@
     "material": [ "wood", "iron" ],
     "symbol": "/",
     "color": "brown",
-    "ammo": [ "battery" ],
     "charges_per_use": 2,
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": [ "TAZER" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "WATER_BREAK", "DURABLE_MELEE" ],
+    "faults": [ { "fault_group": "staff_long" } ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "pocket_data": [
       {
@@ -1839,11 +1765,13 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 32 }
+    "melee_damage": { "bash": 32 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "shocktonfa_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "tactical tonfa (off)", "str_pl": "tactical tonfas (off)" },
     "description": "A reinforced plastic tonfa; the core is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the tonfa, and by extension to anyone unfortunate enough to be in contact with them.  It also has a nifty flashlight, which is off at the moment.",
@@ -1856,7 +1784,6 @@
     "material": [ "plastic", "steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "use_action": [ "SHOCKTONFA_OFF" ],
@@ -1870,12 +1797,14 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 14 }
+    "melee_damage": { "bash": 14 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "shocktonfa_on",
     "copy-from": "shocktonfa_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tactical tonfa (on)", "str_pl": "tactical tonfas (on)" },
     "description": "A reinforced plastic tonfa; the core is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the weapon, and by extension to anyone unfortunate enough to be in contact with them.  The integral flashlight is turned on, continually draining power and lighting the surrounding area.",
     "power_draw": "15 W",
@@ -1886,7 +1815,7 @@
     "weapon_category": [ "BATONS" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tonfa",
     "name": { "str": "tonfa" },
     "description": "A hard plastic truncheon commonly employed by police.  Originally an Okinawan weapon, it consists of a stick with a perpendicular handle attached a third of the way down its length.",
@@ -1905,7 +1834,7 @@
     "melee_damage": { "bash": 14 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tonfa_wood",
     "name": { "str": "wooden tonfa" },
     "description": "A stout wooden truncheon of the sort commonly employed by police.  Originally an Okinawan weapon, it consists of a stick with a perpendicular handle attached a third of the way down its length.",
@@ -1917,6 +1846,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "flags": [ "BELT_CLIP" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "weapon_category": [ "BATONS" ],
     "volume": "2 L",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "good" },
@@ -1924,7 +1854,7 @@
     "melee_damage": { "bash": 14 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ax_sheets_welded",
     "name": { "str": "welded battle axe" },
     "description": "A savage-looking battle axe made out of layered sheet metal welded into two pipes held together with fittings, vaguely forming a upside-down L shape.  This should be structurally stable.  Hopefully.",
@@ -1944,31 +1874,81 @@
     "melee_damage": { "bash": 18, "cut": 24 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ax_sheets_bolted",
     "copy-from": "ax_sheets_welded",
     "name": { "str": "bolted battle axe" },
     "description": "A savage-looking battle axe made out of layered sheet metal bolted to two pipes held together with fittings, vaguely forming a upside-down L shape.  Swing it with all your might."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "warhammer",
     "name": { "str": "war hammer" },
     "description": "A medieval hammer with a spike on one end, made for battle.  Its odd shape and balance make it an excellent weapon, but an ineffective tool.",
-    "weight": "1337 g",
+    "weight": "1220 g",
     "price_postapoc": "60 USD",
     "color": "brown",
     "symbol": "/",
     "//": "Craftable from steel, shouldn't be silver.  A warhammer is essentially one end of a pickaxe with balancing weight on the other and crushes/pierces the armor.",
     "material": [ "steel", "wood" ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "handle_short" } ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_HAMMERS" ],
     "volume": "1250 ml",
-    "longest_side": "120 cm",
+    "longest_side": "66 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "price": "160 USD",
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 22, "stab": 23 }
+  },
+  {
+    "id": "exodii_prybar",
+    "name": { "str": "breacher" },
+    "description": "Some sort of large prybar of a make and manufacturer you've never seen before.  On the heavier end is a set of thick, crabclaw like shears connected to a hydraulic piston, capable of cutting or prying through metal with great force.  The Exodii use these for general purpose breaching and scrapping heavy machines, and it's been retrofitted to run on their bionic power.",
+    "price_postapoc": "45 USD",
+    "color": "dark_gray",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "symbol": "/",
+    "material": [ "hc_steel", "ceramic" ],
+    "repairs_with": [ "hc_steel" ],
+    "flags": [ "DURABLE_MELEE", "USES_BIONIC_POWER" ],
+    "weight": "4875 g",
+    "longest_side": "91 cm",
+    "volume": "780 ml",
+    "looks_like": "halligan",
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "qualities": [ [ "HAMMER", 2 ], [ "DIG", 1 ], [ "PRY", 1 ] ],
+    "charged_qualities": [ [ "PRY", 6 ], [ "SAW_M", 8 ] ],
+    "melee_damage": { "bash": 48, "stab": 6 },
+    "charges_per_use": 1,
+    "power_draw": "600 W",
+    "use_action": [ "CROWBAR" ],
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "clumsy" }
+  },
+  {
+    "id": "exodii_digger",
+    "name": { "str": "sapper" },
+    "description": "A metal pole saw covered in faded orange paint and warning labels written in an unknown language.  The circular blade at the end is over an inch thick, its deeply dished grooves suggesting its purpose as a digging implement rather than a cutter.  The Exodii use these to chew through reinforced walls like concrete or solid steel, and it's been retrofitted to run on their bionic power.",
+    "price_postapoc": "50 USD",
+    "color": "yellow",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "symbol": "/",
+    "material": [ "ch_steel", "ceramic" ],
+    "repairs_with": [ "lc_steel" ],
+    "flags": [ "DURABLE_MELEE", "DIG_TOOL", "USES_BIONIC_POWER" ],
+    "weight": "6880 g",
+    "looks_like": "circsaw_off",
+    "longest_side": "116 cm",
+    "volume": "2000 ml",
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "charged_qualities": [ [ "DIG", 6 ], [ "AXE", 3 ] ],
+    "use_action": [ "JACKHAMMER" ],
+    "charges_per_use": 800,
+    "power_draw": "1200 W",
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "clumsy" },
+    "melee_damage": { "bash": 42, "cut": 16 }
   }
 ]

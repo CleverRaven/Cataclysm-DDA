@@ -17,7 +17,7 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "pipe", 16 ] ],
-      [ [ "scrap", 90 ], [ "steel_chunk", 30 ], [ "steel_lump", 10 ] ],
+      [ [ "scrap", 90 ], [ "steel_chunk_any", 30, "LIST" ], [ "steel_lump_any", 10, "LIST" ] ],
       [ [ "chain", 4 ] ],
       [ [ "spring", 4 ] ],
       [ [ "30gal_drum", 3 ] ],
@@ -288,9 +288,8 @@
     "components": [
       [ [ "yoke_harness", 1 ] ],
       [ [ "frame", 1 ] ],
-      [ [ "scrap", 15 ], [ "steel_chunk", 5 ], [ "steel_lump", 2 ] ],
-      [ [ "pipe", 4 ], [ "scrap", 20 ], [ "steel_chunk", 6 ], [ "steel_lump", 3 ] ],
-      [ [ "pipe", 2 ] ],
+      [ [ "scrap", 35 ], [ "steel_chunk_any", 11, "LIST" ], [ "steel_lump_any", 5, "LIST" ] ],
+      [ [ "pipe", 6 ] ],
       [ [ "chain", 2 ], [ "hd_tow_cable", 1 ] ],
       [ [ "spring", 2 ], [ "tanned_hide", 2 ] ],
       [ [ "nuts_bolts", 6 ] ],
@@ -329,7 +328,7 @@
     "components": [
       [ [ "pipe", 4 ] ],
       [ [ "pipe_fittings", 4 ] ],
-      [ [ "scrap", 9 ], [ "steel_chunk", 3 ], [ "steel_lump", 1 ] ],
+      [ [ "scrap", 9 ], [ "steel_chunk_any", 3, "LIST" ], [ "steel_lump_any", 1, "LIST" ] ],
       [ [ "rope_natural_short", 2, "LIST" ] ]
     ]
   },
@@ -379,7 +378,7 @@
     "//": "300cm weld",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "scrap", 18 ], [ "steel_chunk", 6 ], [ "steel_lump", 2 ] ],
+      [ [ "scrap", 18 ], [ "steel_chunk_any", 6, "LIST" ], [ "steel_lump_any", 2, "LIST" ] ],
       [ [ "hdframe", 1 ] ],
       [ [ "rebar", 8 ], [ "pipe", 16 ] ],
       [ [ "chain", 2 ] ],
@@ -593,7 +592,7 @@
       [ [ "e_scrap", 3 ] ],
       [ [ "circuit", 1 ] ],
       [ [ "scrap", 4 ] ],
-      [ [ "steel_chunk", 2 ] ],
+      [ [ "steel_chunk_any", 2, "LIST" ] ],
       [ [ "metal_tank", 1 ] ],
       [ [ "motor_tiny", 1 ] ]
     ],
@@ -621,7 +620,7 @@
       [ [ "e_scrap", 3 ] ],
       [ [ "circuit", 1 ] ],
       [ [ "scrap", 4 ] ],
-      [ [ "steel_chunk", 2 ] ],
+      [ [ "steel_chunk_any", 2, "LIST" ] ],
       [ [ "metal_tank", 1 ] ],
       [ [ "motor_tiny", 1 ] ]
     ],
@@ -638,7 +637,7 @@
     "time": "90 m",
     "autolearn": true,
     "//": "20cm weld",
-    "using": [ [ "welding_standard", 20 ], [ "steel_tiny", 4 ], [ "plastic_molding", 3 ] ],
+    "using": [ [ "welding_standard", 20 ], [ "steel_chunk_any", 4 ], [ "plastic_molding", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 4 ] ] ]
@@ -654,7 +653,7 @@
     "time": "90 m",
     "autolearn": true,
     "//": "22cm weld",
-    "using": [ [ "welding_standard", 22 ], [ "steel_tiny", 5 ], [ "plastic_molding", 6 ] ],
+    "using": [ [ "welding_standard", 22 ], [ "steel_chunk_any", 5 ], [ "plastic_molding", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 12 ] ] ]
@@ -1205,7 +1204,7 @@
         [ "oxy_torch", 10 ]
       ]
     ],
-    "components": [ [ [ "steel_lump", 4 ] ] ]
+    "components": [ [ [ "steel_lump_any", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1231,7 +1230,10 @@
         [ "oxy_torch", 20 ]
       ]
     ],
-    "components": [ [ [ "steel_lump", 8 ], [ "steel_plate", 1 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "spike", 4 ] ] ]
+    "components": [
+      [ [ "steel_lump_any", 8, "LIST" ], [ "steel_plate", 1 ] ],
+      [ [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ], [ "spike", 4 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1257,7 +1259,7 @@
         [ "oxy_torch", 20 ]
       ]
     ],
-    "components": [ [ [ "steel_lump", 24 ] ] ]
+    "components": [ [ [ "steel_lump_any", 24, "LIST" ] ] ]
   },
   {
     "result": "fridgetank",
@@ -1338,7 +1340,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
-    "using": [ [ "soldering_standard", 4 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "soldering_standard", 4 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "cable", 4 ] ], [ [ "e_scrap", 1 ] ] ]

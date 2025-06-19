@@ -1,7 +1,10 @@
 #include "mission_companion.h"
 
 #include <algorithm>
+#include <array>
+#include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
@@ -9,6 +12,7 @@
 #include <set>
 #include <tuple>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -16,30 +20,34 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
-#include "colony.h"
+#include "character_id.h"
 #include "color.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "current_map.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
+#include "flexbuffer_json.h"
 #include "game.h"
-#include "game_constants.h"
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_stack.h"
 #include "itype.h"
-#include "line.h"
+#include "json.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
+#include "math_parser_diag_value.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
@@ -53,14 +61,13 @@
 #include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "value_ptr.h"
 #include "weather.h"
 #include "weighted_list.h"
-
-class character_id;
 
 static const efftype_id effect_riding( "riding" );
 
@@ -600,7 +607,7 @@ void talk_function::companion_mission( npc &p )
         }
 
         Character &player_character = get_player_character();
-        if( player_character.get_value( var_SCAVENGER_HOSPITAL_RAID ) == "yes" ) {
+        if( player_character.get_value( var_SCAVENGER_HOSPITAL_RAID ).str() == "yes" ) {
             hospital_raid( mission_key, p );
         }
     } else if( role_id == "COMMUNE CROPS" ) {
@@ -698,7 +705,7 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
 void talk_function::hospital_raid( mission_data &mission_key, npc &p )
 {
     const mission_id miss_id = {Hospital_Raid_Job, "", {}, std::nullopt};
-    if( get_player_character().get_value( var_SCAVENGER_HOSPITAL_RAID_STARTED ) != "yes" ) {
+    if( get_player_character().get_value( var_SCAVENGER_HOSPITAL_RAID_STARTED ).str() != "yes" ) {
         const std::string entry_assign =
             _( "Profit: hospital equipment, some items\nDanger: High\nTime: 20 hour mission\n\n"
                "Scavenging raid targeting a hospital to search for hospital equipment and as many "
@@ -1583,6 +1590,9 @@ void talk_function::field_plant( npc &p, const std::string &place )
                                       player_character.pos_abs_omt(), place, 20, false );
     tinymap bay;
     bay.load( site, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+
+    swap_map swap( *bay.cast_to_map() );
     for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         if( bay.ter( plot ) == ter_t_dirtmound ) {
             empty_plots++;
@@ -1655,6 +1665,9 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
     bay.load( site, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *bay.cast_to_map() );
+
     for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         map_stack items = bay.i_at( plot );
         if( bay.furn( plot ) == furn_f_plant_harvest && !items.empty() ) {
@@ -1698,7 +1711,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     int number_seeds = 0;
     int skillLevel = 2;
     if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ||
-        p.get_value( var_PURCHASED_FIELD_1_FENCE ) == "yes" ) {
+        p.get_value( var_PURCHASED_FIELD_1_FENCE ).str() == "yes" ) {
         skillLevel += 2;
     }
 
@@ -2607,6 +2620,8 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc_ptr>
 npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required_skills,
         bool silent_failure )
 {
+    const map &here = get_map();
+
     Character &player_character = get_player_character();
     std::vector<npc_ptr> available;
     std::optional<basecamp *> bcp = overmap_buffer.find_camp(
@@ -2621,8 +2636,8 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
         // get non-assigned visible followers
         if( player_character.posz() == guy->posz() && !guy->has_companion_mission() &&
             !guy->is_travelling() &&
-            ( rl_dist( player_character.pos_bub(), guy->pos_bub() ) <= SEEX * 2 ) &&
-            player_character.sees( guy->pos_bub() ) ) {
+            ( rl_dist( player_character.pos_abs(), guy->pos_abs() ) <= SEEX * 2 ) &&
+            player_character.sees( here, guy->pos_bub( here ) ) ) {
             available.push_back( guy );
         } else if( bcp ) {
             basecamp *player_camp = *bcp;
@@ -2798,6 +2813,8 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
 {
     tinymap bay;
     bay.load( site, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *bay.cast_to_map() );
     creature_tracker &creatures = get_creature_tracker();
     std::set<item> return_items;
     for( const tripoint_omt_ms &p : bay.points_on_zlevel() ) {
@@ -2856,7 +2873,7 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
         //Kill zombies!  Only works against pre-spawned enemies at the moment...
         Creature *critter = creatures.creature_at( rebase_bub( p ) );
         if( critter != nullptr ) {
-            critter->die( nullptr );
+            critter->die( bay.cast_to_map(), nullptr );
         }
         //Hoover up tasty items!
         map_stack items = bay.i_at( p );

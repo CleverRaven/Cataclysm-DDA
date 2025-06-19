@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_12" ],
     "object": {
       "fill_ter": "t_floor",
@@ -20,7 +19,7 @@
         "..Ŧ%%%--%%#6| +    E#...",
         "..###o**o##+| |y  II#...",
         "..#RR       + |||+|##...",
-        "..#      134| W|d d#^...",
+        "..#     é134| W|d d#^...",
         "..oEE      F| Z||+|#....",
         "..o   H hh 2| ||Q B#....",
         "..oll H ff O| +   Bo....",
@@ -39,7 +38,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_12_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -75,7 +73,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_12_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -91,7 +88,7 @@
         "            |.......|   ",
         "            |.......|   ",
         "          |||.......|   ",
-        "          |F........|   ",
+        "          |â........|   ",
         "  |||||||||.........|   ",
         "  |1...............||   ",
         "  |................|    ",
@@ -105,7 +102,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": { "chunks": [ [ "null", 70 ], [ "7x7_tent_indoors", 10 ], [ "7x7_band_practice_open", 30 ] ] },
         "2": { "chunks": [ [ "null", 70 ], [ "room_7x7_recroom_S", 30 ], [ "room_7x7_wine_cellar_S", 30 ] ] }

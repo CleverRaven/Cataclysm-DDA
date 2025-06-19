@@ -335,6 +335,24 @@
     "explosion": { "power": 66 }
   },
   {
+    "id": "EXPLOSIVE_EXODII_FIREWORK",
+    "//": "a large, shockwave like explosion with no shrapnel.",
+    "type": "ammo_effect",
+    "explosion": { "power": 318 }
+  },
+  {
+    "id": "CORROSIVE",
+    "type": "ammo_effect",
+    "always_cast_spell": true,
+    "spell_data": { "id": "spell_corrosive_spray" }
+  },
+  {
+    "id": "GLUE_FOAM",
+    "type": "ammo_effect",
+    "always_cast_spell": true,
+    "spell_data": { "id": "spell_adhesive_spray" }
+  },
+  {
     "id": "EXPLOSIVE_HESHOT",
     "type": "ammo_effect",
     "explosion": { "power": 60 }
@@ -373,6 +391,16 @@
     "id": "EXPLOSIVE_120mmHEAT",
     "type": "ammo_effect",
     "explosion": { "power": 7980, "shrapnel": { "casing_mass": 8725, "fragment_mass": 0.5 } }
+  },
+  {
+    "id": "EXPLOSIVE_60mmHE",
+    "type": "ammo_effect",
+    "explosion": { "power": 250, "shrapnel": 500 }
+  },
+  {
+    "id": "EXPLOSIVE_60mmHE2",
+    "type": "ammo_effect",
+    "explosion": { "power": 358, "shrapnel": 430 }
   },
   {
     "id": "FLASHBANG",

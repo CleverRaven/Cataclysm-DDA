@@ -1,11 +1,23 @@
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "bodypart.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "character_modifier.h"
+#include "creature.h"
 #include "damage.h"
+#include "item.h"
 #include "magic_enchantment.h"
 #include "mutation.h"
+#include "npc.h"
+#include "pimpl.h"
 #include "player_helpers.h"
+#include "type_id.h"
 
 static const bodypart_str_id body_part_test_bird_foot_l( "test_bird_foot_l" );
 static const bodypart_str_id body_part_test_bird_foot_r( "test_bird_foot_r" );

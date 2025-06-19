@@ -36,13 +36,13 @@
         "monster": "mon_feral_swimmer_kickboard",
         "weight": 1,
         "cost_multiplier": 5,
-        "ends": "165 days",
+        "ends": "660 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "monster": "mon_zombie_static", "weight": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_paramilitary", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
-      { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
+      { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "240 days" },
       { "monster": "mon_beekeeper", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_technician", "weight": 1, "cost_multiplier": 12 },
       { "monster": "mon_feral_human_tool", "weight": 1, "cost_multiplier": 6 },
@@ -55,7 +55,7 @@
         "weight": 1,
         "cost_multiplier": 25,
         "pack_size": [ 1, 3 ],
-        "starts": "60 days"
+        "starts": "240 days"
       },
       { "monster": "mon_zombie_brainless", "weight": 65 }
     ]
@@ -105,24 +105,24 @@
         "weight": 50,
         "cost_multiplier": 2,
         "pack_size": [ 1, 3 ],
-        "ends": "14 days"
+        "ends": "56 days"
       },
       {
         "monster": "mon_mutant_experimental",
         "weight": 50,
         "cost_multiplier": 2,
         "pack_size": [ 2, 5 ],
-        "starts": "14 days"
+        "starts": "56 days"
       },
       { "monster": "mon_sludge_crawler", "weight": 50 },
-      { "monster": "mon_unseen_hunter", "weight": 50, "cost_multiplier": 2, "starts": "42 hours" },
+      { "monster": "mon_unseen_hunter", "weight": 50, "cost_multiplier": 2, "starts": "7 days" },
       { "monster": "mon_dog_thing", "weight": 20, "cost_multiplier": 2 },
       { "group": "GROUP_STRAY_DOGS", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_blank", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_kreck", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_gracke", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_hunting_horror", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 10, "cost_multiplier": 3, "starts": "42 hours" }
+      { "monster": "mon_shoggoth", "weight": 10, "cost_multiplier": 3, "starts": "7 days" }
     ]
   },
   {
@@ -138,14 +138,14 @@
         "weight": 100,
         "cost_multiplier": 3,
         "pack_size": [ 1, 3 ],
-        "starts": "42 hours"
+        "starts": "7 days"
       },
       {
         "monster": "mon_zombie_survivor_elite",
         "weight": 100,
         "cost_multiplier": 4,
         "pack_size": [ 1, 3 ],
-        "starts": "180 hours"
+        "starts": "30 days"
       },
       { "monster": "mon_zombie_technician", "weight": 100, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie_shady", "weight": 200, "cost_multiplier": 2, "pack_size": [ 1, 3 ] }
@@ -160,25 +160,25 @@
     "monsters": [
       { "group": "GROUP_BUGS_SUBTERRANEAN", "weight": 75 },
       { "monster": "mon_kreck", "weight": 200 },
-      { "monster": "mon_unseen_hunter", "weight": 200, "starts": "6 hours", "ends": "15 days" },
-      { "monster": "mon_unseen_hunter", "weight": 200, "pack_size": [ 1, 2 ], "starts": "15 days" },
-      { "monster": "mon_mutant_experimental", "weight": 250, "pack_size": [ 1, 3 ], "ends": "7 days" },
+      { "monster": "mon_unseen_hunter", "weight": 200, "starts": "24 hours", "ends": "60 days" },
+      { "monster": "mon_unseen_hunter", "weight": 200, "pack_size": [ 1, 2 ], "starts": "60 days" },
+      { "monster": "mon_mutant_experimental", "weight": 250, "pack_size": [ 1, 3 ], "ends": "28 days" },
       {
         "monster": "mon_mutant_experimental",
         "weight": 250,
         "pack_size": [ 2, 5 ],
-        "starts": "7 days",
-        "ends": "28 days"
+        "starts": "28 days",
+        "ends": "112 days"
       },
-      { "monster": "mon_mutant_experimental", "weight": 300, "pack_size": [ 3, 6 ], "starts": "28 days" },
-      { "monster": "mon_mi_go", "weight": 100, "pack_size": [ 1, 4 ], "ends": "15 days" },
-      { "monster": "mon_mi_go_scout", "weight": 100, "cost_multiplier": 2, "starts": "15 days" },
+      { "monster": "mon_mutant_experimental", "weight": 300, "pack_size": [ 3, 6 ], "starts": "112 days" },
+      { "monster": "mon_mi_go", "weight": 100, "pack_size": [ 1, 4 ], "ends": "60 days" },
+      { "monster": "mon_mi_go_scout", "weight": 100, "cost_multiplier": 2, "starts": "60 days" },
       {
         "monster": "mon_mi_go_myrmidon",
         "weight": 70,
         "cost_multiplier": 2,
         "pack_size": [ 1, 2 ],
-        "starts": "540 hours"
+        "starts": "90 days"
       },
       { "monster": "mon_sludge_crawler", "weight": 50 },
       { "monster": "mon_dog_thing", "weight": 50 },
@@ -214,17 +214,29 @@
       { "group": "GROUP_COWS", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 8 ] },
       { "group": "GROUP_HORSES", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 4 ] },
       { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
-      { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "ends": "3 days", "pack_size": [ 1, 6 ] },
-      { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "ends": "7 days", "pack_size": [ 1, 6 ] },
+      { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "ends": "12 days", "pack_size": [ 1, 6 ] },
       { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "ends": "28 days", "pack_size": [ 1, 6 ] },
-      { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "ends": "90 days", "pack_size": [ 1, 6 ] },
+      { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "ends": "112 days", "pack_size": [ 1, 6 ] },
+      { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "ends": "360 days", "pack_size": [ 1, 6 ] },
       { "group": "GROUP_SHEEPS", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 12 ] },
       { "monster": "mon_goat", "weight": 25, "cost_multiplier": 25, "pack_size": [ 1, 12 ] },
       { "monster": "mon_llama", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 8 ] },
-      { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "3 days", "pack_size": [ 1, 5 ] },
-      { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "7 days", "pack_size": [ 1, 5 ] },
+      { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "12 days", "pack_size": [ 1, 5 ] },
       { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "28 days", "pack_size": [ 1, 5 ] },
-      { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "90 days", "pack_size": [ 1, 5 ] },
+      {
+        "monster": "mon_zombie_pig",
+        "weight": 10,
+        "cost_multiplier": 25,
+        "starts": "112 days",
+        "pack_size": [ 1, 5 ]
+      },
+      {
+        "monster": "mon_zombie_pig",
+        "weight": 10,
+        "cost_multiplier": 25,
+        "starts": "360 days",
+        "pack_size": [ 1, 5 ]
+      },
       { "monster": "mon_giant_cockroach", "weight": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_pregnant_giant_cockroach", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_giant_cockroach_nymph", "weight": 5 },
@@ -307,11 +319,18 @@
   {
     "type": "monstergroup",
     "id": "GROUP_BASEMENT_HOUSE",
-    "//": "60-30-10% chance of zombies/roaches/cellar spiders, no mixing enemies in the same spawn",
+    "//": "50-50% chance of zombies/bugs, no mixing enemies in the same spawn",
     "monsters": [
-      { "group": "GROUP_HOUSE", "weight": 6, "pack_size": [ 2, 6 ] },
-      { "group": "GROUP_ROACH", "weight": 3, "pack_size": [ 3, 10 ] },
-      { "group": "GROUP_SPIDER_BASEMENT", "weight": 1, "pack_size": [ 1, 5 ] }
+      { "group": "GROUP_HOUSE", "weight": 55, "pack_size": [ 2, 6 ] },
+      { "group": "GROUP_FLY", "weight": 10, "pack_size": [ 1, 5 ] },
+      { "group": "GROUP_ROACH", "weight": 5, "pack_size": [ 1, 5 ] },
+      { "group": "GROUP_MOTH_FLY", "weight": 5, "pack_size": [ 1, 3 ] },
+      { "group": "GROUP_SILVERFISH", "weight": 10, "pack_size": [ 1, 4 ] },
+      { "group": "GROUP_SPIDER_BASEMENT", "weight": 5, "pack_size": [ 1, 3 ] },
+      { "group": "GROUP_CENTIPEDE_HOUSE", "weight": 5, "pack_size": [ 1, 4 ] },
+      { "group": "GROUP_MOTH", "weight": 5, "pack_size": [ 1, 2 ] },
+      { "group": "GROUP_SLUG", "weight": 5, "pack_size": [ 1, 4 ] },
+      { "group": "GROUP_CENTIPEDE", "weight": 5, "pack_size": [ 1, 3 ] }
     ]
   },
   {
@@ -417,7 +436,7 @@
       { "monster": "mon_zombie_fat", "weight": 200 },
       { "monster": "mon_zombie_child", "weight": 200, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie_paramilitary", "weight": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_survivor", "weight": 200, "cost_multiplier": 2, "starts": "30 days" }
+      { "monster": "mon_zombie_survivor", "weight": 200, "cost_multiplier": 2, "starts": "120 days" }
     ]
   },
   {
@@ -472,25 +491,6 @@
       { "monster": "mon_zombie_brute_winged" },
       { "monster": "mon_spawn_raptor" },
       { "monster": "mon_spawn_raptor_shady" }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "id": "GROUP_NUCLEAR_PLANT_BEASTS",
-    "is_animal": true,
-    "monsters": [
-      { "monster": "mon_bat", "weight": 600, "cost_multiplier": 5, "pack_size": [ 6, 32 ] },
-      { "monster": "mon_mole_cricket", "weight": 60, "cost_multiplier": 3 },
-      { "monster": "mon_woodlouse", "weight": 60, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_stag_beetle_larva", "weight": 40, "cost_multiplier": 5 },
-      { "group": "GROUP_CENTIPEDE", "weight": 200 },
-      { "monster": "mon_sewer_snake", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_sewer_rat", "weight": 50, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
-      { "group": "GROUP_SLUG", "weight": 50 },
-      { "monster": "mon_sludge_crawler", "weight": 25 },
-      { "monster": "mon_zombie_mancroc", "weight": 100, "starts": "180 hours" },
-      { "monster": "mon_gastro_bufo", "weight": 5, "cost_multiplier": 3, "starts": "15 days" },
-      { "group": "GROUP_MUTAFROGS_SEWER", "weight": 100 }
     ]
   },
   {

@@ -314,7 +314,13 @@
         }
       }
     },
-    "river_scale": 1.0,
+    "overmap_river_settings": {
+      "river_scale": 1.0,
+      "river_frequency": 1.5,
+      "river_branch_chance": 64.0,
+      "river_branch_remerge_chance": 2.0,
+      "river_branch_scale_decrease": 1.0
+    },
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
@@ -530,12 +536,7 @@
             "clear_types": false,
             "types": { "t_trunk": 1, "f_boulder_small": 2, "f_boulder_medium": 1 }
           },
-          "water": {
-            "sequence": 3,
-            "chance": 2,
-            "clear_types": false,
-            "types": { "t_swater_sh": 6, "t_swater_dp": 1, "t_water_murky": 12 }
-          }
+          "water": { "sequence": 3, "chance": 2, "clear_types": false, "types": { "t_water_sh": 6, "t_water_dp": 1, "t_water_murky": 12 } }
         },
         "clear_terrain_furniture": false,
         "terrain_furniture": { "t_water_murky": { "chance": 2, "clear_furniture": false, "furniture": { "f_region_water_plant": 1 } } }
@@ -628,8 +629,6 @@
         "chance": 20,
         "extras": {
           "mx_pond": 240,
-          "mx_pond_swamp": 240,
-          "mx_pond_swamp_2": 240,
           "mx_spider": 200,
           "mx_clay_deposit": 140,
           "mx_knotweed_patch": 140,
@@ -723,6 +722,7 @@
           "mx_military": 5,
           "mx_science": 7,
           "mx_collegekids": 15,
+          "mx_dormant": 30,
           "mx_portal": 5,
           "mx_portal_in": 3,
           "mx_point_burned_ground": 5,
@@ -732,7 +732,10 @@
         }
       },
       "marloss": { "chance": 20, "extras": { "mx_marloss_pilgrimage": 100 } },
-      "subway": { "chance": 100, "extras": { "mx_military": 5, "mx_science": 12, "mx_drugdeal": 5, "mx_casings": 10 } },
+      "subway": {
+        "chance": 100,
+        "extras": { "mx_military": 5, "mx_science": 12, "mx_drugdeal": 5, "mx_casings": 10, "mx_dormant": 10 }
+      },
       "lab_subway": { "chance": 25, "extras": { "mx_military": 5, "mx_science": 15, "mx_portal": 3, "mx_portal_in": 3 } },
       "research_facility_lot": {
         "chance": 3,
@@ -743,7 +746,6 @@
           "mx_portal": 200,
           "mx_crater": 180,
           "mx_portal_in": 30,
-          "mx_point_burned_ground": 100,
           "mx_casings": 30,
           "mx_exocrash_1": 1,
           "mx_exocrash_2": 1
@@ -754,7 +756,6 @@
         "extras": {
           "mx_crater": 15000,
           "mx_portal": 5000,
-          "mx_point_burned_ground": 6250,
           "mx_portal_in": 2000,
           "mx_casings": 1500,
           "mx_military": 250,
@@ -884,6 +885,7 @@
         "house_29": 50,
         "house_30": 50,
         "house_31": 50,
+        "basement_hidden_lab_entrance": 50,
         "house_32": 50,
         "house_33": 50,
         "house_34": 50,
@@ -896,6 +898,9 @@
         "house_41": 50,
         "house_42": 50,
         "house_43": 50,
+        "house_44": 50,
+        "house_45": 50,
+        "house_46": 50,
         "house_garage": 50,
         "house_garage2": 50,
         "house_garage3": 50,
@@ -1037,7 +1042,7 @@
         "craft_shop_1": 200,
         "craft_shop_2": 200,
         "craft_shop_3": 200,
-        "s_gas": 500,
+        "Gas Station": 500,
         "s_gas_1": 500,
         "s_pharm": 300,
         "s_pharm_1": 300,
@@ -1056,16 +1061,8 @@
         "gym_fitness": 200,
         "gym_fitness_1": 200,
         "s_liquor": 500,
-        "s_gun": 150,
-        "s_gun_looted": 150,
-        "s_gun_1": 150,
-        "s_gun_2": 150,
-        "s_gun_3": 150,
-        "s_gun_3_looted": 150,
-        "s_gun_4": 150,
-        "s_gun_4_looted": 150,
-        "s_gunstore": 150,
-        "s_gunstore_looted": 150,
+        "s_gun_a": 1200,
+        "s_gun_b": 300,
         "s_clothes": 450,
         "s_clothes_1": 200,
         "s_clothes_2": 200,
@@ -1113,9 +1110,11 @@
         "office_doctor": 200,
         "office_doctor_1": 200,
         "office_doctor_2": 200,
+        "office_dentist": 200,
         "office_tower_collapsed": 250,
         "s_restaurant_fast": 400,
         "s_restaurant_fast_1": 400,
+        "s_restaurant_fast_2": 400,
         "s_restaurant_coffee": 200,
         "s_restaurant_coffee_1": 200,
         "s_restaurant_coffee_2": 100,
@@ -1248,7 +1247,8 @@
         "homeless_shelter": 100,
         "salon": 500,
         "strip_mall": 750,
-        "barber_shop": 350
+        "barber_shop": 350,
+        "s_airsoft": 100
       }
     },
     "weather": {

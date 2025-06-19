@@ -38,7 +38,7 @@ An effect_on_condition is an object allowing the combination of dialog condition
 | `false_effect`        | effect     | The effect(s) caused if `condition` returns false upon activation.  See the "Dialogue Effects" section of [NPCs](NPCs.md) for the full syntax.
 | `global`              | bool       | If this is true, this recurring eoc will be run on the player and every npc from a global queue.  Deactivate conditions will work based on the avatar. If it is false the avatar and every character will have their own copy and their own deactivated list. Defaults to false.
 | `run_for_npcs`        | bool       | Can only be true if global is true. If false the EOC will only be run against the avatar. If true the eoc will be run against the avatar and all npcs.  Defaults to false.
-| `EOC_TYPE`            | string     | Can be one of `ACTIVATION`, `RECURRING`, `SCENARIO_SPECIFIC`, `AVATAR_DEATH`, `NPC_DEATH`, `PREVENT_DEATH`, `EVENT` (see details below). It defaults to `ACTIVATION` unless `recurrence` is provided in which case it defaults to `RECURRING`.
+| `EOC_TYPE`            | string     | Can be one of `ACTIVATION`, `RECURRING`, `AVATAR_DEATH`, `NPC_DEATH`, `PREVENT_DEATH`, `EVENT` (see details below). It defaults to `ACTIVATION` unless `recurrence` is provided in which case it defaults to `RECURRING`.
 
  ### EOC types
 
@@ -46,7 +46,6 @@ An effect_on_condition is an object allowing the combination of dialog condition
 
 * `ACTIVATION` - activated manually.
 * `RECURRING` - activated automatically on schedule (see `recurrence`)
-* `SCENARIO_SPECIFIC` - automatically invoked once on scenario start.
 * `AVATAR_DEATH` - automatically invoked whenever the current avatar dies (it will be run with the avatar as `u`), if after it the player is no longer dead they will not die, if there are multiple EOCs they all be run until the player is not dead.
 * `NPC_DEATH` - EOCs can only be assigned to run on the death of an npc, in which case u will be the dying npc and npc will be the killer. If after it npc is no longer dead they will not die, if there are multiple they all be run until npc is not dead.
 * `PREVENT_DEATH` - whenever the current avatar dies it will be run with the avatar as `u`, if after it the player is no longer dead they will not die, if there are multiple they all be run until the player is not dead.
@@ -65,8 +64,10 @@ For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant,
 | Talk with NPC                                    | player (Avatar)             | NPC (NPC)                   |                             |
 | Talk with monster                                | player (Avatar)             | monster (monster)           |
 | Use computer                                     | player (Avatar)             | computer (Furniture)        |
-| furniture: "examine_action"                      | player (Avatar)             | NONE                        |
-| SPELL: "effect": "effect_on_condition"           | target (Character, Monster) | spell caster (Character, Monster) | `spell_location`, location variable, location of target for use primarily when the target isn't a creature
+| furniture: "examine_action"                      | player (Avatar)             | NONE                        | `this`, string, furniture id; `pos`; string, coordinates of the furniture
+| furniture: "mortar"                              | player (Avatar)             | NONE                        | `this`, string, furniture id; `pos`; string, coordinates of the furniture; `target`, string, coordinates of picked tile
+| spell: "effect": "effect_on_condition"           | target (Character, Monster) | spell caster (Character, Monster) | `spell_location`, location variable, location of target for use primarily when the target isn't a creature
+| spell: "description"                             | avatar                      | avatar                      | Used for tags
 | trap: "action": "eocs"                           | triggerer (Creature, item not supported yet) | NONE | `trap_location`, location variable, location of the trap to use primarily with ranged traps
 | monster_attack: "eoc"                            | attacker ( Monster)         | victim (Creature)           | `damage`, int, damage dealt by attack
 | use_action: "type": "effect_on_conditions"       | user (Character)            | item (item)                 | `id`, string, stores item id
@@ -89,11 +90,11 @@ For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant,
 
 Some actions sent additional context variables, that can be used in EoC, in format:
 
-```json
+```jsonc
 { "compare_string": [ "bio_uncanny_dodge", { "context_val": "id" } ] }
 ```
 
-```json
+```jsonc
 { "math": [ "_act_cost == 2000" ] }
 ```
 
@@ -154,32 +155,32 @@ With both of this, you can use effect `"u_spawn_item": { "var_val": "my_best_gun
 Examples:
 
 you add morale equal to `how_good` variable
-```json
+```jsonc
 { "u_add_morale": "morale_feeling_good", "bonus": { "u_val": "how_good" } }
 ```
 
 you add morale random between u_`how_good` and u_`how_bad` variable
-```json
+```jsonc
 { "u_add_morale": "morale_feeling_good", "bonus": [ { "u_val": "how_good" }, { "u_val": "how_bad" } ] }
 ```
 
 You make sound `Wow, your'e smart` equal to beta talker's intelligence
-```json
+```jsonc
 { "u_make_sound": "Wow, your'e smart", "volume": { "npc_val": "intelligence" } }
 ```
 
 you add morale, equal to `ps_str` portal storm strength value
-```json
+```jsonc
 { "u_add_morale": "global_val", "bonus": { "global_val": "ps_str" } }
 ```
 
 you add morale, equal to `ps_str` portal storm strength value plus 1
-```json
+```jsonc
 { "u_add_morale": "morale_feeling_good", "bonus": { "math": [ "ps_str + 1" ] } }
 ```
 
 Effect on Condition, that is called every time player cast spell, and add thought `morale_from_spell_difficulty` with mood bonus equal to spell difficulty, and thought `morale_from_spell_damage` with mood bonus equal to damage difficulty
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_morale_from_spell",
@@ -198,7 +199,7 @@ TODO: add example of usage `context_val` in generalized EoC, and example for `va
 Important to remember that **reactivated EOCs currently lose all context variables and conditions**. Fixing this is a desired feature.
 
 ## Examples:
-```JSON
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "test_deactivate",
@@ -231,22 +232,22 @@ Conditions can be combined into blocks using `"and"`, `"or"` and `"not"`
 Examples:
 
 Checks if weather is lightning, **and** you have effect `narcosis`
-```json
+```jsonc
 "condition": { "and": [ { "is_weather": "lightning" }, { "u_has_effect": "narcosis" } ] }
 ```
 
 Checks if weather is portal storm **or** distant portal storm **or** close portal storm
-```json
+```jsonc
 "condition": { "or": [ { "is_weather": "portal_storm" }, { "is_weather": "distant_portal_storm" }, { "is_weather": "close_portal_storm" } ] }
 ```
 
 Checks you are **not** close to refugee center (at least 4 overmap tiles afar)
-```json
+```jsonc
 "condition": { "not": { "u_near_om_location": "evac_center_18", "range": 4 } }
 ```
 
 Checks you don't have any traits from the list
-```json
+```jsonc
 "condition": {
   "and": [
     { "not": { "u_has_trait": "HUMAN_ARMS" } },
@@ -260,7 +261,7 @@ Checks you don't have any traits from the list
 ```
 
 Same as previous, but with different syntax
-```json
+```jsonc
 "condition": {
   "not": {
     "or": [
@@ -276,7 +277,7 @@ Same as previous, but with different syntax
 ```
 
 Checks there is portal storm **and** you have `MAKAYLA_MUTATOR` mutation **and** you do **not** have item with `PORTAL_PROOF` flag **and** you are outside
-```json
+```jsonc
 "condition": {
   "and": [
     { "is_weather": "portal_storm" },
@@ -295,13 +296,13 @@ Checks there is portal storm **and** you have `MAKAYLA_MUTATOR` mutation **and**
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 #### Examples
 return true if beta talker exists
-```json
+```jsonc
 "condition": "has_beta",
 ```
 
@@ -311,19 +312,19 @@ return true if beta talker exists
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 return true if alpha talker is female
-```json
+```jsonc
 "condition": "npc_female",
 ```
 
-### `u_is_avatar`, `u_is_npc`, `u_is_character`, `u_is_monster`, `u_is_item`, `u_is_furniture`, `npc_is_avatar`, `npc_is_npc`, `npc_is_character`, `npc_is_monster`, `npc_is_item`, `npc_is_furniture`
+### `u_is_avatar`, `u_is_npc`, `u_is_character`, `u_is_monster`, `u_is_item`, `u_is_furniture`, `u_is_vehicle`, `npc_is_avatar`, `npc_is_npc`, `npc_is_character`, `npc_is_monster`, `npc_is_item`, `npc_is_furniture`, `npc_is_vehicle`
 - type: simple string
-- return true if alpha or beta talker is avatar / NPC / character / monster / item /furniture
+- return true if alpha or beta talker is avatar / NPC / character / monster / item / furniture / vehicle
 - `avatar` is you, player, that control specific NPC (yes, your character is still NPC, you just can control it, as you can control another NPC using faction succession)
 - `npc` is any NPC, except Avatar
 - `character` is both NPC or Avatar
@@ -337,13 +338,13 @@ Creature ---> Character ---> avatar
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 #### Examples
 return true if alpha talker is character (avatar or NPC)
-```json
+```jsonc
 "condition": "u_is_character",
 ```
 
@@ -355,23 +356,23 @@ return true if alpha talker is character (avatar or NPC)
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 #### Examples
 return true if alpha talker at the `field`
-```json
+```jsonc
 { "u_at_om_location": "field" }
 ```
 
 return true if alpha talker at faction camp
-```json
+```jsonc
 { "u_at_om_location": "FACTION_CAMP_ANY" }
 ```
 
 return true if alpha talker at location that can be transformed to faction camp
-```json
+```jsonc
 { "npc_at_om_location": "FACTION_CAMP_START" }
 ```
 
@@ -382,22 +383,22 @@ return true if alpha talker at location that can be transformed to faction camp
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 checks do alpha talker have `EAGLEEYED` trait
-```json
+```jsonc
 { "u_has_trait": "EAGLEEYED" }
 ```
 
 using `_has_any_trait` with single trait is also possible
-```json
+```jsonc
 { "u_has_any_trait": [ "EAGLEEYED" ] }
 ```
 
-```json
+```jsonc
 { "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ] }
 ```
 
@@ -407,13 +408,13 @@ using `_has_any_trait` with single trait is also possible
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 Checks do alpha talker has `FEATHERS` mutation
-```json
+```jsonc
 { "u_has_trait": "FEATHERS" }
 ```
 
@@ -424,13 +425,13 @@ Checks do alpha talker has `FEATHERS` mutation
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 Checks if the `FEATHERS` trait is purifiable for the character (returns true as per the trait definition unless another effect set the trait non-purifiable for the target)
-```json
+```jsonc
 { "u_is_trait_purifiable": "FEATHERS" }
 ```
 
@@ -441,12 +442,12 @@ Checks if the `FEATHERS` trait is purifiable for the character (returns true as 
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
-```json
+```jsonc
 { "u_has_martial_art": "style_aikido" }
 ```
 
@@ -456,12 +457,12 @@ Checks if the `FEATHERS` trait is purifiable for the character (returns true as 
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
-```json
+```jsonc
 { "u_using_martial_art": "style_aikido" }
 ```
 
@@ -471,16 +472,39 @@ Checks if the `FEATHERS` trait is purifiable for the character (returns true as 
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ✔️ | ❌ |
 
 Note: For terrain and furniture, [map_terrain_with_flag, map_furniture_with_flag](#map_terrain_with_flagmap_furniture_with_flag) can also be used.
 
 #### Examples
 Alpha talker has `GRAB` flag, and beta talker has `GRAB_FILTER` flag; monster uses it to perform grabs - the game checks do monster (alpha talker, `u_`) has GRAB flag (i.e. able to grab at all), and check is target able to be grabbed using `GRAB_FILTER` flag
-```json
+```jsonc
 { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" }
+```
+
+### `u_has_part_flag`, `npc_has_part_flag`
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker is a vehicle with a part with a specific flag
+- if `enabled` is present and true the part needs to be enabled
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+#### Examples
+
+Alpha talker is a vehicle with a fluidtank
+```jsonc
+{ "u_has_part_flag": "FLUIDTANK" }
+```
+
+Beta talker is a vehicle with a stereo which is activated
+```jsonc
+{ "npc_has_part_flag": "STEREO", "enabled" : true }
 ```
 
 ### `u_has_species`, `npc_has_species`
@@ -489,13 +513,13 @@ Alpha talker has `GRAB` flag, and beta talker has `GRAB_FILTER` flag; monster us
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ❌ | ❌ | ❌ | ✔️ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ✔️ | ❌ | ❌ | ❌ |
 
 #### Examples
 alpha talker is `SLIME`
-```json
+```jsonc
 { "u_has_species": "SLIME" }
 ```
 
@@ -506,13 +530,13 @@ alpha talker is `SLIME`
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 alpha talker has bodytype `migo` , and beta has bodytype `human`
-```json
+```jsonc
 { "u_bodytype": "migo" }, { "npc_bodytype": "human" }
 ```
 
@@ -523,13 +547,13 @@ alpha talker has bodytype `migo` , and beta has bodytype `human`
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 #### Examples
 checks this var exists
-```json
+```jsonc
 { "expects_vars": [ "u_met_me", "u_met_you", "u_met_yourself" ] }
 ```
 
@@ -539,17 +563,17 @@ checks this var exists
 
 #### Examples
 checks if `victim_type` is `mon_zombie_phase_shrike`
-```json
+```jsonc
 { "compare_string": [ "mon_zombie_phase_shrike", { "context_val": "victim_type" } ] }
 ```
 
 checks is `victim_type` has `zombie` faction
-```json
+```jsonc
 { "compare_string": [ "zombie", { "mutator": "mon_faction", "mtype_id": { "context_val": "victim_type" } } ] }
 ```
 
 Check if victim_type is any in the list
-```json
+```jsonc
 "compare_string": [
   { "context_val": "victim_type" },
   "mon_hound_tindalos",
@@ -568,7 +592,7 @@ Check if victim_type is any in the list
 ```
 
 Check if `map_cache` contain value `has`, `lack` or `read`
-```json
+```jsonc
 { "compare_string": [ { "npc_val": "map_cache" }, "has", "lack", "read" ] }
 ```
 
@@ -580,7 +604,7 @@ Check if `map_cache` contain value `has`, `lack` or `read`
 #### Examples
 
 Check if two variables are `yes`
-```json
+```jsonc
 "compare_string": [ "yes", { "context_val": "some_context_should_be_yes" }, { "context_val": "some_another_context_also_should_be_yes" } ]
 ```
 
@@ -590,18 +614,18 @@ Check if two variables are `yes`
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 True if the character has selected Heist Driver profession at the character creation
-```json
+```jsonc
 { "u_profession": "heist_driver" }
 ```
 
 True if the character has selected Fishing background at the character creation
-```json
+```jsonc
 { "u_profession": "fishing" }
 ```
 
@@ -611,13 +635,13 @@ True if the character has selected Fishing background at the character creation
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 True, if alpha talker has str 7 or more
-```json
+```jsonc
 { "u_has_strength": 7 }
 ```
 
@@ -628,13 +652,13 @@ True, if alpha talker has str 7 or more
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 check is your torso is 37 centigrade
-```json
+```jsonc
 { "u_has_part_temp": 5000, "bodypart": "torso" }
 ```
 
@@ -645,18 +669,18 @@ check is your torso is 37 centigrade
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 check do you have a guitar
-```json
+```jsonc
 { "u_has_item": "guitar" }
 ```
 
 check do you have 6 ropes
-```json
+```jsonc
 { "u_has_items": { "item": "rope_6", "count": 6 } }
 ```
 
@@ -667,18 +691,18 @@ check do you have 6 ropes
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 check do you have manual in inventory
-```json
+```jsonc
 { "u_has_item_category": "manuals" }
 ```
 
 check do you have 3 manuals in inventory
-```json
+```jsonc
 { "u_has_item_category": "manuals", "count": 3 }
 ```
 
@@ -693,13 +717,13 @@ check do you have 3 manuals in inventory
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 check do you have 10 blankets of any type in the list
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_TEST",
@@ -716,7 +740,7 @@ check do you have 10 blankets of any type in the list
 ```
 
 Check do you have enough blankets to cover required amount (for example, it return true if you have 5 `blanket` and 10 `electric_blanket` (each contribute 50% to the desired amount))
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_TEST",
@@ -733,7 +757,7 @@ Check do you have enough blankets to cover required amount (for example, it retu
 ```
 
 Variables are also supported
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_TEST",
@@ -755,18 +779,18 @@ Variables are also supported
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 check do you have `bio_synlungs`
-```json
+```jsonc
 { "u_has_bionics": "bio_synlungs" }
 ```
 
 check do you have any bionic presented
-```json
+```jsonc
 { "u_has_bionics": "ANY" }
 ```
 
@@ -779,28 +803,28 @@ check do you have any bionic presented
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 checks are you infected
-```json
+```jsonc
 { "u_has_effect": "infected" }
 ```
 
 checks are you head bleed heavily
-```json
+```jsonc
 { "u_has_effect": "bleed", "intensity": 10, "bodypart": "head" }
 ```
 
 checks do you have aikido stance active
-```json
+```jsonc
 { "u_has_effect": "mabuff:buff_aikido_static1" }
 ```
 
 checks are you hot or cold
-```json
+```jsonc
 { "u_has_any_effect": [ "hot", "cold" ], "bodypart": "torso" }
 ```
 
@@ -810,13 +834,13 @@ checks are you hot or cold
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 check do you have `Principles of Chemistry`
-```json
+```jsonc
 { "u_has_proficiency": "prof_intro_chemistry" }
 ```
 
@@ -826,18 +850,18 @@ check do you have `Principles of Chemistry`
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 You have equipped an item that you can stow
-```json
+```jsonc
 "u_can_stow_weapon"
 ```
 
 You have equipped an item that you can not stow, either because it's bionic pseudoitem, you have no space to store it, or by any another reason
-```json
+```jsonc
 { "not": "u_can_stow_weapon" }
 ```
 
@@ -847,23 +871,23 @@ You have equipped an item that you can not stow, either because it's bionic pseu
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 
-```json
+```jsonc
 "u_can_drop_weapon"
 ```
 
 
-```json
+```jsonc
 { "not": "u_can_drop_weapon" }
 ```
 
 `u_has_wielded_with_flag` may be used to replicate the effect
-```json
+```jsonc
 { "u_has_wielded_with_flag": "NO_UNWIELD" }
 ```
 
@@ -874,18 +898,18 @@ You have equipped an item that you can not stow, either because it's bionic pseu
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 
-```json
+```jsonc
 "u_has_weapon"
 ```
 
 You don't wield anything
-```json
+```jsonc
 { "not": "u_has_weapon" }
 ```
 
@@ -895,18 +919,18 @@ You don't wield anything
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 
-```json
+```jsonc
 "u_controlling_vehicle"
 ```
 
 true if you do not drive
-```json
+```jsonc
 { "not": "u_controlling_vehicle" }
 ```
 
@@ -916,18 +940,18 @@ true if you do not drive
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 
-```json
+```jsonc
 "u_driving"
 ```
 
 true if you do not drive
-```json
+```jsonc
 { "not": "u_driving" }
 ```
 
@@ -938,13 +962,13 @@ true if you do not drive
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 check do you memorize `meat_hunk` recipe
-```json
+```jsonc
 { "u_know_recipe": "meat_hunk" }
 ```
 
@@ -954,13 +978,13 @@ check do you memorize `meat_hunk` recipe
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 check do you wear something with `RAD_DETECT` flag
-```json
+```jsonc
 { "u_has_worn_with_flag": "RAD_DETECT" }
 ```
 
@@ -970,13 +994,13 @@ check do you wear something with `RAD_DETECT` flag
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 check do you wield something with `WHIP` flag
-```json
+```jsonc
 { "u_has_wielded_with_flag": "WHIP" }
 ```
 
@@ -986,13 +1010,13 @@ check do you wield something with `WHIP` flag
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 check do you wield something with `LONG_SWORDS` weapon category
-```json
+```jsonc
 { "u_has_wielded_with_weapon_category": "LONG_SWORDS" }
 ```
 
@@ -1004,13 +1028,13 @@ check do you wield something with `LONG_SWORDS` weapon category
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 check do you wield a gun with `pistol` skill
-```json
+```jsonc
 { "u_has_wielded_with_skill": "pistol" } 
 ```
 
@@ -1021,13 +1045,13 @@ check do you wield a gun with `pistol` skill
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 check do you wield a gun with `22` ammo type (.22 LR)
-```json
+```jsonc
 { "u_has_wielded_with_ammotype": "22" } 
 ```
 
@@ -1037,18 +1061,18 @@ check do you wield a gun with `22` ammo type (.22 LR)
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 #### Examples
 
-```json
+```jsonc
 "u_can_see"
 ```
 
 You can't see
-```json
+```jsonc
 { "not": "u_can_see" }
 ```
 
@@ -1058,18 +1082,18 @@ You can't see
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 #### Examples
 
-```json
+```jsonc
 "u_is_deaf"
 ```
 
 You can hear
-```json
+```jsonc
 { "not": "u_is_deaf" }
 ```
 
@@ -1079,18 +1103,18 @@ You can hear
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 #### Examples
 
-```json
+```jsonc
 "u_is_alive"
 ```
 
 NPC is dead
-```json
+```jsonc
 { "not": "npc_is_alive" }
 ```
 
@@ -1100,13 +1124,13 @@ NPC is dead
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 #### Examples
 
-```json
+```jsonc
 "npc_is_warm"
 ```
 
@@ -1116,9 +1140,9 @@ NPC is dead
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ### `u_is_on_terrain`, `npc_is_on_terrain`
 - type: string or [variable object](#variable-object)
@@ -1126,13 +1150,13 @@ NPC is dead
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 #### Examples
 check do you stand on grass
-```json
+```jsonc
 { "u_is_on_terrain": "t_grass" }
 ```
 
@@ -1142,13 +1166,13 @@ check do you stand on grass
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 #### Examples
 check do you stand on terrain with `SHRUB` flag
-```json
+```jsonc
 { "u_is_on_terrain_with_flag": "SHRUB" }
 ```
 
@@ -1158,13 +1182,13 @@ check do you stand on terrain with `SHRUB` flag
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 #### Examples
 check do you stand in a cloud of smoke
-```json
+```jsonc
 { "u_is_in_field": "fd_smoke" }
 ```
 
@@ -1176,43 +1200,14 @@ check do you stand in a cloud of smoke
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
 Create a popup with message `You have died.  Continue as one of your followers?`
-```json
+```jsonc
 { "u_query": "You have died.  Continue as one of your followers?", "default": false }
-```
-
-
-### `u_query_tile`, `npc_query_tile`
-- type: string
-- Ask the player to select a tile. If tile is selected, true is returned, otherwise false;
-- `anywhere`, `line_of_sight`, `around` are possible
-  - `anywhere` is the same as the "look around" UI
-  - `line_of_sight` only tiles that are visible at this moment (`range` is mandatory)
-  - `around` is the same as starting a fire, you can only choose the 9 tiles you're immediately adjacent to
-- `target_var` is [variable object](#variable-object) to contain coordinates of selected tile (**mandatory**)
-- `range` defines the selectable range for `line_of_sight` (**mandatory** for `line_of_sight`, otherwise not required)
-- `z_level` defines allow if select other z-level  for `anywhere`
-- `message` is displayed while selecting
-
-#### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
-#### Examples
-Display coordinates of selected tile.
-```json
-{
-  "if": { "u_query_tile": "line_of_sight", "target_var": { "context_val": "pos" }, "message": "Select point", "range": 10 },
-  "then": { "u_message": "<context_val:pos>" },
-  "else": { "u_message": "Canceled" }
-}
 ```
 
 ### `map_terrain_with_flag`, `map_furniture_with_flag`
@@ -1226,7 +1221,7 @@ No talker is needed.
 
 #### Examples
 Check the north terrain or furniture has `TRANSPARENT` flag.
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_ter_furn_check",
@@ -1257,17 +1252,15 @@ No talker is needed.
 
 #### Examples
 Runs a query, allowing you to pick specific tile around. When picked, stores coordinates of this tile in `check_terrain` variable, and then check is it a `t_grass`. If yes, `effect` is run, otherwise `false_effect` is run
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_TEST_QUERY",
   "condition": {
     "and": [
       {
-        "u_query_tile": "line_of_sight",
-        "target_var": { "context_val": "check_terrain" },
-        "message": "Check what terrain it is",
-        "range": 10
+        "u_choose_adjacent_highlight": { "context_val": "check_terrain" },
+        "message": "Select a tile"
       },
       { "map_terrain_id": "t_grass", "loc": { "context_val": "check_terrain" } }
     ]
@@ -1287,7 +1280,7 @@ No talker is needed.
 
 #### Examples
 Check the location is in a city.
-```json
+```jsonc
 { "u_location_variable": { "context_val": "loc" } },
 {
   "if": { "map_in_city": { "context_val": "loc" } },
@@ -1297,15 +1290,20 @@ Check the location is in a city.
 ```
 
 Each time the avatar enters an OMT display a message as to whether or not they're in a city.
-```
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_TEST_IS_IN_CITY",
     "eoc_type": "EVENT",
     "required_event": "avatar_enters_omt",
-    "condition": { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } },
-    "effect": [ { "u_message": "You are in a city OMT.", "type": "good" } ],
-    "false_effect": [ { "u_message": "You are NOT in a city OMT.", "type": "bad" } ]
+    "effect": [
+      { "u_location_variable": { "context_val": "loc" } },
+      {
+        "if": { "map_in_city": { "context_val": "loc" } },
+        "then": { "u_message": "You are in a city OMT.", "type": "good" },
+        "else": { "u_message": "You are NOT in a city OMT.", "type": "bad" }
+      }
+    ]
   },
 ```
 
@@ -1315,13 +1313,13 @@ Each time the avatar enters an OMT display a message as to whether or not they'r
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 #### Examples
 return true if player can see NPC.
-```json
+```jsonc
 "condition": "player_see_npc",
 ```
 
@@ -1331,22 +1329,25 @@ return true if player can see NPC.
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 #### Examples
 
 You can see selected location.
-```json
-{
-  "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
-  "then": {
-    "if": { "u_can_see_location": { "context_val": "pos" } },
-    "then": { "u_message": "You can see <context_val:pos>." },
-    "else": { "u_message": "You can't see <context_val:pos>." }
+```jsonc
+[
+  { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+  {
+    "if": { "math": [ "has_var(_pos)" ] },
+    "then": {
+      "if": { "u_can_see_location": { "context_val": "pos" } },
+      "then": { "u_message": "You can see <context_val:pos>." },
+      "else": { "u_message": "You can't see <context_val:pos>." }
+    }
   }
-}
+]
 ```
 
 ### `u_see_npc`, `npc_see_you`
@@ -1356,17 +1357,27 @@ You can see selected location.
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+### `u_is_driven`, `npc_is_driven`
+- type: simple string
+- return true if alpha or beta talker is a vehicle currently being driven
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
 
 #### Examples
 
-```json
+```jsonc
 "u_see_npc"
 ```
 
-```json
+```jsonc
 { "not": "npc_see_you" }
 ```
 
@@ -1378,17 +1389,17 @@ You can see selected location.
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 #### Examples
 
-```json
+```jsonc
 "u_see_npc_loc"
 ```
 
-```json
+```jsonc
 { "not": "npc_see_you_loc" }
 ```
 
@@ -1405,7 +1416,7 @@ You can see selected location.
 
 #### Examples
 
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_line_check",
@@ -1421,6 +1432,167 @@ You can see selected location.
 }
 ```
 
+### `u_is_remote_controlled`, `npc_is_remote_controlled`
+- type: simple string
+- return true if alpha or beta talker is a vehicle being remote controlled by the player
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+#### Examples
+
+```jsonc
+"u_is_remote_controlled"
+```
+
+### `u_can_fly`, `npc_can_fly`
+- type: simple string
+- return true if alpha or beta talker is a vehicle capable of flight
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+#### Examples
+
+```jsonc
+"u_can_fly"
+```
+
+### `u_is_flying`, `npc_is_flying`
+- type: simple string
+- return true if alpha or beta talker is a vehicle currently flying
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+#### Examples
+
+```jsonc
+"u_is_flying"
+```
+    
+### `u_can_float`, `npc_can_float`
+- type: simple string
+- return true if alpha or beta talker is a vehicle capable of floating
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+#### Examples
+
+```jsonc
+"u_can_float"
+```
+
+### `u_is_floating`, `npc_is_floating`
+- type: simple string
+- return true if alpha or beta talker is a vehicle currently floating
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+#### Examples
+
+```jsonc
+"u_is_floating"
+```
+
+
+### `u_is_falling`, `npc_is_falling`
+- type: simple string
+- return true if alpha or beta talker is a vehicle currently falling
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+#### Examples
+
+```jsonc
+"u_is_falling"
+```
+
+### `u_is_skidding`, `npc_is_skidding`
+- type: simple string
+- return true if alpha or beta talker is a vehicle currently skidding
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+#### Examples
+
+```jsonc
+"u_is_skidding"
+```
+
+### `u_is_sinking`, `npc_is_sinking`
+- type: simple string
+- return true if alpha or beta talker is a vehicle currently sinking
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+#### Examples
+
+```jsonc
+"u_is_sinking"
+```
+
+### `u_is_on_rails`, `npc_is_on_rails`
+- type: simple string
+- return true if alpha or beta talker is a vehicle which uses rails
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+#### Examples
+
+```jsonc
+"u_is_on_rails"
+```
+
+### `u_is_avatar_passenger`, `npc_is_avatar_passenger`
+- type: simple string
+- return true if alpha or beta talker is a vehicle with the avatar as a passenger
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+#### Examples
+
+```jsonc
+"u_is_avatar_passenger"
+```
+
 ### `has_ammo`
 - type: simple string
 - return true if beta talker is an item and has enough ammo for at least one "shot".
@@ -1431,13 +1603,13 @@ You can see selected location.
 
 #### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 #### Examples
 Check whether the eoc `test_condition` would use its true or false effect 
-```json
+```jsonc
 { "test_eoc": "test_condition" }
 ```
 
@@ -1489,10 +1661,11 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_melee_attacks_character |  | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "hits", `bool` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character (attacker) / character (victim) |
 | character_melee_attacks_monster | | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "hits", `bool` },<br/> { "victim_type", `mtype_id` },| character / monster |
 | character_radioactively_mutates | triggered when a character mutates due to being irradiated | { "character", `character_id` }, | character / NONE |
-| character_ranged_attacks_character | |  { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character (attacker) / character (victim) |
-| character_ranged_attacks_monster | | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "victim_type", `mtype_id` }, | character / monster |
+| character_ranged_attacks_character | |  { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "ammo", `itype_id` },<br/> { "is_throw", `bool` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character (attacker) / character (victim) |
+| character_ranged_attacks_monster | | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "ammo", `itype_id` },<br/> { "is_throw", `bool` },<br/>  { "victim_type", `mtype_id` }, | character / monster |
 | character_smashes_tile | | { "character", `character_id` },<br/> { "terrain", `ter_str_id` },  { "furniture", `furn_str_id` }, | character / NONE |
 | character_starts_activity | Triggered when character starts or resumes activity | { "character", `character_id` },<br/> { "activity", `activity_id` },<br/> { "resume", `bool` } | character / NONE |
+| character_takeoff_item | triggers when character removes a worn item. If using `run_inv_eocs`, remember that the event fires before the items are actually removed | { "character", `character_id` },<br/> { "itype", `itype_id` } |
 | character_takes_damage | triggers when character gets any damage from any creature | { "character", `character_id` },<br/> { "damage", `int` },<br/> { "bodypart", `bodypart_id` },<br/> { "pain", `int` }, | character / attacker if exists, otherwise NONE(character or monster) | use `has_beta` conditon before interacting with beta talker
 | monster_takes_damage | triggers when monster gets any damage from any creature. Includes damages from effects like bleeding | { "damage", `int` },<br/> { "dies", `bool` }, | monster / attacker if exists, otherwise NONE(character or monster) | use `has_beta` conditon before interacting with beta talker
 | character_triggers_trap | | { "character", `character_id` },<br/> { "trap", `trap_str_id` }, | character / NONE |
@@ -1563,7 +1736,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | triggers_alarm | Triggers when alarm is sounded as a failure state of hacking, prying, using a computer, or (if player is sufficiently close)damaged terrain with ALARMED flag | { "character", `character_id` } | character / NONE |
 | uses_debug_menu | | { "debug_menu_option", `debug_menu_index` }, | avatar / NONE |
 | u_var_changed | | { "var", `string` },<br/> { "value", `string` }, | avatar / NONE |
-| vehicle_moves | | { "avatar_on_board", `bool` },<br/> { "avatar_is_driving", `bool` },<br/> { "avatar_remote_control", `bool` },<br/> { "is_flying_aircraft", `bool` },<br/> { "is_floating_watercraft", `bool` },<br/> { "is_on_rails", `bool` },<br/> { "is_falling", `bool` },<br/> { "is_sinking", `bool` },<br/> { "is_skidding", `bool` },<br/> { "velocity", `int` }, // vehicle current velocity, mph * 100<br/> { "z", `int` }, | avatar / NONE |
+| vehicle_moves | | { "avatar_on_board", `bool` },<br/> { "avatar_is_driving", `bool` },<br/> { "avatar_remote_control", `bool` },<br/> { "is_flying_aircraft", `bool` },<br/> { "is_floating_watercraft", `bool` },<br/> { "is_on_rails", `bool` },<br/> { "is_falling", `bool` },<br/> { "is_sinking", `bool` },<br/> { "is_skidding", `bool` },<br/> { "velocity", `int` }, // vehicle current velocity, mph * 100<br/> { "z", `int` }, | vehicle / avatar |
 
 ## Context Variables For Other EOCs
 Other EOCs have some variables as well that they have access to, they are as follows:
@@ -1594,14 +1767,14 @@ Play a sound effect from sound pack `"type": "sound_effect"`
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 
 Plays sound `bionics`, variant `pixelated` with volume 50
-```json
+```jsonc
 { "sound_effect": "pixelated", "id": "bionics", "volume": 50 },
 ```
 
@@ -1616,18 +1789,18 @@ Opens up a dialog between the participants; this should only be used in effect_o
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 Opens dialogue with topic `TALK_PERK_MENU_MAIN`
-```json
+```jsonc
 { "open_dialogue": { "topic": "TALK_PERK_MENU_MAIN" } }
 ```
 
 Opens a dialogue with computer; computer has defined `"chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ],` on the map side, which makes it valid participant
-```json
+```jsonc
   {
     "id": "EOC_REFUGEE_CENTER_COMPUTER",
     "type": "effect_on_condition",
@@ -1646,18 +1819,18 @@ If beta talker is NPC, take control of it
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | ---  | 
-| ❌ | ❌ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Takes control of NPC
-```json
+```jsonc
 "effect": [ "take_control" ]
 ```
 
 Takes control of NPC; If successful; `EOC_GOOD` is run, if not, `EOC_BAD` is run
-```json
+```jsonc
 { "take_control": { "true_eocs": [ "EOC_GOOD" ], "false_eocs": [ "EOC_BAD" ] } }
 ```
 
@@ -1667,13 +1840,13 @@ Works only with your followers
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | ---  | 
-| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Opens the menu to swap the avatar
-```json
+```jsonc
 "effect": [ "take_control_menu" ]
 ```
 
@@ -1687,13 +1860,13 @@ Marks the given achievement as complete
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | ---  | 
-| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Gives achievement `escaped_the_cataclysm`
-```json
+```jsonc
 { "give_achievement": "escaped_the_cataclysm" }
 ```
 
@@ -1709,13 +1882,13 @@ Will assign mission to the player
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Assign you a `MISSION_REACH_FAKE_DAVE` mission which must be completed within the next 17 hours
-```json
+```jsonc
 { "assign_mission": "MISSION_REACH_FAKE_DAVE", "deadline": { "math": [ "time('now') + time(' 17 h')" ] } }
 ```
 
@@ -1728,13 +1901,13 @@ Will remove mission from the player's active mission list without failing it.
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | 
 
 ##### Examples
 removes `MISSION_BONUS_KILL_BOSS` mission from your list
-```json
+```jsonc
 { "remove_active_mission": "MISSION_BONUS_KILL_BOSS" }
 ```
 
@@ -1751,23 +1924,23 @@ Will complete mission the player has, in one way or another
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 Complete the mission `DID_I_WIN` as failed
-```json
+```jsonc
 { "finish_mission": "DID_I_WIN" }
 ```
 
 Complete the mission `DID_I_WIN` as successful
-```json
+```jsonc
 { "finish_mission": "DID_I_WIN", "success": true }
 ```
 
 Complete the first step of a `DID_I_WIN` mission
-```json
+```jsonc
 { "finish_mission": "DID_I_WIN", "step": 1 }
 ```
 
@@ -1781,23 +1954,23 @@ Adds this mission on a list NPC can offer
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ❌ | ❌ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 NPC can offer mission `MISSION_GET_RELIC` now
-```json
+```jsonc
 { "offer_mission": "MISSION_GET_RELIC" }
 ```
 
 Same as before
-```json
+```jsonc
 { "offer_mission": [ "MISSION_GET_RELIC" ] }
 ```
 
 NPC can offer missions `MISSION_A`, `B` and `C` now
-```json
+```jsonc
 { "offer_mission": [ "MISSION_A", "MISSION_B", "MISSION_C" ] }
 ```
 
@@ -1812,7 +1985,7 @@ Runs another EoC. It can be a separate EoC, or an inline EoC inside `run_eocs` e
 | "condition" | optional | int or [variable object](#variable-object)) | if used, eoc would be run as long as this condition will return true. if "condition" is used, "iterations" can be used to limit amount of runs to specific amount (default is 100 runs until terminated) |
 | "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | if used, EoC would be activated this amount of time in future; default 0, meaning it would run instantly. If eoc is global, the avatar will be u and npc will be invalid. If eoc is not global, it will be queued for the current alpha if they are a character (avatar or npc) and not be queued otherwise. Doesn't work with "condition" and "iterations" | 
 | "randomize_time_in_future" | optional | bool | used with time_in_future; if false, entire eoc array would run at the exact same moment; if true, each eoc in array would pick it's own time again and again | 
-| "alpha_loc","beta_loc" | optional | string, [variable object](#variable-object) | Allows to swap talker by defining `u_location_variable`, where the EoC should be run. Set the alpha/beta talker to the creature at the location. |
+| "alpha_loc","beta_loc" | optional | [variable object](#variable-object) | Allows to swap talker by defining `u_location_variable`, where the EoC should be run. Set the alpha/beta talker to the creature at the location. |
 | "alpha_talker","beta_talker" | optional (If you use both "alpha_loc" and "alpha_talker", "alpha_talker" will be ignored, same for beta.) | string, [variable object](#variable-object) | Set alpha/beta talker. This can be either a `character_id` (you can get from [EOC event](#event-eocs) or result of [u_set_talker](#u_set_talkernpc_set_talker) ), or some hard-coded values: <br> `""`: null talker <br> `"u"/"npc": the alpha/beta talker of the EOC`(Should be Avatar/Character/NPC/Monster) <br> `"avatar"`: your avatar|
 | "false_eocs" | optional | string, [variable object](#variable-object), inline EoC, or range of all of them | false EOCs will run if<br>1. there is no creature at "alpha_loc"/"beta_loc",or<br>2. "alpha_talker" or "beta_talker" doesn't exist in the game (eg. dead NPC),or<br>3. alpha and beta talker are both null |
 | "variables" | optional | pair of `"variable_name": "variable"` | context variables, that would be passed to the EoC; numeric values should be specified as strings; when a variable is an object and has the `i18n` member set to true, the variable will be localized; `expects_vars` condition can be used inside running eoc to ensure every variable exist before the EoC is run | 
@@ -1820,19 +1993,19 @@ Runs another EoC. It can be a separate EoC, or an inline EoC inside `run_eocs` e
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 
 Run `EOC_DO_GOOD_THING` EoC
-```json
+```jsonc
 { "run_eocs": [ "EOC_DO_GOOD_THING" ] }
 ```
 
 Run inline `are_you_strong` EoC
-```json
+```jsonc
 "run_eocs": {
   "id": "are_you_strong",
   "condition": { "math": [ "u_val('strength') > 8" ] },
@@ -1845,7 +2018,7 @@ Inline EoCs could have their own inline EoCS
 This EoC checks your str stat, and if it's less than 4, write `You are weak`; 
 if it's bigger, `are_you_strong` EoC is run, that checks is your str is bigger than 8; if it's less, `You are normal` is written
 if it's bigger, `are_you_super_strong` effect is run, that checks is your str is bigger than 12; If it's less, `You are strong` is written; if it's more, `You are super strong` is written
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "are_you_weak",
@@ -1872,7 +2045,7 @@ if it's bigger, `are_you_super_strong` effect is run, that checks is your str is
 ```
 
 EOC_until_nested will run 10 times
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_run_until",
@@ -1881,14 +2054,14 @@ EOC_until_nested will run 10 times
 ```
 
 Run `EOC_BOOM` EoC at `where_my_enemy_is` location variable
-```json
+```jsonc
 { "run_eocs": "EOC_BOOM", "beta_loc": { "global_val": "where_my_enemy_is" } },
 ```
 
 The first EoC `EOC_I_NEED_AN_AR15` run another `EOC_GIVE_A_GUN` EoC, and give it two variables: variable `gun_name` with value `ar15_223medium` and variable `amount_of_guns` with value `5`;
 Second EoC `EOC_I_NEED_AN_AK47` aslo run `EOC_GIVE_A_GUN` with the same variables, but now the values are `ak47` and `3`
 `EOC_GIVE_A_GUN`, once called, will spawn a gun, depending on variables it got
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_I_NEED_AN_AR15",
@@ -1931,15 +2104,16 @@ Second EoC `EOC_I_NEED_AN_AK47` aslo run `EOC_GIVE_A_GUN` with the same variable
 Control a NPC and return to your original body.
 By using `EOC_control_npc`, you can gain control of an NPC, and your original body's character_id will be stored in the global variable `"player_id"`.
 Then, by using `EOC_return_to_player`, you can return to your original body.
-```json
+```jsonc
 
 {
   "type": "effect_on_condition",
   "id": "EOC_control_npc",
   "effect": [
     { "u_set_talker": { "global_val": "player_id" } },
+    { "u_query_tile": "anywhere", "target_var": { "context_val": "loc" }, "message": "Select point" },
     {
-      "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "loc" }, "message": "Select point" },
+      "if": { "math": [ "has_var(_loc)" ] },
       "then": {
         "run_eocs": {
           "id": "_EOC_control_npc_do",
@@ -1973,12 +2147,12 @@ Then, by using `EOC_return_to_player`, you can return to your original body.
 ```
 
 run `EOC_BOOM_RANDOM` randomly in 20-30 seconds
-```json
+```jsonc
 { "run_eocs": "EOC_BOOM_RANDOM", "time_in_future": [ "20 seconds", "30 seconds" ] },
 ```
 
 EoCs `EOC_K`and `EOC_L` will run 10 times total, 5 times each, at exactly same second (for example, 17 seconds in future)
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "run_eocs_6",
@@ -1994,7 +2168,7 @@ EoCs `EOC_K`and `EOC_L` will run 10 times total, 5 times each, at exactly same s
 ```
 
 EoCs `EOC_K`and `EOC_L` will run 10 times total, 5 times each, randomly; for example, `EOC_K` gonna run 0 seconds in the future, 3 seconds, 9 seconds, 19 seconds and 20 seconds; `EOC_L` gonna run, for example, 4 seconds, 5 seconds, 9 seconds, 14 secodns and 17 seconds in the future
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "run_eocs_6",
@@ -2010,7 +2184,7 @@ EoCs `EOC_K`and `EOC_L` will run 10 times total, 5 times each, randomly; for exa
 ```
 
 In three hours, you will be given five AR-15
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_I_NEED_AN_AR15_BUT_NOT_NOW",
@@ -2039,7 +2213,7 @@ In three hours, you will be given five AR-15
 ```
 
 `EOC_until_nested` is run until `my_variable` hit 10; in this case 10 times
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_run_until",
@@ -2055,7 +2229,7 @@ In three hours, you will be given five AR-15
 ```
 
 runs `EOC_POWER_TOGGLE_REMOVE_EFFECTS`, but current beta talker would be made alpha talker
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_MELEE_MONSTER_CANCEL_TOGGLES",
@@ -2072,7 +2246,7 @@ Store the character_id of You or NPC into a variable object
 
 ##### Examples
 
-```json
+```jsonc
 {
   "effect": [ 
     { "u_set_talker": { "global_val": "u_character_id" } }, 
@@ -2094,13 +2268,13 @@ If you or NPC does not have all of the listed bionics, mutations, spells or reci
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Tries to give you a mutation `A`, `B` or `C`, if you don't have one, with message `You got %s!`; If roll is successful, `EOC_SUCCESS` is run, otherwise `EOC_FAIL` is run
-```json
+```jsonc
 {
   "u_roll_remainder": [ "mutationA", "mutationB", "mutationC" ],
   "type": "mutation",
@@ -2122,13 +2296,13 @@ Set effects to be executed when conditions are met and when conditions are not m
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 Displays a different message the first time it is run and the second time onwards
-```json
+```jsonc
 {
   "if": { "compare_string": [ "yes", { "u_val": "eoc_sample_if_else_test" } ] },
   "then": { "u_message": "You have variable." },
@@ -2156,13 +2330,13 @@ Check the value, and, depending on it, pick the case that would be run
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Checks the level of `some_spell` spell, and, related to this, do something: for spell level 0 it casts another_spell, for spell level 3 it adds effect "drunk", and so on.
-```json
+```jsonc
 {
   "switch": { "math": [ "u_spell_level('some_spell')" ] },
   "cases": [
@@ -2204,13 +2378,13 @@ The correspondence between "foreach" and "target" is as follows.
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- |
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 Resets all of your vitamins.
-```json
+```jsonc
 {
   "foreach": "ids",
   "var": { "context_val": "id" },
@@ -2232,25 +2406,25 @@ NPC run EoCs, provided by this effect; can work outside of reality bubble
 | "npc_must_see" | optional | boolean | default false; if true, only NPC you can see are affected | 
  
 example of specifying `unique_id` in mapgen using `npcs`:
-```json
+```jsonc
 "npcs": { "T": { "class": "guard", "unique_id": "GUARD7" } },
 ```
 
 and using `place_npcs`:
-```json
+```jsonc
 "place_npcs": [ { "class": "arsonist", "x": 9, "y": 1, "unique_id": "GUARD7" } ],
 ```
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ❌ | ❌ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 
 All NPC in range 30, that you can see, run `EOC_DEATH` and `EOC_TAXES`
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_KILL_ALL_NPCS_YOU_SEE_30_TILES",
@@ -2265,7 +2439,7 @@ All NPC in range 30, that you can see, run `EOC_DEATH` and `EOC_TAXES`
 ```
 
 Move refugee center guards `GUARD1` - `GUARD7` to the `_First` position - EoC for effect is inlined
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION",
@@ -2298,18 +2472,18 @@ Monsters run EoCs, provided by this effect; only works inside reality bubble
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ❌ | ❌ | ❌ | ✔️ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ✔️ | ❌ | ❌ | ❌ |
 
 ##### Examples
 
 Run EOC_KILL_SHADOW on half the monsters in a 36 range around u_mansion_centre
-```json
+```jsonc
   { "run_eocs": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
 ```
 ...
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_BANISH_MANSION_MONSTERS",
@@ -2325,7 +2499,7 @@ Run EOC_KILL_SHADOW on half the monsters in a 36 range around u_mansion_centre
 ```
 
 Run EOC_KILL_SHADOW on any mon_zombie_dog, mon_dog_zombie_cop or mon_dog_zombie_rot in a 12 range around the alpha talker
-```json
+```jsonc
   {
     "u_run_monster_eocs": [ { "id": "EOC_BANISH_ZOMBIE_DOGS_AROUND_PLAYER", "effect": { "run_eocs": "EOC_KILL_SHADOW" } } ],
     "mtype_ids": [ "mon_zombie_dog", "mon_dog_zombie_cop", "mon_dog_zombie_rot" ]
@@ -2345,13 +2519,13 @@ Run EOCs on items in your or NPC's inventory
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ | ❌ |
 
 ##### Examples
 Picks an item in character's hands, and run `EOC_DESTROY_ITEM` EoC on it
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_PICK_ITEM_IN_HANDS",
@@ -2365,7 +2539,7 @@ Picks an item in character's hands, and run `EOC_DESTROY_ITEM` EoC on it
 }
 ```
 Pick a wooden item with `DURABLE_MELEE` and `ALWAYS_TWOHAND` flags, and run `EOC_DO_SOMETHING_WITH_ITEM` on it; if there is no such item, `EOC_NO_SUCH_ITEM` is run
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_PICK_WOODEN_ITEM",
@@ -2380,7 +2554,7 @@ Pick a wooden item with `DURABLE_MELEE` and `ALWAYS_TWOHAND` flags, and run `EOC
 }
 ```
 Pick all items with `RECHARGE` _or_ `ELECTRONIC` flags, and run `EOC_PRINT_ITEM_CHARGE` on them.
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "eoc_print_inv_power",
@@ -2410,7 +2584,7 @@ Used if you need to check if specific furniture or terrain is around
 ##### Examples
 
 Picks range of 6 tiles around the player, and check is there any terrain with `TREE` flag
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "SOME_TEST_EOC",
@@ -2431,7 +2605,7 @@ Picks range of 6 tiles around the player, and check is there any terrain with `T
 ```
 
 Picks all TREEs in 50 tiles range, and burn it
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "QWERTY",
@@ -2468,14 +2642,14 @@ Search items around you on the map, and run EoC on them
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 
 Run `EOC_GOOD` on all items 5-10 tiles around you (but not tiles 1-4 tiles around you)
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_TEST",
@@ -2494,7 +2668,7 @@ Run `EOC_GOOD` on all items 5-10 tiles around you (but not tiles 1-4 tiles aroun
 Create context variable `loc` where player stands
 Scan all items 1-10 tiles around the `loc` (actually `loc` can be omitted here, since it's the same location as player); open the `Test: Item collection` menu, where player can pick items from said radius; after confirmation, all picked items are run in `EOC_map_item_test_run`
 `EOC_map_item_test_run` teleport all items to `loc`, and print `Items rolled at your feet`
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_map_item_test1",
@@ -2521,7 +2695,7 @@ Search `crashing_ship_4`  overmap terrain 10 overmap tiles around the player, on
 Search all items on `escape_pod_crate` tile, and run `EOC_AFS_ESCAPE_POD_CARGO_TP` (it will teleport items to `new_map` location)
 Print a message with popup
 Teleport player to `new_map`
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_ESCAPE_POD_CHAIR",
@@ -2559,7 +2733,7 @@ Reveal the overmap area around specific location variable
 ##### Examples
 
 Reveal the zone three tiles around the character
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_TEST",
@@ -2571,7 +2745,7 @@ Reveal the zone three tiles around the character
 ```
 
 Same, but using different syntax
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_TEST",
@@ -2583,7 +2757,7 @@ Same, but using different syntax
 ```
 
 Find overmap tile using `target_params`, store coordinates in `loc`, and reveal the area 20 tiles around `loc`
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_HOUSE_REVEAL",
@@ -2610,7 +2784,7 @@ Reveal the route between two location variables, using closest roads
 ##### Examples
 
 Reveal the path between you and 50 overmap tiles west of you
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_TEST",
@@ -2623,7 +2797,7 @@ Reveal the path between you and 50 overmap tiles west of you
 ```
 
 Reveal the route between you and `house_02`
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_HOUSE_route",
@@ -2655,7 +2829,7 @@ Additionally sends context variables `city_name` (string) and `city_size` (int)
 ##### Examples
 
 Stores coordinates of closest known city, and print variables
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_DEBUG_CITY_NEARBY",
@@ -2669,7 +2843,7 @@ Stores coordinates of closest known city, and print variables
 ```
 
 Same, but return any city nearby
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_DEBUG_CITY_NEARBY_UNKNOWN",
@@ -2692,7 +2866,7 @@ Will choose one of a list of eocs to activate based on it's weight
 ##### Examples
 
 Run one EoC from the list
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_WEIGHT",
@@ -2722,16 +2896,17 @@ Open a menu, that allow to select one of multiple options
 | "title" | optional | string | Text, that would be shown as the name of the list; Default `Select an option.` | 
 | "hide_failing" | optional | boolean | if true, the options, that fail their check, would be completely removed from the list, instead of being grayed out | 
 | "allow_cancel" | optional | boolean | if true, you can quit the menu without selecting an option, no effect will occur | 
+| "hilight_disabled" | optional | boolean | if true, the option, that fail their check, would still be navigateable, meaning you can highlight it and read it's description. If `allow_cancel` is true, picking it would be considered same as quitting | 
 | "variables" | optional | pair of `"variable_name": "variable"` | variables, that would be passed to the EoCs; numeric values should be specified as strings; when a variable is an object and has the `i18n` member set to true, the variable will be localized; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 you can pick one of four options from `Choose your destiny` list; 
-```json
+```jsonc
 {
   "run_eoc_selector": [ "EOC_OPTION_1", "EOC_OPTION_2", "EOC_OPTION_3", "EOC_OPTION_4" ],
   "names": [ "Option 1", "Option 2", "Option 3", "Option 4" ],
@@ -2767,14 +2942,14 @@ Deal damage, the same way melee attack deals damage; it can't be dodged, but it 
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 ##### Examples
 
 Deal 20 biological damage to your torso
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "TEST",
@@ -2793,16 +2968,16 @@ Your character or the NPC will attempt to mutate; used in mutation system, for o
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
-```json
+```jsonc
 { "u_mutate": 0 }
 ```
 
-```json
+```jsonc
 { "npc_mutate": { "math": [ "1+1" ] }, "use_vitamins": false }
 ```
 
@@ -2818,7 +2993,7 @@ Similar to `u_mutate` but takes category as a parameter and guarantees mutation.
 
 ##### Examples
 
-```json
+```jsonc
 { "u_mutate_category": "PLANT" }
 ```
 
@@ -2838,7 +3013,7 @@ Similar to the above, but designates a desired end-point of mutation and uses th
 
 ##### Examples
 Mutate towards Tail Stub (removing any incompatibilities) using the category set in the variable, deprecating that vitamin and using the category's base trait removal chance/multiplier.
-```json
+```jsonc
       {
         "u_mutate_towards": "TAIL_STUB",
         "category": { "u_val": "upcoming_mutation_category", },
@@ -2855,7 +3030,7 @@ If you have the given trait it will be added to /removed from your list of non-p
 | "u/npc_set_trait_purifiablility" | **mandatory** | string or [variable object](#variable-object) | id of the trait to change
 | "purifiable" | **mandatory** | bool | `true` adds the trait to the unpurifiable trait list, `false` removes it |
 
-```json
+```jsonc
 {
   "u_set_trait_purifiability": "BEAK",   // Trait ID to change
   "purifiable": false   // Turns the trait unpurifiable for the talker
@@ -2877,23 +3052,23 @@ Some effect would be applied on you or NPC
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Apply effect `drunk` for 4.5 hours:
-```json
+```jsonc
 { "u_add_effect": "drunk", "duration": "270 minutes" }
 ```
 
 Apply effect `fungus` of intensity 1, permanently, on random body part:
-```json
+```jsonc
 { "u_add_effect": "fungus", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" }
 ```
 
 Apply effect `poison`, of [your strength value] intensity, for [random number between 0 and 10, multiplied on player's pain value] seconds, onto body part, stored in `body_part_to_poison` context value, ignoring player's immunity:
-```json
+```jsonc
 {
   "u_add_effect": "poison",
   "intensity": { "math": [ "u_val(strength)" ] },
@@ -2913,18 +3088,18 @@ You or NPC would have some bionic installed
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Install 1 `bio_power_storage` onto your character:
-```json
+```jsonc
 { "u_add_bionic": "bio_power_storage" }
 ```
 
 Install 1 bionic, delivered from `bionic_id` context value, onto your character:
-```json
+```jsonc
 { "u_add_bionic": { "context_val": "bionic_id" } }
 ```
 
@@ -2938,18 +3113,18 @@ You or NPC would have some bionic uninstalled from your body
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Uninstall 1 `bio_power_storage` from your character:
-```json
+```jsonc
 { "u_lose_bionic": "bio_power_storage" }
 ```
 
 Uninstall 1 bionic, delivered from `bionic_id` context value, onto your character:
-```json
+```jsonc
 { "u_lose_bionic": { "context_val": "bionic_id" } }
 ```
 
@@ -2964,23 +3139,23 @@ Give character or NPC some mutation/trait
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Adds `TELEPATH` trait to the character:
-```json
+```jsonc
 { "u_add_trait": "TELEPATH" }
 ```
 
 Adds trait, stored in `trait_id` context value, to the character:
-```json
+```jsonc
 { "u_add_trait": { "context_val": "trait_id" } }
 ```
 
 Adds `hair_mohawk` trait with the `purple` variant to the character:
-```json
+```jsonc
 { "u_add_trait": "hair_mohawk", "variant": "purple" }
 ```
 
@@ -2994,33 +3169,33 @@ Remove effect from character or NPC, if it has one
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Removes `infection` effect from player:
-```json
+```jsonc
 { "u_lose_effect": "infection" }
 ```
 
 Removes `bleed` effect from player's head:
-```json
+```jsonc
 { "u_lose_effect": "bleed", "target_part": "head" }
 ```
 
 Removes `bleed` effect from all bodyparts:
-```json
+```jsonc
 { "u_lose_effect": "bleed", "target_part": "ALL" }
 ```
 
 Removes effect, stored in `effect_id` context value, from the player:
-```json
+```jsonc
 { "u_lose_effect": { "context_val": "effect_id" } }
 ```
 
 Removes `infection`, `downed` and `winded` effects from player:
-```json
+```jsonc
 { "u_lose_effect": [ "infection", "downed", "winded" ] }
 ```
 
@@ -3034,19 +3209,19 @@ Character or NPC got trait or mutation removed, if it has one
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 
 `CHITIN` mutation is removed from character:
-```json
+```jsonc
 { "u_lose_trait": "CHITIN" }
 ```
 
 mutation, stored in `mutation_id`  context value, is removed from character:
-```json
+```jsonc
 { "u_lose_trait": { "context_val": "mutation_id" } }
 ```
 
@@ -3060,18 +3235,18 @@ Your character or the NPC will activate the trait.
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 `process_mutation` mutation would be activated, which trigger all effect it can cause, including `activated_eocs` inside the mutation
-```json
+```jsonc
 { "u_activate_trait": "process_mutation" }
 ```
 
 Deactivate trait, which contained in `this` context value:
-```json
+```jsonc
 { "u_deactivate_trait": { "context_val": "this" } }
 ```
 
@@ -3085,18 +3260,18 @@ Your character or the NPC will deactivate the trait.
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Deactivate `BIOLUM1_active` trait:
-```json
+```jsonc
 { "u_deactivate_trait": "BIOLUM1_active" }
 ```
 
 Deactivate trait, which contained in `that` context value:
-```json
+```jsonc
 { "u_deactivate_trait": { "context_val": "that" } }
 ```
 
@@ -3110,18 +3285,18 @@ Your character or the NPC will learn the martial art style.
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 The character learn Eskrima 
-```json
+```jsonc
 { "u_learn_martial_art": "style_eskrima" }
 ```
 
 Character learn martial art, stored in `ma_id` context value
-```json
+```jsonc
 { "u_learn_martial_art": { "context_val": "ma_id" } }
 ```
 
@@ -3135,18 +3310,18 @@ Your character or the NPC will forget the martial art style.
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Character forget Eskrima 
-```json
+```jsonc
 { "u_forget_martial_art": "style_eskrima" }
 ```
 
 Character forget martial art, stored in `ma_id` context value
-```json
+```jsonc
 { "u_forget_martial_art": { "context_val": "ma_id" } }
 ```
 
@@ -3164,20 +3339,20 @@ Save a string as personal variable, that you can check later using `compare_stri
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 Note: numeric vars can be set (and check) to monsters via `math` functions.  See the example below.
 
 ##### Examples
 Saves personal variable `u_met_godco_jeremiah` with `general` type, `meeting` context, and value `yes
-```json
+```jsonc
 { "u_add_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" }
 ```
 
 NPC (in this case it's actually item, see Beta Talkers) saves a personal variable `function` with one of four values: `morale`, `focus`, `pain`, or `sleepiness` (used in mi-go bio tech to create four different versions of the same item, with different effects, that would be revealed upon activation)
-```json
+```jsonc
 {
   "npc_add_var": "mbt_f_function",
   "possible_values": [ "morale", "focus", "pain", "sleepiness" ]
@@ -3186,7 +3361,7 @@ NPC (in this case it's actually item, see Beta Talkers) saves a personal variabl
 
 Old variables, that was created in this way, could be migrated into `math`, using `u_`/`npc_`+`type`+`_`+`context`+`_`+`var`, for the sake of save compatibility between stable releases
 For example:
-```json
+```jsonc
 { "u_add_var": "number_artisans_gunsmith_ammo_ammount", "value": "800" }
 ```
 could be moved to:
@@ -3195,7 +3370,7 @@ could be moved to:
 ```
 
 Setting and checking monster vars via `math`.  The first spell targets a monster and forces it to run the effect on condition to apply a custom var, which the second spell checks to deal additional effects:
-```json
+```jsonc
   {
     "id": "spell_tag",
     "type": "SPELL",
@@ -3249,20 +3424,38 @@ Your character or the NPC will clear any stored variable that has the same name,
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 
 Character remove variable `time_of_last_succession`
-```json
+```jsonc
 { "u_lose_var": "time_of_last_succession" }
 ```
 
 Character remove variable `bio_blade_electric_on`
-```json
+```jsonc
 { "u_lose_var": "bio_blade_electric_on" }
+```
+
+#### `copy_var`
+Read curent value of a variable and copy it to another, regardless of its type.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "copy_var" | **mandatory** | [variable object](#variable-object) | source variable |
+| "target_var" | **mandatory** | [variable object](#variable-object) | target variable | 
+
+#### Valid talkers:
+
+No talker is needed.
+
+##### Examples
+
+```jsonc
+{ "copy_var": { "context_val": "bodypart" }, "target_var": { "global_val": "IMPREGNATED_BODYPART" } }
 ```
 
 #### `set_string_var`
@@ -3271,7 +3464,7 @@ Store string from `set_string_var` in the variable object `target_var`
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "set_string_var" | **mandatory** | string, [variable object](#variable-object), or array of both | value, that would be put into `target_var` |
+| "set_string_var" | **mandatory** | string, [mutator](NPCs.md#mutators), or array of both | value, that would be put into `target_var` |
 | "target_var" | **mandatory** | [variable object](#variable-object) | variable, that accept the value; usually `context_val` | 
 | "parse_tags" | optional | boolean | Allo if parse [custom entries](NPCs.md#customizing-npc-speech) in string before storing | 
 | "i18n"       | optional | boolean | Whether the string values should be localized | 
@@ -3284,30 +3477,29 @@ Store string from `set_string_var` in the variable object `target_var`
 | "title" | optional | string, [variable object](#variable-object) | The title of the input popup window, can be localized (e.g., `"title": { "i18n": true, "str": "Input a value:" }`). |
 | "description" | optional | string, [variable object](#variable-object) | The description of the input popup window, can be localized. |
 | "default_text" | optional | string, [variable object](##variable-object) | The default text in the input popup window, can be localized. |
-
 | "width" | optional | integer | The character length of the input box. Default is 20. |
 | "identifier" | optional | string | Input boxes with the same identifier share input history. Default is `""`. |
 | "only_digits" | optional | boolean | Whether the input is purely numeric. Default is false. |
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |  
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 Replace value of variable `foo` with value `bar`
-```json
+```jsonc
 { "set_string_var": "bar", "target_var": "foo" }
 ```
 
 set `trait_id` context value as `perk_holdout_pocket`; further down, `{ "u_add_trait": { "context_val": "trait_id" } }` is used to give this trait
-```json
+```jsonc
 { "set_string_var": "perk_holdout_pocket", "target_var": { "context_val": "trait_id" } }
 ```
 
 Replace text in `place_name` variable with one of 5 string, picked randomly; further down, a `"place_override": "place_name"` is used to override the location name with one of this five
-```json
+```jsonc
 {
   "set_string_var": [ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ],
   "target_var": { "global_val": "place_name" }
@@ -3315,12 +3507,12 @@ Replace text in `place_name` variable with one of 5 string, picked randomly; fur
 ```
 
 Concatenate string of variable `foo` and `bar`
-```json
+```jsonc
 { "set_string_var": "<global_val:foo><global_val:bar>", "target_var": { "global_val": "new" }, "parse_tags": true }
 ```
 
 Get the user input
-```json
+```jsonc
 {
   "id": "EOC_string_input_test",
   "type": "effect_on_condition",
@@ -3350,13 +3542,13 @@ Create a context value with condition, that you can pass down the next topic or 
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 Save the condition  `season is not winter, and it is a daytime` into `random_enc_condition` variable, then call the EoC `second_test`. Second EoC uses `random_enc_condition` to check and print message
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "test",
@@ -3392,18 +3584,18 @@ Search a specific coordinates of map around `u_`, `npc_` or `target_params` and 
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 Saves the current location into `i_am_here` variable:
-```json
+```jsonc
 { "u_location_variable": { "u_val": "i_am_here" } },
 ```
 
 Search overmap terrain `afs_crashed_escape_pod` on z-level 0, range 500 overmap tiles, search `t_metal_floor` terrain in this overmap, and save its coordinates into `new_map` variable (`target_params` uses [assign_mission_target](MISSIONS_JSON.md) syntax):
-```json
+```jsonc
 {
   "u_location_variable": { "global_val": "new_map" },
   "target_params": { "om_terrain": "afs_crashed_escape_pod", "z": 0 },
@@ -3415,7 +3607,7 @@ Search overmap terrain `afs_crashed_escape_pod` on z-level 0, range 500 overmap 
 ```
 
 Search the map, that contain `house` in it's id on a range 200-1200 overmap tiles, picks random from them, and save its coordinates  into `OM_missionspot` variable:
-```json
+```jsonc
 {
   "u_location_variable": { "global_val": "OM_missionspot" },
   "target_params": {
@@ -3429,7 +3621,7 @@ Search the map, that contain `house` in it's id on a range 200-1200 overmap tile
 ```
 
 Check the map 26 tiles around to find `fd_fire`; if fire is presented, prints it's coordinates, otherwise prints "no fire".
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_FIRE_IS_NEARBY",
@@ -3462,18 +3654,18 @@ Allow adjust location value, obtained by `u_location_variable`, and share the sa
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 Move coordinates in `location_var` value one tile to the right
-```json
+```jsonc
 { "location_variable_adjust": "location_var", "x_adjust":  1 }
 ```
 
 Move `portal_storm_center` coordinates randomly at 1 overmap tile in any direction, except Z
-```json
+```jsonc
 {
   "location_variable_adjust": { "global_val": "portal_storm_center" },
   "overmap_tile": true,
@@ -3488,17 +3680,17 @@ Opens a menu allowing the player to choose a new hair style
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 
-```json
+```jsonc
 "barber_hair"
 ```
 
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "test",
@@ -3512,16 +3704,16 @@ Opens a menu allowing the player to choose a new beard style.
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
-```json
+```jsonc
 "barber_beard"
 ```
 
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "test",
@@ -3529,7 +3721,7 @@ Opens a menu allowing the player to choose a new beard style.
 }
 ```
 
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "test",
@@ -3547,18 +3739,18 @@ Your character or the npc will learn and memorize the recipe
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 You learn a recipe of cattail_jelly
-```json
+```jsonc
 { "u_learn_recipe": "cattail_jelly" }
 ```
 
 You learn a recipe, that was passes by `recipe_id` context value
-```json
+```jsonc
 { "u_learn_recipe": { "context_val": "recipe_id" } }
 ```
 
@@ -3574,28 +3766,28 @@ Your character or the npc will forget the recipe
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 You forget the recipe `inventor_research_base_1`
-```json
+```jsonc
 { "u_forget_recipe": "inventor_research_base_1" }
 ```
 
 You forget all recipes in the `CC_XEDRA` category
-```json
+```jsonc
 { "u_forget_recipe": "CC_XEDRA", "category": true }
 ```
 
 You forget all recipes in the `CC_XEDRA_MISC` subcategory of `CC_XEDRA`
-```json
+```jsonc
 { "u_forget_recipe": "CC_XEDRA", "subcategory": "CC_XEDRA_MISC" }
 ```
 
 You forget a recipe, that was passes by `recipe_id` context value
-```json
+```jsonc
 { "u_forget_recipe": { "context_val": "recipe_id" } }
 ```
 
@@ -3609,13 +3801,13 @@ Changes the initial talk_topic of the NPC in all future dialogues.
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ❌ | ❌ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Override the initial lighthouse girl topic `TALK_lighthouse_girl_start` with `TALK_lighthouse_girl_safe`
-```json
+```jsonc
 { "npc_first_topic": "TALK_lighthouse_girl_safe" }
 ```
 
@@ -3630,13 +3822,13 @@ Your character or the NPC will be wet as if they were in the rain.
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Makes you 10% wet (whatever that means)
-```json
+```jsonc
 "effect": [ { "u_add_wet": 10 } ]
 ```
 
@@ -3655,18 +3847,18 @@ Emit a sound
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 Generate a sound `Hi there!` 15 tiles around the NPC
-```json
+```jsonc
 { "npc_make_sound": "Hi there!", "volume": 15, "type": "speech" },
 ```
 
 Generate a `a high-pitched squeal.` 60 tiles around `grass_transform`
-```json
+```jsonc
 {
   "u_make_sound": "a high-pitched squeal.",
   "target_var": { "global_val": "grass_transform" },
@@ -3676,9 +3868,31 @@ Generate a `a high-pitched squeal.` 60 tiles around `grass_transform`
 ```
 
 Would pick a random swear from `<swear>` snippet, and always would be the same (if item call this EoC, it would always have the same swear)
-```json
+```jsonc
 { "u_make_sound": "<swear>", "snippet": true, "same_snippet": true }
 ```
+
+
+#### `u_mod_healthy`, `npc_mod_healthy`
+Increases or decreases your healthiness (respond for disease immunity and regeneration).
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_mod_healthy" / "npc_mod_healthy" | **mandatory** | int, float or [variable object](#variable-object) | Amount of health to be added |
+| "cap" | optional | int, float or [variable object](#variable-object) | cap for healthiness, beyond which it can't go further | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+Your health is decreased by 1, but not smaller than -200
+```jsonc
+{ "u_mod_healthy": -1, "cap": -200 }
+```
+
 
 #### `u_add_morale`, `npc_add_morale`
 Your character or the NPC will gain a morale bonus
@@ -3695,20 +3909,20 @@ Your character or the NPC will gain a morale bonus
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Gives `morale_afs_drugs` thought with +1 mood bonus
-```json
+```jsonc
 {
   "u_add_morale": "morale_afs_drugs",
 }
 ```
 
 gives +20 mood `morale_feeling_good` bonus, that can be stacked up to +50, for 4 hours without decay start in 2 hours
-```json
+```jsonc
 {
   "u_add_morale": "morale_feeling_good",
   "bonus": 20,
@@ -3728,18 +3942,18 @@ Your character or the NPC will lose picked `morale_type`
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 removes `bad_mood` morale from you
-```json
+```jsonc
 { "u_lose_morale": "bad_mood" }
 ```
 
 removes morale type, delivered by `morale_id` 
-```json
+```jsonc
 { "u_lose_morale": { "context_val": "morale_id" } }
 ```
 
@@ -3758,13 +3972,13 @@ See examples for more info
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |   
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Consume 10 blankets. Effect allows to be consumed any item, so in this case player may have 3 `blanket`, 2 `blanket_fur`, and 5 `electric_blanket`, and effect would consume all of it
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_TEST",
@@ -3783,7 +3997,7 @@ Effect is order dependent, meaning first entry in json would be consumed first, 
 
 
 Variable `amount` is also supported. In this case amount would be also treated as the weight;  In the next example, having 10 `blanket`, 10 `blanket_fur` and 10 `electric_blanket` would be treated as covering 100% of requirement, 10 `blanket` delivering 40%, 10 `blanket_fur` delivering another 40%, and 10 `electric_blanket` delivering the last 20%
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_TEST",
@@ -3799,7 +4013,7 @@ Variable `amount` is also supported. In this case amount would be also treated a
   },
 ```
 Because of how variable amount is calculated, it is recommended to put the values with the smallest `amount` on the top;  It would prevent code overshooting, as:
-```c++
+```jsonc
  // example: we have 99 blankets and 1 blanket_fur
  // json below would result in 99 blankets and 1 blanket_fur consumed
 { "item": "blanket", "amount": 100 }, { "item": "blanket_fur", "amount": 2 }
@@ -3809,7 +4023,7 @@ Because of how variable amount is calculated, it is recommended to put the value
 ```
 
 Variables are also supported
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "EOC_TEST",
@@ -3833,18 +4047,18 @@ Can be used only in `talk_topic`, as the code relies on the NPC you talk with to
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |    
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Adds the "share public goods" rule 
-```json
+```jsonc
 { "u_set_fac_relation": "share public goods" }
 ```
 
 Removes the "kill on sight" rule
-```json
+```jsonc
 { "u_set_fac_relation": "kill on sight", "set_value_to": false }
 ```
 
@@ -3857,24 +4071,20 @@ Removes the "kill on sight" rule
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ❌ | ❌ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 adds 5 points to faction trust
-```json
+```jsonc
 { "u_add_faction_trust": 5 }
 ```
 
 adds [ your strength stat ] amount of faction trust
-```json
+```jsonc
 { "u_add_faction_trust": { "math": [ "u_val('strength')" ] } }
 ```
-
-
-#### `u_lose_faction_trust`
-same as `u_add_faction_trust`, not used in favor of `u_add_faction_trust` with negative number
 
 #### `u_message`, `npc_message`, `message`
 Display a text message in the log. `u_message` and `npc_message` display a message only if you or NPC is avatar. `message` always displays a message.
@@ -3895,9 +4105,9 @@ Display a text message in the log. `u_message` and `npc_message` display a mess
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### popup_flag
 `PF_GET_KEY` - Cancels the popup on any user input as opposed to being limited to Return, Space and Escape.
@@ -3906,22 +4116,22 @@ Display a text message in the log. `u_message` and `npc_message` display a mess
 
 ##### Examples
 Send a red-colored `Bad json! Bad!` message in the log 
-```json
+```jsonc
 { "u_message": "Bad json! Bad!", "type": "bad" }
 ```
 
 Print a snippet from `local_files_simple`, and popup it. The snippet is always the same
-```json
+```jsonc
  { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true, "store_in_lore": true }
 ```
 
 Print `uninvasive text` as a centre aligned popup at the top of the screen.
-```json
+```jsonc
  { "u_message": "uninvasive text", "popup": true, "popup_flag": "PF_ON_TOP" }
 ```
 
 Print a text with a context variable
-```json
+```jsonc
   { "u_message": "Test event with trait_id FIRE! <context_val:trait_id>", "type": "good" } 
 ```
 
@@ -3942,18 +4152,18 @@ You or NPC cast a spell. The spell uses fake spell data (ignore `energy_cost`, `
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 ##### Examples
 You cast `spell_1` spell
-```json
+```jsonc
 { "u_cast_spell": { "id": "spell_1" } }
 ```
 
 You cast a `spell_boom` spell, that can be aimed, and create message `BOOM!` in the log
-```json
+```jsonc
 {
   "u_cast_spell": { "id": "spell_boom", "message": "BOOM!" },
   "targeted": true
@@ -3961,7 +4171,7 @@ You cast a `spell_boom` spell, that can be aimed, and create message `BOOM!` in 
 ```
 
 You cast `spell_healing` spell of 1-6 level, that can hit you, with message
-```json
+```jsonc
 {
   "u_cast_spell": {
     "id": "spell_healing",
@@ -3974,7 +4184,7 @@ You cast `spell_healing` spell of 1-6 level, that can hit you, with message
 ```
 
 You cast a `this_spell_can_target_only_robots` spell; if it success, `EOC_ROBOT_IS_DEAD` is triggered, otherwise `EOC_NOT_A_ROBOT` is triggered
-```json
+```jsonc
 {
   "u_cast_spell": { "id": "this_spell_can_target_only_robots" },
   "true_eocs": [ "EOC_ROBOT_IS_DEAD" ],
@@ -3982,6 +4192,34 @@ You cast a `this_spell_can_target_only_robots` spell; if it success, `EOC_ROBOT_
 }
 ```
 
+
+#### `u_level_spell_class`, `npc_level_spell_class`
+
+Modifies the levels of all known spells of a given class.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_level_spell_class" / "npc_level_spell_class" | **mandatory** | `trait_id` | The `spell_class` that will be affected, can specifiy `"all"` instead of a class to affect all spells known by a character. |
+| "levels" | optional | int | Default value of `1` if unspecified.  The levels that will be added or removed from the affected class | 
+| "random" | optional | boolean | Dafault value of `false`.  If true, only a single spell of the specified class will be affected. |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+The avatar levels up all spells of the MAGUS class by 5 levels, and a single spell of any classes by 30 levels
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST_ARCHMAGUSIFY",
+    "global": true,
+    "effect": [ { "u_level_spell_class": "MAGUS", "levels": 5 }, { "u_level_spell_class": "all", "levels": 30, "random": true } ]
+  }
+```
 
 #### `u_assign_activity`, `npc_assign_activity`
 
@@ -3994,14 +4232,14 @@ NPC or character will start an activity
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 
 You assign activity `ACT_GAME` for 45 minutes
-```json
+```jsonc
 { "u_assign_activity": "ACT_GAME", "duration": "45 minutes" }
 ```
 
@@ -4011,14 +4249,14 @@ NPC or character will stop their current activity
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |     
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 
 You cancel activity `ACT_GAME` for 45 minutes
-```json
+```jsonc
 { "u_cancel_activity" }
 ```
 
@@ -4036,19 +4274,19 @@ You or NPC is teleported to `target_var` coordinates
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ✔️ | ✔️ |
 
 ##### Examples
 
 You teleport to `winch_teleport` coordinates
-```json
+```jsonc
 { "u_teleport": { "u_val": "winch_teleport" } }
 ```
 
 You teleport to `grass_place` with message `Yay!`; as `force` boolean is `true`, you can't fail it.
-```json
+```jsonc
 {
   "u_teleport": { "global_val": "grass_place" },
   "success_message": "Yay!",
@@ -4062,19 +4300,21 @@ Creates an explosion at talker position or at passed coordinate
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_explosion", / "npc_explosion" | **mandatory** | explosion_data | copies the `explosion` field from `"type": "ammo_effect"`, but allows to use variables; defines what type of explosion is occuring |
+| "u_explosion", / "npc_explosion" | **mandatory** | explosion_data | copies the `explosion` field from `"type": "ammo_effect"`, but allows to use variables; defines what type of explosion is occuring. |
 | "target_var" | optional | [variable object](#variable-object) | if used, explosion will occur where the variable point to | 
+| "emp_blast" | optional | bool | if used, the emp blast would appear at the center of the explosion (only at the center, no matter the size of explosion.  If you want the explosion to have an area, see examples below) | 
+| "scrambler_blast" | optional | bool | if used, the scrambler blast would appear at the center of the explosion (only at the center, no matter the size of explosion) |
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |    
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 
 You pick a tile using u_query_omt, then the explosion is caused at this position
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "TEST",
@@ -4087,6 +4327,80 @@ You pick a tile using u_query_omt, then the explosion is caused at this position
       }
     ]
   }
+```
+
+`u_map_run_eocs` runs 5 tiles around alpha talker, applying EMP effect on all the tiles
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AOE_EMP",
+    "effect": [
+      {
+        "u_map_run_eocs": [ "EOC_EMP" ],
+        "range": 5,
+        "store_coordinates_in": { "context_val": "loc" },
+        "stop_at_first": false
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EMP",
+    "effect": [ { "u_explosion": { }, "emp_blast": true, "target_var": { "context_val": "loc" } } ]
+  },
+```
+
+
+#### `u_knockback`, `npc_knockback`
+Pushes the creature on the tile in specific direction
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_knockback", / "npc_knockback" | **mandatory** | int or [variable object](#variable-object) | how strong the push will be, in tiles |
+| "stun" | optional | int or [variable object](#variable-object) | how long `stunned` effect be applied on the talker |
+| "dam_mult" | optional | int or [variable object](#variable-object) | if target hit an obstacle in the middle of the knockback, it takes a damage and additional stun duraction equal to the knockback left multiplied by this dam_mult; if knockback is 10 (10 tiles), and creature hit an obstacle in 4 tiles, the rest 6 tiles would convert in 6 damage, multiplied by dam_mult (and adds 6 second of stun) |
+| "target_var" | optional | [variable object](#variable-object) | if used, instead of alpha or beta talker position, creature at this position will be sent flying | 
+| "direction_var" | optional | [variable object](#variable-object) | if used, the push would be calculated as coming from this direction (if creature is in the center, and direction_var is from west, the creature will be knockbacked to east ). If not used, the game would roll a random direction | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+
+##### Examples
+
+Beta talker is knocked back for 7 tiles and for 20 seconds
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "TEST",
+    "effect": [ { "npc_knockback": 7, "stun": 20 } ]
+  },
+```
+
+Store npc location in n_pos, then player picks a tile, centered around n_pos, to check in which direction enemy should fly reeling. mirror_coordinates is used to transform push_direction_incorrect to push_direction_correct, that is later used in the function
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "TELEKINETIC_PUSHES_MAYBE",
+    "effect": [
+      { "set_string_var": { "mutator": "npc_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "n_pos" } },
+      {
+        "u_query_tile": "anywhere",
+        "target_var": { "context_val": "push_direction_incorrect" },
+        "center_var": { "context_val": "n_pos" },
+        "z_level": false,
+        "message": "Select where to push the monster."
+      },
+      {
+        "mirror_coordinates": { "context_val": "push_direction_correct" },
+        "center_var": { "context_val": "n_pos" },
+        "relative_var": { "context_val": "push_direction_incorrect" }
+      },
+      { "npc_knockback": 7, "stun": 10, "dam_mult": 2, "direction_var": { "context_val": "push_direction_correct" } }
+    ]
+  },
 ```
 
 #### `u_query_omt`, `npc_query_omt`
@@ -4102,14 +4416,14 @@ Opens a map, and allow you to pick an overmap tile to store in variable
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 
 You pick a `distance_limit` using `num_input`, then open map, and if allowed OM is picked, print a message with `pos`
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "TEST",
@@ -4129,7 +4443,7 @@ You pick a `distance_limit` using `num_input`, then open map, and if allowed OM 
 ```
 
 You pick a `distance_limit` using `num_input`, then open map, and if allowed OM is picked, open another map, centered around the point you just picked
-```json
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "TEST_2",
@@ -4158,21 +4472,152 @@ You pick a `distance_limit` using `num_input`, then open map, and if allowed OM 
   }
 ```
 
+### `u_query_tile`, `npc_query_tile`
+Ask the player to select a tile. If tile is selected, variable with coordinates is written in target_var;
 
-#### `u_die`, `npc_die`
-You or an NPC will instantly die.
-If the target is an item, it will be deleted.
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_query_tile", / "npc_query_tile" | **mandatory** | string | type of tile quering; possible values are:<br>- `anywhere` is the same as the "look around" UI <br>- `line_of_sight` only tiles that are visible at this moment (`range` is mandatory) |
+| "target_var" | optional | [variable object](#variable-object) | variable, where coordinate be stored; if query is cancelled, the variable is not stored, so conditoon like `{ "math": [ "has_var(_pos)" ] }` should be used to ensure variable was picked correctly | 
+| "range" | optional | int or [variable object](#variable-object) | defines the selectable range for `line_of_sight` (**mandatory** for `line_of_sight`, otherwise not required) | 
+| "z_level" | optional | bool | if `anywhere` is picked, defines if you can pick tiles on another z-levels |
+| "message" | optional | string or [variable object](#variable-object) | text, that is displayed while selecting |
+| "center_var" | optional | [variable object](#variable-object) | if used, query would be centered around this coordinates, and not from talker current position. Works only for `anywhere` type | 
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+Display coordinates of selected tile.
+```jsonc
+{ "u_query_tile": "line_of_sight", "target_var": { "context_val": "pos" }, "message": "Select point", "range": 10 },
+{
+  "if": { "math": [ "has_var(_pos)" ] },
+  "then": { "u_message": "<context_val:pos>" },
+  "else": { "u_message": "Canceled" }
+}
+```
+
+### `u_choose_adjacent_highlight`, `npc_choose_adjacent_highlight`
+Allows to pick 9 tiles in close proximity to player
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_choose_adjacent_highlight", / "npc_choose_adjacent_highlight" | **mandatory** | [variable object](#variable-object) | variable, where coordinate be stored; if query is cancelled, player picks tile that is not allowed or cancels the input, the variable is not stored, so conditoon like `{ "math": [ "has_var(_pos)" ] }` should be used to ensure variable was picked correctly |
+| "target_var" | optional | [variable object](#variable-object) | if used, the 3x3 area would be centered not around talker, but around this point. Keybinds and picking would work as usually, you could pick it using numpad | 
+| "condition" | optional | condition | can be used to filter the specific tiles from the list. If not used, all tiles are allowed. Coordinates for tiles are stored in `loc` context variable, and checked one by one before showing to the player |
+| "allow_vertical" | optional | bool | if true, allows to pick tiles 1 z-level above or below. Default false |
+| "allow_autoselect" | optional | bool | if true, and there is only one matching result, and player has `AUTOSELECT_SINGLE_VALID_TARGET` on, the game gonna pick valid object automatically instead of asking player which one (literally) should be picked |
+| "message" | optional | string or [variable object](#variable-object) | text, that is displayed while selecting |
+| "failure_message" | optional | string or [variable object](#variable-object) | if `allow_autoselect` is true, and condition returned no allowed tiles, this message is printed |
+| "false_eocs" | optional | string, [variable object](#variable-object), inline EoC, or range of all of them | if no tiles can be picked, all EoCs in this field will be run, same with failure message |
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+Allow to selects one tile around the u
+```jsonc
+      {
+        "u_choose_adjacent_highlight": { "context_val": "tile" },
+        "message": "Select a tile"
+      },
+```
+
+Allow to selects one tile with DIGGABLE flag around the u
+```jsonc
+      {
+        "u_choose_adjacent_highlight": { "context_val": "druid_temporary_spring_location" },
+        "condition": { "map_terrain_with_flag": "DIGGABLE", "loc": { "context_val": "loc" } },
+        "message": "Select natural earth",
+        "failure_message": "No natural earth nearby"
+      }
+```
+
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "BETTER_PSIONIC_THROWS",
+    "effect": [
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "u_pos" } },
+      {
+        "npc_choose_adjacent_highlight": { "context_val": "push_direction_incorrect" },
+        "target_var": { "context_val": "u_pos" },
+        "message": "Select where to push the monster."
+      },
+      {
+        "mirror_coordinates": { "context_val": "push_direction_correct" },
+        "center_var": { "context_val": "u_pos" },
+        "relative_var": { "context_val": "push_direction_incorrect" }
+      },
+      { "u_knockback": 7, "stun": 10, "dam_mult": 2, "direction_var": { "context_val": "push_direction_correct" } }
+    ]
+  },
+```
+
+#### `mirror_coordinates`
+Picks two coordinates, and create a third one in opposite direction
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "mirror_coordinates" | **mandatory** | [variable object](#variable-object) | variable, where the mirrored coordinate be stored | 
+| "center_var" | **mandatory** | [variable object](#variable-object) | variable with coordinates that would be the center between `relative_var` and `mirror_coordinates` | 
+| "relative_var" | **mandatory** | [variable object](#variable-object) | variable, that would be used to generate `mirror_coordinates` | 
 
 ##### Valid talkers:
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |
 | ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ✔️ |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 
-You and NPC both die
-```json
+You pick `first` and `center` locations and store it, then mirror them to create `second` coordinate
+```jsonc
+  {
+    "effect": [
+      {
+        "u_query_tile": "anywhere",
+        "target_var": { "context_val": "first" },
+      },
+      {
+        "u_query_tile": "anywhere",
+        "target_var": { "context_val": "center" },
+      },
+      {
+        "mirror_coordinates": { "context_val": "second" },
+        "center_var": { "context_val": "center" },
+        "relative_var": { "context_val": "first" }
+      },
+    ]
+  }
+```
+
+#### `u_die`, `npc_die`
+Alpha or beta talker will instantly die.
+If the target is an item, it will be deleted.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "remove_corpse" | optional | bool | default false; if true, the corpse and all inside of it won't be spawned on death | 
+| "supress_message" | optional | bool | default false; if true, death would omit death message | 
+| "remove_from_creature_tracker" | optional | bool | default false; if true, and talker is monster, the monster instead removed from creature tracker, resulting not only in monster disappearing without message and corpse, but also bypasses any death effect they could fire before their death | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ✔️ | ❌ |
+
+##### Examples
+
+Alpha and beta both die
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "both_are_ded",
@@ -4180,48 +4625,30 @@ You and NPC both die
 }
 ```
 
-Removes a corpse around you (corpses are handled as items)
-
-```json
+beta talker dies without a message and without a corpse
+```jsonc
   {
-    "id": "EOC_CORPSE_REMOVAL",
     "type": "effect_on_condition",
-    "effect": [
-      {
-        "if": { "message": "Select target", "u_query_tile": "around", "target_var": { "global_val": "delete_this_corpse" } },
-        "then": [
-          {
-            "u_map_run_item_eocs": "all",
-            "search_data": [ { "id": "corpse" } ],
-            "loc": { "global_val": "delete_this_corpse" },
-            "min_radius": 0,
-            "max_radius": 0,
-            "true_eocs": [ { "id": "EOC_CORPSE_REMOVAL_SUCCESS", "effect": [ "npc_die", { "u_message": "*poof*", "type": "good" } ] } ],
-            "false_eocs": [ { "id": "EOC_CORPSE_REMOVAL_FAIL", "effect": [ { "u_message": "There is no corpse there.", "type": "bad" } ] } ]
-          }
-        ],
-        "else": [ { "u_message": "Canceled" } ]
-      }
-    ]
-  }
+    "id": "ded_no_corpse",
+    "effect": [ { "npc_die": { "remove_corpse": true, "supress_message": true } } ]
+  },
 ```
-
 
 #### `u_prevent_death`, `npc_prevent_death`
 You or NPC will be prevented from death. Intended for use in EoCs has `NPC_DEATH` or `EVENT(character_dies)` type (Take care that u will be the dying npc in these events).
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 
 NPC is prevented from death.
 
 `NPC_DEATH`
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_event_NPC_DEATH_test",
@@ -4231,7 +4658,7 @@ NPC is prevented from death.
 ```
 
 `EVENT`
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_event_character_dies_test",
@@ -4254,13 +4681,13 @@ Alpha or beta talker forced to use a technique or special attack
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 you use autoattack
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_attack_test",
@@ -4269,7 +4696,7 @@ you use autoattack
 ```
 
 mutator `valid_technique` return random technique, that alpha talker can use; this technique is set into `random_attack` global variable; then you attack using this technique
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_attack_mutator",
@@ -4281,7 +4708,7 @@ mutator `valid_technique` return random technique, that alpha talker can use; th
 ```
 
 Picks random pankration technique, assign it to `pankration_random_attack`, and use it in attack
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_attack_random_tech",
@@ -4312,13 +4739,13 @@ Give item a flag
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ | ❌ |
 
 ##### Examples
 Make item filthy
-```json
+```jsonc
 { "npc_set_flag": "FILTHY" }
 ```
 
@@ -4331,13 +4758,13 @@ Remove a flag from item
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ | ❌ |
 
 ##### Examples
 Make item clean
-```json
+```jsonc
 { "npc_unset_flag": "FILTHY" }
 ```
 
@@ -4351,14 +4778,56 @@ You activate beta talker / NPC activates alpha talker. One must be a Character a
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
 Force you consume drug item
-```json
+```jsonc
 { "u_activate": "consume_drug" }
+```
+
+#### `u_set_fault`, `npc_set_fault`
+Applies a fault on item
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- | 
+| "u_set_fault" / "npc_set_fault" | **mandatory** | string or [variable object](#variable-object) | id of a fault applied |
+| "force" | optional | bool | if true, the fault is applied onto item even if item do not define it as possible fault. Default false | 
+| "message" | optional | bool | if truem the fault would print a message defined in fault `message` field. Default true | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ | ❌ |
+
+##### Examples
+Beta talker adds `fault_electronic_blown_capacitor` as it's fault
+```jsonc
+{ "npc_set_fault": "fault_electronic_blown_capacitor" }
+```
+
+#### `u_set_random_fault_of_type`, `npc_set_random_fault_of_type`
+Picks a random fault from a type, and applies it onto item
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- | 
+| "u_set_random_fault_of_type" / "npc_set_random_fault_of_type" | **mandatory** | string or [variable object](#variable-object) | type of a fault applied |
+| "force" | optional | bool | if true, the fault is applied onto item even if item do not define it as possible fault. Default false | 
+| "message" | optional | bool | if truem the fault would print a message defined in fault `message` field. Default true | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ | ❌ |
+
+##### Examples
+Beta talker adds a random fault from `shorted` type as it's fault
+```jsonc
+{ "npc_set_random_fault_of_type": "shorted" }
 ```
 
 ## Map effects
@@ -4377,7 +4846,7 @@ Spawn and place the item
 
 ##### Examples
 Spawn a plastic bottle on ground
-```json
+```jsonc
 {
   "type": "effect_on_condition",
   "id": "EOC_map_spawn_item",
@@ -4405,22 +4874,22 @@ Update the map with changes, described in `mapgen_update`
 ##### Examples
 Update the map with `map_spawn_seller` map
 
-```json
+```jsonc
 { "mapgen_update": "map_spawn_seller" }
 ```
 
 Update the map with `map_spawn_terrain`, then `map_spawn_furniture`, then `map_spawn_trap`, then `map_spawn_field`
-```json
+```jsonc
 { "mapgen_update": [ "map_spawn_terrain", "map_spawn_furniture", "map_spawn_trap", "map_spawn_field" ] }
 ```
 
 Update the `small_pond` with `map_bridge` when `as_soon_as_this_event_trigger` event occur
-```json
+```jsonc
 { "mapgen_update": "map_bridge", "om_terrain": "small_pond", "key": "as_soon_as_this_event_trigger" }
 ```
 
 Update the `robofachq_subcc_a2` in `ancilla_bar_loc` coordinates, with `nest_ancilla_bar_place_BEMs` map
-```json
+```jsonc
 {
   "mapgen_update": "nest_ancilla_bar_place_BEMs",
   "om_terrain": "robofachq_subcc_a2",
@@ -4440,7 +4909,7 @@ Usually used as `revert_location` with `"time_in_future": "infinity"`, to save m
 
 ##### Examples
 Store `vitrified_farm_ground`. When `vitrified_farm_escape_key` is called, the location is reverted
-```json
+```jsonc
 {
   "revert_location": { "global_val": "vitrified_farm_ground" },
   "time_in_future": "infinite",
@@ -4458,12 +4927,12 @@ All effects, that has this event as a `key`, would be triggered, if they did not
 
 ##### Examples
 Trigger every effect, that has `portal_dungeon` as a key
-```json
+```jsonc
 { "alter_timed_events": "portal_dungeon" }
 ```
 
 for example, if this effect would exist, and `alter_timed_events` occur, the location would be reverted 
-```json
+```jsonc
 {
   "revert_location": { "global_val": "portal_dungeon" },
   "time_in_future": "infinite",
@@ -4488,12 +4957,12 @@ Sets the ambient light of the world for some amount of time, ignoring time or su
 
 ##### Examples
 Highlight the world for 1-10 seconds
-```json
+```jsonc
 { "custom_light_level": 100, "length": [ "1 seconds", "10 seconds" ] }
 ```
 
 Darken the world for 1 day or until `who_turn_off_the_light` would be triggered
-```json
+```jsonc
 { "custom_light_level": 0, "length": "1 day", "key": "who_turn_off_the_light" }
 ```
 
@@ -4510,12 +4979,12 @@ transform the territory around you, npc or target using `ter_furn_transform`
 
 ##### Examples
 transform everything 5 tiles around player according to `merc_spike_transform`
-```json
+```jsonc
 { "u_transform_radius": 5, "ter_furn_transform": "merc_spike_transform" }
 ```
 
 transform the `door_transform` 2 tiles around player, according `detonate_the_door`, in 2-10 seconds, or if `detonator` event happens
-```json
+```jsonc
 {
   "u_transform_radius": 2,
   "ter_furn_transform": "detonate_the_door",
@@ -4535,7 +5004,7 @@ Transform terrain, furniture, fields or traps on a line between two coordinates
 
 ##### Examples
 change the terrain between `point_0` and `point_1` according to `blood_trail` ter_furn_transform
-```json
+```jsonc
 {
   "transform_line": "blood_trail",
   "first": { "global_val": "point_0" },
@@ -4554,14 +5023,14 @@ Override the current player location for some amount of time or until event woul
 
 ##### Examples
 change the name of your current location to `devilish place` to 11 minutes 6 seconds (666 seconds)
-```json
+```jsonc
 {
   "place_override": "devilish place",
   "length": 666
 }
 ```
 
-```json
+```jsonc
 {
   "place_override": "devilish place",
   "length": "666 s"
@@ -4569,7 +5038,7 @@ change the name of your current location to `devilish place` to 11 minutes 6 sec
 ```
 
 Set `place_name` to be one of five from a range randomly, then set it for `cell_time` time
-```json
+```jsonc
 {
   "set_string_var": [ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ],
   "target_var": { "global_val": "place_name" }
@@ -4597,12 +5066,14 @@ Spawn some monsters around you, NPC or `target_var`
 | "lifespan" | optional | int, duration, [variable object](#variable-object) or value between two | if used, critters would live that amount of time, and disappear in the end | 
 | "target_var" | optional | [variable object](#variable-object) | if used, the monster would spawn from this location instead of you or NPC | 
 | "temporary_drop_items" | optional | boolean | default false; if true, monsters summoned with a lifespan will still drop items and leave a corpse.
+| "mon_variables" | optional | string or [variable object](#variable-object) | if used, the monster would have this variables when spawned.
+| "summoner_is_alpha", "summoner_is_beta" | optional | bool | if used, the monster would define alpha/beta talker as it's summoner
 | "spawn_message", "spawn_message_plural" | optional | string or [variable object](#variable-object) | if you see monster or monsters that was spawned, related message would be printed | 
 | "true_eocs", "false_eocs" | optional | string, [variable object](#variable-object), inline EoC, or range of all of them | if at least 1 monster was spawned, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run | 
 
 ##### Examples
 Spawn 2-5 zombies in range 3-24 around player with lifespan 40-120 seconds, with messages if player see spawn
-```json
+```jsonc
 {
   "u_spawn_monster": "mon_zombie",
   "real_count": [ 2, 5 ],
@@ -4615,12 +5086,25 @@ Spawn 2-5 zombies in range 3-24 around player with lifespan 40-120 seconds, with
 ```
 
 Pick a random monster 50 tiles around the player, and spawn it's hallucination copy near the player
-```json
+```jsonc
 {
   "u_spawn_monster": "",
   "hallucination_count": 1,
   "target_range": 50
 }
+```
+
+spawns `mon_photokin_army_image`. assing alpha talker as it's summoner, and define variable `can_do_backflips` with value `"true"` (does nothing, presented only for learning purposes)
+```jsonc
+{
+  "u_spawn_monster": "mon_photokin_army_image",
+  "real_count": [ { "math": [ "_real_count_low" ] }, { "math": [ "_real_count_high" ] } ],
+  "summoner_is_alpha": true,
+  "mon_variables": { "can_do_backflips": "true" }, 
+  "lifespan": "15 minutes",
+  "min_radius": 1,
+  "max_radius": 8
+},
 ```
 
 #### `u_spawn_npc`, `npc_spawn_npc`
@@ -4643,7 +5127,7 @@ Spawn some NPC near you or another NPC
 
 ##### Examples
 Spawn 2 hallucination `portal_person`s, outdoor, 3-5 tiles around the player, for 1-3 minutes and with messages 
-```json
+```jsonc
 {
   "u_spawn_npc": "portal_person",
   "hallucination_count": 2,
@@ -4671,7 +5155,7 @@ spawn a field in a square around player. it is recommended to not use it in favo
 
 ##### Examples
 Spawn blood 10 tiles around the player outdoor
-```json
+```jsonc
 { "u_set_field": "fd_blood", "radius": 10, "outdoor_only": true, "intensity": 3 }
 ```
 
@@ -4686,12 +5170,12 @@ Emit a field using `type: emit`
 
 ##### Examples
 Spawn `emit_tear_gas_toad` (spawns 3 `fd_tear_gas`) with double of it's chance ( 15 * 2 = 30% chance ) around the player
-```json
+```jsonc
 { "u_emit": "emit_tear_gas_toad", "chance_mult": 2 }
 ```
 
 Does the same, but spawns it from coordinates, stored in context var `loc`
-```json
+```jsonc
 { "u_emit": "emit_tear_gas_toad", "chance_mult": 2, "target_var": { "context_val": "loc" } }
 ```
 
@@ -4704,7 +5188,7 @@ Subtract this many turns from the alpha talker's moves.
 
 ##### Examples
 
-```json
+```jsonc
 {
   "effect": [
     { "turn_cost": "1 sec" }
@@ -4712,7 +5196,7 @@ Subtract this many turns from the alpha talker's moves.
 }
 ```
 
-```json
+```jsonc
 {
   "effect": [
     { "turn_cost": 0.6 }
@@ -4722,9 +5206,10 @@ Subtract this many turns from the alpha talker's moves.
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- |
-| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
 
 #### `transform_item`
 Convert the beta talker (which must be an item) into a different item, optionally activating it. Works similarly to the "transform" use_action.
@@ -4736,7 +5221,7 @@ Convert the beta talker (which must be an item) into a different item, optionall
 
 ##### Examples
 
-```json
+```jsonc
 {
   "condition": "has_ammo",
   "effect": [
@@ -4750,9 +5235,9 @@ Convert the beta talker (which must be an item) into a different item, optionall
 
 ##### Valid talkers:
 
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- |
-| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 
 ## Mics
@@ -4769,6 +5254,7 @@ search_data is an array, that allow to filter specific items from the list. At t
 | "excluded_flags" | string, [variable object](#variable-object) or array of strings or variable objects | excludes items from the list by flags they have |
 | "material" | string, [variable object](#variable-object) or array of strings or variable objects | filter the list of items by their material |
 | "uses_energy" | boolean | filter the list of items by whether or not they use energy. `true` would pick only items that use energy, `false` would pick all items that do not use energy |
+| "is_chargeable" | boolean | filter the list of items by whether or not they are chargeable.  `true` will only return electrical items that can hold more charge.  `false` will only return electrical items that cannot hold more charge (ie, fully charged items or ups / bionic items).
 | "worn_only" | boolean | return only items you you wear (clothes) |
 | "wielded_only" | boolean | return only item you hold in your hands right now. if you hold nothing, and picking object is not manual, it return string `none` |
 | "held_only" | boolean | return both items you wear and item you hold in your hands |
@@ -4776,7 +5262,7 @@ search_data is an array, that allow to filter specific items from the list. At t
 
 Examples:
 
-```c++
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "INV_EOCS_SHOWCASE",
@@ -4804,6 +5290,7 @@ Examples:
           { "wielded_only": true },
           { "held_only": true },
           { "uses_energy": true },
+          { "is_chargeable": true },
           { "condition": { "math": [ "rand(1)" ] } }, // since 0 for conditions is evaluated as "false", this would randomly discard ~half of items from picked
           { "condition": { "math": [ "n_calories() >= 200" ] } }, // can check beta talker for it's specific properties via math
           { "condition": { "and": [ { "math": [ "n_calories() >= 200" ] }, { "math": [ "n_calories() <= 500" ] } ] } }, // and even as range!
@@ -4817,9 +5304,9 @@ Examples:
   ```
 
 Combination of values work as `and`, no matter how they are arranged. This two notation work exactly the same, and will return item you wield if it has `weapon` type:
-```json
+```jsonc
 "search_data": [ { "category": "weapons" }, { "wielded_only": true } ]
 ```
-```json
+```jsonc
 "search_data": [ { "category": "weapons", "wielded_only": true } ]
 ```

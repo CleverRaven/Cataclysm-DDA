@@ -1,16 +1,30 @@
+#include <memory>
+#include <string>
+#include <vector>
+
+#include "body_part_set.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
-#include "character_modifier.h"
-#include "damage.h"
+#include "coordinates.h"
 #include "flag.h"
 #include "item.h"
 #include "itype.h"
 #include "magic_enchantment.h"
+#include "map.h"
 #include "map_helpers.h"
-#include "mutation.h"
+#include "npc.h"
+#include "npc_opinion.h"
 #include "options_helpers.h"
+#include "pimpl.h"
 #include "player_helpers.h"
+#include "type_id.h"
+#include "units.h"
+#include "weather.h"
+#include "weather_gen.h"
+#include "weather_type.h"
 
 static const bodypart_str_id body_part_test_arm_l( "test_arm_l" );
 static const bodypart_str_id body_part_test_arm_r( "test_arm_r" );
@@ -112,7 +126,7 @@ TEST_CASE( "limb_conditional_flags", "[character][encumbrance][limb]" )
 
     // Encumber the left wing above its enc limit, disabling all flags
     dude.wear_item( wing_cover_left, false );
-    REQUIRE( dude.get_part_encumbrance_data( body_part_test_bird_wing_l ).encumbrance >= 15 );
+    REQUIRE( dude.get_part_encumbrance( body_part_test_bird_wing_l ) >= 15 );
     CHECK( !dude.has_bodypart_with_flag( json_flag_WALL_CLING ) );
     CHECK( dude.count_flag( json_flag_WALL_CLING ) == 0 );
 

@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "2storyModern02_basement",
-    "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
       "fill_ter": "t_thconc_floor",
@@ -21,11 +20,11 @@
         "^^^^^^^^^^^|_h__|b__R|^^",
         "^^^^^^^^^^^|rrrv||_RR|^^",
         "^^|||||||||||||||<_|||^^",
-        "^^|UUU  ? = ZW|%||_|w|^^",
-        "^^|           |____+_|^^",
-        "^^|N          +__%%|w|^^",
-        "^^|N          ||||||||^^",
-        "^^|   ~~ zz   |^^^^^^^^^",
+        "^^|UUU..?.=.ZW|%||_|w|^^",
+        "^^|...........|____+_|^^",
+        "^^|N..........+__%%|w|^^",
+        "^^|N..........||||||||^^",
+        "^^|...~~ zz...|^^^^^^^^^",
         "^^|qqq~~gzzmmm|^^^^^^^^^",
         "^^|||||||||||||^^^^^^^^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^",
@@ -67,7 +66,6 @@
   {
     "type": "mapgen",
     "om_terrain": "2storyModern02_1",
-    "method": "json",
     "object": {
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
       "fill_ter": "t_floor_waxed",
@@ -91,7 +89,7 @@
         ".o  h           <||t9##.",
         ".o       A A  #o######,.",
         ".#y    6 JJJ  o```````,.",
-        ".## aa 6      ¶``G````-.",
+        ".## aa é      ¶``G````-.",
         "..######F25O1##``KK``$,.",
         "..%%%%%##ooo##,`GKKG`$,.",
         "....[..%%%%%%%,,,,,,,,,.",
@@ -113,7 +111,6 @@
   {
     "type": "mapgen",
     "om_terrain": "2storyModern02_2",
-    "method": "json",
     "object": {
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom" ],
       "fill_ter": "t_floor_waxed",
@@ -151,7 +148,6 @@
   {
     "type": "mapgen",
     "om_terrain": "2storyModern02_roof",
-    "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
       "fill_ter": "t_shingle_flat_roof",

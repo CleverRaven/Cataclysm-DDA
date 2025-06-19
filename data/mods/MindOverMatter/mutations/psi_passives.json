@@ -32,18 +32,37 @@
       {
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "values": [
-          { "value": "HUNGER", "multiply": { "math": [ "(-0.03 - (0.00075 * u_spell_level_sum('school': 'BIOKINETIC')))" ] } },
+          {
+            "value": "HUNGER",
+            "multiply": {
+              "math": [
+                "(-0.03 - (0.00075 * u_spell_level_sum('school': 'BIOKINETIC'))) * (u_effect_intensity('effect_nether_attunement_biokinetic_inversion') > 0 ? -1 : 1)"
+              ]
+            }
+          },
           {
             "value": "THIRST",
-            "multiply": { "math": [ "(-0.03 - (0.00075 * u_spell_level_sum('school': 'BIOKINETIC')))" ] }
+            "multiply": {
+              "math": [
+                "(-0.03 - (0.00075 * u_spell_level_sum('school': 'BIOKINETIC'))) * (u_effect_intensity('effect_nether_attunement_biokinetic_inversion') > 0 ? -1 : 1)"
+              ]
+            }
           },
           {
             "value": "METABOLISM",
-            "multiply": { "math": [ "(-0.03 - (0.00075 * u_spell_level_sum('school': 'BIOKINETIC')))" ] }
+            "multiply": {
+              "math": [
+                "(-0.03 - (0.00075 * u_spell_level_sum('school': 'BIOKINETIC'))) * (u_effect_intensity('effect_nether_attunement_biokinetic_inversion') > 0 ? -1 : 1)"
+              ]
+            }
           },
           {
             "value": "VITAMIN_ABSORB_MOD",
-            "multiply": { "math": [ "(0.03 + (0.00075 * u_spell_level_sum('school': 'BIOKINETIC')))" ] }
+            "multiply": {
+              "math": [
+                "(0.03 + (0.00075 * u_spell_level_sum('school': 'BIOKINETIC'))) * (u_effect_intensity('effect_nether_attunement_biokinetic_inversion') > 0 ? -1 : 1)"
+              ]
+            }
           }
         ]
       }
@@ -54,8 +73,7 @@
     "id": "CLAIR_SENSES",
     "name": { "str": "Psionic Senses" },
     "points": 0,
-    "description": "Your powers enhance your mundane senses and allow you to detect creatures from beyond.",
-    "flags": [ "ENHANCED_VISION", "WATCH" ],
+    "description": "Your powers protect you from some sensory disruption and allow you to detect creatures from beyond.",
     "player_display": true,
     "valid": false,
     "purifiable": false,
@@ -75,6 +93,10 @@
             "descriptions": [ { "id": "nether_creature_sense", "symbol": "?", "color": "c_pink", "text": "You sense an otherworldy danger here." } ]
           }
         ]
+      },
+      {
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "ench_effects": [ { "effect": "effect_clair_passive_sense_protection", "intensity": 1 } ]
       }
     ]
   },

@@ -1602,7 +1602,7 @@
     "copy-from": "zombie_decay_bone_human_skull",
     "extend": {
       "entries": [
-        { "drop": "steel_chunk", "type": "flesh", "mass_ratio": 0.075 },
+        { "drop": "budget_steel_chunk", "type": "flesh", "mass_ratio": 0.075 },
         { "drop": "scrap", "type": "flesh", "mass_ratio": 0.025 }
       ]
     }
@@ -1615,7 +1615,7 @@
     "extend": {
       "entries": [
         { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.175 },
-        { "drop": "steel_chunk", "type": "flesh", "mass_ratio": 0.075 },
+        { "drop": "budget_steel_chunk", "type": "flesh", "mass_ratio": 0.075 },
         { "drop": "scrap", "type": "flesh", "mass_ratio": 0.025 }
       ]
     }
@@ -2084,6 +2084,31 @@
     ]
   },
   {
+    "id": "nether_huntsman",
+    "type": "harvest",
+    "entries": [
+      { "drop": "demihuman_flesh", "type": "flesh", "mass_ratio": 0.15 },
+      { "drop": "demihuman_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "demihuman_blood", "type": "blood", "mass_ratio": 0.05 },
+      { "drop": "demihuman_stomach", "base_num": [ 2, 2 ], "scale_num": [ 1, 1 ], "max": 2, "type": "offal" },
+      { "drop": "demihuman_fat", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "demihuman_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "demihuman_heart", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "demihuman_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "demihuman_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "demihuman_sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "demihuman_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "bone_demihuman", "type": "bone", "mass_ratio": 0.12 },
+      { "drop": "demihuman_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
+      { "drop": "nether_huntsman_armorpiece_small", "type": "skin", "mass_ratio": 0.05 },
+      { "drop": "nether_huntsman_armorpiece_big", "type": "skin", "mass_ratio": 0.05 },
+      { "drop": "nether_huntsman_organ", "base_num": [ 1, 1 ], "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "nether_huntsman_spike", "type": "skin", "mass_ratio": 0.1 },
+      { "drop": "raw_demihumanleather", "type": "skin", "mass_ratio": 0.005 }
+    ]
+  },
+  {
     "id": "fungaloid",
     "type": "harvest",
     "message": "<fungaloid_harvest>",
@@ -2098,7 +2123,6 @@
     "type": "harvest",
     "message": "You laboriously hack and dig through the remains of the fungal mass.",
     "entries": [
-      { "drop": "veggy", "base_num": [ 6, 10 ], "scale_num": [ 0.6, 0.8 ], "max": 20, "type": "flesh" },
       { "drop": "veggy_tainted", "base_num": [ 16, 25 ], "scale_num": [ 0.6, 0.8 ], "max": 50, "type": "flesh" },
       { "drop": "plant_sac", "base_num": [ 3, 6 ], "scale_num": [ 0.7, 0.9 ], "max": 10, "type": "offal" },
       { "drop": "stick_fiber", "base_num": [ 4, 8 ], "scale_num": [ 0.5, 0.7 ], "max": 10, "type": "bone" }

@@ -34,13 +34,19 @@
     "type": "jmath_function",
     "id": "xedra_chronomancer_formula_get_level",
     "num_args": 1,
-    "return": "( sqrt( ( 2 / 375 ) * _0 + 0.25 )  ) - 0.5"
+    "return": "_0 / 1"
   },
   {
     "type": "jmath_function",
     "id": "xedra_chronomancer_formula_exp_for_level",
     "num_args": 1,
-    "return": "375 * 0.5 * _0 * (_0 + 1)"
+    "return": "1 * _0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xedra_chronomancer_formula_exp_per_cast",
+    "num_args": 1,
+    "return": "0 * _0"
   },
   {
     "type": "jmath_function",
@@ -59,6 +65,67 @@
     "id": "xedra_dream_casting_xp_formula",
     "num_args": 0,
     "return": "100"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_spring_failure_chance",
+    "num_args": 0,
+    "return": "global_what_is_the_season == 3 ? max(xe_fey_seasonal_magick_spring_failure_chance_actual(), 0.05) : xe_fey_seasonal_magick_spring_failure_chance_actual()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_spring_failure_chance_actual",
+    "//": "This and below separations are necessary to keep the 'You cannot go below 5% chance to fail in the opposite season' logic",
+    "num_args": 0,
+    "return": "(0.15 + (global_what_is_the_season == 2 ? 0.15 : 0 ) + (global_what_is_the_season == 3 ? 0.35 : 0 ) + (global_what_is_the_season == 4 ? 0.15 : 0 ) + (u_spell_difficulty(_spell_id) * 0.09 ) + xe_fey_magick_mana_penalty() ) - ( (u_skill('deduction') * 0.06) + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.04) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_summer_failure_chance",
+    "num_args": 0,
+    "return": "global_what_is_the_season == 4 ? max(xe_fey_seasonal_magick_summer_failure_chance_actual(), 0.05) : xe_fey_seasonal_magick_summer_failure_chance_actual()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_summer_failure_chance_actual",
+    "num_args": 0,
+    "return": "(0.15 + (global_what_is_the_season == 1 ? 0.15 : 0 ) + (global_what_is_the_season == 3 ? 0.15 : 0 ) + (global_what_is_the_season == 4 ? 0.35 : 0 ) + (u_spell_difficulty(_spell_id) * 0.09 ) + xe_fey_magick_mana_penalty() ) - ( (u_skill('deduction') * 0.06) + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 0.04) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_autumn_failure_chance",
+    "num_args": 0,
+    "return": "global_what_is_the_season == 1 ? max(xe_fey_seasonal_magick_autumn_failure_chance_actual(), 0.05) : xe_fey_seasonal_magick_autumn_failure_chance_actual()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_autumn_failure_chance_actual",
+    "num_args": 0,
+    "return": "(0.15 + (global_what_is_the_season == 1 ? 0.35 : 0 ) + (global_what_is_the_season == 2 ? 0.15 : 0 ) + (global_what_is_the_season == 4 ? 0.15 : 0 ) + (u_spell_difficulty(_spell_id) * 0.09 ) + xe_fey_magick_mana_penalty() ) - ( (u_skill('deduction') * 0.06) + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.04) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_winter_failure_chance",
+    "num_args": 0,
+    "return": "global_what_is_the_season == 2 ? max(xe_fey_seasonal_magick_winter_failure_chance_actual(), 0.05) : xe_fey_seasonal_magick_winter_failure_chance_actual()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_winter_failure_chance_actual",
+    "num_args": 0,
+    "return": "(0.15 + (global_what_is_the_season == 1 ? 0.15 : 0 ) + (global_what_is_the_season == 2 ? 0.35 : 0 ) + (global_what_is_the_season == 3 ? 0.15 : 0 ) + (u_spell_difficulty(_spell_id) * 0.09 ) + xe_fey_magick_mana_penalty() ) - ( (u_skill('deduction') * 0.06) + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.04) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_magick_mana_penalty",
+    "num_args": 0,
+    "return": "u_val('mana') < (u_val('mana_max') / 2) ? xe_fey_magick_mana_penalty_secondary() : 0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_magick_mana_penalty_secondary",
+    "num_args": 0,
+    "return": "(1 - ( u_val('mana') / u_val('mana_max') ) - 0.2) / 1.5"
   },
   {
     "type": "jmath_function",
@@ -128,35 +195,35 @@
   },
   {
     "type": "jmath_function",
-    "id": "paraclesian_homullus_total_mutations",
-    "//": "Yes, this is horrible, but there's apparently no way to check the total number of mutations in a category otherwise.",
-    "num_args": 1,
-    "return": "_0 + u_has_trait('HOMULLUS_DURABILITY_MULT_1') + u_has_trait('HOMULLUS_DURABILITY_MULT_2') + u_has_trait('HOMULLUS_SKIN_1') + u_has_trait('HOMULLUS_SKIN_2') + u_has_trait('HOMULLUS_SKIN_3') + u_has_trait('HOMULLUS_EYES') + u_has_trait('HOMULLUS_BETTER_AT_LYING') + u_has_trait('HOMULLUS_DREAMWALKER') + u_has_trait('HOMULLUS_CHARM_FERALS') + u_has_trait('HOMULLUS_SUMMON_FERALS') + u_has_trait('HOMULLUS_SELF_DECEPTION') + u_has_trait('HOMULLUS_INVISIBLE_TO_HUMANS') + u_has_trait('HOMULLUS_REDUCED_VISIBILITY_ALLY') + u_has_trait('HOMULLUS_RESTORE_POWER') + u_has_trait('HOMULLUS_ADD_LEARNING_FOCUS') + u_has_trait('HOMULLUS_CULTIVATE_GOBLIN_FRUIT') + u_has_trait('NO_TRACE_YET_I_WISH') + u_has_trait('HOMULLUS_BACKSTAGE') + u_has_trait('HOMULLUS_CBM_INSTALL') + u_has_trait('HOMULLUS_CBM_MANA_1') + u_has_trait('HOMULLUS_CBM_MANA_2') + u_has_trait('HOMULLUS_PASSIVE_BIONIC_POWER') + u_has_trait('HOMULLUS_ARMOR_MULT_1') + u_has_trait('HOMULLUS_ARMOR_MULT_2') + u_has_trait('HOMULLUS_GAIN_BIONIC_POWER') + u_has_trait('HOMULLUS_GAIN_BIONIC_POWER_AND_MANA') + u_has_trait('HOMULLUS_CITY_STRIDER') + u_has_trait('HOMULLUS_THE_HUNTER') + u_has_trait('HOMULLUS_EAT_DEMIHUMANS') + u_has_trait('HOMULLUS_TEMPERATURE_TOLERANCE') + u_has_trait('HOMULLUS_CRAFTING_BONUS_1') + u_has_trait('HOMULLUS_CRAFTING_BONUS_2') + u_has_trait('HOMULLUS_CRAFTING_BONUS_3') + u_has_trait('HOMULLUS_GAIN_INTEGRATED_TOOLS') + u_has_trait('HOMULLUS_GAIN_INTEGRATED_HACKER') + u_has_trait('HOMULLUS_EXPANDED_MUTATIONS') + u_has_trait('HOMULLUS_THE_HUNTER2') + u_has_trait('HOMULLUS_DOLL_FORM') + u_has_trait('SOCIAL1') + u_has_trait('SOCIAL2') + u_has_trait('PRETTY') + u_has_trait('BEAUTIFUL') + u_has_trait('BEAUTIFUL2') + u_has_trait('BEAUTIFUL3') + u_has_trait('STR_UP') + u_has_trait('STR_UP_2') + u_has_trait('STR_ALPHA') + u_has_trait('DEX_UP')+ u_has_trait('DEX_UP_2') + u_has_trait('DEX_ALPHA') + u_has_trait('INT_UP') + u_has_trait('INT_UP_2') + u_has_trait('INT_ALPHA') + u_has_trait('PER_UP') + u_has_trait('PER_UP_2') + u_has_trait('PER_ALPHA')"
+    "id": "vampire_total_tier_one_traits",
+    "num_args": 0,
+    "return": "u_has_trait('EYEGLEAM') + u_has_trait('BLOOD_FUN') + u_has_trait('STAMINAFORBLOOD') + u_has_trait('COMMUNE_NIGHT') + u_has_trait('VAMPIRIC_STRENGTH') + u_has_trait('VAMPIRIC_RESILIENCE') + u_has_trait('VAMPIRE_HEIGHTENED_SENSES') + u_has_trait('VAMPIRE_HEALTH_BONUS') +u_has_trait('VAMPIRE_SENSE_CHILDREN_OF_THE_NIGHT') + u_has_trait('VAMPIRE_SILENT_MOVE') + u_has_trait('DHAMPIR_REDUCED_COLD_TEMPS')"
   },
   {
     "type": "jmath_function",
-    "id": "vampire_total_tier_one_traits",
+    "id": "vampire_total_tier_one_traits_plus_potency",
+    "//": "This is the statement that should be used in power scaling calculations, to make sure that Apex Vampire's Potency is properly accounted for without blocking the gaining of additional powers",
     "num_args": 0,
-    "return": "u_has_trait('EYEGLEAM') + u_has_trait('BLOOD_FUN') + u_has_trait('STAMINAFORBLOOD') + u_has_trait('COMMUNE_NIGHT') + u_has_trait('VAMPIRIC_STRENGTH') + u_has_trait('VAMPIRIC_RESILIENCE') + u_has_trait('VAMPIRE_HEIGHTENED_SENSES') + u_has_trait('VAMPIRE_SILENT_MOVE')"
+    "return": "vampire_total_tier_one_traits() + (u_effect_intensity('effect_player_anathema_potency_boost'))"
   },
   {
     "type": "jmath_function",
     "id": "vampire_total_tier_two_traits",
     "num_args": 0,
-    "return": "u_has_trait('BLOODHEAL') + u_has_trait('COAGULANTWEAVE') + u_has_trait('VAMPIRIC_DODGE') + u_has_trait('VAMPIRE_FEAR_GAZE') + u_has_trait('VAMPIRE_WALK_ON_WALLS') + u_has_trait('VAMPIRE_BEAST_CLAWS') + u_has_trait('VAMPIRE_SEE_HEAT')"
+    "return": "u_has_trait('BLOODHEAL') + u_has_trait('COAGULANTWEAVE') + u_has_trait('VAMPIRIC_DODGE') + u_has_trait('VAMPIRE_FEAR_GAZE') + u_has_trait('VAMPIRE_WALK_ON_WALLS') + u_has_trait('VAMPIRE_BEAST_CLAWS') + u_has_trait('VAMPIRIC_STEALTH_BONUS') + u_has_trait('VAMPIRE_SEE_HEAT')  + u_has_trait('EYEGLEAM_UPGRADE') + u_has_trait('VAMPIRE_SEE_THROUGH_NIGHT_EYES') + u_has_trait('BLOOD_FUN_UPGRADE') + u_has_trait('VAMPIRE_SILENT_MOVE_UPGRADE') + u_has_trait('DHAMPIR_FANGS') + u_has_trait('DHAMPIR_SLOWFALL') + u_has_trait('DHAMPIR_RESIST_DISEASE_POISON_INFECTION')"
   },
   {
     "type": "jmath_function",
     "id": "vampire_total_tier_three_traits",
     "num_args": 0,
-    "return": "u_has_trait('BLOODHASTE') + u_has_trait('HYPNOTIC_GAZE') + u_has_trait('MAGICFORBLOOD') + u_has_trait('BLOODBANK') + u_has_trait('VAMPIRE_COMMAND_BEAST') + u_has_trait('VAMPIRE_EARTH_SLUMBER')"
+    "return": "u_has_trait('BLOODHASTE') + u_has_trait('HYPNOTIC_GAZE') + u_has_trait('MAGICFORBLOOD') + u_has_trait('BLOODBANK') + u_has_trait('VAMPIRE_COMMAND_BEAST') + u_has_trait('VAMPIRE_EARTH_SLUMBER') + u_has_trait('VAMPIRE_CARDIO_BONUS') + u_has_trait('VAMPIRE_MOTION_ALARM') + u_has_trait('VAMPIRE_BONUS_HP') + u_has_trait('VAMPIRE_STORE_MORE_BLOOD') + u_has_trait('VAMPIRE_INSTANT_BLEED') + u_has_trait('VAMPIRE_BIG_STOMACH') + u_has_trait('VAMPIRE_DETECT_VAMPIRES') + u_has_trait('DHAMPIR_REDUCED_PAIN') + u_has_trait('DHAMPIR_MEND_WOUNDS_FASTER')"
   },
   {
     "type": "jmath_function",
     "id": "vampire_total_tier_four_traits",
     "//": "This is where all new added tier four traits should be placed",
     "num_args": 0,
-    "return": "u_has_trait('TRUE_VAMPIRE_POWER') + u_has_trait('VAMPIRE_TORPOR') + u_has_trait('VAMPIRE_DOMINATE') + u_has_trait('VAMPIRE_NO_BREATHE') + u_has_trait('VAMPIRE_NO_ILLNESS') + u_has_trait('VAMPIRE_BAT_FORM') + u_has_trait('VAMPIRE_WOLF_FORM') + u_has_trait('VAMPIRE_MIST_FORM')"
+    "return": "u_has_trait('TRUE_VAMPIRE_POWER') + u_has_trait('VAMPIRE_TORPOR') + u_has_trait('VAMPIRE_DOMINATE') + u_has_trait('VAMPIRE_NO_BREATHE') + u_has_trait('VAMPIRE_NO_ILLNESS') + u_has_trait('VAMPIRE_BAT_FORM') + u_has_trait('VAMPIRE_WOLF_FORM') + u_has_trait('VAMPIRE_MIST_FORM') + u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') + u_has_trait('VAMPIRE_INVISIBLE_IN_DARK') + u_has_trait('VAMPIRE_NO_ILLNESS_UPGRADE') + u_has_trait('VAMPIRE_FORM_UPGRADE') + u_has_trait('VAMPIRE_BLOOD_FOR_POTENCY')"
   },
   {
     "type": "jmath_function",
@@ -170,7 +237,27 @@
     "id": "vampire_total_tier_five_traits",
     "//": "This is where all newly-added tier five traits should be placed",
     "num_args": 0,
-    "return": "u_has_trait('VAMPIRE_MASTER_MORTAL_MIND') + u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') + u_has_trait('VAMPIRE_SHADOW_FORM') + u_has_trait('VAMPIRE_LAST_BREATH_MIST') + u_has_trait('VAMPIRE_IRON_MIND') + u_has_trait('VAMPIRE_BLIND_THE_SUN')"
+    "return": "u_has_trait('VAMPIRE_MASTER_MORTAL_MIND') + u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') + u_has_trait('VAMPIRE_SHADOW_FORM') + u_has_trait('VAMPIRE_LAST_BREATH_MIST') + u_has_trait('VAMPIRE_IRON_MIND') + u_has_trait('VAMPIRE_BLIND_THE_SUN') + u_has_trait('VAMPIRE_HEAL_IN_DARK') + u_has_trait('VAMPIRE_DRINK_VAMPIRE_BLOOD') + u_has_trait('VAMPIRE_GAIN_BLOOD_GIFTS') + u_has_trait('VAMPIRE_LAST_BREATH_MIST_UPGRADE') + u_has_trait('VAMPIRE_MASTER_MORTAL_MIND_UPGRADE')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "vampire_total_tier_five_traits_plus_cauldron",
+    "//": "This is the statement that should be used in power scaling calculations, to make sure that Boiling Crimson Cauldron is properly accounted for without blocking the gaining of additional powers",
+    "num_args": 0,
+    "return": "vampire_total_tier_five_traits() + (u_has_trait('VAMPIRE_BLOOD_FOR_POTENCY_REAL') * 10)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "vampire_anathema_pre_threshold_traits",
+    "//": "This is where all newly-added pre-threshold anathema traits should be placed",
+    "num_args": 0,
+    "return": "u_has_trait('VAMPIRE_STORE_MORE_BLOOD') + u_has_trait('EYEGLEAM_UPGRADE') + u_has_trait('VAMPIRE_INSTANT_BLEED') + u_has_trait('VAMPIRE_DETECT_VAMPIRES') + u_has_trait('VAMPIRE_BIG_STOMACH') + u_has_trait('VAMPIRE_SEE_THROUGH_NIGHT_EYES') + u_has_trait('BLOOD_FUN_UPGRADE') + u_has_trait('VAMPIRE_SILENT_MOVE_UPGRADE')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "dhampir_total_weaknesses",
+    "num_args": 0,
+    "return": "u_has_trait('DHAMPIR_WEAKNESS_SUN_SENSITIVITY') + u_has_trait('DHAMPIR_WEAKNESS_SLOW_HEALING') + u_has_trait('DHAMPIR_WEAKNESS_ANIMAL_DISCORD') + u_has_trait('DHAMPIR_WEAKNESS_WATER_PAIN') + u_has_trait('DHAMPIR_WEAKNESS_CORPSELIKE_PALLOR') + u_has_trait('DHAMPIR_WEAKNESS_BLOODTHIRST') + u_has_trait('DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN') + u_has_trait('DHAMPIR_WEAKNESS_OVERWHELMING_ARROGANCE')"
   },
   {
     "type": "jmath_function",

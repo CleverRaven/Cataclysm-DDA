@@ -314,7 +314,13 @@
         }
       }
     },
-    "river_scale": 1.0,
+    "overmap_river_settings": {
+      "river_scale": 1.0,
+      "river_frequency": 1.2,
+      "river_branch_chance": 48.0,
+      "river_branch_remerge_chance": 2.0,
+      "river_branch_scale_decrease": 1.0
+    },
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
@@ -515,12 +521,7 @@
             "clear_types": false,
             "types": { "t_trunk": 1, "f_boulder_small": 2, "f_boulder_medium": 1 }
           },
-          "water": {
-            "sequence": 3,
-            "chance": 2,
-            "clear_types": false,
-            "types": { "t_swater_sh": 6, "t_swater_dp": 1, "t_water_murky": 12 }
-          }
+          "water": { "sequence": 3, "chance": 2, "clear_types": false, "types": { "t_water_sh": 6, "t_water_dp": 1, "t_water_murky": 12 } }
         },
         "clear_terrain_furniture": false,
         "terrain_furniture": { "t_water_murky": { "chance": 2, "clear_furniture": false, "furniture": { "f_region_water_plant": 1 } } }
@@ -613,8 +614,6 @@
         "chance": 20,
         "extras": {
           "mx_pond": 240,
-          "mx_pond_swamp": 240,
-          "mx_pond_swamp_2": 240,
           "mx_spider": 200,
           "mx_clay_deposit": 140,
           "mx_knotweed_patch": 140,
@@ -808,6 +807,7 @@
         "house_29": 50,
         "house_30": 50,
         "house_31": 50,
+        "basement_hidden_lab_entrance": 50,
         "house_32": 50,
         "house_33": 50,
         "house_34": 50,
@@ -951,7 +951,7 @@
         "craft_shop_1": 200,
         "craft_shop_2": 200,
         "craft_shop_3": 200,
-        "s_gas": 500,
+        "Gas Station": 500,
         "s_gas_1": 500,
         "s_pharm": 300,
         "s_pharm_1": 300,
@@ -970,16 +970,8 @@
         "gym_fitness": 200,
         "gym_fitness_1": 200,
         "s_liquor": 500,
-        "s_gun": 200,
-        "s_gun_looted": 200,
-        "s_gun_1": 200,
-        "s_gun_2": 200,
-        "s_gun_3": 200,
-        "s_gun_3_looted": 200,
-        "s_gun_4": 200,
-        "s_gun_4_looted": 200,
-        "s_gunstore": 200,
-        "s_gunstore_looted": 200,
+        "s_gun_a": 1600,
+        "s_gun_b": 400,
         "s_clothes": 450,
         "s_clothes_1": 200,
         "s_clothes_2": 200,

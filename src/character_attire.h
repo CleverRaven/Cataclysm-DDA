@@ -38,9 +38,6 @@ class player_morale;
 struct bodygraph_info;
 struct damage_unit;
 
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
-
 struct item_penalties {
     std::vector<bodypart_id> body_parts_with_stacking_penalty;
     std::vector<bodypart_id> body_parts_with_out_of_order_penalty;
@@ -102,7 +99,7 @@ class outfit
         // will someone get shocked by zapback
         bool hands_conductive() const;
         bool can_pickVolume( const item &it, bool ignore_pkt_settings = true,
-                             bool is_pick_up_inv = false ) const;
+                             bool ignore_non_container_pocket = false ) const;
         side is_wearing_shoes( const bodypart_id &bp ) const;
         bool is_barefoot() const;
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
@@ -184,6 +181,10 @@ class outfit
         void add_dependent_item( std::list<item *> &dependent, const item &it );
         std::list<item> remove_worn_items_with( const std::function<bool( item & )> &filter,
                                                 Character &guy );
+        // takeoff item from character
+        // return true mean takeoff item successfully
+        // Due to eoc event character_takeoff_item trigger here, item that be takeoff successfully may be deleted by eoc.
+        // If the above situation does not happen, when res is not empty, the removed item will be put into res, otherwise it will be put into guy.
         bool takeoff( item_location loc, std::list<item> *res, Character &guy );
         std::list<item> use_amount(
             const itype_id &it, int quantity, std::list<item> &used,

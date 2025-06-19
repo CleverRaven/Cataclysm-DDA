@@ -24,11 +24,7 @@
         "min_radius": 2,
         "max_radius": 10
       },
-      {
-        "u_add_effect": "warpcloak",
-        "intensity": 1,
-        "duration": { "global_val": "var", "var_name": "invistime", "default": "3 s" }
-      },
+      { "u_add_effect": "warpcloak", "intensity": 1, "duration": { "global_val": "invistime", "default": "3 s" } },
       {
         "u_run_npc_eocs": [
           {
@@ -85,6 +81,7 @@
       },
       { "u_teleport": { "global_val": "OM_HQ_origin" }, "force": true },
       { "u_remove_item_with": "warphome" },
+      { "u_remove_item_with": "warp_healing_salve" },
       { "math": [ "raidstotal++" ] },
       { "u_lose_trait": "awayfromhome" },
       { "u_lose_effect": [ "warpsickness", "warpdisintegration" ] },
@@ -115,10 +112,7 @@
         "u_message": "You've returned home safely using a designated exit point.  You have earned <global_val:owed_material_tokens> material tokens for your success.",
         "popup": true
       },
-      {
-        "u_spawn_item": "warptoken_material",
-        "count": { "global_val": "var", "var_name": "owed_material_tokens", "default": 50 }
-      }
+      { "u_spawn_item": "warptoken_material", "count": { "global_val": "owed_material_tokens", "default": 50 } }
     ]
   },
   {
@@ -164,6 +158,8 @@
       { "remove_active_mission": "MISSION_BONUS_KILL_BOSS_GROUP" },
       { "remove_active_mission": "MISSION_BONUS_KILL_MIGO" },
       { "remove_active_mission": "MISSION_BONUS_KILL_MIGO_ELITE" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_BOSS_MULTI" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_BOSS_HORDE" },
       { "finish_mission": "MISSION_BONUS_SLAUGHTER_ZED1", "success": false },
       { "finish_mission": "MISSION_BONUS_SLAUGHTER_ZED2", "success": false },
       { "finish_mission": "MISSION_BONUS_SLAUGHTER_ZED3", "success": false },
@@ -357,7 +353,7 @@
       { "math": [ "u_vitamin('instability') = 0" ] },
       { "math": [ "u_pain() = 0" ] },
       { "math": [ "u_val('rad') = 0" ] },
-      { "u_add_effect": "cureall", "duration": "1 s", "intensity": 1 },
+      { "math": [ "u_val('pkill') = 0" ] },
       { "u_add_effect": "panacea", "duration": "30 s", "intensity": 1 },
       {
         "u_lose_effect": [
@@ -376,9 +372,33 @@
           "fetid_goop",
           "sap",
           "nausea",
-          "bleed"
+          "bleed",
+          "fungus",
+          "dermatik",
+          "bloodworms",
+          "paincysts",
+          "brainworms",
+          "tapeworm",
+          "blind",
+          "poison",
+          "venom_dmg",
+          "venom_weaken",
+          "stung",
+          "badpoison",
+          "foodpoison",
+          "paralyzepoison",
+          "tetanus",
+          "rat_bite_fever",
+          "infected",
+          "asthma",
+          "common_cold",
+          "flu",
+          "pre_flu",
+          "pre_common_cold",
+          "VITRIFYING"
         ]
       },
+      { "alter_timed_events": "vitrified_farm_escape_key" },
       {
         "run_eocs": [ "EOC_FIX_MAGICLYSM_PROBLEMS", "EOC_FIX_MIND_OVER_MATTER_PROBLEMS", "EOC_FIX_XEDRA_EVOLVED_PROBLEMS" ]
       }
@@ -422,7 +442,6 @@
     "type": "effect_on_condition",
     "id": "scenario_warp_begins",
     "//": "This EOC is triggered when the Warper scenario begins.  It initializes a few variables, and memorizes your spawn location for resurrection just in case you somehow die before using the warp obelisk.  Also learns your spell for emergencies.",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       {
         "u_message": "Welcome to Sky Islands.\n\nSpeak to the Heart of the Island to get your bearings, accept missions, manage upgrades, change your difficulty settings, and more.",
@@ -701,7 +720,7 @@
       { "math": [ "totalstarts = 1 + basementsunlocked + roofsunlocked + labsunlocked" ] },
       { "math": [ "totalexits = 1 + bonusexits" ] },
       {
-        "u_message": "Island Rank: <global_val:islandrank_readable> of 2\nExpedition Lengths: <global_val:longerraids> of 2\nExpedition Starts: <global_val:totalstarts> of 5\nBonus Pulses: <global_val:bonuspulses> of 4\nTarget reveal distance: <global_val:scoutingdistancetargets> of 10\nLanding reveal distance: <global_val:scoutingdistancelanding> of 24\nWarpcloak duration in seconds: <global_val:invistime> of 120\nSlaughter missions unlocked: <global_val:slaughterunlocked> of 1\nExits per expedition: <global_val:totalexits> of 3\nMissions per expedition: <global_val:bonusmissions> of 3\nMission tiers unlocked: <global_val:hardmissions_readable> of 3",
+        "u_message": "Island Rank: <global_val:islandrank_readable> of 2\nExpedition Lengths: <global_val:longerraids> of 2\nExpedition Starts: <global_val:totalstarts> of 4\nBonus Pulses: <global_val:bonuspulses> of 4\nTarget reveal distance: <global_val:scoutingdistancetargets> of 10\nLanding reveal distance: <global_val:scoutingdistancelanding> of 24\nWarpcloak duration in seconds: <global_val:invistime> of 120\nSlaughter missions unlocked: <global_val:slaughterunlocked> of 1\nExits per expedition: <global_val:totalexits> of 3\nMissions per expedition: <global_val:bonusmissions> of 3\nMission tiers unlocked: <global_val:hardmissions_readable> of 3",
         "popup": true
       }
     ]
@@ -797,7 +816,7 @@
               { "math": [ "owed_material_tokens = 50 * raidswon" ] },
               {
                 "u_spawn_item": "warptoken_material",
-                "count": { "global_val": "var", "var_name": "owed_material_tokens", "default": 50 }
+                "count": { "global_val": "owed_material_tokens", "default": 50 }
               },
               {
                 "u_message": "You have been retroactively awarded <global_val:owed_material_tokens> material tokens for your past successful expeditions.",
@@ -940,38 +959,32 @@
     "id": "EOC_WARPED_POND_CREATION",
     "effect": [
       {
-        "if": {
-          "u_query_tile": "around",
-          "target_var": { "global_val": "warped_pond_location" },
-          "message": "Select nearby water source"
+        "u_choose_adjacent_highlight": { "context_val": "warped_pond_location" },
+        "condition": {
+          "or": [
+            { "map_terrain_with_flag": "LIQUID", "loc": { "context_val": "loc" } },
+            { "map_terrain_id": "t_wooden_well", "loc": { "context_val": "loc" } },
+            { "map_terrain_id": "t_water_pump", "loc": { "context_val": "loc" } }
+          ]
         },
+        "message": "Select nearby water source"
+      },
+      {
+        "if": { "math": [ "has_var(_warped_pond_location)" ] },
         "then": {
-          "if": {
-            "or": [
-              { "map_terrain_with_flag": "LIQUID", "loc": { "global_val": "warped_pond_location" } },
-              { "map_terrain_id": "t_wooden_well", "loc": { "global_val": "warped_pond_location" } },
-              { "map_terrain_id": "t_water_pump", "loc": { "global_val": "warped_pond_location" } }
-            ]
-          },
-          "then": {
-            "run_eoc_selector": [
-              "EOC_WARPED_POND_CREATION_NW",
-              "EOC_WARPED_POND_CREATION_NE",
-              "EOC_WARPED_POND_CREATION_SW",
-              "EOC_WARPED_POND_CREATION_SE"
-            ],
-            "names": [ "Northwest", "Northeast", "Southwest", "Southeast" ],
-            "title": "Choose the location for a pond",
-            "descriptions": [
-              "Place a pond in the northwest.",
-              "Place a pond in the northeast.",
-              "Place a pond in the southwest.",
-              "Place a pond in the southeast."
-            ]
-          },
-          "else": [
-            { "u_spawn_item": "warptoken", "count": 30, "suppress_message": true },
-            { "u_message": "Canceled.", "type": "neutral" }
+          "run_eoc_selector": [
+            "EOC_WARPED_POND_CREATION_NW",
+            "EOC_WARPED_POND_CREATION_NE",
+            "EOC_WARPED_POND_CREATION_SW",
+            "EOC_WARPED_POND_CREATION_SE"
+          ],
+          "names": [ "Northwest", "Northeast", "Southwest", "Southeast" ],
+          "title": "Choose the location for a pond",
+          "descriptions": [
+            "Place a pond in the northwest.",
+            "Place a pond in the northeast.",
+            "Place a pond in the southwest.",
+            "Place a pond in the southeast."
           ]
         },
         "else": [

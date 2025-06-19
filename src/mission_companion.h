@@ -2,25 +2,26 @@
 #ifndef CATA_SRC_MISSION_COMPANION_H
 #define CATA_SRC_MISSION_COMPANION_H
 
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
+#include <set>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "mapgendata.h"
 #include "memory_fast.h"
-#include "point.h"
 #include "type_id.h"
 
+class JsonOut;
+class JsonValue;
 class item;
 class monster;
 class npc;
 class npc_template;
 struct comp_rank;
+template <typename E> struct enum_traits;
 
 using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;
@@ -224,7 +225,7 @@ npc_ptr temp_npc( const string_id<npc_template> &type );
 //Utility functions
 /// Returns npcs that have the given companion mission.
 comp_list companion_list( const npc &p, const mission_id &miss_id, bool contains = false );
-comp_list companion_list( const tripoint &omt_pos, const std::string &role_id,
+comp_list companion_list( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                           const mission_id &miss_id, bool contains = false );
 comp_list companion_sort( comp_list available,
                           const std::map<skill_id, int> &required_skills = {} );

@@ -23,7 +23,34 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "whitelist_hobbies": false,
+    "hobbies": [
+      "knack_flexibility",
+      "knack_adrenaline",
+      "knack_clair_better_senses",
+      "knack_clair_danger_sense",
+      "knack_clair_astral_projection",
+      "knack_electrokinetic_pain_immune",
+      "knack_electrokinetic_hacking_interface",
+      "knack_photokinetic_camouflage",
+      "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_call_flames",
+      "knack_pyrokinetic_cloak",
+      "knack_telekinetic_push",
+      "knack_telekinetic_slam_down",
+      "knack_telekinetic_wave",
+      "knack_telepathic_shield",
+      "knack_telepathic_mind_sense",
+      "knack_telepathic_morale",
+      "knack_telepathic_mesmerize",
+      "knack_telepathic_animal_mind_control",
+      "knack_telepathic_invisibility",
+      "knack_vita_health_power",
+      "knack_vita_concentrated_healing",
+      "knack_vita_remove_poison",
+      "knack_vita_cure_disease"
+    ]
   },
   {
     "type": "profession",
@@ -69,7 +96,34 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
-    }
+    },
+    "whitelist_hobbies": false,
+    "hobbies": [
+      "knack_flexibility",
+      "knack_adrenaline",
+      "knack_clair_better_senses",
+      "knack_clair_danger_sense",
+      "knack_clair_astral_projection",
+      "knack_electrokinetic_pain_immune",
+      "knack_electrokinetic_hacking_interface",
+      "knack_photokinetic_camouflage",
+      "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_call_flames",
+      "knack_pyrokinetic_cloak",
+      "knack_telekinetic_push",
+      "knack_telekinetic_slam_down",
+      "knack_telekinetic_wave",
+      "knack_telepathic_shield",
+      "knack_telepathic_mind_sense",
+      "knack_telepathic_morale",
+      "knack_telepathic_mesmerize",
+      "knack_telepathic_animal_mind_control",
+      "knack_telepathic_invisibility",
+      "knack_vita_health_power",
+      "knack_vita_concentrated_healing",
+      "knack_vita_remove_poison",
+      "knack_vita_cure_disease"
+    ]
   },
   {
     "type": "profession",
@@ -112,7 +166,34 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "whitelist_hobbies": false,
+    "hobbies": [
+      "knack_flexibility",
+      "knack_adrenaline",
+      "knack_clair_better_senses",
+      "knack_clair_danger_sense",
+      "knack_clair_astral_projection",
+      "knack_electrokinetic_pain_immune",
+      "knack_electrokinetic_hacking_interface",
+      "knack_photokinetic_camouflage",
+      "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_call_flames",
+      "knack_pyrokinetic_cloak",
+      "knack_telekinetic_push",
+      "knack_telekinetic_slam_down",
+      "knack_telekinetic_wave",
+      "knack_telepathic_shield",
+      "knack_telepathic_mind_sense",
+      "knack_telepathic_morale",
+      "knack_telepathic_mesmerize",
+      "knack_telepathic_animal_mind_control",
+      "knack_telepathic_invisibility",
+      "knack_vita_health_power",
+      "knack_vita_concentrated_healing",
+      "knack_vita_remove_poison",
+      "knack_vita_cure_disease"
+    ]
   },
   {
     "type": "profession",
@@ -163,7 +244,34 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "whitelist_hobbies": false,
+    "hobbies": [
+      "knack_flexibility",
+      "knack_adrenaline",
+      "knack_clair_better_senses",
+      "knack_clair_danger_sense",
+      "knack_clair_astral_projection",
+      "knack_electrokinetic_pain_immune",
+      "knack_electrokinetic_hacking_interface",
+      "knack_photokinetic_camouflage",
+      "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_call_flames",
+      "knack_pyrokinetic_cloak",
+      "knack_telekinetic_push",
+      "knack_telekinetic_slam_down",
+      "knack_telekinetic_wave",
+      "knack_telepathic_shield",
+      "knack_telepathic_mind_sense",
+      "knack_telepathic_morale",
+      "knack_telepathic_mesmerize",
+      "knack_telepathic_animal_mind_control",
+      "knack_telepathic_invisibility",
+      "knack_vita_health_power",
+      "knack_vita_concentrated_healing",
+      "knack_vita_remove_poison",
+      "knack_vita_cure_disease"
+    ]
   },
   {
     "type": "profession",
@@ -203,7 +311,34 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "whitelist_hobbies": false,
+    "hobbies": [
+      "knack_flexibility",
+      "knack_adrenaline",
+      "knack_clair_better_senses",
+      "knack_clair_danger_sense",
+      "knack_clair_astral_projection",
+      "knack_electrokinetic_pain_immune",
+      "knack_electrokinetic_hacking_interface",
+      "knack_photokinetic_camouflage",
+      "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_call_flames",
+      "knack_pyrokinetic_cloak",
+      "knack_telekinetic_push",
+      "knack_telekinetic_slam_down",
+      "knack_telekinetic_wave",
+      "knack_telepathic_shield",
+      "knack_telepathic_mind_sense",
+      "knack_telepathic_morale",
+      "knack_telepathic_mesmerize",
+      "knack_telepathic_animal_mind_control",
+      "knack_telepathic_invisibility",
+      "knack_vita_health_power",
+      "knack_vita_concentrated_healing",
+      "knack_vita_remove_poison",
+      "knack_vita_cure_disease"
+    ]
   },
   {
     "type": "profession",
@@ -235,7 +370,34 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "whitelist_hobbies": false,
+    "hobbies": [
+      "knack_flexibility",
+      "knack_adrenaline",
+      "knack_clair_better_senses",
+      "knack_clair_danger_sense",
+      "knack_clair_astral_projection",
+      "knack_electrokinetic_pain_immune",
+      "knack_electrokinetic_hacking_interface",
+      "knack_photokinetic_camouflage",
+      "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_call_flames",
+      "knack_pyrokinetic_cloak",
+      "knack_telekinetic_push",
+      "knack_telekinetic_slam_down",
+      "knack_telekinetic_wave",
+      "knack_telepathic_shield",
+      "knack_telepathic_mind_sense",
+      "knack_telepathic_morale",
+      "knack_telepathic_mesmerize",
+      "knack_telepathic_animal_mind_control",
+      "knack_telepathic_invisibility",
+      "knack_vita_health_power",
+      "knack_vita_concentrated_healing",
+      "knack_vita_remove_poison",
+      "knack_vita_cure_disease"
+    ]
   },
   {
     "type": "profession",
@@ -302,7 +464,34 @@
       },
       "male": { "entries": [ { "item": "boxer_briefs" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "whitelist_hobbies": false,
+    "hobbies": [
+      "knack_flexibility",
+      "knack_adrenaline",
+      "knack_clair_better_senses",
+      "knack_clair_danger_sense",
+      "knack_clair_astral_projection",
+      "knack_electrokinetic_pain_immune",
+      "knack_electrokinetic_hacking_interface",
+      "knack_photokinetic_camouflage",
+      "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_call_flames",
+      "knack_pyrokinetic_cloak",
+      "knack_telekinetic_push",
+      "knack_telekinetic_slam_down",
+      "knack_telekinetic_wave",
+      "knack_telepathic_shield",
+      "knack_telepathic_mind_sense",
+      "knack_telepathic_morale",
+      "knack_telepathic_mesmerize",
+      "knack_telepathic_animal_mind_control",
+      "knack_telepathic_invisibility",
+      "knack_vita_health_power",
+      "knack_vita_concentrated_healing",
+      "knack_vita_remove_poison",
+      "knack_vita_cure_disease"
+    ]
   },
   {
     "type": "profession",
@@ -344,7 +533,34 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "whitelist_hobbies": false,
+    "hobbies": [
+      "knack_flexibility",
+      "knack_adrenaline",
+      "knack_clair_better_senses",
+      "knack_clair_danger_sense",
+      "knack_clair_astral_projection",
+      "knack_electrokinetic_pain_immune",
+      "knack_electrokinetic_hacking_interface",
+      "knack_photokinetic_camouflage",
+      "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_call_flames",
+      "knack_pyrokinetic_cloak",
+      "knack_telekinetic_push",
+      "knack_telekinetic_slam_down",
+      "knack_telekinetic_wave",
+      "knack_telepathic_shield",
+      "knack_telepathic_mind_sense",
+      "knack_telepathic_morale",
+      "knack_telepathic_mesmerize",
+      "knack_telepathic_animal_mind_control",
+      "knack_telepathic_invisibility",
+      "knack_vita_health_power",
+      "knack_vita_concentrated_healing",
+      "knack_vita_remove_poison",
+      "knack_vita_cure_disease"
+    ]
   },
   {
     "type": "profession",
@@ -364,6 +580,7 @@
     "spells": [
       { "id": "teleport_blink", "level": 7 },
       { "id": "teleport_slow", "level": 10 },
+      { "id": "teleport_item_apport", "level": 7 },
       { "id": "teleport_displacement", "level": 5 },
       { "id": "teleport_stride", "level": 8 },
       { "id": "teleport_phase", "level": 11 },
@@ -377,11 +594,10 @@
       "practice_teleport_stride",
       "practice_teleport_farstep"
     ],
-    "proficiencies": [ "prof_concentration_basic", "prof_contemplation_teleportation" ],
+    "proficiencies": [ "prof_concentration_basic", "prof_concentration_intermediate", "prof_contemplation_teleportation" ],
     "items": {
       "both": {
         "entries": [
-          { "item": "wristwatch" },
           { "item": "itzcuauhtli_pants" },
           { "item": "itzcuauhtli_tunic" },
           { "item": "socks" },
@@ -389,6 +605,7 @@
           { "item": "itzcuauhtli_cape" },
           { "item": "itzcuauhtli_hat" },
           { "item": "itzcuauhtli_holster" },
+          { "item": "itzcuauhtli_wrist_computer", "charges": [ 7000, 10000 ] },
           { "item": "matrix_crystal_teleportation" },
           { "item": "mom_fusion_pistol" },
           { "item": "mom_fusion_mag", "ammo-item": "mom_fusion_ammo", "charges": 40 }
@@ -397,6 +614,33 @@
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
+    "whitelist_hobbies": false,
+    "hobbies": [
+      "knack_flexibility",
+      "knack_adrenaline",
+      "knack_clair_better_senses",
+      "knack_clair_danger_sense",
+      "knack_clair_astral_projection",
+      "knack_electrokinetic_pain_immune",
+      "knack_electrokinetic_hacking_interface",
+      "knack_photokinetic_camouflage",
+      "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_call_flames",
+      "knack_pyrokinetic_cloak",
+      "knack_telekinetic_push",
+      "knack_telekinetic_slam_down",
+      "knack_telekinetic_wave",
+      "knack_telepathic_shield",
+      "knack_telepathic_mind_sense",
+      "knack_telepathic_morale",
+      "knack_telepathic_mesmerize",
+      "knack_telepathic_animal_mind_control",
+      "knack_telepathic_invisibility",
+      "knack_vita_health_power",
+      "knack_vita_concentrated_healing",
+      "knack_vita_remove_poison",
+      "knack_vita_cure_disease"
+    ],
     "flags": [ "SCEN_ONLY" ]
   },
   {
@@ -434,7 +678,34 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "whitelist_hobbies": false,
+    "hobbies": [
+      "knack_flexibility",
+      "knack_adrenaline",
+      "knack_clair_better_senses",
+      "knack_clair_danger_sense",
+      "knack_clair_astral_projection",
+      "knack_electrokinetic_pain_immune",
+      "knack_electrokinetic_hacking_interface",
+      "knack_photokinetic_camouflage",
+      "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_call_flames",
+      "knack_pyrokinetic_cloak",
+      "knack_telekinetic_push",
+      "knack_telekinetic_slam_down",
+      "knack_telekinetic_wave",
+      "knack_telepathic_shield",
+      "knack_telepathic_mind_sense",
+      "knack_telepathic_morale",
+      "knack_telepathic_mesmerize",
+      "knack_telepathic_animal_mind_control",
+      "knack_telepathic_invisibility",
+      "knack_vita_health_power",
+      "knack_vita_concentrated_healing",
+      "knack_vita_remove_poison",
+      "knack_vita_cure_disease"
+    ]
   },
   {
     "type": "profession",

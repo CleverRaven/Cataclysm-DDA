@@ -1,14 +1,22 @@
+#include <cmath>
 #include <cstddef>
+#include <optional>
 #include <sstream>
 #include <string>
+#include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "coordinates.h"
 #include "creature.h"
-#include "game_constants.h"
 #include "item.h"
+#include "item_location.h"
 #include "map_helpers.h"
-#include "monattack.h"
+#include "map_scale_constants.h"
+#include "math_parser_diag_value.h"
+#include "messages.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
@@ -347,8 +355,8 @@ static void check_damage_from_test_fire( const std::string &mon_id, int expected
         REQUIRE( mon.get_armor_type( damage_test_fire, bodypart_str_id::NULL_ID() ) == expected_resist );
         REQUIRE( mon.is_immune_damage( damage_test_fire ) == is_immune );
         REQUIRE( mon.get_hp() == mon.get_hp_max() );
-        REQUIRE( dude.get_value( "general_dmg_type_test_test_fire" ).empty() );
-        REQUIRE( mon.get_value( "general_dmg_type_test_test_fire" ).empty() );
+        REQUIRE( !dude.maybe_get_value( "general_dmg_type_test_test_fire" ) );
+        REQUIRE( !mon.maybe_get_value( "general_dmg_type_test_test_fire" ) );
         dude.set_wielded_item( item( itype_test_fire_sword ) );
         dude.melee_attack( mon, false );
         if( mon.get_hp() < mon.get_hp_max() ) {
@@ -374,22 +382,21 @@ static void check_eocs_from_test_fire( const std::string &mon_id )
     monster &mon = spawn_test_monster( mon_id, dude.pos_bub() + tripoint::east );
     REQUIRE( mon.pos_bub() == dude.pos_bub() + tripoint::east );
     REQUIRE( mon.get_hp() == mon.get_hp_max() );
-    REQUIRE( dude.get_value( "general_dmg_type_test_test_fire" ).empty() );
-    REQUIRE( mon.get_value( "general_dmg_type_test_test_fire" ).empty() );
+    REQUIRE( !dude.maybe_get_value( "general_dmg_type_test_test_fire" ) );
+    REQUIRE( !mon.maybe_get_value( "general_dmg_type_test_test_fire" ) );
     item firesword( itype_test_fire_sword );
     dude.set_wielded_item( firesword );
     for( int i = 0; i < 1000; ++i ) {
-        if( dude.melee_attack( mon, false ) && !dude.get_value( "test_bp" ).empty() ) {
+        if( dude.melee_attack( mon, false ) && dude.maybe_get_value( "test_bp" ) ) {
             break;
         }
     }
-    CHECK( !dude.get_value( "test_bp" ).empty() );
+    CHECK( dude.maybe_get_value( "test_bp" ) );
     if( mon.get_value( "general_dmg_type_test_test_fire" ) == "target" ) {
         REQUIRE( dude.get_value( "general_dmg_type_test_test_fire" ) == "source" );
     }
 
-    eoc_total_dmg = std::round( std::stod(
-                                    dude.get_value( "test_damage_taken" ) ) );
+    eoc_total_dmg = std::round( dude.get_value( "test_damage_taken" ).dbl() );
 
     Messages::clear_messages();
     CHECK( eoc_total_dmg == firesword.damage_melee( damage_test_fire ) );
@@ -413,8 +420,8 @@ static void check_damage_from_test_fire( const std::vector<itype_id> &armor_item
         REQUIRE( dude2.get_armor_type( damage_test_fire, checked_bp ) == expected_resist );
         REQUIRE( dude2.is_immune_damage( damage_test_fire ) == is_immune );
         REQUIRE( dude2.get_hp() == dude2.get_hp_max() );
-        REQUIRE( dude.get_value( "general_dmg_type_test_test_fire" ).empty() );
-        REQUIRE( dude2.get_value( "general_dmg_type_test_test_fire" ).empty() );
+        REQUIRE( !dude.maybe_get_value( "general_dmg_type_test_test_fire" ) );
+        REQUIRE( !dude2.maybe_get_value( "general_dmg_type_test_test_fire" ) );
         dude.set_wielded_item( item( itype_test_fire_sword ) );
         dude.melee_attack( dude2, false );
         if( dude2.get_hp() < dude2.get_hp_max() ) {

@@ -109,7 +109,7 @@
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
     "armor": { "electric": 1 }
   },
@@ -143,7 +143,7 @@
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
     "armor": { "bash": 10000 }
   },
@@ -542,5 +542,21 @@
       }
     ],
     "delete": { "weakpoint_sets": [ "wps_animal_quadruped" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_test_climb_nobash",
+    "name": { "str_sp": "climbing, non bashing monster" },
+    "description": "climbing, non bashing monster",
+    "default_faction": "zombie",
+    "material": [ "flesh" ],
+    "symbol": "S",
+    "volume": "81500 ml",
+    "weight": "81500 g",
+    "hp": 100,
+    "speed": 100,
+    "move_skills": { "climb": 8 },
+    "flags": [ "SEES", "HEARS", "SMELLS" ],
+    "upgrades": { "half_life": 0, "into_group": "test_upgrades_multi", "multiple_spawns": true, "spawn_range": 5 }
   }
 ]

@@ -161,7 +161,27 @@
     "type": "item_group",
     "subtype": "distribution",
     "copy-from": "homebooks",
-    "extend": { "entries": [ { "item": "manual_deduction", "prob": 1 }, { "item": "mag_deduction", "prob": 10 } ] }
+    "extend": {
+      "entries": [
+        { "item": "manual_deduction", "prob": 1 },
+        { "item": "mag_deduction", "prob": 10 },
+        { "item": "mag_deduction_tabloid", "prob": 40 }
+      ]
+    }
+  },
+  {
+    "id": "book_mag_gen",
+    "type": "item_group",
+    "subtype": "distribution",
+    "copy-from": "book_mag_gen",
+    "extend": { "entries": [ { "item": "mag_deduction_tabloid", "prob": 40 } ] }
+  },
+  {
+    "id": "newspaper",
+    "type": "item_group",
+    "subtype": "distribution",
+    "copy-from": "newspaper",
+    "extend": { "entries": [ { "item": "mag_deduction_tabloid", "prob": 40 } ] }
   },
   {
     "id": "religious_books",
@@ -263,6 +283,19 @@
       { "item": "banner_angry_darkness", "prob": 20 },
       { "item": "banner_starry_wisdom", "prob": 20 },
       { "item": "banner_thunderous_rush", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bannerlord_armor",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mt_chainmail_arms", "prob": 45 },
+      { "item": "mt_chainmail_hood", "prob": 45 },
+      { "item": "mt_chainmail_hands", "prob": 45 },
+      { "item": "mt_chainmail_legs", "prob": 45 },
+      { "item": "mt_chainmail_vest", "prob": 45 },
+      { "item": "mt_chainmail_feet", "prob": 45 }
     ]
   },
   {
@@ -456,6 +489,7 @@
       { "item": "spellbook_hedge_doctor_book", "prob": 3 },
       { "item": "spellbook_hedge_blood_book", "prob": 2 },
       { "item": "spellbook_hedge_ward_dreams", "prob": 3 },
+      { "item": "spellbook_hedge_psychic_defense", "prob": 3 },
       { "item": "spellbook_hedge_snare_changelings", "prob": 1 },
       { "item": "spellbook_hedge_bathhouse_midnight", "prob": 1 },
       { "item": "spellbook_hedge_abramelin_the_mage", "prob": 1 }

@@ -2,30 +2,31 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
+#include <cstdint>
 #include <cstdlib>
-#include <initializer_list>
 #include <iterator>
 #include <map>
+#include <optional>
 #include <string>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
-#include "character_id.h"
+#include "cata_utility.h"
+#include "coordinates.h"
+#include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
-#include "enums.h"
-#include "field_type.h"
 #include "flood_fill.h"
-#include "game_constants.h"
-#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapdata.h"
+#include "map_scale_constants.h"
 #include "mapgen.h"
 #include "mapgendata.h"
 #include "mapgenformat.h"
+#include "math_defines.h"
 #include "omdata.h"
 #include "overmap.h"
 #include "point.h"
@@ -35,7 +36,8 @@
 #include "trap.h"
 #include "vehicle_group.h"
 #include "weighted_list.h"
-#include "creature_tracker.h"
+
+class Creature;
 
 static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
 static const oter_str_id oter_river_c_not_se( "river_c_not_se" );
@@ -71,8 +73,6 @@ static const ter_str_id ter_t_water_moving_sh( "t_water_moving_sh" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const vspawn_id VehicleSpawn_default_subway_deadend( "default_subway_deadend" );
-
-class npc_template;
 
 tripoint_bub_ms rotate_point( const tripoint_bub_ms &p, int rotations )
 {
@@ -333,7 +333,7 @@ void mapgen_subway( mapgendata &dat )
     switch( num_dirs ) {
         case 4:
             // 4-way intersection
-            mapf::formatted_set_simple( m, point::zero,
+            mapf::formatted_set_simple( m, point_bub_ms::zero,
                                         "..^/D^^/D^....^D/^^D/^..\n"
                                         ".^/DX^/DX......XD/^XD/^.\n"
                                         "^/D^X/D^X......X^D/X^D/^\n"
@@ -375,7 +375,7 @@ void mapgen_subway( mapgendata &dat )
             break;
         case 3:
             // tee
-            mapf::formatted_set_simple( m, point::zero,
+            mapf::formatted_set_simple( m, point_bub_ms::zero,
                                         "..^/D^^/D^...^/D^^/D^...\n"
                                         ".^/D^^/D^...^/D^^/D^....\n"
                                         "^/D^^/D^...^/D^^/D^.....\n"
@@ -422,7 +422,7 @@ void mapgen_subway( mapgendata &dat )
         case 2:
             // straight or diagonal
             if( diag ) { // diagonal subway get drawn differently from all other types
-                mapf::formatted_set_simple( m, point::zero,
+                mapf::formatted_set_simple( m, point_bub_ms::zero,
                                             "...^DD^^DD^...^DD^^DD^..\n"
                                             "....^DD^^DD^...^DD^^DD^.\n"
                                             ".....^DD^^DD^...^DD^^DD^\n"
@@ -458,7 +458,7 @@ void mapgen_subway( mapgendata &dat )
                                                     furn_str_id::NULL_ID(),
                                                     furn_str_id::NULL_ID() ) );
             } else { // normal subway drawing
-                mapf::formatted_set_simple( m, point::zero,
+                mapf::formatted_set_simple( m, point_bub_ms::zero,
                                             "...^X^^^X^....^X^^^X^...\n"
                                             "...-x---x-....-x---x-...\n"
                                             "...^X^^^X^....^X^^^X^...\n"
@@ -501,7 +501,7 @@ void mapgen_subway( mapgendata &dat )
             break;
         case 1:
             // dead end
-            mapf::formatted_set_simple( m, point::zero,
+            mapf::formatted_set_simple( m, point_bub_ms::zero,
                                         "...^X^^^X^..../D^^/D^...\n"
                                         "...-x---x-.../DX^/DX^...\n"
                                         "...^X^^^X^../D^X/D^X^...\n"
@@ -2066,8 +2066,14 @@ void mapgen_ravine_edge( mapgendata &dat )
     if( dat.zlevel() == 0 ) {
         dat.fill_groundcover();
     } else {
-        run_mapgen_func( dat.region.default_oter[ OVERMAP_DEPTH + dat.zlevel() ].id()->get_mapgen_id(),
-                         dat );
+        const std::optional<ter_str_id> uniform_ter = dat.region.default_oter[ OVERMAP_DEPTH +
+                              dat.zlevel() ].id()->get_uniform_terrain();
+        if( uniform_ter ) {
+            m->draw_fill_background( *uniform_ter );
+        } else {
+            run_mapgen_func( dat.region.default_oter[ OVERMAP_DEPTH + dat.zlevel() ].id()->get_mapgen_id(),
+                             dat );
+        }
     }
 
     const auto is_ravine = [&]( const oter_id & id ) {

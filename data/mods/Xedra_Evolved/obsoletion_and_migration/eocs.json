@@ -6,5 +6,98 @@
     "required_event": "game_load",
     "condition": { "not": { "u_has_trait": "LILIN_TRAITS" } },
     "effect": [ { "u_lose_effect": "effect_lilin_no_ruach" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_CHANGELINGS_THEIR_DREAMSPARKS_OBS",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "CHANGELING_SEASONAL_MAGIC_SPRING",
+            "CHANGELING_SEASONAL_MAGIC_SUMMER",
+            "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+            "CHANGELING_SEASONAL_MAGIC_WINTER"
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_trait": [
+              "CHANGELING_DREAMSPARK_STORAGE_10",
+              "CHANGELING_DREAMSPARK_STORAGE_20",
+              "CHANGELING_DREAMSPARK_STORAGE_30",
+              "CHANGELING_DREAMSPARK_STORAGE_40",
+              "CHANGELING_DREAMSPARK_STORAGE_50"
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "CHANGELING_DREAMSPARK_STORAGE_10" },
+      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] },
+      { "math": [ "u_maximum_dreamdross_storage_value = 10" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_WIND_BLOWS_MUTATION_DIVIDER",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "u_has_trait": "WIND_BLOWS_WILLOW_BENDS" },
+    "effect": [
+      {
+        "if": { "u_has_trait": "ARVORE" },
+        "then": [
+          { "math": [ "u_migration_spell_level", "=", "u_spell_level('paraclesian_spell_dodge_bonus')" ] },
+          { "u_lose_trait": "WIND_BLOWS_WILLOW_BENDS" },
+          { "u_add_trait": "WIND_BLOWS_WILLOW_BENDS_ARVORE" },
+          { "math": [ "paraclesian_spell_dodge_bonus_arvore", "=", "u_migration_spell_level" ] }
+        ],
+        "else": [
+          { "math": [ "u_migration_spell_level", "=", "u_spell_level('paraclesian_spell_dodge_bonus')" ] },
+          { "u_lose_trait": "WIND_BLOWS_WILLOW_BENDS" },
+          { "u_add_trait": "WIND_BLOWS_WILLOW_BENDS_SYLPH" },
+          { "math": [ "paraclesian_spell_dodge_bonus_sylph", "=", "u_migration_spell_level" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_COMMUNE_WITH_NIGHT_UPDATE_GAME_BEGIN",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "u_has_trait": "COMMUNE_NIGHT" },
+    "effect": [ { "math": [ "u_spell_level('vampire_commune_with_night_spell') = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BLOOD_UPDATE_GAME_BEGIN",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "math": [ "u_vampire_blood_scale_updated != 1" ] },
+    "effect": [
+      {
+        "if": {
+          "and": [
+            { "or": [ { "u_has_any_trait": [ "VAMPIRE", "DHAMPIR_TRAIT" ] }, { "u_has_effect": "vampire_virus" } ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') <= 0" ] }
+          ]
+        },
+        "then": { "math": [ "u_vitamin('human_blood_vitamin') = 500" ] }
+      },
+      { "math": [ "u_vampire_blood_scale_updated = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_POWER_TRAIT_UPDATE_GAME_BEGIN",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "or": [ { "u_has_any_trait": [ "VAMPIRE", "DHAMPIR_TRAIT" ] }, { "u_has_effect": "vampire_virus" } ] },
+    "effect": [ { "u_add_trait": "VAMPIRE_BLOOD_ARTS" } ]
   }
 ]

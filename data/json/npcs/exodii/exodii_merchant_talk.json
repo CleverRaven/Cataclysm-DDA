@@ -1,11 +1,10 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "rubik_farthing",
     "name": { "str": "shiny farthing" },
     "description": "A small, shiny brass coin with a picture of a stern-looking older man on one side and the words 'For all of Angland and her children' in an arc beneath him.  On the other side is a large number '1' wreathed in what appear to be nettle leaves.",
     "weight": "2 g",
-    "to_hit": -1,
     "color": "yellow",
     "symbol": ".",
     "flags": [ "COIN_SHAPED" ],
@@ -273,6 +272,7 @@
       "//~": "It's a bit of a surprise, isn't it?  Before we came here, we were in a place about 600 years earlier in time, or so.  We landed in the middle of a war that turned wrong when the dead started joining back in.  Truth be told, not a very unusual situation.  The Enemy makes us fight.  By and by, we came in, and by then the killing fields were ready for us to harvest their bronze.  It's not Avalonian steel, but it's a good strong metal for stopping a nibbling mouth, so we kept some of their armor and weapons to trade.",
       "str": "That be a right welcher, eh?  Afore us'n were to this land, the preface were on a half-score century by the reckonin'.  Landed us in amidst of a war'd turned wrong, for an' as the dead had come back in.  By the butcher's block, not much an unusual case, really.  The Enemy makes us fight.  By an' by, we came in, an' by then the killin' fields were plump and ready to harvest the bronze.  'Tain't no steel-of-the-lake, but 'tis a good dross metal for holdin' off a nibblin' mouth, so we kept a few o' their vestments an' stickers for to trade."
     },
+    "speaker_effect": { "effect": { "u_add_var": "u_talk_exodii_about_medieval_stock", "value": "yes" } },
     "responses": [
       {
         "text": "You seem to have a bunch of blueprints.  Can you tell me more about those?",
@@ -1447,6 +1447,7 @@
       "//~": "Aside from just having a safe place to live?  We're here to mine, you understand.  Picking the scraps, seeing if this world has any tech worth reverse engineering.  No sense letting good scraps go to waste.  If we're lucky, maybe we'll get some new Exodii before we teleport out.  Pickin' up the pieces of our sweet, shattered dreams, such as they are.",
       "str": "Aside from jus' livin' in such a cozy nook?  Us be minin', ye kennit.  Pickin' the scraps, seein' if for your otherland has any tech worth an upside-down.  No sense lettin' good scraps go to waste.  If we're lucky, pickin' a few new Exodii afore we wobble out.  Pickin' up the pieces of our sweet, shattered dreams, suchlike."
     },
+    "speaker_effect": { "effect": { "u_add_var": "u_know_exodii_purpose2", "value": "yes" } },
     "responses": [
       {
         "text": "What do you mean 'go to waste'?  The zombies aren't using the scrap, and there's plenty to go around.",

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "drug_lab",
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -34,7 +33,7 @@
       "palettes": [ "moonshine_palette" ],
       "place_monster": [ { "monster": "mon_zombie_hazmat", "x": [ 9, 16 ], "y": [ 9, 14 ], "repeat": [ 0, 2 ] } ],
       "items": {
-        " ": [ { "item": "trash", "chance": 1 }, { "item": "clutter_yard", "chance": 1 } ],
+        " ": [ { "item": "SUS_trash_floor", "chance": 1 }, { "item": "clutter_yard", "chance": 1 } ],
         "t": [
           { "item": "hazmat_suits", "chance": 70 },
           { "item": "hazmat_masks", "chance": 70 },
@@ -47,7 +46,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "drug_lab_roof",
     "object": {
       "fill_ter": "t_thatch_roof",

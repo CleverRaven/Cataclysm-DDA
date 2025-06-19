@@ -3,13 +3,14 @@
 #define CATA_SRC_MAGIC_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
 #include <queue>
 #include <set>
 #include <string>
+#include <string_view>
+#include <unordered_set>
+#include <utility>
 #include <vector>
 
 #include "body_part_set.h"
@@ -22,9 +23,9 @@
 #include "magic_type.h"
 #include "point.h"
 #include "sounds.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 
 class Character;
 class Creature;
@@ -33,7 +34,7 @@ class JsonOut;
 class nc_color;
 class spell;
 class time_duration;
-
+struct const_dialogue;
 struct dealt_projectile_attack;
 struct requirement_data;
 
@@ -41,11 +42,6 @@ namespace spell_effect
 {
 struct override_parameters;
 } // namespace spell_effect
-
-namespace cata
-{
-class event;
-}  // namespace cata
 template <typename E> struct enum_traits;
 
 enum class spell_flag : int {
@@ -107,6 +103,7 @@ enum class spell_target : int {
     none,
     item,
     field,
+    vehicle,
     num_spell_targets
 };
 
@@ -350,6 +347,9 @@ class spell_type
         // list of valid targets enum
         enum_bitset<spell_target> valid_targets;
 
+        std::function<bool( const_dialogue const & )> condition; // NOLINT(cata-serialize)
+        bool has_condition = false; // NOLINT(cata-serialize)
+
         std::set<mtype_id> targeted_monster_ids;
 
         std::set<species_id> targeted_species_ids;
@@ -372,6 +372,7 @@ class spell_type
          */
         static const std::vector<spell_type> &get_all();
         static void check_consistency();
+        static void finalize_all();
         static void reset_all();
         bool is_valid() const;
 
@@ -385,6 +386,8 @@ class spell_type
         int get_level( int experience ) const;
         // the maximum level of this spell that can be learned from a book.
         std::optional<int> get_max_book_level() const;
+        // the base difficulty of the spell, unmodified by character specific spell adjustments
+        int get_difficulty( const Creature &caster ) const;
     private:
         // default values
         static const skill_id skill_default;
@@ -681,6 +684,8 @@ class spell
         bool target_by_monster_id( const tripoint_bub_ms &p ) const;
         bool target_by_species_id( const tripoint_bub_ms &p ) const;
         bool ignore_by_species_id( const tripoint_bub_ms &p ) const;
+        bool valid_by_condition( const Creature &caster, const Creature &target ) const;
+        bool valid_by_condition( const Creature &caster ) const;
 
         // picks a random valid tripoint from @area
         std::optional<tripoint_bub_ms> random_valid_target( const Creature &caster,

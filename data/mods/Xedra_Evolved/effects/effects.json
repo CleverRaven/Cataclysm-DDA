@@ -1,10 +1,16 @@
 [
   {
     "type": "effect_type",
-    "id": "haste",
-    "name": [ "Hasted" ],
-    "desc": [ "Your speed is boosted enormously." ],
-    "apply_message": "Your speed is boosted to superhuman levels!",
+    "id": "curevamp",
+    "removes_effects": [ "vampire_virus" ],
+    "max_duration": "72 h"
+  },
+  {
+    "type": "effect_type",
+    "id": "haste_vampire",
+    "name": [ "Blood Haste" ],
+    "desc": [ "Stolen blood is boosting your speed enormously." ],
+    "apply_message": "",
     "remove_message": "You return to your normal speed.",
     "rating": "good",
     "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 250 ] }
@@ -41,6 +47,44 @@
     },
     "scaling_mods": { "hurt_chance": [ 1 ], "pain_chance": [ 1 ] },
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_wild_hunt_illumination",
+    "name": [ "Witchfire" ],
+    "desc": [ "You are surrounded by an eldritch glow." ],
+    "apply_message": "",
+    "remove_message": "The glow around you fades.",
+    "base_mods": { "dodge_mod": [ -2 ] },
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 10 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_reduced_healing",
+    "name": [ "Painful Wounds" ],
+    "desc": [ "Your wounds ache." ],
+    "apply_message": "The cut begins to burn!",
+    "remove_message": "The ache from your wounds finally fades.",
+    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 5 ], "pain_max_val": [ 15 ], "pain_tick": [ 60 ] },
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.6 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "wild_hunt_dazed",
+    "name": [ "Dazed" ],
+    "desc": [ "You're visibly shaken up, and are having a hard time focusing on what's going on around you." ],
+    "rating": "bad",
+    "max_intensity": 10,
+    "max_duration": "10 m",
+    "int_add_val": 2,
+    "scaling_mods": { "speed_mod": [ -5 ] },
+    "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.65 },
+      { "limb_score": "reaction", "modifier": 0.5 },
+      { "limb_score": "vision", "modifier": 0.85 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -470,6 +514,8 @@
       "sleepiness_min": [ 10 ],
       "sleepiness_max": [ 20 ],
       "sleepiness_chance": [ 9000 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 9000 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ 0 ],
       "h_mod_chance": [ 9000 ]
@@ -480,11 +526,159 @@
       "sleepiness_max": [ 20 ],
       "stamina_chance": [ -300 ],
       "sleepiness_chance": [ -300 ],
+      "health_min": [ -1 ],
+      "health_chance": [ -1000 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ -50 ],
       "h_mod_chance": [ -200 ]
     },
     "blood_analysis_description": "Severe Progressive Anemic Autophagy"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_blood_drinking",
+    "//": "Hidden effect, prevents the vampire from gaining blood if they're interrupted.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_blood_drinking_target",
+    "//": "Hidden effect, keeps the target immobilized while blood is being drunk.",
+    "name": [ "Vampire's Kiss" ],
+    "desc": [ "You are having your blood drunk by a vampire and are still in a swoon." ],
+    "show_in_info": true,
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_drunk_from_in_combat",
+    "//": "Hidden effect, faking a monster target having lost blood volume.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "int_add_val": 1,
+    "max_intensity": 12,
+    "int_decay_step": -1,
+    "int_decay_tick": 172800,
+    "chance_kill": [
+      [ 1, 2000000 ],
+      [ 1, 1000000 ],
+      [ 1, 500000 ],
+      [ 1, 200000 ],
+      [ 1, 100000 ],
+      [ 1, 50000 ],
+      [ 1, 5000 ],
+      [ 1, 1000 ],
+      [ 1, 500 ],
+      [ 1, 100 ],
+      [ 1, 50 ],
+      [ 1, 10 ]
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_slow_blood_gain",
+    "//": "Hidden--provides blood every ~60 seconds until 1 below the blood_quenched level",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ 1, 1 ] ], "tick": [ "60 s" ] } ],
+    "removes_effects": [ "withering" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_slow_blood_gain_with_weakness",
+    "//": "Hidden--provides blood every ~120 seconds until 1 below the blood_quenched level",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ 1, 1 ] ], "tick": [ "120 s" ] } ],
+    "removes_effects": [ "withering" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_slow_blood_loss",
+    "//": "Hidden--removes blood every ~60 seconds until 1 below the blood_quenched level",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ -1, -1 ] ], "tick": [ "30 s", "90 s" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_empowered_blood_indicator",
+    "name": [ "Empowered Blood" ],
+    "desc": [ "Your blood hums with power, allowing you to access more of your vampiric abilities." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_enervated_blood",
+    "name": [ "Enervated Blood" ],
+    "desc": [
+      "You have used up much of the power in your blood, and are slightly listless as a result.  In addition, some of your vampiric powers will not function as well, or at all, until the power returns to your blood."
+    ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "HUNGER",
+            "multiply": { "math": [ "0.05 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * 0.001), 0, 1)" ] }
+          },
+          {
+            "value": "THIRST",
+            "multiply": { "math": [ "0.05 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * 0.001), 0, 1)" ] }
+          },
+          {
+            "value": "SLEEPINESS",
+            "multiply": { "math": [ "0.05 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * 0.001), 0, 1)" ] }
+          },
+          {
+            "value": "REGEN_STAMINA",
+            "multiply": { "math": [ "-0.025 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * -0.00025), -0.5, 0)" ] }
+          }
+        ]
+      }
+    ],
+    "removes_effects": [ "withering" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_fall_one_story",
+    "//": "Hidden--tied to a conditional enchantment",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "ONE_STORY_FALL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_resist_disease_poison_infection",
+    "//": "Hidden--tied to a conditional enchantment",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      { "mutations": [ "POISRESIST" ] },
+      { "condition": { "not": { "u_has_trait": "DISIMMUNE" } }, "mutations": [ "DISRESISTANT" ] },
+      { "condition": { "not": { "u_has_trait": "INFIMMUNE" } }, "mutations": [ "INFRESIST" ] }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_water_weakness_pain",
+    "name": [ "Pain in Water" ],
+    "desc": [ "The running water burns you!" ],
+    "rating": "bad",
+    "base_mods": { "pain_min": [ 1 ], "pain_max": [ 2 ], "pain_max_val": [ 25 ], "pain_chance": [ 5 ], "pain_tick": [ 5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_bloodlust_cravings",
+    "//": "Still distracting but not as bad as for vampires",
+    "name": [ "Blood Craving" ],
+    "desc": [ "Your thoughts keep going back to the taste of warm, fresh blood." ],
+    "rating": "bad",
+    "limb_score_mods": [
+      { "limb_score": "breathing", "modifier": 0.9, "scaling": -0.08 },
+      { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.07 },
+      { "limb_score": "footing", "modifier": 0.9, "scaling": -0.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -499,7 +693,7 @@
             "value": "NIGHT_VIS",
             "add": {
               "math": [
-                "5 + (vampire_total_tier_one_traits() * 1) + (vampire_total_tier_two_traits() * 2) + (vampire_total_tier_three_traits() * 3) + (vampire_total_tier_four_traits_plus_potence() * 4)"
+                "5 + (vampire_total_tier_one_traits_plus_potency() * 1) + (vampire_total_tier_two_traits() * 2) + (vampire_total_tier_three_traits() * 3) + (vampire_total_tier_four_traits_plus_potence() * 4) + (vampire_total_tier_five_traits_plus_cauldron() * 5)"
               ]
             }
           }
@@ -520,7 +714,7 @@
     "type": "effect_type",
     "id": "eyegleam_craft_in_darkness",
     "rating": "good",
-    "flags": [ "CRAFT_IN_DARKNESS" ]
+    "flags": [ "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ]
   },
   {
     "type": "effect_type",
@@ -535,7 +729,15 @@
             "value": "STRENGTH",
             "add": {
               "math": [
-                "1 + (vampire_total_tier_one_traits() * 0.25) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)"
+                "1 + (vampire_total_tier_one_traits_plus_potency() * 0.25) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)  + (vampire_total_tier_five_traits_plus_cauldron() * 1)"
+              ]
+            }
+          },
+          {
+            "value": "OVERKILL_DAMAGE",
+            "add": {
+              "math": [
+                "-10 + (vampire_total_tier_one_traits_plus_potency() * -1) + (vampire_total_tier_two_traits() * -2) + (vampire_total_tier_three_traits() * -3) + (vampire_total_tier_four_traits_plus_potence() * -4)  + (vampire_total_tier_five_traits_plus_cauldron() * -5)"
               ]
             }
           }
@@ -556,7 +758,7 @@
             "type": "bash",
             "multiply": {
               "math": [
-                "max(((vampire_total_tier_one_traits() * -0.01) + (vampire_total_tier_two_traits() * -0.02) + (vampire_total_tier_three_traits() * -0.04) + (vampire_total_tier_four_traits_plus_potence() * -0.06)), -0.66)"
+                "max(((vampire_total_tier_one_traits_plus_potency() * -0.01) + (vampire_total_tier_two_traits() * -0.02) + (vampire_total_tier_three_traits() * -0.04) + (vampire_total_tier_four_traits_plus_potence() * -0.06) + (vampire_total_tier_five_traits_plus_cauldron() * -0.08)), -0.66)"
               ]
             }
           },
@@ -564,7 +766,7 @@
             "type": "stab",
             "multiply": {
               "math": [
-                "max(((vampire_total_tier_one_traits() * -0.003) + (vampire_total_tier_two_traits() * -0.007) + (vampire_total_tier_three_traits() * -0.015) + (vampire_total_tier_four_traits_plus_potence() * -0.025)), -0.25)"
+                "max(((vampire_total_tier_one_traits_plus_potency() * -0.003) + (vampire_total_tier_two_traits() * -0.007) + (vampire_total_tier_three_traits() * -0.015) + (vampire_total_tier_four_traits_plus_potence() * -0.025) + (vampire_total_tier_five_traits_plus_cauldron() * -0.035)), -0.25)"
               ]
             }
           },
@@ -572,7 +774,7 @@
             "type": "cut",
             "multiply": {
               "math": [
-                "max(((vampire_total_tier_one_traits() * -0.005) + (vampire_total_tier_two_traits() * -0.01) + (vampire_total_tier_three_traits() * -0.02) + (vampire_total_tier_four_traits_plus_potence() * -0.03)), -0.33)"
+                "max(((vampire_total_tier_one_traits_plus_potency() * -0.005) + (vampire_total_tier_two_traits() * -0.01) + (vampire_total_tier_three_traits() * -0.02) + (vampire_total_tier_four_traits_plus_potence() * -0.03) + (vampire_total_tier_five_traits_plus_cauldron() * -0.04)), -0.33)"
               ]
             }
           },
@@ -580,13 +782,21 @@
             "type": "bullet",
             "multiply": {
               "math": [
-                "max(((vampire_total_tier_one_traits() * -0.012) + (vampire_total_tier_two_traits() * -0.025) + (vampire_total_tier_three_traits() * -0.05) + (vampire_total_tier_four_traits_plus_potence() * -0.075)), -0.85)"
+                "max(((vampire_total_tier_one_traits_plus_potency() * -0.012) + (vampire_total_tier_two_traits() * -0.025) + (vampire_total_tier_three_traits() * -0.05) + (vampire_total_tier_four_traits_plus_potence() * -0.075) + (vampire_total_tier_five_traits_plus_cauldron() * 0.1)), -0.85)"
               ]
             }
           }
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_health_bonus",
+    "//": "Hidden effect, grants dhampirs and vampires bonus health when at positive blood",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 3 ], "health_tick": [ 3600 ] }
   },
   {
     "type": "effect_type",
@@ -611,6 +821,25 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_drank_blood_power_boost",
+    "name": [ "Carmine Vitality" ],
+    "desc": [ "You can still taste the warm blood on your lips.  You feel amazing." ],
+    "rating": "good",
+    "max_duration": "1 h",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ] } },
+          {
+            "value": "DEXTERITY",
+            "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vampiric_dodge",
     "name": [ "Flow Like Blood" ],
     "desc": [ "You can move so quickly you might even be able to dodge bullets." ],
@@ -623,7 +852,7 @@
             "value": "EVASION",
             "add": {
               "math": [
-                "min(0.15 + ((vampire_total_tier_one_traits() * 0.012) + (vampire_total_tier_two_traits() * 0.025) + (vampire_total_tier_three_traits() * 0.05) + (vampire_total_tier_four_traits_plus_potence() * 0.075)), 0.7)"
+                "min(0.15 + ((vampire_total_tier_one_traits_plus_potency() * 0.012) + (vampire_total_tier_two_traits() * 0.025) + (vampire_total_tier_three_traits() * 0.05) + (vampire_total_tier_four_traits_plus_potence() * 0.075) + (vampire_total_tier_five_traits_plus_cauldron() * 0.1)), 0.7)"
               ]
             }
           },
@@ -631,7 +860,7 @@
             "value": "DODGE_CHANCE",
             "add": {
               "math": [
-                "min(1 + ((vampire_total_tier_one_traits() * 0.25) + (vampire_total_tier_two_traits() * 0.45) + (vampire_total_tier_three_traits() * 0.65) + (vampire_total_tier_four_traits_plus_potence() * 0.95)), 15)"
+                "min(1 + ((vampire_total_tier_one_traits_plus_potency() * 0.25) + (vampire_total_tier_two_traits() * 0.45) + (vampire_total_tier_three_traits() * 0.65) + (vampire_total_tier_four_traits_plus_potence() * 0.95) + (vampire_total_tier_five_traits_plus_cauldron() * 1.25)), 15)"
               ]
             }
           },
@@ -643,10 +872,59 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampiric_stealth_bonus",
+    "name": [ "Cloak of Shadows" ],
+    "desc": [ "You are clouding nearby minds and are harder to spot in dim light or darkness." ],
+    "enchantments": [
+      {
+        "condition": { "or": [ { "not": "is_day" }, { "not": "u_is_outside" } ] },
+        "values": [
+          {
+            "value": "STEALTH_MODIFIER",
+            "add": {
+              "math": [
+                "min(30 + ((vampire_total_tier_one_traits_plus_potency() * 0.25) + (vampire_total_tier_two_traits() * 0.4) + (vampire_total_tier_three_traits() * 0.55) + (vampire_total_tier_four_traits_plus_potence() * 0.75) + (vampire_total_tier_five_traits_plus_cauldron() * 1)), 60)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vampire_fear_gazed",
     "//": "Hidden effect, used to prevent spamming fear gaze repeatedly.",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_feign_death",
+    "name": [ "Corpse's Countenance" ],
+    "desc": [ "Nothing here but a corpse." ],
+    "remove_message": "You end your imitation of death.",
+    "rating": "mixed",
+    "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ], "ench_effects": [ { "effect": "downed", "intensity": 1 } ] } ],
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_feign_death_ended",
+    "name": [ "Feigned Death" ],
+    "desc": [ "You've been caught, and they know you aren't dead" ],
+    "rating": "bad",
+    "removes_effects": [ "effect_vampire_feign_death" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_hypnotism",
+    "name": [ "Mesmerized" ],
+    "desc": [ "You just can't seem to move or think." ],
+    "remove_message": "You snap out of your fugue.",
+    "rating": "bad",
+    "show_in_info": true,
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "MUTE" ]
   },
   {
     "type": "effect_type",
@@ -1196,6 +1474,12 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_arvore_attacked_a_triffid",
+    "name": [ "Broken Green Pact " ],
+    "desc": [ "You broke the pact of the green and have no more protection from the triffids' wrath." ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_ierde_slow_enemies",
     "name": [ "Lithic Rigidity " ],
     "desc": [ "It's very hard for you to move." ],
@@ -1324,6 +1608,14 @@
           }
         ]
       }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_homullus_prevented_death",
+    "name": [ "Transferred Essence" ],
+    "desc": [
+      "You have transferred your essence into a human, saving yourself at the expense of their being.  It will take some time until you can do this again."
     ]
   },
   {
@@ -1575,6 +1867,27 @@
     "remove_message": "Your feet touch the ground once again.",
     "rating": "good",
     "flags": [ "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sylph_bonus_melee_range",
+    "name": [ "Breeze-Cutting Blows" ],
+    "desc": [ "Your strikes cut the air and carry on to your foes." ],
+    "apply_message": "",
+    "remove_message": "Your blows no longer split the air itself.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MELEE_RANGE_MODIFIER",
+            "add": {
+              "math": [ "( (u_spell_level('sylph_bonus_melee_range_spell') * 0.25 ) + 1 ) * scaling_factor( u_val('dexterity') )" ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1898,6 +2211,31 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_sense_vampire",
+    "name": [ "Sense the Night Hunters" ],
+    "desc": [ "You can sense nearby vampires." ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "or": [
+                { "npc_has_any_trait": [ "VAMPIRE", "VAMPIRE2", "VAMPIRE3", "VAMPIRE4", "BLOOD_DRINKER" ] },
+                { "npc_has_species": "VAMPIRE" }
+              ]
+            },
+            "distance": { "math": [ "u_val('perception') * 2" ] },
+            "precise": true,
+            "ignores_aiming_cone": true,
+            "descriptions": [ { "id": "vamnpire_sense", "text": "You detect a vampire here.", "symbol": "V", "color": "red" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_xe_deciphering_hedge_tome",
     "//": "Hidden effect, used to check that you're still researching.",
     "name": [ "" ],
@@ -1944,6 +2282,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_hedge_magic_luck_spell",
+    "name": [ "Step of Gad" ],
+    "desc": [ "Your foot seems to keep finding just the right place to step." ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 0.5 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_hedge_no_nightmares",
     "//": "Empty to hide effect",
     "name": [ "" ],
@@ -1971,6 +2317,42 @@
     "desc": [ "The waters are bearing you up." ],
     "rating": "good",
     "flags": [ "ITEM_WATERPROOFING", "WATERWALKING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_astral_projection",
+    "name": [ "Etheric Form" ],
+    "desc": [ "Your spirit wanders the world." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": -0.96 },
+          { "value": "EVASION", "add": 1 },
+          { "value": "PHASE_DISTANCE", "add": 2 }
+        ]
+      }
+    ],
+    "flags": [
+      "ETHEREAL",
+      "INVISIBLE",
+      "FEATHER_FALL",
+      "CLIMB_FLYING",
+      "LEVITATION",
+      "ITEM_WATERPROOFING",
+      "WATERWALKING",
+      "NO_SPELLCASTING"
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_protect_the_mind",
+    "name": [ "Ordered Mind" ],
+    "desc": [ "Your mind is set in order, walled and guarded." ],
+    "rating": "good",
+    "flags": [ "MAGICAL_MIND_PROTECTION" ]
   },
   {
     "type": "effect_type",
@@ -2048,6 +2430,31 @@
       "You consumed Arvore destiny draught.",
       "You consumed a large amount of Arvore destiny draught.",
       "You consumed a life-changing amount of Arvore destiny draught."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_ARVORE" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Anomalous chlorophyll content in blood sample"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_alchemical_plantkin",
+    "name": [ "Arvore Stolen Power Mutation", "Arvore Stolen Power Transformation", "Arvore Stolen Power Metamorphosis" ],
+    "desc": [
+      "You consumed Arvore alchemical draught.",
+      "You consumed a large amount of Arvore alchemical draught.",
+      "You consumed a life-changing amount of Arvore alchemical draught."
     ],
     "max_intensity": 3,
     "resist_traits": [ "THRESH_ARVORE" ],
@@ -2206,6 +2613,13 @@
     "name": [ { "str": "Lilin Mutation", "//~": "NO_I18N" } ],
     "desc": [ { "str": "You are gaining Lilin powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_extracting_dreamsparks",
+    "//": "Hidden effect, used to distinguish magical quick weather change from the weather returning to normal",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -2386,6 +2800,22 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_trow_no_eating_or_sleep",
+    "//": "Hidden effect, used to give you no metabolism or sleep gain while mining",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": -1 },
+          { "value": "THIRST", "multiply": -1 },
+          { "value": "SLEEPINESS", "multiply": -1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "called_daffodil",
     "name": [ "Called the daffodil" ],
     "desc": [ "You recently called some daffodils.  You need to wait a day before you can call more." ]
@@ -2442,7 +2872,7 @@
     "id": "last_breath_mist_cooldown",
     "name": [ "Recovering from the last breath's mist" ],
     "desc": [
-      "Triggering your abilities that way has taken their toll on you.  You cannot save yourself from death that way a second time yet."
+      "Triggering your abilities that way has taken their toll on you.  You cannot save yourself from death that way another time yet."
     ]
   },
   {
@@ -2832,6 +3262,18 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_chronomancy_field",
+    "name": [ "Chronomancy Field" ],
+    "desc": [
+      "You have engaged some of your temporal abilities and any kills you make while this is active will grant you insight."
+    ],
+    "apply_message": "You gain an increased awareness of the 4th dimension and how it interacts with the universe.",
+    "remove_message": "Your awareness of the 4th dimension fades.",
+    "rating": "good",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "effect_xedra_time_freeze",
     "name": [ "Frozen in Time" ],
     "desc": [ "You are completely frozen in time." ],
@@ -3037,5 +3479,288 @@
     "max_intensity": 1,
     "show_in_info": true,
     "enchantments": [ { "hit_you_effect": [ { "id": "xedra_monster_erosion_attack" } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "//": "Required to make Boann banish monsters.  Without it, she will aim the banish at herself every time.",
+    "id": "boann_retaliation_mark",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "//": "Checks if you have every single vampiric power when trying to learn new ones.",
+    "id": "effect_vampire_all_gift_check",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_reshuffling_weaknesses",
+    "//": "Hidden effect, used to make sure only active weakness reshuffling does something.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_recently_reshuffled_weaknesses",
+    "name": [ "Reshuffled Weaknesses" ],
+    "desc": [
+      "You recently reshuffled your vampiric weaknesses.  Until your blood stabilizes, further attempts will be fruitless."
+    ],
+    "remove_message": "Your blood has stabilized enough to let you try to reshuffle your weaknesses again, should they prove too much to bear.",
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "vampire_need_living_blood",
+    "name": [ "Thirst for Living Blood" ],
+    "desc": [ "Cold blood is not enough.  You need some warm blood straight from the vein, you need it NOW!" ],
+    "max_intensity": 5,
+    "apply_message": "You want to sink your fangs in someone's neck and drink their blood.",
+    "miss_messages": [ [ "Your thirst distract you.", 1 ] ],
+    "base_mods": { "sleep_chance": [ -1003 ], "sleep_min": [ 15000 ], "sleep_max": [ 21000 ] },
+    "scaling_mods": { "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "int_mod": [ -0.75 ], "sleep_chance": [ 501 ] },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "block", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "vision", "modifier": 1.0, "scaling": -0.05 },
+      { "limb_score": "reaction", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "move_speed", "modifier": 1.0, "scaling": -0.05 },
+      { "limb_score": "balance", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "footing", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "swim", "modifier": 1.0, "scaling": -0.1 }
+    ],
+    "rating": "bad",
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_earth_sleeper_penalty",
+    "name": [ "Disrupted Rest" ],
+    "desc": [ "You have slept away from the earth, leaving you fatigued and weakened for an entire day." ],
+    "//": "No sleepiness incrementation, as the EOC took care of that.",
+    "rating": "bad",
+    "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -2 ], "int_mod": [ -2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_holy_place_burn",
+    "name": [ "Rebuked by holiness" ],
+    "desc": [ "The sanctity of this place is killing you." ],
+    "miss_messages": [ [ "You feel rejected by this place.", 2 ] ],
+    "rating": "bad",
+    "main_parts_only": true,
+    "base_mods": { "pain_min": [ 2 ], "pain_tick": [ 10 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_tick": [ 10 ] },
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vast_water_burn",
+    "name": [ "Melted by the vast waters" ],
+    "desc": [ "You are dissolving in the vast waters." ],
+    "miss_messages": [ [ "You are melting from your proximity to water.", 2 ] ],
+    "rating": "bad",
+    "main_parts_only": true,
+    "base_mods": { "pain_min": [ 2 ], "pain_tick": [ 10 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_tick": [ 10 ] },
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_slain_by_the_sun",
+    "name": [ "Slain by the Sun" ],
+    "desc": [ "The sun is burning you like a dry leaf in a wildfire." ],
+    "miss_messages": [ [ "The sun is burning you.", 2 ] ],
+    "rating": "bad",
+    "main_parts_only": true,
+    "base_mods": { "pain_min": [ 2 ], "pain_tick": [ 10 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_tick": [ 10 ] },
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sun_burn_grace_period",
+    "//": "Hidden effect, gives a few hours before the player burns from the sun due to that weakness.",
+    "max_duration": "24 hours",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_drank_blood_recently",
+    "//": "Hidden effect, ensuring that blood cravings are canceled by drinking blood.",
+    "removes_effects": [ "blood_craving" ],
+    "blocks_effects": [ "blood_craving" ],
+    "max_duration": "24 hours",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "blood_craving",
+    "name": [ "Blood Craving" ],
+    "//": "The description is intended to illustrate the ongoing craving.",
+    "desc": [ "Need blood must have blood blood right now DRINK BLOOD NOW!" ],
+    "apply_message": "You are wracked with pain as your craving hits you.  You can only think about getting some of that delicious blood you so desesperately need.",
+    "remove_message": "Your craving calms down.",
+    "miss_messages": [ [ "Your craving distract you.", 1 ] ],
+    "base_mods": {
+      "pain_min": [ 2 ],
+      "pain_max": [ 100 ],
+      "pain_tick": [ 1000 ],
+      "str_mod": [ -3 ],
+      "dex_mod": [ -3 ],
+      "per_mod": [ -3 ],
+      "int_mod": [ -6 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.7, "scaling": -0.1 },
+      { "limb_score": "block", "modifier": 0.7, "scaling": -0.1 },
+      { "limb_score": "vision", "modifier": 0.7, "scaling": -0.05 },
+      { "limb_score": "reaction", "modifier": 0.7, "scaling": -0.1 },
+      { "limb_score": "move_speed", "modifier": 0.7, "scaling": -0.05 },
+      { "limb_score": "balance", "modifier": 0.7, "scaling": -0.1 },
+      { "limb_score": "footing", "modifier": 0.7, "scaling": -0.1 },
+      { "limb_score": "swim", "modifier": 0.7, "scaling": -0.1 }
+    ],
+    "rating": "bad",
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_anathema_resilience",
+    "//": "As per the vampire power, but includes the fire vulnerability as it is a multiplier, not an absolute.  It also includes the effects of flow like blood.",
+    "blocks_effects": [ "grabbed" ],
+    "name": [ "" ],
+    "desc": [ "" ],
+    "base_mods": { "dodge_mod": [ 15 ] },
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.66 },
+          { "type": "stab", "multiply": -0.25 },
+          { "type": "cut", "multiply": -0.33 },
+          { "type": "bullet", "multiply": -0.85 },
+          { "type": "heat", "multiply": 3 }
+        ]
+      },
+      {
+        "values": [ { "value": "EVASION", "add": 0.7 }, { "value": "DODGE_CHANCE", "add": 15 }, { "value": "BONUS_DODGE", "add": 2 } ]
+      },
+      { "hit_me_effect": [ { "id": "VAMPIRE_ANATHEMA_REACT_TO_HIT", "hit_self": true } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_anathema_battle_started",
+    "//": "From 60 speed to a tier 5's base speed.",
+    "//2": "This isn't a vampire power, just them taking you a little more seriously as you managed to injure them.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 125 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_anathema_final_form",
+    "//": "From a tier 5's base speed to a total of 653 speed, and ensures it can hit players benefitting from flow like blood.",
+    "name": [ "Hasted by shadows" ],
+    "desc": [ "The Anathema is much quicker now thanks to vampiric abilities." ],
+    "show_in_info": true,
+    "base_mods": { "hit_mod": [ 50 ], "dodge_mod": [ 20 ] },
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 468 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_player_anathema_potency_boost",
+    "//": "Counts as +1 tier 1 trait per intensity for the purposes of calculating powers.  Intended for the player to never manage to get to the max intensity, as this would take thousands of slain vampires.",
+    "max_intensity": 1000,
+    "name": [ "Apex Vampire's Potency" ],
+    "desc": [ "All the vampire blood you drank has empowered you." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_recent_vampire_drink",
+    "//": "This tracks if the player recently drank vampire blood.  This is used for the Apex's Thirst weakness.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_duration": "5 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_anathema_need_vampire_blood",
+    "//": "This tracks how long the player went without vampire blood.  This is used for the Apex's Thirst weakness.",
+    "max_intensity": 100,
+    "name": [ "Apex's Thirst" ],
+    "desc": [ "Your blood is consuming itself in its thirst for the blood of vampires." ],
+    "rating": "bad",
+    "apply_message": "You feel a gnawing thirst for the blood of vampires.  Better find some, before your blood devours itself.",
+    "remove_message": "Your thirst for vampire blood calms down."
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_invisible_in_dark",
+    "name": [ "Shrouded by the Shadowed Path" ],
+    "//": "When the required check will exist, this power will depend on darkness to work, not on not being under the sun.",
+    "desc": [ "Until the shadows you gathered fade or the sun shines upon you, you cannot be seen." ],
+    "apply_message": "The shadows you gathered meld with you, hiding you from sight.",
+    "remove_message": "The shadows aren't hiding you anymore.",
+    "rating": "good",
+    "flags": [ "INVISIBLE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_lose_invisible_in_dark",
+    "//": "This revoves the invisibility power when the vampire stands under the sun.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "effect_vampire_invisible_in_dark" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_no_illness",
+    "//": "Removes all illnesses, parasites and poisons no matter if they are magical or mundane.  No effect on the vampire cure.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [
+      "venom_blind",
+      "formication",
+      "migo_atmosphere",
+      "nausea",
+      "fungus",
+      "dermatik",
+      "bloodworms",
+      "paincysts",
+      "brainworms",
+      "tapeworm",
+      "poison",
+      "venom_dmg",
+      "venom_weaken",
+      "stung",
+      "badpoison",
+      "foodpoison",
+      "paralyzepoison",
+      "tetanus",
+      "rat_bite_fever",
+      "infected",
+      "common_cold",
+      "flu",
+      "pre_flu",
+      "pre_common_cold",
+      "blood_spiders",
+      "visuals"
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_anathema_mind_chaos",
+    "name": [ "Blood-Muddled Mind" ],
+    "desc": [ "Your mind reels from all the vampire blood you drank." ],
+    "rating": "bad",
+    "max_intensity": 5,
+    "base_mods": { "int_mod": [ -4 ] },
+    "scaling_mods": { "int_mod": [ -2 ] },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.1 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]

@@ -1,3 +1,4 @@
+#include <functional>
 #include <map>
 #include <memory>
 #include <optional>
@@ -7,21 +8,28 @@
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "common_types.h"
+#include "coordinates.h"
 #include "creature_tracker.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
 #include "game.h"
-#include "line.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_group.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "memory_fast.h"
+#include "monster.h"
 #include "npc.h"
 #include "npctalk.h"
+#include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pimpl.h"
@@ -29,6 +37,7 @@
 #include "point.h"
 #include "test_data.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 #include "veh_type.h"
@@ -40,11 +49,13 @@ class Creature;
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_sleep( "sleep" );
 
+static const item_group_id Item_spawn_data_SUS_trash_forest_manmade( "SUS_trash_forest_manmade" );
 static const item_group_id Item_spawn_data_test_NPC_guns( "test_NPC_guns" );
-static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
 static const itype_id itype_M24( "M24" );
+static const itype_id itype_bat( "bat" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
+static const itype_id itype_leather_belt( "leather_belt" );
 
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
@@ -58,7 +69,7 @@ static void on_load_test( npc &who, const time_duration &from, const time_durati
     calendar::turn = calendar::turn_zero + from;
     who.on_unload();
     calendar::turn = calendar::turn_zero + to;
-    who.on_load();
+    who.on_load( &get_map() );
 }
 
 static void test_needs( const npc &who, const numeric_interval<int> &hunger,
@@ -330,6 +341,8 @@ static void check_npc_movement( const tripoint_bub_ms &origin )
 
 static npc *make_companion( const tripoint_bub_ms &npc_pos )
 {
+    map &here = get_map();
+
     shared_ptr_fast<npc> guy = make_shared_fast<npc>();
     guy->normalize();
     guy->randomize();
@@ -339,7 +352,7 @@ static npc *make_companion( const tripoint_bub_ms &npc_pos )
     guy->companion_mission_role_id.clear();
     guy->guard_pos = std::nullopt;
     clear_character( *guy );
-    guy->setpos( npc_pos );
+    guy->setpos( here, npc_pos );
     talk_function::follow( *guy );
 
     return get_creature_tracker().creature_at<npc>( npc_pos );
@@ -473,8 +486,8 @@ TEST_CASE( "npc-movement" )
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
                 REQUIRE( veh != nullptr );
-                veh->install_part( point_rel_ms::zero, vpart_frame );
-                veh->install_part( point_rel_ms::zero, vpart_seat );
+                veh->install_part( here, point_rel_ms::zero, vpart_frame );
+                veh->install_part( here, point_rel_ms::zero, vpart_seat );
                 here.add_vehicle_to_cache( veh );
             }
             // spawn npcs
@@ -591,6 +604,13 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
     Character &player_character = get_player_character();
     point five_tiles_south = {0, 5};
     npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
+    hostile.clear_worn();
+    hostile.invalidate_crafting_inventory();
+    hostile.inv->clear();
+    hostile.remove_weapon();
+    hostile.clear_mutations();
+    hostile.mutation_category_level.clear();
+    hostile.clear_bionics();
     REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
@@ -601,7 +621,7 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
     float danger_around = hostile.danger_assessment();
     CHECK( danger_around > 1.0f );
     // Now give them a TON of junk
-    for( item &some_trash : item_group::items_from( Item_spawn_data_trash_forest ) ) {
+    for( item &some_trash : item_group::items_from( Item_spawn_data_SUS_trash_forest_manmade ) ) {
         hostile.i_add( some_trash );
     }
     hostile.wield_better_weapon();
@@ -624,25 +644,33 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
     Character &player_character = get_player_character();
     point five_tiles_south = {0, 5};
     npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
+    hostile.clear_worn();
+    hostile.invalidate_crafting_inventory();
+    hostile.inv->clear();
+    hostile.remove_weapon();
+    hostile.clear_mutations();
+    hostile.mutation_category_level.clear();
+    hostile.clear_bionics();
     REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
     item backpack( itype_debug_backpack );
     hostile.wear_item( backpack );
-    // Give them a TON of junk
-    for( item &some_trash : item_group::items_from( Item_spawn_data_trash_forest ) ) {
-        hostile.i_add( some_trash );
-    }
-    // But also give them a gun and some magazines
-    for( item &some_gun_item : item_group::items_from( Item_spawn_data_test_NPC_guns ) ) {
-        hostile.i_add( some_gun_item );
-    }
+    // Give them a bat and a belt
+    hostile.i_add( item( itype_leather_belt ) );
+    hostile.i_add( item( itype_bat ) );
     // Make them realize we exist and COULD maybe hurt them! Or something. Otherwise they won't re-wield.
     arm_shooter( player_character, itype_M24 );
     hostile.regen_ai_cache();
     float danger_around = hostile.danger_assessment();
     CHECK( danger_around > 1.0f );
+    hostile.wield_better_weapon();
+    CAPTURE( hostile.get_wielded_item().get_item()->tname() );
     CHECK( !hostile.get_wielded_item().get_item()->is_gun() );
+    // Now give them a gun and some magazines
+    for( item &some_gun_item : item_group::items_from( Item_spawn_data_test_NPC_guns ) ) {
+        hostile.i_add( some_gun_item );
+    }
     hostile.wield_better_weapon();
     CHECK( hostile.get_wielded_item().get_item()->is_gun() );
 

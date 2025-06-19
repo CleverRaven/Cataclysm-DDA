@@ -10,6 +10,11 @@
     "text": "Satisfied your vampiric hunger"
   },
   {
+    "id": "morale_craving_human_blood",
+    "type": "morale_type",
+    "text": "A crimson taste at the back of your mouth"
+  },
+  {
     "id": "morale_craving_lotus_blossom",
     "type": "morale_type",
     "text": "A hum at the edge of your thoughts"
@@ -33,5 +38,10 @@
     "id": "morale_ierde_meditation",
     "type": "morale_type",
     "text": "Certainty of stone"
+  },
+  {
+    "id": "morale_boring_fruit",
+    "type": "morale_type",
+    "text": "Boring aftertaste"
   }
 ]

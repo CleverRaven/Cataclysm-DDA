@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "makeshift_transformer",
     "symbol": ",",
     "color": "light_gray",
@@ -17,7 +17,8 @@
   },
   {
     "id": "makeshift_hand_crank_charger",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "makeshift hand-crank charger" },
     "description": "A makeshift hand-powered battery charger based on homopolar generator.",
@@ -28,7 +29,6 @@
     "material": [ "wood", "copper", "steel" ],
     "symbol": ":",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "use_action": [ "HAND_CRANK" ],
     "pocket_data": [
       {
@@ -37,12 +37,14 @@
         "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT", "BATTERY_HEAVY" ],
         "default_magazine": "battery_car_clay"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "magazine_battery_mod",
     "copy-from": "mod_battery",
-    "type": "TOOLMOD",
+    "type": "ITEM",
+    "subtypes": [ "TOOLMOD" ],
     "category": "spare_parts",
     "name": { "str": "battery compartment mod" },
     "description": "A battery compartment mod that allows using vehicle batteries and small storage batteries in regular tools.",
@@ -58,7 +60,8 @@
   },
   {
     "id": "electrolysis_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "electrolysis kit" },
     "description": "A set of wiring and electrodes for applying a direct current, usually to a liquid.  Useful for crafting.  Load with a storage battery or 12V vehicle battery to use.",
     "weight": "250 g",
@@ -67,7 +70,7 @@
     "price_postapoc": "7 USD 50 cent",
     "material": [ "steel", "copper", "plastic" ],
     "symbol": ";",
-    "ammo": [ "battery" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "300 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -81,6 +84,7 @@
           "storage_battery"
         ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   }
 ]

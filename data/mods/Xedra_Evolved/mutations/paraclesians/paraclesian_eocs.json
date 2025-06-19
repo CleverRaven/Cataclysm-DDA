@@ -1,6 +1,13 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONDITION_SKY_ISLAND_ON_THE_ISLAND",
+    "//": "Used for Paraclesians so they can learn their spells on the sky island.  Always false if not on the island so it's ignored.",
+    "condition": { "math": [ "1 == 0" ] },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PARACLESIAN_FAE_SIGHT_ON",
     "effect": [ { "u_add_effect": "effect_paraclesian_see_fae", "duration": "PERMANENT" } ]
   },
@@ -73,6 +80,7 @@
           "skirt_long_gossamer",
           "socks_gossamer",
           "stockings_gossamer",
+          "slippers_gossamer",
           "sheet_gossamer_patchwork",
           "gambeson_gossamer",
           "gambeson_hood_gossamer",
@@ -112,31 +120,5 @@
         "else": [ { "u_lose_effect": "effect_wants_to_talk" }, { "message": "You cannot lead this person to talk to you anymore." } ]
       }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PARACLESIAN_GAIN_UNCANNY_DODGE_EFFECT",
-    "eoc_type": "EVENT",
-    "required_event": "character_gains_effect",
-    "condition": {
-      "or": [
-        { "compare_string": [ "effect_paraclesian_dodge_bonus_2", { "context_val": "effect" } ] },
-        { "compare_string": [ "effect_paraclesian_dodge_bonus_3", { "context_val": "effect" } ] }
-      ]
-    },
-    "effect": [ { "u_add_trait": "GENERIC_UNCANNY_DODGE_TRAIT" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PARACLESIAN_LOSE_UNCANNY_DODGE_EFFECT",
-    "eoc_type": "EVENT",
-    "required_event": "character_loses_effect",
-    "condition": {
-      "or": [
-        { "compare_string": [ "effect_paraclesian_dodge_bonus_2", { "context_val": "effect" } ] },
-        { "compare_string": [ "effect_paraclesian_dodge_bonus_3", { "context_val": "effect" } ] }
-      ]
-    },
-    "effect": [ { "u_lose_trait": "GENERIC_UNCANNY_DODGE_TRAIT" } ]
   }
 ]

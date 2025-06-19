@@ -3,26 +3,34 @@
 #define CATA_SRC_GAME_INVENTORY_H
 
 #include <functional>
-#include <list>
+#include <optional>
+#include <set>
+#include <string>
 #include <utility>
+#include <vector>
 
+#include "bodypart.h"
 #include "cata_imgui.h"
+#include "coordinates.h"
+#include "input_context.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_location.h"
 #include "type_id.h"
+#include "units_fwd.h"
 
 class Character;
-struct tripoint;
-
 class repair_item_actor;
 class salvage_actor;
+enum efile_action : int;
 
 using item_filter = std::function<bool( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
 
+/**
+* A boiled-down shortcut for inventory_selector_preset.
+* @param filter - function solely determines what is shown in the item list.
+*/
 class inventory_filter_preset : public inventory_selector_preset
 {
     public:
@@ -139,6 +147,16 @@ item_location ereader_to_use( Character &you );
 item_location ebookread( Character &you, item_location &ereader );
 /** Select books to save to E-Book reader menu. */
 drop_locations ebooksave( Character &who, item_location &ereader );
+/** Select e-devices to use for e-file storage
+* @param browse_equals - e-device is_browsed() = `browse_equals`
+* @param auto_include_used_edevice - if true, includes used_edevice in selection
+* @param unusable_only - if true, only includes e-devices that can't manage files
+*/
+drop_locations edevice_select( Character &who, item_location &used_edevice, bool browse_equals,
+                               bool auto_include_used_edevice, bool unusable_only, efile_action action );
+/** Select e-files for read, write, etc. */
+drop_locations efile_select( Character &who, item_location &used_edevice,
+                             const std::vector<item_location> &target_edevices, efile_action action, bool from_used_edevice );
 /** Menu for stealing stuff. */
 item_location steal( Character &victim );
 /** Item activation menu. */

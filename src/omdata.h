@@ -6,43 +6,43 @@
 #include <climits>
 #include <cstddef>
 #include <cstdint>
-#include <iosfwd>
-#include <list>
-#include <new>
+#include <memory>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "assign.h"
-#include "catacharset.h"
 #include "color.h"
 #include "common_types.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "cube_direction.h"
 #include "enum_bitset.h"
+#include "flat_set.h"
+#include "flexbuffer_json.h"
 #include "mapgen_parameter.h"
+#include "memory_fast.h"
 #include "point.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
+class mapgendata;
 class overmap_land_use_code;
 struct MonsterGroup;
 struct city;
 template <typename E> struct enum_traits;
+template <typename T> class generic_factory;
 
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
-class JsonObject;
-class JsonValue;
 class overmap;
 class overmap_connection;
-class overmap_special;
 class overmap_special_batch;
+enum class om_vision_level : int8_t;
 struct mapgen_arguments;
 struct oter_t;
 struct overmap_location;
-
-enum class om_vision_level : int8_t;
 
 inline const overmap_land_use_code_id land_use_code_forest( "forest" );
 inline const overmap_land_use_code_id land_use_code_wetland( "wetland" );
@@ -88,7 +88,7 @@ uint32_t rotate_symbol( uint32_t sym, type dir );
  * @param dir Direction of displacement
  * @param dist Distance of displacement
  */
-point displace( type dir, int dist = 1 );
+point_rel_omt displace( type dir, int dist = 1 );
 
 /** Returns a sum of two numbers
  *  @param dir1 first number
@@ -200,6 +200,7 @@ enum class oter_flags : int {
     ocean_shore,
     ravine,
     ravine_edge,
+    pp_generate_riot_damage,
     generic_loot,
     risk_extreme,
     risk_high,
@@ -579,7 +580,7 @@ struct overmap_special_spawns : public overmap_spawns {
 // This is the information needed to know whether you can place a particular
 // piece of an overmap_special at a particular location
 struct overmap_special_locations {
-    tripoint p;
+    tripoint_rel_omt p;
     cata::flat_set<string_id<overmap_location>> locations;
 
     /**
@@ -592,7 +593,7 @@ struct overmap_special_locations {
 
 struct overmap_special_terrain : overmap_special_locations {
     overmap_special_terrain() = default;
-    overmap_special_terrain( const tripoint &, const oter_str_id &,
+    overmap_special_terrain( const tripoint_rel_omt &, const oter_str_id &,
                              const cata::flat_set<string_id<overmap_location>> &,
                              const std::set<std::string> & );
     oter_str_id terrain;
@@ -604,8 +605,8 @@ struct overmap_special_terrain : overmap_special_locations {
 };
 
 struct overmap_special_connection {
-    tripoint p;
-    std::optional<tripoint> from;
+    tripoint_rel_omt p;
+    std::optional<tripoint_rel_omt> from;
     cube_direction initial_dir = cube_direction::last; // NOLINT(cata-serialize)
     // TODO: Remove it.
     string_id<oter_type_t> terrain;
@@ -664,7 +665,7 @@ class overmap_special
         }
         bool can_spawn() const;
         /** Returns terrain at the given point. */
-        const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
+        const overmap_special_terrain &get_terrain_at( const tripoint_rel_omt &p ) const;
         /** @returns true if this special requires a city */
         bool requires_city() const;
         /** @returns whether the special at specified tripoint can belong to the specified city. */

@@ -1,34 +1,51 @@
+#include <algorithm>
 #include <cstdio>
+#include <functional>
 #include <memory>
+#include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "coordinates.h"
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
+#include "dialogue_win.h"
 #include "effect.h"
+#include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
 #include "game.h"
+#include "global_vars.h"
 #include "input_enums.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_location.h"
+#include "magic.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "math_parser_diag_value.h"
+#include "messages.h"
 #include "mission.h"
 #include "npc.h"
+#include "npc_opinion.h"
 #include "npctalk.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
+#include "units.h"
+#include "weather.h"
+#include "weather_gen.h"
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
@@ -128,6 +145,7 @@ static void change_om_type( const std::string &new_type )
 
 static npc &prep_test( dialogue &d, bool shopkeep = false )
 {
+    map &here = get_map();
     clear_avatar();
     clear_vehicles();
     clear_map();
@@ -137,7 +155,7 @@ static npc &prep_test( dialogue &d, bool shopkeep = false )
     REQUIRE_FALSE( player_character.in_vehicle );
 
     const tripoint_bub_ms test_origin( 15, 15, 0 );
-    player_character.setpos( test_origin );
+    player_character.setpos( here, test_origin );
 
     g->faction_manager_ptr->create_if_needed();
 
@@ -768,7 +786,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
 
     d.add_topic( "TALK_TEST_ITEM_WIELDED" );
     item_location loc = player_character.i_add( item( itype_knife_huge ) );
-    CHECK( player_character.wield( *loc ) );
+    CHECK( player_character.wield( loc ) );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text ==
@@ -1124,7 +1142,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     get_weather().weather_precise->humidity = 16;
     get_weather().weather_precise->pressure = 17;
     get_weather().clear_temp_cache();
-    player_character.setpos( { -1, -2, -3 } );
+    player_character.setpos( tripoint_abs_ms{ -1, -2, -3 } );
     player_character.set_pain( 21 );
     player_character.add_bionic( bio_power_storage );
     player_character.set_power_level( 22_mJ );
@@ -1224,6 +1242,8 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
 
 TEST_CASE( "npc_arithmetic", "[npc_talk]" )
 {
+    tripoint_abs_ms pos;
+
     dialogue d;
     npc &beta = prep_test( d );
     Character &player_character = get_avatar();
@@ -1295,11 +1315,11 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     CHECK( player_character.per_max == 9 );
 
     std::string var_name = "test_var_time_test_test";
-    player_character.set_value( var_name, std::to_string( 1 ) );
+    player_character.set_value( var_name, 1 );
     // "Sets custom var to 10."
     effects = d.responses[ 9 ].success;
     effects.apply( d );
-    CHECK( std::stoi( player_character.get_value( var_name ) ) == 10 );
+    CHECK( player_character.get_value( var_name ) == 10 );
 
     beta.op_of_u.owed = 0;
     // "Sets owed to 12."
@@ -1313,17 +1333,19 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( static_cast<int>( player_character.get_skill_level( skill ) ) == 10 );
 
-    // "Sets pos_x to 14."
+    // "Move character position one tile west."
+    pos = player_character.pos_abs();
     effects = d.responses[ 12 ].success;
     effects.apply( d );
-    CHECK( player_character.posx() == -1 );
+    CHECK( player_character.pos_abs().x() == pos.x() - 1 );
 
-    // "Sets pos_y to 15."
+    // "Move character position two tiles north."
+    pos = player_character.pos_abs();
     effects = d.responses[ 13 ].success;
     effects.apply( d );
-    CHECK( player_character.posy() == -2 );
+    CHECK( player_character.pos_abs().y() == pos.y() + 2 );
 
-    // "Sets pos_z to 16."
+    // "Sets character z level to -3."
     effects = d.responses[ 14 ].success;
     effects.apply( d );
     CHECK( player_character.posz() == -3 );

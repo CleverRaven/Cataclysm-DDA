@@ -202,6 +202,27 @@
     ]
   },
   {
+    "id": "changeling_wild_hunt_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      {
+        "collection": [
+          { "group": "gossamer_upper_body", "prob": 70, "damage": [ 1, 4 ] },
+          { "group": "gossamer_lower_body", "prob": 70, "damage": [ 1, 4 ] },
+          { "group": "gossamer_outerwear", "prob": 25, "damage": [ 1, 4 ] },
+          { "item": "loincloth_gossamer", "damage": [ 1, 4 ] },
+          { "group": "gossamer_socks", "prob": 25, "damage": [ 1, 4 ] },
+          { "group": "fae_furs", "prob": 10, "damage": [ 0, 4 ] }
+        ]
+      },
+      { "group": "bannerlord_armor", "prob": 50, "damage": [ 0, 4 ] },
+      { "item": "wild_huntsman_hunting_blade", "prob": 25, "damage": [ 0, 5 ] },
+      { "item": "baldric", "prob": 100 },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 12, 24 ] }
+    ]
+  },
+  {
     "id": "default_zombie_children_clothes",
     "type": "item_group",
     "subtype": "collection",
@@ -285,6 +306,16 @@
       { "group": "blood_containers", "prob": 30 },
       { "item": "grimy_recipe", "prob": 55 },
       { "item": "scrap_dreamdross", "prob": 35, "count": [ 1, 4 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "revenant_death_drops",
+    "entries": [
+      { "group": "default_zombie_clothes", "prob": 100, "damage": [ 1, 3 ] },
+      { "group": "default_zombie_items", "count": [ 1, 3 ], "prob": 30, "damage": [ 1, 3 ] },
+      { "item": "bone_human", "count": 1, "prob": 10, "damage": [ 1, 3 ] }
     ]
   },
   {
@@ -390,6 +421,47 @@
     ]
   },
   {
+    "id": "combat_cyborg_harvest",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bio_dis_shock", "prob": 1 },
+      { "item": "bio_dis_acid", "prob": 1 },
+      { "item": "bio_drain", "prob": 1 },
+      { "item": "bio_noise", "prob": 1 },
+      { "item": "bio_power_weakness", "prob": 1 },
+      { "item": "bio_itchy", "prob": 1 },
+      { "item": "bio_nostril", "prob": 1 },
+      { "item": "bio_thumbs", "prob": 1 },
+      { "item": "bio_spasm", "prob": 1 },
+      { "item": "bio_shakes", "prob": 1 },
+      { "item": "bio_leaky", "prob": 1 },
+      { "item": "bio_sleepy", "prob": 1 },
+      { "item": "bio_deformity", "prob": 1 },
+      { "item": "bio_voice", "prob": 1 },
+      { "item": "bio_pokedeye", "prob": 1 },
+      { "item": "bio_ankles", "prob": 1 },
+      { "item": "bio_trip", "prob": 1 },
+      { "item": "bio_stiff", "prob": 1 },
+      { "item": "bio_armor_torso", "prob": 3 },
+      { "item": "bio_armor_arms", "prob": 6 },
+      { "item": "bio_armor_legs", "prob": 6 },
+      { "item": "bio_armor_eyes", "prob": 3 },
+      { "item": "bio_alarm", "prob": 3 },
+      { "item": "bio_power_storage", "prob": 2 },
+      { "item": "bio_glowy", "prob": 1 },
+      { "item": "bio_chain_lightning", "prob": 1 },
+      { "item": "bio_hydraulics", "prob": 1 },
+      { "item": "bio_sleep_shutdown", "prob": 1 },
+      { "item": "bio_targeting", "prob": 1 },
+      { "item": "bio_weight", "prob": 1 },
+      { "item": "bio_faulty_electromagnetic_leak", "prob": 1 },
+      { "item": "bio_faulty_grossfood", "prob": 1 },
+      { "item": "bio_radleak", "prob": 1 },
+      { "item": "bio_ar", "prob": 1 }
+    ]
+  },
+  {
     "type": "item_group",
     "subtype": "collection",
     "id": "mon_salamagman_death_drops",
@@ -454,47 +526,6 @@
       { "group": "wallets", "damage": [ 1, 4 ] },
       { "item": "fnp90mag", "prob": 50, "ammo-item": "57mm", "charges": [ 0, 50 ] },
       { "item": "fnp90mag", "prob": 50, "ammo-item": "57mm", "charges": [ 0, 50 ] }
-    ]
-  },
-  {
-    "id": "combat_cyborg_harvest",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "bio_dis_shock", "prob": 1 },
-      { "item": "bio_dis_acid", "prob": 1 },
-      { "item": "bio_drain", "prob": 1 },
-      { "item": "bio_noise", "prob": 1 },
-      { "item": "bio_power_weakness", "prob": 1 },
-      { "item": "bio_itchy", "prob": 1 },
-      { "item": "bio_nostril", "prob": 1 },
-      { "item": "bio_thumbs", "prob": 1 },
-      { "item": "bio_spasm", "prob": 1 },
-      { "item": "bio_shakes", "prob": 1 },
-      { "item": "bio_leaky", "prob": 1 },
-      { "item": "bio_sleepy", "prob": 1 },
-      { "item": "bio_deformity", "prob": 1 },
-      { "item": "bio_voice", "prob": 1 },
-      { "item": "bio_pokedeye", "prob": 1 },
-      { "item": "bio_ankles", "prob": 1 },
-      { "item": "bio_trip", "prob": 1 },
-      { "item": "bio_stiff", "prob": 1 },
-      { "item": "bio_armor_torso", "prob": 3 },
-      { "item": "bio_armor_arms", "prob": 6 },
-      { "item": "bio_armor_legs", "prob": 6 },
-      { "item": "bio_armor_eyes", "prob": 3 },
-      { "item": "bio_alarm", "prob": 3 },
-      { "item": "bio_power_storage", "prob": 2 },
-      { "item": "bio_glowy", "prob": 1 },
-      { "item": "bio_chain_lightning", "prob": 1 },
-      { "item": "bio_hydraulics", "prob": 1 },
-      { "item": "bio_sleep_shutdown", "prob": 1 },
-      { "item": "bio_targeting", "prob": 1 },
-      { "item": "bio_weight", "prob": 1 },
-      { "item": "bio_faulty_electromagnetic_leak", "prob": 1 },
-      { "item": "bio_faulty_grossfood", "prob": 1 },
-      { "item": "bio_radleak", "prob": 1 },
-      { "item": "bio_ar", "prob": 1 }
     ]
   },
   {
@@ -571,6 +602,23 @@
       { "item": "pants", "variant": "pants_black" },
       { "item": "dress_shoes" },
       { "item": "union_suit" }
+    ]
+  },
+  {
+    "id": "vampire_anathema_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "vampire_anathema_book" },
+      { "item": "blood_camel" },
+      { "item": "salamagman_battleaxe" },
+      { "item": "hc_helm_close", "damage": [ 1, 4 ] },
+      { "item": "armor_hc_plate", "damage": [ 1, 4 ] },
+      { "item": "gloves_plate", "damage": [ 1, 4 ] },
+      { "item": "pants", "variant": "pants_black", "damage": [ 1, 4 ] },
+      { "item": "tshirt", "variant": "generic_tshirt", "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "item": "boots_plate", "damage": [ 1, 4 ] }
     ]
   }
 ]

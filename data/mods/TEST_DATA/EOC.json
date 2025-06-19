@@ -285,7 +285,7 @@
     "type": "effect_on_condition",
     "id": "EOC_try_kill",
     "effect": [
-      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,1,0)" }, "target_var": { "context_val": "kill_loc" } },
+      { "u_location_variable": { "context_val": "kill_loc" }, "y_adjust": 1 },
       { "run_eocs": "EOC_kill", "beta_loc": { "context_val": "kill_loc" } }
     ]
   },
@@ -330,10 +330,7 @@
     "effect": [
       { "set_string_var": "fd_blood", "target_var": { "global_val": "field_id_1" } },
       { "set_string_var": "fd_blood_insect", "target_var": { "global_val": "field_id_2" } },
-      {
-        "set_string_var": { "mutator": "u_loc_relative", "target": "(0,1,0)" },
-        "target_var": { "global_val": "loc" }
-      },
+      { "u_location_variable": { "global_val": "loc" }, "y_adjust": 1 },
       { "math": [ "key_field_strength = u_field_strength(field_id_1)" ] },
       { "math": [ "key_field_strength_north = field_strength(field_id_2, 'location': loc)" ] }
     ]
@@ -495,7 +492,7 @@
     "id": "EOC_mark_mutation_test",
     "effect": [
       { "math": [ "test_val = 1" ] },
-      { "set_string_var": { "context_val": "this" }, "target_var": { "global_val": "context_test" } }
+      { "copy_var": { "context_val": "this" }, "target_var": { "global_val": "context_test" } }
     ]
   },
   {
@@ -600,8 +597,8 @@
     "eoc_type": "EVENT",
     "required_event": "character_casts_spell",
     "effect": [
-      { "set_string_var": { "context_val": "spell" }, "target_var": { "global_val": "key1" } },
-      { "set_string_var": { "context_val": "school" }, "target_var": { "global_val": "key2" } },
+      { "copy_var": { "context_val": "spell" }, "target_var": { "global_val": "key1" } },
+      { "copy_var": { "context_val": "school" }, "target_var": { "global_val": "key2" } },
       { "math": [ "key3 = _difficulty" ] },
       { "math": [ "key4 = _cost" ] },
       { "math": [ "key5 = _cast_time" ] },
@@ -640,7 +637,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_finished_activity",
     "effect": [
-      { "set_string_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
+      { "copy_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
       { "math": [ "key2 = _canceled" ] },
       { "set_string_var": "activity finished", "target_var": { "global_val": "key3" } }
     ]
@@ -651,7 +648,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_starts_activity",
     "effect": [
-      { "set_string_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
+      { "copy_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
       { "math": [ "key2 = _resume" ] },
       { "set_string_var": "activity start", "target_var": { "global_val": "key3" } }
     ]
@@ -664,8 +661,8 @@
     "effect": [
       { "u_add_var": "test_event_last_event", "value": "character_melee_attacks_character" },
       { "npc_add_var": "test_event_last_event", "value": "character_melee_attacks_character" },
-      { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
-      { "set_string_var": { "context_val": "victim_name" }, "target_var": { "global_val": "victim_name" } }
+      { "copy_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
+      { "copy_var": { "context_val": "victim_name" }, "target_var": { "global_val": "victim_name" } }
     ]
   },
   {
@@ -676,8 +673,8 @@
     "effect": [
       { "u_add_var": "test_event_last_event", "value": "character_melee_attacks_monster" },
       { "npc_add_var": "test_event_last_event", "value": "character_melee_attacks_monster" },
-      { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
-      { "set_string_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } }
+      { "copy_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
+      { "copy_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } }
     ]
   },
   {
@@ -688,8 +685,8 @@
     "effect": [
       { "u_add_var": "test_event_last_event", "value": "character_ranged_attacks_character" },
       { "npc_add_var": "test_event_last_event", "value": "character_ranged_attacks_character" },
-      { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
-      { "set_string_var": { "context_val": "victim_name" }, "target_var": { "global_val": "victim_name" } }
+      { "copy_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
+      { "copy_var": { "context_val": "victim_name" }, "target_var": { "global_val": "victim_name" } }
     ]
   },
   {
@@ -700,8 +697,8 @@
     "effect": [
       { "u_add_var": "test_event_last_event", "value": "character_ranged_attacks_monster" },
       { "npc_add_var": "test_event_last_event", "value": "character_ranged_attacks_monster" },
-      { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
-      { "set_string_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } }
+      { "copy_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
+      { "copy_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } }
     ]
   },
   {
@@ -711,7 +708,7 @@
     "required_event": "character_kills_monster",
     "effect": [
       { "u_add_var": "test_event_last_event", "value": "character_kills_monster" },
-      { "set_string_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } },
+      { "copy_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } },
       { "math": [ "test_exp = _exp" ] }
     ]
   },
@@ -767,11 +764,7 @@
       { "math": [ "global_u = u_key1 + v_testing" ] },
       { "set_string_var": "_key1", "target_var": { "context_val": "testing" } },
       { "math": [ "v_testing = 2" ] },
-      { "math": [ "global_context = _key1 + v_testing" ] },
-      { "set_string_var": "v_key1", "target_var": { "context_val": "testing" } },
-      { "set_string_var": "_key2", "target_var": { "context_val": "key1" } },
-      { "math": [ "v_testing = 1" ] },
-      { "math": [ "global_nested = _key2 + v_testing" ] }
+      { "math": [ "global_context = _key1 + v_testing" ] }
     ]
   },
   {
@@ -789,13 +782,13 @@
       { "set_string_var": "Works_u", "target_var": { "u_val": "testing_u" } },
       { "set_string_var": "Works_npc", "target_var": { "npc_val": "testing_npc" } },
       { "set_string_var": "testing_global", "target_var": { "context_val": "testing" } },
-      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key1" } },
+      { "copy_var": { "var_val": "testing" }, "target_var": { "global_val": "key1" } },
       { "set_string_var": "_testing_context", "target_var": { "context_val": "testing" } },
-      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key2" } },
+      { "copy_var": { "var_val": "testing" }, "target_var": { "global_val": "key2" } },
       { "set_string_var": "u_testing_u", "target_var": { "context_val": "testing" } },
-      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key3" } },
+      { "copy_var": { "var_val": "testing" }, "target_var": { "global_val": "key3" } },
       { "set_string_var": "n_testing_npc", "target_var": { "context_val": "testing" } },
-      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key4" } }
+      { "copy_var": { "var_val": "testing" }, "target_var": { "global_val": "key4" } }
     ]
   },
   {
@@ -818,23 +811,9 @@
     "type": "effect_on_condition",
     "id": "EOC_map_test",
     "effect": [
-      { "set_string_var": { "mutator": "u_loc_relative", "target": "(10,10,0)" }, "target_var": { "context_val": "loc" } },
+      { "u_location_variable": { "context_val": "loc" }, "x_adjust": 10, "y_adjust": 10 },
       { "math": [ "key_distance_loc = distance('u', _loc)" ] },
       { "math": [ "key_distance_npc = distance('u', 'npc')" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_loc_relative_test",
-    "effect": [
-      {
-        "set_string_var": { "mutator": "u_loc_relative", "target": "(10,10,0)" },
-        "target_var": { "global_val": "map_test_loc_a" }
-      },
-      {
-        "set_string_var": { "mutator": "npc_loc_relative", "target": "(0,0,0)" },
-        "target_var": { "global_val": "map_test_loc_b" }
-      }
     ]
   },
   {

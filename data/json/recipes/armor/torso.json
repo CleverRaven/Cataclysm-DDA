@@ -1052,14 +1052,78 @@
     "result": "hoodie",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "3 h",
     "autolearn": true,
     "reversible": { "time": "25 m" },
     "using": [ [ "tailoring_cotton_patchwork", 40 ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "hoodie",
+    "variant": "shark",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 30 ] ],
+    "components": [ [ [ "faux_fur", 6 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_furriery" } ],
+    "byproducts": [ [ "scrap_faux_fur", 12 ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "hoodie_shark",
+    "variant": "bear",
+    "components": [ [ [ "faux_fur", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "hoodie_shark",
+    "variant": "cat",
+    "components": [ [ [ "faux_fur", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "hoodie_shark",
+    "variant": "bunny",
+    "components": [ [ [ "faux_fur", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "hoodie_shark",
+    "variant": "wolf",
+    "components": [ [ [ "faux_fur", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "hoodie_shark",
+    "variant": "lizard",
+    "components": [ [ [ "faux_fur", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "hoodie_shark",
+    "variant": "dog",
+    "components": [ [ [ "faux_fur", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "hoodie_shark",
+    "variant": "panda",
+    "components": [ [ [ "faux_fur", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "hoodie_shark",
+    "variant": "frog",
+    "components": [ [ [ "faux_fur", 6 ] ] ]
   },
   {
     "result": "hoodie_cropped",
@@ -1072,14 +1136,78 @@
     "id_suffix": "cutting",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "10 m",
     "autolearn": true,
     "components": [ [ [ "hoodie", 1 ] ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+  },
+  {
+    "type": "recipe",
+    "result": "hoodie_cropped",
+    "variant": "shark",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "45 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "faux_fur", 4 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_furriery" } ],
+    "byproducts": [ [ "scrap_faux_fur", 8 ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "hoodie_cropped_shark",
+    "variant": "bear",
+    "components": [ [ [ "faux_fur", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "hoodie_cropped_shark",
+    "variant": "cat",
+    "components": [ [ [ "faux_fur", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "hoodie_cropped_shark",
+    "variant": "bunny",
+    "components": [ [ [ "faux_fur", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "hoodie_cropped_shark",
+    "variant": "wolf",
+    "components": [ [ [ "faux_fur", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "hoodie_cropped_shark",
+    "variant": "lizard",
+    "components": [ [ [ "faux_fur", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "hoodie_cropped_shark",
+    "variant": "dog",
+    "components": [ [ [ "faux_fur", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "hoodie_cropped_shark",
+    "variant": "panda",
+    "components": [ [ [ "faux_fur", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "hoodie_cropped_shark",
+    "variant": "frog",
+    "components": [ [ [ "faux_fur", 4 ] ] ]
   },
   {
     "result": "sweatshirt",
@@ -3050,7 +3178,7 @@
     "book_learn": [ [ "bronze_book", 5 ], [ "textbook_armwest", 8 ] ],
     "using": [ [ "forging_standard", 14 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 28 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing" } ]
+    "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing", "required": true } ]
   },
   {
     "result": "xs_armor_cuirass",
@@ -3081,7 +3209,7 @@
     "book_learn": [ [ "bronze_book", 4 ], [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 12 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 22 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing" } ]
+    "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing", "required": true } ]
   },
   {
     "result": "xs_cuirass_bronze",
@@ -5116,5 +5244,18 @@
     "autolearn": true,
     "reversible": true,
     "components": [ [ [ "xl_ballistic_vest", 1 ] ], [ [ "steel_ballistic_plate", 10 ] ] ]
+  },
+  {
+    "result": "abaya",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "2 h",
+    "autolearn": true,
+    "reversible": { "time": "10 m" },
+    "using": [ [ "tailoring_cotton_patchwork", 6 ] ]
   }
 ]

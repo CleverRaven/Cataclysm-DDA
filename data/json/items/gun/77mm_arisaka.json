@@ -1,9 +1,10 @@
 [
   {
     "id": "type99",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "7.7mm battle rifle" },
     "description": "A stout and rugged battle rifle that traces its origins to the hands of imperial Japanese forces and saw extensive use in the Pacific theatre of the Second World War, this bolt-action firearm shoots the 7.7x58mm Arisaka cartridge.  Powerful, dependable, and elegantly built, Japan's 20th-century infantry rifle may yet find service guarding the lives of her former enemies.",
     "variant_type": "gun",
@@ -26,27 +27,19 @@
     "barrel_length": "657 mm",
     "price": "650 USD",
     "price_postapoc": "18 USD 50 cent",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "color": "brown",
     "ammo": [ "77mm_arisaka" ],
     "dispersion": 150,
-    "durability": 10,
-    "blackpowder_tolerance": 24,
     "clip_size": 5,
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "EASY_CLEAN", "NO_TURRET" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bayonet lug", 1 ],
-      [ "brass catcher", 1 ],
       [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "stock accessory", 2 ],
-      [ "underbarrel", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ]
     ],
     "pocket_data": [
       {
@@ -55,13 +48,13 @@
         "ammo_restriction": { "77mm_arisaka": 5 },
         "allowed_speedloaders": [ "clip_77mm_arisaka" ]
       }
-    ],
-    "melee_damage": { "bash": 12 }
+    ]
   },
   {
     "id": "type99_sniper",
     "copy-from": "type99",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "//": "The only reason this exists as its own item rather than a variant of the Type 99 is so players wouldn't be able to mount the scope on normal Type 99 rifles and could only use it on the 99 Sniper.",
     "name": { "str": "7.7mm sniper rifle" },
     "description": "A precision weapon issued to Japanese forces part way through the Second World War and proving to be little more than an off-the-rack 7.7mm battle rifle fitted with a telescopic sight, the rifle, despite being only marginally different from its closer-range cohorts, was a formidable implement upon the battle fields of the Pacific theatre.",
@@ -74,6 +67,6 @@
         "weight": 1
       }
     ],
-    "default_mods": [ "rail_mount", "offset_sight_rail", "type99_scope" ]
+    "built_in_mods": [ "type99_scope" ]
   }
 ]

@@ -188,7 +188,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ELECTRIC_IMMUNE``` This gear completely protects you from electric discharges.
 - ```ENERGY_SHIELD``` Marks a piece of armor as an energy shield. Energy shields do not suffer degradation from attacks and instead have an hp pool defined by the dialogue variable `ENERGY_SHIELD_HP` that is depleted by blocked attacks and a second variable `ENERGY_SHIELD_MAX_HP` which just stores the max hp of the shield in case it's needed for EOC manipulation.  When the hp pool is depleted, the shield is destroyed. The fields `ENERGY SHIELD_HP` and `ENERGY_SHIELD_MAX_HP` are dialogue variables stored in the item, and can be modified through effects on condition.
 - ```EXTRA_PLATING``` Item can be worn over some armors, as additional layer of protection (like armor above brigandine); specifically can be put in pocket for armor with this flag restriction.
-- ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
 - ```FIN``` This item is swim fins aka diving fins aka flippets, and provide speed boost when you swim.
 - ```FIX_FARSIGHT``` This gear corrects farsightedness.
 - ```FIX_NEARSIGHT``` This gear corrects nearsightedness.
@@ -211,7 +210,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NORMAL``` Items worn like normal clothing.  This is assumed as default.
 - ```NO_TAKEOFF``` Item with that flag can't be taken off.
 - ```NO_WEAR_EFFECT``` This gear doesn't provide any effects when worn (most jewelry).
-- ```ONLY_ONE``` You can wear only one.
 - ```OUTER```  Outer garment layer.
 - ```OVERSIZE``` Can always be worn no matter what encumbrance/mutations/bionics/etc, but prevents any other clothing being worn over this.
 - ```PADDED``` This armor counts as comfortable even if none of the specific materials are soft.
@@ -237,7 +235,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```STAR_SKIRT``` Item can be worn with ryūsei battle kit armor; specifically can be put in pocket for armor with this flag restriction.
 - ```STURDY``` This clothing is a lot more resistant to damage than normal.
 - ```SUN_GLASSES``` Prevents glaring when in sunlight.
-- ```SUPER_FANCY``` Gives an additional moral bonus over `FANCY` if the player has the `Stylish` trait.
 - ```SWIM_GOGGLES``` Allows you to see much further underwater.
 - ```THERMOMETER``` This gear is equipped with an accurate thermometer (which is used to measure temperature).
 - ```TOUGH_FEET``` This armor provide effect similar to wearing a proper boots (like scale on your legs), so you don't have a debuff from not wearing footwear.
@@ -347,6 +344,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```BULLET_IMMUNE``` You are immune to bullet damage.
 - ```CANNIBAL``` Butcher humans, eat foods with the `CANNIBALISM` and `STRICT_HUMANITARIANISM` flags without a morale penalty.
 - ```CANNOT_ATTACK``` A creature with this flag cannot attack (includes spellcasting).
+- ```CANNOT_CHANGE_TEMPERATURE``` A creature with this flag cannot change body temperature.
 - ```CANNOT_GAIN_EFFECTS``` A creature with this effect flag cannot gain effects.
 - ```CANNOT_MOVE``` A creature with this flag cannot move.
 - ```CANNOT_TAKE_DAMAGE``` A creature with this flag cannot take any damage.
@@ -387,6 +385,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```IMMUNE_SPOIL``` You are immune to negative outcomes from spoiled food.
 - ```INFECTION_IMMUNE``` This mutation grants immunity to infections, including infection from bites and tetanus.
 - ```INSECTBLOOD``` Your body drip insect blood if wounded.
+- ```INSTANT_BLEED``` You bleed corpses in 1 second each.
 - ```INVERTEBRATEBLOOD``` Your body drip invertebrate blood if wounded
 - ```INVISIBLE``` You can't be seen.
 - ```ITEM_WATERPROOFING``` Gear on your person is immune to being dissolved or broken while you're underwater.
@@ -406,6 +405,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NUMB``` Changes character's moral behaviour in some situations.
 - ```NYCTOPHOBIA``` Apply some negative effects when the ambient light is too low.
+- ```ONE_STORY_FALL``` You can slow your fall, effectively reducing the height of it by 1 level.
 - ```PAIN_IMMUNE``` Character don't feel pain.
 - ```PARAIMMUNE``` You are immune to parasites.
 - ```PLANTBLOOD``` Your body drip veggy blood if wounded.
@@ -448,7 +448,6 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```WEBBED_HANDS``` You have webbings on your hands, supporting your swimming speed.
 - ```WEB_RAPPEL``` You can rappel down staircases and sheer drops of any height.
 - ```WEB_WALKER``` Removes the movement speed demerit while walking through webs.
-- ```WINGS_1``` You can slow your fall, effectively reducing the height of it by 1 level.
 - ```WINGS_2``` You can slow your fall, effectively reducing the height of falls by 2 levels, and ignore pit-like traps.
 - ```WING_ARMS``` Two instances of this flag enable you to glide and ignore pit traps if not above 50% carryweight or 4 lift strength.
 - ```WINGGLIDE``` You can glide using some part of your body and strenuous physical effort.
@@ -501,6 +500,7 @@ These branches are the valid `dreams` from [dreams.json](../data/json/dreams.jso
 - ```NEGATIVE_MONOTONY_OK``` Allows `negative_monotony` property to lower comestible fun to negative values.
 - ```NO_AUTO_CONSUME``` Consumables with this flag would not get consumed in auto-eat / auto-drink zone.
 - ```NO_INGEST``` Administered by some means other than oral intake.
+- ```NO_TEMP``` This item does not rot and does not need temperature tracked.  Any pre-existing items this flag is added to will need to go on the temperature blacklist.
 - ```NUTRIENT_OVERRIDE``` When you craft an item, game checks if it's a comestible, and if it is, it stores the components the item was created from.  The `NUTRIENT_OVERRIDE` flag will skip this step.
 - ```PKILL_1``` Minor painkiller.
 - ```PKILL_2``` Moderate painkiller.
@@ -615,7 +615,7 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```BUTCHER_EQ``` Butcher's equipment - required for full butchery of corpses.
 - ```CAN_SIT``` Furniture the player can sit on.  Player sitting near furniture with the `FLAT_SURF` tag will get mood bonus for eating.
 - ```CHIP``` Used in construction menu to determine if wall can have paint chipped off.
-- ```CLIMBABLE``` You can climb on this obstacle.
+- ```CLIMBABLE``` You can climb on this obstacle.  It also blocks creatures that cannot climb from passing through terrain that allows passage without explicit climbing (typically some kinds of fences).
 - ```CLIMB_SIMPLE``` You never fail climbing on this obstacle.
 - ```COLLAPSES``` Has a roof that can collapse.
 - ```CONNECT_WITH_WALL``` (only for terrain) This flag has been superseded by the JSON entries `connect_group` and `connects_to`, but is retained for backward compatibility.
@@ -659,6 +659,7 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```MINEABLE``` Can be mined with a pickaxe/jackhammer.
 - ```MOUNTABLE``` Suitable for guns with the `MOUNTED_GUN` flag.
 - ```NANOFAB_TABLE``` This is a nanofabricator, and it can generate items out of specific blueprints.  Hardcoded
+- ```NATURAL_UNDERGROUND``` This terrain occurs naturally underground and is not man made.
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
 - ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles.  See also `DESTROY_ITEM`.
 - ```NO_FLOOR``` Things should fall when placed on this tile.
@@ -705,6 +706,7 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```THIN_OBSTACLE``` ```SPEAR``` attacks can go through this to hit something on the other side.
 - ```TINY``` Feature too short to collide with vehicle undercarriage.  Vehicles drive over them with no damage, unless a wheel hits them.
 - ```TRANSLOCATOR``` Tile is a translocator gate, for purposes of the `translocator` examine action.
+- ```TRANSLOCATOR_GREATER``` Tile is a greater translocator gate.  When paired with the TRANSLOCATOR flag and translocate furniture action, allows additionally using the gate to translocate to attuned gates.
 - ```TRANSPARENT_FLOOR``` This terrain allows light to the z-level below.
 - ```TRANSPARENT``` Players and monsters can see through/past it.  Also sets ter_t.transparent.
 - ```TRANSLUCENT``` Player and monsters can't see through/past it, but it can pass the light
@@ -740,6 +742,7 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```BLOCKSDOOR``` This will boost map terrain's resistance to bashing if `str_*_blocked` is set (see `map_bash_info`).
 - ```BRIDGE``` If this furniture is placed over water tiles, it prevents player from becoming wet.
 - ```FLOATS_IN_AIR``` If this furniture is placed over open air it won't fall.
+- ```BANK_NETWORKED``` This vending machine allows purchases with your bank balance as well as your cash cards.
 
 
 ## Generic
@@ -766,6 +769,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```BIRD``` Food that only player with `BIRD` threshold mutation can eat.  See also `INEDIBLE`.
 - ```BURNOUT``` You can visually inspect how much it is burned out (candle, torch).
 - ```CALORIES_INTAKE``` This item allows you to see detailed info about your calories intake for today and tomorrow in consuming menu.  Can be used with `CALORIES_INTAKE_TRACKER` `use_action`, that shows the same info.
+- ```CALORIE_BURN``` Same as CALORIES_INTAKE, but for calories burn.
 - ```CAMERA_PRO``` This item is professional camera, and increase the quality of made photos.
 - ```CATTLE``` Food that only player with `CATTLE` threshold mutation can eat.  See also `INEDIBLE`.
 - ```CBM``` This item is CBM, and works respectively.
@@ -785,6 +789,9 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```DISCOUNT_VALUE_3``` This item gives a big discount for fuel, bought in automated gas console.
 - ```DROP_ACTION_ONLY_IF_LIQUID``` Cause `drop_action` only if item in liquid phase.
 - ```DURABLE_MELEE``` Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
+- ```E_COPIABLE``` This item can be scanned onto an electronic device and can be electronically copied.
+- ```E_FILE_COLLECTION``` This item represents a combinable collection of files. Does not imply E_COPIABLE.
+- ```E_STORABLE``` This item can be stored on an electronic device.
 - ```ELECTRONIC``` This item contain sensitive electronics which can be fried by nearby EMP blast.
 - ```FAKE_MILL``` Item is a fake item, to denote a partially milled product by @ref Item::process_fake_mill, where conditions for its removal are set.
 - ```FAKE_SMOKE``` Item is a fake item generating smoke, recognizable by @ref item::process_fake_smoke, where conditions for its removal are set.
@@ -838,7 +845,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```PERFECT_LOCKPICK``` Item is a perfect lockpick.  Takes only 5 seconds to pick a lock and never fails, but using it grants only a small amount of lock picking xp.  The item should have `LOCKPICK` quality of at least 1.
 - ```PLANTABLE_SEED``` This item is a seed, and you can plant it.
 - ```POST_UP``` This item can be placed on terrain/furniture with the WALL flag.
-- ```PRESERVE_SPAWN_OMT``` This item will store the OMT that it spawns in, in the `spawn_location_omt` item var.
+- ```PRESERVE_SPAWN_LOC``` This item will store the tripoint_abs_ms (most precise and universal point) that it spawns in, in the `spawn_location` item var.
 - ```HINT_THE_LOCATION``` if PRESERVE_SPAWN_OMT is used, shows a snippet of how far the character from the `spawn_location_omt`: 1 OMT or less is `(from here)`, less than 6 OMT is `(from nearby)`, less than 30 OMT is `(from this area)`, anything more is (from far away)
 - ```PROVIDES_TECHNIQUES``` This item will provide martial arts techniques when worn/in the character's inventory, in addition to those provided by the weapon and martial art.
 - ```PSEUDO``` Used internally to mark items that are referred to in the crafting inventory but are not actually items.  They can be used as tools, but not as components.  Implies `TRADER_AVOID`.
@@ -898,6 +905,8 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```UNBREAKABLE``` This item can not be damaged, be that directly, while worn as armor, or when used as a melee weapon.
 - ```UNRECOVERABLE``` Cannot be recovered from a disassembly.
 - ```USE_POWER_WHEN_HIT``` This armor consume energy when you got hit, equal to damage that was dealt (energy consuming happen before the armor mitigation).
+- ```VIEW_PHOTOS``` This item can display held photos.
+- ```VIEW_RECIPES``` This item can display held recipes.
 - ```WATER_BREAK_ACTIVE``` Item can get wet and is broken in water if active.
 - ```WATER_BREAK``` Item is broken in water.
 - ```WATER_DISSOLVE``` Item is dissolved in water.
@@ -1097,12 +1106,14 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```CAN_BE_CULLED``` This animal can be culled if it's a pet.
 - ```CAN_DIG``` Will dig on any diggable terrain the same way `DIGS` does, however, will walk normally over non-diggable terrain.
 - ```CAN_OPEN_DOORS``` Can open doors on its path.
-- ```CLIMBS``` Can climb over fences or similar obstacles quickly.
+- ```CLIMBS``` (depricated in favor of [moveskills](MONSTERS.md#move_skills)) Can climb over fences or similar obstacles quickly.
 - ```COLDPROOF``` Immune to cold damage.
 - ```COMBAT_MOUNT```  This mount has better chance to ignore hostile monster fear.
 - ```CONSOLE_DESPAWN``` Despawns when a nearby console is properly hacked.
 - ```CONVERSATION``` This monster can engage in conversation.  Will need to have chat_topics as well.
 - ```CORNERED_FIGHTER``` This creature will stop fleeing and fight back if enemies pursue it into melee range.
+- ```COPY_SUMMONER_LOOK``` - This monster would copy the texture of whoever casted it, monster or character
+- ```COPY_AVATAR_LOOK```- This monster would copy the texture of avatar, no matter who it is
 - ```DORMANT``` This monster will be revived by dormant corpse traps.
 - ```DEADLY_VIRUS``` This monster can inflict the `zombie_virus` effect.  Used by the Dark Days of the Dead and Deadly Zombie Virus mods.
 - ```DESTROYS``` Bashes down walls and more (2.5x bash multiplier, where base is the critter's max melee bashing).
@@ -1193,7 +1204,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```STUN_IMMUNE``` This monster is immune to stun.
 - ```SUNDEATH``` Dies in full sunlight.
 - ```SWARMS``` Groups together and forms loose packs.
-- ```SWIMS``` Treats water as 50 movement point terrain.
+- ```SWIMS``` (depricated in favor of [moveskills](MONSTERS.md#move_skills)) Treats water as 50 movement point terrain.
 - ```VAMP_VIRUS``` This monster can inflict the `vampire_virus` effect.  Used by Xedra Evolved mod.
 - ```VENOM``` Attack may poison the player.
 - ```WARM``` Warm blooded.
@@ -1311,6 +1322,7 @@ See [Character](#character)
 - ```REQUIRES_PREDECESSOR``` Mapgen for this will not start from scratch; it will update the mapgen from the terrain it replaced.  This allows the corresponding json mapgen to use the `expects_predecessor` feature.
 - ```LAKE``` Consider this location to be a valid lake terrain for mapgen purposes.
 - ```LAKE_SHORE``` Consider this location to be a valid lake shore terrain for mapgen purposes.
+- ```PP_GENERATE_RIOT_DAMAGE``` Applies randomized riot damage to the local map as a last stage in generating it. Furniture and terrain will be bashed, items moved around, blood spatters are placed, and rarely spawns fires.
 - ```SOURCE_FUEL``` For NPC AI, this location may contain fuel for looting.
 - ```SOURCE_FOOD``` For NPC AI, this location may contain food for looting.
 - ```SOURCE_FARMING``` For NPC AI, this location may contain useful farming supplies for looting.
@@ -1461,6 +1473,7 @@ Techniques may be used by tools, armors, weapons and anything else that can be w
 - ```CANNIBALISM``` The item is a food that contains human flesh, and applies all applicable effects when consumed.
 - ```CHARGEDIM``` If illuminated, light intensity fades with charge, starting at 20% charge left.
 - ```DIG_TOOL``` If wielded, digs thorough terrain like rock and walls, as player walks into them.  If item also has `POWERED` flag, then it digs faster, but uses up the item's ammo as if activating it.
+- ```E_FILE_DEVICE``` The item can handle electronic files like a computer would.
 - ```FIRESTARTER``` Item will start fire with some difficulty.
 - ```FIRE``` Item will start a fire immediately.
 - ```HAS_RECIPE``` Used by the E-Ink tablet to indicate it's currently showing a recipe.

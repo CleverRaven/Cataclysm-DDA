@@ -17,7 +17,6 @@
     "//": "All guns are more expensive here.",
     "shopkeeper_item_group": [
       { "group": "afs_augustmoon_outfitter", "rigid": true },
-      { "group": "augustmoon_shop_money", "rigid": true },
       {
         "group": "afs_augustmoon_outfitter_military",
         "rigid": true,
@@ -43,7 +42,8 @@
       { "group": "afs_colonist_outfit", "count": [ 1, 3 ] },
       { "group": "afs_civilian_hazard_outfit", "count": [ 1, 3 ], "prob": 60 },
       { "group": "afs_pals_pieces", "count": [ 6, 12 ] },
-      { "group": "afs_augustmoon_outfitter_bags", "count": [ 10, 28 ] }
+      { "group": "afs_augustmoon_outfitter_bags", "count": [ 10, 28 ] },
+      { "group": "augustmoon_shop_money" }
     ]
   },
   {
@@ -92,7 +92,8 @@
     "items": [
       { "group": "afs_armor_military_infantry_g", "prob": 85 },
       { "item": "afs_backpack_rockets", "prob": 10 },
-      { "item": "afs_backpack_shieldgen", "prob": 5 }
+      { "item": "afs_backpack_shieldgen", "prob": 5 },
+      { "item": "afs_combat_cryo", "count": [ 1, 2 ], "prob": 60 }
     ]
   },
   {

@@ -12,6 +12,7 @@
     "weight": "120 kg",
     "hp": 200,
     "speed": 50,
+    "move_skills": { "swim": 10 },
     "material": [ "flesh" ],
     "symbol": "V",
     "color": "white",
@@ -30,7 +31,7 @@
     "anger_triggers": [ "HURT", "FRIEND_DIED", "FRIEND_ATTACKED" ],
     "harvest": "mutant_bird_flightless",
     "dissect": "dissect_bird_sample_large",
-    "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "SWIMS", "SUNDEATH" ],
+    "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "SUNDEATH" ],
     "armor": { "bash": 6, "cut": 2, "bullet": 2 }
   },
   {
@@ -61,7 +62,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "fear_paralyze" }, "monster_message": "" } ],
-    "death_function": { "effect": { "id": "death_amigara" } },
+    "death_function": { "eoc": "EOC_last_amigara_death" },
     "dissect": "dissect_human_sample_single",
     "flags": [ "SMELLS", "HEARS", "SEES", "STUMBLES", "HARDTOSHOOT" ],
     "armor": { "electric": 1 }
@@ -727,23 +728,24 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_STAR_VAMPIRE_FANGED_DRINK_BLOOD",
+    "condition": { "math": [ "_damage > 0" ] },
     "effect": [
-      { "math": [ "u_star_vampire_amount_drained", "=", "rng(250,650)" ] },
+      { "math": [ "_star_vampire_amount_drained", "=", "rng(250,650)" ] },
       {
         "if": { "npc_has_flag": "BLEEDSLOW2" },
         "then": [
-          { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained / 3" ] },
-          { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained / 3" ] }
+          { "math": [ "n_vitamin('blood')", "-=", "_star_vampire_amount_drained / 3" ] },
+          { "math": [ "n_vitamin('redcells')", "-=", "_star_vampire_amount_drained / 3" ] }
         ],
         "else": {
           "if": { "npc_has_flag": "BLEEDSLOW" },
           "then": [
-            { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained / 1.5" ] },
-            { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained / 1.5" ] }
+            { "math": [ "n_vitamin('blood')", "-=", "_star_vampire_amount_drained / 1.5" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "_star_vampire_amount_drained / 1.5" ] }
           ],
           "else": [
-            { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained" ] },
-            { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained" ] }
+            { "math": [ "n_vitamin('blood')", "-=", "_star_vampire_amount_drained" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "_star_vampire_amount_drained" ] }
           ]
         }
       }
@@ -899,23 +901,24 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_STAR_VAMPIRE_COILING_DRINK_BLOOD",
+    "condition": { "math": [ "_damage > 0" ] },
     "effect": [
-      { "math": [ "u_star_vampire_amount_drained", "=", "rng(125,325)" ] },
+      { "math": [ "_star_vampire_amount_drained", "=", "rng(125,325)" ] },
       {
         "if": { "npc_has_flag": "BLEEDSLOW2" },
         "then": [
-          { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained / 3" ] },
-          { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained / 3" ] }
+          { "math": [ "n_vitamin('blood')", "-=", "_star_vampire_amount_drained / 3" ] },
+          { "math": [ "n_vitamin('redcells')", "-=", "_star_vampire_amount_drained / 3" ] }
         ],
         "else": {
           "if": { "npc_has_flag": "BLEEDSLOW" },
           "then": [
-            { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained / 1.5" ] },
-            { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained / 1.5" ] }
+            { "math": [ "n_vitamin('blood')", "-=", "_star_vampire_amount_drained / 1.5" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "_star_vampire_amount_drained / 1.5" ] }
           ],
           "else": [
-            { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained" ] },
-            { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained" ] }
+            { "math": [ "n_vitamin('blood')", "-=", "_star_vampire_amount_drained" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "_star_vampire_amount_drained" ] }
           ]
         }
       }
@@ -1372,6 +1375,7 @@
     "weight": "40750 g",
     "hp": 40,
     "speed": 90,
+    "move_skills": { "swim": 6 },
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "dark_gray",
@@ -1387,7 +1391,7 @@
     "harvest": "exempt",
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "flags": [ "SEES", "SMELLS", "WARM", "SWIMS", "PLASTIC", "SUNDEATH", "NOGIB" ]
+    "flags": [ "SEES", "SMELLS", "WARM", "PLASTIC", "SUNDEATH", "NOGIB" ]
   },
   {
     "id": "mon_shoggoth",
@@ -1401,6 +1405,7 @@
     "weight": "200 kg",
     "hp": 400,
     "speed": 90,
+    "move_skills": { "swim": 2 },
     "symbol": "&",
     "color": "dark_gray",
     "aggression": 100,
@@ -1421,7 +1426,7 @@
     "split_move_cost": 180,
     "absorb_move_cost_max": 300,
     "absorb_move_cost_per_ml": 0.025,
-    "flags": [ "SEES", "SMELLS", "HAS_MIND", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB" ],
+    "flags": [ "SEES", "SMELLS", "HAS_MIND", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB" ],
     "armor": { "bash": 10, "cut": 30, "bullet": 24, "electric": 4 },
     "no_absorb_material": [ "anomaly", "monolith", "monolith_heavy" ]
   },
@@ -1438,6 +1443,7 @@
     "weight": "120 kg",
     "hp": 160,
     "speed": 140,
+    "move_skills": { "climb": 8, "swim": 4 },
     "material": [ "flesh" ],
     "symbol": "&",
     "color": "dark_gray",
@@ -1454,20 +1460,7 @@
     "harvest": "exempt",
     "special_attacks": [ { "id": "tentacle" } ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "flags": [
-      "SMELLS",
-      "HEARS",
-      "HAS_MIND",
-      "NOHEAD",
-      "BASHES",
-      "GROUP_BASH",
-      "SWIMS",
-      "ATTACKMON",
-      "PLASTIC",
-      "ACIDPROOF",
-      "NOGIB",
-      "CLIMBS"
-    ],
+    "flags": [ "SMELLS", "HEARS", "HAS_MIND", "NOHEAD", "BASHES", "GROUP_BASH", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB" ],
     "armor": { "bash": 8, "electric": 1 }
   },
   {
@@ -1482,6 +1475,7 @@
     "weight": "81500 g",
     "hp": 70,
     "speed": 90,
+    "move_skills": { "climb": 8 },
     "material": [ "flesh" ],
     "symbol": "h",
     "color": "light_red",
@@ -1495,7 +1489,7 @@
     "harvest": "demihuman",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "CLIMBS" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN" ]
   },
   {
     "id": "mon_yugg",
@@ -1510,6 +1504,7 @@
     "weight": "800 kg",
     "hp": 320,
     "speed": 80,
+    "move_skills": { "dig": 9 },
     "material": [ "flesh" ],
     "symbol": "W",
     "color": "white",
@@ -2179,6 +2174,82 @@
     "flags": [ "SMELLS" ]
   },
   {
+    "id": "mon_nether_huntsman",
+    "type": "MONSTER",
+    "name": { "str": "eldritch huntsman", "str_pl": "eldritch huntsmen" },
+    "description": "Tall, partially armored, barely humanoid creature with a long appendage growing out of its side.  Flexible spearlike rods protrude throughout its body, seemingly holstered under the skin.  It feverishly darts and scouts the surroundings, looking to rip its victims apart.",
+    "default_faction": "nether",
+    "bodytype": "human",
+    "species": [ "NETHER" ],
+    "volume": "150000 ml",
+    "weight": "120 kg",
+    "diff": 10,
+    "hp": 210,
+    "regenerates": 1,
+    "speed": 110,
+    "material": [ "flesh" ],
+    "symbol": "Y",
+    "color": "light_gray",
+    "aggression": 30,
+    "morale": 50,
+    "regen_morale": true,
+    "stomach_size": 3000,
+    "anger_triggers": [ "PLAYER_WEAK" ],
+    "fear_triggers": [ "HURT" ],
+    "melee_skill": 7,
+    "melee_dice": 4,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "dodge": 4,
+    "bleed_rate": 40,
+    "vision_day": 35,
+    "vision_night": 35,
+    "harvest": "nether_huntsman",
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_nether_huntsman" ],
+    "families": [ "prof_wp_netherium_abomination" ],
+    "path_settings": { "max_dist": 35, "allow_open_doors": false, "avoid_traps": false, "avoid_sharp": true },
+    "starting_ammo": { "nether_huntsman_javelin": 7 },
+    "death_drops": "nether_huntsman_drops",
+    "death_function": { "corpse_type": "NORMAL" },
+    "special_attacks": [
+      [ "PARROT", 30 ],
+      [ "EAT_CARRION", 120 ],
+      {
+        "type": "gun",
+        "cooldown": 20,
+        "move_cost": 110,
+        "gun_type": "nether_huntsman_arm",
+        "ammo_type": "nether_huntsman_javelin",
+        "fake_skills": [ [ "throwing", 5 ] ],
+        "fake_dex": 8,
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "target_moving_vehicles": true,
+        "targeting_sound": "rapid clicking, increasing in pitch!",
+        "targeting_cost": 330,
+        "targeting_volume": 30,
+        "no_ammo_sound": "slow clicking.",
+        "description": "huntsman's appendage hurls a sharp outgrowth out of its body!",
+        "condition": { "not": { "u_has_effect": "maimed_huntsman_arm" } },
+        "ranges": [ [ 2, 14, "DEFAULT" ] ]
+      }
+    ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "STUN_IMMUNE",
+      "HAS_MIND",
+      "BASHES",
+      "PATH_AVOID_DANGER",
+      "EATS",
+      "DROPS_AMMO",
+      "CORNERED_FIGHTER",
+      "RANGED_ATTACKER",
+      "PRIORITIZE_TARGETS"
+    ],
+    "armor": { "bash": 10, "cut": 15, "bullet": 5, "heat": 3 }
+  },
+  {
     "id": "mon_nether_fish",
     "type": "MONSTER",
     "name": { "str": "nether fish symbiote" },
@@ -2190,6 +2261,7 @@
     "weight": "1000 g",
     "hp": 25,
     "speed": 100,
+    "move_skills": { "swim": 10 },
     "material": [ "flesh" ],
     "symbol": "^",
     "color": "white_magenta",
@@ -2206,7 +2278,7 @@
     "harvest": "fish_small",
     "looks_like": "mon_fish_brown_trout",
     "fear_triggers": [ "FIRE" ],
-    "flags": [ "HEARS", "WARM", "SWIMS", "AQUATIC", "NO_BREATHE", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD", "GOODHEARING", "ANIMAL" ]
+    "flags": [ "HEARS", "WARM", "AQUATIC", "NO_BREATHE", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD", "GOODHEARING", "ANIMAL" ]
   },
   {
     "id": "mon_nether_unviable_butterfly",

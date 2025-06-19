@@ -19,7 +19,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "cs_gardening_allotment" ],
-    "method": "json",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -30,9 +29,9 @@
         "  |333____444_sss_aaa|  ",
         "  |333____444_sss_aaa|  ",
         "  |__________________|  ",
-        "  |aaa____888_aaa_111|  ",
-        "  |aaa____888_aaa_111|  ",
-        "  |aaa____888_aaa_111|  ",
+        "  |aaa____888_rrr_111|  ",
+        "  |aaa____888_rrr_111|  ",
+        "  |aaa____888_rrr_111|  ",
         "  |__________________|  ",
         "  |ggg____SSS_222_666|  ",
         "  |ggg____SSS_222_666|  ",
@@ -86,6 +85,7 @@
         "R": { "item": { "item": "seed_blueberries" }, "furniture": "f_planter_seedling", "chance": 100 },
         "S": { "item": { "item": "seed_strawberries" }, "furniture": "f_planter_seedling", "chance": 100 },
         "s": { "item": { "item": "seed_corn" }, "furniture": "f_planter_seedling", "chance": 100 },
+        "r": { "item": { "item": "seed_radish" }, "furniture": "f_planter_seedling", "chance": 100 },
         "g": { "item": { "item": "seed_cabbage" }, "furniture": "f_planter_seedling", "chance": 100 }
       },
       "items": { "C": { "item": "ga_items_1", "chance": 80 }, "7": { "item": "garden_shed", "chance": 33 } },
@@ -94,7 +94,7 @@
         { "item": "ga_items_1", "chance": 80, "x": 13, "y": 21 },
         { "item": "ga_items_1", "chance": 80, "x": 14, "y": 21 }
       ],
-      "add": [
+      "place_item": [
         { "item": "shovel", "x": [ 13, 17 ], "y": [ 19, 20 ], "chance": 20 },
         { "item": "stepladder", "x": 11, "y": 21, "chance": 40 },
         { "item": "gloves_work", "x": [ 14, 16 ], "y": 19, "chance": 45 },
@@ -106,7 +106,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cs_gardening_allotment_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

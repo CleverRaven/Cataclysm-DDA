@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "rural_house1",
     "type": "mapgen",
     "object": {
@@ -44,7 +43,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_house1_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -79,7 +77,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "rural_house2",
     "type": "mapgen",
     "object": {
@@ -130,7 +127,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_house2_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -166,7 +162,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_house2_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -189,14 +184,14 @@
         "  |W.......|            ",
         "  |Z.......|            ",
         "  |........|            ",
-        "  |FJJ.....|            ",
+        "  |âJJ.....|            ",
         "  ||||||||||            ",
         "                        ",
         "                        ",
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": { "chunks": [ [ "null", 70 ], [ "5x5_holdout_W", 10 ], [ "5x5_sauna_W", 20 ] ] },
         "2": {

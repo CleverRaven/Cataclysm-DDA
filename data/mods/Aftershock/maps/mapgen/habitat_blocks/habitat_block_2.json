@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "afs_habblock_2_a1", "afs_hablock_2_a2" ], [ "afs_habblock_2_a3", "afs_habblock_2_a4" ] ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -115,7 +114,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "afs_habblock_2_floor2_a1", "afs_hablock_2_floor2_a2" ],
       [ "afs_habblock_2_floor2_a3", "afs_habblock_2_floor2_a4" ]
@@ -232,7 +230,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "afs_habblock_2_floor3_a1", "afs_hablock_2_floor3_a2" ],
       [ "afs_habblock_2_floor3_a3", "afs_habblock_2_floor3_a4" ]
@@ -307,7 +304,7 @@
       },
       "furniture": { "á": "f_bookcase", "2": "f_bathtub", "6": "f_table" },
       "items": { "á": { "item": "homebooks", "repeat": [ 2, 3 ] } },
-      "vendingmachines": { "V": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true } },
+      "vendingmachines": { "V": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true, "networked": true } },
       "place_monster": [
         { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 4, 13 ], "y": [ 2, 23 ], "pack_size": [ 1, 3 ], "chance": 30 },
         { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 34, 43 ], "y": [ 2, 23 ], "pack_size": [ 1, 3 ], "chance": 30 },
@@ -324,7 +321,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "afs_habblock_2_floor4_a1", "afs_hablock_2_floor4_a2" ],
       [ "afs_habblock_2_floor4_a3", "afs_habblock_2_floor4_a4" ]
@@ -414,7 +410,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "afs_habblock_2_floor5_a1", "afs_hablock_2_floor5_a2" ],
       [ "afs_habblock_2_floor5_a3", "afs_habblock_2_floor5_a4" ]
@@ -517,7 +512,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "afs_habblock_2_roof_a1" ], [ "afs_habblock_2_roof_a2" ] ],
     "object": {
       "fill_ter": "t_metal_floor",

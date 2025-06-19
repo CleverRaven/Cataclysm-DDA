@@ -64,7 +64,8 @@
       "modular_deagle_50",
       "draco",
       "draco_mini",
-      "draco_micro"
+      "draco_micro",
+      "modular_ar_pistol"
     ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_automag"
@@ -91,7 +92,8 @@
       "colt_python",
       "colt_anaconda_8",
       "colt_anaconda_6",
-      "colt_anaconda_4"
+      "colt_anaconda_4",
+      "460_xvr"
     ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_revolver"
@@ -150,24 +152,37 @@
       "m18",
       "p226_9mm",
       "sp2022",
-      "ruger_charger"
+      "ruger_charger",
+      "hk_mp5_semi_pistol",
+      "TDI_10",
+      "draco_9mm",
+      "p365",
+      "swbodyguard",
+      "glock_42",
+      "glock_23",
+      "glock_27",
+      "glock_30",
+      "glock_36",
+      "glock_43",
+      "glock_43x",
+      "glock_26",
+      "glock_34",
+      "glock_48"
     ],
     "type": "MIGRATION",
     "replace": "pistol_medium"
   },
   {
     "id": [
-      "hk_mp5_semi_pistol",
       "ksub2000",
       "calico",
       "hk_mp5_10_semi",
-      "TDI_10",
       "mp40semi",
       "hpt3895",
-      "draco_9mm",
       "uberti_1873",
       "rossi_r92_357_16",
-      "rossi_r92_357_20"
+      "rossi_r92_357_20",
+      "rugerpcc"
     ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
@@ -178,7 +193,7 @@
     "replace": "pistol_pipe_smg"
   },
   {
-    "id": [ "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1", "taurus_judge" ],
+    "id": [ "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1", "taurus_judge", "sw642" ],
     "type": "MIGRATION",
     "replace": "pistol_revolver"
   },
@@ -206,7 +221,7 @@
     "replace": "pistol_smg"
   },
   {
-    "id": [ "ruger_1022", "ruger_1022_auto", "ruger_charger_auto", "rossi_gallery" ],
+    "id": [ "ruger_1022", "ruger_1022_auto", "ruger_charger_auto", "rossi_gallery", "marlin60" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_rifle"
   },
@@ -225,7 +240,10 @@
       "rough_rider_pistol_9",
       "1911_22",
       "rio_bravo",
-      "henry_golden_boy"
+      "henry_golden_boy",
+      "sw617",
+      "sr22",
+      "glock_44"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"
@@ -249,6 +267,7 @@
       "modular_m16_auto_rifle",
       "m16_auto_rifle",
       "scar_h",
+      "scar_h_mk20",
       "scar_l",
       "sig_mcx_rattler_sbr",
       "rm51_assault_rifle",
@@ -307,6 +326,7 @@
       "browning_blr",
       "remington_700",
       "savage_111f",
+      "scar_17s",
       "steyr_scout",
       "M24",
       "sharps"
@@ -360,7 +380,6 @@
       "ar15_450medium",
       "ar15_450short",
       "ar15_762",
-      "modular_ar_pistol",
       "rifle_223",
       "ruger_mini",
       "sig_assault_rifle",
@@ -387,7 +406,8 @@
       "ak308",
       "papm77",
       "rfb_308",
-      "rdb_223"
+      "rdb_223",
+      "scar_16s"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
@@ -418,7 +438,7 @@
     "replace": "rocket_disposable"
   },
   {
-    "id": [ "m202_flash", "m3_carlgustav", "m4_carlgustav", "RPG", "surv_rocket_launcher" ],
+    "id": [ "m202_flash", "m3_carlgustav", "m4_carlgustav", "RPG", "surv_rocket_launcher", "khuunaofaai" ],
     "type": "MIGRATION",
     "replace": "rocket_recoilless"
   },
@@ -450,7 +470,8 @@
       "benelli_tsa",
       "bigun",
       "mossberg_590m",
-      "USAS_12"
+      "USAS_12",
+      "m1014"
     ],
     "type": "MIGRATION",
     "replace": "shot_tactical"
@@ -464,7 +485,10 @@
       "mossberg_590",
       "mossberg_930",
       "remington_870",
-      "remington_870_express"
+      "remington_870_express",
+      "ithaca37",
+      "browning_a5",
+      "remington_1100"
     ],
     "type": "MIGRATION",
     "replace": "shot_pump"

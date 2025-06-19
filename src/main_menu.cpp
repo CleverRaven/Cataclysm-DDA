@@ -1,14 +1,18 @@
 #include "main_menu.h"
 
 #include <algorithm>
+#include <array>
+#include <chrono>
 #include <cmath>
 #include <cstdint>
-#include <cstdio>
+#include <cstdlib>
 #include <cstring>
-#include <ctime>
 #include <exception>
 #include <functional>
+#include <initializer_list>
 #include <istream>
+#include <locale>
+#include <map>
 #include <memory>
 #include <optional>
 #include <string>
@@ -19,20 +23,20 @@
 
 #include "auto_pickup.h"
 #include "avatar.h"
-#include "cata_imgui.h"
+#include "cata_path.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_id.h"
 #include "color.h"
 #include "debug.h"
-#include "imgui_demo.h"
 #include "enums.h"
 #include "filesystem.h"
 #include "game.h"
 #include "gamemode.h"
 #include "get_version.h"
 #include "help.h"
+#include "imgui_demo.h"
 #include "localized_comparator.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
@@ -49,12 +53,14 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
+#include "uilist.h"
 #include "ui_manager.h"
+#include "ui_style_picker.h"
 #include "wcwidth.h"
 #include "worldfactory.h"
-
-#include "imgui/imgui.h"
 
 static const mod_id MOD_INFORMATION_dda( "dda" );
 static const mod_id MOD_INFORMATION_dda_tutorial( "dda_tutorial" );
@@ -498,6 +504,7 @@ void main_menu::init_strings()
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Sh<o|O>w World Mods" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Copy World Sett<i|I>ngs" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Character to Tem<p|P>late" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Toggle World <C|c>ompression" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
 
@@ -512,6 +519,7 @@ void main_menu::init_strings()
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "A<u|U>topickup" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Sa<f|F>emode" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Colo<r|R>s" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "ImGui <S|s>tyles" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<I|i>mGui Demo Screen" ) );
 
     vSettingsHotkeys.clear();
@@ -858,7 +866,10 @@ bool main_menu::opening_screen()
                         get_safemode().show();
                     } else if( sel2 == 4 ) { /// Colors
                         all_colors.show_gui();
-                    } else if( sel2 == 5 ) { /// ImGui demo
+                    } else if( sel2 == 5 ) {
+                        style_picker picker;
+                        picker.show();
+                    } else if( sel2 == 6 ) { /// ImGui demo
                         imgui_demo_ui demo;
                         demo.run();
                     }
@@ -1147,7 +1158,7 @@ void main_menu::world_tab( const std::string &worldname )
     uilist mmenu( string_format( _( "Manage world \"%s\"" ), worldname ), {} );
     mmenu.border_color = c_white;
     int opt_val = 0;
-    std::array<char, 5> hotkeys = { 'm', 's', 't', 'd', 'r' };
+    std::array<char, 6> hotkeys = { 'm', 's', 't', 'c', 'd', 'r' };
     for( const std::string &it : vWorldSubItems ) {
         mmenu.entries.emplace_back( opt_val, true, hotkeys[opt_val],
                                     remove_color_tags( shortcut_text( c_white, it ) ) );
@@ -1194,12 +1205,23 @@ void main_menu::world_tab( const std::string &worldname )
                 load_char_templates();
             }
             break;
-        case 3: // Delete World
+        case 3: // Toggle save compression
+            if( world_generator->get_world( worldname )->has_compression_enabled() ) {
+                if( query_yn( _( "Disable save compression?" ) ) ) {
+                    world_generator->get_world( worldname )->set_compression_enabled( false );
+                }
+            } else {
+                if( query_yn( _( "Enable save compression?" ) ) ) {
+                    world_generator->get_world( worldname )->set_compression_enabled( true );
+                }
+            }
+            break;
+        case 4: // Delete World
             if( query_yn( _( "Delete the world and all saves within?" ) ) ) {
                 clear_world( true );
             }
             break;
-        case 4: // Reset World
+        case 5: // Reset World
             if( query_yn( _( "Remove all saves and regenerate world?" ) ) ) {
                 clear_world( false );
             }

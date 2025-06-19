@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_3", "null", "farm_1" ], [ "farm_6", "farm_5", "farm_4" ], [ "farm_9", "farm_8", "farm_7" ] ],
     "weight": 250,
     "object": {
@@ -96,7 +95,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_2" ] ],
     "weight": 500,
     "object": {
@@ -151,7 +149,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_2" ] ],
     "//": "NPC version",
     "weight": 50,
@@ -196,7 +193,7 @@
         "~": "t_dirtmoundfloor"
       },
       "items": {
-        " ": { "item": "trash", "chance": 7 },
+        " ": { "item": "SUS_trash_floor", "chance": 7 },
         "F": { "item": "SUS_fridge_survivor", "chance": 100 },
         "q": [
           { "item": "tools_earthworking", "chance": 65 },
@@ -210,7 +207,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_3_roof", "farm_2_roof" ] ],
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -246,7 +242,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_1_silo" ] ],
     "//": "Grain silo copy of silo in ranch_camp_57",
     "object": {
@@ -289,7 +284,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_1_silo_1" ] ],
     "object": {
       "rows": [
@@ -324,7 +318,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_1_silo_2" ] ],
     "object": {
       "rows": [
@@ -359,7 +352,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_1_silo_roof" ] ],
     "object": {
       "rows": [
@@ -394,7 +386,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_1_coop" ] ],
     "//": "Chicken Coop",
     "object": {
@@ -446,7 +437,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_1_coop_roof" ] ],
     "//": "Chicken Coop",
     "object": {
@@ -482,7 +472,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_1_greenhouse" ] ],
     "//": "Greenhouse",
     "object": {
@@ -540,7 +529,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_1_greenhouse_roof" ] ],
     "object": {
       "rows": [
@@ -574,7 +562,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_1_apiary" ] ],
     "//": "Apiary",
     "object": {
@@ -625,7 +612,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_1_apiary_roof" ] ],
     "object": {
       "rows": [

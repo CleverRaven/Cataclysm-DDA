@@ -5,32 +5,31 @@
 #include <array>
 #include <bitset>
 #include <cstddef>
-#include <iosfwd>
+#include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "clone_ptr.h"
 #include "color.h"
+#include "coords_fwd.h"
 #include "enum_bitset.h"
 #include "game_constants.h"
 #include "iexamine.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 
-struct ter_t;
-
-using ter_str_id = string_id<ter_t>;
-
-class JsonObject;
 class Character;
-struct iexamine_actor;
+class JsonObject;
+struct connect_group;
 struct furn_t;
 struct itype;
-struct tripoint;
+struct ter_t;
 
 // size of connect groups bitset; increase if needed
 const int NUM_TERCONN = 256;
@@ -120,7 +119,7 @@ struct map_furn_deconstruct_info : map_common_deconstruct_info {
 };
 struct map_shoot_info {
     // Base chance to hit the object at all (defaults to 100%)
-    int chance_to_hit = 0;
+    int chance_to_hit = 100;
     // Minimum damage reduction to apply to shot when hit
     int reduce_dmg_min = 0;
     // Maximum damage reduction to apply to shot when hit
@@ -310,6 +309,7 @@ enum class ter_furn_flag : int {
     TFLAG_WORKOUT_ARMS,
     TFLAG_WORKOUT_LEGS,
     TFLAG_TRANSLOCATOR,
+    TFLAG_TRANSLOCATOR_GREATER,
     TFLAG_AUTODOC,
     TFLAG_AUTODOC_COUCH,
     TFLAG_OPENCLOSE_INSIDE,
@@ -355,6 +355,7 @@ enum class ter_furn_flag : int {
     TFLAG_CLIMB_ADJACENT,
     TFLAG_FLOATS_IN_AIR,
     TFLAG_HARVEST_REQ_CUT1,
+    TFLAG_NATURAL_UNDERGROUND,
 
     NUM_TFLAG_FLAGS
 };
@@ -594,14 +595,17 @@ struct map_data_common_t {
 
         // Set to be member of a connection target group
         void set_connect_groups( const std::vector<std::string> &connect_groups_vec );
+        void unset_connect_groups( const std::vector<std::string> &connect_groups_vec );
         // Set target connection group
         void set_connects_to( const std::vector<std::string> &connect_groups_vec );
+        void unset_connects_to( const std::vector<std::string> &connect_groups_vec );
         // Set target group to rotate towards
         void set_rotates_to( const std::vector<std::string> &connect_groups_vec );
+        void unset_rotates_to( const std::vector<std::string> &connect_groups_vec );
 
         // Set groups helper function
-        void set_groups( std::bitset<NUM_TERCONN> &bits,
-                         const std::vector<std::string> &connect_groups_vec );
+        void set_groups( std::bitset<NUM_TERCONN> &bits, const std::vector<std::string> &connect_groups_vec,
+                         bool unset = false );
 
         bool in_connect_groups( const std::bitset<NUM_TERCONN> &test_connect_group ) const {
             return ( connect_groups & test_connect_group ).any();

@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "cs_car_dealership" ],
-    "method": "json",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -69,20 +68,20 @@
       ],
       "items": {
         "s": { "item": "oa_discarded_news", "chance": 33 },
-        "c": { "item": "oa_custom_trash", "chance": 70 },
-        "D": { "item": "oa_custom_trash", "chance": 60 },
+        "c": { "item": "SUS_trash_trashcan_public", "chance": 70 },
+        "D": { "item": "SUS_trash_dumpster", "chance": 60 },
         "d": { "item": "SUS_office_desk", "chance": 33 },
         "L": { "item": "oa_ig_cd_lockers", "chance": 70, "repeat": [ 1, 4 ] },
-        "F": { "item": "SUS_fridge_breakroom", "chance": 90 }
+        "F": { "item": "SUS_fridge_breakroom", "chance": 90 },
+        "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_items": [ { "item": "oa_ig_cd_fuel", "chance": 30, "x": 6, "y": 19 } ],
-      "add": [ { "item": "microwave", "x": 5, "y": 16, "chance": 2 }, { "item": "coffeemaker", "x": 6, "y": 16, "chance": 2 } ],
+      "place_item": [ { "item": "microwave", "x": 5, "y": 16, "chance": 2 }, { "item": "coffeemaker", "x": 6, "y": 16, "chance": 2 } ],
       "toilets": { "T": {  } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cs_car_dealership_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -114,7 +113,7 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_tar_flat_roof" },
-      "place_items": [ { "item": "roof_trash", "x": [ 4, 12 ], "y": [ 14, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ]
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 4, 12 ], "y": [ 14, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ]
     }
   }
 ]

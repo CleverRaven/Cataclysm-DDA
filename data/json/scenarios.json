@@ -21,6 +21,17 @@
   },
   {
     "type": "scenario",
+    "id": "exodiicastle",
+    "name": "Strange Castle",
+    "points": 0,
+    "description": "You have survived the initial wave of panic, and made your way to the wilderness.  You were expecting this area to be uninhabited, but instead you see a large castle guarded by strange robots.  At the entrance stands a sign, it reads \"Traders Come Well Avaunt\"",
+    "allowed_locs": [ "sloc_exodii_castle" ],
+    "start_name": "Strange Castle",
+    "flags": [ "LONE_START" ],
+    "requirement": "achievement_reach_exodii_base"
+  },
+  {
+    "type": "scenario",
     "id": "friend_liam",
     "name": "Friends to the End",
     "points": -10,
@@ -459,7 +470,8 @@
       "lost_sub",
       "spouse",
       "musician",
-      "true_foodperson"
+      "true_foodperson",
+      "futile_fighter"
     ],
     "eoc": [ "scenario_infected", "scenario_bad_day" ],
     "requirement": "achievement_survive_28_days",
@@ -478,6 +490,7 @@
     "forbidden_traits": [ "FASTREADER", "SLOWREADER" ],
     "requirement": "achievement_witnessed_portal_storm",
     "reveal_locale": false,
+    "distance_initial_visibility": 0,
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -532,6 +545,7 @@
     ],
     "requirement": "achievement_reach_lab_finale",
     "reveal_locale": false,
+    "distance_initial_visibility": 0,
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
@@ -592,6 +606,7 @@
     "start_of_game": { "hour": 8, "day": 1, "season": "winter", "year": 1 },
     "add_professions": true,
     "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ],
+    "distance_initial_visibility": 0,
     "requirement": "achievement_survive_91_days"
   },
   {
@@ -619,6 +634,7 @@
     "start_of_game": { "hour": 8, "day": 1, "season": "summer", "year": 2 },
     "add_professions": true,
     "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ],
+    "distance_initial_visibility": 50,
     "requirement": "achievement_survive_91_days"
   },
   {
@@ -635,6 +651,7 @@
     "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ],
     "requirement": "achievement_survive_91_days",
     "eoc": [ "faction_camp_start" ],
+    "distance_initial_visibility": 50,
     "flags": [ "CITY_START", "LONE_START" ]
   },
   {
@@ -648,6 +665,7 @@
     "flags": [ "LONE_START" ],
     "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
     "start_of_game": { "hour": 8, "day": 1, "season": "winter", "year": 1 },
+    "distance_initial_visibility": 0,
     "professions": [ "sheltered_militia", "sheltered_survivor", "unemployed" ]
   },
   {
@@ -662,6 +680,7 @@
     "forbidden_traits": [ "TOUGH", "DISRESISTANT" ],
     "professions": [ "unemployed", "patient", "veteran" ],
     "requirement": "achievement_reach_hospital",
+    "distance_initial_visibility": 0,
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
@@ -684,6 +703,7 @@
       "k9_cop",
       "cop"
     ],
+    "distance_initial_visibility": 0,
     "flags": [ "CITY_START", "LONE_START" ]
   },
   {
@@ -708,6 +728,7 @@
     ],
     "requirement": "achievement_reach_island_prison",
     "reveal_locale": false,
+    "distance_initial_visibility": 0,
     "flags": [ "LONE_START", "CHALLENGE" ]
   },
   {
@@ -721,6 +742,7 @@
     "professions": [ "captive", "rescuer" ],
     "requirement": "achievement_reach_mi-Go_encampment",
     "reveal_locale": false,
+    "distance_initial_visibility": 0,
     "flags": [ "LONE_START", "CHALLENGE" ],
     "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
     "start_of_game": { "hour": 8, "day": 1, "season": "winter", "year": 1 }
@@ -774,6 +796,7 @@
       "ELECTRORECEPTORS"
     ],
     "reveal_locale": false,
+    "distance_initial_visibility": 0,
     "flags": [ "LONE_START" ]
   },
   {
@@ -821,6 +844,8 @@
     "description": "You find yourself among trees.  The screaming and moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
     "start_name": "Wilderness",
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_campsite", "sloc_campground", "sloc_desert_island", "sloc_river" ],
+    "reveal_locale": false,
+    "distance_initial_visibility": 0,
     "flags": [ "LONE_START" ]
   },
   {
@@ -854,6 +879,7 @@
       "combat-engineer"
     ],
     "map_extra": "mx_helicopter",
+    "distance_initial_visibility": 0,
     "flags": [ "HELI_CRASH", "LONE_START" ],
     "missions": [ "MISSION_HELICOPTER_CRASH" ]
   },
@@ -900,6 +926,7 @@
       "combat-engineer"
     ],
     "requirement": "achievement_reach_military_base",
+    "distance_initial_visibility": 25,
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -951,6 +978,7 @@
     "allowed_locs": [ "sloc_road" ],
     "start_name": "Crash Site",
     "map_extra": "mx_mayhem_crash_start",
+    "distance_initial_visibility": 0,
     "flags": [ "CHALLENGE", "HELI_CRASH", "LONE_START" ]
   },
   {
@@ -1002,6 +1030,7 @@
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island" ],
     "eoc": [ "scenario_strong_portal_storm", "scenario_portal_dependent" ],
     "requirement": "achievement_reach_lab_finale",
+    "distance_initial_visibility": 0,
     "reveal_locale": false,
     "professions": [
       "portal_traveler",
@@ -1105,6 +1134,7 @@
     ],
     "requirement": "achievement_reach_aircraft_carrier",
     "reveal_locale": false,
+    "distance_initial_visibility": 0,
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -1319,6 +1349,7 @@
     "start_name": "Outside Town",
     "allowed_locs": [ "sloc_mobile_home", "sloc_motel" ],
     "eoc": [ "EOC_scenario_drunk" ],
+    "distance_initial_visibility": 6,
     "flags": [ "LONE_START" ]
   },
   {
@@ -1329,6 +1360,7 @@
     "description": "When FEMA camps ran out of space the authorities used what was left of their manpower to round up people at gunpoint.  The stadiums they forced everyone into did nothing to slow down the madness and it spread like wildfire.  You managed to slip away from the worst violence but you are now surrounded and need to escape quickly!",
     "start_name": "Stadium",
     "allowed_locs": [ "sloc_stadium" ],
+    "distance_initial_visibility": 0,
     "map_extra": "mx_corpses"
   },
   {
@@ -1339,7 +1371,8 @@
     "description": "During your escape you got lost and ended up at the wrong location.  Get your bearings and make a plan.  You'll need it.",
     "start_name": "Middle of Nowhere",
     "allowed_locs": [ "sloc_middle_of_nowhere" ],
-    "reveal_locale": false
+    "reveal_locale": false,
+    "distance_initial_visibility": 0
   },
   {
     "type": "scenario",
@@ -1349,7 +1382,8 @@
     "description": "When the riots came to your home, you ran underground and hid.  Now days later you are lost and hear movement echoing in the dark.",
     "start_name": "Underground",
     "allowed_locs": [ "sloc_sewer" ],
-    "reveal_locale": false
+    "reveal_locale": false,
+    "distance_initial_visibility": 0
   },
   {
     "type": "scenario",

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_garage4" ],
     "object": {
       "fill_ter": "t_floor",
@@ -19,7 +18,7 @@
         ".%.[.``````````````.[.%.",
         ".%...%%%%%.``.%%%%%...%.",
         ".#########o**o#########.",
-        ".#B  y|T       AJ  74F#.",
+        ".#B  y|T       AJ é74F#.",
         ".#B  t|  hfh   AJ    Oo.",
         ".#    +  hfh   AJ    5o.",
         "^#8S8Y|           6321#.",
@@ -52,7 +51,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_garage4_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -88,7 +86,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_garage4_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -112,13 +109,13 @@
         " |....................| ",
         " |...................g| ",
         " |...................U| ",
-        " |.............<.....F| ",
+        " |.............<.....â| ",
         " |....................| ",
         " |...............JJZWJ| ",
         " |||||||||||||||||||||| ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [

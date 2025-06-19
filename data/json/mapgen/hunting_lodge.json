@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lodge_ground1", "lodge_ground2" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -45,7 +44,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lodge_ground_glooscap1", "lodge_ground_glooscap2" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -89,7 +87,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lodge_2ndfloor1", "lodge_2ndfloor2" ] ],
     "object": {
       "fill_ter": "t_open_air",
@@ -121,11 +118,11 @@
       ],
       "palettes": [ "lodge_2ndfloor_palette" ],
       "place_items": [
-        { "item": "roof_trash", "x": [ 35, 37 ], "y": [ 8, 9 ], "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "roof_trash", "x": [ 24, 37 ], "y": [ 10, 15 ], "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "roof_trash", "x": [ 26, 30 ], "y": [ 16, 19 ], "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "roof_trash", "x": [ 8, 23 ], "y": [ 20, 22 ], "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "roof_trash", "x": [ 24, 34 ], "y": [ 20, 22 ], "chance": 50, "repeat": [ 1, 3 ] }
+        { "item": "SUS_trash_roof", "x": [ 35, 37 ], "y": [ 8, 9 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_roof", "x": [ 24, 37 ], "y": [ 10, 15 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_roof", "x": [ 26, 30 ], "y": [ 16, 19 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_roof", "x": [ 8, 23 ], "y": [ 20, 22 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_roof", "x": [ 24, 34 ], "y": [ 20, 22 ], "chance": 50, "repeat": [ 1, 3 ] }
       ],
       "place_nested": [
         {
@@ -144,7 +141,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lodge_roof1", "lodge_roof2" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -177,44 +173,44 @@
       "palettes": [ "roof_palette" ],
       "furniture": { "V": "f_wind_vane" },
       "place_items": [
-        { "item": "roof_trash", "x": [ 3, 23 ], "y": [ 1, 6 ], "chance": 20, "repeat": [ 1, 3 ] },
-        { "item": "roof_trash", "x": [ 24, 39 ], "y": [ 1, 6 ], "chance": 20, "repeat": [ 1, 3 ] }
+        { "item": "SUS_trash_roof", "x": [ 3, 23 ], "y": [ 1, 6 ], "chance": 20, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_roof", "x": [ 24, 39 ], "y": [ 1, 6 ], "chance": 20, "repeat": [ 1, 3 ] }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lodge_basement_residential1", "lodge_basement_residential2" ] ],
     "object": {
       "fill_ter": "t_soil",
       "rows": [
-        " %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%       ",
-        " %_//________//____//______//____//_____%       ",
-        " %___//______//______//____//______//___%       ",
-        " %___//________//____//______//____//___%       ",
-        " %_____//______//______//____//______//_%       ",
-        " %_____//________//____//______//____//_%       ",
-        " %_______//______//______//____//______/%       ",
-        " %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%_%%%       ",
-        "                                    %_%         ",
-        "                         %%%%%%%%%%%%_%         ",
-        "                         %__________BB%         ",
-        "                         %____________%         ",
-        "                         %____________%         ",
-        "                         %____________%         ",
-        "                         %____________%         ",
-        "                         %____________%         ",
-        "                         %%%______%%%%%         ",
-        "                         %<%______%             ",
-        "                         %_+______%             ",
-        "                         %%%%%%%%%%             ",
+        " ########################################       ",
+        " #_//________//____//______//____//_____#       ",
+        " #___//______//______//____//______//___#       ",
+        " #___//________//____//______//____//___#       ",
+        " #_____//______//______//____//______//_#       ",
+        " #_____//________//____//______//____//_#       ",
+        " #_______//______//______//____//______/#       ",
+        " ####################################_###       ",
+        "                                    #_#         ",
+        "                         ############_#         ",
+        "                         #__________RR#         ",
+        "                         #____________#         ",
+        "                         #____________#         ",
+        "                         #____________#         ",
+        "                         #____________#         ",
+        "                         #____________#         ",
+        "                         ###______#####         ",
+        "                         #<#______#             ",
+        "                         #_+______#             ",
+        "                         ##########             ",
         "                                                ",
         "                                                ",
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "basement_lodge" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
+      "terrain": { "/": "t_carpet_yellow", "_": "t_carpet_green", "R": "t_carpet_green" },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 7, "y": 4 } ],
       "place_nested": [
         { "chunks": [ [ "lodge_game_6x6", 80 ], [ "lodge_dungeon_6x6", 20 ], [ "lodge_drug_6x6", 50 ] ], "x": 2, "y": 1 },
@@ -229,7 +225,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "lodge_basement_residential3", "lodge_basement_residential4" ] ],
     "object": {
       "fill_ter": "t_soil",
@@ -243,23 +238,24 @@
         "                                                ",
         "                                                ",
         "                                                ",
-        "                         %%%%%%%%%%%%%%         ",
-        "                         %__________BB%         ",
-        "                         %____________%         ",
-        "                         %____________%         ",
-        "                         %____________%         ",
-        "                         %____________%         ",
-        "                         %____________%         ",
-        "                         %%%______%%%%%         ",
-        "                         %<%______%             ",
-        "                         %_+______%             ",
-        "                         %%%%%%%%%%             ",
+        "                         ##############         ",
+        "                         #__________RR#         ",
+        "                         #____________#         ",
+        "                         #____________#         ",
+        "                         #____________#         ",
+        "                         #____________#         ",
+        "                         #____________#         ",
+        "                         ###______#####         ",
+        "                         #<#______#             ",
+        "                         #_+______#             ",
+        "                         ##########             ",
         "                                                ",
         "                                                ",
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "basement_lodge" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
+      "terrain": { "_": "t_carpet_green", "R": "t_carpet_green" },
       "place_nested": [
         { "chunks": [ [ "room_6x6_woodworker", 5 ], [ "room_6x6_bike", 15 ], [ "room_6x6_office_E", 5 ] ], "x": 26, "y": 10 }
       ]
@@ -267,7 +263,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lodge_basement_laboratory_entrance" ],
     "//": "doesn't work rebuild later",
     "object": {

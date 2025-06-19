@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ [ "car_theater_0_0_1", "car_theater_1_0_1", "car_theater_2_0_1" ] ],
     "object": {
@@ -34,7 +33,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ [ "car_theater_0_0_2", "car_theater_1_0_2", "car_theater_2_0_2" ] ],
     "object": {
@@ -68,7 +66,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [
       [ "car_theater_0_0", "car_theater_1_0", "car_theater_2_0", "car_theater_3_0", "null" ],
@@ -157,10 +154,10 @@
         { "vehicle": "parking_garage", "chance": 20, "x": 105, "y": 51, "rotation": 0 }
       ],
       "items": {
-        "a": { "item": "trash", "chance": 60, "repeat": [ 1, 3 ] },
-        "&": { "item": "trash", "chance": 60, "repeat": [ 1, 3 ] },
+        "a": { "item": "SUS_trash_trashcan", "chance": 60 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 60 },
         "O": { "item": "SUS_oven", "chance": 100 },
-        "M": { "item": "fridgesnacks", "chance": 75, "repeat": [ 5, 10 ] },
+        "M": { "item": "SUS_fridge_snacks", "chance": 75, "repeat": [ 2, 4 ] },
         "m": { "item": "groce_softdrink", "chance": 75, "repeat": [ 5, 10 ] },
         "x": { "item": "groce_softdrink", "chance": 80, "repeat": [ 10, 15 ] },
         "X": { "item": "salty_snacks", "chance": 80, "repeat": [ 10, 15 ] }
@@ -169,7 +166,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ "car_theater_1_2_1" ],
     "object": {
@@ -202,15 +198,14 @@
       ],
       "palettes": [ "car_theater" ],
       "items": {
-        "&": { "item": "trash", "chance": 60, "repeat": [ 1, 3 ] },
-        "d": { "item": "office_paper", "chance": 25, "repeat": [ 1, 2 ] },
+        "&": { "item": "SUS_trash_trashcan", "chance": 60 },
+        "d": { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] },
         "i": { "item": "SUS_office_filing_cabinet", "chance": 50 }
       },
       "terrain": { ".": "t_open_air", ">": "t_stairs_down_no_roof", "n": "t_linoleum_white" }
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ "car_theater_1_2_2" ],
     "object": {
@@ -245,7 +240,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ [ "car_theater_3_1_1" ], [ "car_theater_3_2_1" ] ],
     "object": {
@@ -371,6 +365,7 @@
     },
     "item": { "N": { "item": "movie_poster", "chance": 100 } },
     "vendingmachines": { "$": { "item_group": "vending_drink", "lootable": true }, "V": { "item_group": "vending_food", "lootable": true } },
+    "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "T": {  } }
   }
 ]

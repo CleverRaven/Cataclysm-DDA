@@ -40,10 +40,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -223,10 +220,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -258,7 +252,6 @@
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "duct_tape", "charges": [ 15, 25 ] },
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
@@ -1141,8 +1134,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "prob": 25 },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
@@ -1152,7 +1145,7 @@
     "id": "t_window_bars_alarm",
     "name": "window with metal bars",
     "looks_like": "t_window_bars",
-    "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed in high-value stores, or ones in bad neighborhoods.  It has a small sticker in one corner, reading 'Protected by AtmoWeb, leading AI in terminating crime'.",
+    "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed in high-value stores, or ones in bad neighborhoods.  It has a small sticker in one corner, reading 'Protected by SecuriCorp.  Keeping you safe since 1993.'",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
@@ -1409,8 +1402,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "prob": 25 },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 75, 125 ] }
       ]
@@ -1451,8 +1444,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "prob": 25 },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 75, 125 ] }
       ]
@@ -1502,8 +1495,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "prob": 25 },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 75, 125 ] }
       ]
@@ -1513,7 +1506,7 @@
     "type": "terrain",
     "id": "t_metal_grate_window_noglass",
     "name": "window with metal grate",
-    "description": "Metal bars made into a grate for an empty window.  Highly durable and will stand against any foe",
+    "description": "Metal bars made into a grate for an empty window.  Highly durable and will stand against any foe.",
     "examine_action": "bars",
     "looks_like": "t_window_bars",
     "symbol": "#",
@@ -1542,8 +1535,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "prob": 25 },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
@@ -1583,8 +1576,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "prob": 25 },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
@@ -1635,8 +1628,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "prob": 25 },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
@@ -1882,10 +1875,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -2150,10 +2140,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "reinforced_glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -2438,10 +2425,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 2 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 2 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -2717,10 +2701,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "reinforced_glass_sheet", "count": 2 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 2 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -2985,10 +2966,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 3 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 3 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -3277,10 +3255,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "reinforced_glass_sheet", "count": 3 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 3 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -3565,10 +3540,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 3 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 3 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -3858,10 +3830,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "reinforced_glass_sheet", "count": 3 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 3 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -4676,8 +4645,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_metal_floor",
       "items": [
-        { "item": "steel_lump", "prob": 55 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "prob": 55 },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 20, 50 ] }
       ]

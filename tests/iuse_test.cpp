@@ -1,17 +1,28 @@
 #include <cstdlib>
-#include <iosfwd>
+#include <functional>
+#include <list>
 #include <memory>
 #include <string>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "flag.h"
+#include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
+#include "iuse.h"
+#include "map.h"
 #include "map_helpers.h"
-#include "morale_types.h"
+#include "map_selector.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "point.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -312,7 +323,7 @@ TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
     item oxygen( itype_oxygen_tank );
     oxygen.ammo_set( itype_oxygen );
 
-    int charges_before = oxygen.ammo_remaining();
+    int charges_before = oxygen.ammo_remaining( );
     REQUIRE( charges_before > 0 );
 
     // Ensure baseline painkiller value to measure painkiller effects
@@ -325,7 +336,7 @@ TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
 
         THEN( "a dose of oxygen relieves the smoke inhalation" ) {
             dummy.invoke_item( &oxygen );
-            CHECK( oxygen.ammo_remaining() == charges_before - 1 );
+            CHECK( oxygen.ammo_remaining( ) == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( effect_smoke_lungs ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
@@ -340,7 +351,7 @@ TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
 
         THEN( "a dose of oxygen relieves the effects of tear gas" ) {
             dummy.invoke_item( &oxygen );
-            CHECK( oxygen.ammo_remaining() == charges_before - 1 );
+            CHECK( oxygen.ammo_remaining( ) == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( effect_teargas ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
@@ -355,7 +366,7 @@ TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
 
         THEN( "a dose of oxygen relieves the effects of asthma" ) {
             dummy.invoke_item( &oxygen );
-            CHECK( oxygen.ammo_remaining() == charges_before - 1 );
+            CHECK( oxygen.ammo_remaining( ) == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( effect_asthma ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
@@ -375,7 +386,7 @@ TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
 
             THEN( "a dose of oxygen is stimulating" ) {
                 dummy.invoke_item( &oxygen );
-                CHECK( oxygen.ammo_remaining() == charges_before - 1 );
+                CHECK( oxygen.ammo_remaining( ) == charges_before - 1 );
                 // values should match iuse function `oxygen_bottle`
                 CHECK( dummy.get_stim() == 8 );
 
@@ -395,7 +406,7 @@ TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
 
             THEN( "a dose of oxygen has no additional stimulation effects" ) {
                 dummy.invoke_item( &oxygen );
-                CHECK( oxygen.ammo_remaining() == charges_before - 1 );
+                CHECK( oxygen.ammo_remaining( ) == charges_before - 1 );
                 CHECK( dummy.get_stim() == max_stim );
 
                 AND_THEN( "it acts as a mild painkiller" ) {
@@ -654,7 +665,7 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
     avatar &dummy = get_avatar();
     item inhaler( itype_inhaler );
     inhaler.ammo_set( itype_albuterol );
-    REQUIRE( inhaler.ammo_remaining() > 0 );
+    REQUIRE( inhaler.ammo_remaining( ) > 0 );
 
     item_location inhaler_loc = dummy.i_add( inhaler );
     REQUIRE( dummy.has_item( *inhaler_loc ) );
@@ -736,7 +747,8 @@ static item_location give_tablets( avatar &dummy, int count, bool in_inventory )
         for( int i = 0; i < count; ++i ) {
             container.put_in( item( itype_pur_tablets, calendar::turn ), pocket_type::CONTAINER );
         }
-        item_location container_loc = get_map().add_item_ret_loc( dummy.pos_bub(), container, true );
+        item_location container_loc = get_map().add_item_or_charges_ret_loc( dummy.pos_bub(), container,
+                                      true );
         REQUIRE( container_loc );
         std::list<item *> all_tablets = container_loc->all_items_top();
         REQUIRE( !all_tablets.empty() );
@@ -759,7 +771,7 @@ static item_location give_water( avatar &dummy, int count, bool in_inventory )
     if( in_inventory ) {
         container_loc = dummy.i_add( container );
     } else {
-        container_loc = get_map().add_item_ret_loc( dummy.pos_bub(), container, true );
+        container_loc = get_map().add_item_or_charges_ret_loc( dummy.pos_bub(), container, true );
     }
     REQUIRE( container_loc );
     // Spawning a container of water next to the player does not update the crafting inventory, so force an update
@@ -770,11 +782,12 @@ static item_location give_water( avatar &dummy, int count, bool in_inventory )
 
 TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
 {
+    map &here = get_map();
     avatar dummy;
     dummy.normalize();
     build_test_map( ter_t_grass );
     const tripoint_bub_ms test_origin( 20, 20, 0 );
-    dummy.setpos( test_origin );
+    dummy.setpos( here, test_origin );
     // Give the player a backpack to hold the tablets
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
 
@@ -938,10 +951,10 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
 
     SECTION( "6 tablets will purify a toilet tank" ) {
         item_location tablet = give_tablets( dummy, 6, true );
-        get_map().furn_set( dummy.pos_bub() + tripoint::north, furn_f_toilet );
+        here.furn_set( dummy.pos_bub( here ) + tripoint::north, furn_f_toilet );
         item water( itype_water );
         water.charges = 24;
-        get_map().add_item( dummy.pos_bub() + tripoint::north, water );
+        here.add_item( dummy.pos_bub( here ) + tripoint::north, water );
         item_location water_location( map_cursor( dummy.pos_bub() + tripoint::north ), &water );
 
         REQUIRE( water_location );
@@ -964,11 +977,12 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
 
 TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
 {
+    map &here = get_map();
     avatar dummy;
     dummy.normalize();
     build_test_map( ter_t_grass );
     const tripoint_bub_ms test_origin( 20, 20, 0 );
-    dummy.setpos( test_origin );
+    dummy.setpos( here, test_origin );
 
     SECTION( "Test purifying time" ) {
         item_location tablet = give_tablets( dummy, 1, true );

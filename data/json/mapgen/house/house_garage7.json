@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_garage7" ],
     "object": {
       "fill_ter": "t_floor",
@@ -14,7 +13,7 @@
         ".!``````#s      L   y#..",
         ".!``````oH l x      >o..",
         ".!``````oH l x     ||#..",
-        ".!``````oH l x      7#..",
+        ".!``````oH l x     é7#..",
         ".!``````#y          1o..",
         ".!###*###    |   J  2#..",
         ".%#L         J   J  Oo..",
@@ -61,7 +60,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_garage7_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -97,7 +95,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_garage7_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -108,7 +105,7 @@
         "                        ",
         "        ||||||||||||||  ",
         "        |.g...JJJWZ.U|  ",
-        "        |F..........<|  ",
+        "        |â..........<|  ",
         "        |............|  ",
         "        |............|  ",
         "        |......2.....|  ",
@@ -127,7 +124,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [ [ "null", 60 ], [ "room_10x10_woodworker_E", 30 ], [ "room_10x10_guns_E", 10 ], [ "room_10x10_guns_N", 10 ] ]

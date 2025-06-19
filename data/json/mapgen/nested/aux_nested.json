@@ -1,14 +1,12 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bile_field",
     "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_bile", "x": 0, "y": 0, "intensity": 1, "age": 10 } ] }
   },
   {
     "type": "mapgen",
     "nested_mapgen_id": "blood_field",
-    "method": "json",
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": [ 1, 3 ], "age": 10 } ]
@@ -16,13 +14,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fire_field",
     "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_fire", "x": 0, "y": 0, "intensity": 2, "age": 10 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "destroyed_glass_door_wall",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -32,7 +28,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "damaged_door_nested",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -42,13 +37,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "damaged_door_nested_no_junk",
     "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "damaged_door", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "destroyed_door_nested",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -58,13 +51,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "destroyed_door_nested_no_junk",
     "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "destroyed_door", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "destroyed_metal_door_nested",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -78,7 +69,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "damaged_window_bars_nested",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -88,51 +78,19 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "destroyed_window_bars_nested",
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_ter_furn_transforms": [ { "transform": "destroyed_window_bars", "x": 0, "y": 0 } ],
       "place_item": [
-        { "item": "steel_lump", "x": 0, "y": 0, "chance": 25 },
-        { "item": "steel_chunk", "x": 0, "y": 0, "repeat": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "x": 0, "y": 0, "chance": 25 },
+        { "item": "lc_steel_chunk", "x": 0, "y": 0, "repeat": [ 1, 4 ] },
         { "item": "scrap", "x": 0, "y": 0, "repeat": [ 1, 5 ] }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "looted_gunsafe_nested",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_ter_furn_transforms": [ { "transform": "looted_gunsafe", "x": 0, "y": 0 } ],
-      "place_items": [ { "item": "SUS_gunstore_safe", "x": 0, "y": 0, "repeat": [ 1, 3 ], "chance": 50 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "jammed_gunsafe_nested",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_ter_furn_transforms": [ { "transform": "jammed_gunsafe", "x": 0, "y": 0 } ],
-      "place_items": [ { "item": "SUS_gunstore_safe", "x": 0, "y": 0, "repeat": [ 10, 20 ], "chance": 50 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "open_gunsafe_nested",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_ter_furn_transforms": [ { "transform": "open_gunsafe", "x": 0, "y": 0 } ],
-      "place_items": [ { "item": "SUS_gunstore_safe", "x": 0, "y": 0, "repeat": [ 10, 20 ], "chance": 50 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "damaged_window_nested",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -142,7 +100,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "destroyed_window_nested",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -152,25 +109,21 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_fence_barbed",
     "object": { "mapgensize": [ 1, 1 ], "terrain": { " ": "t_fence_barbed" } }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_fence_barbed_above",
     "object": { "mapgensize": [ 1, 1 ], "place_nested": [ { "chunks": [ "1x1_fence_barbed" ], "x": 0, "y": 0, "z": 1 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_boarded_up",
     "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "boarded_up", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_boarded_up_rushed",
     "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "boarded_up_rushed", "x": 0, "y": 0 } ] }
   },
@@ -373,7 +326,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "deployed_small_tent",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -388,26 +340,22 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map bash damage.",
     "nested_mapgen_id": "1x1_bash",
     "object": { "mapgensize": [ 1, 1 ], "set": [ { "point": "bash", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_burn",
     "object": { "mapgensize": [ 1, 1 ], "set": [ { "point": "burn", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_bash_burn",
     "object": { "mapgensize": [ 1, 1 ], "set": [ { "point": "bash", "x": 0, "y": 0 }, { "point": "burn", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map bash damage.",
     "nested_mapgen_id": "1x1_2z_bash",
     "object": {
@@ -417,7 +365,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "destroyed_small_tent",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -430,29 +377,25 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "destroyed_furniture",
     "object": { "mapgensize": [ 1, 1 ], "place_rubble": [ { "x": 0, "y": 0, "rubble_type": "f_null", "items": true } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "destroyed_furniture_gunstore",
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_rubble": [ { "x": 0, "y": 0, "rubble_type": "f_null", "items": true } ],
-      "place_items": [ { "item": "loose_ammo", "x": [ 0, 0 ], "y": [ 0, 0 ], "chance": 50, "repeat": [ 1, 4 ] } ]
+      "place_items": [ { "item": "ammo_common_loose", "x": [ 0, 0 ], "y": [ 0, 0 ], "chance": 50, "repeat": [ 1, 4 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_trail_sign",
     "object": { "mapgensize": [ 1, 1 ], "place_signs": [ { "snippet": "trailhead", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_trailmap",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -463,7 +406,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_sewermap",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -474,7 +416,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_subwaystationmap",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -485,7 +426,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "corpse_blood_casings_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -498,7 +438,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "corpse_blood_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -508,7 +447,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "corpse_blood_casings_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -524,7 +462,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "rolling_trash_can_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -533,7 +470,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_hole",
     "object": {
       "mapgensize": [ 8, 8 ],

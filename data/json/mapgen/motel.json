@@ -78,11 +78,12 @@
       "n": { "item": "dining", "chance": 6 },
       "C": [ { "item": "cash_register_random", "chance": 100 }, { "item": "stand_flyer", "chance": 50 } ],
       "9": [ { "item": "SUS_janitors_closet", "chance": 40 }, { "item": "tools_toolbox", "chance": 40 } ],
-      "a": { "item": "trash", "repeat": [ 0, 2 ], "chance": 45 },
-      "{": { "item": "trash", "chance": 100, "repeat": [ 0, 5 ] },
+      "a": { "item": "SUS_trash_trashcan", "chance": 45 },
+      "{": { "item": "SUS_trash_dumpster", "chance": 75 },
       "s": { "item": "public_sink", "chance": 40, "repeat": [ 0, 2 ] },
       "F": { "item": "SUS_fridge_breakroom", "chance": 100 },
-      "c": { "item": "office_supplies", "chance": 20, "repeat": [ 1, 4 ] }
+      "c": { "item": "SUS_office_desk", "chance": 20, "repeat": [ 1, 4 ] },
+      "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "toilets": { "T": {  } },
     "item": {
@@ -118,18 +119,18 @@
     "items": {
       "@": { "item": "bed", "chance": 50 },
       "L": { "item": "unisex_coat_rack", "chance": 33 },
-      "a": { "item": "trash", "repeat": [ 0, 2 ], "chance": 45 },
+      "a": { "item": "SUS_trash_trashcan", "chance": 45 },
       "8": { "item": "shower", "chance": 33 },
       ":": { "item": "traveler", "chance": 80, "repeat": [ 3, 5 ] },
       "d": { "item": "book_motel", "chance": 100 },
       "Q": { "item": "SUS_fridge_bachelor", "chance": 100 },
-      "s": { "item": "public_sink", "chance": 40, "repeat": [ 0, 2 ] }
+      "s": { "item": "public_sink", "chance": 40, "repeat": [ 0, 2 ] },
+      "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "item": { "x": { "item": "television", "chance": 100 } }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "9x9_motel_room_twin_E",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -151,7 +152,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "9x9_motel_room_single_E",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -173,7 +173,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "9x9_motel_room_single_1_E",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -195,7 +194,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "9x9_motel_room_twin_N",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -217,7 +215,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "9x9_motel_room_single_N",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -239,7 +236,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "9x9_motel_room_single_1_N",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -261,7 +257,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "10x10_road_crossing",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -283,7 +278,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "2x2_sidewalk_right",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -297,7 +291,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "motel_1_no_sidewalk", "motel_entrance_no_sidewalk" ], [ "motel_2_no_sidewalk", "motel_3_no_sidewalk" ] ],
     "//": "Used by both out of city specials",
     "object": {
@@ -366,7 +359,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "motel_1", "motel_entrance" ], [ "motel_2", "motel_3" ] ],
     "//": "Used by both the city buildings",
     "object": {
@@ -438,7 +430,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "motel_1_roof", "motel_entrance_roof" ], [ "motel_2_roof", "motel_3_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -547,7 +538,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "2fmotel_1_f2", "2fmotel_entrance_f2" ], [ "2fmotel_2_f2", "2fmotel_3_f2" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -607,7 +597,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "2fmotel_1_r", "null" ], [ "2fmotel_2_r", "2fmotel_3_r" ] ],
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -700,7 +689,7 @@
       "u": {
         "terrain": { "param": "floor_type", "fallback": "t_floor" },
         "furniture": "f_trashcan",
-        "items": { "item": "trash_cart", "chance": 50 }
+        "items": { "item": "SUS_trash_floor_light", "chance": 50 }
       },
       "D": {
         "terrain": { "param": "floor_type", "fallback": "t_floor" },
@@ -731,11 +720,12 @@
         "items": { "item": "unisex_coat_rack", "chance": 25 }
       },
       "B": { "terrain": { "param": "floor_type", "fallback": "t_floor" }, "furniture": "f_floor_lamp" },
-      "d": { "terrain": "t_sidewalk", "furniture": "f_dumpster", "items": { "item": "trash", "chance": 100, "repeat": [ 0, 5 ] } },
+      "d": { "terrain": "t_sidewalk", "furniture": "f_dumpster", "items": { "item": "SUS_trash_dumpster", "chance": 75 } },
       "$": { "furniture": "f_shower", "items": { "item": "shower", "chance": 33 } },
       "S": { "furniture": "f_sink", "items": { "item": "public_sink", "chance": 33 } }
     },
     "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true }, "v": { "item_group": "vending_food", "lootable": true } },
+    "items": { "L": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "L": {  } }
   },
   {
@@ -787,7 +777,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "corpse_crossbow_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -801,7 +790,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_motel_twd_1_overrun",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -841,7 +829,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_motel_twd_2_overrun",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -884,7 +871,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_motel_twd_1_f1_overrun",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -897,7 +883,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_motel_twd_2_f1_overrun",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -910,7 +895,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_motel_twd_1",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -932,7 +916,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_motel_twd_2",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -951,7 +934,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_motel_twd_1_f1",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -964,7 +946,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "motel_twd_1", "motel_twd_2" ] ],
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -995,7 +976,7 @@
         "*******||w||||||w||||||w||||||w|||||************"
       ],
       "palettes": [ "motel_twd_palette" ],
-      "items": { " ": { "item": "trash_forest", "chance": 1 } },
+      "items": { " ": { "item": "SUS_trash_forest_manmade", "chance": 1 } },
       "place_nested": [
         {
           "chunks": [
@@ -1023,7 +1004,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "motel_twd_1_f1", "motel_twd_2_f1" ] ],
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1091,7 +1071,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "motel_twd_1_f2",
     "object": {
       "fill_ter": "t_open_air",

@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "ws_biker_dump_0_0", "ws_biker_dump_1_0", "ws_biker_dump_2_0", "ws_biker_dump_3_0" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -34,7 +33,7 @@
       "palettes": [ "regional_dump" ],
       "furniture": { "H": "f_55gal_firebarrel" },
       "items": {
-        ".": { "item": "trash", "chance": 5 },
+        ".": { "item": "SUS_trash_floor", "chance": 5 },
         "r": { "item": "oa_ig_rd_metal_trash", "chance": 15 },
         "U": { "item": "oa_discarded_news", "chance": 20 },
         "d": { "item": "oa_ig_rd_desks", "chance": 20 },
@@ -55,7 +54,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "ws_biker_dump_3_0_roof" ],
-    "method": "json",
     "object": {
       "rows": [
         "                        ",
@@ -89,7 +87,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "ws_biker_dump_0_1", "ws_biker_dump_1_1", "ws_biker_dump_2_1", "ws_biker_dump_3_1" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -121,9 +118,9 @@
       "palettes": [ "regional_dump" ],
       "furniture": { "H": "f_55gal_firebarrel" },
       "items": {
-        "B": { "item": "oa_custom_trash", "chance": 15 },
+        "B": { "item": "SUS_trash_trashcan", "chance": 15 },
         "1": { "item": "oa_ig_rd_electronic_trash", "chance": 10 },
-        "2": { "item": "trash", "chance": 10 },
+        "2": { "item": "SUS_trash_trashcan", "chance": 10 },
         "3": { "item": "oa_ig_rd_metal_trash", "chance": 10 },
         "W": { "item": "allclothes", "chance": 5 },
         "D": { "item": "allclothes", "chance": 5 },
@@ -154,7 +151,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "ws_biker_dump_0_2", "ws_biker_dump_1_2", "ws_biker_dump_2_2", "ws_biker_dump_3_2" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -247,25 +243,26 @@
         { "item": "55gal_drum", "x": 52, "y": 17, "chance": 100 }
       ],
       "items": {
-        ".": { "item": "trash", "chance": 5 },
-        "^": { "item": "trash", "chance": 2 },
-        " ": { "item": "trash", "chance": 10 },
-        "g": { "item": "oa_ig_rd_glass_trash", "chance": 10 },
-        "G": { "item": "oa_ig_rd_glass_trash", "chance": 5 },
+        ".": { "item": "SUS_trash_floor", "chance": 5 },
+        "^": { "item": "SUS_trash_floor", "chance": 2 },
+        " ": { "item": "SUS_trash_floor", "chance": 10 },
+        "g": { "item": "SUS_trash_glass", "chance": 10 },
+        "G": { "item": "SUS_trash_glass", "chance": 5 },
         "W": { "item": "allclothes", "chance": 5 },
         "D": { "item": "allclothes", "chance": 5 },
-        "p": { "item": "trash", "chance": 5 },
+        "p": { "item": "SUS_trash_floor", "chance": 5 },
         "a": { "item": "oa_ig_ash_pile", "chance": 40 },
         "b": { "item": "bed", "chance": 40 },
         "F": { "item": "SUS_fridge_survivor", "chance": 40 },
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "S": { "item": "softdrugs", "chance": 40, "repeat": [ 2, 6 ] },
-        "O": { "item": "oven", "chance": 40, "repeat": [ 2, 6 ] },
+        "O": { "item": "SUS_oven", "chance": 40, "repeat": [ 2, 6 ] },
         "l": { "item": "methchef", "chance": 40, "repeat": [ 2, 6 ] },
         "V": { "item": "methlab", "chance": 40, "repeat": [ 2, 6 ] },
         "L": [
           { "item": "harddrugs", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "allclothes", "chance": 30, "repeat": [ 2, 3 ] },
-          { "item": "ammo_common", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "ammo_common_boxed_used", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "flask_liquor", "chance": 20 }
         ],
         "t": [
@@ -279,7 +276,7 @@
           { "item": "gunmod_common", "chance": 50, "repeat": [ 1, 2 ] },
           { "item": "home_hw", "chance": 50, "repeat": [ 1, 2 ] },
           { "item": "guns_common", "chance": 50, "repeat": [ 4, 6 ] },
-          { "item": "ammo_common", "chance": 20, "repeat": [ 6, 10 ] }
+          { "item": "ammo_common_boxed_used", "chance": 20, "repeat": [ 6, 10 ] }
         ]
       }
     }
@@ -287,7 +284,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "ws_biker_dump_0_3", "ws_biker_dump_1_3", "ws_biker_dump_2_3", "ws_biker_dump_3_3" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -318,38 +314,37 @@
       ],
       "palettes": [ "regional_dump" ],
       "items": {
-        ".": { "item": "trash", "chance": 5 },
-        "^": { "item": "trash", "chance": 2 },
-        "g": { "item": "oa_ig_rd_glass_trash", "chance": 10 },
-        "G": { "item": "oa_ig_rd_glass_trash", "chance": 5 },
-        "p": { "item": "trash", "chance": 5 },
+        ".": { "item": "SUS_trash_floor", "chance": 5 },
+        "^": { "item": "SUS_trash_floor", "chance": 2 },
+        "g": { "item": "SUS_trash_glass", "chance": 10 },
+        "G": { "item": "SUS_trash_glass", "chance": 5 },
+        "p": { "item": "SUS_trash_floor", "chance": 5 },
         "a": { "item": "oa_ig_ash_pile", "chance": 40 }
       },
       "place_vehicles": [
-        { "vehicle": "oa_vg_wreck", "x": [ 10, 14 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 },
-        { "vehicle": "oa_vg_wreck", "x": [ 10, 14 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 },
-        { "vehicle": "oa_vg_wreck", "x": [ 10, 14 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 },
-        { "vehicle": "oa_vg_wreck", "x": [ 10, 14 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 },
-        { "vehicle": "oa_vg_wreck", "x": [ 10, 14 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 },
-        { "vehicle": "oa_vg_wreck", "x": [ 10, 14 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 },
-        { "vehicle": "oa_vg_wreck", "x": [ 34, 38 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 },
-        { "vehicle": "oa_vg_wreck", "x": [ 34, 38 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 },
-        { "vehicle": "oa_vg_wreck", "x": [ 34, 38 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 },
-        { "vehicle": "oa_vg_wreck", "x": [ 34, 38 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 },
-        { "vehicle": "oa_vg_wreck", "x": [ 34, 38 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 },
-        { "vehicle": "oa_vg_wreck", "x": [ 34, 38 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 },
-        { "vehicle": "oa_vg_wreck", "x": [ 58, 61 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 },
-        { "vehicle": "oa_vg_wreck", "x": [ 58, 62 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 },
-        { "vehicle": "oa_vg_wreck", "x": [ 58, 62 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 },
-        { "vehicle": "oa_vg_wreck", "x": [ 58, 62 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 },
-        { "vehicle": "oa_vg_wreck", "x": [ 58, 62 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 },
-        { "vehicle": "oa_vg_wreck", "x": [ 58, 62 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 }
+        { "vehicle": "oa_vg_wreck", "x": [ 10, 14 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] },
+        { "vehicle": "oa_vg_wreck", "x": [ 10, 14 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] },
+        { "vehicle": "oa_vg_wreck", "x": [ 10, 14 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] },
+        { "vehicle": "oa_vg_wreck", "x": [ 10, 14 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] },
+        { "vehicle": "oa_vg_wreck", "x": [ 10, 14 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] },
+        { "vehicle": "oa_vg_wreck", "x": [ 10, 14 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] },
+        { "vehicle": "oa_vg_wreck", "x": [ 34, 38 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] },
+        { "vehicle": "oa_vg_wreck", "x": [ 34, 38 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] },
+        { "vehicle": "oa_vg_wreck", "x": [ 34, 38 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] },
+        { "vehicle": "oa_vg_wreck", "x": [ 34, 38 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] },
+        { "vehicle": "oa_vg_wreck", "x": [ 34, 38 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] },
+        { "vehicle": "oa_vg_wreck", "x": [ 34, 38 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] },
+        { "vehicle": "oa_vg_wreck", "x": [ 58, 61 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] },
+        { "vehicle": "oa_vg_wreck", "x": [ 58, 62 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] },
+        { "vehicle": "oa_vg_wreck", "x": [ 58, 62 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] },
+        { "vehicle": "oa_vg_wreck", "x": [ 58, 62 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] },
+        { "vehicle": "oa_vg_wreck", "x": [ 58, 62 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] },
+        { "vehicle": "oa_vg_wreck", "x": [ 58, 62 ], "y": [ 9, 12 ], "rotation": [ 0, 90, 180, 270 ] }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "ws_biker_dump_2_2_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -381,7 +376,7 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_tar_flat_roof" },
-      "place_items": [ { "item": "roof_trash", "x": [ 6, 22 ], "y": [ 4, 16 ], "chance": 50, "repeat": [ 9, 20 ] } ]
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 6, 22 ], "y": [ 4, 16 ], "chance": 50, "repeat": [ 9, 20 ] } ]
     }
   }
 ]

@@ -7,19 +7,24 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_imgui.h"
 #include "color.h"
-#include "debug.h"
+#include "dialogue.h"
+#include "dialogue_helpers.h"
+#include "game_constants.h"
+#include "imgui/imgui.h"
 #include "input_context.h"
 #include "mission.h"
 #include "npc.h"
+#include "faction.h"
 #include "output.h"
 #include "string_formatter.h"
+#include "talker.h"
+#include "translation.h"
 #include "translations.h"
-#include "ui.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "units_utility.h"
-#include "cata_imgui.h"
-#include "imgui/imgui.h"
 
 enum class mission_ui_tab_enum : int {
     ACTIVE = 0,
@@ -45,8 +50,6 @@ static mission_ui_tab_enum &operator--( mission_ui_tab_enum &c )
     c = static_cast<mission_ui_tab_enum>( static_cast<int>( c ) - 1 );
     return c;
 }
-
-class mission_ui;
 
 class mission_ui
 {
@@ -276,6 +279,11 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
         npc *guy = g->find_npc( miss->get_npc_id() );
         if( guy ) {
             ImGui::TextWrapped( _( "Given by: %s" ), guy->disp_name().c_str() );
+            if( guy->get_faction() ) {
+                ImGui::TextWrapped( _( "Faction: %s" ), guy->get_faction()->name.c_str() );
+            }
+            const tripoint_abs_omt npc_location = guy->pos_abs_omt();
+            ImGui::TextWrapped( _( "Map location: %s" ), npc_location.to_string().c_str() );
         }
     }
     ImGui::Separator();

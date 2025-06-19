@@ -1,6 +1,13 @@
 #include "item_tname.h"
 
+#include <algorithm>
+#include <array>
+#include <iomanip>
+#include <iterator>
+#include <memory>
+#include <optional>
 #include <set>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -9,6 +16,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "fault.h"
 #include "flag.h"
@@ -18,16 +26,19 @@
 #include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
-#include "map.h"
 #include "mutation.h"
 #include "options.h"
 #include "point.h"
 #include "recipe.h"
 #include "relic.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
+#include "translation.h"
+#include "translation_cache.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 static const flag_id json_flag_HINT_THE_LOCATION( "HINT_THE_LOCATION" );
 
@@ -61,6 +72,27 @@ std::string faults( item const &it, unsigned int /* quantity */,
     }
 
     return damtext;
+}
+
+std::string faults_suffix( item const &it, unsigned int /* quantity */,
+                           segment_bitset const &/* segments */ )
+{
+    std::string text;
+    for( const fault_id &f : it.faults ) {
+        const std::string suffix = f->item_suffix();
+        if( !suffix.empty() ) {
+            text = "(" + suffix + ") ";
+            break;
+        }
+    }
+    // remove excess space, add one space before the string
+    if( !text.empty() ) {
+        text.pop_back();
+        const std::string ret = " " + text;
+        return ret;
+    } else {
+        return "";
+    }
 }
 
 std::string dirt_symbol( item const &it, unsigned int /* quantity */,
@@ -291,10 +323,11 @@ std::string food_traits( item const &it, unsigned int /* quantity */,
 std::string location_hint( item const &it, unsigned int /* quantity */,
                            segment_bitset const &/* segments */ )
 {
-    if( it.has_flag( json_flag_HINT_THE_LOCATION ) && it.has_var( "spawn_location_omt" ) ) {
-        tripoint_abs_omt loc( it.get_var( "spawn_location_omt", tripoint_abs_omt::zero ) );
-        tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().get_abs(
-                                         get_avatar().pos_bub() ) ) );
+    if( it.has_flag( json_flag_HINT_THE_LOCATION ) && it.has_var( "spawn_location" ) ) {
+        tripoint_abs_omt loc( coords::project_to<coords::omt>(
+                                  it.get_var( "spawn_location", tripoint_abs_ms::zero ) ) );
+        tripoint_abs_omt player_loc( coords::project_to<coords::omt>(
+                                         get_avatar().pos_abs() ) );
         int dist = rl_dist( player_loc, loc );
         if( dist < 1 ) {
             return _( " (from here)" );
@@ -312,7 +345,7 @@ std::string ethereal( item const &it, unsigned int /* quantity */,
                       segment_bitset const &/* segments */ )
 {
     if( it.ethereal ) {
-        return string_format( _( " (%s turns)" ), it.get_var( "ethereal" ) );
+        return string_format( _( " (%s turns)" ), it.get_var( "ethereal", 0 ) );
     }
     return {};
 }
@@ -436,6 +469,26 @@ std::string vars( item const &it, unsigned int /* quantity */,
         ret += string_format( " (%s)", item::nname( itype_id( it.get_var( "NANOFAB_ITEM_ID" ) ) ) );
     }
 
+    if( it.has_var( "snippet_file" ) ) {
+        std::string has_snippet = it.get_var( "snippet_file" );
+        if( has_snippet == "has" ) {
+            std::optional<translation> snippet_name =
+                SNIPPET.get_name_by_id( snippet_id( it.get_var( "local_files_simple_snippet_id" ) ) );
+            if( snippet_name ) {
+                ret += string_format( " (%s)", snippet_name->translated() );
+            }
+        } else {
+            ret += _( " (uninteresting)" );
+        }
+    }
+
+    if( it.has_var( "map_cache" ) ) {
+        std::string has_map_cache = it.get_var( "map_cache" );
+        if( has_map_cache == "read" ) {
+            ret += _( " (read)" );
+        }
+    }
+
     if( it.already_used_by_player( get_avatar() ) ) {
         ret += _( " (used)" );
     }
@@ -511,6 +564,17 @@ std::string active( item const &it, unsigned int /* quantity */,
     }
     return {};
 }
+std::string activity_occupany( item const &it, unsigned int /* quantity */,
+                               segment_bitset const &/* segments */ )
+{
+    if( it.has_var( "activity_var" ) ) {
+        // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
+        // in their name, also food is active while it rots.
+        return _( " (in use)" );
+    }
+    return {};
+}
+
 
 std::string sealed( item const &it, unsigned int /* quantity */,
                     segment_bitset const &/* segments */ )
@@ -566,6 +630,32 @@ std::string category( item const &it, unsigned int quantity,
     return colorize( it.get_category_of_contents().name_noun( quantity ), color );
 }
 
+std::string ememory( item const &it, unsigned int /* quantity */,
+                     segment_bitset const &/* segments */ )
+{
+    if( it.is_estorage() && !it.is_broken() ) {
+        if( it.is_browsed() ) {
+            units::ememory remain_mem = it.remaining_ememory();
+            units::ememory total_mem = it.total_ememory();
+            double ratio = static_cast<double>( remain_mem.value() ) / static_cast<double>( total_mem.value() );
+            nc_color ememory_color;
+            if( ratio > 0.66f ) {
+                ememory_color = c_light_green;
+            } else if( ratio > 0.33f ) {
+                ememory_color = c_yellow;
+            } else {
+                ememory_color = c_light_red;
+            }
+            std::string out_of = remain_mem == total_mem ? units::display( remain_mem ) :
+                                 string_format( "%s/%s", units::display( remain_mem ), units::display( total_mem ) );
+            return string_format( _( " (%s free)" ), colorize( out_of, ememory_color ) );
+        } else {
+            return colorize( _( " (unbrowsed)" ), c_dark_gray );
+        }
+    }
+    return {};
+}
+
 // function type that prints an element of tname::segments
 using decl_f_print_segment = std::string( item const &it, unsigned int quantity,
                              segment_bitset const &segments );
@@ -575,6 +665,7 @@ constexpr std::array<decl_f_print_segment *, num_segments> get_segs_array()
 {
     std::array<decl_f_print_segment *, num_segments> arr{};
     arr[static_cast<size_t>( tname::segments::FAULTS ) ] = faults;
+    arr[static_cast<size_t>( tname::segments::FAULTS_SUFFIX ) ] = faults_suffix;
     arr[static_cast<size_t>( tname::segments::DIRT ) ] = dirt_symbol;
     arr[static_cast<size_t>( tname::segments::OVERHEAT ) ] = overheat_symbol;
     arr[static_cast<size_t>( tname::segments::FAVORITE_PRE ) ] = pre_asterisk;
@@ -606,12 +697,14 @@ constexpr std::array<decl_f_print_segment *, num_segments> get_segs_array()
     arr[static_cast<size_t>( tname::segments::VARS ) ] = vars;
     arr[static_cast<size_t>( tname::segments::WETNESS ) ] = wetness;
     arr[static_cast<size_t>( tname::segments::ACTIVE ) ] = active;
+    arr[static_cast<size_t>( tname::segments::ACTIVITY_OCCUPANCY ) ] = activity_occupany;
     arr[static_cast<size_t>( tname::segments::SEALED ) ] = sealed;
     arr[static_cast<size_t>( tname::segments::FAVORITE_POST ) ] = post_asterisk;
     arr[static_cast<size_t>( tname::segments::RELIC ) ] = relic_charges;
     arr[static_cast<size_t>( tname::segments::LINK ) ] = noop;
     arr[static_cast<size_t>( tname::segments::TECHNIQUES ) ] = noop;
     arr[static_cast<size_t>( tname::segments::CONTENTS ) ] = contents;
+    arr[static_cast<size_t>( tname::segments::EMEMORY )] = ememory;
 
     return arr;
 }
@@ -639,6 +732,7 @@ std::string enum_to_string<tname::segments>( tname::segments seg )
     switch( seg ) {
         // *INDENT-OFF*
         case tname::segments::FAULTS: return "FAULTS";
+        case tname::segments::FAULTS_SUFFIX: return "FAULTS_SUFFIX";
         case tname::segments::DIRT: return "DIRT";
         case tname::segments::OVERHEAT: return "OVERHEAT";
         case tname::segments::FAVORITE_PRE: return "FAVORITE_PRE";
@@ -669,6 +763,7 @@ std::string enum_to_string<tname::segments>( tname::segments seg )
         case tname::segments::VARS: return "VARS";
         case tname::segments::WETNESS: return "WETNESS";
         case tname::segments::ACTIVE: return "ACTIVE";
+        case tname::segments::ACTIVITY_OCCUPANCY: return "ACTIVITY_OCCUPANCY";
         case tname::segments::SEALED: return "SEALED";
         case tname::segments::FAVORITE_POST: return "FAVORITE_POST";
         case tname::segments::RELIC: return "RELIC";
@@ -683,6 +778,7 @@ std::string enum_to_string<tname::segments>( tname::segments seg )
         case tname::segments::CONTENTS_ABREV: return "CONTENTS_ABBREV";
         case tname::segments::CONTENTS_COUNT: return "CONTENTS_COUNT";
         case tname::segments::FOOD_PERISHABLE: return "FOOD_PERISHABLE";
+        case tname::segments::EMEMORY: return "EMEMORY";
         case tname::segments::last: return "last";
         default:
         // *INDENT-ON*

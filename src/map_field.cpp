@@ -4,11 +4,9 @@
 #include <cmath>
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <queue>
 #include <set>
@@ -22,12 +20,12 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "effect.h"
 #include "emit.h"
 #include "enums.h"
@@ -36,16 +34,16 @@
 #include "fire.h"
 #include "fungal_effects.h"
 #include "game.h"
-#include "game_constants.h"
 #include "item.h"
 #include "itype.h"
 #include "level_cache.h"
-#include "line.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_field.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
+#include "maptile_fwd.h"
 #include "material.h"
 #include "messages.h"
 #include "mongroup.h"
@@ -57,8 +55,11 @@
 #include "rng.h"
 #include "scent_block.h"
 #include "scent_map.h"
+#include "string_formatter.h"
 #include "submap.h"
+#include "talker.h"
 #include "teleport.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -480,7 +481,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                     if( !cur.is_field_alive() || cur.get_field_intensity() != prev_intensity ) {
                         on_field_modified( p, *pd.cur_fd_type );
                     }
-                    it++;
+                    ++it;
                     continue;
                 }
 
@@ -492,7 +493,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                 if( !cur.is_field_alive() || cur.get_field_intensity() != prev_intensity ) {
                     on_field_modified( p, *pd.cur_fd_type );
                 }
-                it++;
+                ++it;
             }
         }
     }
@@ -776,7 +777,7 @@ static void field_processor_monster_spawn( const tripoint_bub_ms &p, field_entry
                 if( const std::optional<tripoint_bub_ms> spawn_point =
                         random_point( points_in_radius( p, int_level.monster_spawn_radius ),
                 [&pd]( const tripoint_bub_ms & n ) {
-                return pd.here.passable( n );
+                return pd.here.passable_through( n );
                 } ) ) {
                     const tripoint_bub_ms pt = spawn_point.value();
                     pd.here.add_spawn( mgr, pt );
@@ -812,7 +813,7 @@ static void field_processor_fd_push_items( const tripoint_bub_ms &p, field_entry
                     add_msg( m_bad, _( "A %s hits you!" ), tmp.tname() );
                     const bodypart_id hit = pd.player_character.get_random_body_part();
                     pd.player_character.deal_damage( nullptr, hit, damage_instance( damage_bash, 6 ) );
-                    pd.player_character.check_dead_state();
+                    pd.player_character.check_dead_state( &pd.here );
                 }
 
                 if( npc *const n = creatures.creature_at<npc>( newp ) ) {
@@ -820,12 +821,12 @@ static void field_processor_fd_push_items( const tripoint_bub_ms &p, field_entry
                     const bodypart_id hit = pd.player_character.get_random_body_part();
                     n->deal_damage( nullptr, hit, damage_instance( damage_bash, 6 ) );
                     add_msg_if_player_sees( newp, _( "A %1$s hits %2$s!" ), tmp.tname(), n->get_name() );
-                    n->check_dead_state();
+                    n->check_dead_state( &pd.here );
                 } else if( monster *const mon = creatures.creature_at<monster>( newp ) ) {
                     mon->apply_damage( nullptr, bodypart_id( "torso" ),
                                        6 - mon->get_armor_type( damage_bash, bodypart_id( "torso" ) ) );
                     add_msg_if_player_sees( newp, _( "A %1$s hits the %2$s!" ), tmp.tname(), mon->name() );
-                    mon->check_dead_state();
+                    mon->check_dead_state( &pd.here );
                 }
             } else {
                 pushee++;
@@ -1446,13 +1447,13 @@ If you wish for a field effect to do something over time (propagate, interact wi
 void map::player_in_field( Character &you )
 {
     // A copy of the current field for reference. Do not add fields to it, use map::add_field
-    field &curfield = get_field( you.pos_bub() );
+    field &curfield = get_field( you.pos_bub( *this ) );
     // Are we inside?
     bool inside = false;
     // If we are in a vehicle figure out if we are inside (reduces effects usually)
     // and what part of the vehicle we need to deal with.
     if( you.in_vehicle ) {
-        if( const optional_vpart_position vp = veh_at( you.pos_bub() ) ) {
+        if( const optional_vpart_position vp = veh_at( you.pos_abs() ) ) {
             inside = vp->is_inside();
         }
     }
@@ -1507,14 +1508,14 @@ void map::player_in_field( Character &you )
                     you.add_msg_if_player( m_warning, _( "You're standing in a pool of acid!" ) );
                 }
 
-                you.check_dead_state();
+                you.check_dead_state( this );
             }
         }
         if( ft == fd_sap ) {
             // Sap does nothing to cars.
             if( !you.in_vehicle ) {
                 // Use up sap.
-                mod_field_intensity( you.pos_bub(), ft, -1 );
+                mod_field_intensity( you.pos_bub( *this ), ft, -1 );
             }
         }
         if( ft == fd_sludge ) {
@@ -1608,7 +1609,7 @@ void map::player_in_field( Character &you )
                     } else {
                         you.add_msg_if_player( m_warning, _( player_warn_msg[msg_num] ) );
                     }
-                    you.check_dead_state();
+                    you.check_dead_state( this );
                 }
             }
 
@@ -1655,7 +1656,7 @@ void map::player_in_field( Character &you )
                     you.deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_heat, rng( 2, 6 ) ) );
                     you.deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_heat, rng( 2, 6 ) ) );
                     you.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_heat, rng( 4, 9 ) ) );
-                    you.check_dead_state();
+                    you.check_dead_state( this );
                 } else {
                     you.add_msg_player_or_npc( _( "These flames do not burn you." ),
                                                _( "Those flames do not burn <npcname>." ) );
@@ -1692,7 +1693,7 @@ void map::player_in_field( Character &you )
                 if( rng( 0, 2 ) < cur.get_field_intensity() && you.is_avatar() ) {
                     add_msg( m_bad, _( "You're violently teleported!" ) );
                     you.hurtall( cur.get_field_intensity(), nullptr );
-                    teleport::teleport( you );
+                    teleport::teleport_creature( you );
                 }
             }
         }
@@ -1834,11 +1835,11 @@ void map::monster_in_field( monster &z )
         // Digging monsters are immune to fields
         return;
     }
-    if( veh_at( z.pos_bub() ) ) {
+    if( veh_at( z.pos_abs() ) ) {
         // FIXME: Immune when in a vehicle for now.
         return;
     }
-    field &curfield = get_field( z.pos_bub() );
+    field &curfield = get_field( get_bub( z.pos_abs() ) );
 
     int dam = 0;
     // Iterate through all field effects on this tile.
@@ -1854,13 +1855,13 @@ void map::monster_in_field( monster &z )
             if( !z.flies() ) {
                 const int d = rng( cur.get_field_intensity(), cur.get_field_intensity() * 3 );
                 z.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_acid, d ) );
-                z.check_dead_state();
+                z.check_dead_state( this );
             }
 
         }
         if( cur_field_type == fd_sap ) {
             z.mod_moves( -cur.get_field_intensity() * 5 );
-            mod_field_intensity( z.pos_bub(), cur.get_field_type(), -1 );
+            mod_field_intensity( get_bub( z.pos_abs() ), cur.get_field_type(), -1 );
         }
         if( cur_field_type == fd_sludge ) {
             if( !z.digs() && !z.flies() &&
@@ -2008,7 +2009,7 @@ void map::monster_in_field( monster &z )
         if( cur_field_type == fd_fatigue ) {
             if( rng( 0, 2 ) < cur.get_field_intensity() ) {
                 dam += cur.get_field_intensity();
-                teleport::teleport( z );
+                teleport::teleport_creature( z );
             }
         }
         if( cur_field_type == fd_incendiary ) {
@@ -2073,7 +2074,7 @@ void map::monster_in_field( monster &z )
 
     if( dam > 0 ) {
         z.apply_damage( nullptr, bodypart_id( "torso" ), dam, true );
-        z.check_dead_state();
+        z.check_dead_state( this );
     }
 }
 

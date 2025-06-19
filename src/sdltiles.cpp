@@ -61,6 +61,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
@@ -188,6 +189,10 @@ static void InitSDL()
 #if defined(SDL_HINT_IME_SUPPORT_EXTENDED_TEXT)
     // Requires SDL 2.0.22. Support long IME composition text.
     SDL_SetHint( SDL_HINT_IME_SUPPORT_EXTENDED_TEXT, "1" );
+#endif
+
+#if defined(SDL_HINT_WINDOWS_DPI_AWARENESS)
+    SDL_SetHint( SDL_HINT_WINDOWS_DPI_AWARENESS, "permonitorv2" );
 #endif
 
 #if defined(SDL_HINT_APP_NAME)
@@ -976,7 +981,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     }
     if( uistate.place_special ) {
         for( const overmap_special_terrain &s_ter : uistate.place_special->preview_terrains() ) {
-            if( s_ter.p.z == 0 ) {
+            if( s_ter.p.z() == 0 ) {
                 const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
                 oter_id rotated_id = s_ter.terrain->get_rotated( uistate.omedit_rotation );
                 const oter_t &terrain = *rotated_id;
@@ -2754,8 +2759,8 @@ static void CheckMessages()
                 // display that action at the top of the list.
                 for( int dx = -1; dx <= 1; dx++ ) {
                     for( int dy = -1; dy <= 1; dy++ ) {
-                        int x = player_character.posx() + dx;
-                        int y = player_character.posy() + dy;
+                        int x = player_character.posx( here ) + dx;
+                        int y = player_character.posy( here ) + dy;
                         int z = player_character.posz();
                         const tripoint pos( x, y, z );
                         const tripoint_bub_ms bub_pos( pos );
@@ -2784,30 +2789,30 @@ static void CheckMessages()
 
                         if( dx != 0 || dy != 0 ) {
                             // Check for actions that work on nearby tiles
-                            //if( can_interact_at( ACTION_OPEN, pos ) ) {
+                            //if( can_interact_at( ACTION_OPEN, here, pos ) ) {
                             // don't bother with open since user can just walk into target
                             //}
-                            if( can_interact_at( ACTION_CLOSE, bub_pos ) ) {
+                            if( can_interact_at( ACTION_CLOSE, here, bub_pos ) ) {
                                 actions.insert( ACTION_CLOSE );
                             }
-                            if( can_interact_at( ACTION_EXAMINE, bub_pos ) ) {
+                            if( can_interact_at( ACTION_EXAMINE, here, bub_pos ) ) {
                                 actions.insert( ACTION_EXAMINE );
                             }
                         } else {
                             // Check for actions that work on own tile only
-                            if( can_interact_at( ACTION_BUTCHER, bub_pos ) ) {
+                            if( can_interact_at( ACTION_BUTCHER, here, bub_pos ) ) {
                                 actions.insert( ACTION_BUTCHER );
                             } else {
                                 actions_remove.insert( ACTION_BUTCHER );
                             }
 
-                            if( can_interact_at( ACTION_MOVE_UP, bub_pos ) ) {
+                            if( can_interact_at( ACTION_MOVE_UP, here, bub_pos ) ) {
                                 actions.insert( ACTION_MOVE_UP );
                             } else {
                                 actions_remove.insert( ACTION_MOVE_UP );
                             }
 
-                            if( can_interact_at( ACTION_MOVE_DOWN, bub_pos ) ) {
+                            if( can_interact_at( ACTION_MOVE_DOWN, here, bub_pos ) ) {
                                 actions.insert( ACTION_MOVE_DOWN );
                             } else {
                                 actions_remove.insert( ACTION_MOVE_DOWN );
@@ -2815,7 +2820,7 @@ static void CheckMessages()
                         }
 
                         // Check for actions that work on nearby tiles and own tile
-                        if( can_interact_at( ACTION_PICKUP, bub_pos ) ) {
+                        if( can_interact_at( ACTION_PICKUP, here, bub_pos ) ) {
                             actions.insert( ACTION_PICKUP );
                         }
                     }
@@ -2958,6 +2963,7 @@ static void CheckMessages()
 
     std::optional<point> resize_dims;
     bool render_target_reset = false;
+    using cata::options::mouse;
 
     while( SDL_PollEvent( &ev ) ) {
         imclient->process_input( &ev );
@@ -3213,6 +3219,9 @@ static void CheckMessages()
                 gamepad::handle_scheduler_event( ev );
                 break;
             case SDL_MOUSEMOTION:
+                if( ! mouse.enabled ) {
+                    break;
+                }
                 if( get_option<std::string>( "HIDE_CURSOR" ) == "show" ||
                     get_option<std::string>( "HIDE_CURSOR" ) == "hidekb" ) {
                     if( !SDL_ShowCursor( -1 ) ) {
@@ -3225,6 +3234,9 @@ static void CheckMessages()
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
+                if( ! mouse.enabled ) {
+                    break;
+                }
                 switch( ev.button.button ) {
                     case SDL_BUTTON_LEFT:
                         last_input = input_event( MouseInput::LeftButtonPressed, input_event_t::mouse );
@@ -3242,6 +3254,9 @@ static void CheckMessages()
                 break;
 
             case SDL_MOUSEBUTTONUP:
+                if( ! mouse.enabled ) {
+                    break;
+                }
                 switch( ev.button.button ) {
                     case SDL_BUTTON_LEFT:
                         last_input = input_event( MouseInput::LeftButtonReleased, input_event_t::mouse );
@@ -3259,6 +3274,9 @@ static void CheckMessages()
                 break;
 
             case SDL_MOUSEWHEEL:
+                if( ! mouse.enabled ) {
+                    break;
+                }
                 if( ev.wheel.y > 0 ) {
                     last_input = input_event( MouseInput::ScrollWheelUp, input_event_t::mouse );
                 } else if( ev.wheel.y < 0 ) {
@@ -3696,7 +3714,12 @@ void catacurses::init_interface()
     init_term_size_and_scaling_factor();
 
     WinCreate();
-
+    using cata::options::mouse;
+    if( mouse.enabled ) {
+        ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+    } else {
+        ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
+    }
     dbg( D_INFO ) << "Initializing SDL Tiles context";
     fartilecontext = std::make_shared<cata_tiles>( renderer, geometry, ts_cache );
     if( use_far_tiles ) {

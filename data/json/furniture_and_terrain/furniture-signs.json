@@ -9,7 +9,7 @@
     "move_cost_mod": -1,
     "coverage": 75,
     "required_str": -1,
-    "flags": [ "FLAMMABLE", "ORGANIC", "TRANSPARENT" ],
+    "flags": [ "FLAMMABLE", "ORGANIC", "TRANSPARENT", "FREE_TO_EXAMINE" ],
     "max_volume": "120 ml",
     "examine_action": "bulletin_board",
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 4, 8 ] } ] },
@@ -66,6 +66,83 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 2, 4 ] }, { "item": "splinter", "count": 2 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bulletin_evac",
+    "name": "evac shelter info board",
+    "looks_like": "f_bulletin",
+    "description": "A wide wooden frame surrounding a sheet of cork, on to which a number of full-page notices have been neatly tacked.  Most seem to provide emergency information, or instructions now woefully outdated considering the state of things, but a map pointing to the nearest refugee center catches your eye.  You should take a closer look.",
+    "symbol": "6",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE", "ORGANIC", "TRANSPARENT", "FREE_TO_EXAMINE", "EASY_DECONSTRUCT" ],
+    "max_volume": "120 ml",
+    "deconstruct": { "furn_set": "f_bulletin", "items": [ { "item": "paper", "count": 4 } ] },
+    "bash": {
+      "str_min": 3,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "nail", "charges": [ 4, 6 ] },
+        { "item": "splinter", "count": [ 1, 4 ] },
+        { "item": "paper", "count": [ 1, 4 ] }
+      ]
+    },
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_EVAC_BOARD_FALSE",
+          "condition": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" },
+          "effect": [
+            {
+              "u_message": "You study the board.  It shows a similar set of directions to the ones you already have.  You cross-reference them and don't learn anything new.",
+              "popup": true
+            }
+          ]
+        },
+        {
+          "id": "EOC_EVAC_BOARD",
+          "condition": { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
+          "effect": [
+            {
+              "u_message": "You study the board.  One of the pages has a map and address for a nearby refugee center alongside minutia you no longer need trouble yourself with now that society has collapsed, like 'operating hours' and 'acceptable forms of ID'.  You take careful note of the map on the board and mark down the coordinates.",
+              "popup": true
+            },
+            { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sign_stop",
+    "name": "stop sign",
+    "symbol": "P",
+    "description": "An octagonal red sign on a long metal pole, marked with the word STOP.",
+    "color": "red",
+    "examine_action": "sign",
+    "move_cost_mod": 1,
+    "coverage": 10,
+    "rotates_to": "PAVEMENT",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NO_SELF_CONNECT" ],
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 1 }, { "item": "sheet_metal", "count": 1 }, { "item": "nuts_bolts", "charges": [ 4, 8 ] } ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 4, 6 ] } ]
     }
   }
 ]

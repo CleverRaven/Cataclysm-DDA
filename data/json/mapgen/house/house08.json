@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_08" ],
     "//": "Standard variant",
     "weight": 300,
@@ -19,7 +18,7 @@
         ".o d@@s | hfh | ||JJJ|#.",
         ".#|||||+| hfh |  Y   4#.",
         ".#g|d                Oo.",
-        ".#>+          |6 31F52#.",
+        ".#>+          |6é31F52#.",
         ".#||+|##¶###¶###o######.",
         ".oB8 S#%``````.......^Ŧ.",
         ".#B  t#.``````........Ŧ.",
@@ -63,7 +62,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_08" ],
     "//": "Child birthday party variant",
     "weight": 15,
@@ -81,7 +79,7 @@
         ".o d@@s | hfh | ||JJJ|#.",
         ".#|||||+| hfh |  Y   4#.",
         ".#g|d                Oo.",
-        ".#>+          |6 31F52#.",
+        ".#>+          |6é31F52#.",
         ".#||+|##¶###¶###o######.",
         ".oB8 S#%-----........^Ŧ.",
         ".#B  t#.-----.........Ŧ.",
@@ -140,7 +138,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_08_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -176,7 +173,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_08_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -192,8 +188,8 @@
         " |g...................| ",
         " |....................| ",
         " |.....z..............| ",
-        " |<..zFz..............| ",
-        " |%%+%||||||||||||||||| ",
+        " |<..zâz..............| ",
+        " |||+|||||||||||||||||| ",
         " |....|                 ",
         " |JWZJ|                 ",
         " ||||||                 ",
@@ -206,7 +202,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "2": {
           "chunks": [

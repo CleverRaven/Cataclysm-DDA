@@ -4,39 +4,45 @@
 
 #include <array>
 #include <functional>
-#include <iosfwd>
+#include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
+#include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "cata_path.h"
 #include "coordinates.h"
 #include "enums.h"
-#include "json.h"
+#include "map_scale_constants.h"
 #include "memory_fast.h"
-#include "omdata.h"
+#include "overmap.h"
 #include "overmap_types.h"
+#include "point.h"
 #include "simple_pathfinding.h"
 #include "type_id.h"
 
+class JsonObject;
+class JsonOut;
+class JsonValue;
 class basecamp;
 class character_id;
-enum class cube_direction : int;
-enum class om_vision_level : int8_t;
-class map_extra;
 class monster;
 class npc;
-class overmap;
-class overmap_special_batch;
+class overmap_special;
 class vehicle;
+enum class cube_direction : int;
+enum class oter_travel_cost_type : int;
+namespace om_direction
+{
+enum class type : int;
+}  // namespace om_direction
 struct mapgen_arguments;
 struct mongroup;
-struct om_vehicle;
-struct radio_tower;
 struct regional_settings;
 
 struct overmap_path_params {
@@ -149,7 +155,7 @@ class overmapbuffer
 
         bool externally_set_args = false;
 
-        static cata_path terrain_filename( const point_abs_om & );
+        static std::string terrain_filename( const point_abs_om & );
         static cata_path player_filename( const point_abs_om & );
 
         /**
@@ -181,6 +187,8 @@ class overmapbuffer
         std::optional<mapgen_arguments> *mapgen_args( const tripoint_abs_omt & );
         std::string *join_used_at( const std::pair<tripoint_abs_omt, cube_direction> & );
         std::vector<oter_id> predecessors( const tripoint_abs_omt & );
+        // pick an OMT, scan it from z level 10, and return the first level that is not air
+        int highest_omt_point( tripoint_abs_omt loc );
         /**
          * Uses global overmap terrain coordinates.
          */
@@ -383,6 +391,8 @@ class overmapbuffer
             const tripoint_abs_omt &origin, const std::string &type, int radius, bool must_be_seen,
             ot_match_type match_type = ot_match_type::type, bool existing_overmaps_only = false,
             const std::optional<overmap_special_id> &om_special = std::nullopt );
+        tripoint_abs_omt find_existing_globally_unique( const tripoint_abs_omt &origin,
+                const omt_find_params &params );
 
         /* These functions return the overmap that contains the given
          * overmap terrain coordinate, and the local coordinates of that point
@@ -551,6 +561,14 @@ class overmapbuffer
             return overmap_count;
         }
 
+        int get_major_river_count() const {
+            return major_river_count;
+        }
+
+        void inc_major_river_count() {
+            major_river_count++;
+        }
+
     private:
         /**
          * Common function used by the find_closest/all/random to determine if the location is
@@ -570,11 +588,13 @@ class overmapbuffer
         overmap mutable *last_requested_overmap;
         // Set of globally unique overmap specials that have already been placed
         std::unordered_set<overmap_special_id> placed_unique_specials;
-        // This tracks the unique specials we have placed. It is used to
+        // This tracks the overmap unique specials we have placed. It is used to
         // Adjust weights of special spawns to correct for things like failure to spawn.
         std::unordered_map<overmap_special_id, int> unique_special_count;
         // Global count of number of overmaps generated for this world.
         int overmap_count = 0;
+        // Global count of major rivers generated for this world
+        int major_river_count = 0;
 
         /**
          * Get a list of notes in the (loaded) overmaps.
@@ -615,7 +635,7 @@ class overmapbuffer
          */
         void add_unique_special( const overmap_special_id &id );
         /**
-         * Logs the placement of the given unique overmap special.
+         * Logs the placement of the given unique overmap special
          */
         void log_unique_special( const overmap_special_id &id ) {
             unique_special_count[id]++;

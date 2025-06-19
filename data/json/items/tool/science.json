@@ -1,7 +1,8 @@
 [
   {
     "id": "barometer",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "barometer" },
     "description": "A plastic barometer that can read atmospheric pressure.",
@@ -17,7 +18,8 @@
   },
   {
     "id": "canister_goo",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "goo canister" },
     "description": "A metal canister with a label reading: \"Warning: contains highly toxic and corrosive materials.  Contents may be sentient.  Open at your own risk.\" You think you can feel something moving inside it.",
     "weight": "1596 g",
@@ -37,7 +39,8 @@
   {
     "id": "chemistry_set",
     "//": "To Do: Create a bunsen burner that uses a mix of electricity and LPG, then convert this to use that.  Will need multimag",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "chemistry set" },
     "description": "A chemistry set stored in a box.  It includes glass containers, hoses, metal wire, a hotplate, and a pair of safety glasses.  It might be used to craft some chemistry projects if you're so inclined.",
     "looks_like": "box_medium",
@@ -48,16 +51,17 @@
     "material": [ "glass", "cotton" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
     "sub": "hotplate",
     "charges_per_use": 1,
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ], [ "HOTPLATE", 2 ] ],
-    "use_action": [ { "type": "link_up", "cable_length": 7, "charge_rate": "1 kW" } ]
+    "use_action": [ { "type": "link_up", "cable_length": 7, "charge_rate": "1 kW" } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "chemistry_set_basic",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "basic chemistry set" },
     "description": "A basic chemistry set including glass containers, hoses, and a pair of safety glasses.  It might be used to craft some chemistry projects if you're so inclined, but you'll need a source of heat.",
@@ -73,7 +77,8 @@
   },
   {
     "id": "electrolysis_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "electrolysis kit" },
     "description": "A set of wiring and electrodes for applying a direct current, usually to a liquid.  Useful for crafting.  Load with a storage battery or 12 V vehicle battery to use.",
     "weight": "250 g",
@@ -82,7 +87,6 @@
     "price_postapoc": "7 USD 50 cent",
     "material": [ "steel", "copper", "plastic" ],
     "symbol": ";",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "300 W" } ],
     "pocket_data": [
@@ -91,11 +95,13 @@
         "//": "this tool is small and has no actual battery compartment, but can connect to large batteries.",
         "item_restriction": [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "ketene_lamp",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "ketene lamp" },
     "description": "A section of glass pipe with a bulb in the middle, which contains an electrical heating element.  It is used for producing ketene via pyrolysis of acetone or 1,3-butadiene from cyclohexane, for use in other chemical reactions.  Due to the instability of ketene, it can't be stored and must be used immediately.",
     "weight": "1800 g",
@@ -105,7 +111,6 @@
     "material": [ "glass", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "150 W" } ],
     "pocket_data": [
@@ -115,11 +120,13 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "engineering_makerspace_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "makerspace kit for STEM", "str_pl": "makerspace kits for STEM" },
     "description": "A kit with hundreds of pieces and dozens of blueprints for small engineering projects designed for beginner learners.  Explore mechanics and hydraulics!",
     "weight": "3200 g",
@@ -130,8 +137,8 @@
     "material": [ "steel", "plastic" ],
     "symbol": "^",
     "color": "dark_gray",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 1,
     "pocket_data": [
       {
@@ -141,7 +148,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "toy_makerspace_kit",
@@ -158,7 +166,8 @@
   },
   {
     "id": "engineering_robotics_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "robotics kit for young learners", "str_pl": "robotics kits for young learners" },
     "description": "A complete robotics engineering system, for learning the basics of building and programming robots.  Using sensors, motors, a core controller, and hundreds of snap-together building pieces, you can follow the instructions to assemble 12 different robots.  The versatile parts also allow you to make robots according to your own designs.",
     "weight": "3200 g",
@@ -169,8 +178,8 @@
     "material": [ "plastic" ],
     "symbol": ":",
     "color": "dark_gray",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 1,
     "pocket_data": [
       {
@@ -180,7 +189,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "toy_robot_kit",
@@ -197,7 +207,8 @@
   },
   {
     "id": "engineering_engine_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Stirling engine kit" },
     "description": "A Stirling engine kit that demonstrates the principles behind the generation of electricity through the use of hot air.",
     "weight": "3200 g",
@@ -208,10 +219,10 @@
     "material": [ "steel", "glass" ],
     "symbol": "^",
     "color": "light_green",
-    "ammo": [ "conc_alcohol" ],
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "conc_alcohol": 750 } } ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "tool_ammo": [ "conc_alcohol" ]
   },
   {
     "id": "toy_engine_kit",
@@ -228,12 +239,12 @@
   },
   {
     "id": "vac_oven_small",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "small vacuum oven" },
     "description": "A small 0.9 cubic foot vacuum oven used to purge residual solvents out of liquids and solids.  Looks kind of like a microwave.",
     "looks_like": "microwave",
     "weight": "40860 g",
-    "ammo": [ "battery" ],
     "volume": "27 L",
     "price": "1 kUSD",
     "price_postapoc": "30 USD",
@@ -241,13 +252,16 @@
     "material": [ "steel" ],
     "symbol": "E",
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "color": "dark_gray",
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1200 W" } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "closed_loop_extractor_small",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "small closed loop extractor" },
     "description": "A small closed loop extractor used for extracting essential oils from organic material, producing a high quality-extract.  It consists of a long metal tube clamped onto a steel \"honey pot\".  Organic material is packed in the tube, flushed with solvent, and essential oils gathered from the pot.  Must be powered up to operate.",
     "symbol": "E",
@@ -260,14 +274,15 @@
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "ammo": [ "battery" ],
     "qualities": [ [ "EXTRACT", 2 ] ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "600 W" } ],
-    "melee_damage": { "bash": 25 }
+    "melee_damage": { "bash": 25 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "closed_loop_extractor_large",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "large closed loop extractor" },
     "description": "A large machine used for extracting essential oils from large batches of organic material, producing a low-quality crude oil.  It consists of three long metal tubes funneled into a large drum that's set horizontally.  A series of hoses and tubes come out of the machine going to different valves.  It needs to be powered up to operate.",
     "looks_like": "still",
@@ -279,13 +294,15 @@
     "symbol": "E",
     "color": "dark_gray",
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ],
-    "ammo": [ "battery" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "qualities": [ [ "EXTRACT", 1 ] ],
-    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1800 W" } ]
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1800 W" } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "oil_extractor_crude",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "makeshift essential oil extractor" },
     "description": "A makeshift extraction system.  It's pretty much just a 55 gallon drum, a pipe to stir the solution, and a faucet at the bottom to drain the extractor.  Not the most ideal piece of equipment, but it will work.",
     "symbol": "E",
@@ -299,7 +316,7 @@
   },
   {
     "id": "catalytic_cracking_reactor",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "disassembled catalytic cracking reactor" },
     "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  Meticulously disassembled.  You can reassemble and plug it into your own power grid to use it.",
     "category": "tools",
@@ -313,7 +330,8 @@
   },
   {
     "id": "filter_paper_qualitative",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "qualitative filter paper" },
     "description": "A piece of filter paper for separating solids from liquids.  This filter paper has a rating of 2 microns, separating more solids out than quantitative filter paper, but the process takes longer.  It's intended to be disposable, but you could probably use it for some time before it's unusable.",
     "symbol": "E",
@@ -331,13 +349,15 @@
   {
     "id": "filter_paper_quantitative",
     "copy-from": "filter_paper_qualitative",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "quantitative filter paper" },
     "description": "A piece of filter paper for separating solids from liquids.  This filter paper has a rating of 20 microns, separating less solids out than qualitative filter paper, but the process is much faster.  It's intended to be disposable, but you could probably use it for some time before it's unusable.",
     "qualities": [ [ "FILTER", 1 ] ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "gasket_plastic_set",
     "name": { "str": "plastic gasket set" },
     "description": "A set of three plastic gaskets.  They're intended to be single-use, but you could probably use it for some time before they're too worn out to use.",
@@ -356,7 +376,8 @@
   },
   {
     "id": "vac_pump",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "vacuum pump" },
     "description": "A small belt-driven mechanical pump capable of achieving a vacuum of -29.99 hg (50 microns).",
     "symbol": "E",
@@ -369,7 +390,6 @@
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "iron" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "ammo": [ "battery" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "250 W" } ],
     "pocket_data": [
       {
@@ -387,11 +407,13 @@
         ]
       }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "recovery_pump",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "recovery pump" },
     "description": "A medium-sized vacuum pump designed to recover solvent (hydrocarbons) from extracted essential oils.",
     "category": "tools",
@@ -408,7 +430,8 @@
   },
   {
     "id": "electrolyzer_makeshift",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "makeshift water electrolyzer" },
     "description": "A makeshift appliance which decomposes water into oxygen and hydrogen via electrolysis of sodium hydroxide solution.  Much less energy-efficient than actual industrial equipment.",
     "//": "Energy efficiency is 40%, consuming 355 MJ and 8.936 L of water for 1 kg of H2 and 7.936 kg of O2.",
@@ -420,14 +443,15 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "150 W" } ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "storage_battery", "large_storage_battery" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "storage_battery", "large_storage_battery" ] } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "ammonia_machine_reactor",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "makeshift ammonia machine reactor" },
     "category": "tool",
     "description": "A huge appliance built from salvaged industrial equipment, which produces ammonia via the Haber-Bosch process from hydrogen and nitrogen.  As it uses primitive catalysts for the reaction, energy efficiency is very low.  This one is powered by electricity.",
@@ -440,14 +464,16 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "800 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ]
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "ammonia_machine_pipework",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "makeshift ammonia machine pipework" },
     "description": "A rather complicated system of thick-walled pipes, powerful compressors, and wiring, meant to interface with a reactor producing ammonia from nitrogen and hydrogen via Haber-Bosch process.  It also acts as a power source for all the low-powered electrical components of the system.",
     "//": "Consumes 20 MJ for 1 kg of NH3.",
@@ -460,14 +486,16 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "350 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ]
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "nitrogen_generator",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "makeshift nitrogen generator" },
     "description": "A large makeshift appliance which captures nitrogen from the air for use in chemistry projects.  It includes a standard air filter for filtering out dust and other large particles, a deliquescent dryer to remove water vapor from air, and a nitrogen membrane filter to separate nitrogen from dry air.",
     "//": "Uses up 1.2 MJ for 1 m^3 of N2 (1.253 kg), assuming 99.5% purity.",
@@ -481,9 +509,9 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1200 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -497,11 +525,13 @@
         ]
       }
     ],
-    "melee_damage": { "bash": 20 }
+    "melee_damage": { "bash": 20 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "butane_tank",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "//": "based on a 24lb N-butane tank such as https://www.usalab.com/24lb-n-butane-tank/.  That much butane occupies about 19 liters.  Roughly analogous to 5 gal propane tanks.",
     "name": { "str": "butane tank", "str_pl": "tanks of butane" },
     "description": "A tank of compressed butane.  Aside from its practicality as fuel, it can also be used to extract essential oils from organic material.",
@@ -532,7 +562,8 @@
   },
   {
     "id": "hydrogen_tank",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "hydrogen tank" },
     "description": "A tank of compressed hydrogen gas.  If you need to make water from scratch, or lift a zeppelin, it could come in handy.",
     "category": "other",
@@ -560,7 +591,7 @@
   },
   {
     "id": "pressure_tank",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "pressurized tank" },
     "description": "A tank designed to hold high pressure gases.",
     "category": "container",
@@ -588,7 +619,8 @@
   },
   {
     "id": "hygrometer",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "hygrometer" },
     "description": "A plastic hygrometer that can read the relative humidity in the air.",
@@ -604,7 +636,8 @@
   },
   {
     "id": "nitrogen_tank",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "nitrogen tank" },
     "description": "A tank of compressed nitrogen gas.  Nitrogen is useful for its lack of reactivity.  Don't try to breathe it.",
     "category": "other",
@@ -632,7 +665,8 @@
   },
   {
     "id": "oxygen_cylinder",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "oxygen tank" },
     "description": "A large steel cylinder used for storing pressurized gas.  It is marked with a faded, but legible O2 symbol.",
     "category": "container",
@@ -662,7 +696,8 @@
   },
   {
     "id": "platinum_grille",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "platinum grille" },
     "category": "spare_parts",
     "description": "A metal grille with a layer of platinum plating, suitable for use as a catalyst for some chemical reactions.",
@@ -680,7 +715,8 @@
   },
   {
     "id": "portal",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "portal generator" },
     "description": "A rare, bizarre, and arcane device of an otherworldly nature.  It's giving you a headache just looking at it.  It is covered in alien markings.",
     "weight": "1133 g",
@@ -699,7 +735,8 @@
   },
   {
     "id": "telepad",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "teleport pad" },
     "description": "A kit for a teleporter trap, consisting of a teleporter and a solar cell that is triggered when stepped upon.",
     "weight": "2 kg",
@@ -716,7 +753,8 @@
   },
   {
     "id": "teleporter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "teleporter" },
     "description": "An experimental device that will teleport you a short distance when activated.",
     "weight": "1360 g",
@@ -735,7 +773,8 @@
   },
   {
     "id": "weather_reader",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "Doppler Radar Turbo 2000" },
     "description": "A briefcase with a built-in laptop that looks like it's from the 80s.  Its vintage monochrome monitor displays a plethora of meteorological data.  No sign of the FLDSMDFR, however.",
@@ -747,10 +786,10 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -759,11 +798,13 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "analytical_set_basic",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "basic laboratory analysis kit" },
     "description": "A hefty kit containing some basic things you should probably not try to do precise chemistry without: a small balance scale, a spectrophotometer, a melting point apparatus, a pH meter, and a set of paper for thin layer chromatography.  This makes it a lot easier to feel confident that the chemical you've made is what you think it is.",
@@ -771,19 +812,21 @@
     "volume": "5 L",
     "price": "250 USD",
     "price_postapoc": "10 USD",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "ANALYSIS", 1 ] ],
     "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "1 kW" } ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "balance_small",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "small weight scale" },
     "description": "A simple scale that uses a set of steel weights on sliding bars to measure a sample's mass quite accurately.",
@@ -799,7 +842,8 @@
   },
   {
     "id": "spectrophotometer",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "spectrophotometer" },
     "description": "A ubiquitous analytical chemistry tool that measures the light absorption of a liquid sample in a special tube called a cuvette.",
@@ -807,8 +851,8 @@
     "volume": "2 L",
     "price": "80 USD",
     "price_postapoc": "5 USD",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "steel" ],
     "symbol": ";",
@@ -821,11 +865,13 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "cuvettes",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "set of spectrometry cuvettes", "str_pl": "sets of spectrometry cuvettes" },
     "description": "A small box filled with precisely-calibrated square plastic tubes for laboratory spectrometer use.",
@@ -839,7 +885,8 @@
   },
   {
     "id": "ph_meter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "pH meter" },
     "description": "A pair of glass probes attached to a voltmeter.  By putting one probe into a calibration solution (conveniently included) and the other in a substance, you can calculate the substance's acidity.",
@@ -847,7 +894,6 @@
     "volume": "1500 ml",
     "price": "60 USD",
     "price_postapoc": "2 USD 50 cent",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "glass" ],
@@ -861,11 +907,13 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "voltmeter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "voltmeter" },
     "description": "A device with two probes that let you measure the electrical potential between two points.",
@@ -881,7 +929,8 @@
   },
   {
     "id": "multimeter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "multimeter" },
     "description": "A gadget that is a little bigger than a handheld calculator, with a digital display and two pointed probes connected by wires.  It can measure not just voltage, but current in amps, and resistance in ohms, as well as test for electrical continuity.",
@@ -890,11 +939,11 @@
     "volume": "650 ml",
     "price": "90 USD",
     "price_postapoc": "2 USD 50 cent",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "material": [ "plastic" ],
     "use_action": [ "VOLTMETER" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [
@@ -904,11 +953,13 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "melting_point",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "melting point apparatus", "str_pl": "units of melting point apparatus" },
     "description": "A hot plate with a metal housing attached.  The metal housing has a magnification viewport and a slot into which a capillary tube containing a crystallized sample is inserted.  The device lets you precisely measure the melting point of a crystal, a property very useful in identifying what it is and how pure it is.",
@@ -916,17 +967,18 @@
     "volume": "1500 ml",
     "price": "60 USD",
     "price_postapoc": "2 USD 50 cent",
-    "ammo": [ "battery" ],
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "glass" ],
     "symbol": ";",
     "color": "light_gray",
     "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "1 kW" } ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "vortex",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "vortex device" },
     "description": "A small, hefty, boring-looking machine.  Its weighted trapezoidal frame has a single on-off switch and a speed dial, and on top of it sits a rubber receptacle.  Pressing a test tube into the receptacle would, with power, rapidly shake and mix the contents of the test tube.  It's surprisingly fun to use.",
@@ -942,7 +994,7 @@
   },
   {
     "id": "light_detector",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "light detector" },
     "description": "A photodiode on a chip, designed to convert incoming light to electrical energy for quantification.",
@@ -952,13 +1004,14 @@
     "price_postapoc": "2 USD 50 cent",
     "looks_like": "e_scrap",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray"
   },
   {
     "id": "glass_prism",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "glass prism" },
     "description": "A high-quality crystal glass prism for separating and redirecting light.",
@@ -972,7 +1025,7 @@
   },
   {
     "id": "glass_tube_small",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "small glass tube" },
     "description": "A small glass tube.  Small, tube-shaped, and made of glass.",
@@ -996,7 +1049,8 @@
   },
   {
     "id": "microscope",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "microscope" },
     "description": "A classic tool for the ages!  This hefty, durable piece of lab equipment makes small things look bigger.  Without electricity the light doesn't work, but the rest of it is surprisingly functional.  Unfortunately it's not useful for very much at the moment.",
@@ -1012,7 +1066,8 @@
   },
   {
     "id": "microscope_dissecting",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "dissecting microscope" },
     "description": "This microscope has less magnification than a standard one.  It's also stereoscopic and produces a neat 3-D image of the surface.  It was typically used for performing dissections and other fine-detail work on small creatures.  It still works pretty well with an added light source, but what would you do with it?",
@@ -1028,7 +1083,8 @@
   },
   {
     "id": "funnel_separation",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "separation funnel" },
     "description": "This thing doesn't look much like a funnel.  It's a teardrop-shaped piece of glass with a stopper at the wide end and a valve at the other.  It can be used to wash one liquid with another, like water and an oil, and then draw off whichever of the two liquids contains a higher amount of whatever compound you're trying to isolate.  With a high level of skill, it can also be used to make juvenile farting noises.",
@@ -1044,7 +1100,8 @@
   },
   {
     "id": "burette",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "burette" },
     "description": "A tall glass column with a stopcock at the end.  If you're serious about chemistry, you probably have a tattoo of one of these somewhere.",
@@ -1059,7 +1116,8 @@
   },
   {
     "id": "rotovap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "rotary evaporator" },
     "description": "Just looking at this thing makes you feel like a proper mad scientist.  It's a series of glass tubes and round flasks, connected to a central motor and a heating element.  The heating element warms one flask, kept rotating by the motor, evaporating the contents.  The vapor is then condensed in the tubes and collected in another flask, in case you wanted to save it for later.",
@@ -1070,6 +1128,7 @@
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "glass" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "symbol": "R",
     "color": "white",
     "charges_per_use": 5,
@@ -1079,7 +1138,8 @@
   },
   {
     "id": "still_lab",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "fractional distillation apparatus", "str_pl": "fractional distillation apparatuses" },
     "description": "One of the classic pieces of mad science glassware, this is a small-volume still that passes vapor through a fractional distillation column and then condenses the distillate in a cooled collection column.  A grad student or a robot (is there really any difference?) collects the distillate in fractions so that specific contents can be analyzed.  Going a few milliliters at a time, it would not be very effective to try to distill whiskey in this thing.",
@@ -1097,7 +1157,8 @@
   },
   {
     "id": "gelbox",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "electrophoresis tray" },
     "description": "A set of plastic trays, electrodes, and a power supply designed to create an electric voltage gradient through a liquid solution containing a solid gel.  Stuff like proteins and DNA would then get separated on the gel according to electrical charge and size.  Pretty useless now for anything but salvage.",
@@ -1114,7 +1175,8 @@
   },
   {
     "id": "microcentrifuge",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "microcentrifuge" },
     "description": "A smaller, benchtop version of the larger furniture-sized centrifuge.  Don't be fooled by its portable scale; it's still a very powerful piece of equipment that can spin stuff really quickly.  It's not a toy!",
@@ -1127,8 +1189,8 @@
     "looks_like": "f_centrifuge",
     "symbol": "n",
     "color": "white",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 5,
     "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "400 W" } ],
@@ -1140,11 +1202,12 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "stopcock",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "plastic stopcock" },
     "description": "Stop giggling.  This is a tiny plastic valve, get your mind out of the gutter.",
@@ -1159,7 +1222,7 @@
   },
   {
     "id": "rack_test_tube",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "test tube rack" },
     "description": "A plastic box with holes in it.  Not that exciting, unless you're desperate for a place to store a test tube.  Then it's great.",
@@ -1174,7 +1237,7 @@
   },
   {
     "id": "rack_test_tube_micro",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "microcentrifuge tube tray" },
     "description": "A plastic tray riddled with small holes, for storing microcentrifuge tubes.",
@@ -1189,7 +1252,7 @@
   },
   {
     "id": "stand_ring",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "ring stand" },
     "description": "A heavy metal plate and a sturdy rod, for clamping lab stuff to.",
@@ -1209,7 +1272,7 @@
   },
   {
     "id": "stand_ring_clamps",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "set of ring stand clamps", "str_pl": "sets of ring stand clamps" },
     "description": "A small box with a jumbled assortment of clamps for mounting on ring stands.  There seems to be some sort of rule that all of them are missing at least one wing nut for tightening; twist ties, duct tape, and other random stuff has been used to compensate.",
@@ -1226,7 +1289,8 @@
   },
   {
     "id": "sextant",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "sextant" },
     "description": "A tool for measuring angles of distant objects.  It can be used for measuring the altitude of the sun.",
@@ -1241,7 +1305,8 @@
   },
   {
     "id": "lux_meter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "lux meter" },
     "description": "A tool for measuring illuminance.",
@@ -1253,8 +1318,8 @@
     "symbol": ";",
     "color": "light_gray",
     "use_action": [ "LUX_METER" ],
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 10,
     "pocket_data": [
       {
@@ -1263,11 +1328,13 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "migo_bio_tech",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "//": [
       "intentionally do not spawn anywhere, until migo interest would be implemented",
       "for now, works only as reference for eoc-item-variable interaction"
@@ -1352,7 +1419,7 @@
   },
   {
     "id": "weather_glass",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "TOOL",
     "name": { "str_sp": "weather glass" },
     "description": "Also called storm glass or 'Goethe barometer', The weather glass barometer consists of a glass container with a sealed body, half filled with water.  A narrow spout connects to the body below the water level and rises above the water level.  The difference between the sealed water level in the body and the narrow open spout determines the atmospheric pressure.  Activate to get current atmospheric pressure.",
@@ -1372,7 +1439,8 @@
   },
   {
     "id": "hygroscope",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "hygroscope" },
     "description": "A small rectangular box.  Inside is a device that measures humidity by utilizing the hygroscopy of hair.  The hair's length changes with humidity as indicated on a dial.",
@@ -1392,7 +1460,8 @@
   },
   {
     "id": "glass_thermometer",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "glass thermometer" },
     "description": "A device used to measure temperature.  This one is made entirely of glass.  Mercury is used as its temperature sensor.  You could use this to get accurate information on current air temperature.",

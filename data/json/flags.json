@@ -103,7 +103,7 @@
   {
     "id": "ALLOWS_BODY_BLOCK",
     "type": "json_flag",
-    "info": "This item <info>allows to block with your body</info> when wielded as a weapon."
+    "info": "This item <info>won't prevent you from blocking with your body, such as arms or legs</info> when wielded as a weapon."
   },
   {
     "id": "ALLOWS_NATURAL_ATTACKS",
@@ -114,6 +114,11 @@
     "id": "ALLOWS_REMOTE_USE",
     "type": "json_flag",
     "info": "This item can be activated or reloaded from an adjacent tile without picking it up."
+  },
+  {
+    "id": "CAN_USE_IN_DARK",
+    "type": "json_flag",
+    "info": "This item can use all of its features in darkness."
   },
   {
     "id": "ALWAYS_AIMED",
@@ -168,6 +173,11 @@
     "id": "CALORIES_INTAKE",
     "type": "json_flag",
     "info": "This item enables you to keep track of calorie intake."
+  },
+  {
+    "id": "CALORIE_BURN",
+    "type": "json_flag",
+    "info": "This item enables you to keep track of calorie consumption.  Includes CALORIES_INTAKE."
   },
   {
     "id": "CASELESS_ROUNDS",
@@ -445,21 +455,9 @@
     "type": "json_flag"
   },
   {
-    "id": "ONLY_ONE",
-    "type": "json_flag",
-    "info": "You can wear <info>only one</info>."
-  },
-  {
     "id": "ONE_PER_LAYER",
     "type": "json_flag",
     "info": "<info>Only one</info> item can be worn on this clothing layer."
-  },
-  {
-    "id": "FANCY",
-    "type": "json_flag",
-    "//": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
-    "info": "This clothing is <info>fancy</info>.",
-    "conflicts": [ "SUPER_FANCY" ]
   },
   {
     "id": "FIRE",
@@ -665,14 +663,14 @@
     "//": "Designates a food that is usually undesirable but gives a morale bonus to characters with predator mutations."
   },
   {
-    "id": "PRESERVE_SPAWN_OMT",
+    "id": "PRESERVE_SPAWN_LOC",
     "type": "json_flag",
-    "//": "This item will store the OMT it spawned in the 'spawn_location_omt' var"
+    "//": "This item will store the tripoint_abs_ms it spawned in the 'spawn_location' var"
   },
   {
     "id": "HINT_THE_LOCATION",
     "type": "json_flag",
-    "//": "Same as PRESERVE_SPAWN_OMT, but aslo shows a snippet of how far the character from the `spawn_location_omt`: 1 OMT or less is `(from here)`, less than 6 OMT is `(from nearby)`, less than 30 OMT is `(from this area)`, anything more is (from far away)"
+    "//": "Same as PRESERVE_SPAWN_LOC, but also shows a snippet of how far the character from the `spawn_location`: 1 OMT or less is `(from here)`, less than 6 OMT is `(from nearby)`, less than 30 OMT is `(from this area)`, anything more is (from far away)"
   },
   {
     "id": "PROVIDES_TECHNIQUES",
@@ -939,13 +937,6 @@
     "type": "json_flag",
     "//": "Prevents glaring when in sunlight.",
     "info": "This clothing keeps the <info>glare</info> out of your eyes."
-  },
-  {
-    "id": "SUPER_FANCY",
-    "type": "json_flag",
-    "//": "Gives an additional moral bonus over FANCY if the player has the Stylish trait.",
-    "info": "This clothing is <info>very fancy</info>.",
-    "conflicts": [ "FANCY" ]
   },
   {
     "id": "SWIM_GOGGLES",
@@ -1715,6 +1706,10 @@
     "type": "json_flag"
   },
   {
+    "id": "NO_TEMP",
+    "type": "json_flag"
+  },
+  {
     "id": "NO_TURRET",
     "type": "json_flag",
     "//": "This flag should only be applied to GUN definitions, it will prevent generation of a turret vehicle part for the gun.  This blocks fake guns, or player unobtainable ones from appearing in turret list."
@@ -2358,6 +2353,41 @@
     "type": "json_flag"
   },
   {
+    "id": "E_FILE_DEVICE",
+    "type": "json_flag",
+    "//": "Any item that can handle electronic files"
+  },
+  {
+    "id": "E_STORABLE",
+    "type": "json_flag",
+    "//": "Any item that can be an electronic file"
+  },
+  {
+    "id": "E_COPIABLE",
+    "type": "json_flag",
+    "//": "Any item that can be electronically copied and scanned"
+  },
+  {
+    "id": "E_FILE_COLLECTION",
+    "type": "json_flag",
+    "//": "Any item that represents a collection of electronic files; this is to avoid making a file system for electronic devices"
+  },
+  {
+    "id": "E_FILE_DEVICE_UNREAD",
+    "type": "json_flag",
+    "//": "Any item that can handle electronic files but hasn't been read yet"
+  },
+  {
+    "id": "VIEW_RECIPES",
+    "type": "json_flag",
+    "//": "Any item that can display a list of contained recipes"
+  },
+  {
+    "id": "VIEW_PHOTOS",
+    "type": "json_flag",
+    "//": "Any item that can display a list of contained photos"
+  },
+  {
     "id": "AFS_CS_LOCKER_CARD",
     "type": "json_flag",
     "info": "ID card granting access to the crashing ship's locker room."
@@ -2651,5 +2681,25 @@
     "id": "CANNOT_GAIN_EFFECTS",
     "type": "json_flag",
     "//": "Creatures with this flag will not gain any new effects or gain extra time on their current ones."
+  },
+  {
+    "id": "BANK_NETWORKED",
+    "type": "json_flag",
+    "//": "Vending machines with this flag will allow purchasing items with your bank balance."
+  },
+  {
+    "id": "NATURAL_UNDERGROUND",
+    "type": "json_flag",
+    "//": "Wall tiles with this flag occur naturally underground and are not manmade."
+  },
+  {
+    "id": "INSTANT_BLEED",
+    "type": "json_flag",
+    "//": "Having this flag makes the player bleed corpses in 1 second each.  Used for a XE vampire power."
+  },
+  {
+    "id": "ONE_STORY_FALL",
+    "type": "json_flag",
+    "//": "When the character falls, the height is reduced by 1 Z level before calculating damage."
   }
 ]

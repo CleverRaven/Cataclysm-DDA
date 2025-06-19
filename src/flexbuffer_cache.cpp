@@ -23,6 +23,7 @@
 #include "filesystem.h"
 #include "json.h"
 #include "mmap_file.h"
+#include "options.h"
 
 namespace
 {
@@ -144,15 +145,15 @@ struct flexbuffer_vector_storage : flexbuffer_storage {
 };
 
 struct flexbuffer_mmap_storage : flexbuffer_storage {
-    std::shared_ptr<mmap_file> mmap_handle_;
+    std::shared_ptr<const mmap_file> mmap_handle_;
 
-    explicit flexbuffer_mmap_storage( std::shared_ptr<mmap_file> mmap_handle ) : mmap_handle_{ std::move( mmap_handle ) } {}
+    explicit flexbuffer_mmap_storage( std::shared_ptr<const mmap_file> mmap_handle ) : mmap_handle_{ std::move( mmap_handle ) } {}
 
     const uint8_t *data() const override {
-        return mmap_handle_->base;
+        return static_cast<const uint8_t *>( mmap_handle_->base() );
     }
     size_t size() const override {
-        return mmap_handle_->len;
+        return mmap_handle_->len();
     }
 };
 
@@ -325,6 +326,21 @@ class flexbuffer_disk_cache
 
             // Does the source file's mtime match what we cached previously
             if( source_mtime != disk_entry->second.mtime ) {
+                std::string filepath_and_name = disk_entry->first;
+                // we use this as an exclusion condition. Configuration options can be changed all the time, we don't want to warn over those. Same for achievements.
+                bool stale_game_data = *root_relative_source_path.begin() != std::filesystem::u8path( "config" ) &&
+                                       *root_relative_source_path.begin() != std::filesystem::u8path( "achievements" ) &&
+                                       *root_relative_source_path.begin() != std::filesystem::u8path( "templates" );
+                if( stale_game_data ) {
+                    if( get_option<bool>( "WARN_ON_MODIFIED" ) ) {
+                        debugmsg( "Stale game data detected at %s, did you overwrite old files?  When updating the game you must install to a fresh folder, overwriting old files will cause errors.",
+                                  filepath_and_name );
+                    } else {
+                        // we still log the modification warning even if the option is disabled, for sifting bug reports
+                        DebugLog( D_WARNING, D_MAIN ) << "Stale game data detected (error disabled by user): " <<
+                                                      filepath_and_name;
+                    }
+                }
                 // Cached flexbuffer on disk is out of date, remove it.
                 remove_file( disk_entry->second.flexbuffer_path.u8string() );
                 cached_flexbuffers_.erase( disk_entry );
@@ -332,8 +348,8 @@ class flexbuffer_disk_cache
             }
 
             // Try to mmap the cached flexbuffer
-            std::shared_ptr<mmap_file> mmap_handle = mmap_file::map_file(
-                        disk_entry->second.flexbuffer_path.u8string() );
+            std::shared_ptr<const mmap_file> mmap_handle = mmap_file::map_file(
+                        disk_entry->second.flexbuffer_path );
             if( !mmap_handle ) {
                 return storage;
             }
@@ -412,12 +428,12 @@ std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse( std::filesystem::pat
         size_t offset )
 {
     std::string json_source_path_string = json_source_path.generic_u8string();
-    std::shared_ptr<mmap_file> json_source = mmap_file::map_file( json_source_path );
+    std::shared_ptr<const mmap_file> json_source = mmap_file::map_file( json_source_path );
     if( !json_source ) {
         throw std::runtime_error( "Failed to mmap " + json_source_path_string );
     }
 
-    const char *json_text = reinterpret_cast<const char *>( json_source->base ) + offset;
+    const char *json_text = reinterpret_cast<const char *>( json_source->base() ) + offset;
 
     std::vector<uint8_t> fb = parse_json_to_flexbuffer_( json_text, json_source_path_string.c_str() );
 

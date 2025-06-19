@@ -1,5 +1,43 @@
 [
   {
+    "id": "changeling_research_new_seasonal_spells",
+    "type": "SPELL",
+    "name": "Develop New Glamours",
+    "description": "Using the power of human dreams, unlock the secrets of new seasonal magicks.  It requires a large amount of dreamdross and time to perform this research.",
+    "message": "",
+    "flags": [ "NO_FAIL", "VERBAL", "SOMATIC" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 6,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_USE_DREAMDROSS_TO_RESEARCH_NEW_SPELLS",
+    "magic_type": "xe_fey_magick",
+    "shape": "blast",
+    "base_energy_cost": 1000,
+    "base_casting_time": 50
+  },
+  {
+    "id": "changeling_gain_dreamsparks",
+    "type": "SPELL",
+    "name": "Extract Dreamsparks",
+    "description": "Pull the power of creativity and enchantment from dreamdross and condense it into dreamsparks, so you can use them to power fae magicks.",
+    "message": "",
+    "flags": [ "NO_FAIL", "VERBAL", "SOMATIC" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 9,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS",
+    "magic_type": "xe_fey_magick",
+    "shape": "blast",
+    "base_energy_cost": 0,
+    "base_casting_time": 50
+  },
+  {
     "id": "changeling_disguise_as_nature_spell",
     "type": "SPELL",
     "name": "None Here But the Stones",
@@ -205,6 +243,65 @@
     }
   },
   {
+    "id": "changeling_noble_command_commoners_spell",
+    "type": "SPELL",
+    "name": "Sovereign's Command",
+    "description": "With a stern word of command, you can glamour one of the common fae, the redcaps or brownies or pooka or bannermen, into defending you from your enemies.",
+    "message": "You snap out an order to your target.",
+    "valid_targets": [ "ally", "hostile" ],
+    "flags": [ "VERBAL", "RECHARM", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_FAIL", "NO_PROJECTILE", "SILENT" ],
+    "effect": "charm_monster",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 5,
+    "skill": "deduction",
+    "max_level": 1,
+    "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 4.5) + (u_skill('deduction') * 20) + 10" ] },
+    "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 9) + (u_skill('deduction') * 30) + 30" ] },
+    "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 691) + (u_skill('deduction') * 3246) + 8259" ] },
+    "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 1685) + (u_skill('deduction') * 8388) + 26221" ] },
+    "min_range": 15,
+    "max_range": 15,
+    "magic_type": "xe_fey_magick",
+    "base_energy_cost": {
+      "math": [ "max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 5) - (u_skill('deduction') * 15)), 150)" ]
+    },
+    "base_casting_time": {
+      "math": [ "max(( 150 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) - (u_skill('deduction') * 8)), 50)" ]
+    },
+    "targeted_monster_species": [ "CHANGELING" ],
+    "ignored_monster_species": [ "CHANGELING_NOBLE" ]
+  },
+  {
+    "id": "changeling_noble_charm_humans_spell",
+    "type": "SPELL",
+    "name": "Come Away, O Human Child",
+    "description": "With a stern word of command or a whispered entreaty, you can glamour a human into defending you from your enemies.",
+    "message": "You cast your glamour over your target.",
+    "valid_targets": [ "ally", "hostile" ],
+    "flags": [ "VERBAL", "RECHARM", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_FAIL", "NO_PROJECTILE", "SILENT" ],
+    "effect": "charm_monster",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 7,
+    "skill": "deduction",
+    "max_level": 1,
+    "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) + (u_skill('deduction') * 20) + 10" ] },
+    "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 7) + (u_skill('deduction') * 30) + 30" ] },
+    "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 286) + (u_skill('deduction') * 2455) + 5824" ] },
+    "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 773) + (u_skill('deduction') * 6250) + 19375" ] },
+    "min_range": 10,
+    "max_range": 10,
+    "magic_type": "xe_fey_magick",
+    "base_energy_cost": {
+      "math": [ "max(( 700 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 9) - (u_skill('deduction') * 25)), 300)" ]
+    },
+    "base_casting_time": {
+      "math": [ "max(( 150 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) - (u_skill('deduction') * 8)), 50)" ]
+    },
+    "targeted_monster_species": [ "FERAL", "HUMAN" ]
+  },
+  {
     "id": "changeling_brownie_blink_indoors_spell",
     "type": "SPELL",
     "name": "Slip Through the Cracks",
@@ -269,6 +366,7 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 6,
+    "skill": "deduction",
     "max_level": 1,
     "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 3) + (u_skill('deduction') * 10) + 15" ] },
     "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 7) + (u_skill('deduction') * 25) + 60" ] },
@@ -292,6 +390,47 @@
     "targeted_monster_species": [ "MAMMAL", "BIRD" ]
   },
   {
+    "id": "selkie_beguilement_spell",
+    "type": "SPELL",
+    "name": "Beguilement",
+    "description": "With a wink and a bit of fae glamour, you can enchant a target to defend you for a brief time.  This glamour only <color_yellow>only works</color> on humans.",
+    "message": "You cast your glamour over your target.",
+    "valid_targets": [ "ally", "hostile" ],
+    "flags": [ "VERBAL", "RECHARM", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_FAIL", "NO_PROJECTILE", "SILENT" ],
+    "effect": "charm_monster",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 7,
+    "skill": "deduction",
+    "max_level": 1,
+    "min_damage": {
+      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) + (u_skill('deduction') * 10) + 10" ]
+    },
+    "max_damage": {
+      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 7) + (u_skill('deduction') * 20) + 30" ]
+    },
+    "min_duration": {
+      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 286) + (u_skill('deduction') * 2455) + 5824" ]
+    },
+    "max_duration": {
+      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 773) + (u_skill('deduction') * 6250) + 19375" ]
+    },
+    "min_range": 10,
+    "max_range": 10,
+    "magic_type": "xe_fey_magick",
+    "base_energy_cost": {
+      "math": [
+        "max(( 750 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 9) - (u_skill('deduction') * 25)), 350)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max(( 200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4) - (u_skill('deduction') * 8)), 50)"
+      ]
+    },
+    "targeted_monster_species": [ "FERAL", "HUMAN" ]
+  },
+  {
     "id": "selkie_fog_cloak_spell",
     "type": "SPELL",
     "name": "Cloak of Fog",
@@ -304,6 +443,7 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 3,
+    "skill": "deduction",
     "max_level": 1,
     "min_duration": {
       "math": [
@@ -338,6 +478,7 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 5,
+    "skill": "deduction",
     "max_level": 1,
     "min_duration": {
       "math": [
@@ -374,6 +515,7 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 6,
+    "skill": "deduction",
     "max_level": 1,
     "min_duration": {
       "math": [
@@ -410,6 +552,7 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 7,
+    "skill": "deduction",
     "max_level": 1,
     "min_duration": {
       "math": [
@@ -446,6 +589,7 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 9,
+    "skill": "deduction",
     "max_level": 1,
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {
@@ -458,5 +602,149 @@
         "max(( 9000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 10) - (u_skill('deduction') * 250)), 1000)"
       ]
     }
+  },
+  {
+    "id": "trow_make_noise_spell",
+    "type": "SPELL",
+    "name": "The One Who Knocks",
+    "description": "Make a distant knocking sound, leading others astray.",
+    "message": "A loud thump resounds.",
+    "flags": [ "NO_FAIL", "VERBAL", "SOMATIC", "RANDOM_DAMAGE", "NO_PROJECTILE" ],
+    "valid_targets": [ "ground", "self", "ally", "hostile" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 2,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "noise",
+    "shape": "blast",
+    "min_damage": 25,
+    "max_damage": 35,
+    "min_range": 30,
+    "max_range": 30,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "magic_type": "xe_fey_magick",
+    "base_energy_cost": {
+      "math": [ "max(( 200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 2) - (u_skill('deduction') * 5)), 35)" ]
+    },
+    "base_casting_time": {
+      "math": [ "max(( 150 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 3) - (u_skill('deduction') * 6)), 50)" ]
+    },
+    "sound_description": "a loud thump"
+  },
+  {
+    "id": "selkie_cultivate_goblin_fruit",
+    "type": "SPELL",
+    "name": "Cultivate Goblin Fruit",
+    "description": "You may spin a bit of fae magic into water, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast near water or under the rain.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SELKIE_GOBLIN_FRUIT",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "teachable": false,
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "difficulty": 8,
+    "base_casting_time": 180000,
+    "final_casting_time": 100,
+    "casting_time_increment": -6000,
+    "magic_type": "xe_fey_magick",
+    "base_energy_cost": 450,
+    "final_energy_cost": 350,
+    "energy_increment": -4
+  },
+  {
+    "id": "brownie_cultivate_goblin_fruit",
+    "type": "SPELL",
+    "name": "Cultivate Goblin Fruit",
+    "description": "You may spin a bit of fae magic into the air, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast indoors, when nobody is watching.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BROWNIE_GOBLIN_FRUIT",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "teachable": false,
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "difficulty": 8,
+    "base_casting_time": 180000,
+    "final_casting_time": 100,
+    "casting_time_increment": -6000,
+    "magic_type": "xe_fey_magick",
+    "base_energy_cost": 450,
+    "final_energy_cost": 350,
+    "energy_increment": -4
+  },
+  {
+    "id": "pooka_cultivate_goblin_fruit",
+    "type": "SPELL",
+    "name": "Cultivate Goblin Fruit",
+    "description": "You may spin a bit of fae magic into the air, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast near an animal.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_POOKA_GOBLIN_FRUIT",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "teachable": false,
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "difficulty": 8,
+    "base_casting_time": 180000,
+    "final_casting_time": 100,
+    "casting_time_increment": -6000,
+    "magic_type": "xe_fey_magick",
+    "base_energy_cost": 450,
+    "final_energy_cost": 350,
+    "energy_increment": -4
+  },
+  {
+    "id": "trow_cultivate_goblin_fruit",
+    "type": "SPELL",
+    "name": "Cultivate Goblin Fruit",
+    "description": "You may spin a bit of fae magic into the earth, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast underground or at night.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TROW_GOBLIN_FRUIT",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "teachable": false,
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "difficulty": 8,
+    "base_casting_time": 180000,
+    "final_casting_time": 100,
+    "casting_time_increment": -6000,
+    "magic_type": "xe_fey_magick",
+    "base_energy_cost": 450,
+    "final_energy_cost": 350,
+    "energy_increment": -4
+  },
+  {
+    "id": "noble_cultivate_goblin_fruit",
+    "type": "SPELL",
+    "name": "Cultivate Goblin Fruit",
+    "description": "You may spin a bit of fae magic into the air, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast near a human or a Fae.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_NOBLE_GOBLIN_FRUIT",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "teachable": false,
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "difficulty": 8,
+    "base_casting_time": 180000,
+    "final_casting_time": 100,
+    "casting_time_increment": -6000,
+    "magic_type": "xe_fey_magick",
+    "base_energy_cost": 450,
+    "final_energy_cost": 350,
+    "energy_increment": -4
   }
 ]

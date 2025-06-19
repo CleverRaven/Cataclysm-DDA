@@ -27,7 +27,7 @@
       "empty_rock"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
-    "river_scale": 0,
+    "overmap_river_settings": { "river_scale": 0.0 },
     "city": {
       "shop_radius": 30,
       "shop_sigma": 80,
@@ -47,8 +47,20 @@
         "afs_gene_clinic_1": 400,
         "afs_astrobiology_lab": 400,
         "afs_general_store_1": 400,
+        "afs_grocer": 400,
+        "afs_clothing_store": 400,
+        "afs_sporting_goods_store": 400,
+        "afs_clinic_1": 400,
         "afs_city_urban_farm_small": 300,
+        "afs_small_urban_farm_ground": 300,
+        "afs_small_office": 300,
+        "afs_cafe_1": 300,
+        "afs_saloon_1": 300,
         "afs_enforcer_station_1": 100,
+        "afs_garage_1": 100,
+        "afs_garage_2": 100,
+        "afs_ev_station": 100,
+        "afs_aerodrone_landing_pad": 100,
         "afs_exosuit_garage_1": 100,
         "afs_exosuit_garage_2": 100
       }

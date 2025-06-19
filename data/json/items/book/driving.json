@@ -1,7 +1,8 @@
 [
   {
     "id": "decoy_anarch",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "AAA Guide", "str_pl": "copies of AAA Guide" },
     "description": "A tourist-centric guide to points of interest throughout the country.  Though it focuses on the north-central US, the driving sections contain some practical tips on proper driving techniques.",
@@ -38,15 +39,16 @@
     "symbol": "?",
     "looks_like": "textbook_anarch",
     "color": "green",
-    "skill": "driving",
     "max_level": 3,
     "intelligence": 6,
     "time": "30 m",
-    "fun": 2
+    "read_skill": "driving",
+    "read_fun": 2
   },
   {
     "id": "mag_cars",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Top Gear magazine" },
     "description": "Lots of articles about cars and driving techniques.",
@@ -115,15 +117,16 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "driving",
     "max_level": 1,
     "intelligence": 2,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "driving",
+    "read_fun": 1
   },
   {
     "id": "manual_driving",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Rules of the Road", "str_pl": "copies of The Rules of the Road" },
     "description": "A thick textbook for beginning drivers.  It contains chapters on laws, safe vehicle operation, and defensive driving concepts.",
@@ -169,14 +172,15 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "green",
-    "skill": "driving",
     "max_level": 3,
     "intelligence": 5,
-    "time": "16 m"
+    "time": "16 m",
+    "read_skill": "driving"
   },
   {
     "id": "textbook_anarch",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "AAA Guide", "str_pl": "copies of AAA Guide" },
     "description": "A tourist-centric guide to points of interest throughout the country.  This particular copy is apparently the Anonymous Anarchist's Annual: the cover conceals a wealth of ways to help stick it to The Man, along with plenty of advice for avoiding police.",
@@ -213,10 +217,10 @@
     "symbol": "?",
     "looks_like": "decoy_anarch",
     "color": "green",
-    "skill": "driving",
     "max_level": 4,
     "intelligence": 9,
     "time": "45 m",
-    "fun": 1
+    "read_skill": "driving",
+    "read_fun": 1
   }
 ]

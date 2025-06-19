@@ -2,13 +2,12 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <map>
 #include <string>
+#include <unordered_map>
 
 #include "cata_assert.h"
 #include "debug.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "overmap_location.h"
 
 namespace
@@ -98,7 +97,7 @@ bool overmap_connection::has( const int_id<oter_t> &oter ) const
     } ) != subtypes.cend();
 }
 
-void overmap_connection::load( const JsonObject &jo, const std::string_view )
+void overmap_connection::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, false, "subtypes", subtypes );
 }

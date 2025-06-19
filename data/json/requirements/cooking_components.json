@@ -314,7 +314,7 @@
     "id": "lf_milk_standard",
     "type": "requirement",
     "//": "Any kind of lactose-free plant-based milk. Not for use in fermentation recipes.",
-    "components": [ [ [ "soy_milk", 1 ], [ "almond_milk", 1 ], [ "hazelnut_milk", 1 ], [ "walnut_milk", 1 ] ] ]
+    "components": [ [ [ "soy_milk", 1 ], [ "almond_milk", 1 ], [ "oat_milk", 1 ], [ "hazelnut_milk", 1 ], [ "walnut_milk", 1 ] ] ]
   },
   {
     "id": "any_frosting",
@@ -354,6 +354,8 @@
       [
         [ "sugar", 10 ],
         [ "syrup", 4 ],
+        [ "syrup_corn", 3 ],
+        [ "syrup_simple", 6 ],
         [ "beet_syrup", 5 ],
         [ "molasses", 1 ],
         [ "honey_bottled", 3 ],
@@ -372,6 +374,8 @@
       [
         [ "sugar", 6 ],
         [ "syrup", 2 ],
+        [ "syrup_corn", 2 ],
+        [ "syrup_simple", 3 ],
         [ "beet_syrup", 3 ],
         [ "honey_bottled", 2 ],
         [ "honeydew", 2 ],
@@ -713,6 +717,7 @@
         [ "veggy_potatolike", 1, "LIST" ],
         [ "celery", 1 ],
         [ "cabbage", 1 ],
+        [ "radish_taproot", 1 ],
         [ "sauerkraut", 1 ],
         [ "powder_eggs", 1 ],
         [ "eggs_bird", 1, "LIST" ],
@@ -1222,6 +1227,7 @@
         [ "plant_sac", 1 ],
         [ "potato", 1 ],
         [ "pumpkin_cut", 1 ],
+        [ "radish_taproot", 1 ],
         [ "raw_dandelion", 1 ],
         [ "raw_burdock", 1 ],
         [ "raw_bamboo", 1 ],

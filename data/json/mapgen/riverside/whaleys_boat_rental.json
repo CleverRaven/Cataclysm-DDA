@@ -41,7 +41,7 @@
       ]
     },
     "items": {
-      "&": { "item": "trash", "chance": 60, "repeat": [ 1, 3 ] },
+      "&": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 3 ] },
       "r": [
         { "chance": 55, "item": "swimmer_head", "repeat": [ 1, 3 ] },
         { "chance": 55, "item": "swimmer_glasses", "repeat": [ 1, 3 ] },
@@ -59,13 +59,13 @@
         { "chance": 75, "item": "swimmer_wetsuit", "repeat": [ 1, 4 ] },
         { "chance": 55, "item": "swimmer_shoes", "repeat": [ 1, 4 ] },
         { "chance": 45, "item": "swimmer_gloves", "repeat": [ 1, 4 ] }
-      ]
+      ],
+      "t": { "item": "SUS_toilet", "chance": 50 }
     },
     "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
     "toilets": { "t": {  } }
   },
   {
-    "method": "json",
     "om_terrain": "boat_rental",
     "type": "mapgen",
     "object": {
@@ -112,7 +112,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "boat_rental_roof",
     "type": "mapgen",
     "object": {
@@ -147,7 +146,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "boat_rental_1",
     "type": "mapgen",
     "object": {
@@ -194,7 +192,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "boat_rental_1_roof",
     "type": "mapgen",
     "object": {
@@ -229,7 +226,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "boat_rental_2",
     "type": "mapgen",
     "object": {
@@ -274,7 +270,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "boat_rental_2_roof",
     "type": "mapgen",
     "object": {

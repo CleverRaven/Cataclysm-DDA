@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": [ [ "urban_13_2", "urban_13_1" ] ],
     "type": "mapgen",
     "object": {
@@ -62,11 +61,10 @@
       "furniture": { "!": "f_counter" },
       "place_item": [ { "item": "television", "x": 17, "y": 5 } ],
       "items": { "!": [ { "item": "laundry", "chance": 20, "repeat": [ 1, 3 ] }, { "item": "cleaning", "chance": 10 } ] },
-      "place_vehicles": [ { "vehicle": "laundry_cart", "x": [ 19, 20 ], "y": [ 13, 18 ], "chance": 100, "repeat": 2 } ]
+      "place_vehicles": [ { "vehicle": "laundry_cart", "x": [ 19, 20 ], "y": [ 13, 18 ], "repeat": 2 } ]
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_13_3", "urban_13_4" ] ],
     "type": "mapgen",
     "object": {
@@ -162,7 +160,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_13_5", "urban_13_6" ] ],
     "type": "mapgen",
     "object": {
@@ -219,7 +216,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_13_7", "urban_13_8" ] ],
     "type": "mapgen",
     "object": {
@@ -296,7 +292,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_13_9", "urban_13_10" ] ],
     "type": "mapgen",
     "object": {
@@ -373,7 +368,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_13_11", "urban_13_12" ] ],
     "type": "mapgen",
     "object": {

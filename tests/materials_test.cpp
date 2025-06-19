@@ -1,11 +1,22 @@
+#include <set>
 #include <string>
+#include <utility>
+#include <vector>
 
+#include "cata_catch.h"
+#include "coordinates.h"
+#include "damage.h"
 #include "fire.h"
 #include "item.h"
-#include "cata_catch.h"
+#include "item_location.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
+#include "material.h"
 #include "npc.h"
+#include "point.h"
 #include "projectile.h"
+#include "string_formatter.h"
+#include "type_id.h"
 
 static const ammo_effect_str_id ammo_effect_SHATTER_SELF( "SHATTER_SELF" );
 

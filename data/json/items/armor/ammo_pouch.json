@@ -1,7 +1,8 @@
 [
   {
     "id": "ammo_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "ammo pouch", "str_pl": "ammo pouches" },
     "description": "A small pouch that can be used to store most types of small ammunition; rockets, however, will not fit.  Use insert to store ammunition.",
     "weight": "490 g",
@@ -72,7 +73,8 @@
   },
   {
     "id": "ammo_satchel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "ammo satchel" },
     "description": "A fabric ammo bag worn at the waist.  It is capable of holding a single large magazine close at hand.",
     "weight": "180 g",
@@ -101,7 +103,8 @@
   },
   {
     "id": "chestpouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "chest ammo pouch", "str_pl": "chest ammo pouches" },
     "description": "A fabric ammo pouch that can be strapped to your chest and hold a single magazine close at hand.",
     "weight": "140 g",
@@ -130,7 +133,8 @@
   },
   {
     "id": "chestrig",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "chest rig" },
     "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches.",
     "variant_type": "generic",
@@ -201,7 +205,8 @@
   },
   {
     "id": "xl_chestrig",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "chestrig",
     "name": { "str": "chest rig" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
@@ -209,7 +214,8 @@
   },
   {
     "id": "xs_chestrig",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "chestrig",
     "name": { "str": "chest rig" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -217,7 +223,8 @@
   },
   {
     "id": "javelin_bag",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "javelin bag" },
     "description": "An open medieval-looking bag, designed to store javelins within easy reach.",
     "weight": "900 g",
@@ -287,7 +294,8 @@
   },
   {
     "id": "legpouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "ankle ammo pouch", "str_pl": "ankle ammo pouches" },
     "description": "A small fabric ammo pouch that can be strapped to your ankle and hold a single small magazine close at hand.",
     "volume": "250 ml",
@@ -324,7 +332,8 @@
     ]
   },
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "legpouch_large",
     "name": { "str": "leg ammo pouch", "str_pl": "leg ammo pouches" },
     "description": "A fabric ammo pouch that can be strapped to your leg and hold two magazines close at hand.",
@@ -371,7 +380,8 @@
   },
   {
     "id": "quiver",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "quiver" },
     "description": "A leather quiver worn at the waist that can hold 20 arrows or bolts.  Use insert to store arrows or bolts.",
     "weight": "260 g",
@@ -398,7 +408,8 @@
   },
   {
     "id": "nylon_quiver",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "nylon quiver" },
     "description": "A lighter and more durable quiver made of nylon, with straps to attach to a MOLLE system.",
     "weight": "230 g",
@@ -425,7 +436,8 @@
   },
   {
     "id": "quiver_birchbark",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "birchbark quiver" },
     "description": "A quiver woven from strips of birch bark, worn at the waist, that can hold 20 arrows or bolts.  Use insert to store arrows or bolts.",
     "weight": "490 g",
@@ -452,7 +464,8 @@
   },
   {
     "id": "pipe_quiver",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pipe quiver" },
     "description": "A makeshift quiver fashioned from a pipe, worn at the waist.  Heavier and thinner than a typical quiver, it can only hold 10 arrows or bolts.  Use insert to store arrows or bolts.",
     "weight": "800 g",
@@ -479,7 +492,8 @@
   },
   {
     "id": "quiver_large",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "large quiver" },
     "description": "A large leather quiver trimmed with metal, worn on the back, that can hold 60 arrows or bolts.  Historically used by horse archers, rather than foot archers, but neither of THEM had to fight zombies.  Use insert to store arrows or bolts.",
     "weight": "920 g",
@@ -498,7 +512,8 @@
   },
   {
     "id": "quiver_large_birchbark",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "large birchbark quiver" },
     "description": "A large quiver woven from strips of birchbark, worn on the back, that can hold 60 arrows or bolts.  Use insert to store arrows or bolts.",
     "weight": "1380 g",
@@ -517,7 +532,8 @@
   },
   {
     "id": "pipe_quiver_large",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "large pipe quiver" },
     "description": "A large makeshift quiver fashioned from 3 pipes, worn on the back.  Heavier and thinner than a typical large quiver, it can only hold 30 arrows or bolts.  Use insert to store arrows or bolts.",
     "weight": "2000 g",
@@ -537,7 +553,8 @@
   },
   {
     "id": "quiver_simple_cloth",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "simple cloth quiver" },
     "description": "A simple quiver made out of cloth that can be adjusted to hold various types of arrows, bolts, and spears of different lengths.  Takes slightly longer to pull ammunition from than a regular quiver.  Use insert to store arrows, bolts, fishing spears, or atlatl spears.",
     "weight": "200 g",
@@ -556,7 +573,8 @@
   },
   {
     "id": "quiver_takedown_bow",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "//": "Based on: https://www.amazon.com/XTACER-Multi-Function-4-Tubes-Training-Takedown/dp/B072K4537K",
     "name": { "str": "multi-function quiver" },
     "description": "A large cotton quiver capable of easily storing 16 arrows.  It includes a bag and straps to store a takedown bow, as well as a small pouch for archery accessories.  Use insert to store arrows or bolts and activate to holster/draw your bow.",
@@ -604,7 +622,8 @@
   },
   {
     "id": "tacvest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tac vest" },
     "description": "This light vest is meant to carry your magazines, shells and pistols.  They are popular among law enforcement, but less so than combination tactical vests incorporating Kevlar.",
     "weight": "1750 g",
@@ -679,7 +698,8 @@
   },
   {
     "id": "xl_tacvest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "tacvest",
     "name": { "str": "tac vest" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
@@ -687,7 +707,8 @@
   },
   {
     "id": "xs_tacvest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "tacvest",
     "name": { "str": "tac vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -695,7 +716,8 @@
   },
   {
     "id": "light_load_bearing_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "light load bearing vest" },
     "description": "This lightweight harness covered in MOLLE webbing is designed to attach a few pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.",
     "weight": "500 g",
@@ -721,7 +743,8 @@
   },
   {
     "id": "load_bearing_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "load bearing vest" },
     "description": "This vest covered in MOLLE webbing is designed to attach pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.",
     "weight": "1250 g",
@@ -747,7 +770,8 @@
   },
   {
     "id": "load_bearing_vest_sling",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "load_bearing_vest",
     "name": { "str": "load bearing vest with sling", "str_pl": "load bearing vests with slings" },
     "description": "This vest covered in MOLLE webbing is designed to attach pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.  This one has a single point sling wrapped around the shoulders using a system to keep your weapon extra secure.",
@@ -779,7 +803,8 @@
   },
   {
     "id": "heavy_load_bearing_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "heavy load bearing vest" },
     "description": "This massive vest covered in MOLLE webbing is designed to attach a large number of pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.",
     "weight": "2000 g",
@@ -805,7 +830,8 @@
   },
   {
     "id": "heavy_load_bearing_vest_sling",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "heavy_load_bearing_vest",
     "name": { "str": "heavy load bearing vest with sling", "str_pl": "heavy load bearing vests with slings" },
     "description": "This massive vest covered in MOLLE webbing is designed to attach a large number of pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.  This one has a single point sling wrapped around the shoulders using a system to keep your weapon extra secure.",
@@ -837,7 +863,8 @@
   },
   {
     "id": "heavy_load_bearing_vest_breacher",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "heavy_load_bearing_vest",
     "name": { "str": "breacher load bearing vest" },
     "description": "This massive vest covered in MOLLE webbing is designed to attach a large number of pouches, holsters and other PALS compatible accessories.  This one has a single point sling wrapped around the shoulders using a system to keep your weapon extra secure, as well as a set of strong magnets attached to the torso and waist to hold a breaching shotgun.",
@@ -882,7 +909,8 @@
   },
   {
     "id": "radio_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "//": " stats taken from: https://www.patriotoutfitters.com/5-11-tactical-molle-radio-pouch?PMSRCH=MOLLE%20GEAR",
     "name": { "str": "tactical radio pouch", "str_pl": "tactical radio pouches" },
     "description": "A pouch designed to keep your radio accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
@@ -910,7 +938,8 @@
   },
   {
     "id": "gadget_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "//": " stats taken from: https://www.patriotoutfitters.com/condor-gadget-pouch-tan498-?PMSRCH=MOLLE%20GEAR",
     "name": { "str": "gadget pouch", "str_pl": "gadget pouches" },
     "description": "A pouch designed to keep gadgets and small items accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
@@ -938,7 +967,8 @@
   },
   {
     "id": "h2o_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "//": " stats taken from: https://www.patriotoutfitters.com/condor-h2o-pouch?PMSRCH=MOLLE%20GEAR",
     "name": { "str": "H2O pouch", "str_pl": "H2O pouches" },
     "description": "A pouch designed to hold a water bottle with an additional front tactical pocket.  Has MOLLE straps for attaching to a belt or vest.",
@@ -974,7 +1004,8 @@
   },
   {
     "id": "canteen_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "canteen pouch", "str_pl": "canteen pouches" },
     "description": "A pouch designed to keep your canteen accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
     "weight": "190 g",
@@ -1002,7 +1033,8 @@
   },
   {
     "id": "tool_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "//": " stats taken from: https://www.patriotoutfitters.com/condor-t-and-t-pouch?PMSRCH=MOLLE%20GEAR",
     "name": { "str": "tactical tool pouch", "str_pl": "tactical tool pouches" },
     "description": "A low profile pouch designed to keep your tools accessible and secure.  Has MOLLE straps for attaching to a vest or can be strapped directly to your chest.",
@@ -1030,7 +1062,8 @@
   },
   {
     "id": "flashlight_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "//": " stats taken from: https://www.patriotoutfitters.com/condor-flashlight-pouch?PMSRCH=MOLLE%20GEAR liberties were taken with this one so it would hold either flashlight",
     "name": { "str": "flashlight pouch", "str_pl": "flashlight pouches" },
     "description": "A tiny pouch designed to keep your flashlight accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
@@ -1059,7 +1092,8 @@
   },
   {
     "id": "tactical_holster",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tactical holster" },
     "//": " stats taken from: https://www.patriotoutfitters.com/condor-vertical-molle-holster?PMSRCH=MOLLE%20GEAR",
     "description": "A sturdy holster designed to be worn vertically, to keep a small profile on a tactical vest.  This makes it a little more awkward to draw from than a normal holster.",
@@ -1098,7 +1132,8 @@
   },
   {
     "id": "gas_mask_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "looks_like": "holster",
     "//": " stats taken from: https://condoroutdoor.com/ma11.html",
     "name": { "str": "gas mask pouch", "str_pl": "gas mask pouches" },
@@ -1156,7 +1191,8 @@
   },
   {
     "id": "tactical_grenade_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "//": " stats taken from: https://www.tacticalassaultgearstore.com/molle-frag-grenade-pouch.html",
     "name": { "str": "tactical grenade pouch", "str_pl": "tactical grenade pouches" },
     "description": "A pouch designed to hold one military grenade, keeping it both accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
@@ -1184,7 +1220,8 @@
   },
   {
     "id": "triple_stacker_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "//": " stats taken from: https://www.patriotoutfitters.com/condor-triple-stacker-open-top-m4-mag-pouch?PMSRCH=MOLLE%20GEAR",
     "name": { "str": "triple stacker ammo pouch", "str_pl": "triple stacker ammo pouches" },
     "description": "A collection of 6 pockets, 3 wide and 2 deep, designed to hold rifle magazines and keep them accessible and secure.  Has MOLLE straps for attaching to a vest or can be strapped directly to your chest.",
@@ -1258,7 +1295,8 @@
   },
   {
     "id": "tactical_shotshell_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "//": " stats taken from: https://condoroutdoor.com/ma12-shotgun-ammo-pouch.html",
     "name": { "str": "tactical shotshell pouch", "str_pl": "tactical shotshell pouches" },
     "description": "A pouch designed to hold shotgun shells or .308 rounds, keeping them accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
@@ -1277,7 +1315,8 @@
   },
   {
     "id": "xlkevlar",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "Kevlar vest" },
     "description": "A massive handmade imitation of a proper ballistic vest for abnormally large folks.  Large and heavy, but will still fit under an abnormally large coat.",
@@ -1321,7 +1360,8 @@
   },
   {
     "id": "ammo_satchel_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leather ammo satchel" },
     "description": "A sturdy leather ammo bag worn at the waist.  It is capable of holding a single large magazine close at hand.",
     "weight": "590 g",
@@ -1350,7 +1390,8 @@
   },
   {
     "id": "chestpouch_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leather chest ammo pouch", "str_pl": "leather chest ammo pouches" },
     "description": "A leather ammo pouch that can be strapped to your chest and hold a single magazine close at hand.",
     "weight": "1140 g",
@@ -1379,7 +1420,8 @@
   },
   {
     "id": "belt_loop_small",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "small belt loop" },
     "description": "A MOLLE-compatible loop for attaching small tools to a load-bearing vest.",
     "weight": "25 g",
@@ -1408,7 +1450,8 @@
   },
   {
     "id": "belt_loop_medium",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "medium belt loop" },
     "description": "A MOLLE-compatible loop for attaching tools and some weapons to a load-bearing vest.",
     "weight": "50 g",
@@ -1437,7 +1480,8 @@
   },
   {
     "id": "belt_loop_large",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "large belt loop" },
     "description": "A MOLLE-compatible loop for attaching large tools and weapons to a load-bearing vest.",
     "weight": "100 g",
@@ -1463,5 +1507,34 @@
     ],
     "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_LARGE" ],
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "sustainment_pouch",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "//": " stats taken from: https://www.varusteleka.com/en/product/us-molle-ii-sustainment-pouch-surplus/63566",
+    "name": { "str": "sustainment pouch", "str_pl": "sustainment pouches" },
+    "description": "A large, drawstring & buckle pouch originally designed to hold 3 MREs, and part of the official MOLLE II rucksack system.  Has MOLLE straps for attaching to a belt, vest, or rucksack.",
+    "weight": "230 g",
+    "volume": "300 ml",
+    "price": "30 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "7000 ml",
+        "max_contains_weight": "10000 g",
+        "max_item_length": "30 cm",
+        "moves": 80,
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "material_thickness": 1,
+    "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE", "PALS_MEDIUM" ],
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   }
 ]

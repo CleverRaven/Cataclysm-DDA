@@ -220,6 +220,7 @@
       { "item": "water_clean", "prob": 50 },
       { "item": "water_mineral", "prob": 20 },
       { "item": "grenadine_syrup", "prob": 40 },
+      { "item": "syrup_simple", "prob": 60 },
       { "item": "oj", "prob": 40 },
       { "item": "pineapple_juice", "prob": 35 },
       { "item": "juice", "prob": 35 },
@@ -268,27 +269,8 @@
       { "prob": 7, "group": "heroin_bag_zipper_1_4" },
       { "item": "mag_porn", "prob": 35 },
       { "item": "hairpin", "prob": 5 },
-      { "item": "purse", "prob": 15 }
-    ]
-  },
-  {
-    "id": "bar_trash",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "wrapper", "prob": 50 },
-      { "item": "wrapper_foil", "prob": 5 },
-      { "item": "wrapper_foil", "prob": 25, "count": [ 5, 40 ], "entry-wrapper": "wrapper_foil_roll" },
-      { "item": "bottle_glass", "prob": 70 },
-      { "item": "can_drink", "prob": 60 },
-      { "item": "flyer", "prob": 30 },
-      { "item": "box_small", "prob": 30 },
-      { "item": "cotton_patchwork", "prob": 20 },
-      { "item": "bag_plastic", "prob": 20 },
-      { "item": "news_regional", "prob": 15 },
-      { "item": "mag_news", "prob": 15 },
-      { "item": "hairpin", "prob": 15 },
-      { "item": "jar_glass_sealed", "prob": 10 }
+      { "item": "purse", "prob": 15 },
+      { "group": "SUS_toilet", "prob": 80 }
     ]
   },
   {
@@ -387,24 +369,6 @@
       [ "mag_porn", 30 ],
       [ "purse", 10 ],
       [ "hairpin", 3 ]
-    ]
-  },
-  {
-    "id": "pizza_trash",
-    "type": "item_group",
-    "items": [
-      [ "cup_plastic", 40 ],
-      [ "wrapper", 34 ],
-      [ "wrapper_foil", 3 ],
-      { "item": "wrapper_foil", "prob": 5, "count": [ 5, 40 ], "entry-wrapper": "wrapper_foil_roll" },
-      [ "bag_plastic", 20 ],
-      [ "bottle_glass", 30 ],
-      [ "can_drink", 30 ],
-      [ "cotton_patchwork", 10 ],
-      [ "news_regional", 7 ],
-      [ "mag_news", 7 ],
-      [ "hairpin", 10 ],
-      [ "flyer", 7 ]
     ]
   },
   {
@@ -538,24 +502,6 @@
     ]
   },
   {
-    "id": "coffee_trash",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "wrapper", "prob": 17 },
-      { "item": "wrapper_foil", "prob": 1 },
-      { "item": "wrapper_foil", "prob": 5, "count": [ 5, 40 ], "entry-wrapper": "wrapper_foil_roll" },
-      { "item": "bag_plastic", "prob": 15 },
-      { "item": "bottle_glass", "prob": 10 },
-      { "item": "can_drink", "prob": 10 },
-      { "item": "cotton_patchwork", "prob": 10 },
-      { "item": "news_regional", "prob": 20 },
-      { "item": "mag_news", "prob": 20 },
-      { "item": "hairpin", "prob": 10 },
-      { "item": "flyer", "prob": 7 }
-    ]
-  },
-  {
     "id": "coffee_bathroom",
     "type": "item_group",
     "subtype": "distribution",
@@ -565,7 +511,8 @@
       { "prob": 45, "group": "bottle_otc_painkiller_1_20" },
       { "item": "mag_news", "prob": 30 },
       { "item": "purse", "prob": 10 },
-      { "item": "hairpin", "prob": 25 }
+      { "item": "hairpin", "prob": 25 },
+      { "group": "SUS_toilet", "prob": 40 }
     ]
   },
   {
@@ -610,23 +557,6 @@
       { "prob": 40, "group": "curry_powder_various" },
       { "prob": 52, "group": "cornmeal_box_small_10" },
       { "prob": 35, "group": "oyster_crackers_plastic_bag_vac_1_inf" }
-    ]
-  },
-  {
-    "id": "fast_trash",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "cup_plastic", "prob": 50 },
-      { "item": "wrapper", "prob": 50 },
-      { "item": "wrapper_foil", "prob": 5 },
-      { "item": "wrapper_foil", "prob": 25, "count": [ 5, 40 ], "entry-wrapper": "wrapper_foil_roll" },
-      { "item": "bag_plastic", "prob": 50 },
-      { "item": "cotton_patchwork", "prob": 50 },
-      { "item": "syringe", "prob": 5 },
-      { "item": "restaurantmap", "prob": 1 },
-      { "item": "hairpin", "prob": 25 },
-      { "item": "flyer", "prob": 25 }
     ]
   },
   {
@@ -703,6 +633,7 @@
       { "prob": 50, "group": "blt_wrapper_2" },
       { "item": "sandwich_pbj", "prob": 50 },
       { "item": "sandwich_pbh", "prob": 20 },
+      { "item": "sandwich_pbf", "prob": 20 },
       { "item": "sandwich_pbm", "prob": 10 },
       { "item": "sandwich_pb", "prob": 35 },
       { "item": "fish_sandwich", "prob": 20 },
@@ -830,6 +761,7 @@
       { "item": "honey_bottled", "prob": 35 },
       { "prob": 35, "group": "honey_glassed_jar_glass_sealed_5" },
       { "item": "peanutbutter", "prob": 60 },
+      { "item": "marshmallow_fluff", "prob": 35 },
       { "prob": 40, "group": "pickle_jar_glass_sealed_2" },
       { "item": "coffee_syrup", "prob": 35 },
       { "prob": 45, "group": "coffee_raw_bag_plastic_20" },
@@ -841,6 +773,7 @@
       { "item": "hot_sauce", "prob": 50 },
       { "prob": 20, "group": "cinnamon_various_full" },
       { "item": "syrup", "prob": 50 },
+      { "item": "syrup_corn", "prob": 5 },
       { "prob": 45, "group": "seasoning_salt_various_full" },
       { "prob": 50, "group": "seasoning_italian_various_full" },
       { "prob": 40, "group": "curry_powder_various_full" },
@@ -991,6 +924,7 @@
       [ "sausage", 10 ],
       [ "bratwurst_sausage", 10 ],
       [ "syrup", 10 ],
+      [ "syrup_corn", 5 ],
       [ "sweet_sausage", 2 ],
       [ "soup_meat", 10 ]
     ]
@@ -1035,6 +969,7 @@
       [ "onion_rings", 10 ],
       [ "sauce_red", 8 ],
       [ "syrup", 10 ],
+      [ "syrup_corn", 10 ],
       [ "soup_fish", 10 ]
     ]
   },
@@ -1125,23 +1060,6 @@
       [ "cig", 10 ],
       [ "news_regional", 10 ],
       [ "mag_news", 10 ]
-    ]
-  },
-  {
-    "id": "restaur_trash",
-    "type": "item_group",
-    "items": [
-      [ "wrapper", 40 ],
-      [ "wrapper_foil", 2 ],
-      { "item": "wrapper_foil_roll", "prob": 9 },
-      [ "bag_plastic", 35 ],
-      [ "bottle_glass", 35 ],
-      [ "cotton_patchwork", 30 ],
-      [ "flyer", 15 ],
-      [ "mag_news", 15 ],
-      [ "news_regional", 15 ],
-      { "item": "glass_shard", "prob": 30, "count": [ 1, 8 ] },
-      [ "jug_plastic", 25 ]
     ]
   },
   {
@@ -1491,6 +1409,7 @@
       [ "tofu", 8 ],
       [ "sausage", 10 ],
       [ "syrup", 10 ],
+      [ "syrup_corn", 10 ],
       [ "sweet_sausage", 2 ],
       [ "soup_meat", 10 ]
     ]

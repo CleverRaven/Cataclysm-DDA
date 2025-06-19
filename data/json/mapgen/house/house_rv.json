@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_rv" ],
     "object": {
       "fill_ter": "t_floor",
@@ -21,7 +20,7 @@
         ".########### ||| JJJ||#.",
         ".#BBy      + |66    7Fo.",
         ".o     || || |Y      5o.",
-        ".#S88Yt|Q U|     43O21o.",
+        ".#S88Yt|Q U|    é43O21o.",
         ".#|||||||||| ||+||||||#.",
         ".#d   b  +D| |zz666666#.",
         ".#@@    y||| |z      z#.",
@@ -49,7 +48,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_rv_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -85,7 +83,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_rv_basement",
     "weight": 190,
     "object": {
@@ -106,7 +103,7 @@
         " |||||||||||..........| ",
         " |2...................| ",
         " |....................| ",
-        " |...................F| ",
+        " |...................â| ",
         " |....................| ",
         " |...................g| ",
         " |....................| ",
@@ -116,7 +113,7 @@
         " |||||||||||||||||||||| ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [
@@ -132,7 +129,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_rv_basement",
     "weight": 10,
     "object": {

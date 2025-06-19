@@ -39,7 +39,8 @@
             { "u_has_item": "cigar_lit" },
             { "u_has_item": "cig_lit" },
             { "math": [ "u_salamander_near_fire == 1" ] },
-            { "math": [ "weather('temperature') >= from_fahrenheit( 80 )" ] }
+            { "math": [ "weather('temperature') >= from_fahrenheit( 80 )" ] },
+            { "test_eoc": "EOC_CONDITION_SKY_ISLAND_ON_THE_ISLAND" }
           ]
         }
       ]

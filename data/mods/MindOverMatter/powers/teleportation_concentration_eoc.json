@@ -60,6 +60,64 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_WARPED_STRIKES_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_teleport_warped_strikes" } },
+    "effect": [
+      { "u_message": "You are ready to momentarily warp space to coincide with your attacks.", "type": "good" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_add_effect": "effect_teleport_warped_strikes", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_TELEPORT_WARPED_STRIKES_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( u_spell_level('teleport_warped_strikes') * 10 ) + 30 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( ( u_spell_level('teleport_warped_strikes') * 30 ) + 300 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_TELEPORT_REMOVE_WARPED_STRIKES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_REMOVE_WARPED_STRIKES",
+    "condition": { "u_has_effect": "effect_teleport_warped_strikes" },
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_teleport_warped_strikes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_WARPED_STRIKES_DRAIN",
+    "condition": { "u_has_effect": "effect_teleport_warped_strikes" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('teleport_warped_strikes')" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
+      { "math": [ "u_spell_exp('teleport_warped_strikes') += psionic_power_experience_formula()" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "run_eocs": "EOC_TELEPORT_WARPED_STRIKES_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( u_spell_level('teleport_warped_strikes') * 10 ) + 30 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( ( u_spell_level('teleport_warped_strikes') * 30 ) + 300 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEPORT_EPHEMERAL_WALK_INITIATE",
     "condition": { "not": { "u_has_effect": "effect_teleport_ephemeral_walk" } },
     "effect": [
@@ -181,7 +239,7 @@
     "id": "EOC_TELEPORT_LOCI_ESTABLISHMENT_INITIATE",
     "condition": { "not": { "u_has_effect": "effect_teleport_loci_establishment" } },
     "effect": [
-      { "u_message": "You are prepared to displace your attackers.", "type": "good" },
+      { "u_message": "You've established a locus to return to later.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_location_variable": { "u_val": "teleporter_loci_establishment_loc" }, "min_radius": 0, "max_radius": 0 },
       { "u_add_effect": "effect_teleport_loci_establishment", "duration": "PERMANENT" },
@@ -229,6 +287,68 @@
           {
             "math": [
               "( ( u_spell_level('teleport_loci_establishment') * 4 ) + 200 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_WARPER_COMBAT_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_teleport_warper_combat" } },
+    "effect": [
+      { "u_message": "The world jerks as you start continually blinking from place to place.", "type": "good" },
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
+      { "u_add_effect": "effect_teleport_warper_combat", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_TELEPORT_WARPER_COMBAT_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('teleport_warper_combat') * 3.5) + 23) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('teleport_warper_combat') * 8.5) + 97) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_TELEPORT_REMOVE_WARPER_COMBAT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_REMOVE_WARPER_COMBAT",
+    "condition": { "u_has_effect": "effect_teleport_warper_combat" },
+    "effect": [
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_MINUS_ONE", "EOC_POWER_MAINTENANCE_MINUS_ONE" ] },
+      { "u_lose_effect": "effect_teleport_warper_combat" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_WARPER_COMBAT_DRAIN",
+    "condition": { "u_has_effect": "effect_teleport_warper_combat" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = 9" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
+      { "math": [ "u_spell_exp('teleport_warper_combat')", "+=", "psionic_power_experience_formula()" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "run_eocs": "EOC_TELEPORT_WARPER_COMBAT_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('teleport_warper_combat') * 3.5) + 23) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('teleport_warper_combat') * 8.5) + 97) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

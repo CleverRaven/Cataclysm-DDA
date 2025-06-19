@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_rock_roof",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -12,7 +11,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_region_groundcover_forest",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -23,7 +21,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_rock_wall_roof",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -35,7 +32,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_rock_floor_roof",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -47,7 +43,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_region_soil_rock_roof",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -59,7 +54,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_slope_down_rock_roof",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -86,7 +80,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -124,7 +117,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -162,7 +154,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -201,7 +192,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -239,7 +229,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -278,7 +267,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -318,7 +306,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -357,7 +344,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -396,7 +382,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -436,7 +421,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 50,
     "object": {
@@ -481,7 +465,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 1000,
     "object": {
@@ -515,12 +498,11 @@
       ],
       "terrain": { ".": "t_soil", ",": "t_dirt_underground", ">": "t_slope_up" },
       "furniture": {  },
-      "items": { "~": [ { "item": "monparts", "chance": 2 }, { "item": "trash_forest", "chance": 2 } ] }
+      "items": { "~": [ { "item": "monparts", "chance": 2 }, { "item": "SUS_trash_forest_no_manmade", "chance": 2 } ] }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 800,
     "object": {
@@ -558,7 +540,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 500,
     "object": {
@@ -601,7 +582,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 250,
     "object": {
@@ -614,7 +594,7 @@
         "...11   .........     ..",
         "...11   .........    ...",
         "....1   ..........1111..",
-        ".......  ..........4....",
+        ".......  ..........1....",
         "........   ......   ....",
         "..........2.....  ......",
         "..........1....  .......",
@@ -643,26 +623,18 @@
         "G": "f_active_backup_generator",
         "7": "f_console_broken"
       },
-      "traps": {
-        "F": "tr_rollmat",
-        "2": "tr_crossbow",
-        "3": "tr_shotgun_1",
-        "4": "tr_landmine",
-        "5": "tr_boobytrap",
-        "6": "tr_beartrap"
-      },
+      "traps": { "F": "tr_rollmat", "2": "tr_crossbow", "3": "tr_shotgun_1", "5": "tr_boobytrap", "6": "tr_beartrap" },
       "fields": {
         "f": { "field": "fd_fire", "intensity": 1, "age": 10 },
         "1": { "field": "fd_web", "intensity": 1, "age": 10 },
         "2": { "field": "fd_web", "intensity": 1, "age": 10 },
         "3": { "field": "fd_web", "intensity": 1, "age": 10 },
-        "4": { "field": "fd_web", "intensity": 1, "age": 10 },
         "5": { "field": "fd_web", "intensity": 1, "age": 10 },
         "6": { "field": "fd_web", "intensity": 1, "age": 10 }
       },
       "item": { "f": { "item": "stick", "amount": [ 5, 10 ] }, "J": { "item": "jumper_cable" } },
       "items": {
-        "C": { "item": "stash_food", "chance": 80, "repeat": [ 2, 3 ] },
+        "C": { "item": "stash_food", "chance": 100, "repeat": [ 1, 2 ] },
         "D": { "item": "fuel_gasoline", "chance": 80 },
         "w": { "item": "stash_wood", "repeat": [ 1, 3 ] },
         "W": { "item": "gear_survival", "chance": 80, "repeat": [ 1, 2 ] }
@@ -671,7 +643,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 700,
     "object": {
@@ -712,7 +683,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_rat_underground" ],
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -755,7 +725,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_rat" ],
     "object": {
       "fill_ter": "t_rock_floor",

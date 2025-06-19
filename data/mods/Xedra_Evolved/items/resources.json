@@ -1,7 +1,7 @@
 [
   {
     "id": "moon_tear_ingot",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": "moon tears ingot",
     "description": "An ingot of moon tears.  About 3cm by 7cm by 12cm in size, ready to be used for various blacksmithing tasks.",
@@ -16,7 +16,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "moon_tear_wire",
     "symbol": ";",
     "color": "light_gray",
@@ -31,7 +31,8 @@
   },
   {
     "id": "scrap_moon_tears",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "scrap moon tears", "str_pl": "scraps of moon tears" },
     "description": "A bulky assortment of small bits of scrap moon tears, useful for forging into ingots and wire.",
@@ -49,7 +50,8 @@
   },
   {
     "id": "water",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "DRINK",
     "name": { "str_sp": "water" },
     "copy-from": "water",
@@ -58,7 +60,8 @@
   },
   {
     "id": "scrap_shadowstuff",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "scrap shadowstuff", "str_pl": "scraps of shadowstuff" },
     "description": "A bulky assortment of small bits of scrap shadowstuff, possibly useful in ephemeral crafting.",
@@ -76,7 +79,8 @@
   },
   {
     "id": "chunk_shadowstuff",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "chunk shadowstuff", "str_pl": "scraps of shadowstuff" },
     "description": "A bulky assortment of larger bits of scrap shadowstuff, possibly useful in ephemeral crafting.",
@@ -94,7 +98,8 @@
   },
   {
     "id": "scrap_dreamdross",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "scrap dreamdross", "str_pl": "scraps of dreamdross" },
     "description": "A bulky assortment of small bits of scrap dreamdross, useful in all kinds of ephemeral crafting.",
@@ -112,7 +117,8 @@
   },
   {
     "id": "dreamdross_lump",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "lump of dreamdross", "str_pl": "lumps of dreamdross" },
     "description": "A heavy formed piece of dreamdross.  Useful for some crafting recipes.",
@@ -129,7 +135,7 @@
   },
   {
     "id": "forged_dreamstuff_ingot",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": "dreamdross ingot",
     "description": "A forged ingot of dreamdross.  About 3cm by 7cm by 12cm in size, ready to be used for various reality forging tasks.",
@@ -144,7 +150,23 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "id": "changeling_dreamspark",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "dreamspark" },
+    "description": "The extracted essence of human dreams, used to fuel fae magicks.",
+    "weight": "0 g",
+    "volume": "1 ml",
+    "price": "0 USD",
+    "price_postapoc": "0 cent",
+    "material": [ "dreamstuff" ],
+    "symbol": "*",
+    "color": "cyan",
+    "melee_damage": { "bash": 6 },
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT", "NO_DROP" ]
+  },
+  {
+    "type": "ITEM",
     "id": "tanned_glimmer_pelt",
     "symbol": ",",
     "color": "brown",
@@ -159,7 +181,8 @@
   },
   {
     "id": "tanning_glimmer_pelt",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "tanning glimmer fur pelt" },
     "description": "A treated fae animal pelt that is undergoing the chemical processes required to become fur.  You will be able to activate it to unroll and make use of it when it is done.",
@@ -182,7 +205,7 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cured_glimmer_pelt",
     "symbol": ",",
     "color": "brown",
@@ -199,7 +222,7 @@
   },
   {
     "id": "sheet_gossamer",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "gossamer sheet" },
     "description": "A 12-inch by 24-inch sheet of gossamer fabric, like a swatch plucked from a rainbow.",
@@ -214,7 +237,7 @@
   {
     "id": "sheet_gossamer_patchwork",
     "copy-from": "sheet_gossamer",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "patchwork gossamer sheet" },
     "description": "A 12-inch by 24-inch sheet of gossamer sewn together from patches of various clothing parts.  Suitable for making clothing if you lack proper material sheets.",
     "price": "2 USD",
@@ -222,7 +245,8 @@
   },
   {
     "id": "gossamer_patchwork",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "gossamer patch", "str_pl": "gossamer patches" },
     "description": "A 6-inch square gossamer patch, suitable for repairing and tailoring clothing.",
@@ -238,7 +262,7 @@
   {
     "id": "scrap_gossamer",
     "copy-from": "scrap_worthless",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "gossamer scraps" },
     "description": "Filmy bits of gossamer, barely there.  Not useful for much.",
     "volume": "1 ml",
@@ -248,7 +272,7 @@
   },
   {
     "id": "sheet_elemental_gossamer",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "elemental gossamer sheet" },
     "description": "A 12-inch by 24-inch sheet of elemental gossamer fabric, like a swatch plucked from a rainbow.",
@@ -263,7 +287,7 @@
   {
     "id": "sheet_elemental_gossamer_patchwork",
     "copy-from": "sheet_gossamer",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "patchwork elemental gossamer sheet" },
     "description": "A 12-inch by 24-inch sheet of elemental gossamer sewn together from patches of various clothing parts.  Suitable for making clothing if you lack proper material sheets.",
     "price": "2 USD",
@@ -271,7 +295,8 @@
   },
   {
     "id": "elemental_gossamer_patchwork",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "elemental gossamer patch", "str_pl": "elemental gossamer patches" },
     "description": "A 6-inch square elemental gossamer patch, suitable for repairing and tailoring clothing.",
@@ -287,7 +312,7 @@
   {
     "id": "elemental_scrap_gossamer",
     "copy-from": "scrap_worthless",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "elemental gossamer scraps" },
     "description": "Filmy bits of elemental gossamer, barely there.  Not useful for much.",
     "volume": "1 ml",
@@ -297,7 +322,8 @@
   },
   {
     "id": "gambeson_batting_gossamer",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "gossamer gambeson batting", "str_pl": "clumps of gossamer gambeson batting" },
     "description": "A pile of shredded gossamer, like wisps of solid moonlight, which could be used to stuff the fabric layers of a gambeson.",
@@ -311,7 +337,7 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "log_treesung",
     "copy-from": "log",
     "symbol": "/",
@@ -320,7 +346,8 @@
     "description": "A large log of living wood, sung from a tree by elemental magick."
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "obsidian_rock",
     "copy-from": "rock",
     "name": { "str": "chunk of obsidian", "str_pl": "chunks of obsidian" },
@@ -343,7 +370,7 @@
     "melee_damage": { "stab": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "shadow_singularity_piece",
     "copy-from": "rock",
     "name": { "str": "piece of the darkest shadow", "str_pl": "pieces of the darkest shadow" },
@@ -352,14 +379,14 @@
     "description": "A chunk of darkness, torn from a powerful shadow.  It is so dark that no light reflect from it."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "skull_march_lord",
     "name": { "str": "march lord skull" },
     "description": "The skull of a march lord.  You can feel its lingering power as you touch it.",
     "copy-from": "skull_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "stormwrought_blood_itert",
     "copy-from": "rock",
     "name": { "str": "inert stormwrought blood", "str_pl": "doses of inert stormwrought blood" },
@@ -369,7 +396,7 @@
     "description": "A ball of almost-solid blood, needing to bath in the energies of a portal storm before being useful."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "stormwrought_blood_charged",
     "copy-from": "rock",
     "name": { "str": "simmering stormwrought blood", "str_pl": "doses of simmering stormwrought blood" },
@@ -380,7 +407,8 @@
   },
   {
     "id": "concentrated_underhill_essence",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "concentrated underhill essence" },
     "description": "The distilled essence of the Fae.  Can be used as part of rituals.",
@@ -401,7 +429,7 @@
     "flags": [ "WATER_DISSOLVE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dream_drainer_heart",
     "copy-from": "rock",
     "name": { "str": "dream-drainer mosquito's heart" },
@@ -413,7 +441,7 @@
     "description": "A heartlike object made from dreamdross.  It feels as if it were still beating despite its lack of movement."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "moonstruck_pearl",
     "copy-from": "rock",
     "weight": "39 g",
@@ -425,7 +453,7 @@
     "description": "A small pearl brightly shining with moonlight."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "abyssal_hunger_shard",
     "copy-from": "rock",
     "weight": "900 g",

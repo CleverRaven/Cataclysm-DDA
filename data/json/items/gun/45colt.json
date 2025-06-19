@@ -1,9 +1,10 @@
 [
   {
     "id": "bond_410",
+    "copy-from": "gun_base_handgun_manual",
     "looks_like": "glock_17",
-    "type": "GUN",
-    "reload_noise_volume": 10,
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "double-barrel derringer" },
     "description": "The Bond Arms Derringer is a series of multi-barrel compact pistols.  Most commonly chambered for .45 Colt, with chambers long enough to accept .410 shotgun shells.",
     "variant_type": "gun",
@@ -20,34 +21,18 @@
     "barrel_length": "76 mm",
     "price": "415 USD",
     "price_postapoc": "22 USD 50 cent",
-    "to_hit": -1,
     "material": [ { "type": "steel", "portion": 9 }, { "type": "rubber", "portion": 1 } ],
-    "symbol": "(",
-    "color": "brown",
     "ammo": [ "45colt", "410shot" ],
-    "skill": "pistol",
     "dispersion": 520,
-    "durability": 6,
     "clip_size": 2,
-    "blackpowder_tolerance": 80,
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN", "NO_TURRET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 2, "410shot": 2 } } ],
-    "melee_damage": { "bash": 2 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 2, "410shot": 2 } } ]
   },
   {
     "id": "colt_saa",
-    "copy-from": "pistol_revolver",
+    "copy-from": "gun_base_handgun_manual",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "cowboy six-shooter" },
     "description": "A reproduction of an antique firearm, chambered in .45 Colt.  Due to the lack of a swing-out cylinder, each cartridge must be reloaded and ejected manually.",
     "variant_type": "gun",
@@ -72,23 +57,19 @@
     "//": "190.5mm + 40.6mm max OAL for 45LC. Revolvers just built different.",
     "price": "479 USD",
     "price_postapoc": "25 USD",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
     "ammo": [ "45colt" ],
     "dispersion": 360,
-    "durability": 8,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "stock mount", 1 ] ],
     "clip_size": 6,
-    "blackpowder_tolerance": 56,
-    "//proportional": { "reload": 1.5 },
-    "flags": [ "NO_TURRET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 6 } } ],
-    "melee_damage": { "bash": 8 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 6 } } ]
   },
   {
     "id": "taurus_judge",
-    "copy-from": "pistol_revolver",
+    "copy-from": "gun_base_handgun_manual",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": ".45/.410 shotshell revolver" },
     "description": "A stainless steel 5 shot revolver, capable of firing .410 shells or 45 Colt cartridges.",
     "variant_type": "gun",
@@ -106,10 +87,10 @@
     "//": "76.2 + 63.5 for barrel length and chamber length, revolvers just built different",
     "price": "564 USD",
     "price_postapoc": "20 USD",
-    "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "uneven" },
     "material": [ { "type": "steel", "portion": 9 }, { "type": "rubber", "portion": 1 } ],
-    "ammo": [ "410shot", "45colt" ],
+    "ammo": [ "45colt", "410shot" ],
     "dispersion": 280,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "clip_size": 5,
     "pocket_data": [
       {
@@ -117,7 +98,6 @@
         "ammo_restriction": { "410shot": 5, "45colt": 5 },
         "allowed_speedloaders": [ "454_speedloader5" ]
       }
-    ],
-    "melee_damage": { "bash": 6 }
+    ]
   }
 ]

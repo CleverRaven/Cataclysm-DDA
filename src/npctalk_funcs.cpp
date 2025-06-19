@@ -2,28 +2,27 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <iosfwd>
+#include <cstdint>
 #include <list>
 #include <memory>
-#include <new>
 #include <optional>
+#include <ostream>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "activity_actor_definitions.h"
-#include <activity_handlers.h>
-#include "activity_type.h"
+#include "activity_handlers.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "clzones.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
@@ -37,15 +36,14 @@
 #include "game_inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "line.h"
 #include "magic.h"
 #include "map.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
 #include "mutation.h"
 #include "npc.h"
+#include "npc_opinion.h"
 #include "npctrade.h"
 #include "output.h"
 #include "overmap.h"
@@ -55,9 +53,11 @@
 #include "player_activity.h"
 #include "point.h"
 #include "rng.h"
+#include "simple_pathfinding.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "viewer.h"
 
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
@@ -403,7 +403,7 @@ void talk_function::goto_location( npc &p )
     p.goal = destination;
     p.omt_path = overmap_buffer.get_travel_path( p.pos_abs_omt(), p.goal,
                  overmap_path_params::for_npc() ).points;
-    if( destination == tripoint_abs_omt() || destination.is_invalid() ||
+    if( destination == tripoint_abs_omt::zero || destination.is_invalid() ||
         p.omt_path.empty() ) {
         p.goal = npc::no_goal_point;
         p.omt_path.clear();
@@ -836,19 +836,27 @@ void talk_function::morale_chat_activity( npc &p )
     }
     add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
     // 50% chance of increasing 1 npc opinion value each social chat after 6hr
-    if( !p.has_effect( effect_socialized_recently ) ) {
+    if( !p.has_effect( effect_socialized_recently ) && p.opinion_values_raised <= 10 ) {
+        int value_change = 0;
         switch( rng( 1, 3 ) ) {
             case 1:
-                p.op_of_u.trust += rng( 0, 1 );
+                value_change = rng( 0, 1 );
+                p.op_of_u.trust += value_change;
                 break;
             case 2:
-                p.op_of_u.value += rng( 0, 1 );
+                value_change = rng( 0, 1 );
+                p.op_of_u.value += value_change;
                 break;
             case 3:
                 if( p.op_of_u.anger > 0 ) {
-                    p.op_of_u.anger += rng( 0, -1 );
+                    value_change = rng( -1, 0 );
+                    p.op_of_u.anger += value_change;
                 }
                 break;
+        }
+        // we need to check for any non-zero value, e.g. anger change might be negative
+        if( value_change != 0 ) {
+            p.opinion_values_raised++;
         }
         p.add_effect( effect_socialized_recently, 6_hours );
     }
@@ -922,11 +930,13 @@ void talk_function::deny_personal_info( npc &p )
 
 void talk_function::hostile( npc &p )
 {
+    const map &here = get_map();
+
     if( p.get_attitude() == NPCATT_KILL ) {
         return;
     }
 
-    if( p.sees( get_player_character() ) ) {
+    if( p.sees( here, get_player_character() ) ) {
         add_msg( _( "%s turns hostile!" ), p.get_name() );
     }
 
@@ -1071,9 +1081,12 @@ void talk_function::player_weapon_away( npc &/*p*/ )
 
 void talk_function::player_weapon_drop( npc &/*p*/ )
 {
+    map &here = get_map();
+
     Character &player_character = get_player_character();
     item weap = player_character.remove_weapon();
-    drop_on_map( player_character, item_drop_reason::deliberate, {weap}, player_character.pos_bub() );
+    drop_on_map( player_character, item_drop_reason::deliberate, {weap}, &here,
+                 player_character.pos_bub( here ) );
 }
 
 void talk_function::lead_to_safety( npc &p )
@@ -1244,11 +1257,13 @@ void talk_function::start_training_gen( Character &teacher, std::vector<Characte
 
 npc *pick_follower()
 {
+    const map &here = get_map();
+
     std::vector<npc *> followers;
     std::vector<tripoint_bub_ms> locations;
 
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_player_ally() && get_player_view().sees( guy ) ) {
+        if( guy.is_player_ally() && get_player_view().sees( here, guy ) ) {
             followers.push_back( &guy );
             locations.push_back( guy.pos_bub() );
         }

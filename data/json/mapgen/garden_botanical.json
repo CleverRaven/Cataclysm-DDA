@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": [ [ "BotanicalGarden_1a", "BotanicalGarden_1b" ] ],
     "type": "mapgen",
     "object": {
@@ -128,12 +127,11 @@
         { "signage": "'OSWEGO' PECAN\nCarya illinoinensis\nPlanted by <full_name>", "x": 45, "y": 21 },
         { "signage": "COMMON BEECH\nFagus sylvatica\nPlanted by <full_name>", "x": 45, "y": 1 }
       ],
-      "items": { "z": { "chance": 40, "repeat": [ 1, 3 ], "item": "trash" } }
+      "items": { "Z": { "chance": 40, "repeat": [ 1, 3 ], "item": "SUS_trash_trashcan_public" } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "BotanicalGarden_1a_roof", "BotanicalGarden_1b_roof" ] ],
     "object": {
       "fill_ter": "t_glass_roof",

@@ -35,6 +35,7 @@
       "L": "t_door_metal_locked",
       "#": "t_rock"
     },
+    "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "T": {  } }
   },
   {
@@ -144,7 +145,6 @@
   {
     "//": "Creates border walls for a lab based on its neighboring tiles.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_border_walls",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -162,7 +162,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_north_wall",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -197,7 +196,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_west_wall",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -233,7 +231,6 @@
   {
     "//": "Override for tower lab borders, use a glass wall to let light in.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_glass_north_wall",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -243,7 +240,6 @@
   {
     "//": "Override for tower lab borders, use a glass wall to let light in.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_glass_west_wall",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -253,7 +249,6 @@
   {
     "//": "Override for tower lab borders, use a glass wall to let light in.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_glass_east_wall",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -263,7 +258,6 @@
   {
     "//": "Override for tower lab borders, use a glass wall to let light in.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_glass_south_wall",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -272,7 +266,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sub_t_concrete_wall",
     "object": { "rows": [ "-" ], "palettes": [ "lab_palette" ], "mapgensize": [ 1, 1 ] }
   }

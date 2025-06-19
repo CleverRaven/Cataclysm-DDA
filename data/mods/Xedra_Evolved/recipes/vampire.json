@@ -174,8 +174,10 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_05_REAL",
     "//": "This should contain all tier 5 vampire powers",
+    "//2": "The added effect checks if you have every single vampire power and gives a message after EoC completion so the player knows they have all the gifts.",
     "condition": { "u_has_effect": "effect_vampire_studying_blood_gifts" },
     "effect": [
+      { "u_add_effect": "effect_vampire_all_gift_check", "duration": "1 minute" },
       {
         "u_roll_remainder": [
           "VAMPIRE_MASTER_MORTAL_MIND",
@@ -205,6 +207,7 @@
     "effect": [
       { "u_message": "You learn a new blood gift.", "popup": true },
       { "run_eocs": "EOC_MIST_FORM_BEFORE_LAST_BREATH" },
+      { "u_lose_effect": "effect_vampire_all_gift_check" },
       { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
       { "u_add_effect": "effect_vampire_recently_learned_blood_gifts", "duration": "5 days" }
     ]
@@ -212,8 +215,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_FAILURE",
+    "condition": { "u_has_effect": "effect_vampire_all_gift_check" },
     "effect": [
       { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
+      { "u_lose_effect": "effect_vampire_all_gift_check" },
+      { "u_message": "You possess every single gift of the blood.  Nothing will be gained from further attempts." }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
+      { "u_lose_effect": "effect_vampire_all_gift_check" },
       { "u_message": "Your experiments are fruitless.  You'll have to try again." }
     ]
   },
@@ -229,5 +239,145 @@
       ]
     },
     "effect": [ { "u_lose_effect": "effect_vampire_studying_blood_gifts" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "reshuffle vampiric weaknesses",
+    "id": "xe_vampire_blood_weaknesses_reshuffle",
+    "description": "With the expenditure of a large amount of blood and time, attempt to replace your weaknesses by new ones.  This cannot increase or decrease how many weaknesses you have.",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_RESEARCH",
+    "skill_used": "deduction",
+    "difficulty": 0,
+    "time": "30 s",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_BEGIN",
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 500" ] },
+        "effect": [
+          { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] },
+          { "u_add_effect": "effect_vampire_reshuffling_weaknesses", "duration": "8 hours" },
+          { "u_assign_activity": "ACT_VAMPIRE_RESHUFFLING_WEAKNESSES", "duration": "8 hours" },
+          {
+            "run_eocs": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_SWITCHER",
+            "time_in_future": [ "120 minutes", "180 minutes" ]
+          }
+        ],
+        "false_effect": [ { "u_message": "You do not have enough blood to try to change your weaknesses.", "type": "bad" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_SWITCHER",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_vampire_reshuffling_weaknesses" },
+        { "not": { "u_has_effect": "effect_vampire_recently_reshuffled_weaknesses" } }
+      ]
+    },
+    "//": "Switch statement below determines results.  The higher your intelligence and deduction, the easier it is to successfully reshuffle vampiric weaknesses.",
+    "effect": {
+      "switch": { "math": [ "(u_val('intelligence') / 2) + u_skill('deduction') + (rand(9) + 1) + (rand(9) + 1)" ] },
+      "cases": [
+        {
+          "case": 0,
+          "effect": [ { "run_eocs": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_SWITCHER", "time_in_future": [ "90 minutes", "150 minutes" ] } ]
+        },
+        { "case": 17, "effect": [ { "run_eocs": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_SUCCESS" } ] }
+      ]
+    }
+  },
+  {
+    "id": "ACT_VAMPIRE_RESHUFFLING_WEAKNESSES",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "reshuffling vampiric weaknesses",
+    "based_on": "time",
+    "completion_eoc": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_FAILURE"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_SUCCESS",
+    "effect": [
+      { "u_message": "Your current weaknesses vanish, but are immediately replaced by new ones.", "popup": true },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_MORE_BLOOD" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_GROTESQUE" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_EARTH_SLEEP" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_HOLY_BURN" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_VAST_WATER_BURN" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_ANIMAL_HATE" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_FIRE_VULNERABLE" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_COLD_BLOODED" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_BLOOD_CRAVING" },
+      { "u_lose_effect": "vampire_need_living_blood" },
+      { "run_eocs": "EOC_VAMPIRE_ADD_WEAKNESSES" },
+      { "u_lose_effect": "effect_vampire_reshuffling_weaknesses" },
+      { "u_add_effect": "effect_vampire_recently_reshuffled_weaknesses", "duration": "5 days" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_FAILURE",
+    "effect": [
+      { "u_lose_effect": "effect_vampire_reshuffling_weaknesses" },
+      { "u_message": "Your attempts are fruitless.  You'll have to try again." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_CANCELLING_ACTIVITY_CANCELS_WEAKNESS_RESHUFFLE",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_VAMPIRE_RESHUFFLING_WEAKNESSES", { "context_val": "activity" } ] },
+        { "u_has_effect": "effect_vampire_reshuffling_weaknesses" }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_vampire_reshuffling_weaknesses" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "anathema_blood_catalyst_unready",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "cooking",
+    "skills_required": [ "cooking", 2 ],
+    "difficulty": 2,
+    "flags": [ "SECRET" ],
+    "time": "10 m",
+    "components": [
+      [ [ "vampire_blood", 10 ] ],
+      [
+        [ "blood_acid", 10 ],
+        [ "blood_mi-go", 10 ],
+        [ "blood_tainted", 10 ],
+        [ "blood_acid_plant", 10 ],
+        [ "blood_acid_insect", 10 ],
+        [ "blood_acid_underground", 10 ]
+      ],
+      [
+        [ "formic_acid", 3 ],
+        [ "chem_acetic_acid", 3 ],
+        [ "chem_nitric_acid", 3 ],
+        [ "chem_sulphuric_acid", 3 ],
+        [ "chem_muriatic_acid", 3 ]
+      ],
+      [
+        [ "venom_bee", 6 ],
+        [ "venom_wasp", 6 ],
+        [ "venom_paralytic", 6 ],
+        [ "conc_venom", 3 ],
+        [ "conc_paralytic", 3 ]
+      ],
+      [ [ "nicotine_liquid", 100 ], [ "datura_seed", 10 ], [ "chem_toluene", 50 ], [ "leech_flower", 5 ] ]
+    ]
   }
 ]

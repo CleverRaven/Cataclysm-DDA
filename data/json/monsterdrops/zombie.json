@@ -101,7 +101,7 @@
       { "group": "swimmer_glasses", "damage": [ 0, 4 ], "prob": 15 },
       { "group": "swimmer_items", "prob": 5 },
       { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 },
-      { "group": "phones_case", "damage": [ 0, 4 ], "prob": 5 }
+      { "group": "civilian_phones_case", "damage": [ 0, 4 ], "prob": 5 }
     ]
   },
   {
@@ -121,10 +121,7 @@
     "type": "item_group",
     "id": "mon_dog_death_drops",
     "subtype": "collection",
-    "entries": [
-      { "group": "dog_clothes", "damage": [ 1, 4 ], "prob": 20 },
-      { "item": "dog_tag_dog", "prob": 40, "damage": [ 0, 2 ] }
-    ]
+    "entries": [ { "group": "dog_clothes", "damage": [ 1, 4 ], "prob": 5 }, { "item": "dog_tag_dog", "prob": 40, "damage": [ 0, 2 ] } ]
   },
   {
     "type": "item_group",

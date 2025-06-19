@@ -133,7 +133,7 @@
     "id": "lobotomizer",
     "type": "MIGRATION",
     "replace": "box_medium_wood",
-    "contents": [ { "id": "steel_lump", "count": 6 } ]
+    "contents": [ { "id": "lc_steel_lump", "count": 6 } ]
   },
   {
     "id": "tshirt_text",
@@ -149,8 +149,7 @@
   {
     "id": "linuxtshirt",
     "type": "MIGRATION",
-    "replace": "tshirt",
-    "variant": "tux"
+    "replace": "tshirt"
   },
   {
     "id": "tshirt_tour",
@@ -1427,8 +1426,8 @@
   {
     "type": "MIGRATION",
     "id": "ammo_can_30_300jhp_240",
-    "replace": "ammunition_can_30",
-    "variant": "ammunition_can_30_300jhp_240"
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_300jhp_240"
   },
   {
     "type": "MIGRATION",
@@ -1451,8 +1450,8 @@
   {
     "type": "MIGRATION",
     "id": "ammo_can_30_308fmj_460",
-    "replace": "ammunition_can_30",
-    "variant": "ammunition_can_30_308fmj_460"
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_308fmj_460"
   },
   {
     "type": "MIGRATION",
@@ -1678,13 +1677,6 @@
     "id": "cz75mag_12rd",
     "type": "MIGRATION",
     "replace": "cz75mag_16rd"
-  },
-  {
-    "id": "mossberg_500",
-    "type": "MIGRATION",
-    "from_variant": "mossberg_500_security",
-    "replace": "benelli_tsa",
-    "variant": "mossberg_500_security"
   },
   {
     "id": "bottle_suppressor",
@@ -2173,7 +2165,7 @@
   {
     "id": "ammo_box_army_20_338",
     "type": "MIGRATION",
-    "replace": "ammo_box_4"
+    "replace": "338_ammo_box_20"
   },
   {
     "id": "peanutbutter_imitation",
@@ -2244,5 +2236,349 @@
     "id": "kiln_done",
     "type": "MIGRATION",
     "replace": "char_kiln"
+  },
+  {
+    "id": "40x46mm_buckshot_m118",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "40x46mm_buckshot_m199",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "40x46mm_buckshot_m199",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "40x46mm_slug_m118",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "40x46mm_slug_m199",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "40x46mm_flechette_m118",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "40x46mm_flechette_m199",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "bp_40x46mm_buckshot_m199",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "bp_40x46mm_slug_m118",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "bp_40x46mm_slug_m199",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "bp_40x46mm_flechette_m118",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "bp_40x46mm_flechette_m199",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "ammo_box_2",
+    "type": "MIGRATION",
+    "replace": "box_small"
+  },
+  {
+    "id": "ammo_box_army_100_9mm_fmj",
+    "type": "MIGRATION",
+    "replace": "9mm_ammo_box_100",
+    "variant": "ammo_box_army_100_9mm_fmj"
+  },
+  {
+    "id": "ammo_box_army_100_9mm_jhp",
+    "type": "MIGRATION",
+    "replace": "9mm_ammo_box_100",
+    "variant": "ammo_box_army_100_9mm_jhp"
+  },
+  {
+    "id": "ammo_box_army_20_300wm",
+    "type": "MIGRATION",
+    "replace": "300_ammo_box_20",
+    "variant": "ammo_box_army_20_300wm"
+  },
+  {
+    "id": "ammo_box_army_30_300blk",
+    "type": "MIGRATION",
+    "replace": "223_ammo_box_20",
+    "variant": "300blk_ammo_box_20"
+  },
+  {
+    "id": "ammo_box_army_10_338",
+    "type": "MIGRATION",
+    "replace": "4570_ammo_box_20",
+    "variant": "ammo_box_army_10_338"
+  },
+  {
+    "id": "ammo_box_army_20_223",
+    "type": "MIGRATION",
+    "replace": "223_ammo_box_20",
+    "variant": "ammo_box_army_20_223"
+  },
+  {
+    "id": "ammo_box_army_5_shot",
+    "type": "MIGRATION",
+    "replace": "12_ammo_box_5",
+    "variant": "ammo_box_army_5_shot"
+  },
+  {
+    "id": "ammo_box_army_5_slug",
+    "type": "MIGRATION",
+    "replace": "12_ammo_box_5",
+    "variant": "ammo_box_army_5_slug"
+  },
+  {
+    "id": "ammo_box_army_5_beanbag",
+    "type": "MIGRATION",
+    "replace": "12_ammo_box_5",
+    "variant": "ammo_box_army_5_beanbag"
+  },
+  {
+    "id": "ammo_box_army_10_50bmg",
+    "type": "MIGRATION",
+    "replace": "12_ammo_box_25",
+    "variant": "ammo_box_army_10_50bmg"
+  },
+  {
+    "id": "ammo_box_4",
+    "type": "MIGRATION",
+    "replace": "12_ammo_box_25"
+  },
+  {
+    "id": "gosling_jacket",
+    "type": "MIGRATION",
+    "replace": "jacket_leather"
+  },
+  {
+    "id": "jacket_leather_red",
+    "type": "MIGRATION",
+    "replace": "jacket_leather",
+    "variant": "jacket_leather_red"
+  },
+  {
+    "id": "fancy_sunglasses",
+    "type": "MIGRATION",
+    "replace": "sunglasses"
+  },
+  {
+    "id": "fancy_sunglasses_eye",
+    "type": "MIGRATION",
+    "replace": "sunglasses_eye"
+  },
+  {
+    "id": "fancy_sunglasses_reading",
+    "type": "MIGRATION",
+    "replace": "sunglasses_reading"
+  },
+  {
+    "id": "fancy_sunglasses_bifocal",
+    "type": "MIGRATION",
+    "replace": "sunglasses_bifocal"
+  },
+  {
+    "id": "fancy_glasses_bifocal",
+    "type": "MIGRATION",
+    "replace": "glasses_bifocal"
+  },
+  {
+    "id": "fancy_glasses_reading",
+    "type": "MIGRATION",
+    "replace": "glasses_reading"
+  },
+  {
+    "id": "fancy_glasses_eye",
+    "type": "MIGRATION",
+    "replace": "glasses_eye"
+  },
+  {
+    "id": "fancy_transition_glasses_reading",
+    "type": "MIGRATION",
+    "replace": "sunglasses_reading"
+  },
+  {
+    "id": "fancy_transition_glasses_bifocal",
+    "type": "MIGRATION",
+    "replace": "sunglasses_bifocal"
+  },
+  {
+    "id": "fancy_transition_glasses_eye",
+    "type": "MIGRATION",
+    "replace": "sunglasses_eye"
+  },
+  {
+    "id": "transition_glasses_bifocal",
+    "type": "MIGRATION",
+    "replace": "sunglasses_bifocal",
+    "variant": "transition_bifocal_square"
+  },
+  {
+    "id": "transition_glasses_eye",
+    "type": "MIGRATION",
+    "replace": "sunglasses_eye",
+    "variant": "transition_corrective_round"
+  },
+  {
+    "id": "transition_glasses_reading",
+    "type": "MIGRATION",
+    "replace": "sunglasses_reading",
+    "variant": "transition_reading_aviator"
+  },
+  {
+    "id": "jeans_red",
+    "type": "MIGRATION",
+    "replace": "jeans"
+  },
+  {
+    "id": "muzzle_brake_mod",
+    "type": "MIGRATION",
+    "replace": "muzzle_brake"
+  },
+  {
+    "id": "offset_sights_mod",
+    "type": "MIGRATION",
+    "replace": "offset_sights"
+  },
+  {
+    "id": "offset_sight_rail_mod",
+    "type": "MIGRATION",
+    "replace": "offset_sight_rail"
+  },
+  {
+    "id": "rifle_scope_mod",
+    "type": "MIGRATION",
+    "replace": "rifle_scope"
+  },
+  {
+    "id": "acog_scope_mod",
+    "type": "MIGRATION",
+    "replace": "acog_scope"
+  },
+  {
+    "id": "bipod_mod",
+    "type": "MIGRATION",
+    "replace": "bipod"
+  },
+  {
+    "id": "u_shotgun_mod",
+    "type": "MIGRATION",
+    "replace": "u_shotgun"
+  },
+  {
+    "id": "internal_mp3",
+    "type": "MIGRATION",
+    "replace": "manual_swimming"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "suit_bostonchan",
+    "replace": "blazer",
+    "variant": "bostonchan"
+  },
+  {
+    "id": "light_grip",
+    "type": "MIGRATION",
+    "replace": "grip"
+  },
+  {
+    "id": "pistol_grip",
+    "type": "MIGRATION",
+    "replace": "grip"
+  },
+  {
+    "id": "breacher_grip",
+    "type": "MIGRATION",
+    "replace": "grip"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sheriffshirt",
+    "from_variant": "sheriff",
+    "replace": "postman_shirt",
+    "variant": "sheriff"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sheriffshirt",
+    "from_variant": "swat_shirt",
+    "replace": "postman_shirt",
+    "variant": "swat"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "subsuit_xl",
+    "replace": "jumpsuit_pocketless",
+    "variant": "orange"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "striped_shirt",
+    "replace": "buttonshirt",
+    "variant": "striped"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gown",
+    "replace": "dress",
+    "variant": "gown"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "robofac_jumpsuit",
+    "replace": "jumpsuit",
+    "variant": "robofac"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "balaclava_skull",
+    "replace": "balclava",
+    "variant": "skull"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "robofac_head_rig_ir",
+    "replace": "robofac_head_rig_nv"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "exodii_ingot_steel",
+    "replace": "exodii_ingot_lc_steel"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "clay_quern",
+    "replace": "rock_quern"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bowling_axe",
+    "replace": "hatchet"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "spear_forked",
+    "replace": "spear_spike"
   }
 ]

@@ -49,5 +49,27 @@
         ]
       }
     ]
+  },
+  {
+    "result": "grenade_inferno",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_WEAPONS",
+    "skill_used": "fabrication",
+    "skills_required": [ "metaphysics", 3 ],
+    "difficulty": 5,
+    "time": "60 m",
+    "reversible": false,
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_matrix_technology_beginner", "required": false } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "MATRIX_CHANNEL", "level": 1 } ],
+    "using": [ [ "volatile_explosive", 20, "LIST" ], [ "explosives_casting_standard", 1 ] ],
+    "components": [
+      [ [ "fuse", 1 ] ],
+      [ [ "super_glue", 4 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "small_grenade_case", 1, "LIST" ] ],
+      [ [ "matrix_crystal_pyrokin_dust", 5 ], [ "matrix_crystal_pyrokin_dust_refined", 1 ] ]
+    ]
   }
 ]

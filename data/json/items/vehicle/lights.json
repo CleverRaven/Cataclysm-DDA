@@ -1,7 +1,7 @@
 [
   {
     "id": "car_headlight",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "car headlight" },
     "description": "A vehicle headlight to light up the way.",
     "symbol": ";",
@@ -16,7 +16,7 @@
   },
   {
     "id": "motorcycle_headlight",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "motorcycle headlight" },
     "description": "A motorcycle headlight to light up the way.",
     "weight": "500 g",
@@ -27,7 +27,7 @@
   },
   {
     "id": "car_wide_headlight",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "wide-angle car headlight" },
     "description": "A wide-angle vehicle headlight to light up the way.",
     "looks_like": "car_headlight",
@@ -38,21 +38,21 @@
     "copy-from": "car_headlight"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "headlight_reinforced",
     "name": { "str": "reinforced headlight" },
     "description": "A vehicle headlight with a cage built around it to protect it from damage without reducing its effectiveness.",
     "weight": "1200 g",
     "color": "light_cyan",
     "symbol": ",",
-    "material": [ "steel", "plastic" ],
+    "material": [ "lc_steel", "plastic" ],
     "price": "400 USD",
     "price_postapoc": "2 USD 50 cent",
     "copy-from": "car_headlight",
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wide_headlight_reinforced",
     "name": { "str": "reinforced wide-angle headlight" },
     "description": "A wide-angle vehicle headlight with a cage built around it to protect it from damage without reducing its effectiveness.",
@@ -61,21 +61,21 @@
     "copy-from": "headlight_reinforced"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "light_emergency_red",
     "name": { "str": "emergency vehicle light (red)", "str_pl": "emergency vehicle lights (red)" },
     "description": "A red light from the top of an emergency services vehicle.  When turned on, the light rotates to shine in all directions.",
     "weight": "500 g",
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "color": "red",
-    "material": [ "plastic", "steel" ],
+    "material": [ "plastic", "lc_steel" ],
     "price": "400 USD",
     "price_postapoc": "1 USD",
     "copy-from": "car_headlight",
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "light_emergency_blue",
     "name": { "str": "emergency vehicle light (blue)", "str_pl": "emergency vehicle lights (blue)" },
     "description": "A blue light from the top of an emergency services vehicle.  When turned on, the light rotates to shine in all directions.",
@@ -83,13 +83,13 @@
     "copy-from": "light_emergency_red"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "floodlight",
     "name": { "str": "floodlight" },
     "description": "A large, heavy light designed to illuminate wide areas.",
     "weight": "2500 g",
-    "to_hit": 1,
-    "material": [ "plastic", "steel" ],
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "material": [ "plastic", "lc_steel" ],
     "volume": "2 L",
     "price": "900 USD",
     "price_postapoc": "15 USD",
@@ -97,7 +97,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "directed_floodlight",
     "name": { "str": "directed floodlight" },
     "description": "A large, heavy light designed to illuminate a wide area in a half-circular cone.",

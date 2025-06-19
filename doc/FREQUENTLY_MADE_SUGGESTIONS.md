@@ -46,7 +46,7 @@ In general, it’s just a ton of work for not that much benefit from the project
 
 This game is open-source, welcomes contributors, and is highly customizable.  Aside from certain items on the list below, most suggestions for additions are going to get approved, either in the vanilla game, or in a mod.  The tricky part is finding a contributor to add the item.
 
-The FMS list is here because some ideas have complicated reasons why they're not going to be accepted, or why they'll be accepted but not anytime soon.  For most other ideas, they'll get accepted as soon as someone puts forth a contribution of sufficient quality and there's no need to put anything on this list.
+The FMS list is here because some ideas have complicated reasons why they're not going to be accepted, or why they'll be accepted but not anytime soon. For most other ideas, they'll get accepted as soon as someone puts forth a contribution of sufficient quality and there's no need to put anything on this list.
 
 ## Game Features
 
@@ -54,21 +54,21 @@ The FMS list is here because some ideas have complicated reasons why they're not
 
 #### Improving Performance via Multithreading: Not just no, but hell no.
 
-Several key developers (including Kevin) already have horror stories about debugging threadlock races that have a 3+ hour run time to reproduce for their day jobs and are extremely insistent that they do not want to take on that kind of debugging for their free time hobby.  So adding multithreading is a non-starter, because it will substantially shrink the pool of talented developers who will contribute code changes.
+Several key developers (including Kevin) already have horror stories about debugging threadlock races that have a 3+ hour run time to reproduce for their day jobs and are extremely insistent that they do not want to take on that kind of debugging for their free time hobby. So adding multithreading is a non-starter, because it will substantially shrink the pool of talented developers who will contribute code changes.
 
-Multithreading massively increases the overhead of maintaining the game.  that's an ongoing overhead that just never goes away, it worms its way into every part of the system.  for example, if anything but thread #1 wants to touch a data structure, that data structure must now be threading-safe and/or protected by locks
+Multithreading massively increases the overhead of maintaining the game. That's an ongoing overhead that just never goes away, it worms its way into every part of the system. For example, if anything but thread #1 wants to touch a data structure, that data structure must now be threading-safe and/or protected by locks
 
-Also, we use mingw for windows builds, it turns out mingw does not have working POSIX locking primitives.  (if you do multithreaded on mingw, you abandon linux portability and use windows locking primitives).  This is another huge maintenance burden.
+Also, we use mingw for windows builds, it turns out mingw does not have working POSIX locking primitives. (If you do multithreaded on mingw, you abandon linux portability and use windows locking primitives). This is another huge maintenance burden.
 
-problem #3 is that multithreading doesn't get you performance improvements as fast as almost anyone thinks it will.  to break that down, threading is relatively good for throughput, but it's hard to use it to improve latency.  as it turns out, user-facing programs almost never care about throughput, they only care about latency, so that kind of sucks.  so for example, one of the expensive things we do is calculating FoV, it turns out it's what's called embarrassingly paralleizable, if a little tricky.  i.e. you can break it up into 8 almost entirely independent jobs.  The catch is, that task is actually dominated by cache misses instead of computation, and multithreading makes that worse, because you have to ship the input and output data aound to the various CPUs.  so splitting that task up is relatively easy, but I'm not at all certain that doing so would make it any faster.
+Problem #3 is that multithreading doesn't get you performance improvements as fast as almost anyone thinks it will. To break that down, threading is relatively good for throughput, but it's hard to use it to improve latency.  As it turns out, user-facing programs almost never care about throughput, they only care about latency, so that kind of sucks.  So for example, one of the expensive things we do is calculating FoV, it turns out it's what's called embarrassingly paralleizable, if a little tricky (i.e. you can break it up into 8 almost entirely independent jobs).  The catch is, that task is actually dominated by cache misses instead of computation, and multithreading makes that worse, because you have to ship the input and output data around to the various CPUs. So splitting that task up is relatively easy, but I'm not at all certain that doing so would make it any faster.
 
 We had some mystery regressions and some not-so-mystery regressions since 0.E, subsequent improvements have clawed all that performance back and more.  So we're in pretty good shape now.
 
-Which brings me to the "soft" problems with multithreading.  Say we do get good multithreaded optimizations and performance increases linearly with cores (so much lolnope, performance almost always increases with diminishing returns).  I develop on two systems, one has 8 functional cores and the other has 12 functional cores.  In the perfect multithreading case, there's a 50% performance difference between the two systems, so a code change with performance that is barely tolerable on the 12 core system is untenable on the 8 core system.
+Which brings me to the "soft" problems with multithreading. Say we do get good multithreaded optimizations and performance increases linearly with cores (so much lolnope, performance almost always increases with diminishing returns). I develop on two systems, one has 8 functional cores and the other has 12 functional cores. In the perfect multithreading case, there's a 50% performance difference between the two systems, so a code change with performance that is barely tolerable on the 12 core system is untenable on the 8 core system.
 
-Keeping dda single threaded helps keep me (and the other developers) honest, because it narrows the gap between the best and worst systems available.  It also narrows the gap within the userbase, including extreme cases where people are still on single or dual core CPUs.
+Keeping DDA single threaded helps keep me (and the other developers) honest, because it narrows the gap between the best and worst systems available. It also narrows the gap within the userbase, including extreme cases where people are still on single or dual core CPUs.
 
-Finally there's the opportunity cost issue.  For the effort of multithreading key parts of the game, we can put a hell of a lot of investment into more generally applicable optimization.  There's a hell of a lot of cache coherency and algorithmic optimization we have planned that we haven't gotten around to yet.  Optimizing the code would result in some sophisticated and finely tuned code we have to maintain, but we don't have to worry about the rest of the code being hard to maintain. One very large optimization performed since this entry was added was [creature reachability zones](https://github.com/CleverRaven/Cataclysm-DDA/pull/69574). This is one sort of always-applicable optimization that does not require specific software or hardware support for multithreading.
+Finally there's the opportunity cost issue. For the effort of multithreading key parts of the game, we can put a hell of a lot of investment into more generally applicable optimization.  There's a hell of a lot of cache coherency and algorithmic optimization we have planned that we haven't gotten around to yet. Optimizing the code would result in some sophisticated and finely tuned code we have to maintain, but we don't have to worry about the rest of the code being hard to maintain. One very large optimization performed since this entry was added was [creature reachability zones](https://github.com/CleverRaven/Cataclysm-DDA/pull/69574). This is one sort of always-applicable optimization that does not require specific software or hardware support for multithreading.
 
 That's the worst thing about multithreading IMO, as soon as you have multiple threads, you have to start worrying about thread safety throughout your code.
 
@@ -105,6 +105,25 @@ Crafting is also one of the mechanics that has more issues than it should becaus
 In the end, it's just odd to be able to hold 10000 rounds in your hands at once.
 
 Again, we do not want to make the game worse with this - there are some unavoidable problems caused by this migration, but after it is done, not only it would be easier to contribute for everyone, but the game would work better, and maybe even faster.
+
+### Options
+
+#### I should be able to disable features I don't want (fungals, portal storms, etc.): No.
+
+Every option has a maintenance cost, and the more options we have the more each of them individually costs in time, effort, and sanity for our dear contributors.
+
+At the time of this writing, despite our best efforts there are *two thousand, one hundred, and fourty-three*(2143) open issues on the repository. The vast majority of them are bug reports, either confirmed or waiting to be confirmed. This does not include bugs which have been reported but were not confirmed before being closed due to a lack of activity. (Confirmed bugs are immune to such closures)
+
+Can we afford the massive maintenance costs these options would bring? No. It would introduce many more bugs and greatly increase the workload even to fix existing ones, since the configuration of these options may be a cause.
+
+Can we afford the massive development costs these options would bring? No. All new development would have to take into account increasing numbers of possible code paths based on whether or not major features were disabled.
+
+Do we WANT these options to disable features? No! Features which make it into the game are desired features which contribute to the game's intended direction. We don't want to turn off the game we're making.
+
+There are some existing "toggle/disable feature" options which are legacy leftovers (e.g. wandering hordes, no NPC needs, railways mod). Experience has shown that making these options are a mistake, despite the intention in making these optional being to avoid major issues with their implementations. 
+
+The presence of those major issues precludes removing the option, and the fact it's an option precludes people from working on it ("oh I heard it has issues, I'll disable it" --> nobody actually uses it --> resolved issues or not, nobody would see their changes). This is a catch-22 for development, and the solution is simply not to make desired features optional.
+
 
 ### Multiplayer
 This has come up [many times](https://discourse.cataclysmdda.org/search?q=multiplayer), and it simply can not be added to DDA.
@@ -156,7 +175,7 @@ But not now. Skill rust was changed over the years to be a **purely positive mec
 - Skills were divided into theoretical and practical levels, and a lot of functions were revisited to use the theoretical level, and increasing the practical level while having theory brings additional xp. Rust, meanwhile, is limited by only 1 ***practical*** level and grants even more free xp when restored;
 - Skills overall were made floats, which means the difference between skill level 3 and skill level 2.99 is only 0.01, not an entire 1 level;
 - The UI was changed to ensure the reptilian brain of ours will not associate skill rust with red numbers (because red = bad)
-and skill rust impact (and benefit) would be even stronger once #67580 is implemented fully.
+and skill rust impact (and benefit) would be even stronger once [#67580](https://github.com/CleverRaven/Cataclysm-DDA/issues/67580) is implemented fully.
 This combined, the only way I can see someone wanting to remove skill rust is purely because of rumors from people not familiar with the changes, that are based themselves either on their outdated experience or from incorrect rumors they were told.
 - To further clarify, if someone uses a mod to remove skill rust their character will level skills slower than a character experiencing skill rust.
 
@@ -180,7 +199,7 @@ At some point in the future we might build up tooling to the point where automat
 
 For further discussion on the subject, see https://github.com/CleverRaven/Cataclysm-DDA/issues/10787
 
-Addendum, the Luty-pattern SMG, which should be craftable in dda: https://github.com/CleverRaven/Cataclysm-DDA/issues/22688
+Addendum, the Luty-pattern SMG, which should be craftable in DDA: https://github.com/CleverRaven/Cataclysm-DDA/issues/22688
 
 #### Crafting Smokeless powder and primers: yes but needs work
 
@@ -232,7 +251,7 @@ Spilled liquids are recoverable only if they are spilled on terrain with specifi
 
 #### Dual-wielding weapons: Not practical
 
-"dual wielding" as in holding a pistol in each hand and firing both simultaneously is NOT going to be effective.  It will hopefully be added, but when it does it will be ludicrously ineffective because of penalties. The rationale for why this is so have been well-outlined already at https://discourse.cataclysmdda.org/t/dual-wield/1268 and there's no need or desire for further discussion. This will probably be represented in a very high rate of accumulation of recoil if you try to do this, most likely paired with an accuracy penalty.
+"Dual wielding" as in holding a pistol in each hand and firing both simultaneously is NOT going to be effective.  It will hopefully be added, but when it does it will be ludicrously ineffective because of penalties. The rationale for why this is so have been well-outlined already [here](https://discourse.cataclysmdda.org/t/dual-wield/1268) and there's no need or desire for further discussion. This will probably be represented in a very high rate of accumulation of recoil if you try to do this, most likely paired with an accuracy penalty.
 
 Likewise, wielding and attacking with two melee weapons isn’t going to have any benefit over wielding a single melee weapon in both hands, either you’re going to be able to attack faster and deal more damage with the same weapon, or you’d be able to use a larger, more damaging weapon at the same speed and much more damage per strike. Attacking with one weapon and defending with another has a completely different set of trade-offs, and might be overall beneficial, especially if one of the items is very good at defending, like a shield.
 
@@ -256,7 +275,7 @@ you draw a gun
 ```
 You may notice this sort of thing will “waste” some time by performing unnecessary actions sometimes, for example maybe you want to light and throw several sticks of dynamite in a row, in that case you’ll want to holster the gun first to avoid triggering the item swapping stuff.
 
-On the other hand, this buffs pistols relative to rifles or shotguns, as it’s much faster to holster/draw a pistol (especially if you have a holster)
+On the other hand, this buffs pistols relative to rifles or shotguns, as it’s much faster to holster/draw a pistol (especially if you have a holster).
 
 Even for simple stuff, like opening a door, if you have both hands occupied, it will put up an item, open the door, take out the item again.
 
@@ -267,6 +286,24 @@ When this happens (which will be a while, it’s pretty invasive and complicated
 Some people want to play as a robot, or an android, or a brain in a jar piloting a robotic body, or as a dog.  The developers want to allow people to do all of that.  Unfortunately, there's a lot of changes that need to be made to get from the current state of the code to that highly desirable end-point.  Some changes have already been made, but there's nothing really visible yet.
 
 As of 2024, there have been some very exciting changes to how we handle characters, allowing them to have non-humanoid limb configurations. This is useful for if trying to play as say, an intelligent dog, as dogs typically have four legs and no arms. However the work is still ongoing, and not yet ready for a general release. Much of the foundational work can be seen in the currently named "Work in Progress Limb Stuff" mod which ships with the game.
+
+#### Losing limb in combat: sure, but the character is gonna die (almost always)
+
+Often I see people asking when will combat be so dangerous that you will be able to lose your beloved arm or leg. Bullet points:
+
+Main ways to lose a limb are:
+
+You have so badly damaged/infected limb that your doctor/surgeon has no other way to save it but by cutting it - you have pretty high chances of survival, maybe even a guarantee if it's a faction doctor or you invest heavily in your own camp having a good surgeon with a tools reqired;
+
+The second way is in a fight, as a result of a devastating, critical attack that deals an immense amount of damage to your limb - after all, arms and legs are not noodles; it requires a lot of force for the bone to be cut or for the shoulder to be detached. This, of course, would be followed by a massive pain shock from your beloved body part being detached, blood loss of immense intensity, and realization that whoever did this to you is still alive and trying to murder you. Because of all the aforementioned things, your chances of surviving such an event are close to zero unless you have the help of your dear comrade(s) (better to have a medic by occasion).
+
+There are sure other ways, more technical, like mutating your arm into a crab claw or replacing it with a bionic drill, but that's another story.
+
+In summary, the main things that stop us from introducing limb loss are, at first, a lack of NPC intelligence so they can help you if you experienced this loss, and second, a lot of our stuff is missing being tied to limb scores (something that you should have decreased because you have no limb). This is the main reason all limb stuff currently exists in a separate mod and is not part of the game.
+
+NB: This talks specifically about average human experience; mutants are less limited to this (though a mouse or bear mutant would lose the limb in pretty similar fashion).
+
+NB2: Please do not try to make it via EoC.
 
 #### Bring back ICBM launch: Mod only
 
@@ -343,7 +380,7 @@ In addition to "appliances", there may also be "facilities".  Again, under the h
 
 ### User interface
 
-#### Bring back points pool in chargen: there is a reason we moved away from it
+#### Bring back points pool in character generation: there is a reason we moved away from it
 
 The main reason would be that it was not a fun system. To quote Venera3:
 
@@ -442,9 +479,21 @@ For this to happen, we need code to detect significant changes in aircraft, code
 
 As of this writing, a variety of 'simple parts' can be added or removed from helicopters at will without rendering them non-airworthy. This is controlled by a simple JSON flag and can be easily changed as needed, if a good argument can be made that the addition/removal of such a part would never seriously impact a helicopter.
 
-#### We should be able to make airplanes/autogyros/hot air balloons/blimps/submarines: Yes
+#### We should be able to make autogyros/hot air balloons/blimps/submarines/simple airplanes: Yes
 
 All of these have been suggested.  All of them would be possible if someone wrote a bunch of code to enable them.
+
+#### We should be able to pilot fixed-wing/tiltrotor aircraft: No
+
+The mechanics of the game simply do not support vehicles moving at the speeds needed to stay flying. Helicopters are already fast enough to break many of the game's assumptions. Aircraft can be even faster than that.
+
+The game only simulates 10 z-levels up or down, which is about 40 meters above the surface. This is a very low altitude even for a helicopter. For an aircraft, this is suicidal.
+
+#### We should be able to use fixed-wing/tiltrotor aircraft to travel the map: Yes!
+
+As some sort of 'fast travel' system, yes, with the obvious restrictions. Obviously fixed-wing aircraft need a place to takeoff, and another place to land. Some time-based events (including the real calendar time) need to be advanced while 'flying' to the destination, etc.
+
+This just needs someone to write a bunch of code to enable it.
 
 #### Vehicles should be able to span multiple z-levels: Yes
 
@@ -454,9 +503,9 @@ Vehicles can already span multiple z-levels, with a ground vehicle moving along 
 
 #### Hit multiple targets with a shotgun: Kind of yes, but really no.
 
-For some examples of 12-gague 00-shot patterns, take a look at http://www.theboxotruth.com/the-box-o-truth-20-buckshot-patterns/
+For some examples of 12-gague 00-shot patterns, take a look at [this](http://www.theboxotruth.com/the-box-o-truth-20-buckshot-patterns/).
 
-tldr at 45 yards, which is outside the maximum effective range of the round in the first place (I’ve seen anywhere from 25 yards to 35 yards claimed), the spread was between 27 and 33 inches. Even at this extreme range, the spread is still less than one in-game square, so you’re effectively never going to hit two targets standing side-by-side. What might happen is you get some kind of “graze” one one target, and the shot that didn’t hit the target will continue and possibly hit another target behind it.
+TL;DR at 45 yards, which is outside the maximum effective range of the round in the first place (I’ve seen anywhere from 25 yards to 35 yards claimed), the spread was between 27 and 33 inches. Even at this extreme range, the spread is still less than one in-game square, so you’re effectively never going to hit two targets standing side-by-side. What might happen is you get some kind of “graze” one one target, and the shot that didn’t hit the target will continue and possibly hit another target behind it.
 
 #### Hit multiple targets with a very large, penetrating round: Kind of yes, with specific qualifications
 
@@ -486,6 +535,7 @@ These aren’t suggestions, but arguments that comes up in support of suggestion
 
 In the context of this game, failed rationalization means "if something was added before, it doesn't mean we should add something similar again" or "if someone wants to add something to the game, they should review it separately from the rest of the game, not relying on other parts of the game".
 The game is open-source and community-built and changes itself all the time: Whales Cataclysm and DDA have a 10-year difference and ~40k merged changes from ~2k different contributors. The game changes all the time; we've got an entire setting revamped, which means there are a lot of items that were added a long time ago that can't be added anymore, and honestly shouldn't be: mininuke manhacks, SPIW weapons, healing royal jelly, superalloy dog harnesses, etc.
+
 More examples:
 
 #### “Seeing as we have nanobots and power armors…”, “We have teleportation, so it’s not unreasonable to have…”: Irrelevant
@@ -504,4 +554,4 @@ Just because there’s a contradiction i.e. “cordless drills and gunsmithing t
 
 This argument generally has a tenuous or non-existent relationship between the items in question. Frequently it’s an assertion that X is “complicated” and Y is either “simple” or “also complicated”, this is not sufficient for craftability of X to imply craftability of Y.
 
-Hoisted from a topic where it came up again: https://discourse.cataclysmdda.org/t/i-cant-see-the-difference-between-firearm-and-gunsmith-repair-kits
+Hoisted from a [topic where it came up again](https://discourse.cataclysmdda.org/t/i-cant-see-the-difference-between-firearm-and-gunsmith-repair-kits).

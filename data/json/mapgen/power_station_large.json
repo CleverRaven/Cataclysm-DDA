@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "pwr_large_3", "pwr_large_4" ], [ "pwr_large_2", "pwr_large_entrance" ] ],
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
@@ -86,7 +85,8 @@
       "items": {
         "I": { "item": "SUS_office_desk", "chance": 33 },
         "k": { "item": "SUS_office_filing_cabinet", "chance": 33 },
-        "$": { "item": "softdrugs", "chance": 30 }
+        "$": { "item": "softdrugs", "chance": 30 },
+        "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [
         { "group": "supplies_electronics", "x": [ 17, 22 ], "y": 41, "chance": 60, "repeat": [ 1, 3 ] },
@@ -103,7 +103,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "pwr_large_2_roof", "pwr_large_entrance_roof" ] ],
     "object": {
       "fill_ter": "t_tar_flat_roof",
