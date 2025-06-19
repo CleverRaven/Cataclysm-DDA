@@ -346,7 +346,7 @@
     "name": { "str": "Taming the Wildwood", "str_pl": "copies of Taming the Wildwood" },
     "description": "A paperback tome on the art of growing Wildwood entities.",
     "//": "All recipes related to the wildwood set should inevitably live here.",
-    "weight": "1 kg",
+    "weight": "950 g",
     "volume": "750 ml",
     "price": "42 USD",
     "material": [ "paper" ],
