@@ -247,7 +247,7 @@
     ],
     "categories": [ "utility" ],
     "color": "green",
-    "description": "A shelter woven from wildwood weaver's webs. It can be used to rest, and the weaver provides assistance in any tailoring task.",
+    "description": "A shelter woven from wildwood weaver's webs.  It can be used to rest, and the weaver provides assistance in any tailoring task.",
     "durability": 15,
     "flags": [ "BED", "OPAQUE", "BOARDABLE", "NONBELTABLE", "APPLIANCE", "EXTRA_DRAG", "NO_INSTALL_HIDDEN", "HUGE_OK", "ROOF" ],
     "pseudo_tools": [

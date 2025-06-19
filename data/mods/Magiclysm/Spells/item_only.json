@@ -902,7 +902,7 @@
         "names": [ "Call stag beetle for riding", "Call beetles for foraging" ],
         "keys": [ "1", "2" ],
         "descriptions": [
-          "Call a stag beetle for riding. Will respond if you haven't called for one in awhile.",
+          "Call a stag beetle for riding.  Will respond if you haven't called for one in awhile.",
           "Call local beetles for to forage hidden areas around you."
         ]
       }
@@ -915,7 +915,7 @@
       { "u_add_trait": "MAG_STAG_BEETLE_BOND" },
       { "u_activate_trait": "MAG_STAG_BEETLE_BOND" },
       {
-        "u_message": "The wildwood beetle makes it's call. You feel something large coming, and it is coming fast.",
+        "u_message": "The wildwood beetle makes it's call.  You feel something large coming, and it is coming fast.",
         "type": "good"
       },
       { "run_eocs": "EOC_SUMMON_STAG_BEETLE", "time_in_future": [ "5 seconds", "50 seconds" ] },
@@ -924,7 +924,7 @@
     "false_effect": [
       { "run_eocs": "EOC_SUMMON_MUSHROOMS", "time_in_future": [ "25 seconds", "50 seconds" ] },
       {
-        "u_message": "The wildwood beetle makes it's call, but only some small beetles respond. They'll bring you a small gift.",
+        "u_message": "The wildwood beetle makes it's call, but only some small beetles respond.  They'll bring you a small gift.",
         "type": "good"
       }
     ]
@@ -936,7 +936,7 @@
     "effect": [
       { "u_cast_spell": { "id": "mag_call_stag_beetle_real", "min_level": 1 }, "targeted": true },
       {
-        "u_message": "The stag beetle arrives, it is massive and powerful. It can be used to carry you and your belongings so long as you have a wildwood rune and the skill to ride it.",
+        "u_message": "The stag beetle arrives, it is massive and powerful.  It can be used to carry you and your belongings so long as you have a wildwood rune and the skill to ride it.",
         "type": "good"
       }
     ]
@@ -955,7 +955,7 @@
     "id": "EOC_LOSE_STAG_BEETLE_BOND",
     "effect": [
       { "u_lose_trait": "MAG_STAG_BEETLE_BOND" },
-      { "u_message": "Your bond with the stag beetle fades. Another can answer the call now.", "type": "good" }
+      { "u_message": "Your bond with the stag beetle fades.  Another can answer the call now.", "type": "good" }
     ]
   },
   {
@@ -980,7 +980,7 @@
     "id": "mag_call_stag_beetle_real",
     "type": "SPELL",
     "name": "Call Stag Beetle",
-    "description": "A stag beetle responds to the call, arriving in the location you are in. It can be used to carry you and your belongings so long as you have a wildwood rune and the skill to ride it.",
+    "description": "A stag beetle responds to the call, arriving in the location you are in.  It can be used to carry you and your belongings so long as you have a wildwood rune and the skill to ride it.",
     "valid_targets": [ "ground" ],
     "min_damage": 1,
     "max_damage": 1,
