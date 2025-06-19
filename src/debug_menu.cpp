@@ -1959,7 +1959,6 @@ static void character_edit_needs_menu( Character &you )
                         v.second.name(), you.get_daily_vitamin( v.first ), you.vitamin_get( v.first ) );
         ++vitamin_idx;
     }
-    
     smenu.query();
     int value;
     switch( smenu.ret ) {
