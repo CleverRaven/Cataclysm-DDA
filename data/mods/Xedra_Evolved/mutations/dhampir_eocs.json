@@ -215,11 +215,32 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_FANGS_activated",
+    "effect": [ { "math": [ "u_spell_level('vampire_drink_blood_with_fangs_spell') = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_FANGS_deactivated",
+    "effect": [ { "math": [ "u_spell_level('vampire_drink_blood_with_fangs_spell') = -1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_activated",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > 0" ] },
     "effect": [
       { "math": [ "u_dhampir_avoid_eat_sleep_drink_counter = 0" ] },
       { "math": [ "u_dhampir_avoid_eat_sleep_drink_long_counter = 0" ] }
+    ],
+    "false_effect": [
+      { "u_message": "You have not enough power in your blood to sustain yourself.", "type": "bad" },
+      { "run_eocs": "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_deactivate_future", "time_in_future": 0 }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "DHAMPIR_AVOID_EAT_SLEEP_DRINK" }
   },
   {
     "type": "effect_on_condition",
@@ -252,6 +273,10 @@
           { "if": { "math": [ "u_calories()", "<", "118000" ] }, "then": { "math": [ "u_calories()", "+=", "2" ] } },
           { "math": [ "u_val('sleep_deprivation') = 0" ] }
         ]
+      },
+      {
+        "if": { "math": [ "u_vitamin('human_blood_vitamin') <= 0" ] },
+        "then": { "run_eocs": "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_deactivate_future", "time_in_future": 0 }
       }
     ]
   },
