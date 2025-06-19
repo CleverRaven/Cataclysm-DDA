@@ -246,7 +246,7 @@
         { "item": "coffee_table", "x": 21, "y": 5, "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "coffee_table", "x": 18, "y": 5, "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "coffee_table", "x": [ 19, 20 ], "y": 2, "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "SUS_trash_trashcan", "x": 22, "y": 13, "chance": 75, "repeat": [ 2, 4 ] },
+        { "item": "SUS_trash_trashcan", "x": 22, "y": 13, "chance": 75 },
         { "item": "coffee_bathroom", "x": [ 5, 6 ], "y": [ 21, 22 ], "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "coffee_bathroom", "x": [ 2, 3 ], "y": [ 21, 22 ], "chance": 20, "repeat": [ 1, 2 ] }
       ],

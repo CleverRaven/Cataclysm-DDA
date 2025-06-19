@@ -6,7 +6,7 @@
     "name": "gas station",
     "looks_like": "s_gas",
     "color": "light_blue",
-    "spawns": { "group": "GROUP_ZOMBIE_GAS", "population": [ 6, 12 ], "chance": 100 },
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 6, 12 ], "chance": 100 },
     "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES", "PP_GENERATE_RIOT_DAMAGE" ] },
     "land_use_code": "commercial"
   },
@@ -17,7 +17,7 @@
     "name": "gas station",
     "looks_like": "s_gas",
     "color": "light_blue",
-    "spawns": { "group": "GROUP_ZOMBIE_GAS", "population": [ 6, 12 ], "chance": 100 },
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 6, 12 ], "chance": 100 },
     "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES", "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {

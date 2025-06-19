@@ -70,8 +70,8 @@
       "toilets": { "t": {  } },
       "items": {
         "x": { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] },
-        "T": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 2 ] },
-        "r": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 2 ] },
+        "T": { "item": "SUS_trash_trashcan", "chance": 50 },
+        "r": { "item": "SUS_trash_trashcan", "chance": 50 },
         "d": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 2, 4 ] },
         "t": { "item": "bar_bathroom", "chance": 30, "repeat": [ 1, 2 ] },
         "#": [

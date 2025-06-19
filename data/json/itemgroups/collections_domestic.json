@@ -1187,6 +1187,7 @@
       [ "binoculars", 50 ],
       [ "crossbow", 20 ],
       [ "compcrossbow", 20 ],
+      { "group": "mansion_exotic_weapons", "prob": 1 },
       [ "rapier_fake", 10 ],
       [ "cavalry_sabre_fake", 20 ],
       [ "katana_fake", 20 ],

@@ -137,6 +137,7 @@ Make aggro_character respect anger_relations
 river generation overhaul
 faction camp food supply can expire over time
 Roads cross streams at culverts
+Add Weight Modifying Enchantment
 
 
 ## Content:
@@ -428,6 +429,9 @@ Debug option to view used palette symbols
 Add option to disable mouse
 Add "in use" info to item's name and info if item has "activity_var" var.
 Create a terminal-like default theme for Imgui
+Add NPC faction and NPC omt location to mission entries
+Describe stat level in new character window
+Severe hypovolemic shock message now mentions saline infusion instead of transfusion
 
 
 ## Mods:
@@ -817,6 +821,10 @@ Mod Conflicts
 [Xedra Evolved] Remove vampires' free bite, vampires take more mutagen
 [MoM] Hostile NPC dialogue updates
 [MoM] Add psychic knacks
+[MoM/XE] Add profession: Mobile Task Force: Psi 7 "Sleepwalkers" 
+[Bombastic Perks] Limit metamagic perks to Magiclysm
+Aftershock: More mundane tools are available in exoplanet
+[MoM] Add possible `Mathematican A57` boss fight to Research Facility
 
 
 ## Balance:
@@ -1269,6 +1277,12 @@ Continue with destination activity if route is empty
 Allow moving out of impassable, aquatic treated as swimming, non-swimmers can walk in shallow water
 Book recipes are now available through camp crafting
 Fix ranged_damage automatically extending
+Remove consumed faction camp calorie stores instead of leaving zombie entries
+Special vision save failure
+[Bugfixes] Star vampires no longer drain blood when doing no damage
+Players learning from NPCs while blind and teaching NPCs while blind is now fixed.
+Attempt to increase average autotravel speed when driving on straight roads
+remove landmines from weird places
 
 
 ## Performance:
@@ -1431,6 +1445,8 @@ standardize query_int()
 Always Display Spell Tabs
 Allow monsters to have different climb/swim/dig speeds
 Mapgen: removed unused, obsoleted and pointless JSON fields
+Zstandard compressed save data for disk space savings.
+bulk overmap testing debug tools
 
 
 ## Build:
@@ -1456,6 +1472,7 @@ Update vcpkg commit to new mainline, remove portfile override
 Improve ccache performance with age based eviction instead of coarse size limits.
 Fix CMake Linux VCPKG build
 Initial support for GNU Make for Windows
+Move Android bundle generation to manually triggered workflow
 
 
 ## I18N and A11Y:

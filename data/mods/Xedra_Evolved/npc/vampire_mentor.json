@@ -373,9 +373,9 @@
         "topic": "TALK_VAMPIRE_MENTOR_SACRIFICE_2"
       },
       {
-        "text": "[Killer or Uncaring] Make someone love me and then kill them in return for immortality and power?  What's the downside?",
+        "text": "[Uncaring] Make someone love me and then kill them in return for immortality and power?  What's the downside?",
         "topic": "TALK_VAMPIRE_MENTOR_SACRIFICE_1",
-        "condition": { "or": [ { "u_has_trait": "KILLER" }, { "u_has_trait": "PSYCHOPATH" } ] },
+        "condition": { "u_has_trait": "PSYCHOPATH" },
         "effect": { "assign_mission": "KILL_YOUR_BEST_FRIEND" }
       },
       {

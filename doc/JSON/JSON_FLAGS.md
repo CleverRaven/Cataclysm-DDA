@@ -1019,7 +1019,6 @@ See [Mapgen flags](MAPGEN.md#mapgen-flags).
 - ```mx_mass_grave``` Mass grave with zombies and everyday loot.
 - ```mx_mayhem``` Several types of road mayhem (firefights, crashed cars etc).
 - ```mx_military``` Corpses and some military items.
-- ```mx_minefield``` A military roadblock at the entry of the bridges with landmines scattered in the front of it.
 - ```mx_nest_dermatik``` Dermatik nest.
 - ```mx_nest_wasp``` Wasp nest.
 - ```mx_null``` No special at all.

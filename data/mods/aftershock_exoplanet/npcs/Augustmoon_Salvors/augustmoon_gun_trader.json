@@ -35,7 +35,11 @@
     "type": "item_group",
     "id": "afs_augustmoon_guntrader",
     "subtype": "collection",
-    "items": [ { "group": "afs_civilian_armory", "count": [ 14, 28 ] }, { "group": "augustmoon_shop_money" } ]
+    "items": [
+      { "group": "afs_civilian_armory", "count": [ 14, 28 ] },
+      { "group": "augustmoon_shop_money" },
+      { "item": "UPS_OFF", "charges": 1000, "count": 1 }
+    ]
   },
   {
     "type": "item_group",
@@ -44,7 +48,6 @@
     "items": [
       { "group": "afs_augustmoon_guntrader_military_gun", "count": [ 1, 2 ] },
       { "group": "afs_augustmoon_guntrader_military_ammo", "count": [ 4, 12 ] },
-      { "item": "UPS_OFF", "charges": 1000 },
       { "group": "afs_any_hand_grenade", "count": [ 4, 8 ] },
       { "group": "afs_any_mine", "count": [ 2, 3 ] }
     ]
