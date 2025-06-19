@@ -441,57 +441,19 @@
         "hit_dmg_u": "%s touches you, killing you instantly.",
         "no_dmg_msg_u": "%s touches you, yet somehow you live!",
         "miss_msg_u": "%s tries to touch you, but misses."
-      },
-      {
-        "type": "spell",
-        "id": "immortal_snail_setup",
-        "condition": { "not": { "u_has_effect": "effect_snail_onhit" } },
-        "spell_data": { "id": "immortal_snail_setup", "min_level": 1, "hit_self": true },
-        "cooldown": 1,
-        "allow_no_target": true
       }
     ],
     "delete": { "fear_triggers": [ "PLAYER_CLOSE" ] }
   },
   {
-    "id": "immortal_snail_setup",
-    "type": "SPELL",
-    "name": { "str": "Immortal snail effect setup", "//~": "NO_I18N" },
-    "description": { "str": "Gives on-hit effect to immortal snail when it spawns", "//~": "NO_I18N" },
-    "flags": [ "NO_EXPLOSION_SFX", "SILENT", "NO_FAIL", "NO_LEGS", "NO_HANDS" ],
-    "valid_targets": [ "self" ],
-    "shape": "blast",
-    "effect": "attack",
-    "effect_str": "effect_snail_onhit",
-    "spell_class": "NONE",
-    "energy_source": "NONE",
-    "max_level": 1,
-    "min_duration": 3000000,
-    "max_duration": 3000000
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_snail_onhit",
-    "blocks_effects": [ "grabbed" ],
-    "name": [ "" ],
-    "desc": [ "" ],
-    "enchantments": [ { "hit_you_effect": [ { "id": "immortal_snail_react_to_hit", "hit_self": true } ] } ]
-  },
-  {
-    "id": "immortal_snail_react_to_hit",
-    "type": "SPELL",
-    "name": { "str": "Immortal snail hit reaction", "//~": "NO_I18N" },
-    "description": { "str": "This tries to kill the player when they hit the snail", "//~": "NO_I18N" },
-    "flags": [ "NO_EXPLOSION_SFX", "SILENT", "NO_FAIL", "NO_LEGS", "NO_HANDS" ],
-    "valid_targets": [ "hostile" ],
-    "effect": "attack",
-    "shape": "blast",
-    "message": "You touch the %s.",
-    "min_range": 2,
-    "max_range": 2,
-    "max_damage": 99999,
-    "min_damage": 99999,
-    "damage_type": "pure",
-    "max_level": 1
+    "type": "effect_on_condition",
+    "id": "eoc_you_touch_the_immortal_snail",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "compare_string": [ "mon_immortal_snail", { "context_val": "victim_type" } ] },
+    "effect": [
+      { "u_deal_damage": "pure", "amount": 100000, "bodypart": "torso" },
+      { "u_message": "You touch the snail and die instantly." }
+    ]
   }
 ]
