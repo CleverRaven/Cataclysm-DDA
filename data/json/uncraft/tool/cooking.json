@@ -13,6 +13,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "20 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "simple_crank", 1 ] ], [ [ "scrap", 8 ] ], [ [ "steel_chunk", 4 ] ], [ [ "steel_lump", 2 ] ] ]
+    "components": [ [ [ "simple_crank", 1 ] ], [ [ "scrap", 8 ] ], [ [ "lc_steel_chunk", 4 ] ], [ [ "lc_steel_lump", 2 ] ] ]
   }
 ]

@@ -131,7 +131,7 @@
     "name": "Shopping Cart",
     "blueprint": [ "o" ],
     "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_caster_large", "basketlg#cart" ] } ],
-    "items": [ { "x": 0, "y": 0, "chance": 35, "item_groups": [ "trash_cart" ] } ]
+    "items": [ { "x": 0, "y": 0, "chance": 35, "item_groups": [ "SUS_trash_floor_light" ] } ]
   },
   {
     "id": "rolling_trash_can",
@@ -139,11 +139,7 @@
     "name": "Rolling Trash Can",
     "blueprint": [ [ "o" ] ],
     "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe", "wheel_caster_large", "integrated_trashcan" ] } ],
-    "items": [
-      { "x": 0, "y": 0, "chance": 20, "item_groups": [ "rolling_trash" ] },
-      { "x": 0, "y": 0, "chance": 20, "item_groups": [ "rolling_trash" ] },
-      { "x": 0, "y": 0, "chance": 20, "item_groups": [ "rolling_trash" ] }
-    ]
+    "items": [ { "x": 0, "y": 0, "chance": 100, "item_groups": [ "SUS_trash_rolling_trashcan" ] } ]
   },
   {
     "id": "grocery_cart",
@@ -157,7 +153,7 @@
       { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_caster_large", "basketlg#cart" ] },
       { "x": -1, "y": 0, "parts": [ "cart_handle" ] }
     ],
-    "items": [ { "x": 0, "y": 0, "chance": 35, "item_groups": [ "trash_cart" ] } ]
+    "items": [ { "x": 0, "y": 0, "chance": 35, "item_groups": [ "SUS_trash_floor_light" ] } ]
   },
   {
     "id": "swivel_chair",

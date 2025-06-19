@@ -93,5 +93,37 @@
         "values": [ { "value": "MAX_MANA", "add": { "math": [ "( 16 - clamp(u_val('intelligence'), 8, 16) ) * 62.5" ] } } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_xe_vampire_killer",
+    "name": { "str": "Vampire Killer" },
+    "points": 0,
+    "description": "One of your ancestors spent their life fighting the monsters that stalk the night, and you have finally taken up their legacy, though you've also adopted their unusual weapon choice.  When wielding a whip, you do greatly-increased damage to vampires and renfields, and have a much easier time hitting their weakpoints.",
+    "category": [ "perk" ],
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "u_has_wielded_with_flag": "WHIP" },
+            {
+              "or": [
+                { "math": [ "u_mon_species_nearby('RENFIELD', 'radius': 3, 'attitude': 'both') >= 1" ] },
+                { "math": [ "u_mon_species_nearby('VAMPIRE', 'radius': 3, 'attitude': 'both') >= 1" ] }
+              ]
+            }
+          ]
+        },
+        "melee_damage_bonus": [
+          { "type": "bash", "add": { "math": [ "rng(2,10)" ] } },
+          { "type": "cut", "add": { "math": [ "rng(25,35)" ] } },
+          { "type": "heat", "add": { "math": [ "rand(1)" ] } }
+        ],
+        "values": [ { "value": "WEAKPOINT_ACCURACY", "multiply": 2.5 } ]
+      }
+    ]
   }
 ]

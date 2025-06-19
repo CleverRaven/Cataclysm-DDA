@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "shipwreck_river_1", "shipwreck_river_2" ] ],
     "object": {
       "fallback_predecessor_mapgen": "forest_water",
@@ -32,8 +31,9 @@
         "                                                "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "fill_ter": "t_metal_floor",
+      "fill_ter": "t_metal_floor_no_roof",
       "terrain": {
+        " ": [ [ "t_region_soil", 2 ], [ "t_region_groundcover", 1 ] ],
         "#": "t_region_soil",
         "@": "t_metal_floor_no_roof",
         ".": "t_metal_floor_no_roof",
@@ -65,7 +65,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "shipwreck_river_3", "shipwreck_river_4" ] ],
     "object": {
       "fill_ter": "t_metal_floor",

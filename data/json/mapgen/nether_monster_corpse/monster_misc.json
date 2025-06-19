@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "corpse_tentacle_entry",
     "object": {
       "fill_ter": "t_nm_floor_flesh",
@@ -55,7 +54,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "corpse_tentacle_surface_entry",
     "object": {
       "fallback_predecessor_mapgen": "field",
@@ -92,7 +90,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "corpse_surface",
     "object": {
       "fallback_predecessor_mapgen": "field",

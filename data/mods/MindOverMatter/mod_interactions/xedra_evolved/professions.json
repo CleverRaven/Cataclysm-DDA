@@ -1,0 +1,53 @@
+[
+  {
+    "type": "profession",
+    "id": "xe_psi_hunter",
+    "name": "Mobile Task Force: Psi 7 \"Sleepwalkers\"",
+    "description": "As a member of Psi 7, your job was to take out the dangerous rogue psychics that popped up with increasing frequency as the strangeness in the world increased.  Even before the end of the world you had seen enough bizarre things to write a dozen books, but nothing compares to what you've seen during the Cataclysm.",
+    "points": 7,
+    "skills": [
+      { "level": 4, "name": "gun" },
+      { "level": 5, "name": "rifle" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "melee" },
+      { "level": 7, "name": "metaphysics" }
+    ],
+    "proficiencies": [ "prof_knives_familiar", "prof_auto_pistols_familiar", "prof_concentration_basic" ],
+    "spells": [
+      { "id": "clair_better_senses", "level": 7 },
+      { "id": "clair_speed_reading", "level": 2 },
+      { "id": "clair_night_vision", "level": 4 },
+      { "id": "clair_danger_sense", "level": 5 },
+      { "id": "clair_ranged_enhance", "level": 6 }
+    ],
+    "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "gloves_tactical" },
+          { "item": "wristwatch" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "legrig" },
+          { "item": "tacvest" },
+          { "item": "socks" },
+          { "item": "grenade_anti_psi", "count": 3 },
+          { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_psi" },
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "group": "military_ballistic_vest_light" },
+          { "item": "tac338", "ammo-item": "338lapua_fmjbt", "charges": 5, "contents-item": [ "shoulder_strap" ] },
+          { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20, "container-item": "shoulder_holster" },
+          { "item": "338lapua_fmjbt", "charges": 40 },
+          { "item": "legpouch_large", "contents-group": "army_mags_tac338" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    }
+  }
+]

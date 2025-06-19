@@ -116,7 +116,7 @@
       },
       "cacheVariables": {
         "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-        "VCPKG_TARGET_TRIPLET": "x64-linux",
+        "VCPKG_TARGET_TRIPLET": "x64-linux-dynamic",
         "VCPKG_MANIFEST_DIR": "${sourceDir}/msvc-full-features/"
       }
     }

@@ -62,7 +62,7 @@
     },
     "breaks_into": [
       { "item": "scrap", "count": [ 1, 4 ] },
-      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
       { "item": "cable", "charges": [ 3, 6 ] }
     ],
     "damage_reduction": { "all": 6 }
@@ -94,8 +94,8 @@
       }
     },
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 4 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "ch_steel_lump", "count": [ 2, 4 ] },
+      { "item": "ch_steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 4 ] },
       { "item": "e_scrap", "count": [ 1, 2 ] },
       { "item": "bearing", "charges": [ 5, 10 ] },
@@ -131,8 +131,8 @@
       }
     },
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 5, 10 ] },
-      { "item": "steel_chunk", "count": [ 3, 5 ] },
+      { "item": "ch_steel_lump", "count": [ 5, 10 ] },
+      { "item": "ch_steel_chunk", "count": [ 3, 5 ] },
       { "item": "scrap", "count": [ 3, 5 ] },
       { "item": "e_scrap", "count": [ 3, 5 ] },
       { "item": "bearing", "charges": [ 20, 40 ] },
@@ -168,8 +168,8 @@
       }
     },
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 10, 15 ] },
-      { "item": "steel_chunk", "count": [ 3, 5 ] },
+      { "item": "ch_steel_lump", "count": [ 10, 15 ] },
+      { "item": "ch_steel_chunk", "count": [ 3, 5 ] },
       { "item": "scrap", "count": [ 3, 5 ] },
       { "item": "e_scrap", "count": [ 5, 10 ] },
       { "item": "bearing", "charges": [ 20, 50 ] },
@@ -205,8 +205,8 @@
       }
     },
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 15, 20 ] },
-      { "item": "steel_chunk", "count": [ 6, 10 ] },
+      { "item": "ch_steel_lump", "count": [ 15, 20 ] },
+      { "item": "ch_steel_chunk", "count": [ 6, 10 ] },
       { "item": "scrap", "count": [ 6, 10 ] },
       { "item": "e_scrap", "count": [ 5, 15 ] },
       { "item": "bearing", "charges": [ 25, 60 ] },
@@ -242,8 +242,8 @@
       }
     },
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 60, 80 ] },
-      { "item": "steel_chunk", "count": [ 24, 40 ] },
+      { "item": "ch_steel_lump", "count": [ 60, 80 ] },
+      { "item": "ch_steel_chunk", "count": [ 24, 40 ] },
       { "item": "scrap", "count": [ 24, 40 ] },
       { "item": "e_scrap", "count": [ 20, 60 ] },
       { "item": "bearing", "charges": [ 100, 240 ] },

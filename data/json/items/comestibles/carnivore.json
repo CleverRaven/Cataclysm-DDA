@@ -1,7 +1,8 @@
 [
   {
     "abstract": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "meat/fish", "//~": "NO_I18N" },
     "material": [ "flesh" ],
@@ -14,7 +15,8 @@
   {
     "id": "froglegs",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "pair of frog legs", "str_pl": "pairs of frog legs" },
     "description": "A raw pair of frog legs.  Tastes like chicken when cooked or smoked.",
     "//": "Nutrition information from USDA",
@@ -31,7 +33,8 @@
   {
     "id": "froglegs_cooked",
     "copy-from": "froglegs",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "pair of cooked frog legs", "str_pl": "pairs of cooked frog legs" },
     "parasites": 0,
     "spoils_in": "1 day",
@@ -41,7 +44,8 @@
   {
     "id": "froglegs_smoked",
     "copy-from": "froglegs_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "pair of smoked frog legs", "str_pl": "pairs of smoked frog legs" },
     "color": "brown",
     "spoils_in": "42 days",
@@ -54,7 +58,8 @@
   {
     "id": "fish",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "fillet of fish", "str_pl": "fillets of fish" },
     "description": "An uncooked fish fillet.  Makes a passable meal raw.",
     "//": "Nutrition information based on whitefish",
@@ -71,7 +76,8 @@
   {
     "id": "fish_scrap",
     "copy-from": "fish",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "scrap of fish", "str_pl": "scraps of fish" },
     "description": "A tiny scrap of edible fish.  It's not much, but it'll do in a pinch.",
     "cooks_like": "fish_scrap_cooked",
@@ -82,7 +88,8 @@
   {
     "id": "fish_scrap_cooked",
     "copy-from": "fish_scrap",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "cooked scrap of fish", "str_pl": "cooked scraps of fish" },
     "parasites": 0,
     "spoils_in": "1 day",
@@ -92,7 +99,8 @@
   {
     "id": "fish_cooked",
     "copy-from": "fish",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked fish" },
     "description": "A cooked fish fillet.  Very nutritious.",
     "proportional": { "price": 1.5 },
@@ -104,7 +112,8 @@
   {
     "id": "lobster",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "chunk of lobster meat", "str_pl": "chunks of lobster meat" },
     "description": "A chunk of uncooked lobster meat.",
     "//": "Nutrition information based on whitefish",
@@ -121,7 +130,8 @@
   {
     "id": "lobster_cooked",
     "copy-from": "fish",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked lobster" },
     "description": "A chunk of delicious cooked lobster meat.",
     "proportional": { "price": 1.5 },
@@ -133,7 +143,8 @@
   {
     "id": "mollusk",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "fillet of mollusk", "str_pl": "fillets of mollusk" },
     "description": "The raw flesh of a mollusk.  Must be cleaned and cooked before eating.",
     "//": "Nutrition information roughly based on squid. if you know more pls expand",
@@ -149,7 +160,8 @@
   {
     "id": "mollusk_cooked",
     "copy-from": "mollusk",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked mollusk" },
     "description": "Cooked mollusk meat.  Devoid of any parasites or bacteria due to heat, the only thing left to do is add sauce.",
     "proportional": { "price": 1.5 },
@@ -161,7 +173,8 @@
   {
     "id": "gastropod_purged",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "purged gastropods" },
     "description": "A handful of lucky gastropods that have been prepared for cooking by repeatedly boiling and washing them to remove their mucus and pathogens.",
     "//": "Nutrition information roughly based on a serving of 6 snails. if you know more pls expand",
@@ -177,7 +190,8 @@
   {
     "id": "gastropod_cooked",
     "copy-from": "gastropod_purged",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked gastropods" },
     "description": "Cooked gastropods.  A bit low on calories, but high in protein.",
     "proportional": { "price": 1.5 },
@@ -189,7 +203,8 @@
   {
     "id": "hstomach",
     "copy-from": "stomach",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "human stomach" },
     "description": "The stomach of a human.  It is surprisingly durable.",
     "material": [ "hflesh" ],
@@ -199,7 +214,8 @@
   {
     "id": "hstomach_large",
     "copy-from": "hstomach",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "large human stomach" },
     "description": "The stomach of a large humanoid creature.  It is surprisingly durable.",
     "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
@@ -207,14 +223,16 @@
   {
     "id": "human_fat",
     "copy-from": "fat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "chunk of human fat", "str_pl": "chunks of human fat" },
     "description": "A chunk of raw fat, harvested from a human body.",
     "material": [ "hflesh" ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "human_tallow",
     "name": { "str_sp": "human tallow" },
     "copy-from": "tallow",
@@ -225,7 +243,8 @@
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "human_lard",
     "name": { "str_sp": "human lard" },
     "copy-from": "human_tallow",
@@ -234,7 +253,8 @@
   {
     "id": "human_flesh",
     "copy-from": "meat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "cooks_like": "human_cooked",
     "name": { "str_sp": "human flesh" },
     "description": "A chunk of raw meat, butchered from a human body.",
@@ -245,7 +265,8 @@
   {
     "id": "human_cooked",
     "copy-from": "human_flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked creep" },
     "description": "A cooked slice of some unpleasant person.  Tastes great.",
     "proportional": { "price": 1.5 },
@@ -256,7 +277,8 @@
   {
     "id": "pepperhuman",
     "copy-from": "human_flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked pepper creep" },
     "description": "A cooked slice of some unpleasant person properly seasoned with black pepper and salt.  Tastes great.",
     "proportional": { "price": 1.5 },
@@ -267,7 +289,8 @@
   {
     "id": "meat",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "chunk of meat", "str_pl": "chunks of meat" },
     "description": "A chunk of raw meat.  You could eat it as-is, but cooking it is better.",
     "weight": "275 g",
@@ -284,7 +307,8 @@
   },
   {
     "id": "animal_blood",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "meat",
     "name": { "str_sp": "animal blood" },
     "description": "Blood extracted from a living creature.",
@@ -302,7 +326,8 @@
   {
     "id": "porkbelly",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "chunk of porkbelly", "str_pl": "chunks of porkbelly" },
     "description": "A fatty cut of pork from the belly, popular in some cuisine.  With proper technique, it can be used to create bacon.  Not safe to consume in its current raw form.",
     "weight": "296 g",
@@ -318,7 +343,8 @@
   },
   {
     "id": "raw_cured_fatty_meat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "flesh",
     "name": { "str": "slab of raw cured porkbelly", "str_pl": "slabs of raw cured porkbelly" },
     "description": "Porkbelly that has been preserved and flavored with salt and sugar to draw out the moisture from the first layer.  Still raw, it is ready for smoking into bacon.",
@@ -334,7 +360,8 @@
   },
   {
     "id": "bacon_uncut",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "meat_cooked",
     "name": { "str": "large slab of uncut bacon", "str_pl": "large slabs of uncut bacon" },
     "description": "A huge slab of uncut smoked bacon.  You can eat it as is, but it would be more efficient to cut it into smaller portions with a knife.",
@@ -350,7 +377,8 @@
   },
   {
     "id": "raw_curing_fatty_meat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "flesh",
     "name": { "str": "slab of raw curing porkbelly", "str_pl": "slabs of raw curing porkbelly" },
     "description": "Porkbelly in the process of becoming fully cured with salt and sugar, capable of becoming bacon.  The flavor is slowly developing at this stage, and is significantly unpleasant due to the residual salt.  Activate it once completed to make use of the final product.",
@@ -376,7 +404,8 @@
   {
     "id": "meat_scrap",
     "copy-from": "meat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "scrap of meat", "str_pl": "scraps of meat" },
     "description": "A tiny scrap of raw meat.  It's not much, but it'll do in a pinch.",
     "cooks_like": "meat_scrap_cooked",
@@ -386,7 +415,8 @@
   },
   {
     "id": "human_meat_scrap",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "meat_scrap",
     "looks_like": "meat_scrap",
     "name": { "str": "scrap of human flesh", "str_pl": "scraps of human flesh" },
@@ -396,7 +426,8 @@
   },
   {
     "id": "demihuman_meat_scrap",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "meat_scrap",
     "looks_like": "meat_scrap",
     "name": { "str": "scrap of demihuman flesh", "str_pl": "scraps of demihuman flesh" },
@@ -405,7 +436,8 @@
   },
   {
     "id": "mutant_meat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "meat",
     "name": { "str": "chunk of mutant meat", "str_pl": "chunks of mutant meat" },
     "snippet_category": "mutant_meat_desc",
@@ -418,7 +450,8 @@
   },
   {
     "id": "mutant_blood",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "mutant_meat",
     "name": { "str_sp": "mutant blood" },
     "description": "Blood extracted from a heavily mutated creature.",
@@ -435,7 +468,8 @@
   },
   {
     "id": "mutant_meat_scrap",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "meat_scrap",
     "name": { "str": "scrap of mutant meat", "str_pl": "scraps of mutant meat" },
     "description": "A tiny scrap of raw meat from a heavily mutated animal.  It smells unappealing, to say the least.",
@@ -448,7 +482,8 @@
   {
     "id": "mutant_human_flesh",
     "copy-from": "mutant_meat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "cooks_like": "mutant_human_cooked",
     "name": { "str_sp": "mutant humanoid meat" },
     "description": "Raw meat butchered from the body of a heavily mutated creature that was unsettlingly humanoid in appearance.  It has odd bits of fur and other tissue lodged in it that clearly don't belong.  You'd have to be crazy or starving to eat this.",
@@ -464,7 +499,8 @@
   },
   {
     "id": "mutant_human_blood",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "mutant_human_flesh",
     "name": { "str_sp": "mutant human blood" },
     "description": "Blood extracted from a heavily mutated human.",
@@ -484,7 +520,8 @@
     "id": "mutant_human_cooked",
     "copy-from": "mutant_human_flesh",
     "calories": 402,
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked cretin" },
     "description": "Cooked meat from a heavily mutated humanoid.  Now that the worst bits have been picked out, it's probably digestible, if not very appetizing.",
     "proportional": { "price": 1.5 },
@@ -496,7 +533,8 @@
     "id": "peppermutant_human",
     "copy-from": "mutant_human_flesh",
     "calories": 402,
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked pepper cretin" },
     "description": "Cooked meat from a heavily mutated humanoid.  Now that the worst bits have been picked out, it's probably digestible.  It has also been properly seasoned with black pepper and salt, giving it a better taste.  Still, it is somewhat gross, but hey, it's food!",
     "proportional": { "price": 1.5 },
@@ -505,7 +543,8 @@
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "meat_mutant_tainted",
     "copy-from": "mutant_meat",
     "name": { "str": "chunk of tainted mutant meat", "str_pl": "chunks of tainted mutant meat" },
@@ -522,7 +561,8 @@
     "smoking_result": "meat_mutant_tainted_smoked"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "meat_mutant_tainted_cooked",
     "copy-from": "meat_mutant_tainted",
     "name": { "str_sp": "cooked tainted mutant meat" },
@@ -534,7 +574,8 @@
     "delete": { "flags": [ "RAW" ] }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "meat_mutant_tainted_smoked",
     "copy-from": "meat_mutant_tainted_cooked",
     "name": { "str_sp": "smoked tainted mutant meat" },
@@ -545,7 +586,8 @@
     "extend": { "flags": [ "EATEN_HOT", "SMOKED" ] }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "ruined_chunks",
     "//": "This item should not get any use whatsoever, it is merely conservation of mass and an attractor for carrion.",
@@ -570,7 +612,8 @@
     "weight": "296 g",
     "volume": "250 ml",
     "spoils_in": "1 day",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked meat" },
     "description": "A chunk of cooked meat.  It's filling and nutritious, but unseasoned and a bit bland.",
     "price": "7 USD 50 cent",
@@ -586,7 +629,8 @@
     "weight": "275 g",
     "volume": "250 ml",
     "spoils_in": "1 day",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked pepper meat" },
     "description": "A piece of cooked meat, properly seasoned with black pepper and salt.  It's nutritious, yet basic seasoning adds a welcoming taste to this simple dish.",
     "price": "8 USD",
@@ -603,7 +647,8 @@
     "weight": "296 g",
     "volume": "250 ml",
     "spoils_in": "1 day",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked fatty meat" },
     "description": "A chunk of cooked fatty meat.  Although absent of vitamins, it is very filling and delightfully greasy.",
     "calories": 1300,
@@ -621,7 +666,8 @@
     "weight": "275 g",
     "volume": "250 ml",
     "spoils_in": "1 day",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked pepper fatty meat" },
     "description": "A chunk of cooked fatty meat properly seasoned with black pepper and salt.  Although absent of vitamins, it is very filling, tasty and delightfully greasy.",
     "calories": 1300,
@@ -635,7 +681,8 @@
   {
     "id": "meat_scrap_cooked",
     "copy-from": "meat_scrap",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "cooked scrap of meat", "str_pl": "cooked scraps of meat" },
     "parasites": 0,
     "fun": 0,
@@ -645,7 +692,8 @@
   {
     "id": "pepperscrap",
     "copy-from": "meat_scrap",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "cooked pepper scrap of meat", "str_pl": "cooked pepper scraps of meat" },
     "description": "A cooked scrap of meat that has been properly seasoned with pepper and salt.  Yet small, they have a good taste.",
     "parasites": 0,
@@ -655,7 +703,8 @@
   },
   {
     "id": "mutant_meat_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "mutant_meat",
     "name": { "str_sp": "cooked mutant meat" },
     "snippet_category": "cooked_mutant_meat_desc",
@@ -668,7 +717,8 @@
   },
   {
     "id": "peppermutant",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "mutant_meat",
     "name": { "str_sp": "cooked pepper mutant meat" },
     "snippet_category": "cooked_mutant_meat_desc",
@@ -681,7 +731,8 @@
   },
   {
     "id": "mutant_meat_scrap_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "mutant_meat_scrap",
     "name": { "str": "cooked scrap of mutant meat", "str_pl": "cooked scraps of mutant meat" },
     "description": "A tiny scrap of cooked mutant meat.  It is small enough that it's hard to tell how disgusting it is.",
@@ -693,7 +744,8 @@
   },
   {
     "id": "pepperscrap_mutant",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "mutant_meat_scrap",
     "name": { "str": "cooked pepper scrap of mutant meat", "str_pl": "cooked pepper scraps of mutant meat" },
     "description": "A tiny scrap of cooked mutant meat properly seasoned with black pepper and salt.  It is small, and even though it has been seasoned, it has a weird taste.",
@@ -705,7 +757,8 @@
   },
   {
     "id": "cooked_marrow",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "roasted bone marrow" },
     "conditional_names": [ { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "Marvin marrow" } } ],
@@ -724,7 +777,8 @@
   },
   {
     "id": "pepperbone",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "roasted pepper bone marrow" },
     "conditional_names": [ { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "Marvin marrow" } } ],
@@ -744,18 +798,21 @@
   {
     "id": "offal",
     "copy-from": "meat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "raw offal" },
     "description": "A selection of uncooked internal organs and entrails.  Filled with essential vitamins, but most people consider it a bit gross unless it's very carefully prepared.",
     "proportional": { "parasites": 0.5 },
     "price_postapoc": "25 cent",
     "delete": { "flags": [ "SMOKABLE" ] },
-    "relative": { "vitamins": [ [ "iron", 4 ] ], "fun": -5 }
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 16 ], [ "meat_allergen", 1 ] ],
+    "relative": { "fun": -5 }
   },
   {
     "id": "offal_cooked",
     "copy-from": "offal",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked offal" },
     "description": "A selection of cooked organs and entrails.  Filled with essential vitamins, but pretty unappetizing in this form.",
     "parasites": 0,
@@ -766,7 +823,8 @@
   {
     "id": "tainted_innards",
     "copy-from": "offal",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "tainted innards" },
     "description": "An unidentifiable selection of rotted innards that barely hold their form.  It is revolting and certainly no longer healthy to eat.",
     "snippet_category": "tainted_innards_desc",
@@ -777,7 +835,8 @@
   },
   {
     "id": "mutant_bug_organs",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "offal",
     "name": { "str_sp": "mutant organs" },
     "snippet_category": "bug_organs_desc",
@@ -790,7 +849,8 @@
   },
   {
     "id": "mutant_bug_organs_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "mutant_bug_organs",
     "name": { "str_sp": "cooked mutant bug organs" },
     "snippet_category": "cooked_bug_organs_desc",
@@ -802,7 +862,8 @@
   {
     "id": "offal_pickled",
     "copy-from": "offal",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "pickled offal" },
     "description": "A mass of entrails and organ meat, preserved in brine.  Packed with essential vitamins, and although it looks like a lab specimen, it actually tastes pretty palatable.",
     "volume": "250 ml",
@@ -817,7 +878,8 @@
   {
     "id": "offal_canned",
     "copy-from": "offal",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "canned offal" },
     "description": "Cooked organ meat and entrails, preserved by canning.  Unappetizing, but filled with essential vitamins.",
     "volume": "250 ml",
@@ -830,7 +892,8 @@
   {
     "id": "stomach",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "stomach" },
     "description": "The stomach of a woodland creature.  It is surprisingly durable.",
     "weight": "72 g",
@@ -846,7 +909,8 @@
   {
     "id": "stomach_large",
     "copy-from": "stomach",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "large stomach" },
     "description": "The stomach of a large woodland creature.  It is surprisingly durable.",
     "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
@@ -854,7 +918,8 @@
   {
     "id": "jerky",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "meat jerky" },
     "conditional_names": [
       { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "jerk jerky" } },
@@ -880,7 +945,8 @@
   {
     "id": "salted_fish",
     "copy-from": "fish",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "salted fish" },
     "description": "Salty dried fish that lasts for a long time, but will make you thirsty.",
     "primary_material": "cured_meat",
@@ -900,7 +966,8 @@
   {
     "id": "salted_mollusk",
     "copy-from": "mollusk",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "salted mollusk" },
     "description": "Salty dried mollusk that lasts for a long time, but will make you thirsty.",
     "primary_material": "cured_meat",
@@ -917,7 +984,8 @@
   {
     "id": "meat_smoked",
     "copy-from": "meat_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "smoked meat" },
     "conditional_names": [
       { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "smoked sucker" } },
@@ -936,7 +1004,8 @@
   {
     "id": "fish_smoked",
     "copy-from": "fish_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "smoked fish" },
     "description": "Tasty fish that has been heavily smoked for long term preservation.  It could be further smoked to dehydrate it completely.",
     "color": "brown",
@@ -949,7 +1018,8 @@
   {
     "id": "lobster_smoked",
     "copy-from": "fish_smoked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "smoked lobster" },
     "description": "Tasty lobster that has been heavily smoked for long term preservation.  It could be further smoked to dehydrate it completely.",
     "color": "brown",
@@ -961,7 +1031,8 @@
   {
     "id": "mollusk_smoked",
     "copy-from": "fish_smoked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "smoked mollusk" },
     "description": "Tasty mollusk that has been heavily smoked for long term preservation.  It could be further smoked to dehydrate it completely.",
     "color": "brown",
@@ -972,7 +1043,8 @@
   },
   {
     "id": "lung",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "flesh",
     "looks_like": "offal",
     "name": { "str": "piece of raw lung", "str_pl": "pieces of raw lung" },
@@ -990,7 +1062,8 @@
   },
   {
     "id": "human_lung",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "lung",
     "looks_like": "lung",
     "name": { "str": "piece of raw human lung", "str_pl": "pieces of raw human lung" },
@@ -1000,7 +1073,8 @@
   },
   {
     "id": "demihuman_lung",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "lung",
     "looks_like": "lung",
     "name": { "str": "piece of raw demihuman lung", "str_pl": "pieces of raw demihuman lung" },
@@ -1009,7 +1083,8 @@
   },
   {
     "id": "lung_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "lung",
     "fun": -5,
     "looks_like": "offal_cooked",
@@ -1021,7 +1096,8 @@
   },
   {
     "id": "mutant_lung",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "lung",
     "name": { "str": "piece of raw mutant lung", "str_pl": "pieces of raw mutant lung" },
     "snippet_category": "mutant_lung_desc",
@@ -1032,7 +1108,8 @@
   },
   {
     "id": "mutant_lung_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "lung_cooked",
     "name": { "str": "cooked piece of mutant lung", "str_pl": "cooked pieces of mutant lung" },
     "snippet_category": "cooked_mutant_lung_desc",
@@ -1040,7 +1117,8 @@
   },
   {
     "id": "heart",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "flesh",
     "looks_like": "offal",
     "name": { "str": "piece of raw heart", "str_pl": "pieces of raw heart" },
@@ -1057,7 +1135,8 @@
   },
   {
     "id": "human_heart",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "heart",
     "looks_like": "heart",
     "name": { "str": "piece of raw human heart", "str_pl": "pieces of raw human heart" },
@@ -1067,7 +1146,8 @@
   },
   {
     "id": "demihuman_heart",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "heart",
     "looks_like": "heart",
     "name": { "str": "piece of raw demihuman heart", "str_pl": "pieces of raw demihuman heart" },
@@ -1076,7 +1156,8 @@
   },
   {
     "id": "heart_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "heart",
     "fun": -5,
     "looks_like": "offal_cooked",
@@ -1088,7 +1169,8 @@
   },
   {
     "id": "mutant_heart",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "heart",
     "name": { "str": "piece of raw mutant heart", "str_pl": "pieces of raw mutant heart" },
     "snippet_category": "mutant_heart_desc",
@@ -1099,7 +1181,8 @@
   },
   {
     "id": "mutant_human_heart",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "heart",
     "name": { "str": "piece of raw mutant humanoid heart", "str_pl": "pieces of raw mutant humanoid heart" },
     "snippet_category": "mutant_heart_desc",
@@ -1117,7 +1200,8 @@
   },
   {
     "id": "mutant_heart_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "heart_cooked",
     "name": { "str": "cooked piece of mutant heart", "str_pl": "cooked pieces of mutant heart" },
     "snippet_category": "cooked_mutant_heart_desc",
@@ -1125,7 +1209,8 @@
   },
   {
     "id": "mutant_bug_lungs",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "lung",
     "name": { "str": "piece of raw mutant lung", "str_pl": "pieces of raw mutant lung" },
     "snippet_category": "mutant_bug_lung_desc",
@@ -1137,7 +1222,8 @@
   },
   {
     "id": "liver",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "lung",
     "looks_like": "offal",
     "name": { "str": "piece of raw liver", "str_pl": "pieces of raw liver" },
@@ -1149,7 +1235,8 @@
   },
   {
     "id": "human_liver",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "liver",
     "looks_like": "liver",
     "name": { "str": "piece of raw human liver", "str_pl": "pieces of raw human liver" },
@@ -1159,7 +1246,8 @@
   },
   {
     "id": "demihuman_liver",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "liver",
     "looks_like": "liver",
     "name": { "str": "piece of raw demihuman liver", "str_pl": "pieces of raw demihuman liver" },
@@ -1168,7 +1256,8 @@
   },
   {
     "id": "liver_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "liver",
     "looks_like": "meat_cooked",
     "name": { "str": "cooked piece of liver", "str_pl": "cooked pieces of liver" },
@@ -1180,7 +1269,8 @@
   },
   {
     "id": "mutant_liver",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "liver",
     "name": { "str": "piece of raw mutant liver", "str_pl": "pieces of raw mutant liver" },
     "snippet_category": "mutant_liver_desc",
@@ -1191,7 +1281,8 @@
   },
   {
     "id": "mutant_liver_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "liver_cooked",
     "name": { "str": "cooked piece of mutant liver", "str_pl": "cooked pieces of mutant liver" },
     "snippet_category": "cooked_mutant_liver_desc",
@@ -1200,7 +1291,8 @@
   {
     "id": "bone_marrow",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "portion of raw bone marrow", "str_pl": "portions of raw bone marrow" },
     "description": "A soft, spongy substance found in bones, rich in fat.  Chock-full of good stuff and doesn't taste too bad even raw, but beware of parasites.",
     "weight": "60 g",
@@ -1215,7 +1307,8 @@
   },
   {
     "id": "human_marrow",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "bone_marrow",
     "name": { "str": "portion of raw human bone marrow", "str_pl": "portions of raw human bone marrow" },
     "description": "Soft, spongy marrow tissue from a human bone.",
@@ -1224,7 +1317,8 @@
   },
   {
     "id": "demihuman_marrow",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "bone_marrow",
     "name": { "str": "portion of raw demihuman bone marrow", "str_pl": "portions of raw demihuman bone marrow" },
     "description": "Soft, spongy marrow tissue from a demihuman bone.",
@@ -1232,7 +1326,8 @@
   },
   {
     "id": "mutant_marrow",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "bone_marrow",
     "name": { "str": "portion of raw mutant bone marrow", "str_pl": "portions of raw mutant bone marrow" },
     "description": "Soft, spongy and oddly-colored marrow tissue from the bone of a heavily mutated animal.",
@@ -1242,7 +1337,8 @@
   },
   {
     "id": "mutant_human_marrow",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "mutant_marrow",
     "name": { "str": "portion of raw mutant human bone marrow", "str_pl": "portions of raw mutant human bone marrow" },
     "description": "Soft, spongy and oddly-colored marrow tissue from the bone of a heavily mutated creature that was unsettlingly humanoid in appearance.",
@@ -1251,7 +1347,8 @@
   },
   {
     "id": "brain",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "lung",
     "looks_like": "offal",
     "name": { "str": "piece of raw brain", "str_pl": "pieces of raw brain" },
@@ -1265,7 +1362,8 @@
   },
   {
     "id": "human_brain",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "brain",
     "looks_like": "brain",
     "name": { "str": "piece of raw human brain", "str_pl": "pieces of raw human brain" },
@@ -1275,7 +1373,8 @@
   },
   {
     "id": "demihuman_brain",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "brain",
     "looks_like": "brain",
     "name": { "str": "piece of raw demihuman brain", "str_pl": "pieces of raw demihuman brain" },
@@ -1284,7 +1383,8 @@
   },
   {
     "id": "brain_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "brain",
     "looks_like": "offal_cooked",
     "name": { "str": "cooked piece of brain", "str_pl": "cooked pieces of brain" },
@@ -1297,7 +1397,8 @@
   },
   {
     "id": "mutant_brain",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "brain",
     "looks_like": "brain",
     "name": { "str": "piece of raw mutant brain", "str_pl": "pieces of raw mutant brain" },
@@ -1309,7 +1410,8 @@
   },
   {
     "id": "mutant_brain_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "brain_cooked",
     "name": { "str": "cooked piece of mutant brain", "str_pl": "cooked pieces of mutant brain" },
     "snippet_category": "cooked_mutant_brain_desc",
@@ -1318,7 +1420,8 @@
   },
   {
     "id": "kidney",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "lung",
     "looks_like": "offal",
     "name": { "str": "piece of raw kidney", "str_pl": "pieces of raw kidney" },
@@ -1330,7 +1433,8 @@
   },
   {
     "id": "human_kidney",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "kidney",
     "looks_like": "kidney",
     "name": { "str": "piece of raw human kidney", "str_pl": "pieces of raw human kidney" },
@@ -1340,7 +1444,8 @@
   },
   {
     "id": "demihuman_kidney",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "kidney",
     "looks_like": "kidney",
     "name": { "str": "piece of raw demihuman kidney", "str_pl": "pieces of raw demihuman kidney" },
@@ -1349,7 +1454,8 @@
   },
   {
     "id": "kidney_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "kidney",
     "looks_like": "offal_cooked",
     "name": { "str": "cooked piece of kidney", "str_pl": "cooked pieces of kidney" },
@@ -1362,7 +1468,8 @@
   },
   {
     "id": "mutant_kidney",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "kidney",
     "fun": -15,
     "name": { "str": "piece of raw mutant kidney", "str_pl": "pieces of raw mutant kidney" },
@@ -1373,7 +1480,8 @@
   },
   {
     "id": "mutant_kidney_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "kidney_cooked",
     "name": { "str": "cooked piece of mutant kidney", "str_pl": "cooked pieces of mutant kidney" },
     "snippet_category": "cooked_mutant_kidney_desc",
@@ -1382,7 +1490,8 @@
   },
   {
     "id": "sweetbread",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "lung",
     "looks_like": "offal",
     "name": { "str": "piece of raw sweetbread", "str_pl": "pieces of raw sweetbread" },
@@ -1395,7 +1504,8 @@
   },
   {
     "id": "human_sweetbread",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "sweetbread",
     "looks_like": "sweetbread",
     "name": { "str": "piece of raw human sweetbread", "str_pl": "pieces of raw human sweetbread" },
@@ -1405,7 +1515,8 @@
   },
   {
     "id": "demihuman_sweetbread",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "sweetbread",
     "looks_like": "sweetbread",
     "name": { "str": "piece of raw demihuman sweetbread", "str_pl": "pieces of raw demihuman sweetbread" },
@@ -1414,7 +1525,8 @@
   },
   {
     "id": "sweetbread_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "sweetbread",
     "looks_like": "meat_cooked",
     "name": { "str": "cooked piece of sweetbread", "str_pl": "cooked pieces of sweetbread" },
@@ -1425,7 +1537,8 @@
     "delete": { "flags": [ "RAW" ] }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "blood",
     "name": { "str_sp": "blood" },
     "copy-from": "human_flesh",
@@ -1445,7 +1558,8 @@
     "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fat",
     "name": { "str": "chunk of fat", "str_pl": "chunks of fat" },
     "weight": "220 g",
@@ -1465,7 +1579,8 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "tallow",
     "name": { "str_sp": "tallow" },
     "weight": "55 g",
@@ -1485,7 +1600,8 @@
     "fun": -18
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lard",
     "name": { "str_sp": "lard" },
     "copy-from": "tallow",
@@ -1493,7 +1609,8 @@
   },
   {
     "id": "mutant_fat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "fat",
     "name": { "str": "chunk of mutant fat", "str_pl": "chunks of mutant fat" },
     "description": "A chunk of raw fat butchered from a heavily-mutated animal.  It smells, if anything, even more disgusting than the rest of the mutant.  There are little puddles of unidentified oils dripping from it.",
@@ -1503,7 +1620,8 @@
   },
   {
     "id": "mutant_tallow",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "tallow",
     "name": { "str_sp": "mutant tallow" },
     "description": "A smooth white block of cleaned and rendered fat, sourced from a mutant animal.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
@@ -1513,14 +1631,16 @@
   },
   {
     "id": "mutant_lard",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "mutant_tallow",
     "name": { "str_sp": "mutant lard" },
     "description": "A smooth white block of dry-rendered fat, sourced from a mutant animal.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
   },
   {
     "id": "mutant_human_fat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "mutant_fat",
     "name": { "str": "chunk of mutant humanoid fat", "str_pl": "chunks of mutant humanoid fat" },
     "description": "Raw fat butchered from a heavily-mutated humanoid.",
@@ -1528,7 +1648,8 @@
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mutant_human_tallow",
     "name": { "str_sp": "mutant humanoid tallow" },
     "copy-from": "mutant_tallow",
@@ -1537,14 +1658,16 @@
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mutant_human_lard",
     "name": { "str_sp": "mutant humanoid lard" },
     "copy-from": "mutant_human_tallow",
     "description": "A smooth white block of dry-rendered fat, sourced from a mutant humanoid.  It won't rot for a very long time, and can be used as an ingredient in many foods and projects."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "meat_tainted",
     "category": "other",
     "name": { "str": "chunk of tainted meat", "str_pl": "chunks of tainted meat" },
@@ -1566,7 +1689,8 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "arm_zed",
     "category": "other",
     "name": { "str": "tainted limb" },
@@ -1588,7 +1712,8 @@
     "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE", "NO_REPAIR" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "leg_zed",
     "category": "other",
     "name": { "str": "tainted limb" },
@@ -1611,7 +1736,8 @@
   },
   {
     "id": "blood_tainted",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "meat_tainted",
     "name": { "str_sp": "tainted blood" },
     "description": "Blood that's obviously unhealthy.  You could drink it, but it will poison you.",
@@ -1626,7 +1752,8 @@
     "delete": { "flags": [ "SMOKABLE" ] }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "tainted_marrow",
     "category": "other",
     "name": { "str": "portion of tainted bone marrow", "str_pl": "portions of tainted bone marrow" },
@@ -1647,7 +1774,8 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fat_tainted",
     "category": "other",
     "name": { "str": "chunk of tainted fat", "str_pl": "chunks of tainted fat" },
@@ -1669,7 +1797,8 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "tallow_tainted",
     "name": { "str_sp": "tainted tallow" },
     "category": "chems",
@@ -1690,7 +1819,8 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "stomach_boiled",
     "copy-from": "small_stomach_boiled",
     "name": { "str": "large boiled stomach" },
@@ -1699,7 +1829,8 @@
     "fun": -5
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hstomach_boiled",
     "copy-from": "stomach_boiled",
     "name": { "str": "boiled large human stomach" },
@@ -1708,7 +1839,8 @@
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "small_stomach_boiled",
     "name": { "str": "boiled stomach" },
     "weight": "72 g",
@@ -1727,7 +1859,8 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "small_hstomach_boiled",
     "copy-from": "small_stomach_boiled",
     "name": { "str": "boiled human stomach" },
@@ -1736,7 +1869,8 @@
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "raw_leather",
     "category": "spare_parts",
     "name": { "str_sp": "raw hide" },
@@ -1757,7 +1891,8 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "raw_tainted_leather",
     "copy-from": "raw_leather",
     "name": { "str_sp": "tainted hide" },
@@ -1768,7 +1903,8 @@
     "price": "0 cent"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "raw_tainted_leather_scraps",
     "copy-from": "raw_leather",
     "name": { "str_sp": "tainted skin scraps" },
@@ -1782,7 +1918,8 @@
     "price": "0 cent"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "raw_hleather",
     "copy-from": "raw_leather",
     "name": { "str_sp": "raw human skin" },
@@ -1791,7 +1928,8 @@
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "raw_demihumanleather",
     "copy-from": "raw_leather",
     "name": { "str_sp": "raw demihuman skin" },
@@ -1801,7 +1939,8 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "raw_fur",
     "category": "spare_parts",
     "name": { "str_sp": "raw pelt" },
@@ -1822,7 +1961,8 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "raw_tainted_fur",
     "name": { "str_sp": "tainted pelt" },
     "copy-from": "raw_fur",
@@ -1832,7 +1972,8 @@
     "price": "0 cent"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "raw_hfur",
     "copy-from": "raw_fur",
     "name": { "str_sp": "raw human pelt" },
@@ -1841,7 +1982,8 @@
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "flesh_golem_heart",
     "name": { "str": "seeping heart" },
@@ -1861,7 +2003,8 @@
     "flags": [ "PREDATOR_FUN" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "jabberwock_heart",
     "name": { "str": "putrid heart" },
@@ -1880,7 +2023,8 @@
     "flags": [ "PREDATOR_FUN" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "jabberwock_heart_desiccated",
     "name": { "str": "desiccated putrid heart" },
@@ -1899,9 +2043,49 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "id": "nether_huntsman_organ",
+    "name": { "str": "reverberating organ" },
+    "weight": "800 g",
+    "color": "black_red",
+    "symbol": ",",
+    "healthy": -1,
+    "calories": 186,
+    "description": "A tubular leathery organ of an alien creature, comprised of tough muscle tissue.  Dozens of deep ridges make up the slimy surface, like a disgusting rendition of an accordion.",
+    "price": "0 cent",
+    "material": [ "flesh" ],
+    "volume": "1 L",
+    "fun": -30,
+    "spoils_in": "1 day",
+    "vitamins": [ [ "meat_allergen", 1 ] ],
+    "flags": [ "STRICT_HUMANITARIANISM" ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "id": "nether_grub",
+    "name": { "str": "alien grub" },
+    "weight": "54 g",
+    "color": "black_red",
+    "symbol": "g",
+    "healthy": -1,
+    "calories": 213,
+    "description": "A segmented chitinous shell with curious markings is sheltering a weird alien larva, squirming and wiggling around.  Theorizing what it could eventually turn into, you're unsure if it is safe to keep around.",
+    "price": "0 cent",
+    "material": [ "flesh" ],
+    "volume": "50 ml",
+    "fun": -20,
+    "spoils_in": "30 days",
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 72 ], [ "iron", 231 ], [ "mutant_toxin", 110 ], [ "meat_allergen", 1 ] ]
+  },
+  {
     "id": "meat_frond",
     "copy-from": "meat_tainted",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "alien fronds" },
     "use_action": [ "POISON" ],
     "description": "The fleshy fronds harvested from an alien plant.  Eating these membranous leaves and gut-like stems is likely a terrible idea, and yet they have a paradoxically pleasant and inviting sweet smell.  Might be non-vegan.",
@@ -1911,7 +2095,8 @@
   },
   {
     "id": "leech_flower",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "leech flower" },
     "color": "blue",
@@ -1939,7 +2124,8 @@
   {
     "id": "meat_bark",
     "copy-from": "meat_frond",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "leech bark", "str_pl": "scraps of leech bark" },
     "description": "Dry and tough bark matter harvested from an alien plant.  It is slightly translucent, and if placed against the light you can distinguish glistening blue veins running through it.",
     "price_postapoc": "10 cent",
@@ -1948,7 +2134,8 @@
   {
     "id": "demihuman_stomach",
     "copy-from": "stomach",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "demihuman stomach" },
     "description": "The stomach of an intelligent demihuman.  It is surprisingly durable.",
     "material": [ "flesh" ],
@@ -1958,7 +2145,8 @@
   {
     "id": "demihuman_stomach_large",
     "copy-from": "stomach_large",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "large demihuman stomach" },
     "description": "The stomach of a large humanoid creature.  It is surprisingly durable.",
     "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 },
@@ -1967,7 +2155,8 @@
   {
     "id": "demihuman_fat",
     "copy-from": "fat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "chunk of demihuman fat", "str_pl": "chunks of demihuman fat" },
     "description": "Raw fat harvested from a demihuman body.",
     "material": [ "flesh" ],
@@ -1975,7 +2164,8 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "demihuman_tallow",
     "name": { "str_sp": "demihuman tallow" },
     "copy-from": "tallow",
@@ -1987,7 +2177,8 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "demihuman_lard",
     "name": { "str_sp": "demihuman lard" },
     "copy-from": "lard",
@@ -1997,7 +2188,8 @@
   {
     "id": "demihuman_flesh",
     "copy-from": "meat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "cooks_like": "demihuman_cooked",
     "name": { "str_sp": "demihuman flesh" },
     "description": "Raw meat butchered from a demihuman body.",
@@ -2007,7 +2199,8 @@
   },
   {
     "id": "demihuman_blood",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "demihuman_flesh",
     "name": { "str_sp": "demihuman blood" },
     "description": "Blood extracted from a demihuman.",
@@ -2026,7 +2219,8 @@
   {
     "id": "demihuman_cooked",
     "copy-from": "demihuman_flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked mongrel" },
     "description": "A cooked slice of something close to being a real person.  Tastes like long pig.",
     "proportional": { "price": 1.5 },
@@ -2036,7 +2230,8 @@
     "delete": { "flags": [ "RAW" ] }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "demihuman_stomach_boiled",
     "copy-from": "stomach_boiled",
     "name": { "str": "boiled demihuman stomach" },
@@ -2047,7 +2242,8 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "small_demihuman_stomach_boiled",
     "copy-from": "small_stomach_boiled",
     "name": { "str": "boiled demihuman stomach" },
@@ -2059,7 +2255,8 @@
   {
     "id": "meat_fried",
     "copy-from": "meat_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "fried meat" },
     "conditional_names": [
       { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "fried fool" } },
@@ -2075,7 +2272,8 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "meat_mi-go",
     "category": "other",
     "name": { "str": "chunk of mi-go meat", "str_pl": "chunks of mi-go meat" },
@@ -2097,7 +2295,8 @@
   },
   {
     "id": "blood_mi-go",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "meat_mi-go",
     "name": { "str_sp": "mi-go ichor" },
     "description": "Goo from inside a mi-go, perhaps some kind of blood?  It's obviously alien, given its pink color and strange, nostril-stinging odor.  It would not be advisable to try to eat it.",
@@ -2109,7 +2308,8 @@
     "phase": "liquid"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "bone_mi-go",
     "category": "other",
     "name": { "str": "mi-go bone" },
@@ -2129,7 +2329,8 @@
   {
     "id": "poultry",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "chunk of poultry meat", "str_pl": "chunks of poultry meat" },
     "description": "A chunk of raw meat from a bird.  Dangerous to eat as-is.",
     "weight": "104 g",
@@ -2148,7 +2349,8 @@
   {
     "id": "poultry_scrap",
     "copy-from": "poultry",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "scrap of poultry meat", "str_pl": "scraps of poultry meat" },
     "description": "A tiny scrap of raw meat from a bird.  You figure that one of these should be about one fifth of a portion.  Dangerous to eat as-is.",
     "cooks_like": "meat_scrap_cooked",
@@ -2162,7 +2364,8 @@
     "weight": "94 g",
     "volume": "100 ml",
     "spoils_in": "2 days",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked poultry" },
     "description": "A chunk of bird meat that has been cooked.  Nutritious and safe to eat, but a bit bland.",
     "price": "4 USD",
@@ -2179,7 +2382,8 @@
     "weight": "104 g",
     "volume": "100 ml",
     "spoils_in": "2 days",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked pepper poultry" },
     "description": "A cut of bird meat that has been cooked with salt and pepper.  The simple addition of spices has made it much more palatable.",
     "price": "5 USD",
@@ -2193,7 +2397,8 @@
   {
     "id": "poultry_scrap_cooked",
     "copy-from": "poultry_scrap",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "cooked scrap of poultry", "str_pl": "cooked scraps of poultry" },
     "description": "A tiny scrap of cooked meat from a bird.  Not very filling, and a bit bland.",
     "parasites": 0,
@@ -2205,7 +2410,8 @@
   {
     "id": "poultry_scrap_pepper",
     "copy-from": "poultry_scrap",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "cooked pepper scrap of poultry", "str_pl": "cooked pepper scraps of poultry" },
     "description": "A tiny scrap of cooked bird meat, seasoned with simple spices.  Makes for a nice high-protein snack.",
     "parasites": 0,
@@ -2217,7 +2423,8 @@
   {
     "id": "poultry_smoked",
     "copy-from": "meat_smoked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "chicken jerky" },
     "weight": "65 g",
     "description": "Strip of bird meat that has been heavily smoked for preservation.  It could be further smoked to dehydrate it completely.",
@@ -2230,7 +2437,8 @@
   {
     "id": "mutflesh",
     "copy-from": "meat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "chunk of mutagenic flesh", "str_pl": "chunks of mutagenic flesh" },
     "description": "A chunk of raw meat with a weirdly off-green coloration.  You could eat it as-is, but are you sure you want to?",
     "flags": [ "RAW", "TRADER_AVOID" ],

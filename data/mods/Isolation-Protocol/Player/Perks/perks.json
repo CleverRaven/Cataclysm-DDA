@@ -73,5 +73,16 @@
     "valid": false,
     "//": "Idea here is they can't have any NEW bionics because they're full up (and so they can't just cheat by finding fuel bionics)",
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+  },
+  {
+    "type": "mutation",
+    "id": "iso_eldritch_sorcery",
+    "name": { "str": "Archmagister of the Gloaming Tower" },
+    "points": 0,
+    "description": "You have spent long centuries poring over mouldering tomes and wresting knowledge from spirits who dwell within the translunary spheres and have forgotten more enchantments than some upstart conjurer will ever learn.\n\nWhen you pick up a ranged weapon, you will absorb its power into a new spell.",
+    "category": [ "iso_start_perk" ],
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [ "iso_eldritch_sorcery_buff" ]
   }
 ]

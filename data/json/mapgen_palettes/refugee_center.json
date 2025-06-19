@@ -40,6 +40,8 @@
       "S": "f_sink",
       "T": "f_table",
       "U": "f_statue",
+      "Y": "f_bulletin",
+      "Z": "f_sink_gravity",
       "b": "f_bench",
       "c": "f_counter",
       "d": "f_dishwasher",
@@ -59,6 +61,7 @@
       "~": "f_shower"
     },
     "vendingmachines": { "l": { "lootable": true } },
+    "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "t": {  } }
   },
   {

@@ -1,0 +1,73 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "afs_formless_ruins_aeolian" ],
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "field",
+      "rows": [
+        "2           1           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "1                       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "            1           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_formless_ruins" ],
+      "place_nested": [  ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "formless_ruins_ribs1", 20 ],
+            [ "formless_ruins_ribs2", 20 ],
+            [ "formless_ruins_room1", 20 ],
+            [ "formless_ruins_room2", 20 ],
+            [ "formless_ruins_room3", 20 ],
+            [ "formless_ruins_room4", 20 ],
+            [ "formless_ruins_room5", 20 ],
+            [ "formless_ruins_room6", 20 ],
+            [ "formless_ruins_twoway1", 20 ],
+            [ "formless_ruins_twoway2", 20 ],
+            [ "formless_ruins_twoway3", 20 ],
+            [ "formless_ruins_pillar1", 20 ],
+            [ "formless_ruins_pillar2", 20 ],
+            [ "formless_ruins_orderly1", 10 ],
+            [ "formless_ruins_orderly2", 10 ],
+            [ "formless_ruins_orderly3", 10 ],
+            [ "formless_ruins_orderly4", 10 ],
+            [ "formless_ruins_empty1", 10 ],
+            [ "formless_ruins_empty2", 10 ],
+            [ "formless_ruins_empty3", 10 ],
+            [ "formless_ruins_empty4", 10 ],
+            [ "formless_ruins_cryoroom", 10 ],
+            [ "formless_ruins_armory", 10 ],
+            [ "formless_ruins_sleeping_room", 10 ],
+            [ "formless_ruins_telepad", 5 ]
+          ]
+        },
+        "2": { "chunks": [ [ "aeolian_oasis", 1 ], [ "null", 9 ] ] }
+      },
+      "place_loot": [ { "group": "afs_formless_ruins_random_loot", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_MOXIE_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
+    }
+  }
+]

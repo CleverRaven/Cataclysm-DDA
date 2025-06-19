@@ -4,46 +4,22 @@
     "id": "world_cities",
     "context": "WORLDGEN",
     "name": "Cities",
-    "default": 3,
+    "default": 0,
     "levels": [
       {
         "level": 0,
-        "name": "Remote",
-        "description": "Cities are basically non-existent.  Expect rural-only areas with rare tiny villages.",
-        "options": [ { "option": "CITY_SIZE", "type": "int", "val": 1 }, { "option": "CITY_SPACING", "type": "int", "val": 8 } ]
-      },
-      {
-        "level": 1,
-        "name": "Rural",
-        "description": "Cities are half as large and twice as far apart.",
-        "options": [ { "option": "CITY_SIZE", "type": "int", "val": 4 }, { "option": "CITY_SPACING", "type": "int", "val": 8 } ]
-      },
-      {
-        "level": 2,
-        "name": "Semirural",
-        "description": "Cities are 25% smaller and 50% farther apart.",
-        "options": [ { "option": "CITY_SIZE", "type": "int", "val": 6 }, { "option": "CITY_SPACING", "type": "int", "val": 6 } ]
-      },
-      {
-        "level": 3,
         "name": "Suburbia",
         "description": "Cities use default size and distances, with small to large cities separated by large rural areas.",
         "options": [ { "option": "CITY_SIZE", "type": "int", "val": 8 }, { "option": "CITY_SPACING", "type": "int", "val": 4 } ]
       },
       {
-        "level": 4,
-        "name": "Townscape",
-        "description": "Cities are 50% larger.",
-        "options": [ { "option": "CITY_SIZE", "type": "int", "val": 12 }, { "option": "CITY_SPACING", "type": "int", "val": 4 } ]
-      },
-      {
-        "level": 5,
+        "level": 1,
         "name": "Cityscape",
-        "description": "Cities are twice as large and 25% closer to each other.",
-        "options": [ { "option": "CITY_SIZE", "type": "int", "val": 16 }, { "option": "CITY_SPACING", "type": "int", "val": 3 } ]
+        "description": "Cities are 50% larger and 25% closer to each other.",
+        "options": [ { "option": "CITY_SIZE", "type": "int", "val": 12 }, { "option": "CITY_SPACING", "type": "int", "val": 3 } ]
       },
       {
-        "level": 6,
+        "level": 2,
         "name": "Megacity",
         "description": "Cities are nearly continuous, with minimal distance between them.",
         "options": [ { "option": "CITY_SIZE", "type": "int", "val": 16 }, { "option": "CITY_SPACING", "type": "int", "val": 1 } ]
@@ -55,7 +31,7 @@
     "id": "world_difficulty",
     "context": "WORLDGEN",
     "name": "Difficulty",
-    "default": 3,
+    "default": 2,
     "levels": [
       {
         "level": 0,
@@ -65,79 +41,67 @@
           { "option": "MONSTER_SPEED", "type": "int", "val": 90 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 75 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 0.8 },
-          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 8 },
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 2 },
           { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1.5 }
         ]
       },
       {
         "level": 1,
-        "name": "Be really nice to me",
-        "description": "Monsters are less tough; move, evolve and spawn slower; and items are a bit easier to come by.",
+        "name": "Be nice to me",
+        "description": "Monsters are weaker, appear in smaller numbers, and evolve at a slower rate.",
         "options": [
-          { "option": "MONSTER_SPEED", "type": "int", "val": 95 },
+          { "option": "MONSTER_SPEED", "type": "int", "val": 100 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 85 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 0.9 },
-          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 6 },
-          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1.25 }
-        ]
-      },
-      {
-        "level": 2,
-        "name": "Be nice to me",
-        "description": "Monsters are a bit slower, and evolve at a slower rate.",
-        "options": [
-          { "option": "MONSTER_SPEED", "type": "int", "val": 95 },
-          { "option": "MONSTER_RESILIENCE", "type": "int", "val": 90 },
-          { "option": "SPAWN_DENSITY", "type": "float", "val": 1 },
-          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 5 },
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 1.5 },
           { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1 }
         ]
       },
       {
-        "level": 3,
+        "level": 2,
         "name": "Cataclysm",
         "description": "The default monster hunting and item collecting experience.",
         "options": [
           { "option": "MONSTER_SPEED", "type": "int", "val": 100 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 100 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 1 },
-          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 4 },
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 1 },
+          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1 }
+        ]
+      },
+      {
+        "level": 3,
+        "name": "Hurt me",
+        "description": "Monsters are stronger, appear 50% more often, and evolve faster.",
+        "options": [
+          { "option": "MONSTER_SPEED", "type": "int", "val": 100 },
+          { "option": "MONSTER_RESILIENCE", "type": "int", "val": 120 },
+          { "option": "SPAWN_DENSITY", "type": "float", "val": 1.5 },
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 0.91 },
           { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1 }
         ]
       },
       {
         "level": 4,
-        "name": "Hurt me",
-        "description": "Monsters are a bit tougher and faster, and spawn 50% more.",
-        "options": [
-          { "option": "MONSTER_SPEED", "type": "int", "val": 105 },
-          { "option": "MONSTER_RESILIENCE", "type": "int", "val": 120 },
-          { "option": "SPAWN_DENSITY", "type": "float", "val": 1.5 },
-          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 4 },
-          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1 }
-        ]
-      },
-      {
-        "level": 5,
         "name": "Punish me",
         "description": "Monsters are significantly tougher and faster, spawn more, and evolve faster.  Items are a bit rarer too.",
         "options": [
           { "option": "MONSTER_SPEED", "type": "int", "val": 110 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 150 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 2 },
-          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 3.5 },
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 0.88 },
           { "option": "ITEM_SPAWNRATE", "type": "float", "val": 0.8 }
         ]
       },
       {
-        "level": 6,
+        "level": 5,
         "name": "Punish me more!",
         "description": "Monsters are much tougher, extremely fast, and spawn 3x more.  Items are half as likely to spawn.",
         "options": [
           { "option": "MONSTER_SPEED", "type": "int", "val": 120 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 200 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 3 },
-          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 3 },
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 0.75 },
           { "option": "ITEM_SPAWNRATE", "type": "float", "val": 0.5 }
         ]
       }
@@ -148,34 +112,28 @@
     "id": "world_random_npcs",
     "context": "WORLDGEN",
     "name": "Random NPCs",
-    "default": 2,
+    "default": 1,
     "levels": [
       {
         "level": 0,
         "name": "Where is everyone?",
         "description": "You are very unlikely to encounter random NPCs.",
-        "options": [ { "option": "NPC_SPAWNTIME", "type": "float", "val": 12 } ]
+        "options": [ { "option": "NPC_SPAWNTIME", "type": "float", "val": 10 } ]
       },
       {
         "level": 1,
-        "name": "Empty world",
-        "description": "You are half as likely to encounter random NPCs.",
-        "options": [ { "option": "NPC_SPAWNTIME", "type": "float", "val": 8 } ]
-      },
-      {
-        "level": 2,
         "name": "Lonely",
         "description": "The default: NPCs are rare, but as expected in this ruined world.",
         "options": [ { "option": "NPC_SPAWNTIME", "type": "float", "val": 4 } ]
       },
       {
-        "level": 3,
+        "level": 2,
         "name": "Party time",
         "description": "You are twice as likely to encounter random NPCs.",
         "options": [ { "option": "NPC_SPAWNTIME", "type": "float", "val": 2 } ]
       },
       {
-        "level": 4,
+        "level": 3,
         "name": "Crowded",
         "description": "Random NPCs are fairly common.  Go meet some friends!",
         "options": [ { "option": "NPC_SPAWNTIME", "type": "float", "val": 1 } ]

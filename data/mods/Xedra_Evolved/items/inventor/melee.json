@@ -1,6 +1,7 @@
 [
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "id": "mace_magic",
     "name": { "str": "wolf sledge" },
     "description": "A long, solid, crafted steel haft, and a bulky, comma-like head.  It feels really massive, but it is surprisingly easy to swing, and you will do more damage as your level increases.  You can throw it like a boomerang, and the damage of throw depend on your throwing skill level.",
@@ -15,13 +16,14 @@
     "flags": [ "SHEATH_SPEAR", "DURABLE_MELEE", "MUNDANE", "INVENTOR_CRAFTED" ],
     "weapon_category": [ "GREAT_HAMMERS" ],
     "melee_damage": { "bash": 27 },
-    "relic_data": { "passive_effects": [ { "id": "WOLF_SLEDGE" } ] },
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
-    "use_action": { "type": "effect_on_conditions", "effect_on_conditions": [ "EOC_WOLF_SLEDGE_TRHOW" ] }
+    "use_action": { "type": "effect_on_conditions", "effect_on_conditions": [ "EOC_WOLF_SLEDGE_TRHOW" ] },
+    "passive_effects": [ { "id": "WOLF_SLEDGE" } ]
   },
   {
     "id": "combatsaw_spear_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "chainsaw spear (off)", "str_pl": "chainsaw spears (off)" },
     "description": "A hand-made lightened engine, with chain blades on a long stick.  The only reason it works without falling apart is because your calculations can't be wrong.",
@@ -33,7 +35,6 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo": "battery",
     "charges_per_use": 1,
     "charged_qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -50 ] ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
@@ -65,12 +66,14 @@
         "max_contains_weight": "20 kg",
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "combatsaw_spear_on",
     "copy-from": "combatsaw_spear_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "chainsaw spear (on)", "str_pl": "chainsaw spears (on)" },
     "description": "A lightweight, handheld cordless circular saw.  It is currently on and the blade is spinning; use this item to turn it off.",
     "melee_damage": { "bash": 8, "cut": 36 },
@@ -80,7 +83,7 @@
     "extend": { "flags": [ "MESSY" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "megachette_folded",
     "copy-from": "megachette",
     "category": "weapons",
@@ -102,7 +105,8 @@
   {
     "id": "megachette",
     "copy-from": "mc_broadsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "megachette (extended)", "str_pl": "megachettes (extended)" },
     "description": "A completely flat, single-edged blade.  While very visually appealing, it is no less deadly.  It can be folded more times than makes sense.",
     "replace_materials": { "mc_steel": "steel", "leather": "steel" },
@@ -117,7 +121,8 @@
   {
     "id": "binary_sword",
     "copy-from": "qt_zweihander",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "binary sword" },
     "description": "A relatively heavy two-handed sword with \"100111100\" inscribed on the blade, perhaps to appear fancier than it truly is.  Still, it is a surprisingly good weapon.",
     "replace_materials": { "qt_steel": "steel", "kevlar": "kevlar" },
@@ -125,7 +130,8 @@
   },
   {
     "id": "inventor_plasma_axe_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "\"Neon Angle\" (off)", "str_pl": "\"Neon Angles\" (off)" },
     "description": "A light, hollow aluminum bar with an installed plasma torch on the end in the form of a circle, emitting 28000 centrigrades of heat on demand.  This probably violates dozens of OSHA regulations.",
@@ -137,7 +143,6 @@
     "material": [ "aluminum" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo": "battery",
     "use_action": {
       "target": "inventor_plasma_axe",
       "msg": "You turn on your \"Neon Angle\".",
@@ -158,12 +163,14 @@
         "max_contains_weight": "20 kg",
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "inventor_plasma_axe",
     "copy-from": "inventor_plasma_axe_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "\"Neon Angle\" (on)", "str_pl": "\"Neon Angles\" (on)" },
     "description": "A light, hollow aluminum bar with an installed plasma torch on the end in the form of a circle, emitting 28000 centrigrades of heat on demand.  This probably violates dozens of OSHA regulations.",
     "melee_damage": { "bash": 8, "heat": 46 },

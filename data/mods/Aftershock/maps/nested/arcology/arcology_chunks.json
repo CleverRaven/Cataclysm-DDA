@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "arcology_2x2_gate",
     "//": "Goes to 9x9 arcology stores",
     "object": {
@@ -15,7 +14,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for spaces 9x9.  Add walls around it and entrances.",
     "nested_mapgen_id": "arcology_9x9_candy_shop",
     "object": {
@@ -48,7 +46,7 @@
       },
       "items": {
         "H": [ { "item": "toy_store", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "candy_chocolate", "chance": 30, "repeat": [ 0, 4 ] } ],
         "w": [ { "item": "candy_chocolate", "chance": 30, "repeat": [ 0, 4 ] } ],
         "M": [
@@ -64,7 +62,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for spaces 9x9.  Beauty and cosmetics shop.",
     "nested_mapgen_id": "arcology_9x9_beauty_shop",
     "object": {
@@ -114,7 +111,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 vitamin shop.",
     "nested_mapgen_id": "arcology_9x9_vitamin_shop",
     "object": {
@@ -158,7 +154,7 @@
       },
       "items": {
         "H": [ { "item": "arcology_vitamin_shop", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "arcology_vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ],
         "M": [ { "item": "office", "chance": 30, "repeat": [ 0, 4 ] } ],
         "V": [ { "item": "arcology_vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ]
@@ -167,7 +163,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 cellphone shop.",
     "nested_mapgen_id": "city_block_9x9_cellphone_shop_front",
     "object": {
@@ -211,7 +206,7 @@
       "items": {
         "H": [ { "item": "elecsto_pcs", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "elecsto_persele", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "cell_shop", "chance": 30, "repeat": [ 0, 4 ] } ],
         "M": [ { "item": "cell_shop", "chance": 30, "repeat": [ 0, 1 ] } ],
         "V": [ { "item": "cell_shop", "chance": 30, "repeat": [ 0, 4 ] } ]
@@ -220,7 +215,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 music shop.",
     "nested_mapgen_id": "city_block_9x9_music_shop_front",
     "object": {
@@ -252,7 +246,7 @@
       "items": {
         "H": [ { "item": "musicstore_showpiece", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "mussto_windinst", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "mussto_stringinst", "chance": 30, "repeat": [ 0, 4 ] } ],
         "M": [ { "item": "office", "chance": 30, "repeat": [ 0, 1 ] } ],
         "V": [ { "item": "musicstore_showpiece", "chance": 30, "repeat": [ 0, 4 ] } ]
@@ -261,7 +255,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 electronics shop.  needs aftershocking",
     "nested_mapgen_id": "arcology_8x8_electronic",
     "object": {
@@ -300,7 +293,7 @@
       "items": {
         "H": [ { "item": "elecsto_pcs", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "elecsto_cameras", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "elecsto_entapl", "chance": 30, "repeat": [ 0, 4 ] } ],
         "B": [ { "item": "elecsto_homapl", "chance": 30, "repeat": [ 0, 4 ] } ],
         "M": [ { "item": "office", "chance": 30, "repeat": [ 0, 1 ] } ],
@@ -313,7 +306,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 8x8 pizza shop. Make foodplace shop.",
     "nested_mapgen_id": "arcology_8x8_foodplace",
     "object": {
@@ -366,7 +358,7 @@
         "B": [ { "item": "pizza_kitchen", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "pizza_display", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "pizza_table", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
         "F": [ { "item": "pizza_fridge", "chance": 30, "repeat": [ 0, 4 ] } ],
         "V": [ { "item": "pizza_display", "chance": 30, "repeat": [ 0, 4 ] } ],
         "Q": [ { "item": "pizza_kitchen", "chance": 30, "repeat": [ 0, 1 ] } ],
@@ -379,7 +371,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for spaces 9x9.  Beauty and cosmetics shop.",
     "nested_mapgen_id": "arcology_24x24_s",
     "object": {

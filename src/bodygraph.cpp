@@ -17,12 +17,9 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
 #include "input_context.h"
-#include "json_error.h"
 #include "make_static.h"
 #include "memory_fast.h"
 #include "output.h"
@@ -31,7 +28,7 @@
 #include "subbodypart.h"
 #include "translation.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "weather.h"
@@ -87,7 +84,7 @@ void bodygraph::check_all()
     bodygraph_factory.check();
 }
 
-void bodygraph::load( const JsonObject &jo, const std::string_view )
+void bodygraph::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "parent_bodypart", parent_bp );
     optional( jo, was_loaded, "fill_sym", fill_sym );
@@ -343,7 +340,7 @@ void bodygraph_display::draw_borders()
     bh_borders.draw_border( w_border, c_white );
 
     const int first_win_width = partlist_width;
-    auto center_txt_start = [&first_win_width]( const std::string_view txt ) {
+    auto center_txt_start = [&first_win_width]( std::string_view txt ) {
         return 2 + first_win_width + ( BPGRAPH_MAXCOLS / 2 - utf8_width( txt, true ) / 2 );
     };
 
@@ -386,7 +383,7 @@ void bodygraph_display::draw_partlist()
     werase( w_partlist );
     int y = 0;
     for( int i = top_part; y < all_height - 2 && i < static_cast<int>( partlist.size() ); i++ ) {
-        const auto bgt = partlist[i];
+        const auto &bgt = partlist[i];
         std::string txt = !std::get<1>( bgt ) ?
                           std::get<0>( bgt )->name.translated() :
                           std::get<1>( bgt )->name.translated();
@@ -434,9 +431,7 @@ void bodygraph_display::draw_info()
         int y = 0;
         for( unsigned i = top_info; i < info_txt.size() && y < all_height - 2; i++, y++ ) {
             if( info_txt[i] == "--" ) {
-                for( int x = 1; x < info_width - 2; x++ ) {
-                    mvwputch( w_info, point( x, y ), c_dark_gray, LINE_OXOX );
-                }
+                mvwhline( w_info, point( 1, y ), c_dark_gray, LINE_OXOX, info_width - 3 );
             } else {
                 trim_and_print( w_info, point( 1, y ), info_width - 2, c_white, info_txt[i] );
             }
@@ -655,7 +650,7 @@ void display_bodygraph( const Character &u, const bodygraph_id &id )
 
 std::vector<std::string> get_bodygraph_lines( const Character &u,
         const bodygraph_callback &fragment_cb, const bodygraph_id &id, int width, int height,
-        const std::string_view &label )
+        std::string_view label )
 {
     width = ( width <= 0 || width > BPGRAPH_MAXCOLS ) ? BPGRAPH_MAXCOLS : width;
     height = ( height <= 0 || height > BPGRAPH_MAXROWS ) ? BPGRAPH_MAXROWS : height;

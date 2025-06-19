@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lmoe_under_full",
     "//": "LMOE shelter filled with angry NPCs. Has a working generator and light.",
     "//2": "This particular 2-bed shelter is a more professionally done, all metal bomb shelter with kitchen, secret safe room / gun locker, and workshop.",
@@ -36,7 +35,14 @@
       ],
       "palettes": [ "bunker", "full_bunker_items" ],
       "terrain": { "№": "t_thconc_floor_olight" },
-      "vehicles": { "G": { "vehicle": "portable_generator", "chance": 100, "fuel": 40, "status": 0 } },
+      "furniture": {
+        "G": [
+          [ "f_portable_generator", 25 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_military_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ]
+      },
       "nested": {
         "h": { "chunks": [ [ "npc_bandit", 25 ], [ "npc_thug", 25 ], [ "null", 50 ] ] },
         "f": { "chunks": [ [ "npc_bandit", 38 ], [ "npc_thug", 38 ], [ "null", 25 ] ] }
@@ -45,7 +51,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lmoe_under_full",
     "//": "LMOE shelter filled with angry NPCs. Has a working generator and light.",
     "//2": "This is a commercially built 4-bed LMOE shelter based on IRL plans.",
@@ -103,8 +108,16 @@
         "&": "t_carpet_red",
         "}": "t_carpet_red"
       },
-      "furniture": { "`": "f_table", "!": "f_chair" },
-      "vehicles": { "G": { "vehicle": "portable_generator", "chance": 100, "fuel": 40, "status": 0, "rotation": 90 } },
+      "furniture": {
+        "`": "f_table",
+        "!": "f_chair",
+        "G": [
+          [ "f_portable_generator", 25 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_military_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ]
+      },
       "nested": {
         "h": { "chunks": [ [ "npc_bandit", 25 ], [ "npc_thug", 25 ], [ "null", 50 ] ] },
         "!": { "chunks": [ [ "npc_bandit", 25 ], [ "npc_thug", 25 ], [ "null", 50 ] ] },
@@ -114,7 +127,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lmoe_under_full",
     "//": "LMOE shelter filled with angry NPCs. Has a working generator and light.",
     "//2": "This particular 4-bed shelter is definitely homemade, mostly carved out of bare rock, and seems to be incomplete.",
@@ -148,7 +160,14 @@
       ],
       "palettes": [ "bunker", "full_bunker_items" ],
       "terrain": { "№": "t_rock_floor_olight" },
-      "vehicles": { "G": { "vehicle": "portable_generator", "chance": 100, "fuel": 40, "status": 0 } },
+      "furniture": {
+        "G": [
+          [ "f_portable_generator", 25 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_military_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ]
+      },
       "nested": { "h": { "chunks": [ [ "npc_bandit", 25 ], [ "npc_thug", 25 ], [ "null", 50 ] ] } }
     }
   }

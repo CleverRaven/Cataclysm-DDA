@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -41,7 +40,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -81,7 +79,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -121,7 +118,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -164,7 +160,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -220,7 +215,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -278,7 +272,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [

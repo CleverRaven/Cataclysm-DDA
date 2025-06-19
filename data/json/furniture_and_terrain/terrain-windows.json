@@ -40,10 +40,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -223,10 +220,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -258,7 +252,6 @@
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "duct_tape", "charges": [ 15, 25 ] },
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
@@ -456,6 +449,285 @@
   },
   {
     "type": "terrain",
+    "id": "t_window_domestic_alarm",
+    "name": "window with curtains",
+    "looks_like": "t_window_domestic",
+    "description": "A closed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "symbol": "\"",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 60,
+    "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE",
+      "NOITEM",
+      "ALARMED",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "BLOCK_WIND",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
+    "curtain_transform": "t_window_no_curtains_alarm",
+    "examine_action": "curtains",
+    "close": "t_curtains_alarm",
+    "open": "t_window_open_alarm",
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [
+        { "item": "stick", "count": 1 },
+        { "item": "sheet", "count": 2 },
+        { "item": "glass_sheet", "count": 1 },
+        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "string_36", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_frame",
+      "items": [
+        { "item": "glass_shard", "count": [ 21, 29 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
+    },
+    "prying": {
+      "result": "t_window_open_alarm",
+      "message": "You pry open the window.",
+      "prying_data": {
+        "difficulty": 6,
+        "prying_level": 2,
+        "noisy": true,
+        "breakable": true,
+        "failure": "You pry, but can't pry open the window."
+      }
+    },
+    "shoot": { "reduce_damage": [ 1, 4 ], "reduce_damage_laser": [ 0, 4 ], "destroy_damage": [ 1, 4 ], "no_laser_destroy": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_no_curtains_alarm",
+    "name": "window without curtains",
+    "looks_like": "t_window_no_curtains",
+    "description": "A closed smaller window typically found in residential homes.  You could install a curtain rod and drapes to block visibility and shut out any light if you had the supplies and skill.",
+    "symbol": "\"",
+    "color": "white",
+    "move_cost": 0,
+    "coverage": 60,
+    "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE",
+      "NOITEM",
+      "ALARMED",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW",
+      "BLOCK_WIND",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
+    "examine_action": "locked_object",
+    "open": "t_window_no_curtains_open_alarm",
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_frame",
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
+    },
+    "prying": {
+      "result": "t_window_no_curtains_open_alarm",
+      "message": "You pry open the window.",
+      "prying_data": {
+        "difficulty": 6,
+        "prying_level": 2,
+        "noisy": true,
+        "breakable": true,
+        "failure": "You pry, but can't pry open the window."
+      }
+    },
+    "shoot": { "reduce_damage": [ 1, 4 ], "reduce_damage_laser": [ 0, 4 ], "destroy_damage": [ 1, 4 ], "no_laser_destroy": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_no_curtains_open_alarm",
+    "name": "open window without curtains",
+    "looks_like": "t_window_no_curtains_open",
+    "description": "A smaller window typically found in residential homes.  It's open and can be crawled through.",
+    "symbol": "'",
+    "color": "white",
+    "move_cost": 4,
+    "coverage": 60,
+    "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE",
+      "NOITEM",
+      "ALARMED",
+      "OPENCLOSE_INSIDE",
+      "MOUNTABLE",
+      "THIN_OBSTACLE",
+      "SMALL_PASSAGE",
+      "PERMEABLE",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
+    "close": "t_window_no_curtains_alarm",
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_frame",
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_open_alarm",
+    "name": "open window with curtains",
+    "looks_like": "t_window_open",
+    "description": "A window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.  It's open and you can crawl through.",
+    "symbol": "'",
+    "color": "light_gray",
+    "move_cost": 4,
+    "coverage": 60,
+    "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE",
+      "NOITEM",
+      "ALARMED",
+      "OPENCLOSE_INSIDE",
+      "MOUNTABLE",
+      "THIN_OBSTACLE",
+      "SMALL_PASSAGE",
+      "PERMEABLE",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
+    "curtain_transform": "t_window_no_curtains_open_alarm",
+    "examine_action": "curtains",
+    "close": "t_window_domestic_alarm",
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [
+        { "item": "stick", "count": 1 },
+        { "item": "sheet", "count": 2 },
+        { "item": "glass_sheet", "count": 1 },
+        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "string_36", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_frame",
+      "items": [
+        { "item": "glass_shard", "count": [ 21, 29 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_curtains_alarm",
+    "name": "window with closed curtains",
+    "looks_like": "t_curtains",
+    "description": "A closed window with fancy curtains that have been drawn shut, blocking sunlight and visibility.  The curtains can only be opened from the inside.  If you examined the curtains more closely, you could peek through the drapes or tear down everything.  Or you could just smash the window open.",
+    "symbol": "\"",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "ALARMED",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "BLOCK_WIND",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
+    "curtain_transform": "t_window_no_curtains_alarm",
+    "open": "t_window_domestic_alarm",
+    "examine_action": "curtains",
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [
+        { "item": "stick", "count": 1 },
+        { "item": "sheet", "count": 2 },
+        { "item": "glass_sheet", "count": 1 },
+        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "string_36", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_frame",
+      "items": [
+        { "item": "glass_shard", "count": [ 21, 29 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
+    },
+    "prying": {
+      "result": "t_window_open_alarm",
+      "message": "You pry open the window.",
+      "prying_data": {
+        "difficulty": 6,
+        "prying_level": 2,
+        "noisy": true,
+        "breakable": true,
+        "failure": "You pry, but can't pry open the window."
+      }
+    },
+    "shoot": { "reduce_damage": [ 1, 6 ], "reduce_damage_laser": [ 2, 10 ], "destroy_damage": [ 1, 4 ], "no_laser_destroy": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_window_empty",
     "name": "empty window",
     "roof": "t_flat_roof",
@@ -496,7 +768,7 @@
     "type": "terrain",
     "id": "t_window_empty_curtains_open",
     "name": "empty window with curtains",
-    "looks_like": "t_window_open",
+    "looks_like": "t_window_empty",
     "roof": "t_flat_roof",
     "description": "An empty window frame consisting of planks and nails, with open curtains.  You could install a sheet of glass, or even board it up for protection.  You could also convert it into a wall if you took the time to construct it.",
     "symbol": "0",
@@ -862,8 +1134,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "prob": 25 },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
@@ -873,7 +1145,7 @@
     "id": "t_window_bars_alarm",
     "name": "window with metal bars",
     "looks_like": "t_window_bars",
-    "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed in high-value stores, or ones in bad neighborhoods.  It has a small sticker in one corner, reading 'Protected by AtmoWeb, leading AI in terminating crime'.",
+    "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed in high-value stores, or ones in bad neighborhoods.  It has a small sticker in one corner, reading 'Protected by SecuriCorp.  Keeping you safe since 1993.'",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
@@ -1130,8 +1402,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "prob": 25 },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 75, 125 ] }
       ]
@@ -1172,8 +1444,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "prob": 25 },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 75, 125 ] }
       ]
@@ -1223,8 +1495,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "prob": 25 },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 75, 125 ] }
       ]
@@ -1234,7 +1506,7 @@
     "type": "terrain",
     "id": "t_metal_grate_window_noglass",
     "name": "window with metal grate",
-    "description": "Metal bars made into a grate for an empty window.  Highly durable and will stand against any foe",
+    "description": "Metal bars made into a grate for an empty window.  Highly durable and will stand against any foe.",
     "examine_action": "bars",
     "looks_like": "t_window_bars",
     "symbol": "#",
@@ -1263,8 +1535,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "prob": 25 },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
@@ -1304,8 +1576,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "prob": 25 },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
@@ -1356,8 +1628,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "prob": 25 },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
@@ -1603,10 +1875,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -1871,10 +2140,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "reinforced_glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -2159,10 +2425,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 2 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 2 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -2438,10 +2701,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "reinforced_glass_sheet", "count": 2 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 2 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -2706,10 +2966,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 3 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 3 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -2998,10 +3255,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "reinforced_glass_sheet", "count": 3 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 3 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -3286,10 +3540,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 3 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 3 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -3579,10 +3830,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "reinforced_glass_sheet", "count": 3 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 3 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -4105,10 +4353,9 @@
     "symbol": "0",
     "color": "light_cyan",
     "move_cost": 2,
-    "trap": "tr_ledge",
     "coverage": 0,
     "examine_action": "ledge",
-    "deconstruct": { "ter_set": "t_hole", "items": [ { "item": "2x4", "count": [ 3, 4 ] }, { "item": "nail", "charges": [ 12, 16 ] } ] },
+    "deconstruct": { "ter_set": "t_null", "items": [ { "item": "2x4", "count": [ 3, 4 ] }, { "item": "nail", "charges": [ 12, 16 ] } ] },
     "bash": {
       "str_min": 1,
       "str_max": 1,
@@ -4116,7 +4363,7 @@
       "sound_fail": "whack!",
       "sound_vol": 12,
       "sound_fail_vol": 8,
-      "ter_set": "t_hole",
+      "ter_set": "t_null",
       "items": [ { "item": "2x4", "count": [ 2, 4 ] } ]
     },
     "flags": [ "TRANSPARENT", "NO_FLOOR", "FLAMMABLE" ]
@@ -4398,8 +4645,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_metal_floor",
       "items": [
-        { "item": "steel_lump", "prob": 55 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "prob": 55 },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 20, 50 ] }
       ]

@@ -7,7 +7,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cattail",
     "object": { "rows": [ "i" ], "furniture": { "i": "f_cattails" }, "mapgensize": [ 1, 1 ] }
   },
@@ -95,7 +94,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "hunter_shack" ],
     "object": {
       "predecessor_mapgen": "forest_water",

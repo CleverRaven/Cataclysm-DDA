@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": [ [ "urban_10_1", "urban_10_2" ] ],
     "type": "mapgen",
     "object": {
@@ -51,7 +50,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_10_3", "urban_10_4" ] ],
     "type": "mapgen",
     "object": {
@@ -87,7 +85,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_10_5", "urban_10_6" ] ],
     "type": "mapgen",
     "object": {
@@ -123,7 +120,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_10_7", "urban_10_8" ] ],
     "type": "mapgen",
     "object": {
@@ -141,7 +137,7 @@
         "       |................................|       ",
         "       |................................|       ",
         "       |................................|       ",
-        "       |...............<..gF............|       ",
+        "       |...............<..gâ............|       ",
         "       |..........||||||||||||..........|       ",
         "       |..........|          |..........|       ",
         "       ||||||||||||          ||||||||||||       ",
@@ -154,7 +150,7 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [

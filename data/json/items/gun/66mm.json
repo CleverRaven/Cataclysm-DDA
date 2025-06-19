@@ -2,7 +2,8 @@
   {
     "id": "m202_flash",
     "looks_like": "m79",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "dark_gray",
     "name": { "str_sp": "M74 rocket launcher" },

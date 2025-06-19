@@ -46,7 +46,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "dress_shirt", "prob": 50 },
-      { "item": "sheriffshirt", "prob": 45 },
+      { "item": "postman_shirt", "variant": "sheriff", "prob": 45 },
       { "item": "jacket_light", "prob": 40 }
     ]
   },
@@ -179,7 +179,7 @@
       { "item": "recipe_augs", "prob": 4 },
       { "item": "cable", "prob": 60 },
       { "item": "vac_sealer", "prob": 10 },
-      { "item": "smart_phone", "prob": 50, "charges": [ 0, -1 ] },
+      { "group": "civilian_phones", "prob": 50, "charges": [ 0, -1 ] },
       { "item": "eink_tablet_pc", "prob": 15 },
       { "item": "memory_card_unread", "prob": 15 },
       { "item": "camera", "prob": 15, "charges": [ 0, 150 ] },

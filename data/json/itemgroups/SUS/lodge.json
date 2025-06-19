@@ -62,7 +62,7 @@
       { "group": "preserved_food", "prob": 20 },
       { "group": "dry_goods", "prob": 30 },
       { "item": "meat_smoked", "components": [ "human_flesh" ], "prob": 60 },
-      { "group": "pantry", "prob": 10 }
+      { "group": "SUS_pantry", "prob": 10 }
     ]
   }
 ]

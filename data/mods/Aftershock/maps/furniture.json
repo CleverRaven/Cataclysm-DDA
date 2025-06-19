@@ -161,7 +161,7 @@
       "sound_fail": "whump.",
       "items": [
         { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 6 ] },
         { "item": "cotton_patchwork", "count": [ 40, 55 ] },
         { "item": "afs_material_1", "count": [ 10, 20 ] }
       ]
@@ -185,7 +185,7 @@
       "items": [
         { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
         { "item": "afs_heat_2_salvage", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 2 ] },
         { "item": "reinforced_glass_pane", "count": [ 1, 2 ] },
         { "item": "plastic_sheet", "count": [ 10, 15 ] },
         { "item": "cotton_patchwork", "count": [ 20, 30 ] },
@@ -202,7 +202,7 @@
       "items": [
         { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
         { "item": "afs_heat_2_salvage", "count": [ 0, 2 ] },
-        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 6 ] },
         { "item": "glass_shard", "count": [ 3, 6 ] },
         { "item": "plastic_chunk", "count": [ 20, 30 ] },
         { "item": "cotton_patchwork", "count": [ 20, 30 ] },
@@ -445,7 +445,7 @@
       "items": [
         { "item": "sheet_metal_small", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 2, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 6 ] },
         { "item": "scrap_copper", "count": [ 4, 6 ] },
         { "item": "cable", "charges": [ 5, 15 ] },
         { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
@@ -564,7 +564,7 @@
       "sound_fail": "whack!",
       "items": [
         { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 0, 2 ] },
         { "item": "afs_circuitry_1", "count": [ 0, 1 ] },
@@ -615,7 +615,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 4, 6 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 0, 3 ] },
         { "item": "pipe", "count": [ 0, 3 ] },
@@ -673,7 +673,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 4, 6 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 0, 3 ] },
         { "item": "pipe", "count": [ 0, 3 ] },
@@ -786,7 +786,7 @@
       "items": [
         { "item": "sheet_metal_small", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 2, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 6 ] },
         { "item": "scrap_copper", "count": [ 4, 6 ] },
         { "item": "pipe", "count": [ 2, 4 ] },
         { "item": "pipe_fittings", "count": [ 2, 4 ] },
@@ -845,7 +845,7 @@
       "items": [
         { "item": "sheet_metal_small", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 5, 10 ] },
-        { "item": "steel_chunk", "count": [ 5, 10 ] },
+        { "item": "mc_steel_chunk", "count": [ 5, 10 ] },
         { "item": "scrap_copper", "count": [ 0, 4 ] },
         { "item": "pipe", "count": [ 0, 2 ] },
         { "item": "pipe_fittings", "count": [ 0, 2 ] },
@@ -891,7 +891,7 @@
       "items": [
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },
         { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 3, 6 ] },
         { "item": "scrap_copper", "count": [ 3, 10 ] },
         { "item": "pipe", "count": [ 0, 5 ] },
         { "item": "pipe_fittings", "count": [ 0, 5 ] },
@@ -933,7 +933,7 @@
       "sound_fail": "whack!",
       "items": [
         { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] },
         { "item": "small_lcd_screen", "count": 1, "prob": 50 },
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },
@@ -980,7 +980,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 0, 4 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 0, 3 ] },
         { "item": "cable", "charges": [ 5, 15 ] },
@@ -1033,7 +1033,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 3, 6 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 0, 3 ] },
         { "item": "pipe", "count": [ 0, 3 ] },
@@ -1084,7 +1084,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 3, 6 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] },
         { "item": "rebar", "count": 1 },
         { "item": "spring", "count": [ 0, 2 ] },
@@ -1113,8 +1113,8 @@
     "max_volume": "1750 L",
     "deconstruct": {
       "items": [
-        { "item": "steel_lump", "count": [ 3, 6 ] },
-        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "ch_steel_lump", "count": [ 3, 6 ] },
+        { "item": "ch_steel_chunk", "count": [ 3, 6 ] },
         { "item": "scrap", "count": [ 3, 6 ] },
         { "item": "welder", "prob": 50 }
       ]
@@ -1154,7 +1154,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 3, 6 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 0, 3 ] },
         { "item": "pipe", "count": [ 0, 3 ] },
@@ -1202,7 +1202,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 3, 6 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 15 ], "prob": 20 },
         { "item": "sheet_metal_small", "count": [ 0, 3 ] },
@@ -1253,7 +1253,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 3, 6 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 25 },
         { "item": "sheet_metal_small", "count": [ 0, 3 ] },
@@ -1350,7 +1350,7 @@
       "sound_fail": "whack!",
       "items": [
         { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] },
         { "item": "small_lcd_screen", "count": 1, "prob": 50 },
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },

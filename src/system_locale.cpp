@@ -28,7 +28,7 @@ namespace
 // Try to match language code to a supported game language by prefix
 // For example, "fr_CA.UTF-8" -> "fr"
 // Returns std::nullopt if the language is not supported by the game
-std::optional<std::string> matchGameLanguage( const std::string_view lang )
+std::optional<std::string> matchGameLanguage( std::string_view lang )
 {
     const std::vector<options_manager::id_and_option> available_languages =
         get_options().get_option( "USE_LANG" ).getItems();
@@ -72,7 +72,8 @@ std::optional<std::string> Language()
         {"nb", {{ 1044, 2068 }} },
         {"nl", { 1043 } },
         {"pl", { 1045 } },
-        {"pt_BR", {{ 1046, 2070 }} },
+        {"pt", { 2070 } },
+        {"pt_BR", { 1046 } },
         {"ru", {{ 25, 1049, 2073 }} },
         {"sr", { 3098 } },
         {"tr", { 1055 } },

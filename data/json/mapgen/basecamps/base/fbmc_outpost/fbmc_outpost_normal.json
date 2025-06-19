@@ -2,25 +2,21 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_outpost_normal_0",
-    "method": "json",
     "object": { "set": [ { "point": "furniture", "id": "f_bulletin", "x": 13, "y": 12 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_outpost_normal_bed_0",
-    "method": "json",
     "object": { "set": [ { "point": "furniture", "id": "f_bunkbed", "x": 10, "y": 4 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_outpost_normal_root_cellar",
-    "method": "json",
     "object": { "set": [ { "point": "terrain", "id": "t_rootcellar", "x": 6, "y": 12 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_outpost_normal_butchery_rack",
-    "method": "json",
     "object": {
       "set": [
         { "point": "furniture", "id": "f_butcher_rack", "x": 4, "y": 12 },
@@ -31,13 +27,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_outpost_normal_water_well",
-    "method": "json",
     "object": { "set": [ { "point": "terrain", "id": "t_water_pump", "x": 6, "y": 10 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_outpost_normal_farm",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_dirtmound", "y": 2, "x": 19 },
@@ -62,7 +56,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_outpost_normal_generator",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_utility_light", "x": 5, "y": 16 },
@@ -76,7 +69,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_outpost_normal_radio",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_radio_tower", "x": 6, "y": 8 },

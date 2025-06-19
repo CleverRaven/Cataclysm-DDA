@@ -38,5 +38,71 @@
       { "id": "tigerprint", "text": "tiger print" },
       { "id": "zebraprint", "text": "zebra print" }
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "<clothing_text>",
+    "text": [
+      "chown -R us ~your/base",
+      "FDA Approved to treat all diseases",
+      "Anxiety is my super power",
+      "Greetings from R'lyeh home of Cthulhu",
+      "Play robotfindskitten today",
+      "I survived the apocalypse and all I got was this lousy T-shirt?",
+      "Zombies don't care whether or not you believe",
+      "Cthulhu for President: Why vote for the lesser evil",
+      "Cthulhu for President: This time the stars are right"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<clothing_picture>",
+    "text": [
+      "a design of Matt Berry in a rugby shirt, a fist raised to the sky, mouth agape, shouting 'Faaather'!",
+      "a green robot poorly disguised as a dog.  Words printed on it read: \"It's time for the DOOM song.  Doom, doom, doom, dooooom!!\"",
+      "a dog wearing the uniform of a well known galactic bounty hunter.  In place of a wrist rocket, it fires a tennis ball on a string.",
+      "a blue portal with a mouse's head sticking out.  The mouse is pointing some kind of gun-like device towards a cube made of Swiss cheese.  The back of the shirt has an orange portal, with the back half of the mouse entering the portal.",
+      "a drawing of a ceiling with a round hole in it.  A quizzical-looking Cthulhu pokes its head down through the hole.",
+      "a picture of a jack-o'-lantern with a tiny smiling black bat popping out of the top.",
+      "a picture of a woman standing in front of a yawning portal, with numerous cats exiting the portal and surrounding her.",
+      "a picture of a giant blocky robot with a cone-shaped head.  It holds both arms out, carrying a cyclops woman with purple hair.",
+      "a picture of a peasant with a fist raised, eyes alight with the fire of freedom, proclaiming, 'Down with sword-based governments!'",
+      "a picture of an old-fashioned cartoon black goat on the front, above the goat it says 'Black Phillip' and below are the words 'Live Deliciously'.",
+      "a picture of a stylized castle with five spires.  Each spire has a purple-gray flame at the top.  At the bottom of the castle it says 'Menzoberranzan'",
+      "a picture of a hooded child standing behind a lectern, his mouth open and his arms held high.  A pentagram has been carved into the lectern and stuffed animals are arranged in a semicircle facing the child.  On the left of the child are the words 'Let's Start A Cult', while below it reads 'Activities for Children'.",
+      "a circle of stars.  Inside the circle is a blue and yellow skeleton with his arms raised and mouth open.  Above the skeleton are the words 'Make Eternia' and below him, 'Great Again'.",
+      "a drawing of a Nazgûl riding a black horse.  The drawing is in the style of old My Little Pony cartoons."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<music_band_graphic>",
+    "text": [
+      "a death metal band's spidery, indecipherable logo printed on the front.",
+      "a muscle-bound, long-haired man printed on the front.  He is riding a red dragon and wielding a flaming sword with malicious glee.",
+      "a gore-spattered, guitar-playing zombie printed on the front.  It's rather tasteless in light of current events.",
+      "a pattern of complex geometric shapes and transcendental imagery printed on the front.",
+      "an image of a woman's face in portrait printed on the front.  She is wearing a large blue mohawk, her face is set in a snarl.",
+      "a stylized representation of a radio wave printed on the front.",
+      "an image of an upside-down American flag covered in anarchist graffiti, its edges frayed and burned.",
+      "an AK-47 on the front.  It is held up by a clenched fist around its forestock, the fingers covered in crude looking tattoos.",
+      "an interstellar bounty hunter on the front.  'My backpack's got jets'.",
+      "the words 'THE DARKEST OF THE HILLSIDE THICKETS' with a picture of giant fantastical creatures dancing in a line.  Below the picture read the words 'Where the Great Old Ones Are'.",
+      "the words 'THE DARKEST OF THE HILLSIDE THICKETS' below a picture of a roofless green Dodge Charger with five robed men in it.  The driver is throwing back a drink from a goblet, the first passenger is chanting from a book, the other three passengers are firing various guns at a blue flying eye with tentacles and a snail shell.  Red letters read 'THE DUKES OF ALHAZRED'."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<linux_joke>",
+    "text": [
+      "a picture of Tux, the Linux mascot!  It says \"You wouldn't buy a car with the hood welded shut.\"",
+      "the Ubuntu logo on it, underneath it says \"Ubuntu is a South African word for 'I can't configure Debian'\"",
+      "the Arch Linux logo on it, underneath it says \"Keep it Simple Stupid\"",
+      "the Ubuntu logo on it, underneath it says \"Linux for human beings\"",
+      "the Linux Mint logo on it, underneath it says \"From freedom came elegance\"",
+      "the Fedora logo on it, underneath it says \"Freedom.  Friends.  Features.  First.\"",
+      "Red Hat's logo on it, underneath it says \"The World's Open Source Leader\"",
+      "the Debian logo on it, underneath it says \"The Universal Operating System\""
+    ]
   }
 ]

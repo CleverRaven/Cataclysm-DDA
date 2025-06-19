@@ -57,7 +57,7 @@
     "required_skills": [ [ "fabrication", 7 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "spike", 8 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ],
+    "components": [ [ [ "spike", 8 ] ], [ [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_m_frame"
   },
@@ -1004,5 +1004,18 @@
     "components": [ [ [ "duct_tape", 50 ] ] ],
     "pre_terrain": "t_window",
     "post_terrain": "t_window_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_window_empty_curtain",
+    "group": "cover_windowframe_with_sheet",
+    "//": "Installs curtains on Empty window",
+    "category": "WINDOWS",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nails", 4, "LIST" ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ], [ "cordage_36", 1 ] ] ],
+    "pre_terrain": "t_window_empty",
+    "post_terrain": "t_window_empty_curtains_closed"
   }
 ]

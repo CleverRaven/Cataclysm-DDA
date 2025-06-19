@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mine_tunnel_straight",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -67,7 +66,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mine_tunnel_end",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -123,7 +121,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mine_tunnel_curved",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -199,7 +196,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mine_tunnel_tee",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -272,7 +268,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mine_tunnel_four_way",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -342,7 +337,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mine_finale",
     "weight": 100,
     "object": {
@@ -382,7 +376,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mine_finale",
     "weight": 50,
     "object": {
@@ -417,13 +410,12 @@
       "furniture": { " ": [ [ "f_null", 5 ], "f_rubble_rock" ] },
       "items": { " ": { "item": "mine_equipment", "chance": 3 } },
       "monster": { " ": { "monster": "mon_zombie_miner", "chance": 5 } },
-      "vehicles": { "o": { "vehicle": "trencher", "chance": 100, "fuel": 100, "status": 0 } },
+      "vehicles": { "o": { "vehicle": "trencher", "fuel": 100, "status": 0 } },
       "nested": { " ": { "chunks": [ [ "mine_minerals_equipment", 10 ], [ "null", 100 ] ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mine_finale",
     "weight": 30,
     "object": {
@@ -467,7 +459,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mine_finale",
     "weight": 40,
     "object": {
@@ -511,7 +502,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mine_finale",
     "weight": 30,
     "object": {

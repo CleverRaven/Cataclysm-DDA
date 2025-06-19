@@ -18,7 +18,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sky_island_core",
     "object": {
       "fill_ter": "t_fake_air",
@@ -57,7 +56,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sky_island_corner",
     "object": {
       "fill_ter": "t_fake_air",
@@ -92,7 +90,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sky_island_edge",
     "object": {
       "fill_ter": "t_fake_air",
@@ -127,7 +124,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sky_island_subcore",
     "object": {
       "fill_ter": "t_fake_air",
@@ -165,7 +161,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sky_island_subcorner",
     "object": {
       "fill_ter": "t_fake_air",
@@ -200,7 +195,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sky_island_subedge",
     "object": {
       "fill_ter": "t_fake_air",

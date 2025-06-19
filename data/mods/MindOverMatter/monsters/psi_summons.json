@@ -49,7 +49,7 @@
     "type": "MONSTER",
     "name": "Lucid Shadow",
     "description": "A light illusion made to look like yourself.",
-    "looks_like": "player",
+    "looks_like": "mon_civilian_stationary",
     "default_faction": "factionless",
     "species": [ "UNKNOWN" ],
     "volume": "62500 ml",
@@ -61,11 +61,38 @@
     "aggression": -99,
     "morale": 2,
     "luminance": 16,
-    "dodge": 999,
+    "dodge": 8,
     "harvest": "exempt",
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
-    "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
+    "flags": [ "CLIMBS", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT", "COPY_SUMMONER_LOOK" ]
+  },
+  {
+    "id": "mon_photokin_army_image",
+    "type": "MONSTER",
+    "name": "Phantom Legionnaire",
+    "description": "A light illusion made to look like yourself.",
+    "looks_like": "mon_civilian_stationary",
+    "default_faction": "factionless",
+    "species": [ "UNKNOWN" ],
+    "volume": "62500 ml",
+    "weight": "0g",
+    "hp": 1,
+    "speed": 150,
+    "symbol": "@",
+    "color": "cyan",
+    "aggression": -99,
+    "morale": 2,
+    "luminance": 16,
+    "dodge": 8,
+    "harvest": "exempt",
+    "fear_triggers": [ "PLAYER_CLOSE" ],
+    "death_function": {
+      "effect": { "id": "photokinetic_light_explosion_monster", "min_level": 5, "hit_self": true },
+      "message": "The %s explodes in a brilliant burst of light!",
+      "corpse_type": "NO_CORPSE"
+    },
+    "flags": [ "CLIMBS", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT", "COPY_SUMMONER_LOOK" ]
   }
 ]

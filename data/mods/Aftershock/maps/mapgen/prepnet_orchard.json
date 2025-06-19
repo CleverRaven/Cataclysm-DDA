@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "prepnet_orchard" ],
     "object": {
       "faction_owner": [ { "id": "Prepnet_Phyle", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
@@ -35,7 +34,7 @@
         "#": "t_underbrush_harvested_spring",
         "+": "t_door_c",
         " ": "t_region_groundcover_urban",
-        "-": "t_fence_h",
+        "-": "t_fence",
         ".": "t_grass",
         "4": "t_tree_pine",
         "7": "t_tree_apple",
@@ -74,7 +73,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "prepnet_orchard" ],
     "object": {
       "faction_owner": [ { "id": "Prepnet_Phyle", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
@@ -108,7 +106,7 @@
         "#": "t_shrub_strawberry",
         "&": "t_grass",
         "+": "t_door_c",
-        "-": "t_fence_h",
+        "-": "t_fence",
         ".": "t_grass",
         "4": "t_tree_pine",
         "7": "t_tree_cherry",

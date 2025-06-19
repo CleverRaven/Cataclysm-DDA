@@ -8,7 +8,13 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "biokin_physical_enhance", 2 ], [ "biokin_overcome_pain", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
+    "cancels": [ "PSYCHIC_KNACK" ],
+    "spells_learned": [
+      [ "biokin_physical_enhance", 2 ],
+      [ "biokin_overcome_pain", 2 ],
+      [ "classless_toggleable_concentration_end", 1 ],
+      [ "classless_specific_concentration_end", 1 ]
+    ]
   },
   {
     "type": "mutation",
@@ -19,7 +25,13 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "clair_night_vision", 2 ], [ "clair_speed_reading", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
+    "cancels": [ "PSYCHIC_KNACK" ],
+    "spells_learned": [
+      [ "clair_better_senses", 2 ],
+      [ "clair_speed_reading", 2 ],
+      [ "classless_toggleable_concentration_end", 1 ],
+      [ "classless_specific_concentration_end", 1 ]
+    ]
   },
   {
     "type": "mutation",
@@ -30,10 +42,12 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "cancels": [ "PSYCHIC_KNACK" ],
     "spells_learned": [
       [ "electrokinetic_see_electric", 2 ],
       [ "electrokinetic_shock_touch", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
+      [ "classless_toggleable_concentration_end", 1 ],
+      [ "classless_specific_concentration_end", 1 ]
     ]
   },
   {
@@ -45,11 +59,13 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "cancels": [ "PSYCHIC_KNACK" ],
     "flags": [ "PHOTOKINETIC" ],
     "spells_learned": [
       [ "photokinetic_create_light", 2 ],
       [ "photokinetic_light_local", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
+      [ "classless_toggleable_concentration_end", 1 ],
+      [ "classless_specific_concentration_end", 1 ]
     ]
   },
   {
@@ -61,7 +77,13 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "pyrokinetic_eruption", 2 ], [ "pyrokinetic_flash", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
+    "cancels": [ "PSYCHIC_KNACK" ],
+    "spells_learned": [
+      [ "pyrokinetic_eruption", 2 ],
+      [ "pyrokinetic_flash", 2 ],
+      [ "classless_toggleable_concentration_end", 1 ],
+      [ "classless_specific_concentration_end", 1 ]
+    ]
   },
   {
     "type": "mutation",
@@ -72,7 +94,13 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "telepathic_concentration", 2 ], [ "telepathic_mind_sense", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
+    "cancels": [ "PSYCHIC_KNACK" ],
+    "spells_learned": [
+      [ "telepathic_concentration", 2 ],
+      [ "telepathic_mind_sense", 2 ],
+      [ "classless_toggleable_concentration_end", 1 ],
+      [ "classless_specific_concentration_end", 1 ]
+    ]
   },
   {
     "type": "mutation",
@@ -83,7 +111,13 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "telekinetic_pull", 2 ], [ "telekinetic_push", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
+    "cancels": [ "PSYCHIC_KNACK" ],
+    "spells_learned": [
+      [ "telekinetic_pull", 2 ],
+      [ "telekinetic_push", 2 ],
+      [ "classless_toggleable_concentration_end", 1 ],
+      [ "classless_specific_concentration_end", 1 ]
+    ]
   },
   {
     "type": "mutation",
@@ -94,7 +128,13 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "teleport_blink", 2 ], [ "teleport_slow", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
+    "cancels": [ "PSYCHIC_KNACK" ],
+    "spells_learned": [
+      [ "teleport_blink", 2 ],
+      [ "teleport_slow", 2 ],
+      [ "classless_toggleable_concentration_end", 1 ],
+      [ "classless_specific_concentration_end", 1 ]
+    ]
   },
   {
     "type": "mutation",
@@ -105,7 +145,13 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "vita_slow_bleeding", 2 ], [ "vita_health_power", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
+    "cancels": [ "PSYCHIC_KNACK" ],
+    "spells_learned": [
+      [ "vita_slow_bleeding", 2 ],
+      [ "vita_health_power", 2 ],
+      [ "classless_toggleable_concentration_end", 1 ],
+      [ "classless_specific_concentration_end", 1 ]
+    ]
   },
   {
     "type": "mutation",
@@ -127,7 +173,8 @@
       "TELEKINETIC",
       "TELEPORTER",
       "VITAKINETIC",
-      "ALWAYS_GAIN_PSIONICS"
+      "ALWAYS_GAIN_PSIONICS",
+      "PSYCHIC_KNACK"
     ]
   },
   {
@@ -150,8 +197,34 @@
       "TELEKINETIC",
       "TELEPORTER",
       "VITAKINETIC",
-      "CANNOT_GAIN_PSIONICS"
+      "CANNOT_GAIN_PSIONICS",
+      "PSYCHIC_KNACK"
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "PSYCHIC_KNACK",
+    "name": { "str": "Psychic Knacks", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "The school trait for knacks.  It shouldn't be visible.", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "cancels": [
+      "BIOKINETIC",
+      "CLAIRSENTIENT",
+      "ELECTROKINETIC",
+      "PHOTOKINETIC",
+      "PYROKINETIC",
+      "TELEPATH",
+      "TELEKINETIC",
+      "TELEPORTER",
+      "VITAKINETIC",
+      "ALWAYS_GAIN_PSIONICS",
+      "CANNOT_GAIN_PSIONICS"
+    ],
+    "spells_learned": [ [ "classless_toggleable_concentration_end", 1 ], [ "classless_specific_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -163,7 +236,7 @@
     "player_display": false,
     "starting_trait": true,
     "purifiable": false,
-    "cancels": [ "CANNOT_GAIN_PSIONICS", "ALWAYS_GAIN_PSIONICS" ]
+    "cancels": [ "CANNOT_GAIN_PSIONICS", "PSYCHIC_KNACK", "ALWAYS_GAIN_PSIONICS" ]
   },
   {
     "type": "mutation",
@@ -180,11 +253,10 @@
     "id": "MOM_PSYCHIC_VAMPIRE",
     "name": { "str": "Psychic Vampire" },
     "points": 1,
-    "description": "You can drain a bit of vital energy from from victims when attacking their minds with telepathy or their bodies with vitakinesis.",
+    "description": "You can drain a bit of vital energy from victims when attacking their minds with telepathy or their bodies with vitakinesis.",
     "valid": false,
     "starting_trait": true,
-    "purifiable": false,
-    "prereqs": [ "ALWAYS_GAIN_PSIONICS" ]
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -198,11 +270,11 @@
     "enchantments": [
       {
         "condition": { "not": "u_has_weapon" },
-        "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_skill('unarmed') / 2" ] } } ]
+        "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "u_skill('unarmed') / 2" ] } } ]
       },
       {
         "condition": { "not": "u_has_weapon" },
-        "values": [ { "value": "ITEM_DAMAGE_BASH", "multiply": { "math": [ "u_spell_level_sum('school': 'BIOKINETIC') * 0.01" ] } } ]
+        "melee_damage_bonus": [ { "type": "bash", "multiply": { "math": [ "u_spell_level_sum('school': 'BIOKINETIC') * 0.01" ] } } ]
       }
     ]
   },

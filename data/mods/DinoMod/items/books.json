@@ -1,7 +1,8 @@
 [
   {
     "id": "kiernans_notes",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Kiernan's notes", "str_pl": "copies of Kiernan's notes" },
     "description": "The voluminous notes of an obviously talented paleontologist, dedicated biologist, and amateur author.  These notes jump from such topics as fossil digs, science fiction stories, also strangely enough notes on dinosaur biology and potential hybridization efforts.",
@@ -13,11 +14,11 @@
     "symbol": "?",
     "looks_like": "adv_chemistry",
     "color": "green",
-    "skill": "chemistry",
     "required_level": 10,
     "max_level": 10,
     "intelligence": 16,
     "time": "35 m",
-    "fun": -3
+    "read_skill": "chemistry",
+    "read_fun": -3
   }
 ]

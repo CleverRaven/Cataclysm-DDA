@@ -9,10 +9,18 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
-      [ [ "32_casing", 1 ] ],
+      [ [ "unprimed_32_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 2 ] ],
       [ [ "copper", 1 ] ]
     ]
+  },
+  {
+    "result": "32_casing",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "unprimed_32_casing", 1 ] ], [ [ "spent_smpistol_primer", 1 ] ] ]
   }
 ]

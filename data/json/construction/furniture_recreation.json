@@ -50,7 +50,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "steel_chunk", 1 ] ], [ [ "scrap", 6 ] ], [ [ "lead", 2000 ] ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "steel_chunk_any", 1, "LIST" ] ], [ [ "scrap", 6 ] ], [ [ "lead", 2000 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_exercise"
   },

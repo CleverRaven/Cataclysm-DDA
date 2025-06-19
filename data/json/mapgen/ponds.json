@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "pond_field" ],
-    "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
       "predecessor_mapgen": "forest",
@@ -56,9 +54,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "hot_springs" ],
-    "weight": 20,
     "object": {
       "rotation": [ 0, 3 ],
       "predecessor_mapgen": "forest",

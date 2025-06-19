@@ -91,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_bed_horizontal",
     "object": {
       "parameters": {
@@ -111,7 +110,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_bed_vertical",
     "object": {
       "parameters": {
@@ -131,7 +129,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_construction_5x6_roof",
     "object": {
       "parameters": {
@@ -167,7 +164,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_construction_shack_south",
     "object": {
       "parameters": {
@@ -204,7 +200,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_construction_shack_north",
     "object": {
       "parameters": {
@@ -241,7 +236,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_construction_6x5_roof",
     "object": {
       "parameters": {
@@ -277,7 +271,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_construction_shack_west",
     "object": {
       "parameters": {
@@ -314,7 +307,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_construction_shack_east",
     "object": {
       "parameters": {
@@ -351,7 +343,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_construction_wall_roof_horizontal",
     "object": {
       "parameters": {
@@ -387,7 +378,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_construction_wall_horizontal",
     "object": {
       "parameters": {
@@ -424,7 +414,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_construction_wall_roof_vertical",
     "object": {
       "parameters": {
@@ -460,7 +449,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_construction_wall_vertical",
     "object": {
       "parameters": {
@@ -497,7 +485,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_construction_wall_tile_roof",
     "object": {
       "parameters": {
@@ -526,7 +513,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_construction_wall_tile",
     "object": {
       "parameters": {

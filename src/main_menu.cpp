@@ -1,14 +1,18 @@
 #include "main_menu.h"
 
 #include <algorithm>
+#include <array>
+#include <chrono>
 #include <cmath>
 #include <cstdint>
-#include <cstdio>
+#include <cstdlib>
 #include <cstring>
-#include <ctime>
 #include <exception>
 #include <functional>
+#include <initializer_list>
 #include <istream>
+#include <locale>
+#include <map>
 #include <memory>
 #include <optional>
 #include <string>
@@ -19,6 +23,7 @@
 
 #include "auto_pickup.h"
 #include "avatar.h"
+#include "cata_path.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -31,6 +36,7 @@
 #include "gamemode.h"
 #include "get_version.h"
 #include "help.h"
+#include "imgui_demo.h"
 #include "localized_comparator.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
@@ -47,73 +53,17 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
+#include "uilist.h"
 #include "ui_manager.h"
+#include "ui_style_picker.h"
 #include "wcwidth.h"
 #include "worldfactory.h"
 
-#include "cata_imgui.h"
-#include "imgui/imgui.h"
-
-class demo_ui : public cataimgui::window
-{
-    public:
-        demo_ui();
-        void init();
-        void run();
-
-    protected:
-        void draw_controls() override;
-        cataimgui::bounds get_bounds() override;
-        void on_resized() override {
-            init();
-        };
-};
-
-demo_ui::demo_ui() : cataimgui::window( _( "ImGui Demo Screen" ) )
-{
-}
-
-cataimgui::bounds demo_ui::get_bounds()
-{
-    return { -1.f, -1.f, float( str_width_to_pixels( TERMX ) ), float( str_height_to_pixels( TERMY ) ) };
-}
-
-void demo_ui::draw_controls()
-{
-    ImGui::ShowDemoWindow();
-}
-
-void demo_ui::init()
-{
-    // The demo makes it's own screen.  Don't get in the way
-    force_to_back = true;
-}
-
-void demo_ui::run()
-{
-    init();
-
-    input_context ctxt( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "SELECT" );
-    ctxt.register_action( "MOUSE_MOVE" );
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    std::string action;
-
-    ui_manager::redraw();
-
-    while( is_open ) {
-        ui_manager::redraw();
-        action = ctxt.handle_input( 5 );
-        if( action == "QUIT" ) {
-            break;
-        }
-    }
-}
-
 static const mod_id MOD_INFORMATION_dda( "dda" );
+static const mod_id MOD_INFORMATION_dda_tutorial( "dda_tutorial" );
 
 enum class main_menu_opts : int {
     MOTD = 0,
@@ -333,7 +283,7 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
         main_menu_sub_button_map.emplace_back( rec, std::pair<int, int> { sel, y } );
     }
     if( static_cast<size_t>( height ) != sub_opts.size() ) {
-        draw_scrollbar( w_sub, sel2, height, sub_opts.size(), point_south, c_white,
+        draw_scrollbar( w_sub, sel2, height, sub_opts.size(), point::south, c_white,
                         false );
     }
     wnoutrefresh( w_sub );
@@ -352,9 +302,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     int window_height = getmaxy( w_open );
 
     // Draw horizontal line
-    for( int i = 1; i < window_width - 1; ++i ) {
-        mvwputch( w_open, point( i, window_height - 4 ), c_white, LINE_OXOX );
-    }
+    mvwhline( w_open, point( 1, window_height - 4 ), c_white, LINE_OXOX, window_width - 2 );
 
     if( iSel == getopt( main_menu_opts::NEWCHAR ) ) {
         center_print( w_open, window_height - 2, c_yellow, vNewGameHints[sel2] );
@@ -375,7 +323,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
             case holiday::easter:
                 break;
             case holiday::halloween:
-                fold_and_print_from( w_open, point_zero, 30, 0, c_white, halloween_spider() );
+                fold_and_print_from( w_open, point::zero, 30, 0, c_white, halloween_spider() );
                 fold_and_print_from( w_open, point( getmaxx( w_open ) - 25, offset.y - 8 ),
                                      25, 0, c_white, halloween_graves() );
                 break;
@@ -556,6 +504,7 @@ void main_menu::init_strings()
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Sh<o|O>w World Mods" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Copy World Sett<i|I>ngs" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Character to Tem<p|P>late" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Toggle World <C|c>ompression" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
 
@@ -570,6 +519,7 @@ void main_menu::init_strings()
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "A<u|U>topickup" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Sa<f|F>emode" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Colo<r|R>s" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "ImGui <S|s>tyles" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<I|i>mGui Demo Screen" ) );
 
     vSettingsHotkeys.clear();
@@ -605,9 +555,9 @@ void main_menu::display_text( const std::string &text, const std::string &title,
     const auto vFolded = foldstring( text, width );
     int iLines = vFolded.size();
 
-    fold_and_print_from( w_text, point_zero, width, selected, c_light_gray, text );
+    fold_and_print_from( w_text, point::zero, width, selected, c_light_gray, text );
 
-    draw_scrollbar( w_border, selected, height, iLines, point_south, BORDER_COLOR, true );
+    draw_scrollbar( w_border, selected, height, iLines, point::south, BORDER_COLOR, true );
     wnoutrefresh( w_border );
     wnoutrefresh( w_text );
 }
@@ -706,10 +656,6 @@ bool main_menu::opening_screen()
 #endif
 
     while( !start ) {
-        if( g->uquit == QUIT_EXIT ) {
-            return false;
-        }
-
         ui_manager::redraw();
         std::string action = ctxt.handle_input();
         input_event sInput = ctxt.get_raw_input();
@@ -799,12 +745,9 @@ bool main_menu::opening_screen()
         // also check special keys
         if( action == "QUIT" ) {
 #if !defined(EMSCRIPTEN)
-            g->uquit = QUIT_EXIT_PENDING;
             if( query_yn( _( "Really quit?" ) ) ) {
-                g->uquit = QUIT_EXIT;
                 return false;
             }
-            g->uquit = QUIT_NO;
 #endif
         } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             sel_line = 0;
@@ -891,6 +834,7 @@ bool main_menu::opening_screen()
                         }
                         world->active_mod_order.clear();
                         world->active_mod_order.emplace_back( MOD_INFORMATION_dda );
+                        world->active_mod_order.emplace_back( MOD_INFORMATION_dda_tutorial );
                         world_generator->set_active_world( world );
                         try {
                             g->setup();
@@ -922,8 +866,11 @@ bool main_menu::opening_screen()
                         get_safemode().show();
                     } else if( sel2 == 4 ) { /// Colors
                         all_colors.show_gui();
-                    } else if( sel2 == 5 ) { /// ImGui demo
-                        demo_ui demo;
+                    } else if( sel2 == 5 ) {
+                        style_picker picker;
+                        picker.show();
+                    } else if( sel2 == 6 ) { /// ImGui demo
+                        imgui_demo_ui demo;
                         demo.run();
                     }
                     break;
@@ -1117,8 +1064,6 @@ bool main_menu::load_game( std::string const &worldname, save_t const &savegame 
 
     try {
         g->setup();
-    } catch( game::exit_exception const &/* ex */ ) {
-        return false;
     } catch( const std::exception &err ) {
         debugmsg( "Error: %s", err.what() );
         return false;
@@ -1135,7 +1080,7 @@ bool main_menu::load_game( std::string const &worldname, save_t const &savegame 
 static std::optional<std::chrono::seconds> get_playtime_from_save( const WORLD *world,
         const save_t &save )
 {
-    cata_path playtime_file = world->folder_path_path() / ( save.base_path() + ".pt" );
+    cata_path playtime_file = world->folder_path() / ( save.base_path() + ".pt" );
     std::optional<std::chrono::seconds> pt_seconds;
     if( file_exist( playtime_file ) ) {
         read_from_file( playtime_file, [&pt_seconds]( std::istream & fin ) {
@@ -1213,7 +1158,7 @@ void main_menu::world_tab( const std::string &worldname )
     uilist mmenu( string_format( _( "Manage world \"%s\"" ), worldname ), {} );
     mmenu.border_color = c_white;
     int opt_val = 0;
-    std::array<char, 5> hotkeys = { 'm', 's', 't', 'd', 'r' };
+    std::array<char, 6> hotkeys = { 'm', 's', 't', 'c', 'd', 'r' };
     for( const std::string &it : vWorldSubItems ) {
         mmenu.entries.emplace_back( opt_val, true, hotkeys[opt_val],
                                     remove_color_tags( shortcut_text( c_white, it ) ) );
@@ -1260,12 +1205,23 @@ void main_menu::world_tab( const std::string &worldname )
                 load_char_templates();
             }
             break;
-        case 3: // Delete World
+        case 3: // Toggle save compression
+            if( world_generator->get_world( worldname )->has_compression_enabled() ) {
+                if( query_yn( _( "Disable save compression?" ) ) ) {
+                    world_generator->get_world( worldname )->set_compression_enabled( false );
+                }
+            } else {
+                if( query_yn( _( "Enable save compression?" ) ) ) {
+                    world_generator->get_world( worldname )->set_compression_enabled( true );
+                }
+            }
+            break;
+        case 4: // Delete World
             if( query_yn( _( "Delete the world and all saves within?" ) ) ) {
                 clear_world( true );
             }
             break;
-        case 4: // Reset World
+        case 5: // Reset World
             if( query_yn( _( "Remove all saves and regenerate world?" ) ) ) {
                 clear_world( false );
             }

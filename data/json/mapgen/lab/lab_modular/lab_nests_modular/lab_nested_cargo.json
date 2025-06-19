@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab cargo areas.  Includes cold fields.",
     "nested_mapgen_id": "lab_cargo_5x5",
     "object": {
@@ -21,7 +20,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab cargo research areas.  Includes hot fields.",
     "nested_mapgen_id": "lab_cargo_5x5",
     "object": {
@@ -41,7 +39,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab cargo research areas.",
     "nested_mapgen_id": "lab_cargo_5x5",
     "object": {
@@ -60,7 +57,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for lab cargo research areas.",
     "weight": 10,
     "nested_mapgen_id": "lab_cargo_5x5",

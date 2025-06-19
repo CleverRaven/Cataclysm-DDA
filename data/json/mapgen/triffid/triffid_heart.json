@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "triffid_finale",
     "object": {
       "fill_ter": "t_root_floor",

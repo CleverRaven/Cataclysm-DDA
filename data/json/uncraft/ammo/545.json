@@ -9,7 +9,7 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 1 ] ],
-      [ [ "545_casing", 1 ] ],
+      [ [ "unprimed_545_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 13 ] ],
       [ [ "copper", 1 ] ]
@@ -25,10 +25,18 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 1 ] ],
-      [ [ "545_casing", 1 ] ],
+      [ [ "unprimed_545_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 13 ] ],
       [ [ "copper", 1 ] ]
     ]
+  },
+  {
+    "result": "545_casing",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "unprimed_545_casing", 1 ] ], [ [ "spent_smrifle_primer", 1 ] ] ]
   }
 ]

@@ -1,0 +1,932 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_afs_space_ship_hull_wall",
+    "name": "spaceship hull",
+    "description": "A hull segment from a civilian spaceship.  Only sufficiently armored to defend against the vacuum and radiation of space, the only dangers you'd expect to find on the other side.",
+    "roof": "t_metal_flat_roof",
+    "copy-from": "t_wall_metal",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "symbol": "#",
+    "color": "white",
+    "bash": {
+      "str_min": 200,
+      "str_max": 600,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_material_2", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_broken_treads",
+    "name": "broken treads",
+    "description": "A large set of broken and frozen over vehicle treads.",
+    "flags": [ "NOITEM", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "TRANSPARENT", "SHORT" ],
+    "symbol": "#",
+    "color": "white",
+    "move_cost": 5,
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_material_2", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_gun_ship_hull_wall",
+    "name": "gunship hull",
+    "description": "A hull segment from a combat rated civilian gunship.  Provides some defense against weapons fire.",
+    "roof": "t_metal_flat_roof",
+    "copy-from": "t_wall_metal",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "symbol": "#",
+    "color": "white",
+    "bash": {
+      "str_min": 350,
+      "str_max": 800,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_material_2", "count": [ 2, 4 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_gun_ship_locker_wall",
+    "name": "gunship locker",
+    "description": "A locker built into the hull of a ship.  May contain equipment.",
+    "roof": "t_metal_flat_roof",
+    "copy-from": "t_wall_metal",
+    "flags": [ "SUPPORTS_ROOF", "CONTAINER", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "symbol": "#",
+    "color": "white",
+    "bash": {
+      "str_min": 200,
+      "str_max": 600,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_material_2", "count": [ 2, 4 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_bathroom_unit",
+    "name": "bathroom unit",
+    "description": "A bathroom unit for a gunship.  Unlikely to be working.",
+    "roof": "t_metal_flat_roof",
+    "copy-from": "t_metal_floor",
+    "flags": [ "SUPPORTS_ROOF" ],
+    "symbol": "O",
+    "color": "white",
+    "bash": {
+      "str_min": 200,
+      "str_max": 600,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_material_2", "count": [ 2, 4 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gunship_refrigeration_unit",
+    "name": "gunship refrigeration unit",
+    "description": "A refrigeration unit for a gunship.  Unlikely to be working.",
+    "roof": "t_metal_flat_roof",
+    "copy-from": "t_metal_floor",
+    "flags": [ "SUPPORTS_ROOF" ],
+    "symbol": "O",
+    "color": "white",
+    "bash": {
+      "str_min": 200,
+      "str_max": 600,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_material_2", "count": [ 2, 4 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_gun_ship_ruined_hull_wall",
+    "name": "ruined hull",
+    "description": "This patch of hull has more holes in it than an ancient terran cheese.  It may provide some cover or it might get shot through.",
+    "roof": "t_metal_flat_roof",
+    "copy-from": "t_wall_metal",
+    "looks_like": "f_plane_wreckage",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT", "PERMEABLE", "MINEABLE" ],
+    "symbol": "#",
+    "color": "white",
+    "bash": {
+      "str_min": 20,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_material_2", "count": [ 0, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 3, 17 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_gun_ship_hull_hatch_c",
+    "name": "gunship hull",
+    "description": "A closed hatch in the wall of a spaceship.",
+    "roof": "t_metal_flat_roof",
+    "looks_like": "t_afs_space_ship_hatch_c",
+    "copy-from": "t_wall_metal",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "symbol": "#",
+    "color": "white",
+    "open": "t_afs_gun_ship_hull_hatch_o",
+    "bash": {
+      "str_min": 150,
+      "str_max": 500,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_metal_floor",
+      "items": [
+        { "item": "afs_material_2", "count": [ 2, 4 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_gun_ship_hull_hatch_o",
+    "name": "gunship hull",
+    "description": "An open hatch in the wall of a spaceship.",
+    "roof": "t_metal_flat_roof",
+    "flags": [ "SUPPORTS_ROOF", "MINEABLE" ],
+    "move_cost": 2,
+    "symbol": "_",
+    "color": "white",
+    "close": "t_afs_gun_ship_hull_hatch_c",
+    "looks_like": "t_afs_space_ship_hatch_o",
+    "bash": {
+      "str_min": 150,
+      "str_max": 500,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_metal_floor",
+      "items": [
+        { "item": "afs_material_2", "count": [ 2, 4 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_prison_grate",
+    "name": "prison grating",
+    "description": "A detention wall made up of crisscrossed stainless steel bars.  There doesn't appear to be a lock on the bars, maybe look for a computer nearby?",
+    "symbol": "+",
+    "looks_like": "t_bars",
+    "color": "cyan",
+    "move_cost": 0,
+    "roof": "t_metal_roof",
+    "hacksaw": {
+      "result": "t_mdoor_frame",
+      "duration": "35 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 12 } ]
+    },
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_WITH_WALL", "THIN_OBSTACLE", "SUPPORTS_ROOF" ],
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "5 minutes",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "mc_steel_chunk", "count": [ 3, 8 ] } ]
+    },
+    "bash": {
+      "str_min": 45,
+      "str_max": 210,
+      "str_min_blocked": 55,
+      "str_max_blocked": 240,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_mdoor_frame",
+      "items": [
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_prison_grate_r",
+    "name": "retracted prison grating",
+    "description": "A floor and ceiling where you can see that bars can come out of each side to meet in the middle.",
+    "//": "Unlocked",
+    "symbol": "o",
+    "looks_like": "t_metal_floor",
+    "color": "cyan",
+    "connect_groups": "METALFLOOR",
+    "connects_to": "METALFLOOR",
+    "move_cost": 2,
+    "roof": "t_metal_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "ch_steel_lump", "count": [ 1, 4 ] },
+        { "item": "ch_steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gunship_kitchen",
+    "name": "gunship kitchenette",
+    "symbol": "#",
+    "looks_like": "f_oven",
+    "description": "A tiny sink and cooking surface only big enough to fit an electric hotplate, placed above and below many integrated storage units.  The minimal space in which you could technically cook.",
+    "color": "blue",
+    "move_cost": 0,
+    "coverage": 55,
+    "flags": [ "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF", "NO_SELF_CONNECT" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "ter_set": "t_metal_floor",
+      "items": [
+        { "item": "polycarbonate_sheet", "count": [ 1, 3 ] },
+        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 2, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shelving",
+    "name": "storage board",
+    "symbol": "#",
+    "looks_like": "f_cupboard",
+    "description": "The wall-mounted, steel and plastic storage solution of tomorrow.",
+    "color": "blue",
+    "move_cost": 0,
+    "coverage": 55,
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
+    "connect_groups": "COUNTER",
+    "connects_to": "COUNTER",
+    "rotates_to": "INDOORFLOOR",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "ter_set": "t_metal_floor",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "polycarbonate_sheet", "count": [ 1, 3 ] },
+        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 2, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_view_port",
+    "name": "view port",
+    "description": "A thick, round window surrounded with a strong metal frame.  It's sealed closed.",
+    "looks_like": "t_porthole",
+    "symbol": "o",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_metal_flat_roof",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "CONNECT_WITH_WALL",
+      "THIN_OBSTACLE",
+      "BLOCK_WIND",
+      "REDUCE_SCENT",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 75,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_metal_floor",
+      "items": [
+        { "item": "afs_material_1", "prob": 55 },
+        { "item": "ch_steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_gun_ship_engine",
+    "name": "Iblis Interplanetary Drive",
+    "looks_like": "t_plut_generator",
+    "description": "The housing and guts of an Interplanetary drive engine.  It is plastered with warning signs.  If it's not working you could probably try to break into it for parts.",
+    "symbol": "0",
+    "color": "green_red",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 400,
+      "explosive": 100,
+      "sound": "metal screeching!",
+      "ter_set": "t_metal_floor",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
+        { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
+        { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
+        { "item": "afs_material_1", "count": [ 12, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_gun_ship_engine_console",
+    "name": "Iblis Interplanetary Drive Console",
+    "looks_like": "t_console",
+    "description": "The control panel for the engines and generators that power the drive.  It would likely render the ship irrecoverable but it might do some damage to any robots near or in the ship if you set the engines to overload.",
+    "symbol": "0",
+    "color": "green_red",
+    "move_cost": 0,
+    "coverage": 80,
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_AFS_GUNSHIP_DRIVE_OVERLOAD",
+          "condition": { "u_query": "Do you want to overload the ship's drive?", "default": true },
+          "effect": [
+            { "u_message": "You hear a high pitched whine start and increase in volume.", "popup": true },
+            { "u_cast_spell": { "id": "gunship_drive_overload" } },
+            { "u_transform_radius": 5, "ter_furn_transform": "engine_overload_transform" }
+          ]
+        }
+      ]
+    },
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 400,
+      "sound": "metal screeching!",
+      "ter_set": "t_metal_floor",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
+        { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
+        { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
+        { "item": "afs_material_1", "count": [ 12, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_gun_ship_engine_console_burnt",
+    "name": "Iblis Interplanetary Drive Console",
+    "looks_like": "t_console",
+    "description": "The engine has been overloaded and burnt out.",
+    "symbol": "0",
+    "color": "green_red",
+    "move_cost": 0,
+    "coverage": 80,
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_AFS_GUNSHIP_DRIVE_OVERLOADED",
+          "condition": { "u_query": "Do you want to overload the ship's drive?", "default": true },
+          "effect": [ { "u_message": "The engine is burnt out and worthless.", "popup": true } ]
+        }
+      ]
+    },
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 400,
+      "sound": "metal screeching!",
+      "ter_set": "t_metal_floor",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "afs_circuitry_1", "count": [ 1, 7 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 2 ] },
+        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_material_1", "count": [ 8, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_gun_ship_navigation_console",
+    "name": "Iblis Interplanetary Navigation Console",
+    "looks_like": "t_console",
+    "description": "The control panel for navigation.  Useless here on the ground but in space the only way to plot long distance travel.",
+    "symbol": "0",
+    "color": "green_red",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 400,
+      "sound": "metal screeching!",
+      "ter_set": "t_metal_floor",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
+        { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
+        { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
+        { "item": "afs_material_1", "count": [ 12, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gunnery_ai",
+    "name": "Wraitheon Gunnery AI",
+    "looks_like": "t_console",
+    "description": "The display screen for interacting with the gunnery ai is blank, there's no telling right now if the ai module survived the crash or not from here.",
+    "symbol": "0",
+    "color": "green_red",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 400,
+      "sound": "metal screeching!",
+      "ter_set": "t_metal_floor",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
+        { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "ai_module", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
+        { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
+        { "item": "afs_material_1", "count": [ 12, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_command_console",
+    "name": "command console",
+    "looks_like": "t_console",
+    "description": "The display screen for interacting with the ships command and control console is dead.  Normally the ship's AI runs most systems but there is no way to know whether it survived.",
+    "symbol": "0",
+    "color": "green_red",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 400,
+      "sound": "metal screeching!",
+      "ter_set": "t_metal_floor",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
+        { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "ai_module", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
+        { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
+        { "item": "afs_material_1", "count": [ 12, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_cell_entrance_console",
+    "name": "Prisoner Cell Console",
+    "looks_like": "t_console",
+    "description": "The control panel for the prisoner cell.  Might be able to open and close cell grating.",
+    "symbol": "0",
+    "color": "green_red",
+    "move_cost": 0,
+    "coverage": 80,
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_AFS_PRISON_CONSOLE_OPEN",
+          "condition": { "u_query": "Do you want to open the cell?", "default": true },
+          "effect": [
+            { "u_message": "The cell grates retract into the floor and ceiling.", "popup": true },
+            { "u_transform_radius": 5, "ter_furn_transform": "transform_gratings" }
+          ]
+        }
+      ]
+    },
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 400,
+      "sound": "metal screeching!",
+      "ter_set": "t_metal_floor",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
+        { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_heat_1", "count": [ 0, 1 ] },
+        { "item": "afs_energy_storage_1", "count": [ 1, 6 ] },
+        { "item": "afs_material_1", "count": [ 12, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_augustmoon_diamond_glass",
+    "name": "diamond-matrix glass",
+    "description": "The diamond cubic lattice distorts distant light sources into eight pointed stars.  The galactic core is visible through the glass, but no spacer would ever give it more than a passing glance.",
+    "roof": "t_metal_flat_roof",
+    "looks_like": "t_reinforced_glass",
+    "symbol": "#",
+    "color": "light_cyan",
+    "move_cost": 0,
+    "coverage": 100,
+    "bash": {
+      "str_min": 4000,
+      "str_max": 8000,
+      "sound": "whump!",
+      "sound_fail": "whump!",
+      "ter_set": "t_afs_augustmoon_diamond_glass"
+    },
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "BLOCK_WIND" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_augustmoon_hull_wall",
+    "name": "Port Augustmoon hull",
+    "description": "The ancient hull of Port Augustmoon, spun into orbit several lifetimes ago.",
+    "roof": "t_metal_flat_roof",
+    "copy-from": "t_wall_metal",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "symbol": "#",
+    "bash": { "str_min": 4000, "str_max": 8000, "sound": "whump!", "sound_fail": "whump!", "ter_set": "t_afs_augustmoon_hull_wall" },
+    "color": "white"
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_escapepod_g",
+    "name": "escape pod guidance system",
+    "description": "The rudimentary descent guidance system and easy-use control console of an escape pod.  It apparently broke during the descent.",
+    "roof": "t_metal_flat_roof",
+    "looks_like": "t_intercom",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "symbol": "o",
+    "color": "white",
+    "copy-from": "t_afs_space_ship_hull_wall",
+    "deconstruct": {
+      "ter_set": "t_afs_space_ship_hull_wall",
+      "items": [
+        { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
+        { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
+        { "item": "cable", "count": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 4 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
+        { "item": "afs_energy_storage_3", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "afs_material_2", "count": [ 0, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 30,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "cable", "count": [ 2, 6 ] },
+        { "item": "plastic_chunk", "count": [ 6, 10 ] },
+        { "item": "afs_energy_storage_2", "count": [ 0, 2 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
+        { "item": "afs_material_2", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_escapepod_g_shipboard",
+    "name": "escape pod guidance system",
+    "description": "The rudimentary descent guidance system and easy-use control console of an escape pod.  Can be activated to launch the pod.",
+    "roof": "t_metal_flat_roof",
+    "looks_like": "t_intercom",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "symbol": "o",
+    "color": "white",
+    "copy-from": "t_afs_space_ship_hull_wall",
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_ESCAPE_POD_CHAIR" ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_escape_pod_floor",
+    "name": "escape pod floor",
+    "description": "A relatively flat slab of heat-treated metal, designed to withstand the crushing pressure of space and the searing heat of reentry.",
+    "symbol": ".",
+    "color": "light_gray",
+    "looks_like": "t_rock_floor",
+    "move_cost": 2,
+    "roof": "t_open_air",
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 30, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_space_ship_hatch_c",
+    "name": "closed spaceship hatch",
+    "description": "An armored and airtight spaceship hatch.  A side mounted lever allows for its manual operation.",
+    "roof": "t_metal_flat_roof",
+    "symbol": "+",
+    "color": "light_red",
+    "open": "t_afs_space_ship_hatch_o",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
+    "flags": [ "NOITEM", "DOOR", "MINEABLE" ],
+    "copy-from": "t_door_metal_lab_c",
+    "bash": {
+      "str_min": 200,
+      "str_max": 600,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_energy_storage_2", "count": [ 0, 2 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
+        { "item": "afs_material_2", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_space_ship_hatch_o",
+    "name": "open spaceship hatch",
+    "description": "An armored and airtight spaceship hatch.  A side mounted lever allows for its manual operation.",
+    "roof": "t_metal_flat_roof",
+    "close": "t_afs_space_ship_hatch_c",
+    "copy-from": "t_door_metal_lab_o",
+    "symbol": "'",
+    "color": "light_red",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
+    "bash": {
+      "str_min": 200,
+      "str_max": 600,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_energy_storage_2", "count": [ 0, 2 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
+        { "item": "afs_material_2", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_locker_room",
+    "name": "Locker room card reader",
+    "description": "This is a smartcard reader.  Bold lettering proclaims that this controls access to the locker room.  You could swipe an appropriate crew ID card near it to unlock the gates.",
+    "//": "Entrance card for the barracks locker room.  Low security access.",
+    "symbol": "6",
+    "color": "cyan",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "AFS_CS_LOCKER_CARD" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": true,
+      "radius": 2,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_armory_room",
+    "name": "Armory card reader",
+    "description": "This is a smartcard reader.  Bold lettering proclaims that this controls access to the armory.  You could swipe an appropriate crew ID card near it to unlock the gates.",
+    "//": "Entrance card for the barracks armory.  High security access.",
+    "symbol": "6",
+    "color": "cyan",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "AFS_CS_LOCKER_CARD" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": true,
+      "radius": 2,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_exobay_room",
+    "name": "Exobay card reader",
+    "description": "This is a smartcard reader.  Bold lettering proclaims that this controls access to the exosuit bay.  You could swipe an appropriate crew ID card near it to unlock the gates.",
+    "//": "Entrance card for the barracks armory.  Medium security access.",
+    "symbol": "6",
+    "color": "cyan",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "AFS_CS_EXOBAY_CARD" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": true,
+      "radius": 2,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_augustmoon_shuttle_console",
+    "name": "Shuttle Guidance Console",
+    "description": "The simplified guidance interface of a drone shuttle.  Activating it will transport you to Port Augustmoon.",
+    "symbol": "6",
+    "looks_like": "t_afs_shuttlepod_g",
+    "color": "light_blue",
+    "move_cost": 0,
+    "coverage": 50,
+    "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "NOITEM", "INDOORS" ],
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_AFS_AUGUSTMOON_SHUTTLE_TP" ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_intermodal_crate_scripted_source",
+    "name": "intermodal shipping crate",
+    "description": "A sealed metal crate used to ferry cargo to and from orbit.  Any items placed inside will be taken with you to and from Port Augustmoon.",
+    "symbol": "O",
+    "bgcolor": "brown",
+    "move_cost": 0,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "SMALL_HIDE" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_intermodal_crate_scripted_destination",
+    "name": "intermodal shipping crate",
+    "description": "A sealed metal crate used to ferry cargo to and from orbit.",
+    "symbol": "O",
+    "bgcolor": "brown",
+    "move_cost": 0,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "SMALL_HIDE" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_intermodal_crate",
+    "name": "intermodal shipping crate",
+    "description": "A sealed metal crate used to ferry cargo to and from orbit.",
+    "symbol": "O",
+    "bgcolor": "brown",
+    "move_cost": 0,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "SMALL_HIDE", "PLACE_ITEM", "CONTAINER" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_shuttlepod_g",
+    "name": "shuttle pod guidance system",
+    "description": "The complex controls of a shuttlepod.  Doesn't seem to be working right now.",
+    "roof": "t_metal_flat_roof",
+    "looks_like": "f_console_broken",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "symbol": "o",
+    "color": "white",
+    "copy-from": "t_afs_space_ship_hull_wall",
+    "deconstruct": {
+      "ter_set": "t_afs_space_ship_hull_wall",
+      "items": [
+        { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
+        { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
+        { "item": "cable", "count": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 4 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
+        { "item": "afs_energy_storage_3", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "afs_material_2", "count": [ 0, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 30,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "cable", "count": [ 2, 6 ] },
+        { "item": "plastic_chunk", "count": [ 6, 10 ] },
+        { "item": "afs_energy_storage_2", "count": [ 0, 2 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
+        { "item": "afs_material_2", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  }
+]

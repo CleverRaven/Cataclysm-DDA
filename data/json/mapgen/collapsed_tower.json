@@ -1,6 +1,6 @@
 [
   {
-    "name": "GROUP_COLLAPSED_TOWER",
+    "id": "GROUP_COLLAPSED_TOWER",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie", "weight": 600 },
@@ -11,7 +11,7 @@
     ]
   },
   {
-    "name": "GROUP_COLLAPSED_TOWER_BASEMENT",
+    "id": "GROUP_COLLAPSED_TOWER_BASEMENT",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_gasbag_immobile", "weight": 650 },
@@ -24,12 +24,10 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "office_tower_collapse_a0", "office_tower_collapse_a1", "office_tower_collapse_a2" ],
       [ "office_tower_collapse_b0", "office_tower_collapse_b1", "office_tower_collapse_b2" ]
     ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -92,8 +90,8 @@
       ],
       "palettes": [ "collapsed_tower" ],
       "place_items": [
-        { "item": "office_mess", "x": [ 8, 23 ], "y": [ 4, 23 ], "chance": 100, "repeat": [ 20, 70 ] },
-        { "item": "office_mess", "x": [ 8, 23 ], "y": [ 24, 44 ], "chance": 100, "repeat": [ 30, 70 ] },
+        { "item": "SUS_office_mess", "x": [ 8, 23 ], "y": [ 4, 23 ], "chance": 100, "repeat": [ 5, 10 ] },
+        { "item": "SUS_office_mess", "x": [ 8, 23 ], "y": [ 24, 44 ], "chance": 100, "repeat": [ 6, 12 ] },
         { "item": "cleaning", "x": [ 11, 11 ], "y": [ 21, 22 ], "chance": 60 },
         { "item": "cleaning", "x": [ 15, 15 ], "y": [ 21, 22 ], "chance": 60 }
       ],
@@ -109,12 +107,10 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "office_tower_collapse_b_a0", "office_tower_collapse_b_a1", "office_tower_collapse_b_a2" ],
       [ "office_tower_collapse_b_b0", "office_tower_collapse_b_b1", "office_tower_collapse_b_b2" ]
     ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -187,10 +183,11 @@
         "p": "t_metal_floor"
       },
       "mapping": { "r": { "item": { "item": "standard_template_construct" } }, "R": { "item": { "item": "nanomaterial" } } },
+      "items": { ";": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { ";": {  } },
       "place_items": [
-        { "item": "office_mess", "x": [ 8, 23 ], "y": [ 4, 23 ], "chance": 100, "repeat": [ 20, 70 ] },
-        { "item": "office_mess", "x": [ 8, 23 ], "y": [ 24, 44 ], "chance": 100, "repeat": [ 30, 70 ] },
+        { "item": "SUS_office_mess", "x": [ 8, 23 ], "y": [ 4, 23 ], "chance": 100, "repeat": [ 5, 10 ] },
+        { "item": "SUS_office_mess", "x": [ 8, 23 ], "y": [ 24, 44 ], "chance": 100, "repeat": [ 6, 12 ] },
         { "item": "cleaning", "x": [ 11, 11 ], "y": [ 21, 22 ], "chance": 60 },
         { "item": "cleaning", "x": [ 15, 15 ], "y": [ 21, 22 ], "chance": 60 }
       ],

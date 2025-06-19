@@ -1,0 +1,908 @@
+[
+  {
+    "id": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "9mm ammo box", "str_pl": "9mm ammo boxes" },
+    "description": "This box holds 20 rounds of 9mm ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "material": [ "cardboard" ],
+    "weight": "6 g",
+    "volume": "70 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "46 ml", "max_contains_weight": "240 g", "rigid": true } ],
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "box_small",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "22lr_ammo_box_50",
+        "name": { "str": ".22 LR ammo box", "str_pl": ".22 LR ammo boxes" },
+        "description": "This box holds 50 rounds of 22 LR ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "9mm_ammo_box_50",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "9mm ammo box", "str_pl": "9mm ammo boxes" },
+    "description": "This box holds 50 rounds of 9mm ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "15 g",
+    "volume": "160 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "115 ml", "max_contains_weight": "600 g", "rigid": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "ammo_box_army_50_9mm_P",
+        "name": { "str": "9mm ammo box", "str_pl": "9mm ammo boxes" },
+        "description": "A small, plain brown ammo box.  Black text printed on the front says \"\n50 CARTRIDGES\n9MM BALL\nM1152\""
+      }
+    ]
+  },
+  {
+    "id": "9mm_ammo_box_100",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "9mm ammo box", "str_pl": "9mm ammo boxes" },
+    "description": "This box holds 100 rounds of 9mm ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "29 g",
+    "volume": "300 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "230 ml", "max_contains_weight": "1200 g", "rigid": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "ammo_box_army_100_9mm_jhp",
+        "name": { "str": "9mm ammo box", "str_pl": "9mm ammo boxes" },
+        "description": "A small, plain brown ammo box.  Black text printed on the front says \"100 ROUNDS 9x19MM PARA JHP JACKED HOLLOW POINT 116GR.\"",
+        "weight": 0
+      },
+      {
+        "id": "ammo_box_army_100_9mm_fmj",
+        "name": { "str": "9mm ammo box", "str_pl": "9mm ammo boxes" },
+        "description": "A small, plain brown ammo box.  Black text printed on the front says \"100 ROUNDS 9x19MM PARA FMJ FULL METAL JACKED 115GR.\"",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "9mm_ammo_box_250",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "9mm ammo box", "str_pl": "9mm ammo boxes" },
+    "description": "This box holds 250 rounds of 9mm ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "73 g",
+    "volume": "680 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "575 ml", "max_contains_weight": "3 kg", "rigid": true } ]
+  },
+  {
+    "id": "22lr_ammo_tray",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".22 LR ammo tray" },
+    "description": "A small plastic tray, meant to hold 50 rounds of .22 LR ammo.",
+    "weight": "5 g",
+    "volume": "46 ml",
+    "material": [ "plastic" ],
+    "pocket_data": [ { "ammo_restriction": { "22": 50 }, "rigid": true } ]
+  },
+  {
+    "id": "22lr_ammo_box_100",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".22 LR ammo box", "str_pl": ".22 LR ammo boxes" },
+    "description": "This box holds 100 rounds of 22 LR ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "11 g",
+    "volume": "117 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "92 ml", "max_contains_weight": "500 g", "rigid": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "380_ammo_box_50",
+        "name": { "str": ".380 ACP ammo box", "str_pl": ".380 ACP ammo boxes" },
+        "description": "This box holds 50 rounds of .380 ACP ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "22lr_ammo_box_500",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".22 LR ammo box", "str_pl": ".22 LR ammo boxes" },
+    "description": "This box holds 500 rounds of 22 LR ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "57 g",
+    "volume": "540 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "460 ml", "max_contains_weight": "2 kg", "rigid": true } ]
+  },
+  {
+    "id": "22lr_ammo_box_1000",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".22 LR ammo box", "str_pl": ".22 LR ammo boxes" },
+    "description": "This box holds 1000 rounds of 22 LR ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "126 g",
+    "volume": "1150 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1100 ml", "max_contains_weight": "4 kg", "rigid": true } ]
+  },
+  {
+    "id": "223_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".223/5.56 ammo box", "str_pl": ".223/5.56 ammo boxes" },
+    "description": "This box holds 20 rounds of .223 or 5.56 ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "11 g",
+    "volume": "125 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "83 ml",
+        "max_contains_weight": "360 g",
+        "rigid": true,
+        "max_item_length": "74 mm"
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "300blk_ammo_box_20",
+        "name": { "str": ".300 Blackout ammo box", "str_pl": ".300 Blackout ammo boxes" },
+        "description": "This box holds 20 rounds of .300 Blackout ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      },
+      {
+        "id": "ammo_box_army_20_223",
+        "name": { "str": "5.56x45mm ammo box", "str_pl": "5.56x45mm ammo boxes" },
+        "description": "A small plain brown ammo box.  Black text printed on the front says \"20 CARTRIDGES 5.56MM TRACER M856\"",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "223_ammo_box_50",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".223/5.56 ammo box", "str_pl": ".223/5.56 ammo boxes" },
+    "description": "This box holds 50 rounds of .223 or 5.56 ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "26 g",
+    "volume": "290 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "207 ml", "max_contains_weight": "900 g", "rigid": true } ]
+  },
+  {
+    "id": "223_ammo_box_200",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".223/5.56 ammo box", "str_pl": ".223/5.56 ammo boxes" },
+    "description": "This box holds 200 rounds of .223 or 5.56 ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "104 g",
+    "volume": "1073 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "826 ml", "max_contains_weight": "3600 g", "rigid": true } ]
+  },
+  {
+    "id": "45_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".45 ACP ammo box", "str_pl": ".45 ACP ammo boxes" },
+    "description": "This box holds 20 rounds of .45 ACP ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "9 g",
+    "volume": "113 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "75 ml", "max_contains_weight": "420 g", "rigid": true } ]
+  },
+  {
+    "id": "45_ammo_box_50",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".45 ACP ammo box", "str_pl": ".45 ACP ammo boxes" },
+    "description": "This box holds 50 rounds of .45 ACP ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "24 g",
+    "volume": "260 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "187 ml", "max_contains_weight": "1050 g", "rigid": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "77x58_ammo_box_20",
+        "name": { "str": "7.7x58mm Arisaka ammo box", "str_pl": "7.7x58mm Arisaka ammo boxes" },
+        "description": "This box holds 20 rounds of 7.7x58mm Arisaka ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "45_ammo_box_200",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".45 ACP ammo box", "str_pl": ".45 ACP ammo boxes" },
+    "description": "This box holds 200 rounds of .45 ACP ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "94 g",
+    "volume": "970 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "747 ml", "max_contains_weight": "4200 g", "rigid": true } ]
+  },
+  {
+    "id": "45_ammo_box_500",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".45 ACP ammo box", "str_pl": ".45 ACP ammo boxes" },
+    "description": "This box holds 500 rounds of .45 ACP ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "236 g",
+    "volume": "2240 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1867 ml", "max_contains_weight": "10500 g", "rigid": true } ]
+  },
+  {
+    "id": "380_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".380 ACP ammo box", "str_pl": ".380 ACP ammo boxes" },
+    "description": "This box holds 20 rounds of .380 ACP ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "5 g",
+    "volume": "54 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "36 ml", "max_contains_weight": "200 g", "rigid": true } ]
+  },
+  {
+    "id": "380_ammo_box_500",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".380 ACP ammo box", "str_pl": ".380 ACP ammo boxes" },
+    "description": "This box holds 500 rounds of .380 ACP ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "112 g",
+    "volume": "1060 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "890 ml", "max_contains_weight": "5 kg", "rigid": true } ]
+  },
+  {
+    "id": "40_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".40 S&W ammo box", "str_pl": ".40 S&W ammo boxes" },
+    "description": "This box holds 20 rounds of .40 S&W ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "7 g",
+    "volume": "80 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "53 ml", "max_contains_weight": "300 g", "rigid": true } ]
+  },
+  {
+    "id": "40_ammo_box_50",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".40 S&W ammo box", "str_pl": ".40 S&W ammo boxes" },
+    "description": "This box holds 50 rounds of .40 S&W ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "17 g",
+    "volume": "173 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "133 ml", "max_contains_weight": "750 g", "rigid": true } ]
+  },
+  {
+    "id": "40_ammo_box_500",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".40 S&W ammo box", "str_pl": ".40 S&W ammo boxes" },
+    "description": "This box holds 500 rounds of .40 S&W ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "167 g",
+    "volume": "1590 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1325 ml", "max_contains_weight": "7500 g", "rigid": true } ]
+  },
+  {
+    "id": "762_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "7.62x39 ammo box", "str_pl": "7.62x39 ammo boxes" },
+    "description": "This box holds 20 rounds of 7.62x39mm ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "14 g",
+    "volume": "170 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "114 ml", "max_contains_weight": "320 g", "rigid": true } ]
+  },
+  {
+    "id": "762_ammo_box_50",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "7.62x39 ammo box", "str_pl": "7.62x39 ammo boxes" },
+    "description": "This box holds 50 rounds of 7.62x39mm ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "36 g",
+    "volume": "370 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "284 ml", "max_contains_weight": "800 g", "rigid": true } ]
+  },
+  {
+    "id": "762_ammo_box_500",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "7.62x39mm ammo box", "str_pl": "7.62x39mm ammo boxes" },
+    "description": "This box holds 500 rounds of 7.62x39mm ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "359 g",
+    "volume": "3400 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2840 ml", "max_contains_weight": "8 kg", "rigid": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "762R_ammo_box_200",
+        "name": { "str": "7.62x54mmR ammo box", "str_pl": "7.62x54mmR ammo boxes" },
+        "description": "This box holds 200 rounds of 7.62x54mmR ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "357_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".357 Magnum ammo box", "str_pl": ".357 Magnum ammo boxes" },
+    "description": "This box holds 20 rounds of .357 Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "7 g",
+    "volume": "81 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "58 ml", "max_contains_weight": "260 g", "rigid": true } ]
+  },
+  {
+    "id": "357_ammo_box_50",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".357 Magnum ammo box", "str_pl": ".357 Magnum ammo boxes" },
+    "description": "This box holds 20 rounds of .357 Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "18 g",
+    "volume": "175 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "145 ml", "max_contains_weight": "650 g", "rigid": true } ]
+  },
+  {
+    "id": "357_ammo_box_200",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".357 Magnum ammo box", "str_pl": ".357 Magnum ammo boxes" },
+    "description": "This box holds 20 rounds of .357 Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "73 g",
+    "volume": "640 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "580 ml", "max_contains_weight": "2600 g", "rigid": true } ]
+  },
+  {
+    "id": "12_ammo_box_5",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "12 gauge ammo box", "str_pl": "12 gauge ammo boxes" },
+    "description": "This box holds 5 rounds of 12 gauge ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "12 g",
+    "volume": "148 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "95 ml", "max_contains_weight": "400 g", "rigid": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "ammo_box_army_5_shot",
+        "name": { "str": "12 gauge ammo box", "str_pl": "12 gauge ammo boxes" },
+        "description": "A small plain brown ammo box.  Black text printed on the front says \"5 CARTRIDGES 12 GA SHOTSHELL NO. 00 BUCKSHOT\"",
+        "weight": 0
+      },
+      {
+        "id": "ammo_box_army_5_slug",
+        "name": { "str": "12 gauge ammo box", "str_pl": "12 gauge ammo boxes" },
+        "description": "A small plain brown ammo box.  Black text printed on the front says \"5 CARTRIDGES 12 GA SHOTSHELL SLUG\"",
+        "weight": 0
+      },
+      {
+        "id": "ammo_box_army_5_beanbag",
+        "name": { "str": "12 gauge ammo box", "str_pl": "12 gauge ammo boxes" },
+        "description": "A small plain brown ammo box.  Black text printed on the front says \"5 CARTRIDGES 12 GA SHOTSHELL BEANBAG\"",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "12_ammo_box_10",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "12 gauge ammo box", "str_pl": "12 gauge ammo boxes" },
+    "description": "This box holds 10 rounds of 12 gauge ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "28 g",
+    "volume": "307 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "190 ml", "max_contains_weight": "800 g", "rigid": true } ]
+  },
+  {
+    "id": "12_ammo_box_25",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "12 gauge ammo box", "str_pl": "12 gauge ammo boxes" },
+    "description": "This box holds 25 rounds of 12 gauge ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "70 g",
+    "volume": "578 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "472 ml",
+        "max_contains_weight": "1175 g",
+        "max_item_length": "14 cm",
+        "rigid": true
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "ammo_box_army_10_50bmg",
+        "name": { "str": ".50 BMG ammo box", "str_pl": ".50 BMG ammo boxes" },
+        "description": "A small painted in white ammo box.  Black text printed on the front says \"10 CARTRIDGES\n12.7x99MM BALL M33\n(50 Browning)\"",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "12_ammo_box_100",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "12 gauge ammo box", "str_pl": "12 gauge ammo boxes" },
+    "description": "This box holds 100 rounds of 12 gauge ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "228 g",
+    "volume": "2400 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1885 ml", "max_contains_weight": "4700 g", "rigid": true } ]
+  },
+  {
+    "id": "308_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".308/7.62x51 ammo box", "str_pl": ".308/7.62x51 ammo boxes" },
+    "description": "This box holds 20 rounds of .308/7.62x51 ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "20 g",
+    "volume": "230 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "158 ml",
+        "max_contains_weight": "400 g",
+        "max_item_length": "14 cm",
+        "rigid": true
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "ammo_box_army_20_308",
+        "name": { "str": "7.62x51mm ammo box", "str_pl": "7.62x51mm ammo boxes" },
+        "description": "A small, plain brown ammo box.  Black text printed on the front says:\"20 ROUNDS 7.62MM BALL M80\"",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "308_ammo_box_100",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".308/7.62x51 ammo box", "str_pl": ".308/7.62x51 ammo boxes" },
+    "description": "This box holds 100 rounds of .308/7.62x51 ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "100 g",
+    "volume": "950 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "790 ml", "max_contains_weight": "2 kg", "rigid": true } ]
+  },
+  {
+    "id": "38_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".38 Special ammo box", "str_pl": ".38 Special ammo boxes" },
+    "description": "This box holds 20 rounds of .38 Special ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "7 g",
+    "volume": "85 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "57 ml", "max_contains_weight": "300 g", "rigid": true } ]
+  },
+  {
+    "id": "38_ammo_box_50",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".38 Special ammo box", "str_pl": ".38 Special ammo boxes" },
+    "description": "This box holds 50 rounds of .38 Special ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "18 g",
+    "volume": "200 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "142 ml", "max_contains_weight": "800 g", "rigid": true } ]
+  },
+  {
+    "id": "38_ammo_box_200",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".38 Special ammo box", "str_pl": ".38 Special ammo boxes" },
+    "description": "This box holds 200 rounds of .38 Special ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "71 g",
+    "volume": "734 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "565 ml", "max_contains_weight": "3 kg", "rigid": true } ]
+  },
+  {
+    "id": "38_ammo_box_500",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".38 Special ammo box", "str_pl": ".38 Special ammo boxes" },
+    "description": "This box holds 500 rounds of .38 Special ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "178 g",
+    "volume": "1550 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1413 ml", "max_contains_weight": "8 kg", "rigid": true } ]
+  },
+  {
+    "id": "44_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".44 Magnum ammo box", "str_pl": ".44 Magnum ammo boxes" },
+    "description": "This box holds 20 rounds of .44 Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "11 g",
+    "volume": "130 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "90 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "10 cm",
+        "rigid": true
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "410_ammo_box_10",
+        "name": { "str": ".410 bore ammo box", "str_pl": ".410 bore ammo boxes" },
+        "description": "This box holds 10 rounds of .410 bore ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      },
+      {
+        "id": "545_ammo_box_20",
+        "name": { "str": "5.45x39mm ammo box", "str_pl": "5.45x39mm ammo boxes" },
+        "description": "This box holds 20 rounds of 5.45x39mm ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "44_ammo_box_100",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".44 Magnum ammo box", "str_pl": ".44 Magnum ammo boxes" },
+    "description": "This box holds 50 rounds of .44 Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "55 g",
+    "volume": "570 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "435 ml", "max_contains_weight": "2500 g", "rigid": true } ]
+  },
+  {
+    "id": "44_ammo_box_200",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".44 Magnum ammo box", "str_pl": ".44 Magnum ammo boxes" },
+    "description": "This box holds 200 rounds of .44 Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "110 g",
+    "volume": "1050 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "870 ml", "max_contains_weight": "2500 kg", "rigid": true } ]
+  },
+  {
+    "id": "3006_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".30-06 Springfield ammo box", "str_pl": ".30-06 Springfield ammo boxes" },
+    "description": "This box holds 20 rounds of .30-06 Springfield ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "24 g",
+    "volume": "288 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "192 ml",
+        "max_contains_weight": "600 g",
+        "rigid": true,
+        "max_item_length": "16 cm"
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "762R_ammo_box_20",
+        "name": { "str": "7.62x54mmR ammo box", "str_pl": "7.62x54mmR ammo boxes" },
+        "description": "This box holds 200 rounds of 7.62x54mmR ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      },
+      {
+        "id": "270_ammo_box_20",
+        "name": { "str": ".270 Winchester ammo box", "str_pl": ".270 Winchester ammo boxes" },
+        "description": "This box holds 20 rounds of .270 Winchester ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "3006_ammo_box_100",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".30-06 Springfield ammo box", "str_pl": ".30-06 Springfield ammo boxes" },
+    "description": "This box holds 100 rounds of .30-06 Springfield ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "121 g",
+    "volume": "1250 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "960 ml", "max_contains_weight": "3 kg", "rigid": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "270_ammo_box_100",
+        "name": { "str": ".270 Winchester ammo box", "str_pl": ".270 Winchester Springfield ammo boxes" },
+        "description": "This box holds 100 rounds of .270 Winchester ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "3006_ammo_box_200",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".30-06 Springfield ammo box", "str_pl": ".30-06 Springfield ammo boxes" },
+    "description": "This box holds 200 rounds of .30-06 Springfield ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "242 g",
+    "volume": "2300 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1920 ml", "max_contains_weight": "6 kg", "rigid": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "270_ammo_box_200",
+        "name": { "str": ".270 Winchester ammo box", "str_pl": ".270 Winchester Springfield ammo boxes" },
+        "description": "This box holds 200 rounds of .270 Winchester ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "45colt_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".45 Colt ammo box", "str_pl": ".45 Colt ammo boxes" },
+    "description": "This box holds 20 rounds of .45 Colt ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "12 g",
+    "volume": "140 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "97 ml", "max_contains_weight": "500 g", "rigid": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "9x18_ammo_box_50",
+        "name": { "str": "9x18mm ammo box", "str_pl": "9x18mm ammo boxes" },
+        "description": "This box holds 50 rounds of 9x18mm ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "45colt_ammo_box_50",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".45 Colt ammo box", "str_pl": ".45 Colt ammo boxes" },
+    "description": "This box holds 50 rounds of .45 Colt ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "30 g",
+    "volume": "310 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "238 ml", "max_contains_weight": "1250 g", "rigid": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "50beowulf_ammo_box_20",
+        "name": { "str": ".50 Beowulf ammo box", "str_pl": ".50 Beowulf ammo boxes" },
+        "description": "This box holds 20 rounds of .50 Beowulf ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "410_ammo_box_5",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".410 bore ammo box", "str_pl": ".410 bore ammo boxes" },
+    "description": "This box holds 5 rounds of .410 bore ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "5 g",
+    "volume": "65 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "43 ml",
+        "max_contains_weight": "135 g",
+        "rigid": true,
+        "max_item_length": "10 cm"
+      }
+    ]
+  },
+  {
+    "id": "410_ammo_box_25",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".410 bore ammo box", "str_pl": ".410 bore ammo boxes" },
+    "description": "This box holds 25 rounds of .410 bore ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "27 g",
+    "volume": "280 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "213 ml", "max_contains_weight": "700 g", "rigid": true } ]
+  },
+  {
+    "id": "10mm_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "10mm Auto ammo box", "str_pl": "10mm Auto ammo boxes" },
+    "description": "This box holds 20 rounds of 10mm Auto ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "7 g",
+    "volume": "87 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "59 ml", "max_contains_weight": "400 g", "rigid": true } ]
+  },
+  {
+    "id": "10mm_ammo_box_50",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "10mm Auto ammo box", "str_pl": "10mm Auto ammo boxes" },
+    "description": "This box holds 50 rounds of 10mm Auto ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "19 g",
+    "volume": "206 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "147 ml", "max_contains_weight": "900 g", "rigid": true } ]
+  },
+  {
+    "id": "10mm_ammo_box_500",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "10mm Auto ammo box", "str_pl": "10mm Auto ammo boxes" },
+    "description": "This box holds 500 rounds of 10mm Auto ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "185 g",
+    "volume": "1750 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1463 ml", "max_contains_weight": "9 kg", "rigid": true } ]
+  },
+  {
+    "id": "300_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".300 Winchester Magnum ammo box", "str_pl": ".300 Winchester Magnum ammo boxes" },
+    "description": "This box holds 20 rounds of .300 Winchester Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "43 g",
+    "volume": "316 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "226 ml",
+        "max_contains_weight": "900 g",
+        "rigid": true,
+        "max_item_length": "110 mm"
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "458_ammo_box_20",
+        "name": { "str": ".458 Winchester Magnum ammo box", "str_pl": ".458 Winchester Magnum ammo boxes" },
+        "description": "This box holds 200 rounds of .458 Winchester Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      },
+      {
+        "id": "ammo_box_army_20_300wm",
+        "name": { "str": ".300 Winchester Magnum ammo box", "str_pl": ".300 Winchester Magnum ammo boxes" },
+        "description": "A small, plain brown ammo box.  Black text printed on the front says:\"20 CARTRIDGES  .300 WINCHESTER MAGNUM MATCH MK 248 MOD 1\"",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "303_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".303 British ammo box", "str_pl": ".303 British ammo boxes" },
+    "description": "This box holds 20 rounds of .303 British ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "36 g",
+    "volume": "402 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "287 ml", "max_contains_weight": "600 g", "rigid": true } ]
+  },
+  {
+    "id": "30carbine_ammo_box_50",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".30 Carbine ammo box", "str_pl": ".30 Carbine ammo boxes" },
+    "description": "This box holds 50 rounds of .30 Carbine ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "20 g",
+    "volume": "208 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "160 ml", "max_contains_weight": "600 g", "rigid": true } ]
+  },
+  {
+    "id": "32_ammo_box_50",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".32 ACP ammo box", "str_pl": ".32 ACP ammo boxes" },
+    "description": "This box holds 50 rounds of .32 ACP ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "9 g",
+    "volume": "109 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "73 ml", "max_contains_weight": "400 g", "rigid": true } ]
+  },
+  {
+    "id": "338_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".338 Lapua Magnum ammo box", "str_pl": ".338 Lapua Magnum ammo boxes" },
+    "description": "This box holds 10 rounds of .338 Lapua Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "41 g",
+    "volume": "458 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "327 ml", "max_contains_weight": "400 g", "rigid": true } ]
+  },
+  {
+    "id": "357sig_ammo_box_50",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".357 SIG ammo box", "str_pl": ".357 SIG ammo boxes" },
+    "description": "This box holds 50 rounds of .357 SIG ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "17 g",
+    "volume": "185 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "134 ml", "max_contains_weight": "750 g", "rigid": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "762x25_ammo_box_50",
+        "name": { "str": "7.62x25mm ammo box", "str_pl": "7.62x25mm ammo boxes" },
+        "description": "This box holds 50 rounds of 7.62x25mm ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "38super_ammo_box_50",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".38 Super ammo box", "str_pl": ".38 Super ammo boxes" },
+    "description": "This box holds 50 rounds of .38 Super ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "15 g",
+    "volume": "165 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "122 ml", "max_contains_weight": "750 g", "rigid": true } ]
+  },
+  {
+    "id": "450_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".450 Bushmaster ammo box", "str_pl": ".450 Bushmaster ammo boxes" },
+    "description": "This box holds 20 rounds of .450 Bushmaster ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "18 g",
+    "volume": "203 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "145 ml", "max_contains_weight": "750 g", "rigid": true } ]
+  },
+  {
+    "id": "454_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".454 Casull ammo box", "str_pl": ".454 Casull ammo boxes" },
+    "description": "This box holds 20 rounds of .454 Casull ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "13 g",
+    "volume": "157 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "106 ml", "max_contains_weight": "750 g", "rigid": true } ]
+  },
+  {
+    "id": "4570_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".45-70 ammo box", "str_pl": ".45-70 ammo boxes" },
+    "description": "This box holds 20 rounds of .45-70 ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "21 g",
+    "volume": "234 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "167 ml",
+        "max_contains_weight": "900 g",
+        "max_item_length": "10 cm",
+        "rigid": true
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "500_ammo_box_20",
+        "name": { "str": ".500 S&W Magnum ammo box", "str_pl": ".500 S&W Magnum ammo boxes" },
+        "description": "This box holds 20 rounds of .500 S&W Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      },
+      {
+        "id": "ammo_box_army_10_338",
+        "name": { "str": ".338 Lapua Magnum ammo box", "str_pl": ".338 Lapua Magnum ammo boxes" },
+        "description": "A small painted in white ammo box.  Black text printed on the front says:\n10 CARTRIDGES\n.338 LAPUA MAG.\nSWISS P TARGET\nHPBT.",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "57_ammo_box_50",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "5.7x28mm ammo box", "str_pl": "5.7x28mm ammo boxes" },
+    "description": "This box holds 50 rounds of 5.7x28mm ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "13 g",
+    "volume": "143 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "102 ml", "max_contains_weight": "750 g", "rigid": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "50AE_ammo_box_20",
+        "name": { "str": ".50 Action Express ammo box", "str_pl": ".50 Action Express ammo boxes" },
+        "description": "This box holds 20 rounds of .50 Action Express ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "460_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".460 S&W Magnum ammo box", "str_pl": ".460 S&W Magnum ammo boxes" },
+    "description": "This box holds 20 rounds of .460 S&W Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "17 g",
+    "volume": "189 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "135 ml", "max_contains_weight": "750 g", "rigid": true } ]
+  }
+]

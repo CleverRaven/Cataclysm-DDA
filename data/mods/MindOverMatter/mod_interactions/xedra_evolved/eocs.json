@@ -1,0 +1,27 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF",
+    "condition": {
+      "and": [
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "not": { "u_has_flag": "MAGICAL_MIND_PROTECTION" } },
+        {
+          "not": {
+            "and": [
+              { "u_has_effect": "effect_telepathic_psi_armor" },
+              {
+                "math": [
+                  "u_spell_level('telepathic_shield')",
+                  ">=",
+                  "(u_vitamin('vitamin_psionic_drain') / 10) + (max(u_school_level('BIOKINETIC'), u_school_level('CLAIRSENTIENT'), u_school_level('ELECTROKINETIC'), u_school_level('PHOTOKINETIC'), u_school_level('PYROKINETIC'), u_school_level('TELEPATH'), u_school_level('TELEKINETIC'), u_school_level('TELEPORTER'), u_school_level('VITAKINETIC')) / 3) + (u_awakening_countup / 3)"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [  ]
+  }
+]

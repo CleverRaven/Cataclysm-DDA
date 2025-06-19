@@ -1,12 +1,8 @@
 #include "ammo_effect.h"
 
-#include <set>
-
 #include "debug.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
 
 generic_factory<ammo_effect> &get_all_ammo_effects()
 {
@@ -62,7 +58,7 @@ int_id<ammo_effect>::int_id( const ammo_effect_str_id &id ) : _id( id.id() )
 {
 }
 
-void ammo_effect::load( const JsonObject &jo, const std::string_view )
+void ammo_effect::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "trigger_chance", trigger_chance, 1 );
 
@@ -86,10 +82,7 @@ void ammo_effect::load( const JsonObject &jo, const std::string_view )
         optional( joa, was_loaded, "intensity_max", trail_intensity_max, 0 );
         optional( joa, was_loaded, "chance", trail_chance, 100 );
     }
-    if( jo.has_member( "explosion" ) ) {
-        JsonObject joe = jo.get_object( "explosion" );
-        aoe_explosion_data = load_explosion_data( joe );
-    }
+    optional( jo, was_loaded, "explosion", aoe_explosion_data );
     optional( jo, was_loaded, "do_flashbang", do_flashbang, false );
     optional( jo, was_loaded, "do_emp_blast", do_emp_blast, false );
     optional( jo, was_loaded, "foamcrete_build", foamcrete_build, false );

@@ -1,7 +1,8 @@
 [
   {
     "id": "advanced_electronics",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Advanced Electronics", "str_pl": "copies of Advanced Electronics" },
     "description": "A college textbook on circuit design.",
@@ -12,17 +13,18 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "electronics",
     "required_level": 2,
     "max_level": 5,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "electronics",
+    "read_fun": -1
   },
   {
     "id": "arduino_experiments",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Arduino Experiments", "str_pl": "copies of Arduino Experiments" },
     "description": "A textbook-sized book of electronics and robotics experiments.",
@@ -33,17 +35,18 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "electronics",
     "required_level": 2,
     "max_level": 4,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "electronics",
+    "read_fun": -1
   },
   {
     "id": "mag_electronics",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Ham Radio Illustrated", "str_pl": "issues of Ham Radio Illustrated" },
     "description": "An amusing magazine about ham radio, with lots of diagrams and illustrations for making your own electronic devices.",
@@ -54,15 +57,16 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
-    "skill": "electronics",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "electronics",
+    "read_fun": 1
   },
   {
     "id": "manual_electronics",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "What's a Transistor?", "str_pl": "copies of What's a Transistor?" },
     "description": "A basic manual of electronics and circuit design.",
@@ -73,14 +77,15 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
-    "skill": "electronics",
     "max_level": 3,
     "intelligence": 7,
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "electronics"
   },
   {
     "id": "ic_reference_electronics",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "101 Important Integrated Circuits", "str_pl": "copies of 101 Important Integrated Circuits" },
     "description": "This reference manual contains datasheets and pinout diagrams for 101 of the most popular IC chips, including the 555 timer, LM358 op-amp, and LM317 voltage regulator, along with logic chips from the 74xx family, and even the 6502 8-bit processor.  If you want to do anything useful with integrated circuits, a reference like this would be indispensable.",
@@ -93,11 +98,12 @@
     "color": "green",
     "intelligence": 8,
     "time": "30 m",
-    "fun": -2
+    "read_fun": -2
   },
   {
     "id": "radio_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Amateur Home Radio for Enthusiasts", "str_pl": "copies of Amateur Home Radio for Enthusiasts" },
     "description": "A book about ham radio and citizen's band radio.  It contains numerous diagrams and illustrations explaining the science behind the electronics.",
@@ -108,17 +114,18 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "electronics",
     "required_level": 4,
     "max_level": 8,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "electronics",
+    "read_fun": -1
   },
   {
     "id": "recipe_atomic_battery",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "computer printout" },
     "description": "One side of this sheet is printed with a meaningless jumble of characters, but the other side shows a complicated, hand-drawn circuit diagram.",
@@ -129,15 +136,16 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "electronics",
     "required_level": 6,
     "intelligence": 12,
     "time": "60 m",
-    "fun": -3
+    "read_skill": "electronics",
+    "read_fun": -3
   },
   {
     "id": "recipe_augs",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "The Role of Robotics in Modern Day Manufacturing",
@@ -151,16 +159,17 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
-    "skill": "electronics",
     "required_level": 4,
     "max_level": 5,
     "intelligence": 10,
     "time": "45 m",
-    "fun": 1
+    "read_skill": "electronics",
+    "read_fun": 1
   },
   {
     "id": "recipe_lab_elec",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "lab journal-Herrera", "str_pl": "lab journals-Herrera" },
     "description": "This hefty binder contains a multitude of diagrams and technical specifications for various electronic materials.  Some of the diagrams use symbols you've not seen before…",
@@ -171,16 +180,17 @@
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "electronics",
     "required_level": 5,
     "max_level": 8,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -2
+    "read_skill": "electronics",
+    "read_fun": -2
   },
   {
     "id": "recipe_mil_augs",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "2XI design binder-CLASSIFIED", "str_pl": "2XI design binders-CLASSIFIED" },
     "description": "This DoubleTech Industries binder has several intimidating security warnings on the cover.  Probably because it contains complete design specs, technical drawings, and test results for their military-grade bionic implants.",
@@ -192,16 +202,17 @@
     "symbol": "?",
     "looks_like": "recipe_lab_elec",
     "color": "light_green",
-    "skill": "electronics",
     "required_level": 6,
     "max_level": 7,
     "intelligence": 12,
     "time": "45 m",
-    "fun": 1
+    "read_skill": "electronics",
+    "read_fun": 1
   },
   {
     "id": "repeater_mod_guide",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str_sp": "plans for a radio repeater mod" },
     "description": "Instructions on how to create a mod for a radio station terminal which converts the entire system into a repeater.",
@@ -212,16 +223,17 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "electronics",
     "required_level": 2,
     "intelligence": 10,
     "time": "20 m",
-    "fun": -1,
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "read_skill": "electronics",
+    "read_fun": -1
   },
   {
     "id": "textbook_electronics",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Electronic Circuit Theory", "str_pl": "copies of Electronic Circuit Theory" },
     "description": "An advanced college textbook on circuit theory, design, and organization.",
@@ -232,17 +244,18 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "electronics",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "electronics",
+    "read_fun": -1
   },
   {
     "id": "textbook_robots",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Robots for Fun & Profit", "str_pl": "copies of Robots for Fun & Profit" },
     "description": "A rare book on the design of robots, with lots of helpful step-by-step guides.",
@@ -253,17 +266,18 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "electronics",
     "required_level": 5,
     "max_level": 10,
     "intelligence": 12,
     "time": "55 m",
-    "fun": -1,
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "read_skill": "electronics",
+    "read_fun": -1
   },
   {
     "id": "robofac_yrax_trifacet_deactivation_manual",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str_sp": "trifacet handling procedures" },
     "description": "A heavy and disparate binder detailing the deactivation, storage and transport procedures for a so called \"Trifacet\" UGV.  The pages and schematics within have been compiled from the internal reports of a vast array of governmental agencies, many of which you had never heard of before.",
@@ -274,16 +288,17 @@
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "electronics",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 12,
     "time": "45 m",
-    "fun": 1
+    "read_skill": "electronics",
+    "read_fun": 1
   },
   {
     "id": "exodii_wiring_kit_reference",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str_sp": "CBM interface wiring reference" },
     "description": "A printed technical reference for the Exodii's CBM interface wire kit using numerous alien symbols along with Anglic terminology.  Thankfully someone's hand-written a legend for those symbols and terms along the margins, but it'll still take significant electronics knowledge to decipher this document.",
@@ -293,86 +308,97 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "electronics",
     "required_level": 4,
     "max_level": 4,
     "intelligence": 10,
     "time": "30 m",
-    "fun": -1
+    "read_skill": "electronics",
+    "read_fun": -1
   },
   {
     "id": "schematics_nursebot",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str_sp": "nurse bot schematics" },
     "description": "Bearing the logo of Uncanny, these are assembly plans, design specs, and technical drawings for the nurse bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_grocerybot",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str_sp": "grocery bot schematics" },
     "description": "Bearing the logo of Uncanny, these are assembly plans, design specs, and technical drawings for the grocery bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_secubot",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str_sp": "security bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the security bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_skitterbot",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str_sp": "skitterbot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the skitterbot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_hazmatbot",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str_sp": "cleaner bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the cleaner bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_molebot",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str_sp": "miner bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the miner bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_sciencebot",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str_sp": "lab defense bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the lab defense bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_dispatch",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str_sp": "dispatch schematics" },
     "description": "Bearing the logo of Northrop, these are assembly plans, design specs, and technical drawings for the dispatch.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_dispatch_military",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str_sp": "military dispatch schematics" },
     "description": "Bearing the logo of Northrop, these are assembly plans, design specs, and technical drawings for the military dispatch.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_antimateriel",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str_sp": "anti-materiel turret schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the anti-materiel turret.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_searchlight",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str_sp": "milspec searchlight schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the milspec searchlight.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"

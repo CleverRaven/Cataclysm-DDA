@@ -93,7 +93,7 @@
     "time": "90 m",
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "WRENCH", "level": 2 } ], [ { "id": "DRILL", "level": 1 } ] ],
     "components": [
-      [ [ "pipe_fittings", 2 ], [ "steel_chunk", 3 ] ],
+      [ [ "pipe_fittings", 2 ], [ "steel_chunk_any", 3, "LIST" ] ],
       [ [ "sheet_metal_small", 4 ], [ "scrap", 4 ] ],
       [ [ "sheet_metal", 1 ] ],
       [ [ "pipe", 1 ] ]

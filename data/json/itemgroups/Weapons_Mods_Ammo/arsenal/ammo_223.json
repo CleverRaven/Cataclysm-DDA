@@ -137,7 +137,7 @@
   {
     "id": "box_223_20_tracer",
     "type": "item_group",
-    "container-item": "ammo_box_army_20_223",
+    "container-item": { "item": "223_ammo_box_20", "variant": "ammo_box_army_20_223" },
     "on_overflow": "discard",
     "items": [ { "item": "556_incendiary", "count": 1, "charges": 20 } ]
   },

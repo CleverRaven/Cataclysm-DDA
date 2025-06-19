@@ -3,7 +3,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "mon_mutant_experimental_death_drops",
-    "entries": [ { "item": "subsuit_xl", "damage": [ 2, 3 ] } ]
+    "entries": [ { "item": "jumpsuit_pocketless", "variant": "orange", "damage": [ 2, 3 ] } ]
   },
   {
     "type": "item_group",
@@ -32,7 +32,7 @@
           { "group": "lab_files_biology", "prob": 5 }
         ]
       },
-      { "item": "jumpsuit" }
+      { "item": "jumpsuit_pocketless", "variant": "orange" }
     ]
   }
 ]

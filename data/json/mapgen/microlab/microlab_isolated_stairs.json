@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_generic_stairs_down" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -38,7 +37,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_generic_isolated_stairs_odd" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -79,7 +77,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_generic_isolated_stairs_up" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -115,7 +112,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_generic_isolated_elevator_pit" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_concrete",
       "rows": [

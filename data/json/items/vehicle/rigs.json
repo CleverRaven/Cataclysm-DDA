@@ -1,35 +1,35 @@
 [
   {
     "abstract": "vehicle_rig",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "vehicle crafting rig", "//~": "NO_I18N" },
     "weight": "40000 g",
     "volume": "20 L",
     "price": "400 USD",
     "price_postapoc": "20 USD",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "symbol": "&",
     "color": "light_cyan"
   },
   {
     "id": "forgerig",
     "copy-from": "vehicle_rig",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "vehicle forge rig" },
     "description": "A forge rig made to run off a vehicle's storage battery, with integrated tool storage for metalworking equipment."
   },
   {
     "id": "kilnrig",
     "copy-from": "vehicle_rig",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "vehicle kiln" },
     "description": "An electric kiln made to run off a vehicle's storage battery."
   },
   {
     "id": "weldkit",
     "copy-from": "vehicle_rig",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "vehicle high-temperature welding kit" },
     "description": "A welder combined with a fireproof insulating blanket, allowing for advanced welds and repairs to tempered steels."
   }

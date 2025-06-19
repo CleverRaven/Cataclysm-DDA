@@ -17,8 +17,31 @@
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "items": [ { "item": "rock", "count": [ 15, 30 ] } ]
+      "items": [ { "item": "brick", "count": [ 15, 30 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fireplace_stone",
+    "looks_like": "f_fireplace",
+    "name": "stone fireplace",
+    "symbol": "#",
+    "description": "A common fixture for safely hosting a fire indoors, with a chimney to vent the smoke to the outside.",
+    "bgcolor": "white",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_fireplace",
+    "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MINEABLE", "EASY_DECONSTRUCT" ],
+    "examine_action": "fireplace",
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "rock", "count": [ 25, 50 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "rock", "count": 50 } ] }
   },
   {
     "type": "furniture",
@@ -65,7 +88,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 5, 15 ] },
-        { "item": "steel_chunk", "count": [ 2, 6 ] },
+        { "item": "lc_steel_chunk", "count": [ 2, 6 ] },
         { "item": "sheet_metal_small", "count": [ 2, 6 ] }
       ]
     }
@@ -94,7 +117,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 3, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 1, 3 ] }
       ]
     }
@@ -121,7 +144,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "count": [ 1, 2 ] }
       ]
     }

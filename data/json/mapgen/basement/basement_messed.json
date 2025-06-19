@@ -1,10 +1,8 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "basement_messed",
     "//": "used for house_crack1, house_crack2",
-    "weight": 250,
     "object": {
       "fill_ter": "t_soil",
       "rows": [
@@ -67,7 +65,7 @@
         "b": "f_workbench"
       },
       "items": {
-        ".": [ { "item": "trash", "chance": 5 } ],
+        ".": [ { "item": "SUS_trash_floor", "chance": 5 } ],
         "r": [
           { "item": "livingroom", "chance": 30 },
           { "item": "bedroom", "chance": 30 },

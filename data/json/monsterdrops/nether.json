@@ -14,5 +14,37 @@
     "subtype": "collection",
     "id": "shrapnel_swarm_drops",
     "entries": [ { "item": "shrapnel", "count": [ 3, 7 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nether_huntsman_drops",
+    "entries": [
+      { "item": "nether_huntsman_javelin", "count": [ 3, 7 ] },
+      { "item": "nether_huntsman_statuette", "count": [ 0, 1 ], "prob": 15 },
+      { "item": "nether_grub", "count": [ 0, 3 ], "prob": 30 },
+      { "item": "yrax_trinket", "count": [ 0, 1 ], "prob": 1 },
+      { "item": "ephemeral_gem", "count": [ 0, 1 ], "prob": 2 },
+      { "item": "necklace_teeth", "count": [ 0, 1 ], "prob": 10 },
+      { "item": "sinew", "count": [ 0, 10 ], "prob": 20, "charges": [ 1, 20 ] },
+      { "item": "leech_flower", "count": [ 0, 3 ], "prob": 5 },
+      { "item": "meat_bark", "count": [ 0, 3 ], "prob": 5 },
+      { "item": "ruined_chunks", "count": [ 0, 2 ], "prob": 30 },
+      { "item": "mutant_bug_organs", "count": [ 0, 2 ], "prob": 30 },
+      { "item": "copper", "count": [ 0, 4 ], "prob": 20, "charges": [ 0, 20 ] },
+      { "item": "gold_small", "count": [ 0, 2 ], "prob": 25, "charges": [ 0, 10 ] },
+      { "item": "bismuth", "count": [ 0, 4 ], "prob": 40, "charges": [ 0, 15 ] },
+      { "item": "scrap", "count": [ 0, 2 ], "prob": 35, "charges": [ 0, 1 ] },
+      { "item": "marble", "count": [ 0, 1 ], "prob": 25, "charges": [ 0, 5 ] },
+      { "item": "glass_shard", "count": [ 0, 3 ], "prob": 30 },
+      { "item": "chunk_sulfur", "count": [ 0, 2 ], "prob": 10, "charges": [ 0, 1 ] },
+      { "item": "material_zincite", "count": [ 0, 2 ], "prob": 10 },
+      { "item": "copper_rod", "count": [ 0, 1 ], "prob": 10 },
+      { "item": "mc_wire", "count": [ 0, 1 ], "prob": 8 },
+      { "item": "pearl", "count": [ 0, 1 ], "prob": 8 },
+      { "item": "stick_fiber", "count": [ 0, 1 ], "prob": 30 },
+      { "item": "etched_skull", "count": [ 0, 1 ], "prob": 4 },
+      { "item": "skewer_bone", "count": [ 0, 5 ], "prob": 10 }
+    ]
   }
 ]

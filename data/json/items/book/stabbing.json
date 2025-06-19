@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_stabbing",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Duelist's Annual" },
     "description": "An annual publication about fencing and dueling.  There are many good illustrations which describe proper technique and form.",
@@ -56,15 +57,16 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "stabbing",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "stabbing",
+    "read_fun": 1
   },
   {
     "id": "manual_stabbing",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "FM 23-25 Army bayonet manual" },
     "description": "A hefty military field manual about bayonet usage and combat theory.",
@@ -122,14 +124,15 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "green",
-    "skill": "stabbing",
     "max_level": 3,
     "intelligence": 4,
-    "time": "18 m"
+    "time": "18 m",
+    "read_skill": "stabbing"
   },
   {
     "id": "manual_knives",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Spetsnaz Knife Techniques", "str_pl": "copies of Spetsnaz Knife Techniques" },
     "description": "A classic Soviet text on the art of attacking with a blade.",
@@ -195,10 +198,10 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "blue",
-    "skill": "stabbing",
     "required_level": 1,
     "max_level": 4,
     "intelligence": 4,
-    "time": "18 m"
+    "time": "18 m",
+    "read_skill": "stabbing"
   }
 ]

@@ -10,6 +10,7 @@
 #   include <SDL2/SDL.h>
 #   include <SDL2/SDL_image.h>
 #   include <SDL2/SDL_ttf.h>
+#   include <SDL2/SDL_mouse.h>
 #else
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
@@ -17,6 +18,7 @@
 #pragma GCC diagnostic pop
 #   include <SDL_image.h>
 #   include <SDL_ttf.h>
+#   include <SDL_mouse.h>
 #endif
 // IWYU pragma: end_exports
 

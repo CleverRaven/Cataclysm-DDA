@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_garage2" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -32,7 +30,7 @@
         "......##oo#######oo####.",
         "........................"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "domestic_general_construction_and_variant_palette" ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
@@ -65,7 +63,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_garage2_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -101,7 +98,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_garage2_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -119,7 +115,7 @@
         "             |.......Z| ",
         "             |<...A..J| ",
         " |||||||||||||.......W| ",
-        " |F.z.................| ",
+        " |â.z.................| ",
         " |U.z.................| ",
         " |Uz...2..............| ",
         " |z.g.................| ",
@@ -131,7 +127,7 @@
         "      ||||||||||||||||| ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": { "chunks": [ [ "null", 80 ], [ "8x8_gym_S", 10 ], [ "room_8x8_hobby_S", 20 ], [ "room_8x8_junk_S", 20 ] ] },
         "2": {

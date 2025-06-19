@@ -1,7 +1,8 @@
 [
   {
     "id": "survivor_duffel_bag",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "survivor duffel bag" },
     "description": "A custom-built heavy duffel bag.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "1000 g",
@@ -71,7 +72,8 @@
   },
   {
     "id": "survivor_dry_duffelbag",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "survivor dry duffel bag" },
     "description": "A modified large watertight duffel bag.  Durable and carefully crafted to hold as much stuff as possible.  Capable of floating.  Provides plenty of storage, but is severely encumbering.",
     "weight": "1400 g",
@@ -150,7 +152,8 @@
   },
   {
     "id": "survivor_pack",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "survivor backpack" },
     "description": "A custom-built backpack.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "600 g",
@@ -234,7 +237,8 @@
   },
   {
     "id": "survivor_rucksack",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "survivor rucksack" },
     "description": "A custom-built heavy backpack.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "800 g",
@@ -335,7 +339,8 @@
   },
   {
     "id": "survivor_runner_pack",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "survivor runner pack" },
     "description": "A custom-built lightweight runner pack.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "440 g",
@@ -363,7 +368,8 @@
   },
   {
     "id": "survivor_dry_bag",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "//": "custom-made, but the design is inspired by GVANCA Waterproof Dry Bag Backpack and Lee Valley Waterproof Dry Bag Backpack",
     "name": { "str": "survivor dry bag" },
     "description": "A modified lightweight watertight backpack.  Durable and carefully crafted to hold as much stuff as possible.",
@@ -459,7 +465,8 @@
   },
   {
     "id": "survivor_rig",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "survivor distributed rigging" },
     "description": "A custom-built lightweight set of weight distributing pouches on the thighs and stomach.  This configuration is designed to be worn with a military harness or tactical vest.",
     "weight": "440 g",
@@ -517,7 +524,8 @@
   },
   {
     "id": "nomad_rig",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "nomad harness", "str_pl": "nomad harnesses" },
     "description": "A custom-built lightweight set of weight distributing pouches over your entire body.  Its cunningly placed and stabilized pockets can store a remarkable amount of useful stuff without getting in the way or sacrificing balance.  Has a flashlight mounted on the shoulder and an internal reservoir for water purification in the field, both exclusively powered by your internal bionic energy.",
     "weight": "440 g",
@@ -528,7 +536,6 @@
     "symbol": "[",
     "looks_like": "legrig",
     "color": "brown",
-    "ammo": "battery",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -650,12 +657,14 @@
         "specifically_covers": [ "arm_upper_l", "arm_upper_r" ],
         "volume_encumber_modifier": 0.2
       }
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "nomad_rig_on",
     "copy-from": "nomad_rig",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "nomad harness (on)", "str_pl": "nomad harnesses (on)" },
     "power_draw": "15 W",
     "revert_to": "nomad_rig",

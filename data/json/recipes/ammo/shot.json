@@ -613,5 +613,23 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "components": [ [ [ "incendiary", 25 ] ] ]
+  },
+  {
+    "result": "wax_slug",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ "shotgun", 3 ],
+    "time": "1 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "manual_shotgun", 3 ] ],
+    "charges": 1,
+    "autolearn": true,
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ], [ [ "candle", 5 ] ] ],
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "shot_bird", 1 ] ] ]
   }
 ]

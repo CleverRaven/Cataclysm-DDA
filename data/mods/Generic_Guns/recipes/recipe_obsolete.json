@@ -21,11 +21,6 @@
   },
   {
     "type": "recipe",
-    "result": "u_shotgun_mod",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "llink",
     "obsolete": true
   },
@@ -301,11 +296,6 @@
   },
   {
     "type": "recipe",
-    "result": "460_casing",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "380_casing",
     "obsolete": true
   },
@@ -347,16 +337,6 @@
   {
     "type": "recipe",
     "result": "bp_46mm",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_460_fmj",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_460_rowland",
     "obsolete": true
   },
   {
@@ -587,16 +567,6 @@
   {
     "type": "recipe",
     "result": "reloaded_46mm",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_460_fmj",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_460_rowland",
     "obsolete": true
   },
   {
@@ -872,36 +842,6 @@
   {
     "type": "recipe",
     "result": "reloaded_762_m87",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "40x46mm_buckshot_m118",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "40x46mm_buckshot_m199",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "40x46mm_slug_m118",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "40x46mm_slug_m199",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "40x46mm_flechette_m118",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "40x46mm_flechette_m199",
     "obsolete": true
   },
   {
@@ -1192,6 +1132,16 @@
   {
     "type": "recipe",
     "result": "ruger_charger_auto",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_460sw",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_460sw_jhp",
     "obsolete": true
   }
 ]

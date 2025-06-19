@@ -44,9 +44,7 @@
       { "group": "milspec_arsenal_shot_gun&mags&cans", "prob": 15 },
       { "group": "milspec_arsenal_223_pouch_gun&mags&cans", "prob": 1000 },
       { "group": "milspec_arsenal_223_mg_gun&mags&cans", "prob": 260 },
-      { "group": "milspec_arsenal_300blk_gun&mags&cans", "prob": 100 },
       { "group": "milspec_arsenal_300_sniper_gun&mags&cans", "prob": 95 },
-      { "group": "milspec_arsenal_338lapua_sniper_gun&mags&cans", "prob": 60 },
       { "group": "milspec_arsenal_308_sniper_gun&mags&cans", "prob": 95 },
       { "group": "milspec_arsenal_308_mg_gun&mags&cans", "prob": 192 }
     ]
@@ -61,6 +59,7 @@
       { "group": "milspec_arsenal_40x53_gun&mags&cans", "prob": 50 },
       { "group": "milspec_arsenal_66_gun&mags", "prob": 30 },
       { "group": "milspec_arsenal_84x246_gun&mags&cans", "prob": 192 },
+      { "group": "milspec_arsenal_60mm_gun&ammo", "prob": 30 },
       { "group": "milspec_arsenal_atgm_gun", "prob": 10 }
     ]
   },
@@ -82,9 +81,7 @@
       { "group": "ammo_can_shot_any_full", "count": [ 3, 6 ], "prob": 150 },
       { "group": "ammo_can_223_any_full", "count": [ 3, 6 ], "prob": 1000 },
       { "group": "ammo_can_223_mg_any_full", "count": [ 3, 6 ], "prob": 260 },
-      { "group": "ammo_can_300AAC_any_full", "count": [ 3, 6 ], "prob": 100 },
       { "group": "ammo_can_300_full", "count": [ 3, 6 ], "prob": 95 },
-      { "group": "ammo_can_338_any_full", "count": [ 3, 6 ], "prob": 60 },
       { "group": "ammo_can_308_any_full", "count": [ 3, 6 ], "prob": 95 },
       { "group": "ammo_can_308_mg_any_full", "count": [ 3, 6 ], "prob": 192 },
       { "group": "ammo_can_50_any_full", "count": [ 3, 6 ], "prob": 30 },
@@ -99,6 +96,7 @@
       { "group": "ammo_can_belt40mm_full", "count": [ 2, 4 ], "prob": 50 },
       { "group": "ammo_box_84x246mm_any_full", "count": [ 3, 6 ], "prob": 192 },
       { "item": "LAW_Packed", "count": [ 2, 6 ], "prob": 30 },
+      { "group": "ammo_can_60mm_any_full", "count": [ 3, 6 ], "prob": 30 },
       { "item": "atgm_heat", "count": [ 2, 6 ], "prob": 10 }
     ]
   },
@@ -116,9 +114,7 @@
       { "group": "milspec_arsenal_shot_gun&mags", "count": [ 1, 2 ], "prob": 15 },
       { "group": "milspec_arsenal_223_gun&mags", "count": [ 1, 2 ], "prob": 1000 },
       { "group": "milspec_arsenal_223_mg_gun&mags", "count": [ 1, 2 ], "prob": 260 },
-      { "group": "milspec_arsenal_300blk_gun&mags", "count": [ 1, 2 ], "prob": 100 },
       { "group": "milspec_arsenal_300_sniper_gun&mags", "count": [ 1, 2 ], "prob": 95 },
-      { "group": "milspec_arsenal_338lapua_sniper_gun&mags", "count": [ 1, 2 ], "prob": 60 },
       { "group": "milspec_arsenal_308_sniper_gun&mags", "count": [ 1, 2 ], "prob": 95 },
       { "group": "milspec_arsenal_308_mg_gun&mags", "count": [ 1, 2 ], "prob": 192 },
       { "group": "milspec_arsenal_50bmg_sniper_gun&mags", "count": [ 1, 2 ], "prob": 30 },
@@ -133,6 +129,7 @@
       { "group": "milspec_arsenal_40x53_gun&mags", "count": [ 1, 2 ], "prob": 50 },
       { "group": "milspec_arsenal_66_gun&mags", "count": [ 1, 2 ], "prob": 30 },
       { "group": "milspec_arsenal_84x246_gun&mags", "count": [ 1, 2 ], "prob": 192 },
+      { "item": "mortar_m224", "prob": 30 },
       { "group": "milspec_arsenal_atgm_gun", "count": [ 1, 2 ], "prob": 10 }
     ]
   },

@@ -44,6 +44,7 @@
       "L": "f_exodii_lamp",
       "n": [ [ "f_boulder_medium", 2 ], "f_boulder_small" ],
       "P": "f_exodii_pump",
+      "Q": "f_bulletin",
       "ϟ": "f_capacitor",
       "}": "f_ground_cable",
       "/": "f_ground_cable",
@@ -53,7 +54,8 @@
       "ß": "f_metal_bench",
       "Ҏ": [ [ "f_exodii_pump", 4 ], "f_machinery_heavy", "f_machinery_light", "f_machinery_electronic" ],
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
-      "¶": "f_exodii_portal_tower"
+      "¶": "f_exodii_portal_tower",
+      "ö": "f_exodii_kiln"
     },
     "//": "at some point, Exodii lockers should contain hints of personal effects and things",
     "mapping": {

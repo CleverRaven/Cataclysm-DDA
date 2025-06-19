@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "boat_board",
     "symbol": "o",
     "color": "brown",
@@ -11,12 +11,12 @@
     "material": [ "wood" ],
     "weight": "3000 g",
     "volume": "12500 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
     "category": "veh_parts",
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "raft_board",
     "symbol": "o",
     "color": "brown",
@@ -27,12 +27,12 @@
     "material": [ "wood" ],
     "weight": "6000 g",
     "volume": "12500 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "category": "veh_parts",
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "plastic_boat_hull",
     "symbol": "o",
     "color": "brown",
@@ -43,12 +43,12 @@
     "material": [ "plastic" ],
     "weight": "1500 g",
     "volume": "12500 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
     "category": "veh_parts",
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "carbonfiber_boat_hull",
     "symbol": "o",
     "color": "brown",
@@ -59,12 +59,12 @@
     "material": [ "kevlar_rigid" ],
     "weight": "500 g",
     "volume": "12500 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
     "category": "veh_parts",
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hand_paddles",
     "name": { "str_sp": "oars" },
     "description": "A pair of oars for a boat.",
@@ -79,12 +79,12 @@
     "melee_damage": { "bash": 18 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sail",
     "name": { "str": "sail" },
     "description": "A sail for a boat.",
     "weight": "7904 g",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
     "color": "light_gray",
     "symbol": ":",
     "material": [ "wood", "cotton" ],
@@ -95,7 +95,7 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "inflatable_section",
     "symbol": "o",
     "color": "green",
@@ -106,12 +106,12 @@
     "material": [ "plastic" ],
     "weight": "3000 g",
     "volume": "12500 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
     "category": "veh_parts",
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "inflatable_airbag",
     "symbol": "o",
     "color": "dark_gray",
@@ -122,12 +122,12 @@
     "material": [ "plastic" ],
     "weight": "3000 g",
     "volume": "12500 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
     "category": "veh_parts",
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "aluminum_boat_hull",
     "symbol": "o",
     "color": "light_gray",
@@ -138,7 +138,7 @@
     "material": [ "aluminum" ],
     "weight": "2250 g",
     "volume": "12500 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
     "category": "veh_parts",
     "melee_damage": { "bash": 8 }
   }

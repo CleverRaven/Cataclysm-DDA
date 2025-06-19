@@ -15,7 +15,7 @@
     "//": "minimum school sum required in the process of triggering this EOC is 100, making the chance of side effects at most 50%",
     "condition": { "x_in_y_chance": { "x": { "math": [ "max(200 - u_spell_level_sum('school': 'TELEPATH'), 20)" ] }, "y": 200 } },
     "effect": [
-      { "math": [ "u_mentality_picked", "=", "rng(1,33)" ] },
+      { "math": [ "u_mentality_picked = rng(1,32)" ] },
       {
         "switch": { "math": [ "u_mentality_picked" ] },
         "cases": [
@@ -25,27 +25,15 @@
               { "u_add_trait": "PSYCHOPATH" },
               { "u_lose_trait": "PACIFIST" },
               { "u_lose_trait": "NUMB" },
-              { "u_lose_trait": "KILLER" },
               { "u_message": "You suddenly feel much less empathetic towards others.", "type": "neutral" }
             ]
           },
           {
             "case": 2,
             "effect": [
-              { "u_add_trait": "KILLER" },
-              { "u_lose_trait": "PACIFIST" },
-              { "u_lose_trait": "NUMB" },
-              { "u_lose_trait": "PSYCHOPATH" },
-              { "u_message": "Your urge to commit violence grows.", "type": "bad" }
-            ]
-          },
-          {
-            "case": 3,
-            "effect": [
               { "u_add_trait": "PACIFIST" },
               { "u_lose_trait": "PSYCHOPATH" },
               { "u_lose_trait": "NUMB" },
-              { "u_lose_trait": "KILLER" },
               {
                 "u_message": "You've realized that you're far more empathetic to others.  Even those who may not deserve it.",
                 "type": "bad"
@@ -53,7 +41,7 @@
             ]
           },
           {
-            "case": 4,
+            "case": 3,
             "effect": [
               { "u_add_trait": "NYCTOPHOBIA" },
               {
@@ -63,7 +51,7 @@
             ]
           },
           {
-            "case": 5,
+            "case": 4,
             "effect": [
               { "u_add_trait": "VANITY" },
               {
@@ -73,7 +61,7 @@
             ]
           },
           {
-            "case": 6,
+            "case": 5,
             "effect": [
               { "u_add_trait": "PICKYEATER" },
               {
@@ -83,7 +71,7 @@
             ]
           },
           {
-            "case": 7,
+            "case": 6,
             "effect": [
               { "u_add_trait": "SOCIAL2" },
               { "u_lose_trait": "SOCIAL1" },
@@ -93,7 +81,7 @@
             ]
           },
           {
-            "case": 8,
+            "case": 7,
             "effect": [
               { "u_add_trait": "ASOCIAL2" },
               { "u_lose_trait": "SOCIAL2" },
@@ -103,7 +91,7 @@
             ]
           },
           {
-            "case": 9,
+            "case": 8,
             "effect": [
               { "u_add_trait": "BRAWLER" },
               {
@@ -113,7 +101,7 @@
             ]
           },
           {
-            "case": 10,
+            "case": 9,
             "effect": [
               { "u_add_trait": "WAYFARER" },
               {
@@ -123,7 +111,7 @@
             ]
           },
           {
-            "case": 11,
+            "case": 10,
             "effect": [
               { "u_add_trait": "NOMAD3" },
               { "u_lose_trait": "NOMAD2" },
@@ -135,7 +123,7 @@
             ]
           },
           {
-            "case": 12,
+            "case": 11,
             "effect": [
               { "u_add_trait": "SQUEAMISH" },
               {
@@ -145,7 +133,7 @@
             ]
           },
           {
-            "case": 13,
+            "case": 12,
             "effect": [
               { "u_add_trait": "PYROMANIA" },
               {
@@ -155,7 +143,7 @@
             ]
           },
           {
-            "case": 14,
+            "case": 13,
             "effect": [
               { "u_add_trait": "TRUTHTELLER" },
               { "u_lose_trait": "LIAR" },
@@ -166,7 +154,7 @@
             ]
           },
           {
-            "case": 15,
+            "case": 14,
             "effect": [
               { "u_add_trait": "VEGAN" },
               { "u_lose_trait": "STRICT_HUMANITARIAN" },
@@ -178,7 +166,7 @@
             ]
           },
           {
-            "case": 16,
+            "case": 15,
             "effect": [
               { "u_add_trait": "STRICT_HUMANITARIAN" },
               { "u_lose_trait": "VEGAN" },
@@ -190,7 +178,7 @@
             ]
           },
           {
-            "case": 17,
+            "case": 16,
             "effect": [
               { "u_add_trait": "CANNIBAL" },
               { "u_lose_trait": "VEGAN" },
@@ -202,14 +190,14 @@
             ]
           },
           {
-            "case": 18,
+            "case": 17,
             "effect": [
               { "u_add_trait": "MOODSWINGS" },
               { "u_message": "You feel that your prior mental balance and peace has ended.", "type": "bad" }
             ]
           },
           {
-            "case": 19,
+            "case": 18,
             "effect": [
               { "u_add_trait": "SAVANT" },
               {
@@ -219,7 +207,7 @@
             ]
           },
           {
-            "case": 20,
+            "case": 19,
             "effect": [
               { "u_add_trait": "HOARDER" },
               {
@@ -229,14 +217,14 @@
             ]
           },
           {
-            "case": 21,
+            "case": 20,
             "effect": [
               { "u_add_trait": "SCHIZOPHRENIC" },
               { "u_message": "It's hard to hear yourself think over all of the voices in your head!", "type": "bad" }
             ]
           },
           {
-            "case": 22,
+            "case": 21,
             "effect": [
               { "u_add_trait": "SLOWREADER" },
               { "u_lose_trait": "FASTREADER" },
@@ -244,7 +232,7 @@
             ]
           },
           {
-            "case": 23,
+            "case": 22,
             "effect": [
               { "u_add_trait": "ADDICTIVE" },
               { "u_lose_trait": "NONADDICTIVE" },
@@ -255,7 +243,7 @@
             ]
           },
           {
-            "case": 24,
+            "case": 23,
             "effect": [
               { "u_add_trait": "FORGETFUL" },
               { "u_lose_trait": "GOODMEMORY" },
@@ -263,7 +251,7 @@
             ]
           },
           {
-            "case": 25,
+            "case": 24,
             "effect": [
               { "u_add_trait": "HATES_BOOKS" },
               { "u_lose_trait": "LOVES_BOOKS" },
@@ -271,7 +259,7 @@
             ]
           },
           {
-            "case": 26,
+            "case": 25,
             "effect": [
               { "u_add_trait": "SLOWLEARNER" },
               { "u_lose_trait": "FASTLEARNER" },
@@ -279,7 +267,7 @@
             ]
           },
           {
-            "case": 27,
+            "case": 26,
             "effect": [
               { "u_add_trait": "DISORGANIZED" },
               { "u_lose_trait": "PACKMULE" },
@@ -287,7 +275,7 @@
             ]
           },
           {
-            "case": 28,
+            "case": 27,
             "effect": [
               { "u_add_trait": "BADTEMPER" },
               { "u_lose_trait": "OPTIMISTIC" },
@@ -296,7 +284,7 @@
             ]
           },
           {
-            "case": 29,
+            "case": 28,
             "effect": [
               { "u_add_trait": "SEASONAL_AFFECTIVE" },
               { "u_lose_trait": "OPTIMISTIC" },
@@ -305,22 +293,22 @@
             ]
           },
           {
-            "case": 30,
+            "case": 29,
             "effect": [ { "u_add_trait": "UNOBSERVANT" }, { "u_lose_trait": "EAGLEEYED" }, { "u_message": "Where are you?", "type": "bad" } ]
           },
           {
-            "case": 31,
+            "case": 30,
             "effect": [
               { "u_add_trait": "MASOCHIST" },
               { "u_message": "Even pinching your skin feels better than it used to.", "type": "good" }
             ]
           },
           {
-            "case": 32,
+            "case": 31,
             "effect": [ { "u_add_trait": "TABLEMANNERS" }, { "u_message": "You better make sure you have a fork.", "type": "bad" } ]
           },
           {
-            "case": 33,
+            "case": 32,
             "effect": [
               { "u_add_trait": "INATTENTIVE" },
               {
@@ -344,8 +332,6 @@
         "run_eoc_selector": [
           "EOC_TELEPATH_MENTAL_ENGINEERING_UNCARING_01",
           "EOC_TELEPATH_MENTAL_ENGINEERING_UNCARING_02",
-          "EOC_TELEPATH_MENTAL_ENGINEERING_KILLER_01",
-          "EOC_TELEPATH_MENTAL_ENGINEERING_KILLER_02",
           "EOC_TELEPATH_MENTAL_ENGINEERING_PACIFIST_02",
           "EOC_TELEPATH_MENTAL_ENGINEERING_NUMB_01",
           "EOC_TELEPATH_MENTAL_ENGINEERING_NUMB_02",
@@ -402,8 +388,6 @@
           "EOC_TELEPATH_MENTAL_ENGINEERING_SEASONAL_AFFECTIVE_02",
           "EOC_TELEPATH_MENTAL_ENGINEERING_UNOBSERVANT_02",
           "EOC_TELEPATH_MENTAL_ENGINEERING_EAGLEEYED_01",
-          "EOC_TELEPATH_MENTAL_ENGINEERING_STYLISH_01",
-          "EOC_TELEPATH_MENTAL_ENGINEERING_STYLISH_02",
           "EOC_TELEPATH_MENTAL_ENGINEERING_MASOCHIST_01",
           "EOC_TELEPATH_MENTAL_ENGINEERING_MASOCHIST_02",
           "EOC_TELEPATH_MENTAL_ENGINEERING_SPIRITUAL_01",
@@ -415,8 +399,6 @@
         "names": [
           "Become Uncaring",
           "Stop being Uncaring",
-          "Obtain a Killer Drive",
-          "Lose your Killer Drive",
           "Remove your Pacifist desires",
           "Become Numb",
           "Stop being Numb",
@@ -473,8 +455,6 @@
           "Cure your Seasonal Affective Disorder",
           "Cure Topographagnosia",
           "Become a Scout",
-          "Become Stylish",
-          "Stop being Stylish",
           "Become a Masochist",
           "Stop being a Masochist",
           "Embrace your Spirituality",
@@ -486,8 +466,6 @@
         "descriptions": [
           "You will no longer care about harming your fellow humans and other innocent creatures.",
           "The suffering of your fellows will affect you.  How could you possibly live like that?",
-          "Start deriving enjoyment from killing things.",
-          "Stop your craving to end lives.  Why would you ever do something that would result in less killing?",
           "Lose your pacifistic desires to do no harm.  Even thinking about what you might do afterwards unnerves you.",
           "Stop caring about all the little ups and downs of the Cataclysm.  You feel this is only possible due to your extensive consumption of Medical mutagen.",
           "Let yourself be affected by all the ups and downs of the Cataclysm.  Hopefully more up than down.",
@@ -544,8 +522,6 @@
           "Winter already has some real issues for your survival.  There's no need for you to be depressed on top of it.  Fix that up with some intricate mental surgery.",
           "Fix your inability to remember locations and direct yourself by connecting locations of your brain that were erroneously disconnected.",
           "With a deep analysis of how you remember locations you think you can improve your ability to do so.",
-          "Be a fashionista by improving your happiness while wearing designer clothing, shiny gems, and other things like that.  It's a shame that nobody is around to appreciate this anymore.",
-          "Is a suit really the best thing to wear in the apocalypse?  You think your sense of style is resulting in poor decisions just to keep you happy, so it's time for it to go.",
           "Rewire your way of feeling pain into something slightly positive.  It will still be incredibly distracting and debilitating, but at least you'll enjoy it.  Hopefully not enough to intentionally seek it out.",
           "Your enjoyment of pain has lead to too many bad decisions.  Get rid of it before a zombie gets rid of you.",
           "The dream of a person struggling with their faith.  Force yourself to see spirituality in everything by mentally adjusting your brain to mirror somebody else's faith.  It may not be the typical way of finding spirituality, but you reckon the end result will be similar.",
@@ -587,26 +563,6 @@
           {
             "case": 3,
             "effect": [
-              { "u_add_trait": "KILLER" },
-              {
-                "u_message": "Its a good thing the Cataclysm has given you more targets than you'll ever be able to kill.  You can dream about it though.",
-                "type": "neutral"
-              }
-            ]
-          },
-          {
-            "case": 4,
-            "effect": [
-              { "u_lose_trait": "KILLER" },
-              {
-                "u_message": "Was killing all those things really necessary?  You just don't see the point anymore.",
-                "type": "neutral"
-              }
-            ]
-          },
-          {
-            "case": 5,
-            "effect": [
               { "u_lose_trait": "PACIFIST" },
               {
                 "u_message": "Your past desires were really holding you back.  Now you're more at ease with what you must do.",
@@ -615,11 +571,11 @@
             ]
           },
           {
-            "case": 6,
+            "case": 4,
             "effect": [ { "u_add_trait": "NUMB" }, { "u_message": "Nothing seems to matter anymore.", "type": "neutral" } ]
           },
           {
-            "case": 7,
+            "case": 5,
             "effect": [
               { "u_lose_trait": "NUMB" },
               {
@@ -629,7 +585,7 @@
             ]
           },
           {
-            "case": 8,
+            "case": 6,
             "effect": [
               { "u_lose_trait": "NYCTOPHOBIA" },
               {
@@ -639,7 +595,7 @@
             ]
           },
           {
-            "case": 9,
+            "case": 7,
             "effect": [
               { "u_lose_trait": "VANITY" },
               {
@@ -649,7 +605,7 @@
             ]
           },
           {
-            "case": 10,
+            "case": 8,
             "effect": [
               { "u_lose_trait": "PICKYEATER" },
               {
@@ -659,7 +615,7 @@
             ]
           },
           {
-            "case": 11,
+            "case": 9,
             "effect": [
               { "u_add_trait": "SOCIAL1" },
               {
@@ -669,7 +625,7 @@
             ]
           },
           {
-            "case": 12,
+            "case": 10,
             "effect": [
               { "u_lose_trait": "SOCIAL1" },
               {
@@ -679,7 +635,7 @@
             ]
           },
           {
-            "case": 13,
+            "case": 11,
             "effect": [
               { "u_add_trait": "SOCIAL2" },
               { "u_lose_trait": "SOCIAL1" },
@@ -690,7 +646,7 @@
             ]
           },
           {
-            "case": 14,
+            "case": 12,
             "effect": [
               { "u_lose_trait": "SOCIAL2" },
               { "u_add_trait": "SOCIAL1" },
@@ -701,7 +657,7 @@
             ]
           },
           {
-            "case": 15,
+            "case": 13,
             "effect": [
               { "u_add_trait": "ASOCIAL1" },
               {
@@ -711,7 +667,7 @@
             ]
           },
           {
-            "case": 16,
+            "case": 14,
             "effect": [
               { "u_lose_trait": "ASOCIAL1" },
               {
@@ -721,7 +677,7 @@
             ]
           },
           {
-            "case": 17,
+            "case": 15,
             "effect": [
               { "u_add_trait": "ASOCIAL2" },
               { "u_lose_trait": "ASOCIAL1" },
@@ -732,7 +688,7 @@
             ]
           },
           {
-            "case": 18,
+            "case": 16,
             "effect": [
               { "u_lose_trait": "ASOCIAL2" },
               { "u_add_trait": "ASOCIAL1" },
@@ -743,7 +699,7 @@
             ]
           },
           {
-            "case": 19,
+            "case": 17,
             "effect": [
               { "u_lose_trait": "HATES_WATER" },
               {
@@ -753,14 +709,14 @@
             ]
           },
           {
-            "case": 20,
+            "case": 18,
             "effect": [
               { "u_add_trait": "OUTDOORSMAN" },
               { "u_message": "Being wet is just a natural part of living.  Especially now.", "type": "good" }
             ]
           },
           {
-            "case": 21,
+            "case": 19,
             "effect": [
               { "u_lose_trait": "BRAWLER" },
               {
@@ -770,7 +726,7 @@
             ]
           },
           {
-            "case": 22,
+            "case": 20,
             "effect": [
               { "u_lose_trait": "WAYFARER" },
               {
@@ -780,11 +736,11 @@
             ]
           },
           {
-            "case": 23,
+            "case": 21,
             "effect": [ { "u_lose_trait": "NOMAD" }, { "u_message": "You cannot wait to finally settle down.", "type": "good" } ]
           },
           {
-            "case": 24,
+            "case": 22,
             "effect": [
               { "u_lose_trait": "NOMAD2" },
               { "u_add_trait": "NOMAD" },
@@ -795,7 +751,7 @@
             ]
           },
           {
-            "case": 25,
+            "case": 23,
             "effect": [
               { "u_lose_trait": "NOMAD3" },
               { "u_add_trait": "NOMAD2" },
@@ -803,7 +759,7 @@
             ]
           },
           {
-            "case": 26,
+            "case": 24,
             "effect": [
               { "u_lose_trait": "SQUEAMISH" },
               {
@@ -813,7 +769,7 @@
             ]
           },
           {
-            "case": 27,
+            "case": 25,
             "effect": [
               { "u_add_trait": "PROF_DICEMASTER" },
               {
@@ -823,7 +779,7 @@
             ]
           },
           {
-            "case": 28,
+            "case": 26,
             "effect": [
               { "u_add_trait": "PYROMANIA" },
               {
@@ -833,7 +789,7 @@
             ]
           },
           {
-            "case": 29,
+            "case": 27,
             "effect": [
               { "u_lose_trait": "PYROMANIA" },
               {
@@ -843,14 +799,14 @@
             ]
           },
           {
-            "case": 30,
+            "case": 28,
             "effect": [
               { "u_lose_trait": "TRUTHTELLER" },
               { "u_message": "You can now lie to your hearts content!  Mostly to a mirror.", "type": "good" }
             ]
           },
           {
-            "case": 31,
+            "case": 29,
             "effect": [
               { "u_add_trait": "LIAR" },
               {
@@ -860,7 +816,7 @@
             ]
           },
           {
-            "case": 32,
+            "case": 30,
             "effect": [
               { "u_lose_trait": "LIAR" },
               {
@@ -870,11 +826,11 @@
             ]
           },
           {
-            "case": 33,
+            "case": 31,
             "effect": [ { "u_lose_trait": "VEGAN" }, { "u_message": "You could use a hamburger.", "type": "good" } ]
           },
           {
-            "case": 34,
+            "case": 32,
             "effect": [
               { "u_add_trait": "STRICT_HUMANITARIAN" },
               {
@@ -884,14 +840,14 @@
             ]
           },
           {
-            "case": 35,
+            "case": 33,
             "effect": [
               { "u_lose_trait": "STRICT_HUMANITARIAN" },
               { "u_message": "How were you able to eat those humany things so easily?", "type": "bad" }
             ]
           },
           {
-            "case": 36,
+            "case": 34,
             "effect": [
               { "u_add_trait": "CANNIBAL" },
               {
@@ -901,11 +857,11 @@
             ]
           },
           {
-            "case": 37,
+            "case": 35,
             "effect": [ { "u_lose_trait": "CANNIBAL" }, { "u_message": "What have you done?", "type": "bad" } ]
           },
           {
-            "case": 38,
+            "case": 36,
             "effect": [
               { "u_lose_trait": "MOODSWINGS" },
               {
@@ -915,7 +871,7 @@
             ]
           },
           {
-            "case": 39,
+            "case": 37,
             "effect": [
               { "u_add_trait": "SAVANT" },
               {
@@ -925,7 +881,7 @@
             ]
           },
           {
-            "case": 40,
+            "case": 38,
             "effect": [
               { "u_lose_trait": "SAVANT" },
               {
@@ -935,21 +891,21 @@
             ]
           },
           {
-            "case": 41,
+            "case": 39,
             "effect": [
               { "u_lose_trait": "HOARDER" },
               { "u_message": "You almost sigh in relief at all the stuff you can get rid of.", "type": "good" }
             ]
           },
           {
-            "case": 42,
+            "case": 40,
             "effect": [
               { "u_lose_trait": "SCHIZOPHRENIC" },
               { "u_message": "Its been so long since you've been alone in your head.", "type": "good" }
             ]
           },
           {
-            "case": 43,
+            "case": 41,
             "effect": [
               { "u_lose_trait": "SLOWREADER" },
               {
@@ -959,14 +915,14 @@
             ]
           },
           {
-            "case": 44,
+            "case": 42,
             "effect": [
               { "u_add_trait": "FASTREADER" },
               { "u_message": "No amount of reading assignments will ever get you down.", "type": "good" }
             ]
           },
           {
-            "case": 45,
+            "case": 43,
             "effect": [
               { "u_lose_trait": "ADDICTIVE" },
               {
@@ -976,7 +932,7 @@
             ]
           },
           {
-            "case": 46,
+            "case": 44,
             "effect": [
               { "u_add_trait": "NONADDICTIVE" },
               {
@@ -986,26 +942,26 @@
             ]
           },
           {
-            "case": 47,
+            "case": 45,
             "effect": [
               { "u_lose_trait": "FORGETFUL" },
               { "u_message": "Everything in the past seems just a little clearer.", "type": "good" }
             ]
           },
           {
-            "case": 48,
+            "case": 46,
             "effect": [
               { "u_add_trait": "GOODMEMORY" },
               { "u_message": "The past, your skills, really just everything seems so much clearer.", "type": "good" }
             ]
           },
           {
-            "case": 49,
+            "case": 47,
             "effect": [ { "u_add_trait": "PROJUNK" }, { "u_message": "You'd love to have a snicker.", "type": "good" } ]
           },
-          { "case": 50, "effect": [ { "u_lose_trait": "PROJUNK" }, { "u_message": "Candy.  Meh.", "type": "bad" } ] },
+          { "case": 48, "effect": [ { "u_lose_trait": "PROJUNK" }, { "u_message": "Candy.  Meh.", "type": "bad" } ] },
           {
-            "case": 51,
+            "case": 49,
             "effect": [
               { "u_lose_trait": "HATES_BOOKS" },
               {
@@ -1015,33 +971,33 @@
             ]
           },
           {
-            "case": 52,
+            "case": 50,
             "effect": [
               { "u_add_trait": "LOVES_BOOKS" },
               { "u_message": "You cannot wait to curl up with a good book for a couple of hours.", "type": "good" }
             ]
           },
           {
-            "case": 53,
+            "case": 51,
             "effect": [ { "u_lose_trait": "SLOWLEARNER" }, { "u_message": "New ideas seem to piece together normally.", "type": "good" } ]
           },
           {
-            "case": 54,
+            "case": 52,
             "effect": [ { "u_add_trait": "FASTLEARNER" }, { "u_message": "You can piece together new concepts even now.", "type": "good" } ]
           },
           {
-            "case": 55,
+            "case": 53,
             "effect": [
               { "u_lose_trait": "DISORGANIZED" },
               { "u_message": "It just became quicker to sort out your backpack.", "type": "good" }
             ]
           },
           {
-            "case": 56,
+            "case": 54,
             "effect": [ { "u_add_trait": "PACKMULE" }, { "u_message": "Time to start packing!", "type": "good" } ]
           },
           {
-            "case": 57,
+            "case": 55,
             "effect": [
               { "u_lose_trait": "BADTEMPER" },
               {
@@ -1051,11 +1007,11 @@
             ]
           },
           {
-            "case": 58,
+            "case": 56,
             "effect": [ { "u_add_trait": "OPTIMISTIC" }, { "u_message": "You feel happy.", "type": "good" } ]
           },
           {
-            "case": 59,
+            "case": 57,
             "effect": [
               { "u_lose_trait": "SEASONAL_AFFECTIVE" },
               {
@@ -1065,43 +1021,32 @@
             ]
           },
           {
-            "case": 60,
+            "case": 58,
             "effect": [
               { "u_lose_trait": "UNOBSERVANT" },
               { "u_message": "You suddenly have a much better idea of the area around you!", "type": "good" }
             ]
           },
           {
-            "case": 61,
+            "case": 59,
             "effect": [ { "u_add_trait": "EAGLEEYED" }, { "u_message": "You know exactly where you are.", "type": "good" } ]
           },
           {
-            "case": 62,
-            "effect": [ { "u_add_trait": "STYLISH" }, { "u_message": "Time to find some rings.", "type": "good" } ]
-          },
-          {
-            "case": 63,
-            "effect": [
-              { "u_lose_trait": "STYLISH" },
-              { "u_message": "Your previous source of clothing-based happiness means nothing to you.", "type": "bad" }
-            ]
-          },
-          {
-            "case": 64,
+            "case": 60,
             "effect": [
               { "u_add_trait": "MASOCHIST" },
               { "u_message": "Even pinching your skin feels better than it used to.", "type": "good" }
             ]
           },
           {
-            "case": 65,
+            "case": 61,
             "effect": [
               { "u_lose_trait": "MASOCHIST" },
               { "u_message": "The aches and pains of combat suddenly seem far less appealing.", "type": "bad" }
             ]
           },
           {
-            "case": 66,
+            "case": 62,
             "effect": [
               { "u_add_trait": "SPIRITUAL" },
               {
@@ -1111,18 +1056,18 @@
             ]
           },
           {
-            "case": 67,
+            "case": 63,
             "effect": [
               { "u_lose_trait": "SPIRITUAL" },
               { "u_message": "Your prior source of comfort with your life is now gone.", "type": "bad" }
             ]
           },
           {
-            "case": 68,
+            "case": 64,
             "effect": [ { "u_lose_trait": "TABLEMANNERS" }, { "u_message": "Do you really need a table to eat a sandwich?", "type": "good" } ]
           },
           {
-            "case": 69,
+            "case": 65,
             "effect": [
               { "u_lose_trait": "INATTENTIVE" },
               {
@@ -1141,7 +1086,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_UNCARING_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] },
         { "not": { "u_has_trait": "PSYCHOPATH" } },
         { "not": { "u_has_trait": "PACIFIST" } },
         { "not": { "u_has_trait": "NUMB" } }
@@ -1153,71 +1098,33 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "1" ] }
+      { "math": [ "u_mentality_picked = 1" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_UNCARING_02",
-    "condition": {
-      "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "40" ] },
-        { "u_has_trait": "PSYCHOPATH" },
-        { "not": { "u_has_trait": "KILLER" } }
-      ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 40" ] }, { "u_has_trait": "PSYCHOPATH" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "2" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_KILLER_01",
-    "condition": {
-      "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "80" ] },
-        { "not": { "u_has_trait": "KILLER" } },
-        { "u_has_trait": "PSYCHOPATH" }
-      ]
-    },
-    "effect": [
-      { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
-      {
-        "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
-        "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
-      },
-      { "math": [ "u_mentality_picked", "=", "3" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_KILLER_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "120" ] }, { "u_has_trait": "KILLER" } ] },
-    "effect": [
-      { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
-      {
-        "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
-        "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
-      },
-      { "math": [ "u_mentality_picked", "=", "4" ] }
+      { "math": [ "u_mentality_picked = 2" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_PACIFIST_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "120" ] }, { "u_has_trait": "PACIFIST" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 120" ] }, { "u_has_trait": "PACIFIST" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "5" ] }
+      { "math": [ "u_mentality_picked = 3" ] }
     ]
   },
   {
@@ -1225,7 +1132,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_NUMB_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "120" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 120" ] },
         { "u_has_trait": "THRESH_MEDICAL" },
         { "not": { "u_has_trait": "NUMB" } },
         { "not": { "u_has_trait": "PACIFIST" } },
@@ -1238,59 +1145,59 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "6" ] }
+      { "math": [ "u_mentality_picked = 4" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_NUMB_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "100" ] }, { "u_has_trait": "NUMB" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 100" ] }, { "u_has_trait": "NUMB" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "7" ] }
+      { "math": [ "u_mentality_picked = 5" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_NYCTOPHOBIA_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "190" ] }, { "u_has_trait": "NYCTOPHOBIA" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 190" ] }, { "u_has_trait": "NYCTOPHOBIA" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "8" ] }
+      { "math": [ "u_mentality_picked = 6" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_VANITY_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "90" ] }, { "u_has_trait": "VANITY" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 90" ] }, { "u_has_trait": "VANITY" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "9" ] }
+      { "math": [ "u_mentality_picked = 7" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_PICKYEATER_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] }, { "u_has_trait": "PICKYEATER" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] }, { "u_has_trait": "PICKYEATER" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "10" ] }
+      { "math": [ "u_mentality_picked = 8" ] }
     ]
   },
   {
@@ -1298,7 +1205,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SOCIAL1_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "10" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 10" ] },
         { "not": { "u_has_trait": "SOCIAL1" } },
         { "not": { "u_has_trait": "SOCIAL2" } },
         { "not": { "u_has_trait": "AMOG" } },
@@ -1313,20 +1220,20 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "11" ] }
+      { "math": [ "u_mentality_picked = 9" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SOCIAL1_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "10" ] }, { "u_has_trait": "SOCIAL1" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 10" ] }, { "u_has_trait": "SOCIAL1" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "12" ] }
+      { "math": [ "u_mentality_picked = 10" ] }
     ]
   },
   {
@@ -1334,7 +1241,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SOCIAL2_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "20" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 20" ] },
         { "not": { "u_has_trait": "SOCIAL2" } },
         { "u_has_trait": "SOCIAL1" }
       ]
@@ -1345,20 +1252,20 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "13" ] }
+      { "math": [ "u_mentality_picked = 11" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SOCIAL2_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] }, { "u_has_trait": "SOCIAL2" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] }, { "u_has_trait": "SOCIAL2" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "14" ] }
+      { "math": [ "u_mentality_picked = 12" ] }
     ]
   },
   {
@@ -1366,7 +1273,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_ASOCIAL1_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "10" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 10" ] },
         { "not": { "u_has_trait": "ASOCIAL1" } },
         { "not": { "u_has_trait": "ASOCIAL2" } },
         { "not": { "u_has_trait": "AMOG" } },
@@ -1381,20 +1288,20 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "15" ] }
+      { "math": [ "u_mentality_picked = 13" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_ASOCIAL1_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "10" ] }, { "u_has_trait": "ASOCIAL1" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 10" ] }, { "u_has_trait": "ASOCIAL1" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "16" ] }
+      { "math": [ "u_mentality_picked = 14" ] }
     ]
   },
   {
@@ -1402,7 +1309,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_ASOCIAL2_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "20" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 20" ] },
         { "not": { "u_has_trait": "ASOCIAL2" } },
         { "u_has_trait": "ASOCIAL1" }
       ]
@@ -1413,20 +1320,20 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "17" ] }
+      { "math": [ "u_mentality_picked = 15" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_ASOCIAL2_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] }, { "u_has_trait": "ASOCIAL2" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] }, { "u_has_trait": "ASOCIAL2" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "18" ] }
+      { "math": [ "u_mentality_picked = 16" ] }
     ]
   },
   {
@@ -1434,7 +1341,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_HATES_WATER_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] },
         { "u_has_item": "water" },
         { "u_has_trait": "HATES_WATER" }
       ]
@@ -1445,7 +1352,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "19" ] }
+      { "math": [ "u_mentality_picked = 17" ] }
     ]
   },
   {
@@ -1453,7 +1360,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_OUTDOORSMAN_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] },
         { "u_has_item": "water" },
         { "not": { "u_has_trait": "OUTDOORSMAN" } },
         { "not": { "u_has_trait": "HATES_WATER" } }
@@ -1465,7 +1372,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "20" ] }
+      { "math": [ "u_mentality_picked = 18" ] }
     ]
   },
   {
@@ -1473,7 +1380,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_BRAWLER_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "160" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 160" ] },
         { "u_has_item_category": "guns" },
         { "u_has_trait": "BRAWLER" }
       ]
@@ -1484,72 +1391,72 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "21" ] }
+      { "math": [ "u_mentality_picked = 19" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_WAYFARER_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "190" ] }, { "u_has_trait": "WAYFARER" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 190" ] }, { "u_has_trait": "WAYFARER" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "22" ] }
+      { "math": [ "u_mentality_picked = 20" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_NOMAD_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "90" ] }, { "u_has_trait": "NOMAD" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 90" ] }, { "u_has_trait": "NOMAD" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "23" ] }
+      { "math": [ "u_mentality_picked = 21" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_NOMAD2_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "140" ] }, { "u_has_trait": "NOMAD2" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 140" ] }, { "u_has_trait": "NOMAD2" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "24" ] }
+      { "math": [ "u_mentality_picked = 22" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_NOMAD3_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "190" ] }, { "u_has_trait": "NOMAD3" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 190" ] }, { "u_has_trait": "NOMAD3" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "25" ] }
+      { "math": [ "u_mentality_picked = 23" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SQUEAMISH_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "80" ] }, { "u_has_trait": "SQUEAMISH" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 80" ] }, { "u_has_trait": "SQUEAMISH" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "26" ] }
+      { "math": [ "u_mentality_picked = 24" ] }
     ]
   },
   {
@@ -1557,7 +1464,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_PROF_DICEMASTER_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "120" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 120" ] },
         { "u_has_item": "dnd_handbook" },
         { "not": { "u_has_trait": "PROF_DICEMASTER" } }
       ]
@@ -1568,14 +1475,14 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "27" ] }
+      { "math": [ "u_mentality_picked = 25" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_PYROMANIA_01",
     "condition": {
-      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] }, { "not": { "u_has_trait": "PYROMANIA" } } ]
+      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] }, { "not": { "u_has_trait": "PYROMANIA" } } ]
     },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
@@ -1583,20 +1490,20 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "28" ] }
+      { "math": [ "u_mentality_picked = 26" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_PYROMANIA_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] }, { "u_has_trait": "PYROMANIA" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] }, { "u_has_trait": "PYROMANIA" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "29" ] }
+      { "math": [ "u_mentality_picked = 27" ] }
     ]
   },
   {
@@ -1604,8 +1511,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_TRUTHTELLER_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] },
-        { "math": [ "u_skill('social')", ">=", "3" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] },
+        { "math": [ "u_skill('social') >= 3" ] },
         { "u_has_trait": "TRUTHTELLER" }
       ]
     },
@@ -1615,7 +1522,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "30" ] }
+      { "math": [ "u_mentality_picked = 28" ] }
     ]
   },
   {
@@ -1623,8 +1530,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_LIAR_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] },
-        { "math": [ "u_skill('social')", ">=", "6" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] },
+        { "math": [ "u_skill('social') >= 6" ] },
         { "not": { "u_has_trait": "LIAR" } },
         { "not": { "u_has_trait": "TRUTHTELLER" } }
       ]
@@ -1635,20 +1542,20 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "31" ] }
+      { "math": [ "u_mentality_picked = 29" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_VEGAN_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "90" ] }, { "u_has_trait": "VEGAN" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 90" ] }, { "u_has_trait": "VEGAN" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "33" ] }
+      { "math": [ "u_mentality_picked = 31" ] }
     ]
   },
   {
@@ -1656,7 +1563,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_STRICT_HUMANITARIAN_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "90" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 90" ] },
         { "not": { "u_has_trait": "STRICT_HUMANITARIAN" } },
         { "not": { "u_has_trait": "HERBIVORE" } },
         { "not": { "u_has_trait": "SAPIOVORE" } },
@@ -1672,22 +1579,20 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "34" ] }
+      { "math": [ "u_mentality_picked = 32" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_STRICT_HUMANITARIAN_02",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "50" ] }, { "u_has_trait": "STRICT_HUMANITARIAN" } ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 50" ] }, { "u_has_trait": "STRICT_HUMANITARIAN" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "35" ] }
+      { "math": [ "u_mentality_picked = 33" ] }
     ]
   },
   {
@@ -1695,7 +1600,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_CANNIBAL_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "140" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 140" ] },
         { "not": { "u_has_trait": "CANNIBAL" } },
         { "u_has_trait": "STRICT_HUMANITARIAN" },
         { "not": { "u_has_trait": "HERBIVORE" } },
@@ -1711,20 +1616,20 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "36" ] }
+      { "math": [ "u_mentality_picked = 34" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_CANNIBAL_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "100" ] }, { "u_has_trait": "CANNIBAL" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 100" ] }, { "u_has_trait": "CANNIBAL" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "37" ] }
+      { "math": [ "u_mentality_picked = 35" ] }
     ]
   },
   {
@@ -1732,8 +1637,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_MOODSWINGS_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] },
-        { "math": [ "u_spell_level('telepathic_morale')", ">=", "10" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] },
+        { "math": [ "u_spell_level('telepathic_morale') >= 10" ] },
         { "u_has_trait": "MOODSWINGS" }
       ]
     },
@@ -1743,48 +1648,46 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "38" ] }
+      { "math": [ "u_mentality_picked = 36" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SAVANT_01",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] }, { "not": { "u_has_trait": "SAVANT" } } ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] }, { "not": { "u_has_trait": "SAVANT" } } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "39" ] }
+      { "math": [ "u_mentality_picked = 37" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SAVANT_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] }, { "u_has_trait": "SAVANT" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] }, { "u_has_trait": "SAVANT" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "40" ] }
+      { "math": [ "u_mentality_picked = 38" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_HOARDER_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "100" ] }, { "u_has_trait": "HOARDER" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 100" ] }, { "u_has_trait": "HOARDER" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "41" ] }
+      { "math": [ "u_mentality_picked = 39" ] }
     ]
   },
   {
@@ -1792,8 +1695,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SCHIZOPHRENIC_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "160" ] },
-        { "math": [ "u_spell_level('telepathic_shield')", ">=", "12" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 160" ] },
+        { "math": [ "u_spell_level('telepathic_shield') >= 12" ] },
         { "u_has_trait": "SCHIZOPHRENIC" }
       ]
     },
@@ -1803,7 +1706,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "42" ] }
+      { "math": [ "u_mentality_picked = 40" ] }
     ]
   },
   {
@@ -1811,8 +1714,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SLOWREADER_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "120" ] },
-        { "math": [ "u_spell_level('clair_speed_reading')", ">=", "6" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 120" ] },
+        { "math": [ "u_spell_level('clair_speed_reading') >= 6" ] },
         { "u_has_trait": "SLOWREADER" }
       ]
     },
@@ -1822,7 +1725,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "43" ] }
+      { "math": [ "u_mentality_picked = 41" ] }
     ]
   },
   {
@@ -1830,8 +1733,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_FASTREADER_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "160" ] },
-        { "math": [ "u_spell_level('clair_speed_reading')", ">=", "12" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 160" ] },
+        { "math": [ "u_spell_level('clair_speed_reading') >= 12" ] },
         { "not": { "u_has_trait": "FASTREADER" } },
         { "not": { "u_has_trait": "SLOWREADER" } },
         { "not": { "u_has_trait": "ILLITERATE" } }
@@ -1843,20 +1746,20 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "44" ] }
+      { "math": [ "u_mentality_picked = 42" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_ADDICTIVE_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "110" ] }, { "u_has_trait": "ADDICTIVE" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 110" ] }, { "u_has_trait": "ADDICTIVE" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "45" ] }
+      { "math": [ "u_mentality_picked = 43" ] }
     ]
   },
   {
@@ -1864,7 +1767,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_NONADDICTIVE_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "140" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 140" ] },
         { "not": { "u_has_trait": "NONADDICTIVE" } },
         { "not": { "u_has_trait": "ADDICTIVE" } }
       ]
@@ -1876,20 +1779,20 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "46" ] }
+      { "math": [ "u_mentality_picked = 44" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_FORGETFUL_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "110" ] }, { "u_has_trait": "FORGETFUL" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 110" ] }, { "u_has_trait": "FORGETFUL" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "47" ] }
+      { "math": [ "u_mentality_picked = 45" ] }
     ]
   },
   {
@@ -1897,7 +1800,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_GOODMEMORY_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "160" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 160" ] },
         { "not": { "u_has_trait": "GOODMEMORY" } },
         { "not": { "u_has_trait": "FORGETFUL" } }
       ]
@@ -1908,7 +1811,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "48" ] }
+      { "math": [ "u_mentality_picked = 46" ] }
     ]
   },
   {
@@ -1916,7 +1819,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_PROJUNK_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] },
         { "not": { "u_has_trait": "PROJUNK" } },
         { "not": { "u_has_trait": "ANTIJUNK" } },
         { "not": { "u_has_trait": "PROJUNK2" } }
@@ -1928,33 +1831,33 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "49" ] }
+      { "math": [ "u_mentality_picked = 47" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_PROJUNK_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "30" ] }, { "u_has_trait": "PROJUNK" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 30" ] }, { "u_has_trait": "PROJUNK" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "50" ] }
+      { "math": [ "u_mentality_picked = 48" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_HATES_BOOKS_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] }, { "u_has_trait": "HATES_BOOKS" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] }, { "u_has_trait": "HATES_BOOKS" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "51" ] }
+      { "math": [ "u_mentality_picked = 49" ] }
     ]
   },
   {
@@ -1962,7 +1865,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_LOVES_BOOKS_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "100" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 100" ] },
         { "not": { "u_has_trait": "LOVES_BOOKS" } },
         { "not": { "u_has_trait": "HATES_BOOKS" } },
         { "not": { "u_has_trait": "ILLITERATE" } }
@@ -1974,7 +1877,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "52" ] }
+      { "math": [ "u_mentality_picked = 50" ] }
     ]
   },
   {
@@ -1982,8 +1885,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SLOWLEARNER_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "110" ] },
-        { "math": [ "u_spell_level('telepathic_concentration')", ">=", "6" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 110" ] },
+        { "math": [ "u_spell_level('telepathic_concentration') >= 6" ] },
         { "u_has_trait": "SLOWLEARNER" }
       ]
     },
@@ -1993,7 +1896,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "53" ] }
+      { "math": [ "u_mentality_picked = 51" ] }
     ]
   },
   {
@@ -2001,8 +1904,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_FASTLEARNER_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "180" ] },
-        { "math": [ "u_spell_level('telepathic_concentration')", ">=", "16" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 180" ] },
+        { "math": [ "u_spell_level('telepathic_concentration') >= 16" ] },
         { "not": { "u_has_trait": "FASTLEARNER" } },
         { "not": { "u_has_trait": "SLOWLEARNER" } },
         { "not": { "u_has_trait": "CEPH_MIND" } }
@@ -2014,20 +1917,20 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "54" ] }
+      { "math": [ "u_mentality_picked = 52" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_DISORGANIZED_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "80" ] }, { "u_has_trait": "DISORGANIZED" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 80" ] }, { "u_has_trait": "DISORGANIZED" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "55" ] }
+      { "math": [ "u_mentality_picked = 53" ] }
     ]
   },
   {
@@ -2035,7 +1938,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_PACKMULE_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "120" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 120" ] },
         { "not": { "u_has_trait": "PACKMULE" } },
         { "not": { "u_has_trait": "DISORGANIZED" } }
       ]
@@ -2046,7 +1949,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "56" ] }
+      { "math": [ "u_mentality_picked = 54" ] }
     ]
   },
   {
@@ -2054,8 +1957,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_BADTEMPER_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] },
-        { "math": [ "u_spell_level('telepathic_morale')", ">=", "6" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] },
+        { "math": [ "u_spell_level('telepathic_morale') >= 6" ] },
         { "u_has_trait": "BADTEMPER" }
       ]
     },
@@ -2065,7 +1968,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "57" ] }
+      { "math": [ "u_mentality_picked = 55" ] }
     ]
   },
   {
@@ -2073,8 +1976,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_OPTIMISTIC_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "90" ] },
-        { "math": [ "u_spell_level('telepathic_morale')", ">=", "12" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 90" ] },
+        { "math": [ "u_spell_level('telepathic_morale') >= 12" ] },
         { "not": { "u_has_trait": "OPTIMISTIC" } },
         { "not": { "u_has_trait": "BADTEMPER" } },
         { "not": { "u_has_trait": "SEASONAL_AFFECTIVE" } }
@@ -2086,22 +1989,20 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "58" ] }
+      { "math": [ "u_mentality_picked = 56" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SEASONAL_AFFECTIVE_02",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "110" ] }, { "u_has_trait": "SEASONAL_AFFECTIVE" } ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 110" ] }, { "u_has_trait": "SEASONAL_AFFECTIVE" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "59" ] }
+      { "math": [ "u_mentality_picked = 57" ] }
     ]
   },
   {
@@ -2109,8 +2010,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_UNOBSERVANT_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "90" ] },
-        { "math": [ "u_spell_level('clair_see_map')", ">=", "6" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 90" ] },
+        { "math": [ "u_spell_level('clair_see_map') >= 6" ] },
         { "u_has_trait": "UNOBSERVANT" }
       ]
     },
@@ -2120,7 +2021,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "60" ] }
+      { "math": [ "u_mentality_picked = 58" ] }
     ]
   },
   {
@@ -2128,8 +2029,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_EAGLEEYED_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "110" ] },
-        { "math": [ "u_spell_level('clair_see_map')", ">=", "12" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 110" ] },
+        { "math": [ "u_spell_level('clair_see_map') >= 12" ] },
         { "not": { "u_has_trait": "EAGLEEYED" } },
         { "not": { "u_has_trait": "UNOBSERVANT" } }
       ]
@@ -2140,35 +2041,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "61" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_STYLISH_01",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "80" ] }, { "not": { "u_has_trait": "STYLISH" } } ]
-    },
-    "effect": [
-      { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
-      {
-        "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
-        "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
-      },
-      { "math": [ "u_mentality_picked", "=", "62" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_STYLISH_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "40" ] }, { "u_has_trait": "STYLISH" } ] },
-    "effect": [
-      { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
-      {
-        "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
-        "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
-      },
-      { "math": [ "u_mentality_picked", "=", "63" ] }
+      { "math": [ "u_mentality_picked = 59" ] }
     ]
   },
   {
@@ -2176,7 +2049,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_MASOCHIST_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "100" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 100" ] },
         { "not": { "u_has_trait": "MASOCHIST" } },
         { "not": { "u_has_trait": "MASOCHIST_MED" } },
         { "not": { "u_has_trait": "CENOBITE" } }
@@ -2188,27 +2061,27 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "64" ] }
+      { "math": [ "u_mentality_picked = 60" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_MASOCHIST_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] }, { "u_has_trait": "MASOCHIST" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] }, { "u_has_trait": "MASOCHIST" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "65" ] }
+      { "math": [ "u_mentality_picked = 61" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SPIRITUAL_01",
     "condition": {
-      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "90" ] }, { "not": { "u_has_trait": "SPIRITUAL" } } ]
+      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 90" ] }, { "not": { "u_has_trait": "SPIRITUAL" } } ]
     },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
@@ -2216,33 +2089,33 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "66" ] }
+      { "math": [ "u_mentality_picked = 62" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SPIRITUAL_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "50" ] }, { "u_has_trait": "SPIRITUAL" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 50" ] }, { "u_has_trait": "SPIRITUAL" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "67" ] }
+      { "math": [ "u_mentality_picked = 63" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_TABLEMANNERS_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] }, { "u_has_trait": "TABLEMANNERS" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] }, { "u_has_trait": "TABLEMANNERS" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "68" ] }
+      { "math": [ "u_mentality_picked = 64" ] }
     ]
   },
   {
@@ -2250,8 +2123,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_INATTENTIVE_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "110" ] },
-        { "math": [ "u_spell_level('clair_see_auras')", ">=", "6" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 110" ] },
+        { "math": [ "u_spell_level('clair_see_auras') >= 6" ] },
         { "u_has_trait": "INATTENTIVE" }
       ]
     },
@@ -2261,7 +2134,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "69" ] }
+      { "math": [ "u_mentality_picked = 65" ] }
     ]
   },
   {

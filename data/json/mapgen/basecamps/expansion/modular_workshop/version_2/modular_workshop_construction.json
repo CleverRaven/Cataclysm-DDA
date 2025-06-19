@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_2_smithy_1_construction",
     "object": {
       "parameters": {
@@ -38,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_2_smithy_1_roof_construction",
     "object": {
       "parameters": {
@@ -75,7 +73,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_2_smithy_1_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmw_2_smithy_1_construction" ], "x": 14, "y": 17, "z": 0 },
@@ -85,7 +82,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_2_smithy_2_construction",
     "object": {
       "parameters": {
@@ -122,7 +118,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_2_smithy_2_roof_construction",
     "object": {
       "parameters": {
@@ -159,7 +154,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_2_smithy_2_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmw_2_smithy_2_construction" ], "x": 14, "y": 14, "z": 0 },
@@ -169,7 +163,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_2_pottery_construction",
     "object": {
       "parameters": {
@@ -208,7 +201,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_2_pottery_roof_construction",
     "object": {
       "parameters": {
@@ -247,7 +239,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_2_pottery_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmw_2_pottery_construction" ], "x": 0, "y": 16, "z": 0 },
@@ -257,7 +248,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_2_smithy_3_construction",
     "object": {
       "parameters": {
@@ -295,7 +285,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_2_smithy_3_roof_construction",
     "object": {
       "parameters": {
@@ -333,7 +322,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_2_smithy_3_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmw_2_smithy_3_construction" ], "x": 8, "y": 16, "z": 0 },
@@ -343,7 +331,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_2_glassblower_construction",
     "object": {
       "parameters": {
@@ -380,7 +367,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_2_6x5_roof_construction",
     "object": {
       "parameters": {
@@ -417,7 +403,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_2_glassblower_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmw_2_glassblower_construction" ], "x": 0, "y": 7, "z": 0 },
@@ -427,7 +412,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_2_tanner_construction",
     "object": {
       "parameters": {
@@ -465,7 +449,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_2_tanner_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmw_2_tanner_construction" ], "x": 14, "y": 0, "z": 0 },

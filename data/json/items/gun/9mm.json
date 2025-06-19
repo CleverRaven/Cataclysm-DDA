@@ -1,9 +1,10 @@
 [
   {
     "id": "calico",
+    "copy-from": "gun_base_9mm_semi_rifle",
     "looks_like": "hk_mp5",
-    "type": "GUN",
-    "reload_noise_volume": 10,
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Calico automatic carbine" },
     "description": "The Calico automatic carbine is a submachine gun with a unique circular magazine that allows for high capacities and reduced recoil.",
     "variant_type": "gun",
@@ -22,44 +23,30 @@
     "price": "2 kUSD 400 USD",
     "price_postapoc": "50 USD",
     "material": [ "steel" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "skill": "smg",
     "range": 6,
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 280,
     "durability": 6,
-    "min_cycle_recoil": 450,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "underbarrel mount", 1 ]
     ],
-    "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "calicomag", "calicomag_100rd" ] } ],
-    "melee_damage": { "bash": 9 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "calicomag", "calicomag_100rd" ] } ]
   },
   {
     "id": "glock_19",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Glock carry pistol" },
     "description": "A common 9x19mm pistol of modest proportions, produced by the popular Glock gun company and mainly built from plastic polymers.  Making use of aptly-named Glock magazines and being a decades-long popular concealed carry option for civilians due to its small size, it is a tried, tested, and reliable design.",
     "variant_type": "gun",
@@ -67,13 +54,20 @@
       {
         "id": "glock_19",
         "name": { "str": "Glock 19 pistol" },
-        "description": "Possibly the most popular pistol in existence, the Glock 19 can be summed up as being fundamentally a more compact brother to the full-sized Glock 17 pistol.  Sporting a mainly polymer-based design, the Glock 19 is often derided for its plastic construction which lends the handgun a deceptively flimsy feel.  Even so, the Glock 19 remains both a remarkably reliable firearm and a quite shootable gun in its own right."
+        "description": "Possibly the most popular pistol in existence, the Glock 19 can be summed up as being fundamentally a more compact brother to the full-sized Glock 17 pistol.  Sporting a mainly polymer-based design, the Glock 19 is often derided for its plastic construction which lends the handgun a deceptively flimsy feel.  Even so, the Glock 19 remains both a remarkably reliable firearm and a quite shootable gun in its own right.",
+        "weight": 100
       },
       {
         "id": "glock_19_cop",
-        "name": { "str": "Glock 19M MOS" },
-        "description": "A close relative to the stock Glock 19, this all-black pistol features a specialized mount for a red dot sight, extended mag release, and a 4.02-inch Marksman barrel.  It is most commonly used by law enforcement, and is the current standard-issue sidearm of the FBI.",
+        "name": { "str": "Glock 19M" },
+        "description": "A Glock 19 developed specially for the FBI, with all black internals and match grade components.  It was nearly impossible to find on the civilian market before the Cataclysm, now it is completely irreplacable.",
         "weight": 0
+      },
+      {
+        "id": "glock_45",
+        "name": { "str": "Glock 45 pistol" },
+        "description": "The Glock 45 is practically identical to the Glock 19, the main difference being that the grip is styled to be closer to that of the Glock 17.",
+        "weight": 77
       }
     ],
     "ascii_picture": "glock_19",
@@ -82,31 +76,148 @@
     "longest_side": "211 mm",
     "barrel_length": "102 mm",
     "price": "690 USD",
-    "price_postapoc": "25 USD",
     "material": [ "plastic", "steel" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
-    "durability": 6,
-    "blackpowder_tolerance": 48,
-    "min_cycle_recoil": 380,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
+        "item_restriction": [
+          "glockmag_10",
+          "glock17_10",
+          "glockmag",
+          "glockbigmag",
+          "glock17_17",
+          "glock17_22",
+          "glock_drum_50rd",
+          "glock_drum_100rd"
+        ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
+  },
+  {
+    "id": "glock_26",
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "looks_like": "glock_19",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Glock 26" },
+    "description": "A Glock subcompact pistol chambered in 9mm Luger.  Despite its tiny size, it can fit the magazines of its larger brothers.",
+    "weight": "550 g",
+    "volume": "348 ml",
+    "longest_side": "165 mm",
+    "barrel_length": "87 mm",
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "price": "690 USD",
+    "material": [ "plastic", "steel" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 480,
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "glockmag_10",
+          "glock17_10",
+          "glockmag",
+          "glockbigmag",
+          "glock17_17",
+          "glock17_22",
+          "glock_drum_50rd",
+          "glock_drum_100rd"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "glock_34",
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Glock 34" },
+    "description": "A large, stylish Glock chambered in 9mm.  Developed for accuracy, this pistol is used by competition shooters, law enforcement, and even the Baba Yaga.",
+    "weight": "655 g",
+    "volume": "427 ml",
+    "longest_side": "224 mm",
+    "barrel_length": "135 mm",
+    "price": "630 USD",
+    "material": [ "plastic", "steel" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 380,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "glock17_10", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ]
+      }
+    ]
+  },
+  {
+    "id": "glock_43",
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "looks_like": "glock_19",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Glock 43" },
+    "description": "A 9x19mm Glock of diminutive proportions.  Unfortunately it is incompatible with other 9mm Glock magazines.",
+    "weight": "460 g",
+    "volume": "279 ml",
+    "longest_side": "159 mm",
+    "barrel_length": "87 mm",
+    "price": "570 USD",
+    "material": [ "plastic", "steel" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 480,
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock43_mag" ] } ]
+  },
+  {
+    "id": "glock_43x",
+    "//": "This one uses 10 round doublestack mags, which are incompatible with the standard variant",
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "looks_like": "glock_19",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Glock 43X" },
+    "description": "A 9mm compact Glock.  Despite its name, it does not accept the magazines of the Glock 43.",
+    "weight": "461 g",
+    "volume": "279 ml",
+    "longest_side": "165 mm",
+    "barrel_length": "87 mm",
+    "price": "570 USD",
+    "material": [ "plastic", "steel" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "dispersion": 480,
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock43x/48_mag" ] } ]
+  },
+  {
+    "id": "glock_48",
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "looks_like": "glock_19",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Glock 48" },
+    "description": "A 9mm, slimline Glock.  Designed for concealed carry, and accepts the magazine from a Glock 43x, but not the base 43.",
+    "weight": "524 g",
+    "volume": "331 ml",
+    "longest_side": "185 mm",
+    "barrel_length": "106 mm",
+    "price": "570 USD",
+    "material": [ "plastic", "steel" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "dispersion": 480,
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock43x/48_mag" ] } ]
   },
   {
     "id": "hk_mp5",
+    "copy-from": "gun_base_9mm_semi_rifle",
     "//": "Tileset whitelist for SMGs",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "H&K MP5A2 submachine gun" },
     "description": "The Heckler & Koch MP5 is one of the most widely-used submachine guns in the world, and has been adopted by special police forces and militaries alike.  Its high degree of accuracy and low recoil are universally praised.",
@@ -118,50 +229,35 @@
     "price": "2 kUSD 800 USD",
     "price_postapoc": "35 USD",
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "skill": "smg",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "range": 4,
     "dispersion": 240,
-    "durability": 8,
-    "min_cycle_recoil": 450,
-    "blackpowder_tolerance": 32,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ],
       [ "sling", 1 ],
+      [ "stock accessory", 1 ],
       [ "stock", 1 ],
-      [ "stock accessory", 1 ]
-    ],
-    "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
+      [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "mp5mag", "mp5mag_10rd", "mp5mag_15rd", "mp5mag_20rd", "mp5mag_38rd", "mp5mag_40rd", "mp5bigmag", "mp5mag_100rd" ]
       }
-    ],
-    "melee_damage": { "bash": 10 }
+    ]
   },
   {
     "id": "hk_mp5sd",
     "copy-from": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "H&K MP5SD submachine gun" },
     "description": "The H&K MP5SD offers subsonic performance in almost the same footprint as the H&K MP5, retaining its handiness.  The large suppressor cuts down on muzzle flash greatly, aiding in night operations.  It has also seen some popularity with SWAT teams, as it lowers the risk of fire and explosions in illegal laboratories.  With body armor in more common use, the MP5SD has waned in popularity among special forces due to its decreased terminal performance.",
     "ascii_picture": "hk_mp5sd",
@@ -176,7 +272,8 @@
   },
   {
     "id": "hk_mp5k",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "hk_mp5",
     "name": { "str": "H&K MP5K-PDW submachine gun" },
     "description": "The Heckler & Koch MP5 is one of the most widely-used submachine guns in the world, and has been adopted by special police forces and militaries alike.  Its high degree of accuracy and low recoil are universally praised.  The MP5K-PDW model features a shorter barrel, a built-in foregrip, and a side folding stock for vehicle or aircraft crew use.",
@@ -194,20 +291,21 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
-      [ "underbarrel", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "melee_damage": { "bash": 8 }
   },
   {
     "id": "hk_mp5_semi_pistol",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "hk_mp5",
     "name": { "str": "MP5 pistol" },
     "description": "A semi-automatic copy of the famous MP5 series, domestically produced for the US market.  Like the MP5, its roller delayed blowback action offers smooth shooting and precision, setting it apart from other submachine guns and pistol caliber carbines.  This model is configured as a pistol to avoid inconvenient and costly NFA regulations.  A welded-on section of M1913 rail offers convenient mounting for aftermarket optics, but precludes the use of claw mounts.",
@@ -230,15 +328,14 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
-      [ "sights", 1 ],
-      [ "underbarrel mount", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "stock accessory", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "melee_damage": { "bash": 7 }
@@ -247,7 +344,8 @@
     "id": "briefcase_smg",
     "copy-from": "hk_mp5k",
     "looks_like": "hk_briefcase",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "name": { "str": "MP5 operational briefcase" },
     "description": "A hard-sided briefcase with a trigger in the handle and a concealed hole in the side.  To fire the internally mounted MP5K-PDW, one braces the briefcase at the waist, ensures the hole is pointed at the enemy, and squeezes the trigger.  Precision and handling are severely hampered by the shape of the briefcase, but if you need to 'hand over the goods' or look low profile while bodyguarding, this is your gun.  When the briefcase is open, the MP5 may be reloaded or dismounted.",
     "variant_type": "gun",
@@ -265,20 +363,6 @@
     "price_postapoc": "50 USD",
     "dispersion": 520,
     "sight_dispersion": 520,
-    "armor_data": {
-      "sided": true,
-      "armor": [
-        {
-          "material": [
-            { "type": "steel", "covered_by_mat": 100, "thickness": 2.0 },
-            { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 }
-          ],
-          "encumbrance": 30,
-          "coverage": 10,
-          "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
-        }
-      ]
-    },
     "flags": [ "OVERSIZE", "RELOAD_EJECT", "BELTED", "RESTRICT_HANDS", "NO_TURRET" ],
     "valid_mod_locations": [  ],
     "pocket_data": [
@@ -288,13 +372,26 @@
         "item_restriction": [ "mp5mag", "mp5mag_10rd", "mp5mag_15rd", "mp5mag_20rd" ]
       }
     ],
-    "melee_damage": { "bash": 15 }
+    "melee_damage": { "bash": 15 },
+    "sided": true,
+    "armor": [
+      {
+        "material": [
+          { "type": "steel", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 30,
+        "coverage": 10,
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
+      }
+    ]
   },
   {
     "id": "p08",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Luger P08 pistol" },
     "description": "A semi-automatic 9x19mm military issued pistol with an unusual toggle-lock action.  Well-known for its use by the Germans during both World Wars, it's a notably accurate handgun even by modern standards, and this example of a P08 was more than likely either brought back state-side as a war trophy by a veteran, or imported.",
     "weight": "871 g",
@@ -302,34 +399,18 @@
     "longest_side": "248 mm",
     "barrel_length": "100 mm",
     "price": "1 kUSD",
-    "price_postapoc": "25 USD",
     "material": "steel",
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 420,
-    "durability": 8,
-    "min_cycle_recoil": 450,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [ { "magazine_well": "55 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p08mag_8rd", "p08mag_32rd" ] } ],
-    "melee_damage": { "bash": 8 }
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [ { "magazine_well": "55 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p08mag_8rd", "p08mag_32rd" ] } ]
   },
   {
     "id": "mauser_c96",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Mauser pistol" },
     "description": "A semi-automatic German pistol developed prior to 1900, the firearm features a burned and painted number '9' on its broom handle-shaped grip to signify its chambering, 9x19mm parabellum, and makes use of appropriate stripper clips or single round loading.  Quite possibly the most aesthetically steampunk weapon that one could ever possibly get their hands on, this example likely found its way into the US via early import or as a holdover from the Great War.",
     "variant_type": "gun",
@@ -340,31 +421,15 @@
         "description": "A late 19th century semi-automatic German pistol with an integral magazine loaded from the top via stripper clips, and quite possibly the most steampunk gun one could ever possibly lay their hands on.  A red number '9' burned and painted into the weapon's broom handle-shaped grip marks it as a variant chambered for 9x19mm rounds.  Both exported for commercial use and produced for the German military during the First World War to make up for production shortages of the standard Luger, this example likely entered the US as a holdover from the Great War.  You suppose that it's only fitting that one of the globe's first produced and oldest semi-automatic handguns gets reinstated into service now that the planet's facing its end."
       }
     ],
+    "ascii_picture": "mauser_c96",
     "weight": "1134 g",
     "volume": "640 ml",
     "longest_side": "312 mm",
     "barrel_length": "140 mm",
     "price": "1 kUSD 300 USD",
-    "price_postapoc": "25 USD",
     "material": "steel",
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "dispersion": 450,
-    "durability": 7,
-    "min_cycle_recoil": 450,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [
       {
@@ -373,14 +438,14 @@
         "ammo_restriction": { "9mm": 10 },
         "allowed_speedloaders": [ "clip9mm_10rd" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "mp40",
-    "copy-from": "smg_base",
+    "copy-from": "gun_base_9mm_semi_rifle",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "MP 40 submachine gun" },
     "description": "An antique German-issued submachine gun from the Second World War, likely having entered the United States as a personal holdover by a veteran.  Chambered in 9x19mm and utilizing proprietary box magazines, the firearm has an integrated under folding wire stock.",
     "variant_type": "gun",
@@ -396,36 +461,32 @@
     "longest_side": "648 mm",
     "barrel_length": "251 mm",
     "price": "15 kUSD",
-    "price_postapoc": "15 USD",
     "material": [ "steel" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
+    "skill": "smg",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "range": 4,
     "dispersion": 360,
     "durability": 6,
-    "min_cycle_recoil": 450,
     "built_in_mods": [ "under_folding_stock" ],
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "mechanism", 2 ],
       [ "brass catcher", 1 ],
-      [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mp40mag_32rd" ] } ],
-    "melee_damage": { "bash": 10 }
+    "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mp40mag_32rd" ] } ]
   },
   {
     "id": "mp40semi",
-    "copy-from": "pistol_base",
-    "type": "GUN",
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Semi Automatic MP 40 submachine gun" },
     "description": "A modern semi-automatic replica of the MP 40 submachine gun, which lacks a butt stock to make it legally be considered a pistol.  It actually bears only a visual resemblance to the original, differing substantially from originally manufactured MP 40 submachine guns in its internal operations.",
     "weight": "3722 g",
@@ -433,27 +494,21 @@
     "longest_side": "671 mm",
     "barrel_length": "274 mm",
     "price": "900 USD",
-    "price_postapoc": "10 USD",
     "material": [ "steel" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "range": 4,
     "dispersion": 360,
-    "durability": 6,
-    "min_cycle_recoil": 450,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "stock mount", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ] ],
+    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "stock mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mp40mag_32rd" ] } ],
     "melee_damage": { "bash": 10 }
   },
   {
     "id": "ksub2000",
+    "copy-from": "gun_base_9mm_semi_rifle",
     "looks_like": "hk_mp5",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": { "str": "Glock carbine" },
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "folding Glock carbine" },
     "description": "With its claim to fame being its ease of portability when compared to other conventional rifles and carbines, this is a uniquely-designed pistol caliber carbine sporting an integral folding mechanism and chambered for 9x19mm cartridges, making use of regular Glock compatible magazines.  With its mechanism engaged, the barrel assembly swings rearwards and causes the firearm to fold to half its regular length, packing up into a very compact package with ergonomics unfortunately having to take a backseat to allow for the weapon's extreme portability.  With a mainly polymer constructed receiver, the carbine is relatively light and incredibly transportable when fully folded.",
     "variant_type": "gun",
     "variants": [
@@ -469,37 +524,23 @@
     "barrel_length": "274 mm",
     "//": "The actual gun is around 30 cm longer than what's depicted here, but the inbuilt accessory adds 35 cm, which ends up totalling to the same length. IRL the SUB-2000 folds literally in half, which is a greatly smaller size than what our folding stocks can collapse to, so like this the length stays the same as far as the player can see, and you still get the same largely folded effect as you'd have on the real gun.",
     "price": "750 USD",
-    "price_postapoc": "30 USD",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
-    "skill": "rifle",
     "range": 6,
     "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "dispersion": 180,
     "durability": 7,
-    "min_cycle_recoil": 450,
     "built_in_mods": [ "sub2000_folding_mechanism" ],
+    "//1": "Assuming gen 3 to allow sights to be mounted and folded",
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ]
-    ],
-    "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "pocket_data": [
       {
@@ -507,14 +548,14 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "m9",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "M9 combat pistol" },
     "description": "A rugged, iconic, and long-serving 9mm handgun, the M9 is a sleek pistol that has enjoyed fame in military, law enforcement, and civilian circles ever since its inception.  Adopted as the primary service sidearm across all United States armed branches from the early eighties until the late two thousand and tens, the weapon has seen a great deal of popular media coverage in both video games and television alike.",
     "weight": "961 g",
@@ -522,7 +563,6 @@
     "longest_side": "249 mm",
     "barrel_length": "125 mm",
     "price": "650 USD",
-    "price_postapoc": "25 USD",
     "variant_type": "gun",
     "variants": [
       {
@@ -538,29 +578,22 @@
     ],
     "ascii_picture": "beretta_m9",
     "material": [ "steel", "aluminum" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
-    "range": 1,
     "dispersion": 480,
-    "durability": 7,
-    "min_cycle_recoil": 450,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "m9mag", "m9mag_10rd", "m9mag_17rd", "m9mag_18rd", "m9mag_20rd", "m9bigmag", "m9mag_32rd", "m9mag_35rd" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "px4",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Beretta Px4 Storm pistol" },
     "description": "Lighter than Beretta's iconic 92 series of guns, the Px4 Storm was built by utilizing light-weight polymer construction with steel inserts.  Its shape was also optimized for concealed carry, while maintaining the reliability that the 92 series is known for.",
     "weight": "785 g",
@@ -568,29 +601,23 @@
     "longest_side": "231 mm",
     "barrel_length": "102 mm",
     "price": "650 USD",
-    "price_postapoc": "25 USD",
     "material": [ "plastic", "steel" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
-    "range": 1,
     "dispersion": 440,
-    "durability": 7,
-    "min_cycle_recoil": 450,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "px4mag", "px4mag_10rd", "px4mag_15rd", "px4mag_20rd" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "smg_9mm",
-    "copy-from": "smg_base",
+    "copy-from": "gun_base_9mm_semi_rifle",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "STEN Luty submachine gun" },
     "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using advanced powered hand tools; likely one of the most complex guns that is feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for 9x19mm cartridges and accepts STEN-compatible magazines.",
     "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
@@ -599,37 +626,30 @@
     "longest_side": "538 mm",
     "barrel_length": "229 mm",
     "price": "200 USD",
-    "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "steel" ],
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
+    "skill": "smg",
     "ranged_damage": { "damage_type": "bullet", "amount": -3 },
     "dispersion": 590,
     "durability": 4,
-    "blackpowder_tolerance": 24,
-    "min_cycle_recoil": 380,
     "modes": [ [ "DEFAULT", "burst", 5 ] ],
     "loudness": 25,
     "barrel_volume": "250 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
-      [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "survivor9mm_mag", "stenmag" ] } ],
-    "melee_damage": { "bash": 10 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "survivor9mm_mag", "stenmag" ] } ]
   },
   {
     "id": "sten",
+    "copy-from": "gun_base_9mm_semi_rifle",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "STEN Mk II submachine gun" },
     "description": "The standard issue 9mm submachine gun of the British military throughout most of the Second World War.  The STEN is aesthetically far from pretty.  Featuring an iconic side mounted magazine well and a design optimized for mass production using unskilled labor, the STEN was developed to make up for drastic supply shortages during the early days of the war.  Likely entering the US prior to the 1960s, either as a war time holdover or a museum purchase; you suppose that if you were to try and defend your nation, whatever the cost may be, and fight the undead 'on the beaches, fight on the landing grounds, fight in the fields and in the streets, fight in the hills; and never surrender', then it might be the time for the STEN to come back into frontline service.",
@@ -638,38 +658,31 @@
     "longest_side": "765 mm",
     "barrel_length": "198 mm",
     "price": "400 USD",
-    "price_postapoc": "15 USD",
     "material": [ "steel" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "skill": "smg",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "range": 2,
     "dispersion": 360,
     "durability": 5,
-    "blackpowder_tolerance": 24,
-    "min_cycle_recoil": 450,
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "valid_mod_locations": [
-      [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "stock accessory", 1 ],
-      [ "grip mount", 1 ],
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "mechanism", 2 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_double_feed" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stenmag", "survivor9mm_mag" ] } ],
-    "melee_damage": { "bash": 10 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stenmag", "survivor9mm_mag" ] } ]
   },
   {
     "id": "tec9",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
-    "reload_noise_volume": 10,
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "TEC-9 pistol" },
     "description": "The TEC-9 is a semi-automatic 'pistol' made of cheap polymers and machine stamped parts.  Its rise in popularity among criminals is largely due to its intimidating looks, low cost and relative ease of converting to fully automatic.",
     "weight": "1400 g",
@@ -677,41 +690,30 @@
     "longest_side": "345 mm",
     "barrel_length": "127 mm",
     "price": "1 kUSD 250 USD",
-    "price_postapoc": "27 USD 50 cent",
     "material": [ "steel" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
-    "skill": "smg",
     "dispersion": 520,
     "durability": 6,
-    "min_cycle_recoil": 450,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "stock mount", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_double_feed" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "tec9mag", "tec9mag_10rd", "tec9mag_20rd", "tec9mag_30rd", "tec9mag_36rd", "tec9mag_50rd", "tec9mag_72rd" ]
       }
-    ],
-    "melee_damage": { "bash": 9 }
+    ]
   },
   {
     "id": "usp_9mm",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "USP 9x19mm pistol" },
     "description": "A popular pistol, widely used among law enforcement.  Extensively tested for durability, it has been found to stay accurate even after being subjected to extreme abuse.",
     "weight": "771 g",
@@ -719,32 +721,25 @@
     "longest_side": "230 mm",
     "barrel_length": "108 mm",
     "price": "680 USD",
-    "price_postapoc": "25 USD",
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 400,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "durability": 9,
-    "blackpowder_tolerance": 48,
-    "min_cycle_recoil": 450,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "usp9mag", "usp9mag_10rd", "usp9mag_18rd", "usp9mag_20rd", "usp9mag_32rd" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "uzi",
-    "copy-from": "smg_base",
+    "copy-from": "gun_base_9mm_semi_rifle",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Uzi 9x19mm submachine gun" },
     "//": "SMGs aren't as commercially traded as rifles/handguns/SGs, so no cite for price points.  Total weight of gun 3500 grams.  Current weight of folding stock 200 grams.",
     "description": "The Uzi 9x19mm has enjoyed immense popularity, selling more units than any other submachine gun.  It is widely used as a personal defense weapon, or as a primary weapon by elite frontline forces.",
@@ -753,24 +748,18 @@
     "longest_side": "480 mm",
     "barrel_length": "260 mm",
     "price": "2 kUSD 80 USD",
-    "price_postapoc": "30 USD",
     "material": [ "steel" ],
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
+    "skill": "smg",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "range": 7,
     "dispersion": 360,
-    "durability": 7,
-    "min_cycle_recoil": 450,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
@@ -782,14 +771,14 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "uzimag", "uzimag_20rd", "uzimag_25rd", "uzimag_40rd", "uzimag_50rd", "uzimag_100rd" ]
       }
-    ],
-    "melee_damage": { "bash": 10 }
+    ]
   },
   {
     "id": "glock_17",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "//": "Tilelist whitelist for pistols.",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Glock duty pistol" },
     "description": "Designed for all shooters, this offering from the Glock gun company is a full-sized 9x19mm pistol marketed towards law-enforcement and military users.  Because of the long magazine well, it can't fit magazines shorter than the standard 17-round ones.",
     "variant_type": "gun",
@@ -806,31 +795,24 @@
     "longest_side": "233 mm",
     "barrel_length": "114 mm",
     "price": "690 USD",
-    "price_postapoc": "25 USD",
     "material": [ "plastic", "steel" ],
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
-    "durability": 6,
-    "blackpowder_tolerance": 48,
-    "min_cycle_recoil": 380,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "//2": "Glock 17s cannot load magazines shorter than the standard 17rd magazine.",
     "pocket_data": [
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ]
+        "item_restriction": [ "glock17_10", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "glock_18c",
     "copy-from": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Glock machine pistol" },
     "description": "A military, fully automatic capable version of the popular 9x19mm handguns produced by the Glock arms company, this machine pistol makes use of Glock magazines.  The weapon has had its barrel modified to lessen recoil, a useful feature considering its high rate of fire and lack of a default buttstock.",
     "variant_type": "gun",
@@ -850,8 +832,9 @@
   },
   {
     "id": "m11",
-    "copy-from": "pistol_base",
-    "type": "GUN",
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "M11 pistol" },
     "description": "Made by SIG Sauer, the M11 is a compact semi-automatic, short recoil operated pistol, also known as the P228.",
     "weight": "825 g",
@@ -859,21 +842,17 @@
     "longest_side": "216 mm",
     "barrel_length": "99 mm",
     "price": "950 USD",
-    "price_postapoc": "30 USD",
     "material": [ "plastic", "steel" ],
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "dispersion": 480,
-    "durability": 7,
-    "min_cycle_recoil": 450,
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p228mag_13rd_9x19mm" ] } ],
-    "melee_damage": { "bash": 8 }
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p228mag_13rd_9x19mm" ] } ]
   },
   {
     "id": "m17",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "service handgun" },
     "description": "The general-issue military handgun of the United States army before the Cataclysm, this is a sizable pistol that fires 9x19mm cartridges.  Based off successful civilian designs and capable of taking magazines of various round capacities, the gun features a plastic polymer frame which helps to reduce overall weight.",
     "variant_type": "gun",
@@ -889,28 +868,22 @@
     "longest_side": "238 mm",
     "barrel_length": "120 mm",
     "price": "690 USD",
-    "price_postapoc": "27 USD 50 cent",
     "material": [ "plastic", "steel" ],
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "dispersion": 480,
-    "durability": 6,
-    "min_cycle_recoil": 450,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "p320mag_17rd_9x19mm", "p320mag_21rd_9x19mm", "p320mag_10rd_9x19mm" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "m18",
     "copy-from": "m17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "compact service handgun" },
     "description": "A more petite version of the United States army's general issue sidearm, this is a modestly-sized pistol firing 9x19mm rounds.  Making use of the same magazines as its larger brother, the weapon features a shorter barrel and frame which helps to reduce its overall profile and make it more concealable as a result.",
     "variant_type": "gun",
@@ -928,8 +901,9 @@
   },
   {
     "id": "p226_9mm",
-    "copy-from": "pistol_base",
-    "type": "GUN",
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "SIG P226 MK25 pistol" },
     "description": "The P226 MK25 is a full-size semi-automatic DA/SA, short-recoil operated pistol with corrosion-resistant internal coating and an engraved anchor on the side of the slide.",
     "weight": "804 g",
@@ -937,27 +911,22 @@
     "longest_side": "237 mm",
     "barrel_length": "112 mm",
     "price": "1 kUSD",
-    "price_postapoc": "45 USD",
-    "to_hit": -1,
     "material": [ "steel", "aluminum", "plastic" ],
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "dispersion": 480,
-    "durability": 8,
-    "min_cycle_recoil": 450,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "p226mag_10rd_9x19mm", "p226mag_15rd_9x19mm" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "sp2022",
-    "copy-from": "pistol_base",
-    "type": "GUN",
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "SIG Pro SP2022 9mm pistol" },
     "description": "A polymer-frame, semi-automatic, DA/SA operated pistol, featuring a Picatinny rail and a Nitron stainless steel slide.",
     "weight": "822 g",
@@ -965,26 +934,22 @@
     "longest_side": "221 mm",
     "barrel_length": "99 mm",
     "price": "500 USD",
-    "price_postapoc": "37 USD 50 cent",
     "material": [ "plastic", "steel" ],
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "dispersion": 480,
-    "durability": 7,
-    "min_cycle_recoil": 450,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "sp2022mag_10rd_9mm", "sp2022mag_12rd_9mm", "sp2022mag_15rd_9mm" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "hi_power_9mm",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Browning Hi-Power 9x19mm handgun" },
     "description": "The Browning Hi-Power is a semi-automatic handgun developed shortly before the Second World War.  Widely issued since then, it remains in use by India, Canada, and Australia.  This is a commercial variant produced by Browning Arms in 9x19mm Parabellum.",
     "weight": "900 g",
@@ -992,25 +957,19 @@
     "longest_side": "228 mm",
     "barrel_length": "119 mm",
     "price": "320 USD",
-    "price_postapoc": "22 USD 50 cent",
     "material": [ "plastic", "steel" ],
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "dispersion": 480,
-    "durability": 8,
-    "min_cycle_recoil": 450,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       { "magazine_well": "191 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "bhp9mag_13rd", "bhp9mag_15rd" ] }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "walther_p38",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Walther P38 handgun" },
     "description": "The Walther P38 is a semi-automatic handgun adopted shortly before the Second World War.  Developed due to the high production costs of its predecessor, the Luger P08, the P38 is also chambered in 9mm Parabellum.  This early DA/SA locked-breech design would introduce features later seen on more modern firearms such as the Beretta 92 series, and served Germany until 2004.",
     "weight": "800 g",
@@ -1018,23 +977,17 @@
     "longest_side": "244 mm",
     "barrel_length": "125 mm",
     "price": "390 USD",
-    "price_postapoc": "22 USD 50 cent",
     "material": [ "plastic", "steel" ],
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "dispersion": 480,
-    "durability": 8,
-    "min_cycle_recoil": 450,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "228 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p38mag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [ { "magazine_well": "228 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p38mag" ] } ]
   },
   {
     "id": "walther_ppq_9mm",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Walther PPQ 9mm pistol" },
     "description": "The Walther PPQ is a semi-automatic pistol originating from the Walther P99QA, and maintains compatibility with some of its predecessor's accessories.  This model is chambered in 9x19mm Parabellum.",
     "weight": "615 g",
@@ -1042,29 +995,23 @@
     "longest_side": "209 mm",
     "barrel_length": "102 mm",
     "price": "650 USD",
-    "price_postapoc": "25 USD",
     "material": [ "plastic", "steel" ],
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "dispersion": 480,
-    "durability": 9,
-    "min_cycle_recoil": 450,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "magazine_well": "207 ml",
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "ppq9mag_10rd", "ppq9mag_15rd", "ppq9mag_17rd" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "hptc9",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Hi-Point C-9 pistol" },
     "description": "The Hi-Point C-9 is a blowback operated semi-automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
     "weight": "820 g",
@@ -1072,27 +1019,24 @@
     "longest_side": "199 mm",
     "barrel_length": "89 mm",
     "price": "75 USD",
-    "price_postapoc": "22 USD 50 cent",
     "material": [ "plastic", "steel", "zinc" ],
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "dispersion": 480,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "durability": 7,
-    "min_cycle_recoil": 450,
     "pocket_data": [
       {
         "magazine_well": "284 ml",
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "hptc9mag_8rd", "hptc9mag_10rd", "hptc9mag_15rd" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "cz75",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "CZ 75 B pistol" },
     "description": "The CZ 75 B is a semi-automatic pistol developed in Czechoslovakia, and is one of the original wonder nines.  Though designed for export to western countries, it was declared a state secret; lack of international patent protection meant that many clones and variants were produced and distributed around the world, with Česká zbrojovka only joining in the 90's.  This pistol remains wildly popular among competition shooters.",
     "weight": "998 g",
@@ -1100,29 +1044,23 @@
     "longest_side": "238 mm",
     "barrel_length": "120 mm",
     "price": "100 USD",
-    "price_postapoc": "25 USD",
     "material": [ "plastic", "steel" ],
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "dispersion": 480,
-    "durability": 8,
-    "min_cycle_recoil": 450,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "magazine_well": "230 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "cz75mag_16rd", "cz75mag_20rd", "cz75mag_26rd" ]
+        "item_restriction": [ "cz75mag_10rd", "cz75mag_16rd", "cz75mag_20rd", "cz75mag_26rd" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "walther_ccp",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Walther CCP pistol" },
     "description": "The Walther CCP is a gas-delayed blowback semi-automatic pistol intended for the concealed carry consumer market.  Internally, it is nearly identical to the cult classic H&K P7.  Its fixed barrel design makes it potentially more accurate than many other pistols, though this may be difficult to realize with its average trigger and short sight radius.",
     "weight": "567 g",
@@ -1130,23 +1068,17 @@
     "longest_side": "194 mm",
     "barrel_length": "90 mm",
     "price": "125 USD",
-    "price_postapoc": "20 USD",
     "material": [ "plastic", "steel" ],
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
     "dispersion": 480,
-    "durability": 8,
-    "min_cycle_recoil": 450,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "176 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ccpmag", "ccpmag_9rd" ] } ],
-    "melee_damage": { "bash": 8 }
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [ { "magazine_well": "176 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ccpmag", "ccpmag_9rd" ] } ]
   },
   {
     "id": "colt_ro635",
-    "copy-from": "smg_base",
+    "copy-from": "gun_base_9mm_semi_rifle",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Colt submachine gun (Uzi)", "str_pl": "Colt submachine guns (Uzi)" },
     "description": "A 9x19mm submachine gun based on the M16 rifle design, it is a closed bolt, blowback operated firearm.  There is a large plastic brass deflector mounted by the ejection port, and no forward assist.  It looks very similar to an M4 carbine, except for the magazine well that accepts Uzi-style magazines.",
     "variant_type": "gun",
@@ -1162,51 +1094,39 @@
     "longest_side": "655 mm",
     "barrel_length": "267 mm",
     "price": "1 kUSD",
-    "price_postapoc": "17 USD 50 cent",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": [ "9mm" ],
+    "skill": "smg",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "range": 5,
     "dispersion": 240,
-    "durability": 8,
-    "min_cycle_recoil": 450,
-    "blackpowder_tolerance": 32,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
+      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ]
-    ],
-    "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
+      [ "stock", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "uzimag", "uzimag_20rd", "uzimag_25rd", "uzimag_40rd", "uzimag_50rd", "uzimag_100rd" ]
       }
-    ],
-    "melee_damage": { "bash": 11 }
+    ]
   },
   {
     "id": "bt_apc9k",
-    "copy-from": "smg_base",
+    "copy-from": "gun_base_9mm_semi_rifle",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "B&T APC9 PRO K submachine gun" },
     "description": "The Brügger & Thomet APC9 PRO K is a closed bolt blowback submachine gun in 9x19mm Parabellum.  It has a collapsible shoulder stock and a red dot sight.",
     "weight": "2400 g",
@@ -1214,28 +1134,22 @@
     "longest_side": "525 mm",
     "barrel_length": "175 mm",
     "price": "5 kUSD",
-    "price_postapoc": "60 USD",
     "material": [ "steel", "plastic" ],
     "range": 1,
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
+    "skill": "smg",
     "dispersion": 300,
-    "durability": 8,
-    "min_cycle_recoil": 450,
-    "blackpowder_tolerance": 32,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
+      [ "loading port", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
-      [ "rail", 3 ],
+      [ "rail", 1 ],
       [ "sights", 1 ],
-      [ "underbarrel", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "stock accessory", 1 ]
+      [ "underbarrel", 1 ]
     ],
     "default_mods": [ "wire_stock", "red_dot_sight" ],
     "pocket_data": [
@@ -1250,15 +1164,15 @@
           "btmp9mag_9x19mm_50rd"
         ]
       }
-    ],
-    "melee_damage": { "bash": 9 }
+    ]
   },
   {
     "id": "draco_9mm",
     "//": "Based off of https://www.centuryarms.com/draco-nak9.html",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "draco",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Glock AK pistol" },
     "description": "A 9mm AK pistol that accepts Glock magazines.  Has an 11.14\" barrel.",
     "variant_type": "gun",
@@ -1275,20 +1189,13 @@
     "barrel_length": "283 mm",
     "price": "699 USD 99 cent",
     "price_postapoc": "15 USD",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "clumsy" },
-    "//1": "Surface as line, as there's only 1 face to hit something with, and requires a really weird grip angle",
     "material": [ "steel", "wood" ],
-    "color": "brown",
-    "ammo": [ "9mm" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "range": 5,
     "dispersion": 250,
-    "durability": 7,
-    "min_cycle_recoil": 380,
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
@@ -1301,9 +1208,98 @@
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
+        "item_restriction": [
+          "glockmag_10",
+          "glock17_10",
+          "glockmag",
+          "glockbigmag",
+          "glock17_17",
+          "glock17_22",
+          "glock_drum_50rd",
+          "glock_drum_100rd"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rugerpcc",
+    "copy-from": "gun_base_9mm_semi_rifle",
+    "looks_like": "modular_ar15",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Glock carbine" },
+    "description": "A lightweight pistol caliber carbine, chambered in 9mm and accepting Glock magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rugerpcc",
+        "name": { "str": "Ruger PCC" },
+        "description": "The Ruger PCC is a pistol caliber carbine, made by Ruger.  It's quite commonplace, thanks to its low recoil, reliability, and use of readily available magazines."
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "weight": "3084 g",
+    "volume": "2264 ml",
+    "longest_side": "879 mm",
+    "barrel_length": "409 mm",
+    "price": "779 USD",
+    "material": [ "steel", "plastic", "aluminum" ],
+    "range": 6,
+    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
+    "dispersion": 180,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "//": "Assuming glock magwell, the other magwell for Ruger magazines can be added with the ruger pistol",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "glockmag_10",
+          "glock17_10",
+          "glockmag",
+          "glockbigmag",
+          "glock17_17",
+          "glock17_22",
+          "glock_drum_50rd",
+          "glock_drum_100rd"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "p365",
+    "//": "Based off of https://www.sigsauer.com/p365-xl.html",
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "looks_like": "glock_17",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "P365 handgun" },
+    "description": "A 9mm conceal carry pistol.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "p365",
+        "name": { "str": "SIG P365" },
+        "description": "The SIG P365 is a modern compact 9mm pistol made by SIG.  Even though SIG promises to offer a lifetime warranty, you suspect that isn't true anymore."
+      }
+    ],
+    "weight": "588 g",
+    "volume": "293 ml",
+    "longest_side": "208 mm",
+    "barrel_length": "94 mm",
+    "price": "679 USD 99 cent",
+    "material": [ "steel", "plastic" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
+    "dispersion": 300,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [ { "magazine_well": "66 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p365_mag" ] } ]
   }
 ]

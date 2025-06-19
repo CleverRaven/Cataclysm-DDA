@@ -2,13 +2,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_lightindustry_00",
-    "method": "json",
     "object": { "set": [ { "point": "furniture", "id": "f_bulletin", "x": 17, "y": 22 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_lightindustry_00_barricades_wood",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_wall_wood", "x": 3, "y": 7 },
@@ -28,7 +26,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_lightindustry_00_barricades_migo",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_wall_resin", "x": 3, "y": 7 },
@@ -48,13 +45,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_lightindustry_00_root_cellar",
-    "method": "json",
     "object": { "set": [ { "point": "terrain", "id": "t_rootcellar", "x": 14, "y": 9 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_lightindustry_00_butchery_rack",
-    "method": "json",
     "object": {
       "set": [
         { "point": "furniture", "id": "f_butcher_rack", "x": 14, "y": 7 },
@@ -65,13 +60,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_lightindustry_00_water_well",
-    "method": "json",
     "object": { "set": [ { "point": "terrain", "id": "t_water_pump", "x": 16, "y": 7 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_lightindustry_00_radio",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_radio_controls", "x": 20, "y": 8 },
@@ -82,7 +75,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_lightindustry_00_reinforce_doors",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_rdoor_c", "x": 18, "y": 10 },

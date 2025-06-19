@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "microlab_reactor" ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -39,14 +38,13 @@
       ],
       "palettes": [ "microlab_generic" ],
       "items": { "d": { "item": "cop_armory", "chance": 5 }, "l": { "item": "decontamination_room", "chance": 70 } },
-      "terrain": { "-": "t_wall_metal", "`": "t_hole", "#": "t_rock", "G": "t_card_science", "g": "t_bridge", "A": "t_bridge" },
+      "terrain": { "-": "t_wall_metal", "`": "t_open_air", "#": "t_rock", "G": "t_card_science", "g": "t_bridge", "A": "t_bridge" },
       "furniture": { "A": "f_nuclear_fuel_cell" }
     }
   },
   {
     "type": "mapgen",
     "om_terrain": [ "microlab_reactor_b" ],
-    "method": "json",
     "object": {
       "rows": [
         "########################",

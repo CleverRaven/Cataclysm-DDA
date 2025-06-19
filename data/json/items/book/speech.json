@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_tv",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "US Weekly", "str_pl": "US Weeklies" },
     "description": "Weekly news about a bunch of famous people who're all (un)dead now.",
@@ -13,15 +14,16 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "speech",
     "max_level": 1,
     "intelligence": 3,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "speech",
+    "read_fun": 1
   },
   {
     "id": "manual_speech",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Self-Esteem for Dummies", "str_pl": "copies of Self-Esteem for Dummies" },
     "description": "Full of useful tips for showing confidence in your speech.",
@@ -33,14 +35,15 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "green",
-    "skill": "speech",
     "max_level": 3,
     "intelligence": 5,
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "speech"
   },
   {
     "id": "textbook_speech",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Principles of Effective Communication", "str_pl": "copies of Principles of Effective Communication" },
     "description": "A hardbound book devoted to being an effective and persuasive speaker.",
@@ -52,16 +55,17 @@
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "blue",
-    "skill": "speech",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
     "time": "30 m",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "speech"
   },
   {
     "id": "dnd_handbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Dungeon Master's Guide: 6th Edition", "str_pl": "copies of Dungeon Master's Guide: 6th Edition" },
     "description": "A thick, hardcover volume with everything needed to weave legendary stories.  It's full of information, but finding the things you're looking for can be a chore.",
@@ -74,15 +78,16 @@
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "light_blue",
-    "skill": "speech",
     "max_level": 5,
     "intelligence": 9,
     "time": "30 m",
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "read_skill": "speech"
   },
   {
     "id": "book_nonf_soft_speech_naillaw",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Nail Your Law Firm Interview", "str_pl": "copies of Nail Your Law Firm Interview" },
     "description": "This lightweight book proclaims itself to be \"the ONLY gold star interview guide for lawyers interviewing in any type of job interview.\"  It was supposed to help new lawyers find work.",
@@ -94,11 +99,11 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "blue",
-    "skill": "speech",
     "required_level": 3,
     "max_level": 4,
     "intelligence": 7,
     "time": "24 m",
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "read_skill": "speech"
   }
 ]

@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_FACTION_CAMP_H
 #define CATA_SRC_FACTION_CAMP_H
 
-#include <iosfwd>
 #include <string>
 #include <utility>
 #include <vector>
@@ -17,7 +16,7 @@ class window;
 } // namespace catacurses
 class npc;
 struct mission_entry;
-struct point;
+
 namespace base_camps
 {
 enum tab_mode : int;
@@ -50,6 +49,6 @@ std::string name_mission_tabs( const tripoint_abs_omt &omt_pos, const std::strin
 std::vector<std::pair<std::string, tripoint_abs_omt>> om_building_region(
             const tripoint_abs_omt &omt_pos, int range, bool purge = false );
 /// Returns the x and y coordinates of ( omt_tar - omt_pos ), clamped to [-1, 1]
-point om_simple_dir( const tripoint_abs_omt &omt_pos, const tripoint_abs_omt &omt_tar );
+point_rel_omt om_simple_dir( const tripoint_abs_omt &omt_pos, const tripoint_abs_omt &omt_tar );
 } // namespace talk_function
 #endif // CATA_SRC_FACTION_CAMP_H

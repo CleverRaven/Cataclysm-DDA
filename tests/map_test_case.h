@@ -2,17 +2,16 @@
 #define CATA_TESTS_MAP_TEST_CASE_H
 
 #include <functional>
-#include <new>
 #include <optional>
 #include <set>
 #include <sstream>
+#include <string>
 #include <vector>
 
 #include "cata_catch.h"
-#include "map.h"
-#include "coordinate_constants.h" // Has to come after map.h or its contents is rejected by the compiler.
-#include "mapdata.h"
+#include "coordinates.h"
 #include "point.h"
+#include "type_id.h"
 
 /**
  * Framework that simplifies writing tests that involve setting up 2d (or limited 3d) maps.
@@ -79,7 +78,7 @@ class map_test_case
          *  For example, it can be the center of the map or player's coordinates.
          *  This test will align `anchor_char` (in `setup`) with given map coordinates.
          */
-        tripoint_bub_ms anchor_map_pos = tripoint_bub_ms_zero;
+        tripoint_bub_ms anchor_map_pos = tripoint_bub_ms::zero;
 
         /**
          * Invokes callback for each tile of the input map.
@@ -206,7 +205,7 @@ tile_predicate ifchar( char c, const tile_predicate &f );
  */
 tile_predicate ter_set(
     ter_str_id ter,
-    tripoint shift = tripoint_zero
+    tripoint shift = tripoint::zero
 );
 
 /**

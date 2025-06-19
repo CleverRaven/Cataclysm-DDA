@@ -1,7 +1,8 @@
 [
   {
     "id": "psionic_transporter_beacon",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "transporter beacon" },
     "description": "A pyramidal object with a matrix crystal on top, surrounded by several chunks of the otherworldly boulders you've found dotting the landscape.  You could place it somewhere and after you've configured it, use a transporter remote to teleport yourself to its location.",
     "weight": "2500 g",
@@ -18,7 +19,8 @@
   },
   {
     "id": "psionic_transporter_remote",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "transporter remote" },
     "description": "A blocky item, like an old feature cellphone crossed with a radio.  A matrix channeling array is stick out of the side like an antenna.  There is a small screen on the front, currently off.",
     "weight": "500 g",
@@ -34,7 +36,6 @@
     "price_postapoc": "1 USD",
     "symbol": ";",
     "color": "blue",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "target": "psionic_transporter_remote_on",
@@ -45,6 +46,7 @@
       "type": "transform"
     },
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -52,11 +54,13 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "psionic_transporter_remote_on",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "transporter remote (searching)" },
     "description": "A blocky item, like an old feature cellphone crossed with a radio.  A matrix channeling array is sticking out of the side like an antenna.  There is a small screen on the front, currently running what looks like a series of mathematical calculations.",
     "weight": "500 g",
@@ -67,7 +71,6 @@
     "price_postapoc": "1 USD",
     "symbol": ";",
     "color": "blue",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
       {
@@ -86,6 +89,7 @@
       }
     ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -96,11 +100,13 @@
     ],
     "copy-from": "psionic_transporter_remote",
     "power_draw": "25000 mW",
-    "revert_to": "psionic_transporter_remote"
+    "revert_to": "psionic_transporter_remote",
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "psionic_transporter_remote_broken",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "transporter remote (burned out)" },
     "description": "A blocky item, like an old feature cellphone crossed with a radio.  A matrix channeling array was sticking out of the side like an antenna, but it's now cracked and probably useless.  There is a small screen on the front, obviously burned out.  Parts of the plastic casing are warped as though the plastic had frozen and cracked.",
     "copy-from": "psionic_transporter_remote",

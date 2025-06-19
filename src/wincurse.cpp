@@ -30,6 +30,11 @@
 #include "ui_manager.h"
 #include "wcwidth.h"
 
+
+#if defined(SDL_SOUND)
+#include "sdlsound.h"
+#endif
+
 //***********************************
 //Globals                           *
 //***********************************
@@ -182,7 +187,7 @@ bool handle_resize( int, int )
         TERMINAL_HEIGHT = WndRect.bottom / fontheight;
         WindowWidth = TERMINAL_WIDTH * fontwidth;
         WindowHeight = TERMINAL_HEIGHT * fontheight;
-        catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point_zero );
+        catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point::zero );
         catacurses::resizeterm();
         create_backbuffer();
         SetBkMode( backbuffer, TRANSPARENT ); //Transparent font backgrounds
@@ -559,7 +564,7 @@ static void CheckMessages()
         DispatchMessage( &msg );
     }
     if( needs_resize ) {
-        restore_on_out_of_scope<int> prev_lastchar( lastchar );
+        restore_on_out_of_scope prev_lastchar( lastchar );
         handle_resize( 0, 0 );
         refresh_display();
     }
@@ -650,10 +655,18 @@ void catacurses::init_interface()
     }
     init_colors();
 
-    stdscr = newwin( get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ), point_zero );
+    stdscr = newwin( get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ), point::zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 
     initialized = true;
+
+#if defined(SDL_SOUND)
+    initSDLAudioOnly();
+    init_sound();
+    if( sound_init_success ) {
+        load_soundset();
+    }
+#endif
 }
 
 bool catacurses::supports_256_colors()

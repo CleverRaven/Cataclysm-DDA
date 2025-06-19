@@ -11,7 +11,7 @@
   {
     "id": "CWH_LEFT_FOR_DEAD_1_IDEAS1",
     "type": "talk_topic",
-    "dynamic_line": "Okay, so, hear me out.  This might sound crazy, but we're dealing with the <swear> walking dead, so I think I get a pass on that.  You know your Greek mythology at all?",
+    "dynamic_line": "Okay, so, hear me out.  This might sound crazy, but we're dealing with the <freaking> walking dead, so I think I get a pass on that.  You know your Greek mythology at all?",
     "responses": [
       { "text": "Not really.  How is that relevant?", "topic": "CWH_LEFT_FOR_DEAD_1_EXPLAIN" },
       { "text": "Sure, why?", "topic": "CWH_LEFT_FOR_DEAD_1_IDEAS2" },

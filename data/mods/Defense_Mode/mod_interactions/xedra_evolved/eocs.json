@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_SPAWN_EXODII",
-    "condition": { "math": [ "exodii_allowed", "==", "1" ] },
+    "condition": { "math": [ "exodii_allowed == 1" ] },
     "effect": [
       {
         "u_spawn_monster": "GROUP_DEFENSE_MODE_EXODII",
@@ -18,7 +18,7 @@
   {
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_SPAWN_XEDRA",
-    "condition": { "math": [ "xedra_allowed", "==", "1" ] },
+    "condition": { "math": [ "xedra_allowed == 1" ] },
     "effect": [
       {
         "u_spawn_monster": "GROUP_DEFENSE_MODE_XEDRA",

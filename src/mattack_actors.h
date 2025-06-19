@@ -3,23 +3,24 @@
 #define CATA_SRC_MATTACK_ACTORS_H
 
 #include <climits>
-#include <iosfwd>
 #include <map>
-#include <memory>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "bodypart.h"
+#include "coords_fwd.h"
 #include "damage.h"
 #include "magic.h"
 #include "mattack_common.h"
-#include "translations.h"
+#include "mtype.h"
+#include "translation.h"
+#include "type_id.h"
 #include "weighted_list.h"
 
 class Creature;
 class JsonObject;
 class monster;
-struct mon_effect_data;
 
 class leap_actor : public mattack_actor
 {
@@ -174,7 +175,7 @@ class melee_actor : public mattack_actor
         /** Message for throwing a non-player. */
         translation throw_msg_npc;
 
-        melee_actor();
+        melee_actor() = default;
         ~melee_actor() override = default;
 
         virtual Creature *find_target( monster &z ) const;

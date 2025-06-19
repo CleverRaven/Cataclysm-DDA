@@ -34,7 +34,11 @@
     "subtype": "collection",
     "entries": [
       {
-        "distribution": [ { "item": "dump_pouch", "count": [ 1, 2 ] }, { "item": "gadget_pouch", "count": [ 1, 2 ] } ],
+        "distribution": [
+          { "item": "dump_pouch", "count": [ 1, 2 ] },
+          { "item": "gadget_pouch", "count": [ 1, 2 ] },
+          { "item": "sustainment_pouch", "count": [ 1, 2 ] }
+        ],
         "prob": 40
       },
       { "distribution": [ { "item": "tool_pouch" }, { "item": "radio_pouch" } ], "prob": 70 },
@@ -115,6 +119,7 @@
     "//": "stuff that might be in a molle pack",
     "subtype": "collection",
     "entries": [
+      { "item": "sustainment_pouch", "count": [ 1, 2 ], "prob": 80 },
       { "item": "camelbak", "prob": 40 },
       { "group": "molle_vest_bag_accessories", "count": [ 1, 2 ] },
       { "item": "deployment_bag", "prob": 10 }

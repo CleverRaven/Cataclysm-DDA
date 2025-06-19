@@ -40,7 +40,9 @@
       "y": [ "t_carpet_backrooms" ],
       "z": [ "t_carpet_backrooms" ],
       "A": [ "t_carpet_backrooms" ],
-      "U": [ "t_carpet_backrooms" ]
+      "U": [ "t_carpet_backrooms" ],
+      "<": [ "t_stairs_up" ],
+      ">": [ "t_stairs_down" ]
     },
     "furniture": {
       "a": [ [ "f_null", 5 ], [ "f_chair", 10 ] ],
@@ -187,7 +189,8 @@
     "toilets": { "T": {  } },
     "items": {
       "B": [ { "item": "backrooms_master_sink2", "chance": 50 } ],
-      "C": [ { "item": "backrooms_master_countertops_bathroom", "chance": 50 } ]
+      "C": [ { "item": "backrooms_master_countertops_bathroom", "chance": 50 } ],
+      "T": { "item": "SUS_toilet", "chance": 50 }
     }
   }
 ]

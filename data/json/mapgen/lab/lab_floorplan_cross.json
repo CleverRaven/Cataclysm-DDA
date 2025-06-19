@@ -2,7 +2,6 @@
   {
     "//": "Cross floorplan which fills a quadrant with rocks when a side is empty, and possibly adds vaults.",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 200,
     "object": {
@@ -68,7 +67,6 @@
   {
     "//": "Cross floorplan which fills a quadrant with rocks when a side is empty, and possibly adds vaults.",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 200,
     "object": {
@@ -134,7 +132,6 @@
   {
     "//": "Cross floorplan with a wide open hallway, smaller rooms, and minor clutter.",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 50,
     "object": {
@@ -200,7 +197,6 @@
   {
     "//": "Non-cross format amenable to quadrants being filled in with rocks/vaults when a side is empty.",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 50,
     "object": {
@@ -234,7 +230,7 @@
       "palettes": [ "lab_palette" ],
       "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
       "mapping": {
-        "t": { "items": [ { "item": "fridge", "chance": 30 } ] },
+        "t": { "items": [ { "item": "SUS_fridge", "chance": 30 } ] },
         "l": {
           "items": [
             { "item": "office", "chance": 20 },
@@ -274,7 +270,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_cross_windows",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -311,7 +306,6 @@
   {
     "//": "Start with normal walls, then fill in quarters of each lab map with rocks, based on its neighboring tiles.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_border_rock_quadrants",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -354,7 +348,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_rock_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -374,7 +367,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_rock_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -393,7 +385,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_nw_rock",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -409,7 +400,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_ne_rock",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -424,7 +414,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_sw_rock",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -439,7 +428,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_se_rock",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -453,7 +441,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_n_rock",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -489,7 +476,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_w_rock",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -525,7 +511,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_s_rock",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -561,7 +546,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_e_rock",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -629,7 +613,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_n_vault",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -665,7 +648,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_n_vault",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -701,7 +683,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_w_vault",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -737,7 +718,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_w_vault",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -773,7 +753,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_s_vault",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -809,7 +788,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_s_vault",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -845,7 +823,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_e_vault",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -881,7 +858,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_e_vault",
     "object": {
       "mapgensize": [ 24, 24 ],

@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Request review
-        uses: qrox/auto-request-review@481e6cd2f5d57b6e914d81ca731211384a76798f
+        uses: qrox/auto-request-review@3d551ae9363f17fcc74973b2c93cefa64e9b584c
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config: .github/reviewers.yml

@@ -1,9 +1,7 @@
 [
   {
-    "method": "json",
     "om_terrain": [ [ "urban_4_1", "urban_4_2" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -12,13 +10,13 @@
         "                                                ",
         "                  ||||||                        ",
         "   ||||||||||||||||....|||||||||||||||||||      ",
-        "   |2...........................WJJJZ..Fg|      ",
+        "   |2...........................WJJJZ..âg|      ",
         "   |...................................zz|      ",
         "   |...............................A....z|      ",
-        "   |..........%%%.............||||||||||||      ",
-        "   |..........%.+.............|                 ",
-        "   |..........+<%.......1.....|                 ",
-        "   |..........%%%.............|                 ",
+        "   |..........|||.............||||||||||||      ",
+        "   |..........|.+.............|                 ",
+        "   |..........+<|.......1.....|                 ",
+        "   |..........|||.............|                 ",
         "   |..........................|                 ",
         "   |..........................|                 ",
         "   |..........................|                 ",
@@ -32,7 +30,7 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "2": {
           "chunks": [ [ "null", 50 ], [ "11x11_gym_open", 10 ], [ "11x11_recroom_open", 30 ], [ "room_11x11_apartment_E", 10 ] ]
@@ -50,10 +48,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_4_3", "urban_4_4" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -82,7 +78,7 @@
         "................``..............________........",
         "................``..............________.p......"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "domestic_general_and_variant_palette" ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
@@ -96,25 +92,25 @@
         "N": "t_thconc_floor",
         "U": "t_thconc_floor",
         "`": "t_concrete",
-        "}": "t_linoleum_white",
-        ",": "t_linoleum_white",
-        "O": "t_linoleum_white",
-        "F": "t_linoleum_white",
-        "1": "t_linoleum_white",
-        "2": "t_linoleum_white",
-        "3": "t_linoleum_white",
-        "4": "t_linoleum_white",
-        "5": "t_linoleum_white",
-        "6": "t_linoleum_white",
-        "7": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "n": "t_linoleum_white",
-        "J": "t_linoleum_white",
-        "Y": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "0": "t_linoleum_white",
-        "]": "t_linoleum_white"
+        "}": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        ",": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "O": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "1": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "2": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "3": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "4": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "5": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "6": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "7": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "8": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "n": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "J": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "0": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "]": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
       "furniture": { "!": "f_region_flower", "0": "f_stool", "]": "f_sofa", "}": "f_table" },
       "place_loot": [ { "item": "television", "x": 8, "y": 5, "chance": 100 }, { "item": "stereo", "x": 9, "y": 5, "chance": 100 } ],
@@ -123,10 +119,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_4_5", "urban_4_6" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -155,26 +149,24 @@
         "````````````````````````````````````````````````",
         "````````````````````````````````````````````````"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "domestic_general_and_variant_palette" ],
       "terrain": {
         "`": "t_open_air",
         "=": "t_shingle_flat_roof",
         "!": "t_gutter_drop",
         "-": "t_gutter",
-        "B": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        ",": "t_linoleum_white",
-        "C": "t_linoleum_white"
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "8": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        ",": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "C": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       }
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_4_7", "urban_4_8" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [

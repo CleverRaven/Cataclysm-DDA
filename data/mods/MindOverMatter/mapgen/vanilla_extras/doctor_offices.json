@@ -1,0 +1,132 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "office_doctor" ],
+    "weight": 75,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "     ~~                 ",
+        "     ~~                 ",
+        "   ##++##wwww#wwww####  ",
+        "   #.........y.......#  ",
+        "   #....bbbb....bbbb.#  ",
+        "   wy................w  ",
+        "   w....bbbb....bbbb.w  ",
+        "   #................y#  ",
+        "   #|+||cc%||++||||||#  ",
+        "   #s.|d.h.y|..|Scc^y#  ",
+        "   #&.|d.......!....I#  ",
+        "   #|||||||||..|.tt.I#  ",
+        "   #f.f|I^th|..|....I#  ",
+        "   #f.f|I...+..||||||#  ",
+        "   #f.f|IccS|..|HHllO#  ",
+        "   #|+|||||||..|H...O#  ",
+        "   #o..d.h.y|..|H...O#  ",
+        "   #d.hd.h..+..|H...6#  ",
+        "   #o......y|..|||X||#R ",
+        "   #|+|||||||...y...5#R ",
+        "   #C.+.h|..+........;~ ",
+        "   #C<|hQ|&s|y.eccScc#4 ",
+        "   ###################  ",
+        "                        "
+      ],
+      "palettes": [ "office_doctor" ],
+      "terrain": { "Q": "t_floor" },
+      "furniture": { "Q": "f_noetic_resonance_detector" },
+      "items": {
+        "C": { "item": "cleaning", "chance": 70, "repeat": [ 2, 4 ] },
+        "H": { "item": "harddrugs", "chance": 80, "repeat": [ 2, 6 ] },
+        "I": { "item": "dissection", "chance": 60, "repeat": [ 2, 4 ] },
+        "O": { "item": "softdrugs", "chance": 80, "repeat": [ 2, 6 ] },
+        "S": { "item": "gear_medical", "chance": 60, "repeat": [ 2, 4 ] },
+        "c": { "item": "gear_medical", "chance": 60, "repeat": [ 2, 4 ] },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 80 },
+        "t": { "item": "gear_medical", "chance": 60, "repeat": [ 2, 4 ] },
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 3 ] },
+        "^": { "item": "gear_medical", "chance": 60, "repeat": [ 1, 2 ] }
+      },
+      "place_items": [ { "item": "record_patient", "x": 7, "y": 6, "chance": 50 } ],
+      "place_loot": [ { "item": "anesthetic_kit", "x": 16, "y": [ 14, 17 ], "chance": 75, "ammo": 100 } ],
+      "computers": {
+        "5": {
+          "name": "Medical Supply Access",
+          "security": 2,
+          "options": [ { "name": "Unlock Door", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        },
+        "6": {
+          "name": "Medical Supply Access",
+          "security": 2,
+          "options": [ { "name": "Lock Door", "action": "lock" }, { "name": "Unlock Door", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "office_doctor_roof_2",
+    "weight": 120,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        " ---------------------- ",
+        " -....................- ",
+        " -....................- ",
+        " -........o...........- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -......#O##O##O##....- ",
+        " -.######bt|HQ|bt#....- ",
+        " -.#i__i|__|_H|__#....- ",
+        " -.#i__i|+||+||+|#....- ",
+        " -.#i__i|________#....- ",
+        " -##|+|||_|||||||#A...- ",
+        "  #>____+_+_____L#A...- ",
+        "  #O##O##_|y_/?_t#....- ",
+        "    -..4##########....- ",
+        "    -.....&=...5------- ",
+        "    -..........-        ",
+        "    ------------        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette", "parametrized_walls_palette" ],
+      "terrain": {
+        "=": "t_flat_roof",
+        "Q": "t_floor",
+        "H": "t_floor",
+        "&": "t_flat_roof",
+        "A": "t_flat_roof",
+        "O": "t_wall_glass",
+        "+": "t_door_glass_frosted_lab_c"
+      },
+      "furniture": {
+        "b": "f_bed",
+        "Q": "f_noetic_resonance_detector",
+        "H": "f_chair",
+        "c": "f_armchair",
+        "i": "f_filing_cabinet",
+        "?": "f_bed",
+        "/": "f_bed"
+      },
+      "items": {
+        "b": { "item": "hospital_bed", "chance": 60 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 70 },
+        "L": [
+          { "item": "harddrugs", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "drugs_analgesic", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "drugs_rare", "chance": 60 },
+          { "item": "surgery", "chance": 60 }
+        ],
+        "?": { "item": "autodoc_supplies", "chance": 100 }
+      }
+    }
+  }
+]

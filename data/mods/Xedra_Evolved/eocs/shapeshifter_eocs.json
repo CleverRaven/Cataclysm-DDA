@@ -1,6 +1,112 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_XE_SHAPESHIFTED_ANIMALS_CANT_DO_THAT",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "VAMPIRE_WOLF_FORM_TRAITS",
+            "TURN_INTO_BEAR_TRAITS",
+            "TURN_INTO_DEER_TRAITS",
+            "TURN_INTO_COUGAR_TRAITS",
+            "TURN_INTO_OWL_TRAITS",
+            "TURN_INTO_RAVEN_TRAITS"
+          ]
+        },
+        {
+          "or": [
+            { "compare_string": [ "ACT_LOCKPICK", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_REPAIR_ITEM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MEND_ITEM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_REPAIR", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_RELOAD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FIRSTAID", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MILK", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HACKSAW", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BOLTCUTTING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HAIRCUT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SHAVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CRACKING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_READ", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_EBOOKSAVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_TIDY_UP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MOP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_DECONSTRUCTION", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_FOLD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_UNFOLD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BIKERACK_UNRACKING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BIKERACK_RACKING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_DIS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_FISH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CRAFT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CHOP_PLANKS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CHOP_TREES", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_MINE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CONSTRUCTION", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_MOP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_READ", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FISH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_GENERIC_GAME", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_GAME", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_DISASSEMBLE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_FARM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HARVEST", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FIELD_DRESS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SKIN", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_QUARTER", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_DISSECT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_LONGSALVAGE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BUILD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKAXE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HAND_CRANK", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKUP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_AUTODRIVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FERTILIZE_PLOT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MOVE_LOOT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_UNLOAD_LOOT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_INSERT_ITEM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_START_FIRE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_OPEN_GATE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FILL_LIQUID", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SHEARING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HOTWIRE_CAR", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_AIM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_ATM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_START_ENGINES", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_OXYTORCH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_TOOLMOD_ADD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CLEAR_RUBBLE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_WASH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PRYING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHOP_LOGS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHOP_PLANKS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_JACKHAMMER", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHURN", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PLANT_SEED", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_WEAR", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKUP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_WIELD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BINDER_COPY_RECIPE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_DATA_HANDLING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FURNITURE_MOVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_TENT_PLACE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_TENT_DECONSTRUCT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_REEL_CABLE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SALINE_INFUSE", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      "u_cancel_activity",
+      { "u_message": "You can't perform that activity while in the form of an animal.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_WEREWOLF_WOLF_FORM_activated",
     "condition": { "not": { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" } },
     "effect": [
@@ -15,10 +121,10 @@
                 "run_eocs": [
                   {
                     "id": "EOC_WEREWOLF_WOLF_FORM_activated_3",
-                    "condition": { "math": [ "u_val('mana')", ">=", "50" ] },
+                    "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-                      { "math": [ "u_transformed_mana", "=", "u_val('mana') - 50" ] },
+                      { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
                       { "u_add_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
                       { "u_add_trait": "CARNIVORE" },
                       {
@@ -28,7 +134,7 @@
                     ],
                     "false_effect": [
                       { "u_message": "You don't have enough mana to transform into a wolf.", "type": "bad" },
-                      { "queue_eocs": "EOC_WEREWOLF_WOLF_FORM_deactivated_future", "time_in_future": 0 }
+                      { "run_eocs": "EOC_WEREWOLF_WOLF_FORM_deactivated_future", "time_in_future": 0 }
                     ]
                   }
                 ]
@@ -48,7 +154,7 @@
                       },
                       { "u_lose_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
                       { "u_lose_trait": "CARNIVORE" },
-                      { "math": [ "u_val('mana')", "=", "u_transformed_mana" ] }
+                      { "math": [ "u_val('mana') = u_transformed_mana" ] }
                     ]
                   }
                 ]
@@ -81,11 +187,12 @@
                 "run_eocs": [
                   {
                     "id": "EOC_WEREWOLF_HYBRID_FORM_activated_3",
-                    "condition": { "math": [ "u_val('mana')", ">=", "50" ] },
+                    "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-                      { "math": [ "u_transformed_mana", "=", "u_val('mana') - 50" ] },
+                      { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
                       { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "3" ] },
+                      { "math": [ "u_werewolf_healing_tick_counter = 0" ] },
                       { "u_add_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
                       { "u_add_trait": "CARNIVORE" },
                       {
@@ -95,7 +202,7 @@
                     ],
                     "false_effect": [
                       { "u_message": "You don't have enough mana to transform into your war form.", "type": "bad" },
-                      { "queue_eocs": "EOC_WEREWOLF_HYBRID_FORM_deactivated_future", "time_in_future": 0 }
+                      { "run_eocs": "EOC_WEREWOLF_HYBRID_FORM_deactivated_future", "time_in_future": 0 }
                     ]
                   }
                 ]
@@ -115,7 +222,7 @@
                       },
                       { "u_lose_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
                       { "u_lose_trait": "CARNIVORE" },
-                      { "math": [ "u_val('mana')", "=", "u_transformed_mana" ] },
+                      { "math": [ "u_val('mana') = u_transformed_mana" ] },
                       { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "3" ] }
                     ]
                   }
@@ -133,5 +240,92 @@
     "id": "EOC_WEREWOLF_HYBRID_FORM_deactivated_future",
     "//": "This is necessary because calling u_deactivate_trait from within the trait EoC to deactivate that trait does not work",
     "effect": { "u_deactivate_trait": "WEREWOLF_ANIMAL_FORM" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_HYBRID_FORM_healing",
+    "effect": [
+      { "math": [ "u_werewolf_healing_tick_counter++" ] },
+      {
+        "if": { "math": [ "u_werewolf_healing_tick_counter >= 6" ] },
+        "then": [
+          { "math": [ "u_werewolf_healing_tick_counter", "-=", "6" ] },
+          { "if": { "math": [ "u_pain() >= 1" ] }, "then": { "math": [ "u_pain()--" ] } },
+          {
+            "if": { "math": [ "u_vitamin('redcells') < 0" ] },
+            "then": { "math": [ "u_vitamin('redcells')", "+=", "150" ] }
+          },
+          {
+            "if": { "math": [ "u_vitamin('redcells') < -1000" ] },
+            "then": { "math": [ "u_vitamin('redcells')", "+=", "500" ] }
+          },
+          {
+            "if": { "math": [ "u_vitamin('redcells') < -10000" ] },
+            "then": { "math": [ "u_vitamin('redcells')", "+=", "2500" ] }
+          },
+          {
+            "if": { "math": [ "u_vitamin('blood') < 0" ] },
+            "then": { "math": [ "u_vitamin('blood')", "+=", "150" ] }
+          },
+          {
+            "if": { "math": [ "u_vitamin('blood') < -1000" ] },
+            "then": { "math": [ "u_vitamin('blood')", "+=", "500" ] }
+          },
+          {
+            "if": { "math": [ "u_vitamin('blood') < -10000" ] },
+            "then": { "math": [ "u_vitamin('blood')", "+=", "2500" ] }
+          },
+          {
+            "if": {
+              "or": [
+                { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] },
+                { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] },
+                { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] },
+                { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] },
+                { "math": [ "u_hp('torso') < u_hp_max('torso')" ] },
+                { "math": [ "u_hp('head') < u_hp_max('head')" ] }
+              ]
+            },
+            "then": {
+              "foreach": "array",
+              "target": [ "arm_l", "arm_r", "leg_l", "leg_r", "torso", "head" ],
+              "var": { "context_val": "id" },
+              "effect": [
+                {
+                  "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] },
+                  "then": {
+                    "math": [ "u_hp(_id)", "+=", "max(( 1 * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 1)" ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l') >= 1" ] },
+            "then": { "u_add_effect": "bleed", "target_part": "arm_l", "duration": 0, "intensity": -1 }
+          },
+          {
+            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_r') >= 1" ] },
+            "then": { "u_add_effect": "bleed", "target_part": "arm_r", "duration": 0, "intensity": -1 }
+          },
+          {
+            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_l') >= 1" ] },
+            "then": { "u_add_effect": "bleed", "target_part": "leg_l", "duration": 0, "intensity": -1 }
+          },
+          {
+            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_r') >= 1" ] },
+            "then": { "u_add_effect": "bleed", "target_part": "leg_r", "duration": 0, "intensity": -1 }
+          },
+          {
+            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'torso') >= 1" ] },
+            "then": { "u_add_effect": "bleed", "target_part": "torso", "duration": 0, "intensity": -1 }
+          },
+          {
+            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'head') >= 1" ] },
+            "then": { "u_add_effect": "bleed", "target_part": "head", "duration": 0, "intensity": -1 }
+          }
+        ]
+      }
+    ]
   }
 ]

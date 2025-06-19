@@ -130,7 +130,7 @@
     "difficulty": 4,
     "time": "360 m",
     "autolearn": true,
-    "using": [ [ "forging_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "forging_standard", 2 ], [ "steel_chunk_any", 1 ] ],
     "qualities": [
       { "id": "ANVIL", "level": 3 },
       { "id": "HAMMER", "level": 3 },
@@ -152,7 +152,7 @@
     "difficulty": 6,
     "time": "360 m",
     "autolearn": true,
-    "using": [ [ "forging_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "forging_standard", 2 ], [ "steel_chunk_any", 1 ] ],
     "qualities": [
       { "id": "ANVIL", "level": 3 },
       { "id": "HAMMER", "level": 3 },

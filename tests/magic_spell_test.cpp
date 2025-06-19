@@ -1,14 +1,20 @@
-#include <iosfwd>
 #include <memory>
+#include <optional>
 #include <string>
 
 #include "avatar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
+#include "dialogue_helpers.h"
 #include "game.h"
 #include "magic.h"
+#include "magic_type.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
+#include "npc.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -23,7 +29,7 @@ static const spell_id spell_test_spell_tp_mummy( "test_spell_tp_mummy" );
 //
 // Each test case relates to some spell feature, in terms of:
 //
-// - JSON spell content, from data/json/*.json, as documented in doc/MAGIC.md
+// - JSON spell content, from data/json/*.json, as documented in doc/JSON/MAGIC.md
 // - C++ spell functions, defined in src/magic.cpp and src/magic_spell_effect.cpp
 //
 // To run all tests in this file:
@@ -528,6 +534,7 @@ TEST_CASE( "spell_area_of_effect", "[magic][spell][aoe]" )
 TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack]" )
 {
     // World setup
+    map &here = get_map();
     clear_map();
 
     // Locations for avatar and monster
@@ -542,7 +549,7 @@ TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack
     // Avatar/spellcaster
     avatar &dummy = get_avatar();
     clear_character( dummy );
-    dummy.setpos( dummy_loc );
+    dummy.setpos( here, dummy_loc );
     REQUIRE( dummy.pos_bub() == dummy_loc );
     REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
@@ -583,17 +590,19 @@ TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack
 // spell_effect::spawn_summoned_monster
 TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
 {
+    map &here = get_map();
+
     clear_map();
 
     // Avatar/spellcaster and summoned mummy locations
-    const tripoint dummy_loc = { 60, 60, 0 };
+    const tripoint_bub_ms dummy_loc = { 60, 60, 0 };
     const tripoint_bub_ms mummy_loc = { 61, 60, 0 };
 
     avatar &dummy = get_avatar();
     creature_tracker &creatures = get_creature_tracker();
     clear_character( dummy );
-    dummy.setpos( dummy_loc );
-    REQUIRE( dummy.pos() == dummy_loc );
+    dummy.setpos( here, dummy_loc );
+    REQUIRE( dummy.pos_bub() == dummy_loc );
     REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
 
@@ -607,7 +616,7 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
     CHECK( g->num_creatures() == 2 );
 
     //kill the ghost
-    creatures.creature_at( mummy_loc )->die( nullptr );
+    creatures.creature_at( mummy_loc )->die( &here, nullptr );
     g->cleanup_dead();
 
     //a corpse was not created
@@ -625,7 +634,7 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
     CHECK( g->num_creatures() == 2 );
 
     //kill the mummy
-    creatures.creature_at( mummy_loc )->die( nullptr );
+    creatures.creature_at( mummy_loc )->die( &here, nullptr );
     g->cleanup_dead();
 
     //a corpse was created
@@ -666,7 +675,7 @@ TEST_CASE( "spell_effect_-_recover_energy", "[magic][spell][effect][recover_ener
         REQUIRE( montage_type.effect_str == "STAMINA" );
         // at the cost of a substantial amount of mana
         REQUIRE( montage_type.base_energy_cost.min.dbl_val.value() == 800 );
-        REQUIRE( montage_type.energy_source == magic_energy_type::mana );
+        REQUIRE( montage_type.get_energy_source() == magic_energy_type::mana );
 
         // At level 0, recovers 1000 stamina (10% of maximum)
         REQUIRE( montage_type.min_damage.min.dbl_val.value() == 1000 );

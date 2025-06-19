@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nested_beehive_natural",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -11,7 +10,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_beehive_natural",
     "object": { "place_nested": [ { "chunks": [ [ "nested_beehive_natural", 100 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
   }

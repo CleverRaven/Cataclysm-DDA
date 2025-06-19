@@ -1,0 +1,89 @@
+[
+  {
+    "id": "afs_landfall_kit_2",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "Type II. landfall survival kit" },
+    "description": "This is a metal box containing survival supplies, often found within ships and their escape pods.  Its cyan highlights indicate that it's a simpler Type II kit, and that it would only be helpful in a planet whose atmosphere and gravity are within two deviations from Earth's.",
+    "weight": "1022 g",
+    "volume": "22 L",
+    "price_postapoc": "30 USD",
+    "symbol": ",",
+    "color": "red",
+    "pocket_data": [ { "max_contains_volume": "20 L", "max_contains_weight": "40 kg", "max_item_length": "133 cm", "rigid": true } ]
+  },
+  {
+    "id": "afs_cargo_crate",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "cargo crate" },
+    "description": "A standard orbital cargo transfer container.  Its faceted corners are adorned with the livery of company you don't recognize.",
+    "weight": "2710 g",
+    "volume": "30 L",
+    "price_postapoc": "30 USD",
+    "symbol": "0",
+    "color": "light_red",
+    "pocket_data": [ { "max_contains_volume": "28 L", "max_contains_weight": "40 kg", "max_item_length": "170 cm", "rigid": true } ]
+  },
+  {
+    "id": "pressure_tank",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "pressure_tank",
+    "name": { "str": "pressurized tank" },
+    "flags": [ "NO_UNLOAD", "MAG_BULKY" ]
+  },
+  {
+    "id": "afs_thermos",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "radio thermos", "str_pl": "radio thermoses" },
+    "looks_like": "thermos",
+    "description": "A small radioactive source is used to safely(?) heat the contents of this vacuum flask.  Its not powerful enough to melt already frozen liquids.\n\n Frontier rated only.",
+    "ascii_picture": "thermos",
+    "weight": "530 g",
+    "volume": "1250 ml",
+    "longest_side": "32 cm",
+    "price": "175 USD ",
+    "price_postapoc": "1 USD",
+    "material": [ "steel" ],
+    "symbol": "I",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "4 kg"
+      }
+    ],
+    "insulation": 1600,
+    "flags": [ "COLLAPSE_CONTENTS", "BELT_CLIP" ]
+  },
+  {
+    "id": "afs_mre_package",
+    "copy-from": "mre_package",
+    "type": "ITEM",
+    "name": { "str": "Astronaut MRE" },
+    "description": "Marketing has adorned the package of this individual ration with white and red livery, a deliberate callback to the space corporations of old.  Despite best efforts, the food within is no more natural than usual, but is at least palatable."
+  },
+  {
+    "id": "afs_foil_bag",
+    "copy-from": "plastic_bag_vac",
+    "type": "ITEM",
+    "name": { "str": "foil bag" },
+    "description": "A plastic and aluminum foil bag for long term food storage.",
+    "material": [ "plastic", "aluminum" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "open_container": true,
+        "watertight": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "3 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ]
+  }
+]

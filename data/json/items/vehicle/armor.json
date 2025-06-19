@@ -1,7 +1,7 @@
 [
   {
     "id": "rebar_plate",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "rebar grate" },
     "description": "Several interlocked rods of rebar serving as makeshift armor, allowing for light and effective reinforcement of vehicle sections.",
@@ -9,15 +9,15 @@
     "volume": "3 L",
     "price": "7 USD 50 cent",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
-    "material": [ "steel" ],
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
+    "material": [ "lc_steel" ],
     "symbol": "]",
     "color": "light_cyan",
     "melee_damage": { "bash": 6 }
   },
   {
     "id": "spring_plate",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "shock absorber" },
     "description": "A makeshift combination of springs and scrap that protects a particular section of a vehicle from the shock of impacts.  The springs can absorb a surprising amount of damage.",
@@ -25,8 +25,8 @@
     "volume": "3 L",
     "price": "13 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
-    "material": [ "steel" ],
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
+    "material": [ "hc_steel", "lc_steel" ],
     "symbol": "]",
     "color": "light_cyan",
     "melee_damage": { "bash": 6 }

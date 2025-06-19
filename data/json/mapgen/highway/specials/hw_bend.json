@@ -8,7 +8,6 @@
       [ "hw_bend_0_4", "hw_bend_1_4", "null", "null", "null" ]
     ],
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [

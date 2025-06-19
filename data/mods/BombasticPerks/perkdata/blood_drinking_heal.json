@@ -24,12 +24,12 @@
     "id": "EOC_perk_blood_drinking_heal_hp_check",
     "condition": {
       "or": [
-        { "math": [ "u_hp('arm_l')", "<", "u_hp_max('arm_l')" ] },
-        { "math": [ "u_hp('arm_r')", "<", "u_hp_max('arm_r')" ] },
-        { "math": [ "u_hp('leg_l')", "<", "u_hp_max('leg_l')" ] },
-        { "math": [ "u_hp('leg_r')", "<", "u_hp_max('leg_r')" ] },
-        { "math": [ "u_hp('torso')", "<", "u_hp_max('torso')" ] },
-        { "math": [ "u_hp('head')", "<", "u_hp_max('head')" ] }
+        { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] },
+        { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] },
+        { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] },
+        { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] },
+        { "math": [ "u_hp('torso') < u_hp_max('torso')" ] },
+        { "math": [ "u_hp('head') < u_hp_max('head')" ] }
       ]
     },
     "effect": [
@@ -49,42 +49,42 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_perk_blood_drinking_heal_arm_l",
-    "condition": { "math": [ "u_hp('arm_l')", "<", "u_hp_max('arm_l')" ] },
+    "condition": { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] },
     "effect": [ { "math": [ "u_hp('arm_l')", "+=", "2" ] } ],
     "false_effect": [ { "run_eocs": "EOC_perk_blood_drinking_heal_hp_check" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_perk_blood_drinking_heal_arm_r",
-    "condition": { "math": [ "u_hp('arm_r')", "<", "u_hp_max('arm_r')" ] },
+    "condition": { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] },
     "effect": [ { "math": [ "u_hp('arm_r')", "+=", "2" ] } ],
     "false_effect": [ { "run_eocs": "EOC_perk_blood_drinking_heal_hp_check" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_perk_blood_drinking_heal_leg_l",
-    "condition": { "math": [ "u_hp('leg_l')", "<", "u_hp_max('leg_l')" ] },
+    "condition": { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] },
     "effect": [ { "math": [ "u_hp('leg_l')", "+=", "2" ] } ],
     "false_effect": [ { "run_eocs": "EOC_perk_blood_drinking_heal_hp_check" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_perk_blood_drinking_heal_leg_r",
-    "condition": { "math": [ "u_hp('leg_r')", "<", "u_hp_max('leg_r')" ] },
+    "condition": { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] },
     "effect": [ { "math": [ "u_hp('leg_r')", "+=", "2" ] } ],
     "false_effect": [ { "run_eocs": "EOC_perk_blood_drinking_heal_hp_check" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_perk_blood_drinking_heal_torso",
-    "condition": { "math": [ "u_hp('torso')", "<", "u_hp_max('torso')" ] },
+    "condition": { "math": [ "u_hp('torso') < u_hp_max('torso')" ] },
     "effect": [ { "math": [ "u_hp('torso')", "+=", "2" ] } ],
     "false_effect": [ { "run_eocs": "EOC_perk_blood_drinking_heal_hp_check" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_perk_blood_drinking_heal_head",
-    "condition": { "math": [ "u_hp('head')", "<", "u_hp_max('head')" ] },
+    "condition": { "math": [ "u_hp('head') < u_hp_max('head')" ] },
     "effect": [ { "math": [ "u_hp('head')", "+=", "2" ] } ],
     "false_effect": [ { "run_eocs": "EOC_perk_blood_drinking_heal_hp_check" } ]
   }

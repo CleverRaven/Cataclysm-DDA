@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 800,
     "object": {
@@ -41,37 +40,31 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_spider_cocoon",
     "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "xe_captured_dreamer", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_spider_cocoon",
     "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "monster": "mon_redcap_aspirant", "x": [ 0 ], "y": [ 0 ] } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_spider_cocoon",
     "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "monster": "mon_pooka_aspirant", "x": [ 0 ], "y": [ 0 ] } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_spider_cocoon",
     "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "xe_spider_victim", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_spider_cocoon",
     "object": { "mapgensize": [ 1, 1 ], "place_item": [ { "item": "corpse", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_rat" ],
     "object": {
       "fill_ter": "t_rock_floor",

@@ -2,8 +2,6 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <iosfwd>
-#include <list>
 #include <map>
 #include <set>
 #include <string>
@@ -11,20 +9,22 @@
 #include <vector>
 
 #include "ballistics.h"
+#include "bodypart.h"
+#include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
 #include "dispersion.h"
 #include "enums.h"
-#include "gun_mode.h"
 #include "item.h"
-#include "line.h"
+#include "item_location.h"
+#include "map.h"
 #include "mattack_actors.h"
 #include "mattack_common.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
-#include "npc.h"
-#include "point.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -47,6 +47,8 @@ void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 void mdefense::zapback( monster &m, Creature *const source,
                         dealt_projectile_attack const *proj )
 {
+    map &here = get_map();
+
     if( source == nullptr ) {
         return;
     }
@@ -75,7 +77,7 @@ void mdefense::zapback( monster &m, Creature *const source,
         return;
     }
 
-    if( get_player_view().sees( source->pos_bub() ) ) {
+    if( get_player_view().sees( here, source->pos_bub( here ) ) ) {
         const game_message_type msg_type = source->is_avatar() ? m_bad : m_info;
         add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
                  m.name(), source->disp_name() );
@@ -87,12 +89,14 @@ void mdefense::zapback( monster &m, Creature *const source,
     source->deal_damage( &m, bodypart_id( "arm_l" ), shock );
     source->deal_damage( &m, bodypart_id( "arm_r" ), shock );
 
-    source->check_dead_state();
+    source->check_dead_state( &here );
 }
 
 void mdefense::acidsplash( monster &m, Creature *const source,
                            dealt_projectile_attack const *const proj )
 {
+    const map &here = get_map();
+
     if( source == nullptr ) {
         return;
     }
@@ -125,7 +129,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     }
 
     // Don't splatter directly on the `m`, that doesn't work well
-    std::vector<tripoint_bub_ms> pts = closest_points_first( source->pos_bub(), 1 );
+    std::vector<tripoint_bub_ms> pts = closest_points_first( source->pos_bub( here ), 1 );
     pts.erase( std::remove( pts.begin(), pts.end(), m.pos_bub() ), pts.end() );
 
     projectile prj;
@@ -134,18 +138,21 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     prj.proj_effects.insert( ammo_effect_DRAW_AS_LINE );
     prj.proj_effects.insert( ammo_effect_NO_DAMAGE_SCALING );
     prj.impact.add_damage( damage_acid, rng( 1, 3 ) );
+    dealt_projectile_attack atk;
     for( size_t i = 0; i < num_drops; i++ ) {
         const tripoint_bub_ms &target = random_entry( pts );
-        projectile_attack( prj, m.pos_bub(), target, dispersion_sources{ 1200 }, &m );
+        projectile_attack( atk, prj, m.pos_bub( here ), target, dispersion_sources{ 1200 }, &m );
     }
 
-    if( get_player_view().sees( m.pos_bub() ) ) {
+    if( get_player_view().sees( here, m.pos_bub( here ) ) ) {
         add_msg( m_warning, _( "Acid sprays out of %s as it is hit!" ), m.disp_name() );
     }
 }
 
 void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile_attack *proj )
 {
+    const map &here = get_map();
+
     // No return fire for untargeted projectiles, i.e. from explosions.
     if( source == nullptr ) {
         return;
@@ -162,7 +169,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     const Character *const foe = dynamic_cast<Character *>( source );
     // No return fire for quiet or completely silent projectiles (bows, throwing etc).
     if( foe == nullptr || !foe->get_wielded_item() ||
-        foe->get_wielded_item()->gun_noise().volume < rl_dist( m.pos(), source->pos() ) ) {
+        foe->get_wielded_item()->gun_noise().volume < rl_dist( m.pos_bub(), source->pos_bub() ) ) {
         return;
     }
 
@@ -174,11 +181,11 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     }
 
     // No return fire if attacker is seen
-    if( m.sees( *source ) ) {
+    if( m.sees( here, *source ) ) {
         return;
     }
 
-    const int distance_to_source = rl_dist( m.pos(), source->pos() );
+    const int distance_to_source = rl_dist( m.pos_bub(), source->pos_bub() );
 
     // TODO: implement different rule, dependent on sound and probably some other things
     // Add some inaccuracy since it is blind fire (at a tile, not the player directly)
@@ -186,7 +193,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
 
     for( const std::pair<const std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
         if( attack.second->id == "gun" ) {
-            sounds::sound( m.pos(), 50, sounds::sound_t::alert,
+            sounds::sound( m.pos_bub(), 50, sounds::sound_t::alert,
                            _( "Detected shots from unseen attacker, return fire mode engaged." ) );
             const gun_actor *gunactor = dynamic_cast<const gun_actor *>( attack.second.get() );
             if( gunactor->get_max_range() < distance_to_source ) {

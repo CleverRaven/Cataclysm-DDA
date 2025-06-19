@@ -2,8 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_0", "faction_base_camp_new_0" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -39,8 +37,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_1" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -76,8 +72,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_2" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -113,8 +107,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_3" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -150,8 +142,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_4" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -187,8 +177,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_5" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -224,8 +212,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_6" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -261,8 +247,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_7" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -298,8 +282,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_8" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -335,8 +317,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_9" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -372,8 +352,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_10" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -409,8 +387,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_11" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -446,8 +422,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_12" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -483,8 +457,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_13" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -520,8 +492,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_14" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -557,8 +527,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_15" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -594,8 +562,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_16" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -631,8 +597,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_17" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -668,8 +632,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_18" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -705,8 +667,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_19" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -742,8 +702,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_camp_20" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -779,8 +737,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_farm_0" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -816,8 +772,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_farm_1" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -853,8 +807,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_farm_2" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -890,8 +842,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_farm_3" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -927,8 +877,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_farm_4" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -964,8 +912,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_garage_0" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1001,8 +947,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_garage_1" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1038,8 +982,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_garage_2" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1075,8 +1017,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_garage_3" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1112,8 +1052,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_garage_4" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1149,8 +1087,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_garage_5" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1186,8 +1122,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_garage_6" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1223,8 +1157,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_kitchen_0" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1260,8 +1192,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_kitchen_1" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1297,8 +1227,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_kitchen_2" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1334,8 +1262,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_kitchen_3" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1371,8 +1297,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_kitchen_4" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1408,8 +1332,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_kitchen_5" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1445,8 +1367,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_kitchen_6" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1482,8 +1402,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_kitchen_7" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1519,8 +1437,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_kitchen_8" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1556,8 +1472,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_hide_site_0" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1593,8 +1507,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_wall_level_N_0" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1630,8 +1542,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_wall_level_E_0" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1667,8 +1577,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_wall_level_S_0" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1704,8 +1612,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_wall_level_W_0" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1741,8 +1647,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_wall_level_N_1" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1778,8 +1682,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_wall_level_E_1" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1815,8 +1717,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_wall_level_S_1" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1852,8 +1752,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_wall_level_W_1" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1889,8 +1787,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_blacksmith_0" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1926,8 +1822,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_blacksmith_1" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -1963,8 +1857,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_blacksmith_2" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -2000,8 +1892,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_blacksmith_3" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -2037,8 +1927,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_blacksmith_4" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -2074,8 +1962,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_blacksmith_5" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -2111,8 +1997,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_blacksmith_6" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -2148,8 +2032,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_blacksmith_7" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -2185,8 +2067,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_blacksmith_8" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -2222,8 +2102,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_blacksmith_9" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -2259,8 +2137,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_blacksmith_10" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -2296,8 +2172,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_blacksmith_11" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -2333,8 +2207,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_blacksmith_12" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -2370,8 +2242,6 @@
   {
     "type": "mapgen",
     "om_terrain": "faction_base_livestock_0",
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_grass",
@@ -2407,8 +2277,6 @@
   {
     "type": "mapgen",
     "om_terrain": "faction_base_livestock_2_0",
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_grass",
@@ -2444,8 +2312,6 @@
   {
     "type": "mapgen",
     "om_terrain": "faction_base_storehouse_0",
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_grass",
@@ -2481,8 +2347,6 @@
   {
     "type": "mapgen",
     "om_terrain": "faction_base_storehouse_2_0",
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_grass",
@@ -2518,8 +2382,6 @@
   {
     "type": "mapgen",
     "om_terrain": "faction_base_saltworks_0",
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_grass",
@@ -2555,8 +2417,6 @@
   {
     "type": "mapgen",
     "om_terrain": "faction_base_workshop_0",
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_grass",
@@ -2592,8 +2452,6 @@
   {
     "type": "mapgen",
     "om_terrain": "faction_base_workshop_2_0",
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_grass",
@@ -2629,8 +2487,6 @@
   {
     "type": "mapgen",
     "om_terrain": "faction_base_canteen_0",
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_grass",
@@ -2666,8 +2522,6 @@
   {
     "type": "mapgen",
     "om_terrain": "faction_base_canteen_2_0",
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_grass",
@@ -2703,8 +2557,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_farm_2_0" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -2740,8 +2592,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "faction_base_garage_2_0" ],
-    "method": "json",
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",

@@ -1,0 +1,55 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_iso_eldritch_damage_shield",
+    "name": [ "Coruscating Scales" ],
+    "desc": [ "You are invincible." ],
+    "rating": "good",
+    "remove_message": "The glowing scales protecting you collapse.",
+    "enchantments": [ { "values": [ { "value": "FORCEFIELD", "add": 1 }, { "value": "LUMINATION", "add": 4 } ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_ELDRITCH_DAMAGE_SHIELD_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_iso_eldritch_damage_shield" } },
+    "effect": [
+      { "math": [ "u_iso_eldritch_damage_shield_counter = 0" ] },
+      { "u_add_effect": "effect_iso_eldritch_damage_shield", "duration": "PERMANENT" }
+    ],
+    "false_effect": { "u_lose_effect": "effect_iso_eldritch_damage_shield" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_ELDRITCH_DAMAGE_SHIELD_COUNTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_effect": "effect_iso_eldritch_damage_shield" },
+    "effect": [
+      { "math": [ "u_iso_eldritch_damage_shield_counter", "++" ] },
+      {
+        "if": { "math": [ "u_iso_eldritch_damage_shield_counter > ( (u_spell_level('iso_eldritch_damage_shield') / 4 ) + 1)" ] },
+        "then": { "u_lose_effect": "effect_iso_eldritch_damage_shield" }
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_iso_eldritch_cold_damage_blast",
+    "name": [ "Void-chilled" ],
+    "desc": [ "You are frozen to the bone." ],
+    "rating": "bad",
+    "show_in_info": true,
+    "remove_message": "The chill fades away.",
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.15 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_iso_eldritch_imprisonment",
+    "name": [ "The Adamantine Gaol of Emthys" ],
+    "desc": [ "You are totally immobile and invulnerable." ],
+    "rating": "bad",
+    "show_in_info": true,
+    "remove_message": "You can move again.",
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "CANNOT_TAKE_DAMAGE" ]
+  }
+]

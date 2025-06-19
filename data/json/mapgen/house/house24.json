@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "house_24",
     "//": "normal variant",
     "type": "mapgen",
@@ -27,7 +26,7 @@
         "..#~~~~~Y#x  H   |@@ E#.",
         "..#U~~~~Y#     hr|@@ D#.",
         "..#U~~~~~*      r|||||#.",
-        ".^#~A~~~~#       +---B#^",
+        ".^#éA~~~~#       +---B#^",
         "..#NNNqq~#RyHHHsR|t8SB#.",
         "..##########ooo########.",
         "...........!!!!!........",
@@ -36,6 +35,7 @@
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "-": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "é": "t_thconc_floor",
         "N": "t_thconc_floor",
         "Y": "t_thconc_floor",
         "U": "t_thconc_floor",
@@ -48,7 +48,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "house_24",
     "//": "Moving out variant",
     "type": "mapgen",
@@ -103,7 +102,7 @@
         "{": "f_dumpster"
       },
       "place_items": [
-        { "chance": 5, "item": "ammo_shotgun_rare", "x": 8, "y": 15 },
+        { "chance": 5, "item": "ammo_common_boxed", "x": 8, "y": 15 },
         { "chance": 50, "item": "camping", "x": 6, "y": 12 },
         { "chance": 50, "item": "glass_set", "x": 6, "y": 14 },
         { "chance": 25, "item": "clothing_work_boots", "x": 7, "y": 9 },
@@ -140,7 +139,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "house_24",
     "//": "For sale variant",
     "type": "mapgen",
@@ -183,7 +181,7 @@
       },
       "furniture": { "u": "f_table", "P": "f_sign", "T": "f_table", "i": "f_trashcan" },
       "place_items": [
-        { "chance": 40, "item": "oven", "x": 11, "y": 10 },
+        { "chance": 40, "item": "SUS_oven", "x": 11, "y": 10 },
         { "chance": 45, "item": "bed", "x": 18, "y": 17 },
         { "chance": 45, "item": "bed", "x": 19, "y": 17 },
         { "chance": 45, "item": "bed", "x": 18, "y": 7 },
@@ -226,7 +224,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_24_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

@@ -101,7 +101,7 @@ uint32_t UTF8_getch( const char **src, int *srclen )
 //Calculate width of a Unicode string
 //Latin characters have a width of 1
 //CJK characters have a width of 2, etc
-int utf8_width( const std::string_view s, const bool ignore_tags )
+int utf8_width( std::string_view s, const bool ignore_tags )
 {
     if( ignore_tags ) {
         return utf8_width( remove_color_tags( s ) );
@@ -399,7 +399,7 @@ std::string utf32_to_utf8( const std::u32string_view str )
     return ret;
 }
 
-std::u32string utf8_to_utf32( const std::string_view str )
+std::u32string utf8_to_utf32( std::string_view str )
 {
     int len = str.length();
     const char *dat = str.data();

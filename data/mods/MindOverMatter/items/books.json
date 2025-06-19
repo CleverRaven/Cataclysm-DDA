@@ -1,7 +1,8 @@
 [
   {
     "id": "manual_meditation",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Meditation and You", "str_pl": "copies of Meditation and You" },
     "description": "A description of simple meditation and breathing techniques, intended for a beginner.",
@@ -14,12 +15,10 @@
     "symbol": "?",
     "looks_like": "book_nonf_hard_psych_moodalm",
     "color": "white",
-    "skill": "metaphysics",
     "required_level": 0,
     "max_level": 0,
     "intelligence": 8,
     "time": "15 m",
-    "fun": 1,
     "variants": [
       {
         "id": "manual_meditation_1",
@@ -54,11 +53,14 @@
         "description": "A translation of a letter written by Thich Nhat Hanh to colleagues in Viet Nam, this book focuses on mindfulness and breathwork.",
         "weight": 1
       }
-    ]
+    ],
+    "read_skill": "metaphysics",
+    "read_fun": 1
   },
   {
     "id": "manual_meditation_int",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Secrets of the Zen Masters", "str_pl": "copies of Secrets of the Zen Masters" },
     "description": "This book purports to contain hidden tips that will make you serene and calm in the face of the most grievous calamities.  Cataclysms, one might say.",
@@ -68,7 +70,6 @@
     "max_level": 3,
     "intelligence": 9,
     "time": "20 m",
-    "fun": 0,
     "variants": [
       {
         "id": "manual_meditation_int_1",
@@ -97,39 +98,43 @@
         "description": "A continuation of the lessons expounded on in \"Zen Mind, Beginner's Mind\", this book contains a myriad of parables and koans to help the student grasp the nature of meditation.",
         "weight": 1
       }
-    ]
+    ],
+    "read_fun": 0
   },
   {
     "id": "manual_psionics_advan",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Lab Journal-Otomo", "str_pl": "copies of Lab Journal-Otomo" },
     "description": "This notebook is mostly a series of fanciful speculations about something the author alternately calls \"Matrix Mechanics,\", \"Dimensional Metaphysics,\" or \"Netherium Mathematics,\" sometimes using more than one in the same sentence.  Most of it is incoherent, but there is some experimental data about \"Conscious redirection of nether energy\" that catches your eye.",
     "copy-from": "recipe_lab_cvd",
-    "skill": "metaphysics",
     "required_level": 4,
     "max_level": 4,
     "intelligence": 12,
     "time": "35 m",
-    "fun": -1
+    "read_skill": "metaphysics",
+    "read_fun": -1
   },
   {
     "id": "phavian_report_psionic_drain",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Report: Channeling Protocol PGS38", "str_pl": "copies of Report: Channeling Protocol PGS38" },
     "description": "A formal report on a process to reduce the unpredictable effects of long-term psionic use.  It describes a special meditation technique, performed with the aid of a matrix crystal, though it does warn that the process: \"puts extreme stress on the focus object.  Further refinement is required.\"",
     "copy-from": "recipe_lab_elec",
-    "skill": "metaphysics",
     "required_level": 6,
     "max_level": 6,
     "intelligence": 12,
     "time": "35 m",
-    "fun": -2
+    "read_skill": "metaphysics",
+    "read_fun": -2
   },
   {
     "id": "manual_psionic_ritual",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "Training Manual: Method of Loci and Dimensional Metaphysics",
@@ -137,16 +142,17 @@
     },
     "description": "A formal report on a series of training procedures to allow the practitioner to hold images and ideas in their head for long periods of time without being distracted or losing their train of thought.  The report concludes, \"While the human mind is not adept at holding static images or scenes in place, some minor variation can be allowed for without suffering any adverse effects from the flow of Netherum energy.  Method of Loci allows the mathematician to maintain their thoughts within this area of variation while still exerting effective control over the mathematics.\"",
     "copy-from": "recipe_lab_elec",
-    "skill": "metaphysics",
     "required_level": 4,
     "max_level": 4,
     "intelligence": 12,
     "time": "35 m",
-    "fun": -2
+    "read_skill": "metaphysics",
+    "read_fun": -2
   },
   {
     "id": "phavian_psionic_martial_power_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "Training Manual: VERDANT HAND Combat Protocols",
@@ -154,25 +160,41 @@
     },
     "description": "A formal report with a mostly-blank cover page, stamped with the Project PHAVIAN logo at the top and a red \"VERDANT HAND - EYES ONLY\" centered underneath.  Contrary to your initial assumption, it is not a martial arts training manual.  Instead, it describes a series of meditations and visualization exercises designed to \"increase the subject's unarmed combat prowess fivefold\".  There are several charts showing the results of a VERDANT HAND combatant against training opponents armed with weapons or firearms at various engagement distances.  It's clearly still not as good as just having a rifle, but the data look pretty promising if you can get these exercises down.",
     "copy-from": "recipe_lab_elec",
-    "skill": "unarmed",
     "required_level": 2,
     "max_level": 3,
     "intelligence": 8,
     "time": "12 m",
-    "fun": 1
+    "read_skill": "unarmed",
+    "read_fun": 1
+  },
+  {
+    "id": "phavian_psionic_teleportation_combat_book",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "name": { "str": "Proposal: TURQUOISE KEYSTONE", "str_pl": "copies of Proposal: TURQUOISE KEYSTONE" },
+    "description": "A formal report with a mostly-blank cover page, stamped with the Project PHAVIAN logo at the top and a red \"TURQUOISE KEYSTONE - EYES ONLY\" centered underneath.  Skimming through it, you see a lot of very worrying phrases in light of recent events, like \"…the sudden but so-far unexplained increase in our mathematicians' prowess…\" or \"…E71 is now capable of passing through two meters of solid matter.\"  The main topic of the document seems to be using teleportation (\"LOST RAIN\", as the report calls it) in combat.  By lengthening the space between the teleporter and their target to build up momentum on their strikes, warping space to make near-misses turn into hits, or teleporting fractions of a meter to avoid incoming attacks or put themselves in a better position to make strikes, the TURQUOISE KEYSTONE practitioner can vastly increase their prowess in close-quarters combat.  Written at the bottom of the last page is, \"We had better test this soon--I think we're going to need it.\"",
+    "copy-from": "recipe_lab_elec",
+    "required_level": 2,
+    "max_level": 2,
+    "intelligence": 12,
+    "time": "45 m",
+    "read_skill": "metaphysics",
+    "read_fun": 1
   },
   {
     "id": "phavian_psionic_telepathic_mental_engineering_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Lab Report: PATIENT MOSAIC process", "str_pl": "copies of Lab Report: PATIENT MOSAIC process" },
     "description": "A thick lab report with a mostly-blank cover page, stamped with the Project PHAVIAN logo at the top and a red \"PATIENT MOSAIC - EYES ONLY\" centered underneath.  According to the summary, the report details how a powerful GRAY DAWN participant may use a specifically attuned focusing tool to allow themselves to induce permanent changes in their personality and other segments of their brain.  The report details little success in GRAY DAWN participant applying this process to others.",
     "copy-from": "recipe_lab_elec",
-    "skill": "metaphysics",
     "required_level": 8,
     "max_level": 8,
     "intelligence": 10,
     "time": "12 m",
-    "fun": 1
+    "read_skill": "metaphysics",
+    "read_fun": 1
   }
 ]

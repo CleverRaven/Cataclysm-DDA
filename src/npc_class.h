@@ -3,20 +3,24 @@
 #define CATA_SRC_NPC_CLASS_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
-#include "shop_cons_rate.h"
-#include "translations.h"
+#include "calendar.h"
+#include "faction.h"
+#include "translation.h"
 #include "type_id.h"
 
-class npc;
 class JsonObject;
 class Trait_group;
-
-struct dialogue;
-struct faction_price_rule;
+class item;
+class npc;
+struct const_dialogue;
+struct shopkeeper_blacklist;
+struct shopkeeper_cons_rates;
 
 namespace trait_group
 {
@@ -52,7 +56,7 @@ struct shopkeeper_item_group {
     int trust = 0;
     bool strict = false;
     translation refusal;
-    std::function<bool( dialogue & )> condition;
+    std::function<bool( const_dialogue const & )> condition;
 
     // Rigid shopkeeper groups will be processed a single time. Default groups are not rigid, and will be processed until the shopkeeper has no more room or remaining value to populate goods with.
     bool rigid = false;
@@ -109,6 +113,8 @@ class npc_class
         item_group_id worn_override;
         item_group_id carry_override;
         item_group_id weapon_override;
+
+        translation bye_message_override;
 
         std::map<mutation_category_id, distribution> mutation_rounds;
         trait_group::Trait_group_tag traits = trait_group::Trait_group_tag( "EMPTY_GROUP" );

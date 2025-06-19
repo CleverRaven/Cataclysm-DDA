@@ -1,0 +1,7 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mx_jabberwock",
+    "object": { "place_monster": [ { "monster": "mon_jabberwock", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100 } ] }
+  }
+]

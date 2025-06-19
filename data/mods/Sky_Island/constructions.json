@@ -26,6 +26,30 @@
   },
   {
     "type": "construction",
+    "id": "upgrade_autodoc_1",
+    "group": "autodoc_paste",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 h",
+    "components": [ [ [ "warp_autodoc_active", 1 ], [ "warped_autodoc_upgrader_1", 1 ] ] ],
+    "pre_terrain": "f_autodoc",
+    "post_terrain": "f_si_autodoc_2",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "upgrade_autodoc_2",
+    "group": "autodoc_paste",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 h",
+    "components": [ [ [ "warp_autodoc_active", 1 ], [ "warped_autodoc_upgrader_2", 1 ] ] ],
+    "pre_terrain": "f_si_autodoc_2",
+    "post_terrain": "f_si_autodoc_3",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "constr_sofa",
     "group": "build_sofa",
     "category": "FURN",

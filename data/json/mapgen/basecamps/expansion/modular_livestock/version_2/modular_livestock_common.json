@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbml_2",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -39,13 +38,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_livestock_2_0",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbml_2" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbml_2_coop_yard",
-    "method": "json",
     "object": {
       "set": [
         { "line": "terrain", "id": "t_chickenwire_fence", "x": 13, "x2": 13, "y": 8, "y2": 13 },
@@ -65,7 +62,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbml_2_stall_1",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -79,7 +75,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbml_2_stall_bench",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -95,7 +90,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbml_2_stall_3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -109,7 +103,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbml_2_stall_5",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -125,7 +118,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbml_2_shack_furniture",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -140,7 +132,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbml_2_remote_fence",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_splitrail_fence", "x": 6, "y": 0 },
@@ -156,7 +147,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbml_2_side_fence",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_splitrail_fence", "x": 19, "y": 14 },
@@ -169,7 +159,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbml_2_near_fence",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_splitrail_fence", "x": 6, "y": 22 },

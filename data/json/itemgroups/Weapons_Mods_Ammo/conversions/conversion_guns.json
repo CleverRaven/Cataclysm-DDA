@@ -13,7 +13,7 @@
       {
         "item": "modular_m4_carbine",
         "variant": "m4_cqbr",
-        "contents-item": [ "pistol_grip", "retool_ar15_223rem_short", "suppressor", "adjustable_stock" ]
+        "contents-item": [ "retool_ar15_223rem_short", "suppressor", "adjustable_stock" ]
       }
     ]
   },

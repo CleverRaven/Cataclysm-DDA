@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mansion_c5_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -37,7 +36,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mansion_e2_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -73,7 +71,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mansion_c3_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -109,7 +106,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mansion_t2_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -145,7 +141,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mansion_+2_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -181,7 +176,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mansion_t6_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -217,7 +211,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mansion_c4_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -253,7 +246,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mansion_t7_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -289,7 +281,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mansion_c1_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -325,7 +316,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mansion_c2_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -361,7 +351,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mansion_e1_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -397,7 +386,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mansion_t5_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -433,7 +421,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mansion_+1_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -469,7 +456,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mansion_t4_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -505,7 +491,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mansion_t1_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -541,7 +526,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mansion_+4_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -577,7 +561,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mansion_+3_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

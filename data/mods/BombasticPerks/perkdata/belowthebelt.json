@@ -1,0 +1,17 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_humanoid_body",
+    "weakpoints": [
+      {
+        "id": "groin",
+        "name": "the groin",
+        "coverage": 5,
+        "crit_mult": { "all": 1.1 },
+        "armor_mult": { "physical": 0.75 },
+        "difficulty": { "melee": 1, "ranged": 5 },
+        "condition": { "and": [ "has_alpha", "u_is_character", { "u_has_trait": "perk_belowthebelt" } ] }
+      }
+    ]
+  }
+]

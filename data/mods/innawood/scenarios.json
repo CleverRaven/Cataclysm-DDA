@@ -37,7 +37,8 @@
       "bricklayer"
     ],
     "flags": [  ],
-    "reveal_locale": false
+    "reveal_locale": false,
+    "distance_initial_visibility": 0
   },
   {
     "type": "scenario",
@@ -76,7 +77,8 @@
       "carpenter",
       "bricklayer"
     ],
-    "reveal_locale": false
+    "reveal_locale": false,
+    "distance_initial_visibility": 0
   },
   {
     "type": "scenario",
@@ -116,7 +118,8 @@
       "carpenter",
       "bricklayer"
     ],
-    "reveal_locale": false
+    "reveal_locale": false,
+    "distance_initial_visibility": 0
   },
   {
     "type": "scenario",
@@ -157,7 +160,8 @@
       "carpenter",
       "bricklayer"
     ],
-    "reveal_locale": false
+    "reveal_locale": false,
+    "distance_initial_visibility": 0
   },
   {
     "type": "scenario",
@@ -197,7 +201,8 @@
       "carpenter",
       "bricklayer"
     ],
-    "reveal_locale": false
+    "reveal_locale": false,
+    "distance_initial_visibility": 0
   },
   {
     "type": "scenario",
@@ -210,7 +215,8 @@
     "professions": [ "svictim", "naked", "unemployed", "homeless", "hitchhiker", "musician" ],
     "eoc": [ "scenario_infected", "scenario_bad_day" ],
     "flags": [ "FIRE_START", "CHALLENGE", "LONE_START" ],
-    "reveal_locale": false
+    "reveal_locale": false,
+    "distance_initial_visibility": 0
   },
   {
     "type": "scenario",
@@ -249,7 +255,8 @@
       "carpenter",
       "bricklayer"
     ],
-    "reveal_locale": false
+    "reveal_locale": false,
+    "distance_initial_visibility": 0
   },
   {
     "type": "scenario",
@@ -291,7 +298,8 @@
       "carpenter",
       "bricklayer"
     ],
-    "reveal_locale": false
+    "reveal_locale": false,
+    "distance_initial_visibility": 0
   },
   {
     "type": "scenario",
@@ -346,7 +354,8 @@
     "vehicle": "2seater2_scenario",
     "professions": [ "heli_pilot" ],
     "flags": [ "LONE_START" ],
-    "reveal_locale": false
+    "reveal_locale": false,
+    "distance_initial_visibility": 0
   },
   {
     "type": "scenario",
@@ -385,7 +394,8 @@
       "carpenter",
       "bricklayer"
     ],
-    "reveal_locale": false
+    "reveal_locale": false,
+    "distance_initial_visibility": 0
   },
   {
     "type": "scenario",
@@ -398,7 +408,8 @@
     "start_name": "Crash Site",
     "map_extra": "mx_mayhem",
     "flags": [ "CHALLENGE", "HELI_CRASH", "LONE_START" ],
-    "reveal_locale": false
+    "reveal_locale": false,
+    "distance_initial_visibility": 0
   },
   {
     "type": "scenario",
@@ -413,6 +424,7 @@
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island" ],
     "eoc": [ "scenario_strong_portal_storm", "scenario_portal_dependent" ],
     "requirement": "achievement_witnessed_portal_storm",
+    "distance_initial_visibility": 0,
     "reveal_locale": false,
     "professions": [
       "portal_traveler",
@@ -440,6 +452,7 @@
     "forced_traits": [ "ILLITERATE", "ANTIJUNK", "STRONGSTOMACH", "SPIRITUAL" ],
     "forbidden_traits": [ "FASTREADER", "SLOWREADER" ],
     "flags": [ "CHALLENGE", "LONE_START" ],
+    "distance_initial_visibility": 0,
     "reveal_locale": false
   }
 ]

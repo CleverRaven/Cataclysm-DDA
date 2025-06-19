@@ -1,14 +1,12 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "hw_reserved", "hw_reserved_water", "hw_symbolic_road", "hw_symbolic_ramp_up", "hw_symbolic_ramp_down" ],
     "object": { "fallback_predecessor_mapgen": "open_air" }
   },
   {
     "om_terrain": "hw_road",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "open_air",
       "place_nested": [
@@ -20,7 +18,6 @@
   {
     "nested_mapgen_id": "24x24_highway_road_flat",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -57,7 +54,6 @@
   {
     "nested_mapgen_id": "24x24_highway_road_bridge_ramp",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -93,7 +89,6 @@
   {
     "nested_mapgen_id": "24x24_highway_bridge_road",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -143,7 +138,6 @@
   {
     "om_terrain": "hw_road_bridge",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -179,7 +173,6 @@
   {
     "om_terrain": "hw_bridge_supports",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "river_center",
       "place_nested": [
@@ -230,7 +223,6 @@
   {
     "om_terrain": "hw_underpass",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "place_nested": [
@@ -288,7 +280,6 @@
   {
     "nested_mapgen_id": "24x24_highway_bridge_supports_north",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -324,7 +315,6 @@
   {
     "nested_mapgen_id": "24x24_highway_bridge_supports_south",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -360,7 +350,6 @@
   {
     "nested_mapgen_id": "24x24_highway_underpass_road",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "set": [
@@ -373,7 +362,6 @@
   {
     "nested_mapgen_id": "24x24_highway_underpass",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "set": [ { "square": "terrain", "id": "t_sidewalk", "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
@@ -383,7 +371,6 @@
   {
     "nested_mapgen_id": "24x24_highway_ramp_up_north",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -419,7 +406,6 @@
   {
     "nested_mapgen_id": "24x24_highway_ramp_down_north",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -455,7 +441,6 @@
   {
     "nested_mapgen_id": "24x24_highway_ramp_up_south",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -491,7 +476,6 @@
   {
     "nested_mapgen_id": "24x24_highway_ramp_down_south",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -527,7 +511,6 @@
   {
     "om_terrain": "hw_three_lane",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "rows": [
         ".......................|",
@@ -561,7 +544,6 @@
   {
     "om_terrain": [ [ "hw_three_lane_merge_w", "hw_three_lane_merge_e" ] ],
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [

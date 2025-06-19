@@ -34,5 +34,13 @@
     "using": [ [ "ammo_9mm", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 3 ] ], [ [ "copper", 1 ] ] ]
+  },
+  {
+    "result": "9mm_casing",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "unprimed_9mm_casing", 1 ] ], [ [ "spent_smpistol_primer", 1 ] ] ]
   }
 ]

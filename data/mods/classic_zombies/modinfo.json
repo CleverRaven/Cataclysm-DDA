@@ -38,15 +38,68 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "LATITUDE",
-    "info": "Sets the latitude used for sunrise/sunset times.  Set to Edmonton, Alberta.",
+    "//": "Set to Edmonton, Alberta.",
     "stype": "float",
     "value": 53.55
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "LONGITUDE",
-    "info": "Sets the longitude used for sunrise/sunset times.  Set to Edmonton, Alberta.",
     "stype": "float",
     "value": -113.49
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_FOREST_INCREASE_NORTH",
+    "stype": "float",
+    "value": 0.1
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_FOREST_INCREASE_EAST",
+    "stype": "float",
+    "value": 0.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_FOREST_INCREASE_WEST",
+    "stype": "float",
+    "value": 0.1
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_FOREST_INCREASE_SOUTH",
+    "stype": "float",
+    "value": 0.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_FOREST_LIMIT",
+    "stype": "float",
+    "value": 0.6
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_URBAN_INCREASE_NORTH",
+    "stype": "int",
+    "value": -1
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_URBAN_INCREASE_EAST",
+    "stype": "int",
+    "value": 0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_URBAN_INCREASE_WEST",
+    "stype": "int",
+    "value": -1
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_URBAN_INCREASE_SOUTH",
+    "stype": "int",
+    "value": 0
   }
 ]

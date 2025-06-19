@@ -9,7 +9,7 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 1 ] ],
-      [ [ "223_casing", 1 ] ],
+      [ [ "unprimed_223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 17 ] ],
       [ [ "copper", 2 ] ]
@@ -26,7 +26,7 @@
     "components": [
       [ [ "incendiary", 2 ] ],
       [ [ "lead", 1 ] ],
-      [ [ "223_casing", 1 ] ],
+      [ [ "unprimed_223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 17 ] ],
       [ [ "copper", 1 ] ]

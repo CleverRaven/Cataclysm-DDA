@@ -1,7 +1,7 @@
 [
   {
     "id": "cards_zener",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "deck of Zener cards", "str_pl": "decks of Zener cards" },
     "description": "A deck of Zener cards, used pre-Cataclysm to test for psychic ability.",
@@ -21,7 +21,8 @@
   },
   {
     "id": "force_field_generator",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "other",
     "name": { "str": "device labeled OS647-P", "str_pl": "devices labeled OS647-P" },
     "description": "A small plastic device about the size of two smartphones stacked on top of each other, with a toggle on one end and \"OS647-P\" written prominently on one side above the XEDRA logo.  There is an indentation on the other side the right size to contain a matrix crystal.",
@@ -42,7 +43,8 @@
   },
   {
     "id": "force_field_generator_broken",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "other",
     "name": { "str": "device labeled OS647-P", "str_pl": "devices labeled OS647-P" },
     "description": "A small plastic device about the size of two smartphones stacked on top of each other, with a toggle on one end and \"OS647-P\" written prominently on one side above the XEDRA logo.  Parts of the device seem melted and the toggle no longer moves.",
@@ -57,7 +59,7 @@
     "color": "dark_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "body_astral_projection",
     "copy-from": "corpse",
     "name": { "str_sp": "your body" },
@@ -66,7 +68,7 @@
     "material": [ "hflesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "alien_leaves",
     "copy-from": "leaves",
     "name": { "str": "handful of alien leaves", "str_pl": "handfuls of alien leaves" },

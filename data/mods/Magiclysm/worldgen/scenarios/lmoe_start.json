@@ -1,10 +1,8 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "last_mage_on_earth_shelter" ],
     "//": "Empty LMOE shelter built for a wizard.",
-    "weight": 40,
     "object": {
       "fill_ter": "t_carpet_metal_purple",
       "rows": [
@@ -114,7 +112,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lmoe3_storage_mage_11x11",
     "//": "This is done in a nested map to make the flooring under the furniture look right, nothing much else.",
     "object": {
@@ -138,7 +135,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lmoe_dead_mage_scen_start",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -159,7 +155,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lmoe3_tankroom_mage_scen_11x11",
     "object": {
       "mapgensize": [ 11, 11 ],

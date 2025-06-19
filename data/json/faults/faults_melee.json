@@ -1,0 +1,187 @@
+[
+  {
+    "type": "fault",
+    "id": "fault_blade_rolled_edge",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Rolled edge" },
+    "description": "Edge of the blade got rolled, making it harder to cut.",
+    "melee_damage_mod": [ { "damage_id": "cut", "multiply": 0.8 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_blade_chipped",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Chipped edge" },
+    "description": "The small piece of blade edge was broken off, making it much duller.",
+    "melee_damage_mod": [ { "damage_id": "cut", "multiply": 0.8 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_blade_cracked",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Crack" },
+    "degradation_mod": 50,
+    "description": "There is a deep crack on the blade.  A sure sign that the entire sword will break apart sooner or later."
+  },
+  {
+    "type": "fault",
+    "id": "fault_blade_broken_half",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Broken blade" },
+    "melee_damage_mod": [
+      { "damage_id": "cut", "multiply": 0.65 },
+      { "damage_id": "stab", "multiply": 0.3 },
+      { "damage_id": "bash", "multiply": 0.8 }
+    ],
+    "description": "The small part of this blade broke away.  You still can use it, but it's much less effective.",
+    "block_faults": [ "fault_blade_broken_tip", "fault_blade_bent_tip" ],
+    "affected_by_degradation": true
+  },
+  {
+    "type": "fault",
+    "id": "fault_blade_broken",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Broken blade" },
+    "melee_damage_mod": [
+      { "damage_id": "cut", "multiply": 0.1 },
+      { "damage_id": "stab", "multiply": 0.1 },
+      { "damage_id": "bash", "multiply": 0.2 }
+    ],
+    "description": "The blade shattered completely, making it just a stub.  The only way to repair such damage to make a new weapon.",
+    "block_faults": [
+      "fault_blade_rolled_edge",
+      "fault_blade_chipped",
+      "fault_blade_cracked",
+      "fault_blade_broken_half",
+      "fault_blade_broken_tip",
+      "fault_blade_bent_tip"
+    ],
+    "affected_by_degradation": true
+  },
+  {
+    "type": "fault",
+    "id": "fault_blade_broken_tip",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Broken tip" },
+    "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.6 } ],
+    "block_faults": [ "fault_blade_bent_tip" ],
+    "description": "The tip of the blade you could use to thrust is no more."
+  },
+  {
+    "type": "fault",
+    "id": "fault_blade_bent_tip",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Bent tip" },
+    "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.4 } ],
+    "description": "The tip of the blade you could use to thrust rolled into a spiral."
+  },
+  {
+    "type": "fault",
+    "id": "fault_spearhead_fracture",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Tip fracture" },
+    "description": "The tip of %s snapped off, making the thrusts weaker.",
+    "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.8 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_spearhead_warped",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Tip warp" },
+    "description": "The tip of %s started to warp, making the thrusts weaker.",
+    "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.8 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_spearhead_chipping",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Tip chipping" },
+    "description": "Small pieces of %s started to chip off, making the thrusts less damaging.",
+    "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.9 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_spearhead_bent_socket",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Bent socket" },
+    "description": "The %s's socket was bent off, making the tip not lined with a shaft, and making the weapon very hard to thrust properly.",
+    "item_suffix": "bent",
+    "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.7 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_spearhead_broken",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Broken head" },
+    "description": "The head of %s is completely broken.  The only way to repair such damage is to make a new one.",
+    "block_faults": [ "fault_spearhead_fracture", "fault_spearhead_warped", "fault_spearhead_chipping", "fault_spearhead_bent_socket" ],
+    "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.1 } ],
+    "affected_by_degradation": true
+  },
+  {
+    "type": "fault",
+    "id": "fault_staff_short_chipping",
+    "copy-from": "fault_handle_chipping",
+    "//": "staff faults are just handle faults, but for weapon that is entirely made of handle, like sticks, staffs and 2-by-sword variations",
+    "//2": "`short` is less than 120 cm, `long` is 120+ cm",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Chipping" },
+    "description": "Small pieces of %s are chipping off."
+  },
+  {
+    "type": "fault",
+    "id": "fault_staff_short_cracked",
+    "copy-from": "fault_handle_cracked",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Cracks" },
+    "degradation_mod": 50,
+    "description": "There is a nasty crack on this %s.  Better to fix it before the entire thing snaps in half!"
+  },
+  {
+    "type": "fault",
+    "id": "fault_staff_short_broken",
+    "copy-from": "fault_handle_broken",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Broken" },
+    "description": "The entire %s just snapped, leaving only long splinters.",
+    "item_suffix": "broken",
+    "block_faults": [ "fault_staff_short_chipping", "fault_staff_short_cracked" ],
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.25 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_staff_long_chipping",
+    "copy-from": "fault_handle_long_chipping",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Chipping" },
+    "description": "Small pieces of %s are chipping off."
+  },
+  {
+    "type": "fault",
+    "id": "fault_staff_long_cracked",
+    "copy-from": "fault_handle_long_cracked",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Cracks" },
+    "description": "There is a nasty crack on this %s.  Better to fix it before the entire shaft snaps in half!"
+  },
+  {
+    "type": "fault",
+    "id": "fault_staff_long_broken_half",
+    "copy-from": "fault_handle_long_broken_half",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Broken" },
+    "description": "This %s is snapped in half.  You still can use it, albeit much less effectively.",
+    "block_faults": [ "fault_staff_long_chipping", "fault_staff_long_cracked" ],
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.5 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_staff_long_broken",
+    "copy-from": "fault_handle_long_broken",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Broken" },
+    "description": "This %s is completely broken.",
+    "block_faults": [ "fault_staff_long_chipping", "fault_staff_long_cracked", "fault_staff_long_broken_half" ],
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.1 } ]
+  }
+]

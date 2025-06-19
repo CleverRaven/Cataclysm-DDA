@@ -1,7 +1,8 @@
 [
   {
     "id": "howto_traps",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "How to Trap Anything", "str_pl": "copies of How to Trap Anything" },
     "description": "A worn manual that describes how to set and disarm a wide variety of traps.",
@@ -13,14 +14,15 @@
     "symbol": "?",
     "looks_like": "glassblowing_book",
     "color": "green",
-    "skill": "traps",
     "max_level": 4,
     "intelligence": 4,
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "traps"
   },
   {
     "id": "mag_traps",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Trapper's Life", "str_pl": "issues of Trapper's Life" },
     "description": "An in-depth magazine about trapping game.  There are lots of articles and diagrams that explain simple trap designs.",
@@ -32,14 +34,15 @@
     "symbol": "?",
     "looks_like": "mag_gaming",
     "color": "pink",
-    "skill": "traps",
     "max_level": 1,
     "intelligence": 5,
-    "time": "8 m"
+    "time": "8 m",
+    "read_skill": "traps"
   },
   {
     "id": "manual_traps",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Modern Trapper", "str_pl": "copies of The Modern Trapper" },
     "description": "An extensive volume that details numerous methods of trapping game.",
@@ -51,14 +54,15 @@
     "symbol": "?",
     "looks_like": "manual_dodge",
     "color": "green",
-    "skill": "traps",
     "max_level": 3,
     "intelligence": 4,
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "traps"
   },
   {
     "id": "manual_traps_mil",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "FM 20-32 Mine/Countermine Operations", "str_pl": "copies of FM 20-32 Mine/Countermine Operations" },
     "description": "A hefty military field manual about mine-warfare principles, the mechanics of different types of mines/IED's, and countermine operations.",
@@ -70,15 +74,16 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "green",
-    "skill": "traps",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
-    "time": "30 m"
+    "time": "30 m",
+    "read_skill": "traps"
   },
   {
     "id": "manual_traps_mil_basic",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "Booby Traps, IEDs, Mines and You: A Primer",
@@ -93,14 +98,15 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "green",
-    "skill": "traps",
     "max_level": 3,
     "intelligence": 4,
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "traps"
   },
   {
     "id": "textbook_traps",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "//~": "The spelling is intentionally archaic, as this form is commonly used in the titles of books.",
@@ -116,16 +122,17 @@
     "symbol": "?",
     "looks_like": "manual_dodge",
     "color": "blue",
-    "skill": "traps",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
     "time": "30 m",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "traps"
   },
   {
     "id": "trappers_companion",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Trapper's Companion", "str_pl": "copies of The Trapper's Companion" },
     "description": "A folksy guide to trapping wild game using time-tested methods.  A bit in-depth for the beginner, it can provide a wealth of information to a knowledgeable trapper.",
@@ -137,11 +144,11 @@
     "symbol": "?",
     "looks_like": "manual_carpentry",
     "color": "blue",
-    "skill": "traps",
     "required_level": 5,
     "max_level": 8,
     "intelligence": 10,
     "time": "55 m",
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "read_skill": "traps"
   }
 ]

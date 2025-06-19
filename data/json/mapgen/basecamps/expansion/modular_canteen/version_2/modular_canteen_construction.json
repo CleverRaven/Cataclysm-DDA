@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_2_room",
     "object": {
       "parameters": {
@@ -39,7 +38,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_2_room_roof",
     "object": {
       "parameters": {
@@ -77,7 +75,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_2_1",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmk_2_room" ], "x": 9, "y": 9, "z": 0 },
@@ -87,7 +84,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_2_room_2",
     "object": {
       "parameters": {
@@ -125,7 +121,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_2_room_2_roof",
     "object": {
       "parameters": {
@@ -163,7 +158,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_2_2",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmk_2_room_2" ], "x": 9, "y": 9, "z": 0 },
@@ -173,7 +167,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_2_smoking_area_construction",
     "object": {
       "parameters": {
@@ -209,7 +202,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_2_smoking_area_roof_construction",
     "object": {
       "parameters": {
@@ -245,7 +237,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_2_smoking_area_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmk_2_smoking_area_construction" ], "x": 15, "y": 18, "z": 0 },
@@ -255,7 +246,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_2_pantry_construction",
     "object": {
       "parameters": {
@@ -295,7 +285,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_2_pantry_roof_construction",
     "object": {
       "parameters": {
@@ -335,7 +324,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_2_pantry_construction",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmk_2_pantry_construction" ], "x": 0, "y": 9, "z": 0 },
@@ -345,7 +333,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_2_dining_1",
     "object": {
       "parameters": {
@@ -383,7 +370,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_2_dining_1_roof",
     "object": {
       "parameters": {
@@ -421,7 +407,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_2_dining_1",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmk_2_dining_1" ], "x": 10, "y": 16, "z": 0 },
@@ -431,7 +416,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_2_dining_2",
     "object": {
       "parameters": {
@@ -469,7 +453,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_2_dining_2_roof",
     "object": {
       "parameters": {
@@ -507,7 +490,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_2_dining_2",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmk_2_dining_2" ], "x": 6, "y": 16, "z": 0 },
@@ -517,7 +499,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_2_brewery",
     "object": {
       "parameters": {
@@ -555,7 +536,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_2_brewery_roof",
     "object": {
       "parameters": {
@@ -593,7 +573,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_2_brewery",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmk_2_brewery" ], "x": 0, "y": 16, "z": 0 },

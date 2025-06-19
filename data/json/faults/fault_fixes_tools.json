@@ -1,0 +1,79 @@
+[
+  {
+    "type": "fault_fix",
+    "id": "mend_handle_duct_tape",
+    "name": "Duct-tape the handle.",
+    "success_msg": "You duct-tape the handle of your %s.",
+    "time": "10 m",
+    "faults_removed": [ "fault_handle_chipping", "fault_handle_cracked" ],
+    "mod_damage": -1000,
+    "mod_degradation": 10,
+    "requirements": [ { "components": [ [ [ "duct_tape", 10 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_handle_glue",
+    "name": "Glue the handle cracks.",
+    "success_msg": "You thoroughly glue the handle of your %s.",
+    "time": "5 m",
+    "faults_removed": [ "fault_handle_cracked" ],
+    "mod_damage": -1000,
+    "mod_degradation": -20,
+    "requirements": [ [ "glue_any", 5 ] ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_handle_replace",
+    "name": "Replace a handle.",
+    "success_msg": "You securely install a new handle on your %s.",
+    "time": "60 m",
+    "faults_removed": [ "fault_handle_chipping", "fault_handle_cracked", "fault_handle_broken", "fault_handle_off" ],
+    "mod_damage": -1000,
+    "mod_degradation": -100,
+    "requirements": [
+      {
+        "qualities": [ { "id": "CUT", "level": 2 } ],
+        "components": [ [ [ "stick", 1 ], [ "2x4", 1 ], [ "stick_long", 1 ] ] ]
+      }
+    ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_handle_long_duct_tape",
+    "name": "Duct-tape the handle.",
+    "success_msg": "You duct-tape the handle of your %s.",
+    "time": "10 m",
+    "faults_removed": [ "fault_handle_long_chipping", "fault_handle_long_cracked" ],
+    "mod_damage": -1000,
+    "mod_degradation": 10,
+    "requirements": [ { "components": [ [ [ "duct_tape", 25 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_handle_long_glue",
+    "name": "Glue the handle cracks.",
+    "success_msg": "You thoroughly glue the handle of your %s.",
+    "time": "5 m",
+    "faults_removed": [ "fault_handle_long_cracked" ],
+    "mod_damage": -1000,
+    "mod_degradation": -20,
+    "requirements": [ [ "glue_any", 15 ] ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_handle_long_replace",
+    "name": "Replace a handle.",
+    "success_msg": "You securely install a new handle on your %s.",
+    "time": "60 m",
+    "faults_removed": [
+      "fault_handle_long_chipping",
+      "fault_handle_long_cracked",
+      "fault_handle_long_broken_half",
+      "fault_handle_long_broken",
+      "fault_handle_long_off"
+    ],
+    "mod_damage": -1000,
+    "mod_degradation": -100,
+    "requirements": [ { "qualities": [ { "id": "CUT", "level": 2 } ], "components": [ [ [ "2x4", 1 ], [ "stick_long", 1 ] ] ] } ]
+  }
+]

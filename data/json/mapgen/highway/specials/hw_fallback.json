@@ -2,7 +2,6 @@
   {
     "om_terrain": [ "hw_fb_crossroad", "hw_fb_tee" ],
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [
@@ -59,7 +58,6 @@
   {
     "nested_mapgen_id": "24x24_highway_fallback_intersection_grass",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -95,7 +93,6 @@
   {
     "nested_mapgen_id": "24x24_highway_fallback_intersection_north",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -131,7 +128,6 @@
   {
     "nested_mapgen_id": "24x24_highway_fallback_intersection_west",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -167,7 +163,6 @@
   {
     "om_terrain": [ [ "hw_fb_bend_0_0", "hw_fb_bend_1_0" ], [ "hw_fb_bend_0_1", "hw_fb_bend_1_1" ] ],
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [
@@ -228,7 +223,6 @@
     "//": "TODO: Replace with conditional fitting nests",
     "om_terrain": "hw_fb_supports",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "river_center",
       "rows": [

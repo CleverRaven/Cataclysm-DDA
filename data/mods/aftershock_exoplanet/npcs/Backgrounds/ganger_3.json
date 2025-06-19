@@ -1,0 +1,28 @@
+[
+  {
+    "id": "BGSS_GANGER_3_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "There's so much sky out here.  It's horrible.",
+    "responses": [
+      { "text": "You seem like you are out of your element.", "topic": "BGSS_GANGER_3_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_GANGER_3_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "It might be worse than the dead rising.",
+    "responses": [
+      { "text": "What will you do?", "topic": "BGSS_GANGER_3_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_GANGER_3_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "I'm going to kill my way back into the city so I can get out from under this sky.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

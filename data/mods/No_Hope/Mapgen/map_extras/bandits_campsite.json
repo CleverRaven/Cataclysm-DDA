@@ -1,14 +1,12 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "bandits_campsite",
     "//": "TODO: Add more variations",
     "object": { "place_nested": [ { "chunks": [ "bandits_campsite" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bandits_campsite",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -45,8 +43,8 @@
       "traps": { "r": "tr_rollmat" },
       "npcs": { "@": { "class": "bandit" } },
       "vehicles": {
-        "v": { "vehicle": "bandit_vehicles", "chance": 100, "fuel": 50, "status": -1, "rotation": 90 },
-        "V": { "vehicle": "bandit_vehicles", "chance": 100, "fuel": 50, "status": -1, "rotation": 180 }
+        "v": { "vehicle": "bandit_vehicles", "fuel": 50, "status": -1, "rotation": 90 },
+        "V": { "vehicle": "bandit_vehicles", "fuel": 50, "status": -1, "rotation": 180 }
       }
     }
   }

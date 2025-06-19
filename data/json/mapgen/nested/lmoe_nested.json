@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lmoe3_storage_11x11",
     "//": "This is done in a nested map to make the flooring under the furniture look right, nothing much else.",
     "object": {
@@ -24,7 +23,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lmoe3_tankroom_11x11",
     "//": "This is done in a nested map to make the flooring under the furniture look right, nothing much else.",
     "object": {
@@ -47,7 +45,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lmoe3_crafting_11x11",
     "//": "This is done in a nested map to make the flooring under the furniture look right, nothing much else.",
     "object": {
@@ -69,7 +66,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "This is for the computer in the prepper_1 NPC's locked LMOE. It provides an explanation for the locked LMOE and background flavor on the prepper in case the player hasn't met them yet.",
     "nested_mapgen_id": "prepper_1_computer",
     "object": {

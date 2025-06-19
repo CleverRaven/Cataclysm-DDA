@@ -1,7 +1,8 @@
 [
   {
     "id": "phrygian_cap",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "phrygian cap" },
     "description": "A soft conical hat with the apex bent over.  Commonly worn in antiquity by various cultures in Eastern Europe and Anatolia.  It later signified freedom in both the American and French Revolutions.",
     "weight": "120 g",
@@ -19,7 +20,8 @@
   },
   {
     "id": "theredcap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "blood red cap" },
     "description": "A soft conical hat with the apex bent over.  Commonly worn in antiquity by various cultures in Eastern Europe and Anatolia.  It later signified freedom in both the American and French Revolutions.  Along the brim the cap appears to be the rusty red of old blood.",
     "weight": "120 g",
@@ -35,10 +37,10 @@
     "flags": [ "OVERSIZE", "WATER_FRIENDLY", "NO_UNLOAD", "NO_RELOAD" ],
     "//": "For now it'll be a once-a-day item, as making fae blood a comestible made its use as ammo not work.  When comestibles will be usable as ammo, bring back the hat using fae blood as fuel.",
     "charges_per_use": 1,
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "glamour_charge": 1 }, "airtight": true } ],
     "use_action": { "type": "cast_spell", "spell_id": "bleeding_cap", "no_fail": true, "level": 1, "need_worn": true },
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ],
+    "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true }
   },
   {
     "id": "bleeding_cap",
@@ -66,7 +68,8 @@
   },
   {
     "id": "bloody_cap",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "copy-from": "xl_mt_chainmail_hood",
     "name": { "str_sp": "bloody redcap" },
@@ -75,26 +78,25 @@
     "//": "I added a helmet to the summon",
     "warmth": 0,
     "material_thickness": 2,
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [
-            { "value": "REGEN_STAMINA", "multiply": 0.2 },
-            { "value": "REGEN_HP", "multiply": 0.2 },
-            { "value": "SOCIAL_INTIMIDATE", "add": 4 },
-            { "value": "HUNGER", "add": 40 }
-          ]
-        }
-      ]
-    },
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "VARSIZE", "STURDY", "NO_REPAIR", "NO_SALVAGE", "LIGHT_2", "TRADER_AVOID" ],
+    "flags": [ "OVERSIZE", "PERSONAL", "VARSIZE", "STURDY", "NO_REPAIR", "NO_SALVAGE", "LIGHT_2", "TRADER_AVOID" ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 5,
         "coverage": 100,
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "REGEN_STAMINA", "multiply": 0.2 },
+          { "value": "REGEN_HP", "multiply": 0.2 },
+          { "value": "SOCIAL_INTIMIDATE", "add": 4 },
+          { "value": "HUNGER", "add": 40 }
+        ]
       }
     ]
   }

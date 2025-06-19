@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mortuary",
     "//": "Adds CBMs",
     "weight": 10000,
@@ -52,6 +51,7 @@
         "~": "t_linoleum_white",
         "4": "t_gutter_downspout"
       },
+      "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "&": {  } },
       "furniture": {
         "C": "f_coffin_c",

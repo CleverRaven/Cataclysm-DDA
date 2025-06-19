@@ -1,9 +1,10 @@
 [
   {
     "id": "walther_ppk",
+    "copy-from": "gun_base_32_semi_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
-    "reload_noise_volume": 10,
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": "Walther PPK pistol" },
     "description": "One of the most famous handguns of the 20th century.  Your name is not Bond, but you might find this little gun still useful.",
     "ascii_picture": "ppk",
@@ -12,45 +13,17 @@
     "longest_side": "173 mm",
     "barrel_length": "89 mm",
     "price": "450 USD",
-    "price_postapoc": "12 USD 50 cent",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "light_gray",
-    "ammo": [ "32" ],
-    "skill": "pistol",
     "dispersion": 480,
-    "durability": 8,
-    "min_cycle_recoil": 135,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
-    ],
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppkmag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppkmag" ] } ]
   },
   {
     "id": "kp32",
     "looks_like": "glock_17",
-    "copy-from": "pistol_backup",
-    "type": "GUN",
+    "copy-from": "gun_base_32_semi_pistol",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Kel-Tec P-32 pistol" },
     "description": "One of Kel-Tec's oldest designs, the P-32 is a popular option for deep concealment and backup usage.  Despite its extreme light weight and small size, its .32 ACP chambering makes for good handling and recoil control.",
     "ascii_picture": "P3AT",
@@ -59,15 +32,9 @@
     "longest_side": "147 mm",
     "barrel_length": "68 mm",
     "price": "140 USD",
-    "price_postapoc": "10 USD",
-    "to_hit": -3,
     "material": [ "steel", "plastic", "aluminum" ],
-    "color": "dark_gray",
-    "ammo": [ "32" ],
     "dispersion": 480,
-    "durability": 8,
-    "min_cycle_recoil": 135,
-    "pocket_data": [ { "magazine_well": "41 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "kp32mag" ] } ],
-    "melee_damage": { "bash": 1 }
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [ { "magazine_well": "41 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "kp32mag" ] } ]
   }
 ]

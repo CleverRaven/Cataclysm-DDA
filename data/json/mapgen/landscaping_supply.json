@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "landscapingsupplyco_1a", "landscapingsupplyco_1b" ] ],
     "object": {
       "fill_ter": "t_region_groundcover_barren",
@@ -19,18 +18,19 @@
         " | ccccc___hhhhhh__^^^^^^^________________  ÜÜ| ",
         " | ccccc___hhhhhh___^^^^^^_____________     P | ",
         " | ccccP____hhhhP____ ^^^P______              | ",
-        " | ____________________________ ---ww-ww-+--- | ",
-        " |  ___________________________ -&.C........- | ",
-        " |  #### P__  ^^ P___   _______ -.lC..{{.{{.- | ",
-        " | ###### __ ^^^^ __00/oo _____ -..C..{{.{{.- | ",
-        " | #######__^^^^^^__00/oo _____ -...........- | ",
-        " | #######__^^^^^^__/////P ____ --+--.{{{{{.- | ",
-        " | #######__^^^^^^__OO/nn _____4-T.S-.......- | ",
-        " |  #####    ^^^^   OO/nn _____ ------------- | ",
+        " | ____________________________ ###ww#ww#+### | ",
+        " |  ___________________________ #&.C........# | ",
+        " |  dddd P__  ^^ P___   _______ #.lC..{{.{{.# | ",
+        " | dddddd __ ^^^^ __00#oo _____ #..C..{{.{{.# | ",
+        " | ddddddd__^^^^^^__00#oo _____ #...........# | ",
+        " | ddddddd__^^^^^^__#####P ____ ##+##.{{{{{.# | ",
+        " | ddddddd__^^^^^^__OO#nn _____4#T.S#.......# | ",
+        " |  ddddd    ^^^^   OO#nn _____ ############# | ",
         " |                                            | ",
         " |||||||||||||||||||||||||||||||||||||||||||||| ",
         "                                                "
       ],
+      "palettes": [ "parametrized_walls_palette" ],
       "place_item": [
         { "item": "log", "repeat": [ 12, 120 ], "x": [ 19, 22 ], "y": [ 3, 5 ] },
         { "item": "stick", "repeat": [ 12, 192 ], "x": [ 24, 27 ], "y": [ 3, 5 ] },
@@ -48,14 +48,12 @@
         "n": "t_region_groundcover_barren",
         "o": "t_region_groundcover_barren",
         "^": "t_railroad_rubble",
-        "#": "t_dirtmound",
+        "d": "t_dirtmound",
         "c": "t_claymound",
         "s": "t_sandmound",
         "|": "t_chainfence",
         "w": "t_window",
         "+": "t_door_c",
-        "/": "t_concrete_wall",
-        "-": "t_brick_wall",
         ".": "t_thconc_floor",
         "C": "t_thconc_floor",
         "&": "t_thconc_floor",
@@ -88,9 +86,10 @@
         { "item": "clothing_work_gloves", "x": [ 38, 39 ], "y": [ 15, 16 ], "chance": 75, "repeat": [ 1, 8 ] },
         { "item": "tools_earthworking", "x": [ 38, 42 ], "y": 18, "chance": 70, "repeat": [ 1, 3 ] },
         { "item": "supplies_farming", "x": [ 41, 42 ], "y": [ 15, 16 ], "chance": 75, "repeat": [ 1, 4 ] },
-        { "item": "trash", "x": 33, "y": [ 14, 15 ], "chance": 35, "repeat": 2 },
+        { "item": "SUS_trash_floor", "x": 33, "y": [ 14, 15 ], "chance": 35, "repeat": 2 },
         { "item": "cash_register_random", "x": 35, "y": [ 14, 16 ], "chance": 100 }
       ],
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_vehicles": [ { "vehicle": "pickup", "x": 5, "y": 18, "chance": 55, "rotation": 90 } ],
       "place_signs": [
@@ -114,7 +113,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "landscapingsupplyco_1b_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",

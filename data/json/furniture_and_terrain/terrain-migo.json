@@ -4,7 +4,7 @@
     "id": "t_wall_resin",
     "name": "resin wall",
     "description": "A wall made of a glistening, nearly opaque, plastic-like substance.  Deep within, you can barely see a network of pulsating green conduits, snaking through it like blood vessels.  The material is hard, warm to the touch, and slightly damp.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,

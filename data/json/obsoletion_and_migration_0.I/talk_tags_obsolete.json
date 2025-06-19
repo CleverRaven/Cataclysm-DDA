@@ -1,0 +1,86 @@
+[
+  {
+    "type": "snippet",
+    "category": "<okay>",
+    "//": "Obsolete snippet category",
+    "text": "okay"
+  },
+  {
+    "type": "snippet",
+    "category": "<very>",
+    "text": "very"
+  },
+  {
+    "type": "snippet",
+    "category": "<really>",
+    "text": "really"
+  },
+  {
+    "type": "snippet",
+    "category": "<fuck_you>",
+    "text": "fuck you"
+  },
+  {
+    "type": "snippet",
+    "category": "<swear>",
+    "text": [ { "text": { "str": "<freaking>", "//~": "NO_I18N" } } ]
+  },
+  {
+    "type": "snippet",
+    "category": "<shitty>",
+    "text": "shitty"
+  },
+  {
+    "type": "snippet",
+    "category": "<dumb>",
+    "text": "dumb"
+  },
+  {
+    "type": "snippet",
+    "category": "<monster>",
+    "text": "monster"
+  },
+  {
+    "type": "snippet",
+    "category": "<happy>",
+    "text": "happy"
+  },
+  {
+    "type": "snippet",
+    "category": "<sad>",
+    "text": "sad"
+  },
+  {
+    "type": "snippet",
+    "category": "<get_lost>",
+    "text": "Get lost!"
+  },
+  {
+    "type": "snippet",
+    "category": "<move>",
+    "//": "Generic orders to move, mostly used as part of firing warnings.",
+    "text": "Clear the path"
+  },
+  {
+    "type": "snippet",
+    "category": "<ill_kill_you>",
+    "//": "The NPC is announcing a target, and all the phrases are followed by an NPC or monsters' name.",
+    "text": "I'll kill you,"
+  },
+  {
+    "type": "snippet",
+    "category": "<ill_die>",
+    "//": "A snippet use in the context of another complaint, like I'll die without your help",
+    "text": "I won't last much longer"
+  },
+  {
+    "type": "snippet",
+    "category": "<need_junk>",
+    "text": "I need some junk to power my internal furnace."
+  },
+  {
+    "type": "snippet",
+    "category": "<need_radioactives>",
+    "text": "Hey, <name_g>, pass me some plutonium slurry if you have any, I need to refuel my internal reactor."
+  }
+]

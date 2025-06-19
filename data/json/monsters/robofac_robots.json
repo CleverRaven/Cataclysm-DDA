@@ -81,7 +81,7 @@
     "id": "mon_robofac_skittergun",
     "type": "MONSTER",
     "name": { "str": "Hub 01 exterminatron" },
-    "description": "An an armed and up-armored skitterbot, clad in white plastic plating and mounting a stripped down 7.62 battle rifle over its original cam-arm.",
+    "description": "An armed and up-armored skitterbot, clad in white plastic plating and mounting a stripped down 7.62 battle rifle over its original cam-arm.",
     "default_faction": "robofac_spy",
     "species": [ "ROBOT" ],
     "diff": 8,

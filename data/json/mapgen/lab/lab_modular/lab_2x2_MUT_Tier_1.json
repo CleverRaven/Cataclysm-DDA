@@ -1,9 +1,7 @@
 [
   {
-    "method": "json",
     "om_terrain": [ "lab_2x2_MUT_tier_1_NW" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -64,10 +62,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_2x2_MUT_tier_1_NE" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -129,10 +125,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_2x2_MUT_tier_1_SW" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -198,10 +192,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_2x2_MUT_tier_1_SE" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [

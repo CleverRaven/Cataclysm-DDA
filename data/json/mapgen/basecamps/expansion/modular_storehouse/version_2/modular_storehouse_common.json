@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbms_2",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -38,7 +37,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_storehouse_2_0",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbms_2" ], "x": 0, "y": 0 } ] }
   }
 ]

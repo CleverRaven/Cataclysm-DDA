@@ -49,6 +49,8 @@ chkjson*
 debug.log
 logg.txt
 json_formatter
+*.output
+.cache/
 
 # Visual Studio files
 *.code-workspace
@@ -77,7 +79,8 @@ Directory.Build.targets
 /msvc-full-features/**/
 
 # Temporary CMakeFiles
-CMakeFiles/git-data
+CMakeCache.txt
+CMakeFiles/
 CMakeUserPresets.json
 out/
 
@@ -195,6 +198,7 @@ cataclysm.a
 # clang tooling
 compile_commands.json
 .clangd
+clang-tidy-trace/
 
 # IDA database
 Cataclysm.i64

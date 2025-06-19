@@ -10,7 +10,7 @@
     "time": "620 m",
     "autolearn": true,
     "qualities": [ { "id": "LUTHIER", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "CHISEL_WOOD", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" }, { "proficiency": "prof_luthier_basic" } ],
     "byproducts": [ [ "splinter", 68 ] ],
     "components": [
       [ [ "tonewood", 2 ] ],
@@ -31,7 +31,7 @@
     "time": "420 m",
     "autolearn": true,
     "qualities": [ { "id": "LUTHIER", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "CHISEL_WOOD", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" }, { "proficiency": "prof_luthier_basic" } ],
     "byproducts": [ [ "splinter", 68 ] ],
     "components": [
       [ [ "tonewood", 3 ] ],
@@ -52,7 +52,7 @@
     "time": "720 m",
     "autolearn": true,
     "qualities": [ { "id": "LUTHIER", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "CHISEL_WOOD", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" }, { "proficiency": "prof_luthier_basic" } ],
     "byproducts": [ [ "splinter", 89 ] ],
     "components": [
       [ [ "tonewood", 2 ] ],

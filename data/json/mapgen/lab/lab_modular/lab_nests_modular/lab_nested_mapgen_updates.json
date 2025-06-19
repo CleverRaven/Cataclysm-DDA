@@ -3,14 +3,12 @@
     "//": "Opens bot release if you lack a red science ID card.",
     "type": "mapgen",
     "update_mapgen_id": "release_the_bots",
-    "method": "json",
     "object": { "place_terrain": [ { "ter": "t_thconc_r", "x": 5, "y": 0 } ] }
   },
   {
     "//": "Opens bot release if you lack a green maintenance ID card.",
     "type": "mapgen",
     "update_mapgen_id": "release_the_bots_2",
-    "method": "json",
     "object": {
       "place_terrain": [
         { "ter": "t_thconc_r", "x": 7, "y": 0 },
@@ -24,7 +22,6 @@
     "//": "Opens bot release if you lack a green maintenance ID card.",
     "type": "mapgen",
     "update_mapgen_id": "release_bots_garage",
-    "method": "json",
     "object": {
       "place_terrain": [
         { "ter": "t_thconc_r", "x": 10, "y": 8 },
@@ -38,7 +35,6 @@
     "//": "Opens walls for bot pathing if you lack a green maintenance ID card.",
     "type": "mapgen",
     "update_mapgen_id": "open_walls_garage",
-    "method": "json",
     "object": {
       "place_terrain": [
         { "ter": "t_thconc_r", "x": 0, "y": 1 },
@@ -52,7 +48,6 @@
     "//": "Spawns a special monster fight and ID badge spwan if you have the yellow security badge.",
     "type": "mapgen",
     "update_mapgen_id": "magenta_security_card_spawn",
-    "method": "json",
     "object": {
       "place_loot": [ { "item": "id_science_security_magenta", "x": 21, "y": 14, "chance": 20 } ],
       "place_monster": [ { "monster": [ "mon_zombie_brute" ], "x": 21, "y": 14, "chance": 100 } ]
@@ -62,7 +57,6 @@
     "//": "Opens bot release if you lack a yellow security ID card.",
     "type": "mapgen",
     "update_mapgen_id": "release_bots_3",
-    "method": "json",
     "object": {
       "place_terrain": [
         { "ter": "t_thconc_r", "x": 1, "y": 17 },
@@ -75,7 +69,6 @@
     "//": "Opens bot release if you lack a yellow (ocher) security ID card.",
     "type": "mapgen",
     "update_mapgen_id": "release_bots_3",
-    "method": "json",
     "object": {
       "place_terrain": [
         { "ter": "t_thconc_r", "x": 1, "y": 17 },
@@ -88,7 +81,6 @@
     "//": "Opens bot release if you have no ID badges.",
     "type": "mapgen",
     "update_mapgen_id": "release_bots_concourse",
-    "method": "json",
     "object": {
       "place_terrain": [
         { "ter": "t_thconc_r", "x": 15, "y": 3 },
@@ -110,7 +102,6 @@
     "//": "Opens bot release if you have no ID badges.",
     "type": "mapgen",
     "update_mapgen_id": "release_bots_concourse_2",
-    "method": "json",
     "object": {
       "place_terrain": [
         { "ter": "t_thconc_r", "x": 8, "y": 3 },
@@ -132,7 +123,6 @@
     "//": "Opens bot release if you lack a magenta security ID card.",
     "type": "mapgen",
     "update_mapgen_id": "release_bots_4",
-    "method": "json",
     "object": {
       "set": [
         { "line": "terrain", "id": "t_thconc_r", "x": 17, "y": 3, "x2": 23, "y2": 3 },
@@ -144,28 +134,24 @@
     "//": "Opens bot release if you lack a mutagen security ID card.",
     "type": "mapgen",
     "update_mapgen_id": "release_bots_5",
-    "method": "json",
     "object": { "set": [ { "line": "terrain", "id": "t_thconc_r", "x": 12, "y": 15, "x2": 12, "y2": 16 } ] }
   },
   {
     "//": "Opens bot release if you lack a mutagen security ID card.",
     "type": "mapgen",
     "update_mapgen_id": "release_bots_6",
-    "method": "json",
     "object": { "set": [ { "line": "terrain", "id": "t_thconc_r", "x": 11, "y": 15, "x2": 11, "y2": 16 } ] }
   },
   {
     "//": "Opens bot release if you lack a mutagen security ID card.",
     "type": "mapgen",
     "update_mapgen_id": "release_bots_7",
-    "method": "json",
     "object": { "set": [ { "line": "terrain", "id": "t_thconc_r", "x": 11, "y": 3, "x2": 11, "y2": 5 } ] }
   },
   {
     "//": "Opens bot release if you lack a mutagen ID card.",
     "type": "mapgen",
     "update_mapgen_id": "release_bots_8",
-    "method": "json",
     "object": { "set": [ { "line": "terrain", "id": "t_thconc_r", "x": 12, "y": 3, "x2": 12, "y2": 5 } ] }
   }
 ]

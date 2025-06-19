@@ -1,7 +1,8 @@
 [
   {
     "id": "granade",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Granade" },
     "description": "Attached to this grenade is a name tag with the name Kevin written on it.  Does not seem to work like a grenade, handle with care.",
@@ -22,7 +23,8 @@
   },
   {
     "id": "granade_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active Granade" },
     "description": "Attached to this grenade is a name tag with the name Kevin written on it.  Does not seem to work like a grenade, handle with care.  Better throw it!",
@@ -43,7 +45,8 @@
   {
     "id": "bio_chest_gun",
     "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Ionic Overload Generator CBM" },
     "description": "A powerful ion energy generator is implanted on your chest.  Fires a powerful, ever-expanding energy blast.  The resulting blast ignites oxygen creating fires as it moves and an explosion on impact.  Close range use is highly discouraged.",
     "price": "2 kUSD 200 USD",
@@ -60,7 +63,8 @@
   },
   {
     "id": "bio_ion_gun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Ionic Overload Generator" },
     "description": "A powerful ion energy generator is implanted on your chest.  Fires a powerful, ever-expanding energy blast that goes through various targets.  The energy shot ignites oxygen creating fires as it moves and an explosion on impact.",
     "weight": "2950 g",
@@ -85,7 +89,8 @@
   {
     "id": "yeet_cannon",
     "copy-from": "pistol_base",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Yeet Cannon" },
     "description": "You can YEET all the bullets with this baby.  YEET them right into all of the zombies in your path, all the hulks, the spiders, and those damned mole rats.",
     "weight": "709 g",
@@ -109,7 +114,8 @@
   },
   {
     "id": "firekatana_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Rising Sun" },
     "description": "This is a katana with a nozzle just behind the cutting edge of the blade.  People love fire, and people love katana, so why not put them together?  The gas burners attached to this blade can really turn up the heat on your foes.  Use to ignite.",
@@ -119,7 +125,6 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo": [ "gasoline" ],
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasoline": 50 }, "watertight": true } ],
     "techniques": [ "RAPID", "WBLOCK_2" ],
@@ -132,11 +137,13 @@
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ] ],
     "flags": [ "FIRE", "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "melee_damage": { "bash": 4, "cut": 31 }
+    "melee_damage": { "bash": 4, "cut": 31 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "firekatana_on",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Rising Sun" },
     "description": "This is a katana that glows with the fury and heat of the SUN!  Well, okay it's not THAT hot, but getting hit with it still stings like the dickens.  Use to shut off the gas.",
@@ -146,7 +153,6 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "red",
-    "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasoline": 50 }, "watertight": true } ],
     "turns_per_charge": 30,
     "revert_to": "firekatana_off",
@@ -165,11 +171,13 @@
       }
     ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ],
-    "melee_damage": { "bash": 4, "cut": 31 }
+    "melee_damage": { "bash": 4, "cut": 31 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "zweifire_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "flammenschwert (aus)", "str_pl": "flammenschwerter (aus)" },
     "//": "All of this is SUPPOSED to be in German.",
@@ -180,7 +188,6 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo": [ "gasoline" ],
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasoline": 50 }, "watertight": true } ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
@@ -193,11 +200,63 @@
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 1 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
-    "melee_damage": { "bash": 17, "cut": 40 }
+    "melee_damage": { "bash": 17, "cut": 40 },
+    "tool_ammo": [ "gasoline" ]
+  },
+  {
+    "id": "red_jeans",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str_sp": "red jeans" },
+    "description": "A pair of tight-fitting candy-apple-red jeans with two deep pockets.",
+    "weight": "600 g",
+    "volume": "2 L",
+    "price": "50 USD",
+    "price_postapoc": "1 USD 50 cent",
+    "material": [ "denim" ],
+    "symbol": "[",
+    "looks_like": "jeans",
+    "color": "red",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 0.65,
+    "//": "Lightweight 10 oz denim jeans.",
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "zweifire_on",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "flammenschwert", "str_pl": "flammenschwerter" },
     "//": "All of this is SUPPOSED to be in German.",
@@ -208,7 +267,6 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "red",
-    "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasoline": 50 }, "watertight": true } ],
     "turns_per_charge": 30,
     "revert_to": "zweifire_off",
@@ -232,10 +290,11 @@
       }
     ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH", "ALWAYS_TWOHAND" ],
-    "melee_damage": { "bash": 17, "cut": 40 }
+    "melee_damage": { "bash": 17, "cut": 40 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "battletorch_done",
     "name": { "str": "burnt out Louisville Slaughterer" },
     "description": "A sturdy wood bat, wrapped in flame-resistant Nomex fabric.  Makes a good melee weapon but better be disassembled to recycle the baseball bat and some Nomex patches.",
@@ -252,7 +311,8 @@
   },
   {
     "id": "battletorch",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Louisville Slaughterer" },
     "description": "This is sturdy wood bat, wrapped in gasoline-soaked rags and flame-resistant Nomex fabric.  Light it, and the ball game will REALLY heat up.  You'll need a lighter or matches to light it.",
@@ -280,7 +340,8 @@
   },
   {
     "id": "battletorch_lit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Louisville Slaughterer" },
     "description": "This is a sturdy wood bat, wrapped in gasoline-soaked rags and flame-resistant Nomex fabric.  It is burning brightly, and makes it much easier to see the baselines at night games (It also makes the umpire FAR more likely to call a ball instead of a strike).",
@@ -312,7 +373,8 @@
   {
     "id": "flu_shot_fun",
     "copy-from": "flu_shot",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "flu shot" },
     "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_batrachian", 2300 ] ],
@@ -322,7 +384,7 @@
   {
     "id": "family_photo",
     "copy-from": "family_photo",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "blurry picture of a scowling cartoon ape" },
     "description": "Allegedly very important.",
@@ -332,7 +394,7 @@
   {
     "id": "old_key",
     "copy-from": "old_key",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "penultimate key" },
     "description": "This opens the Blob Door.  Better hold on to it.",
@@ -342,7 +404,7 @@
     "color": "dark_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bread_sword",
     "symbol": "/",
     "color": "brown",
@@ -363,7 +425,7 @@
   {
     "id": "rocket_can_drink",
     "copy-from": "can_drink",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "rocket can" },
     "description": "A beverage can shaped like a rocket with a peeling label that reads 'POWERTHIRST: ROCKET CAN EDITION'.  Its tagline claims that it contains everything you've ever wanted.",
     "symbol": "^",
@@ -387,7 +449,7 @@
   {
     "id": "aux_pressurized_tank",
     "looks_like": "pressurized_tank",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "0.5L pressurized fuel tank" },
     "description": "A pressurized 0.5L canister built crafting into a small auxiliary flamethrower.",
     "weight": "100 g",
@@ -399,7 +461,8 @@
     "color": "light_gray"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "party_rock",
     "symbol": "*",
     "color": "pink",
@@ -418,5 +481,376 @@
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 7 }
+  },
+  {
+    "id": "akmag90",
+    "looks_like": "stanag30",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "AK 90-round magazine" },
+    "description": "A homemade AK magazine made out of welding magazines together.  Looks really stupid, and doesn't work.",
+    "weight": "978 g",
+    "volume": "1137 ml",
+    "longest_side": "675 mm",
+    "price": "2 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "762" ],
+    "reload_time": 200,
+    "mag_jam_mult": 1200,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762": 90 } } ]
+  },
+  {
+    "id": "draco_mini",
+    "copy-from": "draco_mini",
+    "name": { "str": "Small AK pistol" },
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Mini Draco, with a 7.75\" barrel, short enough that the handguard had to be modified.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "draco_mini",
+        "name": { "str": "Century Arms Mini Draco" },
+        "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Mini Draco, with a 7.75\" barrel, short enough that the handguard had to be modified."
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akmag90", "akdrum75" ]
+      }
+    ]
+  },
+  {
+    "id": "draco",
+    "copy-from": "draco",
+    "name": { "str": "AK pistol" },
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Draco, the largest, with a 12.5\" barrel.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "draco",
+        "name": { "str": "Century Arms Draco" },
+        "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Draco, the largest, with a 12.5\" barrel."
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akmag90", "akdrum75" ]
+      }
+    ]
+  },
+  {
+    "id": "aksemi",
+    "copy-from": "aksemi",
+    "name": { "str": "AK-47 rifle" },
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "description": "Civilian-legal clones of the AK-47, with no ability to fire full-auto.  Despite lacking that ability, they're still reliable and useful rifles, even if much rarer ammo and magazine wise than the more common AR-15 platform.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "aksemi_vska",
+        "name": { "str": "Century Arms VSKA" },
+        "description": "This one is a VSKA, manufactured in the USA by Century Arms.",
+        "weight": 16,
+        "append": true
+      },
+      {
+        "id": "aksemi_wasr",
+        "name": { "str": "Century Arms WASR-10" },
+        "description": "This one is a WASR-10, imported by Century Arms.",
+        "weight": 8,
+        "append": true
+      },
+      {
+        "id": "aksemi_zpap",
+        "name": { "str": "Zastava ZPAP M70" },
+        "description": "This one is a ZPAP M70, imported by Zastava.",
+        "weight": 5,
+        "append": true
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akmag90", "akdrum75" ]
+      }
+    ]
+  },
+  {
+    "id": "ak47",
+    "copy-from": "ak47",
+    "name": { "str": "AKM rifle" },
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "description": "One of the most recognizable assault rifles ever made, the AKM is renowned for its durability even under the worst conditions.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ak47",
+        "name": { "str": "AKM" },
+        "description": "Arguably the most mass-produced firearm ever made, the AKM has cemented itself in history, and a few country flags.  Designed after WW2, it was meant to replace the PPSh-41's role, but soon became the main infantry rifle.  While many believe it is a copy of the German StG-44, it more resembles an M1 Garand in operation.  Despite it's age, it still sees plenty of use in conflicts today."
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akmag90", "akdrum75" ]
+      }
+    ]
+  },
+  {
+    "id": "mk47",
+    "copy-from": "mk47",
+    "name": { "str": "American AK rifle" },
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "description": "The CMMG Mk47 Mutant is an American rifle, natively chambered for 7.62x39mm ammo.  Features a characteristic free-floating handguard, with a similar action mechanism to the AR-15, repurposed for the bigger, more potent ammo.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mk47",
+        "name": { "str": "Mk47 Mutant rifle" },
+        "description": "The CMMG Mk47 Mutant is an American rifle, natively chambered for 7.62x39mm ammo.  Features a characteristic free-floating handguard, with a similar action mechanism to the AR-15, repurposed for the bigger, more potent ammo."
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akmag90", "akdrum75" ]
+      }
+    ]
+  },
+  {
+    "id": "draco_micro",
+    "copy-from": "draco_micro",
+    "looks_like": "draco",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Miniscule AK pistol" },
+    "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Nano Draco, the smallest, with a 1\" barrel.  Good luck.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "draco_mini",
+        "name": { "str": "Century Arms Nano Draco" },
+        "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Nano Draco, the smallest, with a 1\" barrel.  Good luck."
+      }
+    ],
+    "weight": "1900 g",
+    "volume": "800 ml",
+    "longest_side": "258 mm",
+    "barrel_length": "29 mm",
+    "price": "1055 USD 99 cent",
+    "price_postapoc": "15 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "clumsy" },
+    "material": [ "steel", "wood" ],
+    "color": "brown",
+    "ammo": [ "762" ],
+    "dispersion": 5000,
+    "durability": 7,
+    "min_cycle_recoil": 1832,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akmag90", "akdrum75" ]
+      }
+    ],
+    "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "diamond_sword",
+    "type": "ITEM",
+    "symbol": "/",
+    "color": "blue",
+    "name": { "str": "Diamond Sword" },
+    "description": "A sword made with two diamonds and a stick.",
+    "material": [ "diamond", "wood" ],
+    "volume": "1 L",
+    "weight": "1 kg",
+    "longest_side": "100 cm",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
+    "price_postapoc": "2 USD 50 cent",
+    "flags": [ "NONCONDUCTIVE" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "melee_damage": { "cut": 7 }
+  },
+  {
+    "id": "ceramic_plate",
+    "copy-from": "ceramic_plate",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "ceramic plate" },
+    "longest_side": "20 cm",
+    "description": "A ceramic dinner plate, unremarkable in every way.",
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 1,
+    "non_functional": "destroyed_ceramic_plate",
+    "damage_verb": "makes a crunch, something has shifted",
+    "flags": [ "ABLATIVE_LARGE", "ABLATIVE_MEDIUM", "CANT_WEAR", "NO_SALVAGE" ],
+    "armor": [ { "encumbrance": 0, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "destroyed_ceramic_plate",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "ceramic_plate",
+    "name": { "str": "compromised ceramic plate" },
+    "description": "A ceramic dinner plate that's been shattered.",
+    "looks_like": "esapi_plate",
+    "material": [ "damaged_ceramic" ]
+  },
+  {
+    "id": "coin_half_dollar",
+    "copy-from": "coin_half_dollar",
+    "type": "ITEM",
+    "category": "currency",
+    "name": { "str": "50 Cent coin" },
+    "description": "A fifty-cent coin, featuring a portrait of famed rapper 50 Cent.  On the back is the date of minting, and the G-Unit symbol."
+  },
+  {
+    "id": "pride_flag",
+    "copy-from": "pride_flag",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "pride flag" },
+    "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "rainbow_pride_flag",
+        "name": { "str": "pride flag" },
+        "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.",
+        "weight": 10
+      },
+      {
+        "id": "progress_pride_flag",
+        "name": { "str": "progress pride flag" },
+        "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.  On the left side you can see a chevron that features black, brown, light blue, pink, and white stripes to bring those communities to the forefront; \"the arrow points to the right to show forward movement, while being along the left edge shows that progress still needs to be made\".",
+        "weight": 10
+      },
+      {
+        "id": "agender_pride_flag",
+        "name": { "str": "agender flag" },
+        "description": "A large green gray and black agender flag.  The black and white stripes represent complete absence of gender, gray represents being semi-genderless, and green represents non-binary gender.",
+        "weight": 2
+      },
+      {
+        "id": "bisexual_pride_flag",
+        "name": { "str": "bisexual flag" },
+        "description": "A large pink and blue bisexual flag.  The pink stripe represents homosexuality, while the blue stripe represents heterosexuality.  The purple stripe, the \"overlap\" of the blue and pink stripes, purple represents attraction regardless of sex or gender a.k.a bisexuality.",
+        "weight": 5
+      },
+      {
+        "id": "pansexual_pride_flag",
+        "name": { "str": "pansexual flag" },
+        "description": "A large pink, blue and yellow pansexual flag.  The pan-pride flag uses pink for people on the female-spectrum, blue for people on the male-spectrum, and yellow for non-binary or genderqueer people.",
+        "weight": 5
+      },
+      {
+        "id": "labrys_lesbian_pride_flag",
+        "name": { "str": "labrys lesbian flag" },
+        "description": "A large black and purple labrys lesbian flag.  On the flag you can see a labrys, a type of double-headed axe, superimposed on a downward-pointing black triangle, set against a violet background.",
+        "weight": 2
+      },
+      {
+        "id": "lesbian_pride_flag",
+        "name": { "str": "lesbian flag" },
+        "description": "A large pink, white and orange lesbian flag.  The dark orange representing \"gender non-conformity\", orange for \"independence\", light orange for \"community\", white for \"unique relationships to womanhood\", pink for \"serenity and peace\", dusty pink for \"love and sex\", and dark rose for \"femininity\".",
+        "weight": 5
+      },
+      {
+        "id": "asexual_pride_flag",
+        "name": { "str": "asexual flag" },
+        "description": "A large purple, white, gray and black asexual flag.  Black for asexuality (feeling no sexual attraction), gray for gray-asexuality and demisexuality (feeling sexual attraction only sometimes), white for non-asexual partners and allies, and purple for community.",
+        "weight": 2
+      },
+      {
+        "id": "aromantic_pride_flag",
+        "name": { "str": "aromantic flag" },
+        "description": "A large black, gray, white and green aromantic flag.  The green and light green stripes cover everyone under the aromantic spectrum, while represents nonromantic forms of love and attraction, and the gray and black represent all sexualities under the aromantic spectrum.",
+        "weight": 2
+      },
+      {
+        "id": "transgender_pride_flag",
+        "name": { "str": "transgender flag" },
+        "description": "A large white, pink, and blue transgender flag.  The stripes at the top and bottom are light blue, the traditional color for baby boys.  The stripes next to them are pink, the traditional color for baby girls.  The white stripe is for people that are nonbinary, feel that they don't have a gender.  The pattern is such that no matter which way you fly it, it is always correct, signifying finding correctness in one's life.",
+        "weight": 5
+      },
+      {
+        "id": "genderqueer_pride_flag",
+        "name": { "str": "genderqueer flag" },
+        "description": "A large green, white, and purple genderqueer flag.  Lavender, a mixture of blue and pink to represent androgynes and androgyny, white to represent agender identity, and green, the inverse of lavender, to represent all those who fall outside of the gender binary.",
+        "weight": 2
+      },
+      {
+        "id": "intersex_pride_flag",
+        "name": { "str": "intersex flag" },
+        "description": "A large yellow, and purple intersex flag.  It displays a purple circle on a yellow field.  Yellow and purple were chosen as colors as they were viewed as free from gender associations and were historically used to represent intersex people.  The circle is described as \"unbroken and unornamented, symbolizing wholeness and completeness, and our potentialities\".",
+        "weight": 2
+      },
+      {
+        "id": "genderfluid_pride_flag",
+        "name": { "str": "genderfluid flag" },
+        "description": "A large blue, black, purple, white and pink genderfluid flag.  The genderfluid flag has a pink stripe for femininity, a blue stripe for masculinity, a purple stripe for both masculinity and femininity, a black stripe for lack of gender, and a white stripe for all genders.",
+        "weight": 2
+      },
+      {
+        "id": "agender_pride_flag",
+        "name": { "str": "agender flag" },
+        "description": "A large green, white, gray and black agender flag.  The black and white stripes represent complete absence of gender, gray represents being semi-genderless, and green represents non-binary gender.  The symmetry of the pattern makes it so that it's correct no matter how it flies.",
+        "weight": 2
+      },
+      {
+        "id": "nonbinary_pride_flag",
+        "name": { "str": "non-binary flag" },
+        "description": "A large black, purple, white, and yellow non-binary flag.  Yellow for those whose gender exists outside of and without reference to the binary, white for those who have many or all genders, purple for those who feel their gender is between or a mix of female and male, and black for those who feel they are without gender.",
+        "weight": 5
+      },
+      {
+        "id": "newbrunswick_pride_flag",
+        "name": { "str": "NB flag" },
+        "description": "A yellow flag with a ship and lion, representing New Brunswick.  You have a feeling this might be the wrong NB flag.",
+        "weight": 5
+      },
+      {
+        "id": "polysexual_pride_flag",
+        "name": { "str": "polysexual flag" },
+        "description": "A large blue, green, and pink polysexual flag.  Pink for people on the female-spectrum, blue for people on the male-spectrum, and green for non-binary or genderqueer people.",
+        "weight": 2
+      },
+      {
+        "id": "leather_pride_flag",
+        "name": { "str": "leather flag" },
+        "description": "A horizontally striped black and blue leather flag with a white band in the middle and red heart in a corner.  The black represents leather; the blue represents devotion, loyalty, and community; the white represents purity and innocence; and the red heart represents love for the community."
+      },
+      {
+        "id": "bear_pride_flag",
+        "name": { "str": "bear flag" },
+        "description": "A large black and orange international bear brotherhood flag.  The flag displays seven horizontal stripes of colors ranging from black to brown representing the colors of different bear species, you can see a black bear paw in the upper right corner."
+      }
+    ]
   }
 ]

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_1" ] ],
     "//": "Compy Coop",
     "weight": 500,

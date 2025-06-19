@@ -1,0 +1,32 @@
+[
+  {
+    "id": "BGSS_UPLIFTED_ANIMAL_3_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I grew up on an island with a doctor.",
+    "responses": [
+      { "text": "Where are you from?", "topic": "BGSS_UPLIFTED_ANIMAL_3_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_UPLIFTED_ANIMAL_3_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "I had so many brothers and sisters.",
+    "responses": [
+      { "text": "Tell me more?", "topic": "BGSS_UPLIFTED_ANIMAL_3_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_UPLIFTED_ANIMAL_3_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "We ate him.",
+    "responses": [
+      { "text": "How did it end?", "topic": "BGSS_UPLIFTED_ANIMAL_3_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "microlab_DinoLab_sub_entry" ],
     "object": {
       "fill_ter": "t_concrete",
@@ -42,7 +41,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_surface_connector" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_concrete",
       "rows": [
@@ -83,7 +81,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_surface" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_concrete",
       "rows": [
@@ -127,7 +124,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_surface_roof" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_concrete",
       "rows": [
@@ -162,7 +158,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -198,7 +193,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -233,7 +227,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -268,7 +261,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -304,7 +296,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -342,7 +333,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -377,7 +367,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -412,7 +401,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -447,7 +435,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -482,7 +469,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -517,7 +503,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -552,7 +537,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -589,7 +573,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -624,7 +607,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -659,7 +641,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -719,7 +700,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -759,7 +739,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -799,7 +778,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -839,7 +817,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -880,7 +857,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -921,7 +897,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -962,7 +937,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -1003,7 +977,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -1044,7 +1017,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -1085,7 +1057,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -1126,7 +1097,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -1167,7 +1137,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -1208,7 +1177,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -1249,7 +1217,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -1290,7 +1257,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [

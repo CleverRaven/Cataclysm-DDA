@@ -1,10 +1,11 @@
 [
   {
     "id": "dreamforged_nail",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "nail",
     "name": { "str": "dreamforged nail" },
-    "description": "A pin-shaped piece of steel.  It can be used to construct various things with a hammer.  Forged from dreamdross, which makes it much lighter.",
+    "description": "A pin-shaped piece of steel.  It can be used to construct various things with a hammer.  Forged from dreamdross, which makes it much lighter.  They do curse and scream at you in an eldritch tongue while you hammer them in and sometimes refuse to be used in specific purposes.",
     "proportional": { "weight": 0.25, "melee_damage": { "bash": 0.25 } },
     "price": "0 cent",
     "price_postapoc": "0 cent",

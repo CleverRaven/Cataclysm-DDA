@@ -1,16 +1,8 @@
 #include "subbodypart.h"
 
-#include <cstdlib>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <utility>
 #include <vector>
 
-#include "debug.h"
-#include "enum_conversions.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "type_id.h"
 
 namespace
@@ -71,7 +63,7 @@ void sub_body_part_type::load_bp( const JsonObject &jo, const std::string &src )
     sub_body_part_factory.load( jo, src );
 }
 
-void sub_body_part_type::load( const JsonObject &jo, const std::string_view )
+void sub_body_part_type::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );

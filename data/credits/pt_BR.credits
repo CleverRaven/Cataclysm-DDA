@@ -1,6 +1,48 @@
 # Linhas com mais de 78 caracteres serão quebradas automaticamente
 # A linha a seguir é para referência
 ##############################################################################
+(<color_cyan>0.H</color>):</color>
+<color_white>Autor original:</color>    <color_white>Gerente de Projeto:</color>
+<color_yellow>Whales</color> (<color_dark_gray>inativo</color>)   <color_yellow>KevinGranade</color>
+
+<color_white>Atuais Desenvolvedores Centrais:</color>
+<color_yellow>anoobindisguise</color> - Correção de bugs e polimento impecáveis ​​na maioria das áreas do jogo.
+<color_yellow>GuardianDll</color>- Alterações aleatórias no jogo, alterações aleatórias nos mods.
+<color_yellow>irwiss</color>- Grandes correções de bugs e code hardening.
+<color_yellow>Maleclypse</color> - Liderou Merging para este ciclo de lançamento e muitas melhorias no Xedra Evolved.
+
+<color_white>Agradecimentos especiais para:</color>
+<color_yellow>anothersimulacrum</color>- Por resolver problemas difíceis.
+<color_yellow>akrieger</color> - The Slowdown Smasher.
+<color_yellow>Fris0uman</color>- Por gerenciar os tilesets e muito mais.
+<color_yellow>John-Candlebury</color>- Pelas boss fights e Protocolos de Isolamento.
+<color_yellow>Night-Pryanik</color>- Por fazer com que resfriados e gripes finalmente fizessem sentido.
+<color_yellow>PatrikLundell</color>- Grandes e extremamente necessárias revisões no conteúdo e na infraestrutura do acampamento de facções.
+<color_yellow>Procyonae</color>- Por tantas melhorias no mapgen e todo o backporting.
+<color_yellow>Qrox</color> - Pelas correções de bugs, análises e infraestrutura.
+<color_yellow>Ramza13</color>- Por realizar os sonhos de tantos modders.
+<color_yellow>RenechCDDA</color> - Pelo Shadow, melhorias nos acampamentos e na personalidade de NPCs.
+<color_yellow>Rivet-the-Zombie</color>- Por alcançar 10.000 merges.
+<color_yellow>Standing-Storm</color>- Pelo 0 a 100 mais rápido em muitos anos.
+<color_yellow>Venera3</color>- Pelo progresso na limbificação.
+<color_yellow>ZhilkinSerg</color> - Por unir todas as coisas.
+<color_yellow>alef</color>,<color_yellow>andrei8l</color>, <color_yellow>, </color>,<color_yellow>mqrause</color>, e <color_yellow>lispcoc</color>
+
+<color_white>Agradecimentos especiais para os contribuidores de artes:</color>
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>,
+<color_yellow>gettingusedto2</color>, e muitos outros.
+
+<color_white>Para uma lista completa de contribuidores veja:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+<color_cyan>https://github.com/I-am-Erk/CDDA-Tilesets/graphs/contributors</color>
+<color_cyan>https://github.com/pixel-32/CDDA-tileset/graphs/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> é licenciado sob <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+******************************************************************************
+
+(<color_cyan>0.G</color>):</color>
 <color_white>Autor original:</color>    <color_white>Gerente de Projeto:</color>
 <color_yellow>Whales</color> (<color_dark_gray>inativo</color>)   <color_yellow>KevinGranade</color>
 

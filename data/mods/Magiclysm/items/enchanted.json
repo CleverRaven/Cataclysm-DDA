@@ -2,24 +2,25 @@
   {
     "id": "belt_str",
     "copy-from": "leather_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "price_postapoc": "1750 USD",
     "name": { "str": "belt of strength +2", "str_pl": "belts of strength +2" },
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ] }
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ]
   },
   {
     "id": "belt_haste",
     "copy-from": "leather_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "price_postapoc": "3500 USD",
     "name": { "str": "belt of haste", "str_pl": "belts of haste" },
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.15, "add": 5 } ] } ]
-    }
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.15, "add": 5 } ] } ]
   },
   {
     "id": "magi_staff_minor",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "symbol": "/",
     "color": "brown",
     "name": { "str": "minor staff of the magi", "str_pl": "minor staves of the magi" },
@@ -29,19 +30,18 @@
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "MAGIC_FOCUS" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 0.5 } ] } ]
-    },
     "weight": "1400 g",
     "volume": "3 L",
     "longest_side": "170 cm",
     "category": "weapons",
     "to_hit": 3,
-    "melee_damage": { "bash": 17 }
+    "melee_damage": { "bash": 17 },
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 0.5 } ] } ]
   },
   {
     "id": "magi_staff_lesser",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "symbol": "/",
     "color": "brown",
     "name": { "str": "lesser staff of the magi", "str_pl": "lesser staves of the magi" },
@@ -51,19 +51,18 @@
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "MAGIC_FOCUS" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 1.25 } ] } ]
-    },
     "weight": "1400 g",
     "volume": "3 L",
     "longest_side": "170 cm",
     "category": "weapons",
     "to_hit": 3,
-    "melee_damage": { "bash": 17 }
+    "melee_damage": { "bash": 17 },
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 1.25 } ] } ]
   },
   {
     "id": "magi_staff_greater",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "symbol": "/",
     "color": "brown",
     "name": { "str": "greater staff of the magi", "str_pl": "greater staves of the magi" },
@@ -73,19 +72,18 @@
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "MAGIC_FOCUS" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 2 } ] } ]
-    },
     "weight": "1400 g",
     "volume": "3 L",
     "longest_side": "170 cm",
     "category": "weapons",
     "to_hit": 3,
-    "melee_damage": { "bash": 17 }
+    "melee_damage": { "bash": 17 },
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 2 } ] } ]
   },
   {
     "id": "bleed_staff_minor",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "magi_staff_minor",
     "symbol": "/",
     "color": "red",
@@ -98,7 +96,8 @@
   },
   {
     "id": "wizard_hat",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "wizard hat",
     "description": "A blue pointed hat with stars stitched into it.  Wearing it increases your maximum mana.",
     "weight": "390 g",
@@ -111,32 +110,30 @@
     "warmth": 7,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "multiply": 0.2, "add": 500 } ] } ]
-    },
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 12, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 12, "coverage": 50, "covers": [ "head" ] } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "multiply": 0.2, "add": 500 } ] } ]
   },
   {
     "id": "debug_fireball_hammer",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "name": "fireball hammer",
     "copy-from": "magi_staff_minor",
     "description": "Use with caution!  Flammable!  Explosive!",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WIELD",
-          "condition": "ALWAYS",
-          "hit_you_effect": [ { "id": "fireball" } ],
-          "hit_me_effect": [ { "id": "light_healing", "hit_self": true } ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "has": "WIELD",
+        "condition": "ALWAYS",
+        "hit_you_effect": [ { "id": "fireball" } ],
+        "hit_me_effect": [ { "id": "light_healing", "hit_self": true } ]
+      }
+    ]
   },
   {
     "id": "cloak_morthylla",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "copy-from": "cloak_wool",
     "name": { "str": "Cloak of Morthylla the Lamia", "str_pl": "Cloaks of Morthylla the Lamia" },
     "description": "This cloak seems to absorb light except for the pinpricks of stars that move across its surface.",
@@ -147,13 +144,14 @@
     "color": "dark_gray",
     "warmth": 30,
     "material_thickness": 3,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY", "TRADER_KEEP_EQUIPPED" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] },
-    "armor": [ { "encumbrance": 4, "coverage": 85, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+    "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "STURDY", "TRADER_KEEP_EQUIPPED" ],
+    "armor": [ { "encumbrance": 4, "coverage": 85, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ]
   },
   {
     "id": "magic_knife_bag",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
     "looks_like": "holster",
     "name": { "str": "Bag of Infinite Throwing Knives", "str_pl": "Bags of Infinite Throwing Knives" },
     "description": "This bag conjures a magical throwing knife on activation.  Only refills when worn.  It also boosts your throwing abilities.",
@@ -166,41 +164,36 @@
     "symbol": "[",
     "color": "dark_gray",
     "charges_per_use": 1,
-    "armor_data": {
-      "sided": true,
-      "armor": [
-        {
-          "material": [ { "type": "black_dragon_hide", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "encumbrance": 2,
-          "coverage": 5,
-          "covers": [ "leg_l", "leg_r" ]
-        }
-      ]
-    },
     "environmental_protection": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "crystallized_mana": 8 } } ],
     "flags": [ "OVERSIZE", "NO_REPAIR", "STURDY", "BELTED", "NO_UNLOAD", "NO_RELOAD" ],
-    "relic_data": {
-      "charge_info": { "recharge_condition": "worn", "recharge_type": "periodic", "time": "5 h", "regenerate_ammo": true },
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "skills": [ { "value": "throw", "add": 3 } ] } ]
-    },
-    "use_action": { "type": "cast_spell", "spell_id": "conj_mag_throw_blade_group", "no_fail": true, "level": 1, "need_worn": true }
+    "use_action": { "type": "cast_spell", "spell_id": "conj_mag_throw_blade_group", "no_fail": true, "level": 1, "need_worn": true },
+    "sided": true,
+    "armor": [
+      {
+        "material": [ { "type": "black_dragon_hide", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 2,
+        "coverage": 5,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ],
+    "charge_info": { "recharge_condition": "worn", "recharge_type": "periodic", "time": "5 h", "regenerate_ammo": true },
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "skills": [ { "value": "throw", "add": 3 } ] } ]
   },
   {
     "id": "wolfshead_cufflinks",
     "copy-from": "ruby_silver_cufflinks",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "weight": "20 g",
     "price_postapoc": "1200 USD",
     "name": { "str": "pair of wolfshead cufflinks", "str_pl": "pairs of wolfshead cufflinks" },
     "description": "A pair of silver cufflinks with a wolf's head engraved into them.  Each cufflink has a bright ruby eye and pearl teeth.  They appear to be growling.  There is an inscription, 'When the moon shines.  I become alive.'",
     "charges_per_use": 1,
-    "relic_data": {
-      "charge_info": { "recharge_type": "periodic", "time": "7 day", "regenerate_ammo": true },
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
-    },
     "use_action": { "type": "cast_spell", "spell_id": "lupercalia", "no_fail": true, "level": 1, "need_worn": true },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "crystallized_mana": 1 } } ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "charge_info": { "recharge_type": "periodic", "time": "7 day", "regenerate_ammo": true },
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
   }
 ]

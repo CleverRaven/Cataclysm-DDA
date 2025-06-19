@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "nested_mapgen_id": "communitygarden_1_roof",
     "type": "mapgen",
     "object": {
@@ -35,10 +34,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "communitygarden",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -95,10 +92,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "communitygarden_2",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -141,7 +136,6 @@
     }
   },
   {
-    "method": "json",
     "nested_mapgen_id": "communitygarden_3_roof",
     "type": "mapgen",
     "object": {
@@ -177,10 +171,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "communitygarden_3",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [

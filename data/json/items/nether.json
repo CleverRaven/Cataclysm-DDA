@@ -1,6 +1,7 @@
 [
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "escape_stone",
     "name": { "str_sp": "portable portal" },
     "color": "magenta",
@@ -16,7 +17,8 @@
     "flags": [ "SINGLE_USE" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "unstable_rift",
     "name": { "str_sp": "unstable rift" },
     "color": "red",
@@ -29,7 +31,8 @@
     "description": "This defies easy description, it feels solid but the surface is yielding.  Looking at it you have a strange desire to call it a door."
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "calming_stone",
     "name": { "str_sp": "calming anomaly" },
     "color": "red",

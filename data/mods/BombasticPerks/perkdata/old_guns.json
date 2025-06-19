@@ -1,259 +1,304 @@
 [
   {
     "id": "marlin_9a",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "marlin_9a",
     "name": { "str": "small game rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "win70",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "win70",
     "name": { "str": "Winchester Model 70" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "garand",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "garand",
     "name": { "str_sp": "M1 Garand" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "m1903",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "m1903",
     "name": { "str": "M1903 Springfield" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "m1918",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "m1918",
     "name": { "str": "Browning Automatic Rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "smle_mk3",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "smle_mk3",
     "name": { "str": "Enfield battle rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "m1carbine",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "m1carbine",
     "name": { "str": "M1 carbine" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "walther_ppk",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "walther_ppk",
     "name": { "str": "Walther PPK" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "colt_navy",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "colt_navy",
     "name": { "str_sp": "Colt M1861 Navy" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
+    "id": "colt_army",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "copy-from": "colt_army",
+    "name": { "str_sp": "Colt M1860 Army" },
+    "extend": { "flags": [ "OLD_GUN" ] }
+  },
+  {
     "id": "model_10_revolver",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "model_10_revolver",
     "name": { "str": "S&W Model 10" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "hi_power_40",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "hi_power_40",
     "name": { "str": "Browning Hi-Power .40 S&W" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "m1911",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "m1911",
     "name": { "str": "M1911 pistol" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "tommygun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "tommygun",
     "name": { "str": "Thompson M1928A1" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "greasegun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "greasegun",
     "name": { "str": "M3 SMG" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "1895sbl",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "1895sbl",
     "name": { "str_sp": "Marlin 1895 SBL" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "mosin91_30",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "mosin91_30",
     "name": { "str": "Mosin battle rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "tokarev",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "tokarev",
     "name": { "str": "Tokarev handgun" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "p08",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "p08",
     "name": { "str": "Luger P08" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "mauser_c96",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "mauser_c96",
     "name": { "str": "Broomhandle pistol" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "mp40",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "mp40",
     "name": { "str": "Schmeisser MP 40" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "sten",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "sten",
     "name": { "str": "STEN Mk II", "str_pl": "STENs Mk II" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "hi_power_9mm",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "hi_power_9mm",
     "name": { "str": "Browning Hi-Power 9x19mm" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "walther_p38",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "walther_p38",
     "name": { "str": "Walther P38" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "cannon_3in_ordnance",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "cannon_3in_ordnance",
     "name": { "str": "3-inch ordnance rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "carbine_flintlock",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "carbine_flintlock",
     "name": { "str": "flintlock carbine" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "pistol_flintlock",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "pistol_flintlock",
     "name": { "str": "flintlock pistol" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "rifle_flintlock",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "rifle_flintlock",
     "name": { "str": "flintlock musket" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "shotgun_d",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "shotgun_d",
     "name": { "str": "double barrel shotgun" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "shotgun_s",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "shotgun_s",
     "name": { "str": "single barrel shotgun" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "winchester_1887",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "winchester_1887",
     "name": { "str": "bootleg lever-action shotgun" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "winchester_1897",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "winchester_1897",
     "name": { "str": "6-round trenchgun" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "number4_mki",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "number4_mki",
     "name": { "str": "updated Enfield rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "m2browning",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "m2browning",
     "name": { "str": "M2HB Browning HMG" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "shotgun_410",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "shotgun_410",
     "name": { "str": "Winchester M37 .410" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "mosin44",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "mosin44",
     "name": { "str": "Mosin carbine" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "type99",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "type99",
     "name": { "str": "7.7mm battle rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "type99_sniper",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "type99_sniper",
     "name": { "str": "7.7mm sniper rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }

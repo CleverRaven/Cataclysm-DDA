@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "safe_house",
     "//": "used by safe_house_basement",
     "type": "mapgen",
@@ -62,7 +61,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "safe_house_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -112,7 +110,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "safe_house_basement" ],
     "//": "Spy safehouse basement",
     "object": {
@@ -185,7 +182,7 @@
         "y": "f_woodstove",
         "{": "f_rack"
       },
-      "items": { "1": { "item": "spy_map" } },
+      "items": { "t": { "item": "SUS_toilet", "chance": 50 }, "1": { "item": "spy_map" } },
       "toilets": { "t": {  } },
       "place_liquids": [ { "liquid": "water", "x": [ 4, 15 ], "y": [ 14, 15 ], "repeat": 3 } ],
       "place_loot": [

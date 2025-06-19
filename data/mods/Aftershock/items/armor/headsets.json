@@ -1,0 +1,77 @@
+[
+  {
+    "id": "afs_combat_headset_off",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "category": "clothing",
+    "name": { "str": "tactical infovisor" },
+    "description": "An armored black headset that coalesces the feeds of several sensors into a single screen display.  It provides generalized assistance in combat, including targeting assistance for thrown and ranged weaponry, threat identification, conditional NV and thermal vision and protection against high intensity light sources.  It must be active to function.",
+    "weight": "170 g",
+    "volume": "750 ml",
+    "price": "7 kUSD",
+    "material": [ "nanoprinted_alloy" ],
+    "symbol": "[",
+    "looks_like": "glasses_safety",
+    "color": "light_gray",
+    "charges_per_use": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ] } ],
+    "use_action": [
+      {
+        "target": "afs_combat_headset",
+        "menu_text": "activate the infovisor",
+        "msg": "You lower the visor and flick the control dial to active.",
+        "type": "transform",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The visor's batteries are dead."
+      }
+    ],
+    "material_thickness": 1,
+    "environmental_protection": 15,
+    "flags": [ "MUNDANE", "OUTER", "PADDED" ],
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "nvg_great" }, { "id": "THERMAL_VISION_GOOD" }, { "id": "ench_ballistic_assist" } ]
+  },
+  {
+    "id": "afs_combat_headset",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "copy-from": "afs_combat_headset_off",
+    "name": { "str": "tactical infovisor" },
+    "description": "An armored black headset that coalesces the feeds of several sensors into a single screen display.  It provides generalized assistance in combat, including targeting assistance for thrown and ranged weaponry, threat identification, conditional NV and thermal vision and protection against high intensity light sources.",
+    "power_draw": "310 mW",
+    "flags": [
+      "MUNDANE",
+      "ZOOM",
+      "WATCH",
+      "ALARMCLOCK",
+      "OUTER",
+      "STURDY",
+      "FLASH_PROTECTION",
+      "SUN_GLASSES",
+      "WATER_BREAK",
+      "PADDED",
+      "ELECTRONIC"
+    ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "revert_to": "afs_combat_headset_off",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "afs_combat_headset_off",
+        "menu_text": "Turn off",
+        "msg": "You flick the visor off, and push it off your face.",
+        "type": "transform"
+      }
+    ]
+  }
+]

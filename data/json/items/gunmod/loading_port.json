@@ -1,7 +1,8 @@
 [
   {
     "id": "arredondo_chute",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "speedloader chute" },
     "description": "A metal ramp that can be installed near a shotgun's feeding port to index speedloader tubes.  Need modification before attaching.",
     "weight": "135 g",
@@ -20,7 +21,8 @@
   },
   {
     "id": "arredondo_chute_benelli_sa",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "speedloader chute, 4-round waterfowl shotgun" },
     "description": "A metal ramp that is installed near a shotgun's feeding port to index speedloader tubes.  This one is for 4-round waterfowl shotgun.",
     "copy-from": "arredondo_chute",
@@ -36,7 +38,8 @@
   },
   {
     "id": "arredondo_chute_remington_870_breacher",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "speedloader chute, 4-round breaching shotgun" },
     "description": "A metal ramp that is installed near a shotgun's feeding port to index speedloader tubes.  This one is for 4-round breaching shotgun.",
     "copy-from": "arredondo_chute",
@@ -52,7 +55,8 @@
   },
   {
     "id": "arredondo_chute_remington_870",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "speedloader chute, 5-round hunting shotgun" },
     "description": "A metal ramp that is installed near a shotgun's feeding port to index speedloader tubes.  This one is for 5-round hunting shotgun.",
     "copy-from": "arredondo_chute",
@@ -68,7 +72,8 @@
   },
   {
     "id": "arredondo_chute_mossberg_500",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "speedloader chute, 6-round combat shotgun" },
     "description": "A metal ramp that is installed near a shotgun's feeding port to index speedloader tubes.  This one is for 6-round combat shotgun.",
     "copy-from": "arredondo_chute",
@@ -84,7 +89,8 @@
   },
   {
     "id": "arredondo_chute_mossberg_930",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "speedloader chute, 8-round auto-loading shotgun" },
     "description": "A metal ramp that is installed near a shotgun's feeding port to index speedloader tubes.  This one is for 8-round auto-loading shotgun.",
     "copy-from": "arredondo_chute",
@@ -100,7 +106,8 @@
   },
   {
     "id": "arredondo_chute_mossberg_590",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "speedloader chute, 9-round combat shotgun" },
     "description": "A metal ramp that is installed near a shotgun's feeding port to index speedloader tubes.  This one is for 9-round combat shotgun.",
     "copy-from": "arredondo_chute",

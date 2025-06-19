@@ -43,7 +43,7 @@
       {
         "run_eocs": [
           {
-            "id": "EOC_HEDGE_WALK_ON_WATER_CONTINUANCE_2",
+            "id": "EOC_PERFECTED_MOTION_WATER_RUN_CONTINUANCE",
             "condition": {
               "and": [
                 { "u_is_on_terrain_with_flag": "SWIMMABLE" },
@@ -58,11 +58,200 @@
             },
             "effect": [
               { "u_message": "You are moving too slowly and fall into the water.", "type": "bad" },
-              { "u_lose_effect": "effect_biokin_perfected_motion" }
+              { "run_eocs": "EOC_BIOKIN_REMOVE_PERFECTED_MOTION" }
             ]
           }
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_VITAMINOSIS",
+    "effect": [
+      { "u_assign_activity": "ACT_BIOKIN_VITAMINOSIS_MEDITATE", "duration": "2400 minutes" },
+      { "u_add_effect": "effect_biokin_vitaminosis", "duration": "2400 minutes" },
+      {
+        "run_eocs": "EOC_BIOKIN_VITAMINOSIS_CALCIUM",
+        "time_in_future": [
+          { "math": [ "max( 0, 120 - ( u_spell_level('biokin_vitaminosis') * 2 ) )" ] },
+          { "math": [ "max( 0, 240 - ( u_spell_level('biokin_vitaminosis') * 2 ) )" ] }
+        ]
+      },
+      {
+        "run_eocs": "EOC_BIOKIN_VITAMINOSIS_IRON",
+        "time_in_future": [
+          { "math": [ "max( 0, 120 - ( u_spell_level('biokin_vitaminosis') * 2 ) )" ] },
+          { "math": [ "max( 0, 240 - ( u_spell_level('biokin_vitaminosis') * 2 ) )" ] }
+        ]
+      },
+      {
+        "run_eocs": "EOC_BIOKIN_VITAMINOSIS_VITC",
+        "time_in_future": [
+          { "math": [ "max( 0, 120 - ( u_spell_level('biokin_vitaminosis') * 2 ) )" ] },
+          { "math": [ "max( 0, 240 - ( u_spell_level('biokin_vitaminosis') * 2 ) )" ] }
+        ]
+      },
+      {
+        "run_eocs": "EOC_BIOKIN_VITAMINOSIS_ONGOING_NETHER_ATTUNEMENT",
+        "time_in_future": [
+          { "math": [ "120 + ( u_spell_level('biokin_vitaminosis') * 2 )" ] },
+          { "math": [ "300 + ( u_spell_level('biokin_vitaminosis') * 5 )" ] }
+        ]
+      },
+      {
+        "run_eocs": "EOC_BIOKIN_VITAMINOSIS_EXPERIENCE",
+        "time_in_future": [
+          { "math": [ "900 - ( u_spell_level('biokin_vitaminosis') * 12 )" ] },
+          { "math": [ "1800 - ( u_spell_level('biokin_vitaminosis') * 25 )" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_VITAMINOSIS_CALCIUM",
+    "condition": { "and": [ { "u_has_effect": "effect_biokin_vitaminosis" }, { "math": [ "u_vitamin('calcium') <= -100" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('calcium') += 100" ] },
+      { "math": [ "u_calories() -= 200" ] },
+      {
+        "run_eocs": "EOC_BIOKIN_VITAMINOSIS_CALCIUM",
+        "time_in_future": [
+          { "math": [ "max( 0, 120 - ( u_spell_level('biokin_vitaminosis') * 2 ) )" ] },
+          { "math": [ "max( 0, 240 - ( u_spell_level('biokin_vitaminosis') * 2 ) )" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_VITAMINOSIS_IRON",
+    "condition": { "and": [ { "u_has_effect": "effect_biokin_vitaminosis" }, { "math": [ "u_vitamin('iron') <= -100" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('iron') += 100" ] },
+      { "math": [ "u_calories() -= 200" ] },
+      {
+        "run_eocs": "EOC_BIOKIN_VITAMINOSIS_IRON",
+        "time_in_future": [
+          { "math": [ "max( 0, 120 - ( u_spell_level('biokin_vitaminosis') * 2 ) )" ] },
+          { "math": [ "max( 0, 240 - ( u_spell_level('biokin_vitaminosis') * 2 ) )" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_VITAMINOSIS_VITC",
+    "condition": { "and": [ { "u_has_effect": "effect_biokin_vitaminosis" }, { "math": [ "u_vitamin('vitC') <= -100" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitC') += 100" ] },
+      { "math": [ "u_calories() -= 200" ] },
+      {
+        "run_eocs": "EOC_BIOKIN_VITAMINOSIS_VITC",
+        "time_in_future": [
+          { "math": [ "max( 0, 120 - ( u_spell_level('biokin_vitaminosis') * 2 ) )" ] },
+          { "math": [ "max( 0, 240 - ( u_spell_level('biokin_vitaminosis') * 2 ) )" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_VITAMINOSIS_ONGOING_NETHER_ATTUNEMENT",
+    "condition": { "u_has_effect": "effect_biokin_vitaminosis" },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(4)" ] },
+      {
+        "run_eocs": "EOC_BIOKIN_VITAMINOSIS_ONGOING_NETHER_ATTUNEMENT",
+        "time_in_future": [
+          { "math": [ "120 + ( u_spell_level('biokin_vitaminosis') * 2 )" ] },
+          { "math": [ "300 + ( u_spell_level('biokin_vitaminosis') * 5 )" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_VITAMINOSIS_EXPERIENCE",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_biokin_vitaminosis" },
+        {
+          "or": [
+            { "math": [ "u_vitamin('calcium') <= -100" ] },
+            { "math": [ "u_vitamin('iron') <= -100" ] },
+            { "math": [ "u_vitamin('vitC') <= -100" ] }
+          ]
+        },
+        { "math": [ "u_calories() > 50000" ] }
+      ]
+    },
+    "effect": [
+      { "if": { "math": [ "u_val('focus') >= 25" ] }, "then": { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] } },
+      { "math": [ "u_spell_exp('biokin_vitaminosis')", "+=", "psionic_power_experience_formula()" ] },
+      {
+        "run_eocs": "EOC_BIOKIN_VITAMINOSIS_EXPERIENCE",
+        "time_in_future": [
+          { "math": [ "900 - ( u_spell_level('biokin_vitaminosis') * 12 )" ] },
+          { "math": [ "1800 - ( u_spell_level('biokin_vitaminosis') * 25 )" ] }
+        ]
+      }
+    ],
+    "false_effect": [ "u_cancel_activity" ]
+  },
+  {
+    "id": "ACT_BIOKIN_VITAMINOSIS_MEDITATE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "can_resume": false,
+    "rooted": true,
+    "completion_eoc": "EOC_BIOKIN_VITAMINOSIS_REMOVE"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_VITAMINOSIS_REMOVE",
+    "effect": [
+      { "u_lose_effect": "effect_biokin_vitaminosis" },
+      { "u_message": "You exit your trance and feel somehow fuller", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_CANCELLING_ACTIVITY_CANCELS_VITAMINOSIS",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_BIOKIN_VITAMINOSIS_MEDITATE", { "context_val": "activity" } ] },
+        { "u_has_effect": "effect_biokin_vitaminosis" }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_BIOKIN_VITAMINOSIS_REMOVE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_GUIDED_EVOLUTION_NETHER_ATTUNEMENT_BACKFIRE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Only apears above 1.05 nether attunement scaling",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_biokin_guided_evolution" },
+        { "math": [ "100 * ( max( u_nether_attunement_power_scaling - 1.05, 0 ) / 2.95 ) > rand(100)" ] }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_biokin_guided_evolution_backfire", "duration": "1 seconds" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LOSES_GUIDED_EVOLUTION_BACKFIRE",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "//": "Mutation triggers before actual evolution enchant is re-activated",
+    "condition": { "compare_string": [ "effect_biokin_guided_evolution_backfire", { "context_val": "effect" } ] },
+    "effect": [ { "u_mutate": 1, "use_vitamins": false } ]
   }
 ]

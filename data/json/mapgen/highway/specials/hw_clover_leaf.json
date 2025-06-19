@@ -145,7 +145,6 @@
       [ "null", "null", "null", "null", "null", "null", "hw_clover_leaf_1_6", "null", "null", "null", "null", "null" ]
     ],
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [
@@ -448,7 +447,6 @@
       [ "hw_clover_leaf_bridge_-1_1", "hw_clover_leaf_bridge_0_1", "hw_clover_leaf_bridge_2_1" ]
     ],
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -508,7 +506,6 @@
   {
     "om_terrain": "hw_railings",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "fill_ter": "t_open_air",
       "place_nested": [
@@ -554,7 +551,6 @@
   {
     "nested_mapgen_id": "24x24_railings_full",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "set": [ { "line": "terrain", "id": "t_guardrail", "x": 0, "y": 0, "x2": 23, "y2": 0 } ],
@@ -564,7 +560,6 @@
   {
     "nested_mapgen_id": "24x24_railings_short",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "mapgensize": [ 6, 6 ],
       "set": [ { "line": "terrain", "id": "t_guardrail", "x": 0, "y": 0, "x2": 5, "y2": 0 } ],

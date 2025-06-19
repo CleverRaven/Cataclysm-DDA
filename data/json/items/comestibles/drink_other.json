@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sauce_red",
     "looks_like": "tomato_juice",
     "name": { "str_sp": "tomato sauce" },
@@ -26,7 +27,8 @@
   },
   {
     "id": "maple_sap",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "symbol": "~",
     "color": "light_cyan",
     "name": { "str_sp": "maple sap" },
@@ -52,7 +54,8 @@
   {
     "id": "mayonnaise",
     "looks_like": "milk",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "symbol": "~",
     "color": "white",
     "name": { "str_sp": "mayonnaise" },
@@ -76,7 +79,8 @@
   },
   {
     "id": "ketchup",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "looks_like": "tomato_juice",
     "symbol": "~",
     "color": "red",
@@ -91,7 +95,7 @@
     "container": "condiment_bottle_sealed",
     "sealed": false,
     "calories": 14,
-    "spoils_in": 600,
+    "spoils_in": "25 days",
     "charges": 16,
     "fun": -1,
     "flags": [ "NO_AUTO_CONSUME" ],
@@ -106,7 +110,8 @@
   },
   {
     "id": "barbecue_sauce",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "looks_like": "molasses",
     "symbol": "~",
     "color": "brown",
@@ -121,7 +126,7 @@
     "container": "condiment_bottle_sealed",
     "sealed": false,
     "calories": 40,
-    "spoils_in": 1200,
+    "spoils_in": "49 days",
     "charges": 16,
     "fun": -1,
     "flags": [ "NO_AUTO_CONSUME" ],
@@ -130,7 +135,8 @@
   },
   {
     "id": "honey_mustard",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "looks_like": "mustard",
     "symbol": "~",
     "color": "yellow",
@@ -145,7 +151,7 @@
     "container": "condiment_bottle_sealed",
     "sealed": false,
     "calories": 28,
-    "spoils_in": 600,
+    "spoils_in": "25 days",
     "charges": 16,
     "fun": -1,
     "flags": [ "NO_AUTO_CONSUME" ],
@@ -154,7 +160,8 @@
   },
   {
     "id": "mustard",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "looks_like": "mayonnaise",
     "symbol": "~",
     "color": "yellow",
@@ -170,7 +177,7 @@
     "sealed": false,
     "fun": -1,
     "calories": 10,
-    "spoils_in": 600,
+    "spoils_in": "25 days",
     "charges": 48,
     "phase": "liquid",
     "flags": [ "NO_AUTO_CONSUME" ],
@@ -178,7 +185,8 @@
   },
   {
     "id": "honey_bottled",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "symbol": "~",
     "color": "yellow",
     "name": { "str_sp": "forest honey" },
@@ -199,7 +207,8 @@
     "phase": "liquid"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "vinegar",
     "looks_like": "water",
     "name": { "str_sp": "vinegar" },
@@ -221,7 +230,8 @@
     "freezing_point": -2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cooking_oil",
     "name": { "str_sp": "vegetable cooking oil" },
     "weight": "15 g",
@@ -246,7 +256,8 @@
     "freezing_point": -26
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cooking_oil2",
     "name": { "str_sp": "animal cooking oil" },
     "copy-from": "cooking_oil",
@@ -256,7 +267,8 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "molasses",
     "name": { "str_sp": "molasses" },
     "weight": "89 g",
@@ -280,7 +292,8 @@
     "freezing_point": -29
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "grenadine_syrup",
     "looks_like": "juice",
     "name": { "str_sp": "grenadine syrup" },
@@ -307,7 +320,8 @@
   },
   {
     "id": "horseradish",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "symbol": "~",
     "color": "white",
     "name": { "str_sp": "horseradish" },
@@ -329,7 +343,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "coffee_syrup",
     "looks_like": "coffee",
     "name": { "str_sp": "coffee syrup" },
@@ -359,7 +374,8 @@
   },
   {
     "id": "coconut_water",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "symbol": "~",
     "color": "light_cyan",
     "spoils_in": "3 days",
@@ -380,7 +396,8 @@
     "vitamins": [ [ "vitC", "5800 μg" ], [ "iron", "700 μg" ], [ "calcium", "57600 μg" ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "salca",
     "name": { "str_sp": "salca" },
     "weight": "275 g",
@@ -403,7 +420,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pekmez",
     "name": { "str_sp": "pekmez" },
     "weight": "87 g",

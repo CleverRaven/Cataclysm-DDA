@@ -13,6 +13,7 @@
         "topic": "TALK_FRIEND_Liam_Abilities",
         "effect": "reveal_stats"
       },
+      { "text": "Please go to this location.", "topic": "TALK_GOTO_LOCATION", "effect": "goto_location" },
       { "text": "There's something I want you to do.", "topic": "TALK_Liam_ORDERS" },
       { "text": "I'd like your opinion on a job we're doing.", "topic": "TALK_Liam_Opinions" },
       {
@@ -22,6 +23,11 @@
       },
       { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Big turtle?  Red burrito?  Seriously?", "condition": "is_by_radio", "topic": "TALK_Liam_Callsigns" },
+      {
+        "text": "[DEBUG MIND CONTROL] Now listen closely… (DEBUG FUNCTIONS)",
+        "condition": { "u_has_trait": "DEBUG_MIND_CONTROL" },
+        "topic": "TALK_ALLY_DEBUG"
+      },
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
       { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]

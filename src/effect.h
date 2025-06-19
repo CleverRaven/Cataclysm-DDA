@@ -105,6 +105,7 @@ class effect_type
 {
         friend void load_effect_type( const JsonObject &jo, std::string_view src );
         friend class effect;
+        friend struct mod_tracker;
     public:
         enum class memorial_gender : int {
             male,
@@ -246,6 +247,8 @@ class effect_type
         std::vector<effect_dur_mod> effect_dur_scaling;
         std::vector<std::pair<int, int>> kill_chance;
         std::vector<std::pair<int, int>> red_kill_chance;
+
+        std::vector<std::pair<efftype_id, mod_id>> src;
 };
 
 class effect;
@@ -290,6 +293,9 @@ class effect
         std::string disp_desc( bool reduced = false ) const;
         /** Returns the short description as set in json. */
         std::string disp_short_desc( bool reduced = false ) const;
+        /** Returns the mod source info. */
+        std::string disp_mod_source_info() const;
+
         /** Returns true if a description will be formatted as "Your" + body_part + description. */
         bool use_part_descs() const;
 

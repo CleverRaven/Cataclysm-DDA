@@ -1,25 +1,25 @@
 [
   {
-    "id": "rare_martial_arts_books",
+    "id": "book_martial_rare",
     "type": "item_group",
     "//": "This group may be a bit overpopulated by MMA, but it seemed the most appropriate place for all of these",
-    "copy-from": "rare_martial_arts_books",
+    "copy-from": "book_martial_rare",
     "extend": {
       "items": [
-        [ "manual_centipede", 1 ],
-        [ "manual_lizard", 1 ],
-        [ "manual_scorpion", 1 ],
-        [ "manual_toad", 1 ],
-        [ "manual_venom_snake", 1 ],
-        [ "manual_mma_desert_wind", 1 ],
-        [ "manual_mma_diamond_mind", 1 ],
-        [ "manual_mma_iron_heart", 1 ],
-        [ "manual_mma_setting_sun", 1 ],
-        [ "manual_mma_stone_dragon", 1 ],
-        [ "manual_mma_tiger_claw", 1 ],
-        [ "manual_mma_shii_cho", 1 ],
-        [ "manual_mma_pokken", 1 ],
-        [ "manual_mma_hylian", 1 ]
+        [ "manual_centipede", 50 ],
+        [ "manual_lizard", 50 ],
+        [ "manual_scorpion", 50 ],
+        [ "manual_toad", 50 ],
+        [ "manual_venom_snake", 50 ],
+        [ "manual_mma_desert_wind", 50 ],
+        [ "manual_mma_diamond_mind", 50 ],
+        [ "manual_mma_iron_heart", 50 ],
+        [ "manual_mma_setting_sun", 50 ],
+        [ "manual_mma_stone_dragon", 50 ],
+        [ "manual_mma_tiger_claw", 50 ],
+        [ "manual_mma_shii_cho", 50 ],
+        [ "manual_mma_pokken", 50 ],
+        [ "manual_mma_hylian", 50 ]
       ]
     }
   },

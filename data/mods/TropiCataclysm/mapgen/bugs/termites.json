@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "termitemound",
     "object": {
       "fallback_predecessor_mapgen": "field",
@@ -37,7 +36,6 @@
   {
     "//": "slopes up to anthill entrance to be used where appropriate",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "termite_up_to_surface",
     "object": { "mapgensize": [ 2, 2 ], "rows": [
         ">>",
@@ -46,7 +44,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "termites_roof",
     "object": {
       "fill_ter": "t_open_air",
@@ -82,7 +79,6 @@
   {
     "//": "walls of ant tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "termite_tunnel_bounds_h",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -108,7 +104,6 @@
   {
     "//": "walls of ant tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "termite_tunnel_bounds_h1",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -134,7 +129,6 @@
   {
     "//": "walls of ant tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "termite_tunnel_bounds_v",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -160,7 +154,6 @@
   {
     "//": "walls of ant tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "termite_tunnel_bounds_v1",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -186,7 +179,6 @@
   {
     "//": "walls of ant tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "termite_tunnel_bounds_v2",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -211,7 +203,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "termites_straight",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -272,7 +263,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "termites_end",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -321,7 +311,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "termites_curved",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -392,7 +381,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "termites_tee",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -460,7 +448,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "termites_four_way",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -526,7 +513,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "termites_food",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -569,7 +555,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "termites_water",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -611,7 +596,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "termites_fungus",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -653,7 +637,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "termites_larvae",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -696,7 +679,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "termites_queen",
     "object": {
       "fill_ter": "t_dirt_underground",

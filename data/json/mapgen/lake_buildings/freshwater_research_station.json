@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sealab_small_surface",
-    "weight": 250,
     "object": {
       "fill_ter": "t_metal_pontoon_dp",
       "rows": [
@@ -33,6 +31,7 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "palettes": [ "underwater_structure" ],
+      "place_furniture": [ { "furn": "f_diesel_generator", "x": 11, "y": 13 } ],
       "place_loot": [
         { "item": "rope_30", "x": 9, "y": [ 7, 9 ], "chance": 30 },
         { "item": "rope_30", "x": 14, "y": [ 7, 9 ], "chance": 30 },
@@ -51,16 +50,13 @@
         { "vehicle": "lake", "x": 21, "y": 15, "rotation": 90, "chance": 30 },
         { "vehicle": "kayak", "x": 10, "y": 8, "rotation": 270, "chance": 10 },
         { "vehicle": "canoe", "x": 10, "y": 17, "rotation": 90, "chance": 30 },
-        { "vehicle": "kayak_racing", "x": 13, "y": 17, "rotation": 90, "chance": 10 },
-        { "vehicle": "portable_generator", "x": 11, "y": 13, "rotation": 0, "chance": 100, "status": 1 }
+        { "vehicle": "kayak_racing", "x": 13, "y": 17, "rotation": 90, "chance": 10 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sealab_small_roof",
-    "weight": 250,
     "object": {
       "fill_ter": "t_metal_flat_roof",
       "rows": [
@@ -95,9 +91,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sealab_small_-1",
-    "weight": 250,
     "object": {
       "fill_ter": "t_bulkhead_floor",
       "rows": [
@@ -131,9 +125,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sealab_small_-2",
-    "weight": 250,
     "object": {
       "fill_ter": "t_bulkhead_floor",
       "rows": [
@@ -167,9 +159,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sealab_small_-3",
-    "weight": 250,
     "object": {
       "fill_ter": "t_bulkhead_floor",
       "rows": [
@@ -236,9 +226,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sealab_small_-4",
-    "weight": 250,
     "object": {
       "fill_ter": "t_bulkhead_floor",
       "rows": [
@@ -291,9 +279,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sealab_small_-5",
-    "weight": 250,
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [

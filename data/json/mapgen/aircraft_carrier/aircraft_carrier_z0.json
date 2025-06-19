@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "aircraft_carrier_1a", "aircraft_carrier_1b", "aircraft_carrier_1c" ],
       [ "aircraft_carrier_2a", "aircraft_carrier_2b", "aircraft_carrier_2c" ],
@@ -232,8 +231,8 @@
         "              5XXX;;;;5;5eeeee5;h;;J;;h;5;55+555;5D;dddddd;;;555        ",
         "              555555555+55555555555555555+55;_^5+55555555555555         ",
         "              5M;rrrrr5;5;;j;;j;;jm;jm;j5;;5;;^5;Dddfffff;+&55          ",
-        "              55M;;;;;+;5iljiljilj;nj;nj55;+;;;+;;;;;;;;;;555           ",
-        "               5M;;;;;5;5H;jH;jH;jl;jl;j}5;5_;;5+5+5+5+5+555            ",
+        "              55M;;;;;+;5ΘljΘljΘlj;nj;nj55;+;;;+;;;;;;;;;;555           ",
+        "               5M;;;;;5;5;;j;;j;;jl;jl;j}5;5_;;5+5+5+5+5+555            ",
         "               55hC;))5;5jkjjkjjkjjkjjkj;5;5^t;5&5&5&5&5&55             ",
         "                5));hC5;+;;;;;;;;;;;;;;;;+;5^^;55555555555              ",
         "                5555555+5555555555+5555555+555+5v;FF;;F55               ",

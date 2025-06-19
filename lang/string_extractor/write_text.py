@@ -23,6 +23,8 @@ def write_text(json, origin, context="", comment="",
         comment: Translation comments in either string form or list of strings
         plural (bool): Whether the text should be pluralized
         c_format (bool): Whether the text contains C-style format string
+        explicit_plural (bool): Whether the plural is specified
+                                explicitly in JSON
     """
     if json is None or json == "":
         return
@@ -30,6 +32,7 @@ def write_text(json, origin, context="", comment="",
     comments = append_comment([], comment)
     text = ""
     text_plural = ""
+    explicit_plural = False
 
     if type(json) is str:
         text = json
@@ -48,8 +51,10 @@ def write_text(json, origin, context="", comment="",
             if "str_sp" in json:
                 text = json["str_sp"]
                 text_plural = json["str_sp"]
+                explicit_plural = True
             elif "str_pl" in json:
                 text_plural = json["str_pl"]
+                explicit_plural = True
             else:
                 text_plural = "{}s".format(text)
 
@@ -67,7 +72,8 @@ def write_text(json, origin, context="", comment="",
         messages[(context, text)] = list()
 
     messages[(context, text)].append(
-        Message(comments, origin, format_tag, context, text, text_plural))
+        Message(comments, origin, format_tag, context,
+                text, text_plural, explicit_plural))
     occurrences.append((context, text))
 
 

@@ -26,6 +26,7 @@
     "name": { "str": "Alarm System" },
     "description": "A motion-detecting alarm system will notice almost all movement within a fifteen-foot radius, and will silently alert you.  This is very useful during sleep, or if you suspect a cloaked pursuer.",
     "occupied_bodyparts": [ [ "torso", 2 ], [ "head", 1 ] ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "MOTION_ALARM", "add": 5 } ] } ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "1 J",
     "react_cost": "1 J",
@@ -800,8 +801,12 @@
     "name": { "str": "WearMan" },
     "description": "Surgically implanted into your skull near the eardrums are two speakers, as well as a small port behind the left earlobe.  They can pick up local radio waves and play downloaded music in concert hall quality.  It came pre-installed with \"Rubik's Mickse\".",
     "occupied_bodyparts": [ [ "head", 1 ] ],
-    "flags": [ "USES_BIONIC_POWER" ],
-    "passive_pseudo_items": [ "internal_mp3" ]
+    "flags": [ "USES_BIONIC_POWER", "BIONIC_TOGGLED" ],
+    "act_cost": "1 J",
+    "react_cost": "1 J",
+    "time": "1 s",
+    "activated_eocs": [ "EOC_BIONIC_WEARMAN_SELECTOR" ],
+    "deactivated_eocs": [ "EOC_BIONIC_WEARMAN_REMOVAL" ]
   },
   {
     "id": "bio_voice_b",
@@ -935,7 +940,7 @@
       [ "foot_r", 1 ]
     ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "active_flags": [ "ELECTRIC_IMMUNE" ],
+    "active_flags": [ "ELECTRIC_IMMUNE", "EMP_ENERGYDRAIN_IMMUNE" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
     "time": "1 s"
@@ -954,6 +959,7 @@
     "type": "bionic",
     "name": { "str": "Calorie Tracker" },
     "description": "A module implanted in your body measures your calorie intake and expenditure at all times.",
+    "flags": [ "CALORIE_BURN" ],
     "occupied_bodyparts": [ [ "torso", 1 ] ]
   },
   {
@@ -1022,7 +1028,7 @@
     "id": "bio_gills",
     "type": "bionic",
     "name": { "str": "Respirator" },
-    "description": "A complex respiration augmentation system.  Improves respiration ability in air and allows breathing water.  Will automatically turn on when drowning.  Turn on to recharge stamina faster, at moderate power cost.  Asthmatics may also use it to stop asthma attacks.",
+    "description": "A complex respiration augmentation system.  Improves respiration ability in air and allows breathing water.  Will automatically activate when drowning.  Turn on to recharge stamina faster, at moderate power cost.  Asthmatics may also use it to stop asthma attacks.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "head", 2 ], [ "mouth", 2 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "trigger_cost": "25 kJ"
@@ -1034,6 +1040,25 @@
     "description": "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground, buried traps, and unstable terrain.",
     "occupied_bodyparts": [ [ "foot_l", 3 ], [ "foot_r", 3 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "condition": { "or": [ { "npc_has_flag": "DIGS" }, { "and": [ "npc_is_underwater", { "npc_has_flag": "CAN_DIG" } ] } ] },
+            "distance": 20,
+            "descriptions": [
+              {
+                "id": "ground_sonar_sense",
+                "symbol": "?",
+                "color": "c_green",
+                "text": "You sense some creature moving underground here."
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "act_cost": "200 J",
     "react_cost": "200 J",
     "time": "1 s"
@@ -1106,7 +1131,7 @@
     "description": "Your range of vision extends into the infrared, allowing you to see warm-blooded creatures in the dark or through smoke.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "active_flags": [ "INFRARED" ],
+    "enchantments": [ "THERMAL_VISION_GOOD" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
     "time": "1 s"
@@ -1400,7 +1425,7 @@
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "passive_pseudo_items": [ "fake_razor" ],
     "flags": [ "BIONIC_NPC_USABLE" ],
-    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_STAB", "add": 2 } ] } ]
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "stab", "add": 2 } ] } ]
   },
   {
     "id": "bio_recycler",

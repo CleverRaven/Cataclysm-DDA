@@ -9,7 +9,7 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
-      [ [ "762_casing", 1 ] ],
+      [ [ "unprimed_762_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 15 ] ],
       [ [ "copper", 1 ] ]
@@ -25,10 +25,18 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 3 ] ],
-      [ [ "762_casing", 1 ] ],
+      [ [ "unprimed_762_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 15 ] ],
       [ [ "copper", 2 ] ]
     ]
+  },
+  {
+    "result": "762_casing",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "unprimed_762_casing", 1 ] ], [ [ "spent_lgrifle_primer", 1 ] ] ]
   }
 ]

@@ -1,13 +1,11 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "bandits_ambush",
     "object": { "place_nested": [ { "chunks": [ "bandits_ambush" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bandits_ambush",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -44,7 +42,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bandits_ambush",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -81,7 +78,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bandits_ambush",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -118,7 +114,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bandits_ambush",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -155,7 +150,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bandits_ambush",
     "object": {
       "mapgensize": [ 24, 24 ],

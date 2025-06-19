@@ -85,7 +85,11 @@
       { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
       { "item": "boots_combat", "prob": 70 },
       {
-        "collection": [ { "distribution": [ { "item": "balclava", "prob": 90 }, { "item": "balaclava_cut_resistant", "prob": 10 } ] } ],
+        "collection": [
+          {
+            "distribution": [ { "item": "balclava", "variant": "black", "prob": 90 }, { "item": "balaclava_cut_resistant", "prob": 10 } ]
+          }
+        ],
         "prob": 25
       },
       {
@@ -102,38 +106,6 @@
     "items": [
       { "item": "jp8", "prob": 70, "charges": [ 0, 5000 ], "container-item": "jerrycan" },
       { "item": "jp8", "prob": 30, "charges": [ 0, 5000 ], "container-item": "jerrycan_big" }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "trash_no_hope",
-    "//": "TODO: Why does this not just override the vanilla trash?",
-    "items": [
-      [ "bottle_plastic", 5 ],
-      [ "bottle_plastic_small", 5 ],
-      [ "bottle_glass", 2 ],
-      { "group": "tinware", "prob": 2 },
-      [ "can_drink", 5 ],
-      [ "plastic_shopping_bag", 5 ],
-      [ "bag_plastic", 5 ],
-      [ "wrapper", 5 ],
-      [ "flyer", 5 ],
-      [ "scorecard", 5 ],
-      [ "plastic_sheet", 5 ],
-      [ "string_6", 5 ],
-      { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
-      [ "ceramic_shard", 5 ],
-      [ "joint_roach", 10 ],
-      [ "bag_canvas_small", 5 ],
-      [ "can_food", 5 ],
-      [ "bubblewrap", 3 ],
-      [ "cig_butt", 15 ],
-      { "item": "cotton_patchwork", "prob": 8, "custom-flags": [ "FILTHY" ] },
-      { "item": "syringe", "prob": 5, "custom-flags": [ "FILTHY" ] },
-      { "item": "lighter", "prob": 5, "charges": [ 0, 10 ] },
-      { "item": "matches", "prob": 5, "charges": [ 0, 20 ] },
-      { "group": "newspaper", "prob": 10 },
-      [ "handflare_dead", 3 ]
     ]
   },
   {

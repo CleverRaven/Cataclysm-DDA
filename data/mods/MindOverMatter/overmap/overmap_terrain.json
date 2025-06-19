@@ -46,7 +46,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "psi_phavian_lab_basementD1_hidden_lab_stairs", "psi_phavian_lab_basementE1" ],
+    "id": [ "psi_phavian_lab_basementD1_hidden_psi_lab_stairs", "psi_phavian_lab_basementE1" ],
     "name": "lab basement",
     "sym": "L",
     "looks_like": "lab_surface_brick_basementD1_hidden_lab_stairs",

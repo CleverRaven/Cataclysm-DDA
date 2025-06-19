@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for small residential areas. Entrance can be East or West center tile.",
     "nested_mapgen_id": "lab_residential_13x13_EW",
     "object": {
@@ -29,7 +28,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for small residential areas. Entrance can be East or West center tile.",
     "nested_mapgen_id": "lab_residential_13x13_EW",
     "object": {
@@ -57,7 +55,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for small residential areas. Entrance can be East or West center tile.",
     "nested_mapgen_id": "lab_residential_13x13_EW",
     "object": {
@@ -90,7 +87,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for small residential areas. Entrance can be East or West center tile.",
     "nested_mapgen_id": "lab_residential_13x13_EW",
     "object": {
@@ -118,7 +114,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for small residential areas. For extra population.",
     "nested_mapgen_id": "lab_residential_12x12_small_rooms_A",
     "object": {
@@ -143,7 +138,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for small residential areas. For extra population.",
     "nested_mapgen_id": "lab_residential_12x12_small_rooms_B",
     "object": {
@@ -168,7 +162,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for small residential areas. Door orientation to the west.",
     "nested_mapgen_id": "lab_residential_6x6_W",
     "object": {
@@ -187,7 +180,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for small residential areas. Door orientation to the west.",
     "nested_mapgen_id": "lab_residential_6x6_W",
     "object": {
@@ -202,12 +194,11 @@
         "A     "
       ],
       "palettes": [ "lab_common_palette", "lab_residential_palette" ],
-      "items": { "J": { "item": "wetbar_stack", "chance": 30 }, "s": { "item": "office_paper", "chance": 30 } }
+      "items": { "J": { "item": "wetbar_stack", "chance": 30 }, "s": { "item": "SUS_office_desk", "chance": 30 } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for small residential areas. Door orientation to the west.",
     "nested_mapgen_id": "lab_residential_6x6_W",
     "object": {
@@ -224,14 +215,12 @@
       "palettes": [ "lab_common_palette", "lab_residential_palette" ],
       "items": {
         "s": { "item": "wetbar_stack", "chance": 30 },
-        "S": { "item": "office_paper", "chance": 30 },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 2, 4 ] }
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_residential_6x6_W",
     "//": "A nested map for small residential areas. Door orientation to the west.",
     "object": {
@@ -252,7 +241,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_residential_6x6_W",
     "//": "A nested map for small residential areas. Door orientation to the west.",
     "object": {
@@ -273,7 +261,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_residential_6x6_W",
     "//": "A nested map for small residential areas. Door orientation to the west.",
     "object": {
@@ -298,7 +285,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_dojo",
     "//": "A nested map for small recreational/fitness areas.",
     "object": {

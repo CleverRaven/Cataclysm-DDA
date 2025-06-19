@@ -3,7 +3,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmh_0_room_1_1",
-    "description": "We need some shelter, so build half of a shack with a roof on the northeast side of the camp",
+    "description": "We need some shelter, so build half of a shack with a roof on the northeast side of the camp.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

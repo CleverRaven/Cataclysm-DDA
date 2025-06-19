@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "abandoned_textile_mill_b_0_1", "abandoned_textile_mill_b_0_2" ] ],
     "object": {
       "fill_ter": "t_region_groundcover_barren",
@@ -40,7 +39,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "abandoned_textile_mill_b_1_1", "abandoned_textile_mill_b_1_2" ] ],
     "object": {
       "fill_ter": "t_open_air",

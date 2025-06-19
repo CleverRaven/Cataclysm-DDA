@@ -982,5 +982,46 @@
     "//": "Code assumes each attack is 1s",
     "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_unarmed_pro" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_whips_familiar",
+    "category": "prof_combat",
+    "name": { "str": "Whip Familiarity" },
+    "description": "You can crack a whip without hurting yourself.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_whips_pro",
+    "category": "prof_combat",
+    "name": { "str": "Whip Proficiency" },
+    "description": "You can use a whip to snuff out a candle from across the room without touching the wax.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
+    "required_proficiencies": [ "prof_whips_familiar" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_whips_master",
+    "category": "prof_combat",
+    "name": { "str": "Whip Mastery" },
+    "description": "Your skill at hunting the living dead with a whip is unparalleled.  Make the Belmonts proud.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
+    "required_proficiencies": [ "prof_whips_pro" ]
   }
 ]

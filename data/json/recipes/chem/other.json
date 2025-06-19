@@ -61,5 +61,22 @@
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "pine_bough", 1 ] ] ]
+  },
+  {
+    "result": "quill_ink",
+    "type": "recipe",
+    "id_suffix": "from_butternut",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 3,
+    "time": "60 m",
+    "batch_time_factors": [ 70, 10 ],
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_distilling" } ],
+    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CUT_FINE", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "filter_paper_quantitative", 1 ] ], [ [ "surface_heat", 30, "LIST" ] ] ],
+    "components": [ [ [ "butternut_husk", 2 ] ], [ [ "water_clean", 3 ] ], [ [ "hard_liquor", 1, "LIST" ] ] ]
   }
 ]

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "460_xvr",
+    "copy-from": "gun_base_handgun_manual",
+    "looks_like": "sw_619",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": ".460 S&W Magnum revolver" },
+    "description": "A behemoth of a revolver, with an 8.38\" barrel, weighing almost 2 kilograms, and sporting an impressive muzzle break.  With how powerful the .460 S&W Magnum round is, those features won't be taken for granted.  Often used as a hunting handgun, or as a bush gun, this large revolver is a formidable threat.",
+    "weight": "2041 g",
+    "volume": "1167 ml",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "460_xvr",
+        "name": { "str_sp": "S&W 460XVR" },
+        "description": "The S&W 460 XVR is a behemoth of a revolver, with an 8.38\" barrel, weighing almost 2 kilograms, and sporting an impressive muzzle break.  With how powerful the .460 S&W Magnum round is, those features won't be taken for granted.  Often used as a hunting handgun, or as a bush gun, this large revolver is a formidable threat."
+      }
+    ],
+    "longest_side": "332 mm",
+    "barrel_length": "271 mm",
+    "//": "212.852 + 58.4mm max OAL for 454. Revolvers just built different.",
+    "price": "1639 USD",
+    "price_postapoc": "30 USD",
+    "material": [ "steel", "plastic" ],
+    "ammo": [ "460sw" ],
+    "dispersion": 280,
+    "clip_size": 5,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "460sw": 5 } } ]
+  }
+]

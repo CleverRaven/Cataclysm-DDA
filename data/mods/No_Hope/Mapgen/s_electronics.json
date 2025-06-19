@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_electronics",
     "//": "Adds CBMs",
     "weight": 15000,
@@ -72,9 +71,10 @@
         "x": "f_console_broken",
         "y": "f_dryer"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_items": [
-        { "item": "fridgesnacks", "x": 21, "y": 15, "chance": 20 },
+        { "item": "SUS_fridge_breakroom", "x": 21, "y": 15, "chance": 20 },
         { "item": "elecsto_cameras", "x": [ 3, 6 ], "y": 8, "chance": 20 },
         { "item": "bionics_common", "x": [ 9, 12 ], "y": 8, "chance": 20 },
         { "item": "elecsto_lights", "x": 2, "y": [ 9, 12 ], "chance": 20 },
@@ -93,8 +93,8 @@
         { "item": "electronics", "x": [ 14, 17 ], "y": 14, "chance": 25 },
         { "item": "snacks", "x": 16, "y": 9, "chance": 25 },
         { "item": "magazines", "x": 16, "y": 9, "chance": 20 },
-        { "item": "trash", "x": 18, "y": 15, "chance": 65 },
-        { "item": "trash", "x": [ 15, 17 ], "y": [ 20, 21 ], "chance": 80 }
+        { "item": "SUS_trash_trashcan", "x": 18, "y": 15, "chance": 65 },
+        { "item": "SUS_trash_trashcan", "x": [ 15, 17 ], "y": [ 20, 21 ], "chance": 80 }
       ],
       "place_item": [
         { "item": "television", "x": 16, "y": 14, "chance": 30 },
@@ -105,7 +105,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_electronics_1",
     "//": "Adds CBMs",
     "weight": 100000,
@@ -174,9 +173,10 @@
       },
       "toilets": { "&": {  } },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "I": { "item": "office", "chance": 30 },
-        "F": { "item": "office_paper", "chance": 30 },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 30 },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
         "M": { "item": "consumer_electronics", "chance": 20 },
         "#": { "item": "bionics_common", "chance": 5 },
         "{": { "item": "consumer_electronics", "chance": 25 },
@@ -184,7 +184,7 @@
         "G": { "item": "elecsto_diy", "chance": 25 },
         "t": { "item": "elecsto_homapl", "chance": 25 },
         "L": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ],
-        "U": { "item": "trash", "chance": 25, "repeat": [ 1, 4 ] }
+        "U": { "item": "SUS_trash_dumpster", "chance": 50 }
       },
       "place_monsters": [ { "monster": "GROUP_ELECTRO", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ]
     }

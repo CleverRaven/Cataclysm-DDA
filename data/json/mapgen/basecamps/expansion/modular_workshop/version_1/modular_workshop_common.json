@@ -1,19 +1,16 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_0",
     "object": { "mapgensize": [ 6, 6 ], "palettes": [ "fbmw_common_palette" ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_workshop_0",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmw_0" ], "x": 15, "y": 3 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room1_common",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -30,7 +27,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room1_roof_common",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -48,7 +44,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_room1_common_northeast",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmw_room1_common" ], "x": 15, "y": 3, "z": 0 },
@@ -59,7 +54,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room2_common",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -77,7 +71,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_room2_common_northeast",
-    "method": "json",
     "object": {
       "place_nested": [ { "chunks": [ "fbmw_room2_common" ], "x": 15, "y": 3 } ],
       "place_loot": [ { "item": "55gal_drum", "x": 17, "y": 7, "chance": 100 }, { "item": "30gal_drum", "x": 17, "y": 8, "chance": 100 } ]
@@ -85,7 +78,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmw_room10_common",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -103,7 +95,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_room10_common_northeast",
-    "method": "json",
     "object": {
       "place_nested": [ { "chunks": [ "fbmw_room10_common" ], "x": 15, "y": 3 } ],
       "place_loot": [

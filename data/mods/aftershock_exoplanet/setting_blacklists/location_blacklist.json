@@ -45,13 +45,7 @@
   {
     "//": "there will be 'FEMA camps' in the future, but almost even more sinister",
     "type": "overmap_special",
-    "id": "FEMA Camp",
-    "overmaps": [  ],
-    "occurrences": [ 0, 0 ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "FEMA_camp",
+    "id": "fema_camp_mutable",
     "overmaps": [  ],
     "occurrences": [ 0, 0 ]
   },

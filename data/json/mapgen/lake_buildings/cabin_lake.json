@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_lake",
     "object": {
       "fill_ter": "t_floor",
@@ -73,14 +72,15 @@
       "toilets": { "&": {  } },
       "liquids": { "l": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "b": { "item": "homebooks", "chance": 20, "repeat": [ 2, 4 ] },
         "@": { "item": "bed", "chance": 30, "repeat": [ 2, 4 ] },
         "d": { "item": "allclothes", "chance": 55, "repeat": [ 1, 2 ] },
         "D": { "item": "allclothes", "chance": 50, "repeat": [ 2, 3 ] },
-        "o": { "item": "oven", "chance": 25, "repeat": [ 1, 2 ] },
-        "f": { "item": "fridge", "chance": 25, "repeat": [ 1, 2 ] },
+        "o": { "item": "SUS_oven", "chance": 25, "repeat": [ 1, 2 ] },
+        "f": { "item": "SUS_fridge", "chance": 25, "repeat": [ 1, 2 ] },
         "S": { "item": "shower", "chance": 25, "repeat": [ 1, 2 ] },
-        "R": { "item": "trash", "chance": 25, "repeat": [ 1, 2 ] },
+        "R": { "item": "SUS_trash_trashcan", "chance": 25, "repeat": [ 1, 2 ] },
         "w": { "item": "stash_wood", "chance": 25, "repeat": [ 1, 2 ] },
         "t": { "item": "livingroom", "chance": 25, "repeat": [ 1, 2 ] },
         "a": { "item": "jackets", "chance": 25, "repeat": [ 1, 2 ] },
@@ -100,7 +100,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_lake_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -136,7 +135,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_cabin_boathouse",
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -169,7 +167,7 @@
       "place_vehicles": [
         { "vehicle": "boat_motor_single", "x": 12, "y": 5, "rotation": 180, "chance": 10, "status": 3 },
         { "vehicle": "kayak_racing", "x": 11, "y": 2, "rotation": 180, "chance": 30, "status": 0 },
-        { "vehicle": "canoe", "x": 2, "y": 5, "rotation": 180, "chance": 100, "status": 0 }
+        { "vehicle": "canoe", "x": 2, "y": 5, "rotation": 180, "status": 0 }
       ],
       "place_loot": [ { "item": "rope_30", "x": 12, "y": 6, "chance": 100 }, { "item": "stepladder", "x": 17, "y": 1, "chance": 100 } ],
       "terrain": {
@@ -209,7 +207,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_cabin_boathouse_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -245,7 +242,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "lake_cabin_water",
     "object": {
       "rows": [

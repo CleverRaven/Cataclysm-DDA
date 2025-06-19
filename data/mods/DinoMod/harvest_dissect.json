@@ -39,9 +39,10 @@
     "id": "dissect_tyrant_sample_large",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "//": "mon_zombie_hulk_death_drops is used as it includes rags and such, which is likely due to how damaged clothing would be if it was eaten by a dino",
     "entries": [
       { "drop": "tyrant_sample_large", "type": "mutagen_group" },
-      { "drop": "military", "type": "bionic_group" },
+      { "drop": "mon_zombie_hulk_death_drops", "type": "bionic_group" },
       { "drop": "science", "type": "bionic_group" },
       { "drop": "corpses", "type": "bionic_group" }
     ]
@@ -52,7 +53,7 @@
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
     "entries": [
       { "drop": "tyrant_sample_huge", "type": "mutagen_group" },
-      { "drop": "military", "type": "bionic_group" },
+      { "drop": "mon_zombie_hulk_death_drops", "type": "bionic_group" },
       { "drop": "science", "type": "bionic_group" },
       { "drop": "corpses", "type": "bionic_group" }
     ]
@@ -109,8 +110,9 @@
     "id": "dissect_dino_large_pred",
     "type": "harvest",
     "message": "Slicing carefully into the dinosaur, you discover stomach contents that may be useful",
+    "//": "mon_zombie_hulk_death_drops is used as it includes rags and such, which is likely due to how damaged clothing would be if it was eaten by a dino",
     "entries": [
-      { "drop": "military", "type": "bionic_group", "faults": [  ] },
+      { "drop": "mon_zombie_hulk_death_drops", "type": "bionic_group", "faults": [  ] },
       { "drop": "science", "type": "bionic_group", "faults": [  ] },
       { "drop": "corpses", "type": "bionic_group", "faults": [  ] }
     ]
@@ -120,7 +122,7 @@
     "type": "harvest",
     "message": "Slicing carefully into the mosasaurus body, you discover stomach contents and biological samples that may be useful",
     "entries": [
-      { "drop": "military", "type": "bionic_group", "faults": [  ] },
+      { "drop": "mon_zombie_hulk_death_drops", "type": "bionic_group", "faults": [  ] },
       { "drop": "science", "type": "bionic_group", "faults": [  ] },
       { "drop": "corpses", "type": "bionic_group", "faults": [  ] },
       { "drop": "lizard_sample_huge", "type": "mutagen_group" }

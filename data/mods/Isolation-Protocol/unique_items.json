@@ -1,8 +1,211 @@
 [
   {
+    "type": "ITEM",
+    "id": "iso_science_security_black",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "Security: black zone badge" },
+    "description": "Your black clearance security badge, it should unlock most doors in the facility.",
+    "flags": [ "SCIENCE_CARD_SECURITY_BLACK", "CREDIT_CARD_SHAPED" ]
+  },
+  {
+    "id": "iso_armor_anchor",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "copy-from": "robofac_armor_rig",
+    "name": { "str": "remediator defense anchor" },
+    "description": "A combined harness and armor system designed to protect the wearer from the effects of normality decay.  It mounts a 5-point anchor, attachment points for a kinetic mantle and several pockets and straps for the rest of your gear.",
+    "weight": "2000 g",
+    "volume": "4250 ml",
+    "material": [ "nylon", "kevlar", "ceramic" ],
+    "flags": [ "DIMENSIONAL_ANCHOR", "PORTAL_PROOF", "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "SOFT" ],
+    "pocket_data": [
+      {
+        "description": "Quick access pouches.",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "270 mm",
+        "moves": 80
+      },
+      {
+        "description": "Quick access pouches.",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "270 mm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "7000 ml",
+        "max_contains_weight": "11 kg",
+        "moves": 200,
+        "description": "Hooks for an armored mantle.",
+        "flag_restriction": [ "ABLATIVE_MANTLE" ]
+      },
+      {
+        "description": "Demolition pouches",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3000 ml",
+        "max_contains_weight": "8 kg",
+        "moves": 30,
+        "flag_restriction": [ "GRENADE" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "18 kg",
+        "max_item_length": "700 cm",
+        "moves": 400,
+        "holster": true,
+        "description": "Straps for carrying a Lewis gun.",
+        "item_restriction": [ "iso_lewis_gun" ]
+      },
+      {
+        "description": "Pan magazine pouches.",
+        "pocket_type": "CONTAINER",
+        "max_item_length": "500 mm",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "40 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "ceramic", "covered_by_mat": 50, "thickness": 1.5 }
+        ],
+        "encumbrance": [ 1, 10 ],
+        "coverage": 60,
+        "cover_vitals": 90,
+        "covers": [ "torso" ],
+        "layers": [ "OUTER", "BELTED" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "encumbrance": [ 4, 4 ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "encumbrance": [ 4, 4 ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "//": "Tier 2 mantle",
+    "id": "xedra_rubber_mantle",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "robofac_mantle",
+    "name": "remediator kinetic mantle",
+    "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  This model incorporates a rubber coating that diffuses impacts and provides excellent protection from blunt trauma, even if it does feel a bit like a rain coat.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "rubber", "portion": 4 } ],
+    "proportional": { "weight": 1.576 }
+  },
+  {
+    "id": "iso_lewis_gun",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT", "GUN" ],
+    "looks_like": "m60",
+    "symbol": "(",
+    "color": "light_gray",
+    "name": { "str": "Lewis gun Mk.III XE" },
+    "description": "A British light machine gun from the first world war, slightly modernized and modified for hip and shoulder firing while standing.  Its design is somehow stable even under extreme normality distortion and thus its found a new life with lab remediation teams.\n\nYour training allows you to effectively wield this weapon in close quarters, and you perform melee attacks with it at 33% of its base attack speed.",
+    "flags": [ "UNBREAKABLE_MELEE", "NO_TURRET", "NON_FOULING", "MUNDANE" ],
+    "melee_damage": { "bash": 30 },
+    "price": "1200 USD",
+    "price_postapoc": "100 USD",
+    "material": [ "steel" ],
+    "modes": [ [ "DEFAULT", "standard", 1 ], [ "AUTO", "burst", 5 ] ],
+    "skill": "rifle",
+    "ammo": [ "3006" ],
+    "barrel_length": "673 mm",
+    "weight": "13 kg",
+    "volume": "8 L",
+    "handling": 20,
+    "longest_side": "128 cm",
+    "range": 40,
+    "dispersion": 150,
+    "sight_dispersion": 90,
+    "durability": 8,
+    "reload": 200,
+    "default_mods": [ "bipod_handguard" ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel", 1 ]
+    ],
+    "faults": [
+      { "fault": "fault_gun_dirt" },
+      { "fault": "fault_gun_chamber_spent" },
+      { "fault": "fault_fail_to_feed" },
+      { "fault": "fault_stovepipe" },
+      { "fault": "fault_double_feed" }
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "iso_lewis_mag" ] } ],
+    "passive_effects": [
+      {
+        "has": "WIELD",
+        "values": [ { "value": "ATTACK_SPEED", "multiply": -0.67 }, { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": -0.8 } ]
+      }
+    ]
+  },
+  {
+    "id": "iso_lewis_mag",
+    "looks_like": "stanag30",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "Lewis gun 47-round magazine" },
+    "description": "The top mounted pan magazine of a Lewis machine gun.  It's a bit of a hassle to reload, but it's a lot of firepower in a relatively portable package.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "longest_side": "255 mm",
+    "price": "105 USD",
+    "price_postapoc": "4 USD 50 cent",
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "3006" ],
+    "reload_time": 180,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 47 } } ],
+    "variant_type": "gun"
+  },
+  {
     "id": "iso_repeating_crossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "light_gray",
     "name": { "str": "repeating crossbow" },
@@ -34,7 +237,8 @@
   },
   {
     "id": "iso_crossbow_sling",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "crossbow sling" },
     "description": "A complex sling designed to carry a repeating crossbow while keeping it ready for use.  The sling is designed to be worn across the torso and can be quickly adjusted to bring the crossbow to bear.",
     "weight": "320 g",
@@ -63,7 +267,8 @@
     "armor": [ { "encumbrance": [ 3, 7 ], "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "iso_bolt_blackwood_bodkin",
     "name": { "str": "blackwood bolt" },
     "symbol": "=",
@@ -77,7 +282,8 @@
   },
   {
     "id": "iso_old_cloak",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "cape_sci_fi",
     "name": { "str": "tattered cloak" },
     "description": "The cloak of an imperial envoy, depicting a star chart in gold thread.  It's terribly worn and frayed.",
@@ -85,7 +291,8 @@
   },
   {
     "id": "iso_old_sword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "mc_longsword",
     "name": { "str": "ancient sword" },
     "description": "A longsword worn down by countless battles.  It was once finely engraved.",
@@ -93,7 +300,8 @@
   },
   {
     "id": "iso_old_armor",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "armor_lc_plate",
     "name": { "str": "envoy's armor" },
     "description": "A suit of armor worn down by an endless journey.  Only its sturdiest parts remain now.",
@@ -123,5 +331,32 @@
         "encumbrance": 10
       }
     ]
+  },
+  {
+    "id": "iso_sorcerers_staff",
+    "type": "ITEM",
+    "copy-from": "q_staff",
+    "looks_like": "q_staff",
+    "name": { "str_sp": "Blackstaff" },
+    "description": "An enchanted ebony staff, with diamonds and starmetal on the end to facilitate the channeling of arcane energies.  If lost, it will always return to you.  While wielding the staff, the cost of your enchantments is reduced by 33% and their casting time is reduced by 50%.",
+    "weight": "1530 g",
+    "volume": "1550 ml",
+    "longest_side": "185 cm",
+    "price": "39 USD",
+    "material": [ "wood", "diamond" ],
+    "symbol": "/",
+    "color": "white",
+    "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "RELIC_PINK", "MAGIC_FOCUS" ],
+    "melee_damage": { "bash": 29 }
+  },
+  {
+    "id": "iso_sorcerers_robe",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "robe of the gloaming tower" },
+    "copy-from": "robe_wizard",
+    "looks_like": "robe_wizard",
+    "description": "A black robe fading into dark blue at the hem, indicating your status as one of the Arch-wizards of the Dreaming City."
   }
 ]
