@@ -17,6 +17,7 @@
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "field_type.h"
 #include "flexbuffer_json.h"
@@ -39,6 +40,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "weakpoint.h"
+#include "weighted_list.h"
 
 struct itype;
 
@@ -47,6 +49,11 @@ static const material_id material_flesh( "flesh" );
 static const speed_description_id speed_description_DEFAULT( "DEFAULT" );
 
 static const spell_id spell_pseudo_dormant_trap_setup( "pseudo_dormant_trap_setup" );
+
+namespace sounds
+{
+enum class sound_t : int;
+}
 
 namespace
 {
@@ -381,7 +388,7 @@ void MonsterGenerator::finalize_mtypes()
                 armor_diff += dt.second;
             }
         }
-        std::unordered_set<std::string> blacklisted_specials{"PARROT", "PARROT_AT_DANGER", "GRAZE", "EAT_CROP", "EAT_FOOD", "EAT_CARRION"};
+        std::unordered_set<std::string> blacklisted_specials{"GRAZE", "EAT_CROP", "EAT_FOOD", "EAT_CARRION"};
         int special_attacks_diff = 0;
         for( const auto &special : mon.special_attacks ) {
             if( !blacklisted_specials.count( special.first ) ) {
@@ -654,8 +661,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "FLESH_GOLEM", mattack::flesh_golem );
     add_hardcoded_attack( "ABSORB_MEAT", mattack::absorb_meat );
     add_hardcoded_attack( "LUNGE", mattack::lunge );
-    add_hardcoded_attack( "PARROT", mattack::parrot );
-    add_hardcoded_attack( "PARROT_AT_DANGER", mattack::parrot_at_danger );
     add_hardcoded_attack( "BLOW_WHISTLE", mattack::blow_whistle );
     add_hardcoded_attack( "DARKMAN", mattack::darkman );
     add_hardcoded_attack( "SLIMESPRING", mattack::slimespring );
@@ -1090,6 +1095,28 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         death_drops =
             item_group::load_item_group( jo.get_member( "death_drops" ), "distribution",
                                          "death_drops for mtype " + id.str() );
+    }
+
+    if( jo.has_member( "parrot" ) ) {
+        JsonObject jobj = jo.get_member( "parrot" );
+        if( jobj.has_array( "sounds" ) ) {
+            sounds.clear();
+            for( const JsonObject soundobj : jobj.get_array( "sounds" ) ) {
+                monster_sound sound;
+                std::string active_when;
+                mandatory( soundobj, false, "volume", sound.volume );
+                mandatory( soundobj, false, "sound", sound.text );
+                optional( soundobj, false, "active_when", active_when );
+                sound.type = io::string_to_enum<sounds::sound_t>( soundobj.get_string( "type", "speech" ) );
+                if( !sounds.add( sound, soundobj.get_int( "weight" ), active_when ) ) {
+                    soundobj.throw_error_at( "active_when",
+                                             "Invalid trigger condition for sound, possible values are \"DANGER\" and \"NO_DANGER\"" );
+                }
+            }
+        }
+        //BEFOREMERGE: Potentially change field name depending on how it ends up functioning
+        mandatory( jobj, was_loaded, "frequency", sounds.fixed_cooldown );
+        mandatory( jobj, was_loaded, "volume", sounds.default_volume );
     }
 
     assign( jo, "harvest", harvest );
@@ -1888,6 +1915,50 @@ void pet_food_data::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "food", food );
     optional( jo, was_loaded, "feed", feed );
     optional( jo, was_loaded, "pet", pet );
+}
+
+bool monster_sounds::add( const monster_sound &sound, const int &weight,
+                          const std::string &active_when )
+{
+    if( active_when.empty() ) {
+        sounds_always.add( sound, weight );
+    } else if( active_when == "DANGER" ) {
+        sounds_danger.add( sound, weight );
+    } else if( active_when == "NO_DANGER" ) {
+        sounds_no_danger.add( sound, weight );
+    } else {
+        return false;
+    }
+    return true;
+}
+
+bool monster_sounds::danger_matters() const
+{
+    return !( sounds_danger.empty() && !sounds_no_danger.empty() );
+}
+
+const monster_sound *monster_sounds::pick( bool in_danger ) const
+{
+    weighted_int_list<const weighted_int_list<monster_sound> *> sounds;
+    sounds.add( &sounds_always, sounds_always.get_weight() );
+    if( in_danger ) {
+        sounds.add( &sounds_danger, sounds_danger.get_weight() );
+    } else {
+        sounds.add( &sounds_no_danger, sounds_no_danger.get_weight() );
+    }
+    const weighted_int_list<monster_sound> **chosen_list = sounds.pick();
+    if( !!chosen_list && !!*chosen_list ) {
+        return ( *chosen_list )->pick();
+    }
+    return nullptr;
+}
+
+void monster_sounds::clear()
+{
+    default_volume = 0;
+    sounds_always.clear();
+    sounds_danger.clear();
+    sounds_no_danger.clear();
 }
 
 void pet_food_data::deserialize( const JsonObject &data )

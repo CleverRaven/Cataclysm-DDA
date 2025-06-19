@@ -109,7 +109,6 @@
 #include "rng.h"
 #include "safe_reference.h"
 #include "sounds.h"
-#include "speech.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -5295,10 +5294,10 @@ std::optional<int> iuse::talking_doll( Character *p, item *it, const tripoint_bu
         return std::nullopt;
     }
     p->add_msg_if_player( m_neutral, _( "You press a button on the doll to make it talk." ) );
-    const SpeechBubble speech = get_speech( it->typeId().str() );
-
-    sounds::sound( p->pos_bub(), speech.volume, sounds::sound_t::electronic_speech,
-                   speech.text.translated(), true, "speech", it->typeId().str() );
+    //const SpeechBubble speech = get_speech( it->typeId().str() );
+    //
+    //sounds::sound( p->pos_bub(), speech.volume, sounds::sound_t::electronic_speech,
+    //               speech.text.translated(), true, "speech", it->typeId().str() );
 
     return 1;
 }
@@ -7019,13 +7018,13 @@ std::optional<int> iuse::afs_translocator( Character *p, item *it, const tripoin
     }
 }
 
-std::optional<int> iuse::foodperson_voice( Character *, item *, const tripoint_bub_ms &pos )
+std::optional<int> iuse::foodperson_voice( Character *, item *, const tripoint_bub_ms &/*pos*/ )
 {
-    if( calendar::once_every( 1_minutes ) ) {
-        const SpeechBubble &speech = get_speech( "foodperson_mask" );
-        sounds::sound( pos, speech.volume, sounds::sound_t::alarm, speech.text.translated(), true, "speech",
-                       "foodperson_mask" );
-    }
+    //if( calendar::once_every( 1_minutes ) ) {
+    //    const SpeechBubble &speech = get_speech( "foodperson_mask" );
+    //    sounds::sound( pos, speech.volume, sounds::sound_t::alarm, speech.text.translated(), true, "speech",
+    //                   "foodperson_mask" );
+    //}
     return 0;
 }
 
