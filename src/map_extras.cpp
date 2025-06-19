@@ -15,7 +15,6 @@
 #include "cellular_automata.h"
 #include "character_id.h"
 #include "coordinates.h"
-#include "current_map.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -23,7 +22,6 @@
 #include "flexbuffer_json.h"
 #include "fungal_effects.h"
 #include "generic_factory.h"
-#include "item.h"
 #include "item_group.h"
 #include "line.h"
 #include "map.h"
@@ -42,7 +40,6 @@
 #include "sets_intersect.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "trap.h"
 #include "type_id.h"
 #include "uilist.h"
 #include "units.h"
@@ -58,24 +55,14 @@ static const flag_id json_flag_FILTHY( "FILTHY" );
 static const furn_str_id furn_f_barricade_road( "f_barricade_road" );
 static const furn_str_id furn_f_beach_log( "f_beach_log" );
 static const furn_str_id furn_f_beach_seaweed( "f_beach_seaweed" );
-static const furn_str_id furn_f_bench( "f_bench" );
 static const furn_str_id furn_f_boulder_large( "f_boulder_large" );
 static const furn_str_id furn_f_boulder_medium( "f_boulder_medium" );
 static const furn_str_id furn_f_boulder_small( "f_boulder_small" );
 static const furn_str_id furn_f_broken_boat( "f_broken_boat" );
-static const furn_str_id furn_f_camp_chair( "f_camp_chair" );
-static const furn_str_id furn_f_canvas_door( "f_canvas_door" );
-static const furn_str_id furn_f_canvas_wall( "f_canvas_wall" );
 static const furn_str_id furn_f_cattails( "f_cattails" );
-static const furn_str_id furn_f_chair( "f_chair" );
 static const furn_str_id furn_f_crate_c( "f_crate_c" );
-static const furn_str_id furn_f_crate_o( "f_crate_o" );
-static const furn_str_id furn_f_desk( "f_desk" );
-static const furn_str_id furn_f_fema_groundsheet( "f_fema_groundsheet" );
-static const furn_str_id furn_f_firering( "f_firering" );
 static const furn_str_id furn_f_lilypad( "f_lilypad" );
 static const furn_str_id furn_f_lotus( "f_lotus" );
-static const furn_str_id furn_f_makeshift_bed( "f_makeshift_bed" );
 static const furn_str_id furn_f_sandbag_half( "f_sandbag_half" );
 static const furn_str_id furn_f_sign_warning( "f_sign_warning" );
 static const furn_str_id furn_f_tourist_table( "f_tourist_table" );
@@ -180,6 +167,7 @@ static const vproto_id vehicle_prototype_humvee( "humvee" );
 static const vproto_id vehicle_prototype_military_cargo_truck( "military_cargo_truck" );
 static const vproto_id vehicle_prototype_road_roller( "road_roller" );
 
+class item;
 class npc_template;
 
 namespace io
