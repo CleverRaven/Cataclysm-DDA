@@ -55,6 +55,7 @@ class recipe_dictionary
         static const recipe &get_craft( const itype_id &id );
 
         static void load_recipe( const JsonObject &jo, const std::string &src );
+        static void load_recipe_steps( const JsonObject &jo, const std::string &src );
         static void load_uncraft( const JsonObject &jo, const std::string &src );
         static void load_practice( const JsonObject &jo, const std::string &src );
         static void load_nested_category( const JsonObject &jo, const std::string &src );
