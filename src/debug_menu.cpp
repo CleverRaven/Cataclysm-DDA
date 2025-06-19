@@ -2032,9 +2032,8 @@ static void character_edit_needs_menu( Character &you )
             you.guts.empty();
             break;
         default:
-            if( smenu.ret >= vitamin_entry_base &&
-                smenu.ret < vitamin_entry_base + static_cast<int>( vits.size() ) ) {
-                auto iter = std::next( vits.begin(), smenu.ret - vitamin_entry_base );
+            if( smenu.ret >= 10 && smenu.ret < static_cast<int>( vits.size() + 10 ) ) {
+                auto iter = std::next( vits.begin(), smenu.ret - 10 );
                 if( query_int( value, false, _( "Set %s to?  Currently: %d" ),
                                iter->second.name(), you.vitamin_get( iter->first ) ) ) {
                     you.vitamin_set( iter->first, value );
