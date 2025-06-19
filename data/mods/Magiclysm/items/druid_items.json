@@ -1,87 +1,5 @@
 [
   {
-    "type": "material",
-    "id": "mag_awakened_water",
-    "name": "Awakened Water",
-    "//": "Dilluted mana components mixed with water. Enacted by a druid's rune.",
-    "copy-from": "water"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "mag_awakened_water",
-    "name": "Awakened Water",
-    "default": "mag_awakened_water"
-  },
-  {
-    "id": "mag_awakened_water",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "glowing awakened water" },
-    "description": "A nutrient-rich elixir for wildwood entities. No longer fit for consumption.",
-    "category": "fuel",
-    "weight": "750 mg",
-    "volume": "200ml",
-    "price": "2 USD",
-    "price_postapoc": "20 cent",
-    "phase": "liquid",
-    "container": "bottle_gourd",
-    "material": [ "mag_awakened_water" ],
-    "symbol": "=",
-    "color": "light_blue",
-    "count": 225,
-    "stack_size": 20,
-    "ammo_type": "mag_awakened_water"
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "mag_sealed_glowing_gourd",
-    "category": "CC_ENCHANTED",
-    "subcategory": "CSC_ENCHANTED_ENCHANTING",
-    "skill_used": "spellcraft",
-    "difficulty": 2,
-    "skills_required": [ "cooking", 2 ],
-    "book_learn": [ [ "mag_druid_items_1", 2 ] ],
-    "time": "5 m",
-    "autolearn": true,
-    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "using": [ [ "mana_energy_weak", 2 ] ],
-    "components": [ [ [ "bottle_gourd", 1 ] ], [ [ "rune_druid", 1 ] ], [ [ "water", 9 ], [ "water_clean", 9 ] ] ]
-  },
-  {
-    "id": "mag_sealed_glowing_gourd",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "category": "clothing",
-    "name": { "str_sp": "sealed glowing gourd" },
-    "description": "A gourd sealed with a druid's rune.  You may harvest the liquid inside when it's done brewing.",
-    "weight": "2550 g",
-    "volume": "2500 ml",
-    "material": [ "wood" ],
-    "symbol": "6",
-    "color": "brown",
-    "use_action": {
-      "target": "mag_awakened_water",
-      "msg": "The rune cracks as you open the gourd and collect the liquid.",
-      "container": "bottle_gourd",
-      "target_charges": 225,
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 28800,
-      "not_ready_msg": "The liquid isn't done brewing yet."
-    },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "TRADER_AVOID" ],
-    "armor": [
-      {
-        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
-        "encumbrance": 3,
-        "coverage": 8,
-        "covers": [ "torso" ],
-        "specifically_covers": [ "torso_hanging_front" ]
-      }
-    ]
-  },
-  {
     "abstract": "mag_wildwood",
     "type": "ITEM",
     "name": "abstract wildwood doodad",
@@ -131,6 +49,93 @@
         "move_cost": 300
       },
       [ "PLAY_GAME" ]
+    ]
+  },
+  {
+    "id": "mag_green_roughage",
+    "type": "requirement",
+    "components": [
+      [
+        [ "young_leaves", 2 ],
+        [ "leaves", 2 ],
+        [ "grape_leaves", 2 ],
+        [ "fiddlehead_raw", 2 ],
+        [ "cattail_rhizome", 2 ],
+        [ "raw_dandelion", 2 ],
+        [ "juniper", 2 ]
+      ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mushroom_collection",
+    "subtype": "distribution",
+    "entries": [ { "item": "mushroom", "count": 1 }, { "item": "mushroom_morel", "count": 1 } ]
+  },
+  {
+    "type": "material",
+    "id": "mag_awakened_water",
+    "name": "Awakened Water",
+    "//": "Dilluted mana components mixed with water. Enacted by a druid's rune.",
+    "copy-from": "water"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "mag_awakened_water",
+    "name": "Awakened Water",
+    "default": "mag_awakened_water"
+  },
+  {
+    "id": "mag_awakened_water",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str_sp": "glowing awakened water" },
+    "description": "A nutrient-rich elixir for wildwood entities. No longer fit for consumption.",
+    "category": "fuel",
+    "weight": "750 mg",
+    "volume": "200ml",
+    "price": "2 USD",
+    "price_postapoc": "20 cent",
+    "phase": "liquid",
+    "container": "bottle_gourd",
+    "material": [ "mag_awakened_water" ],
+    "symbol": "=",
+    "color": "light_blue",
+    "count": 225,
+    "stack_size": 20,
+    "ammo_type": "mag_awakened_water"
+  },
+  {
+    "id": "mag_sealed_glowing_gourd",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "clothing",
+    "name": { "str_sp": "sealed glowing gourd" },
+    "description": "A gourd sealed with a druid's rune.  You may harvest the liquid inside when it's done brewing.",
+    "weight": "2550 g",
+    "volume": "2500 ml",
+    "material": [ "wood" ],
+    "symbol": "6",
+    "color": "brown",
+    "use_action": {
+      "target": "mag_awakened_water",
+      "msg": "The rune cracks as you open the gourd and collect the liquid.",
+      "container": "bottle_gourd",
+      "target_charges": 225,
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 28800,
+      "not_ready_msg": "The liquid isn't done brewing yet."
+    },
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "TRADER_AVOID" ],
+    "armor": [
+      {
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 3,
+        "coverage": 8,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_front" ]
+      }
     ]
   },
   {
@@ -290,56 +295,6 @@
     ]
   },
   {
-    "type": "construction_group",
-    "id": "build_weaver",
-    "name": "Put Wildwood Weaver down"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_web",
-    "name": "Spin webs with a Wildwood Weaver"
-  },
-  {
-    "type": "construction",
-    "id": "constr_magiclysm_weaver",
-    "group": "build_weaver",
-    "category": "APPLIANCE",
-    "required_skills": [ [ "spellcraft", 4 ] ],
-    "time": "10 m",
-    "components": [ [ [ "mag_awoken_weaver", 1 ] ], [ [ "mag_awakened_water", 200 ] ] ],
-    "dark_craftable": true,
-    "pre_special": "check_empty",
-    "post_special": "done_appliance",
-    "activity_level": "NO_EXERCISE"
-  },
-  {
-    "id": "wildwood_weaver_shelter",
-    "breaks_into": [
-      { "count": 1, "item": "mag_brokeweaver" },
-      { "count": [ 1, 5 ], "item": "scrap_cotton" },
-      { "count": [ 4, 20 ], "item": "mag_awakened_water" }
-    ],
-    "categories": [ "utility" ],
-    "color": "green",
-    "description": "A shelter woven from wildwood weaver's webs. It can be used to rest, and the weaver provides assistance in any tailoring task.",
-    "durability": 15,
-    "flags": [ "BED", "OPAQUE", "BOARDABLE", "NONBELTABLE", "APPLIANCE", "EXTRA_DRAG", "NO_INSTALL_HIDDEN", "HUGE_OK", "ROOF" ],
-    "pseudo_tools": [
-      { "id": "spinwheelitem" },
-      { "id": "mag_pseudo_weaver" },
-      { "id": "scutcheritem" },
-      { "id": "loom_frame" },
-      { "id": "shed_stick" },
-      { "id": "towel", "hotkey": "t" }
-    ],
-    "item": "mag_awoken_weaver",
-    "location": "center",
-    "looks_like": "t_leanto",
-    "name": { "str": "awoken weaver shelter" },
-    "type": "vehicle_part",
-    "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
-  },
-  {
     "type": "ITEM",
     "id": "mag_brokeweaver",
     "subtypes": [ "ARTIFACT" ],
@@ -353,44 +308,10 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "mag_awoken_weaver",
-    "category": "CC_ENCHANTED",
-    "subcategory": "CSC_ENCHANTED_ENCHANTING",
-    "skill_used": "spellcraft",
-    "difficulty": 2,
-    "time": "5 m",
-    "autolearn": true,
-    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "using": [ [ "mana_energy_weak", 1 ] ],
-    "components": [ [ [ "mag_brokeweaver", 1 ] ], [ [ "rune_druid", 1 ] ], [ [ "mag_awakened_water", 50 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "result": "mag_immature_weaver",
-    "category": "CC_ENCHANTED",
-    "subcategory": "CSC_ENCHANTED_ENCHANTING",
-    "skill_used": "spellcraft",
-    "difficulty": 2,
-    "skills_required": [ "fabrication", 2 ],
-    "time": "120 m",
-    "book_learn": [ [ "mag_druid_items_1", 2 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "using": [ [ "mana_energy_weak", 2 ] ],
-    "components": [
-      [ [ "enchanted_wood", 2 ] ],
-      [ [ "rune_druid", 1 ] ],
-      [ [ "mag_awakened_water", 100 ] ],
-      [ [ "tallow", 1 ], [ "wax_any", 1, "LIST" ], [ "candle", 1 ] ]
-    ]
-  },
-  {
     "id": "mag_wildwood_beetle_ball",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "wildwood stag beetle ball" },
+    "name": { "str": "small wildwood stag beetle ball" },
     "description": "A small ball made of wildwood. A narrative relief of a stag beetle dancing wraps the ball. A soft chittering noise can be heard from it.",
     "//": "Considering writing code to check for u_has_item_named so that the ball can be dynamic based on a final selector ingredient.",
     "//1": "Then the EOC would check for what the ball is named and do effects based on that.",
@@ -428,20 +349,6 @@
     "use_action": [ { "type": "cast_spell", "spell_id": "mag_open_beetle_ball_large", "no_fail": true, "level": 1 } ]
   },
   {
-    "id": "mag_open_beetle_ball_large",
-    "type": "SPELL",
-    "name": "Call Stag Beetles",
-    "description": "Call upon stag beetles for various tasks.",
-    "valid_targets": [ "self" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_STAG_BEETLE_SELECTOR",
-    "shape": "blast",
-    "flags": [ "SOMATIC", "VERBAL" ],
-    "magic_type": "magiclysm_generic_magic",
-    "base_casting_time": 0,
-    "base_energy_cost": 0
-  },
-  {
     "id": "rune_wildwood",
     "type": "ITEM",
     "subtypes": [ "TOOL", "COMESTIBLE" ],
@@ -457,245 +364,5 @@
     "comestible_type": "INVALID",
     "use_action": [ "PETFOOD" ],
     "petfood": [ "rune_wildwood" ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "mag_wildwood_beetle_ball",
-    "category": "CC_ENCHANTED",
-    "subcategory": "CSC_ENCHANTED_ENCHANTING",
-    "skill_used": "spellcraft",
-    "difficulty": 6,
-    "skills_required": [ "fabrication", 3 ],
-    "book_learn": [ [ "mag_druid_items_1", 5 ] ],
-    "time": "300 m",
-    "autolearn": true,
-    "qualities": [ { "id": "MANA_INFUSE", "level": 2 } ],
-    "using": [ [ "mana_energy_strong", 3 ] ],
-    "components": [ [ [ "enchanted_wood", 2 ] ], [ [ "mana_pearl", 2 ] ], [ [ "rune_druid", 1 ] ], [ [ "mag_awakened_water", 50 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "rune_wildwood",
-    "category": "CC_ENCHANTED",
-    "subcategory": "CSC_ENCHANTED_ENCHANTING",
-    "skill_used": "spellcraft",
-    "difficulty": 3,
-    "skills_required": [ "fabrication", 2 ],
-    "time": "5 m",
-    "book_learn": [ [ "mag_druid_items_1", 3 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 2 } ],
-    "tools": [ [ [ "mag_large_wildwood_beetle_ball", -1 ] ] ],
-    "using": [ [ "mana_energy_weak", 1 ], [ "mag_green_roughage", 2 ] ],
-    "components": [ [ [ "rune_druid", 1 ] ], [ [ "mag_awakened_water", 10 ] ] ]
-  },
-  {
-    "id": "mag_green_roughage",
-    "type": "requirement",
-    "components": [
-      [
-        [ "young_leaves", 2 ],
-        [ "leaves", 2 ],
-        [ "grape_leaves", 2 ],
-        [ "fiddlehead_raw", 2 ],
-        [ "cattail_rhizome", 2 ],
-        [ "raw_dandelion", 2 ],
-        [ "juniper", 2 ]
-      ]
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_STAG_BEETLE_SELECTOR",
-    "effect": [
-      {
-        "run_eoc_selector": [ "EOC_CALL_STAG_BEETLE", "EOC_CALL_FORAGING_BEETLES" ],
-        "names": [ "Call stag beetle for riding", "Call beetles for foraging" ],
-        "keys": [ "1", "2" ],
-        "descriptions": [
-          "Call a stag beetle for riding. Will respond if you haven't called for one in awhile.",
-          "Call local beetles for to forage hidden areas around you."
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_CALL_STAG_BEETLE",
-    "effect": [
-      { "u_add_trait": "MAG_STAG_BEETLE_BOND" },
-      { "u_activate_trait": "MAG_STAG_BEETLE_BOND" },
-      {
-        "u_message": "The wildwood beetle makes it's call. You feel something large coming, and it is coming fast.",
-        "type": "good"
-      },
-      { "run_eocs": "EOC_SUMMON_STAG_BEETLE", "time_in_future": [ "5 seconds", "50 seconds" ] },
-      { "run_eocs": "EOC_LOSE_STAG_BEETLE_BOND", "time_in_future": "8 hours" }
-    ],
-    "false_effect": [
-      { "run_eocs": "EOC_SUMMON_MUSHROOMS", "time_in_future": [ "25 seconds", "50 seconds" ] },
-      {
-        "u_message": "The wildwood beetle makes it's call, but only some small beetles respond. They'll bring you a small gift.",
-        "type": "good"
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_SUMMON_STAG_BEETLE",
-    "//": "Targetted to prevent failure due to monster placement",
-    "effect": [
-      { "u_cast_spell": { "id": "mag_call_stag_beetle_real", "min_level": 1 }, "targeted": true },
-      {
-        "u_message": "The stag beetle arrives, it is massive and powerful. It can be used to carry you and your belongings so long as you have a wildwood rune and the skill to ride it.",
-        "type": "good"
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_CALL_FORAGING_BEETLES",
-    "//": "Consider changing this into a periodic for foraging in the area with randomized returns",
-    "effect": [
-      { "u_cast_spell": { "id": "mag_summon_mushrooms", "min_level": 5 }, "targeted": false },
-      { "u_message": "The beetles come swiftly, bearing some mushrooms.", "type": "good" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_LOSE_STAG_BEETLE_BOND",
-    "effect": [
-      { "u_lose_trait": "MAG_STAG_BEETLE_BOND" },
-      { "u_message": "Your bond with the stag beetle fades. Another can answer the call now.", "type": "good" }
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "MAG_STAG_BEETLE_BOND",
-    "name": { "str": "Beetle Bond" },
-    "points": 0,
-    "description": "You have gained a bond with a stag beetle.",
-    "starting_trait": false,
-    "purifiable": false,
-    "valid": false
-  },
-  {
-    "type": "item_group",
-    "id": "mushroom_collection",
-    "subtype": "distribution",
-    "entries": [ { "item": "mushroom", "count": 1 }, { "item": "mushroom_morel", "count": 1 } ]
-  },
-  {
-    "id": "mag_summon_mushrooms",
-    "type": "SPELL",
-    "name": { "str": "Summon mushrooms" },
-    "description": { "str": "Summons some mushrooms, extra effect summons some morels" },
-    "valid_targets": [ "self" ],
-    "spell_class": "DRUID",
-    "flags": [ "PERMANENT", "NO_LEGS", "NO_EXPLOSION_SFX", "NO_PROJECTILE", "SPAWN_GROUP", "RANDOM_DAMAGE" ],
-    "difficulty": 0,
-    "min_damage": { "math": [ "(u_spell_level('mag_summon_mushrooms')) + 3" ] },
-    "max_damage": { "math": [ "(u_spell_level('mag_summon_mushrooms')) + 8" ] },
-    "effect": "spawn_item",
-    "effect_str": "mushroom_collection",
-    "shape": "blast",
-    "base_energy_cost": 0,
-    "final_energy_cost": 0,
-    "base_casting_time": 0,
-    "final_casting_time": 0
-  },
-  {
-    "id": "mag_call_stag_beetle_real",
-    "type": "SPELL",
-    "name": "Call Stag Beetle",
-    "description": "A stag beetle responds to the call, arriving in the location you are in. It can be used to carry you and your belongings so long as you have a wildwood rune and the skill to ride it.",
-    "valid_targets": [ "ground" ],
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_range": 1,
-    "max_range": 5,
-    "spell_class": "DRUID",
-    "base_casting_time": 0,
-    "magic_type": "magiclysm_generic_magic",
-    "max_level": 5,
-    "difficulty": 1,
-    "min_duration": 700000,
-    "max_duration": 2200000,
-    "duration_increment": 750000,
-    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_CORPSE_QUIET" ],
-    "shape": "blast",
-    "effect": "summon",
-    "effect_str": "mon_mag_stag_beetle"
-  },
-  {
-    "id": "mon_mag_stag_beetle",
-    "type": "MONSTER",
-    "name": { "str": "massive stag beetle" },
-    "description": "This enormous stag beetle has reached mutated maturity.",
-    "default_faction": "player",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "INSECT" ],
-    "looks_like": "mon_stag_beetle_giant",
-    "volume": "400 L",
-    "weight": "600 kg",
-    "hp": 300,
-    "speed": 200,
-    "material": [ "iflesh" ],
-    "symbol": "S",
-    "color": "brown",
-    "morale": 30,
-    "aggro_character": false,
-    "melee_skill": 5,
-    "melee_dice": 6,
-    "melee_dice_sides": 6,
-    "stomach_size": 400,
-    "melee_damage": [ { "damage_type": "cut", "amount": 9 } ],
-    "dodge": 1,
-    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_beetle" ],
-    "petfood": { "food": [ "rune_wildwood" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "weakpoints": [
-      { "name": "a soft section of chitin", "armor_mult": { "physical": 0.33 }, "coverage": 20 },
-      { "name": "a crack in the chitin", "armor_mult": { "physical": 0 }, "coverage": 5 }
-    ],
-    "vision_day": 14,
-    "vision_night": 12,
-    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
-    "fear_triggers": [ "FIRE" ],
-    "flags": [
-      "HEARS",
-      "PET_MOUNTABLE",
-      "PUSH_MON",
-      "PUSH_VEH",
-      "GOODHEARING",
-      "PATH_AVOID_DANGER",
-      "SEES",
-      "SMELLS",
-      "WARM",
-      "EATS"
-    ],
-    "armor": { "bash": 60, "cut": 72, "acid": 18, "heat": 8, "bullet": 50, "psionic": 14 }
-  },
-  {
-    "id": "mag_druid_items_1",
-    "type": "ITEM",
-    "subtypes": [ "BOOK" ],
-    "category": "manuals",
-    "name": { "str": "Taming the Wildwood", "str_pl": "copies of Taming the Wildwood" },
-    "description": "A paperback tome on the art of growing Wildwood entities.",
-    "weight": "1 kg",
-    "volume": "750 ml",
-    "price": "42 USD",
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "white",
-    "required_level": 4,
-    "max_level": 5,
-    "intelligence": 10,
-    "time": "25 m",
-    "melee_damage": { "bash": 5 },
-    "read_skill": "spellcraft",
-    "read_fun": -1
   }
 ]
