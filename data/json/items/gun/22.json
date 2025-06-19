@@ -340,7 +340,7 @@
     "subtypes": [ "GUN" ],
     "//": "Stats are from https://ruger.com/products/22Charger/specSheets/4923.html",
     "copy-from": "gun_base_22_semi_pistol",
-    "name": { "str": "varmint pistol" },
+    "name": { "str": "miniature varmint rifle" },
     "description": "Essentially a varmint rifle with no stock and a shorter barrel, this gun loses out on a bit of energy with its shorter barrel and is a bit more uncomfortable to hold, but a fair bit lighter.  Includes a bipod.",
     "variant_type": "gun",
     "variants": [
@@ -359,6 +359,7 @@
     "material": [ "steel", "plastic" ],
     "range": 3,
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
+    "skill": "rifles",
     "dispersion": 140,
     "valid_mod_locations": [
       [ "barrel", 1 ],
@@ -393,8 +394,8 @@
     "copy-from": "ruger_charger",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": "full-auto varmint pistol",
-    "description": "A lightweight varmint pistol, modified to fire both semi, and full auto.",
+    "name": "full-auto miniature varmint rifle",
+    "description": "A lightweight, miniature varmint rifle, modified to fire both semi, and full auto.",
     "variant_type": "gun",
     "variants": [
       {
