@@ -63,36 +63,19 @@ static const furn_str_id furn_f_cattails( "f_cattails" );
 static const furn_str_id furn_f_crate_c( "f_crate_c" );
 static const furn_str_id furn_f_lilypad( "f_lilypad" );
 static const furn_str_id furn_f_lotus( "f_lotus" );
-static const furn_str_id furn_f_sandbag_half( "f_sandbag_half" );
-static const furn_str_id furn_f_sign_warning( "f_sign_warning" );
-static const furn_str_id furn_f_tourist_table( "f_tourist_table" );
 static const furn_str_id furn_f_wreckage( "f_wreckage" );
 
-static const item_group_id Item_spawn_data_SUS_trash_floor( "SUS_trash_floor" );
 static const item_group_id Item_spawn_data_ammo_casings( "ammo_casings" );
-static const item_group_id Item_spawn_data_army_bed( "army_bed" );
 static const item_group_id Item_spawn_data_everyday_corpse( "everyday_corpse" );
 static const item_group_id Item_spawn_data_map_extra_casings( "map_extra_casings" );
 static const item_group_id Item_spawn_data_mine_equipment( "mine_equipment" );
-static const item_group_id
-Item_spawn_data_mon_zombie_soldier_death_drops( "mon_zombie_soldier_death_drops" );
 static const item_group_id Item_spawn_data_remains_human_generic( "remains_human_generic" );
 
-static const itype_id itype_223_casing( "223_casing" );
-static const itype_id itype_762_51_casing( "762_51_casing" );
-static const itype_id itype_acoustic_guitar( "acoustic_guitar" );
-static const itype_id itype_bag_canvas( "bag_canvas" );
-static const itype_id itype_bottle_glass( "bottle_glass" );
 static const itype_id itype_chunk_sulfur( "chunk_sulfur" );
-static const itype_id itype_hatchet( "hatchet" );
-static const itype_id itype_material_sand( "material_sand" );
 static const itype_id itype_material_soil( "material_soil" );
 static const itype_id itype_sheet_cotton( "sheet_cotton" );
-static const itype_id itype_splinter( "splinter" );
-static const itype_id itype_stanag30( "stanag30" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_stick_long( "stick_long" );
-static const itype_id itype_vodka( "vodka" );
 static const itype_id itype_withered( "withered" );
 
 static const map_extra_id map_extra_mx_casings( "mx_casings" );
@@ -119,8 +102,6 @@ static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 
 static const mtype_id mon_fungaloid_queen( "mon_fungaloid_queen" );
 
-static const oter_type_str_id oter_type_bridge( "bridge" );
-static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
 static const oter_type_str_id oter_type_road( "road" );
 
 static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" );
@@ -128,7 +109,6 @@ static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" 
 static const ter_str_id ter_t_coast_rock_surf( "t_coast_rock_surf" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
-static const ter_str_id ter_t_fence_barbed( "t_fence_barbed" );
 static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
 static const ter_str_id ter_t_grass_golf( "t_grass_golf" );
@@ -161,10 +141,7 @@ static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const vgroup_id VehicleGroup_crashed_helicopters( "crashed_helicopters" );
 
-static const vproto_id vehicle_prototype_car_fbi( "car_fbi" );
 static const vproto_id vehicle_prototype_excavator( "excavator" );
-static const vproto_id vehicle_prototype_humvee( "humvee" );
-static const vproto_id vehicle_prototype_military_cargo_truck( "military_cargo_truck" );
 static const vproto_id vehicle_prototype_road_roller( "road_roller" );
 
 class item;
