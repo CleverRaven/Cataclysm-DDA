@@ -6,6 +6,7 @@
 #include <utility>
 #include <vector>
 
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "coordinates.h"
 #include "map_scale_constants.h"
