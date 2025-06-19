@@ -386,8 +386,8 @@
   {
     "id": "mon_immortal_snail",
     "type": "MONSTER",
-    "name": { "str": "snail" },
-    "description": "A small nondescript snail slowly making its way toward you.  Somehow the snail gives the impression of being filled with intelligence and dark purpose. Maybe you shouldn't let it get to you.",
+    "name": { "str": "immortal snail" },
+    "description": "A small nondescript immortal snail that is slowly but relentlessly making its way toward you.  You get a strong feeling you should not touch the snail.",
     "copy-from": "mon_snail_forest",
     "default_faction": "nether_player_hate",
     "volume": "300 ml",
