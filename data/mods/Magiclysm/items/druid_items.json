@@ -111,7 +111,7 @@
     "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "name": { "str_sp": "sealed glowing gourd" },
-    "description": "A gourd sealed with a druid's rune.  You may harvest the liquid inside when it's done brewing.",
+    "description": "A gourd sealed with a druid's rune.  You may harvest the liquid inside when it is done brewing.",
     "weight": "2125 g",
     "volume": "2500 ml",
     "material": [ "wood" ],
