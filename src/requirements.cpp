@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <climits>
 #include <cstdlib>
-#include <exception>
 #include <iterator>
 #include <limits>
 #include <list>
@@ -11,7 +10,6 @@
 #include <set>
 #include <sstream>
 #include <stack>
-#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -21,6 +19,7 @@
 #include "character.h"
 #include "color.h"
 #include "coordinates.h"
+#include "crafting.h"
 #include "debug.h"
 #include "debug_menu.h"
 #include "enum_traits.h"
@@ -36,11 +35,12 @@
 #include "itype.h"
 #include "json.h"
 #include "localized_comparator.h"
+#include "magic.h"
 #include "make_static.h"
 #include "messages.h"
 #include "output.h"
 #include "pocket_type.h"
-#include "ret_val.h"
+#include "recipe_dictionary.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
@@ -72,6 +72,8 @@ static std::map<requirement_id, requirement_data> requirements_all;
 static bool a_satisfies_b( const quality_requirement &a, const quality_requirement &b );
 static bool a_satisfies_b( const std::vector<quality_requirement> &a,
                            const std::vector<quality_requirement> &b );
+
+// static bool component_is_craftable();
 
 /** @relates string_id */
 template<>
@@ -808,7 +810,8 @@ void requirement_data::reset()
 std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
         const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
         int batch,
-        std::string_view hilite, requirement_display_flags flags ) const
+        std::string_view hilite, requirement_display_flags flags,
+        const recipe_subset &learned_recipes ) const
 {
     std::vector<std::string> out_buffer;
     if( components.empty() ) {
@@ -817,7 +820,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     out_buffer.push_back( colorize( _( "Components required:" ), col ) );
 
     std::vector<std::string> folded_buffer =
-        get_folded_list( width, crafting_inv, filter, components, batch, hilite, flags );
+        get_folded_list( width, crafting_inv, filter, components, batch, hilite, flags, learned_recipes );
     out_buffer.insert( out_buffer.end(), folded_buffer.begin(), folded_buffer.end() );
 
     return out_buffer;
@@ -827,11 +830,12 @@ template<typename T>
 std::vector<std::string> requirement_data::get_folded_list( int width,
         const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
         const std::vector< std::vector<T> > &objs, int batch, std::string_view hilite,
-        requirement_display_flags flags ) const
+        requirement_display_flags flags, const recipe_subset &learned_recipes ) const
 {
     // hack: ensure 'cached' availability is up to date
-    can_make_with_inventory( crafting_inv, filter );
-
+    if( std::is_same<T, item_comp>() ) {
+        cache_craftable_comps( crafting_inv, filter, batch, learned_recipes );
+    }
     const bool no_unavailable =
         static_cast<bool>( flags & requirement_display_flags::no_unavailable );
 
@@ -917,14 +921,15 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
 
 bool requirement_data::can_make_with_inventory( const read_only_visitable &crafting_inv,
         const std::function<bool( const item & )> &filter, int batch, craft_flags flags,
-        bool restrict_volume ) const
+        bool restrict_volume,
+        const recipe_subset &learned_recipes ) const
 {
     if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
-    if( craftable_comps.empty() ) {
-        cache_craftable_comps( crafting_inv, filter, batch );
-    }
+    // if( craftable_comps.empty() && !learned_recipes.empty() ) {
+    //     cache_craftable_comps( crafting_inv, filter, batch, learned_recipes );
+    // }
 
 
     bool retval = true;
@@ -935,7 +940,7 @@ bool requirement_data::can_make_with_inventory( const read_only_visitable &craft
     if( !has_comps( crafting_inv, tools, return_true<item>, batch, flags ) ) {
         retval = false;
     }
-    if( !has_comps( crafting_inv, components, filter, batch ) ) {
+    if( !has_comps( crafting_inv, components, filter, batch, craft_flags::none, learned_recipes ) ) {
         retval = false;
     }
     if( !check_enough_materials( crafting_inv, filter, batch, restrict_volume ) ) {
@@ -945,7 +950,8 @@ bool requirement_data::can_make_with_inventory( const read_only_visitable &craft
 }
 
 void requirement_data::cache_craftable_comps( const read_only_visitable &crafting_inv,
-        const std::function<bool( const item & )> &filter, int batch ) const
+        const std::function<bool( const item & )> &filter, int batch,
+        const recipe_subset &learned_recipes ) const
 {
     if( !craftable_comps.empty() ) {
         return;
@@ -956,36 +962,28 @@ void requirement_data::cache_craftable_comps( const read_only_visitable &craftin
             if( comp.has( crafting_inv, filter, batch ) ) {
                 comp.available = available_status::a_true;
             } else if( comp.get_component_type() == component_type::ITEM && comp.craftable ) {
-                const recipe_id rec( comp.type.c_str() );
-                if( !rec.is_valid() ) {
-                    add_msg( _( "invalid recipe for : %s" ), comp.type.c_str() );
-                    comp.available = available_status::a_false;
-                    continue;
-                }
-                const int num_recipe_craft = std::ceil( static_cast<float>( rec->makes_amount() ) /
-                                                        static_cast<float>( comp.count * batch ) );
-                if( num_recipe_craft <= 0 ) {
-                    add_msg( _( "no requirements? recipe result: %i, num needed: %i" ), rec->makes_amount(),
-                             comp.count * batch );
-                    comp.available = available_status::a_false;
-                } else if( rec->simple_requirements().can_make_with_inventory( crafting_inv, filter,
-                           num_recipe_craft ) ) {
-
-                    //direct recipe for initialized components?
-                    craftable_comps[comp] = &rec.obj();
+                // component is craftable if ANY possible recipe is craftable
+                if( comp_is_craftable( crafting_inv, comp, filter, batch, learned_recipes ) ) {
                     comp.available = available_status::a_craftable;
-                    add_msg( "%s can be substituted by its recipe", comp.type.c_str() );
-                } else {
-                    comp.available = available_status::a_false;
-                    add_msg( "craftable missing components for %s", comp.type.c_str() );
+                    for( const recipe *rec : learned_recipes ) {
+                        const int num_recipe_craft = std::ceil( static_cast<float>( rec->makes_amount() ) /
+                                                                static_cast<float>( comp.count * batch ) );
+                        if( num_recipe_craft <= 0 ) {
+                            continue;
+                        } else if( rec->simple_requirements().can_make_with_inventory( crafting_inv, filter,
+                                   num_recipe_craft, craft_flags::none, true, learned_recipes ) ) {
+                            craftable_comps[comp].push_back( rec );
+                        }
+                    }
                 }
+
 
             } else {
 
                 // Trying to track down why the crafting tests are failing?
                 // Uncomment the below to see the group of requirements that are lacking satisfaction
                 // Add a printf("\n") to the loop above this to separate different groups onto a separate line
-                printf( "T: %s \n ", comp.type.str().c_str() );
+                // printf( "T: %s \n ", comp.type.str().c_str() );
                 comp.available = available_status::a_false;
             }
         }
@@ -993,10 +991,91 @@ void requirement_data::cache_craftable_comps( const read_only_visitable &craftin
 }
 
 template<typename T>
+bool requirement_data::comp_is_craftable( const read_only_visitable &crafting_inv,
+        const T comp, const std::function<bool( const item & )> &filter, int batch,
+        const recipe_subset &learned_recipes )
+{
+    if( comp.get_component_type() != component_type::ITEM || !comp.craftable ) {
+        return false;
+    }
+    if( learned_recipes.empty() ) {
+        add_msg( _( "no learned_recipes provided for component %s" ), comp.type.c_str() );
+        return false;
+    }
+    std::vector<const recipe *> recs;
+
+
+    // hackery to convince compiler that comp.type is itype_id
+    const itype_id type( comp.type.c_str() ) ;
+    if( !type.is_valid() ) {
+        debugmsg( "Component type %s not valid", comp.type.c_str() );
+        comp.available = available_status::a_false;
+        return false;
+    }
+
+    recs = learned_recipes.recipes_that_produce( type );
+
+    if( recs.empty() ) {
+        add_msg( _( "no recipes found for component %s" ), comp.type.c_str() );
+        return false;
+    }
+
+
+    bool ret = false;
+    for( const recipe *rec : recs ) {
+        const int num_recipe_craft = std::ceil( static_cast<float>( rec->makes_amount() ) /
+                                                static_cast<float>( comp.count * batch ) );
+        if( num_recipe_craft <= 0 ) {
+            add_msg( _( "no requirements? recipe result: %i, num needed: %i" ), rec->makes_amount(),
+                     comp.count * batch );
+        } else if( rec->simple_requirements().can_make_with_inventory( crafting_inv, filter,
+                   num_recipe_craft, craft_flags::none, true, learned_recipes ) ) {
+            add_msg( "%s can be substituted by its recipe", comp.type.c_str() );
+            ret = true;
+        } else {
+            add_msg( "craftable missing components for %s", comp.type.c_str() );
+        }
+    }
+    return ret;
+}
+
+std::vector<const recipe *> requirement_data::craftable_recs_for_comp( item_comp comp,
+        const read_only_visitable &crafting_inv,
+        const std::function<bool( const item & )> &filter,
+        const recipe_subset &learned_recipes,
+        int batch )
+{
+    const float num_needed = static_cast<float>( comp.count * batch );
+    if( num_needed <= 0 ) {
+        debugmsg( "need to craft 0 or less items. %i components, %i batch", comp.count, batch );
+        return {};
+    }
+    if( craftable_comps[comp].empty() ) {
+        for( const recipe *rec : learned_recipes.recipes_that_produce( comp.type ) ) {
+
+
+            const int num_recipe_craft = std::ceil( static_cast<float>( rec->makes_amount() ) /
+                                                    num_needed );
+            if( num_recipe_craft <= 0 ) {
+                //
+                continue;
+            } else if( rec->simple_requirements().can_make_with_inventory( crafting_inv, filter, batch,
+                       craft_flags::none, true, learned_recipes ) ) {
+                craftable_comps[comp].push_back( rec ) ;
+                comp.available = available_status::a_craftable;
+            }
+        }
+    }
+
+    return craftable_comps[comp];
+}
+
+template<typename T>
 bool requirement_data::has_comps( const read_only_visitable &crafting_inv,
                                   const std::vector< std::vector<T> > &vec,
                                   const std::function<bool( const item & )> &filter,
-                                  int batch, craft_flags flags )
+                                  int batch, craft_flags flags,
+                                  const recipe_subset &learned_recipes )
 {
     bool retval = true;
     int total_UPS_charges_used = 0;
@@ -1008,34 +1087,21 @@ bool requirement_data::has_comps( const read_only_visitable &crafting_inv,
         };
 
         for( const T &comp : set_of_comps ) {
+
+            // components available
             if( comp.has( crafting_inv, filter, batch, flags, use_ups ) ) {
                 comp.available = available_status::a_true;
-            } else if( comp.get_component_type() == component_type::ITEM && comp.craftable ) {
-                recipe_id rec( comp.type.c_str() );
-                const int num_recipe_craft = std::ceil( static_cast<float>( rec->makes_amount() ) /
-                                                        static_cast<float>( comp.count * batch ) );
-                if( num_recipe_craft <= 0 ) {
-                    add_msg( _( "no requirements? recipe result: %i, num needed: %i" ), rec->makes_amount(),
-                             comp.count * batch );
-                    comp.available = available_status::a_false;
-                } else if( rec.is_valid() &&
-                           rec->simple_requirements().can_make_with_inventory( crafting_inv, filter,
-                                   num_recipe_craft ) ) {
-                    // craftable_comps[]
-                    comp.available = available_status::a_craftable;
-                    add_msg( "%s can be substituted by its recipe", comp.type.c_str() );
-                    retval = true;
-                } else {
-                    comp.available = available_status::a_false;
-                    add_msg( "craftable missing components for %s", comp.type.c_str() );
-                }
 
+                // if not, check if craftable
+            } else if( comp.get_component_type() == component_type::ITEM &&
+                       comp_is_craftable( crafting_inv, comp, filter, batch, learned_recipes ) ) {
+                comp.available = available_status::a_craftable;
             } else {
 
                 // Trying to track down why the crafting tests are failing?
                 // Uncomment the below to see the group of requirements that are lacking satisfaction
                 // Add a printf("\n") to the loop above this to separate different groups onto a separate line
-                printf( "T: %s \n ", comp.type.str().c_str() );
+                // printf( "T: %s \n ", comp.type.str().c_str() );
                 comp.available = available_status::a_false;
             }
             has_tool_in_set = has_tool_in_set || comp.available >= available_status::a_true;
@@ -1097,7 +1163,7 @@ bool tool_comp::has(
             // sometimes decreases when the batch size increases, so we take
             // the largest remainder value 19 to make this function return
             // false consistently for large batch sizes.
-            charges_required = std::min( charges_required, charges_required / 20 + 19 );
+            charges_required = std::min( charges_required, ( charges_required / 20 ) + 19 );
         }
 
         int charges_found = crafting_inv.charges_of( type, charges_required, filter, visitor );
@@ -1842,21 +1908,21 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
 
 bool deduped_requirement_data::can_make_with_inventory(
     const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
-    int batch, craft_flags flags ) const
+    int batch, craft_flags flags, const recipe_subset &learned_recipes ) const
 {
     return std::any_of( alternatives().begin(), alternatives().end(),
     [&]( const requirement_data & alt ) {
-        return alt.can_make_with_inventory( crafting_inv, filter, batch, flags );
+        return alt.can_make_with_inventory( crafting_inv, filter, batch, flags, true, learned_recipes );
     } );
 }
 
 std::vector<const requirement_data *> deduped_requirement_data::feasible_alternatives(
     const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
-    int batch, craft_flags flags ) const
+    int batch, craft_flags flags, const recipe_subset &learned_recipes ) const
 {
     std::vector<const requirement_data *> result;
     for( const requirement_data &req : alternatives() ) {
-        if( req.can_make_with_inventory( crafting_inv, filter, batch, flags ) ) {
+        if( req.can_make_with_inventory( crafting_inv, filter, batch, flags, true, learned_recipes ) ) {
             result.push_back( &req );
         }
     }
@@ -1876,6 +1942,6 @@ const requirement_data *deduped_requirement_data::select_alternative(
     int batch, craft_flags flags ) const
 {
     const std::vector<const requirement_data *> all_reqs =
-        feasible_alternatives( inv, filter, batch, flags );
+        feasible_alternatives( inv, filter, batch, flags, crafter.get_learned_recipes() );
     return crafter.select_requirements( all_reqs, 1, inv, filter );
 }

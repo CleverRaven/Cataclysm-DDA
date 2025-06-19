@@ -612,7 +612,7 @@ bool Character::can_make( const recipe *r, int batch_size ) const
     }
 
     return r->deduped_requirements().can_make_with_inventory(
-               crafting_inv, r->get_component_filter(), batch_size );
+               crafting_inv, r->get_component_filter(), batch_size, craft_flags::none, get_learned_recipes() );
 }
 
 bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
@@ -628,7 +628,8 @@ bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
 
     const inventory &inv = crafting_inventory();
     return rec->deduped_requirements().can_make_with_inventory(
-               inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only );
+               inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only,
+               get_learned_recipes() );
 }
 
 const inventory &Character::crafting_inventory( bool clear_path ) const
@@ -1620,7 +1621,8 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
         // continue_reqs are for all batches at once
         const int batch_size = 1;
 
-        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), std_filter, batch_size ) ) {
+        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), std_filter, batch_size,
+                craft_flags::none, true, get_learned_recipes() ) ) {
             if( is_avatar() ) {
                 std::string buffer = _( "You don't have the required components to continue crafting!" );
                 buffer += "\n";
@@ -1639,7 +1641,8 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
             return false;
         }
 
-        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), no_rotten_filter, batch_size ) ) {
+        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), no_rotten_filter, batch_size,
+                craft_flags::none, true, get_learned_recipes() ) ) {
             if( !query_yn( _( "Some components required to continue are rotten.\n"
                               "Continue crafting anyway?" ) ) ) {
                 return false;
@@ -1648,7 +1651,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
         }
 
         if( !continue_reqs.can_make_with_inventory( crafting_inventory(), no_favorite_filter,
-                batch_size ) ) {
+                batch_size, craft_flags::none, true, get_learned_recipes() ) ) {
             if( !query_yn( _( "Some components required to continue are favorite.\n"
                               "Continue crafting anyway?" ) ) ) {
                 return false;
@@ -1751,6 +1754,9 @@ const requirement_data *Character::select_requirements(
     const read_only_visitable &inv,
     const std::function<bool( const item & )> &filter ) const
 {
+    if( alternatives.empty() ) {
+        return nullptr;
+    }
     cata_assert( !alternatives.empty() );
     if( alternatives.size() == 1 || !is_avatar() ) {
         return alternatives.front();
@@ -2046,269 +2052,42 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
 }
 
 // copied from select_item_component
-craft_selection Character::select_component_to_craft( const std::map<item_comp, recipe *>
-        &components,
-        int batch, read_only_visitable &map_inv, bool can_cancel,
-        const std::function<bool( const item & )> &filter, bool player_inv, bool npc_query,
-        const recipe *rec )
+craft_selection Character::select_component_to_craft(
+    std::vector<std::pair< const recipe *, item_comp>>
+    &components, int batch,
+    const std::function<bool( const item & )> &filter, bool npc_query ) const
 {
     std::function<bool( const item & )> preferred_component_filter = [&filter]( const item & it ) {
         return is_preferred_component( it ) && filter( it );
     };
 
-    Character &player_character = get_player_character();
-    std::vector<std::pair<item_comp, std::optional<nc_color>>> player_has;
-    std::vector<std::pair<item_comp, std::optional<nc_color>>> map_has;
-    std::vector<std::pair<item_comp, std::optional<nc_color>>> mixed;
-
-    craft_selection selected;
-
-    for( const auto &[component, rec] : components ) {
-        itype_id type = component.type;
-        int count = ( component.count > 0 ) ? component.count * batch : std::abs( component.count );
-
-        if( item::count_by_charges( type ) && count > 0 ) {
-            int map_charges = map_inv.charges_of( type, INT_MAX, preferred_component_filter );
-
-            // If map has infinite charges, just use them
-            if( map_charges == item::INFINITE_CHARGES ) {
-                selected.use_from = usage_from::map;
-                selected.comp = component;
-                return selected;
-            }
-            if( player_inv ) {
-                int player_charges = charges_of( type, INT_MAX, preferred_component_filter );
-                if( player_charges >= count ) {
-                    player_has.emplace_back( component, std::nullopt );
-                } else if( map_charges >= count ) {
-                    map_has.emplace_back( component, std::nullopt );
-                } else {
-                    if( player_charges + map_charges >= count ) {
-                        mixed.emplace_back( component, std::nullopt );
-                    } else {
-                        bool found = false;
-                        player_charges = charges_of( type, INT_MAX, filter );
-
-                        if( player_charges >= count ) {
-                            player_has.emplace_back( component, std::nullopt );
-                            found = true;
-                        } else {
-                            map_charges = map_inv.charges_of( type, INT_MAX, filter );
-
-                            if( map_charges >= count ) {
-                                map_has.emplace_back( component, std::nullopt );
-                                found = true;
-                            }
-                        }
-
-                        if( !found && player_charges + map_charges >= count ) {
-                            mixed.emplace_back( component, std::nullopt );
-                        }
-                    }
-                }
-
-            } else {
-                map_charges = map_inv.charges_of( type, INT_MAX, filter );
-
-                if( map_charges >= count ) {
-                    map_has.emplace_back( component, std::nullopt );
-                }
-            }
-        } else { // Counting by units, not charges
-
-            // Can't use pseudo items as components
-            if( player_inv ) {
-                const item item_sought( type );
-                if( ( item_sought.is_software() && count_softwares( type ) > 0 ) ||
-                    has_amount( type, count, false, preferred_component_filter ) ) {
-                    player_has.emplace_back( component, std::nullopt );
-                } else if( map_inv.has_components( type, count, preferred_component_filter ) ) {
-                    map_has.emplace_back( component, std::nullopt );
-                } else if( amount_of( type, false, std::numeric_limits<int>::max(), preferred_component_filter ) +
-                           map_inv.amount_of( type, false, std::numeric_limits<int>::max(),
-                                              preferred_component_filter ) >= count ) {
-                    mixed.emplace_back( component, std::nullopt );
-                } else if( has_amount( type, count, false, filter ) ) {
-                    player_has.emplace_back( component, c_magenta );
-                } else if( map_inv.has_components( type, count, filter ) ) {
-                    map_has.emplace_back( component, c_magenta );
-                } else if( amount_of( type, false, std::numeric_limits<int>::max(), filter ) +
-                           map_inv.amount_of( type, false, std::numeric_limits<int>::max(), filter ) >= count ) {
-                    mixed.emplace_back( component, c_magenta );
-                }
-            } else {
-                if( map_inv.has_components( type, count, filter ) ) {
-                    std::optional<nc_color> colr = std::nullopt;
-                    if( !map_inv.has_components( type, count, [&filter]( const item & it ) {
-                    return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
-                    } ) ) {
-                        colr = c_magenta;
-                    }
-                    map_has.emplace_back( component, colr );
-                }
-            }
-        }
-    }
-
-    /* select 1 component to use */
-    if( player_has.size() + map_has.size() + mixed.size() == 1 ) { // Only 1 choice
-        if( player_has.size() == 1 ) {
-            selected.use_from = usage_from::player;
-            selected.comp = player_has[0].first;
-        } else if( map_has.size() == 1 ) {
-            selected.use_from = usage_from::map;
-            selected.comp = map_has[0].first;
-        } else {
-            selected.use_from = usage_from::both;
-            selected.comp = mixed[0].first;
-        }
-    } else if( !npc_query && is_npc() ) {
-        if( !player_has.empty() ) {
-            selected.use_from = usage_from::player;
-            selected.comp = player_has[0].first;
-        } else if( !map_has.empty() ) {
-            selected.use_from = usage_from::map;
-            selected.comp = map_has[0].first;
-        } else {
-            debugmsg( "Attempted a recipe with no available components!" );
-            selected.use_from = usage_from::cancel;
-            return selected;
-        }
-    } else { // Let the player pick which component they want to use
-        uilist cmenu;
-        bool is_food = false;
-        bool remove_raw = false;
-        if( rec ) {
-            is_food = !!rec->result()->comestible;
-            remove_raw = rec->hot_result() || rec->removes_raw();
-        }
-        enum class inventory_source : int {
-            SELF = 0,
-            MAP,
-            BOTH
-        };
-        auto get_ingredient_description = [&player_character, &map_inv, &filter,
-                                                              &is_food, &remove_raw]( const inventory_source & inv_source,
-        const itype_id & ingredient_type, const int &count ) {
-            std::string text;
-            int available;
-            const item ingredient = item( ingredient_type );
-            std::pair<int, int> kcal_values{ 0, 0 };
-
-            switch( inv_source ) {
-                case inventory_source::MAP:
-                    text = _( "%s (%d/%d nearby)" );
-                    kcal_values = map_inv.kcal_range( ingredient_type, filter, player_character );
-                    available = item::count_by_charges( ingredient_type ) ?
-                                map_inv.charges_of( ingredient_type, INT_MAX, filter ) :
-                                map_inv.amount_of( ingredient_type, false, INT_MAX, filter );
-                    break;
-                case inventory_source::SELF:
-                    text = _( "%s (%d/%d on person)" );
-                    kcal_values = player_character.kcal_range( ingredient_type, filter, player_character );
-                    available = item::count_by_charges( ingredient_type ) ?
-                                player_character.charges_of( ingredient_type, INT_MAX, filter ) :
-                                player_character.amount_of( ingredient_type, false, INT_MAX, filter );
-                    break;
-                case inventory_source::BOTH:
-                    text = _( "%s (%d/%d nearby & on person)" );
-                    kcal_values = map_inv.kcal_range( ingredient_type, filter, player_character );
-                    const std::pair<int, int> kcal_values_tmp = player_character.kcal_range( ingredient_type, filter,
-                            player_character );
-                    kcal_values.first = std::min( kcal_values.first, kcal_values_tmp.first );
-                    kcal_values.second = std::max( kcal_values.second, kcal_values_tmp.second );
-                    available = item::count_by_charges( ingredient_type ) ?
-                                map_inv.charges_of( ingredient_type, INT_MAX, filter ) +
-                                player_character.charges_of( ingredient_type, INT_MAX, filter ) :
-                                map_inv.amount_of( ingredient_type, false, INT_MAX, filter ) +
-                                player_character.amount_of( ingredient_type, false, INT_MAX, filter );
-                    break;
-            }
-
-            if( is_food && ingredient.is_food() ) {
-                text += kcal_values.first == kcal_values.second ? _( " %d kcal" ) : _( " %d-%d kcal" );
-                if( ingredient.has_flag( flag_RAW ) && remove_raw ) {
-                    //Multiplier for RAW food digestion
-                    kcal_values.first /= 0.75f;
-                    kcal_values.second /= 0.75f;
-                    text += _( " <color_brown> (will be processed)</color>" );
-                }
-            }
-            return string_format( text,
-                                  item::nname( ingredient_type ),
-                                  count,
-                                  available,
-                                  kcal_values.first * count,
-                                  kcal_values.second * count
-                                );
-        };
-        // Populate options with the names of the items
-        for( auto &map_ha : map_has ) {
-            // Index 0-(map_has.size()-1)
-            cmenu.addentry( get_ingredient_description( inventory_source::MAP, map_ha.first.type,
-                            map_ha.first.count * batch ) );
-            if( map_ha.second.has_value() ) {
-                cmenu.entries.back().text_color = map_ha.second.value();
-            }
-        }
-        for( auto &player_ha : player_has ) {
-            // Index map_has.size()-(map_has.size()+player_has.size()-1)
-            cmenu.addentry( get_ingredient_description( inventory_source::SELF, player_ha.first.type,
-                            player_ha.first.count * batch ) );
-            if( player_ha.second.has_value() ) {
-                cmenu.entries.back().text_color = player_ha.second.value();
-            }
-        }
-        for( auto &component : mixed ) {
-            // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
-            cmenu.addentry( get_ingredient_description( inventory_source::BOTH, component.first.type,
-                            component.first.count * batch ) );
-            if( component.second.has_value() ) {
-                cmenu.entries.back().text_color = component.second.value();
-            }
+    uilist cmenu;
+    for( const auto&[ rec, component] : components ) {
+        if( ( is_npc() && !npc_query ) || components.size() == 1 ) {
+            return craft_selection{component, rec};
         }
 
-        // Unlike with tools, it's a bad thing if there aren't any components available
+        cmenu.addentry( component.to_string( batch ) );
         if( cmenu.entries.empty() ) {
-            if( player_inv ) {
-                if( has_trait( trait_DEBUG_HS ) ) {
-                    selected.use_from = usage_from::player;
-                    return selected;
-                }
-            }
             debugmsg( "Attempted a recipe with no available components!" );
-            selected.use_from = usage_from::cancel;
+            craft_selection selected;
+            selected.cancled = true;
             return selected;
-        }
-
-        cmenu.allow_cancel = can_cancel;
-
-        // Get the selection via a menu popup
-        cmenu.title = _( "Use which component?" );
-        cmenu.query();
-
-        if( cmenu.ret < 0 ||
-            static_cast<size_t>( cmenu.ret ) >= map_has.size() + player_has.size() + mixed.size() ) {
-            selected.use_from = usage_from::cancel;
-            return selected;
-        }
-
-        size_t uselection = static_cast<size_t>( cmenu.ret );
-        if( uselection < map_has.size() ) {
-            selected.use_from = usage_from::map;
-            selected.comp = map_has[uselection].first;
-        } else if( uselection < map_has.size() + player_has.size() ) {
-            uselection -= map_has.size();
-            selected.use_from = usage_from::player;
-            selected.comp = player_has[uselection].first;
-        } else {
-            uselection -= map_has.size() + player_has.size();
-            selected.use_from = usage_from::both;
-            selected.comp = mixed[uselection].first;
         }
     }
 
-    return selected;
+    // Get the selection via a menu popup
+    cmenu.title = _( "Craft which component?" );
+    cmenu.query();
+
+    if( cmenu.ret == UILIST_CANCEL ) {
+        craft_selection selected;
+        selected.cancled = true;
+        return selected;
+    }
+
+    size_t uselection = static_cast<size_t>( cmenu.ret );
+    return craft_selection{components[uselection].second, components[uselection].first};
 }
 
 // Prompts player to empty all newly-unsealed containers in inventory

@@ -40,6 +40,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "crafting.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -5854,7 +5855,8 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
 static std::unordered_map<const recipe *, bool> can_craft_recipe_cache;
 static time_point cache_valid_turn;
 
-static bool can_craft_recipe( const recipe *r, const inventory &crafting_inv )
+static bool can_craft_recipe( const recipe *r, const inventory &crafting_inv,
+                              const recipe_subset &learned_recipes )
 {
     if( cache_valid_turn != calendar::turn ) {
         cache_valid_turn = calendar::turn;
@@ -5864,7 +5866,7 @@ static bool can_craft_recipe( const recipe *r, const inventory &crafting_inv )
         return can_craft_recipe_cache.at( r );
     }
     can_craft_recipe_cache[r] = r->deduped_requirements().can_make_with_inventory( crafting_inv,
-                                r->get_component_filter() );
+                                r->get_component_filter(), 1, craft_flags::none, learned_recipes );
     return can_craft_recipe_cache.at( r );
 }
 
@@ -6120,7 +6122,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             std::vector<std::string> crafts;
             crafts.reserve( item_recipes.size() );
             for( const recipe *r : item_recipes ) {
-                const bool can_make = can_craft_recipe( r, crafting_inv );
+                const bool can_make = can_craft_recipe( r, crafting_inv, player_character.get_learned_recipes() );
                 // Endarken recipes that can't be crafted with the survivor's inventory
                 const std::string name = r->result_name( /* decorated = */ true );
                 crafts.emplace_back( can_make ? name : string_format( "<dark>%s</dark>", name ) );

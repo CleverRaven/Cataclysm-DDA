@@ -57,11 +57,10 @@ struct comp_selection {
 
 struct craft_selection {
     /** Tells us where the selected component should be used from. */
-    usage_from use_from = usage_from::none;
-
     item_comp comp;
-    recipe *rec;
+    const recipe *rec;
 
+    bool cancled = false;
     /** provides a translated name for 'comp', suffixed with it's location e.g '(nearby)'. */
     std::string nname() const;
 

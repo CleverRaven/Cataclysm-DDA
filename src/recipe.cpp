@@ -2,11 +2,14 @@
 
 #include <algorithm>
 #include <cmath>
+#include <exception>
 #include <memory>
 #include <numeric>
 #include <optional>
 #include <sstream>
+#include <stdexcept>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "assign.h"
@@ -44,6 +47,7 @@
 #include "proficiency.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id_utils.h"
@@ -81,30 +85,20 @@ int recipe::get_skill_cap() const
 }
 
 std::vector<const recipe *> recipe::to_craft( const read_only_visitable
-        &crafting_inv, int batch ) const
+        &crafting_inv, int batch, Character *crafter ) const
 {
-    // auto any_available = [&]( std::vector<item_comp> &comps ) {
-    //     for( item_comp comp :  comps ) {
-    //         if( comp.available == available_status::a_true ) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // };
-
     std::vector<const recipe *> ret;
-
-    recursive_comp_crafts( ret, crafting_inv, batch );
+    recursive_comp_crafts( ret, crafting_inv, batch, crafter );
 
     return ret;
 }
 
 ret_val<void> recipe::recursive_comp_crafts( std::vector<const recipe *> &lst,
         const read_only_visitable
-        &crafting_inv, int batch ) const
+        &crafting_inv, int batch, Character *crafter ) const
 {
 
-    static auto has_any_status = [&]( const std::vector<item_comp> &comps,
+    static auto any_has_status = []( const std::vector<item_comp> &comps,
     available_status status = available_status::a_true ) {
         for( const auto &comp : comps ) {
             if( comp.available == status ) {
@@ -120,34 +114,40 @@ ret_val<void> recipe::recursive_comp_crafts( std::vector<const recipe *> &lst,
     }
     requirement_data reqs = simple_requirements();
 
-    std::map<const item_comp, const recipe *> craftables = reqs.get_craftable_comps();
+    std::map<const item_comp, std::vector<const recipe *>> craftables = reqs.get_craftable_comps();
+
 
     for( const std::vector<item_comp> &comps : reqs.get_components() ) {
-        if( has_any_status( comps ) ) {
-
+        // filter out components that have available alternatives
+        if( any_has_status( comps ) ) {
             continue;
         }
-
-        std::vector<const recipe *> craft;
+        std::vector<std::pair<const recipe *, item_comp>> craft;
+        const recipe_subset learned_recipes = crafter->get_learned_recipes();
+        // if multiple alternative components are craftable, get which one to craft
         for( item_comp it : comps ) {
-            if( it.available == available_status::a_craftable ) {
-                craft.push_back( craftables[it] );
+            for( const recipe *rec : reqs.craftable_recs_for_comp( it, crafting_inv,
+                    get_component_filter(), learned_recipes,
+                    batch ) ) {
+                craft.emplace_back( rec, it );
             }
         }
+
 
         if( craft.empty() ) {
             return ret_val<void>::make_failure( "No craftables found for %s in recipe::to_craft",
                                                 ident().c_str() );
         }
 
-        if( craft.size() > 1 ) {
-            // FIXME: select dialog
+
+
+        craft_selection sel = crafter->select_component_to_craft( craft, batch, get_component_filter() );
+        if( sel.cancled ) {
+            return ret_val<void>::make_failure();
         }
 
-        for( const recipe *rec : craft ) {
+        sel.rec->recursive_comp_crafts( lst, crafting_inv, batch, crafter );
 
-            rec->recursive_comp_crafts( lst, crafting_inv, batch );
-        }
     }
 
     return ret_val<void>::make_success();
@@ -220,9 +220,7 @@ int64_t recipe::batch_time( const Character &guy, int batch, float multiplier,
     } else if( assistants >= 2 ) {
         total_time = total_time * .60;
     }
-    if( total_time < local_time ) {
-        total_time = local_time;
-    }
+    total_time = std::max( total_time, local_time );
 
     return static_cast<int64_t>( total_time );
 }

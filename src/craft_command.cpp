@@ -130,7 +130,7 @@ void craft_command::execute( bool only_cache_comps )
     map_inv.form_from_map( crafter->pos_bub(), PICKUP_RANGE, crafter );
 
 
-    crafting_queue = rec->to_craft( map_inv, batch_size );
+    crafting_queue = rec->to_craft( map_inv, batch_size, crafter );
     if( crafting_queue.empty() ) {
         debugmsg( "no craftable found" );
         return;

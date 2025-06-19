@@ -3724,10 +3724,12 @@ class Character : public Creature, public visitable
                                int batch, read_only_visitable &map_inv, bool can_cancel = false,
                                const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true,
                                bool npc_query = false, const recipe *rec = nullptr );
-        craft_selection select_component_to_craft( const std::map<item_comp, recipe *> &components,
-                int batch, read_only_visitable &map_inv, bool can_cancel = false,
-                const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true,
-                bool npc_query = false, const recipe *rec = nullptr );
+        craft_selection select_component_to_craft( std::vector<std::pair<const recipe *, item_comp>>
+                &components,
+                int batch,
+                const std::function<bool( const item & )> &filter = return_true<item>,
+                bool npc_query = false ) const;
+
         std::list<item> consume_items( const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter = return_true<item>, bool select_ind = false );
         std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
