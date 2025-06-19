@@ -174,6 +174,113 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_RING_OF_FLAMES_INITIATE",
+    "condition": { "not": { "npc_has_effect": "effect_changeling_summer_ring_of_flames" } },
+    "effect": [
+      { "npc_add_effect": "effect_changeling_summer_ring_of_flames_limiter", "duration": 1 },
+      { "npc_add_effect": "effect_changeling_summer_ring_of_flames", "duration": 11 },
+      { "u_add_effect": "effect_changeling_summer_ring_of_flames_enemy", "duration": "10 minutes" },
+      {
+        "if": { "math": [ "global_what_is_the_season == 2" ] },
+        "then": [
+          {
+            "if": { "and": [ "u_is_outside", "npc_is_outside" ] },
+            "then": [
+              { "npc_cast_spell": { "id": "changeling_summer_ring_of_flames_actual_flames_summer_spell", "hit_self": true } },
+              { "npc_transform_radius": 5, "ter_furn_transform": "ter_changeling_summer_remove_ring_fire" }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "if": { "and": [ "u_is_outside", "npc_is_outside" ] },
+            "then": [
+              { "npc_cast_spell": { "id": "changeling_summer_ring_of_flames_actual_flames_non_summer_spell", "hit_self": true } },
+              { "npc_transform_radius": 5, "ter_furn_transform": "ter_changeling_summer_remove_ring_fire" }
+            ]
+          }
+        ]
+      },
+      {
+        "if": { "and": [ "u_is_outside", "npc_is_outside" ] },
+        "then": { "npc_message": "A ring of flames springs up around you!", "type": "neutral" },
+        "else": { "npc_message": "You must be outside to call up the ring of champions.", "type": "bad" }
+      },
+      { "run_eocs": "EOC_CHANGELING_SUMMER_RING_OF_FLAMES_CONTINUOUS", "time_in_future": 10, "alpha_talker": "npc" }
+    ],
+    "false_effect": [
+      { "npc_lose_effect": "effect_changeling_summer_ring_of_flames" },
+      { "u_lose_effect": "effect_changeling_summer_ring_of_flames_enemy" },
+      { "npc_transform_radius": 12, "ter_furn_transform": "ter_changeling_summer_remove_ring_fire" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_RING_OF_FLAMES_CONTINUOUS",
+    "condition": { "u_has_effect": "effect_changeling_summer_ring_of_flames" },
+    "effect": [
+      { "u_location_variable": { "context_val": "changeling_near_fire" }, "field": "fd_fire", "target_max_radius": 5 },
+      {
+        "if": { "map_field_id": "fd_fire", "loc": { "context_val": "changeling_near_fire" } },
+        "then": [ { "u_add_effect": "effect_changeling_summer_ring_of_flames", "duration": 11 } ],
+        "else": [
+          { "u_lose_effect": "effect_changeling_summer_ring_of_flames" },
+          { "u_transform_radius": 10, "ter_furn_transform": "ter_changeling_summer_remove_ring_fire" }
+        ]
+      },
+      { "run_eocs": "EOC_CHANGELING_SUMMER_RING_OF_FLAMES_CONTINUOUS", "time_in_future": 10 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_RING_OF_FLAMES_CHECK_MOVEMENT",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "effect_changeling_summer_ring_of_flames_limiter" } },
+        { "u_has_effect": "effect_changeling_summer_ring_of_flames" },
+        { "u_is_in_field": "fd_fire" }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_changeling_summer_ring_of_flames" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_RING_OF_FLAMES_KILL_TARGET_NPC",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_character",
+    "condition": {
+      "or": [
+        { "u_has_effect": "effect_changeling_summer_ring_of_flames" },
+        { "npc_has_effect": "effect_changeling_summer_ring_of_flames_enemy" }
+      ]
+    },
+    "effect": [
+      { "u_transform_radius": 12, "ter_furn_transform": "ter_changeling_summer_remove_ring_fire" },
+      { "u_lose_effect": "effect_changeling_summer_ring_of_flames" },
+      { "u_message": "As your enemy collapses, the ring of flames gutters and dies.", "type": "mixed" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_RING_OF_FLAMES_KILL_TARGET_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": {
+      "or": [
+        { "u_has_effect": "effect_changeling_summer_ring_of_flames" },
+        { "npc_has_effect": "effect_changeling_summer_ring_of_flames_enemy" }
+      ]
+    },
+    "effect": [
+      { "u_transform_radius": 12, "ter_furn_transform": "ter_changeling_summer_remove_ring_fire" },
+      { "u_lose_effect": "effect_changeling_summer_ring_of_flames" },
+      { "u_message": "As your enemy collapses, the ring of flames gutters and dies.", "type": "mixed" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_SUMMER_POWERFUL_SUNLIGHT_INITIATE",
     "effect": [
       {

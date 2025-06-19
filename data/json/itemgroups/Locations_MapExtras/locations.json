@@ -1121,7 +1121,9 @@
       { "item": "sword_xiphos", "prob": 4, "damage": [ 2, 4 ] },
       { "item": "khopesh", "prob": 4, "damage": [ 2, 4 ] },
       { "item": "spear_dory", "prob": 3, "damage": [ 2, 4 ] },
-      { "item": "pike_bronze", "prob": 3, "damage": [ 2, 4 ] }
+      { "item": "pike_bronze", "prob": 3, "damage": [ 2, 4 ] },
+      { "item": "cestus", "prob": 4, "damage": [ 2, 4 ] },
+      { "item": "bagh_nakha", "prob": 2, "damage": [ 2, 4 ] }
     ]
   },
   {
@@ -1188,6 +1190,8 @@
       { "item": "chem_baking_soda", "prob": 60, "charges": [ 10, -1 ] },
       [ "syringe", 30 ],
       [ "punch_dagger", 12 ],
+      [ "knuckle_brass", 12 ],
+      [ "knuckle_steel_forged", 6 ],
       { "item": "water_clean", "prob": 80, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
       { "prob": 80, "group": "salt_various" },
       [ "mag_porn", 20 ],
@@ -1494,6 +1498,8 @@
       { "item": "tanto", "prob": 3 },
       { "item": "throwing_knife", "prob": 7 },
       { "item": "punch_dagger", "prob": 12 },
+      { "item": "knuckle_brass", "prob": 16 },
+      { "item": "knuckle_steel_forged", "prob": 8 },
       { "item": "claw_bar", "prob": 3 },
       { "item": "crowbar", "prob": 18 },
       { "item": "tazer", "prob": 3, "charges": [ 0, 500 ] },

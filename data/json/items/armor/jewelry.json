@@ -2045,7 +2045,7 @@
       {
         "id": "bunny_ears_white",
         "name": { "str": "pair of white bunny ears", "str_pl": "pairs of white bunny ears" },
-        "description": "A fuzzy pair of white bunny ears.  It does nothing, but there's no reason to look good even if no one's looking.",
+        "description": "A fuzzy pair of white bunny ears.  It does nothing, but there's no reason not to look good even if no one's looking.",
         "color": "light_gray"
       }
     ]
