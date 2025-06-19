@@ -2012,13 +2012,13 @@ static void character_edit_needs_menu( Character &you )
                 you.activity_history.weary_clear();
             }
             break;
-        case 10:
+        case 8:
             if( query_int( value, false, _( "Set weariness tracker to?  Currently: %d" ),
                            you.activity_history.debug_get_tracker() ) ) {
                 you.activity_history.debug_set_tracker( value );
             }
             break;
-        case 8:
+        case 9:
             you.initialize_stomach_contents();
             you.set_hunger( 0 );
             you.set_thirst( 0 );
@@ -2027,7 +2027,7 @@ static void character_edit_needs_menu( Character &you )
             you.set_stored_kcal( you.get_healthy_kcal() );
             you.activity_history.weary_clear();
             break;
-        case 9:
+        case 10:
             you.stomach.empty();
             you.guts.empty();
             break;
