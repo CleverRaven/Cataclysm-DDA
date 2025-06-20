@@ -46,9 +46,9 @@
       "o": { "item": "novels", "chance": 70, "repeat": [ 1, 3 ] },
       "$": { "item": "vault", "chance": 95, "repeat": [ 2, 7 ] },
       "e": { "item": "SUS_fridge_breakroom", "chance": 70 },
-      "d": { "item": "office", "chance": 50, "repeat": [ 1, 2 ] },
+      "d": { "item": "SUS_office_desk", "chance": 50 },
       "L": { "item": "cop_weapons", "chance": 40 },
-      "c": { "item": "office", "chance": 70, "repeat": [ 1, 4 ] },
+      "c": { "item": "SUS_office_desk", "chance": 25 },
       "t": { "item": "vault", "chance": 25, "repeat": [ 2, 7 ] },
       "£": { "item": "SUS_toilet", "chance": 50 }
     },

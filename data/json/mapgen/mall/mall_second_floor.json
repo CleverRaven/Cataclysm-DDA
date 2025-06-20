@@ -794,7 +794,7 @@
       "items": {
         "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
         "M": { "item": "jewelry_front", "chance": 30, "repeat": [ 1, 2 ] },
-        "J": { "item": "office", "chance": 10 },
+        "J": { "item": "SUS_office_desk", "chance": 10 },
         "R": { "item": "shoestore_shoes", "chance": 30, "repeat": [ 1, 2 ] },
         "K": { "item": "shirts", "chance": 30, "repeat": [ 1, 2 ] },
         "S": { "item": "SUS_office_filing_cabinet", "chance": 30, "repeat": [ 1, 2 ] },
@@ -882,7 +882,7 @@
       "furniture": { "%": "f_pool_table", "!": "f_counter" },
       "items": {
         "V": { "item": "alcohol", "chance": 50 },
-        "!": { "item": "office", "chance": 40, "repeat": [ 2, 4 ] },
+        "!": { "item": "SUS_office_desk", "chance": 40 },
         "J": { "item": "bar_alcohol", "chance": 20 },
         "K": [
           { "item": "restaur_table", "chance": 50, "repeat": [ 1, 2 ] },
@@ -947,7 +947,7 @@
         "J": { "item": "kitchen", "chance": 10 },
         "z": { "item": "beauty", "chance": 60, "repeat": [ 2, 4 ] },
         "j": { "item": "public_sink", "chance": 100 },
-        "I": { "item": "office", "chance": 20 },
+        "I": { "item": "SUS_office_desk", "chance": 20 },
         "Q": { "item": "camping", "chance": 20 },
         "S": { "item": "SUS_office_filing_cabinet", "chance": 30, "repeat": [ 2, 4 ] },
         "P": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ],
@@ -1096,10 +1096,10 @@
         "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 4 ] },
         "Q": { "item": "coffee_display_2", "chance": 30, "repeat": [ 2, 4 ] },
         "S": { "item": "SUS_office_filing_cabinet", "chance": 20 },
-        "I": { "item": "office", "chance": 20 },
+        "I": { "item": "SUS_office_desk", "chance": 20 },
         "z": { "item": "glasses", "chance": 20 },
         "M": { "item": "glasses", "chance": 20 },
-        "%": { "item": "office", "chance": 20 },
+        "%": { "item": "SUS_office_desk", "chance": 20 },
         "U": { "item": "cleaning", "chance": 20 },
         "N": { "item": "leather_shop_repair", "chance": 40, "repeat": [ 2, 4 ] },
         "T": { "item": "leather_shop", "chance": 30, "repeat": [ 2, 4 ] },
@@ -1174,7 +1174,7 @@
       },
       "items": {
         "K": { "item": "pottery", "chance": 30, "repeat": [ 2, 4 ] },
-        "J": { "item": "office", "chance": 20 },
+        "J": { "item": "SUS_office_desk", "chance": 20 },
         "%": { "item": "bags", "chance": 30, "repeat": [ 1, 2 ] },
         "V": { "item": "bags", "chance": 30, "repeat": [ 2, 4 ] },
         "d": [
@@ -1270,7 +1270,7 @@
         "Y": { "item": "SUS_trash_trashcan", "chance": 50 },
         "F": { "item": "gym", "chance": 10 },
         "u": { "item": "default_vending_machine", "chance": 10 },
-        "I": { "item": "office", "chance": 20 },
+        "I": { "item": "SUS_office_desk", "chance": 20 },
         "P": { "item": "gym", "chance": 30 },
         "S": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "j": { "item": "public_sink", "chance": 100 },
@@ -1599,7 +1599,7 @@
       "furniture": { "%": "f_table" },
       "items": {
         "S": { "item": "SUS_office_filing_cabinet", "chance": 20 },
-        "J": { "item": "office", "chance": 20 },
+        "J": { "item": "SUS_office_desk", "chance": 20 },
         "M": { "item": "leather_shop_accessories", "chance": 30 },
         "K": { "item": "leather_shop", "chance": 40 },
         "T": { "item": "leather_shop", "chance": 30 },
@@ -1651,8 +1651,8 @@
       "items": {
         "1": { "item": "ga_items_1", "chance": 100 },
         "K": { "item": "pottery", "chance": 30, "repeat": [ 2, 4 ] },
-        "I": { "item": "office", "chance": 20 },
-        "Y": { "item": "office", "chance": 20 },
+        "I": { "item": "SUS_office_desk", "chance": 20 },
+        "Y": { "item": "SUS_office_desk", "chance": 20 },
         "d": [
           { "item": "jackets", "chance": 40 },
           { "item": "pants", "chance": 100 },
@@ -1720,7 +1720,7 @@
       "furniture": { "%": "f_counter", "!": "f_table", "*": "f_table", ":": "f_rack" },
       "items": {
         "Y": { "item": "SUS_trash_trashcan", "chance": 50 },
-        "I": { "item": "office", "chance": 20 },
+        "I": { "item": "SUS_office_desk", "chance": 20 },
         "P": { "item": "cleaning", "chance": 30 },
         "S": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         ")": { "item": "keg_wine_intact", "chance": 100 },
@@ -1779,7 +1779,7 @@
           { "item": "shirts", "chance": 100 },
           { "item": "hatstore_accessories", "chance": 10 }
         ],
-        "I": { "item": "office", "chance": 20 },
+        "I": { "item": "SUS_office_desk", "chance": 20 },
         "P": { "item": "jackets", "chance": 30 },
         "S": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "z": { "item": "sports", "chance": 60, "repeat": [ 1, 3 ] },
@@ -2155,7 +2155,7 @@
       },
       "furniture": { "3": "f_table", "4": "f_table" },
       "items": {
-        "J": { "item": "office", "chance": 5 },
+        "J": { "item": "SUS_office_desk", "chance": 5 },
         "K": { "item": "musicstore_showpiece", "chance": 50 },
         "M": { "item": "mussto_windinst", "chance": 50 },
         "V": { "item": "mussto_stringinst", "chance": 50 },
@@ -2211,7 +2211,7 @@
       },
       "furniture": { "4": "f_table", ":": "f_bookcase" },
       "items": {
-        "J": { "item": "office", "chance": 5 },
+        "J": { "item": "SUS_office_desk", "chance": 5 },
         "K": { "item": "light_reading", "chance": 50 },
         "R": { "item": "textbooks", "chance": 30 },
         ":": { "item": "textbooks", "chance": 30 },
@@ -2269,8 +2269,8 @@
       "items": {
         "M": { "item": "costume_misc_items", "chance": 20, "repeat": [ 1, 2 ] },
         "T": { "item": "costume_all", "chance": 20, "repeat": [ 1, 2 ] },
-        "I": { "item": "office", "chance": 20 },
-        "J": { "item": "office", "chance": 20 },
+        "I": { "item": "SUS_office_desk", "chance": 20 },
+        "J": { "item": "SUS_office_desk", "chance": 20 },
         "S": { "item": "SUS_office_filing_cabinet", "chance": 100, "repeat": [ 1, 2 ] },
         "j": { "item": "public_sink", "chance": 100 },
         "d": [
@@ -2346,7 +2346,7 @@
         "M": { "item": "costume_accessories", "chance": 20, "repeat": [ 1, 2 ] },
         "T": { "item": "costume_all_clothing", "chance": 20, "repeat": [ 1, 2 ] },
         "d": [ { "item": "costume_all_clothing", "chance": 100 }, { "item": "costume_misc_items", "chance": 100 } ],
-        "I": { "item": "office", "chance": 30 },
+        "I": { "item": "SUS_office_desk", "chance": 30 },
         "S": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "U": { "item": "allclothes", "chance": 30 },
         "z": { "item": "allclothes", "chance": 30, "repeat": [ 1, 2 ] },
@@ -2415,7 +2415,7 @@
       },
       "furniture": { "0": "f_displaycase", "%": "f_stool", "4": "f_displaycase", "Á": "f_table", "3": "f_table", "*": "f_glass_cabinet" },
       "items": {
-        "I": { "item": "office", "chance": 30 },
+        "I": { "item": "SUS_office_desk", "chance": 30 },
         "S": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 2, 4 ] },
         "M": { "item": "butcher_meat", "chance": 20, "repeat": [ 1, 2 ] },
@@ -2533,13 +2533,13 @@
       },
       "furniture": { "3": "f_table", "4": "f_counter", "%": "f_stool" },
       "items": {
-        "I": { "item": "office", "chance": 30 },
+        "I": { "item": "SUS_office_desk", "chance": 30 },
         "Q": { "item": "farming_tools", "chance": 30 },
         "3": { "item": "farming_seeds", "chance": 20, "repeat": [ 2, 4 ] },
         "V": { "item": "consumer_electronics", "chance": 30 },
         "M": { "item": "consumer_electronics", "chance": 30 },
         "K": { "item": "elecsto_diy", "chance": 30 },
-        "4": { "item": "office", "chance": 30 }
+        "4": { "item": "SUS_office_desk", "chance": 30 }
       },
       "place_monster": [ { "group": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 3, 23 ], "repeat": [ 7, 9 ] } ]
     }
@@ -2660,12 +2660,12 @@
       "items": {
         "R": { "item": "textbooks", "chance": 30 },
         "!": { "item": "textbooks", "chance": 30 },
-        "I": { "item": "office", "chance": 30 },
+        "I": { "item": "SUS_office_desk", "chance": 30 },
         "S": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "z": { "item": "mil_surplus", "chance": 30 },
         "U": { "item": "mil_food_nodrugs", "chance": 30 },
         "Q": { "item": "book_military", "chance": 30 },
-        "J": { "item": "office", "chance": 30 },
+        "J": { "item": "SUS_office_desk", "chance": 30 },
         "3": { "item": "restaur_sink", "chance": 30 },
         "i": { "item": "SUS_oven", "chance": 30 },
         "n": { "item": "restaur_sink", "chance": 30 },
@@ -2723,7 +2723,7 @@
       },
       "furniture": { "3": "f_table", "!": "f_bench" },
       "items": {
-        "I": { "item": "office", "chance": 30 },
+        "I": { "item": "SUS_office_desk", "chance": 30 },
         "S": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "R": { "item": "shoes", "chance": 30, "repeat": [ 1, 2 ] },
         "Q": { "item": "shoes", "chance": 30, "repeat": [ 1, 2 ] },
@@ -2781,7 +2781,7 @@
       },
       "furniture": { "%": "f_beaded_door", "3": "f_table" },
       "items": {
-        "I": { "item": "office", "chance": 30 },
+        "I": { "item": "SUS_office_desk", "chance": 30 },
         "S": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "U": { "item": "allclothes", "chance": 30 },
         "z": { "item": "allclothes", "chance": 30, "repeat": [ 1, 2 ] },
@@ -2841,7 +2841,7 @@
         "z": "t_thconc_floor"
       },
       "items": {
-        "I": { "item": "office", "chance": 5 },
+        "I": { "item": "SUS_office_desk", "chance": 5 },
         "S": { "item": "SUS_office_filing_cabinet", "chance": 50 },
         "j": { "item": "public_sink", "chance": 100 },
         "V": { "item": "glass_shop", "chance": 10, "repeat": [ 2, 4 ] },
@@ -2956,7 +2956,7 @@
           { "item": "dollar_books", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "dollar_clothes", "chance": 20, "repeat": [ 1, 2 ] }
         ],
-        "I": { "item": "office", "chance": 30 }
+        "I": { "item": "SUS_office_desk", "chance": 30 }
       },
       "place_monster": [ { "group": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 3, 10 ], "repeat": [ 7, 9 ] } ]
     }

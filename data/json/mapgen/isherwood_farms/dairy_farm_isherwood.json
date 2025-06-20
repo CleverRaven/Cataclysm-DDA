@@ -81,7 +81,7 @@
       },
       "items": {
         "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-        "d": { "item": "office", "chance": 30 },
+        "d": { "item": "SUS_office_desk", "chance": 30 },
         "{": [ { "item": "ranch_homebooks", "chance": 30 }, { "item": "book_survival", "chance": 30 } ],
         "^": { "item": "bed", "chance": 30 },
         "o": { "item": "SUS_oven", "chance": 30, "repeat": [ 1, 2 ] },

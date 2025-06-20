@@ -176,9 +176,8 @@
       "u": { "item": "SUS_trash_trashcan", "chance": 30 },
       "T": [
         { "item": "SUS_office_mess", "chance": 3, "repeat": [ 1, 2 ] },
-        { "item": "office", "chance": 3, "repeat": [ 1, 2 ] },
         { "item": "consumer_electronics", "chance": 1 },
-        { "item": "SUS_office_desk", "chance": 1 }
+        { "item": "SUS_office_desk", "chance": 5 }
       ],
       "Q": [
         { "item": "hardware_bulk", "chance": 40, "repeat": [ 1, 3 ] },

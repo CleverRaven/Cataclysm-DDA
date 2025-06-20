@@ -75,10 +75,9 @@
       "toilets": { "T": {  } },
       "vendingmachines": { "v": { "lootable": true } },
       "place_items": [
-        { "item": "office", "x": 12, "y": 19, "chance": 50 },
-        { "item": "office", "x": 8, "y": 17, "chance": 50 },
-        { "item": "office", "x": 21, "y": 8, "chance": 50 },
-        { "item": "office", "x": 21, "y": 5, "chance": 50 },
+        { "item": "SUS_office_desk", "x": 12, "y": 19, "chance": 50 },
+        { "item": "SUS_office_desk", "x": 21, "y": 8, "chance": 50 },
+        { "item": "SUS_office_desk", "x": 21, "y": 5, "chance": 50 },
         { "item": "snacks", "x": 3, "y": 6, "chance": 25 },
         { "item": "magazines", "x": 17, "y": 7, "chance": 75 },
         { "item": "magazines", "x": 6, "y": 3, "chance": 75 },

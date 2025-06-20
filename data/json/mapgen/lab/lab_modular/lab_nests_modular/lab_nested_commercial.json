@@ -417,7 +417,7 @@
       ],
       "palettes": [ "lab_common_palette" ],
       "items": {
-        "I": [ { "item": "office", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "I": [ { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 2 ] } ],
         "P": [ { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]
       }
@@ -440,7 +440,7 @@
       ],
       "palettes": [ "lab_common_palette" ],
       "items": {
-        "I": [ { "item": "office", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "I": [ { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 2 ] } ],
         "P": [ { "item": "SUS_office_filing_cabinet", "chance": 30, "repeat": [ 1, 2 ] } ],
         "U": [ { "item": "cleaning", "chance": 30, "repeat": [ 0, 4 ] } ],
         "L": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]
@@ -464,7 +464,7 @@
       ],
       "palettes": [ "lab_common_palette" ],
       "items": {
-        "I": [ { "item": "office", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "I": [ { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 2 ] } ],
         "P": [ { "item": "SUS_office_filing_cabinet", "chance": 30, "repeat": [ 1, 2 ] } ],
         "U": [ { "item": "cleaning", "chance": 30, "repeat": [ 0, 4 ] } ],
         "L": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]
