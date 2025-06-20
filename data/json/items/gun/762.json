@@ -161,7 +161,6 @@
     "material": [ "steel", "wood" ],
     "ammo": [ "762" ],
     "dispersion": 240,
-    "skills": "rifles",
     "min_cycle_recoil": 1832,
     "valid_mod_locations": [
       [ "barrel", 1 ],
@@ -193,7 +192,6 @@
       }
     ],
     "weight": "2563 g",
-    "skills": "rifles",
     "volume": "1332 ml",
     "longest_side": "460 mm",
     "barrel_length": "197 mm",
@@ -208,7 +206,6 @@
     "subtypes": [ "GUN" ],
     "name": { "str": "Tiny AK pistol" },
     "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Micro Draco, the smallest, with a 6.25\" barrel.  It has a distinctive, oddly curvy handguard.",
-    "skills": "rifles",
     "variant_type": "gun",
     "variants": [
       {
