@@ -144,6 +144,9 @@
     "condition": "has_alpha",
     "effect": [
       { "npc_location_variable": { "context_val": "player_position" } },
+      {
+        "math": [ "u_telekinesis_power_level = (n_spell_level('telekinetic_wave') + n_spell_level('telekinetic_wave_knack') )" ]
+      },
       { "math": [ "u_telekinesis_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
       { "math": [ "u_nether_attunement_telekinesis_scaling = n_nether_attunement_power_scaling" ] },
       { "math": [ "u_telekinesis_weight_ratio = 55" ] },
