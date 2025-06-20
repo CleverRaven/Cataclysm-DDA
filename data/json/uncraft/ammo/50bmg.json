@@ -10,7 +10,7 @@
     "components": [
       [ [ "lead", 12 ] ],
       [ [ "incendiary", 20 ] ],
-      [ [ "50_casing", 1 ] ],
+      [ [ "unprimed_50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 158 ] ],
       [ [ "copper", 6 ] ]
@@ -26,7 +26,7 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 12 ] ],
-      [ [ "50_casing", 1 ] ],
+      [ [ "unprimed_50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 158 ] ],
       [ [ "copper", 6 ] ]
@@ -41,11 +41,19 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "50_casing", 1 ] ],
+      [ [ "unprimed_50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 158 ] ],
       [ [ "copper", 6 ] ],
       [ [ "scrap", 1 ] ]
     ]
+  },
+  {
+    "result": "50_casing",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "unprimed_50_casing", 1 ] ], [ [ "spent_lgrifle_primer", 1 ] ] ]
   }
 ]

@@ -46,29 +46,6 @@
     "extend": { "special_attacks": [ [ "BOOMER_GLOW", 20 ] ] }
   },
   {
-    "id": "mon_gas_zombie",
-    "type": "MONSTER",
-    "name": { "str": "gasoline zombie" },
-    "description": "A huge, bloated zombie that appears to have consumed gasoline; fumes and flames escape from its mouth and liquid fuel leaks from its waddling form.",
-    "copy-from": "mon_boomer",
-    "diff": 20,
-    "weight": "160 kg",
-    "hp": 90,
-    "speed": 25,
-    "color": "dark_gray_red",
-    "luminance": 8,
-    "//grab": "Big lad",
-    "grab_strength": 30,
-    "death_function": {
-      "effect": { "id": "death_conflagration", "hit_self": true },
-      "message": "The %s explodes!",
-      "corpse_type": "NO_CORPSE"
-    },
-    "armor": { "electric": 1 },
-    "delete": { "flags": [ "BILE_BLOOD" ], "special_attacks": [ "BOOMER" ] },
-    "extend": { "flags": [ "DRIPS_GASOLINE" ] }
-  },
-  {
     "id": "mon_zombie_gasbag",
     "type": "MONSTER",
     "name": { "str": "bloated zombie" },

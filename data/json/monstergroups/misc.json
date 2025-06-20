@@ -472,7 +472,6 @@
       { "monster": "mon_zombear_skeleton" },
       { "monster": "mon_zoose_brute" },
       { "monster": "mon_zombie_nullfield" },
-      { "monster": "mon_gas_zombie" },
       { "monster": "mon_zombie_urchin" },
       { "monster": "mon_devourer" },
       { "monster": "mon_zombie_hulk" },

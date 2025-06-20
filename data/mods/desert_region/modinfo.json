@@ -7,6 +7,7 @@
     "maintainers": [ "LovamkKicsiGazsii", "Procyonae" ],
     "description": "A testbed/WIP mod to showcase regional_map_settings JSON changes.",
     "category": "content",
+    "conflicts": [ "backrooms", "tropicata" ],
     "dependencies": [ "dda" ],
     "version": "0.1",
     "obsolete": false
