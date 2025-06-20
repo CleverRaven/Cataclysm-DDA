@@ -218,18 +218,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" },
-    "effect": [
-      { "math": [ "u_spellcasting_adjustment('casting_time', 'flag_whitelist': 'PSIONIC') = 25" ] },
-      { "math": [ "u_spellcasting_adjustment('concentration', 'flag_whitelist': 'PSIONIC' ) = -1" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PSI_TORRENTIAL_CHANNELING",
-    "eoc_type": "EVENT",
-    "required_event": "opens_spellbook",
-    "condition": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('concentration', 'flag_whitelist': 'PSIONIC' ) = 0.75" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('casting_time', 'flag_whitelist': 'PSIONIC') = 25" ] } ]
   },
   {
     "type": "effect_on_condition",

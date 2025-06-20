@@ -57,7 +57,7 @@
     "type": "jmath_function",
     "id": "psionic_power_success_formula_modifiers",
     "num_args": 0,
-    "return": "(u_effect_intensity('effect_psi_intense_concentration') > -1 ? 0.1 : 0) + psionic_power_success_formula_torrential_channeling()"
+    "return": "(u_effect_intensity('effect_psi_intense_concentration') > -1 ? 0.1 : 0) + psionic_power_success_formula_torrential_channeling() + ( u_has_trait('PSI_EXTENDED_CHANNELING_active') ? -0.5) + (u_nether_conduit_repeated_channeling_value / 200)"
   },
   {
     "type": "jmath_function",
