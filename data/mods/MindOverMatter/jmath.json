@@ -50,14 +50,29 @@
   {
     "type": "jmath_function",
     "id": "psionic_power_success_formula_base_calc",
+    "//": "Metaphysics is by far the most important factor, followed by intelligence, followed only after by power level.  At effective skill level 12 there's a 50% chance to fail",
     "num_args": 0,
-    "return": "2 * ( ( u_skill('metaphysics') * 2 ) - u_spell_difficulty(_spell_id) ) + ( u_val('intelligence') * 1.5 ) + (u_spell_level(_spell_id) * 0.6666666666)"
+    "return": "2 * ( ( u_skill('metaphysics') * 2 ) - u_spell_difficulty(_spell_id) ) + ( u_val('intelligence') * 1.5 ) + (u_spell_level(_spell_id) * 0.6666666666) + psionic_power_success_formula_channeling_concentration_modifiers() + psionic_power_success_formula_weariness_modifiers()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionic_power_success_formula_channeling_concentration_modifiers",
+    "//": "These affect the effective skill level in psionic_power_success_formula_base_calc and as such are negative",
+    "num_args": 0,
+    "return": "( (u_vitamin('vitamin_maintained_powers') > concentration_calculations() ) ? ( ( u_vitamin('vitamin_maintained_powers') - concentration_calculations() ) * 3 ): 0 + (u_nether_conduit_repeated_channeling_value) / 2) * -1"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionic_power_success_formula_weariness_modifiers",
+    "//": "These affect the effective skill level in psionic_power_success_formula_base_calc and as such are negative",
+    "num_args": 0,
+    "return": "(u_effect_intensity('weary_1') > -1 ? -2 : 0) + (u_effect_intensity('weary_2') > -1 ? -5 : 0) + (u_effect_intensity('weary_3') > -8 ? -2 : 0) + (u_effect_intensity('weary_4') > -1 ? -12 : 0) + (u_effect_intensity('weary_5') > -1 ? -16 : 0) + (u_effect_intensity('weary_6') > -1 ? -21 : 0)"
   },
   {
     "type": "jmath_function",
     "id": "psionic_power_success_formula_modifiers",
     "num_args": 0,
-    "return": "(u_effect_intensity('effect_psi_intense_concentration') > -1 ? 0.1 : 0) + psionic_power_success_formula_torrential_channeling() + ( u_has_trait('PSI_EXTENDED_CHANNELING_active') ? -0.5) + (u_nether_conduit_repeated_channeling_value / 200)"
+    "return": "psionic_power_success_formula_torrential_channeling() + u_has_trait('PSI_EXTENDED_CHANNELING_active') ? -0.5 : 0"
   },
   {
     "type": "jmath_function",
