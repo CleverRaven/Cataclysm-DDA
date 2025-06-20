@@ -2570,7 +2570,6 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                     // still get some experience for trying
                     exp_gained *= spell_being_cast.get_failure_exp_percent( *you );
                     spell_being_cast.gain_exp( *you, exp_gained );
-                   
                 }
                 if( act->get_value( 2 ) != 0 ) {
                     spell_being_cast.consume_spell_cost( *you, false );
