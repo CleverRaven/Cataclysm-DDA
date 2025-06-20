@@ -2570,7 +2570,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                     // still get some experience for trying
                     exp_gained *= spell_being_cast.get_failure_exp_percent( *you );
                     spell_being_cast.gain_exp( *you, exp_gained );
-                    if( exp_gained != 0 ) {
+                    if( exp_gained != 0 && !spell_being_cast.has_flag( spell_flag::PSIONIC ) ) {
                         you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
                                                 spell_being_cast.xp() );
                     }
@@ -2625,7 +2625,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                                                 _( "Something about how this spell works just clicked!  You gained a level!" ) );
                     } else {
                         spell_being_cast.gain_exp( *you, exp_gained );
-                        if( exp_gained != 0 ) {
+                        if( exp_gained != 0 && !spell_being_cast.has_flag( spell_flag::PSIONIC ) ) {
                             you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
                                                     spell_being_cast.xp() );
                         }
