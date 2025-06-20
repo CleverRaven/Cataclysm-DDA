@@ -3748,7 +3748,9 @@
       "pre_flu",
       "pre_common_cold",
       "blood_spiders",
-      "visuals"
+      "visuals",
+      "xe_hydrating_gout_incubation",
+      "xe_hydrating_gout"
     ]
   },
   {
@@ -3762,5 +3764,42 @@
     "scaling_mods": { "int_mod": [ -2 ] },
     "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.1 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "disease_type",
+    "id": "xe_hydrating_gout_incubation",
+    "min_duration": "22 h",
+    "max_duration": "26 h",
+    "min_intensity": 1,
+    "max_intensity": 1,
+    "symptoms": "xe_hydrating_gout_incubation"
+  },
+  {
+    "type": "effect_type",
+    "id": "xe_hydrating_gout_incubation",
+    "name": [ "Imminent Hydrating Gout" ],
+    "//": "Required for an incubation period",
+    "desc": [
+      "You are about to suffer from the hydrating gout.  This disease causes the spontaneous generation of water inside the body, and becomes more virulent the more hydrated the afflicted is."
+    ],
+    "apply_message": "You have a bad feeling about drinking more water.",
+    "rating": "bad",
+    "immune_flags": [ "NO_THIRST" ],
+    "blood_analysis_description": "Unknown water-producing pathogen."
+  },
+  {
+    "type": "effect_type",
+    "id": "xe_hydrating_gout",
+    "name": [ "Hydrating Gout" ],
+    "desc": [
+      "You are suffering from the peculiar illness known as hydrating gout.  This disease causes the spontaneous generation of water inside the body, and becomes more virulent the more hydrated the afflicted is."
+    ],
+    "apply_memorial_log": "Caught a supernatural illness.",
+    "remove_memorial_log": "Got over the hydrating gout.",
+    "apply_message": "You feel you're going to drown in your own body water.",
+    "remove_message": "You no longer fear the absence of thirst.",
+    "rating": "bad",
+    "immune_flags": [ "NO_THIRST" ],
+    "blood_analysis_description": "Unknown water-producing pathogen."
   }
 ]
