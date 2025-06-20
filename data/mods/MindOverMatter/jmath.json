@@ -59,7 +59,7 @@
     "id": "psionic_power_success_formula_channeling_concentration_modifiers",
     "//": "These affect the effective skill level in psionic_power_success_formula_base_calc and as such are negative",
     "num_args": 0,
-    "return": "( (u_vitamin('vitamin_maintained_powers') > concentration_calculations() ) ? ( ( u_vitamin('vitamin_maintained_powers') - concentration_calculations() ) * 3 ): 0 + (u_nether_conduit_repeated_channeling_value) / 2) * -1"
+    "return": "( (u_vitamin('vitamin_maintained_powers') > concentration_calculations() ) ? ( ( u_vitamin('vitamin_maintained_powers') - concentration_calculations() ) * 3 ): 0 + (u_nether_conduit_repeated_channeling_value) / 2 * (1 + (u_has_trait('PSI_TORRENTIAL_CHANNELING_active') + 0.6) ) ) * -1"
   },
   {
     "type": "jmath_function",
