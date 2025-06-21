@@ -172,9 +172,20 @@ void clear_map_and_put_player_underground()
 }
 
 monster &spawn_test_monster( const std::string &monster_type, const tripoint_bub_ms &start,
-                             const bool death_drops )
+                             const bool death_drops, bool allow_evolution )
 {
-    monster *const test_monster_ptr = g->place_critter_at( mtype_id( monster_type ), start );
+    return spawn_test_monster( mtype_id( monster_type ), start, death_drops, allow_evolution );
+}
+
+monster &spawn_test_monster( const mtype_id &monster_type, const tripoint_bub_ms &start,
+                             const bool death_drops, bool allow_evolution )
+{
+    REQUIRE( monster_type.is_valid() );
+    shared_ptr_fast<monster> mon = make_shared_fast<monster>( monster_type );
+    if( !allow_evolution ) {
+        mon->upgrades_override_disable();
+    }
+    monster *const test_monster_ptr = g->place_critter_at( mon, start );
     REQUIRE( test_monster_ptr );
     test_monster_ptr->death_drops = death_drops;
     return *test_monster_ptr;

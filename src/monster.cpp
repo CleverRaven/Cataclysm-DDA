@@ -396,6 +396,11 @@ void monster::poly( const mtype_id &id )
     aggro_character = type->aggro_character;
 }
 
+void monster::upgrades_override_disable()
+{
+    upgrades = false;
+}
+
 bool monster::can_upgrade() const
 {
     return upgrades && get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" ) > 0.0;

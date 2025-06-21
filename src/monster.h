@@ -107,6 +107,8 @@ class monster : public Creature
         void gravity_check( map *here ) override;
         void poly( const mtype_id &id );
         bool can_upgrade() const;
+        // Only for use with /tests
+        void upgrades_override_disable();
         void hasten_upgrade();
         int get_upgrade_time() const;
         void allow_upgrade();
