@@ -382,5 +382,78 @@
     "copy-from": "mon_feral_human_pipe_fungal_corpse",
     "death_drops": "party_rocker_death_drop_pipe",
     "description": "A party rocker who's grown painful mushroom stalks out of their body, writhing in pain as their last neurons still instruct them to dance."
+  },
+  {
+    "id": "mon_immortal_snail",
+    "type": "MONSTER",
+    "name": { "str": "immortal snail" },
+    "description": "A small nondescript immortal snail that is slowly but relentlessly making its way toward you.  You get a strong feeling you should not touch the snail.",
+    "copy-from": "mon_snail_forest",
+    "default_faction": "nether_player_hate",
+    "volume": "300 ml",
+    "weight": "100 g",
+    "diff": 9001,
+    "hp": 1000000,
+    "regenerates": 1000000,
+    "bleed_rate": 0,
+    "speed": 70,
+    "aggression": 100,
+    "morale": 100,
+    "vision_day": 60,
+    "vision_night": 60,
+    "path_settings": {
+      "max_dist": 60,
+      "allow_open_doors": false,
+      "avoid_traps": false,
+      "avoid_sharp": false,
+      "avoid_dangerous_fields": false
+    },
+    "move_skills": { "swim": 5, "climb": 5 },
+    "upgrades": false,
+    "aggro_character": true,
+    "melee_skill": 6,
+    "flags": [
+      "NEMESIS",
+      "SMALL_HIDER",
+      "SMALLSLUDGETRAIL",
+      "NOHEAD",
+      "NO_BREATHE",
+      "SEES",
+      "HEARS",
+      "ACIDPROOF",
+      "CAN_OPEN_DOORS",
+      "FIREPROOF",
+      "BIOLOGICALPROOF",
+      "SLUDGEPROOF",
+      "SMELLS",
+      "STUN_IMMUNE",
+      "WEBWALK",
+      "ALWAYS_SEES_YOU",
+      "NO_FUNG_DMG"
+    ],
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "damage_max_instance": [ { "damage_type": "pure", "amount": 100000 } ],
+        "dodgeable": true,
+        "blockable": false,
+        "hit_dmg_u": "%s touches you, killing you instantly.",
+        "no_dmg_msg_u": "%s touches you, yet somehow you live!",
+        "miss_msg_u": "%s tries to touch you, but misses."
+      }
+    ],
+    "delete": { "fear_triggers": [ "PLAYER_CLOSE" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_you_touch_the_immortal_snail",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "compare_string": [ "mon_immortal_snail", { "context_val": "victim_type" } ] },
+    "effect": [
+      { "u_deal_damage": "pure", "amount": 100000, "bodypart": "torso" },
+      { "u_message": "You touch the snail and die instantly." }
+    ]
   }
 ]
