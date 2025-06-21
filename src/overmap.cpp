@@ -3685,6 +3685,21 @@ bool overmap::passable( const tripoint_om_ms &p )
     return ptr->passable[index.y() * 24 + index.x()];
 }
 
+void overmap::set_passable( const tripoint_om_ms &p, bool new_passable )
+{
+    point_om_omt omt_origin;
+    tripoint_omt_ms index;
+    std::tie( omt_origin, index ) = project_remain<coords::omt>( p );
+    std::shared_ptr<map_data_summary> &ptr = layer[index.z() +
+            OVERMAP_DEPTH].map_cache[omt_origin];
+    if( !ptr ) {
+        // Oh no we aren't populated???
+        // Promote to error later.
+        return;
+    }
+    ptr->passable[index.y() * 24 + index.x()] = new_passable;
+}
+
 // For internal use only, just overwrite the pointer.
 void overmap::set_passable( const tripoint_abs_omt &p,
                             std::shared_ptr<map_data_summary> new_passable )

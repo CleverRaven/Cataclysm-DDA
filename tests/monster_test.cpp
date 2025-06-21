@@ -875,3 +875,30 @@ TEST_CASE( "monster_moved_to_overmap_after_map_shift", "[monster][hordes]" )
     monster &local_test_monster = *g->all_monsters().items.front().lock();
     test_move_to_location( local_test_monster, here.get_bub( abs_destination ) );
 }
+
+
+TEST_CASE( "monster_cant_enter_reality_bubble_because_wall", "[monster][hordes]" )
+{
+    // Remove interacting with the player as a complication.
+    clear_map_and_put_player_underground();
+    const tripoint_bub_ms destination{ 11 * 6, 11 * 6, 0 };
+    // Place monster on the local overmap.monster_map just outside the reality bubble.
+    map &m = get_map();
+    monster &test_mon = overmap_buffer.spawn_monster( m.get_abs( { -24, 66, 0 } ), mon_zombie );
+    // Give the monster a goal location inside the bubble.
+    test_mon.set_dest( m.get_abs( destination ) );
+    // Put a wall between the monster and the overmap so they can't enter.
+    for( int i = -12; i < 12; ++i ) {
+        overmap_buffer.set_passable( m.get_abs( { -12, 66 + i, 0 } ), false );
+    }
+    // This reference will be invalidated once the monster spawns in the reality bubble,
+    // don't access it again after calling move_hordes().
+    // Process hordes and verify the monster doesn't make it onto the bubble.
+    int step_attempts = 0;
+    do {
+        step_attempts++;
+        overmap_buffer.move_hordes();
+    } while( g->num_creatures() == 1 && step_attempts < 100 );
+    CAPTURE( step_attempts );
+    REQUIRE( g->num_creatures() == 1 );
+}
