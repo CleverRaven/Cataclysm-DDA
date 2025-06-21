@@ -561,6 +561,8 @@ void overmap::unserialize( const JsonObject &jsobj )
                 mandatory( river_json, false, "size", size );
                 rivers.push_back( overmap_river_node{ start_point, end_point, control_1, control_2, static_cast<size_t>( size ) } );
             }
+        } else if( name == "highway_connections" ) {
+            om_member.read( highway_connections );
         } else if( name == "connections_out" ) {
             om_member.read( connections_out );
         } else if( name == "roads_out" ) {
@@ -1321,6 +1323,9 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
     fout << std::endl;
 
+    json.member( "highway_connections", highway_connections );
+    fout << std::endl;
+
     json.member( "connections_out", connections_out );
     fout << std::endl;
 
@@ -1846,6 +1851,10 @@ void overmapbuffer::serialize_overmap_global_state( JsonOut &json ) const
     json.write_as_array( placed_unique_specials );
     json.member( "overmap_count", overmap_buffer.overmap_count );
     json.member( "unique_special_count", unique_special_count );
+    json.member( "overmap_highway_intersections", highway_intersections );
+    json.member( "overmap_highway_offset", highway_global_offset );
+    json.member( "major_river_count", major_river_count );
+
     json.end_object();
 }
 
@@ -1859,6 +1868,11 @@ void overmapbuffer::deserialize_overmap_global_state( const JsonObject &json )
     unique_special_count.clear();
     json.read( "unique_special_count", unique_special_count );
     json.read( "overmap_count", overmap_count );
+
+    highway_intersections.clear();
+    json.read( "overmap_highway_intersections", highway_intersections );
+    json.read( "overmap_highway_offset", highway_global_offset );
+    json.read( "major_river_count", major_river_count );
 }
 
 void overmapbuffer::deserialize_placed_unique_specials( const JsonValue &jsin )

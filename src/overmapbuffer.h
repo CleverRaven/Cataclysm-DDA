@@ -568,6 +568,13 @@ class overmapbuffer
         void inc_major_river_count() {
             major_river_count++;
         }
+        // most central overmap highway intersection
+        point_abs_om highway_global_offset = point_abs_om::invalid;
+        // all highway intersections
+        std::map<std::string, overmap_highway_intersection_point> highway_intersections;
+        overmap_highway_intersection_point get_overmap_highway_intersection_point( const point_abs_om &p );
+        void set_overmap_highway_intersection_point( const point_abs_om &p,
+                const overmap_highway_intersection_point &intersection );
 
     private:
         /**

@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <algorithm>
 #include <array>
+#include <bitset>
 #include <climits>
 #include <cstdlib>
 #include <functional>
@@ -39,6 +40,7 @@
 #include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
 #include "rng.h"
+#include "simple_pathfinding.h"
 #include "type_id.h"
 
 class JsonArray;
@@ -51,12 +53,6 @@ class npc;
 class overmap_connection;
 struct regional_settings;
 template <typename T> struct enum_traits;
-
-namespace pf
-{
-template<typename Point>
-struct directed_path;
-} // namespace pf
 
 struct om_note {
     std::string text;
@@ -91,6 +87,7 @@ constexpr int RADIO_MAX_STRENGTH = 360;
 */
 constexpr int RIVER_BORDER = 10;
 constexpr int RIVER_Z = 0;
+constexpr int HIGHWAY_MAX_CONNECTIONS = 4;
 
 struct radio_tower {
     // local (to the containing overmap) submap coordinates
@@ -167,6 +164,11 @@ struct overmap_river_border {
     border_river_nodes; //river nodes from the adjacent overmap's border
 };
 
+// Contains positions of highway entries, exits, and intersections for an overmap
+struct overmap_highway_node {
+    std::array<point_om_omt, HIGHWAY_MAX_CONNECTIONS> highway_ends;
+};
+
 // A batch of overmap specials to place.
 class overmap_special_batch
 {
@@ -210,6 +212,50 @@ class overmap_special_batch
     private:
         std::vector<overmap_special_placement> placements;
         point_abs_om origin_overmap;
+};
+
+/**
+* Highways use a grid of overmap points to determine where intersections are generated.
+* These grid points have an offset to make highways look more natural.
+*/
+struct overmap_highway_intersection_point {
+    overmap_highway_intersection_point() = default;
+    explicit overmap_highway_intersection_point( point_abs_om grid_pos ) : grid_pos( grid_pos ) {};
+    //offset position; effectively where the intersection special is placed
+    point_abs_om offset_pos = point_abs_om::invalid;
+    //grid point; used to bound any given overmap
+    point_abs_om grid_pos = point_abs_om::invalid;
+    //existing N/E/S/W adjacent intersections
+    std::array<point_abs_om, HIGHWAY_MAX_CONNECTIONS> adjacent_intersections =
+    { point_abs_om::invalid, point_abs_om::invalid, point_abs_om::invalid, point_abs_om::invalid };
+    //set offset_pos for this point
+    void generate_offset( int intersection_max_radius );
+    void serialize( JsonOut &out ) const;
+    void deserialize( const JsonObject &obj );
+};
+
+//has-a directed_node, contains pre-generated data for where highway specials get placed
+struct highway_node {
+    pf::directed_node<tripoint_om_omt> path_node =
+        pf::directed_node<tripoint_om_omt>( tripoint_om_omt::invalid, om_direction::type::invalid );
+    overmap_special_id placed_special = overmap_special_id::NULL_ID();
+    bool is_segment = true;
+    bool is_ramp = false;
+    //whether to flip ramp direction
+    bool ramp_down = false;
+    explicit highway_node( tripoint_om_omt pos, om_direction::type dir,
+                           overmap_special_id placed_spec, bool is_seg = true ) {
+        path_node = pf::directed_node<tripoint_om_omt>( pos, dir );
+        placed_special = placed_spec;
+        is_segment = is_seg;
+    }
+
+    //highways segments are locked to N/E in placement
+    om_direction::type get_effective_dir() const {
+        return is_segment ?
+               om_direction::type( static_cast<int>( path_node.dir ) % 2 ) :
+               om_direction::type( static_cast<int>( path_node.dir ) );
+    }
 };
 
 template<typename Tripoint>
@@ -263,6 +309,11 @@ class overmap
         int get_urbanity() const {
             return urbanity;
         }
+        //will this OMT contain a lake before or after it is generated?
+        static bool omt_is_lake( const point_abs_omt &origin, const point_om_omt &offset,
+                                 double noise_threshold );
+        //does the overmap have at least one lake OMT?
+        static bool has_lake( const point_abs_om &p, double noise_threshold );
 
         void save() const;
 
@@ -505,6 +556,7 @@ class overmap
                                    const std::string &bridgehead_ramp );
 
         const city &get_nearest_city( const tripoint_om_omt &p ) const;
+        const city &get_invalid_city() const;
 
         void signal_hordes( const tripoint_rel_sm &p, int sig_power );
         void process_mongroups();
@@ -528,11 +580,58 @@ class overmap
         void place_lakes( const std::vector<const overmap *> &neighbor_overmaps );
         void place_oceans( const std::vector<const overmap *> &neighbor_overmaps );
         void place_rivers( const std::vector<const overmap *> &neighbor_overmaps );
+
         void place_swamps();
         void place_forest_trails();
         void place_forest_trailheads();
 
         void place_roads( const std::vector<const overmap *> &neighbor_overmaps );
+        // Draws paths for highways, placing reserved terrain and non-highway-segment specials
+        // @return all highway paths (already placed as reserved tiles)
+        std::vector<std::vector<highway_node>> place_highways( const std::vector<const overmap *>
+                                            &neighbor_overmaps );
+        //place highway supports *below* the given point through water
+        void place_highway_supports( const tripoint_om_omt &p, om_direction::type dir, int base_z,
+                                     bool is_segment );
+        //places highway special, replacing fallback supports with mutable supports that extend downwards
+        void place_highway_supported_special( const overmap_special_id &special,
+                                              const tripoint_om_omt &placement,
+                                              const om_direction::type &dir );
+        // Whether this overmap has a highway connection point at this direction (N/E/S/W)
+        std::array<tripoint_om_omt, 4> highway_connections;
+        // Replace reserved OMTs with necessary specials given what has drawn over them since place_highways()
+        void finalize_highways( std::vector<std::vector<highway_node>> &paths );
+        void set_highway_global_offset();
+        point_abs_om get_highway_global_offset() const;
+        bool highway_intersection_exists( const point_abs_om &intersection_om ) const;
+        /**
+        * is this an overmap containing a highway?
+        * @return adjacent N/E/S/W overmaps containing highways, if applicable
+        */
+        std::optional<std::bitset<4>> is_highway_overmap() const;
+        /**
+        *
+        */
+        void generate_highway_intersection_point( const point_abs_om &generated_om_pos ) const;
+        /**
+        * given an overmap point, finds and generates the highway intersection points boxing it in,
+        * ordered from closest to the center to furthest from the center
+        * NOTE: this function can be generalized if necessary
+        */
+        std::vector<point_abs_om> find_highway_intersection_bounds( const point_abs_om &generated_om_pos )
+        const;
+        /*
+        * given an overmap point, finds and generates cardinal adjacent highway intersection points
+        * pointers are guaranteed to be non-null
+        */
+        std::vector<overmap_highway_intersection_point> find_highway_adjacent_intersections(
+            const point_abs_om &generated_om_pos ) const;
+        /*
+        * gets all points drawn for exactly one highway segment special, given a highway path node
+        * @return { set of points, offset direction from initial node point }
+        */
+        std::pair<std::vector<tripoint_om_omt>, om_direction::type>
+        get_highway_segment_points( const pf::directed_node<tripoint_om_omt> &node ) const;
 
         void place_railroads( const std::vector<const overmap *> &neighbor_overmaps );
 
@@ -765,6 +864,10 @@ bool is_water_body( const oter_id &ter );
 bool is_water_body_not_shore( const oter_id &ter );
 bool is_lake_or_river( const oter_id &ter );
 bool is_ocean( const oter_id &ter );
+bool is_road( const oter_id &ter );
+bool is_highway( const oter_id &ter );
+bool is_highway_reserved( const oter_id &ter );
+bool is_highway_special( const oter_id &ter );
 
 /**
 * Determine if the provided name is a match with the provided overmap terrain
