@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "explosion.h"
 #include "field_type.h"
 #include "magic.h"
