@@ -472,7 +472,6 @@ void SkillLevel::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "level", _level );
     json.member( "exercise", _exercise );
-    json.member( "istraining", _isTraining );
     json.member( "lastpracticed", _lastPracticed );
     json.member( "knowledgeLevel", _knowledgeLevel );
     json.member( "knowledgeExperience", _knowledgeExperience );
@@ -492,7 +491,6 @@ void SkillLevel::deserialize( const JsonObject &data )
     if( _exercise < 0 ) {
         _exercise = 0;
     }
-    data.read( "istraining", _isTraining );
     data.read( "rustaccumulator", _rustAccumulator );
     if( !data.read( "lastpracticed", _lastPracticed ) ) {
         _lastPracticed = calendar::start_of_game;

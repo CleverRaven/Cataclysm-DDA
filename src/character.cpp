@@ -2853,7 +2853,7 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
         }
     }
     bool level_up = false;
-    if( amount > 0 && level.isTraining() ) {
+    if( amount > 0 ) {
         int old_practical_level = static_cast<int>( get_skill_level( id ) );
         int old_theoretical_level = get_knowledge_level( id );
         get_skill_level_object( id ).train( amount, catchup_modifier, knowledge_modifier,

@@ -821,7 +821,6 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
             int exercise = level.knowledgeExperience();
             int level_num = level.knowledgeLevel();
             const bool can_train = level.can_train();
-            const bool training = level.isTraining();
             const bool skill_gap = level_num > level.level();
             const bool skill_small_gap = exercise > level.exercise();
             bool locked = false;
@@ -838,21 +837,21 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                 } else if( !can_train ) {
                     cstatus = h_white;
                 } else if( exercise >= 100 ) {
-                    cstatus = training ? h_pink : h_magenta;
+                    cstatus = h_pink;
                 } else if( skill_gap || skill_small_gap ) {
-                    cstatus = training ? h_light_cyan : h_cyan;
+                    cstatus = h_light_cyan;
                 } else {
-                    cstatus = training ? h_light_blue : h_blue;
+                    cstatus = h_light_blue;
                 }
             } else {
                 if( locked ) {
                     cstatus = c_yellow;
                 } else if( skill_gap || skill_small_gap ) {
-                    cstatus = training ? c_light_cyan : c_cyan;
+                    cstatus = c_light_cyan;
                 } else if( !can_train ) {
                     cstatus = c_white;
                 } else {
-                    cstatus = training ? c_light_blue : c_blue;
+                    cstatus = c_light_blue;
                 }
             }
             mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
@@ -945,15 +944,6 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
             } else {
                 info_text = string_format( _( "%s| Learning bonus: %.0f%%" ), info_text,
                                            learning_bonus );
-            }
-            if( !level.isTraining() ) {
-                info_text = string_format( "%s | %s", info_text,
-                                           _( "<color_yellow>Learning is disabled.</color>" ) );
-            }
-        } else {
-            if( !level.isTraining() ) {
-                info_text = string_format( "%s\n\n%s", info_text,
-                                           _( "<color_yellow>Learning is disabled.</color>" ) );
             }
         }
         draw_x_info( w_info, info_text, info_line );
@@ -1412,18 +1402,6 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
 
                 invalidate_tab( curtab );
                 break;
-            case player_display_tab::skills: {
-                const Skill *selectedSkill = nullptr;
-                if( line < skillslist.size() && !skillslist[line].is_header ) {
-                    selectedSkill = skillslist[line].skill;
-                }
-                if( selectedSkill ) {
-                    you.get_skill_level_object( selectedSkill->ident() ).toggleTraining();
-                }
-                invalidate_tab( curtab );
-                ui_info.invalidate_ui();
-                break;
-            }
             case player_display_tab::proficiencies:
                 const std::vector<display_proficiency> profs = you.display_proficiencies();
                 if( !profs.empty() ) {
