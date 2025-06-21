@@ -3,8 +3,8 @@
     "result": "apron_leather",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "7 h",
@@ -17,8 +17,8 @@
     "result": "apron_cotton",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "3 h",
@@ -38,6 +38,12 @@
     "using": [ [ "tailoring_cotton", 4 ] ]
   },
   {
+    "copy-from": "apron_cotton",
+    "result": "apron_cotton",
+    "type": "recipe",
+    "variant": "maid_apron"
+  },
+  {
     "copy-from": "apron_cotton_xl",
     "result": "apron_cotton_xl",
     "type": "recipe",
@@ -53,8 +59,8 @@
     "result": "waist_apron_short",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "1 h 30 m",
@@ -74,6 +80,12 @@
     "using": [ [ "tailoring_cotton", 2 ] ]
   },
   {
+    "copy-from": "waist_apron_short",
+    "result": "waist_apron_short",
+    "type": "recipe",
+    "variant": "maid_apron"
+  },
+  {
     "copy-from": "waist_apron_short_xl",
     "result": "waist_apron_short_xl",
     "type": "recipe",
@@ -89,8 +101,8 @@
     "result": "waist_apron_long",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "2 h",
@@ -110,6 +122,12 @@
     "using": [ [ "tailoring_cotton", 3 ] ]
   },
   {
+    "copy-from": "waist_apron_long",
+    "result": "waist_apron_long",
+    "type": "recipe",
+    "variant": "maid_apron"
+  },
+  {
     "copy-from": "waist_apron_long_xl",
     "result": "waist_apron_long_xl",
     "type": "recipe",
@@ -125,8 +143,8 @@
     "result": "apron_plastic",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "1 h",
@@ -138,8 +156,8 @@
     "result": "apron_cut_resistant",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "4 h",
@@ -5257,5 +5275,28 @@
     "autolearn": true,
     "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_cotton_patchwork", 6 ] ]
+  },
+  {
+    "result": "armor_mercenary_top",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "fabrication", 3 ],
+    "time": "10 h",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 100 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_polymerworking" }
+    ],
+    "components": [
+      [ [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ] ],
+      [ [ "sheet_kevlar_layered", 24 ] ],
+      [ [ "ballistic_vest_esapi", 1 ] ]
+    ]
   }
 ]
