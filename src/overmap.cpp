@@ -912,6 +912,8 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     assign( jo, "spawns", static_spawns, strict );
     assign( jo, "color", color );
     assign( jo, "land_use_code", land_use_code, strict );
+    // TODO: consider a default default so we don't have to assign it for *everything*.
+    assign( jo, "default_map_data", default_map_data, strict );
 
     if( jo.has_member( "looks_like" ) ) {
         std::vector<std::string> ll;
