@@ -33,8 +33,9 @@
           "ammo_type": "boomer_bile",
           "fake_skills": [ [ "gun", 3 ], [ "rifle", 3 ] ],
           "fake_dex": 10,
+          "targeting_sound": "gurgling.",
           "description": "The %s spews bile!",
-          "no_ammo_sound": "Boomer tries to vomit more, but only droplets are thrown.",
+          "no_ammo_sound": "dry heaving.",
           "ranges": [ [ 0, 2, "DEFAULT" ] ]
         }
       ]
@@ -72,8 +73,9 @@
           "ammo_type": "boomer_bile_adv",
           "fake_skills": [ [ "gun", 3 ], [ "rifle", 3 ] ],
           "fake_dex": 10,
+          "targeting_sound": "gurgling.",
           "description": "The %s spews bile!",
-          "no_ammo_sound": "Boomer tries to vomit more, but only droplets are thrown.",
+          "no_ammo_sound": "dry heaving.",
           "ranges": [ [ 0, 2, "DEFAULT" ] ]
         }
       ]
@@ -147,13 +149,13 @@
         "move_cost": 150,
         "cooldown": 7,
         "id": "boomer_bile_adv",
-        "description": "The %s spews bile!",
         "gun_type": "boomer_head",
         "ammo_type": "boomer_bile_adv",
         "fake_skills": [ [ "gun", 3 ], [ "rifle", 3 ] ],
         "fake_dex": 10,
-        
-        "no_ammo_sound": "Boomer tries to vomit more, but only droplets are thrown.",
+        "targeting_sound": "gurgling.",
+        "description": "The %s spews bile!",
+        "no_ammo_sound": "dry heaving.",
         "ranges": [ [ 0, 2, "DEFAULT" ] ]
       },
       {
