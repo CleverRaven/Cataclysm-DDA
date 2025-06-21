@@ -3610,7 +3610,7 @@ std::optional<mapgen_arguments> overmap::get_existing_omt_stack_arguments(
 }
 
 std::optional<cata_variant> overmap::get_existing_omt_stack_argument( const point_abs_omt &p,
-        std::string param_name ) const
+        const std::string &param_name ) const
 {
     auto it_args = omt_stack_arguments_map.find( p );
     if( it_args != omt_stack_arguments_map.end() ) {

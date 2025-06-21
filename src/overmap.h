@@ -464,7 +464,7 @@ class overmap
             const point_abs_omt &p ) const;
         // Get value from omt_stack_arguments_map or nullopt if not set yet
         std::optional<cata_variant> get_existing_omt_stack_argument( const point_abs_omt &p,
-                std::string param_name ) const;
+                const std::string &param_name ) const;
         // Set a value in omt_stack_arguments_map
         void add_omt_stack_argument( const point_abs_omt &p, const std::string &param_name,
                                      const cata_variant &value );
