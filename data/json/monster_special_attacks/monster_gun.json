@@ -355,7 +355,8 @@
   {
     "id": "boomer_head",
     "copy-from": "fake_item",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise": "slosh.",
     "name": { "str": "boomer head" },
     "description": "The head of a boomer, if you see this item it's a bug.",
@@ -367,7 +368,7 @@
     "dispersion": 300,
     "durability": 10,
     "range": 10,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bile": 1000 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bile": 1000 }, "watertight": true } ],
     "melee_damage": { "bash": 9 }
   }
 ]
