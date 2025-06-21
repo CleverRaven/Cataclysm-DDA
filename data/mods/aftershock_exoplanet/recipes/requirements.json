@@ -20,7 +20,50 @@
   {
     "id": "welding_standard",
     "type": "requirement",
-    "extend": { "tools": [ [ [ "afs_plasma_torch_gun", 2 ], [ "afs_plasma_torch", 1 ] ] ] }
+    "extend": {
+      "tools": [ [ [ "afs_plasma_torch_gun", 2 ], [ "afs_plasma_torch", 1 ], [ "afs_welding_paste", -1 ] ] ],
+      "components": [ [ [ "afs_welding_paste", 2 ] ] ]
+    }
+  },
+  {
+    "id": "welding_alloys",
+    "type": "requirement",
+    "extend": {
+      "tools": [ [ [ "afs_plasma_torch_gun", 6 ], [ "afs_plasma_torch", 3 ], [ "afs_welding_paste", -1 ] ] ],
+      "components": [ [ [ "afs_welding_paste", 4 ] ] ]
+    }
+  },
+  {
+    "id": "repair_welding_standard",
+    "type": "requirement",
+    "extend": {
+      "tools": [ [ [ "afs_plasma_torch_gun", 6 ], [ "afs_plasma_torch", 3 ], [ "afs_welding_paste", -1 ] ] ],
+      "components": [ [ [ "afs_welding_paste", 2 ] ] ]
+    }
+  },
+  {
+    "id": "repair_welding_lc_steel",
+    "type": "requirement",
+    "extend": {
+      "tools": [ [ [ "afs_plasma_torch_gun", 6 ], [ "afs_plasma_torch", 3 ], [ "afs_welding_paste", -1 ] ] ],
+      "components": [ [ [ "afs_welding_paste", 2 ] ] ]
+    }
+  },
+  {
+    "id": "repair_welding_alloys",
+    "type": "requirement",
+    "extend": {
+      "tools": [ [ [ "afs_plasma_torch_gun", 6 ], [ "afs_plasma_torch", 3 ], [ "afs_welding_paste", -1 ] ] ],
+      "components": [ [ [ "afs_welding_paste", 2 ] ] ]
+    }
+  },
+  {
+    "id": "repair_welding_rebar",
+    "type": "requirement",
+    "extend": {
+      "tools": [ [ [ "afs_plasma_torch_gun", 6 ], [ "afs_plasma_torch", 3 ], [ "afs_welding_paste", -1 ] ] ],
+      "components": [ [ [ "afs_welding_paste", 2 ] ] ]
+    }
   },
   {
     "id": "afs_nanofab_material_3",
