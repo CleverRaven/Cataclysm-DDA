@@ -102,7 +102,7 @@
         { "chance": 5, "item": "ammo_common_boxed_used", "x": 9, "y": 9 },
         { "chance": 15, "item": "guns_pistol_common", "x": 5, "y": 9 },
         { "chance": 10, "item": "guns_pistol_common", "x": 2, "y": 9 },
-        { "chance": 25, "item": "office", "x": [ 3, 4 ], "y": 4 }
+        { "chance": 25, "item": "SUS_office_desk", "x": [ 3, 4 ], "y": 4 }
       ],
       "place_item": [ { "chance": 100, "item": "american_flag", "x": 7, "y": 2 } ],
       "items": {

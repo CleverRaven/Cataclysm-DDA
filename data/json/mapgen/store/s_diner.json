@@ -106,7 +106,7 @@
         ],
         "j": { "item": "SUS_toilet", "chance": 50 },
         "m": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 2 ] },
-        "I": { "item": "office", "chance": 30, "repeat": [ 1, 2 ] }
+        "I": { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 2 ] }
       },
       "place_loot": [
         { "group": "coffee_prep", "chance": 50, "repeat": [ 4 ], "x": [ 11, 12 ], "y": [ 15, 15 ] },

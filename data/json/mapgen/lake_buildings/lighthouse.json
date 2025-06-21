@@ -73,7 +73,7 @@
         "7": { "item": "fishing_items", "chance": 20, "repeat": [ 2, 4 ] },
         "b": { "item": "homebooks", "chance": 20, "repeat": [ 2, 4 ] },
         "v": { "item": "home_hw", "chance": 20, "repeat": [ 2, 4 ] },
-        "I": { "item": "office", "chance": 20, "repeat": [ 2, 4 ] },
+        "I": { "item": "SUS_office_desk", "chance": 20, "repeat": [ 1, 2 ] },
         "R": { "item": "SUS_trash_trashcan", "chance": 25, "repeat": [ 1, 2 ] },
         "W": { "item": "stash_wood", "chance": 25, "repeat": [ 1, 2 ] },
         "t": { "item": "livingroom", "chance": 25, "repeat": [ 1, 2 ] },

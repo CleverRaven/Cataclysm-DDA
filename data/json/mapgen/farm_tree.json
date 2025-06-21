@@ -51,7 +51,7 @@
         { "chance": 30, "item": "tools_earthworking", "x": 3, "y": 11 },
         { "chance": 30, "item": "tools_earthworking", "x": 3, "y": 9 },
         { "chance": 30, "item": "tools_earthworking", "x": 4, "y": 9 },
-        { "chance": 20, "repeat": [ 1, 2 ], "item": "office", "x": 3, "y": 5 },
+        { "chance": 40, "item": "SUS_office_desk", "x": 3, "y": 5 },
         { "item": "cash_register_random", "x": 5, "y": [ 3, 5 ], "chance": 100 }
       ],
       "place_signs": [

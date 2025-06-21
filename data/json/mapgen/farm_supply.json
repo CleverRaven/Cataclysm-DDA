@@ -255,11 +255,7 @@
         "p": {
           "item": {
             "subtype": "collection",
-            "entries": [
-              { "group": "SUS_office_supplies", "prob": 70 },
-              { "group": "office_breakroom", "prob": 20 },
-              { "group": "office", "prob": 10 }
-            ]
+            "entries": [ { "group": "SUS_office_supplies", "prob": 70 }, { "group": "office_breakroom", "prob": 20 } ]
           },
           "chance": 100,
           "repeat": [ 1, 3 ]
@@ -697,11 +693,7 @@
         "p": {
           "item": {
             "subtype": "collection",
-            "entries": [
-              { "group": "SUS_office_supplies", "prob": 70 },
-              { "group": "office_breakroom", "prob": 20 },
-              { "group": "office", "prob": 10 }
-            ]
+            "entries": [ { "group": "SUS_office_supplies", "prob": 70 }, { "group": "office_breakroom", "prob": 20 } ]
           },
           "chance": 100,
           "repeat": [ 1, 3 ]

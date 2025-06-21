@@ -179,7 +179,7 @@
         "H": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 1, 2 ] } ],
         "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "M": [ { "item": "office", "chance": 30, "repeat": [ 0, 4 ] } ],
+        "M": [ { "item": "SUS_office_desk", "chance": 30 } ],
         "V": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ]
       }
     }
@@ -320,7 +320,7 @@
         "G": [ { "item": "mussto_windinst", "chance": 30, "repeat": [ 1, 2 ] } ],
         "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "mussto_stringinst", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "M": [ { "item": "office", "chance": 30, "repeat": [ 0, 1 ] } ],
+        "M": [ { "item": "SUS_office_desk", "chance": 30, "repeat": [ 0, 1 ] } ],
         "V": [ { "item": "musicstore_showpiece", "chance": 30, "repeat": [ 0, 4 ] } ]
       }
     }
@@ -395,7 +395,7 @@
       "items": {
         "?": [ { "item": "cash_register_random", "chance": 100 } ],
         "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "M": [ { "item": "office", "chance": 20, "repeat": [ 0, 1 ] } ],
+        "M": [ { "item": "SUS_office_desk", "chance": 20, "repeat": [ 0, 1 ] } ],
         "A": [ { "item": "gift_shop", "chance": 80 } ],
         "P": [ { "item": "gift_shop", "chance": 80 } ],
         "O": [ { "item": "gift_shop", "chance": 80 } ],
@@ -467,7 +467,7 @@
         "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "elecsto_entapl", "chance": 30, "repeat": [ 0, 4 ] } ],
         "B": [ { "item": "elecsto_homapl", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "M": [ { "item": "office", "chance": 30, "repeat": [ 0, 1 ] } ],
+        "M": [ { "item": "SUS_office_desk", "chance": 30, "repeat": [ 0, 1 ] } ],
         "V": [
           { "item": "elecsto_lights", "chance": 30, "repeat": [ 0, 4 ] },
           { "item": "elecsto_diy", "chance": 30, "repeat": [ 0, 4 ] }
@@ -1121,7 +1121,7 @@
       "items": {
         "d": [ { "item": "SUS_office_filing_cabinet", "chance": 25 } ],
         "C": [ { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "B": [ { "item": "office", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "B": [ { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]
       }
     }
@@ -1241,7 +1241,7 @@
       },
       "items": {
         "C": [ { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "B": [ { "item": "office", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "B": [ { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]
       }
     }

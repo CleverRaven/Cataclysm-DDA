@@ -201,9 +201,9 @@
         { "item": "animalshelter_utility", "x": 12, "y": 21, "chance": 35, "repeat": [ 2, 5 ] },
         { "item": "animalshelter_toys", "x": [ 14, 20 ], "y": [ 4, 6 ], "chance": 60, "repeat": [ 2, 5 ] },
         { "item": "animalshelter_toys", "x": [ 14, 20 ], "y": [ 21, 22 ], "chance": 60, "repeat": [ 2, 5 ] },
-        { "item": "office", "x": 10, "y": [ 4, 5 ], "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "office", "x": 6, "y": 11, "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "office", "x": 4, "y": 13, "chance": 25, "repeat": [ 1, 2 ] },
+        { "item": "SUS_office_desk", "x": 10, "y": [ 4, 5 ], "chance": 25, "repeat": [ 1, 2 ] },
+        { "item": "SUS_book_nonf_zine_news", "x": 6, "y": 11, "chance": 25, "repeat": [ 1, 2 ] },
+        { "item": "SUS_office_desk", "x": 4, "y": 13, "chance": 25, "repeat": [ 1, 2 ] },
         { "item": "doctors_books", "x": 4, "y": 13, "chance": 15, "repeat": [ 1, 2 ] }
       ],
       "place_monster": [
@@ -344,9 +344,9 @@
         { "item": "animalshelter_utility", "x": 12, "y": 21, "chance": 35, "repeat": [ 2, 5 ] },
         { "item": "animalshelter_toys", "x": [ 14, 20 ], "y": [ 4, 6 ], "chance": 60, "repeat": [ 2, 5 ] },
         { "item": "animalshelter_toys", "x": [ 14, 20 ], "y": [ 21, 22 ], "chance": 60, "repeat": [ 2, 5 ] },
-        { "item": "office", "x": 10, "y": [ 4, 5 ], "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "office", "x": 6, "y": 11, "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "office", "x": 4, "y": 13, "chance": 25, "repeat": [ 1, 2 ] },
+        { "item": "SUS_office_desk", "x": 10, "y": [ 4, 5 ], "chance": 25, "repeat": [ 1, 2 ] },
+        { "item": "SUS_book_nonf_zine_news", "x": 6, "y": 11, "chance": 25, "repeat": [ 1, 2 ] },
+        { "item": "SUS_office_desk", "x": 4, "y": 13, "chance": 25, "repeat": [ 1, 2 ] },
         { "item": "doctors_books", "x": 4, "y": 13, "chance": 15, "repeat": [ 1, 2 ] }
       ],
       "place_monster": [
