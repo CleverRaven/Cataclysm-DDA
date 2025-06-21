@@ -127,20 +127,23 @@ class SkillLevel
         int _level = 0;
         int _exercise = 0;
         time_point _lastPracticed = calendar::turn;
-        bool _isTraining = true;
         int _knowledgeLevel = 0;
         int _knowledgeExperience = 0;
         int _rustAccumulator = 0;
 
+        // NOLINTNEXTLINE(cata-serialize)
+        bool _skillisTraining = true;
+
     public:
         SkillLevel() = default;
 
+        // Only used for tests!
         bool isTraining() const {
-            return _isTraining;
+            return _skillisTraining;
         }
         bool toggleTraining() {
-            _isTraining = !_isTraining;
-            return _isTraining;
+            _skillisTraining = !_skillisTraining;
+            return _skillisTraining;
         }
 
         int level() const {

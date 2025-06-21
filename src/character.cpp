@@ -2853,6 +2853,7 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
         }
     }
     bool level_up = false;
+    // NOTE: Normally always training, this training toggle is just retained for tests
     if( amount > 0 && level.isTraining() ) {
         int old_practical_level = static_cast<int>( get_skill_level( id ) );
         int old_theoretical_level = get_knowledge_level( id );
