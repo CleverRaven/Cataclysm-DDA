@@ -177,6 +177,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN" } },
+            { "not": { "u_has_effect": "effect_dhampir_the_blood_is_the_life" } },
             { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1799" ] }
           ]
         },
@@ -186,6 +187,7 @@
         "condition": {
           "and": [
             { "u_has_trait": "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN" },
+            { "not": { "u_has_effect": "effect_dhampir_the_blood_is_the_life" } },
             { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1799" ] }
           ]
         },
@@ -359,6 +361,34 @@
       }
     ],
     "flags": [ "MEND_ALL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_AVOID_EAT_SLEEP_DRINK",
+    "name": { "str": "The Blood is the Life" },
+    "points": 5,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "description": "While you must normally eat, sleep, and drink as a mortal must, in times of need you can put that off.  Activate this trait to reduce your need for food, water, and sleep to zero.  While active, the Blood is the Life will continually expend the power in your blood, and when it wears off, you will become exhausted in proportion to how long the trait was active.  You spend <color_yellow>much more blood</color> if outdoors in the sunlight.\n\n<color_light_red>Initial Blood Cost:</color> 1 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 1 ml per minute",
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You draw on the power in your blood to stave off mortal needs.",
+    "activated_eocs": [ "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_activated" ],
+    "processed_eocs": [ "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_periodic" ],
+    "deactivated_eocs": [ "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_deactivated" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [
+          { "value": "HUNGER", "multiply": -1 },
+          { "value": "METABOLISM", "multiply": -1 },
+          { "value": "THIRST", "multiply": -1 },
+          { "value": "SLEEPINESS", "multiply": -1 }
+        ],
+        "ench_effects": [ { "effect": "effect_dhampir_the_blood_is_the_life", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
