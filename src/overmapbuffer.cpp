@@ -599,6 +599,15 @@ bool overmapbuffer::passable( const tripoint_abs_ms &p )
     return om->passable( offset );
 }
 
+void overmapbuffer::set_passable( const tripoint_abs_ms &p, bool new_passable )
+{
+    point_abs_om loc;
+    tripoint_om_ms offset;
+    std::tie( loc, offset ) = project_remain<coords::om>( p );
+    overmap *om = get_existing( loc );
+    return om->set_passable( offset, new_passable );
+}
+
 void overmapbuffer::set_passable( const tripoint_abs_omt &p,
                                   const std::bitset<24 * 24> &new_passable )
 {

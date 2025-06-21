@@ -192,6 +192,7 @@ parsers = {
     "nested_category": parse_nested_category,
     "npc": parse_npc,
     "npc_class": parse_npc_class,
+    "omt_placeholder": dummy_parser,
     "oter_id_migration": dummy_parser,
     "oter_vision": parse_oter_vision,
     "option_slider": parse_option_slider,

@@ -12,6 +12,7 @@
 #include <iosfwd>
 #include <iterator>
 #include <map>
+#include <memory>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -51,6 +52,7 @@ class cata_path;
 class character_id;
 class npc;
 class overmap_connection;
+struct map_data_summary;
 struct regional_settings;
 template <typename T> struct enum_traits;
 
@@ -122,16 +124,6 @@ enum class om_vision_level : int8_t {
 template<>
 struct enum_traits<om_vision_level> {
     static constexpr om_vision_level last = om_vision_level::last;
-};
-
-// Summarises one OMT worth of map data for use by agents operating at overmap scale.
-// E.g. hordes, fire spread, NPCs.
-// Dimensions are 24x24
-struct map_data_summary {
-    map_data_summary() = default;
-    map_data_summary( std::bitset<24 * 24> new_passable ): passable( new_passable ) {}
-    // TODO: constant?
-    std::bitset<24 * 24> passable;
 };
 
 struct map_layer {
@@ -369,6 +361,7 @@ class overmap
          * Access cache of map data for agents operating at overmap scale.
          */
         bool passable( const tripoint_om_ms &p );
+        void set_passable( const tripoint_om_ms &p, bool new_passable );
         void set_passable( const tripoint_abs_omt &p, const std::bitset<24 * 24> &new_passable );
     private:
         void set_passable( const tripoint_abs_omt &p, std::shared_ptr<map_data_summary> new_passable );
