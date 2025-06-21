@@ -20,6 +20,7 @@
     "upgrades": { "half_life": 168, "into_group": "GROUP_ZOMBIE_BOOMER_UPGRADE" },
     "fungalize_into": "mon_boomer_dusted",
     "armor": { "electric": 2 },
+    "starting_ammo": { "boomer_bile": 999 },
     "extend": {
       "flags": [ "BILE_BLOOD" ],
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
@@ -62,6 +63,7 @@
     },
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 3 },
     "delete": { "special_attacks": [ "boomer_bile" ] },
+    "starting_ammo": { "boomer_bile_adv": 999 },
     "extend": {
       "special_attacks": [
         {
@@ -141,6 +143,7 @@
     "vision_night": 5,
     "emit_fields": [ { "emit_id": "emit_sludge_puddle", "delay": "1 s" } ],
     "grab_strength": 30,
+    "starting_ammo": { "boomer_bile_adv": 999 },
     "special_attacks": [
       { "id": "grab" },
       { "id": "scratch_humanoid" },
