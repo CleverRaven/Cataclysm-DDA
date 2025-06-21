@@ -983,55 +983,64 @@
         "id": "shark",
         "name": { "str": "shark hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute shark."
+        "description": "This one is made to look like a cute shark.",
+        "weight": 1
       },
       {
         "id": "bear",
         "name": { "str": "bear hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute bear."
+        "description": "This one is made to look like a cute bear.",
+        "weight": 1
       },
       {
         "id": "cat",
         "name": { "str": "cat hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute cat."
+        "description": "This one is made to look like a cute cat.",
+        "weight": 1
       },
       {
         "id": "bunny",
         "name": { "str": "bunny hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute bunny."
+        "description": "This one is made to look like a cute bunny.",
+        "weight": 1
       },
       {
         "id": "wolf",
         "name": { "str": "wolf hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute wolf."
+        "description": "This one is made to look like a cute wolf.",
+        "weight": 1
       },
       {
         "id": "lizard",
         "name": { "str": "lizard hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute lizard."
+        "description": "This one is made to look like a cute lizard.",
+        "weight": 1
       },
       {
         "id": "dog",
         "name": { "str": "dog hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute dog."
+        "description": "This one is made to look like a cute dog.",
+        "weight": 1
       },
       {
         "id": "panda",
         "name": { "str": "panda hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute panda."
+        "description": "This one is made to look like a cute panda.",
+        "weight": 1
       },
       {
         "id": "frog",
         "name": { "str": "frog hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute frog."
+        "description": "This one is made to look like a cute frog.",
+        "weight": 1
       }
     ]
   },
@@ -1135,55 +1144,64 @@
         "id": "shark",
         "name": { "str": "shark cropped hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute shark."
+        "description": "This one is made to look like a cute shark.",
+        "weight": 1
       },
       {
         "id": "bear",
         "name": { "str": "bear cropped hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute bear."
+        "description": "This one is made to look like a cute bear.",
+        "weight": 1
       },
       {
         "id": "cat",
         "name": { "str": "cat cropped hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute cat."
+        "description": "This one is made to look like a cute cat.",
+        "weight": 1
       },
       {
         "id": "bunny",
         "name": { "str": "bunny cropped hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute bunny."
+        "description": "This one is made to look like a cute bunny.",
+        "weight": 1
       },
       {
         "id": "wolf",
         "name": { "str": "wolf cropped hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute wolf."
+        "description": "This one is made to look like a cute wolf.",
+        "weight": 1
       },
       {
         "id": "lizard",
         "name": { "str": "lizard cropped hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute lizard."
+        "description": "This one is made to look like a cute lizard.",
+        "weight": 1
       },
       {
         "id": "dog",
         "name": { "str": "dog cropped hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute dog."
+        "description": "This one is made to look like a cute dog.",
+        "weight": 1
       },
       {
         "id": "panda",
         "name": { "str": "panda cropped hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute panda."
+        "description": "This one is made to look like a cute panda.",
+        "weight": 1
       },
       {
         "id": "frog",
         "name": { "str": "frog cropped hoodie" },
         "append": true,
-        "description": "This one is made to look like a cute frog."
+        "description": "This one is made to look like a cute frog.",
+        "weight": 1
       }
     ]
   },
