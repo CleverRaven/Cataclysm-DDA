@@ -459,6 +459,9 @@ class overmap
         // open existing overmap, or generate a new one
         void open( overmap_special_batch &enabled_specials );
     public:
+        // Get all values from omt_stack_arguments_map at the given point or nullopt if not set yet
+        std::optional<mapgen_arguments> get_existing_omt_stack_arguments(
+            const point_abs_omt &p ) const;
         // Get value from omt_stack_arguments_map or nullopt if not set yet
         std::optional<cata_variant> get_existing_omt_stack_argument( const point_abs_omt &p,
                 std::string param_name ) const;

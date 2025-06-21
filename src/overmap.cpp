@@ -3599,6 +3599,16 @@ std::vector<point_abs_omt> overmap::find_extras( const int z, const std::string 
     return extra_locations;
 }
 
+std::optional<mapgen_arguments> overmap::get_existing_omt_stack_arguments(
+    const point_abs_omt &p ) const
+{
+    auto it_args = omt_stack_arguments_map.find( p );
+    if( it_args != omt_stack_arguments_map.end() ) {
+        return it_args->second;
+    }
+    return std::nullopt;
+}
+
 std::optional<cata_variant> overmap::get_existing_omt_stack_argument( const point_abs_omt &p,
         std::string param_name ) const
 {
