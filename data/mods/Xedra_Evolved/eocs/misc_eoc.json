@@ -417,8 +417,6 @@
       { "u_lose_morale": "morale_pyromania_startfire" },
       { "u_lose_morale": "morale_pyromania_nearfire" },
       { "u_lose_morale": "morale_pyromania_nofire" },
-      { "u_lose_morale": "morale_killer_has_killed" },
-      { "u_lose_morale": "morale_killer_need_to_kill" },
       { "u_lose_morale": "morale_perm_filthy" },
       { "u_lose_morale": "morale_butcher" },
       { "u_lose_morale": "morale_gravedigger" },
