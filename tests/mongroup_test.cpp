@@ -1,7 +1,6 @@
 #include <cstdlib>
 #include <list>
 #include <map>
-#include <memory>
 #include <set>
 #include <string>
 #include <tuple>
@@ -15,7 +14,6 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "enums.h"
-#include "game.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "mongroup.h"

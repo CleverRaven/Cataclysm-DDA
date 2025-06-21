@@ -18,6 +18,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
+#include "memory_fast.h"
 #include "monster.h"
 #include "npc.h"
 #include "overmapbuffer.h"
