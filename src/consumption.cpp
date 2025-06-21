@@ -1400,7 +1400,7 @@ void Character::modify_morale( item &food, const int nutr )
             add_morale( morale_cannibal, minor_morale_bonus, minor_morale_bonus * 5 );
         } else if( cannibal ) {
             add_msg_if_player( m_good, _( "You indulge your shameful hunger." ) );
-            add_morale( morale_cannibal, minor_morale_bonus, minor_morale_bonus * 5 );
+            // No morale added, but lack of morale penalty is a huge bonus already.
         } else if( has_flag( json_flag_BLOODFEEDER ) && food.has_flag( flag_HEMOVORE_FUN ) ) {
             add_msg_if_player( _( "The human blood tastes as good as any other." ) );
         } else if( psycho ) {
