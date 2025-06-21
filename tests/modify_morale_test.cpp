@@ -323,7 +323,6 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
     const int huge_morale_penalty = -60;
     const int moderate_morale_penalty = -25;
     const int minor_morale_penalty = -10;
-    const int minor_morale_bonus = 10;
 
     item_location human = dummy.i_add( item( itype_bone_human ) );
     REQUIRE( human->has_vitamin( vitamin_human_flesh_vitamin ) );
