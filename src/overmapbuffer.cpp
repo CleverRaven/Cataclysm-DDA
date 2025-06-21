@@ -25,6 +25,7 @@
 #include "game.h"
 #include "line.h"
 #include "map.h"
+#include "mapgendata.h"
 #include "memory_fast.h"
 #include "mod_manager.h"
 #include "mongroup.h"
