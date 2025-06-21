@@ -55,6 +55,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_connection.h"
+#include "overmap_map_data_cache.h"
 #include "overmap_noise.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
@@ -945,6 +946,39 @@ void oter_type_t::load( const JsonObject &jo, const std::string_view )
 
     optional( jo, was_loaded, "connect_group", connect_group, string_reader{} );
     optional( jo, was_loaded, "travel_cost_type", travel_cost_type, oter_travel_cost_type::other );
+
+    if( jo.has_member( "default_map_data" ) ) {
+        mandatory( jo, was_loaded, "default_map_data", default_map_data );
+    } else if( !was_loaded ) {
+        // With no specific override, set based on travel_cost_type if present.
+        switch( travel_cost_type ) {
+            case oter_travel_cost_type::impassable:
+            // Revisit water and air?
+            case oter_travel_cost_type::water:
+            case oter_travel_cost_type::air:
+                default_map_data = string_id<map_data_summary>( "full_omt" );
+                break;
+            case oter_travel_cost_type::road:
+            case oter_travel_cost_type::field:
+            case oter_travel_cost_type::dirt_road:
+                default_map_data = string_id<map_data_summary>( "empty_omt" );
+                break;
+            case oter_travel_cost_type::trail:
+            case oter_travel_cost_type::forest:
+            case oter_travel_cost_type::shore:
+            case oter_travel_cost_type::swamp:
+                default_map_data = string_id<map_data_summary>( "scattered_obstacles_omt" );
+                break;
+            case oter_travel_cost_type::other:
+            default:
+                // Terrible hack, just mark it impssable?
+                // There seem to be something like 2,500 entries that need to be annotted for this to work.
+                default_map_data = string_id<map_data_summary>( "full_omt" );
+                // Should not reach, throw an error.
+                //jo.throw_error( string_format( "No inferred or explicit default_map_data for %s", id.str() ) );
+                break;
+        }
+    }
 
     optional( jo, was_loaded, "vision_levels", vision_levels, oter_vision_default );
     optional( jo, false, "uniform_terrain", uniform_terrain );
@@ -3335,6 +3369,21 @@ bool overmap::passable( const tripoint_om_ms &p )
         return false;
     }
     return ptr->passable[index.y() * 24 + index.x()];
+}
+
+void overmap::set_passable( const tripoint_om_ms &p, bool new_passable )
+{
+    point_om_omt omt_origin;
+    tripoint_omt_ms index;
+    std::tie( omt_origin, index ) = project_remain<coords::omt>( p );
+    std::shared_ptr<map_data_summary> &ptr = layer[index.z() +
+            OVERMAP_DEPTH].map_cache[omt_origin];
+    if( !ptr ) {
+        // Oh no we aren't populated???
+        // Promote to error later.
+        return;
+    }
+    ptr->passable[index.y() * 24 + index.x()] = new_passable;
 }
 
 // For internal use only, just overwrite the pointer.

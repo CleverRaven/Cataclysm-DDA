@@ -3,6 +3,7 @@
 #define CATA_SRC_OVERMAPBUFFER_H
 
 #include <array>
+#include <bitset>
 #include <functional>
 #include <map>
 #include <memory>
@@ -453,6 +454,7 @@ class overmapbuffer
             return get_extras( z, pattern ); // filter with pattern
         }
         bool passable( const tripoint_abs_ms &p );
+        void set_passable( const tripoint_abs_ms &p, bool new_passable );
         void set_passable( const tripoint_abs_omt &p, const std::bitset<24 * 24> &new_passable );
         /**
          * Signal nearby hordes to move to given location.
