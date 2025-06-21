@@ -1,0 +1,149 @@
+name: CataclysmExperimental
+
+include:
+  # see xcode_dev_id_example.yml
+  - xcode_dev_id.yml
+
+options:
+  bundleIdPrefix: com.cataclysmdda.en.cataclysm
+  groupOrdering: 
+    - order: [Sources, Resources, Frameworks, Products]
+  usesTabs: false
+  indentWidth: 4
+  tabWidth: 4
+  deploymentTarget:
+    iOS: "15.0"
+
+schemes:
+  CataclysmExperimental:
+    build:
+      targets:
+        CataclysmExperimental: all
+
+targets:
+  CataclysmExperimental:
+    type: application
+    platform: iOS
+    info:
+      path: ../build/Info.plist
+      properties:
+        LSRequiresIPhoneOS: true
+        UIRequiredDeviceCapabilities: [arm64]
+        UIRequiresFullScreen: true
+        UIStatusBarHidden: true
+        UISupportedInterfaceOrientations: 
+          - UIInterfaceOrientationLandscapeLeft 
+          - UIInterfaceOrientationLandscapeRight
+        UILaunchStoryboardName: LaunchScreen
+        CFBundleIconFile: AppIcon.icns
+        UIApplicationSupportsIndirectInputEvents: true
+        UIFileSharingEnabled: true
+        LSSupportsOpeningDocumentsInPlace: true
+    sources:
+      - path: ../src
+        name: Sources
+        buildPhase: sources
+        includes:
+          - "**/swift/*.swift"
+          - "**/third-party/imgui/*.cpp"
+          - "**/third-party/imgui/*.h"
+          - "*.cpp"
+          - "*.h"
+        excludes:
+          - "*.txt"
+          - "*.in"
+          - "*.rc"
+          - "*.cmake"
+          - "**/third-party/flatbuffers/**"
+          - "**/third-party/ghc/**"
+          - "**/third-party/imtui/**"
+          - "**/third-party/pinyin/**"
+          - "**/chkjson/**"
+      - path: ../build-data/ios/resources/LaunchScreen.storyboard
+        group: Resources
+      - path: ../build-data/ios/resources/AppIcon.icns
+        group: Resources
+        buildPhase: resources
+      - path: ../build-data/ios/resources/LaunchScreen.png
+        group: Resources
+        buildPhase: resources
+      # TODO: Imitate cmake selection for data and gfx
+      - path: ../data
+        type: folder
+        group: Resources
+        buildPhase: resources
+      - path: ../gfx
+        type: folder
+        group: Resources
+        buildPhase: resources
+      - path: ../ios
+        type: folder
+        group: Resources
+        buildPhase: resources
+    settings:
+      base:
+        CLANG_CXX_LANGUAGE_STANDARD: c++17
+        CMAKE_CXX_STANDARD: 17
+        CMAKE_CXX_STANDARD_REQUIRED: ON
+        CMAKE_CXX_EXTENSIONS: OFF
+        CLANG_WARN_DOCUMENTATION_COMMENTS: false
+        CLANG_ENABLE_MODULES: YES
+        GCC_WARN_64_TO_32_BIT_CONVERSION: No
+        SWIFT_OBJC_INTEROP_MODE: objcxx
+        HEADER_SEARCH_PATHS: 
+          - ../src/third-party/**
+          - ../build/libs/headers
+        LIBRARY_SEARCH_PATHS:
+          - ../build/libs/
+          - $(inherited)
+        GCC_PREPROCESSOR_DEFINITIONS: 
+          - GIT_VERSION 
+          - TILES 
+          - BACKTRACE 
+          - SDL_SOUND
+          - $(inherited)
+        OTHER_CPLUSPLUSFLAGS: 
+          #- "-Werror"
+          - "-Wall -Wextra -Wformat-signedness -Wlogical-op -Wmissing-declarations -Wmissing-noreturn" 
+          - "-Wnon-virtual-dtor -Wold-style-cast -Woverloaded-virtual -Wpedantic -Wsuggest-override" 
+          - "-Wunused-macros -Wzero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-nullability-extension -Wredundant-decls" 
+          - "-fsigned-char"
+        OTHER_LDFLAGS:
+          - "-Wl,-ld_classic"
+      Debug:
+        OTHER_CPLUSPLUSFLAGS:
+          - "-Og -pthread '-std=c++17'"
+      Release:
+        GCC_PREPROCESSOR_DEFINITIONS: 
+          - RELEASE 
+        OTHER_CPLUSPLUSFLAGS:
+          - "-Os -DNDEBUG -pthread '-std=c++17'"
+    dependencies:
+      # TODO: build libcataclysm-tiles-common.a as it's own step again. Currently rolled in to single build
+      # - framework: libs/libcataclysm-tiles-common.a
+      - framework: ../build/libs/libSDL2.a
+      - framework: ../build/libs/libSDL2_image.a
+      - framework: ../build/libs/libSDL2_mixer.a
+      - framework: ../build/libs/libSDL2_ttf.a
+      - sdk: libllvm-flatbuffers.tbd
+      - sdk: libz.tbd
+      - sdk: libncurses.tbd
+      - sdk: MobileCoreServices.framework
+      - sdk: CoreMotion.framework
+      - sdk: CoreGraphics.framework
+      - sdk: CoreHaptics.framework
+      - sdk: AudioToolbox.framework
+      - sdk: CoreAudio.framework
+      - sdk: QuartzCore.framework
+      - sdk: GameController.framework
+      - sdk: Foundation.framework
+      - sdk: OpenGLES.framework
+      - sdk: UIKit.framework
+      - sdk: AVFoundation.framework
+      - sdk: ImageIO.framework
+      - sdk: Metal.framework
+    configs:
+      Debug:
+        DEBUG_MODE: YES
+      Release:
+        DEBUG_MODE: NO
