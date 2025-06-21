@@ -307,7 +307,14 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "cancels": [ "STRONGER_RESISTCHILL", "STRONGER_RESISTWARM" ],
+    "cancels": [
+      "STRONGER_RESISTCHILL",
+      "STRONGER_RESISTWARM",
+      "STRONGER_VULNERABLEWARM",
+      "STRONGER_VULNERABLECHILL",
+      "VULNERABLECHILL",
+      "VULNERABLEWARM"
+    ],
     "description": "Your temperature tolerance is more or less normal for a human."
   },
   {
@@ -10330,6 +10337,35 @@
   },
   {
     "type": "mutation",
+    "id": "VULNERABLECHILL",
+    "name": { "str": "Cold Intolerance" },
+    "points": -1,
+    "vitamin_cost": 60,
+    "description": "You fare worse than most in colder climates and are more bothered by lower temperatures.  Note that while it will take less cold and exposure for you to suffer the effects of frostbite, you aren't any worse at dealing with the symptoms.",
+    "starting_trait": true,
+    "changes_to": [ "STRONGER_VULNERABLECHILL" ],
+    "cancels": [ "STRONGER_RESISTCHILL", "RESISTCHILL" ],
+    "types": [ "ACCLIMATIZATION", "ECTOTHERMIC" ],
+    "category": [ "ELFA", "SLIME" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": -10 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "STRONGER_VULNERABLECHILL",
+    "name": { "str": "High Cold Intolerance" },
+    "points": -3,
+    "vitamin_cost": 160,
+    "valid": true,
+    "description": "You are now even more bothered by the cold and it is easier for you to freeze or to even get chilly.  When you do though, it'll hit just as hard as it did before.",
+    "prereqs": [ "VULNERABLECHILL" ],
+    "cancels": [ "STRONGER_RESISTCHILL", "STRONGER_RESISTWARM", "HUMAN_ACCLIMATIZATION", "RESISTCHILL" ],
+    "category": [ "SLIME" ],
+    "types": [ "ACCLIMATIZATION", "ECTOTHERMIC" ],
+    "threshreq": [ "THRESH_SLIME" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": -25 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "RESISTCHILL",
     "name": { "str": "Cold Tolerance" },
     "points": 1,
@@ -10354,6 +10390,34 @@
     "types": [ "ACCLIMATIZATION", "ECTOTHERMIC" ],
     "threshreq": [ "THRESH_LUPINE", "THRESH_URSINE", "THRESH_CATTLE", "THRESH_FELINE", "THRESH_RABBIT", "THRESH_MOUSE", "THRESH_BEAST" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 25 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "VULNERABLEWARM",
+    "name": { "str": "Heat Intolerance" },
+    "points": -1,
+    "vitamin_cost": 60,
+    "description": "You fare worse than most in warmer climates and are more bothered by hotter temperatures.  Note that while it will take less heat and exposure for you to suffer the effects of sunstroke, you aren't any worse at dealing with the symptoms.",
+    "starting_trait": true,
+    "changes_to": [ "STRONGER_VULNERABLEWARM" ],
+    "cancels": [ "STRONGER_RESISTWARM", "RESISTWARM" ],
+    "category": [ "CHIMERA" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": -10 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "STRONGER_VULNERABLEWARM",
+    "name": { "str": "High Heat Intolerance" },
+    "points": -3,
+    "vitamin_cost": 160,
+    "valid": true,
+    "description": "You are now even more bothered by the heat and it is easier for you to overheat or even sweat.  When you do though, it'll hit just as hard as it did before.",
+    "prereqs": [ "VULNERABLEWARM" ],
+    "cancels": [ "STRONGER_RESISTWARM", "RESISTWARM", "HUMAN_ACCLIMATIZATION" ],
+    "types": [ "ACCLIMATIZATION" ],
+    "category": [ "CHIMERA" ],
+    "threshreq": [ "THRESH_CHIMERA" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": -25 } ] } ]
   },
   {
     "type": "mutation",
