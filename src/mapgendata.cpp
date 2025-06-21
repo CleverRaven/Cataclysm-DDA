@@ -50,7 +50,7 @@ size_t std::hash<mapgen_arguments>::operator()( const mapgen_arguments &args ) c
 static const regional_settings dummy_regional_settings;
 
 mapgendata::mapgendata( map &mp, dummy_settings_t )
-    : pos_( tripoint_abs_omt::invalid )
+    : pos_( tripoint_abs_omt::zero )
     , density_( 0 )
     , when_( calendar::turn )
     , mission_( nullptr )
