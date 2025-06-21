@@ -940,6 +940,39 @@ void oter_type_t::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "connect_group", connect_group, string_reader{} );
     optional( jo, was_loaded, "travel_cost_type", travel_cost_type, oter_travel_cost_type::other );
 
+    if( jo.has_string( "default_map_data" ) ) {
+        optional( jo, was_loaded, "default_map_data", default_map_data );
+    } else {
+        // With no specific override, set based on travel_cost_type if present.
+        switch( travel_cost_type ) {
+            case oter_travel_cost_type::impassable:
+            // Revisit water and air?
+            case oter_travel_cost_type::water:
+            case oter_travel_cost_type::air:
+                default_map_data = string_id<map_data_summary>( "full_omt" );
+                break;
+            case oter_travel_cost_type::road:
+            case oter_travel_cost_type::field:
+            case oter_travel_cost_type::dirt_road:
+                default_map_data = string_id<map_data_summary>( "empty_omt" );
+                break;
+            case oter_travel_cost_type::trail:
+            case oter_travel_cost_type::forest:
+            case oter_travel_cost_type::shore:
+            case oter_travel_cost_type::swamp:
+                default_map_data = string_id<map_data_summary>( "scattered_obstacles_omt" );
+                break;
+            case oter_travel_cost_type::other:
+            default:
+                // Terrible hack, just mark it impssable?
+                // There seem to be something like 2,500 entries that need to be annotted for this to work.
+                default_map_data = string_id<map_data_summary>( "full_omt" );
+                // Should not reach, throw an error.
+                //jo.throw_error( string_format( "No inferred or explicit default_map_data for %s", id.str() ) );
+                break;
+        }
+    }
+
     optional( jo, was_loaded, "vision_levels", vision_levels, oter_vision_default );
     optional( jo, false, "uniform_terrain", uniform_terrain );
     if( uniform_terrain ) {
