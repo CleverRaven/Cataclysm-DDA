@@ -256,6 +256,31 @@ std::vector <tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int 
     return line;
 }
 
+std::vector<point_abs_om> orthogonal_line_to( const point_abs_om &p1, const point_abs_om &p2 )
+{
+    int dx = p2.x() - p1.x(), dy = p2.y() - p1.y();
+    int nx = std::abs( dx );
+    int ny = std::abs( dy );
+    int sign_x = dx > 0 ? 1 : -1;
+    int sign_y = dy > 0 ? 1 : -1;
+
+    point_abs_om iter = p1;
+    std::vector<point_abs_om> points = { iter };
+    for( int ix = 0, iy = 0; ix < nx || iy < ny; ) {
+        if( ( 0.5 + ix ) / nx < ( 0.5 + iy ) / ny ) {
+            // next step is horizontal
+            iter.x() += sign_x;
+            ix++;
+        } else {
+            // next step is vertical
+            iter.y() += sign_y;
+            iy++;
+        }
+        points.emplace_back( iter );
+    }
+    return points;
+}
+
 float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 )
 {
     if( trigdist ) {
