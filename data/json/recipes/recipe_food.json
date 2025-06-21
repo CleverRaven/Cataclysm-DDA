@@ -810,6 +810,7 @@
         [ "seed_sunflower", 20 ],
         [ "seed_canola", 5 ],
         [ "seed_grapes", 20 ],
+        [ "seed_poppy_bud", 20 ],
         [ "seed_weed", 20 ]
       ]
     ]
@@ -851,6 +852,7 @@
         [ "seed_sunflower", 20 ],
         [ "seed_canola", 5 ],
         [ "seed_grapes", 20 ],
+        [ "seed_poppy_bud", 20 ],
         [ "seed_weed", 20 ]
       ]
     ]
@@ -2516,7 +2518,7 @@
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
-    "components": [ [ [ "seed_weed", 1 ], [ "seed_sunflower", 1 ], [ "seed_pumpkin", 1 ] ] ]
+    "components": [ [ [ "seed_weed", 1 ], [ "seed_poppy_bud", 1 ], [ "seed_sunflower", 1 ], [ "seed_pumpkin", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -8975,6 +8977,7 @@
         [ "seed_raw_bamboo", 3 ],
         [ "seed_rhubarb", 3 ],
         [ "seed_celery", 3 ],
+        [ "seed_poppy_bud", 3 ],
         [ "chaff", 25 ],
         [ "soybean", 1 ],
         [ "dry_soybean", 1 ],
