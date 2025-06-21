@@ -2570,10 +2570,6 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                     // still get some experience for trying
                     exp_gained *= spell_being_cast.get_failure_exp_percent( *you );
                     spell_being_cast.gain_exp( *you, exp_gained );
-                    if( exp_gained != 0 ) {
-                        you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
-                                                spell_being_cast.xp() );
-                    }
                 }
                 if( act->get_value( 2 ) != 0 ) {
                     spell_being_cast.consume_spell_cost( *you, false );
@@ -2623,12 +2619,6 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                         spell_being_cast.gain_level( *you );
                         you->add_msg_if_player( m_good,
                                                 _( "Something about how this spell works just clicked!  You gained a level!" ) );
-                    } else {
-                        spell_being_cast.gain_exp( *you, exp_gained );
-                        if( exp_gained != 0 ) {
-                            you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
-                                                    spell_being_cast.xp() );
-                        }
                     }
                     if( spell_being_cast.get_level() != old_level ) {
                         // Level 0-1 message is printed above - notify player when leveling up further
