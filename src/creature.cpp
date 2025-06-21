@@ -988,10 +988,6 @@ void projectile::apply_effects_nodamage( Creature &target, Creature *source,
         const bodypart_id &bp_hit, bool soaked_through ) const
 {
     bool is_liquid = proj_effects.count( ammo_effect_LIQUID );
-    if( proj_effects.count( ammo_effect_BOUNCE ) ) {
-        target.add_effect( effect_source( source ), effect_bounced, 1_turns );
-    }
-
     for( const ammo_effect_str_id &proj_effect : proj_effects ) {
         for( const on_hit_effect &on_hit_eff : proj_effect->on_hit_effects ) {
             if( on_hit_eff.need_touch_skin && is_liquid && !soaked_through ) {
