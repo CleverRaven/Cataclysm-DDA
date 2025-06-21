@@ -336,7 +336,7 @@ monster::monster( const mtype_id &id ) : monster()
         }
     }
     aggro_character = type->aggro_character;
-    try_upgrade();
+    initial_upgrade_time();
 }
 
 monster::monster( const mtype_id &id, const tripoint_bub_ms &p ) : monster( id )
@@ -456,6 +456,27 @@ int monster::next_upgrade_time() const
     return day; // Didn't manage to upgrade in UPGRADE_MAX_ITERS half lifes, just use UPGRADE_MAX_ITERS half lifes
 }
 
+void monster::initial_upgrade_time()
+{
+    if( !can_upgrade() ) {
+        return;
+    }
+
+    const int current_day = to_days<int>( calendar::turn - calendar::turn_zero );
+    if( upgrade_time < 0 ) {
+        upgrade_time = next_upgrade_time();
+        if( type->age_grow > 0 ) {
+            // offset by today for growing creatures so it works off when they're born/hatched
+            // TODO: Mapgen placed growing creatures should -= rng( 0, age_grow - 1 ) so they aren't all 0 days into their growth
+            upgrade_time += current_day;
+        } else {
+            // offset by starting season
+            // TODO: cache calendar::start_of_cataclysm - calendar::turn_zero
+            upgrade_time += to_days<int>( calendar::start_of_cataclysm - calendar::turn_zero );
+        }
+    }
+}
+
 void monster::try_upgrade()
 {
     map &here = get_map();
@@ -465,19 +486,6 @@ void monster::try_upgrade()
     }
 
     const int current_day = to_days<int>( calendar::turn - calendar::turn_zero );
-    // TODO: This should only occur when a monster is created and should probably be moved to monster initialisation
-    if( upgrade_time < 0 ) {
-        upgrade_time = next_upgrade_time();
-        if( type->age_grow > 0 ) {
-            // offset by today for growing creatures so it works off when they're born/hatched
-            // TODO: Mapgen placed growing creatures should -= rng( 0, age_grow - 1 ) so they aren't all 0 days into their growth
-            upgrade_time += current_day;
-        } else {
-            // offset by starting season
-            // TODO: revisit this and make it simpler
-            upgrade_time += to_days<int>( calendar::start_of_cataclysm - calendar::turn_zero );
-        }
-    }
 
     // Here we iterate until we either are before upgrade_time or can't upgrade any more.
     // This is so that late into game new monsters can 'catch up' with all that half-life
@@ -753,12 +761,14 @@ void monster::spawn( const tripoint_bub_ms &p )
 
     set_pos_bub_only( here, p );
     unset_dest();
+    try_upgrade();
 }
 
 void monster::spawn( const tripoint_abs_ms &loc )
 {
     set_pos_abs_only( loc );
     unset_dest();
+    try_upgrade();
 }
 
 std::string monster::get_name() const
