@@ -3613,9 +3613,10 @@ std::optional<cata_variant> overmap::get_existing_omt_stack_argument( const poin
     return std::nullopt;
 }
 
-void overmap::add_omt_stack_arguments( const point_abs_omt &p, const mapgen_arguments &args )
+void overmap::add_omt_stack_argument( const point_abs_omt &p, const std::string &param_name,
+                                      const cata_variant &value )
 {
-    omt_stack_arguments_map[p].merge( args, false );
+    omt_stack_arguments_map[p].add( param_name, value );
 }
 
 bool overmap::inbounds( const tripoint_om_omt &p, int clearance )

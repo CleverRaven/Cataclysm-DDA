@@ -59,7 +59,8 @@ struct mapgen_arguments {
         return map == other.map;
     }
 
-    void merge( const mapgen_arguments &, bool overwrite = true );
+    void merge( const mapgen_arguments & );
+    void add( const std::string &param_name, const cata_variant &value );
     void serialize( JsonOut & ) const;
     void deserialize( const JsonValue &ji );
 };

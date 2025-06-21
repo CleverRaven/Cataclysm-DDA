@@ -19,13 +19,16 @@
 #include "point.h"
 #include "regional_settings.h"
 
-void mapgen_arguments::merge( const mapgen_arguments &other, bool overwrite )
+void mapgen_arguments::merge( const mapgen_arguments &other )
 {
     for( const std::pair<const std::string, cata_variant> &p : other.map ) {
-        if( overwrite || map.find( p.first ) == map.end() ) {
-            map[p.first] = p.second;
-        }
+        map[p.first] = p.second;
     }
+}
+
+void mapgen_arguments::add( const std::string &param_name, const cata_variant &value )
+{
+    map[param_name] = value;
 }
 
 void mapgen_arguments::serialize( JsonOut &jo ) const

@@ -2298,7 +2298,7 @@ mapgen_arguments mapgen_parameters::get_args(
                 result.emplace( param_name, *v );
             } else {
                 cata_variant value = md.get_arg_or( param_name, param.get( md ) );
-                om->add_omt_stack_arguments( p_scope, md.get_args() );
+                om->add_omt_stack_argument( p_scope, param_name, value );
                 result.emplace( param_name, value );
             }
         }

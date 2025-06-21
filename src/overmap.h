@@ -462,8 +462,9 @@ class overmap
         // Get value from omt_stack_arguments_map or nullopt if not set yet
         std::optional<cata_variant> get_existing_omt_stack_argument( const point_abs_omt &p,
                 std::string param_name ) const;
-        // Set or merge without overwriting to omt_stack_arguments_map
-        void add_omt_stack_arguments( const point_abs_omt &p, const mapgen_arguments &args );
+        // Set a value in omt_stack_arguments_map
+        void add_omt_stack_argument( const point_abs_omt &p, const std::string &param_name,
+                                     const cata_variant &value );
         /**
          * When monsters despawn during map-shifting they will be added here.
          * map::spawn_monsters will load them and place them into the reality bubble
