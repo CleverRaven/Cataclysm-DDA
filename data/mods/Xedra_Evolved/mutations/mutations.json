@@ -1640,6 +1640,16 @@
   },
   {
     "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_NO_FUN",
+    "name": { "str": "Vampiric weakness: barred from mortal joys" },
+    "points": -1,
+    "description": "Blood is the only thing that can bring a smile to your lips.  Nothing else gives you any lasting joy or pleasure.  It is impossible for you to be truly happy unless you recently consumed blood.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE_ANATHEMA",
     "name": { "str": "Vampiric Anathema" },
     "points": 0,

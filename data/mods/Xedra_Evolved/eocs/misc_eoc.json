@@ -439,7 +439,8 @@
       { "u_lose_morale": "morale_broke_fae_ban" },
       { "u_lose_morale": "morale_homullus_self_deception" },
       { "u_lose_morale": "morale_ierde_meditation" },
-      { "u_lose_morale": "morale_boring_fruit" }
+      { "u_lose_morale": "morale_boring_fruit" },
+      { "u_lose_morale": "morale_vw_no_fun" }
     ]
   },
   {

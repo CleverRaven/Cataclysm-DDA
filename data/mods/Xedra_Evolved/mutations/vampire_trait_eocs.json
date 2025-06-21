@@ -12,6 +12,7 @@
             "intensity": 1,
             "duration": { "math": [ "600 + rand(600)" ] }
           },
+          { "u_lose_morale": "morale_vw_no_fun" },
           {
             "if": { "u_has_trait": "BLOOD_FUN" },
             "then": [
@@ -126,6 +127,7 @@
         "if": { "compare_string": [ "fae_blood", { "context_val": "itype" } ] },
         "then": { "math": [ "u_vampire_just_drank_fae_blood = 1" ] }
       },
+      { "u_lose_morale": "morale_vw_no_fun" },
       { "run_eocs": "EOC_VAMPIRE_GAIN_BLOOD_VITAMIN" }
     ]
   },
@@ -473,7 +475,8 @@
           "VAMPIRE_WEAKNESS_COLD_BLOODED",
           "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD",
           "VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD",
-          "VAMPIRE_WEAKNESS_BLOOD_CRAVING"
+          "VAMPIRE_WEAKNESS_BLOOD_CRAVING",
+          "VAMPIRE_WEAKNESS_NO_FUN"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS_SUCCESS" ],
@@ -571,6 +574,19 @@
     "required_event": "gains_mutation",
     "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_BLOOD_CRAVING", { "context_val": "trait" } ] },
     "effect": [ { "u_message": "You feel a painful craving for blood for a second, then it passes.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_NO_FUN_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_NO_FUN", { "context_val": "trait" } ] },
+    "effect": [
+      {
+        "u_message": "Everything grows dull and boring.  Your only memories still making you happy are those about drinking blood.",
+        "type": "bad"
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -2532,6 +2548,28 @@
       "and": [ { "u_has_trait": "VAMPIRE_WEAKNESS_BLOOD_CRAVING" }, { "not": { "u_has_effect": "effect_drank_blood_recently" } } ]
     },
     "effect": [ { "u_add_effect": "blood_craving", "intensity": 1, "duration": { "math": [ "400 + rand(600)" ] } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NO_FUN_CHECK",
+    "recurrence": [ "2 s", "4 s" ],
+    "//": "It is intended to take an instant before the mood is neutralized.  Like Tantalus can try to grasp the fruits he cannot reach, the vampire can try to feel joy as they want but won't ever truly succeed without blood.",
+    "//2": "It only stops them from feeling joy, but not feeling joy brings sadness by itself.",
+    "condition": {
+      "and": [ { "u_has_trait": "VAMPIRE_WEAKNESS_NO_FUN" }, { "not": { "u_has_effect": "effect_drank_blood_recently" } } ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_NO_FUN" } },
+    "effect": [
+      { "u_lose_morale": "morale_vw_no_fun" },
+      { "math": [ "u_morale_vw_no_fun = 15 + (u_val('morale'))" ] },
+      {
+        "u_add_morale": "morale_vw_no_fun",
+        "bonus": { "math": [ "u_morale_vw_no_fun * -1" ] },
+        "max_bonus": { "math": [ "u_morale_vw_no_fun * -1" ] },
+        "duration": "1 hour",
+        "decay_start": "1 hour"
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
