@@ -3,6 +3,7 @@
 #define CATA_SRC_OVERMAPBUFFER_H
 
 #include <array>
+#include <bitset>
 #include <functional>
 #include <map>
 #include <memory>
