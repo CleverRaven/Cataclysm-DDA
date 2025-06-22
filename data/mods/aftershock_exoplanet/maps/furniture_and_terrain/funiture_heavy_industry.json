@@ -4,7 +4,7 @@
     "id": "f_metal_deposition_u",
     "name": "metal vapor forge",
     "looks_like": "f_machinery_electronic",
-    "description": "An automated robotic arm capable of precisely depositing metal atoms into any desired shape.  All manufacturing processes of interstellar significance require units such as this,and they are extremely difficult to replace.",
+    "description": "An automated robotic arm capable of precisely depositing metal atoms into any desired shape.  All manufacturing processes of interstellar significance require units such as this, and they are extremely difficult to replace.",
     "symbol": "&",
     "bgcolor": "yellow",
     "move_cost_mod": 3,
