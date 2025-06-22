@@ -175,7 +175,6 @@ namespace io
             case enchant_vals::mod::MOTION_ALARM: return "MOTION_ALARM";
             case enchant_vals::mod::TOTAL_WEIGHT: return "TOTAL_WEIGHT";
             case enchant_vals::mod::FUEL_USAGE: return "FUEL_USAGE";
-            case enchant_vals::mod::ENGINE_POWER: return "ENGINE_POWER";
             case enchant_vals::mod::TURNING_DIFFICULTY: return "TURNING_DIFFICULTY";
             case enchant_vals::mod::NUM_MOD: break;
         }
@@ -414,7 +413,6 @@ bool enchantment::is_vehicle_relevant() const
          values_add ) {
         if( pair_values.first == enchant_vals::mod::TOTAL_WEIGHT ||
             pair_values.first == enchant_vals::mod::FUEL_USAGE ||
-            pair_values.first == enchant_vals::mod::ENGINE_POWER ||
             pair_values.first == enchant_vals::mod::TURNING_DIFFICULTY ) {
             return true;
         }
@@ -425,7 +423,6 @@ bool enchantment::is_vehicle_relevant() const
          values_multiply ) {
         if( pair_values.first == enchant_vals::mod::TOTAL_WEIGHT ||
             pair_values.first == enchant_vals::mod::FUEL_USAGE ||
-            pair_values.first == enchant_vals::mod::ENGINE_POWER ||
             pair_values.first == enchant_vals::mod::TURNING_DIFFICULTY ) {
             return true;
         }

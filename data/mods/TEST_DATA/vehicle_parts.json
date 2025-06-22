@@ -27,12 +27,25 @@
       },
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "ENGINE_POWER", "multiply": 0.5 } ]
-      },
-      {
-        "condition": "ALWAYS",
-        "values": [ { "value": "TURNING_DIFFICULTY", "multiply": -0.5 } ]
+        "values": [ { "value": "TURNING_DIFFICULTY", "add": 1.5 } ]
       }
     ]
+  },
+  {
+    "type": "ITEM",
+    "id": "test_enchant",
+    "category": "other",
+    "name": { "str": "test_enchant" },
+    "description": "An enchanted item for testing",
+    "weight": "0 g",
+    "volume": "2 L",
+    "flags": "ZERO_WEIGHT",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "melee_damage": { "bash": 4 }
   }
 ]

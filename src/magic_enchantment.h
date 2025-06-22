@@ -150,7 +150,6 @@ enum class mod : int {
     MOTION_ALARM,
     TOTAL_WEIGHT,
     FUEL_USAGE,
-    ENGINE_POWER,
     TURNING_DIFFICULTY,
     NUM_MOD
 };

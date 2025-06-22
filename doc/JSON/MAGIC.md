@@ -1078,7 +1078,6 @@ Character status value  | Description
 ---                     |---
 `TOTAL_WEIGHT`          | Affects the vehicles total weight.
 `FUEL_USAGE`            | Affects the vehicles fuel usage.
-`ENGINE_POWER`          | Affects the power of the engine.
 `TURNING_DIFFICULTY`    | Affects turning ability
 
 

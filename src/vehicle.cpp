@@ -1154,7 +1154,6 @@ units::power vehicle::part_vpower_w( map &here, const vehicle_part &vp,
     if( pwr < 0_W ) {
         return pwr; // Consumers always draw full power, even if broken
     }
-    pwr = enchantment_cache.modify_value( enchant_vals::mod::ENGINE_POWER, pwr );
     if( at_full_hp ) {
         return pwr; // Assume full hp
     }
