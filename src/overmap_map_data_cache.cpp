@@ -1,10 +1,10 @@
 #include "overmap_map_data_cache.h"
 
 #include <array>
+#include <unordered_map>
 
 #include "cata_assert.h"
 #include "generic_factory.h"
-#include "overmap_map_data_cache.h"
 #include "string_id.h"
 
 // "Placeholder map data" is a set of map_data_summary objects that are used when
@@ -14,7 +14,6 @@ namespace
 {
 
 generic_factory<map_data_summary> placeholder_map_data( "placeholder map data" );
-
 }
 
 template<>
