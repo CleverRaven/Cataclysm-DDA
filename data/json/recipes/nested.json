@@ -7266,5 +7266,193 @@
       "hoodie_cropped_panda",
       "hoodie_cropped_frog"
     ]
+  },
+  {
+    "id": "nested_scrapsuit",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "name": "scrap armors",
+    "description": "Recipes related to the production of suits of armor made from scraps.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "armor_scrapsuit",
+      "armor_scrapsuit_assembly",
+      "armor_xl_scrapsuit",
+      "armor_xl_scrapsuit_assembly",
+      "armor_xs_scrapsuit",
+      "armor_xs_scrapsuit_assembly"
+    ]
+  },
+  {
+    "id": "nested_aprons",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "aprons",
+    "description": "Recipes related to the production of aprons.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "nested_aprons_cotton", "nested_aprons_leather", "nested_aprons_synthetic" ]
+  },
+  {
+    "id": "nested_aprons_cotton",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "cotton aprons",
+    "description": "Recipes related to the production of suits of cotton aprons.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "apron_cotton",
+      "apron_cotton_xl",
+      "apron_cotton_xs",
+      "apron_cotton_maid_apron",
+      "apron_cotton_xl_maid_apron_xl",
+      "apron_cotton_xs_maid_apron_xs",
+      "nested_aprons_cotton_waist"
+    ]
+  },
+  {
+    "id": "nested_aprons_cotton_waist",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "waist cotton aprons",
+    "description": "Recipes related to the production of suits of waist cotton aprons.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "waist_apron_short",
+      "waist_apron_short_xl",
+      "waist_apron_short_xs",
+      "waist_apron_short_maid_apron",
+      "waist_apron_short_xl_maid_apron_xl",
+      "waist_apron_short_xs_maid_apron_xs",
+      "waist_apron_long",
+      "waist_apron_long_xl",
+      "waist_apron_long_xs",
+      "waist_apron_long_maid_apron",
+      "waist_apron_long_xl_maid_apron_xl",
+      "waist_apron_long_xs_maid_apron_xs"
+    ]
+  },
+  {
+    "id": "nested_aprons_leather",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "leather aprons",
+    "description": "Recipes related to the production of suits of leather aprons.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "apron_leather" ]
+  },
+  {
+    "id": "nested_aprons_synthetic",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "synthetic fabric aprons",
+    "description": "Recipes related to the production of suits of synthetic fabric aprons.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "apron_plastic", "apron_cut_resistant" ]
+  },
+  {
+    "id": "nested_farmor",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "name": "fur armors",
+    "description": "Recipes related to the production of suits of armor made from fur.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "armor_farmor",
+      "armor_farmor_xs",
+      "xl_armor_farmor",
+      "armor_faux_farmor",
+      "armor_faux_farmor_xs",
+      "xl_armor_faux_farmor"
+    ]
+  },
+  {
+    "id": "nested_larmor",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "name": "leather armors",
+    "description": "Recipes related to the production of suits of armor made from leather.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_larmor", "armor_larmor_xs", "xl_armor_larmor" ]
+  },
+  {
+    "id": "nested_sheetmetalarmor",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "name": "sheet metal armors",
+    "description": "Recipes related to the production of suits of armor made from sheets of metal.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "armor_ch_metal_sheets",
+      "armor_ch_metal_sheets_assembly",
+      "armor_ch_metal_sheets_heavy",
+      "armor_ch_metal_sheets_heavy_assembly",
+      "armor_ch_metal_sheets_chain",
+      "armor_ch_metal_sheets_chain_assembly",
+      "armor_ch_metal_sheets_chain_heavy",
+      "armor_ch_metal_sheets_chain_heavy_assembly",
+      "armor_metal_sheets_assembly",
+      "armor_metal_sheets_chain_assembly",
+      "armor_metal_sheets_heavy_assembly",
+      "armor_metal_sheets_chain_heavy_assembly"
+    ]
+  },
+  {
+    "id": "nested_wetsuit",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "name": "wetsuits",
+    "description": "Recipes related to the production of wetsuits.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "wetsuit",
+      "xs_wetsuit",
+      "xl_wetsuit",
+      "wetsuit_thick",
+      "xs_wetsuit_thick",
+      "xl_wetsuit_thick",
+      "wetsuit_spring",
+      "nested_wetsuit_reinforced"
+    ]
+  },
+  {
+    "id": "nested_wetsuit_reinforced",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "reinforced wetsuits",
+    "description": "Recipes related to the production of reinforced wetsuits.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "h20survivor_jumpsuit",
+      "xs_h20survivor_jumpsuit",
+      "xl_h20survivor_jumpsuit",
+      "h20survivor_jumpsuit_light",
+      "xs_h20survivor_jumpsuit",
+      "xl_h20survivor_jumpsuit",
+      "thick_h20survivor_jumpsuit",
+      "xs_thick_h20survivor_jumpsuit",
+      "xl_thick_h20survivor_jumpsuit"
+    ]
   }
 ]

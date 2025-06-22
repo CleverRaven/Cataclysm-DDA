@@ -611,6 +611,18 @@
     "byproducts": [ [ "cotton_patchwork", 1 ] ]
   },
   {
+    "result": "sleeping_bag_improvised",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "autolearn": true,
+    "time": "5 m",
+    "components": [ [ [ "bag_body_bag", 1 ] ], [ [ "withered", 180 ], [ "straw_pile", 180 ] ] ]
+  },
+  {
     "result": "survivor_belt_notools",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
