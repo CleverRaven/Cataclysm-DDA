@@ -1,0 +1,26 @@
+[
+  {
+    "type": "vehicle_part",
+    "id": "test_enchant",
+    "name": { "str": "enchant test" },
+    "item": "test_enchant",
+    "description": "TestPart",
+    "durability": 400,
+    "categories": [ "other" ],
+    "broken_color": "dark_gray",
+    "flags": [ "NO_REPAIR" ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "using": [ [ "vehicle_screw", 1 ] ] }
+    },
+    "breaks_into": [ { "item": "black_box" } ],
+    "damage_reduction": { "all": 80 },
+    "variants": [ { "symbols": ";", "symbols_broken": "*" } ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "TOTAL_WEIGHT", "multiply": -0.1 } ]
+      }
+    ]
+  }
+]

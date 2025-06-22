@@ -406,7 +406,6 @@ bool enchantment::is_monster_relevant() const
     return false;
 }
 
-
 // Returns true if this enchantment is relevant to vehicles. Enchantments that are not relevant to vehicles are not processed by vehicles.
 bool enchantment::is_vehicle_relevant() const
 {

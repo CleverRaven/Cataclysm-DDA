@@ -1630,6 +1630,27 @@ void vehicle::process_effects()
     }
 }
 
+bool vehicle::has_visible_effect()
+{
+    for( auto &elem : effects ) {
+        if( elem.first->is_show_in_info() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::vector<std::reference_wrapper<const effect>> vehicle::get_effects() const
+{
+    std::vector<std::reference_wrapper<const effect>> effs;
+    for( auto &elem : effects ) {
+        for( const std::pair<const efftype_id, effect> &_it : effects ) {
+            effs.emplace_back( _it.second );
+        }
+    }
+    return effs;
+}
+
 void vehicle::remove_effect( const efftype_id &eff_id )
 {
     effects.erase( eff_id );

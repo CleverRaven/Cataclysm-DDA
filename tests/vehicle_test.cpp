@@ -49,6 +49,7 @@ static const itype_id itype_test_standing_lamp( "test_standing_lamp" );
 static const vpart_id vpart_ap_test_standing_lamp( "ap_test_standing_lamp" );
 static const vpart_id vpart_bike_rack( "bike_rack" );
 static const vpart_id vpart_programmable_autopilot( "programmable_autopilot" );
+static const vpart_id vpart_test_enchant( "test_enchant" );
 
 static const vproto_id vehicle_prototype_bicycle( "bicycle" );
 static const vproto_id vehicle_prototype_car( "car" );
@@ -804,4 +805,35 @@ TEST_CASE( "autopilot_tests", "[vehicle][autopilot]" )
     // checks if it moves, most of the test is a cutout from vehicle_efficiency_test.cpp
     CHECK( test_autopilot_moving( vehicle_prototype_car, vpart_id::NULL_ID() ) == 0 );
     CHECK( test_autopilot_moving( vehicle_prototype_car, vpart_programmable_autopilot ) == 9 );
+}
+
+TEST_CASE( "vehicle_enchantments", "[vehicle][enchantments]" )
+{
+    // spawns vehicle, installs the extra part if it's not null, activates follow and
+    // checks if it moves, most of the test is a cutout from vehicle_efficiency_test.cpp
+    clear_avatar();
+    clear_map();
+    map &here = get_map();
+    Character &player_character = get_player_character();
+    // Move player somewhere safe
+    REQUIRE_FALSE( player_character.in_vehicle );
+    player_character.setpos( here, tripoint_bub_ms::zero );
+
+    const tripoint_bub_ms map_starting_point( 60, 60, 0 );
+    vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_car, map_starting_point, -90_degrees, 100, 0,
+                                         false );
+
+    REQUIRE( veh_ptr != nullptr );
+    int weight = veh_ptr->weight_on_wheels( here ).value();
+    vehicle &veh = *veh_ptr;
+    vehicle_part vp( vpart_test_enchant, item( vpart_test_enchant->base_item ) );
+    const int part_index = veh.install_part( here, point_rel_ms::zero, std::move( vp ) );
+    REQUIRE( part_index >= 0 );
+
+    veh.refresh( );
+    int ending_weight = veh_ptr->weight_on_wheels( here ).value();
+    INFO( "Starting Weight:" + weight );
+    INFO( "Ending Weight:" +  ending_weight );
+
+    CHECK(weight == ending_weight * 0.9);
 }
