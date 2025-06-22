@@ -35,6 +35,7 @@
 #include "mongroup.h"
 #include "monster.h"
 #include "omdata.h"
+#include "overmap_map_data_cache.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
 #include "rng.h"
@@ -130,6 +131,7 @@ struct map_layer {
     cata::mdarray<oter_id, point_om_omt> terrain;
     cata::mdarray<om_vision_level, point_om_omt> visible;
     cata::mdarray<bool, point_om_omt> explored;
+    cata::mdarray<std::shared_ptr<map_data_summary>, point_om_omt> map_cache;
     std::vector<om_note> notes;
     std::vector<om_map_extra> extras;
 };
@@ -314,6 +316,17 @@ class overmap
         void delete_extra( const tripoint_om_omt &p );
 
         /**
+         * Access cache of map data for agents operating at overmap scale.
+         */
+        bool passable( const tripoint_om_ms &p );
+        void set_passable( const tripoint_om_ms &p, bool new_passable );
+        void set_passable( const tripoint_abs_omt &p, const std::bitset<24 * 24> &new_passable );
+    private:
+        void set_passable( const tripoint_abs_omt &p, std::shared_ptr<map_data_summary> new_passable );
+    public:
+        // Spawn a monter at overmap scale.
+        monster &spawn_monster( const tripoint_abs_ms &p, mtype_id id );
+        /**
          * Getter for overmap scents.
          * @returns a reference to a scent_trace from the requested location.
          */
@@ -331,6 +344,8 @@ class overmap
         static bool inbounds( const point_om_omt &p, int clearance = 0 ) {
             return inbounds( tripoint_om_omt( p, 0 ), clearance );
         }
+        bool inbounds( const tripoint_abs_ms &p );
+
         /**
          * Return a vector containing the absolute coordinates of
          * every matching note on the current z level of the current overmap.
