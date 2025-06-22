@@ -825,6 +825,10 @@ TEST_CASE( "vehicle_enchantments", "[vehicle][enchantments]" )
 
     REQUIRE( veh_ptr != nullptr );
     int weight = veh_ptr->weight_on_wheels( here ).value();
+    int fuel_usage = veh_ptr->fuel_usage().begin()->second.value();
+    int engine_power = veh_ptr->total_power( here ).value();
+    int turning_dif = veh_ptr->handling_difficulty( here );
+
     vehicle &veh = *veh_ptr;
     vehicle_part vp( vpart_test_enchant, item( vpart_test_enchant->base_item ) );
     const int part_index = veh.install_part( here, point_rel_ms::zero, std::move( vp ) );
@@ -835,5 +839,30 @@ TEST_CASE( "vehicle_enchantments", "[vehicle][enchantments]" )
     INFO( "Starting Weight:" + weight );
     INFO( "Ending Weight:" +  ending_weight );
 
-    CHECK(weight == ending_weight * 0.9);
+    CHECK( weight == ending_weight * 0.9 );
+
+    int ending_fuel_usage = veh_ptr->fuel_usage().begin()->second.value();
+    INFO( "Starting fuel usage:" + fuel_usage );
+    INFO( "Ending fuel usage:" +  ending_fuel_usage );
+
+    CHECK( fuel_usage == ending_fuel_usage * 0.5 );
+
+    int ending_engine_power = veh_ptr->total_power( here ).value();
+    INFO( "Starting engine power:" + engine_power );
+    INFO( "Ending engine power:" +  ending_engine_power );
+
+    CHECK( engine_power == ending_engine_power * 1.5 );
+
+    int ending_engine_power = veh_ptr->total_power( here ).value();
+    INFO( "Starting engine power:" + engine_power );
+    INFO( "Ending engine power:" +  ending_engine_power );
+
+    CHECK( engine_power == ending_engine_power * 1.5 );
+
+    int ending_turning_dif = veh_ptr->handling_difficulty( here );
+    INFO( "Starting turning difficulty:" + turning_dif );
+    INFO( "Ending turning difficulty:" +  ending_turning_dif );
+
+    CHECK( turning_dif == ending_turning_dif * 0.5 );
+
 }
