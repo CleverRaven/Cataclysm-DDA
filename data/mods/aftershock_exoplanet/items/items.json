@@ -245,7 +245,7 @@
     "type": "ITEM",
     "id": "afs_catalytic_core",
     "name": { "str_sp": "catalytic rod" },
-    "description": "A gleaming rod of hyperspace-age alloy, manufactured through arts lost to the discontinuty.  A critical and near irreplaceable component of interstellar industry, it would fetch a high price anywhere.",
+    "description": "A gleaming rod of hyperspace-age alloy, manufactured through arts lost to the discontinuity.  A critical and near irreplaceable component of interstellar industry, it would fetch a high price anywhere.",
     "symbol": "o",
     "color": "yellow",
     "weight": "40 kg",

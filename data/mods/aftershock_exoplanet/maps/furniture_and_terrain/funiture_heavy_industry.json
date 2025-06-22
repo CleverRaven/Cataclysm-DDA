@@ -138,7 +138,7 @@
   {
     "type": "furniture",
     "id": "f_catalytic_core",
-    "name": "catlytic core",
+    "name": "catalytic core",
     "looks_like": "t_pillar",
     "description": "A great pillar of gleaming alloy, used in a variety of industrial metalworking processes.  A critical and near irreplaceable component of interstellar industry.",
     "symbol": "|",
