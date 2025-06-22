@@ -3,7 +3,7 @@
     "type": "npc",
     "id": "xe_vampire_mentor",
     "//": "Maybe there will be non-mentor vampire NPCs someday.  For now, there's only the mentors.",
-    "//": "When vampires will gain random weaknesses, no mentor will ever have the Barred from Mortal Joys weakness.",
+    "//2": "When vampires will gain random weaknesses, no mentor will ever have the Barred from Mortal Joys weakness.",
     "name_suffix": "vampire",
     "class": "NC_NPC_XE_VAMPIRE_MENTOR",
     "attitude": 0,
@@ -15,7 +15,7 @@
     "type": "npc_class",
     "id": "NC_NPC_XE_VAMPIRE_MENTOR",
     "name": "Vampire Mentor",
-    "job_description": "An ancient vampire, willing to assist those who want to further their curse",
+    "job_description": "An ancient vampire, willing to assist those who want to further their curse.",
     "common": false,
     "sells_belongings": false,
     "skills": [
@@ -32,6 +32,7 @@
     "bonus_per": { "rng": [ 2, 4 ] },
     "bonus_str": { "rng": [ 2, 4 ] },
     "bonus_dex": { "rng": [ 2, 4 ] },
+    "weapon_override": "EMPTY_GROUP",
     "traits": [
       { "group": "Appearance_demographics" },
       { "group": "BG_survival_story_UNIVERSAL" },
@@ -79,9 +80,8 @@
         "condition": {
           "and": [
             { "u_has_trait": "VAMPIRE4" },
-            {
-              "not": { "compare_string": [ "yes", { "u_val": "told_about_trueness" }, { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } } ] }
-            }
+            { "not": { "compare_string": [ "yes", { "u_val": "told_about_trueness" } ] } },
+            { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } }
           ]
         },
         "effect": { "u_add_var": "told_about_trueness", "value": "yes" }
@@ -131,18 +131,12 @@
         ]
       },
       {
-        "text": "Just passing through, don't mind me.",
-        "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
-        "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
-      },
-      {
         "text": "…",
         "topic": "TALK_DONE",
         "condition": { "u_has_trait": "VAMPIRE_ANATHEMA" },
         "effect": [
-          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
-          { "npc_message": "%1$s's vanishes in a fine mist." }
+          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "u_message": "The mentor vanishes in a fine mist." }
         ]
       },
       {
@@ -154,10 +148,16 @@
       {
         "text": "Do you want to chat for a bit?",
         "topic": "TALK_MENTOR_CHAT",
-        "//": "Non-psychopath mentors enjoy a good chat, both for fun and purpose.",
+        "//": "Non-uncaring mentors enjoy a good chat, both for fun and purpose.",
         "//2": "If you're a vampire, it keeps them on your good side and cement that you made the right choice.",
         "//3": "If you're not a vampire, it builds trust so you're more receptive when they will offer you to become a vampire.",
         "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } }, { "not": { "npc_has_trait": "PSYCHOPATH" } } ] },
+        "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
+      },
+      {
+        "text": "Just passing through, don't mind me.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
         "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
       }
     ]
@@ -222,8 +222,8 @@
         "topic": "TALK_DONE",
         "effect": [
           "hostile",
-          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
-          { "npc_message": "%1$s's vanishes in a fine mist." }
+          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "u_message": "The mentor vanishes in a fine mist." }
         ]
       },
       {
@@ -551,8 +551,8 @@
         "topic": "TALK_DONE",
         "effect": [
           "hostile",
-          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
-          { "npc_message": "%1$s's vanishes in a fine mist." }
+          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "u_message": "The mentor vanishes in a fine mist." }
         ]
       },
       { "text": "I understand.  Can we talk?", "topic": "TALK_VAMPIRE_MENTOR_TALK" },
@@ -582,8 +582,8 @@
         "topic": "TALK_DONE",
         "effect": [
           "hostile",
-          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
-          { "npc_message": "%1$s's vanishes in a fine mist." }
+          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "u_message": "The mentor vanishes in a fine mist." }
         ]
       },
       { "text": "Got it.  See you.", "topic": "TALK_DONE" }
