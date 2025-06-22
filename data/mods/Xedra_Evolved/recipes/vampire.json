@@ -89,7 +89,9 @@
           "VAMPIRIC_STRENGTH",
           "VAMPIRIC_RESILIENCE",
           "VAMPIRE_HEIGHTENED_SENSES",
-          "VAMPIRE_SILENT_MOVE"
+          "VAMPIRE_SILENT_MOVE",
+          "VAMPIRE_HEALTH_BONUS",
+          "VAMPIRE_SENSE_CHILDREN_OF_THE_NIGHT"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ],
@@ -111,7 +113,10 @@
           "VAMPIRE_FEAR_GAZE",
           "VAMPIRE_WALK_ON_WALLS",
           "VAMPIRE_BEAST_CLAWS",
-          "VAMPIRE_SEE_HEAT"
+          "VAMPIRE_SEE_HEAT",
+          "VAMPIRIC_STEALTH_BONUS",
+          "VAMPIRE_FEIGN_DEATH",
+          "VAMPIRE_BLOOD_TEMPORARY_BOOST"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ],
@@ -126,7 +131,17 @@
     "condition": { "u_has_effect": "effect_vampire_studying_blood_gifts" },
     "effect": [
       {
-        "u_roll_remainder": [ "BLOODHASTE", "MAGICFORBLOOD", "HYPNOTIC_GAZE", "BLOODBANK", "VAMPIRE_COMMAND_BEAST", "VAMPIRE_EARTH_SLUMBER" ],
+        "u_roll_remainder": [
+          "BLOODHASTE",
+          "MAGICFORBLOOD",
+          "HYPNOTIC_GAZE",
+          "BLOODBANK",
+          "VAMPIRE_COMMAND_BEAST",
+          "VAMPIRE_EARTH_SLUMBER",
+          "VAMPIRE_CARDIO_BONUS",
+          "VAMPIRE_MOTION_ALARM",
+          "VAMPIRE_BONUS_HP"
+        ],
         "type": "mutation",
         "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ],
         "false_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_02" ]
