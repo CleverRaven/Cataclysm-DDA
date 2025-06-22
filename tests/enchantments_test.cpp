@@ -462,4 +462,3 @@ TEST_CASE( "Enchantment_PAIN_PENALTY_MOD_test", "[magic][enchantments]" )
     REQUIRE( guy.get_per() == 1 );
     REQUIRE( guy.get_speed() == 89 );
 }
-
