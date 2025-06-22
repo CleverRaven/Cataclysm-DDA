@@ -97,7 +97,7 @@
     "death_function": { "message": "The %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "fungalize_into": "mon_gasbag_dusted",
     "armor": { "electric": 1 },
-    "delete": { "flags": [ "BILE_BLOOD", "BASHES", "GROUP_BASH" ], "special_attacks": [  ] }
+    "delete": { "flags": [ "BILE_BLOOD", "BASHES", "GROUP_BASH" ] }
   },
   {
     "id": "mon_zombie_relax_gasbag",

@@ -984,8 +984,8 @@ double Creature::accuracy_projectile_attack( const int &speed, const double &mis
     return missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) );
 }
 
-void projectile::apply_effects_nodamage( Creature &target, Creature *source,
-        const bodypart_id &bp_hit, bool soaked_through ) const
+void projectile::apply_effects_nodamage( Creature &target, const bodypart_id &bp_hit,
+        bool soaked_through ) const
 {
     bool is_liquid = proj_effects.count( ammo_effect_LIQUID );
     for( const ammo_effect_str_id &proj_effect : proj_effects ) {
@@ -1422,7 +1422,7 @@ void Creature::deal_projectile_attack( map *here, Creature *source, dealt_projec
 
     proj.apply_effects_damage( *this, source, dealt_dam, goodhit < accuracy_critical );
 
-    proj.apply_effects_nodamage( *this, source, dealt_dam.bp_hit, soaked_through );
+    proj.apply_effects_nodamage( *this, dealt_dam.bp_hit, soaked_through );
 
     int total_dam = dealt_dam.total_damage();
 
