@@ -127,21 +127,12 @@ class SkillLevel
         int _level = 0;
         int _exercise = 0;
         time_point _lastPracticed = calendar::turn;
-        bool _isTraining = true;
         int _knowledgeLevel = 0;
         int _knowledgeExperience = 0;
         int _rustAccumulator = 0;
 
     public:
         SkillLevel() = default;
-
-        bool isTraining() const {
-            return _isTraining;
-        }
-        bool toggleTraining() {
-            _isTraining = !_isTraining;
-            return _isTraining;
-        }
 
         int level() const {
             return std::min( _level, MAX_SKILL );
