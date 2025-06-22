@@ -1443,9 +1443,10 @@
     "type": "item_group",
     "id": "instant_gravy_tub",
     "//": "Higher chance of vegan gravy as a lot of food services will keep vegan just because it's good enough and won't cause fuss with diet restrictions.",
+    "//1": "Odd serving count as I really didn't feel like adding a specific gravy powder container",
     "subtype": "distribution",
     "container-item": "plastic_bucket",
-    "entries": [ { "item": "gravy_mix", "count": 1000, "prob": 50 }, { "item": "vegan_gravy_mix", "count": 1000, "prob": 50 } ]
+    "entries": [ { "item": "gravy_mix", "count": 850, "prob": 50 }, { "item": "vegan_gravy_mix", "count": 850, "prob": 50 } ]
   },
   {
     "type": "item_group",
