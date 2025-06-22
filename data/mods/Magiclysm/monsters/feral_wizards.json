@@ -582,6 +582,20 @@
           "cooldown": 25,
           "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
           "monster_message": "%1$s screams words of magic and the sounds around you grow muffled."
+        },
+        {
+          "id": "feral_high_magus_repulsion_wave",
+          "type": "spell",
+          "spell_data": { "id": "feral_magus_push_nearby_enemies_back_target", "min_level": 5 },
+          "cooldown": 40,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "distance('u', 'npc') == 1" ] }
+            ]
+          },
+          "monster_message": "%1$s pushes both arms outward in a sudden gesture."
         }
       ]
     },
