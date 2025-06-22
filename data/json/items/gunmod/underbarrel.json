@@ -205,7 +205,8 @@
     "is_bayonet": true,
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -18 ] ],
     "flags": [ "SLOW_WIELD", "IRREMOVABLE", "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "stab": 10 }
+    "melee_damage": { "stab": 10 },
+    "to_hit_mod": 3
   },
   {
     "id": "inter_bayonet_folded",
