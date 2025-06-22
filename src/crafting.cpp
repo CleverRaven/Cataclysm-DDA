@@ -612,7 +612,7 @@ bool Character::can_make( const recipe *r, int batch_size ) const
     }
 
     return r->deduped_requirements().can_make_with_inventory(
-               crafting_inv, r->get_component_filter(), batch_size );
+               crafting_inv, r->get_component_filter(), batch_size, craft_flags::none, get_learned_recipes() );
 }
 
 bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
@@ -628,7 +628,8 @@ bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
 
     const inventory &inv = crafting_inventory();
     return rec->deduped_requirements().can_make_with_inventory(
-               inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only );
+               inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only,
+               get_learned_recipes() );
 }
 
 const inventory &Character::crafting_inventory( bool clear_path ) const
@@ -1620,7 +1621,8 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
         // continue_reqs are for all batches at once
         const int batch_size = 1;
 
-        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), std_filter, batch_size ) ) {
+        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), std_filter, batch_size,
+                craft_flags::none, true, get_learned_recipes() ) ) {
             if( is_avatar() ) {
                 std::string buffer = _( "You don't have the required components to continue crafting!" );
                 buffer += "\n";
@@ -1639,7 +1641,8 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
             return false;
         }
 
-        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), no_rotten_filter, batch_size ) ) {
+        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), no_rotten_filter, batch_size,
+                craft_flags::none, true, get_learned_recipes() ) ) {
             if( !query_yn( _( "Some components required to continue are rotten.\n"
                               "Continue crafting anyway?" ) ) ) {
                 return false;
@@ -1648,7 +1651,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
         }
 
         if( !continue_reqs.can_make_with_inventory( crafting_inventory(), no_favorite_filter,
-                batch_size ) ) {
+                batch_size, craft_flags::none, true, get_learned_recipes() ) ) {
             if( !query_yn( _( "Some components required to continue are favorite.\n"
                               "Continue crafting anyway?" ) ) ) {
                 return false;
@@ -1751,6 +1754,9 @@ const requirement_data *Character::select_requirements(
     const read_only_visitable &inv,
     const std::function<bool( const item & )> &filter ) const
 {
+    if( alternatives.empty() ) {
+        return nullptr;
+    }
     cata_assert( !alternatives.empty() );
     if( alternatives.size() == 1 || !is_avatar() ) {
         return alternatives.front();
@@ -2043,6 +2049,45 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
     }
 
     return selected;
+}
+
+// copied from select_item_component
+craft_selection Character::select_component_to_craft(
+    std::vector<std::pair< const recipe *, item_comp>>
+    &components, int batch,
+    const std::function<bool( const item & )> &filter, bool npc_query ) const
+{
+    std::function<bool( const item & )> preferred_component_filter = [&filter]( const item & it ) {
+        return is_preferred_component( it ) && filter( it );
+    };
+
+    uilist cmenu;
+    for( const auto&[ rec, component] : components ) {
+        if( ( is_npc() && !npc_query ) || components.size() == 1 ) {
+            return craft_selection{component, rec};
+        }
+
+        cmenu.addentry( component.to_string( batch ) );
+        if( cmenu.entries.empty() ) {
+            debugmsg( "Attempted a recipe with no available components!" );
+            craft_selection selected;
+            selected.cancled = true;
+            return selected;
+        }
+    }
+
+    // Get the selection via a menu popup
+    cmenu.title = _( "Craft which component?" );
+    cmenu.query();
+
+    if( cmenu.ret == UILIST_CANCEL ) {
+        craft_selection selected;
+        selected.cancled = true;
+        return selected;
+    }
+
+    size_t uselection = static_cast<size_t>( cmenu.ret );
+    return craft_selection{components[uselection].second, components[uselection].first};
 }
 
 // Prompts player to empty all newly-unsealed containers in inventory

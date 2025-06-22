@@ -14,7 +14,7 @@
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "rock_quern", -1 ] ] ],
     "components": [
-      [ [ "flour", 1 ] ],
+      [ [ "flour", 1, "CRAFTABLE" ] ],
       [
         [ "wheat", 1 ],
         [ "buckwheat", 1 ],
@@ -44,7 +44,7 @@
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [
-      [ [ "flour", 1 ] ],
+      [ [ "flour", 1, "CRAFTABLE" ] ],
       [
         [ "wheat", 1 ],
         [ "buckwheat", 1 ],

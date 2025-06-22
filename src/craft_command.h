@@ -17,6 +17,7 @@ class JsonObject;
 class JsonOut;
 class item;
 class read_only_visitable;
+class inventory;
 template<typename T> struct enum_traits;
 
 /**
@@ -28,7 +29,7 @@ enum class usage_from : int {
     player = 2,
     both = 1 | 2,
     cancel = 4, // FIXME: hacky.
-    num_usages_from
+    num_usages_from = 5
 };
 
 template<>
@@ -46,6 +47,20 @@ struct comp_selection {
     usage_from use_from = usage_from::none;
     CompType comp;
 
+    /** provides a translated name for 'comp', suffixed with it's location e.g '(nearby)'. */
+    std::string nname() const;
+
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( const JsonObject &data );
+};
+
+
+struct craft_selection {
+    /** Tells us where the selected component should be used from. */
+    item_comp comp;
+    const recipe *rec;
+
+    bool cancled = false;
     /** provides a translated name for 'comp', suffixed with it's location e.g '(nearby)'. */
     std::string nname() const;
 
@@ -115,6 +130,7 @@ class craft_command
         // zero_tripoint indicates crafting without a workbench
         std::optional<tripoint_bub_ms> loc;
 
+        std::vector<const recipe *> crafting_queue;
         std::vector<comp_selection<item_comp>> item_selections;
         std::vector<comp_selection<tool_comp>> tool_selections;
 
