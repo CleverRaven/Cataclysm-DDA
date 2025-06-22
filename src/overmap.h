@@ -21,6 +21,7 @@
 #include <vector>
 
 #include "basecamp.h"
+#include "cata_variant.h"
 #include "city.h"
 #include "colony.h"
 #include "color.h"
@@ -442,6 +443,8 @@ class overmap
         // to be evaluated.
         cata::colony<std::optional<mapgen_arguments>> mapgen_arg_storage;
         std::unordered_map<tripoint_om_omt, std::optional<mapgen_arguments> *> mapgen_args_index;
+        // Records mapgen parameters required at the omt level, fixed at the same values vertically
+        std::unordered_map<point_abs_omt, mapgen_arguments> omt_stack_arguments_map;
 
         // Records the joins that were chosen during placement of a mutable
         // special, so that it can be queried later by mapgen
@@ -456,7 +459,15 @@ class overmap
         // open existing overmap, or generate a new one
         void open( overmap_special_batch &enabled_specials );
     public:
-
+        // Get all values from omt_stack_arguments_map at the given point or nullopt if not set yet
+        std::optional<mapgen_arguments> get_existing_omt_stack_arguments(
+            const point_abs_omt &p ) const;
+        // Get value from omt_stack_arguments_map or nullopt if not set yet
+        std::optional<cata_variant> get_existing_omt_stack_argument( const point_abs_omt &p,
+                const std::string &param_name ) const;
+        // Set a value in omt_stack_arguments_map
+        void add_omt_stack_argument( const point_abs_omt &p, const std::string &param_name,
+                                     const cata_variant &value );
         /**
          * When monsters despawn during map-shifting they will be added here.
          * map::spawn_monsters will load them and place them into the reality bubble

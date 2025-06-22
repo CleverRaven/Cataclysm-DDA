@@ -620,6 +620,7 @@ class overmapbuffer
                        const tripoint_abs_omt &p );
         bool check_overmap_special_type( const overmap_special_id &id, const tripoint_abs_omt &loc );
         std::optional<overmap_special_id> overmap_special_at( const tripoint_abs_omt & );
+        std::optional<mapgen_arguments> get_existing_omt_stack_arguments( const point_abs_omt &p );
 
         /**
         * These versions of the check_* methods will only check existing overmaps, and
