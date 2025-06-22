@@ -697,8 +697,10 @@ class known_magic
     private:
         // list of spells known
         std::map<spell_id, spell> spellbook;
-        // invlets assigned to spell_id
-        std::map<spell_id, int> invlets;
+        // Map of spell_id to invlets.
+        std::map<spell_id, int> spells_to_invlets;
+        // Map of invlets to spell_id. Created from spells_to_invlets on load.
+        std::map<int, spell_id> invlets_to_spells; // NOLINT(cata-serialize)
         // list of favorite spells
         std::unordered_set<spell_id> favorites;
         // the base mana a Character would start with
@@ -768,19 +770,22 @@ class known_magic
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
 
+        // gets invlet if assigned, or assigns first available letter if not.
+        // Returns 0 if no letters available.
+        int get_invlet( const spell_id &sp );
         // returns false if invlet is already used
-        bool set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets );
+        bool set_invlet( const spell_id &sp, int invlet );
+        // swaps hotkeys of new_sp and spell currently using invlet.
+        void swap_invlet( const spell_id &new_sp, int invlet );
         void rem_invlet( const spell_id &sp );
-        // returns which invlets are already in use
-        void update_used_invlets( std::set<int> &used_invlets );
 
         void toggle_favorite( const spell_id &sp );
         bool is_favorite( const spell_id &sp );
     private:
         // gets length of longest spell name
         int get_spellname_max_width();
-        // gets invlet if assigned, or 0 if not
-        int get_invlet( const spell_id &sp, std::set<int> &used_invlets );
+        // builds invlets_to_spells after loading a save.
+        void build_invlets_to_spells();
 };
 
 namespace spell_effect
