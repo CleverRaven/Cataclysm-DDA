@@ -50,6 +50,7 @@ class Skill
         int _companion_industry_rank_factor = 0;
         bool _teachable = true;
         bool _obsolete = false;
+        bool consumes_focus = true;
     public:
         static std::vector<Skill> skills;
         static void load_skill( const JsonObject &jsobj );
@@ -115,6 +116,10 @@ class Skill
 
         bool obsolete() const {
             return _obsolete;
+        }
+
+        bool training_consumes_focus() const {
+            return consumes_focus;
         }
 
         bool is_combat_skill() const;

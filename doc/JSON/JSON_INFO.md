@@ -2451,6 +2451,7 @@ it is present to help catch errors.
   "tags": [ "combat_skill" ],
   "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
   "display_category": "display_ranged",
+  "consumes_focus": true,
   "sort_rank": 11000,
   "teachable": true,
   "level_descriptions_theory": [
@@ -2478,6 +2479,7 @@ it is present to help catch errors.
 | `tags`                     | Identifies special cases. Currently valid tags are: "combat_skill" and "contextual_skill". |
 | `time_to_attack`           | Object used to calculate the movecost for firing a gun. |
 | `display_category`         | Category in the character info screen where this skill is displayed. |
+| `consumes_focus`           | (Boolean) Whether focus is consumed when this skill is trained.
 | `sort_rank`                | Order in which the skill is shown. |
 | `teachable`                | Whether it's possible to teach this skill between characters. (Default = true) |
 | `companion_skill_practice` | Determines the priority of this skill within a mision skill category when an NPC gains experience from a companion mission. |
