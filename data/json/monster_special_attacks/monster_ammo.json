@@ -20,7 +20,7 @@
     "ammo_type": "bile",
     "range": 4,
     "count": 1,
-    "effects": [ "NEVER_MISFIRES", "BILE_JET", "BILE_GLOW", "BILE_STINK" ]
+    "effects": [ "NEVER_MISFIRES", "BILE_JET", "BILE_GLOW", "BILE_STINK", "BILE_BLIND" ]
   },
   {
     "id": "boomer_bile_adv",
@@ -37,7 +37,7 @@
     "ammo_type": "bile",
     "range": 4,
     "count": 1,
-    "effects": [ "NEVER_MISFIRES", "BILE_JET", "BILE_GLOW", "BILE_BOMB", "BILE_STINK", "BILE_IRRITATE" ]
+    "effects": [ "NEVER_MISFIRES", "BILE_JET", "BILE_GLOW", "BILE_BOMB", "BILE_STINK", "BILE_IRRITATE", "BILE_BLIND" ]
   },
   {
     "id": "BILE_BOMB",
@@ -65,5 +65,10 @@
     "id": "BILE_IRRITATE",
     "type": "ammo_effect",
     "on_hit_effects": [ { "effect": "bile_irritant", "duration": "5 m", "intensity": 1, "need_touch_skin": true } ]
+  },
+  {
+    "id": "BILE_BLIND",
+    "type": "ammo_effect",
+    "on_hit_effects": [ { "effect": "boomered", "duration": "30 s", "intensity": 1, "need_touch_skin": true } ]
   }
 ]
