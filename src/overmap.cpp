@@ -3227,9 +3227,8 @@ oter_id overmap::get_default_terrain( int z ) const
 }
 
 // underlying bitset default constructs to all 0.
-static std::shared_ptr<map_data_summary> impassable_omt( new map_data_summary() );
-static std::shared_ptr<map_data_summary> passable_omt( new map_data_summary(
-            ~impassable_omt->passable ) );
+static map_data_summary impassable_omt{};
+static map_data_summary passable_omt{ ~impassable_omt.passable, true };
 
 void overmap::init_layers()
 {
@@ -3240,7 +3239,7 @@ void overmap::init_layers()
         l.visible.fill( om_vision_level::unseen );
         l.explored.fill( false );
         // Verify this isn't copying!
-        l.map_cache.fill( passable_omt );
+        l.map_cache.fill( std::shared_ptr<map_data_summary> { std::shared_ptr<void>(), &passable_omt } );
     }
 }
 
@@ -3282,12 +3281,8 @@ void overmap::ter_set( const tripoint_om_omt &p, const oter_id &id )
         // We had a predecessor, and it was the same type as the incoming one
         // Don't push another copy.
     }
-    // Jank to get something usable populated
-    if( id->get_travel_cost_type() == oter_travel_cost_type::impassable ) {
-        set_passable( project_combine( loc, p ), impassable_omt );
-    } else {
-        set_passable( project_combine( loc, p ), passable_omt );
-    }
+    // TODO: maaaaybe this can be set after underlying map data has been changed? IDK.
+    set_passable( project_combine( loc, p ), id->get_type_id()->default_map_data );
     current_oter = id;
 }
 
@@ -3730,6 +3725,10 @@ void overmap::set_passable( const tripoint_om_ms &p, bool new_passable )
         // Promote to error later.
         return;
     }
+    if( ptr->placeholder ) {
+        // Copy the placeholder data.
+        ptr = std::make_shared<map_data_summary>( ptr->passable );
+    }
     ptr->passable[index.y() * 24 + index.x()] = new_passable;
 }
 
@@ -3746,6 +3745,24 @@ void overmap::set_passable( const tripoint_abs_omt &p,
     std::shared_ptr<map_data_summary> &ptr = layer[omt_coord.z() +
             OVERMAP_DEPTH].map_cache[omt_coord.xy()];
     ptr = new_passable;
+}
+
+void overmap::set_passable( const tripoint_abs_omt &p,
+                            string_id<map_data_summary> new_passable )
+{
+    point_abs_om overmap_coord;
+    tripoint_om_omt omt_coord;
+    std::tie( overmap_coord, omt_coord ) = project_remain<coords::om>( p );
+    if( overmap_coord != loc ) {
+        return;
+    }
+    std::shared_ptr<map_data_summary> &ptr = layer[omt_coord.z() +
+            OVERMAP_DEPTH].map_cache[omt_coord.xy()];
+    // overmap pinky promises to never write to this map_data_summary.
+    // This is enforced by all writes to map_cache[] checking for placeholder == true.
+    // If so, we CoW to a new map_data_summary then edit that.
+    ptr = std::const_pointer_cast<map_data_summary>( map_data_placeholders::get_ptr(
+                new_passable ) );
 }
 
 void overmap::set_passable( const tripoint_abs_omt &p, const std::bitset<24 * 24> &new_passable )
