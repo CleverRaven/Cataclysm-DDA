@@ -1094,8 +1094,8 @@ std::vector<coords::coord_point_ob<Point, Origin, Scale>>
 {
     std::vector<Point> raw_result = closest_points_first( loc.raw(), min_dist, max_dist );
     std::vector<coords::coord_point_ob<Point, Origin, Scale>> result;
-    result.reserve( raw_result.size() );
-    std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
+    result.resize( raw_result.size() );
+    std::transform( raw_result.begin(), raw_result.end(), result.begin(),
     []( const Point & p ) {
         return coords::coord_point_ob<Point, Origin, Scale>( p );
     } );

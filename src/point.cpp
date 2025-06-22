@@ -149,10 +149,12 @@ std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist
     }
 
     std::vector<tripoint> result;
-    result.reserve( *n );
+    result.resize( *n );
+    auto it = result.begin();
 
-    find_point_closest_first( center, min_dist, max_dist, [&result]( const tripoint & p ) {
-        result.push_back( p );
+    find_point_closest_first( center, min_dist, max_dist, [it]( const tripoint & p ) mutable {
+        *it = p;
+        ++it;
         return false;
     } );
 
