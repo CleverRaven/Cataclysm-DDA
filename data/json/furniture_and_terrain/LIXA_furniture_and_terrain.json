@@ -279,7 +279,7 @@
   {
     "type": "terrain",
     "id": "t_card_LIXA_3",
-    "name": "PPE lockup card reader",
+    "name": "PPE locker card reader",
     "description": "A smartcard reader.  The label above it reads 'SECURE PPE LOCKER'.",
     "//": "Science",
     "symbol": "6",
