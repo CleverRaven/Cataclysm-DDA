@@ -365,6 +365,7 @@ class overmap
         void set_passable( const tripoint_abs_omt &p, const std::bitset<24 * 24> &new_passable );
     private:
         void set_passable( const tripoint_abs_omt &p, std::shared_ptr<map_data_summary> new_passable );
+        void set_passable( const tripoint_abs_omt &p, string_id<map_data_summary> new_passable );
     public:
         // Spawn a monter at overmap scale.
         monster &spawn_monster( const tripoint_abs_ms &p, mtype_id id );
