@@ -1,11 +1,11 @@
 #include "overmap_map_data_cache.h"
 
 #include <array>
+#include <unordered_map>
 
 #include "assign.h"
 #include "cata_assert.h"
 #include "generic_factory.h"
-#include "overmap_map_data_cache.h"
 #include "string_id.h"
 
 // "Placeholder map data" is a set of map_data_summary objects that are used when
@@ -15,7 +15,6 @@ namespace
 {
 
 generic_factory<map_data_summary> placeholder_map_data( "placeholder map data" );
-
 }
 
 template<>
@@ -38,6 +37,18 @@ void map_data_placeholders::load( const JsonObject &jo, const std::string &src )
 void map_data_placeholders::reset()
 {
     placeholder_map_data.reset();
+}
+
+std::shared_ptr<const map_data_summary> map_data_placeholders::get_ptr(
+    string_id<map_data_summary> id )
+{
+    // placeholder_map_data owns the placeholder entries, but overmap::layer[].map_cache ALSO holds
+    // a bunch of shared_ptrs that will reference these entries, and we don't want them
+    // deallocating when an overmap is destructed. It's set up this way because we want
+    // overmap::layer[].map_cache to eventually own references to non-placeholder map_data_summary
+    // entries and deallocate them without having explicit lifetime code.
+    std::shared_ptr<const map_data_summary> dummy{ nullptr };
+    return std::shared_ptr<const map_data_summary> { dummy, &id.obj() };
 }
 
 void map_data_summary::load( const JsonObject &jo, const std::string &src )
