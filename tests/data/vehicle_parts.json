@@ -20,6 +20,18 @@
       {
         "condition": "ALWAYS",
         "values": [ { "value": "TOTAL_WEIGHT", "multiply": -0.1 } ]
+      },
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "FUEL_USAGE", "multiply": -0.5 } ]
+      },
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "ENGINE_POWER", "multiply": 0.5 } ]
+      },
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "TURNING_DIFFICULTY", "multiply": -0.5 } ]
       }
     ]
   }
