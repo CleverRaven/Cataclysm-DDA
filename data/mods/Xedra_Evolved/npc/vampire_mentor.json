@@ -3,6 +3,7 @@
     "type": "npc",
     "id": "xe_vampire_mentor",
     "//": "Maybe there will be non-mentor vampire NPCs someday.  For now, there's only the mentors.",
+    "//": "When vampires will gain random weaknesses, no mentor will ever have the Barred from Mortal Joys weakness.",
     "name_suffix": "vampire",
     "class": "NC_NPC_XE_VAMPIRE_MENTOR",
     "attitude": 0,
@@ -42,40 +43,56 @@
   {
     "id": "TALK_VAMPIRE_MENTOR",
     "type": "talk_topic",
+    "//": "When dialogue conditions will be possible to chain, there needs to be a 1% chance of a dialogue where the mentor gets mad at the fact that there is now another Anathema.  Around 1% of mentors knew about it.",
+    "//2": "Their response focuses on not panicking, for that tends to provoke hostiles into attacking.  However, they will refuse to stay near the Anathema even for a second.",
     "dynamic_line": {
-      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_mentor" } ],
-      "yes": [ "Welcome back.", "Hello again." ],
-      "no": "Welcome.  What do you seek here?  Fortune?  Safety?  A friend?  A mentor?  What brought you here?"
+      "u_has_trait": "VAMPIRE_ANATHEMA",
+      "yes": "Sorry I must go.  Bye!",
+      "no": {
+        "compare_string": [ "yes", { "u_val": "general_meeting_u_met_mentor" } ],
+        "yes": [ "Welcome back.", "Hello again." ],
+        "no": "Welcome.  What do you seek here?  Fortune?  Safety?  A friend?  A mentor?  What brought you here?"
+      }
     },
     "responses": [
       {
         "text": "I want to talk.",
         "topic": "TALK_VAMPIRE_MENTOR_TALK",
+        "condition": { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
         "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
       },
       {
         "text": "I want a mentor.",
         "topic": "TALK_VAMPIRE_MENTOR_MENTORING",
+        "condition": { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
         "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
       },
       {
         "text": "I want to kill vampires.",
         "topic": "TALK_VAMPIRE_MENTOR_KILLING",
+        "condition": { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
         "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
       },
       {
         "text": "I've done it.  I am now a true vampire.",
         "topic": "TALK_VAMPIRE_MENTOR_TRUEVAMP",
         "condition": {
-          "and": [ { "u_has_trait": "VAMPIRE4" }, { "not": { "compare_string": [ "yes", { "u_val": "told_about_trueness" } ] } } ]
+          "and": [
+            { "u_has_trait": "VAMPIRE4" },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "told_about_trueness" }, { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } } ] }
+            }
+          ]
         },
         "effect": { "u_add_var": "told_about_trueness", "value": "yes" }
       },
       {
         "text": "Before, you said there was more that I needed to learn?",
         "topic": "TALK_VAMPIRE_MENTOR_BLOOD_GIFT_RESEARCH",
+        "//": "Anathema who haven't obtained these recipes need not to worry, for one of their powers will give them the remaining gifts and they will have almost all the weaknesses anyway.",
         "condition": {
           "and": [
+            { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
             { "not": { "u_know_recipe": "xe_vampire_blood_gift_research" } },
             { "compare_string": [ "yes", { "u_val": "told_about_trueness" } ] }
           ]
@@ -87,7 +104,8 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "received_mentor_book" } ] },
-            { "not": { "u_has_item": "vampire_mentor_book" } }
+            { "not": { "u_has_item": "vampire_mentor_book" } },
+            { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } }
           ]
         }
       },
@@ -115,7 +133,17 @@
       {
         "text": "Just passing through, don't mind me.",
         "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
         "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
+      },
+      {
+        "text": "…",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_trait": "VAMPIRE_ANATHEMA" },
+        "effect": [
+          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_message": "%1$s's vanishes in a fine mist." }
+        ]
       }
     ]
   },
@@ -174,7 +202,15 @@
     "type": "talk_topic",
     "dynamic_line": { "str": "There are many vampires in this place.  Feel free to kill the others, I am not affiliated with them." },
     "responses": [
-      { "text": "I'm here to kill all vampires, no exceptions.  Prepare to die.", "topic": "TALK_DONE", "effect": "hostile" },
+      {
+        "text": "I'm here to kill all vampires, no exceptions.  Prepare to die.",
+        "topic": "TALK_DONE",
+        "effect": [
+          "hostile",
+          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_message": "%1$s's vanishes in a fine mist." }
+        ]
+      },
       {
         "text": "You seem more reasonable than the rest.  Would you like to be cured of your curse?",
         "topic": "TALK_VAMPIRE_MENTOR_CURE"
@@ -495,7 +531,15 @@
     "type": "talk_topic",
     "dynamic_line": { "str": "No.  I've long passed the point of no return.  Either your cure won't do anything, or it'll kill me." },
     "responses": [
-      { "text": "Then you must die.", "topic": "TALK_DONE", "effect": "hostile" },
+      {
+        "text": "Then you must die.",
+        "topic": "TALK_DONE",
+        "effect": [
+          "hostile",
+          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_message": "%1$s's vanishes in a fine mist." }
+        ]
+      },
       { "text": "I understand.  Can we talk?", "topic": "TALK_VAMPIRE_MENTOR_TALK" },
       { "text": "I just wanted to look around.  See you.", "topic": "TALK_DONE" }
     ]
@@ -518,7 +562,15 @@
     },
     "responses": [
       { "text": "I want your help, mentor.", "topic": "TALK_VAMPIRE_MENTOR_MENTORING" },
-      { "text": "Then you must die.", "topic": "TALK_DONE", "effect": "hostile" },
+      {
+        "text": "Then you must die.",
+        "topic": "TALK_DONE",
+        "effect": [
+          "hostile",
+          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_message": "%1$s's vanishes in a fine mist." }
+        ]
+      },
       { "text": "Got it.  See you.", "topic": "TALK_DONE" }
     ]
   },

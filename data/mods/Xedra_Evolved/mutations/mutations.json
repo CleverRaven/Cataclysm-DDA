@@ -1491,12 +1491,18 @@
     "id": "MENTOR_PEACE",
     "name": { "str": "Mentor's peace", "//~": "NO_I18N" },
     "points": 0,
-    "description": { "str": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields.", "//~": "NO_I18N" },
+    "description": {
+      "str": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields and makes them react to attacks by vanishing in mist.",
+      "//~": "NO_I18N"
+    },
+    "//": "Until NPC_DEATH can work, I'm using a forcefield so they can not perma-die before vanishing forever.",
     "starting_trait": false,
     "player_display": false,
     "purifiable": false,
     "valid": false,
-    "anger_relations": [ [ "VAMPIRE", -150 ], [ "RENFIELD", -150 ] ]
+    "anger_relations": [ [ "VAMPIRE", -150 ], [ "RENFIELD", -150 ] ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FORCEFIELD", "add": 1 } ] } ],
+    "hit_me_effect": [ { "id": "mentor_vanish", "hit_self": true, "message": "", "npc_message": "" } ]
   },
   {
     "type": "mutation",
