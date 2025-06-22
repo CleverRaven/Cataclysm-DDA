@@ -637,6 +637,12 @@ nc_color map_data_common_t::color() const
     return color_[season_of_year( calendar::turn )];
 }
 
+static bool has_any_harvest( const std::array<harvest_id, NUM_SEASONS> &harvest_by_season )
+{
+    static const std::array<harvest_id, NUM_SEASONS> null_harvest_by_season = {{harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID()}};
+    return harvest_by_season != null_harvest_by_season;
+}
+
 const harvest_id &map_data_common_t::get_harvest() const
 {
     return harvest_by_season[season_of_year( calendar::turn )];
@@ -717,12 +723,8 @@ std::vector<std::string> map_data_common_t::extended_description() const
 
     tmp.emplace_back( string_format( _( "<header>That is a %s.</header>" ), name() ) );
     tmp.emplace_back( description.translated() );
-    bool has_any_harvest = std::any_of( harvest_by_season.begin(), harvest_by_season.end(),
-    []( const harvest_id & hv ) {
-        return !hv.obj().empty();
-    } );
 
-    if( has_any_harvest ) {
+    if( has_any_harvest( harvest_by_season ) ) {
         tmp.emplace_back( "--" );
         int player_skill = get_player_character().get_greater_skill_or_knowledge_level( skill_survival );
         tmp.emplace_back( _( "You could harvest the following things from it:" ) );
@@ -1022,6 +1024,27 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "curtain_transform", curtain_transform );
     optional( jo, was_loaded, "emissions", emissions );
 
+    if( jo.has_array( "harvest_by_season" ) ) {
+        for( JsonObject harvest_jo : jo.get_array( "harvest_by_season" ) ) {
+            auto season_strings = harvest_jo.get_tags( "seasons" );
+            std::set<season_type> seasons;
+            std::transform( season_strings.begin(), season_strings.end(), std::inserter( seasons,
+                            seasons.begin() ), io::string_to_enum<season_type> );
+
+            harvest_id hl;
+            harvest_jo.read( "id", hl );
+
+            for( season_type s : seasons ) {
+                harvest_by_season[ s ] = hl;
+            }
+        }
+    } else if( was_loaded && has_any_harvest( harvest_by_season ) ) {
+        // Explicitly don't inherit harvest_by_season so _harvested versions don't need to override it
+        harvest_by_season.fill( harvest_id::NULL_ID() );
+        examine_actor = nullptr;
+        examine_func = iexamine_functions_from_string( "none" );
+    }
+
     if( jo.has_string( "examine_action" ) ) {
         examine_actor = nullptr;
         examine_func = iexamine_functions_from_string( jo.get_string( "examine_action" ) );
@@ -1069,22 +1092,6 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
         }
         if( jod.has_member( "rotates_to" ) ) {
             unset_connect_groups( jod.get_as_string_array( "rotates_to" ) );
-        }
-    }
-
-    if( jo.has_array( "harvest_by_season" ) ) {
-        for( JsonObject harvest_jo : jo.get_array( "harvest_by_season" ) ) {
-            auto season_strings = harvest_jo.get_tags( "seasons" );
-            std::set<season_type> seasons;
-            std::transform( season_strings.begin(), season_strings.end(), std::inserter( seasons,
-                            seasons.begin() ), io::string_to_enum<season_type> );
-
-            harvest_id hl;
-            harvest_jo.read( "id", hl );
-
-            for( season_type s : seasons ) {
-                harvest_by_season[ s ] = hl;
-            }
         }
     }
 
@@ -1136,9 +1143,11 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "allowed_template_ids", allowed_template_id );
 
-    optional( jo, was_loaded, "open", open, ter_str_id::NULL_ID() );
-    optional( jo, was_loaded, "close", close, ter_str_id::NULL_ID() );
-    optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
+    // Doesn't make any sense to inherit
+    optional( jo, false, "open", open, ter_str_id::NULL_ID() );
+    optional( jo, false, "close", close, ter_str_id::NULL_ID() );
+    optional( jo, false, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
+
     optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
 
     optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );

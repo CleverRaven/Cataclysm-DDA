@@ -1,28 +1,30 @@
 [
   {
     "type": "terrain",
-    "id": "t_dirt",
+    "abstract": "t_natural_floor_abstract",
     "name": "dirt",
     "description": "It's dirt.  Looks like some fine soil for tillage.  Could also be dug out for construction projects.",
     "symbol": ".",
     "color": "brown",
-    "connect_groups": "DIRT",
-    "connects_to": [ "DIRT", "CLAY", "SAND", "MUD", "DIRTMOUND", "CLAYMOUND", "SANDMOUND", "SANDGLASS", "CONCRETE" ],
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
     "type": "terrain",
+    "id": "t_dirt",
+    "copy-from": "t_natural_floor_abstract",
+    "connect_groups": "DIRT",
+    "connects_to": [ "DIRT", "CLAY", "SAND", "MUD", "DIRTMOUND", "CLAYMOUND", "SANDMOUND", "SANDGLASS", "CONCRETE" ],
+    "extend": { "flags": [ "PLOWABLE" ] }
+  },
+  {
+    "type": "terrain",
     "id": "t_forestfloor",
+    "copy-from": "t_natural_floor_abstract",
     "name": "forest floor",
     "description": "Covered in twigs and lots of brown, decaying leaves.",
-    "symbol": ".",
-    "color": "brown",
-    "looks_like": "t_moss",
-    "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "looks_like": "t_moss"
   },
   {
     "type": "terrain",
