@@ -43,7 +43,6 @@
       { "group": "nested_sig_mosquito", "prob": 65 },
       { "group": "nested_cp33", "prob": 16 },
       { "group": "nested_ruger_mk4", "prob": 113 },
-      { "group": "nested_ruger_charger", "prob": 16 },
       { "group": "nested_1911_22", "prob": 100 },
       { "group": "nested_sw617", "prob": 46 },
       { "group": "nested_glock_44", "prob": 13 }
@@ -383,7 +382,6 @@
       { "item": "sig_mosquito", "prob": 65 },
       { "item": "cp33", "prob": 16 },
       { "item": "ruger_mk4", "prob": 113 },
-      { "item": "ruger_charger", "prob": 16 },
       { "item": "1911_22", "prob": 100 },
       { "item": "sw617", "prob": 46 },
       { "item": "glock_44", "prob": 13 }
