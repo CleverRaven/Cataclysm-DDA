@@ -1,0 +1,164 @@
+[
+  {
+    "id": "exo_rifle_storage",
+    "type": "ARMOR",
+    "copy-from": "back_holster",
+    "looks_like": "slingpack",
+    "color": "light_gray",
+    "symbol": "[",
+    "name": { "str": "large storage pouch (exosuit)", "str_pl": "large storage pouches (exosuit)" },
+    "description": "A hardpoint for storing a rifle.  Activate to holster/draw a gun.",
+    "weight": "500 g",
+    "volume": "2 L",
+    "material": [ "qt_steel" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_LARGE_GADGET" ]
+  },
+  {
+    "id": "exo_melee_storage",
+    "type": "ARMOR",
+    "copy-from": "bscabbard",
+    "looks_like": "bscabbard",
+    "color": "light_gray",
+    "symbol": "[",
+    "name": { "str_sp": "scabbard (exosuit)" },
+    "description": "A metallic scabbard mountable on an exosuit hardpoint.  Can be activated to sheath or draw a sword.",
+    "weight": "500 g",
+    "volume": "2 L",
+    "material": [ "qt_steel" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_MEDIUM_GADGET" ]
+  },
+  {
+    "id": "exo_large_storage",
+    "type": "ARMOR",
+    "copy-from": "backpack_tactical_large",
+    "looks_like": "backpack",
+    "color": "light_gray",
+    "symbol": "[",
+    "name": { "str": "large storage pack (exosuit)", "str_pl": "large storage packs (exosuit)" },
+    "description": "A large storage pack, mountable on a hardpoint.",
+    "weight": "2250 g",
+    "volume": "15 L",
+    "material": [ "kevlar", "plastic" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_LARGE_GADGET" ]
+  },
+  {
+    "id": "exo_medium_storage",
+    "type": "ARMOR",
+    "copy-from": "fanny",
+    "looks_like": "holster",
+    "color": "green",
+    "symbol": "[",
+    "name": { "str": "medium pouch (exosuit)", "str_pl": "medium pouches (exosuit)" },
+    "description": "A medium storage pouch, mountable on a hardpoint.",
+    "weight": "275 g",
+    "volume": "2500 ml",
+    "material": [ "nylon", "plastic" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_MEDIUM_GADGET" ]
+  },
+  {
+    "id": "exo_small_storage",
+    "type": "ARMOR",
+    "copy-from": "leather_pouch",
+    "looks_like": "holster",
+    "symbol": "[",
+    "color": "green",
+    "name": { "str": "small pouch (exosuit)", "str_pl": "small pouches (exosuit)" },
+    "description": "A small storage pouch, mountable on a hardpoint.",
+    "weight": "125 g",
+    "volume": "1050 ml",
+    "material": [ "nylon", "plastic" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_SMALL_GADGET" ]
+  },
+  {
+    "id": "exo_large_ammo_pouch",
+    "type": "ARMOR",
+    "copy-from": "tacvest",
+    "looks_like": "tacvest",
+    "symbol": "[",
+    "color": "dark_gray",
+    "name": { "str_sp": "large ammo pouches (exosuit)" },
+    "description": "A set of pouches that attach to a hardpoint.",
+    "volume": "1050 ml",
+    "material": [ "nylon" ],
+    "flags": [ "WATER_FRIENDLY", "EXO_MEDIUM_GADGET" ]
+  },
+  {
+    "id": "exo_small_ammo_pouch",
+    "type": "ARMOR",
+    "copy-from": "legrig",
+    "symbol": "[",
+    "color": "dark_gray",
+    "name": { "str_sp": "small ammo pouches (exosuit)" },
+    "description": "A set of pouches that attach to a hardpoint.",
+    "flags": [ "WATER_FRIENDLY", "EXO_SMALL_GADGET" ]
+  },
+  {
+    "id": "exo_large_holster",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit quick draw holster" },
+    "description": "This module holds a single sidearm.  Automatically opens when the exosuit's pilot reaches for it, just like in that one movie.",
+    "weight": "500 g",
+    "volume": "2500 ml",
+    "material": [ "plastic", "nylon" ],
+    "symbol": "=",
+    "looks_like": "storage_battery",
+    "color": "light_gray",
+    "sided": true,
+    "flags": [ "CANT_WEAR", "EXO_MEDIUM_GADGET" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "500 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "45 cm",
+        "moves": 20
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 0,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "exo_sheath",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit blade sheath" },
+    "description": "This module holds a single knife or small blade.  Automatically opens when the exosuit's pilot reaches for it.",
+    "weight": "500 g",
+    "volume": "2500 ml",
+    "material": [ "plastic", "nylon" ],
+    "symbol": "=",
+    "looks_like": "storage_battery",
+    "color": "light_gray",
+    "sided": true,
+    "flags": [ "CANT_WEAR", "EXO_MEDIUM_GADGET" ],
+    "pocket_data": [
+      {
+        "magazine_well": "350 ml",
+        "holster": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "70 cm",
+        "moves": 10,
+        "flag_restriction": [ "SHEATH_KNIFE" ]
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "armor": [
+      {
+        "encumbrance": 5,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  }
+]
