@@ -61,7 +61,7 @@
     "harvest": "demihuman",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "fear_paralyze" }, "monster_message": "" } ],
+    "special_attacks": [ { "type": "spell", "cooldown": 0, "spell_data": { "id": "fear_paralyze" }, "monster_message": "" } ],
     "death_function": { "eoc": "EOC_last_amigara_death" },
     "dissect": "dissect_human_sample_single",
     "flags": [ "SMELLS", "HEARS", "SEES", "STUMBLES", "HARDTOSHOOT" ],
@@ -118,7 +118,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "harvest": "zombie_humanoid",
     "special_attacks": [
-      { "type": "spell", "spell_data": { "id": "fear_paralyze" }, "monster_message": "" },
+      { "type": "spell", "cooldown": 0, "spell_data": { "id": "fear_paralyze" }, "monster_message": "" },
       { "type": "bite", "cooldown": 5 }
     ],
     "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
@@ -2020,6 +2020,7 @@
     "special_attacks": [
       {
         "type": "spell",
+        "cooldown": 0,
         "spell_data": { "id": "hallucinator_touch" },
         "monster_message": "You feel something was destroyed inside you."
       }
@@ -2384,7 +2385,7 @@
     "color": "pink",
     "bodytype": "insect",
     "harvest": "arachnid_beetle",
-    "special_attacks": [ { "type": "bite", "attack_upper": false } ],
+    "special_attacks": [ { "id": "bite_humanoid", "attack_upper": false } ],
     "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [ "SEES", "HEARS" ]
   },
