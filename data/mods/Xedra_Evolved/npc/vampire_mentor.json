@@ -144,6 +144,21 @@
           { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
           { "npc_message": "%1$s's vanishes in a fine mist." }
         ]
+      },
+      {
+        "text": "Do you want to chat for a bit?",
+        "topic": "TALK_MENTOR_NO_CHAT",
+        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } }, { "npc_has_trait": "PSYCHOPATH" } ] },
+        "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
+      },
+      {
+        "text": "Do you want to chat for a bit?",
+        "topic": "TALK_MENTOR_CHAT",
+        "//": "Non-psychopath mentors enjoy a good chat, both for fun and purpose.",
+        "//2": "If you're a vampire, it keeps them on your good side and cement that you made the right choice.",
+        "//3": "If you're not a vampire, it builds trust so you're more receptive when they will offer you to become a vampire.",
+        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } }, { "not": { "npc_has_trait": "PSYCHOPATH" } } ] },
+        "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
       }
     ]
   },
@@ -572,6 +587,49 @@
         ]
       },
       { "text": "Got it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_MENTOR_NO_CHAT" ],
+    "type": "talk_topic",
+    "dynamic_line": "I do not care for such frivolous things.",
+    "responses": [
+      { "text": "Alright.  What were we talking about before?", "topic": "TALK_NONE" },
+      { "text": "See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_MENTOR_CHAT",
+    "//": "Mostly the same as TALK_FRIEND_CHAT, but without the things vampires don't care for.",
+    "type": "talk_topic",
+    "dynamic_line": [
+      { "npc_has_intelligence": 8, "yes": "<insightfulchitchat>", "no": "<thoughtfulchitchat>" },
+      { "npc_has_perception": 8, "yes": "<insightfulchitchat>", "no": "<thoughtfulchitchat>" }
+    ],
+    "responses": [
+      {
+        "text": "<chitchat_player_responses>",
+        "topic": "TALK_DONE",
+        "switch": true,
+        "condition": { "not": { "u_has_trait": "PSYCHOPATH" } },
+        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
+      },
+      {
+        "text": "<chitchat_player_responses>",
+        "topic": "TALK_DONE",
+        "switch": true,
+        "condition": { "u_has_trait": "PSYCHOPATH" },
+        "effect": [
+          {
+            "u_add_morale": "morale_chat_uncaring",
+            "bonus": -10,
+            "max_bonus": -20,
+            "duration": "120 minutes",
+            "decay_start": "60 minutes"
+          },
+          { "npc_add_effect": "asked_to_socialize", "duration": 7000 }
+        ]
+      }
     ]
   },
   {
