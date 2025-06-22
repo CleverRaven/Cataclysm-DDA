@@ -17,11 +17,7 @@
     "id": "fd_bile",
     "type": "field_type",
     "legacy_enum_id": 2,
-    "intensity_levels": [
-      { "name": "bile splatter", "color": "pink" },
-      { "name": "bile stain", "light_emitted": 1 },
-      { "name": "puddle of bile", "light_emitted": 3 }
-    ],
+    "intensity_levels": [ { "name": "bile splatter", "color": "pink" }, { "name": "bile stain" }, { "name": "puddle of bile" } ],
     "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
@@ -31,6 +27,24 @@
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_acid"
+  },
+  {
+    "id": "fd_bile_adv",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "thick bile splatter", "color": "pink" },
+      { "name": "thick bile stain", "light_emitted": 1 },
+      { "name": "puddle of thick bile", "light_emitted": 3 }
+    ],
+    "description_affix": "covered_in",
+    "underwater_age_speedup": "25 minutes",
+    "decay_amount_factor": 2,
+    "is_splattering": true,
+    "half_life": "1 days",
+    "phase": "liquid",
+    "accelerated_decay": true,
+    "display_field": true,
+    "looks_like": "fd_bile"
   },
   {
     "id": "fd_darkness",
