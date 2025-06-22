@@ -2,11 +2,15 @@
 
 #include <algorithm>
 #include <cmath>
+#include <exception>
 #include <memory>
 #include <numeric>
 #include <optional>
 #include <sstream>
+#include <stdexcept>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "assign.h"
 #include "cached_options.h"
@@ -38,9 +42,12 @@
 #include "mapgen_parameter.h"
 #include "mapgendata.h"
 #include "math_defines.h"
+#include "messages.h"
 #include "output.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
+#include "ret_val.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id_utils.h"
@@ -75,6 +82,75 @@ int recipe::get_skill_cap() const
     } else {
         return difficulty * 1.25;
     }
+}
+
+std::vector<const recipe *> recipe::to_craft( const read_only_visitable
+        &crafting_inv, int batch, Character *crafter ) const
+{
+    std::vector<const recipe *> ret;
+    recursive_comp_crafts( ret, crafting_inv, batch, crafter );
+
+    return ret;
+}
+
+ret_val<void> recipe::recursive_comp_crafts( std::vector<const recipe *> &lst,
+        const read_only_visitable
+        &crafting_inv, int batch, Character *crafter ) const
+{
+
+    static auto any_has_status = []( const std::vector<item_comp> &comps,
+    available_status status = available_status::a_true ) {
+        for( const auto &comp : comps ) {
+            if( comp.available == status ) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    lst.push_back( this );
+    if( lst.size() > 10 ) {
+        return ret_val<void>::make_failure( "too many recursive component crafts required" );
+    }
+    requirement_data reqs = simple_requirements();
+
+    std::map<const item_comp, std::vector<const recipe *>> craftables = reqs.get_craftable_comps();
+
+
+    for( const std::vector<item_comp> &comps : reqs.get_components() ) {
+        // filter out components that have available alternatives
+        if( any_has_status( comps ) ) {
+            continue;
+        }
+        std::vector<std::pair<const recipe *, item_comp>> craft;
+        const recipe_subset learned_recipes = crafter->get_learned_recipes();
+        // if multiple alternative components are craftable, get which one to craft
+        for( item_comp it : comps ) {
+            for( const recipe *rec : reqs.craftable_recs_for_comp( it, crafting_inv,
+                    get_component_filter(), learned_recipes,
+                    batch ) ) {
+                craft.emplace_back( rec, it );
+            }
+        }
+
+
+        if( craft.empty() ) {
+            return ret_val<void>::make_failure( "No craftables found for %s in recipe::to_craft",
+                                                ident().c_str() );
+        }
+
+
+
+        craft_selection sel = crafter->select_component_to_craft( craft, batch, get_component_filter() );
+        if( sel.cancled ) {
+            return ret_val<void>::make_failure();
+        }
+
+        sel.rec->recursive_comp_crafts( lst, crafting_inv, batch, crafter );
+
+    }
+
+    return ret_val<void>::make_success();
 }
 
 time_duration recipe::batch_duration( const Character &guy, int batch, float multiplier,
@@ -144,9 +220,7 @@ int64_t recipe::batch_time( const Character &guy, int batch, float multiplier,
     } else if( assistants >= 2 ) {
         total_time = total_time * .60;
     }
-    if( total_time < local_time ) {
-        total_time = local_time;
-    }
+    total_time = std::max( total_time, local_time );
 
     return static_cast<int64_t>( total_time );
 }
