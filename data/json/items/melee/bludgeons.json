@@ -663,7 +663,8 @@
     "price": "120 USD",
     "price_postapoc": "5 USD",
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 50 }
+    "melee_damage": { "bash": 50 },
+    "thrown_damage": [ { "damage_type": "bash", "amount": 12 } ]
   },
   {
     "type": "ITEM",
@@ -681,7 +682,8 @@
       "volume": "-350 ml",
       "longest_side": "-20 cm",
       "price_postapoc": "-2 USD 50 cent"
-    }
+    },
+    "thrown_damage": [ { "damage_type": "bash", "amount": 9 } ]
   },
   {
     "type": "ITEM",
@@ -701,7 +703,8 @@
       "price_postapoc": 0.5,
       "melee_damage": { "bash": 0.5 }
     },
-    "relative": { "qualities": [ [ "HAMMER", 1 ] ] }
+    "relative": { "qualities": [ [ "HAMMER", 1 ] ] },
+    "thrown_damage": [ { "damage_type": "bash", "amount": 6 } ]
   },
   {
     "type": "ITEM",
@@ -711,7 +714,8 @@
     "description": "A large sledge hammer with a massive, heavy head.  This unwieldy tool is meant to break concrete, rock, brick, anything really.",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "clumsy" },
     "proportional": { "price_postapoc": 2, "price": 2 },
-    "relative": { "melee_damage": { "bash": 30 }, "weight": "5250 g", "volume": "450 ml", "longest_side": "20 cm" }
+    "relative": { "melee_damage": { "bash": 30 }, "weight": "5250 g", "volume": "450 ml", "longest_side": "20 cm" },
+    "thrown_damage": [ { "damage_type": "bash", "amount": 20 } ]
   },
   {
     "type": "ITEM",
