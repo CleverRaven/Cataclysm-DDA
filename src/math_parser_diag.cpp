@@ -1022,7 +1022,7 @@ double spell_sum_eval( const_dialogue const &d, char scope,
 
 double spell_difficulty_eval( const_dialogue const &d, char scope,
                               std::vector<diag_value> const &params,
-                              diag_kwargs const & kwargs )
+                              diag_kwargs const &kwargs )
 {
     bool ignore_modifiers = kwargs.kwarg_or( "baseline" ).str( d ) == "true";
     std::string const &sid_str = params[0].str( d );
