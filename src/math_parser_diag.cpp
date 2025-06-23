@@ -1024,7 +1024,7 @@ double spell_difficulty_eval( const_dialogue const &d, char scope,
                               std::vector<diag_value> const &params,
                               diag_kwargs const &kwargs )
 {
-    bool ignore_modifiers = kwargs.kwarg_or( "baseline" ).str( d ) == "true";
+    bool ignore_modifiers = is_true( kwargs.kwarg_or( "baseline" ).dbl( d ) );
     std::string const &sid_str = params[0].str( d );
     spell_id spell( sid_str );
     if( spell.is_valid() ) {
