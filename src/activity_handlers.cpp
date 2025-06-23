@@ -2620,6 +2620,9 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                         you->add_msg_if_player( m_good,
                                                 _( "Something about how this spell works just clicked!  You gained a level!" ) );
                     }
+                    else {
+                        spell_being_cast.gain_exp( *you, exp_gained );
+                    }
                     if( spell_being_cast.get_level() != old_level ) {
                         // Level 0-1 message is printed above - notify player when leveling up further
                         if( old_level > 0 ) {
