@@ -288,3 +288,24 @@ TEST_CASE( "weighted_list_weights_after_remove", "[weighted_list]" )
         CHECK( S_stats.avg() == Approx( S_weight / new_total_weight ).margin( MARGIN_OF_ERROR ) );
     }
 }
+
+TEST_CASE( "weighted_list_add_or_replace_for_zero", "[weighted_list]" )
+{
+    constexpr int VALUE = 12;
+    constexpr int WEIGHT = 5;
+    weighted_int_list<int> list;
+    list_check_add( list, VALUE, WEIGHT, true );
+
+    REQUIRE( list.get_specific_weight( VALUE ) == WEIGHT );
+    REQUIRE( list.get_weight() == WEIGHT );
+
+    int *picked = list.pick();
+    REQUIRE( picked != nullptr );
+    CHECK( *picked == VALUE );
+
+    list_check_add_replace( list, VALUE, 0, false );
+
+    CHECK( list.get_weight() == 0 );
+    CHECK( list.get_specific_weight( VALUE ) == 0 );
+    CHECK( list.pick() == nullptr );
+}
