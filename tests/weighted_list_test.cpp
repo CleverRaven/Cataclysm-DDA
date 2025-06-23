@@ -204,3 +204,87 @@ TEST_CASE( "weighted_list_distribution", "[weighted_list]" )
         CHECK( K_stats.avg() == Approx( K_weight / total_weight ).margin( MARGIN_OF_ERROR ) );
     }
 }
+
+TEST_CASE( "weighted_list_weights_after_remove", "[weighted_list]" )
+{
+    constexpr int Q = 1;
+    constexpr int R = 2;
+    constexpr int S = 3;
+
+    constexpr double MARGIN_OF_ERROR = 0.01;
+
+    constexpr int Q_weight = 4;
+    constexpr int R_weight = 8;
+    constexpr int S_weight = 2;
+
+    constexpr double total_weight = Q_weight + R_weight + S_weight;
+
+    weighted_int_list<int> list;
+
+    list_check_add<int, int>( list, Q, Q_weight, true );
+    list_check_add<int, int>( list, R, R_weight, true );
+    list_check_add<int, int>( list, S, S_weight, true );
+
+    CHECK( list.get_weight() == total_weight );
+    CHECK( list.get_specific_weight( Q ) == Q_weight );
+    CHECK( list.get_specific_weight( R ) == R_weight );
+    CHECK( list.get_specific_weight( S ) == S_weight );
+
+    SECTION( "before_removal" ) {
+        statistics<bool> Q_stats;
+        statistics<bool> R_stats;
+        statistics<bool> S_stats;
+        epsilon_threshold Q_threshold{ Q_weight / total_weight, MARGIN_OF_ERROR };
+        epsilon_threshold R_threshold{ R_weight / total_weight, MARGIN_OF_ERROR };
+        epsilon_threshold S_threshold{ S_weight / total_weight, MARGIN_OF_ERROR };
+
+        do {
+            int *picked = list.pick();
+            REQUIRE( picked != nullptr );
+            Q_stats.add( *picked == Q );
+            R_stats.add( *picked == R );
+            S_stats.add( *picked == S );
+        } while( Q_stats.uncertain_about( Q_threshold ) ||
+                 R_stats.uncertain_about( R_threshold ) ||
+                 S_stats.uncertain_about( S_threshold ) );
+
+        INFO( Q_stats.n() );
+
+        CHECK( Q_stats.avg() == Approx( Q_weight / total_weight ).margin( MARGIN_OF_ERROR ) );
+        CHECK( R_stats.avg() == Approx( R_weight / total_weight ).margin( MARGIN_OF_ERROR ) );
+        CHECK( S_stats.avg() == Approx( S_weight / total_weight ).margin( MARGIN_OF_ERROR ) );
+    }
+
+    SECTION( "after_removal" ) {
+        list.remove( R );
+
+        CHECK( list.get_weight() == Q_weight + S_weight );
+        CHECK( list.get_specific_weight( Q ) == Q_weight );
+        CHECK( list.get_specific_weight( R ) == 0 );
+        CHECK( list.get_specific_weight( S ) == S_weight );
+
+        statistics<bool> Q_stats;
+        statistics<bool> R_stats;
+        statistics<bool> S_stats;
+        constexpr double new_total_weight = Q_weight + S_weight;
+        epsilon_threshold Q_threshold{ Q_weight / new_total_weight, MARGIN_OF_ERROR };
+        epsilon_threshold R_threshold{ 0.0, MARGIN_OF_ERROR };
+        epsilon_threshold S_threshold{ S_weight / new_total_weight, MARGIN_OF_ERROR };
+
+        do {
+            int *picked = list.pick();
+            REQUIRE( picked != nullptr );
+            Q_stats.add( *picked == Q );
+            R_stats.add( *picked == R );
+            S_stats.add( *picked == S );
+        } while( Q_stats.uncertain_about( Q_threshold ) ||
+                 R_stats.uncertain_about( R_threshold ) ||
+                 S_stats.uncertain_about( S_threshold ) );
+
+        INFO( Q_stats.n() );
+
+        CHECK( Q_stats.avg() == Approx( Q_weight / new_total_weight ).margin( MARGIN_OF_ERROR ) );
+        CHECK( R_stats.avg() == Approx( 0.0 ).margin( MARGIN_OF_ERROR ) );
+        CHECK( S_stats.avg() == Approx( S_weight / new_total_weight ).margin( MARGIN_OF_ERROR ) );
+    }
+}

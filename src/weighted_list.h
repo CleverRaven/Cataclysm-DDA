@@ -5,6 +5,7 @@
 #include "json.h"
 #include "rng.h"
 
+#include <algorithm>
 #include <climits>
 #include <cstdlib>
 #include <functional>
@@ -48,14 +49,16 @@ template <typename W, typename T> struct weighted_list {
         }
 
         void remove( const T &obj ) {
-            auto itr_end = std::remove_if( objects.begin(),
-            objects.end(), [&obj]( typename decltype( objects )::value_type const & itr ) {
-                return itr.obj == obj;
-            } );
-            for( decltype( itr_end ) removed = itr_end; removed != objects.end(); ++removed ) {
-                total_weight -= removed->weight;
-            }
-            objects.erase( itr_end, objects.end() );
+            const auto remove_with_weight = [&obj, this]
+            ( typename decltype( objects )::value_type const & itr ) {
+                if( itr.obj == obj ) {
+                    total_weight -= itr.weight;
+                    return true;
+                }
+                return false;
+            };
+            objects.erase( std::remove_if( objects.begin(),
+                                           objects.end(), remove_with_weight ), objects.end() );
             invalidate_precalc();
         }
 
