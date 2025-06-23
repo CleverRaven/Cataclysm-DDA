@@ -1,0 +1,8 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "psionic_power_success_formula_perks",
+    "num_args": 0,
+    "return": "max( (u_has_trait('perk_clear_minded_channeling') ? ( u_pain() == 0 ? 6 : 0 ) : 0) + (u_has_trait('perk_clear_minded_channeling') ? ( u_vitamin('vitamin_maintained_powers') == 0 ? 6 : 0 ) : 0), 6)"
+  }
+]
