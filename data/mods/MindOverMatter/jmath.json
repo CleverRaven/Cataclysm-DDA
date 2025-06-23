@@ -85,7 +85,7 @@
     "type": "jmath_function",
     "id": "psionic_power_success_formula_torrential_channeling",
     "num_args": 0,
-    "return": "u_has_trait('PSI_TORRENTIAL_CHANNELING_active') ? max( (psionic_power_success_formula_nether_attunement_calculations() * -2), -20) : (psionic_power_success_formula_nether_attunement_calculations() * -1)"
+    "return": "u_has_trait('PSI_TORRENTIAL_CHANNELING_active') ? max( (psionic_power_success_formula_nether_attunement_calculations() * -2), -35) : (psionic_power_success_formula_nether_attunement_calculations() * -1)"
   },
   {
     "type": "jmath_function",
