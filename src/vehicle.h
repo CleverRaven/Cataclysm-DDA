@@ -890,7 +890,7 @@ class vehicle
         void clear_values();
         void add_chat_topic( const std::string &topic );
         int get_passenger_count( bool hostile ) const;
-        enchant_cache enchantment_cache;
+        enchant_cache enchantment_cache; //NOLINT(cata-serialize)
         void recalculate_enchantment_cache();
         std::map<efftype_id, effect> effects;
         void process_effects();

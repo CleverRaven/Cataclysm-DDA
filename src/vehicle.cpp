@@ -1606,8 +1606,6 @@ void vehicle::add_effect( const effect_source &source, const efftype_id &eff_id,
 
 void vehicle::process_effects()
 {
-    map &here = get_map();
-
     // id's of all effects to be removed.
     std::vector<efftype_id> rem_ids;
 
@@ -1617,21 +1615,22 @@ void vehicle::process_effects()
         for( const auto &removed_effect : elem.second.get_removes_effects() ) {
             rem_ids.push_back( removed_effect );
         }
+        std::vector<bodypart_id> empty_bp;
         effect &e = elem.second;
-        const int prev_int = e.get_intensity();
+
         // Run decay effects, marking effects for removal as necessary.
-        e.decay( rem_ids, calendar::turn );
+        e.decay( rem_ids, empty_bp, calendar::turn, false );
     }
 
     // Actually remove effects. This should be the last thing done in process_effects().
-    for( size_t i = 0; i < rem_ids.size(); ++i ) {
-        remove_effect( rem_ids[i] );
+    for( efftype_id &id : rem_ids ) {
+        remove_effect( id );
     }
 }
 
 bool vehicle::has_visible_effect()
 {
-    for( auto &elem : effects ) {
+    for( const auto &elem : effects ) {
         if( elem.first->is_show_in_info() ) {
             return true;
         }
@@ -1642,10 +1641,8 @@ bool vehicle::has_visible_effect()
 std::vector<std::reference_wrapper<const effect>> vehicle::get_effects() const
 {
     std::vector<std::reference_wrapper<const effect>> effs;
-    for( auto &elem : effects ) {
-        for( const std::pair<const efftype_id, effect> &_it : effects ) {
-            effs.emplace_back( _it.second );
-        }
+    for( const std::pair<const efftype_id, effect> &_it : effects ) {
+        effs.emplace_back( _it.second );
     }
     return effs;
 }
