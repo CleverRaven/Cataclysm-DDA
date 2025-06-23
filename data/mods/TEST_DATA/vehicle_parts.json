@@ -17,18 +17,9 @@
     "damage_reduction": { "all": 80 },
     "variants": [ { "symbols": ";", "symbols_broken": "*" } ],
     "enchantments": [
-      {
-        "condition": "ALWAYS",
-        "values": [ { "value": "TOTAL_WEIGHT", "multiply": -0.1 } ]
-      },
-      {
-        "condition": "ALWAYS",
-        "values": [ { "value": "FUEL_USAGE", "multiply": -0.5 } ]
-      },
-      {
-        "condition": "ALWAYS",
-        "values": [ { "value": "TURNING_DIFFICULTY", "add": 1.5 } ]
-      }
+      { "condition": "ALWAYS", "values": [ { "value": "TOTAL_WEIGHT", "multiply": -0.1 } ] },
+      { "condition": "ALWAYS", "values": [ { "value": "FUEL_USAGE", "multiply": -0.5 } ] },
+      { "condition": "ALWAYS", "values": [ { "value": "TURNING_DIFFICULTY", "add": 1.5 } ] }
     ]
   },
   {
