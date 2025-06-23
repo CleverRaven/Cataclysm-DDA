@@ -39,7 +39,7 @@
     "type": "jmath_function",
     "id": "psionic_power_success_formula_prevent_out_of_bounds",
     "num_args": 0,
-    "return": "psionic_power_success_formula_proficiency_handling() > 40 ? 40 : ( psionic_power_success_formula_proficiency_handling() < 0 ? 0 : psionic_power_success_formula_proficiency_handling() ) "
+    "return": "clamp( psionic_power_success_formula_proficiency_handling(), 0, 40 )"
   },
   {
     "type": "jmath_function",
