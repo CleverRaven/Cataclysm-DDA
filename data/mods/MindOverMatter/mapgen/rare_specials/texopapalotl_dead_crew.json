@@ -42,7 +42,10 @@
         "_": { "item": "wood_workshop", "chance": 1 },
         "R": [ { "item": "wood_workshop", "chance": 3 }, { "item": "mischw", "chance": 2 } ]
       },
-      "place_items": [ { "chance": 100, "item": "mom_texopapalotl_crew_shed_gear", "x": 8, "y": 11 } ],
+      "place_items": [
+        { "chance": 100, "item": "mom_texopapalotl_crew_shed_weapon", "x": 8, "y": 10 },
+        { "chance": 100, "item": "mom_texopapalotl_crew_shed_gear", "x": 8, "y": 11 }
+      ],
       "place_fields": [
         { "field": "fd_blood", "x": 8, "y": 11, "intensity": 2, "age": 0 },
         { "field": "fd_blood", "x": 8, "y": 10, "intensity": 2, "age": 0 },

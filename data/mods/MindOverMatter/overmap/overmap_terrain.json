@@ -7,7 +7,8 @@
     "sym": "*",
     "color": "white",
     "flags": [ "NO_ROTATE" ],
-    "see_cost": "medium"
+    "see_cost": "medium",
+    "travel_cost_type": "field"
   },
   {
     "type": "overmap_terrain",
@@ -17,7 +18,8 @@
     "sym": "C",
     "looks_like": "cabin",
     "color": "i_brown",
-    "see_cost": "high"
+    "see_cost": "high",
+    "travel_cost_type": "field"
   },
   {
     "type": "overmap_terrain",
@@ -27,7 +29,8 @@
     "sym": "C",
     "looks_like": "cabin_roof",
     "color": "i_brown",
-    "see_cost": "none"
+    "see_cost": "none",
+    "travel_cost_type": "field"
   },
   {
     "type": "overmap_terrain",

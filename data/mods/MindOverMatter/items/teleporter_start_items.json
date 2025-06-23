@@ -67,6 +67,93 @@
     "default": "mom_fusion_ammo"
   },
   {
+    "id": "mom_lightning_rifle",
+    "looks_like": "laser_rifle",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "reload_noise_volume": 0,
+    "name": { "str": "G-Tz77 \"Tlapetlaniliztli\" battle rifle" },
+    "description": "A state-of-the-art laser rifle developed by the R&D outfit \"Aerial Labs\".  Initial performance rivaled Rivtech's finest, with rumors flying about corporate skulduggery.  Though the Cataclysm put that on the ash heap of history, this weapon can still do the same to your foes.",
+    "weight": "2950 g",
+    "volume": "3 L",
+    "longest_side": "900 mm",
+    "price": "16 kUSD",
+    "price_postapoc": "200 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "steel", "plastic", "nether_crystal" ],
+    "symbol": "(",
+    "color": "cyan",
+    "skill": "rifle",
+    "range": 35,
+    "ranged_damage": { "damage_type": "electric", "amount": 0, "armor_penetration": 0 },
+    "dispersion": 10,
+    "durability": 8,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "loudness": 12,
+    "reload": 250,
+    "ammo_effects": [ "LIGHTNING", "BOUNCE" ],
+    "flags": [ "NEVER_JAMS", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE" ],
+    "faults": [ { "fault": "fault_overheat_melting" }, { "fault": "fault_overheat_safety" } ],
+    "melee_damage": { "bash": 12 },
+    "ammo": [ "mom_lightning_rifle_ammo" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "50 ml", "item_restriction": [ "mom_lightning_rifle_mag" ] } ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mom_lightning_rifle_standard",
+        "name": { "str": "G-Tz77 \"Tlapetlaniliztli\" battle rifle" },
+        "description": "A shipboard battle rifle, whose non-kinetic ammunition was designed to avoid puncturing ship hulls during engagements.  The G-Tz77 has been a mainstay of the Imperial Navy for decades at this point and seen service on the surface of and in orbit around dozens of worlds.  This is just one more in its long history of protecting the Excan Tlahtoloyan."
+      },
+      {
+        "id": "mom_lightning_rifle_non_fifth_sun",
+        "name": { "str": "odd rifle" },
+        "description": "This is recognizbly a rifle but it's like nothing you've ever seen.  The magazine seems to be inserted into the stock and the barrel is almost as big around as your wrist.  When you hold it, some kind of electronic display above the grip shows a series of odd symbols."
+      }
+    ]
+  },
+  {
+    "id": "mom_lightning_rifle_mag",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "G-Tz77 power pack" },
+    "description": "A power pack for the G-Tz77.",
+    "weight": "100 g",
+    "volume": "45 ml",
+    "material": [ "steel" ],
+    "price": "100 USD",
+    "price_postapoc": "1 cent",
+    "symbol": "#",
+    "color": "red",
+    "ammo_type": [ "mom_lightning_rifle_ammo" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "mom_lightning_rifle_ammo": 120 } } ]
+  },
+  {
+    "id": "mom_lightning_rifle_ammo",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "G-Tz77 power cartridge" },
+    "description": "Power cartridges for the G-Tz77.  You had better make every shot count, because there's no way you're finding any more of these.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": "1 USD 60 cent",
+    "price_postapoc": "8 USD",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "nether_crystal", "steel" ],
+    "symbol": "=",
+    "color": "cyan",
+    "count": 120,
+    "stack_size": 120,
+    "ammo_type": "mom_lightning_rifle_ammo",
+    "damage": { "damage_type": "electric", "amount": 80, "armor_penetration": 15 }
+  },
+  {
+    "type": "ammunition_type",
+    "id": "mom_lightning_rifle_ammo",
+    "name": "tlapetlaniliztli ammo",
+    "//": "Lightning flash",
+    "default": "mom_lightning_rifle_ammo"
+  },
+  {
     "id": "itzcuauhtli_cape",
     "copy-from": "cloak",
     "type": "ITEM",
@@ -110,6 +197,29 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "Yohualli Ehēcatl division tunic" },
     "description": "A dress tunic, in gold and crimson, slashed with black bars.  This would immediately mark your exact rank and position to anyone else in the Imperial Navy, if you ever see another one again."
+  },
+  {
+    "id": "itzcuauhtli_tunic_jaguar",
+    "copy-from": "dress_shirt",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Ocēlōpilli dress tunic" },
+    "description": "A dress tunic, in gold and crimson, slashed with yellow bars.  This marks the wearer as one of the Jaguar Warrior special forces.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "itzcuauhtli_tunic_jaguar_standard",
+        "name": { "str": "Ocēlōpilli dress tunic" },
+        "description": "A dress tunic, in gold and crimson, slashed with yellow bars.  This marks the wearer as one of the Jaguar Warrior special forces.",
+        "weight": 1
+      },
+      {
+        "id": "itzcuauhtli_tunic_jaguar_non_fifth_sun",
+        "name": { "str_sp": "uniform dress shirt" },
+        "description": "Some sort of uniform dress shirt in a blood-red crimson color with gold accents and a series of yellow bars on the left side.  You can't recall any military that dresses quite like this.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "itzcuauhtli_pants",
