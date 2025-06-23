@@ -71,6 +71,7 @@
       {
         "id": "xedra_monster_erosion_buff_special",
         "type": "spell",
+        "cooldown": 0,
         "condition": { "not": { "u_has_effect": "effect_xedra_monster_erosion" } },
         "spell_data": { "id": "xedra_monster_erosion_buff" },
         "allow_no_target": true,
