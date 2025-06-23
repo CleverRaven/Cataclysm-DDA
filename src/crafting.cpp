@@ -11,6 +11,7 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
@@ -2066,8 +2067,9 @@ craft_selection Character::select_component_to_craft(
         if( ( is_npc() && !npc_query ) || components.size() == 1 ) {
             return craft_selection{component, rec};
         }
-
-        cmenu.addentry( component.to_string( batch ) );
+        // std::stringstream str = "" << batch << " " << rec->ident().c_str();
+        //TODO: make actual recipe string
+        cmenu.addentry( std::to_string( batch ) + " " + rec->ident().c_str() );
         if( cmenu.entries.empty() ) {
             debugmsg( "Attempted a recipe with no available components!" );
             craft_selection selected;

@@ -965,7 +965,10 @@ void requirement_data::cache_craftable_comps( const read_only_visitable &craftin
                 // component is craftable if ANY possible recipe is craftable
                 if( comp_is_craftable( crafting_inv, comp, filter, batch, learned_recipes ) ) {
                     comp.available = available_status::a_craftable;
-                    for( const recipe *rec : learned_recipes ) {
+                    for( const recipe *rec : learned_recipes.recipes_that_produce( comp.type->get_id() ) ) {
+                        if( rec->is_null() ) {
+                            continue;
+                        }
                         const int num_recipe_craft = std::ceil( static_cast<float>( rec->makes_amount() ) /
                                                                 static_cast<float>( comp.count * batch ) );
                         if( num_recipe_craft <= 0 ) {
@@ -1059,7 +1062,8 @@ std::vector<const recipe *> requirement_data::craftable_recs_for_comp( item_comp
             if( num_recipe_craft <= 0 ) {
                 //
                 continue;
-            } else if( rec->simple_requirements().can_make_with_inventory( crafting_inv, filter, batch,
+            } else if( rec->simple_requirements().can_make_with_inventory( crafting_inv, filter,
+                       num_recipe_craft,
                        craft_flags::none, true, learned_recipes ) ) {
                 craftable_comps[comp].push_back( rec ) ;
                 comp.available = available_status::a_craftable;
