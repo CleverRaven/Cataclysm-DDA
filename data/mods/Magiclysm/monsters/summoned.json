@@ -53,7 +53,7 @@
     "volume": "400 L",
     "weight": "600 kg",
     "hp": 300,
-    "speed": 200,
+    "speed": 80,
     "material": [ "iflesh" ],
     "symbol": "S",
     "color": "brown",
