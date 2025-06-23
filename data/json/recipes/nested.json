@@ -2385,7 +2385,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "standard Kevlar jumpsuits",
+    "name": "medium reinforced jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm.",
     "skill_used": "tailor",
     "nested_category_data": [ "survivor_jumpsuit", "xssurvivor_jumpsuit", "xlsurvivor_jumpsuit" ],
@@ -2397,7 +2397,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "light Kevlar jumpsuits",
+    "name": "light reinforced jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm while still being flexible.",
     "skill_used": "tailor",
     "nested_category_data": [ "lsurvivor_jumpsuit", "xs_lsurvivor_jumpsuit", "xl_lsurvivor_jumpsuit" ],
@@ -2409,7 +2409,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "steel-plated Kevlar jumpsuits",
+    "name": "heavy reinforced jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer REALLY safe from harm, although they are a bit heavy.",
     "skill_used": "tailor",
     "nested_category_data": [ "hsurvivor_jumpsuit", "xs_hsurvivor_jumpsuit", "xl_hsurvivor_jumpsuit" ],
@@ -2421,7 +2421,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "Kevlar firesuits",
+    "name": "fire resistant jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and intense fires.",
     "skill_used": "tailor",
     "nested_category_data": [ "fsurvivor_jumpsuit", "xs_fsurvivor_jumpsuit", "xl_fsurvivor_jumpsuit" ],
@@ -2433,7 +2433,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "winter Kevlar jumpsuits",
+    "name": "winter reinforced jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and freezing cold temperatures.",
     "skill_used": "tailor",
     "nested_category_data": [
@@ -2447,34 +2447,12 @@
     "difficulty": 6
   },
   {
-    "id": "nested_h20_survivor_jumpsuits",
+    "id": "nested_all_survivor_jumpsuits",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "Kevlar wetsuits",
-    "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and keep water out.",
-    "skill_used": "tailor",
-    "nested_category_data": [
-      "h20survivor_jumpsuit",
-      "xs_h20survivor_jumpsuit",
-      "xl_h20survivor_jumpsuit",
-      "h20survivor_jumpsuit_light",
-      "xs_h20survivor_jumpsuit_light",
-      "xl_h20survivor_jumpsuit_light",
-      "thick_h20survivor_jumpsuit",
-      "xs_thick_h20survivor_jumpsuit",
-      "xl_thick_h20survivor_jumpsuit"
-    ],
-    "difficulty": 7
-  },
-  {
-    "id": "nested_all_survivor_jumpsuits",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "name": "Kevlar jumpsuits",
+    "name": "reinforced jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from various types of harm.",
     "skill_used": "tailor",
     "nested_category_data": [
@@ -2483,7 +2461,7 @@
       "nested_heavy_survivor_jumpsuits",
       "nested_fire_survivor_jumpsuits",
       "nested_winter_survivor_jumpsuits",
-      "nested_h20_survivor_jumpsuits"
+      "nested_nomadjumpsuits"
     ],
     "difficulty": 6
   },
@@ -7169,17 +7147,6 @@
     ]
   },
   {
-    "id": "nested_bullet_jewelry",
-    "type": "nested_category",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_OTHER",
-    "name": "cartridge accoutrements",
-    "description": "Recipes pertaining to the production of necklaces, bracelets, and other forms of jewelry formed from spent munitions.",
-    "skill_used": "fabrication",
-    "nested_category_data": [ "nested_bullet_necklaces" ]
-  },
-  {
     "id": "nested_combat_exoskeleton_armor_reinforcement",
     "type": "nested_category",
     "activity_level": "NO_EXERCISE",
@@ -7274,7 +7241,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "scrap armors",
-    "description": "Recipes related to the production of suits of armor made from scraps.",
+    "description": "Recipes related to the production of suits of scrap armor.",
     "skill_used": "fabrication",
     "nested_category_data": [
       "armor_scrapsuit",
@@ -7303,7 +7270,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "cotton aprons",
-    "description": "Recipes related to the production of suits of cotton aprons.",
+    "description": "Recipes related to the production of cotton aprons.",
     "skill_used": "fabrication",
     "nested_category_data": [
       "apron_cotton",
@@ -7322,7 +7289,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "waist cotton aprons",
-    "description": "Recipes related to the production of suits of waist cotton aprons.",
+    "description": "Recipes related to the production of cotton waist aprons.",
     "skill_used": "fabrication",
     "nested_category_data": [
       "waist_apron_short",
@@ -7346,7 +7313,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "leather aprons",
-    "description": "Recipes related to the production of suits of leather aprons.",
+    "description": "Recipes related to the production of leather aprons.",
     "skill_used": "fabrication",
     "nested_category_data": [ "apron_leather" ]
   },
@@ -7357,18 +7324,18 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "synthetic fabric aprons",
-    "description": "Recipes related to the production of suits of synthetic fabric aprons.",
+    "description": "Recipes related to the production of synthetic fabric aprons.",
     "skill_used": "fabrication",
     "nested_category_data": [ "apron_plastic", "apron_cut_resistant" ]
   },
   {
-    "id": "nested_farmor",
+    "id": "nested_farmors",
     "type": "nested_category",
     "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "fur armors",
-    "description": "Recipes related to the production of suits of armor made from fur.",
+    "description": "Recipes related to the production of suits of fur armor.",
     "skill_used": "fabrication",
     "nested_category_data": [
       "armor_farmor",
@@ -7380,24 +7347,24 @@
     ]
   },
   {
-    "id": "nested_larmor",
+    "id": "nested_larmors",
     "type": "nested_category",
     "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "leather armors",
-    "description": "Recipes related to the production of suits of armor made from leather.",
+    "description": "Recipes related to the production of suits of leather armor.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_larmor", "armor_larmor_xs", "xl_armor_larmor" ]
   },
   {
-    "id": "nested_sheetmetalarmor",
+    "id": "nested_sheetmetalarmors",
     "type": "nested_category",
     "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "sheet metal armors",
-    "description": "Recipes related to the production of suits of armor made from sheets of metal.",
+    "description": "Recipes related to the production of suits of metal sheet armor.",
     "skill_used": "fabrication",
     "nested_category_data": [
       "armor_ch_metal_sheets",
@@ -7415,7 +7382,7 @@
     ]
   },
   {
-    "id": "nested_wetsuit",
+    "id": "nested_wetsuits",
     "type": "nested_category",
     "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
@@ -7431,11 +7398,11 @@
       "xs_wetsuit_thick",
       "xl_wetsuit_thick",
       "wetsuit_spring",
-      "nested_wetsuit_reinforced"
+      "nested_wetsuits_reinforced"
     ]
   },
   {
-    "id": "nested_wetsuit_reinforced",
+    "id": "nested_wetsuits_reinforced",
     "type": "nested_category",
     "activity_level": "NO_EXERCISE",
     "category": "CC_*",
@@ -7448,11 +7415,213 @@
       "xs_h20survivor_jumpsuit",
       "xl_h20survivor_jumpsuit",
       "h20survivor_jumpsuit_light",
-      "xs_h20survivor_jumpsuit",
-      "xl_h20survivor_jumpsuit",
+      "xs_h20survivor_jumpsuit_light",
+      "xl_h20survivor_jumpsuit_light",
       "thick_h20survivor_jumpsuit",
       "xs_thick_h20survivor_jumpsuit",
       "xl_thick_h20survivor_jumpsuit"
     ]
+  },
+  {
+    "id": "nested_jumpsuits",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "name": "jumpsuits",
+    "description": "Recipes related to the production of jumpsuits.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "nested_all_survivor_jumpsuits", "jumpsuit", "jumpsuit_xs", "jumpsuit_xl", "jumpsuit_xl_from_jumpsuit" ]
+  },
+  {
+    "id": "nested_nomadjumpsuits",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "nomad jumpsuits",
+    "description": "Recipes related to the production of nomad jumpsuits.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_nomad", "armor_nomad_upgrade light jumpsuit", "armor_nomad_light", "armor_nomad_advanced" ]
+  },
+  {
+    "id": "nested_pothelms",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "pot helms",
+    "description": "Recipes related to the production of helmets made out of pots.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "pot_helmet", "pot_helmet_xs", "pot_xlhelmet", "stockpot_helmet" ]
+  },
+  {
+    "id": "nested_scraphelmets",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "scrap helmets",
+    "description": "Recipes related to the production of helmets made out of scraps.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "helmet_scrap", "helmet_scrap_xs", "xl_helmet_scrap" ]
+  },
+  {
+    "id": "nested_kabutos",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "kabutos",
+    "description": "Recipes related to the production of kabuto helmets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "helmet_kabuto", "helmet_kabuto_xs", "xl_helmet_kabuto" ]
+  },
+  {
+    "id": "nested_jewelry",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "name": "jewelry",
+    "description": "Recipes related to the production of jewelry.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "nested_bracelets", "nested_necklaces", "nested_rings" ]
+  },
+  {
+    "id": "nested_bracelets",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "bracelets",
+    "description": "Recipes related to the production of bracelets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "gold_bracelet", "copper_bracelet", "silver_bracelet", "bead_bracelet" ]
+  },
+  {
+    "id": "nested_necklaces",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "necklaces",
+    "description": "Recipes related to the production of necklaces.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_bullet_necklaces",
+      "nested_necklace_teeth",
+      "gold_necklace",
+      "copper_necklace",
+      "silver_necklace",
+      "bead_necklace"
+    ]
+  },
+  {
+    "id": "nested_necklace_teeth",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "teeth necklaces",
+    "description": "Recipes related to the production of necklaces made from teeth.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "necklace_teeth_necklace_teeth_monster" ]
+  },
+  {
+    "id": "nested_rings",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "rings",
+    "description": "Recipes related to the production of rings.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "gold_ring" ]
+  },
+  {
+    "id": "nested_blankets",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "name": "blankets",
+    "description": "Recipes related to the production of blankets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "grass_blanket",
+      "grass_blanket_from_sheet",
+      "blanket_blanket_makeshift",
+      "electric_blanket",
+      "down_blanket",
+      "fur_blanket",
+      "nested_quilts"
+    ]
+  },
+  {
+    "id": "nested_quilts",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "quilts",
+    "description": "Recipes related to the production of quilts.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "quilt", "quilt_patchwork" ]
+  },
+  {
+    "id": "nested_sleepingbags",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "name": "sleeping bags",
+    "description": "Recipes related to the production of sleeping bags.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "sleeping_bag_roll", "sleeping_bag_fur_roll", "sleeping_bag_improvised" ]
+  },
+  {
+    "id": "nested_tails",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "name": "tails",
+    "description": "Recipes related to the production of fake tails.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "fur_cat_tail", "faux_fur_cat_tail", "leather_cat_tail" ]
+  },
+  {
+    "id": "nested_ears",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "name": "ears",
+    "description": "Recipes related to the production of fake ears.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "fur_cat_ears", "faux_fur_cat_ears", "leather_cat_ears" ]
+  },
+  {
+    "id": "nested_collars",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "name": "collars",
+    "description": "Recipes related to the production of collars.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "fur_collar", "faux_fur_collar", "leather_collar" ]
+  },
+  {
+    "id": "nested_beltloops",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "name": "belt loops",
+    "description": "Recipes related to the production of belt loops.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "belt_loop_small", "belt_loop_medium", "belt_loop_large" ]
   }
 ]
