@@ -412,7 +412,7 @@ struct requirement_data {
                 const read_only_visitable &crafting_inv,
                 const std::function<bool( const item & )> &filter,
                 const recipe_subset &learned_recipes,
-                int batch = 1 );
+                int batch = 1 ) const;
 
     private:
         requirement_id id_ = requirement_id::NULL_ID(); // NOLINT(cata-serialize)
