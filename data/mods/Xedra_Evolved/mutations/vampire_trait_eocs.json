@@ -2554,7 +2554,7 @@
     "id": "EOC_NO_FUN_CHECK",
     "recurrence": [ "2 s", "4 s" ],
     "//": "It is intended to take an instant before the mood is neutralized.  Like Tantalus can try to grasp the fruits he cannot reach, the vampire can try to feel joy as they want but won't ever truly succeed without blood.",
-    "//2": "It only stops them from feeling joy, but not feeling joy brings sadness by itself.",
+    "//2": "It stops them from feeling joy, but it also makes them unhappier when unhappy.",
     "condition": {
       "and": [ { "u_has_trait": "VAMPIRE_WEAKNESS_NO_FUN" }, { "not": { "u_has_effect": "effect_drank_blood_recently" } } ]
     },
@@ -2860,6 +2860,21 @@
           { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "1 + rand(1)" ] },
           { "math": [ "u_counter_anathema_need_vampire_blood", "=", "0" ] }
         ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MENTOR_VANISH",
+    "condition": { "u_has_trait": "MENTOR_PEACE" },
+    "effect": [
+      { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+      { "npc_message": "%1$s's vanishes in a fine mist." }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You're not a mentor, so you're not supposed to see this.  Please open a Github bug report.",
+        "type": "popup"
       }
     ]
   }

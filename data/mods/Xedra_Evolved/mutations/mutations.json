@@ -1491,12 +1491,31 @@
     "id": "MENTOR_PEACE",
     "name": { "str": "Mentor's peace", "//~": "NO_I18N" },
     "points": 0,
-    "description": { "str": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields.", "//~": "NO_I18N" },
+    "description": {
+      "str": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields and makes them react to attacks by vanishing in mist.",
+      "//~": "NO_I18N"
+    },
+    "//": "Until NPC_DEATH can work, I'm using a forcefield so they can't perma-die before vanishing forever.  I tried to use an evasion effect so the message would be more fitting but it interfered with the hit_me.",
+    "//2": "<npcname> and %1$s both failed to work for dialogue-based vanishing, so until it is fixed these messages will refer to the mentor's title.",
     "starting_trait": false,
     "player_display": false,
     "purifiable": false,
     "valid": false,
-    "anger_relations": [ [ "VAMPIRE", -150 ], [ "RENFIELD", -150 ] ]
+    "anger_relations": [ [ "VAMPIRE", -150 ], [ "RENFIELD", -150 ] ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "FORCEFIELD", "add": 1 } ],
+        "hit_me_effect": [
+          {
+            "id": "mentor_vanish",
+            "hit_self": true,
+            "message": "You're not supposed to see this.  Open a bug report on Github about having the Mentor's Peace trait.",
+            "npc_message": "%1$s vanishes in a fine mist."
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
