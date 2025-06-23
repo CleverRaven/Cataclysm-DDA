@@ -889,7 +889,6 @@
     "effect_str": "EOC_STAG_BEETLE_SELECTOR",
     "shape": "blast",
     "flags": [ "SOMATIC", "VERBAL" ],
-    "magic_type": "magiclysm_generic_magic",
     "base_casting_time": 0,
     "base_energy_cost": 0
   },
