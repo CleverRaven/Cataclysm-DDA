@@ -66,7 +66,7 @@
     "id": "psionic_power_success_formula_weariness_modifiers",
     "//": "These affect the effective skill level in psionic_power_success_formula_base_calc and as such are negative",
     "num_args": 0,
-    "return": "(u_effect_intensity('weary_1') > -1 ? -2 : 0) + (u_effect_intensity('weary_2') > -1 ? -5 : 0) + (u_effect_intensity('weary_3') > -9 ? -2 : 0) + (u_effect_intensity('weary_4') > -1 ? -14 : 0) + (u_effect_intensity('weary_5') > -1 ? -20 : 0) + (u_effect_intensity('weary_6') > -1 ? -27 : 0)"
+    "return": "3 + (u_effect_intensity('weary_1') > -1 ? -3 : 0) + (u_effect_intensity('weary_2') > -1 ? -7 : 0) + (u_effect_intensity('weary_3') > -1 ? -11 : 0) + (u_effect_intensity('weary_4') > -1 ? -16 : 0) + (u_effect_intensity('weary_5') > -1 ? -22 : 0) + (u_effect_intensity('weary_6') > -1 ? -30 : 0)"
   },
   {
     "type": "jmath_function",
