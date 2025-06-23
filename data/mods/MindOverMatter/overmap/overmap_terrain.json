@@ -11,6 +11,26 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "mom_texopapalotl_crew_shed" ],
+    "vision_levels": "isolated_building",
+    "name": "shack",
+    "sym": "C",
+    "looks_like": "cabin",
+    "color": "i_brown",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mom_texopapalotl_crew_shed_roof" ],
+    "vision_levels": "roof_or_air",
+    "name": "shack roof",
+    "sym": "C",
+    "looks_like": "cabin_roof",
+    "color": "i_brown",
+    "see_cost": "none"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "office_cubical_phavian" ],
     "copy-from": "generic_city_building",
     "looks_like": "office_cubical",

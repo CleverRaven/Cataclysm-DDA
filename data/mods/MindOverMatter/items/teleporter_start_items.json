@@ -117,7 +117,22 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "Itzcuauhtli Corps pants" },
-    "description": "A set of gold and crimson uniform pants.  The days of wearing only a maxtlatl are gone following the expansion of the empire out from Anáhuac, and considering the local climate, you're grateful for it."
+    "description": "A set of gold and crimson uniform pants.  The days of wearing only a maxtlatl are gone following the expansion of the empire out from Anáhuac, and considering the local climate, you're grateful for it.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "itzcuauhtli_pants_standard",
+        "name": { "str_sp": "Itzcuauhtli Corps pants" },
+        "description": "A set of gold and crimson uniform pants.  The days of wearing only a maxtlatl are gone following the expansion of the empire out from Anáhuac, and considering the local climate, you're grateful for it.",
+        "weight": 1
+      },
+      {
+        "id": "itzcuauhtli_pants_non_fifth_sun",
+        "name": { "str_sp": "uniform pants" },
+        "description": "Some sort of uniform pants in a blood-red crimson color with gold accents.  You can't recall any military that dresses quite like this.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "itzcuauhtli_boots",
@@ -125,7 +140,22 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "naval boots" },
-    "description": "Simple black leather boots.  It's a good thing you weren't transporting a planetary tlatoani when the accident happened or you might have ended up on this gods-forsaken hellhole barefoot."
+    "description": "Simple black leather boots.  It's a good thing you weren't transporting a planetary tlatoani when the accident happened or you might have ended up on this gods-forsaken hellhole barefoot.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "itzcuauhtli_boots_standard",
+        "name": { "str_sp": "naval boots" },
+        "description": "Simple black leather boots.  It's a good thing you weren't transporting a planetary tlatoani when the accident happened or you might have ended up on this gods-forsaken hellhole barefoot.",
+        "weight": 1
+      },
+      {
+        "id": "itzcuauhtli_boots_standard_non_fifth_sun",
+        "name": { "str_sp": "black leather boots" },
+        "description": "Simple black leather boots.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "itzcuauhtli_wrist_computer",
@@ -165,6 +195,21 @@
         "ememory_max": "512 TB"
       }
     ],
-    "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+    "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "itzcuauhtli_wrist_computer_standard",
+        "name": { "str": "māchīuhpōhualhuaztli", "str_pl": "māchīuhpōhualhuaztimeh" },
+        "description": "Your trustworthy connection to the local mātlatzālantli, the māchīuhpōhualhuaztli allows you to store and read texts through tonaltēzcatl projection, look up info, keep track of your biometrics, play games, record visuals or sound, connect with far-distant friends and family, act as a calendar and event planner, and even identify you to agents of the government or, gods forbid, the Tlamachchiuhqueh, should that become necessary.  There's nothing to connect to on this blighted world, but the other functions should still work.",
+        "weight": 1
+      },
+      {
+        "id": "itzcuauhtli_wrist_computer_non_fifth_sun",
+        "name": { "str": "strange watch", "str_pl": "strange watches" },
+        "description": "This looks like a smartwatch but it doesn't have a screen.  There are two buttons on each side, and when you press one of them, a series of glowing holograms spring up over your wrist.  They depict what looks like a menu, but everthing is written in blobby symbols that look vaguely…Mayan?  You've never seen anything like this before.",
+        "weight": 1
+      }
+    ]
   }
 ]

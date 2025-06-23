@@ -1,0 +1,22 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mom_texopapalotl_crew_shed_gear",
+    "entries": [
+      {
+        "item": "itzcuauhtli_wrist_computer",
+        "variant": "itzcuauhtli_wrist_computer_non_fifth_sun",
+        "charges": [ 6500, 8500 ],
+        "prob": 100,
+        "damage": [ 0, 2 ]
+      },
+      {
+        "item": "itzcuauhtli_boots",
+        "variant": "itzcuauhtli_boots_standard_non_fifth_sun",
+        "prob": 100,
+        "damage": [ 0, 2 ]
+      }
+    ]
+  }
+]
