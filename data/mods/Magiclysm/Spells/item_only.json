@@ -961,8 +961,8 @@
   {
     "id": "mag_summon_mushrooms",
     "type": "SPELL",
-    "name": { "str": "Summon mushrooms" },
-    "description": { "str": "Summons some mushrooms, extra effect summons some morels" },
+    "name": { "str": "Summon mushrooms", "//~": "NO_I18N" },
+    "description": { "str": "Summons some mushrooms, extra effect summons some morels", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "PERMANENT", "NO_LEGS", "NO_EXPLOSION_SFX", "NO_PROJECTILE", "SPAWN_GROUP", "RANDOM_DAMAGE" ],
     "difficulty": 0,
