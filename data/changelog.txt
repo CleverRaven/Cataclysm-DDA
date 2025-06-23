@@ -138,6 +138,7 @@ river generation overhaul
 faction camp food supply can expire over time
 Roads cross streams at culverts
 Add Weight Modifying Enchantment
+Query to quick-reveal all nearby wires when revealing wall wires
 
 
 ## Content:
@@ -315,6 +316,15 @@ Snippetize Tshirt variants
 Exodii Ceramics
 Opiate Vitamin
 Add arab and islamic clothes for women
+Remove duplicate trashcan bags
+Don't spawn bagged trash on/under park benches
+Nests hoodie recipes and add animal hoodies crafting recipes
+Overhaul how firearm primers are made
+Remove almost all consumption bonuses from cannibals
+Give meal tray a length
+added cold and heat intolerance traits which do the exact opposite things as the cold and heat tolerance traits.
+Add plantable poppy seeds
+Add the immortal snail as second nemesis in Crazy Cataclysm
 
 
 ## Interface:
@@ -432,6 +442,7 @@ Create a terminal-like default theme for Imgui
 Add NPC faction and NPC omt location to mission entries
 Describe stat level in new character window
 Severe hypovolemic shock message now mentions saline infusion instead of transfusion
+Allow swapping hotkeys in magic spell selection menu
 
 
 ## Mods:
@@ -825,6 +836,21 @@ Mod Conflicts
 [Bombastic Perks] Limit metamagic perks to Magiclysm
 Aftershock: More mundane tools are available in exoplanet
 [MoM] Add possible `Mathematican A57` boss fight to Research Facility
+[Xedra Evolved] Paraclesian weight adjustments
+[Xedra Evolved] More seasonal glamours
+G&W SR-P9 now has a sight slot to fix bug where the ACOG on Captain Schwarz's gun could not be replaced after being removed.
+Fixes bug where purchasing a UPS from the gun seller requires a license
+Makes shotguns more expensive, and gives sight slots to those that didn't already have them.
+Obsolete mythos mod
+[MoM] Update Wave of Force to use `u_knockback`
+[XE] Add a new rare waterborne disease.
+Aftershock: New welding paste that wors as both a consumable welder and as welding rods.
+Remove XP message when channeling powers/casting spells
+[MoM] Move power failure equation to JSON
+Add weapon_category "WHIPS" to modded whips from Magiclysm and XE to take advantage of recently added whip weapon proficiencies and allow those whips to be used for practice.
+[Xedra Evolved] Add `The Blood is the Life` dhampir power
+New vampire weakness: Barred from mortal joys
+Update vampire power research to include recent additions.
 
 
 ## Balance:
@@ -922,6 +948,11 @@ Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
 World sliders rebalanced to offer differing gameplay experiences
 Some recipes have 'hard' proficiency requirements
+Shrink sourdough starter
+Adds missing unarmed book/items to corresponding places
+Expanded spawns for some proper melee weapons
+Remove cannibal's last consumption bonus
+Guilt trip murderers for more than 7 minutes
 
 
 ## Bugfixes:
@@ -1283,6 +1314,23 @@ Special vision save failure
 Players learning from NPCs while blind and teaching NPCs while blind is now fixed.
 Attempt to increase average autotravel speed when driving on straight roads
 remove landmines from weird places
+Fix imgui compilation with musl
+[Xedra Evolved] Fix dhampirs drawing their own blood
+[MoM] Require Basic Concentration before Expert
+Add replace option for fault fixing short and long staffs in fault_fixes_melee
+Fix chambers in bionics rooms can't be opened
+Ensure the NEVER_JAMS flag always applies
+Picking favorite item back up will now remove map note if possible
+[Xedra Evolved] Add missing traits to research EoC
+[MoM] Add dust requirement to Teleportation power recipes that are missing it
+Fix incorrect conditional for Mystic shot effect
+[MoM] Remove prereq for Psychic Vampire trait
+[MoM] Replace textbooks_school with manuals_school
+Negative Quench items now dehydrate you
+[MoM] Remove space in add effect
+Fix a way to get permanently locked out of Hub tasks if you tell them about Exodii
+[Xedra Evolved] Fix beta talker error from Ring of Champions EoC
+[MoM] Fix Teleportation Damage failing to teleport the target
 
 
 ## Performance:
@@ -1447,6 +1495,8 @@ Allow monsters to have different climb/swim/dig speeds
 Mapgen: removed unused, obsoleted and pointless JSON fields
 Zstandard compressed save data for disk space savings.
 bulk overmap testing debug tools
+Improve tests build speed by creating a thin archive
+Enforce mod incompatibilities
 
 
 ## Build:
