@@ -250,6 +250,8 @@
     "description": "A shelter woven from wildwood weaver's webs.  It can be used to rest, and the weaver provides assistance in any tailoring task.",
     "durability": 15,
     "flags": [ "BED", "OPAQUE", "BOARDABLE", "NONBELTABLE", "APPLIANCE", "EXTRA_DRAG", "NO_INSTALL_HIDDEN", "HUGE_OK", "ROOF" ],
+    "comfort": 5,
+    "floor_bedding_warmth": 500,
     "pseudo_tools": [
       { "id": "spinwheelitem" },
       { "id": "mag_pseudo_weaver" },
