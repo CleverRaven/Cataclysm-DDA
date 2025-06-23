@@ -2423,10 +2423,11 @@ class pulp_activity_actor : public activity_actor
 {
     public:
         pulp_activity_actor() = default;
-        explicit pulp_activity_actor( const tripoint_abs_ms placement ) : placement( { placement } ),
-        num_corpses( 0 ) {}
-        explicit pulp_activity_actor( const std::set<tripoint_abs_ms> &placement ) : placement( placement ),
-            num_corpses( 0 ) {}
+        explicit pulp_activity_actor( const tripoint_abs_ms placement ) : placement( { placement } ) {}
+        explicit pulp_activity_actor( const std::set<tripoint_abs_ms> &placement ) : placement(
+                placement ) {}
+        explicit pulp_activity_actor( const item_location &corpses ) : corpses( { corpses } ) {}
+        explicit pulp_activity_actor( const std::vector<item_location> &corpses ) : corpses( corpses ) {}
         const activity_id &get_type() const override {
             static const activity_id ACT_PULP( "ACT_PULP" );
             return ACT_PULP;
@@ -2437,6 +2438,7 @@ class pulp_activity_actor : public activity_actor
         bool punch_corpse_once( item &corpse, Character &you, tripoint_bub_ms pos, map &here );
         void finish( player_activity &, Character & ) override;
 
+        bool can_pulp( item &corpse, Character &you );
         void send_final_message( Character &you ) const;
 
         std::unique_ptr<activity_actor> clone() const override {
@@ -2447,9 +2449,13 @@ class pulp_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
+        // list of corpses we are iterating over, from last
+        // if not provided, is constructed from `placement`
+        std::vector<item_location> corpses;
+
         // tripoints with corpses we need to pulp;
         // either single tripoint shoved into set, or 3x3 zone around u/npc
-        std::set<tripoint_abs_ms> placement;
+        std::set<tripoint_abs_ms> placement; // NOLINT(cata-serialize)
 
         float float_corpse_damage_accum = 0.0f; // NOLINT(cata-serialize)
 
