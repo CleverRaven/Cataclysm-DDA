@@ -91,7 +91,7 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "loudness": 12,
     "reload": 250,
-    "ammo_effects": [ "LIGHTNING", "BOUNCE" ],
+    "ammo_effects": [ "LIGHTNING_TRAIL", "BOUNCE" ],
     "flags": [ "NEVER_JAMS", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "faults": [ { "fault": "fault_overheat_melting" }, { "fault": "fault_overheat_safety" } ],
     "melee_damage": { "bash": 12 },
