@@ -91,8 +91,6 @@ for r, d, f in os.walk('data/mods'):
 
 mods_remaining = set(all_mod_dependencies)
 
-# Make sure aftershock can load by itself.
-add_mods(["aftershock"])
 print_modlist(mods_this_time, mods_remaining)
 
 while mods_remaining:

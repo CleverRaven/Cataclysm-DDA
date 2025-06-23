@@ -1,6 +1,75 @@
 [
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sauerkraut_ferment",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "30 m",
+    "book_learn": [ [ "fermenting_book", 2 ], [ "cookbook_foodfashions", 4 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
+    "proficiencies": [
+      { "proficiency": "prof_knife_skills" },
+      { "proficiency": "prof_fermenting" },
+      { "proficiency": "prof_lactofermenting" }
+    ],
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
+    "//": "barely any cooking going on here",
+    "components": [
+      [ [ "water_clean", 1 ] ],
+      [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
+      [ [ "jar_glass_sealed", 1 ] ],
+      [ [ "veggy", 2 ], [ "lettuce", 2 ], [ "veggy_wild", 2 ], [ "cabbage", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "pickles_ferment",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "30 m",
+    "book_learn": [ [ "fermenting_book", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_fermenting" }, { "proficiency": "prof_lactofermenting" } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "//": "barely any cooking going on here",
+    "components": [
+      [ [ "water_clean", 1 ] ],
+      [ [ "vinegar", 1 ] ],
+      [ [ "saline", 1 ], [ "salt", 2 ] ],
+      [ [ "jar_glass_sealed", 1 ] ],
+      [ [ "any_gherkin_cucumber", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "eggs_ferment",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "30 m",
+    "book_learn": [ [ "fermenting_book", 4 ] ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_fermenting" }, { "proficiency": "prof_lactofermenting" } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "//": "eggs are already cooked so no need to make this high",
+    "components": [
+      [ [ "water_clean", 1 ] ],
+      [ [ "vinegar", 1 ] ],
+      [ [ "saline", 1 ], [ "salt", 2 ] ],
+      [ [ "jar_glass_sealed", 1 ] ],
+      [ [ "boiled_egg", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_mycus_wine",
     "category": "CC_FOOD",

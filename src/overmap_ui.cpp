@@ -1097,15 +1097,24 @@ static void draw_om_sidebar( ui_adaptor &ui,
                 mvwprintw( wbar, point( 1, ++lines ), "- %s", pred->id().str() );
             }
         }
+
+        auto print_arguments = [&]( std::unordered_map<std::string, cata_variant> &map ) {
+            for( const std::pair<const std::string, cata_variant> &arg : map ) {
+                mvwprintw( wbar, point( 1, ++lines ), "%s = %s", arg.first, arg.second.get_string() );
+            }
+        };
         std::optional<mapgen_arguments> *args = overmap_buffer.mapgen_args( cursor_pos );
         if( args ) {
             if( *args ) {
-                for( const std::pair<const std::string, cata_variant> &arg : ( **args ).map ) {
-                    mvwprintw( wbar, point( 1, ++lines ), "%s = %s", arg.first, arg.second.get_string() );
-                }
+                print_arguments( ( **args ).map );
             } else {
-                mvwprintw( wbar, point( 1, ++lines ), "args not yet set" );
+                mvwprintw( wbar, point( 1, ++lines ), "Special scoped parameter values not set yet" );
             }
+        }
+        std::optional<mapgen_arguments> args_omt_stack =
+            overmap_buffer.get_existing_omt_stack_arguments( cursor_pos.xy() );
+        if( args_omt_stack ) {
+            print_arguments( args_omt_stack->map );
         }
 
         for( cube_direction dir : all_enum_values<cube_direction>() ) {

@@ -446,6 +446,13 @@ void overmap::unserialize( const JsonObject &jsobj )
             mapgen_args_index.emplace( p.first, &*it );
         }
     }
+    if( jsobj.has_member( "omt_stack_arguments_map" ) ) {
+        std::vector<std::pair<point_abs_omt, mapgen_arguments>> flat_omt_stack_arguments_map;
+        jsobj.read( "omt_stack_arguments_map", flat_omt_stack_arguments_map, true );
+        for( const std::pair<point_abs_omt, mapgen_arguments> &p : flat_omt_stack_arguments_map ) {
+            omt_stack_arguments_map.emplace( p );
+        }
+    }
     // Extract layers first so predecessor deduplication can happen.
     if( jsobj.has_member( "layers" ) ) {
         std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
@@ -1426,6 +1433,17 @@ void overmap::serialize( std::ostream &fout ) const
         auto it = mapgen_arg_storage.get_iterator_from_pointer( p.second );
         int index = mapgen_arg_storage.get_index_from_iterator( it );
         json.write( index );
+        json.end_array();
+    }
+    json.end_array();
+    fout << std::endl;
+
+    json.member( "omt_stack_arguments_map" );
+    json.start_array();
+    for( const std::pair<const point_abs_omt, mapgen_arguments> &p : omt_stack_arguments_map ) {
+        json.start_array();
+        json.write( p.first );
+        p.second.serialize( json );
         json.end_array();
     }
     json.end_array();
