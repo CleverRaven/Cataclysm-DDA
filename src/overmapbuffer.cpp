@@ -902,6 +902,8 @@ overmap_path_params overmap_path_params::for_player()
     ret.set_cost( oter_travel_cost_type::forest, 72 );
     ret.set_cost( oter_travel_cost_type::swamp, 240 );
     ret.set_cost( oter_travel_cost_type::other, 72 );
+    ret.set_cost( oter_travel_cost_type::structure, 60 );
+    ret.set_cost( oter_travel_cost_type::roof, 36 );
     ret.allow_diagonal = true;
     return ret;
 }

@@ -820,6 +820,8 @@ std::string enum_to_string<oter_travel_cost_type>( oter_travel_cost_type data )
     switch( data ) {
         // *INDENT-OFF*
         case oter_travel_cost_type::other: return "other";
+        case oter_travel_cost_type::structure: return "structure";
+        case oter_travel_cost_type::roof: return "roof";
         case oter_travel_cost_type::road: return "road";
         case oter_travel_cost_type::field: return "field";
         case oter_travel_cost_type::dirt_road: return "dirt_road";

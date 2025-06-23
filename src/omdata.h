@@ -247,6 +247,8 @@ enum class oter_travel_cost_type : int {
     swamp,
     water,
     air,
+    structure,
+    roof,
     last
 };
 
