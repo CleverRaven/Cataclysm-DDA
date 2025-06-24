@@ -4678,15 +4678,23 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
     if( context.empty() ) {
         context = group_id.str();
     }
+    // Check if the copy-from target exists BEFORE we get a reference to it!
+    // std::map's [] operator inserts a reference if one isn't found!
+    const bool already_exists = m_template_groups.find( group_id ) != m_template_groups.end();
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
     // If we copy-from, do copy-from
     // Otherwise, unconditionally overwrite
     if( jsobj.has_member( "copy-from" ) ) {
+        const std::string target_grp_str = jsobj.get_string( "copy-from" );
         // We can only copy-from a group with the same id (for now)
-        if( jsobj.get_string( "copy-from" ) != group_id.str() ) {
+        if( target_grp_str != group_id.str() ) {
             debugmsg( "Item group '%s' tries to copy from different group '%s'", group_id.str(),
-                      jsobj.get_string( "copy-from" ) );
+                      target_grp_str );
             return;
+        }
+        if( !already_exists ) {
+            debugmsg( "%1$s was unable to find item group %2$s to copy-from during loading.  Context: %3$s",
+                      group_id.str(), target_grp_str, context );
         }
     } else {
         isd.reset();
