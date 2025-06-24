@@ -29,7 +29,7 @@
       "{": "t_sidewalk",
       "I": "t_sidewalk",
       "b": [ [ "t_brick_wall", 100 ], "t_pit_shallow" ],
-      "F": "t_fence_barbed",
+      "F": [ [ "t_fence_barbed", 20 ], "t_fence_post", "t_region_groundcover_barren" ],
       "f": "t_fence_wire",
       "+": [ [ "t_door_c", 2 ], "t_door_o" ],
       "=": [ [ "t_door_locked_interior", 3 ], "t_door_c", "t_door_o" ],
