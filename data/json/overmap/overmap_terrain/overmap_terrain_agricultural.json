@@ -785,21 +785,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "farm_dairy_twd_1",
-      "farm_dairy_twd_2",
-      "farm_dairy_twd_9",
-      "farm_dairy_twd_10"
-    ],
+    "id": [ "farm_dairy_twd_1", "farm_dairy_twd_2", "farm_dairy_twd_9", "farm_dairy_twd_10" ],
     "copy-from": "generic_rural_building",
     "name": "farm"
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "farm_dairy_twd_3_roof",
-      "farm_dairy_twd_4_roof"
-    ],
+    "id": [ "farm_dairy_twd_3_roof", "farm_dairy_twd_4_roof" ],
     "copy-from": "farm_dairy_twd_1",
     "travel_cost_type": "roof",
     "name": "farm"
