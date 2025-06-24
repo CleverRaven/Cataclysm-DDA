@@ -53,7 +53,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
       [ [ "protein_powder", 1 ] ],
-      [ [ "milk_standard", 1, "LIST" ], [ "lf_milk_standard", 1, "LIST" ] ],
+      [ [ "milk_standard", 1, "LIST" ], [ "lf_milk_standard", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "lemonade_powder", 1 ], [ "sweet_fruit_like", 1, "LIST" ], [ "coconut_flesh", 1 ] ]
     ]
   }
