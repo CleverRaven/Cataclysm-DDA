@@ -3500,6 +3500,7 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "labels", labels );
     data.read( "fuel_remainder", fuel_remainder );
     data.read( "fuel_used_last_turn", fuel_used_last_turn );
+    data.read( "effects", effects );
 
     refresh( );
 
@@ -3615,6 +3616,7 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "magic", magic );
     json.member( "smart_controller", smart_controller_cfg );
     json.member( "vehicle_noise", vehicle_noise );
+    json.member( "effects", effects );
 
     json.end_object();
 }

@@ -35,6 +35,8 @@ class activity_actor;
 
 static const damage_type_id damage_pure( "pure" );
 
+static const efftype_id effect_test( "grabbed" );
+
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_folded_bicycle( "folded_bicycle" );
 static const itype_id itype_folded_inflatable_boat( "folded_inflatable_boat" );
@@ -809,8 +811,6 @@ TEST_CASE( "autopilot_tests", "[vehicle][autopilot]" )
 
 TEST_CASE( "vehicle_enchantments", "[vehicle][enchantments]" )
 {
-    // spawns vehicle, installs the extra part if it's not null, activates follow and
-    // checks if it moves, most of the test is a cutout from vehicle_efficiency_test.cpp
     clear_avatar();
     clear_map();
     map &here = get_map();
@@ -842,4 +842,39 @@ TEST_CASE( "vehicle_enchantments", "[vehicle][enchantments]" )
 
     int ending_turning_dif = veh_ptr->handling_difficulty( here );
     CHECK( turning_dif + 1 == ending_turning_dif );
+}
+
+
+TEST_CASE( "vehicle_effects", "[vehicle][effects]" )
+{
+    clear_avatar();
+    clear_map();
+    map &here = get_map();
+    Character &player_character = get_player_character();
+    // Move player somewhere safe
+    REQUIRE_FALSE( player_character.in_vehicle );
+    player_character.setpos( here, tripoint_bub_ms::zero );
+
+    const tripoint_bub_ms map_starting_point( 60, 60, 0 );
+    vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_car, map_starting_point, -90_degrees, 100, 0,
+                                         false );
+
+    REQUIRE( veh_ptr != nullptr );
+    REQUIRE( !veh_ptr->has_effect( effect_test ) );
+
+    veh_ptr->add_effect( effect_source::empty(), effect_test, time_duration::from_seconds( 2 ), false,
+                         0 );
+
+    REQUIRE( veh_ptr->has_effect( effect_test ) );
+
+    calendar::turn += 1_turns;
+    veh_ptr->process_effects();
+
+    REQUIRE( veh_ptr->has_effect( effect_test ) );
+
+    calendar::turn += 2_turns;
+    veh_ptr->process_effects();
+    veh_ptr->process_effects();
+
+    REQUIRE( !veh_ptr->has_effect( effect_test ) );
 }

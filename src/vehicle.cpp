@@ -1641,6 +1641,7 @@ bool vehicle::has_visible_effect()
 std::vector<std::reference_wrapper<const effect>> vehicle::get_effects() const
 {
     std::vector<std::reference_wrapper<const effect>> effs;
+    effs.reserve( effects.size() );
     for( const std::pair<const efftype_id, effect> &_it : effects ) {
         effs.emplace_back( _it.second );
     }
