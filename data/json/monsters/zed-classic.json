@@ -29,7 +29,7 @@
     "special_attacks": [
       [ "PARROT", 400 ],
       [ "PARROT_AT_DANGER", 0 ],
-      { "id": "grab" },
+      { "id": "grab", "cooldown": 2 },
       { "id": "bite_humanoid", "cooldown": 5 },
       { "id": "scratch_humanoid" }
     ],
