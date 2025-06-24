@@ -2046,7 +2046,7 @@
         "W..MM.............ZZ..W",
         "W.....................W",
         "W.....................W",
-        "Wi&i(i&iCC...CCi(i&i(iW",
+        "Wi&i(i&iCC..yCCi(i&i(iW",
         "||GGGGGG||#g|||GGGGGG||",
         "sssssssssssssssssssssss"
       ],
@@ -2123,6 +2123,7 @@
       },
       "toilets": { "*": {  } },
       "items": {
+        "y": { "item": "SUS_trash_trashcan_public" },
         "k": { "item": "SUS_toilet", "chance": 100 },
         "M": [
           { "item": "pants_unisex", "chance": 50, "repeat": 3 },
@@ -2817,7 +2818,7 @@
         "W```httWWWWWWDWDWDWDWDW",
         "W````ttWllWiC.........W",
         "WWLWWWWWDDWC..........W",
-        "W...............IIII..W",
+        "W.........y.....IIII..W",
         "W.....c...............W",
         "W.o..oc.........UUUU..W",
         "Wcccccc...CiC.........W",
@@ -2909,6 +2910,7 @@
       },
       "toilets": { "*": {  } },
       "items": {
+        "y": { "item": "SUS_trash_trashcan_public" },
         "k": { "item": "SUS_toilet", "chance": 100 },
         "M": [
           { "item": "pants_unisex", "chance": 50, "repeat": 3 },
