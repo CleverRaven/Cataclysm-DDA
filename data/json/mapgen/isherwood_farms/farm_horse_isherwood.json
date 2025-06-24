@@ -143,10 +143,7 @@
         "m": { "item": { "item": "soybean_seed" }, "furniture": "f_planter_harvest" },
         "u": { "item": { "item": "seed_beans" }, "furniture": "f_planter_harvest" }
       },
-      "items": {
-        "k": { "item": "SUS_office_desk", "chance": 30 },
-        "D": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 2, 4 ] }
-      },
+      "items": { "k": { "item": "SUS_office_desk", "chance": 30 }, "D": { "item": "SUS_trash_trashcan", "chance": 20 } },
       "place_loot": [
         { "item": "television", "x": 17, "y": 88, "chance": 100 },
         { "item": "stepladder", "x": 67, "y": 43, "chance": 100 },
