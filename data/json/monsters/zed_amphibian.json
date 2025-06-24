@@ -549,6 +549,7 @@
       {
         "id": "dusty_frog_leap",
         "type": "spell",
+        "cooldown": 0,
         "spell_data": { "id": "dusty_frog_leap" },
         "allow_no_target": true,
         "condition": { "u_has_effect": "fragile_frog" },
@@ -592,6 +593,7 @@
       {
         "id": "fragile_frog_leap",
         "type": "spell",
+        "cooldown": 0,
         "spell_data": { "id": "fragile_frog_leap" },
         "allow_no_target": true,
         "condition": { "u_has_effect": "fragile_frog" },
@@ -633,6 +635,7 @@
       {
         "id": "fragile_frog_leap",
         "type": "spell",
+        "cooldown": 0,
         "spell_data": { "id": "fragile_frog_leap" },
         "allow_no_target": true,
         "condition": { "u_has_effect": "fragile_frog" },

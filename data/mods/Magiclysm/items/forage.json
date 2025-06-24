@@ -38,10 +38,10 @@
     }
   },
   {
-    "id": "forage_fall",
+    "id": "forage_autumn",
     "type": "item_group",
     "subtype": "distribution",
-    "copy-from": "forage_fall",
+    "copy-from": "forage_autumn",
     "extend": {
       "entries": [
         { "item": "whiskflower", "prob": 30, "count": [ 1, 2 ] },
@@ -82,9 +82,9 @@
     }
   },
   {
-    "id": "foraging_faction_camp_fall",
+    "id": "foraging_faction_camp_autumn",
     "type": "item_group",
-    "copy-from": "foraging_faction_camp_fall",
+    "copy-from": "foraging_faction_camp_autumn",
     "subtype": "distribution",
     "extend": {
       "entries": [

@@ -167,7 +167,7 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 
 ## JSON special attacks
 
-These special attacks are defined in [JSON](/data/json/monster_special_attacks), and belong to the `monster_attack` type, `melee` attack_type.  These don't have to be declared in the monster's attack data, the `id` of the desired attack can be used instead.  All fields beyond `id` are optional.
+These special attacks are defined in [JSON](/data/json/monster_special_attacks), and belong to the `monster_attack` type, `melee` attack_type.  These don't have to be declared in the monster's attack data, the `id` of the desired attack can be used instead.  All fields beyond `id` and `cooldown` are optional.
 
 | field                       | description
 | ---                         | ---

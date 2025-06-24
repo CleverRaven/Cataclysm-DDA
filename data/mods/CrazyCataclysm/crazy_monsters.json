@@ -435,6 +435,7 @@
       {
         "type": "monster_attack",
         "attack_type": "melee",
+        "cooldown": 0,
         "damage_max_instance": [ { "damage_type": "pure", "amount": 100000 } ],
         "dodgeable": true,
         "blockable": false,
