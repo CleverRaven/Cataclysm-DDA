@@ -203,12 +203,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "riverside_dwelling",
-      "riverside_dwelling1",
-      "riverside_dwelling2",
-      "riverside_dwelling3"
-    ],
+    "id": [ "riverside_dwelling", "riverside_dwelling1", "riverside_dwelling2", "riverside_dwelling3" ],
     "name": "riverside dwelling",
     "vision_levels": "isolated_building",
     "travel_cost_type": "structure",
@@ -221,12 +216,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "riverside_dwelling_roof",
-      "riverside_dwelling1_roof",
-      "riverside_dwelling2_roof",
-      "riverside_dwelling3_roof"
-    ],
+    "id": [ "riverside_dwelling_roof", "riverside_dwelling1_roof", "riverside_dwelling2_roof", "riverside_dwelling3_roof" ],
     "copy-from": "riverside_dwelling",
     "travel_cost_type": "roof"
   },
@@ -581,12 +571,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "bandit_camp_1",
-      "bandit_camp_2",
-      "bandit_camp_3",
-      "bandit_camp_4"
-    ],
+    "id": [ "bandit_camp_1", "bandit_camp_2", "bandit_camp_3", "bandit_camp_4" ],
     "vision_levels": "isolated_building",
     "travel_cost_type": "structure",
     "name": "wooden fort",
@@ -598,12 +583,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "bandit_camp_1_roof",
-      "bandit_camp_2_roof",
-      "bandit_camp_3_roof",
-      "bandit_camp_4_roof"
-    ],
+    "id": [ "bandit_camp_1_roof", "bandit_camp_2_roof", "bandit_camp_3_roof", "bandit_camp_4_roof" ],
     "copy-from": "bandit_camp_1",
     "travel_cost_type": "roof"
   },
