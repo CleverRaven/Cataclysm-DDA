@@ -641,6 +641,6 @@
     "type": "overmap_terrain",
     "id": "mil_base_minefield_gate_left",
     "copy-from": "generic_mil_base_minefield",
-    "sym": "┐"
+    "sym": "┌"
   }
 ]
