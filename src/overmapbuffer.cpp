@@ -904,6 +904,8 @@ overmap_path_params overmap_path_params::for_player()
     ret.set_cost( oter_travel_cost_type::other, 72 );
     ret.set_cost( oter_travel_cost_type::structure, 60 );
     ret.set_cost( oter_travel_cost_type::roof, 36 );
+    ret.set_cost( oter_travel_cost_type::basement, 60 );
+    ret.set_cost( oter_travel_cost_type::tunnel, 30 );
     ret.allow_diagonal = true;
     return ret;
 }
