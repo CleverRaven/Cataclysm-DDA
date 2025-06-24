@@ -59,22 +59,22 @@
     ]
   },
   {
-  "type": "recipe",
-  "result": "protein_smoothie",
-  "id_suffix": "water",
-  "activity_level": "LIGHT_EXERCISE",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_DRINKS",
-  "skill_used": "cooking",
-  "time": "6 m",
-  "autolearn": true,
-  "qualities": [ { "id": "CUT", "level": 2 } ],
-  "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-  "components": [
-    [ [ "protein_powder", 1 ] ],
-    [ [ "milk_powder", 1 ] ],
-    [ [ "lemonade_powder", 1 ], [ "sweet_fruit_like", 1, "LIST" ], [ "coconut_flesh", 1 ] ],
-    [ [ "water_clean", 1 ] ]
-  ]
-}
+    "type": "recipe",
+    "result": "protein_smoothie",
+    "id_suffix": "water",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "6 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
+    "components": [
+      [ [ "protein_powder", 1 ] ],
+      [ [ "milk_powder", 1 ] ],
+      [ [ "lemonade_powder", 1 ], [ "sweet_fruit_like", 1, "LIST" ], [ "coconut_flesh", 1 ] ],
+      [ [ "water_clean", 1 ] ]
+    ]
+  }
 ]
