@@ -1093,6 +1093,11 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
     std::vector<std::pair<nc_color, std::string>> notes_window_text;
 
+    if( viewing_weather ) {
+        // We hijack this to avoid repeating code just for this simple notice. Notes will still display normally
+        notes_window_text.emplace_back( c_yellow, _( "WEATHER MODE" ) );
+    }
+
     if( uistate.overmap_show_map_notes ) {
         const std::string &note_text = overmap_buffer.note( center_pos );
         if( !note_text.empty() ) {
