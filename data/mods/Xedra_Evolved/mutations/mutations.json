@@ -1522,11 +1522,11 @@
     "id": "VAMPIRE_WEAKNESS_MORE_BLOOD",
     "name": { "str": "Vampiric weakness: blood drain" },
     "points": -1,
-    "description": "You thirst for blood is more intense than usual.  You now need twice as much blood to prevent blood starvation.",
+    "description": "You thirst for blood is more intense than usual.  You now need much more blood to prevent blood starvation.",
     "starting_trait": false,
     "valid": false,
     "purifiable": false,
-    "vitamin_rates": [ [ "human_blood_vitamin", 60 ] ]
+    "vitamin_rates": [ [ "human_blood_vitamin", 120 ] ]
   },
   {
     "type": "mutation",
