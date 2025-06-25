@@ -249,6 +249,8 @@ enum class oter_travel_cost_type : int {
     air,
     structure,
     roof,
+    basement,
+    tunnel,
     last
 };
 
