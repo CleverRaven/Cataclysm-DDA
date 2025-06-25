@@ -296,7 +296,7 @@
     "parameters": {
       "variant": {
         "type": "nested_mapgen_id",
-        "scope": "smallmap",
+        "scope": "omt_stack",
         "default": { "distribution": [ "24x24_canyon_edge_v1", "24x24_canyon_edge_v2" ] }
       }
     }
@@ -413,7 +413,7 @@
     "parameters": {
       "variant": {
         "type": "nested_mapgen_id",
-        "scope": "smallmap",
+        "scope": "omt_stack",
         "default": { "distribution": [ "24x24_canyon_corner_v1", "24x24_canyon_corner_v2" ] }
       }
     }
@@ -519,7 +519,7 @@
     "parameters": {
       "variant": {
         "type": "nested_mapgen_id",
-        "scope": "smallmap",
+        "scope": "omt_stack",
         "default": { "distribution": [ "24x24_canyon_2way_v1", "24x24_canyon_2way_v2" ] }
       }
     }
@@ -529,7 +529,7 @@
     "om_terrain": "canyon_2way_ground",
     "object": {
       "fallback_predecessor_mapgen": "field",
-      "palettes": [ "canyon_corner_parameters" ],
+      "palettes": [ "canyon_2way_parameters" ],
       "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_2way_v1" } ], "x": 0, "y": 0 } ]
     }
   },
@@ -538,7 +538,7 @@
     "om_terrain": "canyon_2way",
     "object": {
       "predecessor_mapgen": "open_air",
-      "palettes": [ "canyon_corner_parameters" ],
+      "palettes": [ "canyon_2way_parameters" ],
       "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_2way_v1" } ], "x": 0, "y": 0 } ]
     }
   },
@@ -547,7 +547,7 @@
     "om_terrain": "canyon_2way_bottom",
     "object": {
       "predecessor_mapgen": "field",
-      "palettes": [ "canyon_corner_parameters" ],
+      "palettes": [ "canyon_2way_parameters" ],
       "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_canyon_2way_v1" } ], "x": 0, "y": 0 } ]
     }
   },
@@ -625,7 +625,7 @@
     "parameters": {
       "variant": {
         "type": "nested_mapgen_id",
-        "scope": "smallmap",
+        "scope": "omt_stack",
         "default": { "distribution": [ "24x24_canyon_3way_v1", "24x24_canyon_3way_v2" ] }
       }
     }
