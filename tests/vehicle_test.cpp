@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <functional>
+#include <map>
 #include <optional>
 #include <string>
 #include <utility>
@@ -8,11 +9,13 @@
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "item.h"
 #include "itype.h"

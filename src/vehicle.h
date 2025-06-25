@@ -29,6 +29,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "effect.h"
 #include "enums.h"
 #include "global_vars.h"
 #include "item.h"
@@ -40,7 +41,6 @@
 #include "map.h"
 #include "math_parser_diag_value.h"
 #include "npc.h"
-#include "pimpl.h"
 #include "point.h"
 #include "ret_val.h"
 #include "safe_reference.h"
@@ -54,6 +54,7 @@
 // IWYU pragma: no_forward_declare npc // behind unique_ptr
 class Character;
 class Creature;
+class effect_source;
 class JsonArray;
 class JsonObject;
 class JsonOut;

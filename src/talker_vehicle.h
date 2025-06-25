@@ -2,11 +2,14 @@
 #ifndef CATA_SRC_TALKER_VEHICLE_H
 #define CATA_SRC_TALKER_VEHICLE_H
 
+#include <map>
 #include <memory>
 #include <string>
 
+#include "bodypart.h"
 #include "coords_fwd.h"
 #include "talker.h"
+#include "type_id.h"
 
 class vehicle;
 

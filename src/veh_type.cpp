@@ -32,6 +32,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "output.h"
 #include "pocket_type.h"
