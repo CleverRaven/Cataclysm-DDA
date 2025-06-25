@@ -268,7 +268,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked human" },
-    "description": "A cooked slice of some person.  Tastes may vary, depending on the consumer's personality.",
+    "description": "A cooked slice of 'long pig'.  Tastes vary from person to person.",
     "proportional": { "price": 1.5 },
     "parasites": 0,
     "fun": 0,
