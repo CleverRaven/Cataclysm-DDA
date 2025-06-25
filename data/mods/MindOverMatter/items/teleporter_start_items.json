@@ -450,7 +450,7 @@
       "NO_UNLOAD",
       "NO_RELOAD",
       "ALLOWS_NATURAL_ATTACKS",
-      "OVERSIZE", 
+      "OVERSIZE",
       "NO_REPAIR"
     ],
     "symbol": "[",
