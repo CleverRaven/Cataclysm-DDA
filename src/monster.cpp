@@ -3969,6 +3969,13 @@ void monster::on_hit( map *here, Creature *source, bodypart_id,
     // TODO: Faction relations
 }
 
+bool monster::has_monochrome_overlay() const
+{
+    return std::any_of( effects->begin(), effects->end(), [&]( const auto & elem ) {
+        return elem.first->has_monochrome_overlay();
+    } );
+}
+
 int monster::get_hp_max( const bodypart_id & ) const
 {
     return type->hp;

@@ -3295,6 +3295,7 @@
       "FREEZE_EFFECTS",
       "CANNOT_GAIN_EFFECTS"
     ],
+    "monochrome_overlay": true,
     "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -1 } ] } ],
     "show_in_info": true
   },

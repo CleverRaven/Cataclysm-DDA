@@ -21,6 +21,8 @@ static color_pixel_function_map builtin_color_pixel_functions = {
     { "color_pixel_sepia_dark", color_pixel_sepia_dark },
     { "color_pixel_blue_dark", color_pixel_blue_dark },
     { "color_pixel_custom", color_pixel_custom },
+    { "color_pixel_monochrome", color_pixel_monochrome },
+    { "color_pixel_greenchrome", color_pixel_greenchrome },
     { "color_pixel_grayscale", color_pixel_grayscale },
     { "color_pixel_nightvision", color_pixel_nightvision },
     { "color_pixel_overexposed", color_pixel_overexposed },
@@ -72,6 +74,24 @@ SDL_Color mix_colors( const SDL_Color &first, const SDL_Color &second, int secon
         static_cast<Uint8>( std::min( ( first.b * first_percent + second.b * second_percent ) / 100, 0xFF ) ),
         static_cast<Uint8>( std::min( ( first.a * first_percent + second.a * second_percent ) / 100, 0xFF ) )
     };
+}
+
+inline SDL_Color color_pixel_monochrome( const SDL_Color &color )
+{
+    if( is_black( color ) ) {
+        return color;
+    }
+
+    const Uint8 av = average_pixel_color( color );
+
+    return { av, av, av, color.a };
+}
+
+inline SDL_Color color_pixel_greenchrome( const SDL_Color &color )
+{
+    const Uint8 av = average_pixel_color( color );
+
+    return { static_cast<Uint8>( av >> 2 ), av, static_cast<Uint8>( av >> 3), color.a };
 }
 
 inline SDL_Color color_pixel_grayscale( const SDL_Color &color )

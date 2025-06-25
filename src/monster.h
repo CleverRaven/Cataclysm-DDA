@@ -287,6 +287,7 @@ class monster : public Creature
 
         bool is_immune_field( const field_type_id &fid ) const override;
         bool check_immunity_data( const field_immunity_data &ft ) const override;
+        bool has_monochrome_overlay() const override;
 
         /**
          * Attempt to move to p.

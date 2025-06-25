@@ -149,6 +149,7 @@ class effect_type
                               int intensity ) const;
 
         bool is_show_in_info() const;
+        bool has_monochrome_overlay() const;
 
         /** Loading helper functions */
         void load_mod_data( const JsonObject &jo );
@@ -204,6 +205,8 @@ class effect_type
 
         // Determines if effect should show intensity value next to its name in EFFECTS tab.
         bool show_intensity = false;
+
+        bool monochrome_overlay = false;
 
         std::vector<trait_id> resist_traits;
         std::vector<efftype_id> resist_effects;

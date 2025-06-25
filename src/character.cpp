@@ -5848,6 +5848,13 @@ bool Character::is_immune_field( const field_type_id &fid ) const
     return Creature::is_immune_field( fid );
 }
 
+bool Character::has_monochrome_overlay() const
+{
+    return std::any_of( effects->begin(), effects->end(), [&]( const auto & elem ) {
+        return elem.first->has_monochrome_overlay();
+    } );
+}
+
 // FIXME: Relies on hardcoded damage type
 bool Character::is_elec_immune() const
 {
