@@ -862,7 +862,8 @@ TEST_CASE( "vehicle_effects", "[vehicle][effects]" )
     REQUIRE( veh_ptr != nullptr );
     REQUIRE( !veh_ptr->has_effect( effect_grabbed ) );
 
-    veh_ptr->add_effect( effect_source::empty(), effect_grabbed, time_duration::from_seconds( 2 ), false,
+    veh_ptr->add_effect( effect_source::empty(), effect_grabbed, time_duration::from_seconds( 2 ),
+                         false,
                          0 );
 
     REQUIRE( veh_ptr->has_effect( effect_grabbed ) );
