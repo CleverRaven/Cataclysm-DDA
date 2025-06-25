@@ -1680,7 +1680,7 @@
     "name": [ "Torpor" ],
     "desc": [ "Thanks to your torpor you are healing and recovering quickly" ],
     "rating": "good",
-    "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ 1, 1 ] ], "tick": [ "3 m" ] } ],
+    "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ 1, 1 ] ], "tick": [ "8 m" ] } ],
     "flags": [ "DEAF", "BLIND" ],
     "enchantments": [
       {
