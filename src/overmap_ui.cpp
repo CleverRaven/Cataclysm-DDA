@@ -590,7 +590,7 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
     oter_display_lru lru_cache;
     oter_display_options oter_opts( orig, sight_points );
     oter_opts.show_weather = ( uistate.overmap_debug_weather || uistate.overmap_visible_weather ) &&
-                             cursor_pos.z() == 10;
+                             cursor_pos.z() == OVERMAP_HEIGHT;
     oter_opts.show_pc = true;
     oter_opts.debug_scent = data.debug_scent;
     oter_opts.show_map_revealed = uistate.overmap_show_revealed_omts;
@@ -874,6 +874,10 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
 
     if( !data.message.empty() ) {
         corner_text.emplace_back( c_white, data.message );
+    }
+
+    if( oter_opts.show_weather ) {
+        corner_text.emplace_back( c_yellow, _( "WEATHER MODE" ) );
     }
 
     if( uistate.overmap_show_map_notes ) {
@@ -2530,7 +2534,7 @@ void ui::omap::display_weather()
 {
     g->overmap_data = overmap_ui::overmap_draw_data_t();
     tripoint_abs_omt pos = get_player_character().pos_abs_omt();
-    pos.z() = 10;
+    pos.z() = OVERMAP_HEIGHT;
     g->overmap_data.origin_pos = pos;
     uistate.overmap_debug_weather = true;
     overmap_ui::display();
@@ -2541,7 +2545,7 @@ void ui::omap::display_visible_weather()
 {
     g->overmap_data = overmap_ui::overmap_draw_data_t();
     tripoint_abs_omt pos = get_player_character().pos_abs_omt();
-    pos.z() = 10;
+    pos.z() = OVERMAP_HEIGHT;
     g->overmap_data.origin_pos = pos;
     uistate.overmap_visible_weather = true;
     overmap_ui::display();

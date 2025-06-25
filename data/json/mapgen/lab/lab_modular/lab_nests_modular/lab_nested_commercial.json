@@ -168,7 +168,7 @@
       "items": {
         "M": [ { "item": "pizza_display", "chance": 30, "repeat": [ 1, 2 ] } ],
         "J": [ { "item": "pizza_table", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30 } ],
         "m": [ { "item": "vending_drink", "chance": 30 }, { "item": "prepared_teas", "chance": 30 } ]
       }
     }
@@ -211,7 +211,7 @@
       "palettes": [ "lab_common_palette" ],
       "items": {
         "f": [ { "item": "restaurant_mexican_table", "chance": 30 } ],
-        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30 } ],
         "m": [ { "item": "vending_drink", "chance": 30 }, { "item": "pizza_beer", "chance": 30 } ]
       }
     }
@@ -252,7 +252,7 @@
       "items": {
         "M": [ { "item": "baked_goods", "chance": 30, "repeat": [ 1, 2 ] } ],
         "J": [ { "item": "coffee_counter", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30 } ],
         "m": [
           { "item": "coffee_freezer", "chance": 30, "repeat": [ 1, 6 ] },
           { "item": "prepared_teas", "chance": 30, "repeat": [ 0, 6 ] }
@@ -277,7 +277,7 @@
       "palettes": [ "lab_common_palette" ],
       "items": {
         "w": [ { "item": "coffee_display_2", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30 } ],
         "f": [ { "item": "coffee_condiments", "chance": 30, "repeat": [ 1, 2 ] } ]
       }
     }
@@ -310,7 +310,7 @@
           { "item": "coffee_display_2", "chance": 30, "repeat": [ 1, 6 ] },
           { "item": "prepared_teas", "chance": 30, "repeat": [ 0, 6 ] }
         ],
-        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30 } ],
         "H": [ { "item": "coffee_newsstand", "chance": 30 } ],
         "J": [ { "item": "coffee_prep", "chance": 30, "repeat": [ 1, 3 ] }, { "item": "coffee_dishes", "chance": 30 } ]
       }
@@ -341,7 +341,7 @@
           { "item": "produce", "chance": 30, "repeat": [ 1, 3 ] },
           { "item": "pizza_kitchen", "chance": 60, "repeat": [ 1, 3 ] }
         ],
-        "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] }
+        "Y": { "item": "SUS_trash_trashcan", "chance": 30 }
       }
     }
   },
@@ -396,7 +396,7 @@
         "3": { "item": "restaurant_mexican_table", "chance": 60 },
         "m": { "item": "restaurant_mexican_fridge", "chance": 70 },
         "w": [ { "item": "restaurant_mexican_pantry", "chance": 40 } ],
-        "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] }
+        "Y": { "item": "SUS_trash_trashcan", "chance": 30 }
       }
     }
   },

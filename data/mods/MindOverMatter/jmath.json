@@ -45,14 +45,14 @@
     "type": "jmath_function",
     "id": "psionic_power_success_formula_proficiency_handling",
     "num_args": 0,
-    "return": " u_has_proficiency('prof_concentration_basic') ? ( u_has_proficiency('prof_concentration_intermediate') ? ( u_has_proficiency('prof_concentration_master') ? min( ( psionic_power_success_formula_base_calc() ), 40 ) : min( ( psionic_power_success_formula_base_calc() ), 37 ) ) : min( ( psionic_power_success_formula_base_calc() ), 31 ) ) : min( ( psionic_power_success_formula_base_calc() ), 24)"
+    "return": " u_has_proficiency('prof_concentration_basic') ? ( u_has_proficiency('prof_concentration_intermediate') ? ( u_has_proficiency('prof_concentration_master') ? min( ( psionic_power_success_formula_base_calc() ), 40 ) : min( ( psionic_power_success_formula_base_calc() ), (37 + (u_has_trait('PSI_EXTENDED_CHANNELING_active') * 3) ) ) ) : min( ( psionic_power_success_formula_base_calc() ), 31 + (u_has_trait('PSI_EXTENDED_CHANNELING_active') * 3) ) ) : min( ( psionic_power_success_formula_base_calc() ), 24 + (u_has_trait('PSI_EXTENDED_CHANNELING_active') * 7) )"
   },
   {
     "type": "jmath_function",
     "id": "psionic_power_success_formula_base_calc",
     "//": "Metaphysics is by far the most important factor, followed by intelligence, followed only after by power level.  At effective skill level 12 there's a 50% chance to fail",
     "num_args": 0,
-    "return": "(2 * ( ( u_skill('metaphysics') * 2 ) - u_spell_difficulty(_spell_id) ) + ( u_val('intelligence') * 1.5 ) + (u_spell_level(_spell_id) * 0.6666666666) ) + psionic_power_success_formula_channeling_concentration_modifiers() + psionic_power_success_formula_weariness_modifiers() + psionic_power_success_formula_repeated_channeling_modifiers() + psionic_power_success_formula_torrential_channeling()"
+    "return": "(2 * ( ( u_skill('metaphysics') * 2 ) - u_spell_difficulty(_spell_id) ) + ( u_val('intelligence') * 1.5 ) + (u_spell_level(_spell_id) * 0.6666666666) ) + psionic_power_success_formula_channeling_concentration_modifiers() + psionic_power_success_formula_weariness_modifiers() + psionic_power_success_formula_repeated_channeling_modifiers() + psionic_power_success_formula_modifiers()"
   },
   {
     "type": "jmath_function",
@@ -79,7 +79,7 @@
     "type": "jmath_function",
     "id": "psionic_power_success_formula_modifiers",
     "num_args": 0,
-    "return": "psionic_power_success_formula_torrential_channeling() + u_has_trait('PSI_EXTENDED_CHANNELING_active') ? -0.5 : 0"
+    "return": "psionic_power_success_formula_torrential_channeling() + u_has_trait('PSI_EXTENDED_CHANNELING_active') ? (8 + u_skill('metaphysics') ) ) : 0"
   },
   {
     "type": "jmath_function",

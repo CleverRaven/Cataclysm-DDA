@@ -1035,6 +1035,13 @@ void monster::print_info_imgui() const
     ImGui::TextColored( symbol_color, "%s %s", name().c_str(),
                         get_effect_status().c_str() );
 
+    if( debug_mode ) {
+        dialogue d( get_talker_for( const_cast<monster *>( this ) ), get_talker_for( get_avatar() ) );
+        for( const std::pair<const std::string, mtype_special_attack> &attack : type->special_attacks ) {
+            ImGui::Text( "%s: %g", attack.first.c_str(), attack.second->cooldown.evaluate( d ) );
+        }
+    }
+
     Character &pc = get_player_character();
     bool sees_player = sees( here, pc );
     const bool player_knows = !pc.has_trait( trait_INATTENTIVE );

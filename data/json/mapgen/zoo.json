@@ -213,7 +213,7 @@
           { "item": "SUS_dishes", "chance": 15 }
         ],
         "T": [ { "item": "SUS_silverware", "chance": 25 }, { "item": "SUS_dishes", "chance": 25 } ],
-        "Y": { "item": "SUS_trash_trashcan_public", "chance": 50, "repeat": [ 1, 20 ] },
+        "Y": { "item": "SUS_trash_trashcan_public" },
         ",": { "item": "forest", "chance": 2 },
         "d": [ { "item": "SUS_office_desk", "chance": 60 } ],
         "r": { "item": "gift_shop", "chance": 75 },
