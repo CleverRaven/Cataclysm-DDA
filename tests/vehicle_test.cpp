@@ -35,7 +35,7 @@ class activity_actor;
 
 static const damage_type_id damage_pure( "pure" );
 
-static const efftype_id effect_test( "grabbed" );
+static const efftype_id effect_grabbed( "grabbed" );
 
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_folded_bicycle( "folded_bicycle" );
@@ -860,21 +860,21 @@ TEST_CASE( "vehicle_effects", "[vehicle][effects]" )
                                          false );
 
     REQUIRE( veh_ptr != nullptr );
-    REQUIRE( !veh_ptr->has_effect( effect_test ) );
+    REQUIRE( !veh_ptr->has_effect( effect_grabbed ) );
 
-    veh_ptr->add_effect( effect_source::empty(), effect_test, time_duration::from_seconds( 2 ), false,
+    veh_ptr->add_effect( effect_source::empty(), effect_grabbed, time_duration::from_seconds( 2 ), false,
                          0 );
 
-    REQUIRE( veh_ptr->has_effect( effect_test ) );
+    REQUIRE( veh_ptr->has_effect( effect_grabbed ) );
 
     calendar::turn += 1_turns;
     veh_ptr->process_effects();
 
-    REQUIRE( veh_ptr->has_effect( effect_test ) );
+    REQUIRE( veh_ptr->has_effect( effect_grabbed ) );
 
     calendar::turn += 2_turns;
     veh_ptr->process_effects();
     veh_ptr->process_effects();
 
-    REQUIRE( !veh_ptr->has_effect( effect_test ) );
+    REQUIRE( !veh_ptr->has_effect( effect_grabbed ) );
 }
