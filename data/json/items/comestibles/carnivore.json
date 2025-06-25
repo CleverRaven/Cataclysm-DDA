@@ -267,7 +267,7 @@
     "copy-from": "human_flesh",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "name": { "str_sp": "cooked human" },
+    "name": { "str_sp": "cooked creep" },
     "description": "A cooked slice of 'long pig'.  Tastes vary from person to person.",
     "proportional": { "price": 1.5 },
     "parasites": 0,
