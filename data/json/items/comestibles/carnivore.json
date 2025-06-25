@@ -280,7 +280,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "peppered person" },
-    "description": "A cooked slice of some person properly seasoned with black pepper and salt.  Tastes may vary, depending on the consumer's personality.",
+    "description": "A cooked slice of some person, seasoned with black pepper and salt.  Probably has better taste than they did when alive.",
     "proportional": { "price": 1.5 },
     "parasites": 0,
     "fun": 2,
