@@ -95,7 +95,6 @@
         "gutskin",
         "denim",
         "canvas",
-        "demon_chitin",
         "black_dragon_hide"
       ],
       "skill": "tailor",
@@ -129,8 +128,7 @@
           "gutskin",
           "denim",
           "canvas",
-          "black_dragon_hide",
-          "demon_chitin"
+          "black_dragon_hide"
         ],
         "skill": "tailor",
         "tool_quality": 1,
