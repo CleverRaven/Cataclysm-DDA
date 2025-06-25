@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_TALKER_VEHICLE_H
 #define CATA_SRC_TALKER_VEHICLE_H
 
-#include <map>
 #include <memory>
 #include <string>
 
