@@ -63,7 +63,6 @@
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,
     "latent_heat": 273,
-    "soft": true,
     "chip_resist": 20,
     "sheet_thickness": 1.2,
     "breathability": "AVERAGE",
@@ -71,6 +70,6 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
     "soft": true,
-    "resist": { "bash": 1.5, "cut": 2, "acid": 6, "heat": 2, "bullet": 3 }
+    "resist": { "bash": 1.5, "cut": 2, "acid": 6, "heat": 2, "bullet": 5 }
   }
 ]

@@ -74,7 +74,7 @@
     "subtypes": [ "GUN" ],
     "reload_noise_volume": 0,
     "name": { "str": "G-Tz77 \"Tlapetlaniliztli\" battle rifle" },
-    "description": "A state-of-the-art laser rifle developed by the R&D outfit \"Aerial Labs\".  Initial performance rivaled Rivtech's finest, with rumors flying about corporate skulduggery.  Though the Cataclysm put that on the ash heap of history, this weapon can still do the same to your foes.",
+    "description": "A shipboard battle rifle, whose non-kinetic ammunition was designed to avoid puncturing ship hulls during engagements.  The G-Tz77 has been a mainstay of the Imperial Navy for decades at this point and seen service on the surface of and in orbit around dozens of worlds.  This is just one more in its long history of protecting the Excan Tlahtoloyan.",
     "weight": "2950 g",
     "volume": "3 L",
     "longest_side": "900 mm",
@@ -157,13 +157,13 @@
   {
     "id": "mom_fifth_sun_standard_body_armor",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "pāncahcallō torso armor", "str_pl": "sets of pāncahcallō torso armor" },
     "description": "A set of torso and upper-arm armor made with mixed leather overlaid with sheets of ichcayolli, pāncahcallō armor derives its effectiveness from the integral generator capable of projecting an ehēcatepantli barrier that provides most of the armor's protection.",
     "weight": "3250 g",
     "volume": "3500 ml",
-    "price": "5k USD",
+    "price": "5000 USD",
     "price_postapoc": "300 USD",
     "material": [ "leather" ],
     "symbol": "[",
@@ -174,22 +174,34 @@
       {
         "covers": [ "torso" ],
         "coverage": 95,
-        "encumbrance": 11,
+        "encumbrance": 20,
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 2 },
-          { "type": "fifth_sun_antiballistic_cloth", "covered_by_mat": 95, "thickness": 2.4, "ignore_sheet_thickness": true } ]
+          {
+            "type": "fifth_sun_antiballistic_cloth",
+            "covered_by_mat": 95,
+            "thickness": 2.4,
+            "ignore_sheet_thickness": true
+          }
+        ]
       },
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 90,
-        "encumbrance": 3,
+        "encumbrance": 8,
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.1 },
-          { "type": "fifth_sun_antiballistic_cloth", "covered_by_mat": 95, "thickness": 1.2, "ignore_sheet_thickness": true } ]
+          {
+            "type": "fifth_sun_antiballistic_cloth",
+            "covered_by_mat": 95,
+            "thickness": 1.2,
+            "ignore_sheet_thickness": true
+          }
+        ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
       }
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 672 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 672 } } ],
     "warmth": 20,
     "use_action": [
       {
@@ -209,7 +221,7 @@
         "condition": "ACTIVE",
         "name": "Ehēcatepantli Barrier",
         "description": "The air around you has a faint shimmer.",
-        "ench_effects": [ 
+        "ench_effects": [
           { "effect": "effect_shield_belt_telekin_protection", "intensity": 1 },
           { "effect": "effect_mom_fall_one_story", "intensity": 1 }
         ],
@@ -220,17 +232,17 @@
           { "type": "bullet", "add": -40 }
         ]
       }
-    ]
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
+    ],
+    "flags": [ "VARSIZE", "STURDY", "MUNDANE", "OUTER" ]
   },
   {
     "id": "mom_fifth_sun_standard_body_armor_on",
     "copy-from": "mom_fifth_sun_standard_body_armor",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
     "name": { "str": "pāncahcallō torso armor (active)", "str_pl": "sets of pāncahcallō torso armor (active)" },
     "description": "A set of torso and upper-arm armor made with mixed leather overlaid with sheets of ichcayolli, pāncahcallō armor derives its effectiveness from the integral generator capable of projecting an ehēcatepantli barrier that provides most of the armor's protection.  The ehēcatepantli is currently active.",
-    "power_draw": "25 W",
+    "power_draw": "15 W",
     "revert_to": "mom_fifth_sun_standard_body_armor",
     "use_action": [
       {
@@ -247,10 +259,10 @@
     "id": "mom_fifth_sun_standard_body_armor_non_fifth_sun",
     "copy-from": "mom_fifth_sun_standard_body_armor",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
     "name": { "str": "strange body armor", "str_pl": "sets of strange body armor" },
-    "description": "A set of leather armor covered in some kind of very thick white cloth.  A small textured box is attached to the left side, easily accessible with your right hand.  The box has a switch of some kind on and several odd pictographs around the switch.",
-     "use_action": [
+    "description": "A set of leather armor covered in some kind of very stiff white cloth.  A small textured box is attached to the left side, easily accessible with either hand.  The box has a switch of some kind and several odd pictographs around the switch.",
+    "use_action": [
       {
         "type": "transform",
         "msg": "You flip the switch.",
@@ -268,7 +280,7 @@
         "condition": "ACTIVE",
         "name": "Shimmering air",
         "description": "The air around you has a faint shimmer.",
-        "ench_effects": [ 
+        "ench_effects": [
           { "effect": "effect_shield_belt_telekin_protection", "intensity": 1 },
           { "effect": "effect_mom_fall_one_story", "intensity": 1 }
         ],
@@ -285,10 +297,10 @@
     "id": "mom_fifth_sun_standard_body_armor_non_fifth_sun_on",
     "copy-from": "mom_fifth_sun_standard_body_armor_on",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
     "name": { "str": "strange body armor  (active)", "str_pl": "sets of strange body armor  (active)" },
-    "description": "A set of leather armor covered in some kind of very thick white cloth.  A small textured box is attached to the left side, easily accessible with your right hand.  The box has a switch of some kind on and several odd pictographs around the switch.  The switch is currently flipped.",
-    "power_draw": "25 W",
+    "description": "A set of leather armor covered in some kind of very stiff white cloth.  A small textured box is attached to the left side, easily accessible with either hand.  The box has a switch of some kind and several odd pictographs around the switch.  The switch is currently flipped.",
+    "power_draw": "15 W",
     "revert_to": "mom_fifth_sun_standard_body_armor_non_fifth_sun",
     "use_action": [
       {
