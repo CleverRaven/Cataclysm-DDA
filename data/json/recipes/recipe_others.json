@@ -2945,6 +2945,23 @@
     "byproducts": [ [ "mc_steel_lump", 15 ] ]
   },
   {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "anvil_scavenged",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "//": "Compared to a railroad tie, the right piece of equipment will often need a lot less modification, so this is a quicker recipe.",
+    "difficulty": 3,
+    "time": "4 h",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "angle_grinder", 220 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking", "required": true }, { "proficiency": "prof_blacksmithing" } ],
+    "components": [ [ [ "hdframe", 1 ] ] ],
+    "byproducts": [ [ "mc_steel_lump", 2 ] ]
+  },
+  {
     "result": "anvil_bronze",
     "type": "recipe",
     "activity_level": "ACTIVE_EXERCISE",

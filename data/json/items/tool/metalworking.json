@@ -86,6 +86,25 @@
     "melee_damage": { "bash": 40 }
   },
   {
+    "id": "anvil_scavenged",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "scavenger's anvil" },
+    "description": "A portion of heavy steel machinery that has been smoothed and shaped to form a very adequate anvil.",
+    "//": "Represents any number of heavy machinery parts that serve this purpose.",
+    "weight": "100 kg",
+    "volume": "60 L",
+    "longest_side": "45 cm",
+    "price": "1 kUSD",
+    "price_postapoc": "20 USD",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "flags": [ "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 40 }
+  },
+  {
     "id": "boltcutters",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
