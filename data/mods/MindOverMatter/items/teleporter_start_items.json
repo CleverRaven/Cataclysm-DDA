@@ -24,7 +24,7 @@
     "ammo_effects": [ "PLASMA", "PLASMA_BUBBLE", "IGNITE" ],
     "ammo": [ "mom_fusion_ammo" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "25 ml", "item_restriction": [ "mom_fusion_mag" ] } ],
-    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR" ]
   },
   {
     "id": "mom_fusion_mag",
@@ -93,11 +93,11 @@
     "loudness": 12,
     "reload": 250,
     "ammo_effects": [ "LIGHTNING_TRAIL", "BOUNCE" ],
-    "flags": [ "NEVER_JAMS", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "faults": [ { "fault": "fault_overheat_melting" }, { "fault": "fault_overheat_safety" } ],
     "melee_damage": { "bash": 12 },
     "ammo": [ "mom_lightning_rifle_ammo" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "50 ml", "item_restriction": [ "mom_lightning_rifle_mag" ] } ],
+    "flags": [ "NEVER_JAMS", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR" ],
     "variant_type": "gun",
     "variants": [
       {
@@ -233,7 +233,7 @@
         ]
       }
     ],
-    "flags": [ "VARSIZE", "STURDY", "MUNDANE", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "MUNDANE", "OUTER", "NO_REPAIR" ]
   },
   {
     "id": "mom_fifth_sun_standard_body_armor_on",
@@ -450,7 +450,8 @@
       "NO_UNLOAD",
       "NO_RELOAD",
       "ALLOWS_NATURAL_ATTACKS",
-      "OVERSIZE"
+      "OVERSIZE", 
+      "NO_REPAIR"
     ],
     "symbol": "[",
     "use_action": [ "E_FILE_DEVICE", "EBOOKSAVE", "MP3", "CAMERA", "CALORIES_INTAKE_TRACKER", "PORTABLE_GAME", "FITNESS_CHECK" ],
