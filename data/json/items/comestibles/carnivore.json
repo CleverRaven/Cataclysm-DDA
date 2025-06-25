@@ -523,7 +523,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked cretin" },
-    "description": "Cooked meat from a heavily mutated humanoid.  Now that the worst bits have been picked out, it's probably digestible.",
+    "description": "Cooked meat from a heavily mutated humanoid.  Now that the worst bits have been picked out, it's probably digestible, if not very appetizing.",
     "proportional": { "price": 1.5 },
     "parasites": 0,
     "fun": 0,
