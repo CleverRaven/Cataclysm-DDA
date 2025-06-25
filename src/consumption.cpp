@@ -1384,11 +1384,11 @@ void Character::modify_morale( item &food, const int nutr )
         const int minor_morale_penalty = -10;
         const int minor_morale_bonus = 10;
         const int maximum_stacked_morale_penalty = -400;
-        if( sapiovore ) {
-            add_msg_if_player( _( "Mmh.  Tastes like venison." ) );
-        } else if( sapiovore && spiritual ) {
+        if( sapiovore && spiritual ) {
             add_msg_if_player( m_good, _( "You eat the human flesh, and in doing so, devour their spirit." ) );
             add_morale( morale_cannibal, minor_morale_bonus, minor_morale_bonus * 5 );
+        } else if( sapiovore ) {
+            add_msg_if_player( _( "Mmh.  Tastes like venison." ) );
         } else if( cannibal && spiritual ) {
             add_msg_if_player( m_good,
                                _( "Even as you indulge your darkest impulses, you dread what judgement may come." ) );
