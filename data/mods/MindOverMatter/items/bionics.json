@@ -1,0 +1,13 @@
+[
+  {
+    "id": "bio_dangersight_eyes_non_fifth_sun",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Strange Eye CBM" },
+    "description": "You can tell this CBM is meant to be installed around your eyes, but what exactly it will do, you have no idea.",
+    "price": "7 kUSD 500 USD",
+    "weight": "500 g",
+    "difficulty": 7
+  }
+]

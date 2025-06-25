@@ -33,6 +33,12 @@
       },
       { "item": "itzcuauhtli_pants", "variant": "itzcuauhtli_pants_non_fifth_sun", "prob": 90, "damage": [ 1, 3 ] },
       {
+        "item": "bio_dangersight_eyes_non_fifth_sun",
+        "prob": 70,
+        "damage": [ 1, 3 ],
+        "custom-flags": [ "NO_STERILE", "NO_PACKED", "FILTHY" ]
+      },
+      {
         "item": "mom_fifth_sun_standard_body_armor_non_fifth_sun",
         "prob": 70,
         "damage": [ 1, 3 ],
