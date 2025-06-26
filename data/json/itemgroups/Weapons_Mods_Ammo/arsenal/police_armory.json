@@ -632,10 +632,7 @@
     "id": "police_armory_any_357sig",
     "//": "Pick one of multiple interchangeable .357 SIG variants.",
     "subtype": "distribution",
-    "entries": [
-      { "group": "police_armory_p226_357", "prob": 30 },
-      { "group": "police_armory_p320_357", "prob": 10 }
-    ]
+    "entries": [ { "group": "police_armory_p226_357", "prob": 30 }, { "group": "police_armory_p320_357", "prob": 10 } ]
   },
   {
     "type": "item_group",
