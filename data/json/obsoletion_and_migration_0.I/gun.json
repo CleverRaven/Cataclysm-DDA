@@ -1270,13 +1270,6 @@
     "price_postapoc": "22 USD 50 cent",
     "flags": [ "NO_TURRET" ],
     "min_cycle_recoil": 450,
-    "ammo": [ "357sig" ],
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "glock40mag_10", "glock40mag", "glock40bigmag" ]
-      }
-    ]
+    "ammo": [ "357sig" ]
   }
 ]
