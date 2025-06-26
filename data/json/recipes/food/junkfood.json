@@ -215,7 +215,7 @@
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "//": "you're just melting the cheese, not much energy needed",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-    "components": [ [ [ "cheese_standard", 1, "LIST" ] ], [ [ "fries", 1 ], [ "fresh_fries", 1 ], [ "fresh_fries_j" ] ] ]
+    "components": [ [ [ "cheese_standard", 1, "LIST" ] ], [ [ "fries", 1 ], [ "fresh_fries", 1 ], [ "fresh_fries_j", 1 ] ] ]
   },
   {
     "type": "recipe",
