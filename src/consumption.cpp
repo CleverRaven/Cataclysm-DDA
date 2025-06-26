@@ -1384,20 +1384,22 @@ void Character::modify_morale( item &food, const int nutr )
         const int minor_morale_penalty = -10;
         const int minor_morale_bonus = 10;
         const int maximum_stacked_morale_penalty = -400;
-        if( cannibal && psycho ) {
-            add_msg_if_player( m_good,
-                               _( "You worry that your hunger for human flesh is going to be a liability one of these days." ) );
-            // Reduced penalties
-            add_morale( morale_cannibal, minor_morale_penalty, minor_morale_penalty * 5, 6_hours, 3_hours );
+        if( sapiovore && spiritual ) {
+            add_msg_if_player( m_good, _( "You eat the human flesh, and in doing so, devour their spirit." ) );
+            add_morale( morale_cannibal, minor_morale_bonus, minor_morale_bonus * 5 );
+        } else if( sapiovore ) {
+            add_msg_if_player( _( "Mmh.  Tastes like venison." ) );
         } else if( cannibal && spiritual ) {
             add_msg_if_player( m_good,
                                _( "Even as you indulge your darkest impulses, you dread what judgement may come." ) );
             // Reduced penalties
             add_morale( morale_cannibal, moderate_morale_penalty, maximum_stacked_morale_penalty,
                         7_days, 4_days );
-        } else if( sapiovore && spiritual ) {
-            add_msg_if_player( m_good, _( "You eat the human flesh, and in doing so, devour their spirit." ) );
-            add_morale( morale_cannibal, minor_morale_bonus, minor_morale_bonus * 5 );
+        } else if( cannibal && psycho ) {
+            add_msg_if_player( m_good,
+                               _( "You worry that your hunger for human flesh is going to be a liability one of these days." ) );
+            // Reduced penalties
+            add_morale( morale_cannibal, minor_morale_penalty, minor_morale_penalty * 5, 6_hours, 3_hours );
         } else if( cannibal ) {
             add_msg_if_player( m_good, _( "You indulge your shameful hunger." ) );
             // No morale added, but lack of morale penalty is a huge bonus already.
@@ -1405,8 +1407,6 @@ void Character::modify_morale( item &food, const int nutr )
             add_msg_if_player( _( "The human blood tastes as good as any other." ) );
         } else if( psycho ) {
             add_msg_if_player( _( "Meh.  You've eaten worse." ) );
-        } else if( sapiovore ) {
-            add_msg_if_player( _( "Mmh.  Tastes like venison." ) );
         } else if( has_flag( json_flag_HEMOVORE ) && food.has_flag( flag_HEMOVORE_FUN ) ) {
             add_msg_if_player(
                 _( "Despite your cravings, you still can't help feeling weird about drinking somebody's blood." ) );
