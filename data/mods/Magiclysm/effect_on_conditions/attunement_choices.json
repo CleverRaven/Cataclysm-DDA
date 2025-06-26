@@ -5,6 +5,8 @@
     "effect": [
       { "math": [ "_required_spell_count = 12" ] },
       { "math": [ "_required_spell_levels = 200" ] },
+      { "run_eoc": "EOC_CHECK_ATTUNEMENT_CHECK_SPELL_LEVELS" },
+      { "run_eoc": "EOC_CHECK_ATTUNEMENT_CHECK_SPELL_COUNT" },
       {
         "run_eoc_selector": [
           "EOC_GIVE_ATTUNEMENT_ARTIFICER",
@@ -1558,6 +1560,429 @@
       { "u_add_trait": "TOXIC_AURA_OFF" },
       { "u_add_trait": "WITHER_MAGE" },
       { "run_eocs": "EOC_ATTUNEMENT_SUCCESS_MESSAGE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CANT_GIVE_ATTUNEMENT_NOT_A_MAGE",
+    "condition": {
+      "not": {
+        "u_has_any_trait": [ "ANIMIST", "BIOMANCER", "DRUID", "EARTHSHAPER", "KELVINIST", "MAGUS", "STORMSHAPER", "TECHNOMANCER" ]
+      }
+    },
+    "effect": [ { "u_message": "The altar does not respond to your touch.  Only a mage can unlock its secrets.", "type": "neutral" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_ATTUNEMENT_CHECK_SPELL_LEVELS",
+    "//": "FIXME: some better way of handling this",
+    "condition": {
+      "and": [
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'ANIMIST') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'BIOMANCER') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'ANIMIST') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'DRUID') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'ANIMIST') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'EARTHSHAPER') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'ANIMIST') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'KELVINIST') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'ANIMIST') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'MAGUS') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'ANIMIST') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'STORMSHAPER') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'ANIMIST') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'TECHNOMANCER') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'BIOMANCER') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'DRUID') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'BIOMANCER') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'EARTHSHAPER') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'BIOMANCER') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'KELVINIST') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'BIOMANCER') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'MAGUS') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'BIOMANCER') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'STORMSHAPER') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'BIOMANCER') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'TECHNOMANCER') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'DRUID') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'EARTHSHAPER') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'DRUID') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'KELVINIST') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'DRUID') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'MAGUS') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'DRUID') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'STORMSHAPER') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'DRUID') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'TECHNOMANCER') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'EARTHSHAPER') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'KELVINIST') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'EARTHSHAPER') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'MAGUS') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'EARTHSHAPER') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'STORMSHAPER') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'EARTHSHAPER') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'TECHNOMANCER') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'KELVINIST') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'MAGUS') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'KELVINIST') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'STORMSHAPER') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'KELVINIST') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'TECHNOMANCER') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'MAGUS') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'STORMSHAPER') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'MAGUS') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'TECHNOMANCER') < _required_spell_count" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_count('school': 'STORMSHAPER') < _required_spell_count" ] },
+            { "math": [ "u_spell_count('school': 'TECHNOMANCER') < _required_spell_count" ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "if": {
+          "u_has_any_trait": [ "ANIMIST", "BIOMANCER", "DRUID", "EARTHSHAPER", "KELVINIST", "MAGUS", "STORMSHAPER", "TECHNOMANCER" ]
+        },
+        "then": { "math": [ "_required_spell_count_is_met = 0" ] },
+        "else": { "math": [ "_required_spell_count_is_met = -1" ] }
+      }
+    ],
+    "false_effect": [ { "math": [ "_required_spell_count_is_met = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CANT_GIVE_ATTUNEMENT_NOT_ENOUGH_SPELLS",
+    "condition": { "math": [ "_required_spell_count_is_met == 0" ] },
+    "effect": [
+      {
+        "u_message": "The altar does not respond to your touch.  You need more breadth in your spell selection before you can attempt attunement.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CANT_GIVE_ATTUNEMENT_NOT_ENOUGH_SPELL_LEVELS",
+    "//": "FIXME: some better way of handling this",
+    "condition": {
+      "and": [
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'ANIMIST') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'BIOMANCER') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'ANIMIST') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'DRUID') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'ANIMIST') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'EARTHSHAPER') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'ANIMIST') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'KELVINIST') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'ANIMIST') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'MAGUS') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'ANIMIST') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'STORMSHAPER') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'ANIMIST') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'TECHNOMANCER') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'BIOMANCER') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'DRUID') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'BIOMANCER') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'EARTHSHAPER') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'BIOMANCER') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'KELVINIST') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'BIOMANCER') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'MAGUS') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'BIOMANCER') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'STORMSHAPER') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'BIOMANCER') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'TECHNOMANCER') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'DRUID') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'EARTHSHAPER') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'DRUID') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'KELVINIST') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'DRUID') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'MAGUS') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'DRUID') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'STORMSHAPER') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'DRUID') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'TECHNOMANCER') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'EARTHSHAPER') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'KELVINIST') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'EARTHSHAPER') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'MAGUS') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'EARTHSHAPER') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'STORMSHAPER') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'EARTHSHAPER') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'TECHNOMANCER') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'KELVINIST') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'MAGUS') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'KELVINIST') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'STORMSHAPER') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'KELVINIST') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'TECHNOMANCER') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'MAGUS') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'STORMSHAPER') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'MAGUS') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'TECHNOMANCER') < _required_spell_levels" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level_sum('school': 'STORMSHAPER') < _required_spell_levels" ] },
+            { "math": [ "u_spell_level_sum('school': 'TECHNOMANCER') < _required_spell_levels" ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "if": {
+          "u_has_any_trait": [ "ANIMIST", "BIOMANCER", "DRUID", "EARTHSHAPER", "KELVINIST", "MAGUS", "STORMSHAPER", "TECHNOMANCER" ]
+        },
+        "then": { "math": [ "_required_spell_levels_is_met = 0" ] },
+        "else": { "math": [ "_required_spell_levels_is_met = -1" ] }
+      }
+    ],
+    "false_effect": [ { "math": [ "_required_spell_levels_is_met = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CANT_GIVE_ATTUNEMENT_NOT_ENOUGH_SPELL_LEVELS",
+    "condition": { "math": [ "_required_spell_levels_is_met == 0" ] },
+    "effect": [
+      {
+        "u_message": "The altar does not respond to your touch.  While you know many spells, your knowledge of them is stil too shallow.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CANT_GIVE_ATTUNEMENT_NOT_ENOUGH_PROFICIENCIES",
+    "condition": {
+      "and": [
+        { "math": [ "_required_spell_count_is_met == 1" ] },
+        { "math": [ "_required_spell_levels_is_met == 1" ] },
+        { "not": { "test_eoc": "EOC_CONDITION_ATTUNEMENT_CHECK_PROFICIENCY_MASTERY" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "The altar does not respond to your touch.  While your knowledge of spells is considerable, your understanding of the fundamentals of spellcasting needs work.",
+        "type": "bad"
+      }
     ]
   },
   {
