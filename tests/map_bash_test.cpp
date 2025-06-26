@@ -9,6 +9,7 @@
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -19,6 +20,8 @@
 #include "string_formatter.h"
 #include "test_data.h"
 #include "type_id.h"
+
+class monster;
 
 static const furn_str_id furn_test_f_bash_persist( "test_f_bash_persist" );
 static const furn_str_id furn_test_f_eoc( "test_f_eoc" );
@@ -207,12 +210,14 @@ static void shoot_at_terrain( std::function<void()> &setup, npc &shooter,
     for( int i = 0; i < num_trials; i++ ) {
         // Place a terrain
         here.ter_set( wall_pos, id );
+
+        setup();
+
         REQUIRE( here.ter( wall_pos ) == id );
         // This is a workaround for nonsense where you can't shoot terrain or furniture unless it
         // obscures sight, specifically map::is_transparent() must return false.
         here.build_map_cache( 0, true );
 
-        setup();
         // Shoot it a bunch
         for( int i = 0; i < 9; ++i ) {
             shooter.recoil = 0;
@@ -292,7 +297,10 @@ TEST_CASE( "shooting_at_terrain", "[rng][map][bash][ranged]" )
     SECTION( "birdshot through door at monster" ) {
         std::function<void()> setup = [&shooter]() {
             arm_shooter( shooter, itype_mossberg_590, {}, itype_shot_bird );
-            spawn_test_monster( "mon_zombie", shooter.pos_bub() + point::east * 2 );
+            if( get_creature_tracker().creature_at<monster>( shooter.pos_bub() + point::east * 2 ) ==
+                nullptr ) {
+                spawn_test_monster( "mon_zombie", shooter.pos_bub() + point::east * 2 );
+            }
         };
         shoot_at_terrain( setup, shooter, "t_door_c",
                           shooter.pos_bub() + point::east, true,
