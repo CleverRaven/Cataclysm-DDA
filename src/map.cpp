@@ -8105,6 +8105,12 @@ void map::shift( const point_rel_sm &sp )
 
     for( int gridx = x_start; gridx != x_stop; gridx += x_step ) {
         for( int gridy = y_start; gridy != y_stop; gridy += y_step ) {
+            if( ( sp.x() && gridx == x_start ) || ( sp.y() && gridy == y_start ) ) {
+                for( int gridz = zmin; gridz <= zmax; gridz++ ) {
+                    const tripoint_rel_sm grid( gridx, gridy, gridz );
+                    on_unload( grid );
+                }
+            }
             if( gridx + sp.x() != x_stop && gridy + sp.y() != y_stop ) {
                 for( int gridz = zmin; gridz <= zmax; gridz++ ) {
                     const tripoint_rel_sm grid( gridx, gridy, gridz );
@@ -8879,6 +8885,18 @@ void map::add_tree_tops( const tripoint_rel_sm &grid )
                 }
         }
     }
+}
+
+void map::on_unload( const tripoint_rel_sm &loc )
+{
+    submap *smap = get_submap_at_grid( loc );
+    if( smap == nullptr ) {
+        debugmsg( "Tried to call on_unload at (%d,%d,%d) but the submap is not loaded", loc.x(), loc.y(),
+                  loc.z() );
+        return;
+    }
+    // Check if the submap has been marked drity by terrain or furniture edits.
+    // If so, capture an obstacle bitmap and pass to overmap.
 }
 
 void map::copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from )
