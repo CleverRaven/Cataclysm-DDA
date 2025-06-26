@@ -43,7 +43,7 @@
     "price": "245 USD",
     "price_postapoc": "35 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "skill": "rifles",
+    "skill": "rifle",
     "material": [ "steel", "aluminum" ],
     "ammo": [ "NULL" ],
     "dispersion": 150,
