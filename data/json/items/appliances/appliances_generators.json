@@ -30,7 +30,7 @@
     "symbol": "O",
     "color": "green_white",
     "//2": "Prevent loading items into the generator while it's not in appliance form.",
-    "flags": [ "NO_RELOAD" ],
+    "flags": [ "NO_RELOAD", "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 5 }
   },
   {
