@@ -823,5 +823,54 @@
     "min_duration": 600,
     "max_duration": 2500,
     "duration_increment": 100
+  },
+  {
+    "id": "magus_push_nearby_enemies_back",
+    "type": "SPELL",
+    "name": "Repulsion Wave",
+    "description": "Unleash a wave of force, hurling all nearby targets away from you.  Heavier targets are harder to affect.",
+    "valid_targets": [ "ally", "hostile" ],
+    "flags": [ "EVOCATION_SPELL", "VERBAL", "SOMATIC" ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MAGUS_PUSH_NEARBY_ENEMIES_BACK",
+    "shape": "blast",
+    "spell_class": "MAGUS",
+    "magic_type": "magiclysm_generic_magic",
+    "difficulty": 5,
+    "base_casting_time": 75,
+    "base_energy_cost": 350,
+    "max_level": 20,
+    "min_aoe": 1,
+    "max_aoe": 3,
+    "aoe_increment": 0.2
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGUS_PUSH_NEARBY_ENEMIES_BACK",
+    "condition": "has_alpha",
+    "effect": [
+      { "npc_location_variable": { "context_val": "player_position" } },
+      { "math": [ "_push_nearby_enemies_power_level = n_spell_level('magus_push_nearby_enemies_back')" ] },
+      { "math": [ "_telekinesis_weight_ratio = 55" ] },
+      {
+        "math": [
+          "_weight_ratio",
+          "=",
+          "( (_push_nearby_enemies_power_level * _telekinesis_weight_ratio) + (_telekinesis_weight_ratio / 2) ) / (u_weight() / 1000000)"
+        ]
+      },
+      { "math": [ "_telekinesis_shove_spell_level = clamp( ( (_weight_ratio - 1) * 1.5), 0, 20)" ] },
+      {
+        "if": { "x_in_y_chance": { "x": { "math": [ "_weight_ratio * 1000" ] }, "y": 1000 } },
+        "then": [ { "u_add_effect": "downed", "duration": 2 } ]
+      },
+      {
+        "u_knockback": { "math": [ "_telekinesis_shove_spell_level" ] },
+        "stun": 2,
+        "dam_mult": { "math": [ "1 + (_telekinesis_shove_spell_level * 0.4)" ] },
+        "direction_var": { "context_val": "player_position" }
+      }
+    ]
   }
 ]
