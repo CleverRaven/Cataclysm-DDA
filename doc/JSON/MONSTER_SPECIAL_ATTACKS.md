@@ -21,6 +21,10 @@ Monster creatures in C:DDA not only can do simple melee attacks, they have a wid
 
 Depending on the intended effect, these can be valid `use_actions` for tools and weapons, hardcoded special attacks, any normal physical attack or even spells.  Also, depending on the kind of attack, these can be cooldown-based, conditioned or occur on death.
 
+## Special attack selection logic
+
+On each action the monster evaluates each special attack in alphabetical order, attempting to trigger each attack that is not in cooldown in turn until one is found whose preconditions are met or the monster runs out of candidates. This means "Early" attacks with low, or especially zero cooldowns will trigger very frequently unless they have preconditions preventing this. The cooldown is not set unless the attack is triggered.  Early attacks with low cooldowns can effecctively "starve" later special attacks and even the monster's default melee attack.
+
 
 ## TODO
 
