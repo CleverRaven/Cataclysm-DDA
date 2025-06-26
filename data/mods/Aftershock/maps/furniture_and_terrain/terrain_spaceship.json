@@ -229,7 +229,7 @@
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "5 minutes",
-      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "mc_steel_chunk", "count": [ 3, 8 ] } ]
     },
     "bash": {
       "str_min": 45,
@@ -240,7 +240,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 12 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
@@ -267,8 +267,8 @@
       "str_max": 500,
       "str_min_supported": 200,
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "ch_steel_lump", "count": [ 1, 4 ] },
+        { "item": "ch_steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
     }
@@ -353,7 +353,7 @@
       "ter_set": "t_metal_floor",
       "items": [
         { "item": "afs_material_1", "prob": 55 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }

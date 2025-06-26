@@ -1,0 +1,10 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_protect_the_mind",
+    "name": [ "Ordered Mind" ],
+    "desc": [ "Your mind is set in order, walled and guarded" ],
+    "rating": "good",
+    "flags": [ "TEEPSHIELD" ]
+  }
+]

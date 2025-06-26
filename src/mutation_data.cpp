@@ -194,7 +194,7 @@ void mutation_branch::load_trait( const JsonObject &jo, const std::string &src )
 
 mut_transform::mut_transform() = default;
 
-bool mut_transform::load( const JsonObject &jsobj, const std::string_view member )
+bool mut_transform::load( const JsonObject &jsobj, std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -209,7 +209,7 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string_view member
 
 mut_personality_score::mut_personality_score() = default;
 
-bool mut_personality_score::load( const JsonObject &jsobj, const std::string_view member )
+bool mut_personality_score::load( const JsonObject &jsobj, std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -295,7 +295,7 @@ void mutation_variant::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-void mutation_branch::load( const JsonObject &jo, const std::string_view src )
+void mutation_branch::load( const JsonObject &jo, std::string_view src )
 {
     mandatory( jo, was_loaded, "name", raw_name );
     mandatory( jo, was_loaded, "description", raw_desc );
@@ -391,6 +391,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "scent_intensity", scent_intensity, std::nullopt );
     optional( jo, was_loaded, "scent_type", scent_typeid, std::nullopt );
     optional( jo, was_loaded, "ignored_by", ignored_by );
+    optional( jo, was_loaded, "empathize_with", empathize_with );
+    optional( jo, was_loaded, "no_empathize_with", no_empathize_with );
     optional( jo, was_loaded, "can_only_eat", can_only_eat );
     optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
     optional( jo, was_loaded, "can_heal_with", can_heal_with );

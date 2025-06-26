@@ -165,7 +165,7 @@
     "id": "MISSION_RANCH_DOCTOR_SUPPLIES",
     "type": "mission_definition",
     "name": { "str": "Collect Office Supplies" },
-    "description": "The doctor needs office supplies to keep track of medical records.  Bring them 10 Book binders and 500 paper",
+    "description": "The doctor needs office supplies to keep track of medical records.  Bring them 10 Book binders and 500 paper.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": {
       "and": [ { "u_has_items": { "item": "book_binder", "count": 10 } }, { "u_has_items": { "item": "paper", "count": 500 } } ]

@@ -4,6 +4,7 @@
     "id": "local_road",
     "subtypes": [
       { "terrain": "road", "locations": [ "road" ], "basic_cost": 0, "flags": [ "ORTHOGONAL" ] },
+      { "terrain": "road", "locations": [ "stream" ], "basic_cost": 30, "flags": [ "ORTHOGONAL" ] },
       { "terrain": "road", "locations": [ "field" ], "basic_cost": 5 },
       { "terrain": "road", "locations": [ "forest" ], "basic_cost": 20 },
       { "terrain": "road", "locations": [ "swamp" ], "basic_cost": 40 },
@@ -34,10 +35,5 @@
       { "terrain": "forest_trail", "locations": [ "forest_edge" ], "basic_cost": 100 },
       { "terrain": "forest_trail", "locations": [ "swamp" ], "basic_cost": 40 }
     ]
-  },
-  {
-    "type": "overmap_connection",
-    "id": "hidden_lab_basement",
-    "subtypes": [ { "terrain": "basement", "locations": [ "potential_basement_lab_entrance" ], "basic_cost": 0 } ]
   }
 ]

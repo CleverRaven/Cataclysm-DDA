@@ -1,12 +1,11 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "garden_house_1_floor_1",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "....G``.[.[.[.[.[.[.[.[.",
+        "....p``.[.[.[.[.[.[.[.[.",
         ".[...``.................",
         "...````/%%%%%%%/%%..[.[.",
         ".[.`#*o#o#o#o#o#o##.....",
@@ -77,8 +76,7 @@
         },
         "]": {
           "chunks": [
-            [ "shed_6x6_junk", 5 ],
-            [ "shed_6x6_junk", 5 ],
+            [ "shed_6x6_junk", 10 ],
             [ "greenhouse_6x6_herbal", 10 ],
             [ "greenhouse_6x6_vegetable", 10 ],
             [ "pond_6x6", 15 ],
@@ -90,7 +88,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "garden_house_1_floor_2",
     "object": {
       "fill_ter": "t_floor",
@@ -106,11 +103,11 @@
         "    #=======+_[___#     ",
         "    #>R|||+||_____o     ",
         "    ####BB_8|_____o     ",
-        "      ^#___j|_____#     ",
+        "      ^#___i|_____#     ",
         "       0w_t8#¶#oo##     ",
         "       ##o###~~~~~0     ",
         "           0~~~~~~0     ",
-        "           C000000C     ",
+        "           ]000000]     ",
         "                        ",
         "                        ",
         "                        ",
@@ -120,8 +117,12 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "parametrized_carpets_palette", "roof_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_palette" ],
       "terrain": {
+        " ": "t_open_air",
+        "_": "t_floor",
+        "~": "t_thconc_floor",
+        "]": "t_column",
         "H": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "0": "t_screened_porch_wall",
         "R": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
@@ -152,7 +153,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "garden_house_1_basement",
     "//": "Unfinished basement",
     "object": {
@@ -192,7 +192,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "garden_house_1_basement",
     "//": "rec room basement",
     "object": {
@@ -233,7 +232,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "garden_house_1_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

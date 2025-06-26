@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "office_cubical_phavian" ],
     "object": {
       "fill_ter": "t_floor",
@@ -67,7 +66,7 @@
         "d": { "item": "SUS_office_desk", "chance": 20 },
         "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
         "R": [
-          { "item": "office_supplies", "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "SUS_office_supplies", "chance": 80, "repeat": [ 1, 2 ] },
           { "item": "cleaning", "chance": 70, "repeat": [ 2, 4 ] }
         ],
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 2 ] },
@@ -81,7 +80,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "office_cubical_phavian_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -134,7 +132,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "office_cubical_phavian_basement" ],
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -197,7 +194,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "office_cubical_phavian_subbasement" ],
     "object": {
       "fill_ter": "t_strconc_floor",

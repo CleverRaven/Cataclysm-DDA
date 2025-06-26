@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <list>
 #include <memory>
+#include <unordered_map>
 #include <ostream>
 #include <queue>
 
@@ -20,6 +21,7 @@
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "math_parser_diag_value.h"
 #include "mod_tracker.h"
 #include "npc.h"
 #include "output.h"
@@ -73,7 +75,7 @@ void effect_on_conditions::check_consistency()
 {
 }
 
-void effect_on_condition::load( const JsonObject &jo, const std::string_view src )
+void effect_on_condition::load( const JsonObject &jo, std::string_view src )
 {
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "eoc_type", type, eoc_type::NUM_EOC_TYPES );
@@ -115,7 +117,7 @@ void effect_on_condition::load( const JsonObject &jo, const std::string_view src
 }
 
 effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &jv,
-        const std::string_view src )
+        std::string_view src )
 {
     if( jv.test_string() ) {
         return effect_on_condition_id( jv.get_string() );
@@ -226,7 +228,7 @@ void effect_on_conditions::load_existing_character( Character &you )
 
 void effect_on_conditions::queue_effect_on_condition( time_duration duration,
         effect_on_condition_id eoc, Character &you,
-        const std::unordered_map<std::string, std::string> &context )
+        global_variables::impl_t const &context )
 {
     queued_eoc new_eoc = queued_eoc{ eoc, calendar::turn + duration, context };
     if( eoc->global ) {
@@ -564,9 +566,9 @@ void eoc_events::notify( const cata::event &e, std::unique_ptr<talker> alpha,
             }
         }
         dialogue d;
-        std::unordered_map<std::string, std::string> context;
+        global_variables::impl_t context;
         for( const auto &val : e.data() ) {
-            context[val.first] = val.second.get_string();
+            context[val.first] = diag_value{ val.second };
         }
 
         // if we have an NPC to trigger this event for, do so,

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "LIXA_surface_1a", "LIXA_surface_1b" ], [ "LIXA_surface_2a", "LIXA_surface_2b" ] ],
     "object": {
       "fill_ter": "t_pavement",
@@ -120,7 +119,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "LIXA_entry_1", "LIXA_entry_2" ] ],
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -168,7 +166,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "LIXA_road_guard",
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -221,7 +218,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "LIXA_road_guard_roof",
     "object": {
       "fill_ter": "t_open_air",
@@ -256,7 +252,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "LIXA_road",
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -291,7 +286,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "LIXA_stairshaft_1a", "LIXA_stairshaft_1b" ], [ "LIXA_stairshaft_1c", "LIXA_stairshaft_1d" ] ],
     "object": {
       "fill_ter": "t_soil",
@@ -350,7 +344,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "LIXA_stairshaft_2a", "LIXA_stairshaft_2b" ], [ "LIXA_stairshaft_2c", "LIXA_stairshaft_2d" ] ],
     "object": {
       "fill_ter": "t_rock",
@@ -409,7 +402,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "LIXA_roof_1a", "LIXA_roof_1b" ], [ "LIXA_roof_2a", "LIXA_roof_2b" ] ],
     "object": {
       "rows": [
@@ -467,7 +459,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "LIXA_workfloor_1a", "LIXA_workfloor_1b" ], [ "LIXA_workfloor_2a", "LIXA_workfloor_2b" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -650,7 +641,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "LIXA_device_1",
     "object": {
       "fill_ter": "t_rock",
@@ -704,7 +694,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "LIXA_device_2",
     "object": {
       "fill_ter": "t_rock",
@@ -739,7 +728,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "LIXA_device_3",
     "object": {
       "fill_ter": "t_rock",
@@ -775,7 +763,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "LIXA_device_2_roof",
     "object": {
       "fill_ter": "t_rock",
@@ -810,7 +797,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "LIXA_device_3_roof",
     "object": {
       "fill_ter": "t_rock",
@@ -845,7 +831,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "LIXA_device_unfolded_noaccess",
     "object": {
       "fill_ter": "t_rock",
@@ -880,7 +865,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "LIXA_device_unfolded_A",
     "object": {
       "fill_ter": "t_rock",
@@ -949,7 +933,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "LIXA_device_unfolded_B",
     "object": {
       "fill_ter": "t_rock",
@@ -1019,7 +1002,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "turn_off_LIXA",
-    "method": "json",
     "object": {
       "rows": [
         "^^^^^^^^^^^^^^^^^^^^^^^^",
@@ -1054,13 +1036,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "cleanup_LIXA",
-    "method": "json",
     "object": { "set": [ { "square": "field_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "spawn_LIXA_1a",
-    "method": "json",
     "object": {
       "rows": [
         "    //Q....--TT--....Q//",
@@ -1130,7 +1110,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "spawn_LIXA_1b",
-    "method": "json",
     "object": {
       "rows": [
         "    //Q....--TT--....Q//",
@@ -1200,7 +1179,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "spawn_LIXA_2a",
-    "method": "json",
     "object": {
       "rows": [
         "    //Q....--TT--....Q//",
@@ -1271,7 +1249,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "spawn_LIXA_2b",
-    "method": "json",
     "object": {
       "rows": [
         "    //Q....--TT--....Q//",
@@ -1345,7 +1322,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "spawn_LIXA_3a",
-    "method": "json",
     "object": {
       "rows": [
         "    //Q....--TT--....Q//",
@@ -1422,7 +1398,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "spawn_LIXA_3b",
-    "method": "json",
     "object": {
       "rows": [
         "    //Q....--TT--....Q//",
@@ -1499,7 +1474,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "spawn_LIXA_4a",
-    "method": "json",
     "object": {
       "rows": [
         "    //Q....--TT--....Q//",
@@ -1576,7 +1550,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "spawn_LIXA_4b",
-    "method": "json",
     "object": {
       "rows": [
         "    //Q....--TT--....Q//",
@@ -1653,7 +1626,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "spawn_LIXA_5a",
-    "method": "json",
     "object": {
       "rows": [
         "    //Q....--TT--....Q//",
@@ -1726,7 +1698,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "spawn_LIXA_5b",
-    "method": "json",
     "object": {
       "rows": [
         "    //Q....--TT--....Q//",
@@ -1805,7 +1776,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "spawn_LIXA_6a",
-    "method": "json",
     "object": {
       "rows": [
         "    //Q....--TT--....Q//",
@@ -1878,7 +1848,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "spawn_LIXA_6b",
-    "method": "json",
     "object": {
       "rows": [
         "    //Q....--TT--....Q//",
@@ -1951,7 +1920,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "LIXA_goodbye_cards",
-    "method": "json",
     "object": {
       "place_item": [
         { "item": "id_LIXA_najma", "x": 9, "y": 12 },
@@ -1975,25 +1943,21 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "LIXA_sad_graffiti",
     "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "LIXA_lab_graffiti_sad_snips", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "LIXA_bored_graffiti",
     "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "LIXA_lab_graffiti_bored_snips", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "LIXA_raving_graffiti",
     "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "LIXA_lab_graffiti_raving_snips", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "LIXA_goodbye_graffiti",
     "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "LIXA_lab_graffiti_goodbye", "x": 0, "y": 0 } ] }
   }

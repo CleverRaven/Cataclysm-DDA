@@ -60,5 +60,23 @@
   {
     "id": "NO_FEY_MAGIC",
     "type": "json_flag"
+  },
+  {
+    "id": "NO_HEDGE_MAGICK",
+    "type": "json_flag"
+  },
+  {
+    "id": "NO_VAMPIRE_BLOOD_POWERS",
+    "type": "json_flag"
+  },
+  {
+    "id": "MAGIC_USER",
+    "type": "monster_flag",
+    "//": "A monster that uses a lot of magic, for detection magic purposes."
+  },
+  {
+    "id": "MAGICAL_MIND_PROTECTION",
+    "type": "json_flag",
+    "//": "Your mind is protected from attack due to magic.  The same as the Magiclysm flag for compatibility"
   }
 ]

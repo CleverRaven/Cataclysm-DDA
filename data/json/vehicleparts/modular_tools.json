@@ -1,7 +1,7 @@
 [
   {
     "abstract": "veh_tools_abstract",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "vehicle tool station" },
     "category": "veh_parts",
     "weight": "40000 g",
@@ -13,7 +13,7 @@
     "color": "light_cyan"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "veh_tools_kitchen",
     "copy-from": "veh_tools_abstract",
     "name": { "str": "mounted kitchen" },
@@ -21,7 +21,7 @@
     "looks_like": "kitchen_unit"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "veh_tools_workshop",
     "copy-from": "veh_tools_abstract",
     "name": { "str": "mounted workshop" },
@@ -86,8 +86,8 @@
     "abstract": "veh_tools_part_abstract",
     "type": "vehicle_part",
     "breaks_into": [
-      { "count": [ 4, 6 ], "item": "steel_lump" },
-      { "count": [ 4, 6 ], "item": "steel_chunk" },
+      { "count": [ 4, 6 ], "item": "lc_steel_lump" },
+      { "count": [ 4, 6 ], "item": "lc_steel_chunk" },
       { "count": [ 4, 6 ], "item": "scrap" }
     ],
     "broken_color": "light_cyan",

@@ -61,7 +61,7 @@
         { "item": "manuals", "chance": 30 }
       ],
       "B": { "item": "bed", "chance": 60 },
-      "d": [ { "item": "livingroom", "chance": 40 }, { "item": "office", "chance": 40 } ],
+      "d": [ { "item": "livingroom", "chance": 40 }, { "item": "SUS_office_desk", "chance": 40 } ],
       "D": [
         { "item": "SUS_dresser_mens", "chance": 50, "repeat": [ 1, 4 ] },
         { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 4 ] }
@@ -77,7 +77,6 @@
       "R": [
         { "item": "camping", "chance": 50 },
         { "item": "gear_survival", "chance": 30 },
-        { "item": "cannedfood", "chance": 50 },
         { "item": "stash_food", "chance": 50 }
       ],
       "s": { "item": "SUS_bathroom_sink", "chance": 60 },
@@ -166,8 +165,7 @@
       "R": [
         { "item": "camping", "chance": 50 },
         { "item": "gear_survival", "chance": 30 },
-        { "item": "cannedfood", "chance": 50, "repeat": [ 3, 8 ] },
-        { "item": "stash_food", "chance": 50, "repeat": [ 3, 8 ] }
+        { "item": "stash_food", "chance": 50, "repeat": [ 1, 3 ] }
       ]
     }
   }

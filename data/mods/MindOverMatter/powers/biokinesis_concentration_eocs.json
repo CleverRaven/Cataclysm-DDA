@@ -360,12 +360,6 @@
     "id": "EOC_BIOKIN_REMOVE_ENHANCE_MOBILITY",
     "condition": { "u_has_effect": "effect_biokin_enhance_mobility" },
     "effect": [
-      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_01" },
-      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_02" },
-      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_03" },
-      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_04" },
-      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_05" },
-      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_06" },
       { "u_remove_item_with": "biokin_enhance_mobility_item_1" },
       { "u_remove_item_with": "biokin_enhance_mobility_item_2" },
       { "u_remove_item_with": "biokin_enhance_mobility_item_3" },
@@ -699,6 +693,68 @@
           {
             "math": [
               "( (u_spell_level('biokin_combat_dance') * 59) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_PERFECTED_MOTION_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_biokin_perfected_motion" } },
+    "effect": [
+      { "u_message": "The world around you slows down to a crawl", "type": "good" },
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
+      { "u_add_effect": "effect_biokin_perfected_motion", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_BIOKIN_PERFECTED_MOTION_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('biokin_perfected_motion') * 0.5) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('biokin_perfected_motion') * 1.1) + 30) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_BIOKIN_REMOVE_PERFECTED_MOTION" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_REMOVE_PERFECTED_MOTION",
+    "condition": { "u_has_effect": "effect_biokin_perfected_motion" },
+    "effect": [
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_MINUS_ONE", "EOC_POWER_MAINTENANCE_MINUS_ONE" ] },
+      { "u_lose_effect": "effect_biokin_perfected_motion" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_PERFECTED_MOTION_DRAIN",
+    "condition": { "u_has_effect": "effect_biokin_perfected_motion" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = 9" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
+      { "math": [ "u_spell_exp('biokin_perfected_motion')", "+=", "psionic_power_experience_formula()" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "run_eocs": "EOC_BIOKIN_PERFECTED_MOTION_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('biokin_perfected_motion') * 0.5) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('biokin_perfected_motion') * 1.1) + 30) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

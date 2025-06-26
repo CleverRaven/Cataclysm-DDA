@@ -70,7 +70,7 @@
       [ "bandana", 10 ],
       [ "cig", 5 ],
       { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 18, "charges": [ 0, -1 ] },
+      { "group": "civilian_phones", "prob": 18, "charges": [ 0, -1 ] },
       [ "gloves_fingerless", 5 ],
       [ "holster", 5 ],
       [ "hatchet", 5 ],
@@ -93,7 +93,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "dirtroad1_aban1" ],
     "object": {
       "fill_ter": "t_dirt",
@@ -139,7 +138,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "dirtroad2_aban1" ],
     "object": {
       "fill_ter": "t_dirt",
@@ -189,7 +187,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "forest_aban1" ],
     "object": {
       "fill_ter": "t_dirt",
@@ -240,7 +237,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_aban1" ],
     "object": {
       "fill_ter": "t_floor",
@@ -325,7 +321,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_aban1_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -370,7 +365,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "car_corner_aban1" ],
     "object": {
       "fill_ter": "t_floor",
@@ -451,7 +445,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "car_corner_aban1_roof" ],
     "object": {
       "fill_ter": "t_open_air",
@@ -486,7 +479,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "dirtplaza_aban1" ],
     "object": {
       "fill_ter": "t_dirt",
@@ -537,7 +529,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "barn_aban1" ],
     "object": {
       "fill_ter": "t_dirtfloor",
@@ -627,7 +618,7 @@
         { "item": "pot", "x": 11, "y": 23 }
       ],
       "place_loot": [
-        { "group": "ammo_any_batteries_full", "x": 11, "y": 16, "chance": 33 },
+        { "group": "box_of_batteries_random", "x": 11, "y": 16, "chance": 33 },
         { "group": "cabin_suicide", "x": [ 4, 4 ], "y": [ 15, 15 ], "chance": 80 },
         { "group": "cannedfood", "x": [ 11, 11 ], "y": [ 22, 23 ], "chance": 90 },
         { "group": "cannedfood", "x": [ 13, 13 ], "y": [ 22, 23 ], "chance": 90 },
@@ -642,7 +633,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "barn_aban1_roof" ],
     "object": {
       "fill_ter": "t_open_air",

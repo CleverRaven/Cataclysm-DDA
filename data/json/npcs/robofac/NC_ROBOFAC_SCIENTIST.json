@@ -6,7 +6,7 @@
     "entries": [
       { "item": "under_armor", "damage": [ 0, 2 ] },
       { "item": "under_armor_shorts", "damage": [ 0, 2 ] },
-      { "item": "robofac_jumpsuit", "damage": [ 0, 2 ] },
+      { "item": "jumpsuit", "variant": "robofac", "damage": [ 0, 2 ] },
       { "group": "robofac_mantle_prototype", "damage": [ 0, 2 ] },
       { "item": "coat_lab", "damage": [ 0, 2 ], "contents-item": [ "sunglasses", "grenade_emp", "grenade_emp" ] },
       { "item": "black_pen", "charges": [ 50, 100 ] },

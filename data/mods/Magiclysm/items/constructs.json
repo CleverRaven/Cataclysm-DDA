@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "golemcore",
     "symbol": ".",
     "color": "red",
@@ -15,7 +15,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_claygolem",
     "symbol": "x",
     "color": "brown",
@@ -31,7 +31,7 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_plasticgolem",
     "symbol": "x",
     "color": "light_gray",
@@ -47,7 +47,7 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_stonegolem",
     "symbol": "x",
     "color": "light_gray",
@@ -63,7 +63,7 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_irongolem",
     "symbol": "x",
     "color": "dark_gray",
@@ -79,7 +79,7 @@
     "melee_damage": { "bash": 30 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_forgeborn",
     "symbol": "x",
     "color": "dark_gray",
@@ -95,7 +95,7 @@
     "melee_damage": { "bash": 30 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_eshaper_golem",
     "symbol": "x",
     "color": "light_gray",

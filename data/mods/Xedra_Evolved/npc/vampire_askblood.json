@@ -19,7 +19,7 @@
             { "not": { "npc_has_trait": "VAMPIRE" } },
             { "math": [ "n_npc_trust() >= 10" ] },
             { "math": [ "n_npc_value() >= 10" ] },
-            { "u_has_trait": "VAMPIRE" }
+            { "u_has_any_trait": [ "VAMPIRE", "DHAMPIR_FANGS" ] }
           ]
         }
       }
@@ -46,7 +46,7 @@
             { "not": { "and": [ { "math": [ "n_npc_trust() >= 10" ] }, { "math": [ "n_npc_value() >= 10" ] } ] } },
             { "math": [ "n_npc_trust() > 0" ] },
             { "math": [ "n_npc_value() > 0" ] },
-            { "u_has_trait": "VAMPIRE" }
+            { "u_has_any_trait": [ "VAMPIRE", "DHAMPIR_FANGS" ] }
           ]
         }
       }
@@ -62,7 +62,7 @@
         "topic": "TALK_FRIEND_FOLLOWER_BLOODFEED_IMPOSSIBLE",
         "condition": {
           "and": [
-            { "u_has_trait": "VAMPIRE" },
+            { "u_has_any_trait": [ "VAMPIRE", "DHAMPIR_FANGS" ] },
             {
               "or": [
                 { "npc_has_flag": "BLEED_IMMUNE" },
@@ -99,7 +99,7 @@
             { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
             { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
             { "not": { "npc_has_trait": "VAMPIRE" } },
-            { "u_has_trait": "VAMPIRE" }
+            { "u_has_any_trait": [ "VAMPIRE", "DHAMPIR_FANGS" ] }
           ]
         }
       }
@@ -209,37 +209,15 @@
     "max_duration": "100 d"
   },
   {
-    "id": "regular_vampire_blood_drink",
-    "type": "effect_type",
-    "name": [ "Bloodsucking" ],
-    "desc": [ "The monster is sucking up your blood!" ],
-    "rating": "bad",
-    "resist_traits": [ "BLEED_IMMUNE" ],
-    "show_in_info": true,
-    "max_intensity": 2,
-    "show_intensity": false,
-    "int_decay_step": -2,
-    "int_decay_tick": 1,
-    "vitamins": [
-      { "vitamin": "blood", "rate": [ [ -125, -125 ] ], "tick": [ "1 s" ] },
-      { "vitamin": "redcells", "rate": [ [ -125, -125 ] ], "tick": [ "1 s" ] }
-    ]
-  },
-  {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_DRINK_FROM_HUMAN",
-    "condition": { "u_has_trait": "BLOOD_FUN" },
     "effect": [
-      { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
       {
-        "u_add_morale": "morale_drank_blood",
-        "bonus": 30,
-        "max_bonus": 60,
-        "duration": "20 m",
-        "decay_start": "10 m"
-      }
-    ],
-    "false_effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] } ]
+        "if": "has_beta",
+        "then": { "if": { "npc_has_trait": "FAE_CREATURE" }, "then": { "math": [ "u_vampire_just_drank_fae_blood = 1" ] } }
+      },
+      { "run_eocs": [ "EOC_VAMPIRE_GAIN_BLOOD_VITAMIN", "EOC_DHAMPIR_GAIN_CALORIES_FROM_NON_BAGGED_BLOOD" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -247,7 +225,8 @@
     "global": false,
     "effect": [
       { "npc_add_effect": "feed_from_recently", "duration": "5 d" },
-      { "npc_add_effect": "regular_vampire_blood_drink", "duration": "2 s" }
+      { "math": [ "n_vitamin('blood')", "-=", "400 + rand(100)" ] },
+      { "math": [ "n_vitamin('redcells')", "-=", "400 + rand(100)" ] }
     ]
   },
   {
@@ -256,7 +235,8 @@
     "global": false,
     "effect": [
       { "npc_add_effect": "feed_from_recently", "duration": "10 d" },
-      { "npc_add_effect": "regular_vampire_blood_drink", "duration": "2 s" }
+      { "math": [ "n_vitamin('blood')", "-=", "400 + rand(100)" ] },
+      { "math": [ "n_vitamin('redcells')", "-=", "400 + rand(100)" ] }
     ]
   }
 ]

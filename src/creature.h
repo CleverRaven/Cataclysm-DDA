@@ -13,7 +13,6 @@
 #include <set>
 #include <string>
 #include <type_traits>
-#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -26,6 +25,8 @@
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
+#include "global_vars.h"
+#include "math_parser_diag_value.h"
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "type_id.h"
@@ -693,10 +694,14 @@ class Creature : public viewer
         bool resists_effect( const effect &e ) const;
 
         // Methods for setting/getting misc key/value pairs.
-        void set_value( const std::string &key, const std::string &value );
+        void set_value( const std::string &key, diag_value value );
+        template <typename... Args>
+        void set_value( const std::string &key, Args... args ) {
+            set_value( key, diag_value{ std::forward<Args>( args )... } );
+        }
         void remove_value( const std::string &key );
-        std::string get_value( const std::string &key ) const;
-        std::optional<std::string> maybe_get_value( const std::string &key ) const;
+        diag_value const &get_value( const std::string &key ) const;
+        diag_value const *maybe_get_value( const std::string &key ) const;
         void clear_values();
 
         virtual units::mass get_weight() const = 0;
@@ -869,7 +874,9 @@ class Creature : public viewer
 
         float get_part_wetness_percentage( const bodypart_id &id ) const;
 
-        const encumbrance_data &get_part_encumbrance_data( const bodypart_id &id )const;
+        bool compare_encumbrance_data( const bodypart_id &id_a, const bodypart_id &id_b ) const;
+        int get_part_encumbrance( const bodypart_id &id ) const;
+        int get_part_layer_penalty( const bodypart_id &id ) const;
 
         virtual void set_part_hp_cur( const bodypart_id &id, int set );
         void set_part_hp_max( const bodypart_id &id, int set );
@@ -1201,7 +1208,7 @@ class Creature : public viewer
         virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
 
-        std::unordered_map<std::string, std::string> &get_values();
+        global_variables::impl_t &get_values();
         void clear_killer();
         // summoned creatures via spells
         void set_summon_time( const time_duration &length );
@@ -1231,7 +1238,7 @@ class Creature : public viewer
         std::vector<damage_over_time_data> damage_over_time_map;
 
         // Miscellaneous key/value pairs.
-        std::unordered_map<std::string, std::string> values;
+        global_variables::impl_t values;
 
         // used for innate bonuses like effects. weapon bonuses will be
         // handled separately

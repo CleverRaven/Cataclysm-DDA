@@ -28,6 +28,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
@@ -35,7 +36,6 @@
 #include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
-#include "global_vars.h"
 #include "item.h"
 #include "item_group.h"
 #include "kill_tracker.h"
@@ -94,7 +94,6 @@ static const mtype_id mon_generator( "mon_generator" );
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
 static const species_id species_SLIME( "SLIME" );
 
-static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
@@ -192,7 +191,7 @@ static void swap_pos( Creature &caster, const tripoint_bub_ms &target )
 
     //update map in case a monster swapped positions with the player
     Character &you = get_player_character();
-    get_map().vertical_shift( you.posz() );
+    here.vertical_shift( you.posz() );
     g->update_map( you );
 }
 
@@ -880,6 +879,8 @@ static void spell_move( const spell &sp, const Creature &caster,
         return;
     }
 
+    map &here = get_map();
+
     // Moving creatures
     const bool can_target_self = sp.is_valid_target( spell_target::self );
     const bool can_target_ally = sp.is_valid_target( spell_target::ally );
@@ -904,12 +905,12 @@ static void spell_move( const spell &sp, const Creature &caster,
 
     // Moving items
     if( sp.is_valid_target( spell_target::item ) ) {
-        move_items( get_map(), from, to );
+        move_items( here, from, to );
     }
 
     // Moving fields.
     if( sp.is_valid_target( spell_target::field ) ) {
-        move_field( get_map(), from, to );
+        move_field( here, from, to );
     }
 }
 
@@ -1070,7 +1071,7 @@ static void character_push_effects( Creature *caster, Character &guy, tripoint_b
     int dist_left = std::abs( push_distance );
     tripoint_bub_ms old_pushed_point = guy.pos_bub( here );
     for( const tripoint_bub_ms &pushed_point : push_vec ) {
-        if( get_map().impassable( pushed_point ) ) {
+        if( here.impassable( pushed_point ) ) {
             guy.hurtall( dist_left * 4, caster );
             push_dest = old_pushed_point;
             break;
@@ -1147,7 +1148,7 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
                     int dist_left = std::abs( push_distance );
                     tripoint_bub_ms old_pushed_push_point = push_point;
                     for( const tripoint_bub_ms &pushed_push_point : push_vec ) {
-                        if( get_map().impassable( pushed_push_point ) ) {
+                        if( here.impassable( pushed_push_point ) ) {
                             mon->apply_damage( &caster, bodypart_id(), dist_left * 10 );
                             push_dest = old_pushed_push_point;
                             break;
@@ -1644,7 +1645,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint_bub_
         guilt_thresholds[max_kills] = _( "You feel uneasy about killing %s." );
 
         Character &guy = *guilt_target;
-        if( guy.has_trait( trait_PSYCHOPATH ) || guy.has_trait( trait_KILLER ) ||
+        if( guy.has_trait( trait_PSYCHOPATH ) ||
             guy.has_flag( json_flag_PRED3 ) || guy.has_flag( json_flag_PRED4 ) ) {
             // specially immune.
             return;
@@ -1874,7 +1875,8 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
             // we wannt to leave 1 hp on each already unbroken limb
             caster_total_hp -= unbroken_parts;
             if( overflow > caster_total_hp ) {
-                caster.add_msg_if_player( m_bad, _( "Banishment failed, you are too weak!" ) );
+                std::string spell_name = sp.name();
+                caster.add_msg_if_player( m_bad, string_format( _( "%s failed, you are too weak!" ), spell_name ) );
                 return;
             } else {
                 // can change if a part has less hp than this
@@ -1898,7 +1900,7 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
             }
         }
 
-        caster.add_msg_if_player( m_good, string_format( _( "%s banished." ), mon->name() ) );
+        caster.add_msg_if_player( m_good, string_format( _( "The %s disappears." ), mon->name() ) );
         // banished monsters take their stuff with them
         mon->death_drops = false;
         mon->die( &here, &caster );
@@ -1908,6 +1910,8 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
 void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
                                         const tripoint_bub_ms &target )
 {
+    ::map &here = get_map();
+
     const std::set<tripoint_bub_ms> area = spell_effect_area( sp, target, caster );
 
     creature_tracker &creatures = get_creature_tracker();
@@ -1916,7 +1920,7 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
             continue;
         }
         dialogue d;
-        optional_vpart_position veh = get_map().veh_at( target );
+        optional_vpart_position veh = here.veh_at( target );
         Creature *victim = creatures.creature_at<Creature>( potential_target );
         if( victim && ( sp.is_valid_target( spell_target::ally ) ||
                         sp.is_valid_target( spell_target::hostile ) || sp.is_valid_target( spell_target::self ) ) ) {
@@ -1926,9 +1930,8 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
         } else {
             d = dialogue( nullptr, get_talker_for( caster ) );
         }
-        const tripoint_abs_ms target_abs = get_map().get_abs( potential_target );
-        write_var_value( var_type::context, "spell_location", &d,
-                         target_abs.to_string() );
+        const tripoint_abs_ms target_abs = here.get_abs( potential_target );
+        write_var_value( var_type::context, "spell_location", &d, target_abs );
         d.amend_callstack( string_format( "Spell: %s Caster: %s", sp.id().c_str(), caster.disp_name() ) );
         effect_on_condition_id eoc = effect_on_condition_id( sp.effect_data() );
         if( eoc->type == eoc_type::ACTIVATION ) {

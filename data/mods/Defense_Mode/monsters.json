@@ -44,7 +44,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "fungalize_into": "mon_spider_fungus",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "upgrades": { "half_life": 42, "into": "mon_spider_web_mega" },
+    "upgrades": { "half_life": 168, "into": "mon_spider_web_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "trap_avoids": [ "tr_sinkhole" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
@@ -133,7 +133,7 @@
     "reproduction": { "baby_type": { "baby_egg": "egg_spider_widow" }, "baby_count": 3, "baby_timer": 15 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 42, "into": "mon_spider_widow_mega" },
+    "upgrades": { "half_life": 168, "into": "mon_spider_widow_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ],
     "armor": { "bash": 2, "cut": 4, "bullet": 3 }
@@ -182,7 +182,7 @@
       }
     ],
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 42, "into": "mon_spider_jumping_mega" },
+    "upgrades": { "half_life": 168, "into": "mon_spider_jumping_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER" ],
     "armor": { "cut": 3, "bullet": 2 }
@@ -261,7 +261,7 @@
     "vision_day": 30,
     "vision_night": 10,
     "path_settings": { "max_dist": 50, "avoid_sharp": true },
-    "upgrades": { "half_life": 42, "into_group": "GROUP_RATKIN_EVOLVED" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_RATKIN_EVOLVED" },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "regen_morale": true,

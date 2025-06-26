@@ -96,7 +96,7 @@ class talker_character_const: virtual public const_talker
         int get_spell_level( const trait_id & ) const override;
         int get_spell_level( const spell_id & ) const override;
         int get_spell_exp( const spell_id & ) const override;
-        int get_spell_difficulty( const spell_id & ) const override;
+        int get_spell_difficulty( const spell_id &, bool ) const override;
         int get_highest_spell_level() const override;
         int get_spell_count( const trait_id & ) const override;
         int get_spell_sum( const trait_id &school, int min_level ) const override;
@@ -108,7 +108,7 @@ class talker_character_const: virtual public const_talker
         effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
         bool is_deaf() const override;
         bool is_mute() const override;
-        std::optional<std::string> maybe_get_value( const std::string &var_name ) const override;
+        diag_value const *maybe_get_value( const std::string &var_name ) const override;
 
         // stats, skills, traits, bionics, magic, and proficiencies
         std::vector<skill_id> skills_teacheable() const override;
@@ -253,7 +253,8 @@ class talker_character: virtual public talker
         void set_proficiency_practiced_time( const proficiency_id &prof, int turns ) override;
         void train_proficiency_for( const proficiency_id &prof, int turns ) override;
         void mutate( const int &highest_cat_chance, const bool &use_vitamins ) override;
-        void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins ) override;
+        void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins,
+                              const bool &true_random ) override;
         void mutate_towards( const trait_id &trait, const mutation_category_id &mut_cat,
                              const bool &use_vitamins ) override;
         void set_trait_purifiability( const trait_id &trait, const bool &purifiable ) override;
@@ -269,7 +270,7 @@ class talker_character: virtual public talker
                          const std::string &bp, bool permanent, bool force, int intensity
                        ) override;
         void remove_effect( const efftype_id &old_effect, const std::string &bp ) override;
-        void set_value( const std::string &var_name, const std::string &value ) override;
+        void set_value( const std::string &var_name, diag_value const &value ) override;
         void remove_value( const std::string &var_name ) override;
 
         // inventory, buying, and selling

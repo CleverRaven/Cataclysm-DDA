@@ -67,8 +67,8 @@
     "item": "large_storage_battery",
     "durability": 600,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 10, 20 ] },
-      { "item": "steel_chunk", "count": [ 5, 10 ] },
+      { "item": "lc_steel_lump", "count": [ 10, 20 ] },
+      { "item": "lc_steel_chunk", "count": [ 5, 10 ] },
       { "item": "scrap", "count": [ 5, 10 ] },
       { "item": "storage_battery", "count": [ 0, 1 ] }
     ]
@@ -128,8 +128,8 @@
     "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.",
     "damage_modifier": 80,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 5, 10 ] },
-      { "item": "steel_chunk", "count": [ 5, 10 ] },
+      { "item": "lc_steel_lump", "count": [ 5, 10 ] },
+      { "item": "lc_steel_chunk", "count": [ 5, 10 ] },
       { "item": "scrap", "count": [ 5, 10 ] },
       { "item": "medium_storage_battery", "count": [ 1, 2 ] }
     ],

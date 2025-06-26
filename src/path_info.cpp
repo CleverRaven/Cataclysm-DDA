@@ -341,6 +341,10 @@ cata_path PATH_INFO::jsondir()
 {
     return datadir_path_value / "core";
 }
+cata_path PATH_INFO::compression_folder_path()
+{
+    return datadir_path_value / "raw" / "compression";
+}
 cata_path PATH_INFO::moddir()
 {
     return datadir_path_value / "mods";

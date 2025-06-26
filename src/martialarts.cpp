@@ -97,7 +97,7 @@ void attack_vector::reset()
     attack_vector_factory.reset();
 }
 
-void attack_vector::load( const JsonObject &jo, const std::string_view )
+void attack_vector::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "weapon", weapon, false );
@@ -135,7 +135,7 @@ void weapon_category::reset()
     weapon_category_factory.reset();
 }
 
-void weapon_category::load( const JsonObject &jo, const std::string_view )
+void weapon_category::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
     optional( jo, was_loaded, "proficiencies", proficiencies_ );
@@ -245,7 +245,7 @@ class tech_effect_reader : public generic_typed_reader<tech_effect_reader>
         }
 };
 
-void ma_requirements::load( const JsonObject &jo, const std::string_view )
+void ma_requirements::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
@@ -273,7 +273,7 @@ void ma_requirements::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
 }
 
-void ma_technique::load( const JsonObject &jo, const std::string_view src )
+void ma_technique::load( const JsonObject &jo, std::string_view src )
 {
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "description", description, translation() );
@@ -360,7 +360,7 @@ bool string_id<ma_technique>::is_valid() const
     return ma_techniques.is_valid( *this );
 }
 
-void ma_buff::load( const JsonObject &jo, const std::string_view src )
+void ma_buff::load( const JsonObject &jo, std::string_view src )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -417,7 +417,7 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
         }
 };
 
-void martialart::load( const JsonObject &jo, const std::string_view src )
+void martialart::load( const JsonObject &jo, std::string_view src )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -1558,7 +1558,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
                 int bp_hp_max = bp->main_part == bp ? user.get_part_hp_max( bp ) : user.get_part_hp_max(
                                     bp->main_part );
                 if( ( 100 * bp_hp_cur / bp_hp_max ) > vec->bp_hp_limit &&
-                    user.get_part_encumbrance_data( bp ).encumbrance < vec->encumbrance_limit ) {
+                    user.get_part_encumbrance( bp ) < vec->encumbrance_limit ) {
                     sub_bodypart_str_id current_contact;
                     for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
                         if( std::find( vec->contact_area.begin(), vec->contact_area.end(),
@@ -1673,7 +1673,7 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
         // Check all standard legs for the score threshold
         for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::leg ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
-                owner.get_part( bp )->get_limb_score( limb_score_block ) * bp->limbtypes.at(
+                owner.get_part( bp )->get_limb_score( owner, limb_score_block ) * bp->limbtypes.at(
                     body_part_type::type::leg ) >= 0.25f ) {
                 return true;
             }
@@ -1707,7 +1707,7 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
         // Check all standard arms for the score threshold
         for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
-                owner.get_part( bp )->get_limb_score( limb_score_block ) * bp->limbtypes.at(
+                owner.get_part( bp )->get_limb_score( owner, limb_score_block ) * bp->limbtypes.at(
                     body_part_type::type::arm ) >= 0.25f ) {
                 return true;
             }
@@ -1736,7 +1736,7 @@ bool character_martial_arts::can_nonstandard_block( const Character &owner ) con
     // Return true if the limbs which would always block can block
     if( owner.has_flag( json_flag_ALWAYS_BLOCK ) ) {
         for( const bodypart_id &bp : owner.get_all_body_parts_with_flag( json_flag_ALWAYS_BLOCK ) ) {
-            if( owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+            if( owner.get_part( bp )->get_limb_score( owner, limb_score_block ) >= 0.25f ) {
                 return true;
             }
         }
@@ -1744,7 +1744,7 @@ bool character_martial_arts::can_nonstandard_block( const Character &owner ) con
     // Return true if we're skilled enough to block and we have at least one limb ready to block
     if( block_with_skill ) {
         for( const bodypart_id &bp : owner.get_all_body_parts_with_flag( json_flag_NONSTANDARD_BLOCK ) ) {
-            if( owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+            if( owner.get_part( bp )->get_limb_score( owner, limb_score_block ) >= 0.25f ) {
                 return true;
             }
         }

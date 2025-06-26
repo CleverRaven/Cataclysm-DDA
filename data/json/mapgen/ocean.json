@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ocean_bed" ],
     "object": { "fill_ter": "t_ocean_bed", "furniture": { " ": [ [ "f_region_ocean_bed", 1 ], [ "f_null", 99 ] ] } }
   }

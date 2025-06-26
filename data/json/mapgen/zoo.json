@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": [
       [ "zoo_0_0", "zoo_1_0", "zoo_2_0", "zoo_3_0" ],
       [ "zoo_0_1", "zoo_1_1", "zoo_2_1", "zoo_3_1" ],
@@ -214,10 +213,10 @@
           { "item": "SUS_dishes", "chance": 15 }
         ],
         "T": [ { "item": "SUS_silverware", "chance": 25 }, { "item": "SUS_dishes", "chance": 25 } ],
-        "Y": { "item": "SUS_trash_trashcan_public", "chance": 50, "repeat": [ 1, 20 ] },
+        "Y": { "item": "SUS_trash_trashcan_public" },
         ",": { "item": "forest", "chance": 2 },
-        "d": [ { "item": "office_paper", "chance": 15 }, { "item": "office", "chance": 30 } ],
-        "r": { "item": "gift_shop_zoo", "chance": 75 },
+        "d": [ { "item": "SUS_office_desk", "chance": 60 } ],
+        "r": { "item": "gift_shop", "chance": 75 },
         "t": { "item": "SUS_toilet", "chance": 50 },
         "w": { "item": "shelves_zoo", "chance": 50, "repeat": [ 1, 3 ] },
         "z": { "item": "butcher_raw_meat", "chance": 20, "repeat": [ 1, 20 ] }
@@ -249,7 +248,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [
       [ "zoo_0_0_roof", "zoo_1_0_roof", "zoo_2_0_roof", "zoo_3_0_roof" ],
       [ "zoo_0_1_roof", "zoo_1_1_roof", "zoo_2_1_roof", "zoo_3_1_roof" ],
@@ -362,7 +360,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "zoo_3_2_basement" ], [ "zoo_3_3_basement" ] ],
     "type": "mapgen",
     "object": {

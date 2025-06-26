@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "activity_type.h"
+#include "butchery.h"
 #include "calendar.h"
 #include "character.h"
 #include "clone_ptr.h"
@@ -715,8 +716,8 @@ class ebooksave_activity_actor : public activity_actor
         int turns_left_on_current_book = 0;
 
         static constexpr time_duration time_per_page = 5_seconds;
-        // Every 25 pages requires one charge of the ereader
-        static constexpr int pages_per_charge = 25;
+        // Every 120 pages requires one charge of the ereader (equivalent of 1500 mWh, so roughly 6 charges per hour )
+        static constexpr int pages_per_charge = 120;
 
         void start_scanning_next_book( player_activity &act );
         void completed_scanning_current_book( player_activity &act, Character &who );
@@ -1407,9 +1408,10 @@ class milk_activity_actor : public activity_actor
 {
     public:
         milk_activity_actor() = default;
-        milk_activity_actor( int moves, std::vector<tripoint_abs_ms> coords,
-                             std::vector<std::string> str_values ) : total_moves( moves ), monster_coords( std::move( coords ) ),
-            string_values( std::move( str_values ) ) {}
+        milk_activity_actor( int moves, int moves_per_unit, tripoint_abs_ms coords,
+                             liquid_dest_opt &target, bool milking_tie = true ) : total_moves( moves ),
+            moves_per_unit( moves_per_unit ), monster_coords( coords ), target( target ),
+            milking_tie( milking_tie ) {}
 
         const activity_id &get_type() const override {
             static const activity_id ACT_MILK( "ACT_MILK" );
@@ -1430,8 +1432,11 @@ class milk_activity_actor : public activity_actor
 
     private:
         int total_moves {};
-        std::vector<tripoint_abs_ms> monster_coords;
-        std::vector<std::string> string_values;
+        int moves_per_unit;
+        tripoint_abs_ms monster_coords;
+        liquid_dest_opt target;
+        bool milking_tie; // was the monster tied due to milking.
+        time_point next_unit_move;
 };
 
 class shearing_activity_actor : public activity_actor
@@ -2456,10 +2461,44 @@ class pulp_activity_actor : public activity_actor
         // if corpse cost more than hour to pulp, drop it
         bool way_too_long_to_pulp = false;
 
+        bool acid_corpse = false;
+
         // how many corpses we pulped
         int num_corpses = 0;
 
         pulp_data pd;
+};
+
+class butchery_activity_actor : public activity_actor
+{
+    public:
+        butchery_activity_actor() = default;
+        explicit butchery_activity_actor( butchery_data bd ) : bd( { std::move( bd ) } ) {}
+        explicit butchery_activity_actor( std::vector<butchery_data> bd ) : bd( std::move( bd ) ) {}
+
+        const activity_id &get_type() const override;
+        void start( player_activity & /* act */, Character & /* you */ ) override {};
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &act, Character & /* you */ ) override;
+        void canceled( player_activity &act, Character &you ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<butchery_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+        // store said data in this_bd
+        void calculate_butchery_data( Character &you, butchery_data &this_bd );
+        // return false if preparation failed for some reason
+        bool initiate_butchery( player_activity &act, Character &you, butchery_data &this_bd );
+
+    private:
+        // list of butcheries we want to perform in this activity
+        // we iterate over it, starting from last, and pop_back() when instance is finished
+        // when vector is empty, we are done
+        std::vector<butchery_data> bd;
 };
 
 class wait_stamina_activity_actor : public activity_actor

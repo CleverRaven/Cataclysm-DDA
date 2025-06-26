@@ -264,7 +264,7 @@
       [ "jerrycan", 5 ],
       { "item": "scrap_copper", "prob": 15, "count": [ 1, 2 ] },
       [ "lc_wire", 10 ],
-      { "group": "ammo_pocket_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_random", "prob": 50 },
       [ "pilot_light", 50 ],
       { "group": "duct_tape_roll_part", "prob": 200 },
       { "group": "superglue", "prob": 100 },
@@ -280,7 +280,8 @@
       [ "plastic_sheet", 20 ],
       [ "recharge_station", 20 ],
       [ "plunger_toilet", 75 ],
-      [ "plunger_futuristic", 25 ]
+      [ "plunger_futuristic", 25 ],
+      [ "pipe_fittings", 70 ]
     ]
   },
   {
@@ -303,7 +304,8 @@
       [ "well_pump", 10 ],
       { "item": "scrap_copper", "prob": 15, "count": [ 1, 12 ] },
       { "item": "plunger_toilet", "prob": 90, "count": [ 1, 2 ] },
-      [ "plunger_futuristic", 50 ]
+      [ "plunger_futuristic", 50 ],
+      [ "pipe_fittings", 70 ]
     ]
   },
   {
@@ -371,6 +373,42 @@
     "items": [ { "group": "superglue", "prob": 40 }, [ "sandpaper", 40 ], [ "screwdriver", 5 ], [ "chisel", 10 ], [ "hammer", 5 ] ]
   },
   {
+    "type": "item_group",
+    "id": "concrete_bag_any",
+    "subtype": "distribution",
+    "items": [
+      { "group": "concrete_bag", "prob": 30 },
+      { "group": "concrete_bag_part", "prob": 50 },
+      { "item": "bag_durasack_cement", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "cement_bag_any",
+    "subtype": "distribution",
+    "items": [
+      { "group": "cement_bag", "prob": 30 },
+      { "group": "cement_bag_part", "prob": 50 },
+      { "item": "bag_durasack", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sandbag_any",
+    "subtype": "distribution",
+    "items": [ { "group": "sandbag", "prob": 30 }, { "group": "sandbag_part", "prob": 50 }, { "item": "bag_durasack", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "gravelbag_any",
+    "subtype": "distribution",
+    "items": [
+      { "group": "gravelbag", "prob": 30 },
+      { "group": "gravelbag_part", "prob": 50 },
+      { "item": "bag_durasack", "prob": 20 }
+    ]
+  },
+  {
     "id": "supplies_hardware",
     "type": "item_group",
     "//": "General purpose supplies for building / blue collar work.",
@@ -380,10 +418,10 @@
       { "item": "brazing_rod_bronze", "prob": 15, "charges": 1500 },
       { "item": "welding_rod_steel", "prob": 20, "charges": 1500 },
       { "item": "welding_wire_steel", "prob": 20, "charges": 1500 },
-      { "group": "concrete_bag", "prob": 40 },
-      { "group": "cement_bag", "prob": 50 },
-      { "group": "sandbag", "prob": 50 },
-      { "group": "gravelbag", "prob": 50 },
+      { "group": "concrete_bag_any", "prob": 40 },
+      { "group": "cement_bag_any", "prob": 50 },
+      { "group": "sandbag_any", "prob": 50 },
+      { "group": "gravelbag_any", "prob": 50 },
       {
         "collection": [
           { "distribution": [ { "item": "rope_30", "prob": 70 }, { "item": "chain", "prob": 30 } ], "prob": 75 },
@@ -445,7 +483,8 @@
       [ "fungicide", 5 ],
       { "group": "insecticide_bag_plastic", "prob": 5 },
       { "group": "charcoal_bag_part", "prob": 5 },
-      { "group": "ammo_pocket_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_unopened", "prob": 25 },
+      { "group": "ammo_heavy_batteries_full", "prob": 25 },
       [ "solar_cell", 5 ],
       { "group": "fertilizer_commercial_bag_canvas_60", "prob": 30 },
       [ "chem_sulphuric_acid", 30 ],
@@ -629,8 +668,6 @@
     "items": [
       { "item": "sheet_metal", "prob": 5 },
       { "item": "sheet_metal_small", "prob": 5, "count": [ 2, 4 ] },
-      { "item": "steel_lump", "prob": 5, "count": [ 1, 3 ] },
-      { "item": "steel_chunk", "prob": 15, "count": [ 1, 5 ] },
       { "item": "copper", "prob": 10, "count": [ 1, 5 ] },
       { "item": "tin", "prob": 10, "count": [ 1, 5 ] },
       { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 5 ] },
@@ -768,79 +805,6 @@
       [ "motor_small", 20 ],
       [ "pump_complex", 10 ],
       [ "well_pump", 50 ]
-    ]
-  },
-  {
-    "id": "file_room",
-    "type": "item_group",
-    "items": [ [ "file", 99 ], [ "file", 99 ], [ "record_accounting", 10 ], [ "paper", 80 ], [ "safe_box", 1 ] ]
-  },
-  {
-    "id": "office_mess",
-    "type": "item_group",
-    "items": [
-      [ "file", 99 ],
-      { "group": "used_laptops", "prob": 2, "contents-group": "SUS_efiles_office" },
-      { "item": "paper", "prob": 60, "count": [ 20, 50 ] },
-      { "item": "inhaler", "prob": 1, "charges": [ 10, 100 ] },
-      [ "mbag", 2 ],
-      [ "mop", 3 ],
-      [ "mop_folded", 2 ],
-      [ "rubber_band", 5 ],
-      { "group": "civilian_phones", "prob": 21 },
-      { "group": "duct_tape_roll_part", "prob": 5 },
-      { "group": "superglue", "prob": 5 },
-      { "group": "ammo_pocket_batteries", "prob": 5 },
-      { "item": "flashlight", "prob": 10, "charges": [ 0, 300 ] },
-      [ "office_holepunch", 10 ],
-      [ "umbrella", 5 ],
-      [ "teleumbrella", 10 ],
-      [ "survnote", 1 ],
-      [ "clock", 2 ],
-      { "item": "coffeemaker", "prob": 2 },
-      [ "bubblewrap", 10 ],
-      [ "box_small", 3 ],
-      [ "box_medium", 3 ],
-      [ "box_large", 2 ],
-      [ "box_oversize", 2 ],
-      [ "box_small_folded", 3 ],
-      [ "box_medium_folded", 3 ],
-      [ "box_large_folded", 2 ],
-      [ "box_oversize_folded", 2 ],
-      [ "plastic_sheet", 3 ],
-      { "item": "glowstick", "prob": 10, "charges": 1400 },
-      [ "radio", 2 ],
-      [ "fan", 5 ],
-      [ "fan", 5 ],
-      [ "cola", 10 ],
-      [ "can_drink", 5 ],
-      { "prob": 5, "group": "cig_box_cigarette_1_20" },
-      [ "purse", 2 ],
-      [ "pipe_tobacco", 1 ],
-      { "group": "writing_utensils", "prob": 35 }
-    ]
-  },
-  {
-    "id": "office_supplies",
-    "type": "item_group",
-    "items": [
-      [ "paper", 100 ],
-      { "group": "writing_utensils", "prob": 35 },
-      [ "file", 15 ],
-      { "group": "duct_tape_roll_part", "prob": 15 },
-      { "group": "superglue", "prob": 15 },
-      [ "file", 15 ],
-      [ "office_holepunch", 15 ],
-      [ "bubblewrap", 15 ],
-      [ "rubber_band", 15 ],
-      { "group": "ammo_pocket_batteries_full", "prob": 10 },
-      { "item": "flashlight", "prob": 7, "charges": [ 0, 300 ] },
-      { "group": "used_laptops", "prob": 7, "contents-group": "SUS_efiles_office" },
-      { "group": "used_eink_tablet_pcs", "prob": 7, "contents-group": "SUS_efiles_office" },
-      { "group": "used_usb_drives", "prob": 5, "contents-group": "SUS_efiles_office" },
-      { "item": "cash_card", "prob": 5, "charges": [ 0, 50000 ] },
-      [ "record_accounting", 1 ],
-      [ "money_strap_twenty", 1 ]
     ]
   },
   {

@@ -206,7 +206,7 @@
     "harvest": "exempt",
     "special_attacks": [ [ "SUICIDE", 20 ] ],
     "death_drops": { "subtype": "collection", "groups": [ "default_zombie_death_drops", "explode_gasbag" ] },
-    "upgrades": { "half_life": 24, "into": "mon_zombie_gasbag_crawler" },
+    "upgrades": { "half_life": 96, "into": "mon_zombie_gasbag_crawler" },
     "death_function": { "message": "The %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY" ],
     "armor": { "electric": 1 }
@@ -224,6 +224,7 @@
     "weight": "81500 g",
     "hp": 15,
     "speed": 90,
+    "move_skills": { "climb": 9 },
     "material": [ "flesh" ],
     "symbol": "W",
     "color": "yellow_yellow",
@@ -241,7 +242,7 @@
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "scratch", 5 ] ],
     "death_function": { "message": "The %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "death_drops": "explode_gasbag",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT", "NEVER_WANDER" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "NO_BREATHE", "HARDTOSHOOT", "NEVER_WANDER" ],
     "armor": { "bash": 6, "cut": 6, "bullet": 5, "electric": 1 }
   },
   {
@@ -257,6 +258,7 @@
     "weight": "40750 g",
     "hp": 30,
     "speed": 12,
+    "move_skills": { "climb": 6 },
     "material": [ "flesh" ],
     "symbol": "w",
     "color": "yellow_yellow",
@@ -288,7 +290,7 @@
     ],
     "death_function": { "message": "The %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "death_drops": "explode_gasbag",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "NO_BREATHE", "HARDTOSHOOT" ],
     "armor": { "bash": 6, "cut": 6, "bullet": 5, "electric": 1 }
   },
   {
@@ -304,6 +306,7 @@
     "weight": "81500 g",
     "hp": 10,
     "speed": 250,
+    "move_skills": { "climb": 8 },
     "material": [ "flesh" ],
     "symbol": "M",
     "color": "red_yellow",
@@ -319,7 +322,7 @@
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 3, "allow_no_target": true }, [ "scratch", 5 ] ],
     "death_function": { "message": "The %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "death_drops": { "subtype": "collection", "groups": [ "explode_gasbag", "explode_gasbag" ] },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT", "NEVER_WANDER" ],
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "WARM", "POISON", "NO_BREATHE", "HARDTOSHOOT", "NEVER_WANDER" ],
     "armor": { "bash": 2, "cut": 10, "bullet": 10, "electric": 2 }
   },
   {
@@ -335,6 +338,7 @@
     "weight": "81500 g",
     "hp": 200,
     "speed": 110,
+    "move_skills": { "climb": 8 },
     "material": [ "flesh" ],
     "symbol": "S",
     "color": "magenta_red",
@@ -357,7 +361,7 @@
       { "id": "ranged_pull", "cooldown": 20, "grab_data": { "pull_weight_ratio": 3.0 } },
       { "id": "smash", "throw_strength": 30 }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "IMMOBILE", "RANGED_ATTACKER" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "NO_BREATHE", "IMMOBILE", "RANGED_ATTACKER" ],
     "armor": { "bash": 6, "cut": 10, "bullet": 6, "electric": 2 }
   },
   {

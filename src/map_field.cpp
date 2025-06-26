@@ -481,7 +481,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                     if( !cur.is_field_alive() || cur.get_field_intensity() != prev_intensity ) {
                         on_field_modified( p, *pd.cur_fd_type );
                     }
-                    it++;
+                    ++it;
                     continue;
                 }
 
@@ -493,7 +493,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                 if( !cur.is_field_alive() || cur.get_field_intensity() != prev_intensity ) {
                     on_field_modified( p, *pd.cur_fd_type );
                 }
-                it++;
+                ++it;
             }
         }
     }
@@ -777,7 +777,7 @@ static void field_processor_monster_spawn( const tripoint_bub_ms &p, field_entry
                 if( const std::optional<tripoint_bub_ms> spawn_point =
                         random_point( points_in_radius( p, int_level.monster_spawn_radius ),
                 [&pd]( const tripoint_bub_ms & n ) {
-                return pd.here.passable( n );
+                return pd.here.passable_through( n );
                 } ) ) {
                     const tripoint_bub_ms pt = spawn_point.value();
                     pd.here.add_spawn( mgr, pt );

@@ -116,6 +116,11 @@
     "info": "This item can be activated or reloaded from an adjacent tile without picking it up."
   },
   {
+    "id": "CAN_USE_IN_DARK",
+    "type": "json_flag",
+    "info": "This item can use all of its features in darkness."
+  },
+  {
     "id": "ALWAYS_AIMED",
     "type": "json_flag",
     "info": "This gun is <good>always fully aimed</good>."
@@ -1701,6 +1706,10 @@
     "type": "json_flag"
   },
   {
+    "id": "NO_TEMP",
+    "type": "json_flag"
+  },
+  {
     "id": "NO_TURRET",
     "type": "json_flag",
     "//": "This flag should only be applied to GUN definitions, it will prevent generation of a turret vehicle part for the gun.  This blocks fake guns, or player unobtainable ones from appearing in turret list."
@@ -2682,5 +2691,15 @@
     "id": "NATURAL_UNDERGROUND",
     "type": "json_flag",
     "//": "Wall tiles with this flag occur naturally underground and are not manmade."
+  },
+  {
+    "id": "INSTANT_BLEED",
+    "type": "json_flag",
+    "//": "Having this flag makes the player bleed corpses in 1 second each.  Used for a XE vampire power."
+  },
+  {
+    "id": "ONE_STORY_FALL",
+    "type": "json_flag",
+    "//": "When the character falls, the height is reduced by 1 Z level before calculating damage."
   }
 ]

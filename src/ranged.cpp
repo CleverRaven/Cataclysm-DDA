@@ -19,7 +19,7 @@
 #include "ballistics.h"
 #include "bionics.h"
 #include "bodypart.h"
-#include "cached_options.h"
+#include "cached_options.h" // IWYU pragma: keep
 #include "calendar.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
@@ -307,7 +307,7 @@ class target_ui
         // List of available weapon aim types
         std::vector<aim_type> aim_types;
         // Currently selected aim mode
-        std::vector<aim_type>::iterator aim_mode;
+        std::vector<aim_type>::iterator aim_mode{ aim_types.begin() };
         // 'Recoil' value the player will reach if they
         // start aiming at cursor position. Equals player's
         // 'recoil' while they are actively spending moves to aim,
@@ -796,12 +796,12 @@ bool Character::handle_gun_damage( item &it )
         return false;
 
         // Chance for the weapon to suffer a failure, caused by the magazine size, quality, or condition
-    } else if( x_in_y( jam_chance, 1 ) && !it.has_var( "u_know_round_in_chamber" ) &&
-               it.can_have_fault_type( gun_mechanical_simple ) ) {
+    } else if( x_in_y( jam_chance, 1 ) && !it.has_flag( flag_NEVER_JAMS ) &&
+               !it.has_var( "u_know_round_in_chamber" ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
-        it.faults.insert( random_entry( it.faults_potential_of_type( gun_mechanical_simple ) ) );
+        it.set_random_fault_of_type( gun_mechanical_simple );
         return false;
 
         // Here we check for a chance for attached mods to get damaged if they are flagged as 'CONSUMABLE'.
@@ -856,7 +856,7 @@ bool Character::handle_gun_damage( item &it )
             add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
                                    _( "<npcname>'s %s fails to cycle!" ),
                                    it.tname() );
-            it.faults.insert( fault_gun_chamber_spent );
+            it.set_fault( fault_gun_chamber_spent );
             // Don't return false in this case; this shot happens, follow-up ones won't.
         }
         // These are the dirtying/fouling mechanics
@@ -878,11 +878,11 @@ bool Character::handle_gun_damage( item &it )
             dirt = it.get_var( "dirt", 0 );
             dirt_dbl = static_cast<double>( dirt );
             if( dirt > 0 && !it.has_fault_flag( "NO_DIRTYING" ) ) {
-                it.faults.insert( fault_gun_dirt );
+                it.set_fault( fault_gun_dirt );
             }
             if( dirt > 0 && curammo_effects.count( ammo_effect_BLACKPOWDER ) ) {
-                it.faults.erase( fault_gun_dirt );
-                it.faults.insert( fault_gun_blackpowder );
+                it.remove_fault( fault_gun_dirt );
+                it.set_fault( fault_gun_blackpowder );
             }
             // end fouling mechanics
         }
@@ -931,7 +931,7 @@ bool Character::handle_gun_overheat( item &it )
             add_msg_if_player( m_bad,
                                _( "Your %s displays a warning sequence as its active cooling cycle engages." ),
                                it.tname() );
-            it.faults.insert( fault_overheat_safety );
+            it.set_fault( fault_overheat_safety );
             return false;
         }
 
@@ -944,13 +944,13 @@ bool Character::handle_gun_overheat( item &it )
                                it.tname() );
             add_msg_if_player( m_bad, _( "Your %s detonates!" ),
                                it.tname() );
-            it.faults.insert( fault_overheat_melting );
+            it.set_fault( fault_overheat_melting );
             explosion_handler::explosion( this, this->pos_bub(), 1200, 0.4 );
             return false;
         } else if( it.faults_potential().count( fault_overheat_melting ) && fault_roll > 6 ) {
             add_msg_if_player( m_bad, _( "Acrid smoke pours from your %s as its internals fuse together." ),
                                it.tname() );
-            it.faults.insert( fault_overheat_melting );
+            it.set_fault( fault_overheat_melting );
             return false;
         } else if( it.faults_potential().count( fault_overheat_venting ) && fault_roll > 2 ) {
             map &here = get_map();
@@ -1092,6 +1092,9 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
 
         weakpoint_attack wp_attack;
         wp_attack.weapon = &gun;
+        // get ammo_id in gun for event character_ranged_attacks_monster. If no ammo, use itype_id::NULL_ID()
+        itype_id projectile_use_ammo_id = gun.has_ammo_data() ? gun.ammo_data()->get_id() :
+                                          itype_id::NULL_ID();
         projectile proj = make_gun_projectile( gun );
 
         for( damage_unit &elem : proj.impact.damage_units ) {
@@ -1107,16 +1110,21 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
         if( !shot.targets_hit.empty() ) {
             hits++;
         }
+
         for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : shot.targets_hit ) {
             if( hit_entry.second.first == 0 ) {
                 continue;
             }
             if( monster *const m = hit_entry.first->as_monster() ) {
                 cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(), gun_id,
+                                projectile_use_ammo_id,
+                                false,
                                 m->type->id );
                 get_event_bus().send_with_talker( this, m, e );
             } else if( Character *const c = hit_entry.first->as_character() ) {
                 cata::event e = cata::event::make<event_type::character_ranged_attacks_character>( getID(), gun_id,
+                                projectile_use_ammo_id,
+                                false,
                                 c->getID(), c->get_name() );
                 get_event_bus().send_with_talker( this, c, e );
             }
@@ -1580,13 +1588,33 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
     // This should generally have values below ~20*sqrt(skill_lvl)
     const float final_xp_mult = range_factor * damage_factor;
 
+    itype_id to_throw_id = to_throw.type->get_id();
     weakpoint_attack wp_attack;
     wp_attack.weapon = &to_throw;
     wp_attack.is_thrown = true;
     dealt_projectile_attack dealt_attack;
     projectile_attack( dealt_attack, proj, throw_from, target, dispersion,
                        this, nullptr, wp_attack );
-
+    for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : dealt_attack.targets_hit ) {
+        if( hit_entry.second.first == 0 ) {
+            continue;
+        }
+        if( monster *const m = hit_entry.first->as_monster() ) {
+            cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(),
+                            itype_id::NULL_ID(),
+                            to_throw_id,
+                            true,
+                            m->type->id );
+            get_event_bus().send_with_talker( this, m, e );
+        } else if( Character *const c = hit_entry.first->as_character() ) {
+            cata::event e = cata::event::make<event_type::character_ranged_attacks_character>( getID(),
+                            itype_id::NULL_ID(),
+                            to_throw_id,
+                            true,
+                            c->getID(), c->get_name() );
+            get_event_bus().send_with_talker( this, c, e );
+        }
+    }
     const double missed_by = dealt_attack.missed_by;
 
     if( critter && dealt_attack.last_hit_critter != nullptr && dealt_attack.headshot &&
@@ -2204,12 +2232,12 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
     thresholds_it = thresholds.begin();
     aim_types.push_back( aim_type { _( "Regular" ), "AIMED_SHOT", _( "[%c] to aim and fire." ),
                                     true, *thresholds_it } );
-    thresholds_it++;
+    ++thresholds_it;
     if( thresholds_it != thresholds.end() ) {
         aim_types.push_back( aim_type { _( "Careful" ), "CAREFUL_SHOT",
                                         _( "[%c] to take careful aim and fire." ), true,
                                         *thresholds_it } );
-        thresholds_it++;
+        ++thresholds_it;
     }
     if( thresholds_it != thresholds.end() ) {
         aim_types.push_back( aim_type { _( "Precise" ), "PRECISE_SHOT",
@@ -2328,7 +2356,7 @@ static void cycle_action( item &weap, const itype_id &ammo, map *here, const tri
             }
 
             // TODO: Refine critera to handle overlapping maps.
-            if( here == &get_map() ) {
+            if( here == &reality_bubble() ) {
                 sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
                                          sfx::get_heard_angle( eject ) );
             }
@@ -3336,11 +3364,13 @@ int target_ui::dist_fn( const tripoint_bub_ms &p )
 
 void target_ui::set_last_target()
 {
+    map &here = get_map();
+
     if( !you->last_target_pos.has_value() ||
-        you->last_target_pos.value() != get_map().get_abs( dst ) ) {
+        you->last_target_pos.value() != here.get_abs( dst ) ) {
         you->aim_cache_dirty = true;
     }
-    you->last_target_pos = get_map().get_abs( dst );
+    you->last_target_pos = here.get_abs( dst );
     if( dst_critter ) {
         you->last_target = g->shared_from( *dst_critter );
     } else {
@@ -3714,10 +3744,13 @@ bool target_ui::action_aim()
     set_last_target();
     apply_aim_turning_penalty();
     const double min_recoil = calculate_aim_cap( *you, dst );
+    double hold_recoil = you->recoil;
     for( int i = 0; i < 10; ++i ) {
         do_aim( *you, *relevant, min_recoil );
     }
-
+    add_msg_debug( debugmode::debug_filter::DF_BALLISTIC,
+                   "you reduced recoil from %f to %f in 10 moves",
+                   hold_recoil, you->recoil );
     // We've changed pc.recoil, update penalty
     recalc_aim_turning_penalty();
 
@@ -3894,7 +3927,7 @@ void target_ui::draw_ui_window()
 
 aim_type target_ui::get_selected_aim_type() const
 {
-    return this->aim_mode != this->aim_types.cend() ? *( this->aim_mode ) : get_default_aim_type();
+    return this->aim_mode != this->aim_types.end() ? *( this->aim_mode ) : get_default_aim_type();
 }
 
 int target_ui::get_sight_dispersion() const

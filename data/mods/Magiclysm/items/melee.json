@@ -2,7 +2,7 @@
   {
     "id": "mjolnir",
     "copy-from": "warhammer",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "Mjölnir" },
     "description": "Mjölnir, the legendary hammer of Thor.  It is rumored to be able to level mountains with a single blow.  You feel the power of Asgard coursing through the hammer.",
     "weight": "1731 g",
@@ -16,7 +16,7 @@
   {
     "id": "gungnir",
     "copy-from": "spear_steel",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "Gungnir" },
     "description": "Gungnir, the spear of Odin.  It is rumored to be the perfect spear, perfectly hitting any target regardless of the wielder's strength or skill.  It feels like Odin's protecting you.",
     "weight": "1854 g",
@@ -29,7 +29,7 @@
   {
     "id": "gram",
     "copy-from": "broadsword",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "Gram" },
     "description": "Gram, the sword of Sigurd.  It is rumored to be the sword that slayed the legendary dragon, Fafnir.  Once said to have cleaved Regin's anvil in half, the edge is impeccable.",
     "weight": "1132 g",
@@ -42,7 +42,7 @@
   {
     "id": "laevateinn",
     "copy-from": "i_staff",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "Laevateinn" },
     "description": "Laevateinn, the staff of Loki.  Said to have been plucked from the gates of Hel by Loki.  Imbued with a mysterious magic, the magic of the trickster god himself.",
     "price": "1 kUSD 600 USD",
@@ -55,7 +55,8 @@
   },
   {
     "copy-from": "knife_combat",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "orich_knife_combat",
     "name": { "str": "orichalcum combat knife", "str_pl": "orichalcum combat knives" },
     "description": "A variant of the combat knife that is made of orichalcum instead of steel.  Sharper and easier to maintain than steel while just as dense, this knife also has a thinner blade, which shaves off some weight.",
@@ -65,7 +66,8 @@
   },
   {
     "copy-from": "longsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "orich_longsword",
     "name": { "str": "orichalcum longsword" },
     "description": "A variant of the longsword that is made of orichalcum instead of steel.  Sharper and easier to maintain than steel while just as dense, this longsword also has a thinner blade, which shaves off some weight.",
@@ -75,7 +77,8 @@
   },
   {
     "copy-from": "fire_ax",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "orich_fire_ax",
     "name": { "str": "orichalcum fire axe" },
     "description": "A fire axe made with orichalcum instead of steel.  This makes it possible to chop through harder materials, and in the very well-funded fire stations is preferred.",
@@ -86,20 +89,22 @@
   {
     "id": "wolfsbane",
     "copy-from": "pike",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "name": { "str": "Wolfsbane" },
     "description": "Wolfsbane pikes are generally antiques brought over from Europe.  Forged during the days when the Black Forest went from France to Transylvania, these spears targeted the Loup Garou that were weak against fire.",
     "weight": "1854 g",
     "material": [ "orichalcum_metal", "wood" ],
     "volume": "3250 ml",
-    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "wolfsbane" } ] } ] },
     "price": "2 kUSD",
-    "melee_damage": { "bash": 10, "cut": 35 }
+    "melee_damage": { "bash": 10, "cut": 35 },
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "wolfsbane" } ] } ]
   },
   {
     "id": "longsword_mithril",
     "copy-from": "longsword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "longsword" },
     "description": "This is a classic medieval sword, the size being in-between the lighter arming sword and later two-handed swords.  Thanks to the mysterious silvery metal it was forged from, it is stronger than tempered steel while weighing substantially less.",
     "material": [ "mithril_metal" ],

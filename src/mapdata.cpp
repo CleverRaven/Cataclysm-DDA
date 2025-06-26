@@ -229,6 +229,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_WORKOUT_ARMS: return "WORKOUT_ARMS";
         case ter_furn_flag::TFLAG_WORKOUT_LEGS: return "WORKOUT_LEGS";
         case ter_furn_flag::TFLAG_TRANSLOCATOR: return "TRANSLOCATOR";
+        case ter_furn_flag::TFLAG_TRANSLOCATOR_GREATER: return "TRANSLOCATOR_GREATER";
         case ter_furn_flag::TFLAG_AUTODOC: return "AUTODOC";
         case ter_furn_flag::TFLAG_AUTODOC_COUCH: return "AUTODOC_COUCH";
         case ter_furn_flag::TFLAG_OPENCLOSE_INSIDE: return "OPENCLOSE_INSIDE";
@@ -279,6 +280,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_FLOATS_IN_AIR: return "FLOATS_IN_AIR";
         case ter_furn_flag::TFLAG_HARVEST_REQ_CUT1: return "HARVEST_REQ_CUT1";
         case ter_furn_flag::TFLAG_NATURAL_UNDERGROUND: return "NATURAL_UNDERGROUND";
+        case ter_furn_flag::TFLAG_WIRED_WALL: return "WIRED_WALL";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -438,7 +440,7 @@ std::string map_common_deconstruct_info::potential_deconstruct_items( const std:
     }
 }
 
-bool map_shoot_info::load( const JsonObject &jsobj, const std::string_view member, bool was_loaded )
+bool map_shoot_info::load( const JsonObject &jsobj, std::string_view member, bool was_loaded )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -467,7 +469,7 @@ bool map_shoot_info::load( const JsonObject &jsobj, const std::string_view membe
 furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass::max() ),
     allowed_volume( units::volume::max() ) {}
 
-bool furn_workbench_info::load( const JsonObject &jsobj, const std::string_view member )
+bool furn_workbench_info::load( const JsonObject &jsobj, std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -481,7 +483,7 @@ bool furn_workbench_info::load( const JsonObject &jsobj, const std::string_view 
 plant_data::plant_data() : transform( furn_str_id::NULL_ID() ), base( furn_str_id::NULL_ID() ),
     growth_multiplier( 1.0f ), harvest_multiplier( 1.0f ) {}
 
-bool plant_data::load( const JsonObject &jsobj, const std::string_view member )
+bool plant_data::load( const JsonObject &jsobj, std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -601,7 +603,7 @@ void map_data_common_t::load_symbol_color( const JsonObject &jo, const std::stri
     const bool no_copy_symbol_color = jo.has_member( "copy-from" );
 
     load_season_array( jo, "symbol", context, no_copy_symbol_color,
-    symbol_, [&jo]( const std::string_view str ) {
+    symbol_, [&jo]( std::string_view str ) {
         if( str.length() != 1 ) {
             jo.throw_error_at( "symbol", "Symbol string must be exactly 1 character long." );
         }
@@ -614,7 +616,7 @@ void map_data_common_t::load_symbol_color( const JsonObject &jo, const std::stri
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
         load_season_array( jo, "color", context, no_copy_symbol_color,
-        color_, []( const std::string_view str ) {
+        color_, []( std::string_view str ) {
             // has to use a lambda because of default params
             return color_from_string( str );
         } );
@@ -990,6 +992,7 @@ void init_mapdata()
     add_actor( std::make_unique<appliance_convert_examine_actor>() );
     add_actor( std::make_unique<cardreader_examine_actor>() );
     add_actor( std::make_unique<eoc_examine_actor>() );
+    add_actor( std::make_unique<mortar_examine_actor>() );
 }
 
 void map_data_common_t::load( const JsonObject &jo, const std::string &src )

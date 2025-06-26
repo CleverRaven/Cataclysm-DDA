@@ -1,0 +1,91 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "mom_texopapalotl_crew_shed",
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       ||w|||||         ",
+        "       |______|         ",
+        "       |______+         ",
+        "       |R_____+         ",
+        "       |RR____|         ",
+        "       |_RRR__w         ",
+        "       |__RRR_w         ",
+        "       ||w|||||         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "terrain": {
+        " ": "t_region_groundcover",
+        "+": [ [ "t_door_c", 6 ], "t_door_boarded", "t_door_boarded_damaged" ],
+        "_": "t_dirt",
+        "|": [ [ "t_wall_wood", 20 ], "t_wall_wood_chipped" ]
+      },
+      "furniture": { "_": [ [ "f_null", 30 ], "f_rubble", "f_rubble_rock" ] },
+      "items": {
+        "_": { "item": "wood_workshop", "chance": 1 },
+        "R": [ { "item": "wood_workshop", "chance": 3 }, { "item": "mischw", "chance": 2 } ]
+      },
+      "place_items": [
+        { "chance": 100, "item": "mom_texopapalotl_crew_shed_weapon", "x": 8, "y": 10 },
+        { "chance": 100, "item": "mom_texopapalotl_crew_shed_gear", "x": 8, "y": 11 }
+      ],
+      "place_fields": [
+        { "field": "fd_blood", "x": 8, "y": 11, "intensity": 2, "age": 0 },
+        { "field": "fd_blood", "x": 8, "y": 10, "intensity": 2, "age": 0 },
+        { "field": "fd_blood", "x": 8, "y": 11, "intensity": 2, "age": 0 }
+      ],
+      "place_item": [ { "item": "skull_human", "x": 8, "y": 11 }, { "item": "bone_human", "amount": [ 5, 13 ], "x": 8, "y": 11 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "mom_texopapalotl_crew_shed_roof",
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       ________         ",
+        "       ________         ",
+        "       ________         ",
+        "       ________         ",
+        "       ________         ",
+        "       ________         ",
+        "       ________         ",
+        "       ________         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_open_air", "_": [ [ "t_wood_roof", 20 ], "t_open_air" ] }
+    }
+  }
+]

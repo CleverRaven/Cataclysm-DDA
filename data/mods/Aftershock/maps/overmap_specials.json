@@ -324,6 +324,17 @@
   },
   {
     "type": "overmap_special",
+    "id": "s_gas",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_gas_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_gas_roof_north" } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "existing": true, "from": [ 0, 0, 0 ] } ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, 30 ],
+    "city_sizes": [ 6, -1 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "EXOPLANET", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "afs_uica_shuttle_base",
     "overmaps": [
       {

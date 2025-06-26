@@ -10,7 +10,7 @@ Migration and obsoletion should happen in `\data\json\obsoletion_and_migration_<
 Any of item types (AMMO, GUN, ARMOR, PET_ARMOR, TOOL, TOOLMOD, TOOL_ARMOR, BOOK, COMESTIBLE, ENGINE, WHEEL, GUNMOD, MAGAZINE, GENERIC, BIONIC_ITEM) should be migrated to another item, then it can be removed with no issues
 AMMO and COMESTIBLE types require additional handling, explained in [Charge and temperature removal](#Charge_and_temperature_removal)
 
-```json
+```jsonc
 {
   "type": "MIGRATION", // type, mandatory
   "id": "arrowhead",  // id of item, that you want to migrate, mandatory
@@ -53,7 +53,7 @@ Migrating vehicle parts is done using `vehicle_part_migration` type, in the exam
 For `VEH_TOOLS` parts only - `add_veh_tools` is a list of itype_ids to add to the vehicle tools after migrating the part.
 Vehicle part can be removed safely afterwards
 
-```json
+```jsonc
   {
     "type": "vehicle_part_migration",
     "//": "migration to VEH_TOOLS, remove after 0.H release",
@@ -66,7 +66,7 @@ Vehicle part can be removed safely afterwards
 # Bionic migration
 For bionics, you should use `bionic_migration` type. The migration happens when character is loaded; if `to` is `null` or is not defined, the bionic is removed, if `to` is not null the id will be changed to the provided value.
 
-```json
+```jsonc
   {
     "type": "bionic_migration",
     "from": "bio_tools_extend",
@@ -82,7 +82,7 @@ For bionics, you should use `bionic_migration` type. The migration happens when 
 
 A mutation migration can be used to migrate a mutation that formerly existed gracefully into a proficiency, another mutation (potentially a specific variant), or to simply remove it without any fuss.
 
-```json
+```jsonc
   {
     "type": "TRAIT_MIGRATION",      // Mandatory. String. Must be "TRAIT_MIGRATION"
     "id": "hair_red_mohawk",        // Mandatory. String. Id of the trait that has been removed.
@@ -122,7 +122,7 @@ Recipes can be removed without migration, the game will simply delete the recipe
 
 Terrain and furniture migration replace the provided id as submaps are loaded. You can use `f_null` with `to_furn` to remove furniture entirely without creating errors, however `from_ter` must specify a non null `to_ter`.
 
-```json
+```jsonc
 {
     "type": "ter_furn_migration",   // Mandatory. String. Must be "ter_furn_migration"
     "from_ter": "t_old_ter",        // Optional*. String. Id of the terrain to replace.
@@ -137,7 +137,7 @@ Terrain and furniture migration replace the provided id as submaps are loaded. Y
 
 Replace a fence that bashes into t_dirt into a furniture that can be used seamlessly over all terrains
 
-```json
+```jsonc
   {
     "type": "ter_furn_migration",
     "from_ter": "t_fence_dirt",
@@ -148,7 +148,7 @@ Replace a fence that bashes into t_dirt into a furniture that can be used seamle
 
 Move multiple ids that don't need to be unique any more to a single id
 
-```json
+```jsonc
   {
     "type": "ter_furn_migration",
     "from_furn": "f_underbrush_harvested_spring",
@@ -156,7 +156,7 @@ Move multiple ids that don't need to be unique any more to a single id
   }
 ```
 ...
-```json
+```jsonc
   {
     "type": "ter_furn_migration",
     "from_furn": "f_underbrush_harvested_winter",
@@ -168,7 +168,7 @@ Move multiple ids that don't need to be unique any more to a single id
 
 Trap migration replaces the provided id as submaps are loaded. You can use `tr_null` with `to_trap` to remove the trap entirely without creating errors.
 
-```json
+```jsonc
 {
     "type": "trap_migration",   // Mandatory. String. Must be "trap_migration"
     "from_trap": "tr_old_trap",        // Mandatory. String. Id of the trap to replace.
@@ -180,7 +180,7 @@ Trap migration replaces the provided id as submaps are loaded. You can use `tr_n
 
 Migrate an id
 
-```json
+```jsonc
   {
     "type": "trap_migration",
     "from_trap": "tr_being_migrated_id",
@@ -190,7 +190,7 @@ Migrate an id
 
 Errorlessly obsolete an id
 
-```json
+```jsonc
   {
     "type": "trap_migration",
     "from_trap": "tr_being_obsoleted_id",
@@ -202,7 +202,7 @@ Errorlessly obsolete an id
 
 Field migration replaces the provided id as submaps are loaded. You can use `fd_null` with `to_field` to remove the field entirely without creating errors.
 
-```json
+```jsonc
 {
     "type": "field_type_migration",   // Mandatory. String. Must be "field_type_migration"
     "from_field": "fd_old_field",        // Mandatory. String. Id of the field to replace.
@@ -214,7 +214,7 @@ Field migration replaces the provided id as submaps are loaded. You can use `fd_
 
 Migrate an id
 
-```json
+```jsonc
   {
     "type": "field_type_migration",
     "from_field": "fd_being_migrated_id",
@@ -224,7 +224,7 @@ Migrate an id
 
 Errorlessly obsolete an id
 
-```json
+```jsonc
   {
     "type": "field_type_migration",
     "from_field": "fd_being_obsoleted_id",
@@ -237,7 +237,7 @@ Errorlessly obsolete an id
 Overmap terrain migration replaces the location, if it's not generated, and replaces the entry shown on your map even if it's already generated.
 If you need the map to be removed without alternative, use `omt_obsolete`. Mods can override replacement ids by specifying different new ids or cancel them entirely by making the new id the same as the old one.
 
-```json
+```jsonc
   {
     "type": "oter_id_migration",
     "oter_ids": {
@@ -252,7 +252,7 @@ If you need the map to be removed without alternative, use `omt_obsolete`. Mods 
 
 Overmap special can be either migrated to another overmap special, or just removed, using overmap_special_migration
 
-```json
+```jsonc
   {
     "type": "overmap_special_migration",
     "id": "Farm with silo",
@@ -267,7 +267,7 @@ Overmap special can be either migrated to another overmap special, or just remov
 # Dialogue / EoC variable migration
 For EOC/dialogue variables you can use `var_migration`. This currently only migrates **Character**, and **Global** vars. If "to" isn't provided the variable will be migrated to a key of "NULL_VALUE".
 
-```json
+```jsonc
 {
     "type": "var_migration",
     "from": "temp_var",
@@ -312,7 +312,7 @@ body_part have no infrastructure to migrate them, just copy the entire json of b
 
 For mods, you need to add an `"obsolete": true,` boolean into MOD_INFO, which prevent the mod from showing into the mod list.
 
-```json
+```jsonc
   {
     "type": "MOD_INFO",
     "id": "military_professions",

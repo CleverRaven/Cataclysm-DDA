@@ -202,6 +202,12 @@ class item_contents
          * Does not guarantee that an item of that size can be inserted.
          */
         units::volume total_container_capacity( bool unrestricted_pockets_only = false ) const;
+        /**
+         * Return capacity of the biggest pocket. Ignore blacklist restrictions etc.
+         *
+         * Useful for quick can_contain rejection.
+         */
+        units::volume biggest_pocket_capacity() const;
 
         /** Get the total volume of every is_standard_type container. */
         units::volume total_standard_capacity( bool unrestricted_pockets_only = false ) const;

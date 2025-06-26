@@ -734,7 +734,7 @@ bool player_settings::empty() const
     return global_rules.empty() && character_rules.empty();
 }
 
-bool check_special_rule( const std::map<material_id, int> &materials, const std::string_view rule )
+bool check_special_rule( const std::map<material_id, int> &materials, std::string_view rule )
 {
     char type = ' ';
     std::vector<std::string> filter;
@@ -750,7 +750,7 @@ bool check_special_rule( const std::map<material_id, int> &materials, const std:
     if( type == 'm' ) {
         return std::any_of( materials.begin(),
         materials.end(), [&filter]( const std::pair<material_id, int> &mat ) {
-            return std::any_of( filter.begin(), filter.end(), [&mat]( const std::string_view search ) {
+            return std::any_of( filter.begin(), filter.end(), [&mat]( std::string_view search ) {
                 return lcmatch( mat.first->name(), search );
             } );
         } );
@@ -758,7 +758,7 @@ bool check_special_rule( const std::map<material_id, int> &materials, const std:
     } else if( type == 'M' ) {
         return std::all_of( materials.begin(),
         materials.end(), [&filter]( const std::pair<material_id, int> &mat ) {
-            return std::any_of( filter.begin(), filter.end(), [&mat]( const std::string_view search ) {
+            return std::any_of( filter.begin(), filter.end(), [&mat]( std::string_view search ) {
                 return lcmatch( mat.first->name(), search );
             } );
         } );
@@ -889,8 +889,9 @@ bool player_settings::save( const bool bCharacter )
         savefile = PATH_INFO::player_base_save_path() + ".apu.json";
 
         const cata_path player_save = PATH_INFO::player_base_save_path() + ".sav";
+        const cata_path player_save_zzip = player_save + ".zzip";
         //Character not saved yet.
-        if( !file_exist( player_save ) ) {
+        if( !file_exist( player_save ) || !file_exist( player_save_zzip ) ) {
             return true;
         }
     }

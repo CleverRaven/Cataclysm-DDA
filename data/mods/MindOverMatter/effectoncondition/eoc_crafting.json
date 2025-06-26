@@ -156,5 +156,22 @@
         "math": [ "u_proficiency('prof_psionic_minimum_requirements_teleportation', 'format': 'percent', 'direct': true) += 100" ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_GAME_ONGOING_GRANT_VITAKINETIC_CRAFTING_PROFICIENCY",
+    "recurrence": 1,
+    "condition": { "u_has_trait": "VITAKINETIC" },
+    "deactivate_condition": {
+      "or": [
+        { "u_has_proficiency": "prof_psionic_minimum_requirements_vitakinesis" },
+        { "not": { "u_has_trait": "VITAKINETIC" } }
+      ]
+    },
+    "effect": [
+      {
+        "math": [ "u_proficiency('prof_psionic_minimum_requirements_vitakinesis', 'format': 'percent', 'direct': true) += 100" ]
+      }
+    ]
   }
 ]

@@ -63,6 +63,10 @@ can be by it to implement its interface.
   `T::load` should load all the members of `T`, except `id` and `was_loaded` (they are
   set by the `generic_factory` before calling `load`). Failures should be reported by
   throwing an exception (e.g. via `JsonObject::throw_error`).
+  if `T::load`, for whatever reason, cannot report failures by throwing an expection and
+  instead wishes to defer loading, it may have a boolean return type. Returning false will
+  defer loading of this JSON.
+  It is preferred that errors are reported and an exception is thrown.
 
 ----
 
@@ -129,7 +133,6 @@ const my_class &string_id<my_class>::obj() const
 template<typename T>
 class generic_factory
 {
-
     public:
         virtual ~generic_factory() = default;
 
@@ -266,6 +269,14 @@ class generic_factory
             return true;
         }
 
+        template<typename LT, typename = std::void_t<>>
+        struct load_is_bool : std::false_type { };
+
+        template<typename LT>
+        // astyle??
+    struct load_is_bool<LT, std::void_t<std::is_same<decltype( std::declval<LT &>().load() ), bool>>> :
+        std:: true_type {};
+
         /**
          * Load an object of type T with the data from the given JSON object.
          *
@@ -274,7 +285,56 @@ class generic_factory
          * See class documentation for intended behavior of that function.
          *
          * @throws JsonError If loading fails for any reason (thrown by `T::load`).
+         *
+         * The first function is for a load() function that returns a bool. This allows a type
+         * to skip being inserted and instead defer loading.
+         * The second is for load() functions that do not return a bool. This loads and inserts
+         * the object
          */
+        template<typename U = T, std::enable_if_t<load_is_bool<U>::value>* = nullptr>
+        void load( const JsonObject &jo, const std::string &src ) {
+            static const std::string abstract_member_name( "abstract" );
+
+            T def;
+
+            if( !handle_inheritance( def, jo, src ) ) {
+                return;
+            }
+            if( jo.has_string( id_member_name ) ) {
+                def.id = string_id<T>( jo.get_string( id_member_name ) );
+                mod_tracker::assign_src( def, src );
+                if( def.load( jo, src ) ) {
+                    insert( def );
+                } else {
+                    def.was_loaded = false;
+                    deferred.emplace_back( jo, src );
+                    jo.allow_omitted_members();
+                }
+
+            } else if( jo.has_array( id_member_name ) ) {
+                for( JsonValue e : jo.get_array( id_member_name ) ) {
+                    T def;
+                    if( !handle_inheritance( def, jo, src ) ) {
+                        break;
+                    }
+                    def.id = string_id<T>( e );
+                    mod_tracker::assign_src( def, src );
+                    if( def.load( jo, src ) ) {
+                        insert( def );
+                    } else {
+                        def.was_loaded = false;
+                        deferred.emplace_back( jo, src );
+                        jo.allow_omitted_members();
+                    }
+                }
+
+            } else if( !jo.has_string( abstract_member_name ) ) {
+                jo.throw_error( string_format( "must specify either '%s' or '%s'",
+                                               abstract_member_name, id_member_name ) );
+            }
+        }
+        // astyle???
+        template < typename U = T, std::enable_if_t < !load_is_bool<T>::value > * = nullptr >
         void load( const JsonObject &jo, const std::string &src ) {
             static const std::string abstract_member_name( "abstract" );
 
@@ -385,6 +445,13 @@ class generic_factory
          * Returns all the loaded objects. It can be used to iterate over them.
          */
         const std::vector<T> &get_all() const {
+            return list;
+        }
+        /**
+         * Returns all the loaded objects. It can be used to iterate over them.
+         * Getting modifiable objects should be done sparingly!
+         */
+        std::vector<T> &get_all_mod() {
             return list;
         }
         /**
@@ -868,6 +935,9 @@ bool one_char_symbol_reader( const JsonObject &jo, std::string_view member_name,
  */
 bool unicode_codepoint_from_symbol_reader(
     const JsonObject &jo, std::string_view member_name, uint32_t &member, bool );
+
+//Reads a standard single-float "proportional" entry
+float read_proportional_entry( const JsonObject &jo, std::string_view key );
 
 namespace reader_detail
 {
@@ -1515,6 +1585,17 @@ class text_style_check_reader : public generic_typed_reader<text_style_check_rea
 
     private:
         allow_object object_allowed;
+};
+
+struct dbl_or_var;
+
+class dbl_or_var_reader : public generic_typed_reader<dbl_or_var>
+{
+    public:
+        bool operator()( const JsonObject &jo, std::string_view member_name,
+                         dbl_or_var &member, bool /*was_loaded*/ ) const;
+    private:
+        dbl_or_var get_next( const JsonValue &jv ) const;
 };
 
 #endif // CATA_SRC_GENERIC_FACTORY_H

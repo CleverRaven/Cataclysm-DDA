@@ -1,7 +1,7 @@
 [
   {
     "id": "adhesive_bandages",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "drugs",
     "name": { "str": "adhesive bandage" },
     "description": "A small medical dressing made of a piece of sterile cloth and sticky tape, used for small injuries not serious enough to require a full-size bandage.",
@@ -17,7 +17,7 @@
   },
   {
     "id": "alcohol_wipes",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "drugs",
     "name": { "str": "alcohol wipe" },
     "description": "A wet wipe saturated with alcohol and stored in a sterile package.  Used for personal hygiene or disinfecting small wounds.",
@@ -33,7 +33,8 @@
   },
   {
     "id": "anesthetic_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "anesthesia kit" },
     "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgesic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
     "category": "drugs",
@@ -44,13 +45,13 @@
     "material": [ "glass" ],
     "symbol": "!",
     "color": "cyan",
-    "ammo": [ "anesthetic" ],
     "qualities": [ [ "ANESTHESIA", 1 ] ],
-    "pocket_data": [ { "watertight": true, "rigid": true, "pocket_type": "MAGAZINE", "ammo_restriction": { "anesthetic": 6000 } } ]
+    "pocket_data": [ { "watertight": true, "rigid": true, "pocket_type": "MAGAZINE", "ammo_restriction": { "anesthetic": 6000 } } ],
+    "tool_ammo": [ "anesthetic" ]
   },
   {
     "id": "bandages",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "drugs",
     "name": { "str": "bandage" },
     "description": "A sterile cloth bandage.  Used for stopping blood loss and protecting wounds from aggravation to help them heal faster.",
@@ -66,7 +67,7 @@
   },
   {
     "id": "bandages_makeshift",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "makeshift bandage" },
     "copy-from": "bandages",
     "description": "A reasonably clean piece of cloth wrapped for use as a simple bandage.  Better than nothing.",
@@ -79,7 +80,7 @@
   },
   {
     "id": "bandages_makeshift_bleached",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "bleached makeshift bandage" },
     "copy-from": "bandages_makeshift",
     "description": "A piece of cloth treated with a bleach solution to sterilize it for use as a bandage.",
@@ -89,7 +90,7 @@
   },
   {
     "id": "bandages_makeshift_boiled",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "boiled makeshift bandage" },
     "copy-from": "bandages_makeshift",
     "description": "A piece of cloth boiled in water to sterilize it for use as a bandage.",
@@ -99,7 +100,7 @@
   },
   {
     "id": "cotton_ball",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "cotton balls" },
     "description": "Fluffy balls of clean, white cotton.  They can serve as makeshift bandages in an emergency.",
     "category": "spare_parts",
@@ -115,7 +116,7 @@
   },
   {
     "id": "disinrag",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "drugs",
     "name": { "str": "antiseptic soaked rag" },
     "description": "A rag soaked in antiseptic.  Useful for light wounds, probably won't help with deep bites.",
@@ -138,7 +139,7 @@
   },
   {
     "id": "disincotton_ball",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "drugs",
     "name": { "str_sp": "antiseptic soaked cotton balls" },
     "description": "Fluffy balls of clean white cotton.  Now that they've been soaked with antiseptic, they are somewhat useful to disinfect a wound.",
@@ -161,7 +162,8 @@
   },
   {
     "id": "inhaler",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "drugs",
     "name": { "str": "inhaler" },
     "description": "An albuterol inhaler.  Used in the treatment of bronchospasm, it is a lifeline for people with asthma.  A mild stimulant, it may cause anxiety or tremors.",
@@ -187,7 +189,7 @@
   },
   {
     "id": "medical_gauze",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "drugs",
     "name": { "str": "medical gauze" },
     "description": "A decent-sized piece of cotton, sterilized and sealed.  It's designed for medical purposes.",
@@ -203,7 +205,8 @@
   },
   {
     "id": "liq_bandage_spray",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "drugs",
     "name": { "str": "spray bottle of liquid bandage", "str_pl": "spray bottles of liquid bandage" },
     "description": "Liquid bandage for minor cuts and scrapes, packaged in a tiny bottle with an atomizer spray for convenient application.",
@@ -230,7 +233,8 @@
   },
   {
     "id": "rx12_injector",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "RX12 jet injector" },
     "description": "A Rivtech RX12 jet injector, a small pistol-shaped device used to inject advanced fast-healing chemicals through the skin without using a needle.  A label on the side warns against using more than two doses per hour.",
     "category": "drugs",
@@ -241,14 +245,15 @@
     "material": [ "ceramic", "superalloy" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo": [ "ampoule" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ampoule": 2 } } ],
     "charges_per_use": 1,
-    "use_action": [ "JET_INJECTOR" ]
+    "use_action": [ "JET_INJECTOR" ],
+    "tool_ammo": [ "ampoule" ]
   },
   {
     "id": "scalpel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "scalpel" },
     "description": "A very sharp knife designed for surgical cutting.  Its small, sharp blade allows for precision strikes in the hands of the skilled.",
     "ascii_picture": "scalpel",
@@ -268,7 +273,8 @@
   },
   {
     "id": "smoxygen_tank",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "small oxygen delivery kit" },
     "description": "A small tank of compressed medical oxygen with a folding regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
     "weight": "800 g",
@@ -290,7 +296,8 @@
   },
   {
     "id": "syringe",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "syringe" },
     "description": "A medical syringe.  Used for administering intravenous drugs.",
     "weight": "4240 mg",
@@ -307,7 +314,8 @@
   },
   {
     "id": "thermometer",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "thermometer" },
     "description": "A plastic thermometer that can read the air temperature.",
@@ -324,7 +332,8 @@
   },
   {
     "id": "oxygen_tank",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "oxygen delivery kit" },
     "description": "A tank of compressed medical oxygen with a regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
     "weight": "2721 g",
@@ -346,7 +355,7 @@
   },
   {
     "id": "vacutainer",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "blood draw kit" },
     "description": "A kit for drawing blood, including a test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
@@ -370,7 +379,8 @@
   },
   {
     "id": "wrapped_rad_badge",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "wrapped radiation badge" },
     "description": "A badge that detects radiation dosage, sealed in a radiation-blocking bag.  Use it to remove it from the bag.",
     "weight": "25 g",
@@ -389,7 +399,8 @@
   },
   {
     "id": "scissors_medical",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pair of medical scissors", "str_pl": "pairs of medical scissors" },
     "description": "A pair of medical scissors, typically used by nurses or paramedics to cut bandages or fabric.",
     "ascii_picture": "scissors",
@@ -409,7 +420,7 @@
   },
   {
     "id": "saline_bag_250",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "drugs",
     "name": { "str": "small saline infusion kit" },
     "description": "A small, sealed plastic bag for liquids used in intravenous therapy, with rubber tube and cannula - all you need to perform an infusion.  Holds 250 mL of completely sterile saline, therefore it is safe to put it inside your veins, if you know how.",
@@ -446,7 +457,7 @@
   {
     "id": "saline_bag_500",
     "copy-from": "saline_bag_250",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "medium saline infusion kit" },
     "description": "A sealed plastic bag for liquids used in intravenous therapy, with rubber tube and cannula - all you need to perform an infusion.  Holds 500 mL of completely sterile saline, therefore it is safe to put it inside your veins, if you know how.",
     "weight": "518 g",
@@ -474,7 +485,7 @@
   {
     "id": "saline_bag_1000",
     "copy-from": "saline_bag_250",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "large saline infusion kit" },
     "description": "A large, sealed plastic bag for liquids used in intravenous therapy, with rubber tube and cannula - all you need to perform an infusion.  Holds a liter of completely sterile saline, therefore it is safe to put it inside your veins, if you know how.",
     "weight": "1028 g",
@@ -502,7 +513,7 @@
   {
     "id": "saline_bag_2000",
     "copy-from": "saline_bag_250",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "huge saline infusion kit" },
     "description": "A huge, sealed plastic bag for liquids used in intravenous therapy, with rubber tube and cannula - all you need to perform an infusion.  Holds two liters of completely sterile saline, therefore it is safe to put it inside your veins, if you know how.",
     "weight": "2048 g",
@@ -526,5 +537,22 @@
         ]
       }
     ]
+  },
+  {
+    "id": "dental_tools",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "dental tool set" },
+    "description": "A set of picks, hooks, and scrapers designed for cleaning teeth.",
+    "weight": "160 g",
+    "volume": "370 ml",
+    "longest_side": "20 cm",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "steel" ],
+    "symbol": "?",
+    "color": "dark_gray",
+    "qualities": [ [ "LOCKPICK", 1 ], [ "LEATHER_AWL", 1 ], [ "PUNCH", 1 ] ],
+    "melee_damage": { "stab": 1 }
   }
 ]

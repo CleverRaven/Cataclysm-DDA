@@ -21,6 +21,7 @@
 #include <vector>
 
 #include "basecamp.h"
+#include "cata_variant.h"
 #include "city.h"
 #include "colony.h"
 #include "color.h"
@@ -83,6 +84,13 @@ extern std::map<radio_type, std::string> radio_type_names;
 
 constexpr int RADIO_MIN_STRENGTH = 120;
 constexpr int RADIO_MAX_STRENGTH = 360;
+/*
+* Indentation from edge of overmap where neighbouring rivers and nodes aren't checked
+* to avoid corners, where starts/ends would be arbitrary
+* TODO: could be smaller?
+*/
+constexpr int RIVER_BORDER = 10;
+constexpr int RIVER_Z = 0;
 
 struct radio_tower {
     // local (to the containing overmap) submap coordinates
@@ -136,6 +144,27 @@ struct om_special_sectors {
 struct overmap_special_placement {
     int instances_placed;
     const overmap_special *special_details;
+};
+
+// Wrapper around a river node to contain river data.
+// Could be used to determine entry/exit points for boats across overmaps.
+// Could also contain name.
+struct overmap_river_node {
+    const point_om_omt river_start;
+    const point_om_omt river_end;
+    point_om_omt control_p1 = point_om_omt::invalid; // control points for the Bezier curve
+    point_om_omt control_p2 = point_om_omt::invalid;
+    const size_t size = 0; // total omt of this river
+    bool is_branch = false; //was this river placed by place_rivers(), or place_river()?
+};
+
+// River data gathered from an existing adjacent overmap
+struct overmap_river_border {
+    std::vector<point_om_omt> border_river_omt; // OMT river points from the adjacent overmap's border
+    std::vector<point_om_omt>
+    border_river_nodes_omt; // OMT river node points from the adjacent overmap's border
+    std::vector<const overmap_river_node *>
+    border_river_nodes; //river nodes from the adjacent overmap's border
 };
 
 // A batch of overmap specials to place.
@@ -325,6 +354,12 @@ class overmap
          */
         bool is_omt_generated( const tripoint_om_omt &loc ) const;
 
+        /* Returns true if position is an entry/exit position of a river node. */
+        bool is_river_node( const point_om_omt &p ) const;
+
+        /* Returns the overmap river node if the position is an entry/exit node of river. */
+        const overmap_river_node *get_river_node_at( const point_om_omt &p ) const;
+
         /** Returns the (0, 0) corner of the overmap in the global coordinates. */
         point_abs_omt global_base_point() const;
 
@@ -360,6 +395,7 @@ class overmap
         std::map<int, om_vehicle> vehicles;
         std::vector<basecamp> camps;
         std::vector<city> cities;
+        std::vector<overmap_river_node> rivers;
         std::map<string_id<overmap_connection>, std::vector<tripoint_om_omt>> connections_out;
         std::optional<basecamp *> find_camp( const point_abs_omt &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
@@ -407,6 +443,8 @@ class overmap
         // to be evaluated.
         cata::colony<std::optional<mapgen_arguments>> mapgen_arg_storage;
         std::unordered_map<tripoint_om_omt, std::optional<mapgen_arguments> *> mapgen_args_index;
+        // Records mapgen parameters required at the omt level, fixed at the same values vertically
+        std::unordered_map<point_abs_omt, mapgen_arguments> omt_stack_arguments_map;
 
         // Records the joins that were chosen during placement of a mutable
         // special, so that it can be queried later by mapgen
@@ -421,7 +459,15 @@ class overmap
         // open existing overmap, or generate a new one
         void open( overmap_special_batch &enabled_specials );
     public:
-
+        // Get all values from omt_stack_arguments_map at the given point or nullopt if not set yet
+        std::optional<mapgen_arguments> get_existing_omt_stack_arguments(
+            const point_abs_omt &p ) const;
+        // Get value from omt_stack_arguments_map or nullopt if not set yet
+        std::optional<cata_variant> get_existing_omt_stack_argument( const point_abs_omt &p,
+                const std::string &param_name ) const;
+        // Set a value in omt_stack_arguments_map
+        void add_omt_stack_argument( const point_abs_omt &p, const std::string &param_name,
+                                     const cata_variant &value );
         /**
          * When monsters despawn during map-shifting they will be added here.
          * map::spawn_monsters will load them and place them into the reality bubble
@@ -432,6 +478,7 @@ class overmap
 
         // parse data in an opened overmap file
         void unserialize( const cata_path &file_name, std::istream &fin );
+        void unserialize( std::istream &fin );
         void unserialize( const JsonObject &jsobj );
         // parse data in an opened omap file
         void unserialize_omap( const JsonValue &jsin, const cata_path &json_path );
@@ -443,8 +490,7 @@ class overmap
         // Save per-player overmap view data.
         void serialize_view( std::ostream &fout ) const;
     private:
-        void generate( const overmap *north, const overmap *east,
-                       const overmap *south, const overmap *west,
+        void generate( const std::vector<const overmap *> &neighbor_overmaps,
                        overmap_special_batch &enabled_specials );
         bool generate_sub( int z );
         bool generate_over( int z );
@@ -468,25 +514,39 @@ class overmap
 
         // code deduplication - calc ocean gradient
         float calculate_ocean_gradient( const point_om_omt &p, point_abs_om this_omt );
-        // Overall terrain
-        void place_river( const point_om_omt &pa, const point_om_omt &pb );
+        /*
+        * places an individual river; see place_rivers()
+        * @param temp_node precalculated points for river; should NOT be stored in overmap
+        */
+        void place_river( const std::vector<const overmap *> &neighbor_overmaps,
+                          const overmap_river_node &initial_points, int river_scale = 1.0, bool major_river = false );
         void place_forests();
-        void place_lakes();
-        void place_oceans();
-        void place_rivers( const overmap *north, const overmap *east, const overmap *south,
-                           const overmap *west );
+        void place_lakes( const std::vector<const overmap *> &neighbor_overmaps );
+        void place_oceans( const std::vector<const overmap *> &neighbor_overmaps );
+        void place_rivers( const std::vector<const overmap *> &neighbor_overmaps );
         void place_swamps();
         void place_forest_trails();
         void place_forest_trailheads();
 
-        void place_roads( const overmap *north, const overmap *east, const overmap *south,
-                          const overmap *west );
+        void place_roads( const std::vector<const overmap *> &neighbor_overmaps );
 
-        void place_railroads( const overmap *north, const overmap *east, const overmap *south,
-                              const overmap *west );
+        void place_railroads( const std::vector<const overmap *> &neighbor_overmaps );
 
-        void populate_connections_out_from_neighbors( const overmap *north, const overmap *east,
-                const overmap *south, const overmap *west );
+        void populate_connections_out_from_neighbors( const std::vector<const overmap *>
+                &neighbor_overmaps );
+
+        void log_unique_special( const overmap_special_id &id );
+        bool contains_unique_special( const overmap_special_id &id ) const;
+
+        /*
+        * checks adjacent overmap in direction for river terrain bordering this overmap
+        * will not generate the adjacent overmap!
+        * @param border -- don't check this much from the corners
+        * @param is_river_node -- additionally check if the river is a river node
+        * @return { list of points on *calling* overmap that border rivers,
+        list of points on *neighbor* overmap that contain river nodes }
+        */
+        overmap_river_border setup_adjacent_river( const point_rel_om &adjacent_om, int border );
 
         // City Building
         overmap_special_id pick_random_building_to_place( int town_dist, int town_size,
@@ -538,8 +598,17 @@ class overmap
                                          const tripoint_om_omt &location ) const;
         std::optional<overmap_special_id> overmap_special_at( const tripoint_om_omt &p ) const;
 
-        void polish_river();
-        void good_river( const tripoint_om_omt &p );
+        //gets border OMT points of this overmap in cardinal direction
+        std::vector<tripoint_om_omt> get_border( const point_rel_om &direction, int z,
+                int distance_corner );
+        //gets border OMT points of the neighboring overmap in cardinal direction
+        std::vector<tripoint_om_omt> get_neighbor_border( const point_rel_om &direction, int z,
+                int distance_corner );
+        void polish_river( const std::vector<const overmap *> &neighbor_overmaps );
+        void build_river_shores( const std::vector<const overmap *> &neighbor_overmaps,
+                                 const tripoint_om_omt &p );
+        void river_meander( const point_om_omt &river_end, tripoint_om_omt &current_point,
+                            int river_scale );
 
         om_direction::type random_special_rotation( const overmap_special &special,
                 const tripoint_om_omt &p, bool must_be_unexplored ) const;
@@ -689,6 +758,7 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
 
 bool is_river( const oter_id &ter );
 bool is_water_body( const oter_id &ter );
+bool is_water_body_not_shore( const oter_id &ter );
 bool is_lake_or_river( const oter_id &ter );
 bool is_ocean( const oter_id &ter );
 

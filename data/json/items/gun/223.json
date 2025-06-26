@@ -1,9 +1,10 @@
 [
   {
     "id": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "AR-15" },
-    "copy-from": "rifle_auto",
+    "copy-from": "gun_base_rifle_semi",
     "//": "This is assumed to be the standard model matching the (currently not in-game) M16. Tileset whitelist for rifles",
     "description": "This ubiquitous rifle is the forefather of the M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained.  This one is a semi-automatic civilian version.",
     "weight": "902 g",
@@ -12,42 +13,49 @@
     "//2": "Numbers for weight, volume, and length calculations are based upon an AR-15's complete lower receiver. The difference will be made up for with integrated stats from the installable modular upper receivers.",
     "price": "1 kUSD 250 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -1,
     "material": [ "aluminum", "steel", "plastic" ],
-    "symbol": "(",
-    "color": "black",
     "ammo": [ "NULL" ],
     "dispersion": 150,
-    "durability": 7,
     "min_cycle_recoil": 1350,
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
-    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
-    "flags": [ "NO_TURRET" ],
-    "//3": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
-    "melee_damage": { "bash": 12 }
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock", 1 ]
+    ],
+    "flags": [ "NO_TURRET" ]
   },
   {
     "id": "modular_ar_pistol",
     "copy-from": "pistol_base",
-    "//": "Roughly based on https://www.cheaperthandirt.com/del-ton-lima-ar-15-semi-auto-pistol-5.56-nato-7.5-barrel-30-rounds-m-lok-handguard-black/FC-848456002687.html, with the upper subtracted.",
+    "//": "Based on https://www.aeroprecisionusa.com/m4e1-carbine-complete-lower-a2-grip-no-stock-anodized",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "AR pistol" },
     "description": "The common AR-15 platform, with its stock removed and buffer tube covered by a sleeve.  AR pistols lack stocks, or have arm braces due to restrictions on short barreled rifles, and so without a stock, they're legally classified as a pistol.",
-    "weight": "1043 g",
+    "weight": "735 g",
     "volume": "748 ml",
     "longest_side": "373 mm",
     "price": "245 USD",
     "price_postapoc": "35 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "aluminum" ],
-    "symbol": "(",
-    "color": "dark_gray",
     "ammo": [ "NULL" ],
     "dispersion": 150,
-    "durability": 7,
     "min_cycle_recoil": 1350,
-    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock", 1 ]
+    ],
     "flags": [ "NO_TURRET" ],
     "melee_damage": { "bash": 9 }
   },
@@ -55,8 +63,9 @@
     "//": "Groups all 'H&K416' related rifles together. Used M27 due to it being the most popular of the three in the US.",
     "id": "modular_m27_assault_rifle",
     "looks_like": "modular_ar15",
-    "type": "GUN",
-    "copy-from": "rifle_auto",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "copy-from": "gun_base_rifle_semi",
     "name": { "str": "M27 assault rifle" },
     "description": "Designed to replace the M4 Carbine, the M27 assault rifle features most of the former's strengths, while being considerably more durable.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
     "weight": "1222 g",
@@ -86,31 +95,27 @@
     ],
     "to_hit": -1,
     "material": [ "aluminum", "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
     "ammo": [ "NULL" ],
     "dispersion": 180,
-    "durability": 8,
     "min_cycle_recoil": 1350,
     "default_mods": [ "retool_ar15_223rem" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "bore", 1 ],
-      [ "bayonet lug", 1 ],
-      [ "grip", 1 ],
+      [ "loading port", 1 ],
       [ "mechanism", 2 ],
       [ "sling", 1 ],
-      [ "stock accessory", 2 ],
+      [ "stock accessory", 1 ],
       [ "stock", 1 ]
     ],
-    "melee_damage": { "bash": 12 },
-    "flags": [ "NO_TURRET" ],
-    "//3": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
+    "flags": [ "NO_TURRET" ]
   },
   {
     "id": "scar_l",
-    "copy-from": "rifle_semi",
-    "type": "GUN",
+    "copy-from": "gun_base_223_semi_rifle",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "FN SCAR-L" },
     "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
     "ascii_picture": "scar-L",
@@ -119,30 +124,21 @@
     "longest_side": "798 mm",
     "barrel_length": "355 mm",
     "price": "5 kUSD 400 USD",
-    "price_postapoc": "40 USD",
-    "to_hit": -1,
     "material": [ "steel", "aluminum", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
     "dispersion": 180,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "default_mods": [ "high_end_folding_stock" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
-      [ "rail", 2 ],
+      [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel", 1 ],
-      [ "stock accessory", 2 ],
-      [ "stock", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "pocket_data": [
       {
@@ -168,14 +164,36 @@
           "survivor223mag"
         ]
       }
+    ]
+  },
+  {
+    "id": "scar_16s",
+    "copy-from": "scar_l",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "civilian FN SCAR-L rifle" },
+    "description": "A highly accurate and modular rifle specially designed for the United States Special Operations Command, in semi-auto only to be sold on the civilian market.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "scar_16s",
+        "name": { "str": "FN SCAR 16S" },
+        "description": "The SCAR 16S is the civilian-legal version of the SCAR-L rifle.  It is still very expensive, not like that matters now anymore."
+      }
     ],
-    "melee_damage": { "bash": 12 }
+    "ascii_picture": "scar-L",
+    "weight": "3289 g",
+    "barrel_length": "413 mm",
+    "price": "3 kUSD 839 USD",
+    "price_postapoc": "20 USD",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
   },
   {
     "id": "sl8",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "SL8 civilian rifle" },
     "description": "A semi-automatic clone of an older German assault rifle.  Due to importation bans, it is semi-auto and can only feed from 10 round magazines.",
     "weight": "3901 g",
@@ -192,31 +210,26 @@
         "description": "The SL8 is an importation-legal gun similar to the German G36, made to be semi-auto only, and to only feed from 10 round single stack magazines.  It also features a distinctive thumbhole stock, a polymer handguard, and a top rail for mounting optics."
       }
     ],
-    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
     "dispersion": 150,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
       [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
+      [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock accessory", 2 ],
-      [ "underbarrel mount", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ]
     ],
-    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sl8mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sl8mag" ] } ]
   },
   {
     "id": "m249",
-    "copy-from": "rifle_auto",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "M249 machine gun" },
     "description": "The M249 is a mountable machine gun used by the US military and SWAT teams.  Quite inaccurate and difficult to control, the M249 is designed to fire many rounds very quickly.",
     "ascii_picture": "m249_saw",
@@ -225,30 +238,22 @@
     "longest_side": "1035 mm",
     "barrel_length": "533 mm",
     "price": "7 kUSD 500 USD",
-    "price_postapoc": "80 USD",
-    "to_hit": -1,
+    "price_postapoc": "20 USD",
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
     "dispersion": 200,
-    "durability": 7,
-    "min_cycle_recoil": 1350,
     "reload": 400,
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "stock accessory", 2 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ]
     ],
     "pocket_data": [
       {
@@ -275,12 +280,12 @@
           "survivor223mag"
         ]
       }
-    ],
-    "melee_damage": { "bash": 12 }
+    ]
   },
   {
     "id": "m249_semi",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "m249",
     "name": { "str": "M249S machine gun" },
     "description": "This is a semi-automatic civilian variant of the M249 machine gun, manufactured for sport shooting and collectors market.  Notably, it retains the ability to be belt fed, an uncommon feature in civilian firearms.",
@@ -289,8 +294,9 @@
   {
     "id": "modular_m4_carbine",
     "looks_like": "modular_ar15",
-    "type": "GUN",
-    "copy-from": "rifle_auto",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "copy-from": "gun_base_rifle_semi",
     "name": { "str": "M4 carbine" },
     "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
     "ascii_picture": "modular_m4a1",
@@ -315,25 +321,28 @@
         "weight": 0
       }
     ],
-    "to_hit": -1,
     "material": [ "aluminum", "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
     "ammo": [ "NULL" ],
     "dispersion": 180,
-    "durability": 6,
     "min_cycle_recoil": 1350,
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock", 1 ]
+    ],
     "flags": [ "NO_TURRET" ],
-    "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
-    "melee_damage": { "bash": 12 }
+    "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
   },
   {
     "id": "modular_m16a4",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "modular_m4_carbine",
     "name": { "str": "M16 burst rifle" },
     "description": "The M16 is a common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It fires in three round bursts, ensuring the rifle is more accurate, but at the cost of being slower than other assault rifles.  It is chambered in 5.56x45mm rounds, and accepts STANAG magazines.",
@@ -341,8 +350,6 @@
     "volume": "3480 ml",
     "longest_side": "495 mm",
     "//": "The volume, weight, and overall length of an average AR-15's complete upper receiver module with a 20-inch barrel have been deducted and will be made up for by the installable upper assemblies.",
-    "price": "2 kUSD 400 USD",
-    "price_postapoc": "50 USD",
     "variant_type": "gun",
     "variants": [
       {
@@ -351,24 +358,26 @@
         "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil."
       }
     ],
-    "symbol": "(",
-    "color": "dark_gray",
     "material": [ "aluminum", "steel", "plastic" ],
-    "ammo": [ "NULL" ],
     "default_mods": [ "adjustable_stock", "retool_ar15_223rem_extended" ],
-    "durability": 7,
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
-    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
-    "flags": [ "NO_TURRET" ],
-    "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
-    "melee_damage": { "bash": 12 }
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock", 1 ]
+    ],
+    "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
   },
   {
     "//": "Figured having 'm16' in the name would make it more understandable, seeing as I named 2 of the .223 rifle groups/names after it.",
     "id": "modular_m16_auto_rifle",
     "copy-from": "modular_m16a4",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "M16 auto rifle" },
     "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  Unlike its more common brother, the M16 burst rifle, this one has full-auto capabilities.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
     "variant_type": "gun",
@@ -385,9 +394,10 @@
   },
   {
     "id": "ruger_mini",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Ruger Mini-14 carbine" },
     "description": "A small, lightweight semi-auto carbine designed for civilian and police use.  Its superb accuracy and low recoil makes it more suitable than full-auto rifles for some situations.",
     "ascii_picture": "mini-14",
@@ -396,43 +406,32 @@
     "longest_side": "977 mm",
     "barrel_length": "406 mm",
     "price": "921 USD",
-    "price_postapoc": "30 USD",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": [ "223" ],
     "dispersion": 100,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
-      [ "brass catcher", 1 ],
+      [ "loading port", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock", 1 ]
     ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ]
       }
-    ],
-    "melee_damage": { "bash": 12 }
+    ]
   },
   {
     "//": "Changed from SG 553, which itself was originally the Sig 550, to the civilian legal copy",
     "id": "sig_assault_rifle",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "SIG civilian rifle" },
     "description": "A civilian variant of an automatic Swiss rifle for military service.  Accepts STANAG magazines.",
     "weight": "4100 g",
@@ -440,7 +439,6 @@
     "longest_side": "1020 mm",
     "barrel_length": "406 mm",
     "price": "3 kUSD 200 USD",
-    "price_postapoc": "30 USD",
     "variant_type": "gun",
     "variants": [
       {
@@ -449,13 +447,18 @@
         "description": "The SG 556 is a civilian model of the Swiss SIG SG 550 series, manufactured in New Hampshire.  It lacks any automatic fire capability and has a 16 inch barrel, but still retains a folding stock, with the feature of feeding from STANAG magazines instead of the SG 550 series magazines."
       }
     ],
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
-    "ammo": [ "223" ],
     "dispersion": 180,
-    "durability": 9,
-    "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "built_in_mods": [ "folding_stock" ],
     "pocket_data": [
       {
@@ -481,14 +484,14 @@
           "survivor223mag"
         ]
       }
-    ],
-    "melee_damage": { "bash": 10 }
+    ]
   },
   {
     "id": "steyr_aug",
-    "copy-from": "rifle_auto",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "AUG assault rifle" },
     "description": "An assault rifle chambered in 5.56x45mm and accepting AUG magazines",
     "weight": "3500 g",
@@ -496,7 +499,6 @@
     "longest_side": "715 mm",
     "barrel_length": "508 mm",
     "price": "4 kUSD 900 USD",
-    "price_postapoc": "40 USD",
     "variant_type": "gun",
     "variants": [
       {
@@ -505,38 +507,31 @@
         "description": "The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is used in the armed forces and police forces of many nations, and enjoys low recoil and high accuracy."
       }
     ],
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "light_gray",
-    "ammo": [ "223" ],
     "dispersion": 140,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ]
     ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "augmag_30rd", "augmag_10rd", "augmag_42rd", "augmag_100rd" ] }
-    ],
-    "melee_damage": { "bash": 12 }
+    ]
   },
   {
     "id": "ak556",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "ZPAP AK-style rifle" },
     "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.",
     "variant_type": "gun",
@@ -552,36 +547,27 @@
     "longest_side": "99 cm",
     "barrel_length": "465 mm",
     "price": "795 USD",
-    "price_postapoc": "30 USD",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "color": "brown",
-    "ammo": [ "223" ],
     "dispersion": 180,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail", 2 ],
-      [ "sights mount", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "stock accessory", 2 ],
-      [ "underbarrel", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ]
   },
   {
     "id": "mdrx",
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Desert Tech bullpup carbine" },
     "description": "Produced by the Desert Tech gun company, this is a highly modular, semi-automatic rifle of remarkably modest dimensions.  The weapon is notable for the simplicity of converting it to fire a wide number of different cartridges, with retool kits for .223 Remington, .308 Winchester, and .300 AAC Blackout being available.",
     "variant_type": "gun",
@@ -601,7 +587,7 @@
     "to_hit": -1,
     "material": [ "aluminum", "steel", "plastic" ],
     "symbol": "(",
-    "color": "black",
+    "color": "dark_gray",
     "ammo": [ "NULL" ],
     "dispersion": 150,
     "durability": 8,
@@ -652,9 +638,10 @@
   },
   {
     "id": "bren2_556",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Bren 5.56x45mm carbine" },
     "description": "A semi-automatic clone of the Czech Republic's standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the standard magazines of the AR-15 platform and a 5.56x45mm cartridge.",
     "variant_type": "gun",
@@ -670,27 +657,20 @@
     "longest_side": "91 cm",
     "barrel_length": "419 mm",
     "price": "2 kUSD 259 USD",
-    "price_postapoc": "35 USD",
-    "to_hit": -1,
     "material": [ "steel", "aluminum", "plastic" ],
-    "color": "black",
-    "ammo": [ "223" ],
     "dispersion": 140,
-    "durability": 8,
     "default_mods": [ "folding_stock", "muzzle_brake" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel", 1 ],
-      [ "stock accessory", 2 ],
-      [ "stock", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "pocket_data": [
       {
@@ -716,14 +696,14 @@
           "survivor223mag"
         ]
       }
-    ],
-    "melee_damage": { "bash": 12 }
+    ]
   },
   {
     "id": "cz600",
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "bolt-action trail carbine" },
     "description": "Compact, svelte, and lightweight, this Leen bolt-action rifle packs the same features of larger sporting weapons into a backpack-sized package.  Possessing an adjustable buttstock, a detachable magazine-based system, and a quick-swap barrel that can be exchanged to accommodate the firing of .223 Remington or 7.62x39mm Soviet ammunition, the weapon is a commendable backpacker or prepper rifle.",
     "variant_type": "gun",
@@ -743,14 +723,13 @@
     "to_hit": -1,
     "material": [ "aluminum", "steel", "plastic" ],
     "symbol": "(",
-    "color": "black",
+    "color": "dark_gray",
     "ammo": [ "NULL" ],
     "dispersion": 150,
     "durability": 8,
     "built_in_mods": [ "adjustable_stock" ],
     "valid_mod_locations": [
       [ "bore", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "rail", 2 ],
       [ "sights", 1 ],
@@ -766,7 +745,8 @@
     "id": "rdb_223",
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "5.56x45mm bullpup rifle" },
     "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines of the AR-15 platform and a 5.56x45mm cartridge.",
     "variant_type": "gun",
@@ -793,16 +773,14 @@
     "min_cycle_recoil": 1350,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
-      [ "rail mount", 2 ],
+      [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "stock accessory", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "pocket_data": [
       {
@@ -834,9 +812,10 @@
   {
     "id": "iwi_tavor_x95_300blk",
     "//": "Yes the ID says 300blk.  The old .300 version didn't meet the inclusion criteria, but the 556 one did so it was changed to 556.  Since it feeds from the same magazines, a migration wasn't need and the old ID was kept.",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "IWI Tavor X95" },
     "description": "The Tavor is an Israeli series of bullpup rifles designed and produced by Israel Weapon Industries.  This is the Tavor X95, a civilian-legal rifle lacking any full-auto capability, and sporting a 16.5\" barrel.  Chambered in 5.56/.223, this rifle feeds from STANAG magazines.",
     "weight": "3583 g",
@@ -844,26 +823,17 @@
     "longest_side": "665 mm",
     "barrel_length": "419 mm",
     "price": "4 kUSD 900 USD",
-    "price_postapoc": "40 USD",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "light_gray",
-    "ammo": [ "223" ],
     "dispersion": 140,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
+      [ "stock accessory", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [

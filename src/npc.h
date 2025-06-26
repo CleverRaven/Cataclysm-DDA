@@ -1397,7 +1397,11 @@ class npc : public Character
         npc_follower_rules rules;
         bool marked_for_death = false; // If true, we die as soon as we respawn!
         bool hit_by_player = false;
+        // times their opinion has increased from chatting, upper bounds on 'forgiveness'
+        int opinion_values_raised = 0;
         bool hallucination = false; // If true, NPC is an hallucination
+        bool spawn_corpse = true;
+        bool quiet_death = false; // supress messages about death
         std::vector<npc_need> needs;
         std::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.

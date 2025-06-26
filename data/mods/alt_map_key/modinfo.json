@@ -3,8 +3,9 @@
     "type": "MOD_INFO",
     "id": "alt_map_key",
     "name": "Alternative Map Key",
-    "authors": [ "Sunshine" ],
-    "description": "Changes the overmap to be more readable.  Buildings are color coded by type and use initial letter of their names instead of ^v<>.",
+    "authors": [ "Sunshine", "thaelina" ],
+    "maintainers": [ "thaelina" ],
+    "description": "Standardizes overmap symbols.  Symbols are color coded based on categories and use the first letter of the tile name.  Note: This mod is useless if you use tiles instead of ASCII for the overmap display.",
     "category": "misc_additions",
     "dependencies": [ "dda" ]
   }

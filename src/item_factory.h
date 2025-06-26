@@ -14,10 +14,12 @@
 #include <utility>
 #include <vector>
 
+#include "generic_factory.h"
 #include "item.h"
 #include "itype.h"
 #include "iuse.h"
 #include "type_id.h"
+#include "units_fwd.h"
 
 class Item_group;
 class Item_spawn_data;
@@ -29,6 +31,10 @@ namespace cata
 template <typename T> class value_ptr;
 }  // namespace cata
 
+/**
+ * Blacklists are an old way to remove items from the game.
+ * It doesn't change at runtime.
+ */
 bool item_is_blacklisted( const itype_id &id );
 
 using item_action_id = std::string;
@@ -40,6 +46,9 @@ class JsonObject;
 
 extern std::unique_ptr<Item_factory> item_controller;
 
+/**
+* See OBSOLETION_AND_MIGRATION.md
+*/
 class migration
 {
     public:
@@ -85,9 +94,20 @@ struct item_blacklist_t {
  */
 class Item_factory
 {
+        friend class generic_factory<itype>;
+        friend struct itype;
     public:
+        generic_factory<itype> item_factory = generic_factory<itype>( "ITEM" );
+
         Item_factory();
         ~Item_factory();
+
+        generic_factory<itype> &get_generic_factory() {
+            return item_factory;
+        }
+
+        //initialize use_functions
+        void init();
         /**
          * Reset the item factory. All item type definitions and item groups are erased.
          */
@@ -169,33 +189,6 @@ class Item_factory
         std::vector<item_group_id> get_all_group_names();
 
         /**
-         * @name Item type loading
-         *
-         * These function load different instances of itype objects from json.
-         * The loaded item types are stored and can be accessed through @ref find_template.
-         * @param jo The json object to load data from.
-         * @throw JsonError if the json object contains invalid data.
-         */
-        /*@{*/
-        void load_ammo( const JsonObject &jo, const std::string &src );
-        void load_gun( const JsonObject &jo, const std::string &src );
-        void load_armor( const JsonObject &jo, const std::string &src );
-        void load_pet_armor( const JsonObject &jo, const std::string &src );
-        void load_tool( const JsonObject &jo, const std::string &src );
-        void load_toolmod( const JsonObject &jo, const std::string &src );
-        void load_tool_armor( const JsonObject &jo, const std::string &src );
-        void load_book( const JsonObject &jo, const std::string &src );
-        void load_comestible( const JsonObject &jo, const std::string &src );
-        void load_engine( const JsonObject &jo, const std::string &src );
-        void load_wheel( const JsonObject &jo, const std::string &src );
-        void load_gunmod( const JsonObject &jo, const std::string &src );
-        void load_magazine( const JsonObject &jo, const std::string &src );
-        void load_battery( const JsonObject &jo, const std::string &src );
-        void load_generic( const JsonObject &jo, const std::string &src );
-        void load_bionic( const JsonObject &jo, const std::string &src );
-        /*@}*/
-
-        /**
           *  a temporary function to aid in nested container migration of magazine and gun json
           *  - creates a magazine pocket if none is specified and the islot is loaded
           */
@@ -250,13 +243,26 @@ class Item_factory
          */
         const itype *find_template( const itype_id &id ) const;
 
+        static inline std::map<item_action_id, use_function> iuse_function_list;
+        static std::set<std::string> repair_actions;
+
+        static use_function usage_from_string( const std::string &type );
+
+        static use_function read_use_function( const JsonObject &jo, std::map<std::string, int> &ammo_scale,
+                                               std::string &type );
+
+        //iuse stuff
+        static void add_iuse( const std::string &type, use_function_pointer f );
+        static void add_iuse( const std::string &type, use_function_pointer f,
+                              const translation &info );
+        static void add_actor( std::unique_ptr<iuse_actor> ptr );
+
+        std::map<itype_id, std::vector<migration>> migrations;
         /**
          * Check if an iuse is known to the Item_factory.
          * @param type Iuse type id.
          */
-        bool has_iuse( const item_action_id &type ) const {
-            return iuse_function_list.find( type ) != iuse_function_list.end();
-        }
+        static bool has_iuse( const item_action_id &type );
 
         void load_item_blacklist( const JsonObject &json );
 
@@ -265,16 +271,19 @@ class Item_factory
 
         /** Find all item templates (both static and runtime) matching UnaryPredicate function */
         static std::vector<const itype *> find( const std::function<bool( const itype & )> &func );
+        /**
+         * All armor that can be used as a container. Much faster than iterating all items.
+         *
+         * Return begin and end iterators.
+         */
+        std::pair<std::vector<item>::const_iterator, std::vector<item>::const_iterator>
+        get_armor_containers( units::volume min_volume ) const;
 
         std::list<itype_id> subtype_replacement( const itype_id & ) const;
 
     private:
         /** Set at finalization and prevents alterations to the static item templates */
         bool frozen = false;
-
-        std::map<itype_id, itype> m_abstracts;
-
-        std::unordered_map<itype_id, itype> m_templates;
 
         mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
         /** Runtimes rarely change. Used for cache templates_all_cache for the all() method. */
@@ -287,6 +296,15 @@ class Item_factory
         std::unordered_map<itype_id, ammotype> migrated_ammo;
         std::unordered_map<itype_id, itype_id> migrated_magazines;
 
+        /**
+         * Cache for armor_containers.
+         *
+         * If `!armor_containers.empty()` then cache is valid. When valid they have the same size
+         * and `armor_containers[i]` has the biggest pocket volume equal to `volumes[i]`.
+         */
+        mutable std::vector<item> armor_containers;
+        mutable std::vector<units::volume> volumes;
+
         /** Checks that ammo is listed in ammunition_type::name().
          * At least one instance of this ammo type should be defined.
          * If any of checks fails, prints a message to the msg stream.
@@ -295,47 +313,15 @@ class Item_factory
          */
         bool check_ammo_type( std::string &msg, const ammotype &ammo ) const;
 
-        /**
-         * Called before creating a new template and handles inheritance via copy-from
-         * May defer instantiation of the template if depends on other objects not as-yet loaded
-         */
-        bool load_definition( const JsonObject &jo, const std::string &src, itype &def );
-
-        /**
-         * Load the data of the slot struct. It creates the slot object (of type SlotType) and
-         * and calls @ref load to do the actual (type specific) loading.
-         */
         template<typename SlotType>
-        void load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
-                        const std::string &src );
-
-        /**
-        * Load ememory_size, which is automatically calculated for books
-        */
-        void load_ememory_size( const JsonObject &jo, itype &def );
-        /**
-         * Load item the item slot if present in json.
-         * Checks whether the json object has a member of the given name and if so, loads the item
-         * slot from that object. If the member does not exists, nothing is done.
-         */
-        template<typename SlotType>
-        void load_slot_optional( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
-                                 std::string_view member, const std::string &src );
+        static void load_slot( const JsonObject &jo, bool was_loaded,
+                               cata::value_ptr<SlotType> &slotptr );
 
         void load( relic &slot, const JsonObject &jo, std::string_view src );
 
         //json data handlers
         void emplace_usage( std::map<std::string, use_function> &container,
                             const std::string &iuse_id );
-
-        void set_use_methods_from_json( const JsonObject &jo, const std::string &src,
-                                        const std::string &member, std::map<std::string, use_function> &use_methods,
-                                        std::map<std::string, int> &ammo_scale );
-
-        use_function usage_from_string( const std::string &type ) const;
-
-        std::pair<std::string, use_function> usage_from_object( const JsonObject &obj,
-                const std::string & );
 
         /**
          * Helper function for Item_group loading
@@ -355,21 +341,11 @@ class Item_factory
         bool load_string( std::vector<std::string> &vec, const JsonObject &obj, std::string_view name );
         void add_entry( Item_group &ig, const JsonObject &obj, const std::string &context );
 
-        void load_basic_info( const JsonObject &jo, itype &def, const std::string &src );
-        void set_qualities_from_json( const JsonObject &jo, const std::string &member, itype &def );
-        void extend_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
-        void delete_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
-        void relative_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
-        void set_techniques_from_json( const JsonObject &jo, const std::string_view &member, itype &def );
-        void extend_techniques_from_json( const JsonObject &jo, std::string_view member, itype &def );
-        void delete_techniques_from_json( const JsonObject &jo, std::string_view member, itype &def );
-
         // declared here to have friendship status with itype
         static void npc_implied_flags( itype &item_template );
         static void set_allergy_flags( itype &item_template );
 
         void clear();
-        void init();
 
         void finalize_item_blacklist();
 
@@ -382,16 +358,6 @@ class Item_factory
 
         void finalize_post_armor( itype &obj );
 
-        //iuse stuff
-        std::map<item_action_id, use_function> iuse_function_list;
-
-        void add_iuse( const std::string &type, use_function_pointer f );
-        void add_iuse( const std::string &type, use_function_pointer f,
-                       const translation &info );
-        void add_actor( std::unique_ptr<iuse_actor> );
-
-        std::map<itype_id, std::vector<migration>> migrations;
-
         /**
          * Contains the tool subtype mappings for crafting (i.e. mess kit is a hotplate etc.).
          * This is should be obsoleted when @ref requirement_data allows AND/OR nesting.
@@ -403,8 +369,17 @@ class Item_factory
 
         // tools that can be used to repair complex firearms
         std::set<itype_id> gun_tools;
-
-        std::set<std::string> repair_actions;
 };
 
+namespace items
+{
+/** Load all items */
+void load( const JsonObject &jo, const std::string &src );
+/** Finalize all loaded items */
+void finalize_all();
+/** Clear all loaded items (invalidating any pointers) */
+void reset();
+/** Checks all loaded items are valid */
+void check_consistency();
+}  // namespace items
 #endif // CATA_SRC_ITEM_FACTORY_H

@@ -216,7 +216,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
             //TODO: Swap for this once #75961 merges
             //std::vector<tripoint_bub_ms> nearest_points = closest_points_first( dest_target, 1, 5 );
             for( tripoint_bub_ms p : nearest_points ) {
-                if( dest->passable( p ) ) {
+                if( dest->passable_through( p ) ) {
                     dest_target = p;
                     break;
                 }
@@ -261,7 +261,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
             for( tripoint_abs_ms p : nearest_points ) {
                 // If point is not inbounds, ignore if spot is passible or not.  Creatures in impassable terrain will be automatically teleported out in their turn.
                 // some way of validating terrain passability out of bounds would be superior, however.
-                if( ( !dest->inbounds( here.get_bub( p ) ) || dest->passable( here.get_bub( p ) ) ) &&
+                if( ( !dest->inbounds( here.get_bub( p ) ) || dest->passable_through( here.get_bub( p ) ) ) &&
                     get_creature_tracker().creature_at<Creature>( p ) == nullptr ) {
                     found_new_spot = true;
                     abs_ms = p;
@@ -392,7 +392,7 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
     veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), veh.pivot_point( here ) );
 
     Character &player_character = get_player_character();
-    const tripoint_bub_ms src = veh.pos_bub( here );
+    tripoint_bub_ms src = veh.pos_bub( here );
 
     map tm;
     point_sm_ms src_offset;
@@ -457,6 +457,9 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
     }
     if( need_update ) {
         g->update_map( player_character );
+        // update_map invalidates bubble coordinates if it shifts the map.
+        // We don't need to refetch dp because the z coordinate isn't affected by a shift.
+        src = veh.pos_bub( here );
     }
     dest->add_vehicle_to_cache( &veh );
 

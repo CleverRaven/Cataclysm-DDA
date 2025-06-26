@@ -1,0 +1,30 @@
+[
+  {
+    "id": "old_industrial_bot_storage",
+    "type": "item_group",
+    "//": "Old and mostly broken industrial bots, its meant to spawn in recharging stations, so it only places a single bot.",
+    "subtype": "distribution",
+    "items": [ [ "bot_light_hack", 10 ], [ "broken_hazmatbot", 60 ], [ "broken_utilibot_const", 120 ] ]
+  },
+  {
+    "id": "domestic_bot_storage",
+    "type": "item_group",
+    "//": "Small Consumer and commercial grade robots that can (probably) fit in the reinforced display cases.",
+    "subtype": "distribution",
+    "items": [ [ "bot_light_hack", 20 ], [ "bot_skitterbot_rat", 10 ], [ "bot_eyebot_heater", 5 ], [ "bot_skitterbot_hunter", 5 ] ]
+  },
+  {
+    "id": "afs_police_bot_storage",
+    "type": "item_group",
+    "//": "TODO: Apparently these items are all being migrated currently. Police Robots found in enforcer stations and departments.",
+    "subtype": "distribution",
+    "items": [
+      [ "afs_bot_riotbot", 5 ],
+      [ "afs_bot_copbot", 15 ],
+      [ "afs_bot_eyebot", 20 ],
+      [ "broken_afs_riotbot", 10 ],
+      [ "broken_afs_copbot", 70 ],
+      [ "broken_afs_eyebot", 100 ]
+    ]
+  }
+]

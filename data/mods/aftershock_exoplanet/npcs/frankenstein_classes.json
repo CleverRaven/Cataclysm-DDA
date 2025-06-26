@@ -1,0 +1,61 @@
+[
+  {
+    "type": "npc_class",
+    "id": "frankenstein",
+    "name": "Abomination",
+    "job_description": "The mi-go took me and vivisected me.  Now you've given me a body again.",
+    "//": "Make a Frankenstein BG story",
+    "traits": [
+      { "group": "BG_revival_story_FRANKENSTEIN" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      [ "SHOUT1", 75 ]
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -3, -1 ] } ] } ] } }
+    ],
+    "worn_override": "NC_CYBORG_worn",
+    "carry_override": "NC_CYBORG_carried",
+    "common": false,
+    "bionics": [
+      { "id": "bio_ankles", "chance": 50 },
+      { "id": "bio_dis_shock", "chance": 50 },
+      { "id": "bio_dis_acid", "chance": 50 },
+      { "id": "bio_drain", "chance": 50 },
+      { "id": "bio_noise", "chance": 50 },
+      { "id": "bio_power_weakness", "chance": 50 },
+      { "id": "bio_itchy", "chance": 50 },
+      { "id": "bio_nostril", "chance": 50 },
+      { "id": "bio_thumbs", "chance": 50 },
+      { "id": "bio_spasm", "chance": 50 },
+      { "id": "bio_shakes", "chance": 50 },
+      { "id": "bio_leaky", "chance": 50 },
+      { "id": "bio_blade", "chance": 50 },
+      { "id": "bio_deformity", "chance": 100 },
+      { "id": "bio_voice", "chance": 100 },
+      { "id": "bio_eye_enhancer", "chance": 50 },
+      { "id": "bio_ankles", "chance": 50 },
+      { "id": "bio_trip", "chance": 50 },
+      { "id": "bio_stiff", "chance": 50 },
+      { "id": "bio_armor_head", "chance": 50 },
+      { "id": "bio_armor_torso", "chance": 50 },
+      { "id": "bio_armor_arms", "chance": 50 },
+      { "id": "bio_armor_legs", "chance": 50 },
+      { "id": "bio_armor_eyes", "chance": 50 },
+      { "id": "bio_claws", "chance": 50 },
+      { "id": "bio_power_storage", "chance": 100 },
+      { "id": "bio_torsionratchet", "chance": 100 }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "frankenstein",
+    "//": "An abomination you have revived.",
+    "name_suffix": "Cyborg Abomination",
+    "class": "frankenstein",
+    "attitude": 1,
+    "mission": 0,
+    "chat": "TALK_CYBORG_Abomination_1",
+    "faction": "no_faction"
+  }
+]

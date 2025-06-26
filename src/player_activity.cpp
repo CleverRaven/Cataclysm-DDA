@@ -136,7 +136,7 @@ bool player_activity::is_multi_type() const
     return type->multi_activity();
 }
 
-std::string player_activity::get_str_value( size_t index, const std::string_view def ) const
+std::string player_activity::get_str_value( size_t index, std::string_view def ) const
 {
     return std::string( index < str_values.size() ? str_values[index] : def );
 }
@@ -192,8 +192,10 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         }
 
         if( type == ACT_BUILD ) {
+            map &here = get_map();
+
             partial_con *pc =
-                get_map().partial_con_at( get_map().get_bub( u.activity.placement ) );
+                here.partial_con_at( here.get_bub( u.activity.placement ) );
             if( pc ) {
                 int counter = std::min( pc->counter, 10000000 );
                 const int percentage = counter / 100000;
@@ -236,6 +238,7 @@ void player_activity::do_turn( Character &you )
     // This is because the game can get stuck trying to fuel a fire when it's not...
     if( type == ACT_MIGRATION_CANCEL ) {
         actor->do_turn( *this, you );
+        activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
         return;
     }
     // first to ensure sync with actor
@@ -311,6 +314,7 @@ void player_activity::do_turn( Character &you )
         }
         // We may have canceled this via a message interrupt.
         if( type.is_null() ) {
+            activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
             return;
         }
     }
@@ -367,6 +371,7 @@ void player_activity::do_turn( Character &you )
         if( !ignoreQuery && auto_resume ) {
             you.assign_activity( wait_stamina_activity_actor( you.get_stamina_max() ) );
         }
+        activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
         return;
     }
     if( *this && type->rooted() ) {
@@ -401,11 +406,15 @@ void player_activity::do_turn( Character &you )
         // Make sure data of previous activity is cleared
         you.activity = player_activity();
         you.resume_backlog_activity();
-
         // If whatever activity we were doing forced us to pick something up to
         // handle it, drop any overflow that may have caused
         you.drop_invalid_inventory();
     }
+    // According to the existing code, if 'you' is an NPC, the outer layer may try to resume activity from the
+    // backlog  (in npc::do_player_activity()), which results is (!you.activity) && (!you.get_destination_activity())
+    // is true here not meaning that mult_activity ends, so npc's activity_var cannot be handled here.
+    // only avatar's activity_var is erased in player_activity::do_turn.
+    activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
 }
 
 void player_activity::canceled( Character &who )
@@ -413,6 +422,7 @@ void player_activity::canceled( Character &who )
     if( *this && actor ) {
         actor->canceled( *this, who );
     }
+    activity_handlers::clean_may_activity_occupancy_items_var( who );
     get_event_bus().send<event_type::character_finished_activity>( who.getID(), type, true );
     g->wait_popup_reset();
 }

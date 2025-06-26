@@ -1,7 +1,8 @@
 [
   {
     "id": "book_archery",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Lessons for the Novice Bowhunter", "str_pl": "copies of Lessons for the Novice Bowhunter" },
     "description": "This hefty paperback book contains all the information needed for novice archers to get started hunting with a variety of bows and crossbows.",
     "variants": [
@@ -32,7 +33,8 @@
   },
   {
     "id": "manual_archery",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Zen and the Art of Archery", "str_pl": "copies of Zen and the Art of Archery" },
     "description": "This massive book contains a wealth of vital information for the novice archer.",
     "variants": [
@@ -59,7 +61,8 @@
   },
   {
     "id": "mag_archery",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Archery for Kids", "str_pl": "issues of Archery for Kids" },
     "description": "Will you be able to place the arrow right into the bullseye?  It is not that easy, but once you know how it's done, you will have a lot of fun with archery.",
@@ -95,10 +98,10 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
-    "skill": "archery",
     "max_level": 1,
     "intelligence": 2,
     "time": "7 m",
-    "fun": 1
+    "read_skill": "archery",
+    "read_fun": 1
   }
 ]
