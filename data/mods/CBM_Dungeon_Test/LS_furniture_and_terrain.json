@@ -4,7 +4,7 @@
     "id": "t_nl_mist",
     "name": "swirling mist",
     "description": "A swirling, exotic pattern of shapes, floating in an ill-defined darkness.  Staring at it too long hurts your brain.",
-    "symbol": "LINE_OXOX",
+    "symbol": "|",
     "color": "green",
     "coverage": 100,
     "move_cost": -1,
