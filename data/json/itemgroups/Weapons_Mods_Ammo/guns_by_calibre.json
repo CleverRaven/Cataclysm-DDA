@@ -186,7 +186,6 @@
     "type": "item_group",
     "id": "guns_pistol_common_other",
     "items": [
-
       { "group": "nested_bfr", "prob": 5 },
       { "group": "nested_modular_deagle_50", "prob": 10 },
       { "group": "nested_sw_500", "prob": 29 },
