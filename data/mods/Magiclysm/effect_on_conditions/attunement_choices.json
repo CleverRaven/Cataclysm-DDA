@@ -2010,7 +2010,7 @@
     },
     "effect": [
       {
-        "u_message": "The altar does not respond to your touch.  While you know many spells, your knowledge of them is stil too shallow.",
+        "u_message": "The altar does not respond to your touch.  While you know many spells, your knowledge of them is still too shallow.",
         "type": "bad"
       }
     ]
