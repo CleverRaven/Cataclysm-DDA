@@ -887,7 +887,7 @@
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "flags": [ "SCEN_ONLY" ]
-  },  
+  },
   {
     "type": "profession",
     "id": "archaeologist",
@@ -904,7 +904,16 @@
       { "level": 5, "name": "unarmed" },
       { "level": 5, "name": "deduction" }
     ],
-        "proficiencies": [ "prof_athlete_basic", "prof_gun_cleaning", "prof_auto_pistols_familiar", "prof_whips_familiar", "prof_whips_pro", "prof_spotting", "prof_unarmed_familiar", "prof_unarmed_pro" ],
+    "proficiencies": [
+      "prof_athlete_basic",
+      "prof_gun_cleaning",
+      "prof_auto_pistols_familiar",
+      "prof_whips_familiar",
+      "prof_whips_pro",
+      "prof_spotting",
+      "prof_unarmed_familiar",
+      "prof_unarmed_pro"
+    ],
     "items": {
       "both": {
         "entries": [
