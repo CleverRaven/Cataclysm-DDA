@@ -3,8 +3,8 @@
     "type": "effect_on_condition",
     "id": "EOC_CHECK_ATTUNEMENTS",
     "effect": [
-      { "math": [ "_required_spell_count = 10" ] },
-      { "math": [ "_required_spell_levels = 150" ] },
+      { "math": [ "_required_spell_count = 12" ] },
+      { "math": [ "_required_spell_levels = 200" ] },
       {
         "run_eoc_selector": [
           "EOC_GIVE_ATTUNEMENT_ARTIFICER",
