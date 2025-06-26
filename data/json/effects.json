@@ -1067,6 +1067,14 @@
     "blood_analysis_description": "Unknown Organic Toxin"
   },
   {
+	"id": "crowned_speaking",
+	"type": "effect_type",
+	"name": [ "Scrambled Thoughts" ],
+	"desc": [ "Your head still reels from the experience of an alien mind making contact with it." ],
+	"rating": "bad",
+	
+  },
+  {
     "id": "venom_dmg",
     "type": "effect_type",
     "name": [ "Poisoned Wound" ],
