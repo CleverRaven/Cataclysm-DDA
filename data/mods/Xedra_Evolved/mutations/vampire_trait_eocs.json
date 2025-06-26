@@ -1680,7 +1680,7 @@
     "name": [ "Torpor" ],
     "desc": [ "Thanks to your torpor you are healing and recovering quickly" ],
     "rating": "good",
-    "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ 1, 1 ] ], "tick": [ "3 m" ] } ],
+    "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ 1, 1 ] ], "tick": [ "8 m" ] } ],
     "flags": [ "DEAF", "BLIND" ],
     "enchantments": [
       {
@@ -2765,7 +2765,7 @@
     "type": "effect_on_condition",
     "id": "EOC_ANATHEMA_MIND_CHAOS",
     "//": "Checks the variable every time the player drinks vampire blood with the weakness.  If the effect triggers, it gives a random mental negative.  If if cannot give one, it gives a negative effect for a while.  If the effect doesn't trigger, it increments the variable.",
-    "//2": "It doesn't give nyctophobia and pyrophobia for obvious reasons.",
+    "//2": "It doesn't give nyctophobia and pyromania for obvious reasons.",
     "condition": { "x_in_y_chance": { "x": { "math": [ "u_counter_anathema_mind_chaos" ] }, "y": 100 } },
     "effect": [
       {
