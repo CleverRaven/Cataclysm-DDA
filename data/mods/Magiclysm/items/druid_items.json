@@ -39,9 +39,7 @@
           "neoprene",
           "parabolan_wool",
           "gutskin",
-          "canvas",
-          "black_dragon_hide",
-          "demon_chitin"
+          "canvas"
         ],
         "skill": "tailor",
         "tool_quality": 1,
