@@ -43,7 +43,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "boat_rental", "boat_rental_1", "boat_rental_2", "boat_rental_roof", "boat_rental_1_roof", "boat_rental_2_roof" ],
+    "id": [ "boat_rental", "boat_rental_1", "boat_rental_2" ],
     "copy-from": "boat_rental",
     "name": "boat rental",
     "sym": "B",
@@ -51,9 +51,23 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "bandit_garage_1", "bandit_garage_2", "bandit_garage_1_roof", "bandit_garage_2_roof" ],
+    "id": [ "boat_rental_roof", "boat_rental_1_roof", "boat_rental_2_roof" ],
+    "copy-from": "boat_rental_roof",
+    "sym": "B",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "bandit_garage_1", "bandit_garage_2" ],
     "copy-from": "bandit_garage_1",
     "name": "garage",
+    "sym": "G",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "bandit_garage_1_roof", "bandit_garage_2_roof" ],
+    "copy-from": "bandit_garage_1_roof",
     "sym": "G",
     "color": "light_blue"
   },

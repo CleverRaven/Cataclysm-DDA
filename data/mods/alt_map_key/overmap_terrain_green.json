@@ -242,9 +242,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "orchard", "orchard_roof", "orchard_1", "orchard_roof_1" ],
+    "id": [ "orchard", "orchard_1" ],
     "copy-from": "orchard",
     "name": "orchard",
+    "sym": "O",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "orchard_roof", "orchard_roof_1" ],
+    "copy-from": "orchard_roof",
     "sym": "O",
     "color": "green"
   },
