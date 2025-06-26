@@ -101,6 +101,12 @@
   },
   {
     "type": "jmath_function",
+    "id": "nether_attune_torrential_channeling_influence",
+    "num_args": 0,
+    "return": "u_has_trait('PSI_TORRENTIAL_CHANNELING_active') * ( clamp( (u_vitamin('vitamin_psionic_drain') / 2), 0,50) + clamp( (u_vitamin('vitamin_psionic_drain') - 100), 0,100) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 200) * 2), 0,100) )"
+  },
+  {
+    "type": "jmath_function",
     "id": "psionics_kcal_cost",
     "num_args": 1,
     "return": "(4 * _0) * rng( 0.3, 1.7) * u_nether_attunement_power_scaling * (u_effect_intensity('effect_nether_attunement_extra_kcal') > 0 ? 3 : 1) + (1 * u_has_trait('SCEN_HEART_OF_FIRE') * 0.5)"
