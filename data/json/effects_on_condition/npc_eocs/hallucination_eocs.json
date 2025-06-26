@@ -95,15 +95,6 @@
         "if": "u_has_weapon",
         "then": { "u_run_inv_eocs": "all", "search_data": [ { "wielded_only": true } ], "true_eocs": [ "item_talks_to_you" ] },
         "else": { "run_eocs": "minor_hallucinations" }
-      },
-      {
-        "run_eocs": {
-          "id": "determine_if_coversation",
-          "//": "85% chance for your weapon to make a conversation.  If not, try again some time later.",
-          "condition": { "x_in_y_chance": { "x": 85, "y": 100 } },
-          "effect": { "run_eocs": "weapon_talk_hallucination", "time_in_future": [ "10 seconds", "15 seconds" ] },
-          "false_effect": { "run_eocs": "weapon_talk_hallucination", "time_in_future": [ "4 hours", "6 hours" ] }
-        }
       }
     ],
     "false_effect": { "run_eocs": "minor_hallucinations" }

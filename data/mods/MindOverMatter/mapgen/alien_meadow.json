@@ -2,7 +2,6 @@
   {
     "om_terrain": "alien_meadow_core",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "rows": [
         "111111111111111111111111",
@@ -51,7 +50,6 @@
   {
     "om_terrain": "alien_meadow_join",
     "type": "mapgen",
-    "method": "json",
     "object": {
       "rows": [
         "111111111111111111111111",
@@ -100,7 +98,6 @@
   {
     "om_terrain": "alien_meadow_end",
     "type": "mapgen",
-    "method": "json",
     "weight": 10,
     "object": {
       "fallback_predecessor_mapgen": "field",
@@ -137,7 +134,6 @@
   {
     "om_terrain": "alien_meadow_end",
     "type": "mapgen",
-    "method": "json",
     "weight": 2,
     "object": {
       "fallback_predecessor_mapgen": "field",
@@ -174,7 +170,6 @@
   {
     "om_terrain": "alien_meadow_end",
     "type": "mapgen",
-    "method": "json",
     "weight": 2,
     "object": {
       "fallback_predecessor_mapgen": "field",
@@ -210,7 +205,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "alien_meadow_12x12_pond",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -246,7 +240,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "alien_meadow_12x12_solid_pond",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -279,7 +272,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "alien_meadow_12x12_shrubs",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -311,7 +303,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "alien_meadow_12x12_trees",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -346,7 +337,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "alien_meadow_12x12_tree_trap",
     "object": {
       "mapgensize": [ 12, 12 ],

@@ -170,7 +170,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "dumpsite",
     "sym": "D",
-    "color": "brown"
+    "color": "brown",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -196,7 +197,8 @@
     "name": "recycle center",
     "sym": "R",
     "color": "i_green",
-    "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ] }
+    "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ] },
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -204,7 +206,8 @@
     "copy-from": "generic_city_building",
     "name": "recycle center roof",
     "sym": "R",
-    "color": "i_green"
+    "color": "i_green",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -230,7 +233,8 @@
     "name": "junkyard",
     "sym": "J",
     "color": "i_brown",
-    "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ] }
+    "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ] },
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -306,7 +310,8 @@
     "name": "small dump",
     "sym": "d",
     "color": "i_brown",
-    "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ] }
+    "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ] },
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -334,6 +339,7 @@
     "copy-from": "generic_city_building",
     "name": "abandoned textile mill",
     "color": "light_blue",
-    "extend": { "flags": [ "SOURCE_CONSTRUCTION" ] }
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION" ] },
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   }
 ]

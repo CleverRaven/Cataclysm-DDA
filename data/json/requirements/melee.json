@@ -442,6 +442,21 @@
     ]
   },
   {
+    "id": "handaxes_axes",
+    "type": "requirement",
+    "//": "A one-handed weapon with an axe head.",
+    "tools": [
+      [
+        [ "copper_ax", -1 ],
+        [ "throwing_axe", -1 ],
+        [ "iceaxe", -1 ],
+        [ "hatchet", -1 ],
+        [ "crash_axe", -1 ],
+        [ "primitive_axe", -1 ]
+      ]
+    ]
+  },
+  {
     "id": "real_great_axes",
     "type": "requirement",
     "//": "Any real, cutting weapons that can be used like an axe; large, heavy head with two sharp sides on a pole.",
@@ -568,6 +583,7 @@
         [ "nailbat", -1 ],
         [ "nailboard", -1 ],
         [ "bwirebat", -1 ],
+        [ "nutboltbat", -1 ],
         [ "bat", -1 ],
         [ "bat_metal", -1 ],
         [ "bat_nerf", -1 ]
@@ -677,7 +693,6 @@
         [ "spear_knife_superior", -1 ],
         [ "spear_homemade_halfpike", -1 ],
         [ "spear_steel_crude", -1 ],
-        [ "spear_forked", -1 ],
         [ "simple_spear_pipe", -1 ],
         [ "spear_rebar", -1 ],
         [ "pike_wood", -1 ],
@@ -708,5 +723,11 @@
         [ "ji", -1 ]
       ]
     ]
+  },
+  {
+    "id": "whips",
+    "type": "requirement",
+    "//": "Any weapon that features a handle and flexible lash.",
+    "tools": [ [ [ "dressage_whip", -1 ], [ "bullwhip", -1 ], [ "bullwhip_razor", -1 ] ] ]
   }
 ]

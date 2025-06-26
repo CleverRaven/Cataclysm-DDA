@@ -6,31 +6,35 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <ostream>
 
-#include "game.h"
 #include "achievement.h"
 #include "addiction.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
-#include "json.h"
 #include "magic.h"
 #include "mission.h"
 #include "mutation.h"
 #include "options.h"
-#include "past_games_info.h"
 #include "past_achievements_info.h"
 #include "pimpl.h"
+#include "trait_group.h"
 #include "translations.h"
 #include "type_id.h"
+#include "value_ptr.h"
 #include "visitable.h"
-#include <trait_group.h>
-#include <npc_class.h>
+
+struct bionic_data;
 
 static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
 static const trait_group::Trait_group_tag
@@ -90,12 +94,12 @@ bool string_id<profession>::is_valid() const
 static profession_blacklist prof_blacklist;
 
 void profession_blacklist::load_profession_blacklist( const JsonObject &jo,
-        const std::string_view src )
+        std::string_view src )
 {
     prof_blacklist.load( jo, src );
 }
 
-void profession_blacklist::load( const JsonObject &jo, const std::string_view )
+void profession_blacklist::load( const JsonObject &jo, std::string_view )
 {
     if( !professions.empty() ) {
         DebugLog( D_INFO, DC_ALL ) << "Loading profession black with one already loaded, resetting";
@@ -206,7 +210,7 @@ class item_reader : public generic_typed_reader<item_reader>
         }
 };
 
-void profession::load( const JsonObject &jo, const std::string_view )
+void profession::load( const JsonObject &jo, std::string_view )
 {
     //If the "name" is an object then we have to deal with gender-specific titles,
     if( jo.has_object( "name" ) ) {
@@ -257,6 +261,7 @@ void profession::load( const JsonObject &jo, const std::string_view )
               Trait_group_BG_survival_story_UNIVERSAL );
     optional( jo, was_loaded, "age_lower", age_lower, 16 );
     optional( jo, was_loaded, "age_upper", age_upper, 55 );
+    optional( jo, was_loaded, "starting_cash", _starting_cash );
 
     if( jo.has_string( "vehicle" ) ) {
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
@@ -276,6 +281,12 @@ void profession::load( const JsonObject &jo, const std::string_view )
             int level = subobj.get_int( "level" );
             spell_id sp = spell_id( subobj.get_string( "id" ) );
             _starting_spells.emplace( sp, level );
+        }
+    }
+
+    if( jo.has_member( "effect_on_conditions" ) ) {
+        for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
+            effect_on_conditions.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
         }
     }
 
@@ -513,6 +524,11 @@ signed int profession::point_cost() const
     return _point_cost;
 }
 
+std::optional<int> profession::starting_cash() const
+{
+    return _starting_cash;
+}
+
 static void clear_faults( item &it )
 {
     if( it.get_var( "dirt", 0 ) > 0 ) {
@@ -739,6 +755,11 @@ void profession::learn_spells( avatar &you ) const
             sp.gain_level( you );
         }
     }
+}
+
+std::vector<effect_on_condition_id> profession::get_eocs() const
+{
+    return effect_on_conditions;
 }
 
 // item_substitution stuff:

@@ -1,9 +1,10 @@
 [
   {
     "id": "makarov",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_handgun_semi",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Makarov pistol" },
     "description": "The Makarov was developed by the Soviet Union to replace the Red Army's obsolete WWII-era handguns.  It uses the 9x18mm cartridge, which remains in use among various former Soviet countries.",
     "variant_type": "gun",
@@ -22,24 +23,11 @@
     "price": "250 USD",
     "price_postapoc": "20 USD",
     "material": [ "steel", "plastic" ],
-    "color": "dark_gray",
     "ammo": [ "9x18" ],
     "dispersion": 480,
-    "durability": 6,
     "min_cycle_recoil": 270,
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "makarovmag" ] } ],
-    "melee_damage": { "bash": 9 }
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "makarovmag" ] } ]
   }
 ]

@@ -186,7 +186,7 @@
     "type": "effect_on_condition",
     "id": "EOC_map_item_test2",
     "effect": [
-      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,1,0)" }, "target_var": { "context_val": "loc" } },
+      { "u_location_variable": { "context_val": "loc" }, "y_adjust": 1 },
       { "map_spawn_item": "bottle_plastic", "loc": { "context_val": "loc" } }
     ]
   },
@@ -194,15 +194,13 @@
     "type": "effect_on_condition",
     "id": "EOC_map_condition_test",
     "effect": [
+      { "u_location_variable": { "context_val": "check_loc" } },
       {
-        "if": { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } },
+        "if": { "map_in_city": { "context_val": "check_loc" } },
         "then": { "u_message": "Inside city" },
         "else": { "u_message": "Outside city" }
       },
-      {
-        "set_string_var": { "mutator": "u_loc_relative", "target": "(0,-1,0)" },
-        "target_var": { "context_val": "loc" }
-      },
+      { "u_location_variable": { "context_val": "loc" }, "y_adjust": -1 },
       {
         "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
         "then": { "u_message": "North terrain: TRANSPARENT" },
@@ -213,10 +211,7 @@
         "then": { "u_message": "North furniture: TRANSPARENT" },
         "else": { "u_message": "North furniture: Not TRANSPARENT" }
       },
-      {
-        "set_string_var": { "mutator": "u_loc_relative", "target": "(1,0,0)" },
-        "target_var": { "context_val": "loc" }
-      },
+      { "u_location_variable": { "context_val": "loc" }, "x_adjust": 1 },
       {
         "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
         "then": { "u_message": "East terrain: TRANSPARENT" },
@@ -227,10 +222,7 @@
         "then": { "u_message": "East furniture: TRANSPARENT" },
         "else": { "u_message": "East furniture: Not TRANSPARENT" }
       },
-      {
-        "set_string_var": { "mutator": "u_loc_relative", "target": "(0,1,0)" },
-        "target_var": { "context_val": "loc" }
-      },
+      { "u_location_variable": { "context_val": "loc" }, "y_adjust": 1 },
       {
         "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
         "then": { "u_message": "South terrain: TRANSPARENT" },
@@ -241,10 +233,7 @@
         "then": { "u_message": "South furniture: TRANSPARENT" },
         "else": { "u_message": "South furniture: Not TRANSPARENT" }
       },
-      {
-        "set_string_var": { "mutator": "u_loc_relative", "target": "(-1,0,0)" },
-        "target_var": { "context_val": "loc" }
-      },
+      { "u_location_variable": { "context_val": "loc" }, "x_adjust": -1 },
       {
         "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
         "then": { "u_message": "West terrain: TRANSPARENT" },
@@ -330,9 +319,10 @@
     "type": "effect_on_condition",
     "id": "EOC_query_tile_test_anywhere",
     "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
       {
-        "if": { "u_query_tile": "anywhere", "target_var": { "global_val": "pos" }, "message": "Select point" },
-        "then": { "u_message": "<global_val:pos>" },
+        "if": { "math": [ "has_var(_pos)" ] },
+        "then": { "u_message": "<context_val:pos>" },
         "else": { "u_message": "Canceled" }
       }
     ]
@@ -341,9 +331,10 @@
     "type": "effect_on_condition",
     "id": "EOC_query_tile_test_line_of_sight",
     "effect": [
+      { "u_query_tile": "line_of_sight", "target_var": { "context_val": "pos" }, "message": "Select point", "range": 10 },
       {
-        "if": { "u_query_tile": "line_of_sight", "target_var": { "global_val": "pos" }, "message": "Select point", "range": 10 },
-        "then": { "u_message": "<global_val:pos>" },
+        "if": { "math": [ "has_var(_pos)" ] },
+        "then": { "u_message": "<context_val:pos>" },
         "else": { "u_message": "Canceled" }
       }
     ]
@@ -352,9 +343,10 @@
     "type": "effect_on_condition",
     "id": "EOC_query_tile_test_around",
     "effect": [
+      { "u_choose_adjacent_highlight": { "context_val": "pos" }, "message": "Choose direction" },
       {
-        "if": { "u_query_tile": "around", "target_var": { "global_val": "pos" }, "message": "Choose direction" },
-        "then": { "u_message": "<global_val:pos>" },
+        "if": { "math": [ "has_var(_pos)" ] },
+        "then": { "u_message": "<context_val:pos>" },
         "else": { "u_message": "Canceled" }
       }
     ]
@@ -380,21 +372,22 @@
     "type": "effect_on_condition",
     "id": "EOC_can_see_location_test",
     "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
       {
-        "if": { "u_query_tile": "anywhere", "target_var": { "global_val": "pos" }, "message": "Select point" },
+        "if": { "math": [ "has_var(_pos)" ] },
         "then": [
           {
-            "if": { "u_can_see_location": { "global_val": "pos" } },
-            "then": { "u_message": "You can see <global_val:pos>." },
-            "else": { "u_message": "You can't see <global_val:pos>." }
+            "if": { "u_can_see_location": { "context_val": "pos" } },
+            "then": { "u_message": "You can see <context_val:pos>." },
+            "else": { "u_message": "You can't see <context_val:pos>." }
           },
           {
             "u_run_npc_eocs": [
               {
                 "id": "EOC_can_see_location_test_nest",
-                "condition": { "u_can_see_location": { "global_val": "pos" } },
-                "effect": { "message": "<u_name> can see <global_val:pos>." },
-                "false_effect": { "message": "<u_name> can't see <global_val:pos>." }
+                "condition": { "u_can_see_location": { "context_val": "pos" } },
+                "effect": { "message": "<u_name> can see <context_val:pos>." },
+                "false_effect": { "message": "<u_name> can't see <context_val:pos>." }
               }
             ],
             "local": true
@@ -421,9 +414,10 @@
     "type": "effect_on_condition",
     "id": "EOC_teleport_test_setloc",
     "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "teleport_test_pos" }, "message": "Select point" },
       {
-        "if": { "u_query_tile": "anywhere", "target_var": { "global_val": "teleport_test_pos" }, "message": "Select point" },
-        "then": { "u_message": "<global_val:pos>" },
+        "if": { "math": [ "has_var(_teleport_test_pos)" ] },
+        "then": { "u_message": "<context_val:pos>" },
         "else": { "u_message": "Canceled" }
       }
     ]
@@ -437,11 +431,12 @@
     "type": "effect_on_condition",
     "id": "EOC_teleport_test_other",
     "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "loc" }, "message": "Select point" },
       {
-        "if": { "u_query_tile": "anywhere", "target_var": { "global_val": "loc" }, "message": "Select point" },
+        "if": { "math": [ "has_var(_loc)" ] },
         "then": {
           "run_eocs": { "id": "EOC_teleport_test_other_do", "effect": { "npc_teleport": { "global_val": "teleport_test_pos" } } },
-          "beta_loc": { "global_val": "loc" },
+          "beta_loc": { "context_val": "loc" },
           "false_eocs": { "id": "EOC_teleport_test_other_do_fail_msg", "effect": { "message": "Please select a creature." } }
         },
         "else": { "u_message": "Canceled" }
@@ -466,14 +461,15 @@
     "id": "EOC_control_npc",
     "effect": [
       { "u_set_talker": { "global_val": "player_id" } },
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "loc" }, "message": "Select point" },
       {
-        "if": { "u_query_tile": "anywhere", "target_var": { "global_val": "loc" }, "message": "Select point" },
+        "if": { "math": [ "has_var(_loc)" ] },
         "then": {
           "run_eocs": {
             "id": "_EOC_control_npc_do",
             "effect": [ { "if": "npc_is_npc", "then": [ "follow", "take_control" ], "else": { "message": "Please select a NPC." } } ]
           },
-          "beta_loc": { "global_val": "loc" },
+          "beta_loc": { "context_val": "loc" },
           "false_eocs": { "id": "_EOC_control_npc_fail_msg", "effect": { "message": "Please select a NPC." } }
         },
         "else": { "u_message": "Canceled" }

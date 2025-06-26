@@ -453,10 +453,7 @@
     "responses": [
       {
         "text": "Why not?  I'll see what I can do.",
-        "effect": [
-          { "assign_mission": "MISSION_REFUGEE_Dana_Sourdough" },
-          { "u_add_var": "mission_flag_Dana_Sourdough", "value": "yes" }
-        ],
+        "effect": [ { "add_mission": "MISSION_REFUGEE_Dana_Sourdough" }, { "u_add_var": "mission_flag_Dana_Sourdough", "value": "yes" } ],
         "topic": "TALK_DANA_Sourdough2"
       },
       { "text": "Maybe not right now.  <end_talking_leave>", "topic": "TALK_DONE" }
@@ -570,7 +567,7 @@
   },
   {
     "id": "landough_calrisean",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "sourdough_starter_uncovered",
     "looks_like": "jar_glass_sealed",
     "name": { "str_sp": "Dana's family sourdough starter" },
@@ -578,11 +575,11 @@
     "weight": "450 g",
     "volume": "680 ml",
     "longest_side": "132 mm",
-    "material": [ "glass", "wheat" ],
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "Dana_sourdough_bread",
     "name": { "str_sp": "Dana's sourdough bread" },
     "copy-from": "sourdough_bread",

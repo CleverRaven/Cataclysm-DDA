@@ -203,7 +203,7 @@
     "//": "Water and soap / lye for Freshen Up",
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_mineral", 1 ] ],
-      [ [ "soap", 5 ], [ "detergent", 5 ], [ "liquid_soap", 3 ], [ "lye", 1 ], [ "lye_powder", 1 ] ]
+      [ [ "soap", 1 ], [ "detergent", 5 ], [ "liquid_soap", 3 ], [ "lye", 1 ], [ "lye_powder", 1 ] ]
     ]
   },
   {

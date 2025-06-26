@@ -511,7 +511,7 @@
     "difficulty": 5,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "trailhead_shack_z0", "om_special": "trailhead_shack", "reveal_radius": 1, "search_range": 100 },
+      "assign_mission_target": { "om_terrain": "trailhead_shack_z0", "om_special": "trailhead_shack", "reveal_radius": 1 },
       "update_mapgen": {
         "place_npcs": [ { "class": "bandit", "x": 5, "y": 8, "target": true }, { "class": "bandit", "x": 5, "y": 9, "target": true } ],
         "place_vehicles": [
@@ -543,7 +543,7 @@
     "difficulty": 5,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "mine_entrance_loading_zone", "om_special": "Generic mine", "reveal_radius": 1, "search_range": 200 },
+      "assign_mission_target": { "om_terrain": "mine_entrance_loading_zone", "om_special": "Generic mine", "reveal_radius": 1 },
       "update_mapgen": {
         "place_vehicles": [ { "vehicle": "truck_trailer_explosives", "chance": 100, "rotation": 270, "x": [ 7 ], "y": [ 7 ] } ]
       }

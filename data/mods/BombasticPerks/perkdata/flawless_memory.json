@@ -1,22 +1,26 @@
 [
   {
     "id": "integrated_memory",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "fake_item",
     "name": { "str_sp": "Flawless memory" },
     "description": "You can remember with perfect detail everything you've ever lived, even allowing you to read books and play games by remembering them.",
     "charges_per_use": 0,
-    "use_action": [ "CAMERA", "PORTABLE_GAME", "EBOOKSAVE", "EBOOKREAD" ],
+    "etransfer_rate": "30 MB",
+    "use_action": [ "CAMERA", "PORTABLE_GAME", "EBOOKSAVE", "E_FILE_DEVICE" ],
     "tick_action": [ "EPIC_MUSIC" ],
     "pocket_data": [
       {
-        "pocket_type": "EBOOK",
+        "pocket_type": "E_FILE_STORAGE",
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0
+        "weight_multiplier": 0,
+        "ememory_max": "2 TB"
       }
     ],
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "CAMERA_PRO", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "CAMERA_PRO", "ALLOWS_NATURAL_ATTACKS" ],
+    "variables": { "browsed": "true" }
   }
 ]

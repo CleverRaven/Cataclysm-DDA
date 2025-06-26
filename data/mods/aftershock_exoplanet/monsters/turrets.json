@@ -1,0 +1,82 @@
+[
+  {
+    "id": "mon_laserturret_xray",
+    "type": "MONSTER",
+    "name": { "str": "x-ray laser turret" },
+    "description": "The TX-5LR Cerberus is an upgrade to its predecessors.  It features a state of the art x-ray laser cannon system with three barrels.  Each barrel will fire once and be exhausted until the part can be replaced.",
+    "default_faction": "military",
+    "species": [ "ROBOT" ],
+    "diff": 20,
+    "volume": "30000 ml",
+    "weight": "40750 g",
+    "hp": 30,
+    "speed": 100,
+    "material": [ "steel" ],
+    "symbol": "2",
+    "color": "white",
+    "aggression": 50,
+    "morale": 100,
+    "vision_day": 50,
+    "revert_to_itype": "bot_laserturret_xray",
+    "starting_ammo": { "xray_laser_barrel": 3 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "gun_type": "laser_cannon_xray_mon",
+        "fake_skills": [ [ "gun", 4 ], [ "rifle", 8 ] ],
+        "ranges": [ [ 0, 30, "DEFAULT" ] ]
+      }
+    ],
+    "special_when_hit": [ "RETURN_FIRE", 100 ],
+    "death_drops": {  },
+    "death_function": { "corpse_type": "BROKEN" },
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE" ],
+    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
+  },
+  {
+    "id": "mon_afs_commercial_laser_turret",
+    "type": "MONSTER",
+    "name": { "str": "SOL XII laser turret" },
+    "description": "The Sol Systems model 12 laser turret was once a popular choice for home and business security.  It's integrated laser rifle boasts a cost-effective deterrent to any would-be trespasser.",
+    "default_faction": "defense_bot",
+    "species": [ "ROBOT" ],
+    "looks_like": "mon_turret_rifle",
+    "diff": 20,
+    "volume": "30000 ml",
+    "weight": "40750 g",
+    "hp": 30,
+    "speed": 100,
+    "material": [ "steel" ],
+    "symbol": "2",
+    "color": "light_gray",
+    "aggression": 100,
+    "morale": 100,
+    "vision_night": 3,
+    "weakpoint_sets": [ "wps_turret" ],
+    "revert_to_itype": "bot_laserturret_interior",
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "move_cost": 100,
+        "gun_type": "afs_a7_mon",
+        "fake_skills": [ [ "gun", 5 ], [ "rifle", 6 ] ],
+        "fake_dex": 12,
+        "ranges": [ [ 0, 20, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "laser_lock": false,
+        "targeting_cost": 150,
+        "targeting_timeout_extend": -10,
+        "targeting_sound": "\"Trespasser Detected.\"",
+        "targeting_volume": 50
+      }
+    ],
+    "special_when_hit": [ "RETURN_FIRE", 100 ],
+    "death_drops": {  },
+    "death_function": { "corpse_type": "BROKEN" },
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "BIOLOGICALPROOF", "COLDPROOF", "IMMOBILE", "NO_BREATHE" ],
+    "armor": { "bash": 10, "cut": 16, "bullet": 13, "stab": 16 }
+  }
+]

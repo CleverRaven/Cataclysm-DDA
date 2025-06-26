@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <chrono>
 #include <iterator>
 #include <numeric>
 #include <sstream>
@@ -10,6 +9,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "cata_catch.h"
+#include "cata_utility.h"
 #include "character_id.h"
 #include "debug_menu.h"
 #include "event.h"
@@ -18,8 +18,6 @@
 #include "make_static.h"
 #include "memorial_logger.h"
 #include "mutation.h"
-#include "npc.h"
-#include "output.h"
 #include "player_helpers.h"
 #include "profession.h"
 #include "stats_tracker.h"
@@ -125,7 +123,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Caused a resonance cascade." );
 
     check_memorial<event_type::character_gains_effect>(
-        m, b, "Caught on fire.", ch, bodypart_id( "arm_r" ), eff );
+        m, b, "Caught on fire.", ch, bodypart_id( "arm_r" ), eff, 1 );
 
     check_memorial<event_type::character_kills_character>(
         m, b, "Killed an innocent person, victim_name, in cold blood and felt terrible "

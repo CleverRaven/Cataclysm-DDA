@@ -76,9 +76,7 @@
         "then": [ { "u_lose_effect": "meth" }, { "u_add_effect": "meth", "duration": "200 s" } ]
       },
       {
-        "foreach": "array",
-        "var": { "context_val": "effect_id" },
-        "target": [
+        "u_lose_effect": [
           "fungus",
           "dermatik",
           "bloodworms",
@@ -107,8 +105,7 @@
           "venom_weaken",
           "venom_dmg",
           "paralyzepoison"
-        ],
-        "effect": { "u_lose_effect": { "context_val": "effect_id" } }
+        ]
       },
       { "math": [ "u_val('pkill') = 0" ] },
       { "math": [ "u_val('stim') = 0" ] },

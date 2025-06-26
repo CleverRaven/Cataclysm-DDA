@@ -291,7 +291,7 @@
           { "math": [ "subspace_allowed = 0" ] },
           {
             "u_location_variable": { "global_val": "your_spawnpoint" },
-            "target_params": { "om_terrain": "bar", "search_range": 500, "z": 0 }
+            "target_params": { "om_terrain": "bar", "z": 0 }
           },
           { "u_teleport": { "global_val": "your_spawnpoint" } },
           { "mapgen_update": "shaun_of_the_dead_spawns" },
@@ -336,7 +336,7 @@
           { "math": [ "subspace_allowed = 0" ] },
           {
             "u_location_variable": { "global_val": "your_spawnpoint" },
-            "target_params": { "om_terrain": "dm_mansion_e2", "search_range": 500, "z": 0 }
+            "target_params": { "om_terrain": "dm_mansion_e2", "z": 0 }
           },
           { "u_teleport": { "global_val": "your_spawnpoint" } },
           { "run_eocs": "defense_mode_game_start_final_setup" }

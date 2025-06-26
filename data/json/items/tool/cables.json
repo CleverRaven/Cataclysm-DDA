@@ -1,6 +1,7 @@
 [
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "power_cord",
     "name": { "str": "power cord" },
     "description": "A power cord, like you've seen many times before: it's a short multi-stranded copper cord with a power outlet at the end.",
@@ -19,7 +20,8 @@
     "flags": [ "CABLE_SPOOL", "NO_DROP", "SINGLE_USE" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "jumper_cable",
     "name": { "str": "jumper cable" },
     "description": "A 3-foot (or about 1 m) jumper cable: a short multi-stranded copper cable with power leads on either end, whose main purpose is to share power between vehicles, but can also link other electrical systems.",
@@ -45,7 +47,8 @@
     "qualities": [ [ "JUMPSTART", 1 ] ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "jumper_cable_heavy",
     "name": { "str": "heavy-duty jumper cable" },
     "description": "A long, thick, heavy-duty jumper cable with power leads on either end.  It looks like you could use it to hook up two vehicles to each other, though you expect the power loss would be noticeable.  Can also link other electrical systems.",
@@ -56,7 +59,8 @@
     "copy-from": "jumper_cable"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "extension_cable",
     "name": { "str": "extension cord" },
     "description": "A long 30-foot (or about 10 m) orange extension cord for extending cables or connecting appliances.  Could be used on any appliance or other household electrical system.",
@@ -81,7 +85,8 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "long_extension_cable",
     "name": { "str": "outdoor extension cord" },
     "description": "An extra-long 100-foot (or about 30 m) orange extension cord for extending cables or connecting outdoor appliances.  Could be used on any appliance or other household electrical system.",
@@ -93,7 +98,8 @@
     "flags": [ "CABLE_SPOOL", "SINGLE_USE" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "hd_tow_cable",
     "name": { "str": "heavy-duty tow cable" },
     "description": "An extremely heavy-duty 30-foot (or about 9 m) tow cable made from thick steel wire coated in plastic.  If attached to a vehicle, it could be used to pull another vehicle of any weight.",
@@ -120,7 +126,8 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "jumper_cable_debug",
     "name": { "str": "shiny debug cable" },
     "description": "This is the cable of the gods: 100 meters long, no power loss, light as a feather, and fits in a matchbook.  You're sure this wasn't supposed to exist, and the way it shimmers makes you uneasy.",

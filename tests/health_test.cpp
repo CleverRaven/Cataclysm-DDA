@@ -1,13 +1,10 @@
-#include "cata_catch.h"
-
-#include <array>
-#include <cstddef>
-#include <sstream>
-#include <vector>
+#include <string>
 
 #include "calendar.h"
-#include "enums.h"
+#include "cata_catch.h"
+#include "character.h"
 #include "npc.h"
+#include "type_id.h"
 
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "overgrownlot",
     "weight": 1000,
     "object": {
@@ -63,7 +62,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": "overgrownlot",
     "weight": 1000,
@@ -111,13 +109,15 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": "overgrownlot",
     "weight": 1000,
     "object": {
       "furniture": { ".": "f_null", "P": "f_sign", "#": "f_null", "_": "f_null", "s": "f_sign" },
-      "place_items": [ { "chance": 35, "item": "trash", "x": 16, "y": 17 }, { "chance": 35, "item": "trash", "x": 7, "y": 11 } ],
+      "place_items": [
+        { "chance": 35, "item": "SUS_trash_floor", "x": 16, "y": 17 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 7, "y": 11 }
+      ],
       "place_vehicles": [
         { "chance": 20, "fuel": 0, "rotation": 0, "status": 1, "vehicle": "bicycle", "x": 6, "y": 17 },
         { "chance": 20, "fuel": 0, "rotation": 0, "status": 1, "vehicle": "shopping_cart", "x": 17, "y": 19 }
@@ -165,7 +165,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": "overgrownlot",
     "weight": 1000,
@@ -183,10 +182,10 @@
         "|": "f_null"
       },
       "place_items": [
-        { "chance": 15, "item": "trash", "x": 13, "y": 20 },
-        { "chance": 15, "item": "trash", "x": 6, "y": 19 },
-        { "chance": 15, "item": "trash", "x": 6, "y": 16 },
-        { "chance": 15, "item": "trash", "x": 4, "y": 12 }
+        { "chance": 15, "item": "SUS_trash_floor", "x": 13, "y": 20 },
+        { "chance": 15, "item": "SUS_trash_floor", "x": 6, "y": 19 },
+        { "chance": 15, "item": "SUS_trash_floor", "x": 6, "y": 16 },
+        { "chance": 15, "item": "SUS_trash_floor", "x": 4, "y": 12 }
       ],
       "rows": [
         "________________________",

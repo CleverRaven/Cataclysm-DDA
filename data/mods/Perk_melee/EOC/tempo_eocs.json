@@ -1,0 +1,69 @@
+[
+  {
+    "id": "EOC_PERK_tempo_assault_char",
+    "type": "effect_on_condition",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": { "and": [ { "math": [ "_hits == true" ] }, { "u_has_flag": "MELEE_PERK_TEMPO_ASSAULT" }, { "not": "npc_is_alive" } ] },
+    "effect": [
+      { "npc_location_variable": { "context_val": "pos" } },
+      { "u_location_variable": { "context_val": "pos2" } },
+      {
+        "if": { "math": [ "distance(_pos, _pos2 ) <= 1" ] },
+        "then": [ { "run_eocs": [ "EOC_PERK_tempo_assault" ] } ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_PERK_tempo_assault_mon",
+    "type": "effect_on_condition",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": { "and": [ { "u_has_flag": "MELEE_PERK_TEMPO_ASSAULT" } ] },
+    "effect": [
+      { "npc_location_variable": { "context_val": "pos" } },
+      { "u_location_variable": { "context_val": "pos2" } },
+      {
+        "if": { "math": [ "distance(_pos, _pos2 ) <= 1" ] },
+        "then": [ { "run_eocs": [ "EOC_PERK_tempo_assault" ] } ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_PERK_tempo_assault",
+    "type": "effect_on_condition",
+    "effect": [
+      { "npc_location_variable": { "context_val": "pos" } },
+      { "u_teleport": { "context_val": "pos" } },
+      { "run_eocs": [ "EOC_PERK_MOMENTUM_UPDATE" ] },
+      {
+        "u_run_monster_eocs": [
+          {
+            "id": "EOC_PERK_tempo_assault_attack",
+            "condition": { "math": [ "u_assault_attacked != 1" ] },
+            "effect": [
+              { "run_eocs": "EOC_PERK_MOVEMENT_ATTACK", "alpha_talker": "avatar", "beta_talker": "u" },
+              { "math": [ "u_assault_attacked = 1" ] }
+            ]
+          }
+        ],
+        "monster_range": 1,
+        "monster_must_see": true
+      },
+      { "math": [ "u_assault_attacked = 0" ] }
+    ]
+  },
+  {
+    "id": "EOC_PERK_tempo_zoning",
+    "type": "effect_on_condition",
+    "condition": { "and": [ { "u_has_flag": "MELEE_PERK_TEMPO_ZONING" } ] },
+    "effect": [
+      {
+        "run_eocs": "EOC_PERK_TRY_RETREAT",
+        "condition": { "math": [ "u_monsters_nearby('radius': 1) > 0" ] },
+        "iterations": 10
+      },
+      { "run_eocs": [ "EOC_CLEAR_COMBAT_TEMPO" ] }
+    ]
+  }
+]

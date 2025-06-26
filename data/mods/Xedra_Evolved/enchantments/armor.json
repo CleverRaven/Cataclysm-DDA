@@ -186,5 +186,12 @@
     "condition": { "not": "u_has_weapon" },
     "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "10 * (1 + (u_has_trait('IERDE_SKIN_3') * 0.5) )" ] } } ],
     "values": [ { "value": "ATTACK_SPEED", "multiply": 0.15 } ]
+  },
+  {
+    "id": "ench_trow_stone_fists",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": { "not": "u_has_weapon" },
+    "melee_damage_bonus": [ { "type": "bash", "add": 6 } ]
   }
 ]

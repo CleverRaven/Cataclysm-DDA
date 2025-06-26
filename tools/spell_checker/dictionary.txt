@@ -4,6 +4,8 @@ AAC
 AAR
 AB
 Abanaderly
+abaya
+abayas
 Abbie
 Abby
 ABC
@@ -994,6 +996,7 @@ Cassidy
 Cassiopeia
 castable
 Castanea
+casted
 Casterbridge
 Casull
 cataphract
@@ -1493,6 +1496,8 @@ devs
 dex
 Dhamma
 Dhammapada
+dhampir
+dhampirs
 dharmachakra
 diaspora
 dichloroisocyanurate
@@ -1738,6 +1743,7 @@ electrolyzer
 electrolyzers
 electromagnetics
 electromancy
+electronoetic
 electroreceptors
 elephantry
 Elish
@@ -2062,7 +2068,9 @@ flockshot
 floorplan
 Florida
 Florunner
+fluffernutter
 fluffies
+Fluffycats
 fluidic
 fluorescents
 fluoxetine
@@ -2074,6 +2082,7 @@ foamcrete
 foie
 Foily
 Folsom
+fona
 Fonzie
 foodborne
 foodburger
@@ -2614,6 +2623,7 @@ Hiep
 Higgins
 highschool
 hijab
+hijabs
 Himalayan
 Hindu
 Hinduism
@@ -3061,6 +3071,7 @@ Justo
 Justus
 Kabura
 kabuto
+kabutos
 Kaczynski
 Kadambawa
 Kafka
@@ -3961,6 +3972,7 @@ MMA
 mmm
 Mo
 mo
+moabosaurus
 moar
 mobbings
 Mobius
@@ -4304,6 +4316,8 @@ Ninhursag
 ninjutsu
 niño
 Nipâta
+niqab
+niqabs
 Nishan
 Niten
 Nitron
@@ -4650,6 +4664,8 @@ Pennsylvania
 Pennywise
 Penobscot
 pentaceratops
+Pentapanic
+Pentapanics
 Pentecost
 Pentecostal
 Pepeha
@@ -4778,6 +4794,7 @@ Plympton
 PM
 pm
 PMC
+pocketless
 podling
 podlings
 pokeball
@@ -4845,6 +4862,7 @@ precombined
 predatorially
 premade
 premeasured
+premotion
 preoptic
 prepended
 PrepNet
@@ -5296,6 +5314,7 @@ Samoyed
 Samoyeds
 Samuel
 Samuels
+Samurais
 Sanatsugâtîya
 Sanchez
 sanctacaris
@@ -5564,6 +5583,7 @@ shoggoth
 shoggoths
 shogi
 Shoki
+shonisaurus
 shootable
 shopkeep
 shorthair
@@ -6528,6 +6548,7 @@ Unicode
 unitard
 unitards
 unjacketed
+unknowable
 unlife
 unlively
 unlockable
@@ -6628,6 +6649,7 @@ valhallists
 valknut
 valkyries
 Valzain
+vampiric
 VanBuren
 Vancian
 Vaneigem
@@ -6808,6 +6830,7 @@ weaponized
 weaponizing
 weaponsmith
 weaponsmiths
+wearables
 Weatherby
 Webber
 WebbStar

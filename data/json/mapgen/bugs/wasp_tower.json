@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "wasp_tower" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -41,9 +39,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "wasp_tower_1" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -85,7 +81,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "wasp_tower_roof_1",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -120,7 +115,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "wasp_tower_even_1",
     "object": {
       "fill_ter": "t_open_air",
@@ -156,7 +150,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "wasp_tower_even_2",
     "object": {
       "fill_ter": "t_open_air",
@@ -191,7 +184,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "wasp_tower_odd_1",
     "object": {
       "fill_ter": "t_open_air",
@@ -227,7 +219,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "wasp_tower_odd_2",
     "object": {
       "fill_ter": "t_open_air",
@@ -263,7 +254,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "wasp_tower_top",
     "object": {
       "fill_ter": "t_open_air",
@@ -298,7 +288,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "wasp_tower_roof",
     "object": {
       "fill_ter": "t_open_air",

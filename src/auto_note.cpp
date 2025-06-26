@@ -1,16 +1,15 @@
 #include "auto_note.h"
 
 #include <cstddef>
+#include <functional>
 #include <iosfwd>
 #include <iterator>
 #include <string>
-#include <type_traits>
 
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "input_context.h"
@@ -24,7 +23,7 @@
 #include "string_formatter.h"
 #include "translation.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 
 namespace auto_notes
@@ -42,7 +41,8 @@ void auto_note_settings::clear()
 
 bool auto_note_settings::save( bool bCharacter )
 {
-    if( bCharacter && !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
+    if( bCharacter && ( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) &&
+                        !file_exist( PATH_INFO::player_base_save_path() + ".sav.zzip" ) ) ) {
         return true;
     }
     cata_path sGlobalFile = PATH_INFO::autonote();

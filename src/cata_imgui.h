@@ -5,6 +5,8 @@
 #include <vector>
 #include <unordered_map>
 
+#include "font_loader.h"
+
 class nc_color;
 struct input_event;
 using ImGuiInputTextFlags = int;
@@ -52,6 +54,8 @@ enum class dialog_result {
 
 enum class scroll : int {
     none = 0,
+    begin,
+    end,
     line_up,
     line_down,
     page_up,
@@ -72,7 +76,7 @@ class client
                 const GeometryRenderer_Ptr &sdl_geometry );
         void load_fonts( const std::unique_ptr<Font> &gui_font, const std::unique_ptr<Font> &mono_font,
                          const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
-                         const std::vector<std::string> &gui_typeface, const std::vector<std::string> &mono_typeface );
+                         const std::vector<font_config> &gui_typeface, const std::vector<font_config> &mono_typeface );
 #endif
         ~client();
 

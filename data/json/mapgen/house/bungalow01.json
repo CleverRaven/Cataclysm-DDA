@@ -2,8 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow01_1",
-    "weight": 250,
-    "method": "json",
     "object": {
       "palettes": [
         "domestic_general_construction_and_variant_palette",
@@ -57,8 +55,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow01_roof",
-    "weight": 250,
-    "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
       "fill_ter": "t_shingle_flat_roof",

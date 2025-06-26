@@ -126,9 +126,7 @@
     "id": "EOC_LILIN_GAIN_POWERS_AT_NIGHT_SETUP",
     "recurrence": { "math": [ "time_until('sunset')" ] },
     "//": "Lilin have a small chance to gain powers if they're outside under the moon, every night. Each time they gain powers it increases the counter until the next time they can gain more powers.",
-    "condition": {
-      "and": [ "u_is_outside", { "u_has_trait": "LILIN_TRAITS" }, { "not": { "u_has_effect": "effect_gained_lilin_power" } } ]
-    },
+    "condition": { "u_has_trait": "LILIN_TRAITS" },
     "deactivate_condition": { "not": { "u_has_trait": "LILIN_TRAITS" } },
     "effect": [ { "run_eocs": "EOC_LILIN_GAIN_POWERS_AT_NIGHT_ACTIVE", "time_in_future": [ "1 hours", "2 hours" ] } ]
   },
@@ -139,7 +137,8 @@
       "and": [
         "u_is_outside",
         { "not": "is_day" },
-        { "x_in_y_chance": { "x": { "math": [ "u_lilin_amount_of_ruach_spent_for_powers" ] }, "y": 250 } }
+        { "x_in_y_chance": { "x": { "math": [ "u_lilin_amount_of_ruach_spent_for_powers" ] }, "y": 250 } },
+        { "not": { "u_has_effect": "effect_gained_lilin_power" } }
       ]
     },
     "effect": [
@@ -168,7 +167,12 @@
         ]
       }
     ],
-    "false_effect": [ { "run_eocs": "EOC_LILIN_GAIN_POWERS_AT_NIGHT_ACTIVE", "time_in_future": [ "1 hours", "2 hours" ] } ]
+    "false_effect": [
+      {
+        "if": { "not": "is_day" },
+        "then": [ { "run_eocs": "EOC_LILIN_GAIN_POWERS_AT_NIGHT_ACTIVE", "time_in_future": [ "1 hours", "2 hours" ] } ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -282,8 +286,9 @@
     "required_event": "avatar_enters_omt",
     "condition": { "u_has_trait": "LILIN_TRAITS" },
     "effect": [
+      { "u_location_variable": { "context_val": "check_loc" } },
       {
-        "if": { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } },
+        "if": { "map_in_city": { "context_val": "check_loc" } },
         "then": { "math": [ "u_lilit_is_in_civilization = 1" ] },
         "else": { "math": [ "u_lilit_is_in_civilization = 0" ] }
       }

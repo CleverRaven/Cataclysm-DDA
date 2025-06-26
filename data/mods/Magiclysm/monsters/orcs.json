@@ -179,6 +179,7 @@
         "monster_message": "%1$s makes a frenzied cry and as they point, %3$s is surrounded by a red glow."
       }
     ],
-    "death_drops": "orc_blood_mage_death_drops"
+    "death_drops": "orc_blood_mage_death_drops",
+    "extend": { "flags": [ "MAGIC_USER" ] }
   }
 ]

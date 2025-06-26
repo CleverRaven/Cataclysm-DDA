@@ -42,6 +42,8 @@
 #  make BACKTRACE=0
 # Use libbacktrace. Only has effect if BACKTRACE=1. (currently only for MinGW and Linux builds)
 #  make LIBBACKTRACE=1
+# Instruct $(AR) to create a thick archive, copying to object files to cataclysm.a
+#  make THIN_AR=0
 # Compile localization files for specified languages
 #  make localization LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
@@ -104,12 +106,13 @@ WARNINGS = \
   -Wlogical-op \
   -Wmissing-declarations \
   -Wmissing-noreturn \
+  -Wpedantic \
+  -Wunused-macros
+CXX_WARNINGS = \
   -Wnon-virtual-dtor \
   -Wold-style-cast \
   -Woverloaded-virtual \
-  -Wpedantic \
   -Wsuggest-override \
-  -Wunused-macros \
   -Wzero-as-null-pointer-constant \
   -Wno-unknown-warning-option \
   -Wno-dangling-reference \
@@ -187,6 +190,11 @@ ifndef LINTJSON
   LINTJSON = 1
 endif
 
+# Enable building a thin archive by default
+ifndef THIN_AR
+  THIN_AR = 1
+endif
+
 # We don't want to have both 'check' and 'tests' as targets, because that will
 # result in make trying to build the tests twice in parallel, wasting time
 # (The tests target will be launched parallel to the check target, and both
@@ -253,11 +261,16 @@ endif
 # Windows sets the OS environment variable so we can cheaply test for it.
 ifneq (,$(findstring Windows_NT,$(OS)))
   IS_WINDOWS_HOST = 1
+  ifeq ($(MSYS2),1)
+    OS = Msys
+  else ifeq ($(MAKE_HOST),x86_64-pc-cygwin)
+    OS = Cygwin
+  else # MAKE_HOST=x86_64-w64-mingw32
+  endif
 else
   IS_WINDOWS_HOST = 0
+  OS = $(shell uname -o)
 endif
-
-OS = $(shell uname -s)
 
 ifneq ($(findstring Darwin,$(OS)),)
   ifndef NATIVE
@@ -481,10 +494,12 @@ else
   CXXFLAGS += $(OPTLEVEL)
 endif
 
-ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  OTHERS += -std=gnu++17
+ifeq ($(OS),Cygwin)
+  CXX_STD = -std=gnu++17
+  C_STD = -std=gnu17
 else
-  OTHERS += -std=c++17
+  CXX_STD = -std=c++17
+  C_STD = -std=c17
 endif
 
 ifeq ($(CYGWIN),1)
@@ -523,6 +538,7 @@ endif
 CPPFLAGS += -Isrc -isystem ${SRC_DIR}/third-party
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS)
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
+DEFINES += -DZSTD_STATIC_LINKING_ONLY -DZSTD_DISABLE_ASM
 
 BINDIST_EXTRAS += README.md data doc LICENSE.txt LICENSE-OFL-Terminus-Font.txt VERSION.txt $(JSON_FORMATTER_BIN)
 BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz
@@ -534,7 +550,7 @@ W32BINDIST_CMD = cd $(BINDIST_DIR) && zip -r ../$(W32BINDIST) * && cd $(BUILD_DI
 # Check if called without a special build target
 ifeq ($(NATIVE),)
   ifeq ($(CROSS),)
-    ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+    ifeq ($(OS),Cygwin)
       DEFINES += -DCATA_NO_CPP11_STRING_CONVERSIONS
       TARGETSYSTEM=CYGWIN
     else
@@ -576,8 +592,10 @@ endif
 # OSX
 ifeq ($(NATIVE), osx)
   DEFINES += -DMACOSX
-  CXXFLAGS += -mmacosx-version-min=10.13
-  LDFLAGS += -mmacosx-version-min=10.13 -framework CoreFoundation -Wl,-headerpad_max_install_names
+  CXXFLAGS += -mmacosx-version-min=10.15
+  LDFLAGS += -mmacosx-version-min=10.15 -framework CoreFoundation -Wl,-headerpad_max_install_names
+  # doesn't use GNU ar
+  THIN_AR=0
   ifeq ($(UNIVERSAL_BINARY), 1)
     CXXFLAGS += -arch x86_64 -arch arm64
     LDFLAGS += -arch x86_64 -arch arm64
@@ -835,9 +853,6 @@ else
 endif # TILES
 
 ifeq ($(SOUND), 1)
-  ifneq ($(TILES),1)
-    $(error "SOUND=1 only works with TILES=1")
-  endif
   ifeq ($(NATIVE),osx)
     ifndef FRAMEWORK # libsdl build
       ifeq ($(MACPORTS), 1)
@@ -902,6 +917,12 @@ ifeq ($(LOCALIZE),1)
   LOCALIZE_TEST_DEPS = localization $(TEST_MO)
 endif
 
+ifeq ($(THIN_AR), 1)
+  AR_FLAGS = --thin
+else
+  AR_FLAGS =
+endif
+
 ifeq ($(TARGETSYSTEM),LINUX)
   BINDIST_EXTRAS += cataclysm-launcher
   ifneq ("$(wildcard LICENSE-SDL.txt)","")
@@ -925,6 +946,10 @@ ifeq ($(MSYS2),1)
   CXXFLAGS += -DMSYS2
 endif
 
+CFLAGS := $(CXXFLAGS)
+CFLAGS += $(C_STD)
+CXXFLAGS += $(CXX_STD) $(CXX_WARNINGS)
+
 # Enumerations of all the source files and headers.
 ifeq ($(HEADERPOPULARITY), 1)
   # Alternate source file enumeration sorted in order of how many times the matching header file is included in source files
@@ -933,6 +958,7 @@ else
   SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
 endif
 THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp)
+THIRD_PARTY_C_SOURCES := $(wildcard $(SRC_DIR)/third-party/zstd/common/*.c $(SRC_DIR)/third-party/zstd/compress/*.c $(SRC_DIR)/third-party/zstd/decompress/*.c)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
 OBJECT_CREATOR_SOURCES := $(wildcard $object_creator/*.cpp)
 OBJECT_CREATOR_HEADERS := $(wildcard $object_creator/*.h)
@@ -962,6 +988,7 @@ ASTYLE_SOURCES := $(sort \
 
 # Third party sources should not be astyle'd
 SOURCES += $(THIRD_PARTY_SOURCES)
+C_SOURCES += $(THIRD_PARTY_C_SOURCES)
 
 IMGUI_SOURCES = $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_stdlib.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
 ifeq ($(SDL), 1)
@@ -975,6 +1002,7 @@ endif
 SOURCES += $(IMGUI_SOURCES)
 
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
+_OBJS += $(C_SOURCES:$(SRC_DIR)/%.c=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
   _OBJS += $(RSRC:$(SRC_DIR)/%.rc=%.o)
@@ -1061,7 +1089,7 @@ $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP -Wno-error -c $(PCH_H) -o $(PCH_P)
 
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
-	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
+	$(AR) rcs $(AR_FLAGS) $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
 .PHONY: version prefix
 version:
@@ -1090,17 +1118,20 @@ DIRS = $(sort $(dir $(OBJS)))
 $(shell mkdir -p $(DIRS))
 
 $(ODIR)/%.inc: $(SRC_DIR)/%.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -H -E $< -o /dev/null 2> $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -Wno-error -H -E $< -o /dev/null 2> $@
+
+$(ODIR)/%.inc: $(SRC_DIR)/%.c
+	$(CXX) -x c $(CPPFLAGS) $(DEFINES) $(CFLAGS) -Wno-error -H -E $< -o /dev/null 2> $@
 
 .PHONY: includes
 includes: $(OBJS:.o=.inc)
 	+make -C tests includes
 
-$(ODIR)/third-party/imgui/%.o: $(IMGUI_DIR)/%.cpp
+$(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.cpp
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -w -MMD -MP -c $< -o $@
 
-$(ODIR)/third-party/imtui/%.o: $(IMTUI_DIR)/%.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -w -MMD -MP -c $< -o $@
+$(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.c
+	$(CXX) -x c $(CPPFLAGS) $(DEFINES) $(CFLAGS) -w -MMD -MP -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(PCHFLAGS) -c $< -o $@
@@ -1271,7 +1302,6 @@ ifdef LANGUAGES
 	mkdir -p $(APPRESOURCESDIR)/lang/mo/
 	cp -pR lang/mo/* $(APPRESOURCESDIR)/lang/mo/
 endif
-ifeq ($(TILES), 1)
 ifeq ($(SOUND), 1)
 	cp -R data/sound $(APPDATADIR)
 endif  # ifeq ($(SOUND), 1)
@@ -1284,7 +1314,6 @@ ifeq ($(SOUND), 1)
 	cp -R $(FRAMEWORKSDIR)/SDL2_mixer.framework $(APPRESOURCESDIR)/
 endif  # ifeq ($(SOUND), 1)
 endif  # ifdef FRAMEWORK
-endif  # ifdef TILES
 	dylibbundler -of -b -x $(APPRESOURCESDIR)/$(APPTARGET) -d $(APPRESOURCESDIR)/ -p @executable_path/
 
 dmgdistclean:

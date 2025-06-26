@@ -2,7 +2,8 @@
   {
     "id": "inventor_light_minus_cell",
     "copy-from": "light_minus_disposable_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "ultra-light modified battery", "str_pl": "ultra-light modified batteries" },
     "description": "A light battery cell that was modified and replaced with much more effective cells inside.",
@@ -14,7 +15,8 @@
   {
     "id": "inventor_light_cell",
     "copy-from": "light_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "light modified battery", "str_pl": "light modified batteries" },
     "description": "A light battery cell that was modified and replaced with much more effective cells inside.",
@@ -26,7 +28,8 @@
   {
     "id": "inventor_medium_cell",
     "copy-from": "medium_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "medium modified battery", "str_pl": "medium modified batteries" },
     "description": "A medium battery cell that was modified and replaced with much more effective cells inside.",
@@ -38,7 +41,8 @@
   {
     "id": "inventor_heavy_cell",
     "copy-from": "heavy_plus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "modified tool battery", "str_pl": "modified tool batteries" },
     "description": "A tool battery cell that was modified and replaced with much more effective cells inside.",
@@ -49,7 +53,8 @@
   },
   {
     "id": "inventor_welder",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "welder",
     "name": { "str": "inventor's welder" },
     "description": "A lightweight, battery-powered tool to weld metal pieces together using a plasma-inducted electric arc.  A decent tool, but you think you can do more with some modifications.",
@@ -75,7 +80,8 @@
   },
   {
     "id": "heater_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "\"Heater\"", "str_pl": "\"Heaters\"" },
     "description": "An extremely small and light tool that creates and transfers the heat in an extremely effective way.  You think it would be interesting to develop it further.",
     "weight": "358 g",
@@ -85,7 +91,7 @@
     "symbol": ";",
     "color": "green",
     "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "INVENTOR_CRAFTED" ],
-    "ammo": [ "battery" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 20,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ] ],
     "use_action": [
@@ -107,20 +113,23 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "software_AI",
-    "copy-from": "software",
-    "type": "TOOL",
+    "copy-from": "abstract_software",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "IA software" },
-    "description": "A USB thumb drive with a simple intelligent agent to provide support in parsing big layers of information.",
+    "description": "A simple intelligent agent to provide support in parsing big layers of information.",
     "extend": { "flags": [ "INVENTOR_CRAFTED" ] },
     "qualities": [ [ "AI_TOOL", 1 ] ]
   },
   {
     "id": "inventor_portal_closer",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Netherium-Reality Smoothing Device" },
     "looks_like": "box_large_metal",
     "description": "An enormous industrial press shaped device, covered in sensors, circuits, and other doodads.  Two inverted teleporters are located on each side of the hammers, poised to perfectly align at the end of a strike.  Doing so will smoothen the overall local barrier between Earth and other realities, filling in any holes at the expense of weakening it in a much wider area.  This is an overall positive effect, allowing you to heal tears that would never naturally close, but expect large temporary side-effects.",
@@ -132,7 +141,6 @@
     "price": "100000 USD",
     "price_postapoc": "1000 USD",
     "charges_per_use": 3125,
-    "ammo": "battery",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -151,11 +159,14 @@
       }
     ],
     "use_action": [ { "type": "cast_spell", "spell_id": "inventor_portal_closer_spell", "no_fail": true, "level": 0 } ],
-    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ]
+    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "tool_ammo": "battery"
   },
   {
     "id": "xedra_inventor_time_pierce_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Time Piercing Device" },
     "description": "A small remote with a sharp spike at the end.  You can activate this device while poking it into a zone of frozen time in order to unfreeze the area you're touching.",
     "looks_like": "spike",
@@ -166,7 +177,7 @@
     "symbol": ";",
     "color": "white",
     "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED", "TRADER_AVOID" ],
-    "ammo": [ "battery" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 150,
     "use_action": {
       "type": "cast_spell",
@@ -184,6 +195,7 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "stab": 10 }
+    "melee_damage": { "stab": 10 },
+    "tool_ammo": [ "battery" ]
   }
 ]

@@ -1,10 +1,11 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_mycus_wine",
     "looks_like": "wine_mycus",
     "name": { "str_sp": "Mycus wine must" },
-    "description": "Unfermented Mycus wine.  A goopy white mess, made from Mycus fruit.  It smells sweetly of mushrooms.",
+    "description": "Unfermented Mycus wine.  A goopy white mess, made from Mycus fruit.  It smells sweetly of mushrooms.  You need to put it in a fermenting vat to brew it.",
     "material": [ { "type": "water", "portion": 757 }, { "type": "fruit", "portion": 757 }, { "type": "yeast", "portion": 1 } ],
     "weight": "48 g",
     "color": "white",
@@ -20,15 +21,17 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "7 days", "results": [ "wine_mycus", "yeast" ] },
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "wine_mycus", "yeast" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_marloss_wine",
     "looks_like": "wine_marloss",
     "name": { "str_sp": "Marloss wine must" },
-    "description": "Unfermented Marloss wine.  A soft pinkish mess, made from Marloss berries.  It has a strong aroma, but you're not quite sure if it's a good or bad one.",
+    "description": "Unfermented Marloss wine.  A soft pinkish mess, made from Marloss berries.  It has a strong aroma, but you're not quite sure if it's a good or bad one.  You need to put it in a fermenting vat to brew it.",
     "material": [ { "type": "water", "portion": 757 }, { "type": "fruit", "portion": 757 }, { "type": "yeast", "portion": 1 } ],
     "weight": "48 g",
     "color": "pink",
@@ -44,15 +47,17 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "7 days", "results": [ "wine_marloss", "yeast" ] },
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "wine_marloss", "yeast" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_whiskey",
     "looks_like": "wash_whiskey",
     "name": { "str_sp": "whiskey wort" },
-    "description": "Unfermented whiskey.  The base of a fine drink.  Not the traditional preparation, but you don't have the time.",
+    "description": "Unfermented whiskey.  The base of a fine drink.  Not the traditional preparation, but you don't have the time.  You need to put it in a fermenting vat to brew it.",
     "material": [
       { "type": "water", "portion": 757 },
       { "type": "wheat", "portion": 90 },
@@ -73,15 +78,17 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "7 days", "results": [ "wash_whiskey", "yeast" ] },
-    "vitamins": [ [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "wheat_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "wash_whiskey", "yeast" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "wash_whiskey",
     "looks_like": "whiskey",
     "name": { "str_sp": "whiskey wash" },
-    "description": "Fermented, but not distilled whiskey.  No longer tastes sweet.",
+    "description": "Fermented, but not distilled whiskey.  No longer tastes sweet.  You may want to distill it before drinking.",
     "material": [ { "type": "water", "portion": 100 }, { "type": "alcohol", "portion": 40 } ],
     "weight": "34 g",
     "color": "brown",
@@ -105,7 +112,8 @@
     "freezing_point": -15
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_gin",
     "looks_like": "gin_mash",
     "name": { "str_sp": "gin mash" },
@@ -125,10 +133,12 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "7 days", "results": [ "gin_mash" ] }
+    "brew_time": "7 days",
+    "brew_results": [ "gin_mash" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "gin_mash",
     "looks_like": "gin",
     "name": { "str_sp": "gin wash" },
@@ -156,7 +166,8 @@
     "freezing_point": -15
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_sake",
     "looks_like": "brew_vodka",
     "name": { "str_sp": "sake mash" },
@@ -180,11 +191,13 @@
     "volume": "36 ml",
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "7 days", "results": [ "sake_unfiltered", "koji", "yeast" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "sake_unfiltered", "koji", "yeast" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_soy_sauce",
     "name": { "str_sp": "unfermented soy sauce" },
     "description": "Brine with mashed soybeans, wheat flour and koji mold added to it.  If you want to make soy sauce from this, the next step would be to let it ferment.",
@@ -209,11 +222,13 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "freezing_point": -30,
-    "brewable": { "time": "21 days", "results": [ "soy_sauce_unstrained" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "brew_time": "21 days",
+    "brew_results": [ "soy_sauce_unstrained" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "soy_sauce_unstrained",
     "name": { "str_sp": "unstrained soy sauce" },
     "description": "Nearly-finished soy sauce that still has some solid particles floating in it.  Still needs to be strained, and also pasteurized to get rid of harmful bacteria.",
@@ -236,11 +251,12 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_vodka",
     "looks_like": "vodka",
     "name": { "str_sp": "vodka wort" },
-    "description": "Unfermented vodka.  Water with sugar from the enzymatic breakdown of malted grains, or just added in pure form.",
+    "description": "Unfermented vodka.  Water with sugar from the enzymatic breakdown of malted grains, or just added in pure form.  You need to put it in a fermenting vat to brew it.",
     "material": [ { "type": "water", "portion": 757 }, { "type": "veggy", "portion": 1500 }, { "type": "yeast", "portion": 1 } ],
     "weight": "34 g",
     "color": "light_cyan",
@@ -256,15 +272,17 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "7 days", "results": [ "wash_vodka", "yeast" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "wash_vodka", "yeast" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "wash_vodka",
     "looks_like": "vodka",
     "name": { "str_sp": "vodka wash" },
-    "description": "Fermented, but not distilled vodka.  No longer tastes sweet.",
+    "description": "Fermented, but not distilled vodka.  No longer tastes sweet.  You may want to distill it before drinking.",
     "material": [ { "type": "water", "portion": 100 }, { "type": "alcohol", "portion": 50 } ],
     "weight": "34 g",
     "color": "light_cyan",
@@ -288,11 +306,12 @@
     "freezing_point": -15
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_rum",
     "looks_like": "rum",
     "name": { "str_sp": "rum wort" },
-    "description": "Unfermented rum.  Sugar caramel or molasses brewed into sweet water.  Basically a saccharine soup.",
+    "description": "Unfermented rum.  Sugar caramel or molasses brewed into sweet water.  Basically a saccharine soup.  You need to put it in a fermenting vat to brew it.",
     "material": [ { "type": "water", "portion": 757 }, { "type": "sugar", "portion": 53 }, { "type": "yeast", "portion": 1 } ],
     "weight": "34 g",
     "color": "light_cyan",
@@ -308,14 +327,16 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "7 days", "results": [ "wash_rum", "yeast" ] }
+    "brew_time": "7 days",
+    "brew_results": [ "wash_rum", "yeast" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "wash_rum",
     "looks_like": "rum",
     "name": { "str_sp": "rum wash" },
-    "description": "Fermented, but not distilled rum.  No longer tastes sweet.",
+    "description": "Fermented, but not distilled rum.  No longer tastes sweet.  You may want to distill it before drinking.",
     "material": [ { "type": "water", "portion": 100 }, { "type": "alcohol", "portion": 40 } ],
     "weight": "34 g",
     "color": "light_cyan",
@@ -339,11 +360,12 @@
     "freezing_point": -15
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_fruit_wine",
     "looks_like": "fruit_wine",
     "name": { "str_sp": "fruit wine must" },
-    "description": "Unfermented fruit wine.  A sweet, boiled juice made from berries or fruit.",
+    "description": "Unfermented fruit wine.  A sweet, boiled juice made from berries or fruit.  You need to put it in a fermenting vat to brew it.",
     "material": [ { "type": "water", "portion": 757 }, { "type": "fruit", "portion": 757 }, { "type": "yeast", "portion": 1 } ],
     "weight": "34 g",
     "color": "light_red",
@@ -359,15 +381,17 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "7 days", "results": [ "fruit_wine", "yeast" ] },
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "fruit_wine", "yeast" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_mead",
     "looks_like": "mead",
     "name": { "str_sp": "plain mead must" },
-    "description": "Unfermented plain mead.  Diluted honey and yeast.",
+    "description": "Unfermented plain mead.  Diluted honey and yeast.  You need to put it in a fermenting vat to brew it.",
     "material": [ { "type": "water", "portion": 4 }, { "type": "honey", "portion": 1 } ],
     "weight": "34 g",
     "color": "yellow",
@@ -384,30 +408,36 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "14 days", "results": [ "plain_mead", "yeast" ] }
+    "brew_time": "14 days",
+    "brew_results": [ "plain_mead", "yeast" ]
   },
   {
     "id": "brew_hopped_mead",
     "copy-from": "brew_mead",
     "name": { "str_sp": "hopped mead must" },
-    "description": "Unfermented hopped mead.  Diluted honey cooked with hops for a bitter note, then cooled down and infused with yeast.",
-    "type": "COMESTIBLE",
-    "brewable": { "time": "14 days", "results": [ "hopped_mead", "yeast" ] }
+    "description": "Unfermented hopped mead.  Diluted honey cooked with hops for a bitter note, then cooled down and infused with yeast.  You need to put it in a fermenting vat to brew it.",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
+    "brew_time": "14 days",
+    "brew_results": [ "hopped_mead", "yeast" ]
   },
   {
     "id": "brew_spiced_mead",
     "copy-from": "brew_mead",
     "name": { "str_sp": "spiced mead must" },
-    "description": "Unfermented spiced mead.  Diluted honey infused with spices and yeast.",
-    "type": "COMESTIBLE",
-    "brewable": { "time": "14 days", "results": [ "spiced_mead", "yeast" ] }
+    "description": "Unfermented spiced mead.  Diluted honey infused with spices and yeast.  You need to put it in a fermenting vat to brew it.",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
+    "brew_time": "14 days",
+    "brew_results": [ "spiced_mead", "yeast" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_dandelion_wine",
     "looks_like": "dandelion_wine",
     "name": { "str_sp": "dandelion wine must" },
-    "description": "Unfermented dandelion wine.  A sticky mixture of water, sugar, yeast, and dandelion petals.",
+    "description": "Unfermented dandelion wine.  A sticky mixture of water, sugar, yeast, and dandelion petals.  You need to put it in a fermenting vat to brew it.",
     "material": [
       { "type": "water", "portion": 757 },
       { "type": "veggy", "portion": 757 },
@@ -428,15 +458,17 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "7 days", "results": [ "dandelion_wine", "yeast" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "dandelion_wine", "yeast" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_burdock_wine",
     "looks_like": "burdock_wine",
     "name": { "str_sp": "burdock wine must" },
-    "description": "Unfermented burdock wine.  A sticky mixture of water, sugar, yeast, and burdock roots.",
+    "description": "Unfermented burdock wine.  A sticky mixture of water, sugar, yeast, and burdock roots.  You need to put it in a fermenting vat to brew it.",
     "material": [
       { "type": "water", "portion": 757 },
       { "type": "veggy", "portion": 757 },
@@ -457,15 +489,17 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "7 days", "results": [ "burdock_wine", "yeast" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "burdock_wine", "yeast" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_pine_wine",
     "looks_like": "pine_wine",
     "name": { "str_sp": "pine wine must" },
-    "description": "Unfermented pine wine.  A sticky mixture of water, sugar, yeast, and pine resin.",
+    "description": "Unfermented pine wine.  A sticky mixture of water, sugar, yeast, and pine resin.  You need to put it in a fermenting vat to brew it.",
     "material": [
       { "type": "water", "portion": 757 },
       { "type": "veggy", "portion": 757 },
@@ -486,15 +520,17 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "7 days", "results": [ "pine_wine", "yeast" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "pine_wine", "yeast" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_hb_beer",
     "looks_like": "beer",
     "name": { "str_sp": "beer wort" },
-    "description": "Unfermented homebrew beer.  A boiled and chilled mash of malted barley, spiced with some fine hops.",
+    "description": "Unfermented homebrew beer.  A boiled and chilled mash of malted barley, spiced with some fine hops.  You need to put it in a fermenting vat to brew it.",
     "material": [
       { "type": "water", "portion": 757 },
       { "type": "veggy", "portion": 757 },
@@ -516,15 +552,17 @@
     "price_postapoc": "10 cent",
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "7 days", "results": [ "hb_beer", "yeast" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "hb_beer", "yeast" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_hb_seltzer",
     "looks_like": "hb_seltzer",
     "name": { "str_sp": "seltzer wort" },
-    "description": "Unfermented seltzer.  A boiled and chilled mash of refined sugar and fruit.",
+    "description": "Unfermented seltzer.  A boiled and chilled mash of refined sugar and fruit.  You need to put it in a fermenting vat to brew it.",
     "material": [
       { "type": "water", "portion": 757 },
       { "type": "veggy", "portion": 757 },
@@ -546,15 +584,17 @@
     "price_postapoc": "10 cent",
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "7 days", "results": [ "hb_seltzer", "yeast" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "hb_seltzer", "yeast" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_moonshine",
     "looks_like": "moonshine",
     "name": { "str_sp": "moonshine mash" },
-    "description": "Unfermented moonshine.  Just some water, sugar and corn, like good ol' auntie's recipe.  Using pumpkin instead of corn would reduce the amount of extra sugar you need to add.",
+    "description": "Unfermented moonshine.  Just some water, sugar and corn, like good ol' auntie's recipe.  Using pumpkin instead of corn would reduce the amount of extra sugar you need to add.  You need to put it in a fermenting vat to brew it.",
     "material": [ { "type": "water", "portion": 757 }, { "type": "veggy", "portion": 757 }, { "type": "sugar", "portion": 53 } ],
     "weight": "34 g",
     "color": "brown",
@@ -570,15 +610,17 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "5 days", "results": [ "wash_moonshine", "yeast" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "brew_time": "5 days",
+    "brew_results": [ "wash_moonshine", "yeast" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "wash_moonshine",
     "looks_like": "moonshine",
     "name": { "str_sp": "moonshine wash" },
-    "description": "Fermented, but not distilled moonshine.  Contains all the contaminants you don't want in your moonshine.",
+    "description": "Fermented, but not distilled moonshine.  Contains all the contaminants you don't want in your moonshine, so you may want to distill it first.",
     "material": [ { "type": "water", "portion": 100 }, { "type": "alcohol", "portion": 50 } ],
     "weight": "34 g",
     "color": "brown",
@@ -602,7 +644,8 @@
     "freezing_point": -15
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_milk_curdled",
     "looks_like": "milk",
     "name": { "str_sp": "curdling milk" },
@@ -623,11 +666,13 @@
     "phase": "liquid",
     "fun": -12,
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "4 hours", "results": [ "milk_curdled" ] },
-    "vitamins": [ [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "milk_allergen", 1 ] ],
+    "brew_time": "4 hours",
+    "brew_results": [ "milk_curdled" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_vinegar",
     "looks_like": "vinegar",
     "name": { "str_sp": "unfermented vinegar" },
@@ -648,11 +693,13 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "14 days", "results": [ "vinegar" ] },
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "brew_time": "14 days",
+    "brew_results": [ "vinegar" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "young_yeast",
     "looks_like": "yeast",
     "name": { "str_sp": "growing wild yeast" },
@@ -673,10 +720,12 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "3 days", "results": { "yeast": 25 } }
+    "brew_time": "3 days",
+    "brew_results": { "yeast": 25 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "malting_grain",
     "looks_like": "malted_grain",
     "name": { "str_sp": "malting grain" },
@@ -705,7 +754,8 @@
     }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "malted_grain",
     "name": { "str_sp": "malted grain" },
     "weight": "336 g",
@@ -725,7 +775,8 @@
     "fun": -15
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "soaking_dandelion",
     "looks_like": "dandelion",
     "name": { "str_sp": "soaking dandelion" },
@@ -753,7 +804,8 @@
     }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "soaked_dandelion",
     "looks_like": "dandelion",
     "name": { "str_sp": "soaked dandelion" },
@@ -774,7 +826,8 @@
     "fun": -4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fermenting_yogurt",
     "looks_like": "milk",
     "name": { "str_sp": "fermenting yogurt" },
@@ -806,11 +859,12 @@
     "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_rootbeer",
     "looks_like": "brew_mead",
     "name": { "str_sp": "unfermented root beer" },
-    "description": "A mixture of water, sugar, yeast and sassafras roots that will eventually become root beer.",
+    "description": "A mixture of water, sugar, yeast and sassafras roots that will eventually become root beer, if brewed in a fermenting vat.",
     "weight": "37 g",
     "color": "brown",
     "container": "bottle_glass",
@@ -825,6 +879,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "1 days", "results": [ "rootbeer_brewed" ] }
+    "brew_time": "1 days",
+    "brew_results": [ "rootbeer_brewed" ]
   }
 ]

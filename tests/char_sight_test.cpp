@@ -1,21 +1,33 @@
-#include <list>
 #include <memory>
+#include <ostream>
+#include <string>
 
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
 #include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "lightmap.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
+#include "memory_fast.h"
+#include "npc.h"
 #include "options_helpers.h"
+#include "overmapbuffer.h"
 #include "player_helpers.h"
+#include "point.h"
 #include "type_id.h"
+#include "weather_type.h"
 
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_darkness( "darkness" );
+
+static const itype_id itype_atomic_lamp( "atomic_lamp" );
+static const itype_id itype_blindfold( "blindfold" );
+static const itype_id itype_glasses_eye( "glasses_eye" );
 
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
@@ -72,7 +84,7 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
     }
 
     SECTION( "wielding a bright lamp" ) {
-        item lamp( "atomic_lamp" );
+        item lamp( itype_atomic_lamp );
         dummy.wield( lamp );
         REQUIRE( dummy.active_light() == Approx( 15.0f ) );
 
@@ -89,7 +101,7 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
         calendar::turn = calendar::turn_zero;
         tripoint_rel_ms const z_shift = GENERATE( tripoint_rel_ms::above, tripoint_rel_ms::zero );
         // This implicitly rebuilds the light map but in a hacky way so we need to prevent the player falling
-        dummy.setpos( dummy.pos_bub() + z_shift, false );
+        dummy.setpos( dummy.pos_abs() + z_shift, false );
         CAPTURE( z_shift );
         REQUIRE_FALSE( g->is_in_sunlight( dummy.pos_bub() ) );
         REQUIRE( here.ambient_light_at( dummy.pos_bub() ) == Approx( LIGHT_AMBIENT_MINIMAL ) );
@@ -97,11 +109,11 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
         // 7.3 is LIGHT_AMBIENT_MINIMAL, a dark cloudy night, unlit indoors
         CHECK( dummy.fine_detail_vision_mod() == Approx( 7.3f ) );
 
-        dummy.setpos( dummy.pos_bub() - z_shift, false );
+        dummy.setpos( dummy.pos_abs() - z_shift, false );
     }
 
     SECTION( "blindfolded" ) {
-        dummy.wear_item( item( "blindfold" ) );
+        dummy.wear_item( item( itype_blindfold ) );
         REQUIRE( dummy.worn_with_flag( flag_BLIND ) );
 
         // 11.0 is zero light or blindness
@@ -112,7 +124,10 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
 TEST_CASE( "npc_light_and_fine_detail_vision_mod", "[character][npc][sight][light][vision]" )
 {
     Character &u = get_player_character();
-    standard_npc n( "Mr. Testerman" );
+    shared_ptr_fast<npc> guy = make_shared_fast<npc>();
+    overmap_buffer.insert_npc( guy );
+    g->load_npcs();
+    npc &n = *guy;
     n.set_body();
 
     clear_avatar();
@@ -120,7 +135,7 @@ TEST_CASE( "npc_light_and_fine_detail_vision_mod", "[character][npc][sight][ligh
     tripoint const u_shift = GENERATE( tripoint::zero, tripoint::above );
     CAPTURE( u_shift );
     // Allow player to float for purpose of purely testing this and not factoring in terrain potentially blocking vision etc
-    u.setpos( u.pos_bub() + u_shift, false );
+    u.setpos( u.pos_abs() + u_shift, false );
     scoped_weather_override weather_clear( WEATHER_CLEAR );
 
     time_point time_dst;
@@ -139,11 +154,11 @@ TEST_CASE( "npc_light_and_fine_detail_vision_mod", "[character][npc][sight][ligh
     REQUIRE( u.fine_detail_vision_mod() == expected_vision );
     SECTION( "NPC on same z-level" ) {
         // Allow NPC to float for purpose of purely testing this and not factoring in terrain potentially blocking vision etc
-        n.setpos( u.pos_bub() + tripoint_rel_ms::east, false );
+        n.setpos( u.pos_abs() + tripoint_rel_ms::east, false );
         CHECK( n.fine_detail_vision_mod() == u.fine_detail_vision_mod() );
     }
     SECTION( "NPC on a different z-level" ) {
-        n.setpos( u.pos_bub() + tripoint_rel_ms::above, false );
+        n.setpos( u.pos_abs() + tripoint_rel_ms::above, false );
         // light map is not calculated outside the player character's z-level
         // even if fov_3d_z_range > 0, and building light map on multiple levels
         // could be expensive, so make NPCs able to see things in this case to
@@ -175,14 +190,14 @@ TEST_CASE( "character_sight_limits", "[character][sight][vision]" )
         here.build_map_cache( 0, false );
         REQUIRE_FALSE( g->is_in_sunlight( dummy.pos_bub() ) );
 
-        THEN( "sight limit is 60 tiles away" ) {
+        THEN( "sight limit is" << MAX_VIEW_DISTANCE << "tiles away" ) {
             dummy.recalc_sight_limits();
-            CHECK( dummy.unimpaired_range() == 60 );
+            CHECK( dummy.unimpaired_range() == MAX_VIEW_DISTANCE );
         }
     }
 
     WHEN( "blindfolded" ) {
-        dummy.wear_item( item( "blindfold" ) );
+        dummy.wear_item( item( itype_blindfold ) );
         REQUIRE( dummy.worn_with_flag( flag_BLIND ) );
 
         THEN( "impaired sight, with 0 tiles of range" ) {
@@ -219,13 +234,13 @@ TEST_CASE( "character_sight_limits", "[character][sight][vision]" )
         }
 
         WHEN( "wearing glasses" ) {
-            dummy.wear_item( item( "glasses_eye" ) );
+            dummy.wear_item( item( itype_glasses_eye ) );
             REQUIRE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );
 
-            THEN( "unimpaired sight, with 60 tiles of range" ) {
+            THEN( "unimpaired sight, with " << MAX_VIEW_DISTANCE << " tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK_FALSE( dummy.sight_impaired() );
-                CHECK( dummy.unimpaired_range() == 60 );
+                CHECK( dummy.unimpaired_range() == MAX_VIEW_DISTANCE );
             }
         }
     }
@@ -284,7 +299,7 @@ TEST_CASE( "ursine_vision", "[character][ursine][vision]" )
             THEN( "unimpaired sight, with 7 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK_FALSE( dummy.sight_impaired() );
-                CHECK( dummy.unimpaired_range() == 60 );
+                CHECK( dummy.unimpaired_range() == MAX_VIEW_DISTANCE );
                 CHECK( dummy.sight_range( light_here ) == 7 );
             }
         }
@@ -298,7 +313,7 @@ TEST_CASE( "ursine_vision", "[character][ursine][vision]" )
             THEN( "unimpaired sight, with 8 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK_FALSE( dummy.sight_impaired() );
-                CHECK( dummy.unimpaired_range() == 60 );
+                CHECK( dummy.unimpaired_range() == MAX_VIEW_DISTANCE );
                 CHECK( dummy.sight_range( light_here ) == 8 );
             }
         }
@@ -312,7 +327,7 @@ TEST_CASE( "ursine_vision", "[character][ursine][vision]" )
             THEN( "unimpaired sight, with 27 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK_FALSE( dummy.sight_impaired() );
-                CHECK( dummy.unimpaired_range() == 60 );
+                CHECK( dummy.unimpaired_range() == MAX_VIEW_DISTANCE );
                 CHECK( dummy.sight_range( light_here ) == 18 );
             }
         }
@@ -333,13 +348,13 @@ TEST_CASE( "ursine_vision", "[character][ursine][vision]" )
 
             // Glasses can correct Ursine Vision in bright light
             AND_WHEN( "wearing glasses" ) {
-                dummy.wear_item( item( "glasses_eye" ) );
+                dummy.wear_item( item( itype_glasses_eye ) );
                 REQUIRE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );
 
                 THEN( "unimpaired sight, with 87 tiles of range" ) {
                     dummy.recalc_sight_limits();
                     CHECK_FALSE( dummy.sight_impaired() );
-                    CHECK( dummy.unimpaired_range() == 60 );
+                    CHECK( dummy.unimpaired_range() == MAX_VIEW_DISTANCE );
                     CHECK( dummy.sight_range( light_here ) == 87 );
                 }
             }

@@ -1,7 +1,8 @@
 [
   {
     "id": "bolas",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "weapons",
     "name": { "str": "bolas", "str_pl": "bolases" },
     "description": "Some ropes with weights, designed to tangle the legs of a target when thrown, usually at an animal.  Used by the Gauchos of Argentina.",
@@ -16,7 +17,7 @@
     "flags": [ "NOGIB", "TANGLE", "PRIMITIVE_RANGED_WEAPON" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "disc_golf",
     "category": "other",
     "price": "10 USD",
@@ -32,7 +33,7 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "frisbee",
     "category": "other",
     "price": "10 USD",
@@ -47,7 +48,8 @@
   },
   {
     "id": "net",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "weapons",
     "name": { "str": "net" },
     "description": "A mesh of string and weights, traditionally used to catch fish and to entangle opponents in combat.",
@@ -62,7 +64,7 @@
     "flags": [ "NOGIB", "TANGLE", "PRIMITIVE_RANGED_WEAPON" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lawn_dart",
     "category": "weapons",
     "price": "10 USD",
@@ -80,7 +82,7 @@
     "melee_damage": { "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "weighted_dart",
     "category": "weapons",
     "price": "10 USD",
@@ -99,7 +101,7 @@
     "melee_damage": { "cut": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "throwing_axe",
     "category": "weapons",
     "price": "124 USD",
@@ -118,7 +120,7 @@
     "melee_damage": { "bash": 10, "cut": 17 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "throwing_knife",
     "category": "weapons",
     "price": "52 USD",
@@ -139,7 +141,8 @@
   },
   {
     "id": "throwing_stick",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "weapons",
     "name": { "str": "throwing stick" },
     "description": "A stick carved into a shape suitable for throwing at a target.  It's not a boomerang, so don't expect it to return to your hand.",
@@ -155,7 +158,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "javelin_fletched",
     "name": { "str": "iron war dart" },
     "description": "An iron-tipped fletched throwing spear with a throwing loop for extra range.",
@@ -175,7 +178,7 @@
     "melee_damage": { "bash": 5, "stab": 18 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "javelin_fletched_bronze",
     "name": { "str": "bronze war dart" },
     "description": "A bronze-tipped fletched throwing spear with a throwing loop for extra range.",
@@ -192,5 +195,33 @@
     "price": "90 USD",
     "price_postapoc": "5 USD",
     "melee_damage": { "bash": 5, "stab": 16 }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "id": "nether_huntsman_javelin",
+    "name": { "str": "huntsman outgrowth" },
+    "copy-from": "javelin_fletched",
+    "symbol": "/",
+    "color": "light_gray",
+    "description": "A wet alien rod with a sharp point at the end, vaguely shaped like a javelin of sorts.  It is heavier than what you expected, and gives off a weird acidic smell you can't quite describe.",
+    "material": [ "bone" ],
+    "volume": "1400 ml",
+    "weight": "1200 g",
+    "longest_side": "76 cm",
+    "ammo_type": "nether_huntsman_javelin_ammo",
+    "damage": { "damage_type": "stab", "amount": 14 },
+    "count": 1,
+    "stack_size": 1,
+    "dispersion": 15,
+    "loudness": 0,
+    "recovery_chance": 90,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "uneven" },
+    "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 10 } ],
+    "flags": [ "NONCONDUCTIVE", "JAVELIN", "NPC_THROWN" ],
+    "weapon_category": [ "POLEARMS", "SPEARS" ],
+    "price": "0 cent",
+    "price_postapoc": "50 cent",
+    "melee_damage": { "bash": 5, "stab": 10 }
   }
 ]

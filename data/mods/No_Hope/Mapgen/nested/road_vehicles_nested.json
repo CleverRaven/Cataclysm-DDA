@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_end_vehicles",
     "//": "TODO: Should use an external option to disable the vanilla versions rather than 999999 weight",
     "weight": 999999,
@@ -52,7 +51,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_straight_vehicles",
     "weight": 999999,
     "object": {
@@ -106,7 +104,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_curved_vehicles",
     "weight": 999999,
     "object": {
@@ -160,7 +157,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_tee_vehicles",
     "weight": 999999,
     "object": {
@@ -218,7 +214,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_four_way_crossroad_vehicles",
     "weight": 999999,
     "object": {
@@ -280,7 +275,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_north",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -299,7 +293,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -318,7 +311,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_south",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -337,7 +329,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -356,47 +347,42 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_north_north_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
-      "place_vehicles": [ { "vehicle": "highway", "x": [ 15, 17 ], "y": 5, "fuel": -1, "status": 1, "chance": 100, "rotation": 270 } ]
+      "place_vehicles": [ { "vehicle": "highway", "x": [ 15, 17 ], "y": 5, "fuel": -1, "status": 1, "rotation": 270 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_north_south_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
-      "place_vehicles": [ { "vehicle": "highway", "x": [ 7, 9 ], "y": 11, "fuel": -1, "status": 1, "chance": 100, "rotation": 90 } ]
+      "place_vehicles": [ { "vehicle": "highway", "x": [ 7, 9 ], "y": 11, "fuel": -1, "status": 1, "rotation": 90 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_west_east_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
-      "place_vehicles": [ { "vehicle": "highway", "x": 11, "y": [ 14, 16 ], "fuel": -1, "status": 1, "chance": 100, "rotation": 0 } ]
+      "place_vehicles": [ { "vehicle": "highway", "x": 11, "y": [ 14, 16 ], "fuel": -1, "status": 1, "rotation": 0 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_west_west_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
-      "place_vehicles": [ { "vehicle": "highway", "x": 5, "y": [ 7, 9 ], "fuel": -1, "status": 1, "chance": 100, "rotation": 180 } ]
+      "place_vehicles": [ { "vehicle": "highway", "x": 5, "y": [ 7, 9 ], "fuel": -1, "status": 1, "rotation": 180 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_south_north_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -406,7 +392,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_south_south_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -416,7 +401,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_east_east_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -426,7 +410,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_country_out_of_fuel_east_west_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -436,7 +419,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_north",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -452,7 +434,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -468,7 +449,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_south",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -484,7 +464,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -500,7 +479,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_north_north_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -514,7 +492,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_north_south_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -528,7 +505,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_east_east_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -542,7 +518,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_east_west_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -556,7 +531,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_south_north_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -570,7 +544,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_south_south_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -584,7 +557,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_west_east_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -598,7 +570,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_wrecks_west_west_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -612,7 +583,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_north",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -628,7 +598,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_east",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -644,7 +613,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_south",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -660,7 +628,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_west",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -676,47 +643,42 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_north_north_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
-      "place_vehicles": [ { "vehicle": "city_vehicles_wr", "x": [ 15, 17 ], "y": 5, "fuel": -1, "status": 1, "chance": 100, "rotation": 270 } ]
+      "place_vehicles": [ { "vehicle": "city_vehicles_wr", "x": [ 15, 17 ], "y": 5, "fuel": -1, "status": 1, "rotation": 270 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_north_south_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
-      "place_vehicles": [ { "vehicle": "city_vehicles_wr", "x": [ 7, 9 ], "y": 11, "fuel": -1, "status": 1, "chance": 100, "rotation": 90 } ]
+      "place_vehicles": [ { "vehicle": "city_vehicles_wr", "x": [ 7, 9 ], "y": 11, "fuel": -1, "status": 1, "rotation": 90 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_west_east_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
-      "place_vehicles": [ { "vehicle": "city_vehicles_wr", "x": 11, "y": [ 14, 16 ], "fuel": -1, "status": 1, "chance": 100, "rotation": 0 } ]
+      "place_vehicles": [ { "vehicle": "city_vehicles_wr", "x": 11, "y": [ 14, 16 ], "fuel": -1, "status": 1, "rotation": 0 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_west_west_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
-      "place_vehicles": [ { "vehicle": "city_vehicles_wr", "x": 5, "y": [ 7, 9 ], "fuel": -1, "status": 1, "chance": 100, "rotation": 180 } ]
+      "place_vehicles": [ { "vehicle": "city_vehicles_wr", "x": 5, "y": [ 7, 9 ], "fuel": -1, "status": 1, "rotation": 180 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_south_north_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -726,7 +688,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_south_south_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -736,7 +697,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_east_east_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -746,7 +706,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_parked_east_west_facing",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -756,7 +715,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_special",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -776,7 +734,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_jack-knifed_semi",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -797,69 +754,64 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_jack-knifed_semi_north",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_vehicles": [
-        { "vehicle": "semi_truck", "x": 15, "y": 4, "fuel": -1, "status": 1, "chance": 100, "rotation": 290 },
-        { "vehicle": "truck_trailer", "x": 18, "y": 12, "fuel": -1, "status": 1, "chance": 100, "rotation": 20 }
+        { "vehicle": "semi_truck", "x": 15, "y": 4, "fuel": -1, "status": 1, "rotation": 290 },
+        { "vehicle": "truck_trailer", "x": 18, "y": 12, "fuel": -1, "status": 1, "rotation": 20 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_jack-knifed_semi_east",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_vehicles": [
-        { "vehicle": "semi_truck", "x": 19, "y": 15, "fuel": -1, "status": 1, "chance": 100, "rotation": 20 },
-        { "vehicle": "truck_trailer", "x": 11, "y": 18, "fuel": -1, "status": 1, "chance": 100, "rotation": 110 }
+        { "vehicle": "semi_truck", "x": 19, "y": 15, "fuel": -1, "status": 1, "rotation": 20 },
+        { "vehicle": "truck_trailer", "x": 11, "y": 18, "fuel": -1, "status": 1, "rotation": 110 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_jack-knifed_semi_south",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_vehicles": [
-        { "vehicle": "semi_truck", "x": 8, "y": 19, "fuel": -1, "status": 1, "chance": 100, "rotation": 110 },
-        { "vehicle": "truck_trailer", "x": 5, "y": 11, "fuel": -1, "status": 1, "chance": 100, "rotation": 200 }
+        { "vehicle": "semi_truck", "x": 8, "y": 19, "fuel": -1, "status": 1, "rotation": 110 },
+        { "vehicle": "truck_trailer", "x": 5, "y": 11, "fuel": -1, "status": 1, "rotation": 200 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_jack-knifed_semi_west",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_vehicles": [
-        { "vehicle": "semi_truck", "x": 4, "y": 8, "fuel": -1, "status": 1, "chance": 100, "rotation": 200 },
-        { "vehicle": "truck_trailer", "x": 12, "y": 5, "fuel": -1, "status": 1, "chance": 100, "rotation": 290 }
+        { "vehicle": "semi_truck", "x": 4, "y": 8, "fuel": -1, "status": 1, "rotation": 200 },
+        { "vehicle": "truck_trailer", "x": 12, "y": 5, "fuel": -1, "status": 1, "rotation": 290 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_vehicle_pileup",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_vehicles": [
-        { "vehicle": "city_pileup", "x": 12, "y": 8, "fuel": -1, "status": 1, "chance": 100, "rotation": 270 },
-        { "vehicle": "city_pileup", "x": 8, "y": 12, "fuel": -1, "status": 1, "chance": 100, "rotation": 0 },
-        { "vehicle": "city_pileup", "x": 12, "y": 16, "fuel": -1, "status": 1, "chance": 100, "rotation": 90 },
-        { "vehicle": "city_pileup", "x": 15, "y": 12, "fuel": -1, "status": 1, "chance": 100, "rotation": 180 },
-        { "vehicle": "city_pileup", "x": 12, "y": 12, "fuel": -1, "status": 1, "chance": 100, "rotation": 270 },
+        { "vehicle": "city_pileup", "x": 12, "y": 8, "fuel": -1, "status": 1, "rotation": 270 },
+        { "vehicle": "city_pileup", "x": 8, "y": 12, "fuel": -1, "status": 1, "rotation": 0 },
+        { "vehicle": "city_pileup", "x": 12, "y": 16, "fuel": -1, "status": 1, "rotation": 90 },
+        { "vehicle": "city_pileup", "x": 15, "y": 12, "fuel": -1, "status": 1, "rotation": 180 },
+        { "vehicle": "city_pileup", "x": 12, "y": 12, "fuel": -1, "status": 1, "rotation": 270 },
         {
           "vehicle": "city_pileup",
           "x": [ 8, 16 ],
@@ -928,17 +880,16 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_wr_city_policecar_pileup",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_vehicles": [
-        { "vehicle": "police_pileup", "x": 12, "y": 8, "fuel": -1, "status": 1, "chance": 100, "rotation": 270 },
-        { "vehicle": "police_pileup", "x": 8, "y": 12, "fuel": -1, "status": 1, "chance": 100, "rotation": 0 },
-        { "vehicle": "police_pileup", "x": 12, "y": 16, "fuel": -1, "status": 1, "chance": 100, "rotation": 90 },
-        { "vehicle": "police_pileup", "x": 16, "y": 12, "fuel": -1, "status": 1, "chance": 100, "rotation": 180 },
-        { "vehicle": "police_pileup", "x": 12, "y": 12, "fuel": -1, "status": 1, "chance": 100, "rotation": 270 },
+        { "vehicle": "police_pileup", "x": 12, "y": 8, "fuel": -1, "status": 1, "rotation": 270 },
+        { "vehicle": "police_pileup", "x": 8, "y": 12, "fuel": -1, "status": 1, "rotation": 0 },
+        { "vehicle": "police_pileup", "x": 12, "y": 16, "fuel": -1, "status": 1, "rotation": 90 },
+        { "vehicle": "police_pileup", "x": 16, "y": 12, "fuel": -1, "status": 1, "rotation": 180 },
+        { "vehicle": "police_pileup", "x": 12, "y": 12, "fuel": -1, "status": 1, "rotation": 270 },
         {
           "vehicle": "police_pileup",
           "x": [ 5, 16 ],

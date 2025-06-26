@@ -1,5 +1,27 @@
 [
   {
+    "id": "fd_tear_in_reality_temporary",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "lingering distortion", "color": "light_gray", "sym": "*", "dangerous": true },
+      {
+        "name": "crack in reality",
+        "color": "magenta",
+        "transparent": false,
+        "monster_spawn_chance": 60,
+        "monster_spawn_count": 1,
+        "monster_spawn_radius": 1,
+        "monster_spawn_group": "GROUP_NETHER_REALITY_TEAR_FIELD"
+      }
+    ],
+    "description_affix": "under",
+    "priority": 8,
+    "display_items": true,
+    "display_field": true,
+    "looks_like": "fd_fatigue",
+    "half_life": "10 minutes"
+  },
+  {
     "id": "fd_pyrokinetic_summon_heat_1",
     "type": "field_type",
     "intensity_levels": [

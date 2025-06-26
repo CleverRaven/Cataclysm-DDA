@@ -2,15 +2,15 @@
 #ifndef CATA_SRC_TALKER_ITEM_H
 #define CATA_SRC_TALKER_ITEM_H
 
-#include <vector>
+#include <memory>
+#include <string>
 
 #include "coords_fwd.h"
 #include "talker.h"
 #include "type_id.h"
+#include "units_fwd.h"
 
-class item;
-
-struct tripoint;
+class item_location;
 
 /*
  * Talker wrapper class for item.
@@ -33,15 +33,14 @@ class talker_item_const: public const_talker_cloner<talker_item_const>
         // identity and location
         std::string disp_name() const override;
         std::string get_name() const override;
-        int posx() const override;
-        int posy() const override;
+        int posx( const map &here ) const override;
+        int posy( const map &here ) const override;
         int posz() const override;
-        tripoint pos() const override;
-        tripoint_bub_ms pos_bub() const override;
-        tripoint_abs_ms global_pos() const override;
-        tripoint_abs_omt global_omt_location() const override;
+        tripoint_bub_ms pos_bub( const map &here ) const override;
+        tripoint_abs_ms pos_abs() const override;
+        tripoint_abs_omt pos_abs_omt() const override;
 
-        std::optional<std::string> maybe_get_value( const std::string &var_name ) const override;
+        diag_value const *maybe_get_value( const std::string &var_name ) const override;
 
         bool has_flag( const flag_id &f ) const override;
 
@@ -59,6 +58,7 @@ class talker_item_const: public const_talker_cloner<talker_item_const>
         int encumbrance_at( bodypart_id & ) const override;
         int get_volume() const override;
         int get_weight() const override;
+        int get_quality( const std::string &, bool strict ) const override;
 
     private:
         const item_location *me_it_const{};
@@ -80,13 +80,15 @@ class talker_item: public talker_item_const, public talker_cloner<talker_item>
             return me_it;
         }
 
-        void set_value( const std::string &var_name, const std::string &value ) override;
+        void set_value( const std::string &var_name, diag_value const &value ) override;
         void remove_value( const std::string & ) override;
 
         void set_power_cur( units::energy value ) override;
         void set_all_parts_hp_cur( int ) override;
         void set_degradation( int ) override;
-        void die() override;
+        void die( map *here ) override;
+        void set_fault( const fault_id &fault_id, bool force, bool message ) override;
+        void set_random_fault_of_type( const std::string &fault_type, bool force, bool message ) override;
 
     private:
         item_location *me_it{};

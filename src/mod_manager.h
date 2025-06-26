@@ -3,24 +3,24 @@
 #define CATA_SRC_MOD_MANAGER_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "cata_path.h"
 #include "output.h"
-#include "path_info.h"
 #include "pimpl.h"
+#include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-
-struct WORLD;
 
 class JsonObject;
 class dependency_tree;
 class mod_manager;
+struct WORLD;
 
 const std::vector<std::pair<std::string, translation>> &get_mod_list_categories();
 const std::vector<std::pair<std::string, translation>> &get_mod_list_tabs();
@@ -58,6 +58,9 @@ struct MOD_INFORMATION {
 
         /** What other mods must be loaded prior to this one? */
         std::vector<mod_id> dependencies;
+
+        /** What other mods are incompatible with this one? */
+        std::vector<mod_id> conflicts;
 
         /** Core mods are loaded before any other mods */
         bool core = false;
@@ -193,6 +196,8 @@ class mod_ui
                       std::vector<mod_id> &active_list );
         void try_rem( size_t selection, std::vector<mod_id> &active_list );
         void try_shift( char direction, size_t &selection, std::vector<mod_id> &active_list );
+
+        bool confirm_mod_compatibility( const mod_id &checked_mod, const std::vector<mod_id> &active_list );
 
         bool can_shift_up( size_t selection, const std::vector<mod_id> &active_list );
         bool can_shift_down( size_t selection, const std::vector<mod_id> &active_list );

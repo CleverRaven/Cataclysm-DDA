@@ -119,7 +119,7 @@
       { "item": "trenchcoat_steampunk", "prob": 15 },
       { "item": "plaguedoctor_robe", "prob": 15 },
       { "item": "nun_habit", "prob": 10 },
-      { "item": "suit_bostonchan", "prob": 20 }
+      { "item": "blazer", "variant": "bostonchan", "prob": 20 }
     ]
   },
   {
@@ -160,7 +160,7 @@
       { "item": "maid_dress_short", "prob": 35 },
       { "item": "kimono", "prob": 5 },
       { "item": "yukata", "prob": 5 },
-      { "item": "gown", "prob": 5 },
+      { "item": "dress", "variant": "gown", "prob": 5 },
       { "item": "dress_wedding", "prob": 5 }
     ]
   },
@@ -263,7 +263,7 @@
       { "item": "mask_hockey", "prob": 20 },
       { "item": "bondage_mask", "prob": 5 },
       { "item": "blindfold", "prob": 5 },
-      { "item": "balaclava_skull", "prob": 25 },
+      { "item": "balclava", "variant": "skull", "prob": 25 },
       { "item": "mask_skull", "prob": 20 },
       { "item": "scarf_long", "prob": 10 },
       { "item": "mask_dust", "variant": "skull_mask_dust", "prob": 20 },
@@ -326,8 +326,7 @@
       { "item": "postman_shirt", "prob": 10 },
       { "item": "tshirt", "variant": "flag_shirt" },
       { "item": "dress_shirt", "prob": 10 },
-      { "item": "longshirt", "prob": 10 },
-      { "item": "striped_shirt", "prob": 15 }
+      { "item": "longshirt", "prob": 10 }
     ]
   },
   {
@@ -344,15 +343,16 @@
       { "item": "tux", "prob": 10 },
       { "item": "fursuit", "prob": 15 },
       { "item": "clown_suit", "prob": 10 },
-      { "item": "dragonsuit", "prob": 10 },
-      { "item": "felinesuit", "prob": 10 },
+      { "item": "fursuit", "variant": "dragonsuit", "prob": 10 },
+      { "item": "fursuit", "variant": "felinesuit", "prob": 10 },
+      { "item": "fursuit", "variant": "dinosuit", "prob": 10 },
+      { "item": "fursuit", "variant": "sharksuit", "prob": 10 },
       { "item": "bondage_suit", "prob": 15 },
       { "item": "wool_suit_devil", "prob": 15 },
       { "item": "bunny_suit_playboy", "prob": 25 },
-      { "item": "dinosuit", "prob": 10 },
-      { "item": "sharksuit", "prob": 10 },
       { "item": "beekeeping_suit", "prob": 5 },
-      { "item": "zentai", "prob": 5 }
+      { "item": "zentai", "prob": 5 },
+      { "item": "jumpsuit_pocketless", "variant": "orange" }
     ]
   },
   {

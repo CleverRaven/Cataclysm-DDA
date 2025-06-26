@@ -3,6 +3,7 @@
 #include <functional>
 #include <string>
 #include <unordered_map>
+#include <utility>
 
 #include "behavior.h"
 #include "character_oracle.h"
@@ -11,7 +12,7 @@
 namespace behavior
 {
 
-status_t return_running( const oracle_t *, const std::string_view )
+status_t return_running( const oracle_t *, std::string_view )
 {
     return status_t::running;
 }
@@ -20,7 +21,7 @@ status_t return_running( const oracle_t *, const std::string_view )
 static std::function < status_t( const oracle_t *, std::string_view ) >
 make_function( status_t ( character_oracle_t::* fun )( std::string_view ) const )
 {
-    return static_cast<status_t ( oracle_t::* )( const std::string_view ) const>( fun );
+    return static_cast<status_t ( oracle_t::* )( std::string_view ) const>( fun );
 }
 
 static std::function < status_t( const oracle_t *, std::string_view ) >

@@ -1,55 +1,63 @@
 [
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "laser_rifle",
     "copy-from": "laser_rifle",
     "name": { "str": "A7 laser rifle" },
     "ranged_damage": { "damage_type": "psi_photokinetic_damage", "amount": 25, "armor_penetration": 4 }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "bio_laser_gun",
     "copy-from": "bio_laser_gun",
     "name": { "str": "laser finger" },
     "ranged_damage": { "damage_type": "psi_photokinetic_damage", "amount": 10, "armor_penetration": 4 }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "v29",
     "copy-from": "v29",
     "name": { "str": "V29 laser pistol" },
     "ranged_damage": { "damage_type": "psi_photokinetic_damage", "amount": 10, "armor_penetration": 4 }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "v29_turret",
     "copy-from": "v29_turret",
     "name": { "str": "mounted laser" },
     "ranged_damage": { "damage_type": "psi_photokinetic_damage", "amount": 10, "armor_penetration": 4 }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "recon_mech_laser_single",
     "copy-from": "recon_mech_laser_single",
     "name": { "str": "salvaged RMES marksman laser" },
     "ranged_damage": { "damage_type": "psi_photokinetic_damage", "amount": 30, "armor_penetration": 4 }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "recon_mech_laser",
     "copy-from": "recon_mech_laser",
     "name": { "str": "RMES marksman system" },
     "ranged_damage": { "damage_type": "psi_photokinetic_damage", "amount": 30, "armor_penetration": 4 }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "gatling_mech_laser_single",
     "copy-from": "gatling_mech_laser_single",
     "name": { "str": "salvaged CMES laser cannon" },
     "ranged_damage": { "damage_type": "psi_photokinetic_damage", "amount": 20, "armor_penetration": 4 }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "gatling_mech_laser",
     "copy-from": "gatling_mech_laser",
     "name": { "str": "CMES laser cannon" },

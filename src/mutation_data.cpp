@@ -1,11 +1,13 @@
 #include "mutation.h" // IWYU pragma: associated
 
+#include <algorithm>
 #include <cstdlib>
 #include <map>
 #include <memory>
 #include <set>
 #include <stdexcept>
 #include <type_traits>
+#include <unordered_map>
 #include <vector>
 
 #include "assign.h"
@@ -15,16 +17,19 @@
 #include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "localized_comparator.h"
-#include "magic.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
 #include "memory_fast.h"
 #include "npc.h"
 #include "string_formatter.h"
 #include "trait_group.h"
 #include "translations.h"
+#include "uilist.h"
+#include "weighted_list.h"
 
 static const mutation_category_id mutation_category_ANY( "ANY" );
 
@@ -153,19 +158,8 @@ static mut_attack load_mutation_attack( const JsonObject &jo )
 
     jo.read( "chance", ret.chance );
 
-    if( jo.has_array( "base_damage" ) ) {
-        ret.base_damage = load_damage_instance( jo.get_array( "base_damage" ) );
-    } else if( jo.has_object( "base_damage" ) ) {
-        JsonObject jo_dam = jo.get_object( "base_damage" );
-        ret.base_damage = load_damage_instance( jo_dam );
-    }
-
-    if( jo.has_array( "strength_damage" ) ) {
-        ret.strength_damage = load_damage_instance( jo.get_array( "strength_damage" ) );
-    } else if( jo.has_object( "strength_damage" ) ) {
-        JsonObject jo_dam = jo.get_object( "strength_damage" );
-        ret.strength_damage = load_damage_instance( jo_dam );
-    }
+    optional( jo, false, "base_damage", ret.base_damage );
+    optional( jo, false, "strength_damage", ret.strength_damage );
 
     if( ret.attack_text_u.empty() || ret.attack_text_npc.empty() ) {
         jo.throw_error( "Attack message unset" );
@@ -200,7 +194,7 @@ void mutation_branch::load_trait( const JsonObject &jo, const std::string &src )
 
 mut_transform::mut_transform() = default;
 
-bool mut_transform::load( const JsonObject &jsobj, const std::string_view member )
+bool mut_transform::load( const JsonObject &jsobj, std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -215,7 +209,7 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string_view member
 
 mut_personality_score::mut_personality_score() = default;
 
-bool mut_personality_score::load( const JsonObject &jsobj, const std::string_view member )
+bool mut_personality_score::load( const JsonObject &jsobj, std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -301,7 +295,7 @@ void mutation_variant::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-void mutation_branch::load( const JsonObject &jo, const std::string_view src )
+void mutation_branch::load( const JsonObject &jo, std::string_view src )
 {
     mandatory( jo, was_loaded, "name", raw_name );
     mandatory( jo, was_loaded, "description", raw_desc );
@@ -397,6 +391,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "scent_intensity", scent_intensity, std::nullopt );
     optional( jo, was_loaded, "scent_type", scent_typeid, std::nullopt );
     optional( jo, was_loaded, "ignored_by", ignored_by );
+    optional( jo, was_loaded, "empathize_with", empathize_with );
+    optional( jo, was_loaded, "no_empathize_with", no_empathize_with );
     optional( jo, was_loaded, "can_only_eat", can_only_eat );
     optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
     optional( jo, was_loaded, "can_heal_with", can_heal_with );

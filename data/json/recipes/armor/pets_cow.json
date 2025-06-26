@@ -234,9 +234,10 @@
     "result": "iron_armor_cow",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "copy-from": "armor_plarmor",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_BOVINE ARMOR",
+    "skill_used": "fabrication",
+    "difficulty": 2,
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "skills_required": [ "tailor", 3 ],
     "time": "28 h 45 m",
@@ -250,7 +251,7 @@
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" }
     ],
-    "components": [ [ [ "steel_chunk", 72 ], [ "scrap", 216 ] ], [ [ "leather_armor_cow", 1 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 72, "LIST" ], [ "scrap", 216 ] ], [ [ "leather_armor_cow", 1 ] ] ]
   },
   {
     "result": "bronze_armor_cow",

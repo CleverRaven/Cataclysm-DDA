@@ -1,41 +1,53 @@
 #include "martialarts.h"
 
+#include <imgui/imgui.h>
 #include <algorithm>
 #include <cstdlib>
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 
 #include "bodypart.h"
+#include "cata_imgui.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "character_attire.h"
 #include "character_martial_arts.h"
 #include "color.h"
 #include "condition.h"
-#include "cursesdef.h"
+#include "creature.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "input_context.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
 #include "localized_comparator.h"
-#include "map.h"
+#include "messages.h"
 #include "output.h"
 #include "pimpl.h"
-#include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "subbodypart.h"
+#include "talker.h"
+#include "text.h"
 #include "translations.h"
 #include "ui_manager.h"
 #include "value_ptr.h"
 #include "weighted_list.h"
+
+class json_flag;
 
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
@@ -85,7 +97,7 @@ void attack_vector::reset()
     attack_vector_factory.reset();
 }
 
-void attack_vector::load( const JsonObject &jo, const std::string_view )
+void attack_vector::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "weapon", weapon, false );
@@ -123,7 +135,7 @@ void weapon_category::reset()
     weapon_category_factory.reset();
 }
 
-void weapon_category::load( const JsonObject &jo, const std::string_view )
+void weapon_category::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
     optional( jo, was_loaded, "proficiencies", proficiencies_ );
@@ -233,7 +245,7 @@ class tech_effect_reader : public generic_typed_reader<tech_effect_reader>
         }
 };
 
-void ma_requirements::load( const JsonObject &jo, const std::string_view )
+void ma_requirements::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
@@ -261,7 +273,7 @@ void ma_requirements::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
 }
 
-void ma_technique::load( const JsonObject &jo, const std::string_view src )
+void ma_technique::load( const JsonObject &jo, std::string_view src )
 {
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "description", description, translation() );
@@ -348,7 +360,7 @@ bool string_id<ma_technique>::is_valid() const
     return ma_techniques.is_valid( *this );
 }
 
-void ma_buff::load( const JsonObject &jo, const std::string_view src )
+void ma_buff::load( const JsonObject &jo, std::string_view src )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -405,7 +417,7 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
         }
 };
 
-void martialart::load( const JsonObject &jo, const std::string_view src )
+void martialart::load( const JsonObject &jo, std::string_view src )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -795,6 +807,19 @@ bool ma_requirements::is_valid_weapon( const item &i ) const
     return true;
 }
 
+static std::string required_skill_as_string( const skill_id &skill, const int required_skill,
+        const int player_skill )
+{
+    std::string difficulty_tag;
+    if( required_skill <= player_skill ) {
+        difficulty_tag = "good";
+    } else {
+        difficulty_tag = "bad";
+    }
+    return string_format( "<info>%s</info> <%s>(%d/%d)</%s>", skill->name(), difficulty_tag,
+                          player_skill, required_skill, difficulty_tag );
+}
+
 std::string ma_requirements::get_description( bool buff ) const
 {
     std::string dump;
@@ -812,8 +837,7 @@ std::string ma_requirements::get_description( bool buff ) const
             if( u.has_active_bionic( bio_cqb ) ) {
                 player_skill = BIO_CQB_LEVEL;
             }
-            return string_format( "%s: <stat>%d</stat>/<stat>%d</stat>", pr.first->name(), player_skill,
-                                  pr.second );
+            return required_skill_as_string( pr.first, pr.second, player_skill );
         }, enumeration_conjunction::none ) + "\n";
     }
 
@@ -1470,7 +1494,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
             // Store a dummy sublimb to show we're attacking with a weapon
             weight = weapon->base_damage_melee().total_damage();
             list.add_or_replace( vec, weight );
-            storage.emplace_back( vec, sub_body_part_sub_limb_debug );
+            storage.emplace_back( vec, sub_bodypart_str_id::NULL_ID() );
             add_msg_debug( debugmode::DF_MELEE, "Weapon %s eligable for attack vector %s with weight %.1f",
                            weapon->display_name(),
                            vec.c_str(), weight );
@@ -1534,7 +1558,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
                 int bp_hp_max = bp->main_part == bp ? user.get_part_hp_max( bp ) : user.get_part_hp_max(
                                     bp->main_part );
                 if( ( 100 * bp_hp_cur / bp_hp_max ) > vec->bp_hp_limit &&
-                    user.get_part_encumbrance_data( bp ).encumbrance < vec->encumbrance_limit ) {
+                    user.get_part_encumbrance( bp ) < vec->encumbrance_limit ) {
                     sub_bodypart_str_id current_contact;
                     for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
                         if( std::find( vec->contact_area.begin(), vec->contact_area.end(),
@@ -1649,7 +1673,7 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
         // Check all standard legs for the score threshold
         for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::leg ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
-                owner.get_part( bp )->get_limb_score( limb_score_block ) * bp->limbtypes.at(
+                owner.get_part( bp )->get_limb_score( owner, limb_score_block ) * bp->limbtypes.at(
                     body_part_type::type::leg ) >= 0.25f ) {
                 return true;
             }
@@ -1683,7 +1707,7 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
         // Check all standard arms for the score threshold
         for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
-                owner.get_part( bp )->get_limb_score( limb_score_block ) * bp->limbtypes.at(
+                owner.get_part( bp )->get_limb_score( owner, limb_score_block ) * bp->limbtypes.at(
                     body_part_type::type::arm ) >= 0.25f ) {
                 return true;
             }
@@ -1712,7 +1736,7 @@ bool character_martial_arts::can_nonstandard_block( const Character &owner ) con
     // Return true if the limbs which would always block can block
     if( owner.has_flag( json_flag_ALWAYS_BLOCK ) ) {
         for( const bodypart_id &bp : owner.get_all_body_parts_with_flag( json_flag_ALWAYS_BLOCK ) ) {
-            if( owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+            if( owner.get_part( bp )->get_limb_score( owner, limb_score_block ) >= 0.25f ) {
                 return true;
             }
         }
@@ -1720,7 +1744,7 @@ bool character_martial_arts::can_nonstandard_block( const Character &owner ) con
     // Return true if we're skilled enough to block and we have at least one limb ready to block
     if( block_with_skill ) {
         for( const bodypart_id &bp : owner.get_all_body_parts_with_flag( json_flag_NONSTANDARD_BLOCK ) ) {
-            if( owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+            if( owner.get_part( bp )->get_limb_score( owner, limb_score_block ) >= 0.25f ) {
                 return true;
             }
         }
@@ -2202,7 +2226,7 @@ class ma_details_ui_impl : public cataimgui::window
         void init_data();
 
     private:
-        void draw_ma_details_text() const;
+        void draw_ma_details_text();
 
         size_t window_width = ImGui::GetMainViewport()->Size.x * 8 / 9;
         size_t window_height = ImGui::GetMainViewport()->Size.y * 8 / 9;
@@ -2219,6 +2243,8 @@ class ma_details_ui_impl : public cataimgui::window
         std::map<std::string, std::string> weapons_text;
         int buffs_total = 0;
         int weapons_total = 0;
+
+        cataimgui::scroll s = cataimgui::scroll::none;
 
     protected:
         void draw_controls() override;
@@ -2291,8 +2317,8 @@ void ma_details_ui_impl::init_data()
                     _( "You can <info>arm block</info> by installing the <info>Arms Alloy Plating CBM</info>" ) );
             } else if( ma.arm_block != 99 ) {
                 general_info_text.emplace_back( string_format(
-                                                    _( "You can <info>arm block</info> at <info>unarmed combat:</info> <stat>%s</stat>/<stat>%s</stat>" ),
-                                                    unarmed_skill, ma.arm_block ) );
+                                                    _( "You can <info>arm block</info> at %s" ),
+                                                    required_skill_as_string( skill_unarmed, ma.arm_block, unarmed_skill ) ) );
             }
 
             if( ma.leg_block_with_bio_armor_legs ) {
@@ -2300,12 +2326,12 @@ void ma_details_ui_impl::init_data()
                     _( "You can <info>leg block</info> by installing the <info>Legs Alloy Plating CBM</info>" ) );
             } else if( ma.leg_block != 99 ) {
                 general_info_text.emplace_back( string_format(
-                                                    _( "You can <info>leg block</info> at <info>unarmed combat:</info> <stat>%s</stat>/<stat>%s</stat>" ),
-                                                    unarmed_skill, ma.leg_block ) );
+                                                    _( "You can <info>leg block</info> at %s" ),
+                                                    required_skill_as_string( skill_unarmed, ma.leg_block, unarmed_skill ) ) );
                 if( ma.nonstandard_block != 99 ) {
                     general_info_text.emplace_back( string_format(
-                                                        _( "You can <info>block with mutated limbs</info> at <info>unarmed combat:</info> <stat>%s</stat>/<stat>%s</stat>" ),
-                                                        unarmed_skill, ma.nonstandard_block ) );
+                                                        _( "You can <info>block with mutated limbs</info> at %s" ),
+                                                        required_skill_as_string( skill_unarmed, ma.nonstandard_block, unarmed_skill ) ) );
                 }
             }
         }
@@ -2411,7 +2437,7 @@ void ma_details_ui_impl::init_data()
     }
 }
 
-void ma_details_ui_impl::draw_ma_details_text() const
+void ma_details_ui_impl::draw_ma_details_text()
 {
 
     if( !general_info_text.empty() &&
@@ -2466,6 +2492,8 @@ void ma_details_ui_impl::draw_ma_details_text() const
             ImGui::Separator();
         }
     }
+
+    cataimgui::set_scroll( s );
 }
 
 void ma_details_ui_impl::draw_controls()
@@ -2483,21 +2511,21 @@ void ma_details_ui_impl::draw_controls()
     } else if( last_action == "TOGGLE_WEAPONS_GROUP" ) {
         weapons_group_collapsed = !weapons_group_collapsed;
     } else if( last_action == "UP" ) {
-        ImGui::SetScrollY( ImGui::GetScrollY() - ImGui::GetTextLineHeightWithSpacing() );
+        s = cataimgui::scroll::line_up;
     } else if( last_action == "DOWN" ) {
-        ImGui::SetScrollY( ImGui::GetScrollY() + ImGui::GetTextLineHeightWithSpacing() );
+        s = cataimgui::scroll::line_down;
     } else if( last_action == "LEFT" ) {
         ImGui::SetScrollX( ImGui::GetScrollX() - ImGui::CalcTextSize( "x" ).x );
     } else if( last_action == "RIGHT" ) {
         ImGui::SetScrollX( ImGui::GetScrollX() + ImGui::CalcTextSize( "x" ).x );
     } else if( last_action == "PAGE_UP" ) {
-        ImGui::SetScrollY( ImGui::GetScrollY() - window_height );
+        s = cataimgui::scroll::page_up;
     } else if( last_action == "PAGE_DOWN" ) {
-        ImGui::SetScrollY( ImGui::GetScrollY() + window_height );
+        s = cataimgui::scroll::page_down;
     } else if( last_action == "HOME" ) {
-        ImGui::SetScrollY( 0 );
+        s = cataimgui::scroll::begin;
     } else if( last_action == "END" ) {
-        ImGui::SetScrollY( ImGui::GetScrollMaxY() );
+        s = cataimgui::scroll::end;
     }
 
     draw_ma_details_text();

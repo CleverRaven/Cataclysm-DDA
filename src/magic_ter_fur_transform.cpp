@@ -1,26 +1,26 @@
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
-#include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "enums.h"
+#include "field.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "mapdata.h"
+#include "point.h"
 #include "submap.h"
+#include "translation.h"
 #include "trap.h"
 #include "type_id.h"
-
-struct tripoint;
-template <typename T> struct weighted_int_list;
+#include "weighted_list.h"
 
 namespace
 {
@@ -83,7 +83,7 @@ void ter_furn_data<T>::load( const JsonObject &jo )
     message_good = jo.get_bool( "message_good", true );
 }
 
-void ter_furn_transform::load( const JsonObject &jo, const std::string_view )
+void ter_furn_transform::load( const JsonObject &jo, std::string_view )
 {
     std::string input;
     mandatory( jo, was_loaded, "id", input );
@@ -234,7 +234,7 @@ void ter_furn_transform::transform( map &m, const tripoint_bub_ms &location ) co
             m.add_field( location, field_potential->first, fld.second.get_field_intensity(),
                          fld.second.get_field_age(), true );
             m.remove_field( location, fld.first );
-            if( you.sees( location ) && !field_potential->second.first.empty() ) {
+            if( you.sees( m, location ) && !field_potential->second.first.empty() ) {
                 you.add_msg_if_player( field_potential->second.first.translated(),
                                        field_potential->second.second ? m_good : m_bad );
             }
@@ -279,21 +279,21 @@ void ter_furn_transform::transform( map &m, const tripoint_bub_ms &location ) co
 
     if( ter_potential ) {
         m.ter_set( location, ter_potential->first );
-        if( you.sees( location ) && !ter_potential->second.first.empty() ) {
+        if( you.sees( m, location ) && !ter_potential->second.first.empty() ) {
             you.add_msg_if_player( ter_potential->second.first.translated(),
                                    ter_potential->second.second ? m_good : m_bad );
         }
     }
     if( furn_potential ) {
         m.furn_set( location, furn_potential->first );
-        if( you.sees( location ) && !furn_potential->second.first.empty() ) {
+        if( you.sees( m, location ) && !furn_potential->second.first.empty() ) {
             you.add_msg_if_player( furn_potential->second.first.translated(),
                                    furn_potential->second.second ? m_good : m_bad );
         }
     }
     if( trap_potential ) {
         m.trap_set( location, trap_potential->first );
-        if( you.sees( location ) && !trap_potential->second.first.empty() ) {
+        if( you.sees( m, location ) && !trap_potential->second.first.empty() ) {
             you.add_msg_if_player( trap_potential->second.first.translated(),
                                    trap_potential->second.second ? m_good : m_bad );
         }

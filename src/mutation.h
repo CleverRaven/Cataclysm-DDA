@@ -2,38 +2,37 @@
 #ifndef CATA_SRC_MUTATION_H
 #define CATA_SRC_MUTATION_H
 
-#include <climits>
-#include <iosfwd>
+#include <functional>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
-#include <unordered_map>
+#include <string_view>
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
-#include "character.h"
 #include "damage.h"
-#include "hash_utils.h"
-#include "magic.h"
+#include "enums.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "sleep.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 
+class Character;
 class JsonArray;
 class JsonObject;
+class JsonOut;
+class JsonValue;
 class Trait_group;
 class item;
 class nc_color;
+struct const_dialogue;
 struct dream;
-
-enum game_message_type : int;
-
 template <typename E> struct enum_traits;
 
 extern std::vector<dream> dreams;
@@ -260,6 +259,9 @@ struct mutation_branch {
         /**Map of angered species and there intensity*/
         std::map<species_id, int> anger_relations;
 
+        std::vector<species_id> empathize_with;
+        std::vector<species_id> no_empathize_with;
+
         /**List of material required for food to be be edible*/
         std::set<material_id> can_only_eat;
 
@@ -361,6 +363,7 @@ struct mutation_branch {
         translation raw_desc;
     public:
         std::string name( const std::string &variant = "" ) const;
+        // Stored description of mutation. Character::mutation_desc() should be prioritized over this, if possible, for parse_tags support
         std::string desc( const std::string &variant = "" ) const;
 
         /**
@@ -579,7 +582,5 @@ template<>
 struct enum_traits<mutagen_technique> {
     static constexpr mutagen_technique last = mutagen_technique::num_mutagen_techniques;
 };
-
-void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category );
 
 #endif // CATA_SRC_MUTATION_H

@@ -1,7 +1,8 @@
 [
   {
     "id": "armor_bio_flesh_roots",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "weight": "500 g",
     "volume": "1200 ml",
@@ -28,7 +29,8 @@
   },
   {
     "id": "integrated_pebbled",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "pebbled skin" },
     "description": "Your skin has begun to harden and pebbles have begun to surface.",
@@ -77,7 +79,8 @@
   },
   {
     "id": "integrated_granite_skin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "granite skin" },
     "description": "Your skin has hardened into a granite like covering.",
@@ -126,7 +129,8 @@
   },
   {
     "id": "integrated_ierde_eyes",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "ierde eyes" },
     "description": "Your eyes now reflect your mood in the colors of stone.  You are also immune to the glare of the sun.",
@@ -136,7 +140,7 @@
     "price_postapoc": "0 cent",
     "material": [ "fae_flesh" ],
     "symbol": "[",
-    "color": "black",
+    "color": "dark_gray",
     "warmth": 0,
     "material_thickness": 1.5,
     "environmental_protection": 10,
@@ -154,7 +158,8 @@
   },
   {
     "id": "integrated_ierde_fists",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "stone fists" },
     "description": "Your stone-like skin means your hands hit like hammers, and can be used like hammers as well.",
@@ -162,16 +167,17 @@
     "volume": "500 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "mut_wood" ],
+    "material": [ "stone" ],
     "symbol": ",",
     "color": "brown",
     "flags": [ "INTEGRATED", "SEMITANGIBLE", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED" ],
     "qualities": [ [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ], [ "PRYING_NAIL", 1 ], [ "PRY", 2 ] ],
-    "relic_data": { "passive_effects": [ { "id": "ench_ierde_stone_fists" } ] }
+    "passive_effects": [ { "id": "ench_ierde_stone_fists" } ]
   },
   {
     "id": "integrated_vegital_cuticle",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "vegetal cuticle" },
     "description": "A pliable but hefty layer of living plant matter impregnated with various waxy polymers.",
@@ -200,7 +206,8 @@
   },
   {
     "id": "integrated_bark_skin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "barkskin" },
     "description": "A thin layer of bark covers your body.",
@@ -226,7 +233,8 @@
   },
   {
     "id": "integrated_arvore_eyes",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "arvore eyes" },
     "description": "Your eyes now reflect the seasons: green, yellow, red, orange, or brown.  You are also immune to the glare of the sun.",
@@ -254,7 +262,8 @@
   },
   {
     "id": "integrated_arvore_thorns",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "woody thorns" },
     "description": "Your skin is covered in thick, woody thorns.",
@@ -279,7 +288,8 @@
   },
   {
     "id": "integrated_arvore_claws",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "jagged wooden claws" },
     "description": "Your hands and fingers have transformed into jagged wooden claws.",
@@ -300,11 +310,12 @@
       }
     ],
     "melee_damage": { "cut": 10 },
-    "relic_data": { "passive_effects": [ { "id": "ench_jagged_claws_faster_attack" }, { "id": "ench_jagged_claws_when_bramble_bite" } ] }
+    "passive_effects": [ { "id": "ench_jagged_claws_faster_attack" }, { "id": "ench_jagged_claws_when_bramble_bite" } ]
   },
   {
     "id": "integrated_coal_skin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "burning coals skin" },
     "description": "Your skin has magical flames flaring out of it on occasion.  You can operate in warmer climates than normal humans but begin to take damage from getting wet.",
@@ -317,7 +328,6 @@
     "color": "light_red",
     "warmth": 1,
     "environmental_protection": 1,
-    "relic_data": { "passive_effects": [ { "id": "coal_skin_enchantment" } ] },
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
     "armor": [
       {
@@ -328,11 +338,13 @@
         "breathability": "SECOND_SKIN"
       }
     ],
-    "melee_damage": { "heat": 4 }
+    "melee_damage": { "heat": 4 },
+    "passive_effects": [ { "id": "coal_skin_enchantment" } ]
   },
   {
     "id": "integrated_flameskin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "flaming skin" },
     "description": "Your skin exudes magickal flames constantly, you can operate in almost any heat now without danger but rain may be a lethal threat.",
@@ -345,7 +357,6 @@
     "color": "light_red",
     "warmth": 1,
     "environmental_protection": 1,
-    "relic_data": { "passive_effects": [ { "id": "flame_skin_enchantment" } ] },
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
     "armor": [
       {
@@ -356,11 +367,13 @@
         "breathability": "SECOND_SKIN"
       }
     ],
-    "melee_damage": { "heat": 12 }
+    "melee_damage": { "heat": 12 },
+    "passive_effects": [ { "id": "flame_skin_enchantment" } ]
   },
   {
     "id": "integrated_salamander_eyes",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "salamander eyes" },
     "description": "Your eyes now reflect your mood, the warm red of a campfire or the searing heat of an incendiary weapon.  Glare no longer affects you.",
@@ -389,7 +402,8 @@
   },
   {
     "id": "item_salamander_cooking_heat",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "stove's caress" },
     "description": "Heat from your hands.  You may cook with it at will.",
     "weight": "0 g",
@@ -401,11 +415,12 @@
     "flags": [ "PERSONAL", "PADDED", "UNBREAKABLE", "INTEGRATED", "SEMITANGIBLE", "ZERO_WEIGHT", "NO_DROP" ],
     "qualities": [ [ "BLOW_HOT_AIR", 1 ] ],
     "use_action": [ { "type": "HEAT_FOOD" } ],
-    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ]
   },
   {
     "id": "integrated_gelatinous_skin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "liquid skin" },
     "description": "Your skin has become vaguely gelatinous.  Provides some extra bash defense and immunity to wet effects.",
@@ -429,7 +444,8 @@
   },
   {
     "id": "integrated_wave_skin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "wave skin" },
     "description": "Your skin is completely replaced by magickal water.  You have become immune to acid effects.",
@@ -453,7 +469,8 @@
   },
   {
     "id": "integrated_undine_eyes",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "undine eyes" },
     "description": "Your eyes now reflect your mood in the colors of the deep waters.  From an aquamarine blue when you are pleased to the pitch black of the depths when you are angry or sad.  You are also immune to the glare of the sun and can see under water.",
@@ -491,7 +508,7 @@
   },
   {
     "id": "item_undine_liquid_water_pocket",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "clothing",
     "name": { "str": "water pocket" },
     "description": "Your skin is capable of .",
@@ -516,7 +533,8 @@
   },
   {
     "id": "item_gracken_shadowstuff_pocket",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "category": "clothing",
     "name": { "str": "shadowstuff organ" },
     "description": "You have an organ inside of your body that grows a material you can create improved versions of your body parts with.  You must combine it with components taken from monsters with abilities you wish to gain and magickal essence.",
@@ -525,7 +543,6 @@
     "symbol": ")",
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "scrap_shadowstuff": 3 }, "airtight": true } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "168 h", "regenerate_ammo": true } },
     "flags": [
       "INTEGRATED",
       "NO_UNLOAD",
@@ -537,11 +554,13 @@
       "PERSONAL",
       "SOFT",
       "WATER_FRIENDLY"
-    ]
+    ],
+    "charge_info": { "recharge_type": "periodic", "time": "168 h", "regenerate_ammo": true }
   },
   {
     "id": "integrated_cloud_skin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "cloud skin" },
     "description": "Your skin is clearly separate from the air around you but has become its own weather system.  If someone reaches out and touches you, they will clearly feel you but you look like someone might reach right through you.",
@@ -552,7 +571,6 @@
     "material": [ "fae_flesh" ],
     "symbol": "x",
     "color": "light_red",
-    "relic_data": { "passive_effects": [ { "id": "cloud_skin_enchantment" } ] },
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
     "armor": [
       {
@@ -562,11 +580,13 @@
         "encumbrance": 0,
         "breathability": "SECOND_SKIN"
       }
-    ]
+    ],
+    "passive_effects": [ { "id": "cloud_skin_enchantment" } ]
   },
   {
     "id": "integrated_storm_skin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "storm skin" },
     "description": "Your skin is a roiling storm.  Your flexibility is greatly increased, your ability to ignore temperatures hot and cold have greatly increased but your ability to carry objects has been reduced.",
@@ -577,7 +597,6 @@
     "material": [ "fae_flesh" ],
     "symbol": "x",
     "color": "light_red",
-    "relic_data": { "passive_effects": [ { "id": "storm_skin_enchantment" } ] },
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
     "armor": [
       {
@@ -587,11 +606,13 @@
         "encumbrance": 0,
         "breathability": "SECOND_SKIN"
       }
-    ]
+    ],
+    "passive_effects": [ { "id": "storm_skin_enchantment" } ]
   },
   {
     "id": "integrated_sylph_eyes",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "sylph eyes" },
     "description": "Your eyes now reflect your mood in different weather patterns.  Clear blue skies when you are pleased and storms when you are mad.  You are also immune to the glare of the sun.",
@@ -629,7 +650,8 @@
   },
   {
     "id": "integrated_sylph_breath",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "sylph breathe without air" },
     "description": "You can now exist as your own source of oxygen.  Anywhere that you would be impacted by a lack of oxygen should no longer trouble you.",
@@ -657,7 +679,8 @@
   },
   {
     "id": "integrated_porcelain_skin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "porcelain skin" },
     "description": "Your skin has smoothed and all your prior blemishes have faded away.  This somewhat reduces wet effects and leads to a more durable yet harder to heal body.",
@@ -681,7 +704,8 @@
   },
   {
     "id": "integrated_latex_skin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "latex skin" },
     "description": "Your skin has become latex like.  While it provides additional protection and attractiveness it also heals at a much slower rate.",
@@ -705,7 +729,8 @@
   },
   {
     "id": "integrated_homullus_eyes",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "homullus eyes" },
     "description": "Your eyes now stare out at the world, impassive and blank like the eyes of a doll.  You are also immune to the glare of the sun.",
@@ -715,7 +740,7 @@
     "price_postapoc": "0 cent",
     "material": [ "fae_flesh" ],
     "symbol": "[",
-    "color": "black",
+    "color": "dark_gray",
     "warmth": 0,
     "material_thickness": 1.5,
     "environmental_protection": 10,
@@ -733,7 +758,8 @@
   },
   {
     "id": "integrated_homullus_tools",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "copy-from": "toolset",
     "name": { "str_sp": "essence of the makers" },
@@ -747,7 +773,8 @@
   },
   {
     "id": "integrated_homullus_electrohack",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str_sp": "net spider's touch" },
     "description": "With but a touch, you can override the circuits of electronics and grant yourself access.",
     "weight": "0 g",
@@ -757,7 +784,6 @@
     "looks_like": "spiral_stone",
     "flags": [
       "TRADER_AVOID",
-      "ONLY_ONE",
       "NO_DROP",
       "PADDED",
       "PERSONAL",
@@ -769,11 +795,13 @@
       "INTEGRATED",
       "MAGICAL"
     ],
+    "max_worn": 1,
     "qualities": [ [ "HACK", 3 ] ]
   },
   {
     "id": "integrated_bloodbank",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "organic bloodbank" },
     "description": "You can vaguely sense this organ… somewhere in your body.",
@@ -801,7 +829,8 @@
   },
   {
     "id": "integrated_nobreathe",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "vestigial lungs" },
     "description": "Breathing is now something you decide to do, rather than a biological necessity.",
@@ -817,7 +846,8 @@
   },
   {
     "id": "integrated_claws_werewolf",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "werewolf claws" },
     "description": "You have massive claws on your end of your furry fingers.",
@@ -844,7 +874,8 @@
   },
   {
     "id": "integrated_werewolf_teeth",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "werewolf teeth" },
     "description": "A mouth full of vicious sharp teeth, almost twice as large as a wolf's.",
@@ -872,7 +903,8 @@
   },
   {
     "id": "integrated_brownie_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "brownie fur" },
     "description": "Thick fur-like hair covering your entire body.",
@@ -897,7 +929,8 @@
   },
   {
     "id": "integrated_antlers",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "deer antlers" },
     "description": "You have a majestic crown of antlers.",
@@ -919,5 +952,202 @@
       }
     ],
     "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "integrated_trow_fists",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str_sp": "stone fists" },
+    "description": "Your thick skin and nails means your hands can be used as simple tools.  You also do slightly more damage when punching.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "fae_flesh" ],
+    "symbol": ",",
+    "color": "brown",
+    "flags": [ "INTEGRATED", "SEMITANGIBLE", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED" ],
+    "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "PRYING_NAIL", 1 ], [ "PRY", 2 ] ],
+    "passive_effects": [ { "id": "ench_trow_stone_fists" } ]
+  },
+  {
+    "id": "internal_mp3_fruit",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "copy-from": "fake_item",
+    "name": { "str": "The fruit's song" },
+    "description": "The song contained in the fruit is now struck in your head until it goes away.  Fortunately this song is enjoyable, increasing your mood while it lasts.",
+    "use_action": [
+      {
+        "target": "internal_mp3_fruit_on",
+        "menu_text": "Hear the song",
+        "msg": "The fruit's melody fills your mind.",
+        "type": "transform",
+        "active": true,
+        "need_charges": 0,
+        "need_charges_msg": "Something is preventing this fruit from working.  Please report it on github."
+      }
+    ],
+    "charges_per_use": 0,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "USES_BIONIC_POWER" ]
+  },
+  {
+    "id": "internal_mp3_fruit_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "copy-from": "fake_item",
+    "name": { "str": "The fruit's song" },
+    "description": "The song contained in the fruit is now struck in your head until it goes away.  Fortunately this song is enjoyable, increasing your mood while it lasts.",
+    "charges_per_use": 0,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
+    "power_draw": "0 W",
+    "revert_to": "corpse_ash",
+    "tick_action": [ "MP3_ON" ]
+  },
+  {
+    "id": "integrated_dreamspark_storage_10",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str_sp": "Well of Dreamsparks" },
+    "description": "The power of mortal dreams.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
+    "material": [ "dreamstuff" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "cyan",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "NO_UNLOAD" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "10 ml",
+        "max_contains_weight": "0 kg",
+        "max_item_length": "10 cm",
+        "moves": 0,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0,
+        "item_restriction": [ "changeling_dreamspark" ]
+      }
+    ]
+  },
+  {
+    "id": "integrated_dreamspark_storage_20",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str_sp": "Well of Dreamsparks" },
+    "description": "The power of mortal dreams.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
+    "material": [ "dreamstuff" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "cyan",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "NO_UNLOAD" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "20 ml",
+        "max_contains_weight": "0 kg",
+        "max_item_length": "100 cm",
+        "moves": 0,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0,
+        "item_restriction": [ "changeling_dreamspark" ]
+      }
+    ]
+  },
+  {
+    "id": "integrated_dreamspark_storage_30",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str_sp": "Well of Dreamsparks" },
+    "description": "The power of mortal dreams.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
+    "material": [ "dreamstuff" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "cyan",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "NO_UNLOAD" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "30 ml",
+        "max_contains_weight": "0 kg",
+        "max_item_length": "100 cm",
+        "moves": 0,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0,
+        "item_restriction": [ "changeling_dreamspark" ]
+      }
+    ]
+  },
+  {
+    "id": "integrated_dreamspark_storage_40",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str_sp": "Well of Dreamsparks" },
+    "description": "The power of mortal dreams.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
+    "material": [ "dreamstuff" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "cyan",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "NO_UNLOAD" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "40 ml",
+        "max_contains_weight": "0 kg",
+        "max_item_length": "100 cm",
+        "moves": 0,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0,
+        "item_restriction": [ "changeling_dreamspark" ]
+      }
+    ]
+  },
+  {
+    "id": "integrated_dreamspark_storage_50",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str_sp": "Well of Dreamsparks" },
+    "description": "The power of mortal dreams.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
+    "material": [ "dreamstuff" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "cyan",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "NO_UNLOAD" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "50 ml",
+        "max_contains_weight": "0 kg",
+        "max_item_length": "100 cm",
+        "moves": 0,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0,
+        "item_restriction": [ "changeling_dreamspark" ]
+      }
+    ]
   }
 ]

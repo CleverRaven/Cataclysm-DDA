@@ -21,7 +21,7 @@
 // - Issues & support ........... https://github.com/ocornut/imgui/issues
 // - Test Engine & Automation ... https://github.com/ocornut/imgui_test_engine (test suite, test engine to automate your apps)
 
-// For first-time users having issues compiling/linking/running/loading fonts:
+// For first-time users having issues c++/linking/running/loading fonts:
 // please post in https://github.com/ocornut/imgui/discussions if you cannot find a solution in resources above.
 // Everything else should be asked in 'Issues'! We are building a database of cross-linked knowledge there.
 
@@ -1467,7 +1467,7 @@ ImGuiIO::ImGuiIO()
     for (int i = 0; i < IM_ARRAYSIZE(MouseDownDuration); i++) MouseDownDuration[i] = MouseDownDurationPrev[i] = -1.0f;
     for (int i = 0; i < IM_ARRAYSIZE(KeysData); i++) { KeysData[i].DownDuration = KeysData[i].DownDurationPrev = -1.0f; }
     AppAcceptingEvents = true;
-    PreEditText[0] = NULL;
+    PreEditText[0] = '\0';
 }
 
 void ImGuiIO::SetPreEditText(const char *str)
@@ -1477,7 +1477,7 @@ void ImGuiIO::SetPreEditText(const char *str)
 
 void ImGuiIO::ClearPreEditText()
 {
-    PreEditText[0] = NULL;
+    PreEditText[0] = '\0';
 }
 
 // Pass in translated ASCII characters for text input.

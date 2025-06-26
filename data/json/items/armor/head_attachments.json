@@ -1,7 +1,8 @@
 [
   {
     "id": "attachable_ear_muffs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "attachable ear muffs" },
     "description": "A pair of ear muffs attachable to a hard hat or helmet to reduce noise exposures to safe levels.  Activate to put ear muffs into a working position, blocking most sounds.",
@@ -33,7 +34,8 @@
   },
   {
     "id": "attachable_ear_muffs_on",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "attachable ear muffs (on)" },
     "description": "A pair of ear muffs attachable to a hard hat or helmet to reduce noise exposures to safe levels.  Activate to put ear muffs into a standby position, letting you clearly hear again.",
     "copy-from": "attachable_ear_muffs",
@@ -48,7 +50,8 @@
   },
   {
     "id": "ballistic_mandible_guard",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "ballistic mandible guard" },
     "description": "A ballistic jaw guard designed to be attached on a military helmet, but easily adjustable to helmets with any kind of rail system installed.",
@@ -65,7 +68,8 @@
   },
   {
     "id": "plastic_mandible_guard",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "plastic mandible guard" },
     "description": "A plastic jaw guard designed to be strapped to any common hard hat or helmet, it was probably part of some costume before the world ended.",
@@ -82,7 +86,8 @@
   },
   {
     "id": "plastic_chin_guard",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "plastic chin guard" },
     "description": "A common plastic chin guard designed to be attached to the straps of any common hard hat or helmet.",
@@ -99,7 +104,8 @@
   },
   {
     "id": "counterweight_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "counterweight pouch" },
     "description": "A counterweight pouch attachable to the back of a hard hat or helmet to balance the weight on your head.  You can store batteries or some other very small items in it.",
@@ -125,7 +131,8 @@
   },
   {
     "id": "sun_shield",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "sun shield" },
     "description": "A common sun shield intended to be put over a hard hat to protect the user from the sun.",
@@ -140,7 +147,8 @@
   },
   {
     "id": "shield_visor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "shield visor" },
     "description": "A common shield visor intended to be attached on a hard hat or helmet.",
@@ -157,7 +165,8 @@
   },
   {
     "id": "face_shield",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "face shield" },
     "description": "A thermoplastic face shield with a mounting bracket intended to be attached over a hard hat or helmet.",
@@ -174,7 +183,8 @@
   },
   {
     "id": "face_shield_eod",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "EOD face shield" },
     "description": "A thick polycarbonate and plexiglass face shield with a mounting bracket intended to be attached to a ballistic helmet for protection from blast and fragmentation in 'non-permissive environments'.",
@@ -191,7 +201,8 @@
   },
   {
     "id": "face_shield_plastic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "plastic face shield" },
     "description": "A plastic face shield with a mounting bracket intended to be attached over a hard hat or helmet.  It doesn't protects you as much as one made from thermoplastic, but it's cheaper and more common.",
@@ -208,7 +219,8 @@
   },
   {
     "id": "military_nvg",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "night vision goggles" },
     "description": "Last generation double-tube night vision device, designed to be mounted on a compatible helmet.  Currently raised up and out of the way.",
@@ -220,7 +232,6 @@
     "symbol": "[",
     "color": "dark_gray",
     "charges_per_use": 1,
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
@@ -238,16 +249,19 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "relic_data": { "passive_effects": [ { "id": "nvg_normal" } ] },
     "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "armor": [
       { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0, "rigid_layer_only": true },
       { "covers": [ "head" ], "encumbrance": 8, "coverage": 70, "specifically_covers": [ "head_forehead" ] }
-    ]
+    ],
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "nvg_normal" } ]
   },
   {
     "id": "military_nvg_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "military_nvg",
     "name": { "str_sp": "night vision goggles (on)" },
     "description": "Last generation single-tube night vision device, designed to be mounted on a compatible helmet.  Limited field of view while activated.  It is turned on, and continually draining batteries.  Use it to turn it off.",
@@ -266,7 +280,8 @@
   },
   {
     "id": "advanced_gpnvg",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "panoramic night vision goggles" },
     "description": "Advanced GPNVG with four image intensifier tubes, allowing for a large field of view at night, designed to be mounted on a compatible helmet.  Currently raised up and out of the way.",
@@ -278,7 +293,6 @@
     "symbol": "[",
     "color": "dark_gray",
     "charges_per_use": 1,
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
@@ -296,8 +310,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "relic_data": { "passive_effects": [ { "id": "nvg_good" } ] },
     "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "armor": [
       { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0, "rigid_layer_only": true },
       {
@@ -306,11 +320,14 @@
         "coverage": 80,
         "specifically_covers": [ "head_forehead", "head_crown" ]
       }
-    ]
+    ],
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "nvg_good" } ]
   },
   {
     "id": "advanced_gpnvg_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "advanced_gpnvg",
     "name": { "str_sp": "panoramic night vision goggles (on)" },
     "description": "Advanced GPNVG with four image intensifier tubes, allowing for a large field of view at night, designed to be mounted on a compatible helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
@@ -332,7 +349,8 @@
   },
   {
     "id": "enhanced_nvg",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "enhanced night vision goggles" },
     "description": "New and rare high-resolution thermal NVG device, designed to be mounted on a compatible helmet.  Lets you see in the dark, and detects heat signatures emitted by (un)living organisms.  Currently raised up and out of the way.",
@@ -344,7 +362,6 @@
     "symbol": "[",
     "color": "dark_gray",
     "charges_per_use": 1,
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
@@ -362,8 +379,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "relic_data": { "passive_effects": [ { "id": "nvg_good" }, { "id": "THERMAL_VISION_GOOD" } ] },
     "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "armor": [
       { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0, "rigid_layer_only": true },
       {
@@ -372,11 +389,14 @@
         "coverage": 70,
         "specifically_covers": [ "head_forehead", "head_crown" ]
       }
-    ]
+    ],
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "nvg_good" }, { "id": "THERMAL_VISION_GOOD" } ]
   },
   {
     "id": "enhanced_nvg_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "enhanced_nvg",
     "name": { "str_sp": "enhanced night vision goggles (on)" },
     "description": "New and rare high-resolution thermal NVG device, designed to be mounted on a compatible helmet.  Lets you see in the dark, and detects heat signatures emitted by (un)living organisms.  It is turned on, and continually draining batteries.  Use it to turn it off.",
@@ -398,7 +418,8 @@
   },
   {
     "id": "nape_protector",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "nape protector" },
     "description": "A common nape protector intended to be attached on a hard hat or helmet to protect against the sun and dust.",
@@ -423,7 +444,8 @@
   },
   {
     "id": "mesh_nape_protector",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mesh nape protector" },
     "description": "A common mesh nape protector intended to be attached on a hard hat or helmet to protect against the sun while letting the cold wind refresh your nape.",
@@ -447,7 +469,8 @@
   },
   {
     "id": "kevlar_nape_protector",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "Kevlar nape protector" },
     "description": "A custom-made Kevlar strengthened nape protector intended to be attached on a hard hat or helmet to protect your nape against cuts and slashing attacks.",
@@ -475,7 +498,8 @@
   },
   {
     "id": "lc_chainmail_face",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mild steel chainmail partial aventail" },
     "description": "A wide chainmail ring designed to attach to a cap helmet, hanging down to extend protection to the face and neck.",
@@ -506,7 +530,8 @@
   },
   {
     "id": "xl_lc_chainmail_face",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_face",
     "name": { "str": "mild steel chainmail partial aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -514,7 +539,8 @@
   },
   {
     "id": "xs_lc_chainmail_face",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_face",
     "name": { "str": "mild steel chainmail partial aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
@@ -522,14 +548,16 @@
   },
   {
     "id": "mc_chainmail_face",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_face",
     "name": { "str": "medium steel chainmail partial aventail" },
     "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_mc_chainmail_face",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_chainmail_face",
     "name": { "str": "medium steel chainmail partial aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -537,7 +565,8 @@
   },
   {
     "id": "xs_mc_chainmail_face",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_chainmail_face",
     "name": { "str": "medium steel chainmail partial aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
@@ -545,14 +574,16 @@
   },
   {
     "id": "hc_chainmail_face",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_face",
     "name": { "str": "high steel chainmail partial aventail" },
     "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_hc_chainmail_face",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_face",
     "name": { "str": "high steel chainmail partial aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -560,7 +591,8 @@
   },
   {
     "id": "xs_hc_chainmail_face",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_face",
     "name": { "str": "high steel chainmail partial aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
@@ -568,14 +600,16 @@
   },
   {
     "id": "qt_chainmail_face",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_face",
     "name": { "str": "tempered steel chainmail partial aventail" },
     "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_qt_chainmail_face",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_chainmail_face",
     "name": { "str": "tempered steel chainmail partial aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -583,7 +617,8 @@
   },
   {
     "id": "xs_qt_chainmail_face",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_chainmail_face",
     "name": { "str": "tempered steel chainmail partial aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
@@ -591,7 +626,8 @@
   },
   {
     "id": "ch_chainmail_face",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_face",
     "material": [ "ch_steel_chain" ],
     "name": { "str": "hardened steel chainmail partial aventail" },
@@ -599,7 +635,8 @@
   },
   {
     "id": "xl_ch_chainmail_face",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_chainmail_face",
     "name": { "str": "hardened steel chainmail partial aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -607,7 +644,8 @@
   },
   {
     "id": "xs_ch_chainmail_face",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_chainmail_face",
     "name": { "str": "hardened steel chainmail partial aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
@@ -615,7 +653,8 @@
   },
   {
     "id": "lc_chainmail_aventail",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mild steel chainmail aventail" },
     "description": "A wide chainmail draping designed to attach to a cap helmet, hanging down to extend protection to the face, neck and shoulders.",
@@ -646,7 +685,8 @@
   },
   {
     "id": "xl_lc_chainmail_aventail",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_aventail",
     "name": { "str": "mild steel chainmail aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -654,7 +694,8 @@
   },
   {
     "id": "xs_lc_chainmail_aventail",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_aventail",
     "name": { "str": "mild steel chainmail aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
@@ -662,14 +703,16 @@
   },
   {
     "id": "mc_chainmail_aventail",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_aventail",
     "name": { "str": "medium steel chainmail aventail" },
     "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_mc_chainmail_aventail",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_chainmail_aventail",
     "name": { "str": "medium steel chainmail aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -677,7 +720,8 @@
   },
   {
     "id": "xs_mc_chainmail_aventail",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_chainmail_aventail",
     "name": { "str": "medium steel chainmail aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
@@ -685,14 +729,16 @@
   },
   {
     "id": "hc_chainmail_aventail",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_aventail",
     "name": { "str": "high steel chainmail aventail" },
     "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_hc_chainmail_aventail",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_aventail",
     "name": { "str": "high steel chainmail aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -700,7 +746,8 @@
   },
   {
     "id": "xs_hc_chainmail_aventail",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_aventail",
     "name": { "str": "high steel chainmail aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
@@ -708,14 +755,16 @@
   },
   {
     "id": "qt_chainmail_aventail",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_aventail",
     "name": { "str": "tempered steel chainmail aventail" },
     "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_qt_chainmail_aventail",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_chainmail_aventail",
     "name": { "str": "tempered steel chainmail aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -723,7 +772,8 @@
   },
   {
     "id": "xs_qt_chainmail_aventail",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_chainmail_aventail",
     "name": { "str": "tempered steel chainmail aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
@@ -731,14 +781,16 @@
   },
   {
     "id": "ch_chainmail_aventail",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_aventail",
     "name": { "str": "hardened steel chainmail aventail" },
     "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_ch_chainmail_aventail",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_chainmail_aventail",
     "name": { "str": "hardened steel chainmail aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -746,7 +798,8 @@
   },
   {
     "id": "xs_ch_chainmail_aventail",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_chainmail_aventail",
     "name": { "str": "hardened steel chainmail aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
@@ -754,7 +807,8 @@
   },
   {
     "id": "lc_steel_facemask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mild steel armored face mask" },
     "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This is a crude, dull facsimile of the original masterpieces made of mild steel.",
@@ -785,7 +839,8 @@
   },
   {
     "id": "xl_lc_steel_facemask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_steel_facemask",
     "name": { "str": "mild steel armored face mask" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -793,7 +848,8 @@
   },
   {
     "id": "xs_lc_steel_facemask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_steel_facemask",
     "name": { "str": "mild steel armored face mask" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
@@ -801,7 +857,8 @@
   },
   {
     "id": "mc_steel_facemask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_steel_facemask",
     "name": { "str": "medium steel armored face mask" },
     "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of medium steel, and at least has some ornamentation, but not much.",
@@ -809,7 +866,8 @@
   },
   {
     "id": "xl_mc_steel_facemask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_steel_facemask",
     "name": { "str": "medium steel armored face mask" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -817,7 +875,8 @@
   },
   {
     "id": "xs_mc_steel_facemask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_steel_facemask",
     "name": { "str": "medium steel armored face mask" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
@@ -825,7 +884,8 @@
   },
   {
     "id": "hc_steel_facemask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_steel_facemask",
     "name": { "str": "high steel armored face mask" },
     "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of high steel, and you've got it with a fancy mustache and everything.",
@@ -833,7 +893,8 @@
   },
   {
     "id": "xl_hc_steel_facemask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_steel_facemask",
     "name": { "str": "high steel armored face mask" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -841,7 +902,8 @@
   },
   {
     "id": "xs_hc_steel_facemask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_steel_facemask",
     "name": { "str": "high steel armored face mask" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
@@ -849,7 +911,8 @@
   },
   {
     "id": "qt_steel_facemask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_steel_facemask",
     "name": { "str": "tempered steel armored face mask" },
     "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of tempered steel with gold inlays and a setting for a gemstone.  This isn't just surviving the apocalypse, this is about living truly apocalypse fancy.",
@@ -869,7 +932,8 @@
   },
   {
     "id": "xl_qt_steel_facemask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_steel_facemask",
     "name": { "str": "tempered steel armored face mask" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -877,7 +941,8 @@
   },
   {
     "id": "xs_qt_steel_facemask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_steel_facemask",
     "name": { "str": "tempered steel armored face mask" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
@@ -885,7 +950,8 @@
   },
   {
     "id": "ch_steel_facemask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_steel_facemask",
     "material": [ "ch_steel", "gold" ],
     "name": { "str": "hardened steel armored face mask" },
@@ -914,7 +980,8 @@
   },
   {
     "id": "xl_ch_steel_facemask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_steel_facemask",
     "name": { "str": "hardened steel armored face mask" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -922,7 +989,8 @@
   },
   {
     "id": "xs_ch_steel_facemask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_steel_facemask",
     "name": { "str": "hardened steel armored face mask" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
@@ -930,7 +998,8 @@
   },
   {
     "id": "outsert_clear",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "clear outsert lens", "str_pl": "clear outsert lenses" },
     "description": "A simple and flexible transparent lens of plastic that clips into place over a panoramic gas mask's solitary eyepiece, providing extra protection from scratches, abrasions, and ballistic threats.",
@@ -956,7 +1025,8 @@
   },
   {
     "id": "outsert_sunlight",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "outsert_clear",
     "name": { "str": "sunlight outsert lens", "str_pl": "sunlight outsert lenses" },
     "description": "A tinted and flexible plastic outsert intended to be mounted over the eyepiece of a panoramic-view gas mask to protect the wearer from high-level UV light, sudden flashes, and overly bright flares.",
@@ -977,7 +1047,8 @@
   },
   {
     "id": "outsert_breach",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "outsert_clear",
     "name": { "str": "breach outsert lens", "str_pl": "breach outsert lenses" },
     "description": "A specialized lens designed to clip into place over the solitary eyepiece of a panoramic gas mask, providing eye protection to users deploying a cutting torch while also improving impact resistance.",
@@ -1000,7 +1071,8 @@
   },
   {
     "id": "insert_vision_correction",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "outsert_clear",
     "name": { "str": "vision correction assembly", "str_pl": "vision correction assemblies" },
     "description": "A detachable frame of prescription lenses intended for installation behind a panoramic gas mask's visor, providing an alternative vision-correcting solution to users with inherent eye issues rather than contact lenses.",

@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_LIZARDFOLK_DM",
+    "id": "GROUP_LIZARDFOLK_DM",
     "monsters": [
       { "monster": "mon_lizardfolk_warrior_dm", "weight": 900 },
       { "monster": "mon_lizardfolk_warrior_dm", "weight": 20, "pack_size": [ 2, 4 ] },
@@ -12,7 +12,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GOLEM_DM",
+    "id": "GROUP_GOLEM_DM",
     "monsters": [
       { "monster": "mon_plasticgolem_dm", "weight": 965 },
       { "monster": "mon_claygolem_dm", "weight": 20 },
@@ -22,7 +22,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GOBLIN_DM",
+    "id": "GROUP_GOBLIN_DM",
     "monsters": [
       { "monster": "mon_goblin_warrior_dm", "weight": 900 },
       { "monster": "mon_goblin_warrior_dm", "weight": 35, "pack_size": [ 2, 4 ] },
@@ -31,7 +31,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ORC_DM",
+    "id": "GROUP_ORC_DM",
     "monsters": [
       { "monster": "mon_orc_warrior_dm", "weight": 960, "cost_multiplier": 5 },
       { "monster": "mon_orc_archer_dm", "weight": 25, "cost_multiplier": 7 },

@@ -1,18 +1,18 @@
 [
   {
     "id": "afs_magellan_suit",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "Magellan exosuit" },
     "description": "A high-quality, civilian grade EVA suit often employed by well-established frontier research and exploration associations.  Designed to support the exploration of challenging terrain, it offers respectable protection against common environmental hazards like extreme temperatures, inhospitable atmospheres, and light radiation.  It leaves arms and hands relatively unencumbered to aid the manipulation of scientific instruments.\n\nAn integral battery allows the suit to operate for up to 34 hours, but complicates field recharging.",
     "weight": "7800 g",
     "volume": "14 L",
     "price": "4 kUSD",
-    "material": [ "nomex", "steel" ],
+    "material": [ "nomex", "titanium" ],
     "symbol": "[",
     "looks_like": "robofac_enviro_suit",
     "color": "light_gray",
-    "ammo": "battery",
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
@@ -29,10 +29,9 @@
       { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 10 },
       { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 15 }
     ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
     "warmth": 20,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 15,
     "flags": [
@@ -47,13 +46,16 @@
       "OUTER",
       "NO_RELOAD",
       "NO_UNLOAD"
-    ]
+    ],
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ]
   },
   {
     "id": "afs_magellan_suit_on",
     "copy-from": "afs_magellan_suit",
     "repairs_like": "afs_magellan_suit",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "Magellan exosuit (on)", "str_pl": "Magellan exosuits (on)" },
     "looks_like": "afs_cryopod_bodyglove",
     "description": "The temperature control units of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
@@ -70,18 +72,18 @@
   },
   {
     "id": "afs_frontier_cryo",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "frontier cryo suit" },
     "description": "A sturdy suit meant to protect against the freezing cold, made from a pair of jumpsuits that have been woven around a heavy insulation layer and crisscrossed with the thermal tubing of a heat regulation unit.  The thick insulation allows the suit to function with unrivaled efficiency, but also makes all types of movement difficult.",
     "weight": "7800 g",
     "volume": "14 L",
     "price": "75 USD",
-    "material": [ "cotton", "plastic" ],
+    "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robofac_enviro_suit",
     "color": "cyan",
-    "ammo": "battery",
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
@@ -99,7 +101,6 @@
       { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 25 },
       { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 15 }
     ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -112,13 +113,16 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OUTER" ],
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ]
   },
   {
     "id": "afs_frontier_cryo_on",
     "copy-from": "afs_frontier_cryo",
     "repairs_like": "afs_frontier_cryo",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "frontier cryo suit (on)", "str_pl": "frontier cryo suits (on)" },
     "looks_like": "afs_cryopod_bodyglove",
     "description": "The temperature control units of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
@@ -135,7 +139,8 @@
   },
   {
     "id": "afs_combat_cryo",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "combat cryo suit" },
     "description": "A sleek black undersuit criss-crossed with the tubing of a heat regulation unit.  Insulation is kept at a minimum to allow for combat mobility, and the suit is quite power hungry as a result.  Despite the name, it's minimally protective and designed to be worn under a set of armor.",
@@ -146,7 +151,6 @@
     "symbol": "[",
     "looks_like": "afs_cryopod_bodyglove",
     "color": "cyan",
-    "ammo": "battery",
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
@@ -164,7 +168,6 @@
       { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 2 },
       { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 2 }
     ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -176,13 +179,16 @@
     "warmth": 20,
     "material_thickness": 0.5,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "SKINTIGHT", "SOFT" ],
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ]
   },
   {
     "id": "afs_combat_cryo_on",
     "copy-from": "afs_combat_cryo",
     "repairs_like": "afs_frontier_cryo",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "combat cryo suit (on)", "str_pl": "combat cryo suits (on)" },
     "looks_like": "afs_cryopod_bodyglove",
     "description": "The temperature control units of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
@@ -196,5 +202,90 @@
       "msg": "Your %s deactivates.",
       "target": "afs_combat_cryo"
     }
+  },
+  {
+    "id": "afs_combat_cryo_xl",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "combat cryo suit" },
+    "copy-from": "afs_combat_cryo",
+    "description": "A sleek black undersuit criss-crossed with the tubing of a heat regulation unit.  Insulation is kept at a minimum to allow for combat mobility, and the suit is quite power hungry as a result.  Despite the name, it's minimally protective and designed to be worn under a set of armor.  Made to fit the uplifted, the heavily augmented, or similarly sized individuals.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "afs_combat_cryo_on_xl",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "combat cryo suit (on)", "str_pl": "combat cryo suits (on)" },
+    "copy-from": "afs_combat_cryo_on",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "afs_cryopod_bodyglove",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "light_gray",
+    "name": { "str": "cryopod bodyglove" },
+    "looks_like": "jumpsuit",
+    "description": "A dark orange bodyglove, hundreds of tubes curl over its surface, tracing the contours of human musculature.  Meant to control body temperature during prolonged cryopreservation, it could easily keep you comfortable in any earthly climate.  Use it to activate its climate control functionality.",
+    "price": "15 kUSD",
+    "price_postapoc": "1 kUSD 500 USD",
+    "material": [ "graphene_weave" ],
+    "weight": "1250 g",
+    "volume": "4500 ml",
+    "charges_per_use": 5,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "afs_heavy_suit_battery_cell"
+      }
+    ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s.",
+      "target": "afs_cryopod_bodyglove_on",
+      "active": true,
+      "need_charges": 5,
+      "need_charges_msg": "The %s's batteries are dead."
+    },
+    "warmth": 20,
+    "environmental_protection": 10,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT", "RAINPROOF", "STURDY", "WATERPROOF", "PADDED" ],
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ],
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ]
+  },
+  {
+    "id": "afs_cryopod_bodyglove_on",
+    "copy-from": "afs_cryopod_bodyglove",
+    "repairs_like": "afs_cryopod_bodyglove",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "cryopod bodyglove (on)", "str_pl": "cryopod bodygloves (on)" },
+    "looks_like": "afs_cryopod_bodyglove",
+    "description": "A dark orange bodyglove, hundreds of tubes curl over its surface, tracing the contours of human musculature.  Meant to control body temperature during prolonged cryopreservation, it could easily keep you comfortable in any earthly climate.  The temperature control units of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
+    "power_draw": "90 W",
+    "revert_to": "afs_cryopod_bodyglove",
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "afs_cryopod_bodyglove"
+    },
+    "flags": [ "VARSIZE", "SKINTIGHT", "RAINPROOF", "STURDY", "WATERPROOF", "PADDED", "THERMOMETER", "HYGROMETER" ]
   }
 ]

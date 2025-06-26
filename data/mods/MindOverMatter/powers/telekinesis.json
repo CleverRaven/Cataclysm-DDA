@@ -9,14 +9,14 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEKINETIC_FAR_HAND_SELECTOR",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 1250,
     "final_energy_cost": 500,
     "energy_increment": -80,
@@ -33,9 +33,8 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "item", "ground" ],
-    "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "directed_push",
@@ -69,9 +68,8 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "item", "ground" ],
-    "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "directed_push",
@@ -105,111 +103,45 @@
     "description": "Shove a target away or pull it towards you with a burst of psionic force.  The distance the target can be moved depends on its weight versus your power level; heavier things will not go as far, and if your target is too heavy, you may not be able to move it at all.",
     "message": "",
     "teachable": false,
-    "valid_targets": [ "self" ],
+    "valid_targets": [ "ally", "hostile" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR",
     "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( ( ( (u_spell_level('telekinetic_push') + u_spell_level('telekinetic_push_knack') ) * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+      ]
+    },
     "max_range": 40,
-    "energy_source": "STAMINA",
     "base_energy_cost": 1750,
     "final_energy_cost": 750,
     "energy_increment": -80,
     "base_casting_time": 50,
     "final_casting_time": 10,
-    "casting_time_increment": -4
-  },
-  {
-    "id": "telekinetic_force_shove_away_target",
-    "type": "SPELL",
-    "name": { "str": "[Ψ]Force Shove Away", "//~": "NO_I18N" },
-    "description": { "str": "The power that shoves a target away.  It's a bug if you have it.", "//~": "NO_I18N" },
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "ally", "hostile" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-    "difficulty": 1,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_TELEKINETIC_FORCE_SHOVE_PUSH_CHECKER",
-    "shape": "blast",
-    "min_range": {
-      "math": [
-        "min( ( ( (u_spell_level('telekinetic_push') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
-      ]
-    },
-    "max_range": 40,
+    "casting_time_increment": -4,
     "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
   },
   {
-    "id": "telekinetic_force_shove_toward_target",
-    "type": "SPELL",
-    "name": { "str": "[Ψ]Force Shove Toward", "//~": "NO_I18N" },
-    "description": { "str": "The power that shoves a target toward.  It's a bug if you have it.", "//~": "NO_I18N" },
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "ally", "hostile" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-    "difficulty": 1,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_TELEKINETIC_FORCE_SHOVE_PULL_CHECKER",
-    "shape": "blast",
-    "min_range": {
-      "math": [
-        "min( ( ( (u_spell_level('telekinetic_push') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
-      ]
-    },
-    "max_range": 40,
-    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
-  },
-  {
-    "id": "telekinetic_force_shove_away",
+    "id": "telekinetic_force_shove_real",
     "type": "SPELL",
     "name": { "str": "[Ψ]Force Shove Push Real", "//~": "NO_I18N" },
     "description": { "str": "The actual effect that causes the force shove away.  It's a bug if you have it.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
-    "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
     "max_level": 30,
     "effect": "directed_push",
     "shape": "blast",
-    "min_damage": 0,
-    "max_damage": 30,
-    "damage_increment": 1,
-    "min_range": 50,
-    "max_range": 50
-  },
-  {
-    "id": "telekinetic_force_shove_toward",
-    "type": "SPELL",
-    "name": { "str": "[Ψ]Force Shove Pull Real", "//~": "NO_I18N" },
-    "description": { "str": "The actual effect that causes the force shove toward.  It's a bug if you have it.", "//~": "NO_I18N" },
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "ally", "hostile" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-    "difficulty": 1,
-    "max_level": 30,
-    "effect": "directed_push",
-    "shape": "blast",
-    "min_damage": 0,
-    "max_damage": -30,
-    "damage_increment": -1,
+    "min_damage": { "math": [ "u_telekinesis_shove_spell_level" ] },
     "min_range": 50,
     "max_range": 50
   },
@@ -222,8 +154,9 @@
     "teachable": false,
     "valid_targets": [ "ground" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "noise",
@@ -244,7 +177,6 @@
       ]
     },
     "max_range": 60,
-    "energy_source": "STAMINA",
     "base_energy_cost": 1750,
     "final_energy_cost": 450,
     "energy_increment": -85,
@@ -263,8 +195,9 @@
     "teachable": false,
     "valid_targets": [ "ally", "hostile", "ground" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -273,31 +206,30 @@
     "damage_type": "psi_telekinetic_damage",
     "min_damage": {
       "math": [
-        "( (u_spell_level('telekinetic_slam_down') * 0.5) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('telekinetic_slam_down') + u_spell_level('telekinetic_slam_down_knack') ) * 0.5) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_spell_level('telekinetic_slam_down') * 1.2) + 15) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('telekinetic_slam_down') + u_spell_level('telekinetic_slam_down_knack') ) * 1.2) + 15) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_duration": {
       "math": [
-        "( (u_spell_level('telekinetic_slam_down') * 25) + 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('telekinetic_slam_down') + u_spell_level('telekinetic_slam_down_knack') ) * 25) + 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telekinetic_slam_down') * 95) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('telekinetic_slam_down') + u_spell_level('telekinetic_slam_down_knack') ) * 95) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_slam_down') * 0.5) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( ( ( ( (u_spell_level('telekinetic_slam_down') + u_spell_level('telekinetic_slam_down_knack') ) * 0.5) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "max_range": 40,
-    "energy_source": "STAMINA",
     "base_energy_cost": 2500,
     "final_energy_cost": 850,
     "energy_increment": -65,
@@ -315,8 +247,9 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -332,7 +265,6 @@
         "( (u_spell_level('telekinetic_momentum') * 2000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telekinetic_momentum') > -1 ? 0 : max((3500 - (u_spell_level('telekinetic_momentum') * 125)), 1750)"
@@ -353,8 +285,9 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -370,7 +303,6 @@
         "( (u_spell_level('telekinetic_slowfall') * 400) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 2250,
     "final_energy_cost": 650,
     "energy_increment": -85,
@@ -385,16 +317,26 @@
     "description": "Unleash a telekinetic wave around you that indiscriminately knocks everything back.",
     "message": "You knock everything nearby backwards!",
     "teachable": false,
-    "valid_targets": [ "self" ],
+    "valid_targets": [ "hostile", "ally" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
-    "effect_str": "EOC_TELEKIN_WAVE_FORCE",
+    "effect_str": "EOC_TELEKIN_WAVE_TARGETS",
     "shape": "blast",
-    "energy_source": "STAMINA",
+    "min_aoe": {
+      "math": [
+        "min( ( ( (u_spell_level('telekinetic_wave') * 0.2) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 4)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( ( (u_spell_level('telekinetic_wave') * 0.2) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 4)"
+      ]
+    },
     "base_energy_cost": 4500,
     "final_energy_cost": 2250,
     "energy_increment": -125,
@@ -403,49 +345,42 @@
     "casting_time_increment": -4
   },
   {
-    "id": "telekinetic_wave_wonder",
+    "id": "telekinetic_water_walk",
     "type": "SPELL",
-    "name": { "str": "[Ψ]Wave of Force WONDER", "//~": "NO_I18N" },
-    "description": { "str": "The WONDER spell that casts multiple waves of force.", "//~": "NO_I18N" },
+    "name": "[Ψ]Water Walking (C)",
+    "description": "Lift yourself enough to counteract your mass, allowing the surface tension of liquids to support you, enabling you to walk on water.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "WONDER" ],
-    "effect": "attack",
-    "extra_effects": [ { "id": "telekinetic_wavepush", "hit_self": true } ],
-    "shape": "blast",
-    "min_damage": 12,
-    "max_damage": 12
-  },
-  {
-    "id": "telekinetic_wavepush",
-    "type": "SPELL",
-    "name": { "str": "[Ψ]Telekinetic Wave Push", "//~": "NO_I18N" },
-    "description": { "str": "Part of Wave of Force.  If you see this it's a bug.", "//~": "NO_I18N" },
-    "message": "",
-    "valid_targets": [ "ally", "hostile", "item" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "RANDOM_TARGET", "NO_EXPLOSION_SFX" ],
-    "effect": "directed_push",
-    "shape": "blast",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "damage_type": "psi_telekinetic_damage",
-    "min_damage": {
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKIN_WATER_WALKING",
+    "shape": "blast",
+    "min_duration": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_wave') * 0.1) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+        "( (u_spell_level('telekinetic_water_walk') * 800) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "max_damage": {
+    "max_duration": {
       "math": [
-        "( (u_spell_level('telekinetic_wave') * 0.25) + 6) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telekinetic_water_walk') * 2600) + 7500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "min_range": 1,
-    "max_range": 1,
-    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_water_walking') > -1 ? 0 : max((5000 - (u_spell_level('telekinetic_water_walk') * 100)), 2000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_water_walking') > -1 ? 10 : max((150 -(u_spell_level('telekinetic_water_walk') * 6.5)), 50)"
+      ]
+    }
   },
   {
     "id": "telekinetic_lifting_field",
@@ -456,8 +391,9 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -473,7 +409,6 @@
         "( (u_spell_level('telekinetic_lifting_field') * 25900) + 167400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telekinetic_lifting_field') > -1 ? 0 : max((4500 - (u_spell_level('telekinetic_lifting_field') * 100)), 2000)"
@@ -494,8 +429,9 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -511,7 +447,6 @@
         "( (u_spell_level('telekinetic_strength') * 3000) + 12000 )* (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telekinetic_strength') > -1 ? 0 : max((5000 - (u_spell_level('telekinetic_strength') * 150)), 2000)"
@@ -528,8 +463,9 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ground" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "damage_type": "psi_telekinetic_damage",
@@ -553,7 +489,6 @@
       ]
     },
     "max_range": 70,
-    "energy_source": "STAMINA",
     "base_energy_cost": 3750,
     "final_energy_cost": 1750,
     "energy_increment": -135,
@@ -573,8 +508,9 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -590,7 +526,6 @@
         "( (u_spell_level('telekinetic_vehicle_lift') * 42000) + 150000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telekinetic_vehicle_lift') > -1 ? 0 : max((6500 - (u_spell_level('telekinetic_vehicle_lift') * 200)), 3250)"
@@ -611,8 +546,9 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -628,7 +564,6 @@
         "( (u_spell_level('telekinetic_shield') * 3700) + 72000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telekinetic_armor') > -1 ? 0 : max((8000 - (u_spell_level('telekinetic_shield') * 185)), 3250)"
@@ -649,10 +584,10 @@
     "teachable": false,
     "valid_targets": [ "ally", "hostile", "item", "ground" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [
       "PSIONIC",
-      "CONCENTRATE",
       "LOUD",
       "NO_PROJECTILE",
       "EXTRA_EFFECTS_FIRST",
@@ -691,7 +626,6 @@
       ]
     },
     "max_aoe": 30,
-    "energy_source": "STAMINA",
     "base_energy_cost": 8500,
     "final_energy_cost": 4500,
     "energy_increment": -200,
@@ -706,13 +640,14 @@
     "id": "telekinetic_levitation",
     "type": "SPELL",
     "name": "[Ψ]Levitation (C)",
-    "description": "Use your telekinesis and lift yourself up, defying gravity.  While not true flight, you can cross open air and descend safely.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "description": "Use your telekinesis and lift yourself up, defying gravity.  While not true flight, you can cross open air and descend safely.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.  It requires <color_yellow>even more concentration</color> than usual.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -728,7 +663,6 @@
         "( (u_spell_level('telekinetic_levitation') * 200) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telekinetic_levitation') > -1 ? 0 : max((7500 - (u_spell_level('telekinetic_levitation') * 165)), 3500)"
@@ -747,62 +681,28 @@
     "description": "Telekinesis on a grand scale, this power allows you to move truly enormous amounts of weight, hurling a human-sized target at lethal speeds or picking up and throwing something monstrously large.  The amount of weight you can move is dependent on the power level.",
     "message": "",
     "teachable": false,
-    "valid_targets": [ "self" ],
+    "valid_targets": [ "ally", "hostile" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_SELECTOR",
     "shape": "blast",
-    "energy_source": "STAMINA",
+    "min_range": {
+      "math": [
+        "min( ( ( (u_spell_level('telekinetic_move_large_weight') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+      ]
+    },
+    "max_range": 40,
     "base_energy_cost": 9500,
     "final_energy_cost": 5000,
     "energy_increment": -175,
     "base_casting_time": 80,
     "final_casting_time": 25,
     "casting_time_increment": -5
-  },
-  {
-    "id": "telekinetic_move_large_weight_pushing",
-    "type": "SPELL",
-    "name": { "str": "[Ψ]Megakinesis Pushing Power", "//~": "NO_I18N" },
-    "description": { "str": "Starts the push effect EoC for Megakinesis.  It's a bug if you have it.", "//~": "NO_I18N" },
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "ally", "hostile" ],
-    "spell_class": "TELEKINETIC",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_PUSH_CHECKER",
-    "shape": "blast",
-    "min_range": {
-      "math": [
-        "min( ( ( (u_spell_level('telekinetic_move_large_weight') * 0.9) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 55)"
-      ]
-    },
-    "max_range": 55
-  },
-  {
-    "id": "telekinetic_move_large_weight_pulling",
-    "type": "SPELL",
-    "name": { "str": "[Ψ]Megakinesis Pulling Power", "//~": "NO_I18N" },
-    "description": { "str": "Starts the pull effect EoC for Megakinesis.  It's a bug if you have it.", "//~": "NO_I18N" },
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "ally", "hostile" ],
-    "spell_class": "TELEKINETIC",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_PULL_CHECKER",
-    "shape": "blast",
-    "min_range": {
-      "math": [
-        "min( ( ( (u_spell_level('telekinetic_move_large_weight') * 0.9) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 55)"
-      ]
-    },
-    "max_range": 55
   },
   {
     "id": "telekinetic_aegis",
@@ -813,8 +713,9 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 9,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -826,7 +727,6 @@
         "( (u_spell_level('telekinetic_aegis') * 20) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 9500,
     "final_energy_cost": 5500,
     "energy_increment": -225,
@@ -843,8 +743,9 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "IGNORE_WALLS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "LOUD", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "IGNORE_WALLS", "RANDOM_DURATION" ],
     "difficulty": 10,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -870,7 +771,6 @@
       ]
     },
     "max_aoe": 30,
-    "energy_source": "STAMINA",
     "base_energy_cost": 11500,
     "final_energy_cost": 7000,
     "base_casting_time": 150,

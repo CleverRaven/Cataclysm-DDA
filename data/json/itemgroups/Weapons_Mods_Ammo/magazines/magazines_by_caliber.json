@@ -8,6 +8,7 @@
     "//3": "Collections of magazines for 9mm guns that are sold in gunstores, such as Glocks, M9s.",
     "items": [
       { "group": "magazines_9mm_glock", "prob": 100 },
+      { "item": "p365_mag", "prob": 161 },
       { "group": "magazines_9mm_m9", "prob": 20 },
       { "group": "magazines_9mm_px4", "prob": 20 },
       { "group": "magazines_9mm_usp", "prob": 20 },
@@ -20,8 +21,35 @@
       { "group": "magazines_9mm_ccp", "prob": 5 },
       { "group": "magazines_9mm_sp2022", "prob": 10 },
       { "group": "magazines_9mm_mp5", "prob": 19 },
-      { "group": "magazines_9mm_p38", "prob": 14 },
+      { "item": "p38mag", "prob": 14 },
       { "group": "magazines_9mm_apc9", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_restricted_9mm",
+    "//": "Collections of magazines for 9mm guns that are sold in gunstores, such as Glocks, M9s, that are limited to 10 rounds or less so that they can be sold in gunstores.  If 10 round or less magazines aren't present, use the lowest current capacity magazine.",
+    "items": [
+      { "item": "p365_mag", "prob": 161 },
+      { "item": "glock17_10", "prob": 48 },
+      { "item": "glockmag_10", "prob": 52 },
+      { "item": "glock43_mag", "prob": 16 },
+      { "item": "glock43x/48_mag", "prob": 13 },
+      { "item": "m9mag_10rd", "prob": 20 },
+      { "item": "px4mag_10rd", "prob": 20 },
+      { "item": "usp9mag_10rd", "prob": 20 },
+      { "item": "p226mag_10rd_9x19mm", "prob": 40 },
+      { "item": "p320mag_10rd_9x19mm", "prob": 60 },
+      { "item": "bhp9mag_13rd", "prob": 18 },
+      { "item": "ppq9mag_10rd", "prob": 15 },
+      { "group": "magazines_restricted_9mm_hipoint_c9", "prob": 30 },
+      { "item": "cz75mag_10rd", "prob": 40 },
+      { "group": "magazines_9mm_ccp", "prob": 5 },
+      { "item": "sp2022mag_10rd_9mm", "prob": 10 },
+      { "item": "mp5mag_10rd", "prob": 19 },
+      { "item": "p38mag", "prob": 14 },
+      { "item": "btmp9mag_9x19mm_10rd", "prob": 5 }
     ]
   },
   {
@@ -41,6 +69,21 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "common_magazines_restricted_10mm",
+    "//": "Collections of magazines for 10mm guns that are sold in gunstores, such as Glocks, that are limited to 10 rounds or less.",
+    "items": [
+      { "item": "glock_29mag", "prob": 39 },
+      { "item": "glock_20mag_10", "prob": 61 },
+      { "item": "40_speedloader6", "prob": 16 },
+      { "item": "m1911_10mag", "prob": 3 },
+      { "item": "p220_10_mag", "prob": 21 },
+      { "item": "witness_mag_10", "prob": 13 },
+      { "item": "xd_10_mag", "prob": 19 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "common_magazines_22lr",
     "//": "Collections of magazines for .22 LR guns that are sold in gunstores, such as 10/22s, Ruger Standards.",
     "items": [
@@ -50,6 +93,25 @@
       { "item": "22_speedloader8", "prob": 1 },
       { "item": "mosquitomag", "prob": 20 },
       { "item": "wp22mag", "prob": 23 },
+      { "item": "sr22_mag", "prob": 98 },
+      { "item": "ruger_mk4_mag", "prob": 39 },
+      { "item": "1911_22_mag", "prob": 26 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_restricted_22lr",
+    "//": "Collections of magazines for .22 LR guns that are sold in gunstores, such as 10/22s, Ruger Standards, that are limited to 10 rounds or less.",
+    "items": [
+      { "item": "22_ar15mag_10", "prob": 8 },
+      { "item": "ruger1022mag", "prob": 100 },
+      { "item": "cp33_mag", "prob": 5 },
+      { "item": "glock44_mag", "prob": 2 },
+      { "item": "22_speedloader8", "prob": 1 },
+      { "item": "mosquitomag", "prob": 20 },
+      { "item": "wp22mag", "prob": 23 },
+      { "item": "sr22_mag", "prob": 98 },
       { "item": "ruger_mk4_mag", "prob": 39 },
       { "item": "1911_22_mag", "prob": 26 }
     ]
@@ -87,7 +149,20 @@
     "//": "Collections of magazines for 40 S&W guns that are sold in gunstores, such as the Glock 22.",
     "items": [
       { "group": "magazines_40_glock", "prob": 100 },
-      { "item": "px4_40mag", "prob": 21 },
+      { "item": "px4_40mag", "prob": 16 },
+      { "item": "px4_40mag_10", "prob": 5 },
+      { "item": "bhp40mag", "prob": 3 },
+      { "item": "hptjcpmag", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_restricted_40sw",
+    "//": "Collections of magazines for 40 S&W guns that are sold in gunstores, such as the Glock 22, that are limited to 10 rounds or less.",
+    "items": [
+      { "item": "glock40mag_10", "prob": 100 },
+      { "item": "px4_40mag_10", "prob": 21 },
       { "item": "bhp40mag", "prob": 3 },
       { "item": "hptjcpmag", "prob": 30 }
     ]
@@ -117,10 +192,37 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "common_magazines_restricted_45",
+    "//": "Collections of magazines for 45 ACP guns that are sold in gunstores, such as Glocks, 1911s, that are limited to 10 rounds or less.",
+    "items": [
+      { "item": "glock_21mag_10", "prob": 100 },
+      { "item": "thompson_mag", "prob": 21 },
+      { "item": "glock36_mag", "prob": 40 },
+      { "item": "usc10mag", "prob": 18 },
+      { "group": "magazines_45_1911", "prob": 1107 },
+      { "item": "usp45mag", "prob": 30 },
+      { "item": "ppq45mag", "prob": 5 },
+      { "item": "hptjhpmag", "prob": 103 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "common_magazines_57",
     "//": "Collections of magazines for 5.7mm guns that can be found in gunstores.",
     "items": [
       { "group": "magazines_57_ruger", "prob": 100 },
+      { "item": "fn57mag", "prob": 13 },
+      { "item": "fnp90mag", "prob": 115 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_restricted_57",
+    "//": "Collections of magazines for 5.7mm guns that can be found in gunstores, that are limited to 10 rounds or less.",
+    "items": [
+      { "item": "ruger_57_10_round_mag", "prob": 100 },
       { "item": "fn57mag", "prob": 13 },
       { "item": "fnp90mag", "prob": 115 }
     ]
@@ -134,6 +236,18 @@
       { "group": "magazines_stanag", "prob": 1007 },
       { "group": "magazines_mini14", "prob": 100 },
       { "group": "magazines_aug", "prob": 28 },
+      { "item": "sl8mag", "prob": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_restricted_223",
+    "//": "Collections of magazines for 223/556 guns that can be found in gunstores, that are limited to 10 rounds or less.",
+    "items": [
+      { "group": "magazines_restricted_stanag", "prob": 1007 },
+      { "group": "magazines_restricted_mini14", "prob": 100 },
+      { "item": "augmag_10rd", "prob": 28 },
       { "item": "sl8mag", "prob": 4 }
     ]
   },
@@ -162,11 +276,28 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "common_magazines_restricted_308",
+    "//": "Collections of magazines for 308 guns that can be found in gunstores, that are limited to 10 rounds or less.",
+    "items": [
+      { "item": "falmag", "prob": 25 },
+      { "item": "g3mag", "prob": 19 },
+      { "item": "m14smallmag", "prob": 300 },
+      { "item": "papm77mag_10rd", "prob": 39 },
+      { "item": "scarhmag_10", "prob": 49 },
+      { "item": "ar10mag_10rd", "prob": 100 },
+      { "item": "steyr_scout_mag", "prob": 16 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "common_magazines_380",
     "//": "Collections of magazines for 380 guns that can be found in gunstores.",
     "items": [
       { "group": "magazines_hipoint380", "prob": 44 },
       { "item": "rugerlcpmag", "prob": 100 },
+      { "item": "glock42_mag", "prob": 24 },
+      { "item": "swbodyguard_mag", "prob": 724 },
       { "item": "hpt3895mag_10rd", "prob": 4 }
     ]
   },
@@ -179,6 +310,18 @@
       { "group": "magazines_akm", "prob": 100 },
       { "group": "magazines_bren2762", "prob": 44 },
       { "group": "magazines_ar762", "prob": 19 },
+      { "item": "762x39_clip", "prob": 35 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_restricted_762",
+    "//": "Collections of magazines for 7.62x39 guns that can be found in gunstores, that are limited to 10 rounds or less.",
+    "items": [
+      { "item": "akmag10", "prob": 100 },
+      { "item": "bren2_762mag10", "prob": 44 },
+      { "group": "magazines_restricted_ar762", "prob": 19 },
       { "item": "762x39_clip", "prob": 35 }
     ]
   },
@@ -213,6 +356,19 @@
       { "group": "magazines_shot_speedloaders", "prob": 20 },
       { "group": "magazines_590m", "prob": 8 },
       { "group": "magazines_mka", "prob": 100 },
+      { "item": "srm_1216_mag_16", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_restricted_12",
+    "//": "Collections of magazines for 12 gauge guns that can be found in gunstores, that are limited to 5 rounds or less as detachable shotgun magazines have a limit of 5.",
+    "items": [
+      { "item": "saiga10mag", "prob": 6 },
+      { "group": "magazines_shot_speedloaders", "prob": 20 },
+      { "item": "mossberg_590m_mag_5", "prob": 8 },
+      { "item": "mka_1919_5", "prob": 100 },
       { "item": "srm_1216_mag_16", "prob": 2 }
     ]
   },

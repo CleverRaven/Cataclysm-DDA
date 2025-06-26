@@ -540,7 +540,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_takes_damage",
     "condition": { "and": [ { "u_has_effect": "stunned" }, { "u_has_effect": "effect_lilin_mesmerize_tracker" } ] },
-    "effect": [ { "u_lose_effect": "effect_lilin_mesmerize_tracker" }, { "u_lose_effect": "stunned" } ]
+    "effect": [ { "u_lose_effect": [ "effect_lilin_mesmerize_tracker", "stunned" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -548,7 +548,7 @@
     "eoc_type": "EVENT",
     "required_event": "monster_takes_damage",
     "condition": { "and": [ { "u_has_effect": "stunned" }, { "u_has_effect": "effect_lilin_mesmerize_tracker" } ] },
-    "effect": [ { "u_lose_effect": "effect_lilin_mesmerize_tracker" }, { "u_lose_effect": "stunned" } ]
+    "effect": [ { "u_lose_effect": [ "effect_lilin_mesmerize_tracker", "stunned" ] } ]
   },
   {
     "type": "effect_on_condition",

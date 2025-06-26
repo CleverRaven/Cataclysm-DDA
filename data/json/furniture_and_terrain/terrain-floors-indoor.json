@@ -71,7 +71,7 @@
     "name": "concrete floor",
     "description": "A bare and cold concrete floor with painted stripes of black and yellow, could still insulate from the outdoors but roof collapse is possible if supporting walls are broken down.",
     "symbol": ".",
-    "color": "black",
+    "color": "dark_gray",
     "looks_like": "t_thconc_warning",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "connect_groups": [ "CONCRETE", "INDOORFLOOR" ],
@@ -474,8 +474,8 @@
       "str_max": 500,
       "str_min_supported": 200,
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
     }
@@ -498,8 +498,8 @@
       "str_max": 500,
       "str_min_supported": 200,
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
     }
@@ -568,7 +568,7 @@
       "sound": "SMASH!",
       "ter_set": "t_null",
       "str_min_supported": 100,
-      "items": [ { "item": "steel_chunk", "count": [ 5, 11 ] } ]
+      "items": [ { "item": "lc_steel_chunk", "count": [ 5, 11 ] } ]
     }
   },
   {
@@ -604,14 +604,15 @@
     "connects_to": "DIRT",
     "move_cost": 2,
     "roof": "t_shingle_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "DIGGABLE" ],
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "DIGGABLE" ],
     "bash": {
-      "sound": "SMASH!",
+      "sound": "thump",
       "ter_set": "t_null",
-      "str_min": 50,
-      "str_max": 400,
-      "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "str_min": 1,
+      "str_max": 6,
+      "sound_vol": 8,
+      "sound_fail_vol": 8,
+      "items": [ { "item": "material_soil", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -629,11 +630,12 @@
     "roof": "t_thatch_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "DIGGABLE" ],
     "bash": {
-      "sound": "SMASH!",
+      "sound": "thump",
       "ter_set": "t_null",
-      "str_min": 50,
-      "str_max": 400,
-      "str_min_supported": 100,
+      "str_min": 5,
+      "str_max": 15,
+      "sound_vol": 8,
+      "sound_fail_vol": 8,
       "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "straw_pile", "count": [ 5, 10 ] } ]
     }
   },
@@ -1471,7 +1473,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 4, 16 ] },
-        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 6 ] },
         { "item": "cobalt_60", "count": [ 1, 5 ] },
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
@@ -1625,6 +1627,28 @@
       "sound_fail": "splosh!",
       "ter_set": "t_water_dp",
       "items": [ { "item": "clay_lump", "count": [ 6, 12 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_burnt",
+    "name": "burnt floor",
+    "description": "Whatever this floor used to be made of, it's little more than charred remains now.",
+    "symbol": ".",
+    "looks_like": "t_dirtfloor",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "COLLAPSES", "INDOORS" ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 6,
+      "//COMMENT": "I don't know, charcoal breaking sounds? Onomatopoeia is outside my skillset!",
+      "sound": "crunch!",
+      "sound_fail": "twang!",
+      "sound_vol": 8,
+      "sound_fail_vol": 4,
+      "ter_set": "t_null"
     }
   },
   {

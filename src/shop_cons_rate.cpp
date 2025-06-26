@@ -1,13 +1,18 @@
 #include "shop_cons_rate.h"
 
+#include <algorithm>
+
 #include "avatar.h"
 #include "condition.h"
+#include "creature.h"
+#include "debug.h"
 #include "dialogue.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "item.h"
 #include "item_category.h"
 #include "item_group.h"
 #include "itype.h"
-#include "json.h"
 #include "npc.h"
 
 namespace
@@ -131,12 +136,12 @@ bool shopkeeper_cons_rate_entry::operator==( shopkeeper_cons_rate_entry const &r
     return icg_entry::operator==( rhs ) && rate == rhs.rate;
 }
 
-void shopkeeper_blacklist::load( JsonObject const &jo, const std::string_view/*src*/ )
+void shopkeeper_blacklist::load( JsonObject const &jo, std::string_view/*src*/ )
 {
     optional( jo, was_loaded, "entries", entries, icg_entry_reader {} );
 }
 
-void shopkeeper_cons_rates::load( JsonObject const &jo, const std::string_view/*src*/ )
+void shopkeeper_cons_rates::load( JsonObject const &jo, std::string_view/*src*/ )
 {
     optional( jo, was_loaded, "default_rate", default_rate );
     optional( jo, was_loaded, "junk_threshold", junk_threshold, money_reader {}, 1_cent );

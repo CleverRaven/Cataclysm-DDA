@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_enforcer_station_a1" ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -35,7 +34,8 @@
         "afs_habitat_structure",
         "afs_habitat_exterior",
         "afs_habitat_residential_furnishing",
-        "afs_enforcer_station_a1_parrameter_palette"
+        "afs_enforcer_station_a1_parrameter_palette",
+        "afs_light_param_palette"
       ],
       "terrain": {
         "1": "t_door_metal_locked",
@@ -71,7 +71,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_enforcer_station_a1_floor2" ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -106,7 +105,8 @@
         "afs_habitat_exterior",
         "afs_habitat_residential_furnishing",
         "afs_habitat_life_support",
-        "afs_enforcer_station_a1_parrameter_palette"
+        "afs_enforcer_station_a1_parrameter_palette",
+        "afs_light_param_palette"
       ],
       "terrain": { "1": "t_door_metal_locked", "2": "t_afs_enforcer_card_reader", " ": "t_open_air" },
       "furniture": {
@@ -146,7 +146,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_enforcer_station_a1_roof" ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -187,13 +186,11 @@
       "enemies": {
         "type": "nested_mapgen_id",
         "default": { "distribution": [ "afs_enforcer_station_a1_floor1_moxies", "afs_enforcer_station_a1_floor1_robots" ] }
-      },
-      "lightstatus": { "type": "nested_mapgen_id", "default": { "distribution": [ "afs_map_lights_on", "null" ] } }
+      }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_floor1_moxies",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -202,7 +199,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_floor1_robots",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -211,7 +207,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_floor2_moxies",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -220,7 +215,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_floor2_robots",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -229,7 +223,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_armory_unlooted",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -271,7 +264,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_armory_looted",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -308,7 +300,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_garage_open",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -343,7 +334,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_garage_patrol_car",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -352,7 +342,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_enforcer_station_a1_garage_cycles",
     "object": {
       "mapgensize": [ 24, 24 ],

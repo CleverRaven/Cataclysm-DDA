@@ -32,6 +32,7 @@
     },
     "furniture": {
       "6": "f_console_broken",
+      "ϟ": "f_bulletin",
       ";": "f_toilet",
       "~": "f_shower",
       "@": "f_bed",
@@ -58,6 +59,6 @@
       "x": "f_safe_l"
     },
     "toilets": { ";": {  } },
-    "items": { "d": { "item": "office", "chance": 70 } }
+    "items": { "d": { "item": "SUS_office_desk", "chance": 70 } }
   }
 ]

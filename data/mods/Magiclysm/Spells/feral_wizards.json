@@ -232,6 +232,63 @@
     "effect_str": "mon_wolf_feral_druid"
   },
   {
+    "type": "SPELL",
+    "id": "feral_magus_push_nearby_enemies_back_target",
+    "name": { "str": "Feral Magus Repulsion Wave Starter", "//~": "NO_I18N" },
+    "description": {
+      "str": "Someday monsters will be smart enough to cast AoE spells without workarounds but it is not this day.",
+      "//~": "NO_I18N"
+    },
+    "valid_targets": [ "hostile" ],
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "effect": "noise",
+    "extra_effects": [ { "id": "feral_magus_push_nearby_enemies_back" } ],
+    "shape": "blast",
+    "spell_class": "MAGUS",
+    "min_range": 1
+  },
+  {
+    "type": "SPELL",
+    "id": "feral_magus_push_nearby_enemies_back",
+    "name": { "str": "Feral Magus Repulsion Wave", "//~": "NO_I18N" },
+    "description": { "str": "It's like Repulsion Wave but for ferals", "//~": "NO_I18N" },
+    "valid_targets": [ "ally", "hostile" ],
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FERAL_MAGUS_PUSH_NEARBY_ENEMIES_BACK",
+    "shape": "blast",
+    "spell_class": "MAGUS",
+    "min_aoe": 1
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FERAL_MAGUS_PUSH_NEARBY_ENEMIES_BACK",
+    "condition": "has_alpha",
+    "effect": [
+      { "npc_location_variable": { "context_val": "player_position" } },
+      { "math": [ "_push_nearby_enemies_power_level = 8" ] },
+      { "math": [ "_telekinesis_weight_ratio = 55" ] },
+      {
+        "math": [
+          "_weight_ratio",
+          "=",
+          "( (_push_nearby_enemies_power_level * _telekinesis_weight_ratio) + (_telekinesis_weight_ratio / 2) ) / (u_weight() / 1000000)"
+        ]
+      },
+      { "math": [ "_telekinesis_shove_spell_level = clamp( ( (_weight_ratio - 1) * 1.5), 0, 20)" ] },
+      {
+        "if": { "x_in_y_chance": { "x": { "math": [ "_weight_ratio * 1000" ] }, "y": 1000 } },
+        "then": [ { "u_add_effect": "downed", "duration": 2 } ]
+      },
+      {
+        "u_knockback": { "math": [ "_telekinesis_shove_spell_level" ] },
+        "stun": 2,
+        "dam_mult": { "math": [ "1 + (_telekinesis_shove_spell_level * 0.4)" ] },
+        "direction_var": { "context_val": "player_position" }
+      }
+    ]
+  },
+  {
     "id": "feral_stormshaper_summon_stormhammer_spell",
     "type": "SPELL",
     "name": { "str": "Call Stormhammer Monster", "//~": "NO_I18N" },
@@ -412,5 +469,36 @@
     "min_duration": 6000,
     "max_duration": 180000,
     "duration_increment": 8700
+  },
+  {
+    "id": "feral_laze",
+    "type": "SPELL",
+    "name": { "str": "Laze", "//~": "NO_I18N" },
+    "description": {
+      "str": "You concentrate and release a focused beam of photons at a target, also known as a laser.  Also you are a monster",
+      "//~": "NO_I18N"
+    },
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "flags": [ "EVOCATION_SPELL", "NO_LEGS", "LOUD", "SOMATIC", "NO_PROJECTILE" ],
+    "effect": "attack",
+    "shape": "line",
+    "max_level": 20,
+    "base_casting_time": 100,
+    "casting_time_increment": -1.0,
+    "final_casting_time": 80,
+    "base_energy_cost": 150,
+    "energy_increment": -2.0,
+    "final_energy_cost": 110,
+    "min_damage": 15,
+    "max_damage": 60,
+    "damage_increment": 2.5,
+    "damage_type": "light",
+    "min_range": 10,
+    "max_range": 25,
+    "range_increment": 1.0,
+    "field_id": "fd_laser",
+    "min_field_intensity": 2,
+    "max_field_intensity": 2,
+    "field_chance": 1
   }
 ]

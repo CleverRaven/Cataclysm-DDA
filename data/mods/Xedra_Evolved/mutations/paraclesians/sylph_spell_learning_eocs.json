@@ -19,10 +19,11 @@
             "SYLPH_CHARGE_DASH",
             "SYLPH_SPEED_ALLY_BUFF",
             "SYLPH_REVEAL_OVERMAP",
+            "SYLPH_BONUS_MELEE_RANGE",
             "CLOUD_OF_STEAM_SYLPH",
             "CREATE_LIGHT_SYLPH",
             "SYLPH_MASSIVE_LIGHTNING_BLAST",
-            "WIND_BLOWS_WILLOW_BENDS",
+            "WIND_BLOWS_WILLOW_BENDS_SYLPH",
             "SYLPH_WIND_TRANSLOCATION",
             "SYLPH_CULTIVATE_GOBLIN_FRUIT",
             "PARACLESIAN_MAKE_GOSSAMER"
@@ -49,7 +50,8 @@
             { "u_at_om_location": "sylph_genius_loci_NW" },
             { "u_at_om_location": "sylph_genius_loci_NE" },
             { "u_at_om_location": "sylph_genius_loci_SW" },
-            { "u_at_om_location": "sylph_genius_loci_SE" }
+            { "u_at_om_location": "sylph_genius_loci_SE" },
+            { "test_eoc": "EOC_CONDITION_SKY_ISLAND_ON_THE_ISLAND" }
           ]
         }
       ]
@@ -71,6 +73,7 @@
         { "math": [ "u_spell_level('summon_air_sprite') < 35" ] },
         { "math": [ "u_spell_level('sylph_charge_dash_spell') < dex_to_level(1)" ] },
         { "math": [ "u_spell_level('sylph_increase_ally_speed_spell') < int_to_level(1)" ] },
+        { "math": [ "u_spell_level('sylph_bonus_melee_range_spell') < dex_to_level(1)" ] },
         { "math": [ "u_spell_level('sylph_reveal_overmap_spell') < per_to_level(1)" ] },
         { "math": [ "u_spell_level('cloud_of_steam_sylph') < 35" ] },
         { "math": [ "u_spell_level('create_light_sylph') < 20" ] },
@@ -78,7 +81,7 @@
         { "math": [ "u_spell_level('sylph_crash_of_lightning') < dex_to_level(1)" ] },
         { "math": [ "u_spell_level('sylph_massive_lightning_bolt_spell') < int_to_level(1)" ] },
         { "math": [ "u_spell_level('sylph_wind_translocation_spell') < dex_to_level(1)" ] },
-        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus') < 25" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus_sylph') < 25" ] },
         { "math": [ "u_spell_level('sylph_cultivate_goblin_fruit') < dex_to_level(1)" ] },
         { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') < 8" ] }
       ]
@@ -93,6 +96,7 @@
         [ "EOC_LEVELER_SYLPH_SUMMON_AIR_SPRITE", 8 ],
         [ "EOC_LEVELER_SYLPH_CHARGE_DASH", 9 ],
         [ "EOC_LEVELER_SYLPH_INCREASE_ALLY_SPEED", 6 ],
+        [ "EOC_LEVELER_SYLPH_BONUS_MELEE_RANGE", 4 ],
         [ "EOC_LEVELER_SYLPH_REVEAL_OVERMAP", 4 ],
         [ "EOC_LEVELER_SYLPH_CLOUD_OF_STEAM", 7 ],
         [ "EOC_LEVELER_SYLPH_CREATE_LIGHT", 9 ],
@@ -226,6 +230,24 @@
         "type": "good"
       },
       { "math": [ "u_spell_exp('sylph_increase_ally_speed_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_BONUS_MELEE_RANGE",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('sylph_bonus_melee_range_spell') >= 0" ] },
+        { "math": [ "u_spell_level('sylph_bonus_melee_range_spell') < dex_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('sylph_bonus_melee_range_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -375,8 +397,8 @@
     "id": "EOC_LEVELER_SLYPH_WIND_BLOWS_WILLOW_BENDS",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus') >= 0" ] },
-        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus') < 25" ] }
+        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus_sylph') >= 0" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus_sylph') < 25" ] }
       ]
     },
     "effect": [
@@ -384,7 +406,7 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('paraclesian_spell_dodge_bonus')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('paraclesian_spell_dodge_bonus_sylph')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },

@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_15" ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -42,7 +40,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_15_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -78,7 +75,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_15_basement",
     "weight": 190,
     "object": {
@@ -96,20 +92,20 @@
         " ||||||..........|||||| ",
         " |1...........2.......| ",
         " |........UU.z........| ",
-        " |........%%..........| ",
-        " |........%<..........| ",
-        " |........%%..........| ",
+        " |........||..........| ",
+        " |........|<..........| ",
+        " |........||..........| ",
         " |....................| ",
         " |........z...........| ",
         " |..........z.........| ",
-        " ||||||...Fzg.z..|||||| ",
+        " ||||||...âzg.z..|||||| ",
         "      ||||||||||||      ",
         "                        ",
         "                        ",
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [
@@ -128,7 +124,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_15_basement",
     "weight": 10,
     "object": {

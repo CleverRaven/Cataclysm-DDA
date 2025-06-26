@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <climits>
 #include <cstddef>
+#include <functional>
 #include <iterator>
 #include <list>
 #include <memory>
@@ -10,13 +11,13 @@
 #include <utility>
 #include <vector>
 
-#include "activity_type.h"
 #include "body_part_set.h"
 #include "bodypart.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
 #include "color.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -30,17 +31,15 @@
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
-#include "line.h"
 #include "output.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "subbodypart.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
@@ -251,7 +250,7 @@ std::vector<std::string> clothing_properties(
                                         _( "Item provides no protection" ) ) );
         return props;
     }
-    if( bp == bodypart_id( "bp_null" ) ) {
+    if( bp == bodypart_str_id::NULL_ID() ) {
         // if the armor has no protection data
         if( worn_item.find_armor_data()->sub_data.empty() ) {
             props.push_back( string_format( "<color_c_red>%s</color>",
@@ -356,7 +355,7 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
     }
 
     // if bp is null its gonna be impossible to really get good info
-    if( bp == bodypart_id( "bp_null" ) ) {
+    if( bp == bodypart_str_id::NULL_ID() ) {
         // if we have exactly one entry for armor we can use that data
         if( worn_item.find_armor_data()->sub_data.size() == 1 ) {
             used_bp = *worn_item.get_covered_body_parts().begin();
@@ -432,8 +431,6 @@ std::vector<std::string> clothing_flags_description( const item &worn_item, cons
         { flag_SUN_GLASSES, translate_marker( "It keeps the sun out of your eyes." ) },
         { flag_WATERPROOF, translate_marker( "It is waterproof." ) },
         { flag_WATER_FRIENDLY, translate_marker( "It is water friendly." ) },
-        { flag_FANCY, translate_marker( "It looks fancy." ) },
-        { flag_SUPER_FANCY, translate_marker( "It looks really fancy." ) },
         { flag_FLOTATION, translate_marker( "You will not drown today." ) },
         { flag_OVERSIZE, translate_marker( "It is very bulky." ) },
         { flag_SWIM_GOGGLES, translate_marker( "It helps you to see clearly underwater." ) },
@@ -464,7 +461,7 @@ item_penalties outfit::get_item_penalties( std::list<item>::const_iterator worn_
     std::vector<std::set<std::string>> lists_of_bad_items_within;
 
     for( const bodypart_id &bp : c.get_all_body_parts() ) {
-        if( bp != _bp && _bp != bodypart_id( "bp_null" ) ) {
+        if( bp != _bp && _bp != bodypart_str_id::NULL_ID() ) {
             continue;
         }
         if( !worn_item_it->covers( bp ) ) {
@@ -614,7 +611,7 @@ void outfit::sort_armor( Character &guy )
     for( const bodypart_id &it : guy.get_all_body_parts() ) {
         armor_cat.insert( it );
     }
-    armor_cat.insert( bodypart_id( "bp_null" ) );
+    armor_cat.insert( bodypart_str_id::NULL_ID() );
     const int num_of_parts = guy.get_all_body_parts().size();
 
     int win_h = 0;
@@ -713,7 +710,7 @@ void outfit::sort_armor( Character &guy )
         // Create ptr list of items to display
         tmp_worn.clear();
         const bodypart_id &bp = armor_cat[ tabindex ];
-        if( bp == bodypart_id( "bp_null" ) ) {
+        if( bp == bodypart_str_id::NULL_ID() ) {
             // All
             for( auto it = worn.begin(); it != worn.end(); ++it ) {
                 tmp_worn.push_back( it );
@@ -754,7 +751,8 @@ void outfit::sort_armor( Character &guy )
         // top bar
         std::string header_title = _( "Sort Armor" );
         wprintz( w_sort_cat, c_white, header_title );
-        std::string temp = bp != bodypart_id( "bp_null" ) ? body_part_name_as_heading( bp, 1 ) : _( "All" );
+        std::string temp = bp == bodypart_str_id::NULL_ID() ?  _( "All" ) : body_part_name_as_heading( bp,
+                           1 );
         temp = string_format( "  << %s >>", temp );
         wprintz( w_sort_cat, c_yellow, temp );
         int keyhint_offset = utf8_width( header_title ) + utf8_width( temp ) + 1;
@@ -864,7 +862,7 @@ void outfit::sort_armor( Character &guy )
         // Right list
         rightListSize = 0;
         for( const bodypart_id &cover : armor_cat ) {
-            if( cover == bodypart_id( "bp_null" ) ) {
+            if( cover == bodypart_str_id::NULL_ID() ) {
                 continue;
             }
             if( !combine_bp( cover ) || rl.count( cover.obj().opposite_part ) == 0 ) {
@@ -882,7 +880,7 @@ void outfit::sort_armor( Character &guy )
         int encumbrance_char_allowance = 4; //Enough for " 99+", will increase if necessary
         int item_name_offset = 2;
         for( const bodypart_id &cover : rl ) {
-            if( cover == bodypart_id( "bp_null" ) ) {
+            if( cover == bodypart_str_id::NULL_ID() ) {
                 continue;
             }
             if( curr >= rightListOffset && pos <= rightListLines ) {

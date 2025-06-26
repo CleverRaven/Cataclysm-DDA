@@ -22,6 +22,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "pipe", 6 ] ], [ [ "pipe_fittings", 3 ] ], [ [ "scrap", 8 ] ] ],
     "pre_flags": "DIGGABLE",
+    "pre_note": "Requires diggable terrain.",
     "pre_special": "check_empty",
     "post_terrain": "t_chainfence_posts"
   },
@@ -32,7 +33,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "150 m",
-    "components": [ [ [ "lc_wire", 20 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 12 ] ], [ [ "pipe", 20 ] ] ],
+    "components": [ [ [ "lc_wire", 20 ] ], [ [ "steel_chunk_any", 3, "LIST" ], [ "scrap", 12 ] ], [ [ "pipe", 20 ] ] ],
     "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
     "pre_special": "check_empty",
     "post_terrain": "t_chaingate_c"
@@ -60,6 +61,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 5 ] ], [ [ "nails", 20, "LIST" ] ] ],
     "pre_flags": "DIGGABLE",
+    "pre_note": "Requires diggable terrain.",
     "pre_special": "check_empty",
     "post_terrain": "t_chickenwire_fence_post"
   },
@@ -102,6 +104,7 @@
       [ [ "hinge", 2 ] ]
     ],
     "pre_flags": "DIGGABLE",
+    "pre_note": "Requires diggable terrain.",
     "pre_special": "check_empty",
     "post_terrain": "t_fencegate_c"
   },
@@ -126,6 +129,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ] ],
     "pre_flags": "DIGGABLE",
+    "pre_note": "Requires diggable terrain.",
     "pre_special": "check_empty",
     "post_terrain": "t_fence_post"
   },
@@ -179,6 +183,7 @@
       [ [ "nails", 20, "LIST" ] ]
     ],
     "pre_flags": "DIGGABLE",
+    "pre_note": "Requires diggable terrain.",
     "pre_special": "check_empty",
     "post_terrain": "t_privacy_fence"
   },
@@ -210,6 +215,7 @@
       [ [ "hinge", 2 ] ]
     ],
     "pre_flags": "DIGGABLE",
+    "pre_note": "Requires diggable terrain.",
     "pre_special": "check_empty",
     "post_terrain": "t_privacy_fencegate_c"
   },
@@ -221,7 +227,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "nails", 6, "LIST" ] ], [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nails", 6, "LIST" ] ], [ [ "steel_chunk_any", 1, "LIST" ], [ "scrap", 5 ] ] ],
     "pre_terrain": "t_floor",
     "post_terrain": "t_railing"
   },
@@ -266,6 +272,7 @@
       [ [ "nails", 20, "LIST" ] ]
     ],
     "pre_flags": "DIGGABLE",
+    "pre_note": "Requires diggable terrain.",
     "pre_special": "check_empty",
     "post_terrain": "t_splitrail_fence"
   },
@@ -297,6 +304,7 @@
       [ [ "hinge", 2 ] ]
     ],
     "pre_flags": "DIGGABLE",
+    "pre_note": "Requires diggable terrain.",
     "pre_special": "check_empty",
     "post_terrain": "t_splitrail_fencegate_c"
   },
@@ -311,6 +319,7 @@
     "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "stick", 4 ], [ "pointy_stick", 4 ], [ "stick_long", 2 ] ] ],
     "pre_flags": "DIGGABLE",
+    "pre_note": "Requires diggable terrain.",
     "pre_special": "check_empty",
     "post_terrain": "t_wattle_fence_posts"
   },

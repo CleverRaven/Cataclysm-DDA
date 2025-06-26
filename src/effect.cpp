@@ -1,36 +1,35 @@
 #include "effect.h"
 
 #include <algorithm>
+#include <cmath>
 #include <map>
-#include <memory>
 #include <optional>
-#include <type_traits>
 #include <unordered_set>
 
 #include "bodypart.h"
 #include "cata_assert.h"
-#include "cata_variant.h"
 #include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "effect_source.h"
-#include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
-#include "json_error.h"
 #include "magic_enchantment.h"
 #include "messages.h"
+#include "mod_manager.h"
+#include "mod_tracker.h"
 #include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
+
+enum class cata_variant_type : int;
 
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_beartrap( "beartrap" );
@@ -694,7 +693,7 @@ bool effect_type::is_show_in_info() const
 {
     return show_in_info;
 }
-bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string_view member )
+bool effect_type::load_miss_msgs( const JsonObject &jo, std::string_view member )
 {
     return jo.read( member, miss_msgs );
 }
@@ -732,7 +731,7 @@ static void load_msg_help( const JsonArray &ja,
     apply_msgs.emplace_back( msg, rate.value() );
 }
 
-bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string_view member )
+bool effect_type::load_decay_msgs( const JsonObject &jo, std::string_view member )
 {
     if( jo.has_array( member ) ) {
         for( JsonArray inner : jo.get_array( member ) ) {
@@ -743,7 +742,7 @@ bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string_view 
     return false;
 }
 
-bool effect_type::load_apply_msgs( const JsonObject &jo, const std::string_view member )
+bool effect_type::load_apply_msgs( const JsonObject &jo, std::string_view member )
 {
     if( jo.has_array( member ) ) {
         JsonArray ja = jo.get_array( member );
@@ -996,7 +995,6 @@ std::string effect::disp_desc( bool reduced ) const
             ret += tmp_str;
         }
     }
-
     if( debug_mode ) {
         ret += string_format(
                    _( "\nDEBUG: ID: <color_white>%s</color> Intensity: <color_white>%d</color>" ),
@@ -1021,6 +1019,10 @@ std::string effect::disp_short_desc( bool reduced ) const
             return eff_type->desc[0].translated();
         }
     }
+}
+std::string effect::disp_mod_source_info() const
+{
+    return get_origin( eff_type->src );
 }
 
 static bool effect_is_blocked( const efftype_id &e, const effects_map &eff_map )
@@ -1506,7 +1508,7 @@ static const std::unordered_set<efftype_id> hardcoded_movement_impairing = {{
     }
 };
 
-void load_effect_type( const JsonObject &jo, const std::string_view src )
+void load_effect_type( const JsonObject &jo, std::string_view src )
 {
     effect_type new_etype;
     new_etype.id = efftype_id( jo.get_string( "id" ) );
@@ -1610,6 +1612,7 @@ void load_effect_type( const JsonObject &jo, const std::string_view src )
                                        enchant_num++ );
         new_etype.enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
+    mod_tracker::assign_src( new_etype, src );
     effect_types[new_etype.id] = new_etype;
 }
 

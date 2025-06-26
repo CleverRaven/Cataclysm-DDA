@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Top two rows, townhouses and road.",
     "om_terrain": [
       [
@@ -113,11 +112,11 @@
         "q": { "item": "SUS_junk_drawer", "chance": 100 },
         "M": { "item": "SUS_oven", "chance": 100 },
         "j": { "item": "coat_rack", "chance": 50 },
-        "Y": { "item": "trash", "chance": 50 },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 50 },
         "-": [ { "item": "SUS_appliances_cupboard", "chance": 100 }, { "item": "SUS_cookware", "chance": 100 } ],
         "J": [ { "item": "SUS_pantry", "chance": 100 }, { "item": "SUS_spice_collection", "chance": 100 } ],
         "b": { "item": "homebooks", "chance": 100, "repeat": [ 0, 2 ] },
-        "P": { "item": "trash", "chance": 100, "repeat": [ 2, 6 ] }
+        "P": { "item": "SUS_trash_trashcan", "chance": 100 }
       },
       "place_item": [
         { "item": "television", "x": 10, "y": 17, "chance": 100 },
@@ -140,7 +139,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Basement level for townhouses, top row .",
     "om_terrain": [
       [
@@ -262,7 +260,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Second floor level for townhouses, top two rows.",
     "om_terrain": [
       [
@@ -392,7 +389,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "roof level for townhouses.",
     "om_terrain": [
       [
@@ -439,7 +435,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Left side, duplexes and road.",
     "om_terrain": [
       [ "retirement_community_15", "retirement_community_16" ],
@@ -558,7 +553,7 @@
         "q": { "item": "SUS_junk_drawer", "chance": 100 },
         "M": { "item": "SUS_oven", "chance": 100 },
         "7": { "item": "coats_unisex", "chance": 50 },
-        "Y": { "item": "trash", "chance": 50 },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 50 },
         "-": [ { "item": "SUS_appliances_cupboard", "chance": 100 }, { "item": "SUS_cookware", "chance": 100 } ],
         "J": [ { "item": "SUS_pantry", "chance": 100 }, { "item": "SUS_spice_collection", "chance": 100 } ],
         "b": { "item": "homebooks", "chance": 100, "repeat": [ 0, 2 ] }
@@ -576,7 +571,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Left side, duplexes basement.",
     "om_terrain": [ [ "retirement_community_b_15" ], [ "retirement_community_b_19" ], [ "retirement_community_b_23" ] ],
     "object": {
@@ -700,7 +694,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Left side, duplexes second floor.",
     "om_terrain": [ [ "retirement_community_2f_15" ], [ "retirement_community_2f_19" ], [ "retirement_community_2f_23" ] ],
     "object": {
@@ -818,7 +811,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Left side, duplexes roof.",
     "om_terrain": [ [ "retirement_community_3f_15" ], [ "retirement_community_3f_19" ], [ "retirement_community_3f_23" ] ],
     "object": {
@@ -903,7 +895,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Right side, road and homes.",
     "om_terrain": [
       [ "retirement_community_17", "retirement_community_18" ],
@@ -1043,7 +1034,7 @@
         "q": { "item": "SUS_junk_drawer", "chance": 100 },
         "M": { "item": "SUS_oven", "chance": 100 },
         "j": { "item": "coat_rack", "chance": 50 },
-        "Y": { "item": "trash", "chance": 50 },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 50 },
         "-": [ { "item": "SUS_appliances_cupboard", "chance": 100 }, { "item": "SUS_cookware", "chance": 100 } ],
         "J": [ { "item": "SUS_pantry", "chance": 100 }, { "item": "SUS_spice_collection", "chance": 100 } ],
         "b": { "item": "homebooks", "chance": 100, "repeat": [ 0, 2 ] }
@@ -1052,7 +1043,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Right side, home basements.",
     "om_terrain": [ [ "retirement_community_b_18" ], [ "retirement_community_b_22" ], [ "retirement_community_b_26" ] ],
     "object": {
@@ -1173,7 +1163,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Right side, second floor of homes.",
     "om_terrain": [ [ "retirement_community_2f_18" ], [ "retirement_community_2f_22" ], [ "retirement_community_2f_26" ] ],
     "object": {
@@ -1302,7 +1291,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Right side, roof of homes.",
     "om_terrain": [ [ "retirement_community_3f_18" ], [ "retirement_community_3f_22" ], [ "retirement_community_3f_26" ] ],
     "object": {
@@ -1387,7 +1375,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Bottom two rows, road and community/administration buildings.",
     "om_terrain": [
       [
@@ -1497,7 +1484,7 @@
         "Z": { "item": "SUS_dishes", "chance": 100 },
         "R": { "item": "SUS_kitchen_sink", "chance": 100 },
         "r": { "item": "SUS_dishes", "chance": 100 },
-        "P": { "item": "trash", "chance": 100, "repeat": [ 2, 6 ] }
+        "P": { "item": "SUS_trash_trashcan", "chance": 100 }
       },
       "place_vehicles": [
         { "chance": 15, "rotation": 270, "vehicle": "parking_garage", "x": 4, "y": 3 },
@@ -1510,7 +1497,7 @@
         { "chance": 15, "rotation": 90, "vehicle": "parking_garage", "x": 148, "y": 15 },
         { "chance": 15, "rotation": 90, "vehicle": "parking_garage", "x": 154, "y": 15 },
         { "chance": 15, "rotation": 90, "vehicle": "parking_garage", "x": 162, "y": 15 },
-        { "chance": 100, "rotation": 90, "vehicle": "van_cargo", "x": 127, "y": 30 },
+        { "rotation": 90, "vehicle": "van_cargo", "x": 127, "y": 30 },
         { "chance": 15, "rotation": 0, "vehicle": "parking_garage", "x": 108, "y": 34 },
         { "chance": 15, "rotation": 0, "vehicle": "parking_garage", "x": 108, "y": 41 }
       ]
@@ -1518,7 +1505,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Bottom two rows, roof of community/administration buildings.",
     "om_terrain": [
       [
@@ -1599,7 +1585,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Basement of admin building.",
     "om_terrain": [ [ "retirement_community_b_37", "retirement_community_b_38" ] ],
     "object": {
@@ -1644,7 +1629,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Central park.",
     "om_terrain": [
       [ "retirement_community_park_1", "retirement_community_park_2", "retirement_community_park_3" ],
@@ -1745,8 +1729,8 @@
         { "monster": "mon_pigeon", "x": [ 2, 23 ], "y": [ 25, 47 ], "repeat": [ 2, 3 ] }
       ],
       "items": {
-        "Y": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] },
-        "T": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 70 },
+        "T": { "item": "SUS_trash_trashcan", "chance": 70 },
         "t": { "item": "barbecue", "chance": 20 },
         "₸": { "item": "liquor_and_spirits", "chance": 100, "repeat": 2 },
         "R": [ { "item": "tools_plumbing", "chance": 50 }, { "item": "tools_general", "chance": 50 } ]
@@ -1760,7 +1744,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Central park, 2nd floor.",
     "om_terrain": [ [ "retirement_community_park_2f_2" ], [ "retirement_community_park_2f_5" ] ],
     "object": {
@@ -1821,7 +1804,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Park basement level.",
     "om_terrain": [
       [ "retirement_community_park_b_1", "retirement_community_park_b_2", "retirement_community_park_b_3" ],
@@ -1910,7 +1892,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "retirement_community_road" ],
     "object": {
       "fill_ter": "t_pavement",
@@ -1947,7 +1928,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "retirement_community_sewer" ],
     "object": {
       "fill_ter": "t_soil",
@@ -1982,7 +1962,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ret_comm_office",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -1999,7 +1978,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ret_comm_home",
     "object": {
       "mapgensize": [ 1, 1 ],

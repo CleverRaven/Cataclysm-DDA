@@ -2,12 +2,13 @@
 #ifndef CATA_SRC_MTYPE_H
 #define CATA_SRC_MTYPE_H
 
-#include <iosfwd>
-#include <array>
+#include <functional>
 #include <map>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "behavior.h"
@@ -15,23 +16,28 @@
 #include "color.h"
 #include "damage.h"
 #include "enum_bitset.h"
-#include "enums.h"
 #include "magic.h"
 #include "mattack_common.h"
 #include "pathfinding.h"
 #include "shearing.h"
-#include "speed_description.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h" // IWYU pragma: keep
 #include "weakpoint.h"
 
 class Creature;
 class monster;
-struct dealt_projectile_attack;
-template <typename E> struct enum_traits;
-
 enum class creature_size : int;
+enum class phase_id : int;
+
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
+struct const_dialogue;
+struct dealt_projectile_attack;
+struct point;
+template <typename E> struct enum_traits;
 
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
@@ -103,6 +109,8 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_COMBAT_MOUNT,
        mon_flag_CONSOLE_DESPAWN,
        mon_flag_CONVERSATION,
+       mon_flag_COPY_SUMMONER_LOOK,
+       mon_flag_COPY_AVATAR_LOOK,
        mon_flag_CORNERED_FIGHTER,
        mon_flag_DEADLY_VIRUS,
        mon_flag_DESTROYS,
@@ -171,6 +179,7 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_PLASTIC,
        mon_flag_POISON,
        mon_flag_PRIORITIZE_TARGETS,
+       mon_flag_PULP_PRYING,
        mon_flag_PUSH_MON,
        mon_flag_PUSH_VEH,
        mon_flag_QUEEN,
@@ -237,6 +246,19 @@ struct pet_food_data {
     void deserialize( const JsonObject &data );
 };
 
+/** movement data */
+struct move_skills_data {
+    // 10 means max movecost of 500 * terrain-difficulty with 0 skill
+    const static int max_movemod_penalty = 10;
+    std::optional<int> climb;
+    std::optional<int> dig;
+    std::optional<int> swim;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &data );
+};
+
 enum class mdeath_type {
     NORMAL,
     SPLATTER,
@@ -288,6 +310,12 @@ struct reproduction_type {
     item_group_id baby_egg_group = item_group_id::NULL_ID();
 };
 
+struct revive_type {
+    std::function<bool( const_dialogue const & )> condition;
+    mtype_id revive_mon = mtype_id::NULL_ID();
+    mongroup_id revive_monster_group = mongroup_id::NULL_ID();
+};
+
 struct mtype {
     private:
         friend class MonsterGenerator;
@@ -316,6 +344,8 @@ struct mtype {
         mongroup_id upgrade_group;
         mtype_id burn_into;
 
+        std::vector<revive_type> revive_types;
+
         mtype_id zombify_into; // mtype_id this monster zombifies into
         mtype_id fungalize_into; // mtype_id this monster fungalize into
 
@@ -329,6 +359,12 @@ struct mtype {
          * of this type (if it's friendly).
          */
         itype_id revert_to_itype;
+
+        /**
+         * If this is not empty, the monster will become this item when mdeath::BROKEN
+         * is triggered. Overwrites the normal hardcoded broken item.
+         */
+        itype_id broken_itype;
         /**
          * If this monster is a rideable mech with built-in weapons, this is the weapons id
          */
@@ -420,6 +456,8 @@ struct mtype {
 
         int hp = 0;
         int speed = 0;          /** e.g. human = 100 */
+        move_skills_data move_skills;   /** climb, dig, swim; 0-100, defaults to 0 */
+
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
         int stomach_size = 0;         /** how many times this monster will eat */
@@ -437,6 +475,7 @@ struct mtype {
         int melee_skill = 0;    /** melee hit skill, 20 is superhuman hitting abilities */
         int melee_dice = 0;     /** number of dice of bonus bashing damage on melee hit */
         int melee_sides = 0;    /** number of sides those dice have */
+        int melee_dice_ap = 0;  /** ap value of the melee dice*/
 
         int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
         int sk_dodge = 0;       /** dodge skill */

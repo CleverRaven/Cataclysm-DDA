@@ -1,3 +1,5 @@
+#include <vector>
+
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"

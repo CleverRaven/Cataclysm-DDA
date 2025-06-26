@@ -2,29 +2,26 @@
 #ifndef CATA_SRC_VPART_POSITION_H
 #define CATA_SRC_VPART_POSITION_H
 
-#include <functional>
 #include <cstddef>
-#include <iosfwd>
-#include <new>
+#include <functional>
+#include <map>
 #include <optional>
-#include <type_traits>
-#include <utility>
+#include <string>
 #include <vector>
 
+#include "coords_fwd.h"
+#include "item.h"
 #include "type_id.h"
 
-struct input_event;
-class inventory;
 class Character;
+class inventory;
+class map;
 class vehicle;
 class vehicle_stack;
 class vpart_info;
-struct vehicle_part;
-
-enum vpart_bitflags : int;
 class vpart_reference;
-struct point;
-struct tripoint;
+enum vpart_bitflags : int;
+struct vehicle_part;
 
 /**
  * Reference to a position (a point) of the @ref vehicle.
@@ -60,6 +57,11 @@ class vpart_position
         bool is_inside() const;
 
         /**
+         * @returns Movement difficulty. 0 for impassable.
+         */
+        int get_movecost() const;
+
+        /**
          * Sets the label at this part of the vehicle. Removes the label if @p text is empty.
          */
         void set_label( const std::string &text ) const;
@@ -91,20 +93,14 @@ class vpart_position
         std::optional<vpart_reference> part_displayed() const;
 
         // Finds vpart_reference to inner part with specified tool
-        std::optional<vpart_reference> part_with_tool( const itype_id &tool_type ) const;
+        std::optional<vpart_reference> part_with_tool( map &here, const itype_id &tool_type ) const;
         // Returns a list of all tools provided by vehicle and their hotkey
-        std::map<item, int> get_tools() const;
+        std::map<item, int> get_tools( map &here ) const;
         // Forms inventory for inventory::form_from_map
-        void form_inventory( inventory &inv ) const;
+        void form_inventory( map &here, inventory &inv ) const;
 
-        /**
-         * Returns the position of this part in the coordinates system that @ref game::m uses.
-         * Postcondition (if the vehicle cache of the map is correct and if there are un-removed
-         * parts at this positions):
-         * `g->m.veh_at( this->pos() )` (there is a vehicle there)
-         * `g->m.veh_at( this->pos() )->vehicle() == this->vehicle()` (it's this one)
-         */
-        tripoint_bub_ms pos_bub() const;
+        tripoint_bub_ms pos_bub( const map &here ) const;
+        tripoint_abs_ms pos_abs() const;
         /**
          * Returns the mount point: the point in the vehicles own coordinate system.
          * This system is independent of movement / rotation.
@@ -138,7 +134,7 @@ class optional_vpart_position : public std::optional<vpart_position>
         std::optional<vpart_reference> avail_part_with_feature( vpart_bitflags f ) const;
         std::optional<vpart_reference> obstacle_at_part() const;
         std::optional<vpart_reference> part_displayed() const;
-        std::optional<vpart_reference> part_with_tool( const itype_id &tool_type ) const;
+        std::optional<vpart_reference> part_with_tool( map &here, const itype_id &tool_type ) const;
         std::vector<std::string> extended_description() const;
 };
 

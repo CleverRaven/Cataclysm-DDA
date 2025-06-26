@@ -5,6 +5,8 @@
 #include <limits>
 #include <type_traits>
 
+#include "json.h"
+
 /**
  * An interval of numeric values between @ref min and @ref max (including both).
  * By default it's [0, 0].
@@ -32,6 +34,8 @@ struct numeric_interval {
         return max == 0;
     }
 
+    // TODO: break deserialize out into its own thing so that
+    // common_types.h isn't dragging json.h into things unnecessarily
     void deserialize( const JsonValue &jsin ) {
         JsonArray ja = jsin.get_array();
         if( ja.size() != 2 ) {

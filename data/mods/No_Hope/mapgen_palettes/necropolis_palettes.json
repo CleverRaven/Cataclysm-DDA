@@ -6,7 +6,7 @@
       ")": "f_wreckage",
       "?": "f_sofa",
       "@": "f_bed",
-      "1": "f_generator_broken",
+      "1": [ [ "f_generator_broken", 25 ], [ "f_military_generator", 5 ] ],
       "6": "f_console_broken",
       "B": "f_bathtub",
       "C": "f_region_weed",
@@ -219,7 +219,13 @@
       "$": "f_machinery_light",
       "%": "f_machinery_heavy",
       "(": "f_machinery_old",
-      "1": "f_generator_broken",
+      "1": [
+        [ "f_generator_broken", 25 ],
+        [ "f_portable_generator", 5 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "_": "f_machinery_electronic",
       "6": "f_console_broken",
       "B": "f_bathtub",
@@ -338,7 +344,13 @@
       "$": "f_machinery_light",
       "%": "f_machinery_heavy",
       "(": "f_machinery_old",
-      "1": "f_generator_broken",
+      "1": [
+        [ "f_generator_broken", 25 ],
+        [ "f_portable_generator", 5 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "_": "f_machinery_electronic",
       "6": "f_console_broken",
       "B": "f_bathtub",

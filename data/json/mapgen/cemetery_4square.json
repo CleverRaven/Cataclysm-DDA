@@ -12,7 +12,6 @@
       [ "boots_combat", 10 ],
       [ "cassock", 1 ],
       [ "child_book", 5 ],
-      [ "fancy_sunglasses", 5 ],
       [ "flask_hip", 5 ],
       [ "jedi_cloak", 1 ],
       [ "jersey", 1 ],
@@ -41,9 +40,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "cemetery_4square_00", "cemetery_4square_10" ], [ "cemetery_4square_01", "cemetery_4square_11" ] ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -137,7 +134,7 @@
       "items": {
         "X": { "item": "grave_memories", "chance": 1 },
         "b": { "item": "church", "chance": 20 },
-        "&": { "item": "trash", "chance": 66, "repeat": [ 1, 3 ] },
+        "&": { "item": "SUS_trash_trashcan_public", "chance": 66 },
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 3 ] }
       },
       "vehicles": { "Á": { "vehicle": "FUNERAL", "chance": 20, "rotation": 90 } }
@@ -145,9 +142,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cemetery_4square_11_roof" ],
-    "weight": 100,
     "object": {
       "rows": [
         "                        ",

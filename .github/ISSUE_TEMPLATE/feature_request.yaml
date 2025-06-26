@@ -6,6 +6,11 @@ body:
   - type: markdown
     attributes:
       value: |
+        Note that CDDA is an open source project, meaning anybody can contribute. Please consider reading the contribution guide (https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-new-content-to-CDDA-for-first-time-contributors) and see if you could implement your idea yourself. A lot of CDDA is written in JSON, which is essentially plain-text code anybody can edit.  
+ 
+  - type: markdown
+    attributes:
+      value: |
         Please take the time to fill out all the fields below.
 
   - type: textarea

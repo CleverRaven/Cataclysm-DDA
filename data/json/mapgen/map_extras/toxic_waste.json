@@ -46,7 +46,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "toxic_gas_vent",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -58,7 +57,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "toxic_waste_fence_radioactive",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -87,7 +85,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "toxic_waste_lab_corpses",
     "//": "Lore. Lab folks may dump their now dead, useless and perhaps incriminating experiments there to get rid of them.",
     "object": {
@@ -98,7 +95,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_TOXIC_WASTE",
+    "id": "GROUP_TOXIC_WASTE",
     "monsters": [
       { "monster": "mon_sewer_rat", "weight": 60 },
       { "monster": "mon_blob", "weight": 30 },
@@ -107,7 +104,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_TOXIC_WASTE_CORPSES",
+    "id": "GROUP_TOXIC_WASTE_CORPSES",
     "monsters": [
       { "monster": "mon_mutant_experimental", "weight": 60 },
       { "monster": "mon_mutant_antler", "weight": 30 },
@@ -116,7 +113,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_toxic_waste",
     "object": {
       "rows": [

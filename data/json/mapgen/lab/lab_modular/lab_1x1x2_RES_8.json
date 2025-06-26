@@ -1,9 +1,7 @@
 [
   {
-    "method": "json",
     "om_terrain": "lab_1x1_RES_8_bedrooms_maintenance",
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -48,10 +46,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_1x1_RES_8_bedrooms_security",
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -95,7 +91,7 @@
       "terrain": { "!": "t_open_air_rooved", "U": "t_linoleum_gray" },
       "items": {
         "f": { "item": "snacks", "chance": 5 },
-        "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "office", "chance": 25 } ],
+        "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "SUS_office_desk", "chance": 25 } ],
         "U": { "item": "cleaning", "chance": 30 },
         "≠": [
           { "item": "prison_weapons", "chance": 30 },
@@ -107,10 +103,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_1x1_RES_8_commons_SEC" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -241,10 +235,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_1x1_RES_8_commons_MAINT" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

@@ -8,8 +8,9 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -17,23 +18,22 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('electrokinetic_see_electric') * 15000) + 90000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 15000) + 90000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('electrokinetic_see_electric') * 30000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 30000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_electrokin_see_electricity') > -1 ? 0 : max((2000 - (u_spell_level('electrokinetic_see_electric') * 75)), 750)"
+        "u_effect_intensity('effect_electrokin_see_electricity') > -1 ? 0 : max( (2000 - ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 75) ), 750)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_electrokin_see_electricity') > -1 ? 10 : max((150 -(u_spell_level('electrokinetic_see_electric') * 6)), 80)"
+        "u_effect_intensity('effect_electrokin_see_electricity') > -1 ? 10 : max( (150 - ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 6) ), 80)"
       ]
     }
   },
@@ -46,8 +46,9 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "ELECTROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -72,7 +73,6 @@
     "min_field_intensity": 1,
     "max_field_intensity": 2,
     "field_chance": 1,
-    "energy_source": "STAMINA",
     "base_energy_cost": 1500,
     "final_energy_cost": 450,
     "energy_increment": -65,
@@ -92,8 +92,9 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -109,7 +110,6 @@
         "( (u_spell_level('electrokinetic_zap_enemies') * 22500) + 80000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_electrokin_zap_enemies') > -1 ? 0 : max((3500 - (u_spell_level('electrokinetic_zap_enemies') * 120)), 1100)"
@@ -130,8 +130,9 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -147,7 +148,6 @@
         "( (u_spell_level('electrokinetic_melee_attacks') * 9000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_electrokin_melee_attacks') > -1 ? 0 : max((3750 - (u_spell_level('electrokinetic_melee_attacks') * 115)), 1450)"
@@ -168,8 +168,9 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -177,23 +178,22 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( ( (u_spell_level('electrokinetic_hacking_interface') * 4500 ) + 60000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+        "( ( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 4500 ) + 60000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_spell_level('electrokinetic_hacking_interface') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+        "( ( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_electrokin_hacking_interface') > 0 ? 0 : max((6500 - (u_spell_level('electrokinetic_hacking_interface') * 150)), 3500)"
+        "u_effect_intensity('effect_electrokin_hacking_interface') > 0 ? 0 : max( (6500 - ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 150) ), 3500)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_electrokin_hacking_interface') > 0 ? 10 : max((350 -(u_spell_level('electrokinetic_hacking_interface') * 9)), 150)"
+        "u_effect_intensity('effect_electrokin_hacking_interface') > 0 ? 10 : max( (350 - ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 9) ), 150)"
       ]
     }
   },
@@ -201,13 +201,14 @@
     "id": "electrokinetic_personal_battery",
     "type": "SPELL",
     "name": "[Ψ]Electron Overflow (C)",
-    "description": "Generate power for UPS compatible devices on your person.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "description": "Generate power for battery-powered devices on your person.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -224,7 +225,6 @@
         "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1440000)"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_electrokin_personal_battery') > 0 ? 0 : max((6500 - (u_spell_level('electrokinetic_personal_battery') * 150)), 3500)"
@@ -240,27 +240,27 @@
     "id": "electrokinetic_paralysis",
     "type": "SPELL",
     "name": "[Ψ]Neural Spasms",
-    "description": "Cause an electrical burst in the target's nervous system (or the remains of it), stunning them briefly.  It will only work on targets that have, or had, a nervous system.",
-    "message": "You overload the target's neurons!",
+    "description": "Cause an electrical burst in the target's nervous system (or the remains of it), incapacitating them briefly.  It will only work on targets that have, or had, a nervous system.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
     "spell_class": "ELECTROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "stunned",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_PARALYSIS",
     "shape": "blast",
-    "//": "Complicated formula here is to produce diminishing returns, since stunning for too long might as well just kill the target.  Level 1 minimum is 46.15 moves lost, level 20 maximum is 625, all before Intelligence scaling",
     "min_duration": {
       "math": [
-        "( ( ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) * 6 ) /  ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "min( ( ( (u_spell_level('electrokinetic_paralysis') * 20) + 100) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling),500 )"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) * 10 ) /  ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "min( ( ( (u_spell_level('electrokinetic_paralysis') * 35) + 300) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling),1000 )"
       ]
     },
     "min_range": {
@@ -269,7 +269,6 @@
       ]
     },
     "max_range": 40,
-    "energy_source": "STAMINA",
     "base_energy_cost": 5500,
     "final_energy_cost": 2500,
     "energy_increment": -150,
@@ -287,8 +286,9 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -304,7 +304,6 @@
         "( (u_spell_level('electrokinetic_reduce_pain') * 28000) + 150000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_electrokin_reduce_pain') > -1 ? 0 : max((4000 - (u_spell_level('electrokinetic_reduce_pain') * 105)), 1250)"
@@ -325,8 +324,9 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "ELECTROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -352,7 +352,6 @@
     "min_field_intensity": 1,
     "max_field_intensity": 2,
     "field_chance": 1,
-    "energy_source": "STAMINA",
     "base_energy_cost": 3500,
     "final_energy_cost": 1200,
     "energy_increment": -150,
@@ -372,8 +371,9 @@
     "teachable": false,
     "valid_targets": [ "ground" ],
     "spell_class": "ELECTROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "recharge_vehicle",
@@ -389,7 +389,6 @@
       ]
     },
     "min_range": 1,
-    "energy_source": "STAMINA",
     "base_energy_cost": 7500,
     "final_energy_cost": 4500,
     "energy_increment": -150,
@@ -404,8 +403,9 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -413,15 +413,14 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('electrokinetic_pain_immune') * 800) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('electrokinetic_pain_immune') + u_spell_level('electrokinetic_pain_immune_knack') ) * 800) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('electrokinetic_pain_immune') * 1300) + 15000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('electrokinetic_pain_immune') + u_spell_level('electrokinetic_pain_immune_knack') ) * 1300) + 15000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 4500,
     "final_energy_cost": 1750,
     "energy_increment": -125,
@@ -439,8 +438,9 @@
     "teachable": false,
     "valid_targets": [ "self", "ally" ],
     "spell_class": "ELECTROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -457,7 +457,6 @@
       ]
     },
     "min_range": 1,
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_electrokinetic_speed_boost') > -1 ? 0 : max((6000 - (u_spell_level('electrokinetic_speed_boost') * 135)), 2750)"
@@ -478,8 +477,9 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "ELECTROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "PERCENTAGE_DAMAGE" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "PERCENTAGE_DAMAGE" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -494,7 +494,6 @@
       ]
     },
     "max_range": 40,
-    "energy_source": "STAMINA",
     "base_energy_cost": 7500,
     "final_energy_cost": 4500,
     "energy_increment": -125,
@@ -512,7 +511,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile", "ally" ],
-    "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "NO_PROJECTILE", "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 7,
@@ -540,14 +538,14 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_ELECTROKIN_ROBOT_INTERFACE",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 8000,
     "final_energy_cost": 5000,
     "energy_increment": -125,
@@ -561,7 +559,6 @@
     "name": { "str": "[Ψ]Create Robotic Interface", "//~": "NO_I18N" },
     "description": { "str": "Creates a tool used to hack robots.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
-    "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "spawn_item",
@@ -579,8 +576,9 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -596,7 +594,6 @@
         "( (u_spell_level('electrokinetic_lightning_aura') * 2500) + 25000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_electrokinetic_lightning_aura') > -1 ? 0 : max((9000 - (u_spell_level('electrokinetic_lightning_aura') * 200)), 4500)"
@@ -616,7 +613,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
-    "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "LOUD", "NO_EXPLOSION_SFX", "NO_HANDS", "NO_LEGS" ],
     "effect": "emit",
@@ -634,7 +630,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
-    "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
     "flags": [ "SILENT", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_CRITTER", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
@@ -667,8 +662,9 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "ELECTROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 9,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -700,7 +696,6 @@
     "min_field_intensity": 3,
     "max_field_intensity": 7,
     "field_chance": 1,
-    "energy_source": "STAMINA",
     "base_energy_cost": 8500,
     "final_energy_cost": 4000,
     "energy_increment": -100,
@@ -722,9 +717,8 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
-    "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "LOUD", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
     "shape": "line",
     "damage_type": "electric",
@@ -763,8 +757,9 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "ELECTROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 10,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "revive",
@@ -781,7 +776,6 @@
       ]
     },
     "max_range": 50,
-    "energy_source": "STAMINA",
     "base_energy_cost": 10000,
     "final_energy_cost": 6000,
     "energy_increment": -150,
@@ -798,7 +792,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile", "ground" ],
-    "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_LEGS", "NO_HANDS", "NO_EXPLOSION_SFX" ],
     "effect": "charm_monster",
@@ -826,7 +819,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally" ],
-    "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_LEGS", "NO_HANDS", "PERCENTAGE_DAMAGE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
@@ -851,7 +843,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally" ],
-    "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_LEGS", "NO_HANDS", "NO_EXPLOSION_SFX" ],
     "effect": "attack",

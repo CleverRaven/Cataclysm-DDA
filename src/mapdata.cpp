@@ -1,7 +1,7 @@
 #include "mapdata.h"
 
 #include <algorithm>
-#include <cstdlib>
+#include <exception>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -9,21 +9,24 @@
 #include <utility>
 
 #include "assign.h"
+#include "avatar.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
 #include "iexamine_actors.h"
+#include "item.h"
 #include "item_group.h"
 #include "iteminfo_query.h"
-#include "json.h"
 #include "mod_manager.h"
 #include "output.h"
 #include "rng.h"
+#include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
@@ -226,6 +229,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_WORKOUT_ARMS: return "WORKOUT_ARMS";
         case ter_furn_flag::TFLAG_WORKOUT_LEGS: return "WORKOUT_LEGS";
         case ter_furn_flag::TFLAG_TRANSLOCATOR: return "TRANSLOCATOR";
+        case ter_furn_flag::TFLAG_TRANSLOCATOR_GREATER: return "TRANSLOCATOR_GREATER";
         case ter_furn_flag::TFLAG_AUTODOC: return "AUTODOC";
         case ter_furn_flag::TFLAG_AUTODOC_COUCH: return "AUTODOC_COUCH";
         case ter_furn_flag::TFLAG_OPENCLOSE_INSIDE: return "OPENCLOSE_INSIDE";
@@ -275,6 +279,8 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_CLIMB_ADJACENT: return "CLIMB_ADJACENT";
         case ter_furn_flag::TFLAG_FLOATS_IN_AIR: return "FLOATS_IN_AIR";
         case ter_furn_flag::TFLAG_HARVEST_REQ_CUT1: return "HARVEST_REQ_CUT1";
+        case ter_furn_flag::TFLAG_NATURAL_UNDERGROUND: return "NATURAL_UNDERGROUND";
+        case ter_furn_flag::TFLAG_WIRED_WALL: return "WIRED_WALL";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -381,6 +387,13 @@ void map_fd_bash_info::load( const JsonObject &jo, const bool was_loaded,
     optional( jo, was_loaded, "msg_success", field_bash_msg_success );
 }
 
+std::string map_common_bash_info::potential_bash_items( const std::string
+        &ter_furn_name ) const
+{
+    //TODO: Add a descriptive indicator of vaguely how hard it is to bash?
+    return string_format( _( "Bashing the %s would yield:\n%s" ),
+                          ter_furn_name, item_group::potential_items( drop_group ) );
+}
 
 void map_common_deconstruct_info::load( const JsonObject &jo, const bool was_loaded,
                                         const std::string &context )
@@ -411,11 +424,27 @@ void map_furn_deconstruct_info::load( const JsonObject &jo, const bool was_loade
     map_common_deconstruct_info::load( jo, was_loaded, context );
 }
 
-bool map_shoot_info::load( const JsonObject &jsobj, const std::string_view member, bool was_loaded )
+std::string map_common_deconstruct_info::potential_deconstruct_items( const std::string
+        &ter_furn_name ) const
+{
+    Character &who = get_avatar();
+    bool will_practice_skill = !!skill && who.get_skill_level( skill->id ) >= skill->min &&
+                               who.get_skill_level( skill->id ) < skill->max;
+    if( will_practice_skill ) {
+        return string_format(
+                   _( "Deconstructing the %s would yield:\n%s\nYou feel you might also learn something about <color_cyan>%s</color>." ),
+                   ter_furn_name, item_group::potential_items( drop_group ), skill->id.obj().name() );
+    } else {
+        return string_format( _( "Deconstructing the %s would yield:\n%s" ),
+                              ter_furn_name, item_group::potential_items( drop_group ) );
+    }
+}
+
+bool map_shoot_info::load( const JsonObject &jsobj, std::string_view member, bool was_loaded )
 {
     JsonObject j = jsobj.get_object( member );
 
-    optional( j, was_loaded, "chance_to_hit", chance_to_hit, 100 );
+    optional( j, false, "chance_to_hit", chance_to_hit, 100 );
 
     std::pair<int, int> reduce_damage;
     std::pair<int, int> reduce_damage_laser;
@@ -432,15 +461,15 @@ bool map_shoot_info::load( const JsonObject &jsobj, const std::string_view membe
     destroy_dmg_min = destroy_damage.first;
     destroy_dmg_max = destroy_damage.second;
 
-    optional( j, was_loaded, "no_laser_destroy", no_laser_destroy, false );
+    optional( j, false, "no_laser_destroy", no_laser_destroy, false );
 
     return true;
 }
 
-furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass_max ),
-    allowed_volume( units::volume_max ) {}
+furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass::max() ),
+    allowed_volume( units::volume::max() ) {}
 
-bool furn_workbench_info::load( const JsonObject &jsobj, const std::string_view member )
+bool furn_workbench_info::load( const JsonObject &jsobj, std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -454,7 +483,7 @@ bool furn_workbench_info::load( const JsonObject &jsobj, const std::string_view 
 plant_data::plant_data() : transform( furn_str_id::NULL_ID() ), base( furn_str_id::NULL_ID() ),
     growth_multiplier( 1.0f ), harvest_multiplier( 1.0f ) {}
 
-bool plant_data::load( const JsonObject &jsobj, const std::string_view member )
+bool plant_data::load( const JsonObject &jsobj, std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -574,7 +603,7 @@ void map_data_common_t::load_symbol_color( const JsonObject &jo, const std::stri
     const bool no_copy_symbol_color = jo.has_member( "copy-from" );
 
     load_season_array( jo, "symbol", context, no_copy_symbol_color,
-    symbol_, [&jo]( const std::string_view str ) {
+    symbol_, [&jo]( std::string_view str ) {
         if( str.length() != 1 ) {
             jo.throw_error_at( "symbol", "Symbol string must be exactly 1 character long." );
         }
@@ -587,7 +616,7 @@ void map_data_common_t::load_symbol_color( const JsonObject &jo, const std::stri
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
         load_season_array( jo, "color", context, no_copy_symbol_color,
-        color_, []( const std::string_view str ) {
+        color_, []( std::string_view str ) {
             // has to use a lambda because of default params
             return color_from_string( str );
         } );
@@ -629,6 +658,16 @@ std::vector<std::string> ter_t::extended_description() const
     std::vector<std::string> tmp = map_data_common_t::extended_description();
     ret.insert( ret.end(), tmp.begin(), tmp.end() );
 
+    if( deconstruct ) {
+        ret.emplace_back( "--" );
+        ret.emplace_back( deconstruct->potential_deconstruct_items( name() ) );
+    }
+
+    if( is_smashable() ) {
+        ret.emplace_back( "--" );
+        ret.emplace_back( bash->potential_bash_items( name() ) );
+    }
+
     return ret;
 }
 
@@ -657,6 +696,16 @@ std::vector<std::string> furn_t::extended_description() const
             ret.emplace_back( quality_string.substr( 0, strpos ) );
             quality_string.erase( 0, strpos + 1 );
         }
+    }
+
+    if( deconstruct ) {
+        ret.emplace_back( "--" );
+        ret.emplace_back( deconstruct->potential_deconstruct_items( name() ) );
+    }
+
+    if( is_smashable() ) {
+        ret.emplace_back( "--" );
+        ret.emplace_back( bash->potential_bash_items( name() ) );
     }
 
     return ret;
@@ -735,7 +784,6 @@ std::vector<std::string> map_data_common_t::extended_description() const
             add( text );
         }
     };
-    add_if( is_smashable(), _( "Smashable." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_DIGGABLE ), _( "Diggable." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_PLOWABLE ), _( "Plowable." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_ROUGH ), _( "Rough." ) );
@@ -745,7 +793,9 @@ std::vector<std::string> map_data_common_t::extended_description() const
     add_if( has_flag( ter_furn_flag::TFLAG_EASY_DECONSTRUCT ), _( "Simple." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_MOUNTABLE ), _( "Mountable." ) );
     add_if( is_flammable(), _( "Flammable." ) );
-    tmp.emplace_back( result );
+    if( !result.empty() ) {
+        tmp.emplace_back( result );
+    }
 
     std::vector<std::string> ret;
     ret.reserve( tmp.size() );
@@ -811,10 +861,14 @@ void map_data_common_t::unset_flags()
     transparent = false; //?
 }
 
-void map_data_common_t::set_connect_groups( const std::vector<std::string>
-        &connect_groups_vec )
+void map_data_common_t::set_connect_groups( const std::vector<std::string> &connect_groups_vec )
 {
     set_groups( connect_groups, connect_groups_vec );
+}
+
+void map_data_common_t::unset_connect_groups( const std::vector<std::string> &connect_groups_vec )
+{
+    set_groups( connect_groups, connect_groups_vec, true );
 }
 
 void map_data_common_t::set_connects_to( const std::vector<std::string> &connect_groups_vec )
@@ -822,13 +876,23 @@ void map_data_common_t::set_connects_to( const std::vector<std::string> &connect
     set_groups( connect_to_groups, connect_groups_vec );
 }
 
+void map_data_common_t::unset_connects_to( const std::vector<std::string> &connect_groups_vec )
+{
+    set_groups( connect_to_groups, connect_groups_vec, true );
+}
+
 void map_data_common_t::set_rotates_to( const std::vector<std::string> &connect_groups_vec )
 {
     set_groups( rotate_to_groups, connect_groups_vec );
 }
 
+void map_data_common_t::unset_rotates_to( const std::vector<std::string> &connect_groups_vec )
+{
+    set_groups( rotate_to_groups, connect_groups_vec, true );
+}
+
 void map_data_common_t::set_groups( std::bitset<NUM_TERCONN> &bits,
-                                    const std::vector<std::string> &connect_groups_vec )
+                                    const std::vector<std::string> &connect_groups_vec, bool unset )
 {
     for( const std::string &group : connect_groups_vec ) {
         if( group.empty() ) {
@@ -836,10 +900,10 @@ void map_data_common_t::set_groups( std::bitset<NUM_TERCONN> &bits,
             continue;
         }
         std::string grp = group;
-        bool remove = false;
+        bool remove = unset;
         if( grp.at( 0 ) == '~' ) {
             grp = grp.substr( 1 );
-            remove = true;
+            remove = !remove;
         }
         const auto it = ter_connects_map.find( grp );
         if( it != ter_connects_map.end() ) {
@@ -928,6 +992,7 @@ void init_mapdata()
     add_actor( std::make_unique<appliance_convert_examine_actor>() );
     add_actor( std::make_unique<cardreader_examine_actor>() );
     add_actor( std::make_unique<eoc_examine_actor>() );
+    add_actor( std::make_unique<mortar_examine_actor>() );
 }
 
 void map_data_common_t::load( const JsonObject &jo, const std::string &src )
@@ -981,11 +1046,29 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
         for( auto &flag : joe.get_string_array( "flags" ) ) {
             set_flag( flag );
         }
+        if( joe.has_member( "connect_groups" ) ) {
+            set_connect_groups( joe.get_as_string_array( "connect_groups" ) );
+        }
+        if( joe.has_member( "connects_to" ) ) {
+            set_connect_groups( joe.get_as_string_array( "connects_to" ) );
+        }
+        if( joe.has_member( "rotates_to" ) ) {
+            set_connect_groups( joe.get_as_string_array( "rotates_to" ) );
+        }
     }
     if( was_loaded && jo.has_member( "delete" ) ) {
         JsonObject jod = jo.get_object( "delete" );
         for( auto &flag : jod.get_string_array( "flags" ) ) {
             unset_flag( flag );
+        }
+        if( jod.has_member( "connect_groups" ) ) {
+            unset_connect_groups( jod.get_as_string_array( "connect_groups" ) );
+        }
+        if( jod.has_member( "connects_to" ) ) {
+            unset_connect_groups( jod.get_as_string_array( "connects_to" ) );
+        }
+        if( jod.has_member( "rotates_to" ) ) {
+            unset_connect_groups( jod.get_as_string_array( "rotates_to" ) );
         }
     }
 
@@ -1236,7 +1319,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
     optional( jo, was_loaded, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, 300 );
     bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
-    optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
+    optional( jo, was_loaded, "keg_capacity", keg_capacity, volume_reader(), 0_ml );
     optional( jo, was_loaded, "max_volume", max_volume, volume_reader(), DEFAULT_TILE_VOLUME );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, itype_id() );
     optional( jo, was_loaded, "deployed_item", deployed_item );
@@ -1320,6 +1403,13 @@ void furn_t::check() const
             debugmsg( "furn %s has invalid emission %s set", id.c_str(),
                       e.str().c_str() );
         }
+    }
+    if( plant && !plant->transform.is_valid() ) {
+        debugmsg( "Invalid furniture %s for plant transform in furn %s", plant->transform.c_str(),
+                  id.c_str() );
+    }
+    if( plant && !plant->base.is_valid() ) {
+        debugmsg( "Invalid furniture %s for plant base in furn %s", plant->base.c_str(), id.c_str() );
     }
 }
 

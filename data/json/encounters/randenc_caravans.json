@@ -20,7 +20,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_roadstop_a_add",
     "//": "Adds a random encounter at this roadstop",
     "object": {
@@ -29,12 +28,11 @@
         { "class": "FM_caravan_guard_A", "x": 4, "y": 1 },
         { "class": "FM_caravan_guard_B", "x": 4, "y": 2 }
       ],
-      "place_vehicles": [ { "vehicle": "FM_early_pickup", "chance": 100, "fuel": 50, "faction": "free_merchants", "x": [ 4 ], "y": [ 1 ] } ]
+      "place_vehicles": [ { "vehicle": "FM_early_pickup", "fuel": 50, "faction": "free_merchants", "x": [ 4 ], "y": [ 1 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_roadstop_a_remove",
     "//": "removes a random encounter at this roadstop",
     "object": {
@@ -72,7 +70,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_roadstop_a_refugee_add",
     "//": "Adds refugee random encounter at this roadstop",
     "object": {
@@ -85,7 +82,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_roadstop_a_refugee_remove",
     "//": "removes refugee random encounter at this roadstop",
     "object": {

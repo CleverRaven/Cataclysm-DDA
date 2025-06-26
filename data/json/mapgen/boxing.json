@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "gym" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -68,6 +66,7 @@
         "^": "f_indoor_plant",
         "f": "f_trashcan"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true } },
       "place_items": [
@@ -83,9 +82,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "gym_roof",
-    "weight": 200,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -148,9 +145,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "gym_upper_roof",
-    "weight": 200,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

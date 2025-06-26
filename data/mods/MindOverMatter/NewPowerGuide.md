@@ -3,12 +3,12 @@
 When adding powers, keep the following in mind:
 
 1) Choose a Difficulty, which is important for determining how much Nether Attunement the power causes.
-2) Make sure to use the "extra_effects" field to apply drain
-3) Make sure the power has some element of randomness--unlike magical spells, psionic powers are not completely predictable. The standard formula I've used is generally { "math": [ "( ( (u_spell_level('[NAME]') * [LEVELED_VALUE]) + [BASE_VALUE]) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }. This makes sure that the power scales appropriately with its level and also that its effects are modified by intelligence: +5% effectiveness for every point of intelligence above 10, -5% for every point below 10. Generally damage, duration, and range are all scaled this way, while maximum level is a simple 1.5 * intelligence.
-4) Make sure the power has connections to other powers, either teaching them or being learned by them.
-5) If the power is low-level enough that it should be a starting power, add it in to the EOC_Matrix_Awakening and EOC_Portal_Awakening EoCs to make sure that it's learned when awakening, as well as the appropriate professions.
+2) Make sure the power has some element of randomness--unlike magical spells, psionic powers are not completely predictable. The standard formula I've used is generally { "math": [ "( ( (u_spell_level('[NAME]') * [LEVELED_VALUE]) + [BASE_VALUE]) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling" ] }. This makes sure that the power scales appropriately with its level and also that its effects are modified by intelligence: +5% effectiveness for every point of intelligence above 10, -5% for every point below 10. Generally damage, duration, and range are all scaled this way, while maximum level is a simple 1.5 * intelligence.
+3) Make sure the power has connections to other powers, either teaching them or being learned by them.
+4) Make sure the power is random in some way--existing powers make heavy use of the RANDOM_DAMAGE and RANDOM_DURATION flags so that they're never completely predictable. 
+5) If the power has prerequisities to existing powers, make sure to add it to professions or hobbies (as appropriate) that 
 6) Write a practice recipe for the power and add it to the appropriate EOC_learn_recipes EoC. Psionic practice recipes are found in recipes/practice. The numbers within are drawn from spellbook reading XP rates and teach Difficulty 1 2 3 and powers up to level 12, Difficulty 4 and 5 powers up to level 10, and Difficulty 6 and 7 powers up to level 7.
-7) Make sure the power is random in some way--existing powers make heavy use of the RANDOM_DAMAGE and RANDOM_DURATION flags so that they're never completely predictable. 
+7) Add a power learning EoC and place it in the powers/learning_eocs folder under the appropriate path. 
 
 I've tried to keep each particular psionic path balanced in the amount of powers, though the nature of the powers makes any kind of real balance impossible--teleportation is simply better than most other paths simply because it lets you always choose your battles. 
 
@@ -46,9 +46,15 @@ Telepathy Can: Read the surface thoughts of others.  Disrupt their thinking or b
 Telepathy Can't: Create permanent personality changes that do not stem from brain damage caused by telepathic attack.  Overcome language barriers.  Make the psion more intelligent.  Read or affect the mind of beings which don't have a conventional mind (zombies, robots, yrax constructs, mycus, some Nether inhabitants).  Cure blob psychosis or restore ferals to their former selves.  Directly edit another's thoughts or long-term memories.
 
 Teleportation Can: Allow the psion to move without crossing the intervening distance.  "Warp space" such that distances take longer or shorter to traverse than they appear that they should.  Teleport objects out of or into people's hands.  Teleport the psion to other realities or to the Nether (possible endgame--extremely powerful teleporter just leaves?).  Teleport safely to unseen nearby locations.
-Teleportation Can't: Teleport only part of a creature, such as teleporting a zombie's head off or a feral's heart out of their chest.  Teleport other people, or the psion themselves, into walls or solid rock (the nature of their powers prevents unsafe teleporting).  Travel through time.  Teleport long distances to places the psion has never seen. 
+Teleportation Can't: Teleport only part of a creature, such as teleporting a zombie's head off or a feral's heart out of their chest.  Teleport items or other people, or the psion themselves, into walls or solid rock (the nature of their powers prevents unsafe teleporting).  Travel through time.  Teleport long distances to places the psion has never seen. 
 
 Vitakinesis Can: Speed up healing to preternatural levels, healing broken bones in days and grievous wounds in hours.  Resist disease and poisoning.  Cure some deleterious traits such as deafness or blindness, with an appropriate channeling time and recovery period.  Regrow lost limbs.  Obviate the need for sleep. Transfer diseases to or from other people.  Affect the healing rates of others, speeding them up or slowing them down.  Extend the psion's lifespan, possibly indefinitely. 
 Vitakinesis Can't: Instantly close wounds.  Cure mutations that change the fundamental shape of the body, such as a tail or paws.  Cause serious wounds in others.  Extend others' lifespans.  Cure blob psychosis or restore ferals to their former selves. 
 
 Matrix technology can overcome a few of the above-listed limitations.
+
+# On Cross-path Powers
+
+People occasionally ask about cross-path powers, but as time has gone on I think it's a bad idea. For one, the deliberately limited nature of awakening means that there's a distinct possibility you'd only unlock one path but not another, so cross-path powers would be very rare. Multiple paths were very rare to almost nonexistent before the Cataclysm, so there's no pre-existing path to follow. For another thing, a lot of the fun of playing with multiple paths is figuring out ways to synergize their effects yourself--the player also has the satisfaction of learning interesting combinations that way rather than being handed them through multi-path insight.
+
+There is no conceptual problem with matrix technology using multiple paths to accomplish its goals, and some existing items (like the morphic reinforcement serum) already do this.

@@ -27,13 +27,7 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "robofachq_surface_entrance",
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "robofachq_surface_entrance",
-        "om_special": "hub_01",
-        "reveal_radius": 1,
-        "random": false,
-        "search_range": 2400
-      }
+      "assign_mission_target": { "om_terrain": "robofachq_surface_entrance", "om_special": "hub_01", "reveal_radius": 1, "random": false }
     },
     "end": { "effect": [ { "u_add_var": "mission_completed_u_scouted_bunker", "value": "yes" } ] },
     "difficulty": 2,

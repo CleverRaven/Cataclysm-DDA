@@ -1,26 +1,34 @@
 #include "projectile.h"
 
 #include <algorithm>
+#include <limits>
 #include <memory>
 #include <string>
-#include <type_traits>
 #include <vector>
 
 #include "ammo_effect.h"
+#include "calendar.h"
 #include "character.h"
 #include "condition.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
 #include "field.h"
+#include "field_type.h"
 #include "item.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "rng.h"
+#include "string_formatter.h"
+#include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -53,7 +61,7 @@ projectile &projectile::operator=( const projectile &other )
     speed = other.speed;
     range = other.range;
     count = other.count;
-    multi_projectile_effects = other.multi_projectile_effects;
+    multishot = other.multishot;
     shot_spread = other.shot_spread;
     shot_impact = other.shot_impact;
     proj_effects = other.proj_effects;
@@ -227,7 +235,9 @@ int max_aoe_size( const std::set<ammo_effect_str_id> &tags )
 void multi_projectile_hit_message( Creature *critter, int hit_count, int damage_taken,
                                    const std::string &projectile_name )
 {
-    if( hit_count > 0 && get_player_character().sees( *critter ) ) {
+    const map &here = get_map();
+
+    if( hit_count > 0 && get_player_character().sees( here, *critter ) ) {
         // Building a phrase to summarize the fragment effects.
         // Target, Number of impacts, total amount of damage, proportion of deflected fragments.
         std::map<int, std::string> impact_count_descriptions = {

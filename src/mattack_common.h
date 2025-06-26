@@ -2,18 +2,17 @@
 #ifndef CATA_SRC_MATTACK_COMMON_H
 #define CATA_SRC_MATTACK_COMMON_H
 
-#include <string> // IWYU pragma: keep
+#include <functional>
 #include <memory>
-#include <type_traits>
+#include <string> // IWYU pragma: keep
+#include <utility>
 
-#include "condition.h"
 #include "clone_ptr.h"
-#include "creature.h"
-#include "dialogue.h"
-#include "type_id.h"
+#include "dialogue_helpers.h"
 
 class JsonObject;
 class monster;
+struct const_dialogue;
 
 using mattack_id = std::string;
 using mon_action_attack = bool ( * )( monster * );
