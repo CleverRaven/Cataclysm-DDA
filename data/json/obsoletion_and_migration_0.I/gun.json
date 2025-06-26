@@ -1270,6 +1270,5 @@
     "price_postapoc": "22 USD 50 cent",
     "flags": [ "NO_TURRET" ],
     "min_cycle_recoil": 450,
-    "ammo": [ "357sig" ]
   }
 ]
