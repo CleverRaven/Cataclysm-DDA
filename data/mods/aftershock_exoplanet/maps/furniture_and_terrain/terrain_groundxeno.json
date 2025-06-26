@@ -169,6 +169,26 @@
   },
   {
     "type": "terrain",
+    "id": "t_polluted_snow",
+    "name": "toxic snow",
+    "looks_like": "t_dirt_season_winter",
+    "description": "Snow freely mingles with industrial runoff, forming orange patches of toxic slush.",
+    "symbol": ".",
+    "color": "light_red",
+    "move_cost": 2,
+    "emissions": [ "weak_toxic_dust" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "ROUGH" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 100,
+      "sound": "splosh!",
+      "sound_fail": "fweet!",
+      "ter_set": "t_deaddirt",
+      "str_min_supported": 100
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_snow",
     "name": "snow",
     "looks_like": "t_dirt_season_winter",
@@ -306,7 +326,7 @@
     "symbol": ">",
     "color": "light_blue",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM" ]
+    "flags": [ "TRANSPARENT", "RAMP_DOWN", "PLACE_ITEM" ]
   },
   {
     "type": "terrain",
@@ -316,7 +336,7 @@
     "symbol": "<",
     "color": "light_blue",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM" ]
+    "flags": [ "TRANSPARENT", "RAMP_UP", "PLACE_ITEM" ]
   },
   {
     "type": "terrain",
@@ -326,7 +346,7 @@
     "symbol": ">",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM" ]
+    "flags": [ "TRANSPARENT", "RAMP_DOWN", "PLACE_ITEM" ]
   },
   {
     "type": "terrain",
@@ -336,7 +356,7 @@
     "symbol": "<",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM" ]
+    "flags": [ "TRANSPARENT", "RAMP_UP", "PLACE_ITEM" ]
   },
   {
     "type": "furniture",
@@ -361,7 +381,7 @@
     "move_cost_mod": 6,
     "coverage": 45,
     "required_str": 16,
-    "flags": [ "NOITEM", "TRANSPARENT", "UNSTABLE", "MOUNTABLE", "SHORT" ],
+    "flags": [ "NOITEM", "TRANSPARENT", "UNSTABLE", "MOUNTABLE", "SHORT", "CLIMBABLE" ],
     "bash": { "str_min": 12, "str_max": 80, "sound": "flump!", "sound_fail": "thump." }
   },
   {
@@ -428,5 +448,19 @@
     "coverage": 40,
     "flags": [ "DIGGABLE", "FLAT", "ROUGH", "FLAMMABLE_ASH", "TRANSPARENT" ],
     "bash": { "str_min": 4, "str_max": 30, "sound": "splosh.", "sound_fail": "brush.", "ter_set": "t_deaddirt" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_toxic_water",
+    "name": "toxic sewage",
+    "description": "A pond of rust colored water, a thin sheen of iridescent murk reflects light across its surface.  Even brief immersion is likely to prove fatal.",
+    "symbol": "~",
+    "looks_like": "t_water_murky",
+    "emissions": [ "weak_toxic_dust" ],
+    "color": "light_red",
+    "move_cost": 6,
+    "liquid_source": { "id": "water_sewage" },
+    "flags": [ "TRANSPARENT", "SWIMMABLE", "SHALLOW_WATER" ],
+    "examine_action": "water_source"
   }
 ]
