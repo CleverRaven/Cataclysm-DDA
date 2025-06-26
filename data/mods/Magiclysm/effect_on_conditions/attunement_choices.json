@@ -42,7 +42,7 @@
           "EOC_CANT_GIVE_ATTUNEMENT_NOT_ENOUGH_SPELL_LEVELS",
           "EOC_CANT_GIVE_ATTUNEMENT_NOT_ENOUGH_PROFICIENCIES"
         ],
-        "title": "Pick an Attunement to show the world your Worth.",
+        "title": "You reach out to touch the attunement altar.",
         "names": [
           "<trait_name:ARTIFICER>",
           "<trait_name:ALCHEMIST>",
@@ -204,7 +204,101 @@
         { "test_eoc": "EOC_CONDITION_ATTUNEMENT_CHECK_PROFICIENCY_MASTERY" }
       ]
     },
-    "effect": [ { "u_add_trait": "ARTIFICER" }, { "run_eocs": "EOC_ATTUNEMENT_SUCCESS_MESSAGE" } ]
+    "effect": [ { "u_add_trait": "ALCHEMIST" }, { "run_eocs": "EOC_ATTUNEMENT_SUCCESS_MESSAGE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_ATTUNEMENT_BIOTEK",
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOMANCER" },
+        { "u_has_trait": "TECHNOMANCER" },
+        {
+          "not": {
+            "u_has_any_trait": [
+              "ARTIFICER",
+              "ALCHEMIST",
+              "BLOOD_MAGE",
+              "BOREAL_MAGE",
+              "CRUSADER",
+              "CLEANSING_FLAME",
+              "EARTH_ELEMENTAL",
+              "FIRE_ELEMENTAL",
+              "GAIAS_CHOSEN",
+              "GLACIER_MAGE",
+              "GOLEMANCER",
+              "GRAVITY_MAGE",
+              "OVERCLOCKER",
+              "ICE_ELEMENTAL",
+              "ILLUSIONIST",
+              "MAGNETISM_MAGE",
+              "SHAMAN",
+              "SHAPESHIFTER",
+              "STORM_ELEMENTAL",
+              "STORMCALLER",
+              "TUNDRA_MAGE",
+              "VOID_MAGE",
+              "VULCANIST",
+              "SOULFIRE",
+              "WITHER_MAGE",
+              "MAGIC_EMPTY"
+            ]
+          }
+        },
+        { "math": [ "u_spell_count('school': 'BIOMANCER') >= _required_spell_count" ] },
+        { "math": [ "u_spell_count('school': 'TECHNOMANCER') >= _required_spell_count" ] },
+        { "math": [ "u_spell_level_sum('school': 'BIOMANCER') >= _required_spell_levels" ] },
+        { "math": [ "u_spell_level_sum('school': 'TECHNOMANCER') >= _required_spell_levels" ] },
+        { "test_eoc": "EOC_CONDITION_ATTUNEMENT_CHECK_PROFICIENCY_MASTERY" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "BIOTEK" }, { "run_eocs": "EOC_ATTUNEMENT_SUCCESS_MESSAGE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_ATTUNEMENT_BLOOD_MAGE",
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOMANCER" },
+        { "u_has_trait": "ANIMIST" },
+        {
+          "not": {
+            "u_has_any_trait": [
+              "ALCHEMIST",
+              "BIOTEK",
+              "CRUSADER",
+              "CLEANSING_FLAME",
+              "EARTH_ELEMENTAL",
+              "FIRE_ELEMENTAL",
+              "FORCE_MAGE",
+              "GAIAS_CHOSEN",
+              "GOLEMANCER",
+              "GRAVITY_MAGE",
+              "ICE_ELEMENTAL",
+              "ILLUSIONIST",
+              "PERMAFROST_MAGE",
+              "RADIATION_MAGE",
+              "SHAMAN",
+              "SHAPESHIFTER",
+              "STORM_ELEMENTAL",
+              "STORMCALLER",
+              "SUN_MAGE",
+              "TUNDRA_MAGE",
+              "VOID_MAGE",
+              "SOULFIRE",
+              "WITHER_MAGE",
+              "MAGIC_EMPTY"
+            ]
+          }
+        },
+        { "math": [ "u_spell_count('school': 'BIOMANCER') >= _required_spell_count" ] },
+        { "math": [ "u_spell_count('school': 'ANIMIST') >= _required_spell_count" ] },
+        { "math": [ "u_spell_level_sum('school': 'BIOMANCER') >= _required_spell_levels" ] },
+        { "math": [ "u_spell_level_sum('school': 'ANIMIST') >= _required_spell_levels" ] },
+        { "test_eoc": "EOC_CONDITION_ATTUNEMENT_CHECK_PROFICIENCY_MASTERY" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "BLOOD_MAGE" }, { "run_eocs": "EOC_ATTUNEMENT_SUCCESS_MESSAGE" } ]
   },
   {
     "type": "effect_on_condition",
