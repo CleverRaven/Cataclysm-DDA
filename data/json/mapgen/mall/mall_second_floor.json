@@ -57,8 +57,8 @@
           { "item": "vending_drink_items", "chance": 30, "repeat": [ 6, 10 ] }
         ],
         "K": [ { "item": "vending_food_items", "chance": 20 }, { "item": "vending_drink_items", "chance": 20 } ],
-        "Y": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 1, 2 ] },
-        "S": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 4, 6 ] },
+        "Y": { "item": "SUS_trash_trashcan_public", "chance": 100 },
+        "S": { "item": "SUS_office_filing_cabinet", "chance": 30, "repeat": [ 4, 6 ] },
         "R": { "item": "magazines", "chance": 30, "repeat": [ 1, 2 ] },
         "z": [
           { "item": "hatstore_accessories", "chance": 40, "repeat": [ 1, 2 ] },
