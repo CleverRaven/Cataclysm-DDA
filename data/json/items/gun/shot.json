@@ -652,8 +652,8 @@
       },
       {
         "id": "pbt",
-        "name": { "str": "Parker Bros. Trojan 12 gauge shotgun" },
-        "description": "An antique double-barreled shotgun chambered in 12 gauge.  Not to be confused with the board game company of the same name, Parker Bros. made shotguns from 1867 to 1942, before they were phased out of production by Remington, who had acquired the company the previous decade.  These shotguns were sold in many different \"grades\" at varying price points, with higher quality of engravings being included at higher cost.  This particular shotgun is a \"Trojan\", which was the cheapest grade Parker Bros. sold."
+        "name": { "str": "Parker Bros.  Trojan 12 gauge shotgun" },
+        "description": "An antique double-barreled shotgun chambered in 12 gauge.  Not to be confused with the board game company of the same name, Parker Bros.  made shotguns from 1867 to 1942, before they were phased out of production by Remington, who had acquired the company the previous decade.  These shotguns were sold in many different \"grades\" at varying price points, with higher quality of engravings being included at higher cost.  This particular shotgun is a \"Trojan\", which was the cheapest grade Parker Bros.  sold."
       },
       {
         "id": "czb",
