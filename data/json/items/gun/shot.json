@@ -658,7 +658,7 @@
       {
         "id": "czb",
         "name": { "str": "CZ Bobwhite 12 gauge shotgun" },
-        "description": "A relatively modern double-barreled shotgun chambered in 12 gauge.  \"CZ\" stands for \"Česká zbrojovka\", or Czech armory. CZ's weapons are either Czech imports or produced by their US based subsidiaries. This specific model is the Bobwhite, with a wooden stock and black chrome barrels."
+        "description": "A relatively modern double-barreled shotgun chambered in 12 gauge.  \"CZ\" stands for \"Česká zbrojovka\", or Czech armory.  CZ's weapons are either Czech imports or produced by their US based subsidiaries.  This specific model is the Bobwhite, with a wooden stock and black chrome barrels."
       }
     ],
     "ascii_picture": "2barrel_shotgun",
