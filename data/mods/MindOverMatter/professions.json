@@ -598,14 +598,18 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "itzcuauhtli_pants" },
+          { "item": "itzcuauhtli_pants", "variant": "itzcuauhtli_pants_standard" },
           { "item": "itzcuauhtli_tunic" },
           { "item": "socks" },
-          { "item": "itzcuauhtli_boots" },
+          { "item": "itzcuauhtli_boots", "variant": "itzcuauhtli_boots_standard" },
           { "item": "itzcuauhtli_cape" },
           { "item": "itzcuauhtli_hat" },
           { "item": "itzcuauhtli_holster" },
-          { "item": "itzcuauhtli_wrist_computer", "charges": [ 7000, 10000 ] },
+          {
+            "item": "itzcuauhtli_wrist_computer",
+            "variant": "itzcuauhtli_wrist_computer_standard",
+            "charges": [ 7000, 10000 ]
+          },
           { "item": "matrix_crystal_teleportation" },
           { "item": "mom_fusion_pistol" },
           { "item": "mom_fusion_mag", "ammo-item": "mom_fusion_ammo", "charges": 40 }

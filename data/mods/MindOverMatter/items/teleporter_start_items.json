@@ -1,5 +1,6 @@
 [
   {
+    "//": "All Fifth Sun technology should go here.",
     "id": "mom_fusion_pistol",
     "looks_like": "glock_17",
     "type": "ITEM",
@@ -23,7 +24,7 @@
     "ammo_effects": [ "PLASMA", "PLASMA_BUBBLE", "IGNITE" ],
     "ammo": [ "mom_fusion_ammo" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "25 ml", "item_restriction": [ "mom_fusion_mag" ] } ],
-    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR" ]
   },
   {
     "id": "mom_fusion_mag",
@@ -65,6 +66,252 @@
     "id": "mom_fusion_ammo",
     "name": "Ch47 fusion shot",
     "default": "mom_fusion_ammo"
+  },
+  {
+    "id": "mom_lightning_rifle",
+    "looks_like": "laser_rifle",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "reload_noise_volume": 0,
+    "name": { "str": "G-Tz77 \"Tlapetlaniliztli\" battle rifle" },
+    "description": "A shipboard battle rifle, whose non-kinetic ammunition was designed to avoid puncturing ship hulls during engagements.  The G-Tz77 has been a mainstay of the Imperial Navy for decades at this point and seen service on the surface of and in orbit around dozens of worlds.  This is just one more in its long history of protecting the Excan Tlahtoloyan.",
+    "weight": "2950 g",
+    "volume": "3 L",
+    "longest_side": "900 mm",
+    "price": "16 kUSD",
+    "price_postapoc": "200 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "steel", "plastic", "nether_crystal" ],
+    "symbol": "(",
+    "color": "cyan",
+    "skill": "rifle",
+    "range": 35,
+    "ranged_damage": { "damage_type": "electric", "amount": 0, "armor_penetration": 0 },
+    "dispersion": 10,
+    "durability": 8,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "loudness": 12,
+    "reload": 250,
+    "ammo_effects": [ "LIGHTNING_TRAIL", "BOUNCE" ],
+    "faults": [ { "fault": "fault_overheat_melting" }, { "fault": "fault_overheat_safety" } ],
+    "melee_damage": { "bash": 12 },
+    "ammo": [ "mom_lightning_rifle_ammo" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "50 ml", "item_restriction": [ "mom_lightning_rifle_mag" ] } ],
+    "flags": [ "NEVER_JAMS", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR" ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mom_lightning_rifle_standard",
+        "name": { "str": "G-Tz77 \"Tlapetlaniliztli\" battle rifle" },
+        "description": "A shipboard battle rifle, whose non-kinetic ammunition was designed to avoid puncturing ship hulls during engagements.  The G-Tz77 has been a mainstay of the Imperial Navy for decades at this point and seen service on the surface of and in orbit around dozens of worlds.  This is just one more in its long history of protecting the Excan Tlahtoloyan."
+      },
+      {
+        "id": "mom_lightning_rifle_non_fifth_sun",
+        "name": { "str": "odd rifle" },
+        "description": "This is recognizbly a rifle but it's like nothing you've ever seen.  The magazine seems to be inserted into the stock and the barrel is almost as big around as your wrist.  When you hold it, some kind of electronic display above the grip shows a series of odd symbols."
+      }
+    ]
+  },
+  {
+    "id": "mom_lightning_rifle_mag",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "G-Tz77 power pack" },
+    "description": "A power pack for the G-Tz77.",
+    "weight": "100 g",
+    "volume": "45 ml",
+    "material": [ "steel" ],
+    "price": "100 USD",
+    "price_postapoc": "1 cent",
+    "symbol": "#",
+    "color": "red",
+    "ammo_type": [ "mom_lightning_rifle_ammo" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "mom_lightning_rifle_ammo": 120 } } ]
+  },
+  {
+    "id": "mom_lightning_rifle_ammo",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "G-Tz77 power cartridge" },
+    "description": "Power cartridges for the G-Tz77.  You had better make every shot count, because there's no way you're finding any more of these.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": "1 USD 60 cent",
+    "price_postapoc": "8 USD",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "nether_crystal", "steel" ],
+    "symbol": "=",
+    "color": "cyan",
+    "count": 120,
+    "stack_size": 120,
+    "ammo_type": "mom_lightning_rifle_ammo",
+    "damage": { "damage_type": "electric", "amount": 80, "armor_penetration": 15 }
+  },
+  {
+    "type": "ammunition_type",
+    "id": "mom_lightning_rifle_ammo",
+    "name": "tlapetlaniliztli ammo",
+    "//": "Lightning flash",
+    "default": "mom_lightning_rifle_ammo"
+  },
+  {
+    "id": "mom_fifth_sun_standard_body_armor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str": "pāncahcallō torso armor", "str_pl": "sets of pāncahcallō torso armor" },
+    "description": "A set of torso and upper-arm armor made with mixed leather overlaid with sheets of ichcayolli, pāncahcallō armor derives its effectiveness from the integral generator capable of projecting an ehēcatepantli barrier that provides most of the armor's protection.",
+    "weight": "3250 g",
+    "volume": "3500 ml",
+    "price": "5000 USD",
+    "price_postapoc": "300 USD",
+    "material": [ "leather" ],
+    "symbol": "[",
+    "longest_side": "60 cm",
+    "looks_like": "armor_larmor_chest",
+    "color": "white",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 95,
+        "encumbrance": 20,
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2 },
+          {
+            "type": "fifth_sun_antiballistic_cloth",
+            "covered_by_mat": 95,
+            "thickness": 2.4,
+            "ignore_sheet_thickness": true
+          }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 90,
+        "encumbrance": 8,
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.1 },
+          {
+            "type": "fifth_sun_antiballistic_cloth",
+            "covered_by_mat": 95,
+            "thickness": 1.2,
+            "ignore_sheet_thickness": true
+          }
+        ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      }
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 672 } } ],
+    "warmth": 20,
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You flip the switch and activate the ehēcatepantli barrier.",
+        "target": "mom_fifth_sun_standard_body_armor_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The switch clicks but nothing happens.",
+        "need_worn": true,
+        "menu_text": "Flip the switch"
+      }
+    ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "name": "Ehēcatepantli Barrier",
+        "description": "The air around you has a faint shimmer.",
+        "ench_effects": [
+          { "effect": "effect_shield_belt_telekin_protection", "intensity": 1 },
+          { "effect": "effect_mom_fall_one_story", "intensity": 1 }
+        ],
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -8 },
+          { "type": "stab", "add": -20 },
+          { "type": "cut", "add": -15 },
+          { "type": "bullet", "add": -40 }
+        ]
+      }
+    ],
+    "flags": [ "VARSIZE", "STURDY", "MUNDANE", "OUTER", "NO_REPAIR" ]
+  },
+  {
+    "id": "mom_fifth_sun_standard_body_armor_on",
+    "copy-from": "mom_fifth_sun_standard_body_armor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "name": { "str": "pāncahcallō torso armor (active)", "str_pl": "sets of pāncahcallō torso armor (active)" },
+    "description": "A set of torso and upper-arm armor made with mixed leather overlaid with sheets of ichcayolli, pāncahcallō armor derives its effectiveness from the integral generator capable of projecting an ehēcatepantli barrier that provides most of the armor's protection.  The ehēcatepantli is currently active.",
+    "power_draw": "15 W",
+    "revert_to": "mom_fifth_sun_standard_body_armor",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "mom_fifth_sun_standard_body_armor",
+        "msg": "You flip the switch and deactivate the ehēcatepantli barrier.",
+        "menu_text": "Flip the switch",
+        "type": "transform"
+      }
+    ],
+    "extend": { "flags": [ "NO_TAKEOFF" ] }
+  },
+  {
+    "id": "mom_fifth_sun_standard_body_armor_non_fifth_sun",
+    "copy-from": "mom_fifth_sun_standard_body_armor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "name": { "str": "strange body armor", "str_pl": "sets of strange body armor" },
+    "description": "A set of leather armor covered in some kind of very stiff white cloth.  A small textured box is attached to the left side, easily accessible with either hand.  The box has a switch of some kind and several odd pictographs around the switch.",
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You flip the switch.",
+        "target": "mom_fifth_sun_standard_body_armor_non_fifth_sun_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The switch clicks but nothing happens.",
+        "need_worn": true,
+        "menu_text": "Flip the switch"
+      }
+    ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "name": "Shimmering air",
+        "description": "The air around you has a faint shimmer.",
+        "ench_effects": [
+          { "effect": "effect_shield_belt_telekin_protection", "intensity": 1 },
+          { "effect": "effect_mom_fall_one_story", "intensity": 1 }
+        ],
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -8 },
+          { "type": "stab", "add": -20 },
+          { "type": "cut", "add": -15 },
+          { "type": "bullet", "add": -40 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mom_fifth_sun_standard_body_armor_non_fifth_sun_on",
+    "copy-from": "mom_fifth_sun_standard_body_armor_on",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "name": { "str": "strange body armor  (active)", "str_pl": "sets of strange body armor  (active)" },
+    "description": "A set of leather armor covered in some kind of very stiff white cloth.  A small textured box is attached to the left side, easily accessible with either hand.  The box has a switch of some kind and several odd pictographs around the switch.  The switch is currently flipped.",
+    "power_draw": "15 W",
+    "revert_to": "mom_fifth_sun_standard_body_armor_non_fifth_sun",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "mom_fifth_sun_standard_body_armor_non_fifth_sun",
+        "msg": "You flip the switch.",
+        "menu_text": "Flip the switch",
+        "type": "transform"
+      }
+    ],
+    "extend": { "flags": [ "NO_TAKEOFF" ] }
   },
   {
     "id": "itzcuauhtli_cape",
@@ -112,12 +359,50 @@
     "description": "A dress tunic, in gold and crimson, slashed with black bars.  This would immediately mark your exact rank and position to anyone else in the Imperial Navy, if you ever see another one again."
   },
   {
+    "id": "itzcuauhtli_tunic_jaguar",
+    "copy-from": "dress_shirt",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Ocēlōpilli dress tunic" },
+    "description": "A dress tunic, in gold and crimson, slashed with yellow bars.  This marks the wearer as one of the Jaguar Warrior special forces.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "itzcuauhtli_tunic_jaguar_standard",
+        "name": { "str": "Ocēlōpilli dress tunic" },
+        "description": "A dress tunic, in gold and crimson, slashed with yellow bars.  This marks the wearer as one of the Jaguar Warrior special forces.",
+        "weight": 1
+      },
+      {
+        "id": "itzcuauhtli_tunic_jaguar_non_fifth_sun",
+        "name": { "str_sp": "uniform dress shirt" },
+        "description": "Some sort of uniform dress shirt in a blood-red crimson color with gold accents and a series of yellow bars on the left side.  You can't recall any military that dresses quite like this.",
+        "weight": 1
+      }
+    ]
+  },
+  {
     "id": "itzcuauhtli_pants",
     "copy-from": "pants",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "Itzcuauhtli Corps pants" },
-    "description": "A set of gold and crimson uniform pants.  The days of wearing only a maxtlatl are gone following the expansion of the empire out from Anáhuac, and considering the local climate, you're grateful for it."
+    "description": "A set of gold and crimson uniform pants.  The days of wearing only a maxtlatl are gone following the expansion of the empire out from Anáhuac, and considering the local climate, you're grateful for it.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "itzcuauhtli_pants_standard",
+        "name": { "str_sp": "Itzcuauhtli Corps pants" },
+        "description": "A set of gold and crimson uniform pants.  The days of wearing only a maxtlatl are gone following the expansion of the empire out from Anáhuac, and considering the local climate, you're grateful for it.",
+        "weight": 1
+      },
+      {
+        "id": "itzcuauhtli_pants_non_fifth_sun",
+        "name": { "str_sp": "uniform pants" },
+        "description": "Some sort of uniform pants in a blood-red crimson color with gold accents.  You can't recall any military that dresses quite like this.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "itzcuauhtli_boots",
@@ -125,7 +410,22 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "naval boots" },
-    "description": "Simple black leather boots.  It's a good thing you weren't transporting a planetary tlatoani when the accident happened or you might have ended up on this gods-forsaken hellhole barefoot."
+    "description": "Simple black leather boots.  It's a good thing you weren't transporting a planetary tlatoani when the accident happened or you might have ended up on this gods-forsaken hellhole barefoot.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "itzcuauhtli_boots_standard",
+        "name": { "str_sp": "naval boots" },
+        "description": "Simple black leather boots.  It's a good thing you weren't transporting a planetary tlatoani when the accident happened or you might have ended up on this gods-forsaken hellhole barefoot.",
+        "weight": 1
+      },
+      {
+        "id": "itzcuauhtli_boots_standard_non_fifth_sun",
+        "name": { "str_sp": "black leather boots" },
+        "description": "Simple black leather boots.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "itzcuauhtli_wrist_computer",
@@ -150,7 +450,8 @@
       "NO_UNLOAD",
       "NO_RELOAD",
       "ALLOWS_NATURAL_ATTACKS",
-      "OVERSIZE"
+      "OVERSIZE",
+      "NO_REPAIR"
     ],
     "symbol": "[",
     "use_action": [ "E_FILE_DEVICE", "EBOOKSAVE", "MP3", "CAMERA", "CALORIES_INTAKE_TRACKER", "PORTABLE_GAME", "FITNESS_CHECK" ],
@@ -165,6 +466,21 @@
         "ememory_max": "512 TB"
       }
     ],
-    "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+    "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "itzcuauhtli_wrist_computer_standard",
+        "name": { "str": "māchīuhpōhualhuaztli", "str_pl": "māchīuhpōhualhuaztimeh" },
+        "description": "Your trustworthy connection to the local mātlatzālantli, the māchīuhpōhualhuaztli allows you to store and read texts through tonaltēzcatl projection, look up info, keep track of your biometrics, play games, record visuals or sound, connect with far-distant friends and family, act as a calendar and event planner, and even identify you to agents of the government or, gods forbid, the Tlamachchiuhqueh, should that become necessary.  There's nothing to connect to on this blighted world, but the other functions should still work.",
+        "weight": 1
+      },
+      {
+        "id": "itzcuauhtli_wrist_computer_non_fifth_sun",
+        "name": { "str": "strange watch", "str_pl": "strange watches" },
+        "description": "This looks like a smartwatch but it doesn't have a screen.  There are two buttons on each side, and when you press one of them, a series of glowing holograms spring up over your wrist.  They depict what looks like a menu, but everthing is written in blobby symbols that look vaguely…Mayan?  You've never seen anything like this before.",
+        "weight": 1
+      }
+    ]
   }
 ]
