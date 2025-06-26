@@ -709,8 +709,8 @@
     "variants": [
       {
         "id": "hrt",
-        "name": { "str": "H&R Topper" },
-        "description": "A single barreled 12 gauge shotgun, produced by H&R.  While Harrington and Richardson has gone through many different acquisitions, name changes, and bankruptcies, it produces the same or similar weapons that it did in the early 20th century.  This particular model, the 58, was mass-produced between 1974-1981."
+        "name": { "str": "H&R Topper 58" },
+        "description": "A single barreled 12 gauge shotgun with an 18.5 inch barrel, produced by H&R.  While Harrington and Richardson has gone through many different acquisitions, name changes, and bankruptcies, it produces the same or similar weapons that it did in the early 20th century.  This particular model, the 58, was mass-produced between 1974-1981."
       }
     ],
     "weight": "2494 g",
