@@ -58,10 +58,10 @@
           "<trait_name:GLACIER_MAGE>",
           "<trait_name:GOLEMANCER>",
           "<trait_name:GRAVITY_MAGE>",
-          "<trait_name:OVERCLOCKER>",
           "<trait_name:ICE_ELEMENTAL>",
           "<trait_name:ILLUSIONIST>",
           "<trait_name:MAGNETISM_MAGE>",
+          "<trait_name:OVERCLOCKER>",
           "<trait_name:PERMAFROST_MAGE>",
           "<trait_name:RADIATION_MAGE>",
           "<trait_name:SHAMAN>",
@@ -94,10 +94,10 @@
           "<trait_description:GLACIER_MAGE>",
           "<trait_description:GOLEMANCER>",
           "<trait_description:GRAVITY_MAGE>",
-          "<trait_description:OVERCLOCKER>",
           "<trait_description:ICE_ELEMENTAL>",
           "<trait_description:ILLUSIONIST>",
           "<trait_description:MAGNETISM_MAGE>",
+          "<trait_description:OVERCLOCKER>",
           "<trait_description:PERMAFROST_MAGE>",
           "<trait_description:RADIATION_MAGE>",
           "<trait_description:SHAMAN>",
@@ -637,6 +637,340 @@
       ]
     },
     "effect": [ { "u_add_trait": "GAIAS_CHOSEN" }, { "run_eocs": "EOC_ATTUNEMENT_SUCCESS_MESSAGE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_ATTUNEMENT_GLACIER_MAGE",
+    "condition": {
+      "and": [
+        { "u_has_trait": "EARTHSHAPER" },
+        { "u_has_trait": "KELVINIST" },
+        {
+          "not": {
+            "u_has_any_trait": [
+              "ARTIFICER",
+              "ALCHEMIST",
+              "BIOTEK",
+              "BOREAL_MAGE",
+              "CRUSADER",
+              "CLEANSING_FLAME",
+              "EARTH_ELEMENTAL",
+              "FIRE_ELEMENTAL",
+              "FORCE_MAGE",
+              "GAIAS_CHOSEN",
+              "GOLEMANCER",
+              "GRAVITY_MAGE",
+              "OVERCLOCKER",
+              "ICE_ELEMENTAL",
+              "ILLUSIONIST",
+              "MAGNETISM_MAGE",
+              "PERMAFROST_MAGE",
+              "RADIATION_MAGE",
+              "STORM_ELEMENTAL",
+              "STORMCALLER",
+              "SUN_MAGE",
+              "TUNDRA_MAGE",
+              "VOID_MAGE",
+              "VULCANIST",
+              "SOULFIRE",
+              "MAGIC_EMPTY"
+            ]
+          }
+        },
+        { "math": [ "u_spell_count('school': 'EARTHSHAPER') >= _required_spell_count" ] },
+        { "math": [ "u_spell_count('school': 'KELVINIST') >= _required_spell_count" ] },
+        { "math": [ "u_spell_level_sum('school': 'EARTHSHAPER') >= _required_spell_levels" ] },
+        { "math": [ "u_spell_level_sum('school': 'KELVINIST') >= _required_spell_levels" ] },
+        { "test_eoc": "EOC_CONDITION_ATTUNEMENT_CHECK_PROFICIENCY_MASTERY" }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "FROZEN_PRESSURE_OFF" },
+      { "u_add_trait": "GLACIER_MAGE" },
+      { "run_eocs": "EOC_ATTUNEMENT_SUCCESS_MESSAGE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_ATTUNEMENT_GOLEMANCER",
+    "condition": {
+      "and": [
+        { "u_has_trait": "ANIMIST" },
+        { "u_has_trait": "EARTHSHAPER" },
+        {
+          "not": {
+            "u_has_any_trait": [
+              "ARTIFICER",
+              "ALCHEMIST",
+              "BIOTEK",
+              "BLOOD_MAGE",
+              "BOREAL_MAGE",
+              "CRUSADER",
+              "EARTH_ELEMENTAL",
+              "FORCE_MAGE",
+              "GAIAS_CHOSEN",
+              "GLACIER_MAGE",
+              "GRAVITY_MAGE",
+              "OVERCLOCKER",
+              "ILLUSIONIST",
+              "MAGNETISM_MAGE",
+              "PERMAFROST_MAGE",
+              "RADIATION_MAGE",
+              "SHAMAN",
+              "SHAPESHIFTER",
+              "SUN_MAGE",
+              "VOID_MAGE",
+              "VULCANIST",
+              "SOULFIRE",
+              "WITHER_MAGE",
+              "MAGIC_EMPTY"
+            ]
+          }
+        },
+        { "math": [ "u_spell_count('school': 'ANIMIST') >= _required_spell_count" ] },
+        { "math": [ "u_spell_count('school': 'EARTHSHAPER') >= _required_spell_count" ] },
+        { "math": [ "u_spell_level_sum('school': 'ANIMIST') >= _required_spell_levels" ] },
+        { "math": [ "u_spell_level_sum('school': 'EARTHSHAPER') >= _required_spell_levels" ] },
+        { "test_eoc": "EOC_CONDITION_ATTUNEMENT_CHECK_PROFICIENCY_MASTERY" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "GOLEMANCER" }, { "run_eocs": "EOC_ATTUNEMENT_SUCCESS_MESSAGE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_ATTUNEMENT_GRAVITY_MAGE",
+    "condition": {
+      "and": [
+        { "u_has_trait": "EARTHSHAPER" },
+        { "u_has_trait": "MAGUS" },
+        {
+          "not": {
+            "u_has_any_trait": [
+              "ARTIFICER",
+              "ALCHEMIST",
+              "BIOTEK",
+              "BLOOD_MAGE",
+              "BOREAL_MAGE",
+              "CRUSADER",
+              "EARTH_ELEMENTAL",
+              "FORCE_MAGE",
+              "GAIAS_CHOSEN",
+              "GLACIER_MAGE",
+              "GOLEMANCER",
+              "OVERCLOCKER",
+              "ILLUSIONIST",
+              "MAGNETISM_MAGE",
+              "PERMAFROST_MAGE",
+              "RADIATION_MAGE",
+              "SHAMAN",
+              "SHAPESHIFTER",
+              "SUN_MAGE",
+              "VOID_MAGE",
+              "VULCANIST",
+              "SOULFIRE",
+              "WITHER_MAGE",
+              "MAGIC_EMPTY"
+            ]
+          }
+        },
+        { "math": [ "u_spell_count('school': 'EARTHSHAPER') >= _required_spell_count" ] },
+        { "math": [ "u_spell_count('school': 'MAGUS') >= _required_spell_count" ] },
+        { "math": [ "u_spell_level_sum('school': 'EARTHSHAPER') >= _required_spell_levels" ] },
+        { "math": [ "u_spell_level_sum('school': 'MAGUS') >= _required_spell_levels" ] },
+        { "test_eoc": "EOC_CONDITION_ATTUNEMENT_CHECK_PROFICIENCY_MASTERY" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "GRAVITY_MAGE" }, { "run_eocs": "EOC_ATTUNEMENT_SUCCESS_MESSAGE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_ATTUNEMENT_ICE_ELEMENTAL",
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOMANCER" },
+        { "u_has_trait": "KELVINIST" },
+        {
+          "not": {
+            "u_has_any_trait": [
+              "ARTIFICER",
+              "BIOTEK",
+              "BLOOD_MAGE",
+              "BOREAL_MAGE",
+              "CRUSADER",
+              "CLEANSING_FLAME",
+              "EARTH_ELEMENTAL",
+              "FIRE_ELEMENTAL",
+              "FORCE_MAGE",
+              "GAIAS_CHOSEN",
+              "GLACIER_MAGE",
+              "OVERCLOCKER",
+              "MAGNETISM_MAGE",
+              "PERMAFROST_MAGE",
+              "RADIATION_MAGE",
+              "SHAMAN",
+              "SHAPESHIFTER",
+              "STORM_ELEMENTAL",
+              "STORMCALLER",
+              "SUN_MAGE",
+              "TUNDRA_MAGE",
+              "VOID_MAGE",
+              "VULCANIST",
+              "SOULFIRE",
+              "WITHER_MAGE",
+              "MAGIC_EMPTY"
+            ]
+          }
+        },
+        { "math": [ "u_spell_count('school': 'BIOMANCER') >= _required_spell_count" ] },
+        { "math": [ "u_spell_count('school': 'KELVINIST') >= _required_spell_count" ] },
+        { "math": [ "u_spell_level_sum('school': 'BIOMANCER') >= _required_spell_levels" ] },
+        { "math": [ "u_spell_level_sum('school': 'KELVINIST') >= _required_spell_levels" ] },
+        { "test_eoc": "EOC_CONDITION_ATTUNEMENT_CHECK_PROFICIENCY_MASTERY" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "ICE_ELEMENTAL" }, { "run_eocs": "EOC_ATTUNEMENT_SUCCESS_MESSAGE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_ATTUNEMENT_ILLUSIONIST",
+    "condition": {
+      "and": [
+        { "u_has_trait": "MAGUS" },
+        { "u_has_trait": "TECHNOMANCER" },
+        {
+          "not": {
+            "u_has_any_trait": [
+              "ARTIFICER",
+              "ALCHEMIST",
+              "BIOTEK",
+              "BLOOD_MAGE",
+              "BOREAL_MAGE",
+              "CRUSADER",
+              "EARTH_ELEMENTAL",
+              "FORCE_MAGE",
+              "GAIAS_CHOSEN",
+              "GLACIER_MAGE",
+              "GOLEMANCER",
+              "GRAVITY_MAGE",
+              "OVERCLOCKER",
+              "MAGNETISM_MAGE",
+              "PERMAFROST_MAGE",
+              "RADIATION_MAGE",
+              "SHAMAN",
+              "SHAPESHIFTER",
+              "SUN_MAGE",
+              "VOID_MAGE",
+              "VULCANIST",
+              "SOULFIRE",
+              "WITHER_MAGE",
+              "MAGIC_EMPTY"
+            ]
+          }
+        },
+        { "math": [ "u_spell_count('school': 'MAGUS') >= _required_spell_count" ] },
+        { "math": [ "u_spell_count('school': 'TECHNOMANCER') >= _required_spell_count" ] },
+        { "math": [ "u_spell_level_sum('school': 'MAGUS') >= _required_spell_levels" ] },
+        { "math": [ "u_spell_level_sum('school': 'TECHNOMANCER') >= _required_spell_levels" ] },
+        { "test_eoc": "EOC_CONDITION_ATTUNEMENT_CHECK_PROFICIENCY_MASTERY" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "ILLUSIONIST" }, { "run_eocs": "EOC_ATTUNEMENT_SUCCESS_MESSAGE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_ATTUNEMENT_MAGNETISM_MAGE",
+    "condition": {
+      "and": [
+        { "u_has_trait": "EARTHSHAPER" },
+        { "u_has_trait": "STORMSHAPER" },
+        {
+          "not": {
+            "u_has_any_trait": [
+              "ARTIFICER",
+              "ALCHEMIST",
+              "BIOTEK",
+              "BOREAL_MAGE",
+              "CRUSADER",
+              "CLEANSING_FLAME",
+              "EARTH_ELEMENTAL",
+              "FIRE_ELEMENTAL",
+              "FORCE_MAGE",
+              "GAIAS_CHOSEN",
+              "GLACIER_MAGE",
+              "GOLEMANCER",
+              "GRAVITY_MAGE",
+              "OVERCLOCKER",
+              "ICE_ELEMENTAL",
+              "ILLUSIONIST",
+              "PERMAFROST_MAGE",
+              "RADIATION_MAGE",
+              "STORM_ELEMENTAL",
+              "STORMCALLER",
+              "SUN_MAGE",
+              "TUNDRA_MAGE",
+              "VOID_MAGE",
+              "VULCANIST",
+              "SOULFIRE",
+              "MAGIC_EMPTY"
+            ]
+          }
+        },
+        { "math": [ "u_spell_count('school': 'EARTHSHAPER') >= _required_spell_count" ] },
+        { "math": [ "u_spell_count('school': 'STORMSHAPER') >= _required_spell_count" ] },
+        { "math": [ "u_spell_level_sum('school': 'EARTHSHAPER') >= _required_spell_levels" ] },
+        { "math": [ "u_spell_level_sum('school': 'STORMSHAPER') >= _required_spell_levels" ] },
+        { "test_eoc": "EOC_CONDITION_ATTUNEMENT_CHECK_PROFICIENCY_MASTERY" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "MAGNETISM_MAGE" }, { "run_eocs": "EOC_ATTUNEMENT_SUCCESS_MESSAGE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_ATTUNEMENT_OVERCLOCKER",
+    "condition": {
+      "and": [
+        { "u_has_trait": "KELVINIST" },
+        { "u_has_trait": "TECHNOMANCER" },
+        {
+          "not": {
+            "u_has_any_trait": [
+              "ARTIFICER",
+              "ALCHEMIST",
+              "BIOTEK",
+              "BOREAL_MAGE",
+              "CRUSADER",
+              "CLEANSING_FLAME",
+              "EARTH_ELEMENTAL",
+              "FIRE_ELEMENTAL",
+              "FORCE_MAGE",
+              "GAIAS_CHOSEN",
+              "GLACIER_MAGE",
+              "GOLEMANCER",
+              "GRAVITY_MAGE",
+              "ICE_ELEMENTAL",
+              "ILLUSIONIST",
+              "MAGNETISM_MAGE",
+              "PERMAFROST_MAGE",
+              "RADIATION_MAGE",
+              "STORM_ELEMENTAL",
+              "STORMCALLER",
+              "SUN_MAGE",
+              "TUNDRA_MAGE",
+              "VOID_MAGE",
+              "VULCANIST",
+              "SOULFIRE",
+              "MAGIC_EMPTY"
+            ]
+          }
+        },
+        { "math": [ "u_spell_count('school': 'KELVINIST') >= _required_spell_count" ] },
+        { "math": [ "u_spell_count('school': 'TECHNOMANCER') >= _required_spell_count" ] },
+        { "math": [ "u_spell_level_sum('school': 'KELVINIST') >= _required_spell_levels" ] },
+        { "math": [ "u_spell_level_sum('school': 'TECHNOMANCER') >= _required_spell_levels" ] },
+        { "test_eoc": "EOC_CONDITION_ATTUNEMENT_CHECK_PROFICIENCY_MASTERY" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "OVERCLOCKER" }, { "run_eocs": "EOC_ATTUNEMENT_SUCCESS_MESSAGE" } ]
   },
   {
     "type": "effect_on_condition",
