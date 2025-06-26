@@ -670,6 +670,12 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
                 continue;
             }
 
+            // Since most hostiles are "bandits", including *ambushes*, being able to see them in advance makes them largely impotent.
+            // This can be revisited when/if we get NPC overmap behavior to act in a more directed hostile fashion.
+            if( np->guaranteed_hostile() ) {
+                continue;
+            }
+
             const tripoint_abs_omt pos = np->pos_abs_omt();
             if( has_debug_vision || overmap_buffer.seen_more_than( pos, om_vision_level::details ) ) {
                 auto iter = npc_color.find( pos );
@@ -897,7 +903,7 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
 
     if( has_debug_vision || overmap_buffer.seen_more_than( cursor_pos, om_vision_level::details ) ) {
         for( const auto &npc : npcs_near_player ) {
-            if( !npc->marked_for_death && npc->pos_abs_omt() == cursor_pos ) {
+            if( !npc->marked_for_death && npc->pos_abs_omt() == cursor_pos && !npc->guaranteed_hostile() ) {
                 corner_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
             }
         }
