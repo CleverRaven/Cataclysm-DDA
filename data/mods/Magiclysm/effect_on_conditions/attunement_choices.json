@@ -5,8 +5,8 @@
     "effect": [
       { "math": [ "_required_spell_count = 12" ] },
       { "math": [ "_required_spell_levels = 200" ] },
-      { "run_eoc": "EOC_CHECK_ATTUNEMENT_CHECK_SPELL_LEVELS" },
-      { "run_eoc": "EOC_CHECK_ATTUNEMENT_CHECK_SPELL_COUNT" },
+      { "run_eocs": "EOC_CHECK_ATTUNEMENT_CHECK_SPELL_LEVELS" },
+      { "run_eocs": "EOC_CHECK_ATTUNEMENT_CHECK_SPELL_COUNT" },
       {
         "run_eoc_selector": [
           "EOC_GIVE_ATTUNEMENT_ARTIFICER",
@@ -1753,7 +1753,7 @@
         "if": {
           "u_has_any_trait": [ "ANIMIST", "BIOMANCER", "DRUID", "EARTHSHAPER", "KELVINIST", "MAGUS", "STORMSHAPER", "TECHNOMANCER" ]
         },
-        "then": { "math": [ "_required_spell_count_is_met = 0" ] },
+        "then": { "math": [ "_required_spell_count_is_met = -2" ] },
         "else": { "math": [ "_required_spell_count_is_met = -1" ] }
       }
     ],
@@ -1762,7 +1762,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CANT_GIVE_ATTUNEMENT_NOT_ENOUGH_SPELLS",
-    "condition": { "math": [ "_required_spell_count_is_met == 0" ] },
+    "condition": { "math": [ "_required_spell_count_is_met == -2" ] },
     "effect": [
       {
         "u_message": "The altar does not respond to your touch.  You need more breadth in your spell selection before you can attempt attunement.",
@@ -1772,7 +1772,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_CANT_GIVE_ATTUNEMENT_NOT_ENOUGH_SPELL_LEVELS",
+    "id": "EOC_CHECK_ATTUNEMENT_CHECK_SPELL_COUNT",
     "//": "FIXME: some better way of handling this",
     "condition": {
       "and": [
@@ -1951,7 +1951,7 @@
         "if": {
           "u_has_any_trait": [ "ANIMIST", "BIOMANCER", "DRUID", "EARTHSHAPER", "KELVINIST", "MAGUS", "STORMSHAPER", "TECHNOMANCER" ]
         },
-        "then": { "math": [ "_required_spell_levels_is_met = 0" ] },
+        "then": { "math": [ "_required_spell_levels_is_met = -2" ] },
         "else": { "math": [ "_required_spell_levels_is_met = -1" ] }
       }
     ],
@@ -1960,7 +1960,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CANT_GIVE_ATTUNEMENT_NOT_ENOUGH_SPELL_LEVELS",
-    "condition": { "math": [ "_required_spell_levels_is_met == 0" ] },
+    "condition": { "math": [ "_required_spell_levels_is_met == -2" ] },
     "effect": [
       {
         "u_message": "The altar does not respond to your touch.  While you know many spells, your knowledge of them is stil too shallow.",
