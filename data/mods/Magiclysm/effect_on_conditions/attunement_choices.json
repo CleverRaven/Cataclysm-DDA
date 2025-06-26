@@ -515,6 +515,7 @@
       "and": [
         { "u_has_trait": "STORMSHAPER" },
         { "u_has_trait": "TECHNOMANCER" },
+        { "not": { "u_has_trait": "ARTIFICER" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -563,6 +564,7 @@
       "and": [
         { "u_has_trait": "ANIMIST" },
         { "u_has_trait": "TECHNOMANCER" },
+        { "not": { "u_has_trait": "ALCHEMIST" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -609,6 +611,7 @@
       "and": [
         { "u_has_trait": "BIOMANCER" },
         { "u_has_trait": "TECHNOMANCER" },
+        { "not": { "u_has_trait": "BIOTEK" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -657,6 +660,7 @@
       "and": [
         { "u_has_trait": "BIOMANCER" },
         { "u_has_trait": "ANIMIST" },
+        { "not": { "u_has_trait": "BLOOD_MAGE" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -703,6 +707,7 @@
       "and": [
         { "u_has_trait": "KELVINIST" },
         { "u_has_trait": "TECHNOMANCER" },
+        { "not": { "u_has_trait": "BOREAL_MAGE" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -751,6 +756,7 @@
       "and": [
         { "u_has_trait": "DRUID" },
         { "u_has_trait": "KELVINIST" },
+        { "not": { "u_has_trait": "CLEANSING_FLAME" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -799,6 +805,7 @@
       "and": [
         { "u_has_trait": "DRUID" },
         { "u_has_trait": "TECHNOMANCER" },
+        { "not": { "u_has_trait": "CRUSADER" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -845,6 +852,7 @@
       "and": [
         { "u_has_trait": "BIOMANCER" },
         { "u_has_trait": "EARTHSHAPER" },
+        { "not": { "u_has_trait": "EARTH_ELEMENTAL" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -891,6 +899,7 @@
       "and": [
         { "u_has_trait": "BIOMANCER" },
         { "u_has_trait": "KELVINIST" },
+        { "not": { "u_has_trait": "FIRE_ELEMENTAL" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -939,6 +948,7 @@
       "and": [
         { "u_has_trait": "MAGUS" },
         { "u_has_trait": "STORMSHAPER" },
+        { "not": { "u_has_trait": "FORCE_MAGE" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -987,6 +997,7 @@
       "and": [
         { "u_has_trait": "DRUID" },
         { "u_has_trait": "EARTHSHAPER" },
+        { "not": { "u_has_trait": "GAIAS_CHOSEN" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1033,6 +1044,7 @@
       "and": [
         { "u_has_trait": "EARTHSHAPER" },
         { "u_has_trait": "KELVINIST" },
+        { "not": { "u_has_trait": "GLACIER_MAGE" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1085,6 +1097,7 @@
       "and": [
         { "u_has_trait": "ANIMIST" },
         { "u_has_trait": "EARTHSHAPER" },
+        { "not": { "u_has_trait": "GOLEMANCER" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1131,6 +1144,7 @@
       "and": [
         { "u_has_trait": "EARTHSHAPER" },
         { "u_has_trait": "MAGUS" },
+        { "not": { "u_has_trait": "GRAVITY_MAGE" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1177,6 +1191,7 @@
       "and": [
         { "u_has_trait": "BIOMANCER" },
         { "u_has_trait": "KELVINIST" },
+        { "not": { "u_has_trait": "ICE_ELEMENTAL" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1225,6 +1240,7 @@
       "and": [
         { "u_has_trait": "MAGUS" },
         { "u_has_trait": "TECHNOMANCER" },
+        { "not": { "u_has_trait": "ILLUSIONIST" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1271,6 +1287,7 @@
       "and": [
         { "u_has_trait": "EARTHSHAPER" },
         { "u_has_trait": "STORMSHAPER" },
+        { "not": { "u_has_trait": "MAGNETISM_MAGE" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1319,6 +1336,7 @@
       "and": [
         { "u_has_trait": "KELVINIST" },
         { "u_has_trait": "TECHNOMANCER" },
+        { "not": { "u_has_trait": "OVERCLOCKER" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1367,6 +1385,7 @@
       "and": [
         { "u_has_trait": "KELVINIST" },
         { "u_has_trait": "MAGUS" },
+        { "not": { "u_has_trait": "PERMAFROST_MAGE" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1415,6 +1434,7 @@
       "and": [
         { "u_has_trait": "ANIMIST" },
         { "u_has_trait": "STORMSHAPER" },
+        { "not": { "u_has_trait": "RADIATION_MAGE" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1467,6 +1487,7 @@
       "and": [
         { "u_has_trait": "ANIMIST" },
         { "u_has_trait": "DRUID" },
+        { "not": { "u_has_trait": "SHAMAN" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1515,6 +1536,7 @@
       "and": [
         { "u_has_trait": "BIOMANCER" },
         { "u_has_trait": "MAGUS" },
+        { "not": { "u_has_trait": "SHAPESHIFTER" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1561,6 +1583,7 @@
       "and": [
         { "u_has_trait": "ANIMIST" },
         { "u_has_trait": "KELVINIST" },
+        { "not": { "u_has_trait": "SOULFIRE" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1613,6 +1636,7 @@
       "and": [
         { "u_has_trait": "BIOMANCER" },
         { "u_has_trait": "STORMSHAPER" },
+        { "not": { "u_has_trait": "STORM_ELEMENTAL" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1661,6 +1685,7 @@
       "and": [
         { "u_has_trait": "DRUID" },
         { "u_has_trait": "STORMSHAPER" },
+        { "not": { "u_has_trait": "STORMCALLER" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1709,6 +1734,7 @@
       "and": [
         { "u_has_trait": "KELVINIST" },
         { "u_has_trait": "MAGUS" },
+        { "not": { "u_has_trait": "SUN_MAGE" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1757,6 +1783,7 @@
       "and": [
         { "u_has_trait": "DRUID" },
         { "u_has_trait": "KELVINIST" },
+        { "not": { "u_has_trait": "TUNDRA_MAGE" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1809,6 +1836,7 @@
       "and": [
         { "u_has_trait": "ANIMIST" },
         { "u_has_trait": "KELVINIST" },
+        { "not": { "u_has_trait": "VOID_MAGE" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1857,6 +1885,7 @@
       "and": [
         { "u_has_trait": "EARTHSHAPER" },
         { "u_has_trait": "KELVINIST" },
+        { "not": { "u_has_trait": "VULCANIST" } },
         {
           "not": {
             "u_has_any_trait": [
@@ -1905,6 +1934,7 @@
       "and": [
         { "u_has_trait": "DRUID" },
         { "u_has_trait": "MAGUS" },
+        { "not": { "u_has_trait": "WITHER_MAGE" } },
         {
           "not": {
             "u_has_any_trait": [
