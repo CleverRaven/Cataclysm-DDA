@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "bone_dart",
     "copy-from": "rock",
     "looks_like": "bee_sting",
