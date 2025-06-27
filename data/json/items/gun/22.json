@@ -763,11 +763,10 @@
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock accessory", 1 ],
-      [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "magazine_well": "34 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mp1522_mag" ] } ]
