@@ -4844,15 +4844,14 @@ static std::pair<tripoint_om_omt, om_direction::type> closest_corner_in_directio
 //if point is on edge of overmap, wrap to other end
 static tripoint_om_omt wrap_point( const tripoint_om_omt &p )
 {
-    int newx = p.x();
-    int newy = p.y();
-    if( newx == OMAPX - 1 || newx == 0 ) {
-        newx = abs( newx - ( OMAPX - 1 ) );
+    point wrap( p.x(), p.y() );
+    if( wrap.x == OMAPX - 1 || wrap.x == 0 ) {
+        wrap.x = abs( wrap.x - ( OMAPX - 1 ) );
     }
-    if( newy == OMAPY - 1 || newy == 0 ) {
-        newy = abs( newy - ( OMAPY - 1 ) );
+    if( wrap.y == OMAPY - 1 || wrap.y == 0 ) {
+        wrap.y = abs( wrap.y - ( OMAPY - 1 ) );
     }
-    return tripoint_om_omt( newx, newy, p.z() );
+    return tripoint_om_omt( wrap.x, wrap.y, p.z() );
 }
 
 //checks whether point p is outside square corners of the overmap
@@ -4911,8 +4910,6 @@ std::vector<std::vector<highway_node>> overmap::place_highways(
     const int &c_seperation = highway_settings.grid_column_seperation;
     // Base distance in overmaps between horizontal highways ( whole overmap gap of row_seperation - 1 )
     const int &r_seperation = highway_settings.grid_row_seperation;
-    // Max offset radius from highway intersection grid point
-    const int &intersection_max_radius = highway_settings.intersection_max_radius;
     // base-level segment OMT to use until finalize_highways()
     const oter_type_str_id &reserved_terrain_id = highway_settings.reserved_terrain_id;
     // upper-level segment OMT to use until finalize_highways()
@@ -5026,18 +5023,18 @@ std::vector<std::vector<highway_node>> overmap::place_highways(
     std::optional<std::bitset<HIGHWAY_MAX_CONNECTIONS>> is_highway_neighbors = is_highway_overmap();
     std::bitset<HIGHWAY_MAX_CONNECTIONS> neighbor_connections;
     if( !is_highway_neighbors ) {
-        add_msg_debug( debugmode::DF_HIGHWAY, _( "This overmap (%s) is NOT a highway overmap." ),
-                       loc.to_string() );
+        add_msg_debug( debugmode::DF_HIGHWAY, "This overmap (%s) is NOT a highway overmap.",
+                       loc.to_string_writable() );
         return paths;
     } else {
         neighbor_connections = *is_highway_neighbors;
         add_msg_debug( debugmode::DF_HIGHWAY,
-                       _( "This overmap (%s) IS a highway overmap, with required connections: %s, %s, %s, %s" ),
-                       loc.to_string(),
-                       neighbor_connections[0] ? _( "NORTH" ) : "",
-                       neighbor_connections[1] ? _( "EAST" ) : "",
-                       neighbor_connections[2] ? _( "SOUTH" ) : "",
-                       neighbor_connections[3] ? _( "WEST" ) : "" );
+                       "This overmap (%s) IS a highway overmap, with required connections: %s, %s, %s, %s",
+                       loc.to_string_writable(),
+                       neighbor_connections[0] ? "NORTH" : "",
+                       neighbor_connections[1] ? "EAST" : "",
+                       neighbor_connections[2] ? "SOUTH" : "",
+                       neighbor_connections[3] ? "WEST" : "" );
 
         //if there are adjacent oceans, cut highway connections
         if( any_ocean_adjacent ) {
@@ -5056,7 +5053,7 @@ std::vector<std::vector<highway_node>> overmap::place_highways(
                     const tripoint_om_omt opposite_edge = neighbor_overmaps[i]->highway_connections[( i + 2 ) %
                                                           HIGHWAY_MAX_CONNECTIONS];
                     if( opposite_edge == tripoint_om_omt::zero ) {
-                        debugmsg( _( "highway connections not initialized; inter-overmap highway pathing failed" ) );
+                        debugmsg( "highway connections not initialized; inter-overmap highway pathing failed" );
                         return paths;
                     }
                     end_points[i] = wrap_point( opposite_edge );
@@ -5130,18 +5127,17 @@ std::vector<std::vector<highway_node>> overmap::place_highways(
         const point_rel_omt draw_direction_vector =
             point_rel_omt( four_adjacent_offsets[static_cast<int>( draw_direction )] );
         add_msg_debug( debugmode::DF_HIGHWAY,
-                       _( "overmap (%s) attempting to draw line segment from %s to %s." ),
-                       loc.to_string(), sp1.to_string(), sp2.to_string() );
+                       "overmap (%s) attempting to draw line segment from %s to %s.",
+                       loc.to_string_writable(), sp1.to_string_writable(), sp2.to_string_writable() );
         const tripoint_rel_omt diff = sp2 - sp1;
         const tripoint_rel_omt abs_diff = diff.abs();
         int minimum_slants = std::min( abs_diff.x(), abs_diff.y() ); //assumes length > slants
-        const int dist = std::max( abs_diff.x(), abs_diff.y() );
 
         bool slants_optional = minimum_slants == 0;
         std::vector<highway_node> slant_path;
 
         tripoint_rel_omt slant_direction_vector;
-        const tripoint_rel_omt slant_vector( draw_direction_vector * ( longest_slant_length ), 0 );
+        const tripoint_rel_omt slant_vector( draw_direction_vector * longest_slant_length, 0 );
         bool clockwise = one_in( 2 );
         //TODO: generalize
         if( !slants_optional ) {
@@ -5224,7 +5220,6 @@ std::vector<std::vector<highway_node>> overmap::place_highways(
 
         int current_z = path[0].path_node.pos.z();
         int last_z = current_z;
-        int fill_length = 2;
 
         auto fill_bridge = [&segment_bridge]( highway_node & node ) {
             if( node.is_segment ) {
@@ -5328,15 +5323,15 @@ std::vector<std::vector<highway_node>> overmap::place_highways(
                 place_special_forced( fallback_onramp, p2_rotated, direction2 );
             }
             add_msg_debug( debugmode::DF_HIGHWAY,
-                           _( "overmap (%s) took invalid points and is falling back to onramp." ),
-                           loc.to_string() );
+                           "overmap (%s) took invalid points and is falling back to onramp.",
+                           loc.to_string_writable() );
             return highway_path;
         }
 
-        add_msg_debug( debugmode::DF_HIGHWAY, _( "overmap (%s) attempting to draw bend from %s to %s." ),
-                       loc.to_string(), p1.to_string(), p2.to_string() );
+        add_msg_debug( debugmode::DF_HIGHWAY, "overmap (%s) attempting to draw bend from %s to %s.",
+                       loc.to_string_writable(), p1.to_string_writable(), p2.to_string_writable() );
 
-        std::deque<std::pair<tripoint_om_omt, om_direction::type>> bend_points;
+        std::vector<std::pair<tripoint_om_omt, om_direction::type>> bend_points;
         bool bend_draw_mode = !( p1.x() == p2.x() || p1.y() == p2.y() );
 
         //determine bends; z-values are not accounted for here
@@ -5482,7 +5477,6 @@ std::vector<std::vector<highway_node>> overmap::place_highways(
                         node.path_node.pos.xy(), base_z ), node.path_node.dir );
             if( node.is_segment ) {
                 int node_z = node.path_node.pos.z();
-                const oter_id &path_ter = ter( node_z0.pos );
                 bool reserve_water = node_z > base_z;
 
                 std::vector<overmap_special_locations> locs = node.placed_special->required_locations();
@@ -5560,10 +5554,11 @@ std::vector<std::vector<highway_node>> overmap::place_highways(
         case 4: {
             // first, check pairs of corners -- we can't draw a pair of bends to a center intersection if there's no room!
             tripoint_om_omt four_point( OMAPX / 2, OMAPY / 2, 0 );
+            const double corner_threshold = OMAPX / 3.0;
             std::bitset<HIGHWAY_MAX_CONNECTIONS> corners_close; //starting at NE
             for( int i = 0; i < HIGHWAY_MAX_CONNECTIONS; i++ ) {
                 corners_close[i] = rl_dist( end_points[i],
-                                            end_points[( i + 1 ) % HIGHWAY_MAX_CONNECTIONS] ) < ( OMAPX / 3 ) * std::sqrt( 2.0 );
+                                            end_points[( i + 1 ) % HIGHWAY_MAX_CONNECTIONS] ) < corner_threshold * std::sqrt( 2.0 );
             }
             if( corners_close.count() == 1 ) {
                 //for one pair of close corners, set the intersection to their shared point
@@ -5673,7 +5668,6 @@ overmap::get_highway_segment_points( const pf::directed_node<tripoint_om_omt> &n
 void overmap::finalize_highways( std::vector<std::vector<highway_node>> &paths )
 {
     const int base_z = RIVER_Z;
-    const int &segment_width = settings->overmap_highway.width_of_segments;
     // Segment of flat highway with a road bridge
     const overmap_special_id &segment_road_bridge = settings->overmap_highway.segment_road_bridge;
 
@@ -5708,14 +5702,11 @@ void overmap::set_highway_global_offset()
     //this only happens exactly once, upon generation of the first overmap
     const tripoint_abs_om center = project_to<coords::om>( get_avatar().pos_abs() );
     overmap_buffer.highway_global_offset = point_abs_om( center.xy() );
-    return;
 }
 
 std::optional<std::bitset<HIGHWAY_MAX_CONNECTIONS>> overmap::is_highway_overmap() const
 {
     point_abs_om pos = this->pos();
-    const int &c_seperation = settings->overmap_highway.grid_column_seperation;
-    const int &r_seperation = settings->overmap_highway.grid_row_seperation;
     std::optional<std::bitset<HIGHWAY_MAX_CONNECTIONS>> result;
 
     // first, get the offset for every overmap_highway_intersection_point bounding this overmap
@@ -5757,8 +5748,9 @@ std::optional<std::bitset<HIGHWAY_MAX_CONNECTIONS>> overmap::is_highway_overmap(
         for( const point_abs_om &p : highway_oms ) {
             test += p.to_string() + " ";
         }
-        add_msg_debug( debugmode::DF_HIGHWAY, "for %s to %s, checking path: %s", center.to_string(),
-                       adjacent.to_string(), test );
+        add_msg_debug( debugmode::DF_HIGHWAY, "for %s to %s, checking path: %s",
+                       center.to_string_writable(),
+                       adjacent.to_string_writable(), test );
 
         if( std::find( highway_oms.begin(), highway_oms.end(), pos ) != highway_oms.end() ) {
             resulting_path.emplace( highway_oms );
@@ -5849,7 +5841,7 @@ void overmap::generate_highway_intersection_point( const point_abs_om &generated
         overmap_highway_intersection_point new_intersection( generated_om_pos );
         new_intersection.generate_offset( intersection_max_radius );
         add_msg_debug( debugmode::DF_HIGHWAY, "Generated intersection at overmap %s.",
-                       new_intersection.offset_pos.to_string() );
+                       new_intersection.offset_pos.to_string_writable() );
         overmap_buffer.highway_intersections.insert( { generated_om_pos.to_string_writable(), new_intersection} );
     }
 }
@@ -5859,7 +5851,6 @@ std::vector<point_abs_om> overmap::find_highway_intersection_bounds( const point
 {
     const int &c_seperation = settings->overmap_highway.grid_column_seperation;
     const int &r_seperation = settings->overmap_highway.grid_row_seperation;
-    const int &intersection_max_radius = settings->overmap_highway.intersection_max_radius;
 
     point_abs_om center = overmap_buffer.highway_global_offset;
     point_rel_om diff = generated_om_pos - center;
@@ -5885,7 +5876,6 @@ overmap::find_highway_adjacent_intersections(
 {
     const int &c_seperation = settings->overmap_highway.grid_column_seperation;
     const int &r_seperation = settings->overmap_highway.grid_row_seperation;
-    const int &intersection_max_radius = settings->overmap_highway.intersection_max_radius;
 
     //generate adjacent intersection points
     std::vector<overmap_highway_intersection_point> adjacent_intersections;
@@ -6160,7 +6150,6 @@ void overmap::place_lakes( const std::vector<const overmap *> &neighbor_overmaps
 
     // We'll keep track of our visited lake points so we don't repeat the work.
     std::unordered_set<point_om_omt> visited;
-    bool contains_lake = false;
 
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
@@ -6174,7 +6163,6 @@ void overmap::place_lakes( const std::vector<const overmap *> &neighbor_overmaps
                 continue;
             }
 
-            contains_lake = true;
             // We're going to flood-fill our lake so that we can consider the entire lake when evaluating it
             // for placement, even when the lake runs off the edge of the current overmap.
             std::vector<point_om_omt> lake_points =

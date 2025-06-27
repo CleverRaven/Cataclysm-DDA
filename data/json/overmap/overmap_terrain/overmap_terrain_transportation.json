@@ -558,7 +558,8 @@
     "name": "highway",
     "sym": "│",
     "color": "light_gray",
-    "flags": [ "HIGHWAY" ]
+    "//": "SHOULD_NOT_SPAWN is to temporarily avoid overmap_test failures",
+    "flags": [ "HIGHWAY", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",

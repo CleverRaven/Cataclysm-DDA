@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <algorithm>
 #include <array>
+#include <bitset>
 #include <climits>
 #include <cstdlib>
 #include <functional>
@@ -35,7 +36,6 @@
 #include "mongroup.h"
 #include "monster.h"
 #include "omdata.h"
-#include "overmap_noise.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
 #include "rng.h"
@@ -52,12 +52,6 @@ class npc;
 class overmap_connection;
 struct regional_settings;
 template <typename T> struct enum_traits;
-
-namespace pf
-{
-template<typename Point>
-struct directed_path;
-} // namespace pf
 
 struct om_note {
     std::string text;
@@ -225,7 +219,7 @@ class overmap_special_batch
 */
 struct overmap_highway_intersection_point {
     overmap_highway_intersection_point() = default;
-    overmap_highway_intersection_point( point_abs_om grid_pos ) : grid_pos( grid_pos ) {};
+    explicit overmap_highway_intersection_point( point_abs_om grid_pos ) : grid_pos( grid_pos ) {};
     //offset position; effectively where the intersection special is placed
     point_abs_om offset_pos = point_abs_om::invalid;
     //grid point; used to bound any given overmap
@@ -234,7 +228,7 @@ struct overmap_highway_intersection_point {
     std::array<point_abs_om, HIGHWAY_MAX_CONNECTIONS> adjacent_intersections =
     { point_abs_om::invalid, point_abs_om::invalid, point_abs_om::invalid, point_abs_om::invalid };
     //set offset_pos for this point
-    void generate_offset( const int intersection_max_radius );
+    void generate_offset( int intersection_max_radius );
     void serialize( JsonOut &out ) const;
     void deserialize( const JsonObject &obj );
 };
@@ -316,9 +310,9 @@ class overmap
         }
         //will this OMT contain a lake before or after it is generated?
         static bool omt_is_lake( const point_abs_omt &origin, const point_om_omt &offset,
-                                 const double noise_threshold );
+                                 double noise_threshold );
         //does the overmap have at least one lake OMT?
-        static bool has_lake( const point_abs_om &p, const double noise_threshold );
+        static bool has_lake( const point_abs_om &p, double noise_threshold );
 
         void save() const;
 
