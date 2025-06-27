@@ -834,7 +834,7 @@
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "fries", 2 ], [ "fresh_fries", 2 ] ], [ [ "cheese", 2 ] ], [ [ "gravy_prepared", 1 ] ] ],
+    "components": [ [ [ "fries", 2 ], [ "fresh_fries", 2 ], [ "fresh_fries_j", 2 ] ], [ [ "cheese", 2 ] ], [ [ "gravy_prepared", 1 ] ] ],
     "result_mult": 2
   }
 ]
