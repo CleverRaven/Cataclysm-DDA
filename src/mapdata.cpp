@@ -280,6 +280,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_FLOATS_IN_AIR: return "FLOATS_IN_AIR";
         case ter_furn_flag::TFLAG_HARVEST_REQ_CUT1: return "HARVEST_REQ_CUT1";
         case ter_furn_flag::TFLAG_NATURAL_UNDERGROUND: return "NATURAL_UNDERGROUND";
+        case ter_furn_flag::TFLAG_WIRED_WALL: return "WIRED_WALL";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:

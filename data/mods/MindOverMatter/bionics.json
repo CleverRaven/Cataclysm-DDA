@@ -1,0 +1,15 @@
+[
+  {
+    "id": "bio_dangersight_eyes_non_fifth_sun",
+    "type": "bionic",
+    "name": { "str": "Mindsight Eyes" },
+    "description": "Minute quantities of matrix crystal interface with your optic nerves, allowing you to detect the presence of living beings that seek to do you harm.  Activate to toggle on.",
+    "occupied_bodyparts": [ [ "eyes", 2 ] ],
+    "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "EYESTALKS1", "EYESTALKS2" ],
+    "enchantments": [ "ench_bio_dangersight_eyes" ],
+    "act_cost": "40 J",
+    "react_cost": "15 J",
+    "time": "1 s",
+    "flags": [ "BIONIC_TOGGLED" ]
+  }
+]

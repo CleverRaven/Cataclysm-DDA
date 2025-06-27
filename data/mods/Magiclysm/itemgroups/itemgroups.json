@@ -1233,7 +1233,8 @@
           { "item": "spell_scroll_eagles_sight", "prob": 50 },
           { "item": "spell_scroll_ogres_strength", "prob": 50 },
           { "item": "spell_scroll_foxs_cunning", "prob": 50 },
-          { "item": "spell_scroll_magus_ranged_increase", "prob": 50 }
+          { "item": "spell_scroll_magus_ranged_increase", "prob": 50 },
+          { "item": "spell_scroll_magus_push_nearby_enemies_back", "prob": 30 }
         ],
         "prob": 35
       },

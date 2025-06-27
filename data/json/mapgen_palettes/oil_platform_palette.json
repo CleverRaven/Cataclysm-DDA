@@ -187,8 +187,7 @@
         { "item": "SUS_trash_hardware", "chance": 15 },
         { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 0, 2 ] },
         { "item": "SUS_office_filing_cabinet", "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "SUS_office_desk", "chance": 20, "repeat": [ 3, 4 ] },
-        { "item": "office", "chance": 25 }
+        { "item": "SUS_office_desk", "chance": 50 }
       ],
       "ψ": [ { "item": "fireman_cabinet", "chance": 80 } ],
       "õ": [
@@ -269,7 +268,7 @@
     "vendingmachines": { "D": { "item_group": "vending_drink_items" }, "F": { "item_group": "vending_food_items" } },
     "monster": {
       "i": { "monster": "mon_zombie_swimmer_base", "chance": 30 },
-      "↨": { "monster": "mon_gas_zombie", "chance": 5 },
+      "↨": { "monster": "mon_zombie", "chance": 5 },
       "←": { "monster": "mon_zombie_scientist", "chance": 70 }
     }
   },

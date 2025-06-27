@@ -705,11 +705,11 @@
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
     "flags": [ "NO_EXPLOSION_SFX", "RANDOM_AOE" ],
-    "effect": "area_pull",
+    "effect": "area_push",
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('sylph_massive_lightning_bolt_spell') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) )), 50)"
+        "min( ( ( (u_spell_level('sylph_massive_lightning_bolt_spell') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) ), 50)"
       ]
     },
     "max_range": 50,

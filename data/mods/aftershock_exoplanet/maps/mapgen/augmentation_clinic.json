@@ -42,7 +42,7 @@
       },
       "items": {
         "c": { "item": "dissection", "chance": 80, "repeat": [ 1, 3 ] },
-        "d": { "item": "office", "chance": 60 },
+        "d": { "item": "SUS_office_desk", "chance": 60 },
         "l": [
           { "item": "dresser", "chance": 60, "repeat": [ 4, 9 ] },
           { "item": "harddrugs", "chance": 30, "repeat": [ 1, 3 ] },
@@ -116,7 +116,7 @@
           { "item": "afs_bionic_toolkit", "chance": 80 }
         ],
         "f": { "item": "SUS_office_filing_cabinet", "chance": 90 },
-        "d": { "item": "office", "chance": 60 },
+        "d": { "item": "SUS_office_desk", "chance": 60 },
         "l": [
           { "item": "harddrugs", "chance": 30, "repeat": [ 1, 3 ] },
           { "item": "drugs_analgesic", "chance": 20, "repeat": [ 1, 3 ] },

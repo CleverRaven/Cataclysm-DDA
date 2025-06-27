@@ -97,7 +97,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-#include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -175,6 +174,39 @@ static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 
 static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
+
+template<typename T>
+static item_location form_loc_recursive( T &loc, item &it )
+{
+    item *parent = loc.find_parent( it );
+    if( parent != nullptr ) {
+        return item_location( form_loc_recursive( loc, *parent ), &it );
+    }
+
+    return item_location( loc, &it );
+}
+
+static item_location form_loc( Character &you, map *here, const tripoint_bub_ms &p, item &it )
+{
+    if( you.has_item( it ) ) {
+        return form_loc_recursive( you, it );
+    }
+    map_cursor mc( here, p );
+    if( mc.has_item( it ) ) {
+        return form_loc_recursive( mc, it );
+    }
+    const optional_vpart_position vp = here->veh_at( p );
+    if( vp ) {
+        vehicle_cursor vc( vp->vehicle(), vp->part_index() );
+        if( vc.has_item( it ) ) {
+            return form_loc_recursive( vc, it );
+        }
+    }
+
+    debugmsg( "Couldn't find item %s to form item_location, forming dummy location to ensure minimum functionality",
+              it.display_name() );
+    return item_location( you, &it );
+}
 
 std::unique_ptr<iuse_actor> iuse_transform::clone() const
 {
@@ -1303,8 +1335,9 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
 
     here->furn_set( suitable.value(), furn_type, false, false, true );
     it.spill_contents( suitable.value() );
+    form_loc( *p, here, pos, it ).remove_item();
     p->mod_moves( -to_moves<int>( 2_seconds ) );
-    return 1;
+    return 0;
 }
 
 std::unique_ptr<iuse_actor> deploy_appliance_actor::clone() const
@@ -1342,13 +1375,12 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it,
     // TODO: Use map aware operation when available
     it.spill_contents( suitable.value() );
     // TODO: Use map aware operation when available
-    if( !place_appliance( *here, suitable.value(),
-                          vpart_appliance_from_item( appliance_base ), *p, it ) ) {
-        // failed to place somehow, cancel!!
-        return 0;
+    if( place_appliance( *here, suitable.value(),
+                         vpart_appliance_from_item( appliance_base ), *p, it ) ) {
+        form_loc( *p, here, pos, it ).remove_item();
+        p->mod_moves( -to_moves<int>( 2_seconds ) );
     }
-    p->mod_moves( -to_moves<int>( 2_seconds ) );
-    return 1;
+    return 0;
 }
 
 std::unique_ptr<iuse_actor> reveal_map_actor::clone() const
@@ -2906,39 +2938,6 @@ bool holster_actor::store( Character &you, item &holster, item &obj ) const
     return true;
 }
 
-template<typename T>
-static item_location form_loc_recursive( T &loc, item &it )
-{
-    item *parent = loc.find_parent( it );
-    if( parent != nullptr ) {
-        return item_location( form_loc_recursive( loc, *parent ), &it );
-    }
-
-    return item_location( loc, &it );
-}
-
-static item_location form_loc( Character &you, map *here, const tripoint_bub_ms &p, item &it )
-{
-    if( you.has_item( it ) ) {
-        return form_loc_recursive( you, it );
-    }
-    map_cursor mc( here, p );
-    if( mc.has_item( it ) ) {
-        return form_loc_recursive( mc, it );
-    }
-    const optional_vpart_position vp = here->veh_at( p );
-    if( vp ) {
-        vehicle_cursor vc( vp->vehicle(), vp->part_index() );
-        if( vc.has_item( it ) ) {
-            return form_loc_recursive( vc, it );
-        }
-    }
-
-    debugmsg( "Couldn't find item %s to form item_location, forming dummy location to ensure minimum functionality",
-              it.display_name() );
-    return item_location( you, &it );
-}
-
 std::optional<int> holster_actor::use( Character *you, item &it, const tripoint_bub_ms &p ) const
 {
     return holster_actor::use( you, it, &get_map(), p );
@@ -3119,34 +3118,6 @@ bool repair_item_actor::can_use_tool( const Character &p, const item &tool, bool
     return true;
 }
 
-static item_location get_item_location( Character &p, item &it, map *here,
-                                        const tripoint_bub_ms &pos )
-{
-    // Item on a character
-    if( p.has_item( it ) ) {
-        return item_location( p, &it );
-    }
-
-    // Item in a vehicle
-    if( const optional_vpart_position &vp = here->veh_at( pos ) ) {
-        vehicle_cursor vc( vp->vehicle(), vp->part_index() );
-        bool found_in_vehicle = false;
-        vc.visit_items( [&]( const item * e, item * ) {
-            if( e == &it ) {
-                found_in_vehicle = true;
-                return VisitResponse::ABORT;
-            }
-            return VisitResponse::NEXT;
-        } );
-        if( found_in_vehicle ) {
-            return item_location( vc, &it );
-        }
-    }
-
-    // Item on the map
-    return item_location( map_cursor( here, pos ), &it );
-}
-
 std::optional<int> repair_item_actor::use( Character *p, item &it,
         const tripoint_bub_ms &pos ) const
 {
@@ -3164,7 +3135,7 @@ std::optional<int> repair_item_actor::use( Character *p, item &it,
     // We also need to store the repair actor subtype in the activity
     p->activity.str_values.push_back( type );
     // storing of item_location to support repairs by tools on the ground
-    p->activity.targets.emplace_back( get_item_location( *p, it, here, pos ) );
+    p->activity.targets.emplace_back( form_loc( *p, here, pos, it ) );
     // All repairs are done in the activity, including charge cost and target item selection
     return 0;
 }

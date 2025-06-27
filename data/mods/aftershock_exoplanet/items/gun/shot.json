@@ -6,6 +6,16 @@
     "subtypes": [ "GUN" ],
     "name": { "str": "Benelli 315" },
     "description": "A widely popular combat shotgun featuring minor iterative refinements to a base design nearly three centuries old.  Whether the design is outdated or unsurpassable remains a matter of personal opinion.",
+    "valid_mod_locations": [
+      [ "sling", 1 ],
+      [ "mechanism", 2 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "price": "150 USD",
     "variants": [
       {
         "id": "vatforged",
@@ -34,6 +44,16 @@
     "subtypes": [ "GUN" ],
     "name": { "str_sp": "Accipiter Magnastorm-12" },
     "description": "An advanced shotgun that combines chemical and electromagnetic propulsion systems to accelerate and focus a cloud of steel flechettes.  Resulting in a longer effective range and greater penetration than whats conventionally possible.  Most often deployed during low-intensity corporate conflicts.",
+    "valid_mod_locations": [
+      [ "sling", 1 ],
+      [ "mechanism", 2 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "price": "3 kUSD",
     "built_in_mods": [ "afs_magnetic_choke", "afs_shotgun_gauss" ]
   },
   {
@@ -64,7 +84,7 @@
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_raketa30mag" ] } ],

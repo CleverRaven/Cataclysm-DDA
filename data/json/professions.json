@@ -4600,7 +4600,6 @@
     "points": 1,
     "proficiencies": [ "prof_knives_familiar", "prof_unarmed_familiar", "prof_shivs_familiar" ],
     "skills": [ { "level": 3, "name": "melee" }, { "level": 3, "name": "stabbing" }, { "level": 2, "name": "unarmed" } ],
-    "traits": [ "KILLER" ],
     "items": {
       "both": { "items": [ "sneakers", "socks", "glass_shiv", { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -5351,7 +5350,7 @@
           { "item": "wristwatch" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "scar_h", "ammo-item": "762_51", "contents-item": "shoulder_strap" },
-          { "item": "katana", "container-item": "scabbard" },
+          { "item": "ch_katana", "container-item": "scabbard" },
           { "group": "starter_rich_wallet_full" }
         ]
       },
@@ -7375,7 +7374,7 @@
           { "item": "geta" },
           { "item": "gloves_wraps" },
           { "item": "bellywrap" },
-          { "item": "katana", "container-item": "scabbard" },
+          { "item": "ch_katana", "container-item": "scabbard" },
           { "group": "starter_wallet_full" },
           { "item": "grenadebandolier", "contents-group": "ninja_grenade_pouch" }
         ]

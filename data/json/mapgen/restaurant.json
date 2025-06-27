@@ -68,7 +68,7 @@
       "~": { "item": "restaur_bath", "chance": 20 },
       "P": { "item": "SUS_toilet", "chance": 50 },
       "S": { "item": "restaur_sink", "chance": 90 },
-      "&": { "item": "SUS_trash_trashcan", "chance": 65, "repeat": [ 0, 2 ] },
+      "&": { "item": "SUS_trash_trashcan", "chance": 65 },
       "d": { "item": "SUS_trash_dumpster", "chance": 50 }
     }
   },
@@ -447,7 +447,7 @@
       "item": { "L": { "item": "medium_battery_cell", "chance": 100, "repeat": [ 1, 2 ] } },
       "items": {
         "F": { "item": "SUS_fridge_breakroom", "chance": 100 },
-        "x": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 2, 4 ] },
+        "x": { "item": "SUS_trash_trashcan", "chance": 100 },
         "B": { "item": "magazines", "chance": 50, "repeat": [ 3, 5 ] },
         "H": { "item": "coat_rack", "chance": 100, "repeat": [ 1, 4 ] },
         "S": { "item": "cleaning", "chance": 100, "repeat": [ 1, 3 ] },
@@ -610,7 +610,7 @@
         { "item": "restaur_table", "x": 11, "y": 19, "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "restaur_table", "x": 16, "y": 19, "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "restaur_bath", "x": [ 2, 3 ], "y": [ 3, 18 ], "chance": 25 },
-        { "item": "SUS_trash_trashcan", "x": 5, "y": 3, "chance": 75, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_trashcan", "x": 5, "y": 3, "chance": 75 },
         { "item": "restaur_fridge", "x": 9, "y": [ 3, 4 ], "chance": 80, "repeat": [ 2, 8 ] },
         { "item": "restaur_sink", "x": 9, "y": [ 6, 7 ], "chance": 75, "repeat": [ 2, 3 ] },
         { "item": "restaur_kitchen", "x": 9, "y": 5, "chance": 75, "repeat": [ 1, 8 ] },
@@ -620,7 +620,7 @@
         { "item": "restaur_kitchen", "x": 5, "y": [ 10, 12 ], "chance": 75, "repeat": [ 1, 8 ] },
         { "item": "restaur_rack", "x": 5, "y": 13, "chance": 75 },
         { "item": "restaur_rack", "x": 9, "y": 13, "chance": 75 },
-        { "item": "SUS_trash_trashcan", "x": 3, "y": [ 7, 8 ], "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "SUS_trash_trashcan", "x": 3, "y": [ 7, 8 ], "chance": 50 },
         { "item": "SUS_trash_floor", "x": 3, "y": [ 7, 8 ], "chance": 50, "repeat": [ 1, 2 ] },
         { "item": "SUS_trash_floor", "x": [ 0, 2 ], "y": [ 3, 13 ], "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "cash_register_random", "x": [ 15, 16 ], "y": 4, "chance": 100 }

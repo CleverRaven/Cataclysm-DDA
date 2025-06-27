@@ -67,7 +67,7 @@
       "B": [ { "item": "magazines", "chance": 10 }, { "item": "jackets", "chance": 5 } ],
       "Y": { "item": "jackets", "chance": 55, "repeat": [ 1, 6 ] },
       "l": { "item": "SUS_janitors_closet", "chance": 100 },
-      "r": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 2 ] },
+      "r": { "item": "SUS_trash_trashcan", "chance": 60 },
       "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] },
       "e": { "item": "SUS_fridge_breakroom", "chance": 55, "repeat": [ 2, 3 ] },
       "O": { "item": "SUS_oven", "chance": 100 },

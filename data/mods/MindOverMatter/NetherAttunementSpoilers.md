@@ -14,20 +14,20 @@ This power scaling applies to the effects of powers as a multiplier and to your 
 
 | Attunement Rank | Multiplier | with Noetic Resilience | with Torrential Channeling |
 | :--: | :--: | :--: | :--: |
-|  00  | 0.75 | 1.05 | 1.60 |
-|  01  | 1.00 | 1.05 | 1.60 |
-|  02  | 1.04 | 1.05 | 1.60 |
-|  03  | 1.08 | 1.05 | 1.60 |
+|  00  | 0.75 | 1.05 | 1.00 |
+|  01  | 1.00 | 1.05 | 1.15 |
+|  02  | 1.04 | 1.05 | 1.30 |
+|  03  | 1.08 | 1.05 | 1.45 |
 |  04  | 1.13 | 1.05 | 1.60 |
-|  05  | 1.19 | 1.05 | 1.60 |
-|  06  | 1.26 | 1.05 | 1.60 |
-|  07  | 1.35 | 1.05 | 1.60 |
-|  08  | 1.45 | 1.05 | 1.60 |
-|  09  | 1.60 | 1.05 | 1.60 |
-|  10  | 1.80 | 1.05 | 1.80 |
-|  11  | 2.10 | 1.05 | 2.10 |
-|  12  | 3.00 | 1.05 | 3.00 |
-|  12* | 4.00 | 1.05 | 4.00 |
+|  05  | 1.19 | 1.05 | 1.80 |
+|  06  | 1.26 | 1.05 | 2.00 |
+|  07  | 1.35 | 1.05 | 2.25 |
+|  08  | 1.45 | 1.05 | 2.60 |
+|  09  | 1.60 | 1.05 | 3.00 |
+|  10  | 1.80 | 1.05 | 3.50 |
+|  11  | 2.10 | 1.05 | 4.00 |
+|  12  | 3.00 | 1.05 | 4.80 |
+|  12* | 4.00 | 1.05 | 6.50 |
 
 There is actually a vitamin level past attunement rank 12 where your attunement power scaling goes up to 400%. You have no visual indicator of reaching this point.
 
@@ -38,6 +38,8 @@ Once a consequence is selected, it has a chance to actually be applied. There is
   - The higher your attunement vitamin, the greater the chance. This chance is scaled at different rates depending on how high your attunement vitamin is and varies from consequence to consequence.
 - Difficulty of power used
   - The formula for this `(difficulty ^ 2) / 10` and is the same for every consequence. Stronger powers come with more chance at consequences
+- Whether you have Torrential Channeling currently active.
+  - 
 
 | Consequence | Weight |
 | :--- | ---: |

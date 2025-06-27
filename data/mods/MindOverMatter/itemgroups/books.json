@@ -80,8 +80,8 @@
   },
   {
     "type": "item_group",
-    "id": "textbooks_school",
-    "copy-from": "textbooks_school",
+    "id": "manuals_school",
+    "copy-from": "manuals_school",
     "extend": {
       "items": [
         { "item": "manual_meditation", "variant": "manual_meditation_1", "prob": 5 },
