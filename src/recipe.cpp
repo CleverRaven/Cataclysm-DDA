@@ -200,8 +200,9 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 id = recipe_id( jo.get_string( "id" ) );
             }
         } else {
+            // item not yet initialized ? segfaults at Item_factory::find_template cata_assert( frozen );
             // if( jo.has_string( "name" ) ) {
-            //     name_ = _( result_.str() + " " + jo.get_string( "name" ) );
+            //     name_ = to_translation( result_name() + " " + jo.get_string( "name" ) );
             // }
             optional( jo, false, "name", name_ );
             id = recipe_id( result_.str() );
