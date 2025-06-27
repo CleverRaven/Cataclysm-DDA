@@ -2521,6 +2521,7 @@ class Character : public Creature, public visitable
         std::vector<proficiency_id> learning_proficiencies() const;
         int get_proficiency_bonus( const std::string &category, proficiency_bonus_type prof_bonus ) const;
         void add_default_background();
+        void remove_default_background();
         void set_proficiencies_from_hobbies();
         void set_recipes_from_hobbies();
 
