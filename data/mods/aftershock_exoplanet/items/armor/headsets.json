@@ -95,14 +95,8 @@
       "LEAK_DAM",
       "PARTIAL_DEAF",
       "MUNDANE"
-    ],    
-    "passive_effects": [
-      {
-        "has": "WORN",
-        "condition": "ALWAYS",
-        "values": { "value": "HEARING_MULT", "multiply": 2.5 }
-      }
     ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": { "value": "HEARING_MULT", "multiply": 2.5 } } ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "price": "2 kUSD",
     "material": [ "afs_kevlar" ],

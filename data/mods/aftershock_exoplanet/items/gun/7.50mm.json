@@ -117,12 +117,14 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "G&W SR-P9" },
-    "description": "An eminently sturdy and reliable bullpup rifle issued by UICA's military during early reclamation expeditions.  Although it's been out of service for nearly two decades, many a private military and contractor has found a use for the SR-P9, and it remains common long past its initial introduction into service.","variant_type": "gun",
+    "description": "An eminently sturdy and reliable bullpup rifle issued by UICA's military during early reclamation expeditions.  Although it's been out of service for nearly two decades, many a private military and contractor has found a use for the SR-P9, and it remains common long past its initial introduction into service.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "military",
         "name": { "str": "G&W SR-P9" },
-        "description": "An eminently sturdy and reliable bullpup rifle issued by UICA's military during early reclamation expeditions.  Although it's been out of service for nearly two decades, many a private military and contractor has found a use for the SR-P9, and it remains common long past its initial introduction into service.","variant_type": "gun",
+        "description": "An eminently sturdy and reliable bullpup rifle issued by UICA's military during early reclamation expeditions.  Although it's been out of service for nearly two decades, many a private military and contractor has found a use for the SR-P9, and it remains common long past its initial introduction into service.",
+        "variant_type": "gun",
         "weight": 3
       },
       {
