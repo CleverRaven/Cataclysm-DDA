@@ -1,10 +1,101 @@
 [
   {
+    "id": "mom_psi_awakening_biokinesis",
+    "type": "achievement",
+    "name": "Better, Faster, Stronger.",
+    "description": "Awaken as a biokinetic.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_psi_awakening_clairsentience",
+    "type": "achievement",
+    "name": "Sight Beyond Sight.",
+    "description": "Awaken as a clairsentient.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_psi_awakening_electrokinesis",
+    "type": "achievement",
+    "name": "1.21 Jigawatts",
+    "description": "Awaken as an electrokinetic.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_psi_awakening_photokinesis",
+    "type": "achievement",
+    "name": "Let There Be Light",
+    "description": "Awaken as a photokinetic.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_psi_awakening_pyrokinesis",
+    "type": "achievement",
+    "name": "Firestarter",
+    "description": "Awaken as a pyrokinetic.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_psi_awakening_telekinesis",
+    "type": "achievement",
+    "name": "An Unequal and Opposite Reaction",
+    "description": "Awaken as a telekinetic.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_psi_awakening_telepathy",
+    "type": "achievement",
+    "name": "Free Your Mind",
+    "description": "Awaken as a telepath.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_psi_awakening_teleportation",
+    "type": "achievement",
+    "name": "Wherever You Go, There You Are",
+    "description": "Awaken as a teleporter.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_psi_awakening_vitakinesis",
+    "type": "achievement",
+    "name": "First, Do No Harm",
+    "description": "Awaken as a vitakinetic.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_oublietted_refugee_center_traitor",
+    "type": "achievement",
+    "name": "Jaunt",
+    "description": "It's longer than you think, pal!  Longer than you think!\n\nSend the refugee center traitor on a very, very long trip.",
+    "manually_given": true,
+    "requirements": [  ],
+    "hidden_by": "oublietted_refugee_center_traitor"
+  },
+  {
     "id": "teleported_offworld",
     "type": "achievement",
     "name": "Quantum Leapt",
-    "description": "There's so many worlds out there.  Why stick with just one?",
+    "description": "There's so many worlds out there.  Why stick with just one?\n\nUse the portal storm to teleport yourself off the ruins of the Earth.",
     "manually_given": true,
-    "requirements": [  ]
+    "requirements": [  ],
+    "hidden_by": "teleported_offworld"
+  },
+  {
+    "id": "mom_read_rubiks_mind",
+    "type": "achievement",
+    "name": "By the Waters of Babylon",
+    "description": "Learn Rubik's history through telepathy.",
+    "manually_given": true,
+    "requirements": [  ],
+    "hidden_by": "mom_read_rubiks_mind"
   }
 ]
