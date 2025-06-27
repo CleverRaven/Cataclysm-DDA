@@ -684,9 +684,13 @@ weekdays day_of_week( const time_point &p )
      * <wito> kevingranade: add four for thursday. ;)
      * <kevingranade> sounds like consensus to me
      * <kevingranade> Thursday it is */
-    const int day_since_cataclysm = to_days<int>( p - calendar::turn_zero );
+    int day_since_game_start = to_days<int>( p - calendar::start_of_game );
+    // % 7 gives (negative) days before, add 7 to get positive
+    if( day_since_game_start < 0 ) {
+        day_since_game_start = ( day_since_game_start % 7 ) + 7;
+    }
     static const weekdays start_day = weekdays::THURSDAY;
-    const int result = day_since_cataclysm + static_cast<int>( start_day );
+    const int result = day_since_game_start + static_cast<int>( start_day );
     return static_cast<weekdays>( result % 7 );
 }
 
