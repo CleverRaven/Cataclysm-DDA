@@ -5,6 +5,7 @@
 #include <memory>
 #include <numeric>
 #include <optional>
+#include <ostream>
 #include <sstream>
 #include <unordered_map>
 
@@ -200,10 +201,6 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 id = recipe_id( jo.get_string( "id" ) );
             }
         } else {
-            // item not yet initialized ? segfaults at Item_factory::find_template cata_assert( frozen );
-            // if( jo.has_string( "name" ) ) {
-            //     name_ = to_translation( result_name() + " " + jo.get_string( "name" ) );
-            // }
             optional( jo, false, "name", name_ );
             id = recipe_id( result_.str() );
         }
@@ -666,6 +663,11 @@ void recipe::finalize()
         if( skill_used ) {
             autolearn_requirements[ skill_used ] = difficulty;
         }
+    }
+
+    // ensure result name is always in front of the name for searching in crafting menu
+    if( !name_.empty() && !is_practice() && !is_nested() && result_ ) {
+        name_ = translation::to_translation( result_->nname( 1 ) + " " + name_ );
     }
 }
 
