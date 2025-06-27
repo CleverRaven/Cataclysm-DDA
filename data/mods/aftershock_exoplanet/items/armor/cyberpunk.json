@@ -28,7 +28,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "boots_combat",
     "name": { "str": "pair of LYNX Arctic Combat® boots", "str_pl": "pairs of LYNX Arctic Combat® boots" },
-    "description": "A pair of winterized combat boots from the LYNX Arctic Combat® collection.  LYNX was supposedly founded in 2065, after their founder, Marion Howl, shot and killed the last Lynx off the beaches of Alaska.  After being acquired by Lausanne, the name 'LYNX' became synonymous with stylish, yet combat-ready apparrel for the discerning mercenary."
+    "description": "A pair of winterized combat boots from the LYNX Arctic Combat® collection.  LYNX was supposedly founded in 2065, after their founder, Marion Howl, shot and killed the last Lynx off the beaches of Alaska.  After being acquired by Lausanne, the name 'LYNX' became synonymous with stylish, yet combat-ready apparel for the discerning mercenary."
   },
   {
     "id": "afs_academy_cloak",
@@ -54,7 +54,7 @@
       {
         "id": "arctic",
         "name": { "str": "LYNX Arctic Comabt® dress shirt" },
-        "description": "A very flattering dress shirt made by LYNX, a subsidiary of Lausanne.  As a member of the Artic Combat® collection, this designer shirt is rumored to have real penguin tooth inlays on the top button.  While certainly justifying the price tag, this basalt grey shirt is otherwise quite unassuming.",
+        "description": "A very flattering dress shirt made by LYNX, a subsidiary of Lausanne.  As a member of the Arctic Combat® collection, this designer shirt is rumored to have real penguin tooth inlays on the top button.  While certainly justifying the price tag, this basalt grey shirt is otherwise quite unassuming.",
         "weight": 0
       }
     ],
@@ -353,7 +353,7 @@
       {
         "id": "arctic",
         "name": { "str": "LYNX Arctic Combat® crop top" },
-        "description": "A nanoweave crop top, produced by LYNX, a subsidiary of Lausanne.  Perhaps the strangest part of the Arctic Combat® collection, it fits just under a bolero jacket, alledgedly to keep it from scratching your cryosuit.  While this magnesium white top would make an excellent fashion statement on a cruise through the Arctic Sea, it lacks coverage.",
+        "description": "A nanoweave crop top, produced by LYNX, a subsidiary of Lausanne.  Perhaps the strangest part of the Arctic Combat® collection, it fits just under a bolero jacket, allegedly to keep it from scratching your cryosuit.  While this magnesium white top would make an excellent fashion statement on a cruise through the Arctic Sea, it lacks coverage.",
         "weight": 0
       }
     ],
