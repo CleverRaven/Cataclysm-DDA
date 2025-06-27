@@ -674,7 +674,7 @@
     "type": "profession",
     "id": "afs_ex_merc",
     "name": "Exiled Merc",
-    "description": "You were once a mercenary under the contract of a rotating gallery of megacorps. You were a rising star in the mercenary world, living a life of relative luxury and your pick of the contracts.  After your last op failed, you were fired, blacklisted, and given a one-way ticket to Salus IV to do your best impression of an icicle, all wihtin the span of a day.  You suppose your connections are what stopped you from being thrown into the endless void.",
+    "description": "You were a rising star in the mercenary world, living a life of relative luxury and your pick of the contracts.  After your last op failed, you were fired, blacklisted, and given a one-way ticket to Salus IV to do your best impression of an icicle, all within the span of a day.  You suppose your connections are what stopped you from being thrown into the endless void.",
     "points": 8,
     "starting_cash": 1120000,
     "skills": [
