@@ -20,7 +20,7 @@
     "copy-from": "glasses_bal",
     "looks_like": "glasses_bal",
     "name": { "str": "mirror shades", "str_pl": "pairs of mirror shades" },
-    "description": "A pair of mirrored combat sunglasses.  They look pretty badass, but they give you a definitive disadvantage when it comes to playing cards."
+    "description": "A pair of mirrored combat sunglasses.  An essential piece of streetwear, they confer a definitive disadvantage when it comes to playing cards."
   },
   {
     "id": "afs_merc_boot",
