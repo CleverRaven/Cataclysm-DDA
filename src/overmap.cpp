@@ -7806,23 +7806,26 @@ void overmap::place_radios()
 void overmap::open( overmap_special_batch &enabled_specials )
 {
     if( world_generator->active_world->has_compression_enabled() ) {
+        assure_dir_exist( PATH_INFO::world_base_save_path() / "overmaps" );
         const std::string terfilename = overmapbuffer::terrain_filename( loc );
         const std::filesystem::path terfilename_path = std::filesystem::u8path( terfilename );
         const cata_path zzip_path = PATH_INFO::world_base_save_path() / "overmaps" / terfilename_path +
                                     ".zzip";
-        std::shared_ptr<zzip> z = zzip::load( zzip_path.get_unrelative_path(),
-                                              ( PATH_INFO::world_base_save_path() / "overmaps.dict" ).get_unrelative_path()
-                                            );
+        if( file_exist( zzip_path ) ) {
+            std::shared_ptr<zzip> z = zzip::load( zzip_path.get_unrelative_path(),
+                                                  ( PATH_INFO::world_base_save_path() / "overmaps.dict" ).get_unrelative_path()
+                                                );
 
-        if( read_from_zzip_optional( z, terfilename_path, [this]( std::string_view sv ) {
-        std::istringstream is{ std::string( sv ) };
-        unserialize( is );
-        } ) ) {
-            const cata_path plrfilename = overmapbuffer::player_filename( loc );
-            read_from_file_optional( plrfilename, [this, &plrfilename]( std::istream & is ) {
-                unserialize_view( plrfilename, is );
-            } );
-            return;
+            if( read_from_zzip_optional( z, terfilename_path, [this]( std::string_view sv ) {
+            std::istringstream is{ std::string( sv ) };
+            unserialize( is );
+            } ) ) {
+                const cata_path plrfilename = overmapbuffer::player_filename( loc );
+                read_from_file_optional( plrfilename, [this, &plrfilename]( std::istream & is ) {
+                    unserialize_view( plrfilename, is );
+                } );
+                return;
+            }
         }
     } else {
         const cata_path terfilename = PATH_INFO::world_base_save_path() / overmapbuffer::terrain_filename(
