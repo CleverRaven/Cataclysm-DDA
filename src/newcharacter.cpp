@@ -5030,17 +5030,6 @@ void Character::add_default_background()
     }
 }
 
-void Character::remove_default_background()
-{
-    for( const profession_group &prof_grp : profession_group::get_all() ) {
-        if( prof_grp.get_id() == profession_group_adult_basic_background ) {
-            for( const profession_id &hobb : prof_grp.get_professions() ) {
-                hobbies.erase( &hobb.obj() );
-            }
-        }
-    }
-}
-
 void avatar::save_template( const std::string &name, pool_type pool )
 {
     write_to_file( PATH_INFO::templatedir() + name + ".template", [&]( std::ostream & fout ) {
@@ -5135,9 +5124,9 @@ void reset_scenario( avatar &u, const scenario *scen )
     u.prof = &default_prof.obj();
 
     u.hobbies.clear();
-    if( scen->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
-    u.remove_default_background();
-    } else {u.add_default_background();};
+    if( !scen->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
+    u.add_default_background();
+    };
     u.clear_mutations();
     u.recalc_hp();
     u.empty_skills();
