@@ -35,6 +35,7 @@
     "description": "You have ample experience working in space, either on a station or on a ship.  You are familiar with safety protocols, capable of piloting small shuttlecraft and can operate and perform maintenance on a variety of space equipment and colony systems.",
     "points": 2,
     "skills": [ { "level": 2, "name": "electronics" }, { "level": 2, "name": "mechanics" } ],
+    "proficiencies": [ "prof_helicopter_pilot" ]
   },
   {
     "type": "profession",
