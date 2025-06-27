@@ -186,9 +186,10 @@ std::string display::time_approx()
 
 std::string display::date_string()
 {
-    const std::string season = calendar::name_season( season_of_year( calendar::turn ) );
-    const int day_num = day_of_season<int>( calendar::turn ) + 1;
-    return string_format( _( "%s, day %d" ), season, day_num );
+    const std::pair<month, int> month_day = month_and_day( calendar::turn );
+    const weekdays day = day_of_week( calendar::turn );
+    return string_format( _( "%s, %s %d" ), to_string( day ), to_string( month_day.first ),
+                          month_day.second );
 }
 
 std::string display::time_string( const Character &u )

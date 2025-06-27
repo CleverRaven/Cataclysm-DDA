@@ -469,7 +469,7 @@ void handle_weather_effects( const weather_type_id &w )
     get_weather().lightning_active = false;
 }
 
-static std::string to_string( const weekdays &d )
+std::string to_string( const weekdays &d )
 {
     static const std::array<std::string, 7> weekday_names = {{
             translate_marker( "Sunday" ), translate_marker( "Monday" ),
