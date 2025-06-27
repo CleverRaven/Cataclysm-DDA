@@ -5125,7 +5125,7 @@ void reset_scenario( avatar &u, const scenario *scen )
 
     u.hobbies.clear();
     if( !scen->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
-    u.add_default_background();
+        u.add_default_background();
     };
     u.clear_mutations();
     u.recalc_hp();
