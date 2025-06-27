@@ -2923,11 +2923,11 @@ bool overmap_special::can_belong_to_city( const tripoint_om_omt &p, const city &
     }
     if( constraints_.city_distance.max > std::max( OMAPX, OMAPY ) ) {
         // Only care that we're more than min away from a city
-        return !omap.distance_to_city( p, constraints_.city_distance.min );
+        return !omap.approx_distance_to_city( p, constraints_.city_distance.min ).has_value();
     }
-    const std::optional<int> dist = omap.distance_to_city( p, constraints_.city_distance.max );
+    const std::optional<int> dist = omap.approx_distance_to_city( p, constraints_.city_distance.max );
     // Found a city within max and it's greater than min away
-    return !!dist && constraints_.city_distance.min < *dist;
+    return dist.has_value() && constraints_.city_distance.min < *dist;
 }
 
 bool overmap_special::has_flag( const std::string &flag ) const
@@ -4231,7 +4231,6 @@ bool overmap::is_in_city( const tripoint_om_omt &p ) const
         // Legacy handling
         return distance_to_city( p ) == 0;
     }
-
 }
 
 std::optional<int> overmap::distance_to_city( const tripoint_om_omt &p,
@@ -4254,6 +4253,22 @@ std::optional<int> overmap::distance_to_city( const tripoint_om_omt &p,
         }
     }
     return {};
+}
+
+std::optional<int> overmap::approx_distance_to_city( const tripoint_om_omt &p,
+        int max_dist_to_check ) const
+{
+    std::optional<int> ret;
+    for( const city &elem : cities ) {
+        const int dist = elem.get_distance_from( p );
+        if( dist == 0 ) {
+            return 0;
+        }
+        if( dist <= max_dist_to_check ) {
+            ret = ret.has_value() ? std::min( ret.value(), dist ) : dist;
+        }
+    }
+    return ret;
 }
 
 void overmap::flood_fill_city_tiles()
@@ -7131,7 +7146,7 @@ void overmap::log_unique_special( const overmap_special_id &id )
 bool overmap::contains_unique_special( const overmap_special_id &id ) const
 {
     return std::find_if( overmap_special_placements.begin(),
-    overmap_special_placements.end(), [&id]( auto it ) {
+    overmap_special_placements.end(), [&id]( const auto & it ) {
         return it.second == id;
     } ) != overmap_special_placements.end();
 }
