@@ -93,7 +93,6 @@
       "STURDY",
       "RADIOACTIVE",
       "LEAK_DAM",
-      "PARTIAL_DEAF",
       "MUNDANE"
     ],
     "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": { "value": "HEARING_MULT", "multiply": 2.5 } } ],
