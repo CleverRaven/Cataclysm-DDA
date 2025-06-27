@@ -5,7 +5,6 @@
 #include <memory>
 #include <numeric>
 #include <optional>
-#include <ostream>
 #include <sstream>
 #include <unordered_map>
 
@@ -667,7 +666,9 @@ void recipe::finalize()
 
     // ensure result name is always in front of the name for searching in crafting menu
     if( !name_.empty() && !is_practice() && !is_nested() && result_ ) {
-        name_ = translation::to_translation( result_->nname( 1 ) + " " + name_ );
+        if( !name_. ) {
+            name_ = translation::to_translation( result_->nname( 1 ) + " " + name_ );
+        }
     }
 }
 
