@@ -200,6 +200,10 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 id = recipe_id( jo.get_string( "id" ) );
             }
         } else {
+            // if( jo.has_string( "name" ) ) {
+            //     name_ = _( result_.str() + " " + jo.get_string( "name" ) );
+            // }
+            optional( jo, false, "name", name_ );
             id = recipe_id( result_.str() );
         }
     }
