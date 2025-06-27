@@ -75,7 +75,7 @@
     "id": "mom_oublietted_refugee_center_traitor",
     "type": "achievement",
     "name": "Jaunt",
-    "description": "It's longer than you think, pal!  Longer than you think!\n\nSend the refugee center traitor on a very, very long trip.",
+    "description": "It's longer than you think, pal!  Longer than you think!\n\nSent the refugee center traitor on a very, very long trip.",
     "manually_given": true,
     "requirements": [  ],
     "hidden_by": "oublietted_refugee_center_traitor"
@@ -84,7 +84,7 @@
     "id": "teleported_offworld",
     "type": "achievement",
     "name": "Quantum Leapt",
-    "description": "There's so many worlds out there.  Why stick with just one?\n\nUse the portal storm to teleport yourself off the ruins of the Earth.",
+    "description": "There's so many worlds out there.  Why stick with just one?\n\nUse the portal storm to teleport yourself off the ruins of the Earth.\n\nUsed your powers to teleport offworld during a raging portal storm.",
     "manually_given": true,
     "requirements": [  ],
     "hidden_by": "teleported_offworld"
@@ -93,9 +93,18 @@
     "id": "mom_read_rubiks_mind",
     "type": "achievement",
     "name": "By the Waters of Babylon",
-    "description": "Learn Rubik's history through telepathy.",
+    "description": "\"Not once, in a dozen or a hundred or you know not how many worlds, was there anything left to save.\"\n\nLearned Rubik's history through telepathy.",
     "manually_given": true,
     "requirements": [  ],
     "hidden_by": "mom_read_rubiks_mind"
+  },
+  {
+    "id": "mom_find_dead_fifth_sun_ocelopilli_trooper",
+    "type": "achievement",
+    "name": "In ie Tlecujlixquac, in ie Tlamamatlac",
+    "description": "Already at the edge of the fire, already at the stairway.\n\nFound the body of the ocēlōpilli soldier.",
+    "manually_given": true,
+    "requirements": [  ],
+    "hidden_by": "mom_find_dead_fifth_sun_ocelopilli_trooper"
   }
 ]
