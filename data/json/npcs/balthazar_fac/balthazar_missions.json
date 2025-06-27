@@ -1,0 +1,36 @@
+[
+  {
+    "id": "MISSION_GET_SOLAR_PANELS_BALTHAZAR",
+    "type": "mission_definition",
+    "name": "Gather solar panels for Balthazar",
+    "description": "Balthazar needs some solar panels to stabilize the power to their bunker.",
+    "goal": "MGOAL_CONDITION",
+    "difficulty": 1,
+    "value": 1000,
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "balthazar_bunker_02",
+          "place_nested": [ { "chunks": [ "balthazar_bunker_solar_panel" ], "x": 4, "y": 1 } ]
+        },
+        {
+          "om_terrain": "balthazar_bunker_03",
+          "place_nested": [ { "chunks": [ "balthazar_bunker_solar_panel" ], "x": 0, "y": 1 } ]
+        }
+      ],
+      "effect": [ { "math": [ "balthazar_power += 20" ] } ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "The power in my bunker is failing and I need 12 solar panels to stabilize them.",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "Most commercial buildings have some solare panels or, if we're lucky, you might find a solar farm.",
+      "inquire": "Power is holding for now but I need those panels soon.",
+      "success": "A thousand thanks!",
+      "success_lie": "Where are the panels??",
+      "failure": "You shouldn't fail me, human."
+    }
+  }
+]
