@@ -2498,14 +2498,10 @@ bool npc::is_leader() const
 
 bool npc::within_boundaries_of_camp() const
 {
-    const point_abs_omt p( pos_abs_omt().xy() );
-    for( int x2 = -3; x2 < 3; x2++ ) {
-        for( int y2 = -3; y2 < 3; y2++ ) {
-            const point_abs_omt nearby = p + point( x2, y2 );
-            std::optional<basecamp *> bcp = overmap_buffer.find_camp( nearby );
-            if( bcp ) {
-                return true;
-            }
+    for( const point_abs_omt &p : closest_points_first( pos_abs_omt().xy(), 0, 3 ) ) {
+        std::optional<basecamp *> bcp = overmap_buffer.find_camp( p );
+        if( bcp ) {
+            return true;
         }
     }
     return false;
