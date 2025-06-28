@@ -133,7 +133,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag10", "akmag30", "akmag20", "akmag40", "akdrum75" ] } ]
   },
   {
     "id": "draco",
@@ -172,7 +172,7 @@
       [ "sling", 1 ],
       [ "stock mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag10", "akmag30", "akmag20", "akmag40", "akdrum75" ] } ]
   },
   {
     "id": "draco_mini",
@@ -220,7 +220,7 @@
     "barrel_length": "159 mm",
     "price": "1055 USD 99 cent",
     "dispersion": 340,
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag10", "akmag30", "akmag20", "akmag40", "akdrum75" ] } ]
   },
   {
     "id": "mk47",
@@ -302,6 +302,6 @@
       [ "stock mount", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "bren2_762mag30", "bren2_762mag10" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "bren2_762mag10", "bren2_762mag30" ] } ]
   }
 ]

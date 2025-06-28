@@ -121,7 +121,7 @@
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "ruger_57mag", "ruger_57_10_round_mag" ]
+        "item_restriction": [ "ruger_57_10_round_mag", "ruger_57mag" ]
       }
     ]
   },

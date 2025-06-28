@@ -47,11 +47,11 @@
       [
         "223",
         [
+          "stanag10",
+          "stanag10ranger",
           "stanag30",
           "stanag5",
           "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
           "stanag20",
           "stanag20ranger",
           "stanag30ranger",
@@ -76,6 +76,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [
+          "stanag10",
+          "stanag10ranger",
           "stanag30",
           "stanag5",
           "stanag5ranger",
@@ -187,11 +189,11 @@
       [
         "223",
         [
+          "stanag10",
+          "stanag10ranger",
           "stanag30",
           "stanag5",
           "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
           "stanag20",
           "stanag20ranger",
           "stanag30ranger",
@@ -216,11 +218,11 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [
+          "stanag10",
+          "stanag10ranger",
           "stanag30",
           "stanag5",
           "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
           "stanag20",
           "stanag20ranger",
           "stanag30ranger",
@@ -530,11 +532,11 @@
       [
         "223",
         [
+          "stanag10",
+          "stanag10ranger",
           "stanag30",
           "stanag5",
           "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
           "stanag20",
           "stanag20ranger",
           "stanag30ranger",
@@ -555,11 +557,11 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [
+          "stanag10",
+          "stanag10ranger",
           "stanag30",
           "stanag5",
           "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
           "stanag20",
           "stanag20ranger",
           "stanag30ranger",
@@ -640,11 +642,11 @@
       [
         "300blk",
         [
+          "stanag10",
+          "stanag10ranger",
           "stanag30",
           "stanag5",
           "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
           "stanag20",
           "stanag20ranger",
           "stanag30ranger",
@@ -665,11 +667,11 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [
+          "stanag10",
+          "stanag10ranger",
           "stanag30",
           "stanag5",
           "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
           "stanag20",
           "stanag20ranger",
           "stanag30ranger",
@@ -853,11 +855,11 @@
       [
         "223",
         [
+          "stanag10",
+          "stanag10ranger",
           "stanag30",
           "stanag5",
           "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
           "stanag20",
           "stanag20ranger",
           "stanag30ranger",
@@ -878,11 +880,11 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [
+          "stanag10",
+          "stanag10ranger",
           "stanag30",
           "stanag5",
           "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
           "stanag20",
           "stanag20ranger",
           "stanag30ranger",

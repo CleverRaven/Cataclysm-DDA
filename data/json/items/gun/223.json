@@ -186,7 +186,32 @@
     "barrel_length": "413 mm",
     "price": "3 kUSD 839 USD",
     "price_postapoc": "20 USD",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "stanag10",
+          "stanag10ranger",
+          "stanag30",
+          "stanag5",
+          "stanag5ranger",
+          "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
+          "stanag40",
+          "stanag40ranger",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
   },
   {
     "id": "sl8",
@@ -464,11 +489,11 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [
+          "stanag10",
+          "stanag10ranger",
           "stanag30",
           "stanag5",
           "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
           "stanag20",
           "stanag20ranger",
           "stanag30ranger",
@@ -608,11 +633,11 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [
+          "stanag10",
+          "stanag10ranger",
           "stanag30",
           "stanag5",
           "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
           "stanag20",
           "stanag20ranger",
           "stanag30ranger",
@@ -625,11 +650,6 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
-          "ar10mag_20rd",
-          "ar10mag_10rd",
-          "ar10mag_25rd",
-          "ar10mag_50rd",
-          "ar10_makeshiftmag",
           "survivor223mag"
         ]
       }
@@ -676,11 +696,11 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [
+          "stanag10",
+          "stanag10ranger",
           "stanag30",
           "stanag5",
           "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
           "stanag20",
           "stanag20ranger",
           "stanag30ranger",
@@ -786,11 +806,11 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [
+          "stanag10",
+          "stanag10ranger",
           "stanag30",
           "stanag5",
           "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
           "stanag20",
           "stanag20ranger",
           "stanag30ranger",
@@ -806,7 +826,7 @@
           "survivor223mag"
         ]
       }
-    ],
+    ]
     "melee_damage": { "bash": 10 }
   },
   {
@@ -840,15 +860,16 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [
+          "stanag10",
+          "stanag10ranger",
           "stanag30",
           "stanag5",
           "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
           "stanag20",
           "stanag20ranger",
           "stanag30ranger",
           "stanag40",
+          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
