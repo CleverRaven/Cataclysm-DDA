@@ -209,6 +209,7 @@
           "range": 4,
           "damage_max_instance": [ { "damage_type": "necrotic", "amount": 0 } ],
           "effects": [ { "id": "bleed", "duration": 60, "chance": 100, "affect_hit_bp": true } ],
+          "effects_require_dmg": false,
           "dodgeable": false,
           "blockable": false,
           "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
@@ -240,7 +241,13 @@
           "type": "spell",
           "spell_data": { "id": "feral_animist_guardian_spirit" },
           "cooldown": 15,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "effect_feral_animist_guardian_spirit" } }
+            ]
+          },
           "monster_message": "%1$s mutters words and for a moment, another shape seems to flicker around them."
         }
       ]
@@ -268,6 +275,7 @@
           "range": 4,
           "damage_max_instance": [ { "damage_type": "necrotic", "amount": 0 } ],
           "effects": [ { "id": "bleed", "duration": 120, "chance": 100, "affect_hit_bp": true, "intensity": [ 2, 4 ] } ],
+          "effects_require_dmg": false,
           "dodgeable": false,
           "blockable": false,
           "condition": {
@@ -344,7 +352,7 @@
         {
           "id": "feral_high_animist_summon_shadows",
           "type": "spell",
-          "spell_data": { "id": "feral_high_animist_wrathful_spirits", "min_level": 5 },
+          "spell_data": { "id": "feral_high_animist_wrathful_spirits" },
           "cooldown": 50,
           "condition": {
             "and": [
@@ -396,6 +404,7 @@
                   }
                 ]
               },
+              { "not": { "u_has_effect": "effect_feral_animist_guardian_spirit" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } }
             ]
           },
