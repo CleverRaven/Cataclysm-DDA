@@ -1,0 +1,66 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "balthazar_bunker_solar_panel_row_1",
+    "object": {
+      "mapgensize": [ 21, 21 ],
+      "rows": [
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P",
+        "..PP....PP....PP....P"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "furniture": { "P": "f_solar_unit" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "balthazar_bunker_solar_panel_row_2",
+    "object": {
+      "mapgensize": [ 21, 21 ],
+      "rows": [
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP..",
+        "P....PP....PP....PP.."
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "furniture": { "P": "f_solar_unit" }
+    }
+  }
+]

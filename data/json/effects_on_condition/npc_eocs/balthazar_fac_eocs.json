@@ -40,11 +40,11 @@
         "update_mapgen": [
           {
             "om_terrain": "balthazar_bunker_02",
-            "place_nested": [ { "chunks": [ "balthazar_bunker_solar_panel_row" ], "x": 0, "y": 0 } ]
+            "place_nested": [ { "chunks": [ "balthazar_bunker_solar_panel_row_1" ], "x": 5, "y": 1 } ]
           },
           {
             "om_terrain": "balthazar_bunker_03",
-            "place_nested": [ { "chunks": [ "balthazar_bunker_solar_panel_row" ], "x": 0, "y": 0 } ]
+            "place_nested": [ { "chunks": [ "balthazar_bunker_solar_panel_row_2" ], "x": 0, "y": 1 } ]
           }
         ]
       },
