@@ -1590,17 +1590,15 @@ std::vector<camp_reference> overmapbuffer::get_camps_near( const tripoint_abs_sm
 {
     std::vector<camp_reference> result;
     for( overmap *om : get_overmaps_near( location, radius ) ) {
-        const std::map<point_abs_omt, basecamp> &camps = om->get_camps();
-        result.reserve( result.size() + camps.size() );
-        std::transform( camps.begin(), camps.end(), std::back_inserter( result ),
-        [&]( auto & element ) {
-            const tripoint_abs_omt camp_pt = element.second.camp_omt_pos();
+        for( const std::pair<const point_abs_omt, basecamp> &camp : om->get_camps() ) {
+            const tripoint_abs_omt camp_pt = camp.second.camp_omt_pos();
             const tripoint_abs_sm camp_sm = project_to<coords::sm>( camp_pt );
             const int distance = rl_dist( camp_sm, location );
-
-            //This is very ugly but element.second is const and camps should be private and we overmap can't access camp_reference as it would be circular
-            return camp_reference{ om->find_camp( camp_pt.xy() ).value(), camp_sm, distance };
-        } );
+            if( distance <= radius ) {
+                //This is very ugly but camp.second is const and camps should be private and the overmap can't pass back a camp_reference as it would be a circular include
+                result.push_back( camp_reference{ om->find_camp( camp_pt.xy() ).value(), camp_sm, distance } );
+            }
+        }
     }
     std::sort( result.begin(), result.end(), []( const camp_reference & lhs,
     const camp_reference & rhs ) {
