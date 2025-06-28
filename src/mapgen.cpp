@@ -806,6 +806,12 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
 {
     dbg( D_INFO ) << "map::generate( g[" << g.get() << "], p[" << p << "], "
                   "when[" << to_string( when ) << "] )";
+    // Insure we reset mapgen_in_progress no matter how this method terminates.
+    // TODO: replace with a generic scope_guard class.
+    std::unique_ptr<int, std::function<void( int * )>> scope_guard( nullptr, [this]( int * ) {
+        this->mapgen_in_progress = false;
+    } );
+    mapgen_in_progress = true;
 
     const tripoint_abs_sm p_sm_base = project_to<coords::sm>( p );
     std::vector<bool> generated;

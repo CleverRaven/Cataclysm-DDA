@@ -599,6 +599,15 @@ bool overmapbuffer::passable( const tripoint_abs_ms &p )
     return om->passable( offset );
 }
 
+std::shared_ptr<map_data_summary> overmapbuffer::get_omt_summary( const tripoint_abs_omt &p )
+{
+    point_abs_om loc;
+    tripoint_om_omt offset;
+    std::tie( loc, offset ) = project_remain<coords::om>( p );
+    overmap *om = get_existing( loc );
+    return om->get_omt_summary( offset );
+}
+
 void overmapbuffer::set_passable( const tripoint_abs_ms &p, bool new_passable )
 {
     point_abs_om loc;

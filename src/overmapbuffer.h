@@ -454,6 +454,7 @@ class overmapbuffer
             return get_extras( z, pattern ); // filter with pattern
         }
         bool passable( const tripoint_abs_ms &p );
+        std::shared_ptr<map_data_summary> get_omt_summary( const tripoint_abs_omt &p );
         void set_passable( const tripoint_abs_ms &p, bool new_passable );
         void set_passable( const tripoint_abs_omt &p, const std::bitset<24 * 24> &new_passable );
         /**

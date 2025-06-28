@@ -27,6 +27,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "mapbuffer.h"
@@ -472,6 +473,9 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
                     MAPBUFFER.clear_outside_reality_bubble();
                     smallmap tm;
                     tm.generate( pos, calendar::turn, false );
+                    // Map edits without the "mapgen_in_progress" variable set will toggle
+                    // player_adjusted_map to true, this should find callers that fail to do so.
+                    CHECK( !map_meddler::has_altered_submaps( *tm.cast_to_map() ) );
                     bool found = tally_items( item_counts, p.second.item_counts, tm );
                     if( enable_item_demographics && found && !p.second.found ) {
                         goal_samples = std::pow( std::log( std::max( 10, count ) ), 3 );

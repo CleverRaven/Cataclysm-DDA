@@ -31,4 +31,10 @@ void player_wear_blindfold();
 void set_time_to_day();
 void set_time( const time_point &time );
 
+class map_meddler
+{
+    public:
+        static bool has_altered_submaps( map &m );
+};
+
 #endif // CATA_TESTS_MAP_HELPERS_H
