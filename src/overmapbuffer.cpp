@@ -737,12 +737,11 @@ void overmapbuffer::move_vehicle( vehicle *veh, const point_abs_ms &old_msp )
     }
 }
 
-void overmapbuffer::remove_camp( const basecamp &camp )
+void overmapbuffer::remove_camp( const point_abs_omt &p )
 {
-    const point_abs_omt omt = camp.camp_omt_pos().xy();
-    const overmap_with_local_coords om_loc = get_existing_om_global( omt );
+    const overmap_with_local_coords om_loc = get_existing_om_global( p );
     if( !!om_loc.om ) {
-        om_loc.om->remove_camp( omt );
+        om_loc.om->remove_camp( p );
     }
 }
 
