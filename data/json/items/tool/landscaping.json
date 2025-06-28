@@ -30,7 +30,7 @@
     "price": "20 cent",
     "price_postapoc": "50 cent",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
-    "material": [ "steel" ],
+    "material": [ "mc_steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ], [ "CUT", 2 ] ],
