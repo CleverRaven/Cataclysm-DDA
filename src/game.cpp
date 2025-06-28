@@ -228,7 +228,6 @@
 #define UNUSED
 #endif
 
-static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
@@ -11003,6 +11002,158 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
     return true;
 }
 
+
+static void autopulp_or_butcher( avatar &u )
+{
+
+    const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
+
+    if( pulp_butcher == "off" ) {
+        return;
+    }
+
+    enum class AUTO_AREA : int {
+        CENTER,
+        ADJACENT
+    };
+
+    enum class AUTO_TYPE : int {
+        BUTCHER_QUICK,
+        PULP,
+        PULP_OR_DISMEMBER
+    };
+
+    enum class AUTO_WHO : int {
+        ALL,
+        ZOMBIES
+    };
+
+    map &here = get_map();
+    AUTO_AREA area{};
+    AUTO_TYPE type{};
+    AUTO_WHO who{};
+
+    // probably replace this with enum
+    if( pulp_butcher == "butcher" ) {
+        area = AUTO_AREA::CENTER;
+        type = AUTO_TYPE::BUTCHER_QUICK;
+        who = AUTO_WHO::ALL;
+    } else if( pulp_butcher == "pulp" ) {
+        area = AUTO_AREA::CENTER;
+        type = AUTO_TYPE::PULP;
+        who = AUTO_WHO::ALL;
+    } else if( pulp_butcher == "pulp_adjacent" ) {
+        area = AUTO_AREA::ADJACENT;
+        type = AUTO_TYPE::PULP;
+        who = AUTO_WHO::ALL;
+    } else if( pulp_butcher == "pulp_zombie_only" ) {
+        area = AUTO_AREA::CENTER;
+        type = AUTO_TYPE::PULP;
+        who = AUTO_WHO::ZOMBIES;
+    } else if( pulp_butcher == "pulp_adjacent_zombie_only" ) {
+        area = AUTO_AREA::ADJACENT;
+        type = AUTO_TYPE::PULP;
+        who = AUTO_WHO::ZOMBIES;
+    } else if( pulp_butcher == "pulp_or_dismember" ) {
+        area = AUTO_AREA::CENTER;
+        type = AUTO_TYPE::PULP_OR_DISMEMBER;
+        who = AUTO_WHO::ALL;
+    } else if( pulp_butcher == "pulp_or_dismember_adjacent" ) {
+        area = AUTO_AREA::ADJACENT;
+        type = AUTO_TYPE::PULP_OR_DISMEMBER;
+        who = AUTO_WHO::ALL;
+    } else if( pulp_butcher == "pulp_or_dismember_zombies_only" ) {
+        area = AUTO_AREA::CENTER;
+        type = AUTO_TYPE::PULP_OR_DISMEMBER;
+        who = AUTO_WHO::ZOMBIES;
+    } else if( pulp_butcher == "pulp_or_dismember_zombies_only_adjacent" ) {
+        area = AUTO_AREA::ADJACENT;
+        type = AUTO_TYPE::PULP_OR_DISMEMBER;
+        who = AUTO_WHO::ZOMBIES;
+    }
+
+    std::vector<tripoint_bub_ms> target;
+    switch( area ) {
+        case AUTO_AREA::CENTER: {
+            target.push_back( u.pos_bub() );
+            break;
+        }
+        case AUTO_AREA::ADJACENT: {
+            target.reserve( eight_horizontal_neighbors.size() );
+            for( const tripoint &dir : eight_horizontal_neighbors ) {
+                target.emplace_back( u.pos_bub() + dir );
+            }
+            break;
+        }
+    }
+
+    std::vector<item_location> corpses;
+    for( const tripoint_bub_ms &pos : target ) {
+        for( item &it : here.i_at( pos ) ) {
+            // skip not corpses or corpses that are already pulped
+            if( !it.is_corpse() || it.damage() >= it.max_damage() ) {
+                continue;
+            }
+            if( who == AUTO_WHO::ZOMBIES && !it.get_mtype()->has_flag( mon_flag_REVIVES ) ) {
+                continue;
+            }
+            const item_location corpse_loc( map_cursor( pos ), &it );
+            corpses.push_back( corpse_loc );
+        }
+    }
+
+    if( corpses.empty() ) {
+        return;
+    }
+    switch( type ) {
+        case AUTO_TYPE::BUTCHER_QUICK: {
+            std::vector<butchery_data> butchery_list;
+            for( item_location corpse : corpses ) {
+                butchery_data bd( corpse, butcher_type::QUICK );
+                butchery_list.emplace_back( bd );
+            }
+            if( !butchery_list.empty() ) {
+                u.assign_activity( butchery_activity_actor( butchery_list ) );
+            }
+            return;
+        }
+        case AUTO_TYPE::PULP: {
+            if( !corpses.empty() ) {
+                u.assign_activity( pulp_activity_actor( corpses ) );
+            }
+            return;
+        }
+        case AUTO_TYPE::PULP_OR_DISMEMBER: {
+
+            std::vector<item_location> to_be_pulped;
+            std::vector<butchery_data> to_be_butchered;
+            to_be_pulped.reserve( corpses.size() );
+            to_be_butchered.reserve( corpses.size() );
+            for( item_location &loc : corpses ) {
+                if( g->can_pulp_corpse( u, *loc.get_item()->get_mtype() ) ) {
+                    to_be_pulped.emplace_back( loc );
+                } else {
+                    butchery_data bd( loc, butcher_type::DISMEMBER );
+                    to_be_butchered.emplace_back( bd );
+                }
+            }
+
+            // what happens right now is that whatever activity is assigned last is one that actually fires
+            // it would be nice to make it to store activity in backlog and fire from it
+            // (doesn't work because in this case activity starts from the middle, bypassing ::start() function)
+            // or some another reasonable alternative
+            // but this would suffice
+            if( !to_be_butchered.empty() ) {
+                u.assign_activity( player_activity( butchery_activity_actor( to_be_butchered ) ) );
+            }
+            if( !to_be_pulped.empty() ) {
+                u.assign_activity( player_activity( pulp_activity_actor( to_be_pulped ) ) );
+            }
+            return;
+        }
+    }
+}
+
 point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
 {
     map &here = get_map();
@@ -11176,7 +11327,7 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
     // adjusted_pos = ( old_pos.x - submap_shift.x * SEEX, old_pos.y - submap_shift.y * SEEY, old_pos.z )
 
     //Auto pulp or butcher and Auto foraging
-    if( !quick && get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0  && !u.is_mounted() ) {
+    if( !quick && get_option<bool>( "AUTO_FEATURES" )  && mostseen == 0 && !u.is_mounted() ) {
         static constexpr std::array<direction, 8> adjacentDir = {
             direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST,
             direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST
@@ -11215,57 +11366,7 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
             }
         }
 
-        const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
-        if( pulp_butcher == "butcher" &&
-            u.max_quality( qual_BUTCHER, PICKUP_RANGE ) > INT_MIN ) {
-            std::vector<item *> corpses;
-
-            for( item &it : here.i_at( u.pos_bub() ) ) {
-                corpses.push_back( &it );
-            }
-
-            if( !corpses.empty() ) {
-                u.assign_activity( ACT_BUTCHER, 0, true );
-                for( item *it : corpses ) {
-                    u.activity.targets.emplace_back( map_cursor( u.pos_abs() ), it );
-                }
-            }
-        } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||
-                   pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
-            const bool acid_immune = u.is_immune_damage( damage_acid ) || u.is_immune_field( fd_acid );
-            const auto corpse_available = [&]( const tripoint_bub_ms & pos ) {
-                for( const item &maybe_corpse : here.i_at( pos ) ) {
-                    if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
-                        ( !maybe_corpse.get_mtype()->bloodType().obj().has_acid || acid_immune ) ) {
-                        if( pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
-                            if( !maybe_corpse.get_mtype()->has_flag( mon_flag_REVIVES ) ) {
-                                continue;
-                            } else {
-                                return true;
-                            }
-                        } else {
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            };
-            if( pulp_butcher == "pulp_adjacent" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
-                std::set<tripoint_abs_ms> places;
-                for( const direction &elem : adjacentDir ) {
-                    if( corpse_available( u.pos_bub() + displace_XY( elem ) ) ) {
-                        places.emplace( here.get_abs( u.pos_bub() + displace_XY( elem ) ) );
-                    }
-                }
-                if( !places.empty() ) {
-                    u.assign_activity( pulp_activity_actor( places ) );
-                }
-            } else {
-                if( corpse_available( u.pos_bub() ) ) {
-                    u.assign_activity( pulp_activity_actor( here.get_abs( u.pos_bub() ) ) );
-                }
-            }
-        }
+        autopulp_or_butcher( u );
     }
 
     // Auto pickup
@@ -14126,7 +14227,7 @@ pulp_data game::calculate_character_ability_to_pulp( const Character &you )
     // the idea was that roll_damage() gonna handle melee skills, but it doesn't care for skill, apparently?
     const std::pair<float, item> pair_bash = you.get_best_weapon_by_damage_type( damage_bash );
     pulp_power_bash = pair_bash.first;
-    pd.bash_tool = pair_bash.second.display_name();
+    pd.bash_tool = item::nname( pair_bash.second.typeId() );
 
     if( pair_bash.second.has_flag( flag_MESSY ) || pair_bash.first > 40 ) {
         pd.mess_radius = 2;
