@@ -2496,17 +2496,6 @@ bool npc::is_leader() const
     return attitude == NPCATT_LEAD;
 }
 
-bool npc::within_boundaries_of_camp() const
-{
-    for( const point_abs_omt &p : closest_points_first( pos_abs_omt().xy(), 0, 3 ) ) {
-        std::optional<basecamp *> bcp = overmap_buffer.find_camp( p );
-        if( bcp ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool npc::is_enemy() const
 {
     return attitude == NPCATT_KILL || attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP;
