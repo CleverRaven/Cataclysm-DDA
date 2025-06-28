@@ -279,3 +279,13 @@ void set_time( const time_point &time )
     here.invalidate_map_cache( z );
     here.build_map_cache( z );
 }
+
+bool map_meddler::has_altered_submaps( map &m )
+{
+    for( submap *sm : m.grid ) {
+        if( sm->player_adjusted_map ) {
+            return true;
+        }
+    }
+    return false;
+}
