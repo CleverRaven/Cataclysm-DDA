@@ -4425,4 +4425,3 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
 
     return result;
 }
-F
