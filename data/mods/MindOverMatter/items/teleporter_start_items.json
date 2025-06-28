@@ -108,7 +108,7 @@
       {
         "id": "mom_lightning_rifle_non_fifth_sun",
         "name": { "str": "odd rifle" },
-        "description": "This is recognizbly a rifle but it's like nothing you've ever seen.  The magazine seems to be inserted into the stock and the barrel is almost as big around as your wrist.  When you hold it, some kind of electronic display above the grip shows a series of odd symbols."
+        "description": "This is recognizably a rifle but it's like nothing you've ever seen.  The magazine seems to be inserted into the stock and the barrel is almost as big around as your wrist.  When you hold it, some kind of electronic display above the grip shows a series of odd symbols."
       }
     ]
   },
@@ -478,7 +478,7 @@
       {
         "id": "itzcuauhtli_wrist_computer_non_fifth_sun",
         "name": { "str": "strange watch", "str_pl": "strange watches" },
-        "description": "This looks like a smartwatch but it doesn't have a screen.  There are two buttons on each side, and when you press one of them, a series of glowing holograms spring up over your wrist.  They depict what looks like a menu, but everthing is written in blobby symbols that look vaguely…Mayan?  You've never seen anything like this before.",
+        "description": "This looks like a smartwatch but it doesn't have a screen.  There are two buttons on each side, and when you press one of them, a series of glowing holograms spring up over your wrist.  They depict what looks like a menu, but everything is written in blobby symbols that look vaguely…Mayan?  You've never seen anything like this before.",
         "weight": 1
       }
     ]
