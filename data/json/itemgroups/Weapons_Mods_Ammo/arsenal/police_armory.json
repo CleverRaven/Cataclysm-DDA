@@ -632,11 +632,7 @@
     "id": "police_armory_any_357sig",
     "//": "Pick one of multiple interchangeable .357 SIG variants.",
     "subtype": "distribution",
-    "entries": [
-      { "group": "police_armory_p226_357", "prob": 30 },
-      { "group": "police_armory_glock_31", "prob": 60 },
-      { "group": "police_armory_p320_357", "prob": 10 }
-    ]
+    "entries": [ { "group": "police_armory_p226_357", "prob": 30 }, { "group": "police_armory_p320_357", "prob": 10 } ]
   },
   {
     "type": "item_group",
@@ -650,24 +646,6 @@
       { "item": "p226mag_12rd_357sig", "count": [ 1, 4 ] },
       { "group": "police_armory_full_p226mag_357sigjhp", "count": [ 0, 4 ] },
       { "group": "police_armory_full_p226mag_357sigfmj", "count": [ 0, 4 ] },
-      { "group": "police_armory_boxes_357sigjhp" },
-      { "group": "police_armory_boxes_357sigfmj" },
-      { "group": "police_armory_boxes_357sigjhp", "prob": 15 },
-      { "group": "police_armory_boxes_357sigfmj", "prob": 15 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "police_armory_glock_31",
-    "//": "One or more Glock 31 pistols, empty mags, full mags, JHP and FMJ ammo with a chance of extra for each.",
-    "subtype": "collection",
-    "entries": [
-      { "item": "glock_31" },
-      { "item": "glock_31", "prob": 50 },
-      { "item": "glock_31", "prob": 25 },
-      { "item": "glock40mag", "count": [ 1, 4 ] },
-      { "group": "police_armory_full_glock40mag_357sigjhp", "count": [ 0, 4 ] },
-      { "group": "police_armory_full_glock40mag_357sigfmj", "count": [ 0, 4 ] },
       { "group": "police_armory_boxes_357sigjhp" },
       { "group": "police_armory_boxes_357sigfmj" },
       { "group": "police_armory_boxes_357sigjhp", "prob": 15 },
@@ -705,20 +683,6 @@
     "subtype": "collection",
     "container-item": "p226mag_12rd_357sig",
     "entries": [ { "item": "357sig_fmj", "charges": 12 } ]
-  },
-  {
-    "id": "police_armory_full_glock40mag_357sigjhp",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "glock40mag",
-    "entries": [ { "item": "357sig_jhp", "charges": 15 } ]
-  },
-  {
-    "id": "police_armory_full_glock40mag_357sigfmj",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "glock40mag",
-    "entries": [ { "item": "357sig_fmj", "charges": 15 } ]
   },
   {
     "id": "police_armory_full_p320mag_357sigjhp",

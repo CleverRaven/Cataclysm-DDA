@@ -838,7 +838,6 @@
     "type": "item_group",
     "id": "guns_pistol_common_boxed_other",
     "items": [
-      { "group": "boxed_glock_31", "prob": 42 },
       { "group": "boxed_bfr", "prob": 5 },
       { "group": "boxed_deagle_50", "prob": 10 },
       { "group": "boxed_sw_500", "prob": 29 },
@@ -847,13 +846,6 @@
       { "group": "boxed_ar15_450short", "prob": 3 },
       { "group": "boxed_ar15_50short", "prob": 1 }
     ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "boxed_glock_31",
-    "container-item": "box_pistol",
-    "items": [ { "item": "glock_31" }, { "group": "firearm_box_extras" }, { "item": "glock40mag_10", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",

@@ -185,7 +185,6 @@
     "type": "item_group",
     "id": "guns_pistol_common_other",
     "items": [
-      { "group": "nested_glock_31", "prob": 42 },
       { "group": "nested_bfr", "prob": 5 },
       { "group": "nested_modular_deagle_50", "prob": 10 },
       { "group": "nested_sw_500", "prob": 29 },
@@ -517,7 +516,6 @@
     "type": "item_group",
     "id": "guns_pistol_common_display_other",
     "items": [
-      { "item": "glock_31", "prob": 42 },
       { "item": "bfr", "prob": 5 },
       { "group": "modular_deagle_50", "prob": 10 },
       { "item": "sw_500", "prob": 29 },

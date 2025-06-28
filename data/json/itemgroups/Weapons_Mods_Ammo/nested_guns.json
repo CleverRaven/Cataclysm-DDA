@@ -247,19 +247,6 @@
     ]
   },
   {
-    "id": "nested_glock_31",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "glock_31", "charges": [ 0, 15 ] },
-      { "item": "glock40mag" },
-      { "item": "glock40mag", "prob": 50 },
-      { "group": "on_hand_357sig" }
-    ]
-  },
-  {
     "id": "nested_glock_40",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

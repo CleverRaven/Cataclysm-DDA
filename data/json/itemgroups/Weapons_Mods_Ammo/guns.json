@@ -913,20 +913,6 @@
       },
       {
         "collection": [
-          {
-            "item": "glock_31",
-            "ammo-item": "357sig_jhp",
-            "prob": 100,
-            "charges": [ 0, 15 ],
-            "damage": [ 0, 1 ],
-            "dirt": [ 0, 7050 ]
-          },
-          { "group": "field_glock_31" }
-        ],
-        "prob": 4
-      },
-      {
-        "collection": [
           { "item": "p226_357sig", "prob": 100, "charges": [ 0, 12 ], "damage": [ 0, 3 ], "dirt": [ 0, 7050 ] },
           { "group": "field_p226_357sig" }
         ],
@@ -989,7 +975,6 @@
       { "group": "field_sp2022_9mm", "prob": 10 },
       { "group": "field_px4_9mm", "prob": 5 },
       { "group": "field_usp_9mm", "prob": 3 },
-      { "group": "field_glock_31", "prob": 4 },
       { "group": "field_p226_357sig", "prob": 2 },
       { "group": "field_p320_357sig", "prob": 2 },
       { "group": "field_glock_22", "prob": 30 },
