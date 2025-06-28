@@ -670,22 +670,10 @@ void overmap::unserialize( const JsonObject &jsobj )
             }
         } else if( name == "camps" ) {
             JsonArray camps_json = om_member;
-            if( version < ?? ? ) {
-                for( JsonObject camp_json : camps_json ) {
-                    basecamp new_camp;
-                    new_camp.deserialize( camp_json );
-                    camps.push_back( new_camp );
-                }
-            } else {
-                JsonArray camps_json = om_member;
-                for( JsonObject pos_camp : camps_json ) {
-                    point_om_omt p;
-                    basecamp new_camp;
-                    pos_camp.read( "pos", p );
-                    JsonObject camp_json = pos_camp.get_member( "camp" );
-                    new_camp.deserialize( camp_json );
-                    camps.emplace( pos, new_camp );
-                }
+            for( JsonObject camp_json : camps_json ) {
+                basecamp new_camp;
+                new_camp.deserialize( camp_json );
+                add_camp( new_camp.camp_omt_pos().xy(), new_camp );
             }
         } else if( name == "overmap_special_placements" ) {
             JsonArray special_placements_json = om_member;
@@ -1397,10 +1385,7 @@ void overmap::serialize( std::ostream &fout ) const
     json.member( "camps" );
     json.start_array();
     for( const auto &i : camps ) {
-        json.start_object();
-        json.member( "pos", i->first );
-        json.member( "camp", i->second );
-        json.end_object();
+        json.write( i.second );
     }
     json.end_array();
     fout << std::endl;

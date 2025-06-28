@@ -725,15 +725,10 @@ void talk_function::start_camp( npc &p )
 
     for( const auto &om_near : om_building_region( omt_pos, 3 ) ) {
         const oter_id &om_type = oter_id( om_near.first );
-        if( is_ot_match( "faction_base", om_type, ot_match_type::contains ) ) {
-            tripoint_abs_omt const &building_omt_pos = om_near.second;
-            std::vector<basecamp> const &camps = overmap_buffer.get_om_global( building_omt_pos ).om->camps;
-            if( std::any_of( camps.cbegin(), camps.cend(), [&building_omt_pos]( const basecamp & camp ) {
-            return camp.camp_omt_pos() == building_omt_pos;
-            } ) ) {
-                popup( _( "You are too close to another camp!" ) );
-                return;
-            }
+        if( is_ot_match( "faction_base", om_type, ot_match_type::contains ) ||
+            overmap_buffer.has_camp( om_near.second ) ) {
+            popup( _( "You are too close to another camp!" ) );
+            return;
         }
     }
     const recipe &making = camp_type.obj();
@@ -765,7 +760,7 @@ void talk_function::basecamp_mission( npc &p )
     }
     basecamp *bcp = *temp_camp;
     if( !bcp->allowed_access_by( p ) ) {
-        popup( _( "%s isn't under your control!" ), bcp->name );
+        popup( _( "%s isn't under your control!" ), bcp->camp_name() );
         return;
     }
     bcp->set_by_radio( get_avatar().dialogue_by_radio );
