@@ -171,6 +171,7 @@
   {
     "type": "faction",
     "id": "balthazar_fac",
+    "mon_faction": "balthazar",
     "name": "Balthazar",
     "likes_u": 0,
     "respects_u": 0,
@@ -184,6 +185,15 @@
     "price_rules": [  ],
     "//1": "TODO: Maybe add trading where raw materials are worth more and most currencies/food nothing",
     "relations": {
+      "your_followers": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
       "free_merchants": {
         "kill on sight": true,
         "watch your back": false,

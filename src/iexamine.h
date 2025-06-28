@@ -70,6 +70,7 @@ void cardreader( Character &you, const tripoint_bub_ms &examp );
 void cardreader_robofac( Character &you, const tripoint_bub_ms &examp );
 void cardreader_foodplace( Character &you, const tripoint_bub_ms &examp );
 void intercom( Character &you, const tripoint_bub_ms &examp );
+void intercom_balthazar( Character &you, const tripoint_bub_ms &examp );
 void cvdmachine( Character &you, const tripoint_bub_ms &examp );
 void change_appearance( Character &you, const tripoint_bub_ms &examp );
 void rubble( Character &you, const tripoint_bub_ms &examp );

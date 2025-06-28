@@ -547,5 +547,31 @@
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_detector",
+    "name": "metal detector",
+    "description": "A metal detector like one you'd see at the airport.  This one is no longer functioning.",
+    "symbol": "M",
+    "color": "light_blue",
+    "coverage": 20,
+    "move_cost_mod": 2,
+    "//": "Based on https://uniqscan.com/products/copy-of-walk-through-metal-detector-ub500, 70cm * 200cm * 60cm",
+    "max_volume": "800 L",
+    "required_str": -1,
+    "flags": [ "PERMEABLE", "THIN_OBSTACLE", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 45,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 6 ] },
+        { "item": "plastic_chunk", "count": [ 4, 8 ] },
+        { "item": "cable", "count": [ 2, 6 ] },
+        { "item": "e_scrap", "count": [ 8, 12 ] }
+      ]
+    }
   }
 ]

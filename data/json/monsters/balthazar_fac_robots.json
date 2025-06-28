@@ -1,0 +1,18 @@
+[
+  {
+    "id": "mon_secubot_balthazar",
+    "copy-from": "mon_secubot",
+    "type": "MONSTER",
+    "aggression": 0,
+    "default_faction": "balthazar",
+    "starting_ammo": { "556": 60 }
+  },
+  {
+    "id": "mon_turret_rifle_balthazar",
+    "copy-from": "mon_turret_rifle",
+    "type": "MONSTER",
+    "default_faction": "balthazar",
+    "aggression": 0,
+    "starting_ammo": { "556": 1600 }
+  }
+]
