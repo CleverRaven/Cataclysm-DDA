@@ -455,10 +455,10 @@ void overmap::unserialize( const JsonObject &jsobj )
             omt_stack_arguments_map.emplace( p );
         }
     }
+    std::vector<tripoint_abs_omt> camps_to_place;
     // Extract layers first so predecessor deduplication can happen.
     if( jsobj.has_member( "layers" ) ) {
         std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
-        std::vector<tripoint_abs_omt> camps_to_place;
         JsonArray layers_json = jsobj.get_array( "layers" );
 
         for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
@@ -500,7 +500,7 @@ void overmap::unserialize( const JsonObject &jsobj )
             }
         }
         migrate_oter_ids( oter_id_migrations );
-        migrate_camps( camps_to_place );
+        // Don't do camps_to_place migration attempt yet bc we haven't deserialised existing camps
     }
     for( JsonMember om_member : jsobj ) {
         const std::string name = om_member.name();
@@ -798,6 +798,7 @@ void overmap::unserialize( const JsonObject &jsobj )
             }
         }
     }
+    migrate_camps( camps_to_place );
 }
 
 // throws std::exception
