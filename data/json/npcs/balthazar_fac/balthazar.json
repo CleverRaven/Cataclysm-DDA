@@ -5,7 +5,7 @@
     "name_unique": "balthazar",
     "class": "NC_BALTHAZAR_INTERCOM",
     "attitude": 0,
-    "mission": 0,
+    "mission": 3,
     "chat": "TALK_BALTHAZAR_INTERCOM",
     "faction": "balthazar_fac",
     "mission_offered": "MISSION_GET_SOLAR_PANELS_BALTHAZAR"
@@ -47,14 +47,14 @@
       {
         "text": "I'm here.",
         "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_balthazar_u_discovered_balthazar_fac" } ] } },
-        "trial": { "type": "CONDITION", "condition": { "math": [ "balthazar_power <= 50" ] } },
+        "trial": { "type": "CONDITION", "condition": { "math": [ "balthazar_power < 50" ] } },
         "success": { "topic": "TALK_BALTHAZAR_MEET_WEAK" },
         "failure": { "topic": "TALK_BALTHAZAR_MEET_STRONG" }
       },
       {
         "text": "Who is this?",
         "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_balthazar_u_discovered_balthazar_fac" } ] } },
-        "trial": { "type": "CONDITION", "condition": { "math": [ "balthazar_power <= 50" ] } },
+        "trial": { "type": "CONDITION", "condition": { "math": [ "balthazar_power < 50" ] } },
         "success": { "topic": "TALK_BALTHAZAR_MEET_WEAK" },
         "failure": { "topic": "TALK_BALTHAZAR_MEET_STRONG" }
       },

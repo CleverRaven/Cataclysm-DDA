@@ -7,19 +7,7 @@
     "goal": "MGOAL_CONDITION",
     "difficulty": 1,
     "value": 1000,
-    "end": {
-      "update_mapgen": [
-        {
-          "om_terrain": "balthazar_bunker_02",
-          "place_nested": [ { "chunks": [ "balthazar_bunker_solar_panel" ], "x": 4, "y": 1 } ]
-        },
-        {
-          "om_terrain": "balthazar_bunker_03",
-          "place_nested": [ { "chunks": [ "balthazar_bunker_solar_panel" ], "x": 0, "y": 1 } ]
-        }
-      ],
-      "effect": [ { "math": [ "balthazar_power += 20" ] }, { "math": [ "balthazar_daily_power_gain += 1" ] } ]
-    },
+    "end": { "run_eocs": "EOC_BALTHAZAR_SET_UP_SOLAR" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "The power in my bunker is failing and I need 12 solar panels to stabilize them.",
