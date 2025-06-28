@@ -246,12 +246,7 @@
     "type": "item_group",
     "id": "boxed_guns_pistol_rare_9mm",
     "items": [
-      {
-        "item": "box_pistol",
-        "contents-group": "firearm_box_extras",
-        "contents-item": [ "p08", "p08mag_8rd" ],
-        "prob": 13
-      },
+      { "item": "box_pistol", "contents-group": "firearm_box_extras", "contents-item": [ "p08", "p08mag_8rd" ], "prob": 13 },
       {
         "item": "box_pistol",
         "contents-group": "firearm_box_extras",
