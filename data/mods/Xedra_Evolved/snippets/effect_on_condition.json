@@ -85,7 +85,7 @@
     "text": [
       "<color_light_red>You catch a small glimpse of something.  The only thing you understand is how disturbed it makes you feel.</color>",
       "<color_light_red>You imagine yourself reading that creepy book.  Your mind reels at the idea.</color>",
-      "<color_light_red>For the smallest instant, the veil hiding the truth shows a crack.  What little you saw shook you to your very core.</color>",
+      "<color_light_red>For the smallest instant, the veil hiding the truth shows a crack.  What little you see shocks you to your very core.</color>",
       "<color_light_red>Your proximity to this damned book is slowly melting your mind.</color>",
       "<color_light_red>You feel a deep longing to leave a certain book behind you.</color>",
       "<color_light_red>Your mind is on fire.  You must get rid of this book or the fire won't end.</color>",
@@ -100,7 +100,7 @@
     "type": "snippet",
     "category": "nightmares_book_lies",
     "text": [
-      "<color_light_red>.</color>",
+      "<color_light_red>You dream of a world of burning paper, and how it's all because you read that book.</color>",
       "<color_light_red>.</color>",
       "<color_light_red>.</color>",
       "<color_light_red>.</color>",
