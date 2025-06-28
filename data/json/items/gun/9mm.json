@@ -342,7 +342,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "mp5mag_10rd", "mp5mag", "mp5mag_15rd", "mp5mag_20rd", "mp5mag_38rd", "mp5mag_40rd", "mp5bigmag", "mp5mag_100rd" ]
       }
-    ]
+    ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "melee_damage": { "bash": 7 }
   },
@@ -719,7 +719,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [  "tec9mag_10rd", "tec9mag", "tec9mag_20rd", "tec9mag_30rd", "tec9mag_36rd", "tec9mag_50rd", "tec9mag_72rd" ]
+        "item_restriction": [ "tec9mag_10rd", "tec9mag", "tec9mag_20rd", "tec9mag_30rd", "tec9mag_36rd", "tec9mag_50rd", "tec9mag_72rd" ]
       }
     ]
   },
