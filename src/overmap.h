@@ -361,6 +361,7 @@ class overmap
          * Access cache of map data for agents operating at overmap scale.
          */
         bool passable( const tripoint_om_ms &p );
+        std::shared_ptr<map_data_summary> get_omt_summary( const tripoint_om_omt &p );
         void set_passable( const tripoint_om_ms &p, bool new_passable );
         void set_passable( const tripoint_abs_omt &p, const std::bitset<24 * 24> &new_passable );
     private:
