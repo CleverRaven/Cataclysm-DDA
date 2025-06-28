@@ -190,6 +190,243 @@
     "effect": [ { "math": [ "n_val('rad') += rand(10)+10" ] }, { "npc_emit": "emit_rad_leak" } ]
   },
   {
+    "id": "mon_feral_animist",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_wizard_default",
+    "name": { "str": "feral animist" },
+    "description": "The feral looks mostly like any other person other than some of the trappings of a wizard, but there is an unaccountable aura around them.  When you look at them, the hair on the back of your neck stands on end, and faint whispers like a scratching at the walls echo just at the edge of your hearing.",
+    "symbol": "@",
+    "color": "white",
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_animist_bleed_spell",
+          "accuracy": 5,
+          "cooldown": 8,
+          "move_cost": 100,
+          "range": 4,
+          "damage_max_instance": [ { "damage_type": "necrotic", "amount": 0 } ],
+          "effects": [ { "id": "bleed", "duration": 60, "chance": 100, "affect_hit_bp": true } ],
+          "effects_require_dmg": false,
+          "dodgeable": false,
+          "blockable": false,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "hit_dmg_u": "%1$s mutters words of magic and blood drips from your %2$s!",
+          "hit_dmg_npc": "%1$s mutters words of magic and blood drips from <npcname>'s %2$s!",
+          "miss_msg_u": "",
+          "miss_msg_npc": "",
+          "no_dmg_msg_u": "%1$s mutters words of magic and blood drips from your %2$s!",
+          "no_dmg_msg_npc": "%1$s mutters words of magic and blood drips from <npcname>'s %2$s!"
+        },
+        {
+          "id": "feral_animist_summon_wisps",
+          "type": "spell",
+          "spell_data": { "id": "summon_wisps_monster", "min_level": 5 },
+          "cooldown": 30,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "monster_message": "%1$s make several expansive gestures and eerie lights appear."
+        },
+        {
+          "id": "feral_animist_summon_zombie",
+          "type": "spell",
+          "spell_data": { "id": "feral_animist_summon_spell", "min_level": 0 },
+          "cooldown": 40,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "monster_message": "%1$s intones words of power and a corpse claws its way out of the ground!"
+        },
+        {
+          "id": "feral_animist_guardian_spirit",
+          "type": "spell",
+          "spell_data": { "id": "feral_animist_guardian_spirit" },
+          "cooldown": 15,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "effect_feral_animist_guardian_spirit" } }
+            ]
+          },
+          "monster_message": "%1$s mutters words and for a moment, another shape seems to flicker around them."
+        }
+      ]
+    },
+    "death_drops": "mon_feral_animist_death_drops",
+    "armor": { "psionic": 8 }
+  },
+  {
+    "id": "mon_feral_animist_enhanced",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_wizard_default",
+    "name": { "//~": "High here meaning Grand, Powerful, Mighty, like High Elf", "str": "feral high animist" },
+    "description": "The feral looks mostly like any other person other than some of the trappings of a wizard, but there is an unaccountable aura around them.  When you look at them, the hair on the back of your neck stands on end, and faint whispers like a scratching at the walls echo just at the edge of your hearing.",
+    "symbol": "@",
+    "color": "white",
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_high_animist_bleed_spell",
+          "accuracy": 5,
+          "cooldown": 8,
+          "move_cost": 100,
+          "range": 4,
+          "damage_max_instance": [ { "damage_type": "necrotic", "amount": 0 } ],
+          "effects": [ { "id": "bleed", "duration": 120, "chance": 100, "affect_hit_bp": true, "intensity": [ 2, 4 ] } ],
+          "effects_require_dmg": false,
+          "dodgeable": false,
+          "blockable": false,
+          "condition": {
+            "and": [
+              {
+                "or": [
+                  { "u_has_effect": "effect_feral_animist_inner_voice" },
+                  {
+                    "and": [ { "not": { "u_has_effect": "effect_feral_animist_inner_voice" } }, { "not": { "u_has_flag": "MUTE" } } ]
+                  }
+                ]
+              },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "hit_dmg_u": "%1$s mutters words of magic and blood drips from your %2$s!",
+          "hit_dmg_npc": "%1$s mutters words of magic and blood drips from <npcname>'s %2$s!",
+          "miss_msg_u": "",
+          "miss_msg_npc": "",
+          "no_dmg_msg_u": "%1$s mutters words of magic and blood drips from your %2$s!",
+          "no_dmg_msg_npc": "%1$s mutters words of magic and blood drips from <npcname>'s %2$s!"
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_high_animist_smite_spell",
+          "accuracy": 5,
+          "cooldown": 8,
+          "move_cost": 160,
+          "range": 1,
+          "damage_max_instance": [ { "damage_type": "light", "amount": 35 } ],
+          "dodgeable": false,
+          "blockable": false,
+          "condition": {
+            "and": [
+              {
+                "or": [
+                  { "u_has_effect": "effect_feral_animist_inner_voice" },
+                  {
+                    "and": [ { "not": { "u_has_effect": "effect_feral_animist_inner_voice" } }, { "not": { "u_has_flag": "MUTE" } } ]
+                  }
+                ]
+              },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "hit_dmg_u": "%1$s screams words of magic and your %2$s is hit by searing light!",
+          "hit_dmg_npc": "%1$s screams words of magic and <npcname>'s %2$s is hit by searing light!",
+          "miss_msg_u": "",
+          "miss_msg_npc": "",
+          "no_dmg_msg_u": "%1$s screams words of magic and your %2$s is hit by searing light, but it does no damage.",
+          "no_dmg_msg_npc": "%1$s screams words of magic and <npcname>'s %2$s is hit by searing light, but it does no damage."
+        },
+        {
+          "id": "feral_high_animist_summon_wisps",
+          "type": "spell",
+          "spell_data": { "id": "summon_wisps_monster", "min_level": 8 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              {
+                "or": [
+                  { "u_has_effect": "effect_feral_animist_inner_voice" },
+                  {
+                    "and": [ { "not": { "u_has_effect": "effect_feral_animist_inner_voice" } }, { "not": { "u_has_flag": "MUTE" } } ]
+                  }
+                ]
+              },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s make several expansive gestures and eerie lights appear."
+        },
+        {
+          "id": "feral_high_animist_summon_shadows",
+          "type": "spell",
+          "spell_data": { "id": "feral_high_animist_wrathful_spirits" },
+          "cooldown": 50,
+          "condition": {
+            "and": [
+              {
+                "or": [
+                  { "u_has_effect": "effect_feral_animist_inner_voice" },
+                  {
+                    "and": [ { "not": { "u_has_effect": "effect_feral_animist_inner_voice" } }, { "not": { "u_has_flag": "MUTE" } } ]
+                  }
+                ]
+              },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s make several furtive gestures and the shadows around them begin moving."
+        },
+        {
+          "id": "feral_high_animist_summon_zombie",
+          "type": "spell",
+          "spell_data": { "id": "feral_rad_mage_summon_spell", "min_level": 0 },
+          "cooldown": 40,
+          "condition": {
+            "and": [
+              {
+                "or": [
+                  { "u_has_effect": "effect_feral_animist_inner_voice" },
+                  {
+                    "and": [ { "not": { "u_has_effect": "effect_feral_animist_inner_voice" } }, { "not": { "u_has_flag": "MUTE" } } ]
+                  }
+                ]
+              },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s intones words of power and a corpse claws its way out of the ground!"
+        },
+        {
+          "id": "feral_high_animist_guardian_spirit",
+          "type": "spell",
+          "spell_data": { "id": "feral_animist_guardian_spirit" },
+          "cooldown": 15,
+          "condition": {
+            "and": [
+              {
+                "or": [
+                  { "u_has_effect": "effect_feral_animist_inner_voice" },
+                  {
+                    "and": [ { "not": { "u_has_effect": "effect_feral_animist_inner_voice" } }, { "not": { "u_has_flag": "MUTE" } } ]
+                  }
+                ]
+              },
+              { "not": { "u_has_effect": "effect_feral_animist_guardian_spirit" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s mutters words and for a moment, another shape seems to flicker around them."
+        },
+        {
+          "id": "feral_high_animist_inner_voice",
+          "type": "spell",
+          "spell_data": { "id": "feral_animist_inner_voice" },
+          "cooldown": 15,
+          "condition": { "and": [ { "u_has_flag": "MUTE" }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "monster_message": "%1$s makes a quick gesture near their throat."
+        }
+      ]
+    },
+    "death_drops": {
+      "subtype": "collection",
+      "items": [ { "group": "enchanted_combat_items", "prob": 30 }, { "group": "mon_feral_animist_death_drops", "prob": 100 } ]
+    },
+    "armor": { "psionic": 15 }
+  },
+  {
     "id": "mon_feral_druid",
     "type": "MONSTER",
     "copy-from": "mon_feral_wizard_default",
