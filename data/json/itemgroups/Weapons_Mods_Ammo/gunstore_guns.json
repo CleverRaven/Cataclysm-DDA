@@ -292,7 +292,6 @@
       { "group": "boxed_sig_mosquito", "prob": 65 },
       { "group": "boxed_cp33", "prob": 16 },
       { "group": "boxed_ruger_mk4", "prob": 113 },
-      { "group": "boxed_ruger_charger", "prob": 16 },
       { "group": "boxed_1911_22", "prob": 100 },
       { "group": "boxed_sw617", "prob": 46 },
       { "group": "boxed_glock_44", "prob": 13 }
@@ -358,13 +357,6 @@
     "id": "boxed_ruger_mk4",
     "container-item": "box_pistol",
     "items": [ { "item": "ruger_mk4" }, { "group": "firearm_box_extras" }, { "item": "ruger_mk4_mag", "count": [ 1, 2 ] } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "boxed_ruger_charger",
-    "container-item": { "item": "box_longarm", "variant": "box_longarm_handgun" },
-    "items": [ { "item": "ruger_charger" }, { "group": "firearm_box_extras" }, { "item": "ruger1022mag", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",

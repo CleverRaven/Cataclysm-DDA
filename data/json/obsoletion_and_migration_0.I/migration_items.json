@@ -2580,5 +2580,15 @@
     "type": "MIGRATION",
     "id": "spear_forked",
     "replace": "spear_spike"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ruger_charger",
+    "replace": "ruger_1022"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ruger_charger_auto",
+    "replace": "ruger_1022_auto"
   }
 ]
