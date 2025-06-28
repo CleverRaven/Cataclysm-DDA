@@ -224,7 +224,7 @@
     "id": "mon_skittering_plague",
     "type": "MONSTER",
     "name": { "str": "skittering plague" },
-    "description": "A giant, sickly-looking cockroach that appears to be using the undead as its primary food source.  The diet of infected flesh doesn't seem to harm it, but something about the roach's biology is clearly changing.  It doesn't seem interested in you.",
+    "description": "A sickly-looking cockroach the size of a dog. It appears to be using the undead as its primary food source.  The diet of infected flesh doesn't seem to harm it, but something about the roach's biology is clearly changing.  It doesn't seem interested in you.",
     "default_faction": "roach",
     "bodytype": "insect",
     "species": [ "INSECT" ],
