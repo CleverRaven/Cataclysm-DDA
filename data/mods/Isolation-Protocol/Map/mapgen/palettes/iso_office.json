@@ -53,8 +53,8 @@
     "toilets": { ";": {  } },
     "items": {
       ";": { "item": "SUS_toilet", "chance": 50 },
-      "d": { "item": "office", "chance": 70, "repeat": [ 1, 3 ] },
-      "t": { "item": "office", "chance": 70, "repeat": [ 1, 3 ] },
+      "d": { "item": "SUS_office_desk", "chance": 70 },
+      "t": { "item": "SUS_office_desk", "chance": 35 },
       "A": { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 4 ] },
       "B": [ { "item": "textbooks", "chance": 50 }, { "item": "manuals", "chance": 50 } ],
       "i": { "item": "cleaning", "chance": 20 }

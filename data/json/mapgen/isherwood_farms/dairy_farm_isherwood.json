@@ -81,7 +81,7 @@
       },
       "items": {
         "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-        "d": { "item": "office", "chance": 30 },
+        "d": { "item": "SUS_office_desk", "chance": 30 },
         "{": [ { "item": "ranch_homebooks", "chance": 30 }, { "item": "book_survival", "chance": 30 } ],
         "^": { "item": "bed", "chance": 30 },
         "o": { "item": "SUS_oven", "chance": 30, "repeat": [ 1, 2 ] },
@@ -98,7 +98,7 @@
           { "item": "SUS_cookware", "chance": 20, "repeat": [ 2, 4 ] },
           { "item": "SUS_utensils", "chance": 20, "repeat": [ 2, 4 ] }
         ],
-        "t": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 2, 4 ] }
+        "t": { "item": "SUS_trash_trashcan", "chance": 20 }
       },
       "item": { "}": { "item": "cattlefodder_large", "chance": 35, "amount": [ 0, 4 ] } },
       "place_vehicles": [

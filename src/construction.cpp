@@ -1741,6 +1741,19 @@ void construct::done_wiring( const tripoint_bub_ms &p, Character &who )
     here.partial_con_remove( p );
 
     place_appliance( here, p, vpart_from_item( itype_wall_wiring ), who );
+    if( who.is_avatar() && query_yn( _( "Also reveal all nearby wirings?" ) ) ) {
+        // This is a *really* terrible check to ensure we iterate the current OMT and nothing else.
+        const tripoint_abs_omt current_omt( coords::project_to<coords::omt>( here.get_abs( p ) ) );
+        for( const tripoint_bub_ms &target : here.points_on_zlevel() ) {
+            const tripoint_abs_omt target_omt( coords::project_to<coords::omt>( here.get_abs( target ) ) );
+            if( target_omt != current_omt ) {
+                continue;
+            }
+            if( here.has_flag_ter( ter_furn_flag::TFLAG_WIRED_WALL, target ) && check_no_wiring( target ) ) {
+                place_appliance( here, target, vpart_from_item( itype_wall_wiring ), who );
+            }
+        }
+    }
 }
 
 void construct::done_appliance( const tripoint_bub_ms &p, Character &who )

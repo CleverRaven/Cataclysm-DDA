@@ -1,0 +1,9 @@
+[
+  {
+    "id": "LIGHTNING_TRAIL",
+    "type": "ammo_effect",
+    "//": "Creates a trail of lightning plasma",
+    "aoe": { "field_type": "fd_electricity", "intensity_min": 6, "intensity_max": 10, "chance": 25 },
+    "trail": { "field_type": "fd_electricity", "intensity_min": 1, "intensity_max": 2, "chance": 65 }
+  }
+]

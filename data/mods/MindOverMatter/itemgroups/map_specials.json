@@ -1,0 +1,55 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mom_texopapalotl_crew_shed_weapon",
+    "entries": [
+      {
+        "item": "mom_lightning_rifle",
+        "ammo-item": "mom_lightning_rifle_ammo",
+        "prob": 70,
+        "charges": [ 85, 120 ],
+        "damage": [ 0, 2 ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mom_texopapalotl_crew_shed_gear",
+    "entries": [
+      {
+        "item": "itzcuauhtli_wrist_computer",
+        "variant": "itzcuauhtli_wrist_computer_non_fifth_sun",
+        "charges": [ 6500, 8500 ],
+        "prob": 100,
+        "damage": [ 0, 2 ]
+      },
+      {
+        "item": "itzcuauhtli_tunic_jaguar",
+        "variant": "itzcuauhtli_tunic_jaguar_non_fifth_sun",
+        "prob": 90,
+        "damage": [ 1, 3 ]
+      },
+      { "item": "itzcuauhtli_pants", "variant": "itzcuauhtli_pants_non_fifth_sun", "prob": 90, "damage": [ 1, 3 ] },
+      {
+        "item": "bio_dangersight_eyes_non_fifth_sun",
+        "prob": 70,
+        "damage": [ 1, 3 ],
+        "custom-flags": [ "NO_STERILE", "NO_PACKED", "FILTHY" ]
+      },
+      {
+        "item": "mom_fifth_sun_standard_body_armor_non_fifth_sun",
+        "prob": 70,
+        "damage": [ 1, 3 ],
+        "charges": [ 350, 650 ]
+      },
+      {
+        "item": "itzcuauhtli_boots",
+        "variant": "itzcuauhtli_boots_standard_non_fifth_sun",
+        "prob": 100,
+        "damage": [ 0, 2 ]
+      }
+    ]
+  }
+]

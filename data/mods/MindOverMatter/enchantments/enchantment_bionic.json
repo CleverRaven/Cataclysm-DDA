@@ -1,0 +1,20 @@
+[
+  {
+    "type": "enchantment",
+    "id": "ench_bio_dangersight_eyes",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "special_vision": [
+      {
+        "condition": {
+          "or": [
+            { "and": [ { "not": "npc_is_character" }, { "math": [ "n_val('anger') >= 10" ] } ] },
+            { "and": [ "npc_is_character", "npc_hostile" ] }
+          ]
+        },
+        "distance": 25,
+        "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense a hostile target here." } ]
+      }
+    ]
+  }
+]

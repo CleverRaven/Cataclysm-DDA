@@ -70,7 +70,7 @@
         "a": { "item": "plumbing_bulk", "chance": 50, "repeat": [ 5, 15 ] },
         "b": { "item": "hardware_plumbing", "chance": 50, "repeat": [ 5, 15 ] },
         "c": { "item": "hardware", "chance": 50, "repeat": [ 5, 15 ] },
-        "d": { "item": "office", "chance": 50, "repeat": [ 5, 15 ] },
+        "d": { "item": "SUS_office_desk", "chance": 100, "repeat": [ 1, 2 ] },
         "e": { "item": "mechanics", "chance": 50, "repeat": [ 5, 15 ] }
       },
       "toilets": { "&": {  } },

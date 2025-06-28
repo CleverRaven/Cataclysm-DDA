@@ -32,7 +32,7 @@
       ],
       "palettes": [ "farm_horse" ],
       "terrain": { "p": "t_grass" },
-      "items": { "k": { "item": "office", "chance": 30 }, "D": { "item": "SUS_trash_trashcan", "chance": 20 } },
+      "items": { "k": { "item": "SUS_office_desk", "chance": 30 }, "D": { "item": "SUS_trash_trashcan", "chance": 20 } },
       "place_loot": [ { "item": "television", "x": 21, "y": 6, "chance": 100 } ]
     }
   },
@@ -211,7 +211,7 @@
       ],
       "palettes": [ "farm_horse" ],
       "terrain": { "Ы": "t_dirtfloor", "[": "t_dirtfloor" },
-      "items": { "k": { "item": "office", "chance": 30 } },
+      "items": { "k": { "item": "SUS_office_desk", "chance": 30 } },
       "item": { "Ы": { "item": "salt_lick", "chance": 80, "repeat": [ 1, 4 ] } },
       "place_loot": [
         { "item": "stepladder", "x": 18, "y": 8, "chance": 100 },

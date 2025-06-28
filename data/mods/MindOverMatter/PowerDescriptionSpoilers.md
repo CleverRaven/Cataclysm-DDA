@@ -1055,7 +1055,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Duration*: Instant<br />
 *Stamina Cost*: 4500, minus 125 per level to a minimum of 2250<br />
 *Channeling Time*: 50 moves, minus 4 moves per level to a minimum of 20<br />
-*Effects*: Unleash an indiscriminate wave of force, knocking back everything nearby by 2 to 6 squares, plus 1 square per 10 power levels to 1 square per four power levels. This power affects item and allies as well as enemies.<br />
+*Effects*: Unleash an indiscriminate wave of force, knocking back everything nearby. Like Force Shove, the distance is based on the weight ratio: (power level * 55 kg) * Intelligence modifier * Nether Attunement modifier, divided by the target's weight in kg.  This power affects allies as well as enemies.<br />
 *Prerequisites*: Force Shove 7, Knockdown 4 <br />
 </details>
 <details>

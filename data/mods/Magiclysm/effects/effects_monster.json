@@ -25,5 +25,24 @@
       { "incoming_damage_mod": [ { "type": "heat", "multiply": 0.33 } ] },
       { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": -40 } ] }
     ]
+  },
+  {
+    "id": "effect_feral_animist_guardian_spirit",
+    "type": "effect_type",
+    "name": [ "Guardian Spirit" ],
+    "desc": [ "A spirit warns you that attacks are coming." ],
+    "rating": "good",
+    "max_duration": "12 hours",
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ 3 ] }
+  },
+  {
+    "id": "effect_feral_animist_inner_voice",
+    "type": "effect_type",
+    "name": [ "Inner Voice" ],
+    "desc": [ "You can talk with your soul." ],
+    "rating": "good",
+    "max_duration": "12 hours",
+    "show_in_info": true
   }
 ]

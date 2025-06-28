@@ -71,7 +71,7 @@
         "G": { "item": "cleaning", "chance": 70, "repeat": [ 1, 4 ] },
         "C": { "item": "petstore_misc", "chance": 70, "repeat": [ 2, 8 ] },
         "K": { "item": "petstore_misc", "chance": 70, "repeat": [ 2, 8 ] },
-        "d": { "item": "office", "chance": 50, "repeat": [ 2, 4 ] },
+        "d": { "item": "SUS_office_desk", "chance": 50 },
         "U": { "item": "SUS_trash_dumpster", "chance": 50 },
         "B": { "item": "SUS_toilet", "chance": 50 }
       },

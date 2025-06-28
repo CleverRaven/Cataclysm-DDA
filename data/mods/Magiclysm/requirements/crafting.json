@@ -25,6 +25,11 @@
     "extend": { "tools": [ [ [ "technomancer_welder", -1 ] ] ] }
   },
   {
+    "id": "repair_welding_lc_steel",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "technomancer_welder", -1 ] ] ] }
+  },
+  {
     "id": "pickaxe_list",
     "type": "requirement",
     "//": "Pickaxe tools",

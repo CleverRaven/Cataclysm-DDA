@@ -235,8 +235,8 @@
       },
       "toilets": { "&": {  } },
       "items": {
-        "I": { "item": "office", "chance": 30 },
-        "F": { "item": "SUS_office_filing_cabinet", "chance": 30 },
+        "I": { "item": "SUS_office_desk", "chance": 60 },
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 60 },
         "Y": { "item": "SUS_trash_trashcan", "chance": 20 },
         "M": { "item": "consumer_electronics", "chance": 70, "repeat": [ 1, 4 ] },
         "-": { "item": "consumer_electronics", "chance": 75, "repeat": [ 1, 4 ] },

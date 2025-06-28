@@ -2600,5 +2600,15 @@
     "type": "MIGRATION",
     "id": "draco_9mm",
     "replace": "rugerpcc"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ruger_charger",
+    "replace": "ruger_1022"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ruger_charger_auto",
+    "replace": "ruger_1022_auto"
   }
 ]
