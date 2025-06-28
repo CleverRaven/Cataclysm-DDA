@@ -2285,6 +2285,18 @@
   },
   {
     "type": "vehicle_part",
+    "id": "cargo_furniture_tiedown",
+    "name": { "str": "cargo space with furniture tiedowns" },
+    "copy-from": "cargo_space",
+    "//COMMENT": "We have to manually overwrite the size otherwise copy-from carries it along and we error.",
+    "size": "0 L",
+    "//COMMENT2": "This adds one metric ton whenever a furniture is being stored with this vehicle part. The extremely high value is because we don't know the actual weight of what we're storing (that is, furniture does not have weight) so we simply add a LOT of weight to make sure it's always enough.",
+    "stored_furniture_weight": "1000 kg",
+    "//COMMENT3": "It would be nice if this could either store loose items OR a furniture, but it doesn't work that way currently. So this is NOT cargo flagged.",
+    "flags": [ "BOARDABLE", "FURNITURE_TIEDOWN" ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "livestock_stall",
     "name": { "str": "livestock stall" },
     "categories": [ "passengers", "cargo" ],

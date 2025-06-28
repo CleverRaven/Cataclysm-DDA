@@ -449,6 +449,9 @@ class vpart_info
         /** cargo weight modifier (percentage) */
         int cargo_weight_modifier = 100;
 
+        /** weight added when tiedown part is carrying furniture  */
+        units::mass stored_furniture_weight = 0_kilogram;
+
         /*Comfort data for sleeping in vehicles*/
         int comfort = 0;
         units::temperature_delta floor_bedding_warmth = 0_C_delta;

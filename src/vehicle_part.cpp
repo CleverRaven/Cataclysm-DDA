@@ -14,6 +14,7 @@
 #include "game.h"
 #include "item.h"
 #include "itype.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "npc.h"
 #include "pocket_type.h"
@@ -119,8 +120,17 @@ std::string vehicle_part::name( bool with_prefix ) const
         res += string_format( _( "%d\" " ), base.type->wheel->diameter );
     }
     res += info().name();
+    // animal carrier
     if( base.has_var( "contained_name" ) ) {
         res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
+    }
+    // furniture tiedown
+    if( base.has_var( "tied_down_furniture" ) ) {
+        furn_str_id stored_furniture( base.get_var( "tied_down_furniture" ) );
+        if( !stored_furniture.is_valid() ) {
+            return res; // very bad, but furn_str_id constructor will error so we don't need debugmsg here
+        }
+        res += string_format( _( " holding %s" ), stored_furniture->name() );
     }
     for( const fault_id &f : base.faults ) {
         const std::string prefix = f->item_prefix();

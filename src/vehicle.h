@@ -2178,6 +2178,7 @@ class vehicle
         void use_washing_machine( map &here, int p );
         void use_dishwasher( map &here, int p );
         void use_monster_capture( int part, map *here, const tripoint_bub_ms &pos );
+        void use_tiedown_furniture( int part, map *here, const tripoint_bub_ms & );
         void use_harness( int part, map *here, const tripoint_bub_ms &pos );
 
         void build_electronics_menu( map &here, veh_menu &menu );

@@ -2828,6 +2828,9 @@ Unless specified as optional, the following fields are mandatory for parts with 
                               // and it needs to have consumable charges.
 ```
 
+#### The following optional fields are specific to FURNITURE_TIEDOWN parts.
+"stored_furniture_weight": "1000 kg",  // (Optional, default = 0kg) This much weight is added to the vehicle when *any* furniture is being carried by this part.
+
 #### The following optional fields are specific to WHEELs.
 ```jsonc
 "wheel_offroad_rating": 0.5,  // multiplier of wheel performance offroad
