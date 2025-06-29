@@ -111,28 +111,58 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab()
     return mod_list_cat_tab;
 }
 
-static std::unordered_map<mod_id, mod_id> migrated_mods;
-static std::unordered_set<mod_id> removed_mods;
 
-void mod_manager::load_replacement_mods( const JsonObject &jo )
+void mod_manager::load_mod_migrations( const JsonObject &jo )
 {
-    const bool is_removal = !jo.has_string( "new_id" );
     const mod_id old_id = jo.get_string( "id" );
     if( jo.has_string( "new_id" ) ) {
         const mod_id new_id = jo.get_string( "new_id" );
-        migrated_mods.insert( std::make_pair( old_id, new_id ) );
+        migrated_mods.insert( old_id, new_id );
     } else {
-        removed_mods.insert( old_id );
+        const translation removal_reason = jo.get_string( "removal_reason" );
+        removed_mods.insert( old_id, removal_reason );
     }
 }
 
-void mod_manager::reset_replacement_mods()
+void mod_manager::migrate_active_mods( std::vector<mod_id> &active_mods )
+{
+    for( auto active_mod_it = active_mods.begin(); active_mod_it != active_mods.end() ) {
+        auto migrated_mod_it = migrated_mods.find( *active_mod_it );
+        if( migrated_mod_it != migrated_mods.end() ) {
+            // Don't add migration target if it's already present in active_mods
+            if( std::find( active_mods.begin(), active_mods.end(),
+                           migrated_mod_it->second ) != active_mods.end() ) {
+                //TODO: Also add new dependencies? Could do with better tracking of dependencies and a general dependency consistency check for mod order
+                *active_mod_it = migrated_mod_it->second;
+                ++active_mod_it;
+            } else {
+                active_mods.erase( active_mod_it )
+            }
+        }
+    }
+}
+
+const std::map<mod_id, translation> &mod_manager::get_removed_mods() const
+{
+    return removed_mods;
+}
+
+void mod_manager::remove_active_mods( std::vector<mod_id> &active_mods,
+                                      std::vector<mod_id> &mods_to_remove ) const
+{
+    active_mods.erase( std::remove_if(
+    active_mods.begin(), active_mods.end(), [&mods_to_remove]( const auto e ) {
+        return mods_to_remove.find( e ) != mods_to_remove.end();
+    } ), active_mods.end() );
+}
+
+void mod_manager::reset_mod_migrations()
 {
     migrated_mods.clear();
     removed_mods.clear();
 }
 
-void mod_manager::check_replacement_mods()
+void mod_manager::check_mod_migrations()
 {
     for( const mod_id &migration : migrated_mods ) {
         if( !migration.second.is_valid() ) {
@@ -170,6 +200,7 @@ void mod_manager::clear()
     tree->clear();
     mod_map.clear();
     default_mods.clear();
+    reset_mod_migrations();
 }
 
 void mod_manager::refresh_mod_list()

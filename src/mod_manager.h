@@ -134,6 +134,14 @@ class mod_manager
             return usable_mods;
         }
 
+        void load_mod_migrations( const JsonObject &jo );
+        void migrate_active_mods( std::vector<mod_id> &active_mods );
+        const std::map<mod_id, translation> &get_removed_mods() const;
+        void remove_active_mods( std::vector<mod_id> &active_mods,
+                                 std::vector<mod_id> &mods_to_remove ) const;
+        void reset_mod_migrations();
+        void check_mod_migrations();
+
     private:
         // Make this accessible for now
         friend class mod_ui;
@@ -173,6 +181,9 @@ class mod_manager
          */
         std::map<mod_id, MOD_INFORMATION> mod_map;
         t_mod_list default_mods;
+
+        std::map<mod_id, mod_id> migrated_mods;
+        std::map<mod_id, translation> removed_mods;
 
         std::vector<mod_id> usable_mods;
 

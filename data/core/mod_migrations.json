@@ -3,12 +3,12 @@
     "type": "mod_migration",
     "//": "Removed in 0.H",
     "id": "No_Rail_Stations",
-    "reason": "Stations removed from vanilla and moved to \"railroads\" mod"
+    "removal_reason": "Stations removed from vanilla and moved to \"railroads\" mod"
   },
   {
     "type": "mod_migration",
     "//": "Removed in 0.I",
     "id": "Graphical_Overmap",
-    "reason": "Superceded by proper support for overmap tilesets"
+    "removal_reason": "Superceded by proper support for overmap tilesets"
   }
 ]

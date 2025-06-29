@@ -295,7 +295,7 @@ void DynamicDataLoader::initialize()
     add( "skill", &Skill::load_skill );
     add( "skill_display_type", &SkillDisplayType::load );
     add( "dream", &dream::load );
-    add( "mod_migration", &mod_manager::load_replacement_mods );
+    add( "mod_migration", &mod_manager::load_mod_migrations );
     add( "mutation_category", &mutation_category_trait::load );
     add( "mutation_type", &load_mutation_type );
     add( "mutation", &mutation_branch::load_trait );
@@ -650,6 +650,7 @@ void DynamicDataLoader::unload_data()
     morale_type_data::reset();
     mutation_branch::reset_all();
     mutation_category_trait::reset();
+    mod_manager::reset_mod_migrations();
     mutations_category.clear();
     npc_class::reset_npc_classes();
     npc_template::reset();
@@ -867,6 +868,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Climbing aid" ), &climbing_aid::check_consistency },
             { _( "Mutations" ), &mutation_branch::check_consistency },
             { _( "Mutation categories" ), &mutation_category_trait::check_consistency },
+            { _( "Mod migrations" ), &mod_manager::check_mod_migrations },
             { _( "Region settings" ), check_region_settings },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },

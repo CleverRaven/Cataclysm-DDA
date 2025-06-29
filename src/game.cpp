@@ -3421,14 +3421,18 @@ void game::load_world_modfiles()
 
 void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs )
 {
-    std::vector<mod_id> missing;
+    mod_manager &mod_manager = world_generator->get_mod_manager();
+    std::vector<mod_id> &mods = world_generator->active_world->active_mod_order;
+    mod_manager.migrate_active_mods( mods );
+
     std::vector<mod_id> available;
+    std::vector<mod_id> missing;
 
     for( const mod_id &e : packs ) {
         if( e.is_valid() ) {
             available.emplace_back( e );
         } else {
-            missing.push_back( e );
+            missing.emplace_back( e );
         }
     }
 
@@ -3447,28 +3451,25 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs 
         const MOD_INFORMATION &mod = *e;
         load_mod_interaction_data_from_dir( mod.path / "mod_interactions", mod.ident.str() );
     }
-    mod_manager &modm = world_generator->get_mod_manager();
-    modm.apply_migrations();
-    std::unordered_set<mod_id> mods_to_remove;
+
+    std::vector<mod_id> mods_to_remove;
     for( const mod_id &e : missing ) {
-        if( removed_mods.find( e ) == removed_mods.end() ) {
+        const std::map<mod_id, translation> &removed_mods = mod_manager.get_removed_mods();
+        auto it = removed_mods.find( e );
+        if( it == removed_mods.end() ) {
             if( query_yn( _( "Mod %s not found in mods folder, remove it from this world's modlist?" ),
                           e.c_str() ) ) {
-                mods_to_remove.insert( e );
+                mods_to_remove.emplace_back( e );
             }
-        } else if( query_yn( _( "Mod %s has been removed, remove it from this world's modlist?" ),
-                             e.c_str() ) ) {
-            mods_to_remove.insert( e );
+        } else if( query_yn(
+                       _( "Mod %s has been removed with reason: %s\nRemove it from this world's modlist?" ),
+                       e.c_str(), it->second.translated() ) ) {
+            mods_to_remove.emplace_back( e );
         }
     }
-    if( !mods_to_remove.empty() ) {
-        std::vector<mod_id> &mods = world_generator->active_world->active_mod_order;
-        world_generator->get_mod_manager()
-        mods.erase( std::remove_if( mods.begin(), mods.end(), [&mods_to_remove]( const auto e ) {
-            return mods_to_remove.find( e ) != mods_to_remove.end();
-        } ), mods.end() );
-        modm.save_mods_list( world_generator->active_world );
-    }
+
+    mod_manager.remove_active_mods( mods, mods_to_remove );
+    mod_manager.save_mods_list( world_generator->active_world );
 }
 
 void game::reset_npc_dispositions()
