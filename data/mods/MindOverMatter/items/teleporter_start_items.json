@@ -118,7 +118,7 @@
     "subtypes": [ "MAGAZINE" ],
     "name": { "str": "G-Tz77 power pack" },
     "description": "A power pack for the G-Tz77.",
-    "weight": "100 g",
+    "weight": "50 g",
     "volume": "45 ml",
     "material": [ "steel" ],
     "price": "100 USD",
@@ -482,5 +482,29 @@
         "weight": 1
       }
     ]
+  },
+  {
+    "id": "itzcuauhtli_pants_army",
+    "copy-from": "pants_army",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str_sp": "Itzcuāuhtli Corps combat uniform pants" },
+    "description": "The standard combat uniform of the Itzcuāuhtli Corps, in shades of dark green and grey.  "
+  },
+  {
+    "id": "itzcuauhtli_combat_shirt",
+    "copy-from": "combat_shirt",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str_sp": "Itzcuāuhtli Corps combat uniform shirt" },
+    "description": "A tough pair of pants lined with pockets.  Favored by the military."
+  },
+  {
+    "id": "itzcuauhtli_jacket_army_modern",
+    "copy-from": "jacket_army_modern",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str_sp": "Itzcuāuhtli Corps combat uniform jacket" },
+    "description": "A tough pair of pants lined with pockets.  Favored by the military."
   }
 ]

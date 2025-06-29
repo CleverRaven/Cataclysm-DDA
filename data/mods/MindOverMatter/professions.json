@@ -714,8 +714,8 @@
   {
     "type": "profession",
     "id": "psi_fifth_sun_cuauhpilli_special_forces",
-    "name": "Cuauhpilli Trooper",
-    "description": "You were on guard duty when the ship was preparing to enter Tliltilhuicaātl and had just braced for the jump when something went wrong.  The ship seemed like it was turning inside out, then you seemed like you were turning inside out, and suddenly you were planetside.  You've served the Excān Tlahtōlōyān on a dozen worlds, taken five captives, and even have clearance for contact with huecachane civilizations, but none of that has prepared you for the Cataclysm",
+    "name": "Cuāuhpilli Trooper",
+    "description": "You were on guard duty when the ship was preparing to enter Tliltilhuicaātl and had just braced for the jump when something went wrong.  The ship seemed like it was turning inside out, then you seemed like you were turning inside out, and suddenly you were planetside in the ruins of a dying world.  You've served the Excān Tlahtōlōyān on a dozen worlds, taken five captives, and even have clearance for contact with huecachane civilizations, but none of that has prepared you for the Cataclysm",
     "points": 10,
     "proficiencies": [
       "prof_spotting",
@@ -736,21 +736,30 @@
       { "level": 4, "name": "survival" },
       { "level": 4, "name": "speech" }
     ],
+    "CBMs": [ "bio_dangersight_eyes_standard", "bio_power_storage_fifth_sun", "bio_metabolics_fifth_sun" ],
     "traits": [ "FIFTH_SUN_PEOPLE" ],
     "items": {
       "both": {
         "entries": [
-          { "item": "dress_shirt" },
-          { "item": "pants" },
+          {
+            "item": "mom_lightning_rifle",
+            "variant": "mom_lightning_rifle_standard",
+            "ammo-item": "mom_lightning_rifle_ammo",
+            "charges": 120
+          },
           { "item": "socks" },
-          { "item": "dress_shoes" },
-          { "item": "wristwatch" },
-          { "item": "flyer" },
-          { "item": "flyer" },
-          { "item": "flyer" },
-          { "item": "holy_symbol" },
-          { "item": "matrix_crystal_drained" },
-          { "group": "charged_smart_phone" }
+          { "item": "itzcuauhtli_boots", "variant": "itzcuauhtli_boots_standard" },
+          { "item": "itzcuauhtli_holster" },
+          { "item": "itzcuauhtli_pants_army" },
+          { "item": "itzcuauhtli_combat_shirt" },
+          { "item": "itzcuauhtli_jacket_army_modern" },
+          { "item": "legpouch_large", "contents-group": "lightning_rifle_ammo_mags" },
+          { "item": "mom_fifth_sun_standard_body_armor", "charges": 672 },
+          {
+            "item": "itzcuauhtli_wrist_computer",
+            "variant": "itzcuauhtli_wrist_computer_standard",
+            "charges": [ 7000, 10000 ]
+          }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -785,6 +794,15 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "lightning_rifle_ammo_mags",
+    "entries": [
+      { "item": "mom_lightning_rifle_mag", "ammo-item": "mom_lightning_rifle_ammo", "charges": 120 },
+      { "item": "mom_lightning_rifle_mag", "ammo-item": "mom_lightning_rifle_ammo", "charges": 120 }
     ]
   },
   {
