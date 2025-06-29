@@ -139,6 +139,7 @@ class mod_manager
         const std::vector<mod_id> &get_usable_mods() const {
             return usable_mods;
         }
+
     private:
         // Make this accessible for now
         friend class mod_ui;
