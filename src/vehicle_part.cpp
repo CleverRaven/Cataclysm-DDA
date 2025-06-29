@@ -127,10 +127,13 @@ std::string vehicle_part::name( bool with_prefix ) const
     // furniture tiedown
     if( base.has_var( "tied_down_furniture" ) ) {
         furn_str_id stored_furniture( base.get_var( "tied_down_furniture" ) );
-        if( !stored_furniture.is_valid() ) {
-            return res; // very bad, but furn_str_id constructor will error so we don't need debugmsg here
+        if( stored_furniture.is_valid() ) {
+            res += string_format( _( " holding %s" ), stored_furniture->name() );
+        } else {
+            // no debugmsg or else it will trigger every frame, essentially forcing (i)gnore error to exit the menu at all
+            //~Invalid here means it doesn't refer to a real furn_str_id, i.e. something is wrong with the game. This is not a state the player should normally encounter.
+            res += _( " holding invalid furniture" );
         }
-        res += string_format( _( " holding %s" ), stored_furniture->name() );
     }
     for( const fault_id &f : base.faults ) {
         const std::string prefix = f->item_prefix();

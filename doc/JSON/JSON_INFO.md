@@ -2828,9 +2828,6 @@ Unless specified as optional, the following fields are mandatory for parts with 
                               // and it needs to have consumable charges.
 ```
 
-#### The following optional fields are specific to FURNITURE_TIEDOWN parts.
-"stored_furniture_weight": "1000 kg",  // (Optional, default = 0kg) This much weight is added to the vehicle when *any* furniture is being carried by this part.
-
 #### The following optional fields are specific to WHEELs.
 ```jsonc
 "wheel_offroad_rating": 0.5,  // multiplier of wheel performance offroad
@@ -3190,6 +3187,7 @@ Examples from the actual definitions:
     "deployed_item": "plastic_sheet",
     "light_emitted": 5,
     "required_str": 18,
+    "mass": "60 kg",
     "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD" ],
     "connect_groups" : [ "WALL" ],
     "connects_to" : [ "WALL" ],
@@ -3360,6 +3358,10 @@ oxytorch: {
 #### `required_str`
 
 Strength required to move the furniture around. Negative values indicate an unmovable furniture.
+
+#### `mass`
+
+(Optional) Defaults 1000 kilograms. The weight of this furniture.
 
 #### `crafting_pseudo_item`
 

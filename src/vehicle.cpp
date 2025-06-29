@@ -8329,10 +8329,10 @@ void vehicle::calc_mass_center( map &here, bool use_precalc ) const
         if( vp.part().info().cargo_weight_modifier != 100 ) {
             m_part_items *= static_cast<float>( vp.part().info().cargo_weight_modifier ) / 100.0f;
         }
-        if( vp.part().info().stored_furniture_weight > 0_gram &&
+        if( vp.has_feature( "FURNITURE_TIEDOWN" ) &&
             vp.part().get_base().has_var( "tied_down_furniture" ) ) {
-            // FIXME: Always applies a static weight, regardless of whether a chair or a safe is loaded!
-            m_part_items += vp.part().info().stored_furniture_weight;
+            furn_str_id carried_furniture( vp.part().get_base().get_var( "tied_down_furniture" ) );
+            m_part_items += carried_furniture->mass;
         }
         m_part += m_part_items;
 

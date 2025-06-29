@@ -707,6 +707,7 @@ struct furn_t : map_data_common_t {
     itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req = 0; //The amount of strength required to move through this furniture easily.
+    units::mass mass = 0_gram;
 
     cata::value_ptr<activity_data_furn> boltcut; // Bolt cutting action data
     cata::value_ptr<activity_data_furn> hacksaw; // Hacksaw action data
