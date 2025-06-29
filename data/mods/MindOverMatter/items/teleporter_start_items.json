@@ -74,7 +74,7 @@
     "subtypes": [ "GUN" ],
     "reload_noise_volume": 0,
     "name": { "str": "G-Tz77 \"Tlapetlaniliztli\" battle rifle" },
-    "description": "A shipboard battle rifle, whose non-kinetic ammunition was designed to avoid puncturing ship hulls during engagements.  The G-Tz77 has been a mainstay of the Imperial Navy for decades at this point and seen service on the surface of and in orbit around dozens of worlds.  This is just one more in its long history of protecting the Excan Tlahtoloyan.",
+    "description": "A shipboard battle rifle, whose non-kinetic ammunition was designed to avoid puncturing ship hulls during engagements.  The G-Tz77 has been a mainstay of the Imperial Navy for decades at this point and seen service on the surface of and in orbit around dozens of worlds.  This is just one more in its long history of protecting the Ēxcān Tlahtōlōyān.",
     "weight": "2950 g",
     "volume": "3 L",
     "longest_side": "900 mm",
@@ -103,7 +103,7 @@
       {
         "id": "mom_lightning_rifle_standard",
         "name": { "str": "G-Tz77 \"Tlapetlaniliztli\" battle rifle" },
-        "description": "A shipboard battle rifle, whose non-kinetic ammunition was designed to avoid puncturing ship hulls during engagements.  The G-Tz77 has been a mainstay of the Imperial Navy for decades at this point and seen service on the surface of and in orbit around dozens of worlds.  This is just one more in its long history of protecting the Excan Tlahtoloyan."
+        "description": "A shipboard battle rifle, whose non-kinetic ammunition was designed to avoid puncturing ship hulls during engagements.  The G-Tz77 has been a mainstay of the Imperial Navy for decades at this point and seen service on the surface of and in orbit around dozens of worlds.  This is just one more in its long history of protecting the Ēxcān Tlahtōlōyān."
       },
       {
         "id": "mom_lightning_rifle_non_fifth_sun",
@@ -318,8 +318,8 @@
     "copy-from": "cloak",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "Itzcuauhtli Corps tilmàtli" },
-    "description": "A formal dress cape for the Itzcuauhtli Corps in crimson and gold, with the eagle's head over a field of stars insignia on the left shoulder, worn by generations of those who sought out new worlds in service to the Huey Tlatoani and the Excan Tlahtoloyan.  You're pretty sure this is the furthest anyone wearing one has ever been from Anáhuac.",
+    "name": { "str_sp": "Itzcuāuhtli Corps tilmàtli" },
+    "description": "A formal dress cape for the Itzcuāuhtli Corps in crimson and gold, with the eagle's head over a field of stars insignia on the left shoulder, worn by generations of those who sought out new worlds in service to the Huey Tlatoani and the Ēxcān Tlahtōlōyān.  You're pretty sure this is the furthest anyone wearing one has ever been from Anáhuac.",
     "delete": { "flags": [ "HOOD" ] }
   },
   {
@@ -328,7 +328,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "Imperial navy cap" },
-    "description": "A flat crimson hat worn by members of the Imperial navy at formal events.  This one has the black circle of the Yohualli Èhecatl on it."
+    "description": "A flat crimson hat worn by members of the Imperial navy at formal events.  This one has the black circle of the Yohualli Ehēcatl on it."
   },
   {
     "id": "itzcuauhtli_holster",
@@ -386,13 +386,13 @@
     "copy-from": "pants",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "Itzcuauhtli Corps pants" },
+    "name": { "str_sp": "Itzcuāuhtli Corps pants" },
     "description": "A set of gold and crimson uniform pants.  The days of wearing only a maxtlatl are gone following the expansion of the empire out from Anáhuac, and considering the local climate, you're grateful for it.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "itzcuauhtli_pants_standard",
-        "name": { "str_sp": "Itzcuauhtli Corps pants" },
+        "name": { "str_sp": "Itzcuāuhtli Corps pants" },
         "description": "A set of gold and crimson uniform pants.  The days of wearing only a maxtlatl are gone following the expansion of the empire out from Anáhuac, and considering the local climate, you're grateful for it.",
         "weight": 1
       },

@@ -31,6 +31,7 @@
     ],
     "professions": [ "psi_teleporter_slider" ],
     "reveal_locale": false,
+    "requirement": "mom_psi_awakening_teleportation",
     "flags": [ "LONE_START" ]
   },
   {
@@ -66,6 +67,8 @@
       "knack_electrokinetic_pain_immune",
       "knack_electrokinetic_hacking_interface",
       "knack_photokinetic_camouflage",
+      "knack_photokinetic_hide_ugly",
+      "knack_photokinetic_radio",
       "knack_pyrokinetic_flash",
       "knack_pyrokinetic_call_flames",
       "knack_pyrokinetic_cloak",
@@ -84,6 +87,7 @@
       "knack_vita_cure_disease"
     ],
     "forced_traits": [ "PSYCHIC_KNACK", "PYROMANIA", "SCEN_HEART_OF_FIRE" ],
+    "requirement": "mom_learn_torrential_channeling",
     "flags": [ "CHALLENGE" ],
     "eoc": [ "EOC_MOM_SCEN_HEART_OF_FIRE_INITIATE" ]
   }
