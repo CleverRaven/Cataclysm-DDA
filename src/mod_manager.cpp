@@ -459,14 +459,14 @@ void mod_manager::load_mods_list( WORLD *world ) const
                     changed = true;
                 } else if( const auto it = removed_mods.find( mod ); it != removed_mods.end() ) {
                     if( !query_yn(
-                            _( "Mod %s has been removed with reason: %s\nRemove it from this world's modlist?" ),
+                            _( "Mod %s has been removed with reason: %s\nRemove it from this world's active mods?" ),
                             mod.c_str(), it->second.translated() ) ) {
                         amo.push_back( mod );
                     } else {
                         changed = true;
                     }
                 } else {
-                    if( !query_yn( _( "Mod %s not found in mods folder, remove it from this world's modlist?" ),
+                    if( !query_yn( _( "Mod %s not found in mods folder, remove it from this world's active mods?" ),
                                    mod.c_str() ) ) {
                         amo.push_back( mod );
                     } else {
