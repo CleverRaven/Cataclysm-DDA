@@ -26,7 +26,7 @@ static const itype_id itype_9mm( "9mm" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_debug_modular_m4_carbine( "debug_modular_m4_carbine" );
 static const itype_id itype_glockmag( "glockmag" );
-static const itype_id itype_stanag30( "stanag30" );
+static const itype_id itype_stanag10( "stanag10" );
 static const itype_id itype_sw_619( "sw_619" );
 
 // NOLINTNEXTLINE(readability-function-size)
@@ -37,9 +37,9 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
     const itype_id ammo_id = itype_556; // any type of compatible ammo
     const itype_id alt_ammo = itype_223; // any alternative type of compatible ammo
     const itype_id bad_ammo = itype_9mm; // any type of incompatible ammo
-    const itype_id mag_id = itype_stanag30; // must be set to default magazine
+    const itype_id mag_id = itype_stanag10; // must be set to default magazine
     const itype_id bad_mag = itype_glockmag; // any incompatible magazine
-    const int mag_cap = 30; // amount of bullets that fit into default magazine
+    const int mag_cap = 10; // amount of bullets that fit into default magazine
 
     CHECK( ammo_id != alt_ammo );
     CHECK( ammo_id != bad_ammo );
@@ -57,7 +57,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
     const item ammo_it( itype_556 ); // any type of compatible ammo
     const item alt_ammo_it( itype_223 ); // any alternative type of compatible ammo
     const item bad_ammo_it( itype_9mm ); // any type of incompatible ammo
-    const item mag_it( itype_stanag30 ); // must be set to default magazine
+    const item mag_it( itype_stanag10 ); // must be set to default magazine
     const item bad_mag_it( itype_glockmag ); // any incompatible magazine
     CHECK( mag->is_magazine() );
     CHECK( mag->is_reloadable() );
