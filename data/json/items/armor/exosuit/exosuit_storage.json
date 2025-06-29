@@ -2,7 +2,7 @@
   {
     "id": "exo_rifle_storage",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "back_holster",
     "looks_like": "slingpack",
     "color": "light_gray",
