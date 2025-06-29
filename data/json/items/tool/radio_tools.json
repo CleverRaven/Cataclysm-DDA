@@ -202,5 +202,25 @@
       }
     ],
     "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "balthazar_radio",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "modified radio" },
+    "description": "A modified portable radio.  A mess of metal and wires has been attached to the back and the frequency dial has been removed.",
+    "//": "Slightly heavier and bulkier since it has had a block attached to the back",
+    "weight": "325 g",
+    "volume": "1250 mL",
+    "price": 1000,
+    "price_postapoc": 200,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
+    "use_action": [ "ENCRYPTED_CHAT" ]
   }
 ]
