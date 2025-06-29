@@ -714,7 +714,7 @@
   {
     "type": "profession",
     "id": "psi_fifth_sun_cuauhpilli_special_forces",
-    "name": "Cuāuhpilli Trooper",
+    "name": "Cuāuhpilli Special Forces",
     "description": "You were on guard duty when the ship was preparing to enter Tliltilhuicaātl and had just braced for the jump when something went wrong.  The ship seemed like it was turning inside out, then you seemed like you were turning inside out, and suddenly you were planetside in the ruins of a dying world.  You've served the Excān Tlahtōlōyān on a dozen worlds, taken five captives, and even have clearance for contact with huecachane civilizations, but none of that has prepared you for the Cataclysm",
     "points": 10,
     "proficiencies": [
@@ -736,7 +736,12 @@
       { "level": 4, "name": "survival" },
       { "level": 4, "name": "speech" }
     ],
-    "CBMs": [ "bio_dangersight_eyes_standard", "bio_power_storage_fifth_sun", "bio_metabolics_fifth_sun" ],
+    "CBMs": [
+      "bio_dangersight_eyes_standard",
+      "bio_power_storage_fifth_sun",
+      "bio_metabolics_fifth_sun",
+      "bio_physical_buffs_fifth_sun"
+    ],
     "traits": [ "FIFTH_SUN_PEOPLE" ],
     "items": {
       "both": {
