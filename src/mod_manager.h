@@ -82,6 +82,12 @@ std::string get_origin( const std::vector<std::pair<src_id, mod_id>> &src )
     return string_format( _( "Origin: %s" ), origin_str );
 }
 
+struct mod_migrations {
+    static void load( const JsonObject &jo );
+    static void check();
+    static void reset();
+};
+
 class mod_manager
 {
     public:
@@ -133,12 +139,7 @@ class mod_manager
         const std::vector<mod_id> &get_usable_mods() const {
             return usable_mods;
         }
-
-        void load_mod_migrations( const JsonObject &jo );
-        void check_mod_migrations();
-
     private:
-        void reset_mod_migrations();
         // Make this accessible for now
         friend class mod_ui;
         friend class worldfactory;
@@ -176,9 +177,6 @@ class mod_manager
          */
         std::map<mod_id, MOD_INFORMATION> mod_map;
         t_mod_list default_mods;
-
-        std::map<mod_id, mod_id> migrated_mods;
-        std::map<mod_id, translation> removed_mods;
 
         std::vector<mod_id> usable_mods;
 

@@ -112,8 +112,10 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab()
     return mod_list_cat_tab;
 }
 
+static std::map<mod_id, mod_id> migrated_mods;
+static std::map<mod_id, translation> removed_mods;
 
-void mod_manager::load_mod_migrations( const JsonObject &jo )
+void mod_migrations::load( const JsonObject &jo )
 {
     const mod_id old_id( jo.get_string( "id" ) );
     if( jo.has_string( "new_id" ) ) {
@@ -126,13 +128,13 @@ void mod_manager::load_mod_migrations( const JsonObject &jo )
     }
 }
 
-void mod_manager::reset_mod_migrations()
+void mod_migrations::reset()
 {
     migrated_mods.clear();
     removed_mods.clear();
 }
 
-void mod_manager::check_mod_migrations()
+void mod_migrations::check()
 {
     for( const auto &migration : migrated_mods ) {
         if( !migration.second.is_valid() ) {
@@ -170,7 +172,8 @@ void mod_manager::clear()
     tree->clear();
     mod_map.clear();
     default_mods.clear();
-    reset_mod_migrations();
+    migrated_mods.clear();
+    removed_mods.clear();
 }
 
 void mod_manager::refresh_mod_list()
@@ -471,7 +474,6 @@ void mod_manager::load_mods_list( WORLD *world ) const
     if( changed ) {
         save_mods_list( world );
     }
-    reset_mod_migrations();
 }
 
 const mod_manager::t_mod_list &mod_manager::get_default_mods() const
