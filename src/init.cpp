@@ -295,7 +295,6 @@ void DynamicDataLoader::initialize()
     add( "skill", &Skill::load_skill );
     add( "skill_display_type", &SkillDisplayType::load );
     add( "dream", &dream::load );
-    add( "mod_migration", &mod_manager::load_mod_migrations );
     add( "mutation_category", &mutation_category_trait::load );
     add( "mutation_type", &load_mutation_type );
     add( "mutation", &mutation_branch::load_trait );
@@ -463,6 +462,7 @@ void DynamicDataLoader::initialize()
     add( "weakpoint_set", &weakpoints::load_weakpoint_sets );
     add( "damage_type", &damage_type::load_damage_types );
     add( "damage_info_order", &damage_info_order::load_damage_info_orders );
+    add( "mod_migration", world_generator->get_mod_manager().load_mod_migrations );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -650,7 +650,6 @@ void DynamicDataLoader::unload_data()
     morale_type_data::reset();
     mutation_branch::reset_all();
     mutation_category_trait::reset();
-    mod_manager::reset_mod_migrations();
     mutations_category.clear();
     npc_class::reset_npc_classes();
     npc_template::reset();
@@ -868,7 +867,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Climbing aid" ), &climbing_aid::check_consistency },
             { _( "Mutations" ), &mutation_branch::check_consistency },
             { _( "Mutation categories" ), &mutation_category_trait::check_consistency },
-            { _( "Mod migrations" ), &mod_manager::check_mod_migrations },
+            { _( "Mod migrations" ), world_generator->get_mod_manager().check_mod_migrations },
             { _( "Region settings" ), check_region_settings },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },

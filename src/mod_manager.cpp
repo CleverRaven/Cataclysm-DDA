@@ -16,6 +16,7 @@
 #include "flexbuffer_json.h"
 #include "json.h"
 #include "localized_comparator.h"
+#include "output.h"
 #include "path_info.h"
 #include "string_formatter.h"
 #include "worldfactory.h"
@@ -114,46 +115,15 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab()
 
 void mod_manager::load_mod_migrations( const JsonObject &jo )
 {
-    const mod_id old_id = jo.get_string( "id" );
+    const mod_id old_id( jo.get_string( "id" ) );
     if( jo.has_string( "new_id" ) ) {
-        const mod_id new_id = jo.get_string( "new_id" );
-        migrated_mods.insert( old_id, new_id );
+        const mod_id new_id( jo.get_string( "new_id" ) );
+        migrated_mods.insert( std::make_pair( old_id, new_id ) );
     } else {
-        const translation removal_reason = jo.get_string( "removal_reason" );
-        removed_mods.insert( old_id, removal_reason );
+        translation removal_reason;
+        jo.read( "removal_reason", removal_reason );
+        removed_mods.insert( std::make_pair( old_id, removal_reason ) );
     }
-}
-
-void mod_manager::migrate_active_mods( std::vector<mod_id> &active_mods )
-{
-    for( auto active_mod_it = active_mods.begin(); active_mod_it != active_mods.end() ) {
-        auto migrated_mod_it = migrated_mods.find( *active_mod_it );
-        if( migrated_mod_it != migrated_mods.end() ) {
-            // Don't add migration target if it's already present in active_mods
-            if( std::find( active_mods.begin(), active_mods.end(),
-                           migrated_mod_it->second ) != active_mods.end() ) {
-                //TODO: Also add new dependencies? Could do with better tracking of dependencies and a general dependency consistency check for mod order
-                *active_mod_it = migrated_mod_it->second;
-                ++active_mod_it;
-            } else {
-                active_mods.erase( active_mod_it )
-            }
-        }
-    }
-}
-
-const std::map<mod_id, translation> &mod_manager::get_removed_mods() const
-{
-    return removed_mods;
-}
-
-void mod_manager::remove_active_mods( std::vector<mod_id> &active_mods,
-                                      std::vector<mod_id> &mods_to_remove ) const
-{
-    active_mods.erase( std::remove_if(
-    active_mods.begin(), active_mods.end(), [&mods_to_remove]( const auto e ) {
-        return mods_to_remove.find( e ) != mods_to_remove.end();
-    } ), active_mods.end() );
 }
 
 void mod_manager::reset_mod_migrations()
@@ -164,7 +134,7 @@ void mod_manager::reset_mod_migrations()
 
 void mod_manager::check_mod_migrations()
 {
-    for( const mod_id &migration : migrated_mods ) {
+    for( const auto &migration : migrated_mods ) {
         if( !migration.second.is_valid() ) {
             debugmsg( "mod_migration from '%s' specifies invalid new_id '%s'", migration.first.c_str(),
                       migration.second.c_str() );
@@ -230,21 +200,6 @@ void mod_manager::refresh_mod_list()
         mod_dependency_map[elem.second.ident] = std::vector<mod_id>( deps.begin(), deps.end() );
     }
     tree->init( mod_dependency_map );
-}
-
-void mod_manager::remove_mod( const mod_id &ident )
-{
-    const auto a = mod_map.find( ident );
-    if( a != mod_map.end() ) {
-        mod_map.erase( a );
-    }
-}
-
-void mod_manager::remove_invalid_mods( std::vector<mod_id> &mods ) const
-{
-    mods.erase( std::remove_if( mods.begin(), mods.end(), [this]( const mod_id & mod ) {
-        return mod_map.count( mod ) == 0;
-    } ), mods.end() );
 }
 
 bool mod_manager::set_default_mods( const mod_id &ident )
@@ -479,28 +434,44 @@ void mod_manager::load_mods_list( WORLD *world ) const
     }
     std::vector<mod_id> &amo = world->active_mod_order;
     amo.clear();
-    bool obsolete_mod_found = false;
+    bool changed = false;
     read_from_file_optional_json( get_mods_list_file( world ), [&]( const JsonArray & jsin ) {
         for( const std::string line : jsin ) {
             const mod_id mod( line );
             if( std::find( amo.begin(), amo.end(), mod ) != amo.end() ) {
                 continue;
             }
-            const auto iter = mod_replacements.find( mod );
-            if( iter != mod_replacements.end() ) {
-                if( !iter->second.is_empty() ) {
-                    amo.push_back( iter->second );
+            if( mod.is_valid() ) {
+                amo.push_back( mod );
+            } else {
+                if( const auto it = migrated_mods.find( mod ); it != migrated_mods.end() &&
+                    std::find( amo.begin(), amo.end(), it->second ) == amo.end() ) {
+                    amo.push_back( it->second );
+                    changed = true;
+                } else if( const auto it = removed_mods.find( mod ); it != removed_mods.end() ) {
+                    if( !query_yn(
+                            _( "Mod %s has been removed with reason: %s\nRemove it from this world's modlist?" ),
+                            mod.c_str(), it->second.translated() ) ) {
+                        amo.push_back( mod );
+                    } else {
+                        changed = true;
+                    }
+                } else {
+                    if( !query_yn( _( "Mod %s not found in mods folder, remove it from this world's modlist?" ),
+                                   mod.c_str() ) ) {
+                        amo.push_back( mod );
+                    } else {
+                        changed = true;
+                    }
                 }
-                obsolete_mod_found = true;
-                continue;
             }
-            amo.push_back( mod );
         }
     } );
-    if( obsolete_mod_found ) {
-        // If we found an obsolete mod, overwrite the mod list without the obsolete one.
+    // If we migrated or the player chose to remove a mod, overwrite the mod list.
+    if( changed ) {
         save_mods_list( world );
     }
+    reset_mod_migrations();
 }
 
 const mod_manager::t_mod_list &mod_manager::get_default_mods() const

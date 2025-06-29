@@ -135,14 +135,10 @@ class mod_manager
         }
 
         void load_mod_migrations( const JsonObject &jo );
-        void migrate_active_mods( std::vector<mod_id> &active_mods );
-        const std::map<mod_id, translation> &get_removed_mods() const;
-        void remove_active_mods( std::vector<mod_id> &active_mods,
-                                 std::vector<mod_id> &mods_to_remove ) const;
-        void reset_mod_migrations();
         void check_mod_migrations();
 
     private:
+        void reset_mod_migrations();
         // Make this accessible for now
         friend class mod_ui;
         friend class worldfactory;
@@ -172,7 +168,6 @@ class mod_manager
         void load_modfile( const JsonObject &jo, const cata_path &path );
 
         bool set_default_mods( const mod_id &ident );
-        void remove_mod( const mod_id &ident );
 
         pimpl<dependency_tree> tree;
 

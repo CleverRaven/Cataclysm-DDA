@@ -3421,55 +3421,26 @@ void game::load_world_modfiles()
 
 void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs )
 {
-    mod_manager &mod_manager = world_generator->get_mod_manager();
-    std::vector<mod_id> &mods = world_generator->active_world->active_mod_order;
-    mod_manager.migrate_active_mods( mods );
-
-    std::vector<mod_id> available;
-    std::vector<mod_id> missing;
-
-    for( const mod_id &e : packs ) {
-        if( e.is_valid() ) {
-            available.emplace_back( e );
-        } else {
-            missing.emplace_back( e );
+    for( const auto &mod : packs ) {
+        // Suppress missing mods the player chose to leave in the modlist
+        if( !mod.is_valid() ) {
+            continue;
         }
-    }
-
-    for( const auto &e : available ) {
-        loading_ui::show( msg, e->name() );
-        const MOD_INFORMATION &mod = *e;
+        loading_ui::show( msg, mod->name() );
         restore_on_out_of_scope restore_check_plural( check_plural );
-        if( mod.ident.str() == "test_data" ) {
+        if( mod.str() == "test_data" ) {
             check_plural = check_plural_t::none;
         }
-        load_mod_data_from_dir( mod.path, mod.ident.str() );
+        load_mod_data_from_dir( mod->path, mod.str() );
     }
 
-    for( const auto &e : available ) {
-        loading_ui::show( msg, e->name() );
-        const MOD_INFORMATION &mod = *e;
-        load_mod_interaction_data_from_dir( mod.path / "mod_interactions", mod.ident.str() );
-    }
-
-    std::vector<mod_id> mods_to_remove;
-    for( const mod_id &e : missing ) {
-        const std::map<mod_id, translation> &removed_mods = mod_manager.get_removed_mods();
-        auto it = removed_mods.find( e );
-        if( it == removed_mods.end() ) {
-            if( query_yn( _( "Mod %s not found in mods folder, remove it from this world's modlist?" ),
-                          e.c_str() ) ) {
-                mods_to_remove.emplace_back( e );
-            }
-        } else if( query_yn(
-                       _( "Mod %s has been removed with reason: %s\nRemove it from this world's modlist?" ),
-                       e.c_str(), it->second.translated() ) ) {
-            mods_to_remove.emplace_back( e );
+    for( const auto &mod : packs ) {
+        if( !mod.is_valid() ) {
+            continue;
         }
+        loading_ui::show( msg, mod->name() );
+        load_mod_interaction_data_from_dir( mod->path / "mod_interactions", mod.str() );
     }
-
-    mod_manager.remove_active_mods( mods, mods_to_remove );
-    mod_manager.save_mods_list( world_generator->active_world );
 }
 
 void game::reset_npc_dispositions()
