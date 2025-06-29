@@ -1,14 +1,38 @@
 [
   {
     "type": "mod_migration",
-    "//": "Removed in 0.H",
-    "id": "No_Rail_Stations",
-    "removal_reason": "Stations removed from vanilla and moved to \"railroads\" mod"
+    "//": "Removed in 0.I",
+    "id": "Graphical_Overmap",
+    "removal_reason": "Superceded by proper support for overmap tilesets through settings."
   },
   {
     "type": "mod_migration",
     "//": "Removed in 0.I",
-    "id": "Graphical_Overmap",
-    "removal_reason": "Superceded by proper support for overmap tilesets"
+    "id": "no_fungal_growth",
+    "removal_reason": "Changes merged with vanilla making this mod redundant."
+  },
+  {
+    "type": "mod_migration",
+    "//": "Removed in 0.I",
+    "id": "StatsThroughSkills",
+    "removal_reason": "Removed the hardcode to support this, EOC alternatives are available out of repo eg Erin105/StatsThroughSkills."
+  },
+  {
+    "type": "mod_migration",
+    "//": "Removed in 0.I",
+    "id": "sees_player_retro",
+    "removal_reason": "Superceded by \"Show overlay icons over creatures\" option."
+  },
+  {
+    "type": "mod_migration",
+    "//": "Removed in 0.I",
+    "id": "sees_player_hitbutton",
+    "removal_reason": "Superceded by \"Show overlay icons over creatures\" option."
+  },
+  {
+    "type": "mod_migration",
+    "//": "Removed in 0.H",
+    "id": "No_Rail_Stations",
+    "removal_reason": "Stations removed from vanilla and moved to \"railroads\" mod making this mod redundant."
   }
 ]
