@@ -2271,7 +2271,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 12 ] ] }
     },
-    "flags": [ "BOARDABLE", "CARGO", "COVERED", "HUGE_OK" ],
+    "flags": [ "BOARDABLE", "CARGO", "COVERED", "HUGE_OK", "FURNITURE_TIEDOWN" ],
     "breaks_into": [
       { "item": "mc_steel_lump", "count": [ 12, 19 ] },
       { "item": "mc_steel_chunk", "count": [ 7, 12 ] },
@@ -2282,16 +2282,6 @@
     ],
     "damage_reduction": { "all": 28 },
     "variants": [ { "symbols": "=", "symbols_broken": "#" } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "cargo_furniture_tiedown",
-    "name": { "str": "cargo space with furniture tiedowns" },
-    "copy-from": "cargo_space",
-    "//COMMENT": "We have to manually overwrite the size otherwise copy-from carries it along and we error.",
-    "size": "0 L",
-    "//COMMENT2": "It would be nice if this could either store loose items OR a furniture, but it doesn't work that way currently. So this is NOT cargo flagged.",
-    "flags": [ "BOARDABLE", "FURNITURE_TIEDOWN" ]
   },
   {
     "type": "vehicle_part",

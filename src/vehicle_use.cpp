@@ -1678,8 +1678,14 @@ void vehicle::use_tiedown_furniture( int part, map *here, const tripoint_bub_ms 
 
     // Use a copy of the item because get_base() returns a const reference for safety
     item base_copy = item( parts[part].get_base() );
+    const bool will_unload_furniture = base_copy.has_var( item_var_string );
 
-    if( base_copy.has_var( item_var_string ) ) {
+    if( !get_items( parts[part] ).empty() && !will_unload_furniture ) {
+        add_msg( m_warning, _( "Can't store furniture while there are items in the way." ) );
+        return;
+    }
+
+    if( will_unload_furniture ) {
         place_carried_furniture( here, base_copy, item_var_string );
     } else {
         pickup_furniture_for_carry( here, base_copy, item_var_string );

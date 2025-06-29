@@ -183,6 +183,7 @@ class vehicle_stack : public item_stack
         void insert( map &here, const item &newitem ) override;
         int count_limit() const override;
         units::volume max_volume() const override;
+        units::volume stored_volume() const override;
 };
 
 enum towing_point_side : int {
