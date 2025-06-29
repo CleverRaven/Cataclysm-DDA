@@ -187,7 +187,7 @@
       "items": { "Y": { "item": "coat_rack", "chance": 40, "repeat": 2 } },
       "place_items": [
         { "chance": 45, "item": "SUS_fridge", "x": 20, "y": 20 },
-        { "chance": 15, "repeat": [ 1, 3 ], "item": "SUS_trash_floor", "x": 19, "y": 15 },
+        { "chance": 15, "item": "SUS_trash_trashcan_public", "x": 19, "y": 15 },
         { "chance": 50, "item": "vending_drink_items", "x": 15, "y": 20 },
         { "chance": 50, "item": "vending_drink_items", "x": 16, "y": 20 }
       ],
