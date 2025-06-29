@@ -126,7 +126,7 @@
     "subtypes": [ "TOOL" ],
     "name": { "str": "Lies", "str_pl": "copies of Lies" },
     "//": "The writer wrote this book as fast as they could, for they knew the Lies would soon kill them for doing so.",
-    "description": "A haphazardly-writen book filled with ramblings about something it calls \"the Lies\".  You feel threatened by this book, uneasy at the thought of having it on your person, but parsing its texts could give you insight on how things truly are. \nOnly the first third of the pages are filled with text, and the last writen page is splattered in red.",
+    "description": "A haphazardly-written book filled with ramblings about something it calls \"the Lies\".  You feel threatened by this book, uneasy at the thought of having it on your person, but parsing its texts could give you insight on how things truly are. \nOnly the first third of the pages are filled with text, and the last writen page is splattered in red.",
     "//2": "When possible, this should be a book.  There is currently no way to hook EOCs to reading a certain book.",
     "weight": "830 g",
     "volume": "1320 ml",
@@ -142,8 +142,15 @@
     "id": "EOC_READ_BOOK_LIES",
     "//": "If the player can survive reading this book for 8 consecutive hours, then they clearly are at a point where they don't need the deduction skill.",
     "condition": { "math": [ "u_skill('deduction') >= 7" ] },
-    "effect": [ { "u_assign_activity": "ACT_READING_BOOK_LIES", "duration": "8 hours" } ],
+    "effect": [ { "run_eocs": [ "EOC_READ_BOOK_LIES_REAL" ] } ],
     "false_effect": [ { "u_message": "Fortunately, you lack the deductive abilities to understand this book.", "type": "good" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_BOOK_LIES_REAL",
+    "condition": { "math": [ "u_skill('deduction') < 10" ] },
+    "effect": [ { "u_assign_activity": "ACT_READING_BOOK_LIES", "duration": "8 hours" } ],
+    "false_effect": [ { "u_message": "Rejoice, for you have no reason to read this book anymore.", "type": "good" } ]
   },
   {
     "id": "ACT_READING_BOOK_LIES",
@@ -179,24 +186,12 @@
         "then": { "run_eocs": [ "EOC_READING_BOOK_LIES_MORALE" ] }
       },
       {
-        "if": { "math": [ "rand(u_vitamin('xedra_knowing_lies')) >= 500" ] },
-        "then": { "run_eocs": [ "EOC_READING_BOOK_LIES_PAIN" ] }
+        "if": { "math": [ "rand(u_vitamin('xedra_knowing_lies')) >= 1200" ] },
+        "then": { "run_eocs": [ "EOC_READING_BOOK_LIES_HOUNDS" ] }
       },
       {
-        "if": { "math": [ "rand(u_vitamin('xedra_knowing_lies')) >= 150" ] },
-        "then": { "run_eocs": [ "EOC_READING_BOOK_LIES_PAIN" ] }
-      },
-      {
-        "if": { "math": [ "rand(u_vitamin('xedra_knowing_lies')) >= 150" ] },
-        "then": { "run_eocs": [ "EOC_READING_BOOK_LIES_PAIN" ] }
-      },
-      {
-        "if": { "math": [ "rand(u_vitamin('xedra_knowing_lies')) >= 150" ] },
-        "then": { "run_eocs": [ "EOC_READING_BOOK_LIES_PAIN" ] }
-      },
-      {
-        "if": { "math": [ "rand(u_vitamin('xedra_knowing_lies')) >= 150" ] },
-        "then": { "run_eocs": [ "EOC_READING_BOOK_LIES_PAIN" ] }
+        "if": { "math": [ "rand(u_vitamin('xedra_knowing_lies')) >= 2500" ] },
+        "then": { "run_eocs": [ "EOC_READING_BOOK_LIES_CLAW" ] }
       }
     ]
   },
@@ -223,6 +218,46 @@
         "decay_start": "15 minutes"
       },
       { "math": [ "u_deduction_from_book_lies_counter += 50" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READING_BOOK_LIES_HOUNDS",
+    "effect": [
+      { "u_cast_spell": { "id": "stare", "hit_self": true } },
+      { "math": [ "u_deduction_from_book_lies_counter += 1250" ] },
+      { "run_eocs": "EOC_READING_BOOK_LIES_HOUND_PROOF", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READING_BOOK_LIES_HOUND_PROOF",
+    "//": "By being immune to mind taint, the player draws more ire from the Lies, as they hate being resisted.",
+    "condition": { "not": { "u_has_effect": "taint" } },
+    "effect": [
+      { "math": [ "u_hp('head') =- 5" ] },
+      { "math": [ "u_hp('torso') =- 5" ] },
+      { "math": [ "u_hp('arm_l') =- 5" ] },
+      { "math": [ "u_hp('arm_r') =- 5" ] },
+      { "math": [ "u_hp('leg_l') =- 5" ] },
+      { "math": [ "u_hp('leg_r') =- 5" ] },
+      { "u_message": "book_lies_taint_resisted", "snippet": true, "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READING_BOOK_LIES_CLAW",
+    "//": "At this point, the Lies are actively trying to kill the player and they have no reason to hold back now.  The attempts will continue until the player stops reading or dies.",
+    "effect": [
+      { "math": [ "u_random_clawed_part = rng(1,6))" ] },
+      { "if": { "math": [ "u_random_clawed_part == 1" ] }, "then": { "math": [ "u_hp('head') =- rng(35,45))" ] } },
+      { "if": { "math": [ "u_random_clawed_part == 2" ] }, "then": { "math": [ "u_hp('torso') =- rng(35,45))" ] } },
+      { "if": { "math": [ "u_random_clawed_part == 3" ] }, "then": { "math": [ "u_hp('arm_l') =- rng(35,45))" ] } },
+      { "if": { "math": [ "u_random_clawed_part == 4" ] }, "then": { "math": [ "u_hp('arm_r') =- rng(35,45))" ] } },
+      { "if": { "math": [ "u_random_clawed_part == 5" ] }, "then": { "math": [ "u_hp('leg_l') =- rng(35,45))" ] } },
+      { "if": { "math": [ "u_random_clawed_part == 6" ] }, "then": { "math": [ "u_hp('leg_r') =- rng(35,45))" ] } },
+      { "math": [ "u_deduction_from_book_lies_counter += 3250" ] },
+      { "u_message": "book_lies_claw", "snippet": true, "type": "bad" }
     ]
   }
 ]

@@ -100,16 +100,45 @@
     "type": "snippet",
     "category": "nightmares_book_lies",
     "text": [
-      "<color_light_red>You dream of a world of burning paper, and how it's all because you read that book.</color>",
-      "<color_light_red>.</color>",
-      "<color_light_red>.</color>",
-      "<color_light_red>.</color>",
-      "<color_light_red>.</color>",
-      "<color_light_red>.</color>",
-      "<color_light_red>.</color>",
-      "<color_light_red>.</color>",
-      "<color_light_red>.</color>",
-      "<color_light_red>.</color>"
+      "<color_light_red>You dream of a world of burning paper below a single intact book.</color>",
+      "<color_light_red>You awaken from a nightmare about a book eating your brain.</color>",
+      "<color_light_red>You stand on a line of letters above a bottomless pit.  They crack.  You fall.  You wake up.  \nThis time.</color>",
+      "<color_light_red>You wake up knowing that you will soon pay for what you've done.</color>",
+      "<color_light_red>You dream about being torn apart by unseen claws.</color>",
+      "<color_light_red>In your dream, you had a cat.  Like the cat, curiosity killed you.  Unlike the cat, you had far less lives and died far more times.</color>",
+      "<color_light_red>You dream about white-hot nails burrowing in your head, each of them whispering things you do not want to hear.</color>",
+      "<color_light_red>You wake up with a phrase resounding in your skull over and over: CLEAVE THROUGH THE WORLD OF LIES.</color>",
+      "<color_light_red>You dream about being unraveled, the strands making you falling to the ground.</color>",
+      "<color_light_red>You dream about silent voices ordering other things to kill you.</color>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "book_lies_taint_resisted",
+    "text": [
+      "<color_light_red>The Lies are unraveling you as you dared resist them.</color>",
+      "<color_light_red>Small strands of skin and muscle are leaving your body and piling on the floor.</color>",
+      "<color_light_red>Strand by strand, you are slowly unmade by the Lies.</color>",
+      "<color_light_red>You do not know enough to avoid what is happening to you, but you know enough for it to happen.</color>",
+      "<color_light_red>Another small strand is plucked from you and discarded.</color>",
+      "<color_light_red>If you stop reading this book, you will stop unraveling.</color>",
+      "<color_light_red>Better stop provoking the Lies, before they take something important.</color>",
+      "<color_light_red>If the eyes cannot stop you from reading this, the claws will.</color>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "book_lies_claw",
+    "text": [
+      "<color_light_red>You've gone too far, and the Lies will destroy you for it.</color>",
+      "<color_light_red>An unseen claw grieviously rends your flesh.</color>",
+      "<color_light_red>You notice a gaping wound you did not had a second ago.  Reading this book is killing you.</color>",
+      "<color_light_red>You know too much about the Lies, and they are now trying to remedy to that.</color>",
+      "<color_light_red>Five invisible blades tear open your skin, leaving a horrible wound.</color>",
+      "<color_light_red>A horrendous wound opens on its own as you read another word from this book.</color>",
+      "<color_light_red>Reading this book feels like a dagger against your sanity.  Its effects on your body are more tangible.</color>",
+      "<color_light_red>A chunk of flesh is torn from your body by something you cannot perceive.</color>",
+      "<color_light_red>You will be cleaved before you can cleave anything unless you stop reading this book.</color>"
     ]
   }
 ]
