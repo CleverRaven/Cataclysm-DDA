@@ -1000,58 +1000,6 @@
     ]
   },
   {
-    "id": "nested_draco",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "draco", "charges": [ 0, 30 ] },
-      { "item": "akmag30" },
-      { "item": "akmag30", "prob": 50 },
-      { "group": "on_hand_762" }
-    ]
-  },
-  {
-    "id": "nested_draco_mini",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "draco_mini", "charges": [ 0, 30 ] },
-      { "item": "akmag30" },
-      { "item": "akmag30", "prob": 50 },
-      { "group": "on_hand_762" }
-    ]
-  },
-  {
-    "id": "nested_draco_micro",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "draco_micro", "charges": [ 0, 30 ] },
-      { "item": "akmag30" },
-      { "item": "akmag30", "prob": 50 },
-      { "group": "on_hand_762" }
-    ]
-  },
-  {
-    "id": "nested_draco_9mm",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "draco_9mm", "charges": [ 0, 17 ] },
-      { "item": "glockbigmag" },
-      { "item": "glock17_17", "prob": 50 },
-      { "group": "on_hand_9mm" }
-    ]
-  },
-  {
     "id": "nested_m17",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

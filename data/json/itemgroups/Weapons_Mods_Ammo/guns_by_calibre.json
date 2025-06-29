@@ -129,15 +129,6 @@
   },
   {
     "type": "item_group",
-    "id": "guns_pistol_common_762_39",
-    "items": [
-      { "group": "nested_draco", "prob": 10 },
-      { "group": "nested_draco_mini", "prob": 5 },
-      { "group": "nested_draco_micro", "prob": 8 }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "guns_pistol_common_223",
     "items": [ { "group": "nested_ar_pistol", "prob": 8 }, { "group": "nested_ar_pistol_long", "prob": 10 } ]
   },
@@ -489,11 +480,6 @@
   },
   {
     "type": "item_group",
-    "id": "guns_pistol_common_display_762_39",
-    "items": [ { "item": "draco", "prob": 10 }, { "item": "draco_mini", "prob": 5 }, { "item": "draco_micro", "prob": 8 } ]
-  },
-  {
-    "type": "item_group",
     "id": "guns_pistol_common_display_223",
     "items": [ { "group": "ar_pistol", "prob": 8 }, { "group": "ar_pistol_long", "prob": 10 } ]
   },
@@ -531,7 +517,6 @@
     "items": [
       { "group": "nested_90two", "prob": 5 },
       { "group": "nested_p08", "prob": 13 },
-      { "group": "nested_draco_9mm", "prob": 29 },
       { "group": "nested_mauser_c96", "prob": 11 },
       { "group": "nested_mp40semi", "prob": 1 },
       { "group": "nested_tec9", "prob": 1 }
@@ -542,7 +527,6 @@
     "id": "guns_pistol_rare_display_9mm",
     "items": [
       { "item": "m9", "variant": "90two", "prob": 5 },
-      { "item": "draco_9mm", "prob": 29 },
       { "item": "p08", "prob": 13 },
       { "item": "mauser_c96", "prob": 11 },
       { "item": "mp40semi", "prob": 1 },

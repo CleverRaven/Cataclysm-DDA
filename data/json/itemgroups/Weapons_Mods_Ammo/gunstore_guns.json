@@ -38,7 +38,6 @@
       { "group": "guns_pistol_common_boxed_44", "prob": 1 },
       { "group": "guns_pistol_common_boxed_45colt", "prob": 5 },
       { "group": "guns_pistol_common_boxed_10mm", "prob": 1 },
-      { "group": "guns_pistol_common_boxed_762_39", "prob": 1 },
       { "group": "guns_pistol_common_boxed_223", "prob": 17 },
       { "group": "guns_pistol_common_boxed_300", "prob": 8 },
       { "group": "guns_pistol_common_boxed_57", "prob": 2 },
@@ -247,19 +246,7 @@
     "type": "item_group",
     "id": "boxed_guns_pistol_rare_9mm",
     "items": [
-      {
-        "item": "box_longarm",
-        "variant": "box_longarm_handgun",
-        "contents-group": "firearm_box_extras",
-        "contents-item": [ "draco_9mm", "glock17_10" ],
-        "prob": 29
-      },
-      {
-        "item": "box_pistol",
-        "contents-group": "firearm_box_extras",
-        "contents-item": [ "p08", "p08mag_8rd" ],
-        "prob": 13
-      },
+      { "item": "box_pistol", "contents-group": "firearm_box_extras", "contents-item": [ "p08", "p08mag_8rd" ], "prob": 13 },
       {
         "item": "box_pistol",
         "contents-group": "firearm_box_extras",
@@ -731,19 +718,6 @@
     "id": "boxed_sw_610",
     "container-item": "box_pistol",
     "items": [ { "item": "sw_610" }, { "group": "firearm_box_extras" }, { "item": "40_speedloader6", "prob": 5 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "guns_pistol_common_boxed_762_39",
-    "container-item": { "item": "box_longarm", "variant": "box_longarm_handgun" },
-    "entries": [
-      { "item": "akmag10", "count": [ 1, 2 ] },
-      { "group": "firearm_box_extras" },
-      {
-        "distribution": [ { "item": "draco", "prob": 10 }, { "item": "draco_mini", "prob": 5 }, { "item": "draco_micro", "prob": 8 } ]
-      }
-    ]
   },
   {
     "type": "item_group",
