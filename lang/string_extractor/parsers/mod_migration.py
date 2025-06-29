@@ -6,4 +6,4 @@ def parse_mod_migration(json, origin):
 
     if "removal_message" in json:
         write_text(json["removal_message"], origin,
-                   comment="Message to explain removal of mod \"{}\"".format(id))
+                   comment="Explaination for removal of mod \"{}\"".format(id))
