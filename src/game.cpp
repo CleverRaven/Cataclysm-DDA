@@ -801,6 +801,7 @@ void game::setup()
 
         load_core_data();
     }
+    world_generator->get_mod_manager().load_mods_list( world_generator->active_world );
     load_world_modfiles();
     // Panel manager needs JSON data to be loaded before init
     panel_manager::get_manager().init();
@@ -3385,7 +3386,6 @@ bool game::load( const save_t &name )
 void game::load_world_modfiles()
 {
     auto &mods = world_generator->active_world->active_mod_order;
-
     // remove any duplicates whilst preserving order (fixes #19385)
     std::set<mod_id> found;
     mods.erase( std::remove_if( mods.begin(), mods.end(), [&found]( const mod_id & e ) {
