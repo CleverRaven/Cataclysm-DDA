@@ -118,7 +118,7 @@
     "subtypes": [ "MAGAZINE" ],
     "name": { "str": "G-Tz77 power pack" },
     "description": "A power pack for the G-Tz77.",
-    "weight": "50 g",
+    "weight": "100 g",
     "volume": "45 ml",
     "material": [ "steel" ],
     "price": "100 USD",
@@ -126,7 +126,8 @@
     "symbol": "#",
     "color": "red",
     "ammo_type": [ "mom_lightning_rifle_ammo" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "mom_lightning_rifle_ammo": 120 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "mom_lightning_rifle_ammo": 120 } } ],
+    "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "mom_lightning_rifle_ammo",
@@ -489,7 +490,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "Itzcuāuhtli Corps combat uniform pants" },
-    "description": "The standard combat uniform of the Itzcuāuhtli Corps, in shades of dark green and grey.  "
+    "description": "The standard combat uniform of the Itzcuāuhtli Corps, in shades of dark green and grey.  These are pants, with several pockets."
   },
   {
     "id": "itzcuauhtli_combat_shirt",
@@ -497,7 +498,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "Itzcuāuhtli Corps combat uniform shirt" },
-    "description": "A tough pair of pants lined with pockets.  Favored by the military."
+    "description": "The standard combat uniform of the Itzcuāuhtli Corps, in shades of dark green and grey.  This is a shirt."
   },
   {
     "id": "itzcuauhtli_jacket_army_modern",
@@ -505,6 +506,6 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "Itzcuāuhtli Corps combat uniform jacket" },
-    "description": "A tough pair of pants lined with pockets.  Favored by the military."
+    "description": "The standard combat uniform of the Itzcuāuhtli Corps, in shades of dark green and grey.  This is a jacket.  It has the eagle over a field of stars symbol of the Itzcuāuhtli Corps on both shoulders."
   }
 ]
