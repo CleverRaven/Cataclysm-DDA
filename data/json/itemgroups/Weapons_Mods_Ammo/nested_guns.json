@@ -6,9 +6,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock_17", "charges": [ 0, 15 ] },
-      { "item": "glock17_17" },
-      { "item": "glock17_17", "prob": 50 },
+      { "item": "glock_17", "charges": [ 0, 10 ] },
+      { "item": "glock17_10" },
+      { "item": "glock17_10", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -19,9 +19,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock_19", "charges": [ 0, 15 ] },
-      { "item": "glockmag" },
-      { "item": "glockmag", "prob": 50 },
+      { "item": "glock_19", "charges": [ 0, 10 ] },
+      { "item": "glockmag_10" },
+      { "item": "glockmag_10", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -32,9 +32,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glockmag", "charges": [ 0, 15 ] },
-      { "item": "glockmag" },
-      { "item": "glockmag", "prob": 50 },
+      { "item": "glockmag", "charges": [ 0, 10 ] },
+      { "item": "glockmag_10" },
+      { "item": "glockmag_10", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -45,9 +45,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock_34", "charges": [ 0, 15 ] },
-      { "item": "glock17_17" },
-      { "item": "glock17_17", "prob": 50 },
+      { "item": "glock_34", "charges": [ 0, 10 ] },
+      { "item": "glock17_10" },
+      { "item": "glock17_10", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -136,9 +136,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock_20", "variant": "glock_20", "charges": [ 0, 15 ] },
-      { "item": "glock_20mag" },
-      { "item": "glock_20mag", "prob": 50 },
+      { "item": "glock_20", "charges": [ 0, 10 ] },
+      { "item": "glock_20mag_10" },
+      { "item": "glock_20mag_10", "prob": 50 },
       { "group": "on_hand_10mm" }
     ]
   },
@@ -149,9 +149,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock_21", "charges": [ 0, 15 ] },
-      { "item": "glock_21mag" },
-      { "item": "glock_21mag", "prob": 50 },
+      { "item": "glock_21", "charges": [ 0, 10 ] },
+      { "item": "glock_21mag_10" },
+      { "item": "glock_21mag_10", "prob": 50 },
       { "group": "on_hand_45" }
     ]
   },
@@ -162,9 +162,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock_30", "charges": [ 0, 15 ] },
-      { "item": "glock_21mag" },
-      { "item": "glock_21mag", "prob": 50 },
+      { "item": "glock_30", "charges": [ 0, 10 ] },
+      { "item": "glock_21mag_10" },
+      { "item": "glock_21mag_10", "prob": 50 },
       { "group": "on_hand_45" }
     ]
   },
@@ -188,9 +188,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "hk_usc45", "charges": [ 0, 20 ] },
-      { "item": "usc20mag" },
-      { "item": "usc20mag", "prob": 50 },
+      { "item": "hk_usc45", "charges": [ 0, 10 ] },
+      { "item": "usc10mag" },
+      { "item": "usc10mag", "prob": 50 },
       { "group": "on_hand_45" }
     ]
   },
@@ -201,9 +201,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock_22", "charges": [ 0, 15 ], "ammo-item": "40sw" },
-      { "item": "glock40mag", "ammo-item": "40sw" },
-      { "item": "glock40mag", "ammo-item": "40sw", "prob": 50 },
+      { "item": "glock_22", "charges": [ 0, 10 ], "ammo-item": "40sw" },
+      { "item": "glock40mag_10", "ammo-item": "40sw" },
+      { "item": "glock40mag_10", "ammo-item": "40sw", "prob": 50 },
       { "group": "on_hand_40" }
     ]
   },
@@ -214,9 +214,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock_23", "charges": [ 0, 15 ], "ammo-item": "40sw" },
-      { "item": "glock40mag", "ammo-item": "40sw" },
-      { "item": "glock40mag", "ammo-item": "40sw", "prob": 50 },
+      { "item": "glock_23", "charges": [ 0, 10 ], "ammo-item": "40sw" },
+      { "item": "glock40mag_10", "ammo-item": "40sw" },
+      { "item": "glock40mag_10", "ammo-item": "40sw", "prob": 50 },
       { "group": "on_hand_40" }
     ]
   },
@@ -227,7 +227,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock_23", "charges": [ 0, 15 ], "ammo-item": "40sw" },
+      { "item": "glock_27", "charges": [ 0, 9 ], "ammo-item": "40sw" },
       { "item": "glock40mag_9", "ammo-item": "40sw" },
       { "item": "glock40mag_9", "ammo-item": "40sw", "prob": 50 },
       { "group": "on_hand_40" }
@@ -253,9 +253,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock_40", "variant": "glock_40", "charges": [ 0, 15 ] },
-      { "item": "glock_20mag" },
-      { "item": "glock_20mag", "prob": 50 },
+      { "item": "glock_40", "variant": "glock_40", "charges": [ 0, 101 ] },
+      { "item": "glock_20mag_10" },
+      { "item": "glock_20mag_10", "prob": 50 },
       { "group": "on_hand_10mm" }
     ]
   },
@@ -305,9 +305,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "m9", "variant": "m9", "charges": [ 0, 15 ] },
-      { "item": "m9mag" },
-      { "item": "m9mag", "prob": 50 },
+      { "item": "m9", "variant": "m9", "charges": [ 0, 10 ] },
+      { "item": "m9mag_10rd" },
+      { "item": "m9mag_10rd", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -318,9 +318,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "px4", "charges": [ 0, 15 ] },
-      { "item": "px4mag" },
-      { "item": "px4mag", "prob": 50 },
+      { "item": "px4", "charges": [ 0, 10 ] },
+      { "item": "px4mag_10rd" },
+      { "item": "px4mag_10rd", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -331,9 +331,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "px4_40", "charges": [ 0, 15 ] },
-      { "item": "px4_40mag" },
-      { "item": "px4_40mag", "prob": 50 },
+      { "item": "px4_40", "charges": [ 0, 10 ] },
+      { "item": "px4_40mag_10" },
+      { "item": "px4_40mag_10", "prob": 50 },
       { "group": "on_hand_40" }
     ]
   },
@@ -504,22 +504,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "p226_357sig", "charges": [ 0, 15 ] },
-      { "item": "p226mag_15rd_9x19mm" },
-      { "item": "p226mag_15rd_9x19mm", "prob": 50 },
-      { "group": "on_hand_9mm" }
-    ]
-  },
-  {
-    "id": "nested_p226_9mm",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "p226_9mm", "charges": [ 0, 15 ] },
-      { "item": "p226mag_15rd_9x19mm" },
-      { "item": "p226mag_15rd_9x19mm", "prob": 50 },
+      { "item": "p226_9mm", "charges": [ 0, 10 ] },
+      { "item": "p226mag_10rd_9x19mm" },
+      { "item": "p226mag_10rd_9x19mm", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -530,9 +517,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "sp2022", "charges": [ 0, 15 ] },
-      { "item": "sp2022mag_15rd_9mm" },
-      { "item": "sp2022mag_15rd_9mm", "prob": 50 },
+      { "item": "sp2022", "charges": [ 0, 10 ] },
+      { "item": "sp2022mag_10rd_9mm" },
+      { "item": "sp2022mag_10rd_9mm", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -634,7 +621,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "walther_ppq_9mm", "charges": [ 0, 17 ] },
+      { "item": "walther_ppq_9mm", "charges": [ 0, 10 ] },
       { "item": "ppq9mag_10rd" },
       { "item": "ppq9mag_10rd", "prob": 50 },
       { "group": "on_hand_9mm" }
@@ -660,7 +647,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "hptc9", "charges": [ 0, 15 ] },
+      { "item": "hptc9", "charges": [ 0, 8 ] },
       { "item": "hptc9mag_8rd" },
       { "item": "hptc9mag_8rd", "prob": 50 },
       { "group": "on_hand_9mm" }
@@ -738,9 +725,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "cz75", "charges": [ 0, 26 ] },
-      { "item": "cz75mag_16rd" },
-      { "item": "cz75mag_16rd", "prob": 50 },
+      { "item": "cz75", "charges": [ 0, 10 ] },
+      { "item": "cz75mag_10rd" },
+      { "item": "cz75mag_10rd", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -790,9 +777,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "m9", "variant": "90two", "charges": [ 0, 15 ] },
-      { "item": "m9mag_17rd" },
-      { "item": "m9mag_17rd", "prob": 50 },
+      { "item": "m9", "variant": "90two", "charges": [ 0, 10 ] },
+      { "item": "m9mag_10rd" },
+      { "item": "m9mag_10rd", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -980,9 +967,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "usp_9mm", "charges": [ 0, 15 ] },
-      { "item": "usp9mag" },
-      { "item": "usp9mag", "prob": 50 },
+      { "item": "usp_9mm", "charges": [ 0, 10 ] },
+      { "item": "usp9mag_10rd" },
+      { "item": "usp9mag_10rd", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -993,9 +980,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "TDI_10", "charges": [ 0, 30 ] },
-      { "item": "tdi_10mm_mag" },
-      { "item": "tdi_10mm_mag", "prob": 50 },
+      { "item": "TDI_10", "charges": [ 0, 10 ] },
+      { "item": "glock_21mag_10" },
+      { "item": "glock_21mag_10", "prob": 50 },
       { "group": "on_hand_10mm" }
     ]
   },
@@ -1058,9 +1045,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "m17", "charges": [ 0, 17 ] },
-      { "item": "p320mag_17rd_9x19mm" },
-      { "item": "p320mag_17rd_9x19mm", "prob": 50 },
+      { "item": "m17", "charges": [ 0, 10 ] },
+      { "item": "p320mag_10rd_9x19mm" },
+      { "item": "p320mag_10rd_9x19mm", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -1070,9 +1057,9 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "entries": [
-      { "item": "m18", "charges": [ 0, 17 ] },
-      { "item": "p320mag_17rd_9x19mm" },
-      { "item": "p320mag_17rd_9x19mm", "prob": 50 },
+      { "item": "m18", "charges": [ 0, 10 ] },
+      { "item": "p320mag_10rd_9x19mm" },
+      { "item": "p320mag_10rd_9x19mm", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -1136,7 +1123,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "p08" }, { "item": "p08mag_8rd" }, { "item": "p08mag_32rd", "prob": 50 }, { "group": "on_hand_9mm" } ]
+    "entries": [ { "item": "p08" }, { "item": "p08mag_8rd" }, { "item": "p08mag_8rd", "prob": 50 }, { "group": "on_hand_9mm" } ]
   },
   {
     "id": "nested_raging_bull",
@@ -1232,7 +1219,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "hk_mp5_semi_pistol", "charges": [ 0, 30 ] },
+      { "item": "hk_mp5_semi_pistol", "charges": [ 0, 10 ] },
       { "item": "mp5mag_10rd" },
       { "item": "mp5mag_10rd", "prob": 50 },
       { "group": "on_hand_9mm" }
@@ -1414,9 +1401,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "TDI", "charges": [ 0, 30 ] },
-      { "item": "tdi_mag" },
-      { "item": "tdi_mag", "prob": 50 },
+      { "item": "TDI", "charges": [ 0, 10 ] },
+      { "item": "glock_21mag_10" },
+      { "item": "glock_21mag_10", "prob": 50 },
       { "group": "on_hand_45" }
     ]
   },
@@ -1440,9 +1427,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "tec9", "charges": [ 0, 30 ] },
-      { "item": "tec9mag" },
-      { "item": "tec9mag", "prob": 50 },
+      { "item": "tec9", "charges": [ 0, 10 ] },
+      { "item": "tec9mag_10rd" },
+      { "item": "tec9mag_10rd", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -1518,9 +1505,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "ar10", "charges": [ 0, 20 ] },
-      { "item": "ar10mag_20rd" },
-      { "item": "ar10mag_20rd", "prob": 50 },
+      { "item": "ar10", "charges": [ 0, 10 ] },
+      { "item": "ar10mag_10rd" },
+      { "item": "ar10mag_10rd", "prob": 50 },
       { "group": "on_hand_308" }
     ]
   },
@@ -1531,7 +1518,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "group": "modular_ar15", "charges": [ 0, 30 ] },
+      { "group": "modular_ar15", "charges": [ 0, 10 ] },
       { "item": "stanag10" },
       { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
@@ -1544,7 +1531,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "group": "ar_pistol", "charges": [ 0, 30 ] },
+      { "group": "ar_pistol", "charges": [ 0, 10 ] },
       { "item": "stanag10" },
       { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
@@ -1557,7 +1544,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "group": "ar_pistol_long", "charges": [ 0, 30 ] },
+      { "group": "ar_pistol_long", "charges": [ 0, 10 ] },
       { "item": "stanag10" },
       { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
@@ -1570,7 +1557,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "group": "ar_pistol_300", "charges": [ 0, 30 ] },
+      { "group": "ar_pistol_300", "charges": [ 0, 10 ] },
       { "item": "stanag10" },
       { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_300BLK" }
@@ -1583,7 +1570,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "group": "ar_pistol_300_long", "charges": [ 0, 30 ] },
+      { "group": "ar_pistol_300_long", "charges": [ 0, 10 ] },
       { "item": "stanag10" },
       { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_300BLK" }
@@ -1596,9 +1583,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "ksub2000", "charges": [ 0, 15 ] },
-      { "item": "glockmag" },
-      { "item": "glockmag", "prob": 50 },
+      { "item": "ksub2000", "charges": [ 0, 10 ] },
+      { "item": "glockmag_10" },
+      { "item": "glockmag_10", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -1609,9 +1596,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "rugerpcc", "charges": [ 0, 15 ] },
-      { "item": "glockmag" },
-      { "item": "glockmag", "prob": 50 },
+      { "item": "rugerpcc", "charges": [ 0, 10 ] },
+      { "item": "glockmag_10" },
+      { "item": "glockmag_10", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -1726,7 +1713,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "ruger_mini", "charges": [ 0, 5 ] },
+      { "item": "ruger_mini", "charges": [ 0, 10 ] },
       { "item": "ruger10" },
       { "item": "ruger10", "prob": 50 },
       { "group": "on_hand_223" }
@@ -1763,7 +1750,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "aksemi", "charges": [ 0, 30 ] },
+      { "item": "aksemi", "charges": [ 0, 10 ] },
       { "item": "akmag10" },
       { "item": "akmag10", "prob": 50 },
       { "group": "on_hand_762" }
@@ -1776,9 +1763,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "mk47", "charges": [ 0, 30 ] },
-      { "item": "akmag30" },
-      { "item": "akmag30", "prob": 50 },
+      { "item": "mk47", "charges": [ 0, 10 ] },
+      { "item": "akmag10" },
+      { "item": "akmag10", "prob": 50 },
       { "group": "on_hand_762" }
     ]
   },
@@ -1998,9 +1985,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "iwi_tavor_x95_300blk", "charges": [ 0, 30 ] },
-      { "group": "stanag_30_random" },
-      { "group": "stanag_30_random", "prob": 50 },
+      { "item": "iwi_tavor_x95_300blk", "charges": [ 0, 10 ] },
+      { "group": "stanag_10_random" },
+      { "group": "stanag_10_random", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -2050,9 +2037,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "scar_16s", "charges": [ 0, 30 ] },
-      { "group": "stanag_30_random" },
-      { "group": "stanag_30_random", "prob": 50 },
+      { "item": "scar_16s", "charges": [ 0, 10 ] },
+      { "group": "stanag_10_random" },
+      { "group": "stanag_10_random", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -2160,9 +2147,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "sig_assault_rifle", "charges": [ 0, 30 ] },
-      { "item": "stanag30" },
-      { "item": "stanag30", "prob": 50 },
+      { "item": "sig_assault_rifle", "charges": [ 0, 10 ] },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -2199,9 +2186,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "scar_17s", "charges": [ 0, 20 ] },
-      { "item": "scarhmag" },
-      { "item": "scarhmag", "prob": 50 },
+      { "item": "scar_17s", "charges": [ 0, 10 ] },
+      { "item": "scarhmag_10" },
+      { "item": "scarhmag_10", "prob": 50 },
       { "group": "on_hand_308" }
     ]
   },
@@ -2431,23 +2418,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "ar12_shotgun", "charges": [ 0, -1 ] },
-      {
-        "distribution": [
-          {
-            "collection": [ { "item": "mka_1919_5" }, { "item": "mka_1919_5", "prob": 70 }, { "item": "mka_1919_5", "prob": 30 } ],
-            "prob": 3
-          },
-          {
-            "collection": [ { "item": "mka_1919_10" }, { "item": "mka_1919_10", "prob": 70 }, { "item": "mka_1919_10", "prob": 30 } ],
-            "prob": 2
-          },
-          {
-            "collection": [ { "item": "mka_1919_20" }, { "item": "mka_1919_20", "prob": 70 }, { "item": "mka_1919_20", "prob": 30 } ],
-            "prob": 1
-          }
-        ]
-      },
+      { "item": "ar12_shotgun", "charges": [ 0, 5 ] },
+      { "item": "mka_1919_5" },
+      { "item": "mka_1919_5", "prob": 50 },
       { "group": "on_hand_shot" }
     ]
   },
@@ -2459,22 +2432,8 @@
     "ammo": 100,
     "entries": [
       { "item": "gfy_1", "charges": [ 0, -1 ] },
-      {
-        "distribution": [
-          {
-            "collection": [ { "item": "mka_1919_5" }, { "item": "mka_1919_5", "prob": 70 }, { "item": "mka_1919_5", "prob": 30 } ],
-            "prob": 3
-          },
-          {
-            "collection": [ { "item": "mka_1919_10" }, { "item": "mka_1919_10", "prob": 70 }, { "item": "mka_1919_10", "prob": 30 } ],
-            "prob": 2
-          },
-          {
-            "collection": [ { "item": "mka_1919_20" }, { "item": "mka_1919_20", "prob": 70 }, { "item": "mka_1919_20", "prob": 30 } ],
-            "prob": 1
-          }
-        ]
-      },
+      { "item": "mka_1919_5" },
+      { "item": "mka_1919_5", "prob": 50 },
       { "group": "on_hand_shot" }
     ]
   },
@@ -2484,7 +2443,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "ksg", "charges": [ 0, 7 ] }, { "group": "on_hand_shot" } ]
+    "entries": [ { "item": "ksg", "charges": [ 0, 14 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_tavor_12",
@@ -2492,7 +2451,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "tavor_12", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
+    "entries": [ { "item": "tavor_12", "charges": [ 0, 15 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_m1014",
@@ -2542,25 +2501,8 @@
     "ammo": 100,
     "entries": [
       { "item": "mossberg_590", "charges": [ 0, 5 ] },
-      { "item": "mossberg_590m_mag_10" },
-      { "item": "mossberg_590m_mag_10", "prob": 50 },
-      {
-        "distribution": [
-          { "collection": [ { "item": "mossberg_590m_mag_5" }, { "item": "mossberg_590m_mag_5", "prob": 50 } ], "prob": 3 },
-          {
-            "collection": [ { "item": "mossberg_590m_mag_10" }, { "item": "mossberg_590m_mag_10", "prob": 50 } ],
-            "prob": 2
-          },
-          {
-            "collection": [ { "item": "mossberg_590m_mag_15" }, { "item": "mossberg_590m_mag_15", "prob": 50 } ],
-            "prob": 1
-          },
-          {
-            "collection": [ { "item": "mossberg_590m_mag_20" }, { "item": "mossberg_590m_mag_20", "prob": 50 } ],
-            "prob": 1
-          }
-        ]
-      },
+      { "item": "mossberg_590m_mag_5" },
+      { "item": "mossberg_590m_mag_5", "prob": 50 },
       { "group": "on_hand_shot" }
     ]
   },
@@ -2618,9 +2560,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "ruger_57", "charges": [ 0, 20 ] },
-      { "item": "ruger_57mag" },
-      { "item": "ruger_57mag", "prob": 50 },
+      { "item": "ruger_57", "charges": [ 0, 10 ] },
+      { "item": "ruger_57_10_round_mag" },
+      { "item": "ruger_57_10_round_mag", "prob": 50 },
       { "group": "on_hand_57" }
     ]
   },
@@ -2670,20 +2612,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "ak308", "charges": [ 0, 20 ] },
-      { "item": "papm77mag_10rd" },
-      { "item": "papm77mag_10rd", "prob": 50 },
-      { "group": "on_hand_308" }
-    ]
-  },
-  {
-    "id": "nested_papm77",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "ak308", "variant": "papm77", "charges": [ 0, 20 ] },
+      { "item": "ak308", "charges": [ 0, 10 ] },
       { "item": "papm77mag_10rd" },
       { "item": "papm77mag_10rd", "prob": 50 },
       { "group": "on_hand_308" }
@@ -2716,9 +2645,9 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "entries": [
-      { "item": "bren2_762", "variant": "bren2_762", "charges": [ 0, 30 ] },
-      { "item": "bren2_762mag30" },
-      { "item": "bren2_762mag30", "prob": 50 },
+      { "item": "bren2_762", "variant": "bren2_762", "charges": [ 0, 10 ] },
+      { "item": "bren2_762mag10" },
+      { "item": "bren2_762mag10", "prob": 50 },
       { "group": "on_hand_762" }
     ]
   },
@@ -2728,9 +2657,9 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "entries": [
-      { "item": "bren2_762", "variant": "805_bren", "charges": [ 0, 30 ] },
-      { "item": "bren2_762mag30" },
-      { "item": "bren2_762mag30", "prob": 50 },
+      { "item": "bren2_762", "variant": "805_bren", "charges": [ 0, 10 ] },
+      { "item": "bren2_762mag10" },
+      { "item": "bren2_762mag10", "prob": 50 },
       { "group": "on_hand_762" }
     ]
   },
@@ -2740,9 +2669,9 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "entries": [
-      { "item": "bren2_556", "variant": "bren2_556", "charges": [ 0, 30 ] },
-      { "item": "stanag30" },
-      { "item": "stanag30", "prob": 50 },
+      { "item": "bren2_556", "variant": "bren2_556", "charges": [ 0, 10 ] },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -2753,9 +2682,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "group": "mdrx", "charges": [ 0, 30 ] },
-      { "item": "stanag30" },
-      { "item": "stanag30", "prob": 50 },
+      { "group": "mdrx", "charges": [ 0, 10 ] },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -2896,9 +2825,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "rdb_223", "charges": [ 0, 30 ], "contents-group": "sights_rifle" },
-      { "group": "stanag_30_random" },
-      { "group": "stanag_30_random", "prob": 50 },
+      { "item": "rdb_223", "charges": [ 0, 10 ], "contents-group": "sights_rifle" },
+      { "group": "stanag_10_random" },
+      { "group": "stanag_10_random", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
