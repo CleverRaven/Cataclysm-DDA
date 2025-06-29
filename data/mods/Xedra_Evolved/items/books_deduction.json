@@ -126,7 +126,7 @@
     "subtypes": [ "TOOL" ],
     "name": { "str": "Lies", "str_pl": "copies of Lies" },
     "//": "The writer wrote this book as fast as they could, for they knew the Lies would soon kill them for doing so.",
-    "description": "A haphazardly-written book filled with ramblings about something it calls \"the Lies\".  You feel threatened by this book, uneasy at the thought of having it on your person, but parsing its texts could give you insight on how things truly are. \nOnly the first third of the pages are filled with text, and the last writen page is splattered in red.",
+    "description": "A haphazardly-written book filled with ramblings about something it calls \"the Lies\".  You feel threatened by this book, uneasy at the thought of having it on your person, but parsing its texts could give you insight on how things truly are. \nOnly the first third of the pages are filled with text, and the last written page is splattered in red.",
     "//2": "When possible, this should be a book.  There is currently no way to hook EOCs to reading a certain book.",
     "weight": "830 g",
     "volume": "1320 ml",
@@ -258,6 +258,51 @@
       { "if": { "math": [ "u_random_clawed_part == 6" ] }, "then": { "math": [ "u_hp('leg_r') =- rng(35,45))" ] } },
       { "math": [ "u_deduction_from_book_lies_counter += 3250" ] },
       { "u_message": "book_lies_claw", "snippet": true, "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEDUCTION_FROM_BOOK_LIES",
+    "//": "Gives a message based on the total deduction xp gained.  Too little is a waste of time.  Too much is a huge risk.  Just enough will ensure steady progress with a mostly-reasonable cost.",
+    "effect": [
+      {
+        "if": { "math": [ "u_deduction_from_book_lies_counter <= 500" ] },
+        "then": {
+          "u_message": "You gained almost no knowledge from this session.  Maybe if you read more, you will gain more.",
+          "type": "bad"
+        }
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_deduction_from_book_lies_counter > 500" ] },
+            { "math": [ "u_deduction_from_book_lies_counter <= 3000" ] }
+          ]
+        },
+        "then": { "u_message": "You gained a decent amount of knowledge from this read.", "type": "good" }
+      },
+      {
+        "if": { "math": [ "u_deduction_from_book_lies_counter > 3000" ] },
+        "then": {
+          "u_message": "You bear the marks inflicted by beings that do not want you to know this much.  Not moderating your use of this book will have consequences, but what you are gaining from it might be worth the cost.",
+          "type": "mixed"
+        }
+      },
+      {
+        "if": { "math": [ "u_deduction_from_book_lies_counter > 3000" ] },
+        "then": { "math": [ "u_deduction_from_book_lies_counter += u_deduction_from_book_lies_counter" ] }
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_deduction_from_book_lies_counter > 500" ] },
+            { "math": [ "u_deduction_from_book_lies_counter <= 3000" ] }
+          ]
+        },
+        "then": { "math": [ "u_deduction_from_book_lies_counter += 500" ] }
+      },
+      { "math": [ "u_skill_exp('deduction', 'format': 'raw')", "+=", "u_deduction_from_book_lies_counter" ] },
+      { "math": [ "u_deduction_from_book_lies_counter = 0" ] }
     ]
   }
 ]

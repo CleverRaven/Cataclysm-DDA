@@ -1,0 +1,78 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "5x5_holdout_N",
+    "//": "weight of 1000 for testing purposes. Intended weight of 10",
+    "weight": 1000,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        ".....",
+        ".....",
+        ".....",
+        ".....",
+        "....."
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "place_loot": [ { "group": "book_lies_dead_body", "x": 1, "y": 2, "chance": 100 } ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "5x5_holdout_S",
+    "//": "weight of 1000 for testing purposes. Intended weight of 10",
+    "weight": 1000,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        ".....",
+        ".....",
+        ".....",
+        ".....",
+        "....."
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "place_loot": [ { "group": "book_lies_dead_body", "x": 1, "y": 2, "chance": 100 } ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "5x5_holdout_E",
+    "//": "weight of 1000 for testing purposes. Intended weight of 10",
+    "weight": 1000,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        ".....",
+        ".....",
+        ".....",
+        ".....",
+        "....."
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "place_loot": [ { "group": "book_lies_dead_body", "x": 1, "y": 2, "chance": 100 } ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "5x5_holdout_W",
+    "//": "weight of 1000 for testing purposes. Intended weight of 10",
+    "weight": 1000,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        ".....",
+        ".....",
+        ".....",
+        ".....",
+        "....."
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "place_loot": [ { "group": "book_lies_dead_body", "x": 1, "y": 2, "chance": 100 } ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 3, 6 ] } ]
+    }
+  }
+]

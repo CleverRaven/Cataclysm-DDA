@@ -131,12 +131,13 @@
     "category": "book_lies_claw",
     "text": [
       "<color_light_red>You've gone too far, and the Lies will destroy you for it.</color>",
-      "<color_light_red>An unseen claw grieviously rends your flesh.</color>",
+      "<color_light_red>An unseen claw grievously rends your flesh.</color>",
       "<color_light_red>You notice a gaping wound you did not had a second ago.  Reading this book is killing you.</color>",
-      "<color_light_red>You know too much about the Lies, and they are now trying to remedy to that.</color>",
+      "<color_light_red>You know too much about the Lies, and they are trying to remedy to that.</color>",
       "<color_light_red>Five invisible blades tear open your skin, leaving a horrible wound.</color>",
       "<color_light_red>A horrendous wound opens on its own as you read another word from this book.</color>",
       "<color_light_red>Reading this book feels like a dagger against your sanity.  Its effects on your body are more tangible.</color>",
+      "<color_light_red>The Lies are sending a clear message: stop reading the book or die by their hand.</color>",
       "<color_light_red>A chunk of flesh is torn from your body by something you cannot perceive.</color>",
       "<color_light_red>You will be cleaved before you can cleave anything unless you stop reading this book.</color>"
     ]
