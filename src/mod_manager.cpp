@@ -320,7 +320,7 @@ bool mod_manager::set_default_mods( const t_mod_list &mods )
         json.member( "dependencies" );
         json.write( mods );
         json.member( "//",
-                     "Not really obsolete! Marked as such to prevent it from showing in the main list" );
+                     "Not really obsolete!  Marked as such to prevent it from showing in the main list" );
         json.member( "obsolete", true );
         json.end_object();
     }, _( "list of default mods" ) );
