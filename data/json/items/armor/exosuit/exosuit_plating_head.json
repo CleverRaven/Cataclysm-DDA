@@ -1,7 +1,8 @@
 [
   {
     "id": "exo_helmet_steel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "steel helmet plate (exosuit)", "str_pl": "steel helmet plates (exosuit)" },
     "description": "Designed to attach to an exosuit's helmet, this is a sturdy plate of tempered steel.",
@@ -24,7 +25,8 @@
   },
   {
     "id": "damaged_exo_helmet_steel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_helmet_steel",
     "name": { "str": "damaged steel helmet plate (exosuit)", "str_pl": "damaged steel helmet plates (exosuit)" },
     "description": "The remains of a steel helmet plate after taking a strong impact.  Can be restored to full effectiveness via reforging.",
@@ -41,7 +43,8 @@
   },
   {
     "id": "destroyed_exo_helmet_steel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_helmet_steel",
     "name": { "str": "destroyed steel helmet plate (exosuit)", "str_pl": "destroyed steel helmet plates (exosuit)" },
     "description": "The remains of a steel helmet plate after taking a strong impact.  Can be recycled at a nanofabricator.",
@@ -50,7 +53,8 @@
   },
   {
     "id": "exo_helmet_plastic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_helmet_steel",
     "name": { "str": "plastic helmet plate (exosuit)", "str_pl": "plastic helmet plates (exosuit)" },
     "description": "Designed to attach to an exosuit's helmet, this is a plate of plastic.",
@@ -69,7 +73,8 @@
   },
   {
     "id": "damaged_exo_helmet_plastic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_helmet_plastic",
     "name": { "str": "damaged plastic helmet plate (exosuit)", "str_pl": "damaged plastic helmet plates (exosuit)" },
     "description": "The remains of a plastic helmet plate after taking a strong impact.  Can be restored to full effectiveness via reforging.",
@@ -86,7 +91,8 @@
   },
   {
     "id": "destroyed_exo_helmet_plastic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_helmet_plastic",
     "name": { "str": "shattered plastic helmet plate (exosuit)", "str_pl": "shattered plastic helmet plates (exosuit)" },
     "description": "The remains of a plastic helmet plate after taking a strong impact.  No longer provides functional protection, just weight.",
@@ -95,7 +101,8 @@
   },
   {
     "id": "exo_helmet_comp",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_helmet_steel",
     "name": { "str": "composite helmet plate (exosuit)", "str_pl": "composite helmet plates (exosuit)" },
     "description": "Designed to attach to an exosuit's helmet, this is a plate of layered ceramic and steel.",
@@ -118,7 +125,8 @@
   },
   {
     "id": "damaged_exo_helmet_comp",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_helmet_comp",
     "name": { "str": "damaged composite helmet plate (exosuit)", "str_pl": "damaged composite helmet plates (exosuit)" },
     "description": "The remains of a composite helmet plate after taking a strong impact.",
@@ -140,7 +148,8 @@
   },
   {
     "id": "destroyed_exo_helmet_comp",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_helmet_comp",
     "name": { "str": "shattered composite helmet plate (exosuit)", "str_pl": "shattered composite helmet plates (exosuit)" },
     "description": "The remains of a vacuum-cast composite helmet plate after taking a strong impact.  No longer provides functional protection, just weight.",

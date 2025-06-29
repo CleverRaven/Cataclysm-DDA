@@ -1,7 +1,8 @@
 [
   {
     "id": "exo_arm_steel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "steel arm plate (exosuit)", "str_pl": "steel arm plates (exosuit)" },
     "description": "Designed to attach to an exosuit's arms, these are sturdy plates of steel.",
@@ -33,7 +34,8 @@
   },
   {
     "id": "damaged_exo_arm_steel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_arm_steel",
     "name": { "str": "damaged steel arm plate (exosuit)", "str_pl": "damaged steel arm plates (exosuit)" },
     "description": "The remains of a steel arm plate after taking a strong impact.  Can be restored to full effectiveness via reforging.",
@@ -57,7 +59,8 @@
   },
   {
     "id": "destroyed_exo_arm_steel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_arm_steel",
     "name": { "str": "destroyed steel arm plate (exosuit)", "str_pl": "destroyed steel arm plates (exosuit)" },
     "description": "The remains of a steel arm plate after taking a strong impact.  Can be recycled at a nanofabricator.",
@@ -66,7 +69,8 @@
   },
   {
     "id": "exo_arm_plastic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_arm_steel",
     "name": { "str": "plastic arm plate (exosuit)", "str_pl": "plastic arm plates (exosuit)" },
     "description": "Designed to attach to an exosuit's arms, these are plates of plastic.",
@@ -91,7 +95,8 @@
   },
   {
     "id": "damaged_exo_arm_plastic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_arm_plastic",
     "name": { "str": "damaged plastic arm plate (exosuit)", "str_pl": "damaged plastic arm plates (exosuit)" },
     "description": "The remains of a plastic arm plate after taking a strong impact.  Can be restored to full effectiveness via reforging.",
@@ -115,7 +120,8 @@
   },
   {
     "id": "destroyed_exo_arm_plastic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_arm_plastic",
     "name": { "str": "shattered plastic arm plate (exosuit)", "str_pl": "shattered plastic arm plates (exosuit)" },
     "description": "The remains of a plastic arm plate after taking a strong impact.  No longer provides functional protection, just weight.",
@@ -123,7 +129,8 @@
   },
   {
     "id": "exo_arm_comp",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_arm_steel",
     "name": { "str": "composite arm plate (exosuit)", "str_pl": "composite arm plates (exosuit)" },
     "description": "Designed to attach to an exosuit's arms, these are sturdy plates of layered ceramic and steel.",
@@ -154,7 +161,8 @@
   },
   {
     "id": "damaged_exo_arm_comp",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_arm_comp",
     "name": { "str": "damaged composite arm plate (exosuit)", "str_pl": "damaged composite arm plates (exosuit)" },
     "description": "The remains of a composite arm plate after taking a strong impact.",
@@ -184,7 +192,8 @@
   },
   {
     "id": "destroyed_exo_arm_comp",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_arm_comp",
     "name": { "str": "shattered composite arm plate (exosuit)", "str_pl": "shattered composite arm plates (exosuit)" },
     "description": "The remains of a vacuum-cast composite arm plate after taking a strong impact.  No longer provides functional protection, just weight.",
