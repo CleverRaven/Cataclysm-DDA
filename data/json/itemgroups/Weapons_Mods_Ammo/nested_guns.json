@@ -1668,6 +1668,19 @@
     ]
   },
   {
+    "id": "nested_mp_15_22",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "mp_15_22", "charges": [ 0, 10 ] },
+      { "item": "mp1522_mag" },
+      { "item": "mp1522_mag", "prob": 50 },
+      { "group": "on_hand_22" }
+    ]
+  },
+  {
     "id": "nested_ruger_mini",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1677,6 +1690,19 @@
       { "item": "ruger_mini", "charges": [ 0, 5 ] },
       { "item": "ruger10" },
       { "item": "ruger10", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_mp_15",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "mp_15", "charges": [ 0, 5 ] },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },

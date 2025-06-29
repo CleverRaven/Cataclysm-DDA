@@ -660,5 +660,42 @@
     "dispersion": 580,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock44_mag" ] } ]
+  },
+  {
+    "id": "mp_15_22",
+    "looks_like": "ar15",
+    "copy-from": "gun_base_22_semi_rifle",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "modern varmint rifle" },
+    "//": "Based on https://www.smith-wesson.com/product/performance-center-m-p-15-22-sport-compliant",
+    "description": "Resembling a military rifle, this firearm is made from polymer.  Despite its looks, it only shoots .22 LR in a semi-automatic fashion.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mp_15_22",
+        "name": { "str": "M&P 15-22" },
+        "description": "A .22 LR version of the M&P-15, this rifle resembles an AR-15 in form and function, but does not have the ability for compatible uppers or lowers."
+      }
+    ],
+    "weight": "2540 g",
+    "volume": "3318 ml",
+    "longest_side": "942 mm",
+    "barrel_length": "406 mm",
+    "price": "779 USD",
+    "material": [ "steel", "plastic" ],
+    "dispersion": 110,
+    "barrel_volume": "500 ml",
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "magazine_well": "34 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mp1522_mag" ] } ]
   }
 ]
