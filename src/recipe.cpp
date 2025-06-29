@@ -666,7 +666,7 @@ void recipe::finalize()
 
     // ensure result name is always in front of the name for searching in crafting menu
     if( !name_.empty() && !is_practice() && !is_nested() && result_ ) {
-        name_ = translation::to_translation( result_->nname( 1 ) + " " + name_ );
+        name_ = translation::to_translation( string_format( name_, result_->nname( makes_amount() ) ) );
     }
 }
 
