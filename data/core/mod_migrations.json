@@ -3,7 +3,7 @@
     "type": "mod_migration",
     "//": "Removed in 0.I",
     "id": "Graphical_Overmap",
-    "removal_reason": "Superceded by proper support for overmap tilesets through \"Use tiles to display overmap\" option under Graphics -> Tileset Options."
+    "removal_reason": "Superseded by proper support for overmap tilesets through \"Use tiles to display overmap\" option under Graphics -> Tileset Options."
   },
   {
     "type": "mod_migration",
@@ -21,13 +21,13 @@
     "type": "mod_migration",
     "//": "Removed in 0.I",
     "id": "sees_player_retro",
-    "removal_reason": "Superceded by \"Show overlay icons over creatures\" option under Graphics -> Tileset Options."
+    "removal_reason": "Superseded by \"Show overlay icons over creatures\" option under Graphics -> Tileset Options."
   },
   {
     "type": "mod_migration",
     "//": "Removed in 0.I",
     "id": "sees_player_hitbutton",
-    "removal_reason": "Superceded by \"Show overlay icons over creatures\" option under Graphics -> Tileset Options."
+    "removal_reason": "Superseded by \"Show overlay icons over creatures\" option under Graphics -> Tileset Options."
   },
   {
     "type": "mod_migration",
