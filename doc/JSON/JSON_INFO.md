@@ -4076,7 +4076,7 @@ A list of mission ids that will be started and assigned to the player at the sta
 ## `start_of_cataclysm`
 (optional, object with optional members "hour", "day", "season" and "year")
 
-Allows customization of Cataclysm start date. If `start_of_cataclysm` is not set the corresponding default values are used instead - `Year 1, Spring, Day 61, 00:00:00`. Can be changed in new character creation screen.
+Allows customization of Cataclysm start date. If `start_of_cataclysm` is not set the corresponding default values are used instead - `Year 1, Spring, Day 56, 00:00:00`. Can be changed in new character creation screen.
 
 ```jsonc
 "start_of_cataclysm": { "hour": 7, "day": 10, "season": "winter", "year": 1 }
