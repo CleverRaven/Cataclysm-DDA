@@ -611,8 +611,12 @@
             "charges": [ 7000, 10000 ]
           },
           { "item": "matrix_crystal_teleportation" },
-          { "item": "mom_fusion_pistol" },
-          { "item": "mom_fusion_mag", "ammo-item": "mom_fusion_ammo", "charges": 40 }
+          {
+            "item": "mom_fusion_mag",
+            "ammo-item": "mom_fusion_ammo",
+            "container-item": "mom_fusion_pistol",
+            "charges": 40
+          }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -754,7 +758,12 @@
           },
           { "item": "socks" },
           { "item": "itzcuauhtli_boots", "variant": "itzcuauhtli_boots_standard" },
-          { "item": "itzcuauhtli_holster" },
+          {
+            "item": "mom_fifth_sun_stungun_pistol",
+            "ammo-item": "mom_fifth_sun_stungun_ammo",
+            "charges": 25,
+            "container-item": "itzcuauhtli_holster"
+          },
           { "item": "itzcuauhtli_pants_army" },
           { "item": "itzcuauhtli_combat_shirt" },
           { "item": "itzcuauhtli_jacket_army_modern" },
