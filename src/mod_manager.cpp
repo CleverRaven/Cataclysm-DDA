@@ -111,19 +111,39 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab()
     return mod_list_cat_tab;
 }
 
-void mod_manager::load_replacement_mods( const cata_path &path )
+static std::unordered_map<mod_id, mod_id> migrated_mods;
+static std::unordered_set<mod_id> removed_mods;
+
+void mod_manager::load_replacement_mods( const JsonObject &jo )
 {
-    read_from_file_optional_json( path, [&]( const JsonArray & jsin ) {
-        for( JsonArray arr : jsin ) {
-            mod_replacements.emplace( mod_id( arr.get_string( 0 ) ),
-                                      mod_id( arr.size() > 1 ? arr.get_string( 1 ) : "" ) );
+    const bool is_removal = !jo.has_string( "new_id" );
+    const mod_id old_id = jo.get_string( "id" );
+    if( jo.has_string( "new_id" ) ) {
+        const mod_id new_id = jo.get_string( "new_id" );
+        migrated_mods.insert( std::make_pair( old_id, new_id ) );
+    } else {
+        removed_mods.insert( old_id );
+    }
+}
+
+void mod_manager::reset_replacement_mods()
+{
+    migrated_mods.clear();
+    removed_mods.clear();
+}
+
+void mod_manager::check_replacement_mods()
+{
+    for( const mod_id &migration : migrated_mods ) {
+        if( !migration.second.is_valid() ) {
+            debugmsg( "mod_migration from '%s' specifies invalid new_id '%s'", migration.first.c_str(),
+                      migration.second.c_str() );
         }
-    } );
+    }
 }
 
 mod_manager::mod_manager()
 {
-    load_replacement_mods( PATH_INFO::mods_replacements() );
     refresh_mod_list();
     set_usable_mods();
 }
@@ -174,9 +194,6 @@ void mod_manager::refresh_mod_list()
     if( !set_default_mods( MOD_INFORMATION_user_default ) ) {
         set_default_mods( MOD_INFORMATION_dev_default );
     }
-    // remove these mods from the list, so they do not appear to the user
-    remove_mod( MOD_INFORMATION_user_default );
-    remove_mod( MOD_INFORMATION_dev_default );
     for( auto &elem : mod_map ) {
         const auto &deps = elem.second.dependencies;
         mod_dependency_map[elem.second.ident] = std::vector<mod_id>( deps.begin(), deps.end() );
@@ -208,7 +225,6 @@ bool mod_manager::set_default_mods( const mod_id &ident )
     }
     const MOD_INFORMATION &mod = iter->second;
     auto deps = std::vector<mod_id>( mod.dependencies.begin(), mod.dependencies.end() );
-    remove_invalid_mods( deps );
     default_mods = deps;
     return true;
 }
@@ -307,6 +323,9 @@ bool mod_manager::set_default_mods( const t_mod_list &mods )
         json.member( "id", "user:default" );
         json.member( "conflicts", std::vector<std::string>() );
         json.member( "dependencies" );
+        json.member( "//",
+                     "Not really obsolete! Marked as such to prevent it from showing in the main list" );
+        json.member( "obsolete", "true" );
         json.write( mods );
         json.end_object();
     }, _( "list of default mods" ) );

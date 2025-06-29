@@ -3447,15 +3447,8 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs 
         const MOD_INFORMATION &mod = *e;
         load_mod_interaction_data_from_dir( mod.path / "mod_interactions", mod.ident.str() );
     }
-
-    // Missing mods removed within the last version cycle trigger a different message to make it clear they have been intentionally removed
-    const std::unordered_set<mod_id> removed_mods {
-        MOD_INFORMATION_Graphical_Overmap, // Removed in 0.I
-        MOD_INFORMATION_sees_player_retro, // Removed in 0.I
-        MOD_INFORMATION_no_fungal_growth, // Removed in 0.I
-        MOD_INFORMATION_StatsThroughSkills, // Removed in 0.I
-        MOD_INFORMATION_sees_player_hitbutton // Removed in 0.I
-    };
+    mod_manager &modm = world_generator->get_mod_manager();
+    modm.apply_migrations();
     std::unordered_set<mod_id> mods_to_remove;
     for( const mod_id &e : missing ) {
         if( removed_mods.find( e ) == removed_mods.end() ) {
@@ -3469,11 +3462,12 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs 
         }
     }
     if( !mods_to_remove.empty() ) {
-        auto &mods = world_generator->active_world->active_mod_order;
+        std::vector<mod_id> &mods = world_generator->active_world->active_mod_order;
+        world_generator->get_mod_manager()
         mods.erase( std::remove_if( mods.begin(), mods.end(), [&mods_to_remove]( const auto e ) {
             return mods_to_remove.find( e ) != mods_to_remove.end();
         } ), mods.end() );
-        world_generator->get_mod_manager().save_mods_list( world_generator->active_world );
+        modm.save_mods_list( world_generator->active_world );
     }
 }
 

@@ -165,8 +165,6 @@ class mod_manager
 
         bool set_default_mods( const mod_id &ident );
         void remove_mod( const mod_id &ident );
-        void remove_invalid_mods( std::vector<mod_id> &mods ) const;
-        void load_replacement_mods( const cata_path &path );
 
         pimpl<dependency_tree> tree;
 
@@ -175,8 +173,6 @@ class mod_manager
          */
         std::map<mod_id, MOD_INFORMATION> mod_map;
         t_mod_list default_mods;
-        /** Second field is optional replacement mod */
-        std::map<mod_id, mod_id> mod_replacements;
 
         std::vector<mod_id> usable_mods;
 

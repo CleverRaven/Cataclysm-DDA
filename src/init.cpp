@@ -295,6 +295,7 @@ void DynamicDataLoader::initialize()
     add( "skill", &Skill::load_skill );
     add( "skill_display_type", &SkillDisplayType::load );
     add( "dream", &dream::load );
+    add( "mod_migration", &mod_manager::load_replacement_mods );
     add( "mutation_category", &mutation_category_trait::load );
     add( "mutation_type", &load_mutation_type );
     add( "mutation", &mutation_branch::load_trait );
