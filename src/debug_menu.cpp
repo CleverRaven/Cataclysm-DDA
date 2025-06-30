@@ -1945,17 +1945,19 @@ static void character_edit_needs_menu( Character &you )
     smenu.addentry( 5, true, 'f', "%s: %d", _( "Sleepiness" ), you.get_sleepiness() );
     smenu.addentry( 6, true, 'd', "%s: %d", _( "Sleep Deprivation" ), you.get_sleep_deprivation() );
     smenu.addentry( 7, true, 'w', "%s: %d", _( "Weariness" ), you.weariness() );
-    smenu.addentry( 10, true, 'W', "%s: %d", _( "Weariness tracker" ),
+    smenu.addentry( 8, true, 'W', "%s: %d", _( "Weariness tracker" ),
                     you.activity_history.debug_get_tracker() );
-    smenu.addentry( 8, true, 'a', _( "Reset all basic needs" ) );
-    smenu.addentry( 9, true, 'e', _( "Empty stomach and guts" ) );
+    smenu.addentry( 9, true, 'a', _( "Reset all basic needs" ) );
+    smenu.addentry( 10, true, 'e', _( "Empty stomach and guts" ) );
 
     const auto &vits = vitamin::all();
+    int vitamin_entry_base = 11;
+    int vitamin_idx = 0;
     for( const auto &v : vits ) {
-        smenu.addentry( -1, true, 0, _( "%s: daily %d, overall %d" ), v.second.name(),
-                        you.get_daily_vitamin( v.first ), you.vitamin_get( v.first ) );
+        smenu.addentry( vitamin_entry_base + vitamin_idx, true, 0, _( "%s: daily %d, overall %d" ),
+                        v.second.name(), you.get_daily_vitamin( v.first ), you.vitamin_get( v.first ) );
+        ++vitamin_idx;
     }
-
     smenu.query();
     int value;
     switch( smenu.ret ) {
@@ -2009,13 +2011,13 @@ static void character_edit_needs_menu( Character &you )
                 you.activity_history.weary_clear();
             }
             break;
-        case 10:
+        case 8:
             if( query_int( value, false, _( "Set weariness tracker to?  Currently: %d" ),
                            you.activity_history.debug_get_tracker() ) ) {
                 you.activity_history.debug_set_tracker( value );
             }
             break;
-        case 8:
+        case 9:
             you.initialize_stomach_contents();
             you.set_hunger( 0 );
             you.set_thirst( 0 );
@@ -2024,13 +2026,14 @@ static void character_edit_needs_menu( Character &you )
             you.set_stored_kcal( you.get_healthy_kcal() );
             you.activity_history.weary_clear();
             break;
-        case 9:
+        case 10:
             you.stomach.empty();
             you.guts.empty();
             break;
         default:
-            if( smenu.ret >= 10 && smenu.ret < static_cast<int>( vits.size() + 10 ) ) {
-                auto iter = std::next( vits.begin(), smenu.ret - 10 );
+            if( smenu.ret >= vitamin_entry_base &&
+                smenu.ret < vitamin_entry_base + static_cast<int>( vits.size() ) ) {
+                auto iter = std::next( vits.begin(), smenu.ret - vitamin_entry_base );
                 if( query_int( value, false, _( "Set %s to?  Currently: %d" ),
                                iter->second.name(), you.vitamin_get( iter->first ) ) ) {
                     you.vitamin_set( iter->first, value );

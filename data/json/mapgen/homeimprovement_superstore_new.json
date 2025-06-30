@@ -203,7 +203,7 @@
         { "group": "cash_register_random", "x": 34, "y": [ 46, 47 ] }
       ],
       "items": {
-        "d": { "item": "office", "chance": 45, "repeat": [ 1, 2 ] },
+        "d": { "item": "SUS_office_desk", "chance": 45, "repeat": [ 1, 2 ] },
         "D": { "item": "SUS_trash_dumpster", "chance": 40 },
         "Q": { "item": "bed", "chance": 65, "repeat": [ 1, 2 ] },
         "1": { "item": "paint", "chance": 80, "repeat": [ 1, 8 ] },

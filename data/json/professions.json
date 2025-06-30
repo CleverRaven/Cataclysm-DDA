@@ -4600,7 +4600,6 @@
     "points": 1,
     "proficiencies": [ "prof_knives_familiar", "prof_unarmed_familiar", "prof_shivs_familiar" ],
     "skills": [ { "level": 3, "name": "melee" }, { "level": 3, "name": "stabbing" }, { "level": 2, "name": "unarmed" } ],
-    "traits": [ "KILLER" ],
     "items": {
       "both": { "items": [ "sneakers", "socks", "glass_shiv", { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
       "male": { "entries": [ { "item": "briefs" } ] },

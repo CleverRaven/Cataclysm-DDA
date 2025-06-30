@@ -13,7 +13,7 @@
         " BBB"
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
@@ -37,9 +37,9 @@
         "  ix"
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -63,9 +63,9 @@
         "  dd"
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -89,7 +89,7 @@
         "BBB "
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
@@ -113,9 +113,9 @@
         "xi  "
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -139,9 +139,9 @@
         "dd  "
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -165,9 +165,9 @@
         " HHH"
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -191,9 +191,9 @@
         "  cd"
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -217,9 +217,9 @@
         "  dd"
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -243,9 +243,9 @@
         " xdd"
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -269,9 +269,9 @@
         " iBB"
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -295,9 +295,9 @@
         "BBB "
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -321,9 +321,9 @@
         "dc  "
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -347,9 +347,9 @@
         "dd  "
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -373,9 +373,9 @@
         "ddx "
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -399,9 +399,9 @@
         "BBi "
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -427,9 +427,9 @@
       ],
       "terrain": { " ": "t_floor", "f": "t_floor", "r": "t_floor", "H": "t_floor", "d": "t_floor", "c": "t_floor", "B": "t_floor" },
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "r": { "item": "tools_science", "chance": 80 },
         "f": { "item": "SUS_fridge_snacks", "chance": 50, "repeat": 2 },
         "B": [
@@ -466,9 +466,9 @@
         "B": "t_floor"
       },
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "r": { "item": "tools_science", "chance": 80 },
         "f": { "item": "SUS_fridge_snacks", "chance": 50, "repeat": 4 },
         "B": [
@@ -495,9 +495,9 @@
       ],
       "terrain": { " ": "t_floor", "r": "t_floor", "H": "t_floor", "d": "t_floor", "c": "t_floor", "B": "t_floor" },
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "r": { "item": "tools_science", "chance": 80 },
         "f": { "item": "SUS_fridge_snacks", "chance": 50, "repeat": 4 },
         "B": [
@@ -532,9 +532,9 @@
         "B": "t_carpet_concrete_red"
       },
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "r": { "item": "tools_science", "chance": 80 },
         "f": { "item": "SUS_fridge_snacks", "chance": 50, "repeat": 4 },
         "B": [
@@ -568,9 +568,9 @@
         "B": "t_linoleum_gray"
       },
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
-        "i": { "item": "office", "chance": 95 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 95 },
         "r": { "item": "tools_science", "chance": 80 },
         "f": { "item": "SUS_fridge_snacks", "chance": 50, "repeat": 4 },
         "B": [
@@ -596,7 +596,7 @@
         "     "
       ],
       "terrain": { " ": "t_floor", "c": "t_floor", "t": "t_floor" },
-      "items": { "t": [ { "item": "office", "chance": 15, "repeat": 2 }, { "item": "electronics", "chance": 5 } ] },
+      "items": { "t": [ { "item": "SUS_office_desk", "chance": 15 }, { "item": "electronics", "chance": 5 } ] },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -615,7 +615,7 @@
         " ccc "
       ],
       "terrain": { " ": "t_floor", "c": "t_floor", "t": "t_floor" },
-      "items": { "t": [ { "item": "office", "chance": 15, "repeat": 2 }, { "item": "electronics", "chance": 5 } ] },
+      "items": { "t": [ { "item": "SUS_office_desk", "chance": 15 }, { "item": "electronics", "chance": 5 } ] },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -882,12 +882,7 @@
         "|-|-|",
         "dc|cd"
       ],
-      "items": {
-        "d": [
-          { "item": "office", "chance": 50, "repeat": [ 2, 5 ] },
-          { "item": "tools_science", "chance": 30, "repeat": [ 1, 3 ] }
-        ]
-      },
+      "items": { "d": [ { "item": "SUS_office_desk", "chance": 50 }, { "item": "tools_science", "chance": 30, "repeat": [ 1, 3 ] } ] },
       "palettes": [ "lab_workspace_palette" ]
     }
   },
@@ -1035,7 +1030,7 @@
         "   ccccc   ",
         "           "
       ],
-      "items": { "c": { "item": "office", "chance": 8 }, "t": { "item": "electronics", "chance": 15 } },
+      "items": { "c": { "item": "SUS_office_desk", "chance": 8 }, "t": { "item": "electronics", "chance": 15 } },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -1060,7 +1055,7 @@
         "           "
       ],
       "terrain": { "%": "t_carpet_concrete_yellow" },
-      "items": { "d": { "item": "office", "chance": 8 } },
+      "items": { "d": { "item": "SUS_office_desk", "chance": 8 } },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -1115,7 +1110,7 @@
         "s": "t_floor",
         "C": "t_floor"
       },
-      "items": { "c": { "item": "office", "chance": 10 }, "C": { "item": "office", "chance": 45 } },
+      "items": { "c": { "item": "SUS_office_desk", "chance": 10 }, "C": { "item": "SUS_office_desk", "chance": 45 } },
       "palettes": [ "lab_surface_palette" ]
     }
   },

@@ -1,0 +1,52 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_GAIN_NETHER_ATTUNEMENT_ACHIEVEMENT",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "and": [ { "compare_string": [ "effect_disease_psionic_drain", { "context_val": "effect" } ] }, "u_is_avatar" ] },
+    "effect": [
+      { "give_achievement": "mom_gain_any_nether_attunement" },
+      { "run_eocs": "EOC_PSI_GAIN_NETHER_ATTUNEMENT_ACHIEVEMENT_FURTHER_CHECKS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_GAIN_NETHER_ATTUNEMENT_ACHIEVEMENT_FURTHER_CHECKS",
+    "//": "There's no way to run -character_gains_effect- when rising between intensity levels so for the moment we need this EoC",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC",
+            "PSYCHIC_KNACK"
+          ]
+        },
+        { "u_has_effect": "effect_disease_psionic_drain" }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "u_has_effect": "effect_disease_psionic_drain", "intensity": 4 },
+        "then": [ { "give_achievement": "mom_gain_rank_four_nether_attunement" } ]
+      },
+      {
+        "if": { "u_has_effect": "effect_disease_psionic_drain", "intensity": 8 },
+        "then": [ { "give_achievement": "mom_gain_rank_eight_nether_attunement" } ]
+      },
+      {
+        "if": { "u_has_effect": "effect_disease_psionic_drain", "intensity": 12 },
+        "then": [ { "give_achievement": "mom_gain_maximum_nether_attunement" } ]
+      },
+      { "run_eocs": "EOC_PSI_GAIN_NETHER_ATTUNEMENT_ACHIEVEMENT_FURTHER_CHECKS", "time_in_future": 2 }
+    ]
+  }
+]

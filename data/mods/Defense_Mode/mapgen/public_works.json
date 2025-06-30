@@ -106,8 +106,8 @@
         { "item": "hardware", "x": [ 2, 2 ], "y": [ 39, 44 ], "chance": 85, "repeat": 2 },
         { "item": "hardware", "x": [ 6, 13 ], "y": 45, "chance": 85, "repeat": 2 },
         { "item": "tools_construction", "x": [ 18, 21 ], "y": 16, "chance": 80, "repeat": 2 },
-        { "item": "office", "x": [ 18, 20 ], "y": 12, "chance": 80, "repeat": 2 },
-        { "item": "office", "x": 18, "y": 10, "chance": 60, "repeat": 2 },
+        { "item": "SUS_office_desk", "x": [ 18, 20 ], "y": 12, "chance": 80, "repeat": 2 },
+        { "item": "SUS_office_desk", "x": 18, "y": 10, "chance": 60, "repeat": 2 },
         { "item": "tools_carpentry", "x": [ 38, 41 ], "y": 29, "chance": 85, "repeat": 3 },
         { "item": "tools_construction", "x": 41, "y": [ 26, 27 ], "chance": 85, "repeat": 3 },
         { "item": "tools_earthworking", "x": 36, "y": [ 26, 27 ], "chance": 85, "repeat": 3 },
@@ -117,7 +117,7 @@
         { "item": "electronics", "x": [ 40, 42 ], "y": 45, "chance": 80, "repeat": 2 },
         { "item": "cleaning", "x": [ 36, 37 ], "y": 45, "chance": 85, "repeat": 2 },
         { "item": "construction_worker", "x": [ 27, 34 ], "y": 13, "chance": 80, "repeat": 2 },
-        { "item": "office", "x": [ 39, 41 ], "y": 4, "chance": 80, "repeat": 2 },
+        { "item": "SUS_office_desk", "x": [ 39, 41 ], "y": 4, "chance": 80, "repeat": 2 },
         { "item": "cleaning", "x": 41, "y": 7, "chance": 80, "repeat": 2 }
       ],
       "place_item": [

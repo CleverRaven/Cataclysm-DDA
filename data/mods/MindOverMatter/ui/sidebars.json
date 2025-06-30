@@ -208,6 +208,102 @@
       },
       {
         "id": "visible_torrential_1",
+        "text": { "str": "<color_white>T Ψ T</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "not": { "u_has_any_effect": [ "effect_noetic_resilience" ] } },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 15" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 35" ] },
+            { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" }
+          ]
+        }
+      },
+      {
+        "id": "visible_torrential_2",
+        "text": { "str": "<color_white>T Ψ=Ψ T</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "not": { "u_has_any_effect": [ "effect_noetic_resilience" ] } },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 35" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 55" ] },
+            { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" }
+          ]
+        }
+      },
+      {
+        "id": "visible_torrential_3",
+        "text": { "str": "<color_white>T Ψ=Ψ=Ψ T</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "not": { "u_has_any_effect": [ "effect_noetic_resilience" ] } },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 55" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 75" ] },
+            { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" }
+          ]
+        }
+      },
+      {
+        "id": "visible_torrential_4",
+        "text": { "str": "<color_white>T Ψ=Ψ=Ψ=Ψ T</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "not": { "u_has_any_effect": [ "effect_noetic_resilience" ] } },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 75" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 95" ] },
+            { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" }
+          ]
+        }
+      },
+      {
+        "id": "visible_torrential_5",
+        "text": { "str": "<color_white>T Ψ=Ψ=Ψ=Ψ=Ψ T</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "not": { "u_has_any_effect": [ "effect_noetic_resilience" ] } },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 95" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 115" ] },
+            { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" }
+          ]
+        }
+      },
+      {
+        "id": "visible_torrential_6",
+        "text": { "str": "<color_white>T Ψ=Ψ=Ψ=Ψ=Ψ=Ψ T</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "not": { "u_has_any_effect": [ "effect_noetic_resilience" ] } },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 115" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 135" ] },
+            { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" }
+          ]
+        }
+      },
+      {
+        "id": "visible_torrential_7",
+        "text": { "str": "<color_white>T Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ T</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "not": { "u_has_any_effect": [ "effect_noetic_resilience" ] } },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 135" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 155" ] },
+            { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" }
+          ]
+        }
+      },
+      {
+        "id": "visible_torrential_8",
+        "text": { "str": "<color_white>T Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ T</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "not": { "u_has_any_effect": [ "effect_noetic_resilience" ] } },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 155" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 175" ] },
+            { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" }
+          ]
+        }
+      },
+      {
+        "id": "visible_torrential_9",
         "text": { "str": "<color_white>T Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ T</color>", "//~": "NO_I18N" },
         "condition": {
           "and": [
@@ -218,7 +314,7 @@
         }
       },
       {
-        "id": "visible_torrential_2",
+        "id": "visible_torrential_10",
         "text": { "str": "<color_white>T Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ T</color>", "//~": "NO_I18N" },
         "condition": {
           "and": [
@@ -230,7 +326,7 @@
         }
       },
       {
-        "id": "visible_torrential_3",
+        "id": "visible_torrential_11",
         "text": { "str": "<color_white>T Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ T</color>", "//~": "NO_I18N" },
         "condition": {
           "and": [
@@ -242,7 +338,7 @@
         }
       },
       {
-        "id": "visible_torrential_3",
+        "id": "visible_torrential_12",
         "text": { "str": "<color_white>T Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ T</color>", "//~": "NO_I18N" },
         "condition": {
           "and": [

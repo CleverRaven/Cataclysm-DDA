@@ -221,7 +221,7 @@
     "replace": "pistol_smg"
   },
   {
-    "id": [ "ruger_1022", "ruger_1022_auto", "ruger_charger_auto", "rossi_gallery", "marlin60" ],
+    "id": [ "ruger_1022", "ruger_1022_auto", "ruger_charger_auto", "rossi_gallery", "marlin60", "mp_15_22" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_rifle"
   },
@@ -382,6 +382,7 @@
       "ar15_762",
       "rifle_223",
       "ruger_mini",
+      "mp_15",
       "sig_assault_rifle",
       "steyr_aug",
       "iwi_tavor_x95_300blk",

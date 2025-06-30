@@ -1,0 +1,158 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_metal_deposition_u",
+    "name": "metal vapor forge",
+    "looks_like": "f_machinery_electronic",
+    "description": "An automated robotic arm capable of precisely depositing metal atoms into any desired shape.  All manufacturing processes of interstellar significance require units such as this, and they are extremely difficult to replace.",
+    "symbol": "&",
+    "bgcolor": "yellow",
+    "move_cost_mod": 3,
+    "required_str": 18,
+    "flags": [ "TRANSPARENT", "MOUNTABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "afs_circuitry_3", "count": 1 },
+        { "item": "afs_material_1", "count": [ 10, 20 ] },
+        { "item": "afs_material_3", "count": [ 1, 3 ] },
+        { "item": "afs_magnet_3", "count": [ 1, 3 ] },
+        { "item": "afs_magnet_4", "count": 1 },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
+        { "item": "spring", "prob": 80 },
+        { "item": "mc_steel_lump", "prob": 60 },
+        { "item": "sheet_metal", "prob": 50 },
+        { "item": "motor_small", "prob": 60 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 45,
+      "sound": "smash!",
+      "sound_fail": "thunk.",
+      "items": [
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_material_1", "count": [ 10, 20 ] },
+        { "item": "afs_material_3", "count": [ 1, 3 ] },
+        { "item": "afs_magnet_3", "count": [ 1, 3 ] },
+        { "item": "afs_magnet_4", "count": [ 0, 1 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+        { "item": "spring", "prob": 80 },
+        { "item": "mc_steel_lump", "prob": 50 },
+        { "item": "sheet_metal", "prob": 30 },
+        { "item": "scrap", "count": [ 2, 5 ] },
+        { "item": "motor_small", "prob": 30 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_robotic_arm",
+    "name": "robotic arm",
+    "looks_like": "f_machinery_electronic",
+    "description": "An automated robotic arm used in assembly lines, which appears to be more general-purpose than specially designed assemblers.  Despite being functionless now, the parts could be useful.",
+    "symbol": "&",
+    "bgcolor": "yellow",
+    "move_cost_mod": 3,
+    "required_str": 18,
+    "flags": [ "TRANSPARENT", "MOUNTABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "processor", "prob": 75 },
+        { "item": "afs_circuitry_2", "count": [ 0, 1 ] },
+        { "item": "afs_material_1", "count": [ 10, 20 ] },
+        { "item": "afs_magnet_2", "count": [ 1, 3 ] },
+        { "item": "RAM", "prob": 80 },
+        { "item": "power_supply", "prob": 70 },
+        { "item": "amplifier", "prob": 90 },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
+        { "item": "spring", "prob": 80 },
+        { "item": "mc_steel_lump", "prob": 60 },
+        { "item": "sheet_metal", "prob": 50 },
+        { "item": "motor_small", "prob": 60 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 45,
+      "sound": "smash!",
+      "sound_fail": "thunk.",
+      "items": [
+        { "item": "processor", "prob": 15 },
+        { "item": "afs_circuitry_2", "count": [ 0, 1 ] },
+        { "item": "afs_material_1", "count": [ 10, 20 ] },
+        { "item": "afs_magnet_2", "count": [ 1, 3 ] },
+        { "item": "RAM", "prob": 30 },
+        { "item": "power_supply", "prob": 50 },
+        { "item": "amplifier", "prob": 70 },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+        { "item": "spring", "prob": 80 },
+        { "item": "mc_steel_lump", "prob": 50 },
+        { "item": "sheet_metal", "prob": 30 },
+        { "item": "scrap", "count": [ 2, 5 ] },
+        { "item": "motor_small", "prob": 30 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_future_industy_pump",
+    "name": "high-pressure pumping station",
+    "looks_like": "f_machinery_light",
+    "description": "A high-pressure pump used to move fluids through industrial systems.  Complex but relatively mundane it construction, it can be salvaged for low grade scrap.",
+    "symbol": "Y",
+    "color": "light_cyan",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": 16,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "55gal_drum", "count": [ 1, 3 ] },
+        { "item": "pipe", "count": [ 2, 5 ] },
+        { "item": "thermometer", "count": [ 1, 3 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 1 ] },
+        { "item": "pump_complex", "count": [ 0, 3 ] },
+        { "item": "cable", "count": [ 3, 8 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "frame", "count": [ 1, 1 ] },
+        { "item": "polycarbonate_sheet", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "55gal_drum", "count": [ 3, 3 ] },
+        { "item": "pipe", "count": [ 4, 5 ] },
+        { "item": "thermometer", "count": [ 2, 3 ] },
+        { "item": "afs_circuitry_2", "count": [ 1, 1 ] },
+        { "item": "pump_complex", "count": [ 3, 3 ] },
+        { "item": "cable", "count": [ 3, 8 ] },
+        { "item": "frame", "count": [ 1, 1 ] },
+        { "item": "hose", "count": [ 1, 2 ] },
+        { "item": "polycarbonate_sheet", "count": [ 4, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_catalytic_core",
+    "name": "catalytic core",
+    "looks_like": "t_pillar",
+    "description": "A great pillar of gleaming alloy, used in a variety of industrial metalworking processes.  A critical and near irreplaceable component of interstellar industry.",
+    "symbol": "|",
+    "color": "light_cyan",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": 16,
+    "flags": [ "TRANSPARENT", "NOITEM" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [ { "item": "afs_catalytic_core", "count": 1 }, { "item": "frame", "count": 1 } ]
+    },
+    "deconstruct": { "items": [ { "item": "afs_catalytic_core", "count": 1 }, { "item": "frame", "count": 1 } ] }
+  }
+]

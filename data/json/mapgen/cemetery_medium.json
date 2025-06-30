@@ -69,11 +69,11 @@
         { "group": "nested_glock_22", "chance": 50, "repeat": 1, "x": 18, "y": 19 }
       ],
       "place_items": [
-        { "chance": 10, "item": "office", "x": 17, "y": 19 },
+        { "chance": 50, "item": "SUS_office_desk", "x": 17, "y": 19 },
         { "chance": 3, "item": "creepy", "x": 21, "y": 20 },
         { "chance": 3, "item": "creepy", "x": 4, "y": 19 },
         { "chance": 3, "item": "creepy", "x": 4, "y": 3 },
-        { "chance": 20, "item": "SUS_trash_trashcan_public", "x": 22, "y": 20 }
+        { "chance": 50, "item": "SUS_trash_trashcan_public", "x": 22, "y": 20 }
       ],
       "place_monsters": [ { "chance": 2, "density": 0.5, "monster": "GROUP_ZOMBIE", "x": [ 0, 18 ], "y": [ 0, 6 ] } ]
     }

@@ -43,5 +43,10 @@
     "id": "morale_boring_fruit",
     "type": "morale_type",
     "text": "Boring aftertaste"
+  },
+  {
+    "id": "morale_vw_no_fun",
+    "type": "morale_type",
+    "text": "Barred from mortal joys."
   }
 ]

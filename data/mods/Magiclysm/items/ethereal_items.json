@@ -234,7 +234,8 @@
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP", "STURDY", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "MAGIC_FOCUS" ],
     "category": "weapons",
     "melee_damage": { "cut": 30 },
-    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "UGLINESS", "add": 3 } ] } ]
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "UGLINESS", "add": 3 } ] } ],
+    "weapon_category": [ "WHIPS" ]
   },
   {
     "id": "flarewhip",
@@ -266,7 +267,8 @@
     ],
     "to_hit": 3,
     "category": "weapons",
-    "melee_damage": { "cut": 6, "heat": 30 }
+    "melee_damage": { "cut": 6, "heat": 30 },
+    "weapon_category": [ "WHIPS" ]
   },
   {
     "id": "fleshpouch",

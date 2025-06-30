@@ -167,7 +167,7 @@
           ]
         },
         "b": { "items": [ { "item": "bed", "chance": 50 } ] },
-        "d": { "items": [ { "item": "office", "chance": 50 } ] },
+        "d": { "items": [ { "item": "SUS_office_desk", "chance": 50 } ] },
         "r": {
           "items": [
             { "item": "ammo_milspec", "chance": 14 },
@@ -258,8 +258,8 @@
         "r": { "items": [ { "item": "softdrugs", "chance": 40 }, { "item": "harddrugs", "chance": 30 } ] },
         "b": { "items": [ { "item": "bed", "chance": 50 } ] },
         "l": { "items": [ { "item": "science", "chance": 60 } ] },
-        "d": { "items": [ { "item": "office", "chance": 60 } ] },
-        "c": { "items": [ { "item": "office", "chance": 40 } ] }
+        "d": { "items": [ { "item": "SUS_office_desk", "chance": 60 } ] },
+        "c": { "items": [ { "item": "SUS_office_desk", "chance": 40 } ] }
       },
       "computers": {
         "6": {

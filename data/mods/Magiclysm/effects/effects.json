@@ -2026,7 +2026,9 @@
       "effect_feral_technomancer_mage_blade",
       "effect_feral_technomancer_mage_armor",
       "effect_feral_technomancer_bless",
-      "enchant_windrun_monster"
+      "enchant_windrun_monster",
+      "effect_feral_animist_guardian_spirit",
+      "effect_feral_animist_inner_voice"
     ]
   },
   {
@@ -2180,7 +2182,9 @@
       "effect_feral_technomancer_mage_blade",
       "effect_feral_technomancer_mage_armor",
       "effect_feral_technomancer_bless",
-      "enchant_windrun_monster"
+      "enchant_windrun_monster",
+      "effect_feral_animist_guardian_spirit",
+      "effect_feral_animist_inner_voice"
     ]
   },
   {

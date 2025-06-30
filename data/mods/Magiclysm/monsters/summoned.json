@@ -35,6 +35,15 @@
     ]
   },
   {
+    "id": "mon_magi_shadow_monster",
+    "type": "MONSTER",
+    "//": "The version for monster summons.",
+    "copy-from": "mon_magi_shadow",
+    "name": { "str": "shadow" },
+    "description": "This is an animate shadow.  Looking like nothing more than an errant patch of normal shadow, it draws your attention by the way it moves subtly and whispers softly in the back of your mind.  Strange intrusive thoughts accompany the quiet murmur, awakening your most horrific memories and fears.",
+    "default_faction": "zombie"
+  },
+  {
     "id": "mon_keeper_of_the_glades_shaman",
     "copy-from": "mon_keeper_of_the_glades",
     "type": "MONSTER",
