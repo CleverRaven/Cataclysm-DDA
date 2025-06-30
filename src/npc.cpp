@@ -2178,6 +2178,11 @@ void npc::shop_restock()
     distribute_items_to_npc_zones( ret, *this );
 }
 
+time_point npc::restock_time() const
+{
+    return restock + myclass->get_shop_restock_interval();
+}
+
 std::string npc::get_restock_interval() const
 {
     time_duration const restock_remaining =

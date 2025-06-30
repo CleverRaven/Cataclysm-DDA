@@ -168,8 +168,8 @@
     "id": "TALK_GODCO_Kostas_Interval",
     "type": "talk_topic",
     "dynamic_line": [
-      "I'm afraid I haven't gone out there for a while, maybe come back in <interval>.  These are all I have, care to take a look?",
-      "Sorry these are all I have.  However I'll be back from my next run in <interval>.  Care to take a look in the meanwhile?"
+      "I'm afraid I haven't gone out there for a while, maybe come back on <restock_time_point>.  These are all I have, care to take a look?",
+      "Sorry these are all I have.  However I'll be back from my next run on <restock_time_point>.  Care to take a look in the meanwhile?"
     ],
     "responses": [
       { "text": "Alright, I'll take a look.", "effect": "start_trade", "topic": "TALK_GODCO_Kostas_1" },
