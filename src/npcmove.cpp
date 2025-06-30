@@ -3387,7 +3387,8 @@ void npc::worker_downtime()
                 if( here.has_flag_furn( ter_furn_flag::TFLAG_CAN_SIT, elem ) && !creatures.creature_at( elem ) &&
                     could_move_onto( elem ) && !!assigned_camp ) {
                     std::optional<basecamp *> camp = overmap_buffer.find_camp( assigned_camp->xy() );
-                    if( !!camp && camp->point_within_camp( here.get_abs( elem ) ) ) {
+                    if( !!camp && !!( *camp ) &&
+                        ( *camp )->point_within_camp( project_to<coords::omt>( here.get_abs( elem ) ) ) ) {
                         // this one will do
                         chair_pos = here.get_abs( elem );
                         return;
