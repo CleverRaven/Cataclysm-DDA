@@ -57,7 +57,7 @@
     "id": "bio_cameleoflage_fifth_sun",
     "type": "bionic",
     "name": { "str": "Tapayaxitilmàtli" },
-    "description": "A series of implants under your skin throughout your body that bend light around you when activated, making it much harder to spot you from a distance.  While not invisibility, it can keep you unseen when it counts.  Activate to toggle on.",
+    "description": "Implants under your skin throughout your body that bend light around you when activated, making it much harder to spot you from a distance.  While not invisibility, it can keep you unseen when it counts.  Activate to toggle on.",
     "occupied_bodyparts": [
       [ "torso", 8 ],
       [ "head", 2 ],

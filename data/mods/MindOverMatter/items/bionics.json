@@ -48,7 +48,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Teōchicāhualiztli Booster CBM" },
-    "description": "A series of implants along the spine and in major muscle groups allow a dramatic increase in the user's strength and agility.",
+    "description": "A series of implants along the skeleton and in major muscle groups allow a dramatic increase in the user's strength and agility.",
     "price": "10 kUSD",
     "difficulty": 9
   },
@@ -58,7 +58,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Tapayaxitilmàtli CBM" },
-    "description": "A series of implants along the spine and in major muscle groups allow a dramatic increase in the user's strength and agility.",
+    "description": "Implants under the skin throughout the body that bend light when activated, making it much harder to spot the user from a distance.",
     "price": "9 kUSD",
     "difficulty": 9
   }
