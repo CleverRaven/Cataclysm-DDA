@@ -29,7 +29,7 @@
     "sym": "%",
     "color": "dark_gray",
     "vision_levels": "always_full",
-    "travel_cost_type": "impassable",
+    "travel_cost_type": "field",
     "see_cost": "none",
     "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   },
