@@ -778,6 +778,7 @@
             "charges": 120
           },
           { "item": "socks" },
+          { "item": "holy_symbol_fifth_sun" },
           { "item": "itzcuauhtli_boots", "variant": "itzcuauhtli_boots_standard" },
           {
             "item": "mom_fifth_sun_stungun_pistol",

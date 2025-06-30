@@ -594,5 +594,12 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "Itzcuāuhtli Corps combat uniform jacket" },
     "description": "The standard combat uniform of the Itzcuāuhtli Corps, in shades of dark green and grey.  This is a jacket.  It has the eagle over a field of stars symbol of the Itzcuāuhtli Corps on both shoulders."
+  },
+  {
+    "id": "holy_symbol_fifth_sun",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Imperial Church holy symbol" },
+    "description": "A necklace made of fine gold chain, bearing an image of Jesus as the Ultimate Sacrifice as a pendant.  Under his left hand is a raindrop, representing the Aeon Tláloc, and under his right hand is a sun disc, representing the Aeon Huītzilōpōchtli."
   }
 ]

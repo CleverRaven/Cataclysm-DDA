@@ -48,8 +48,8 @@
     "occupied_bodyparts": [ [ "head", 5 ], [ "torso", 10 ], [ "arm_l", 8 ], [ "arm_r", 8 ], [ "leg_l", 10 ], [ "leg_r", 10 ] ],
     "mutation_conflicts": [ "LARGE", "LARGE_OK", "HUGE_OK", "HUGE", "SMALL", "SMALL2", "SMALL_OK" ],
     "enchantments": [ "ench_bio_physical_buffs" ],
-    "act_cost": "30 J",
-    "react_cost": "30 J",
+    "act_cost": "50 J",
+    "react_cost": "50 J",
     "time": "1 s",
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -70,8 +70,8 @@
       [ "foot_l", 1 ],
       [ "foot_r", 1 ]
     ],
-    "act_cost": "500 J",
-    "react_cost": "500 J",
+    "act_cost": "400 J",
+    "react_cost": "400 J",
     "time": "1 s",
     "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "STEALTH_MODIFIER", "add": 50 } ] } ],
     "flags": [ "BIONIC_TOGGLED" ]
