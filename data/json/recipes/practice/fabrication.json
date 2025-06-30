@@ -123,7 +123,14 @@
     "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ],
     "byproducts": [ [ "copper", 50 ] ],
     "autolearn": [ [ "fabrication", 4 ] ],
-    "book_learn": [ [ "bronze_book", 1 ], [ "bronze_mag", 2 ], [ "alloy_book", 2 ], [ "textbook_armwest", 3 ], [ "textbook_weapwest", 3 ], [ "textbook_armschina", 3 ] ]
+    "book_learn": [
+      [ "bronze_book", 1 ],
+      [ "bronze_mag", 2 ],
+      [ "alloy_book", 2 ],
+      [ "textbook_armwest", 3 ],
+      [ "textbook_weapwest", 3 ],
+      [ "textbook_armschina", 3 ]
+    ]
   },
   {
     "id": "prac_redsmithing_adv",
@@ -145,6 +152,13 @@
     "byproducts": [ [ "scrap_bronze", 2 ] ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "autolearn": [ [ "fabrication", 6 ] ],
-    "book_learn": [ [ "bronze_book", 3 ], [ "bronze_mag", 4 ], [ "alloy_book", 4 ], [ "textbook_armwest", 5 ], [ "textbook_weapwest", 5 ], [ "textbook_armschina", 5 ] ]
+    "book_learn": [
+      [ "bronze_book", 3 ],
+      [ "bronze_mag", 4 ],
+      [ "alloy_book", 4 ],
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weapwest", 5 ],
+      [ "textbook_armschina", 5 ]
+    ]
   }
 ]
