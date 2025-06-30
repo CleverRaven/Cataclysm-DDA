@@ -265,7 +265,7 @@
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 }
     ],
     "melee_damage": { "bash": 1 },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "MUNDANE", "STURDY", "PADDED" ]
   },
   {
     "id": "mom_fifth_sun_eagle_tac_helmet_on",
