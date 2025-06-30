@@ -365,6 +365,7 @@ Field | Used for...
 `<topic_item_my_total_price>` | TODO Add
 `<topic_item_your_total_price>` | TODO Add
 `<interval>` | displays the time remaining until restock
+`<restock_time_point>` | displays the date of next restock
 `<u_val:VAR>` | The user variable VAR
 `<npc_val:VAR>` | The npc variable VAR
 `<context_val:VAR>` | The context variable VAR
