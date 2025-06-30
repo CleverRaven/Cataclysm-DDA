@@ -10,10 +10,7 @@
         "condition": { "u_has_trait": "LS_Alphatest" },
         "topic": "TALK_DONE"
       },
-      {
-        "text": "Let's stop breaking the fourth wall and get back to the normal conversation.",
-        "topic": "TALK_NONE"
-      }
+      { "text": "Let's stop breaking the fourth wall and get back to the normal conversation.", "topic": "TALK_NONE" }
     ]
   }
 ]
