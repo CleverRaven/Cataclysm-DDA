@@ -158,55 +158,11 @@
     }
   },
   {
-    "om_terrain": [ [ "hw_support_0", "hw_support_1" ] ],
+    "om_terrain": "hw_supports",
     "type": "mapgen",
     "object": {
       "fallback_predecessor_mapgen": "river_center",
       "rows": [
-        "                                                ",
-        "                                                ",
-        "                                                ",
-        "                                                ",
-        "                                                ",
-        "                                                ",
-        "                                                ",
-        "                                                ",
-        "                                                ",
-        "                 #############                  ",
-        "                ###############                 ",
-        "               #################                ",
-        "               #################                ",
-        "                ###############                 ",
-        "                 #############                  ",
-        "                                                ",
-        "                                                ",
-        "                                                ",
-        "                                                ",
-        "                                                ",
-        "                                                ",
-        "                                                ",
-        "                                                ",
-        "                                                "
-      ],
-      "palettes": [ "highway_palette" ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
-    }
-  },
-  {
-    "om_terrain": "hw_support_nested",
-    "type": "mapgen",
-    "object": {
-      "place_nested": [ { "else_chunks": [ "hw_support_nested_chunk" ], "x": 0, "y": 0 } ],
-      "fallback_predecessor_mapgen": "river_center",
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
-    }
-  },
-  {
-    "nested_mapgen_id": "hw_support_nested_chunk",
-    "type": "mapgen",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
         "                        ",
         "                        ",
         "                        ",
@@ -216,12 +172,12 @@
         "                        ",
         "                        ",
         "                        ",
-        "      #############     ",
-        "     ###############    ",
-        "    #################   ",
-        "    #################   ",
-        "     ###############    ",
-        "      #############     ",
+        "         ######         ",
+        "        ########        ",
+        "       ##########       ",
+        "       ##########       ",
+        "        ########        ",
+        "         ######         ",
         "                        ",
         "                        ",
         "                        ",

@@ -348,7 +348,7 @@
       "grid_row_seperation": 8,
       "width_of_segments": 2,
       "straightness_chance": 0.6,
-      "intersection_max_radius": 3,
+      "intersection_max_radius": 2,
       "reserved_terrain_id": "hw_reserved",
       "reserved_terrain_water_id": "hw_reserved_water",
       "segment_ramp_special": "highway_segment_ramp",
@@ -366,7 +366,7 @@
       "segment_flat_special": "highway_segment_flat",
       "segment_road_bridge_special": "highway_segment_road_bridge",
       "segment_bridge_special": "highway_segment_bridge",
-      "segment_bridge_supports_special": "highway_segment_bridge_supports",
+      "segment_bridge_supports_special": "highway_support_mutable",
       "segment_overpass_special": "highway_segment_overpass",
       "symbolic_overpass_road_id": "hw_symbolic_road"
     },

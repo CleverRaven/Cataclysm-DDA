@@ -40,16 +40,12 @@
     "type": "overmap_special",
     "id": "highway_segment_bridge",
     "//": "Placed by C++; normal highway segment, but over water",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hw_road_north" }, { "point": [ 1, 0, 0 ], "overmap": "hw_road_south" } ],
-    "locations": [ "land" ],
-    "occurrences": [ 0, 0 ],
-    "flags": [ "CLASSIC" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "highway_segment_bridge_supports",
-    "//": "Placed by C++ in lakes under highway_segment_bridge",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hw_support_0_north" }, { "point": [ 1, 0, 0 ], "overmap": "hw_support_1_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "hw_road_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "hw_road_south" },
+      { "point": [ 0, 0, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 1, 0, -1 ], "overmap": "hw_fb_supports" }
+    ],
     "locations": [ "land" ],
     "occurrences": [ 0, 0 ],
     "flags": [ "CLASSIC" ]
@@ -59,19 +55,30 @@
     "id": "highway_support_mutable",
     "subtype": "mutable",
     "//": "Placed by C++; a single support that builds downwards through water",
-    "joins": [ "support_join" ],
+    "joins": [ { "id": "support_join", "into_locations": [ "lake_surface", "open_air", "lake_water_cube", "lake_bed" ] } ],
     "overmaps": {
-      "support_top": { "overmap": "hw_support_nested_north", "below": "support_join", "locations": [ "lake_surface", "open_air" ] },
+      "support_top": {
+        "overmap": "hw_supports",
+        "below": { "id": "support_join", "type": "available" },
+        "locations": [ "lake_surface", "open_air" ]
+      },
       "support": {
-        "overmap": "hw_support_nested_north",
+        "overmap": "hw_supports",
         "above": { "id": "support_join", "type": "available" },
         "below": { "id": "support_join", "type": "available" },
-        "locations": [ "lake_water_cube" ]
+        "locations": [ "open_air", "lake_water_cube" ]
       },
-      "support_bottom": { "overmap": "hw_support_nested_north", "above": "support_join", "locations": [ "lake_bed" ] }
+      "support_bottom": {
+        "overmap": "hw_supports",
+        "above": { "id": "support_join", "type": "available" },
+        "locations": [ "water", "lake_bed", "subterranean" ]
+      }
     },
     "root": "support_top",
-    "phases": [ [ { "overmap": "support", "max": 10 } ], [ { "overmap": "support_bottom", "max": 1 } ] ],
+    "phases": [
+      [ { "name": "support_middle", "chunk": [ { "overmap": "support", "rot": "north" } ], "max": 10 } ],
+      [ { "name": "support_end", "chunk": [ { "overmap": "support_bottom", "rot": "north" } ], "max": 1 } ]
+    ],
     "occurrences": [ 0, 0 ],
     "flags": [ "CLASSIC" ]
   },
@@ -80,8 +87,8 @@
     "id": "highway_segment_overpass",
     "//": "Placed by C++; for cities",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "hw_fb_supports_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "hw_fb_supports_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "hw_fb_supports" },
+      { "point": [ 1, 0, 0 ], "overmap": "hw_fb_supports" },
       { "point": [ 0, 0, 1 ], "overmap": "hw_road_north" },
       { "point": [ 1, 0, 1 ], "overmap": "hw_road_south" }
     ],
@@ -373,7 +380,12 @@
       { "point": [ 1, 3, 0 ], "overmap": "hw_bend_1_3_north" },
       { "point": [ 2, 3, 0 ], "overmap": "hw_bend_2_3_north" },
       { "point": [ 0, 4, 0 ], "overmap": "hw_bend_0_4_north" },
-      { "point": [ 1, 4, 0 ], "overmap": "hw_bend_1_4_north" }
+      { "point": [ 1, 4, 0 ], "overmap": "hw_bend_1_4_north" },
+      { "point": [ 1, 4, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 4, 1, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 2, 2, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 1, 3, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 3, 1, -1 ], "overmap": "hw_fb_supports" }
     ],
     "locations": [ "land", "highway" ],
     "occurrences": [ 0, 0 ],
@@ -392,7 +404,10 @@
       { "point": [ 2, -1, 0 ], "overmap": "hw_slant_minor_2_-1_north" },
       { "point": [ 0, -2, 0 ], "overmap": "hw_slant_minor_0_-2_north" },
       { "point": [ 1, -2, 0 ], "overmap": "hw_slant_minor_1_-2_north" },
-      { "point": [ 2, -2, 0 ], "overmap": "hw_slant_minor_2_-2_north" }
+      { "point": [ 2, -2, 0 ], "overmap": "hw_slant_minor_2_-2_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 1, -1, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 1, -2, -1 ], "overmap": "hw_fb_supports" }
     ],
     "locations": [ "land", "highway" ],
     "occurrences": [ 0, 0 ],
@@ -411,9 +426,9 @@
       { "point": [ -1, -2, 0 ], "overmap": "hw_slant_minor_cc_-1_-2_north" },
       { "point": [ 0, -2, 0 ], "overmap": "hw_slant_minor_cc_0_-2_north" },
       { "point": [ 1, -2, 0 ], "overmap": "hw_slant_minor_cc_1_-2_north" },
-      { "point": [ 1, 0, -1 ], "overmap": "hw_fb_supports_north" },
-      { "point": [ 0, -1, -1 ], "overmap": "hw_fb_supports_north" },
-      { "point": [ -1, -2, -1 ], "overmap": "hw_fb_supports_north" }
+      { "point": [ 0, 0, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 0, -1, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 0, -2, -1 ], "overmap": "hw_fb_supports" }
     ],
     "locations": [ "land", "highway" ],
     "occurrences": [ 0, 0 ],

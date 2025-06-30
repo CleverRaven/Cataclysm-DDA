@@ -578,10 +578,10 @@ class overmap
         //place highway supports *below* the given point through water
         void place_highway_supports( const tripoint_om_omt &p, om_direction::type dir, int base_z,
                                      bool is_segment );
-        //places highway special with supports below
+        //places highway special, replacing fallback supports with mutable supports that extend downwards
         void place_highway_supported_special( const overmap_special_id &special,
                                               const tripoint_om_omt &placement,
-                                              const om_direction::type &dir, int base_z, bool is_segment );
+                                              const om_direction::type &dir );
         // Whether this overmap has a highway connection point at this direction (N/E/S/W)
         std::array<tripoint_om_omt, 4> highway_connections;
         // Replace reserved OMTs with necessary specials given what has drawn over them since place_highways()

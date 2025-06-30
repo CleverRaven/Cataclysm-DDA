@@ -163,34 +163,9 @@
   {
     "om_terrain": "hw_fb_supports",
     "type": "mapgen",
+    "//": "dummy OMT that places hw_supports special in C++",
     "object": {
-      "fallback_predecessor_mapgen": "river_center",
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "      #############     ",
-        "     ###############    ",
-        "    #################   ",
-        "    #################   ",
-        "     ###############    ",
-        "      #############     ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
+      "fallback_predecessor_mapgen": "open_air",
       "palettes": [ "highway_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }

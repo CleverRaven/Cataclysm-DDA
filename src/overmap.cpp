@@ -1420,6 +1420,7 @@ struct overmap_special_data {
     virtual void finalize_mapgen_parameters(
         mapgen_parameters &, const std::string &context ) const = 0;
     virtual void check( const std::string &context ) const = 0;
+    virtual std::vector<overmap_special_terrain> get_terrains() const = 0;
     virtual std::vector<overmap_special_terrain> preview_terrains() const = 0;
     virtual std::vector<overmap_special_locations> required_locations() const = 0;
     virtual int score_rotation_at( const overmap &om, const tripoint_om_omt &p,
@@ -1610,6 +1611,12 @@ struct fixed_overmap_special_data : overmap_special_data {
             return null_terrain;
         }
         return *iter;
+    }
+
+    std::vector<overmap_special_terrain> get_terrains() const override {
+        std::vector<overmap_special_terrain> result;
+        std::copy( terrains.begin(), terrains.end(), std::back_inserter( result ) );
+        return result;
     }
 
     std::vector<overmap_special_terrain> preview_terrains() const override {
@@ -2751,6 +2758,11 @@ struct mutable_overmap_special_data : overmap_special_data {
         return { tripoint_rel_omt::zero, root_om.terrain, root_om.locations, {} };
     }
 
+
+    std::vector<overmap_special_terrain> get_terrains() const override {
+        return std::vector<overmap_special_terrain> { root_as_overmap_special_terrain() };
+    }
+
     std::vector<overmap_special_terrain> preview_terrains() const override {
         return std::vector<overmap_special_terrain> { root_as_overmap_special_terrain() };
     }
@@ -2974,6 +2986,11 @@ int overmap_special::longest_side() const
     const int width = min_max_x.second->p.x() - min_max_x.first->p.x();
     const int height = min_max_y.second->p.y() - min_max_y.first->p.y();
     return std::max( width, height ) + 1;
+}
+
+std::vector<overmap_special_terrain> overmap_special::get_terrains() const
+{
+    return data_->get_terrains();
 }
 
 std::vector<overmap_special_terrain> overmap_special::preview_terrains() const
@@ -4868,32 +4885,21 @@ static bool overmap_outside_corner( const tripoint_om_omt &p, int corner_length 
 }
 
 void overmap::place_highway_supported_special( const overmap_special_id &special,
-        const tripoint_om_omt &placement, const om_direction::type &dir, int base_z, bool is_segment )
+        const tripoint_om_omt &placement, const om_direction::type &dir )
 {
     if( placement.is_invalid() ) {
         return;
     }
     place_special_forced( special, placement, dir );
-    const std::vector<overmap_special_terrain> locs = special->preview_terrains();
+    const std::vector<overmap_special_terrain> locs = special->get_terrains();
 
     const oter_id fallback_supports = settings->overmap_highway.fallback_supports.obj().get_first();
-    //if special has supports defined at z = -1, extend those supports only
-    bool limited_supports = false;
-    for( const overmap_special_terrain &loc : locs ) {
-        if( loc.p.z() == -1 && loc.terrain.id() == fallback_supports ) {
-            limited_supports = true;
-            break;
-        }
-    }
 
     for( const overmap_special_terrain &loc : locs ) {
         const tripoint_om_omt rotated = placement + om_direction::rotate( loc.p, dir );
-        //if supports aren't limited, place below z = 0 of special
-        if( ( !limited_supports && loc.p.z() == 0 ) || ( limited_supports && loc.p.z() == -1 ) ) {
-            place_highway_supports( rotated, dir, base_z, is_segment );
-            if( is_segment ) {
-                break;
-            }
+        if( loc.terrain.id() == fallback_supports ) {
+            place_special_forced( settings->overmap_highway.segment_bridge_supports,
+                                  rotated, dir );
         }
     }
 };
@@ -5119,6 +5125,11 @@ std::vector<std::vector<highway_node>> overmap::place_highways(
         segment_point += segment_offsets[static_cast<int>( segment_dir )];
     };
 
+    auto segment_special = [&highway_settings]( bool raised ) {
+        return raised ? highway_settings.segment_bridge :
+               highway_settings.segment_flat;
+    };
+
     //draw a line segment of highway, placing slants
     //draw_direction is from sp1 to sp2
     auto draw_highway_line = [&]( const tripoint_om_omt & sp1, const tripoint_om_omt & sp2,
@@ -5194,8 +5205,7 @@ std::vector<std::vector<highway_node>> overmap::place_highways(
                 previous_z = is_segment_water ? base_z + 1 : base_z;
                 slant_path.emplace_back(
                     tripoint_om_omt( slant_current_point.xy(), previous_z ), draw_direction,
-                    is_segment_water ? highway_settings.segment_bridge :
-                    highway_settings.segment_flat );
+                    segment_special( is_segment_water ) );
                 slant_current_point += tripoint_rel_omt( draw_direction_vector, 0 );
             }
             no_first_slant = false;
@@ -5396,7 +5406,6 @@ std::vector<std::vector<highway_node>> overmap::place_highways(
                 if( draw_bend ) {
                     selected_bend = precalc_bends[i];
                     last_bend_length = selected_bend->longest_side();
-                    ;
                 }
                 om_direction::type new_bend_direction;
                 int bend_z = base_z;
@@ -5460,13 +5469,16 @@ std::vector<std::vector<highway_node>> overmap::place_highways(
             const highway_node &current_node = highway_path[i];
             if( !current_node.is_segment ) {
                 int special_z = current_node.path_node.pos.z();
+                bool raised = special_z == base_z + 1;
                 highway_node &next_node = highway_path[i + 1];
                 highway_node &prev_node = highway_path[i - 1];
                 if( next_node.is_segment ) {
                     next_node.path_node.pos = tripoint_om_omt( next_node.path_node.pos.xy(), special_z );
+                    next_node.placed_special = segment_special( raised );
                 }
                 if( prev_node.is_segment ) {
                     prev_node.path_node.pos = tripoint_om_omt( prev_node.path_node.pos.xy(), special_z );
+                    prev_node.placed_special = segment_special( raised );
                 }
             }
         }
@@ -5496,7 +5508,7 @@ std::vector<std::vector<highway_node>> overmap::place_highways(
                 }
             } else {
                 place_highway_supported_special( node.placed_special,
-                                                 node.path_node.pos, node.get_effective_dir(), base_z, false );
+                                                 node.path_node.pos, node.get_effective_dir() );
             }
         }
         handle_ramps( highway_path, base_z );
@@ -5548,7 +5560,7 @@ std::vector<std::vector<highway_node>> overmap::place_highways(
             fallback_special = settings->overmap_highway.fallback_three_way_intersection;
             special = settings->overmap_highway.three_way_intersections.pick();
             highway_special_offset( three_point, empty_direction );
-            place_highway_supported_special( special, three_point, empty_direction, base_z, false );
+            place_highway_supported_special( special, three_point, empty_direction );
             break;
         }
         case 4: {
@@ -5599,8 +5611,7 @@ std::vector<std::vector<highway_node>> overmap::place_highways(
 
                 for( int i = 0; i < THREE_WAY_COUNT; i++ ) {
                     highway_special_offset( three_way_intersections[i], three_way_direction[i] );
-                    place_highway_supported_special( special, three_way_intersections[i], three_way_direction[i],
-                                                     base_z, false );
+                    place_highway_supported_special( special, three_way_intersections[i], three_way_direction[i] );
                 }
                 break;
             }
@@ -5615,7 +5626,7 @@ std::vector<std::vector<highway_node>> overmap::place_highways(
                                     base_z ) );
             }
             fallback_special = settings->overmap_highway.fallback_four_way_intersection;
-            place_highway_supported_special( special, four_point, om_direction::type::north, base_z, false );
+            place_highway_supported_special( special, four_point, om_direction::type::north );
             break;
         }
         default: // 1
@@ -5667,7 +5678,6 @@ overmap::get_highway_segment_points( const pf::directed_node<tripoint_om_omt> &n
 
 void overmap::finalize_highways( std::vector<std::vector<highway_node>> &paths )
 {
-    const int base_z = RIVER_Z;
     // Segment of flat highway with a road bridge
     const overmap_special_id &segment_road_bridge = settings->overmap_highway.segment_road_bridge;
 
@@ -5691,7 +5701,7 @@ void overmap::finalize_highways( std::vector<std::vector<highway_node>> &paths )
         for( const highway_node &node : path ) {
             if( !is_highway_special( ter( node.path_node.pos ) ) && node.is_segment && !node.is_ramp ) {
                 place_highway_supported_special( node.placed_special,
-                                                 node.path_node.pos, node.get_effective_dir(), base_z, true );
+                                                 node.path_node.pos, node.get_effective_dir() );
             }
         }
     }

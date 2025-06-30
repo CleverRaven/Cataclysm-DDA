@@ -563,11 +563,11 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "hw_fb_supports", "hw_support_0", "hw_support_1", "hw_support_nested" ],
+    "id": [ "hw_fb_supports", "hw_supports" ],
     "copy-from": "generic_highway",
     "color": "blue",
     "travel_cost_type": "water",
-    "extend": { "flags": [ "RIVER", "LAKE", "REQUIRES_PREDECESSOR" ] }
+    "extend": { "flags": [ "RIVER", "LAKE", "REQUIRES_PREDECESSOR", "NO_ROTATE" ] }
   },
   {
     "type": "overmap_terrain",
