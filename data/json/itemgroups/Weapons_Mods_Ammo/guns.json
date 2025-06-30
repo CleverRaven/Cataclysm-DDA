@@ -15,7 +15,6 @@
       { "group": "guns_pistol_common_38", "prob": 11 },
       { "group": "guns_pistol_common_44", "prob": 1 },
       { "group": "guns_pistol_common_10mm", "prob": 1 },
-      { "group": "guns_pistol_common_762_39", "prob": 2 },
       { "group": "guns_pistol_common_223", "prob": 33 },
       { "group": "guns_pistol_common_300", "prob": 8 },
       { "group": "guns_pistol_common_57", "prob": 2 },
@@ -63,7 +62,6 @@
       { "group": "guns_pistol_common_display_44", "prob": 1 },
       { "group": "guns_pistol_common_display_45colt", "prob": 5 },
       { "group": "guns_pistol_common_display_10mm", "prob": 1 },
-      { "group": "guns_pistol_common_display_762_39", "prob": 1 },
       { "group": "guns_pistol_common_display_223", "prob": 17 },
       { "group": "guns_pistol_common_display_300", "prob": 8 },
       { "group": "guns_pistol_common_display_57", "prob": 2 },
@@ -120,15 +118,11 @@
       { "group": "modular_deagle_357", "prob": 4, "charges": 0 },
       { "group": "modular_deagle_44", "prob": 20, "charges": 0 },
       { "group": "modular_deagle_50", "prob": 40, "charges": 0 },
-      { "item": "draco", "prob": 10, "charges": 0 },
-      { "item": "draco_mini", "prob": 30, "charges": 0 },
-      { "item": "draco_micro", "prob": 40, "charges": 0 },
       { "item": "raging_bull", "prob": 20 },
       { "item": "taurus_judge", "prob": 10 },
       { "item": "hk_mp5_semi_pistol", "prob": 100, "charges": 0 },
       { "item": "sw_500", "prob": 50 },
-      { "item": "bfr", "prob": 10 },
-      { "item": "draco_9mm", "prob": 10, "charges": 0 }
+      { "item": "bfr", "prob": 10 }
     ]
   },
   {

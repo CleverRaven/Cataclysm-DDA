@@ -51,7 +51,8 @@
         { "field": "fd_blood", "x": 8, "y": 10, "intensity": 2, "age": 0 },
         { "field": "fd_blood", "x": 8, "y": 11, "intensity": 2, "age": 0 }
       ],
-      "place_item": [ { "item": "skull_human", "x": 8, "y": 11 }, { "item": "bone_human", "amount": [ 5, 13 ], "x": 8, "y": 11 } ]
+      "place_item": [ { "item": "skull_human", "x": 8, "y": 11 }, { "item": "bone_human", "amount": [ 5, 13 ], "x": 8, "y": 11 } ],
+      "traps": { "R": "tr_mom_find_dead_fifth_sun_ocelopilli_trooper" }
     }
   },
   {

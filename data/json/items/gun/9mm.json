@@ -1167,61 +1167,6 @@
     ]
   },
   {
-    "id": "draco_9mm",
-    "//": "Based off of https://www.centuryarms.com/draco-nak9.html",
-    "copy-from": "gun_base_9mm_semi_pistol",
-    "looks_like": "draco",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "name": { "str": "Glock AK pistol" },
-    "description": "A 9mm AK pistol that accepts Glock magazines.  Has an 11.14\" barrel.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "draco_9mm",
-        "name": { "str": "Century Arms NAK 9" },
-        "description": "The NAK 9 is a Century Arms imported gun.  It is essentially a shortened AK with no stock, chambered in 9mm and accepting Glock magazines, with an 11.14\" barrel."
-      }
-    ],
-    "weight": "2894 g",
-    "volume": "1617 ml",
-    "longest_side": "495 mm",
-    "barrel_length": "283 mm",
-    "price": "699 USD 99 cent",
-    "price_postapoc": "15 USD",
-    "material": [ "steel", "wood" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
-    "range": 5,
-    "dispersion": 250,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "glockmag_10",
-          "glock17_10",
-          "glockmag",
-          "glockbigmag",
-          "glock17_17",
-          "glock17_22",
-          "glock_drum_50rd",
-          "glock_drum_100rd"
-        ]
-      }
-    ]
-  },
-  {
     "id": "rugerpcc",
     "copy-from": "gun_base_9mm_semi_rifle",
     "looks_like": "modular_ar15",

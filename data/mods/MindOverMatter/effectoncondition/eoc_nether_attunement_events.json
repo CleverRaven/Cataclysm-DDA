@@ -1323,7 +1323,8 @@
         },
         "then": [
           { "u_add_effect": "tindrift", "duration": "1 day" },
-          { "u_message": "You feel a horrible sensation of watching eyes.", "type": "bad" }
+          { "u_message": "You feel a horrible sensation of watching eyes.", "type": "bad" },
+          { "give_achievement": "mom_get_the_hounds_on_your_trail" }
         ]
       }
     ],

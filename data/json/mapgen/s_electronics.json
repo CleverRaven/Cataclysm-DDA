@@ -97,8 +97,8 @@
         { "item": "electronics", "x": [ 14, 17 ], "y": 14, "chance": 85, "repeat": [ 1, 4 ] },
         { "item": "snacks", "x": 16, "y": 9, "chance": 85 },
         { "item": "magazines", "x": 16, "y": 9, "chance": 60, "repeat": [ 1, 8 ] },
-        { "item": "SUS_trash_trashcan", "x": 18, "y": 15, "chance": 65 },
-        { "item": "SUS_trash_trashcan", "x": [ 15, 17 ], "y": [ 20, 21 ], "chance": 80 },
+        { "item": "SUS_trash_trashcan_public", "x": 18, "y": 15, "chance": 65 },
+        { "item": "SUS_trash_floor", "x": [ 15, 17 ], "y": [ 20, 21 ], "chance": 80 },
         { "item": "cash_register_random", "x": 17, "y": [ 11, 13 ], "chance": 100 }
       ],
       "place_item": [
@@ -237,7 +237,7 @@
       "items": {
         "I": { "item": "SUS_office_desk", "chance": 60 },
         "F": { "item": "SUS_office_filing_cabinet", "chance": 60 },
-        "Y": { "item": "SUS_trash_trashcan", "chance": 20 },
+        "Y": { "item": "SUS_trash_trashcan_public", "chance": 20 },
         "M": { "item": "consumer_electronics", "chance": 70, "repeat": [ 1, 4 ] },
         "-": { "item": "consumer_electronics", "chance": 75, "repeat": [ 1, 4 ] },
         "{": { "item": "consumer_electronics", "chance": 75, "repeat": [ 1, 4 ] },

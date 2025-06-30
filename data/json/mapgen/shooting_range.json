@@ -96,7 +96,7 @@
         { "chance": 5, "item": "ammo_common_boxed_used", "x": 20, "y": 9 },
         { "chance": 5, "item": "ammo_common_boxed_used", "x": 18, "y": 9 },
         { "chance": 5, "item": "guns_shotgun_common", "x": 14, "y": 9 },
-        { "chance": 30, "item": "SUS_trash_trashcan", "x": 3, "y": 3 },
+        { "chance": 30, "item": "SUS_trash_trashcan_public", "x": 3, "y": 3 },
         { "chance": 75, "item": "guns_milspec", "x": 5, "y": 4 },
         { "chance": 5, "item": "ammo_common_boxed_used", "x": 12, "y": 9 },
         { "chance": 5, "item": "ammo_common_boxed_used", "x": 9, "y": 9 },
