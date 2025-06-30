@@ -358,7 +358,8 @@
         "menu_text": "Turn off",
         "msg": "The %s disengages.",
         "target": "dod_modular_exosuit"
-      }
+      },
+      "MANAGE_EXOSUIT"
     ],
     "armor": [
       {
@@ -601,7 +602,8 @@
         "menu_text": "Turn off",
         "msg": "The %s disengages.",
         "target": "dod_modular_exosuit_light"
-      }
+      },
+      "MANAGE_EXOSUIT"
     ],
     "armor": [
       {
