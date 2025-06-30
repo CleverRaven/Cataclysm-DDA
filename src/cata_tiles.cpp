@@ -279,7 +279,6 @@ void tileset::clear()
 {
     tile_values.clear();
     monochrome_tile_values.clear();
-    greenchrome_tile_values.clear();
     shadow_tile_values.clear();
     night_tile_values.clear();
     overexposed_tile_values.clear();
@@ -498,10 +497,9 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
 
     /** perform color filter conversion here */
     using tiles_pixel_color_entry = std::tuple<std::vector<texture>*, std::string>;
-    std::array<tiles_pixel_color_entry, 7> tile_values_data = {{
+    std::array<tiles_pixel_color_entry, 6> tile_values_data = {{
             { std::make_tuple( &ts.tile_values, "color_pixel_none" ) },
             { std::make_tuple( &ts.monochrome_tile_values, "color_pixel_monochrome" ) },
-            { std::make_tuple( &ts.greenchrome_tile_values, "color_pixel_greenchrome" ) },
             { std::make_tuple( &ts.shadow_tile_values, "color_pixel_grayscale" ) },
             { std::make_tuple( &ts.night_tile_values, "color_pixel_nightvision" ) },
             { std::make_tuple( &ts.overexposed_tile_values, "color_pixel_overexposed" ) },
@@ -599,7 +597,6 @@ void tileset_cache::loader::load_tileset( const cata_path &img_path, const bool 
                                    ( tile_atlas->h / sprite_height );
     extend_vector_by( ts.tile_values, expected_tilecount );
     extend_vector_by( ts.monochrome_tile_values, expected_tilecount );
-    extend_vector_by( ts.greenchrome_tile_values, expected_tilecount );
     extend_vector_by( ts.shadow_tile_values, expected_tilecount );
     extend_vector_by( ts.night_tile_values, expected_tilecount );
     extend_vector_by( ts.overexposed_tile_values, expected_tilecount );
@@ -3051,7 +3048,7 @@ bool cata_tiles::draw_sprite_at(
         if( const texture *ptr = tileset_ptr->get_memory_tile( sprite_index ) ) {
             sprite_tex = ptr;
         }
-    } else if( color_overlay == COLOR_OVERLAY::NIGHT_VISION ) { // true will make character green too
+    } else if( color_overlay == COLOR_OVERLAY::NIGHT_VISION ) {
         if( ll != lit_level::LOW ) {
             if( const texture *ptr = tileset_ptr->get_overexposed_tile( sprite_index ) ) {
                 sprite_tex = ptr;
@@ -3090,6 +3087,12 @@ bool cata_tiles::draw_sprite_at(
                     tileset_ptr->get_tile_width() );
     destination.w = width * tile_width * tile.pixelscale / tileset_ptr->get_tile_width();
     destination.h = height * tile_height * tile.pixelscale / tileset_ptr->get_tile_height();
+
+    // if ( color_overlay == COLOR_OVERLAY::MONOCHROME ) {
+    //     // SDL_Texture sdl_texture = (sprite_tex).sdl_texture_ptr->get();
+    //     // SDL_SetTextureColorMod( sprite_tex->sdl_texture_ptr.get(), 127, 127, 127 );
+    // }
+
 
     if( rotate_sprite ) {
         if( rota == -1 ) {
@@ -3159,6 +3162,10 @@ bool cata_tiles::draw_sprite_at(
         // don't rotate, same as case 0 above
         ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );
     }
+
+        // SDL_SetTextureAlphaMod( sprite_tex->sdl_texture_ptr.get(), 255 );
+        // SDL_SetTextureColorMod( sprite_tex->sdl_texture_ptr.get(), 255, 255, 255 );
+        // SDL_SetTextureBlendMode( sprite_tex->sdl_texture_ptr.get(), SDL_BLENDMODE_BLEND );
 
     printErrorIf( ret != 0, "SDL_RenderCopyEx() failed" );
     // this reference passes all the way back up the call chain back to

@@ -34,7 +34,6 @@ inline Uint8 average_pixel_color( const SDL_Color &color )
 }
 
 SDL_Color color_pixel_monochrome( const SDL_Color &color );
-SDL_Color color_pixel_greenchrome( const SDL_Color &color );
 SDL_Color color_pixel_grayscale( const SDL_Color &color );
 SDL_Color color_pixel_nightvision( const SDL_Color &color );
 SDL_Color color_pixel_overexposed( const SDL_Color &color );

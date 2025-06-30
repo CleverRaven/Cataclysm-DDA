@@ -136,10 +136,10 @@ class tile_lookup_res
 class texture
 {
     private:
-        std::shared_ptr<SDL_Texture> sdl_texture_ptr;
         SDL_Rect srcrect = { 0, 0, 0, 0 };
 
     public:
+        std::shared_ptr<SDL_Texture> sdl_texture_ptr;
         texture( std::shared_ptr<SDL_Texture> ptr,
                  const SDL_Rect &rect ) : sdl_texture_ptr( std::move( ptr ) ),
             srcrect( rect ) { }
@@ -204,7 +204,6 @@ class tileset
 
         std::vector<texture> tile_values;
         std::vector<texture> monochrome_tile_values;
-        std::vector<texture> greenchrome_tile_values;
         std::vector<texture> shadow_tile_values;
         std::vector<texture> night_tile_values;
         std::vector<texture> overexposed_tile_values;
@@ -268,9 +267,6 @@ class tileset
         }
         const texture *get_monochrome_tile( const size_t index ) const {
             return get_if_available( index, monochrome_tile_values );
-        }
-        const texture *get_greenchrome_tile( const size_t index ) const {
-            return get_if_available( index, greenchrome_tile_values );
         }
         const texture *get_shadow_tile( const size_t index ) const {
             return get_if_available( index, shadow_tile_values );
