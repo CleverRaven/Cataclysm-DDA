@@ -1,13 +1,19 @@
 #include <algorithm>
 #include <cmath>
-#include <iosfwd>
+#include <memory>
+#include <ostream>
 #include <string>
+#include <string_view>
 #include <utility>
 
 #include "cata_utility.h"
 #include "character.h"
+#include "debug.h"
+#include "flexbuffer_json.h"
 #include "itype.h"
 #include "json.h"
+#include "magic_enchantment.h"
+#include "pimpl.h"
 #include "stomach.h"
 #include "units.h"
 #include "vitamin.h"
@@ -42,6 +48,11 @@ void nutrients::max_in_place( const nutrients &r )
             val = std::max( std::get<int>( val ), other );
         }
     }
+}
+
+void nutrients::clear_vitamins()
+{
+    vitamins_.clear();
 }
 
 std::map<vitamin_id, int> nutrients::vitamins() const
@@ -134,6 +145,17 @@ void nutrients::finalize_vitamins()
     finalized = true;
 }
 
+void nutrients::ensure_positive()
+{
+    calories = std::max<int64_t>( calories, 0 );
+    for( const std::pair<const vitamin_id, int> &vit : vitamins() ) {
+        // clear all consumed vitamins
+        if( vit.second <= 0 ) {
+            remove_vitamin( vit.first );
+        }
+    }
+}
+
 bool nutrients::operator==( const nutrients &r ) const
 {
     if( kcal() != r.kcal() ) {
@@ -148,6 +170,33 @@ bool nutrients::operator==( const nutrients &r ) const
         }
     }
     return true;
+}
+
+nutrients nutrients::operator-()
+{
+    nutrients negative_copy = *this;
+    negative_copy.calories *= -1;
+    for( std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit :
+         negative_copy.vitamins_ ) {
+        std::variant<int, vitamin_units::mass> &here = vit.second;
+        here = std::get<int>( here ) *= -1;
+    }
+    return negative_copy;
+}
+
+nutrients nutrients::operator-( const nutrients &r )
+{
+    if( !finalized || !r.finalized ) {
+        debugmsg( "Nutrients not finalized when -= called!" );
+    }
+    nutrients ret = *this;
+    ret.calories -= r.calories;
+    for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit :
+         r.vitamins_ ) {
+        std::variant<int, vitamin_units::mass> &here = ret.vitamins_[vit.first];
+        here = std::get<int>( here ) - std::get<int>( vit.second );
+    }
+    return ret;
 }
 
 nutrients &nutrients::operator+=( const nutrients &r )
@@ -199,8 +248,16 @@ nutrients &nutrients::operator*=( double r )
     calories *= r;
     for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit : vitamins_ ) {
         std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
-        // Note well: This truncates the result!
-        here = static_cast<int>( std::get<int>( here ) * r );
+        if( std::get<int>( here ) == 0 ) {
+            continue;
+        }
+        bool negative = std::get<int>( here ) < 0;
+        // truncates, but always keep at least 1 (for e.g. allergies)
+        int val = static_cast<int>( std::get<int>( here ) * r );
+        if( val == 0 ) {
+            val = negative ? -1 : 1;
+        }
+        here = val;
     }
     return *this;
 }
@@ -263,7 +320,7 @@ void stomach_contents::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-static units::volume string_to_ml( const std::string_view str )
+static units::volume string_to_ml( std::string_view str )
 {
     return units::from_milliliter( svto<int>( str.substr( 0, str.size() - 3 ) ) );
 }
@@ -304,13 +361,27 @@ void stomach_contents::deserialize( const JsonObject &jo )
 
 units::volume stomach_contents::capacity( const Character &owner ) const
 {
-    return owner.enchantment_cache->modify_value( enchant_vals::mod::STOMACH_SIZE_MULTIPLIER,
-            max_volume );
+    return std::max( 250_ml, owner.enchantment_cache->modify_value(
+                         enchant_vals::mod::STOMACH_SIZE_MULTIPLIER, max_volume ) );
 }
 
 units::volume stomach_contents::stomach_remaining( const Character &owner ) const
 {
     return capacity( owner ) - contents - water;
+}
+
+bool stomach_contents::would_be_engorged_with( const Character &owner, units::volume intake,
+        bool calorie_deficit ) const
+{
+    const double fullness_ratio = ( contains() + intake ) / capacity( owner );
+    return ( calorie_deficit && fullness_ratio >= 1.0 ) || ( fullness_ratio >= 5.0 / 6.0 );
+}
+
+bool stomach_contents::would_be_full_with( const Character &owner, units::volume intake,
+        bool calorie_deficit ) const
+{
+    const double fullness_ratio = ( contains() + intake ) / capacity( owner );
+    return ( calorie_deficit && fullness_ratio >= 11.0 / 20.0 ) || ( fullness_ratio >= 3.0 / 4.0 );
 }
 
 units::volume stomach_contents::contains() const

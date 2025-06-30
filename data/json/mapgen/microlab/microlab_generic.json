@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "microlab_generic" ],
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -17,6 +16,7 @@
           "x": 0,
           "y": 0
         },
+        { "chunks": [ { "param": "unique_foe", "fallback": "nmn_more_density" } ], "x": 0, "y": 0 },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
@@ -31,7 +31,7 @@
           "chance": 80,
           "x": [ 0, 23 ],
           "y": [ 0, 23 ],
-          "repeat": [ 10, 20 ]
+          "repeat": [ 2, 7 ]
         }
       ]
     }
@@ -39,7 +39,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -75,7 +74,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -111,7 +109,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -146,7 +143,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -181,7 +177,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -217,7 +212,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -255,7 +249,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -290,7 +283,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -325,7 +317,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -360,7 +351,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -395,7 +385,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -430,7 +419,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -465,7 +453,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -498,14 +485,13 @@
       "terrain": { "G": "t_card_science" },
       "monster": {
         "T": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } },
-        "M": { "monster": "mon_zombie_bio_op" }
+        "M": { "monster": "mon_zombie_soldier" }
       }
     }
   },
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -540,7 +526,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [

@@ -1,6 +1,9 @@
 #include "pickup.h"
 
 #include <algorithm>
+#include <array>
+#include <functional>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -11,19 +14,26 @@
 #include "activity_actor_definitions.h"
 #include "auto_pickup.h"
 #include "character.h"
-#include "colony.h"
+#include "contents_change_handler.h"
 #include "debug.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "item_stack.h"
+#include "json.h"
 #include "line.h"
 #include "map.h"
 #include "mapdata.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
+#include "overmapbuffer.h"
 #include "options.h"
 #include "player_activity.h"
 #include "point.h"
@@ -32,9 +42,8 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
-#include "units_utility.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
@@ -190,10 +199,10 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
 
     if( !newit.is_owned_by( player_character, true ) ) {
         // Has the player given input on if stealing is ok?
-        if( player_character.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+        if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
             Pickup::query_thief();
         }
-        if( player_character.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+        if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
             return true; // Since we are honest, return no problem before picking up
         }
     }
@@ -269,7 +278,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
                 newit = it;
                 newit.invlet = invlet;
             }
-        // Intentional fallthrough
+            [[fallthrough]];
         case STASH: {
             int last_charges = newit.charges;
             ret_val<item_location> ret = player_character.i_add_or_fill( newit, true, nullptr, &it,
@@ -328,6 +337,12 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
         }
         player_character.flag_encumbrance();
         player_character.invalidate_weight_carried_cache();
+
+        // Remove DROPPED_FAVORITES autonote if exists.
+        const tripoint_abs_omt note_pos = player_character.pos_abs_omt();
+        if( overmap_buffer.note( note_pos ) == newit.display_name() ) {
+            overmap_buffer.delete_note( note_pos );
+        }
     }
 
     return picked_up || !did_prompt;
@@ -390,7 +405,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
 }
 
 // Auto pickup items at given location
-void Pickup::autopickup( const tripoint &p )
+void Pickup::autopickup( const tripoint_bub_ms &p )
 {
     map &local = get_map();
 
@@ -400,12 +415,13 @@ void Pickup::autopickup( const tripoint &p )
     // which items are we grabbing?
     std::vector<item_stack::iterator> here;
     const map_stack mapitems = local.i_at( p );
+    here.reserve( mapitems.size() );
     for( item_stack::iterator it = mapitems.begin(); it != mapitems.end(); ++it ) {
         here.push_back( it );
     }
     Character &player = get_player_character();
     // Recursively pick up adjacent items if that option is on.
-    if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && player.pos() == p ) {
+    if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && player.pos_bub() == p ) {
         //Autopickup adjacent
         std::array<direction, 8> adjacentDir = {
             direction::NORTH, direction::NORTHEAST, direction::EAST,
@@ -414,30 +430,31 @@ void Pickup::autopickup( const tripoint &p )
         };
         for( direction &elem : adjacentDir ) {
 
-            tripoint apos = tripoint( displace_XY( elem ), 0 );
-            apos += p;
+            tripoint_rel_ms apos = tripoint_rel_ms( point_rel_ms( displace_XY( elem ) ), 0 );
 
-            autopickup( apos );
+            autopickup( p + apos );
         }
     }
     // Bail out if this square cannot be auto-picked-up
-    if( g->check_zone( zone_type_NO_AUTO_PICKUP, p ) ||
+    if( g->check_zone( zone_type_NO_AUTO_PICKUP, tripoint_bub_ms( p ) ) ||
         local.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
         return;
     }
-    drop_locations selected_items = auto_pickup::select_items( here, p );
+    drop_locations selected_items = auto_pickup::select_items( here, tripoint_bub_ms( p ) );
     if( selected_items.empty() ) {
         return;
     }
     // At this point we've selected our items, register an activity to pick them up.
     std::vector<int> quantities;
     std::vector<item_location> target_items;
+    target_items.reserve( selected_items.size() );
+    quantities.reserve( selected_items.size() );
     for( drop_location selected : selected_items ) {
         item *it = selected.first.get_item();
         target_items.push_back( selected.first );
         quantities.push_back( it->count_by_charges() ? it->charges : 0 );
     }
-    pickup_activity_actor actor( target_items, quantities, player.pos(), true );
+    pickup_activity_actor actor( target_items, quantities, player.pos_bub(), true );
     player.assign_activity( actor );
 
     // Auto pickup will need to auto resume since there can be several of them on the stack.
@@ -484,8 +501,9 @@ void Pickup::pick_info::deserialize( const JsonObject &jsobj )
 
 void Pickup::pick_info::set_src( const item_location &src_ )
 {
+    const map &here = get_map(); // TODO: Change src_pos to absolute?
     // item_location of source may become invalid after the item is moved, so save the information separately.
-    src_pos = src_.position();
+    src_pos = src_.pos_bub( here );
     src_container = src_.parent_item();
     src_type = src_.where();
 }
@@ -493,16 +511,4 @@ void Pickup::pick_info::set_src( const item_location &src_ )
 void Pickup::pick_info::set_dst( const item_location &dst_ )
 {
     dst = dst_;
-}
-
-std::vector<Pickup::pickup_rect> Pickup::pickup_rect::list;
-
-Pickup::pickup_rect *Pickup::pickup_rect::find_by_coordinate( const point &p )
-{
-    for( pickup_rect &rect : pickup_rect::list ) {
-        if( rect.contains( p ) ) {
-            return &rect;
-        }
-    }
-    return nullptr;
 }

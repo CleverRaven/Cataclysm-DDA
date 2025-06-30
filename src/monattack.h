@@ -16,10 +16,8 @@ bool eat_food( monster *z );
 bool shriek( monster *z );
 bool shriek_alert( monster *z );
 bool shriek_stun( monster *z );
-bool howl( monster *z );
 bool rattle( monster *z );
 bool acid( monster *z );
-bool acid_accurate( monster *z );
 bool acid_barf( monster *z );
 bool shockstorm( monster *z );
 bool shocking_reveal( monster *z );
@@ -30,7 +28,6 @@ bool resurrect( monster *z );
 bool smash( monster *z );
 void smash_specific( monster *z, Creature *target );
 bool split( monster *z );
-bool science( monster *z );
 bool growplants( monster *z );
 bool grow_vine( monster *z );
 bool vine( monster *z );
@@ -45,8 +42,6 @@ bool fungus_bristle( monster *z );    // Fungal hedgerow rake & inject
 bool fungus_growth( monster *z );     // Sporeling -> fungal creature
 bool fungus_sprout( monster *z );     // Grow fungal walls
 bool fungus_fortify( monster *z );    // Grow fungal hedgerows
-bool dermatik( monster *z );
-bool dermatik_growth( monster *z );
 bool fungal_trail( monster *z );
 bool plant( monster *z );
 bool disappear( monster *z );
@@ -57,7 +52,6 @@ bool jackson( monster *z );
 bool dance( monster *z );
 bool dogthing( monster *z );
 bool vortex( monster *z );
-bool gene_sting( monster *z );
 bool para_sting( monster *z );
 bool triffid_growth( monster *z );
 bool stare( monster *z );
@@ -67,12 +61,9 @@ bool nurse_operate( monster *z );
 bool check_money_left( monster *z );
 bool photograph( monster *z );
 bool tazer( monster *z );
-bool flamethrower( monster *z );
 bool searchlight( monster *z );
 bool speaker( monster *z );
 bool copbot( monster *z );
-bool chickenbot( monster *z );        // Pick from tazer, M4, MGL
-bool multi_robot( monster *z );       // Tazer, flame, M4, MGL, or 120mm!
 bool ratking( monster *z );
 bool generator( monster *z );
 bool upgrade( monster *z );
@@ -96,21 +87,15 @@ bool bio_op_impale( monster *z );
 bool bio_op_disarm( monster *z );
 bool suicide( monster *z );
 bool riotbot( monster *z );
-bool stretch_attack( monster *z );
 bool kamikaze( monster *z );
 bool grenadier( monster *z );
 bool grenadier_elite( monster *z );
 bool doot( monster *z );
 bool zombie_fuse( monster *z );
-bool dsa_drone_scan( monster *z );
 bool blow_whistle( monster *z );
 bool graze( monster *z );
 
 void taze( monster *z, Creature *target );
-void rifle( monster *z, Creature *target );             // Automated M4
-void frag( monster *z, Creature *target );              // Automated MGL
-void tankgun( monster *z, Creature *target );           // Tankbot primary.
-void flame( monster *z, Creature *target );
 
 } //namespace mattack
 

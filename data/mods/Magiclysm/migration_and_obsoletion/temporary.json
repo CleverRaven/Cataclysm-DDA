@@ -1,0 +1,17 @@
+[
+  {
+    "id": "druid_raven_form_fly_upward",
+    "type": "SPELL",
+    "name": "(Raven Form) Ascend",
+    "description": "Flap your wings and fly upward.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_SHIFTER_RAVEN_FORM_ASCEND",
+    "shape": "blast",
+    "flags": [ "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "SILENT", "NO_FAIL" ],
+    "skill": "deduction",
+    "base_casting_time": 75
+  }
+]

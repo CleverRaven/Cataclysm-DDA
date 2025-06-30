@@ -21,6 +21,7 @@
       {
         "id": "heavy_armor",
         "name": "a segment of sloped armor",
+        "is_good": false,
         "armor_mult": { "all": 1 },
         "crit_mult": { "all": 0.1 },
         "coverage_mult": { "melee": 1.5 },
@@ -51,6 +52,7 @@
       {
         "id": "heavy_armor",
         "name": "a segment of sloped armor",
+        "is_good": false,
         "armor_mult": { "all": 5 },
         "crit_mult": { "all": 0.1 },
         "coverage_mult": { "melee": 0.1 },

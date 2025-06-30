@@ -5,6 +5,7 @@
 #include <optional>
 #include <vector>
 
+#include "coordinates.h"
 #include "gun_mode.h"
 #include "map_iterator.h"
 #include "point.h"
@@ -19,15 +20,15 @@ class npc_attack_rating
         // the total calculated effectiveness of this attack. no value means this attack is not possible.
         std::optional<int> _value = std::nullopt;
         // the target tile of the attack
-        tripoint _target;
+        tripoint_bub_ms _target;
     public:
         npc_attack_rating() = default;
         npc_attack_rating( const std::optional<int> &_value,
-                           const tripoint &_target ) : _value( _value ), _target( _target ) {}
+                           const tripoint_bub_ms &_target ) : _value( _value ), _target( _target ) {}
         std::optional<int> value() const {
             return _value;
         }
-        tripoint target() const {
+        tripoint_bub_ms target() const {
             return _target;
         }
         bool operator>( const npc_attack_rating &rhs ) const;
@@ -45,7 +46,7 @@ class npc_attack
          *  target - the desired target of the npc. valued at 100%
          */
         virtual npc_attack_rating evaluate( const npc &source, const Creature *target ) const = 0;
-        virtual void use( npc &source, const tripoint &location ) const = 0;
+        virtual void use( npc &source, const tripoint_bub_ms &location ) const = 0;
         /**
          *  For debug information. returns all evaluated effectivenesses.
          *  This is abstracted out in evaluate() as it's faster to not use a container
@@ -68,12 +69,12 @@ class npc_attack_spell : public npc_attack
         npc_attack_rating evaluate( const npc &source, const Creature *target ) const override;
         std::vector<npc_attack_rating> all_evaluations( const npc &source,
                 const Creature *target ) const override;
-        void use( npc &source, const tripoint &location ) const override;
+        void use( npc &source, const tripoint_bub_ms &location ) const override;
     private:
         bool can_use( const npc &source ) const;
         int base_time_penalty( const npc &source ) const;
         npc_attack_rating evaluate_tripoint(
-            const npc &source, const Creature *target, const tripoint &location ) const;
+            const npc &source, const Creature *target, const tripoint_bub_ms &location ) const;
 };
 
 class npc_attack_melee : public npc_attack
@@ -84,9 +85,9 @@ class npc_attack_melee : public npc_attack
         npc_attack_rating evaluate( const npc &source, const Creature *target ) const override;
         std::vector<npc_attack_rating> all_evaluations( const npc &source,
                 const Creature *target ) const override;
-        void use( npc &source, const tripoint &location ) const override;
+        void use( npc &source, const tripoint_bub_ms &location ) const override;
     private:
-        tripoint_range<tripoint> targetable_points( const npc &source ) const;
+        tripoint_range<tripoint_bub_ms> targetable_points( const npc &source ) const;
         bool can_use( const npc &source ) const;
         int base_time_penalty( const npc &source ) const;
         npc_attack_rating evaluate_critter( const npc &source, const Creature *target,
@@ -102,13 +103,13 @@ class npc_attack_gun : public npc_attack
         npc_attack_rating evaluate( const npc &source, const Creature *target ) const override;
         std::vector<npc_attack_rating> all_evaluations( const npc &source,
                 const Creature *target ) const override;
-        void use( npc &source, const tripoint &location ) const override;
+        void use( npc &source, const tripoint_bub_ms &location ) const override;
     private:
-        tripoint_range<tripoint> targetable_points( const npc &source ) const;
+        tripoint_range<tripoint_bub_ms> targetable_points( const npc &source ) const;
         bool can_use( const npc &source ) const;
         int base_time_penalty( const npc &source ) const;
         npc_attack_rating evaluate_tripoint(
-            const npc &source, const Creature *target, const tripoint &location ) const;
+            const npc &source, const Creature *target, const tripoint_bub_ms &location ) const;
 };
 
 class npc_attack_throw : public npc_attack
@@ -119,13 +120,13 @@ class npc_attack_throw : public npc_attack
         npc_attack_rating evaluate( const npc &source, const Creature *target ) const override;
         std::vector<npc_attack_rating> all_evaluations( const npc &source,
                 const Creature *target ) const override;
-        void use( npc &source, const tripoint &location ) const override;
+        void use( npc &source, const tripoint_bub_ms &location ) const override;
     private:
-        tripoint_range<tripoint> targetable_points( const npc &source ) const;
+        tripoint_range<tripoint_bub_ms> targetable_points( const npc &source ) const;
         bool can_use( const npc &source ) const;
         int base_penalty( const npc &source ) const;
         npc_attack_rating evaluate_tripoint(
-            const npc &source, const Creature *target, const tripoint &location ) const;
+            const npc &source, const Creature *target, const tripoint_bub_ms &location ) const;
 };
 
 class npc_attack_activate_item : public npc_attack
@@ -137,7 +138,7 @@ class npc_attack_activate_item : public npc_attack
         npc_attack_rating evaluate( const npc &source, const Creature *target ) const override;
         std::vector<npc_attack_rating> all_evaluations( const npc &source,
                 const Creature *target ) const override;
-        void use( npc &source, const tripoint &location ) const override;
+        void use( npc &source, const tripoint_bub_ms &location ) const override;
     private:
         bool can_use( const npc &source ) const;
 };

@@ -1,0 +1,15 @@
+[
+  {
+    "type": "oter_id_migration",
+    "oter_ids": {
+      "s_gas_north": "field",
+      "s_gas_south": "field",
+      "s_gas_east": "field",
+      "s_gas_west": "field",
+      "s_gas_roof_north": "field",
+      "s_gas_roof_south": "field",
+      "s_gas_roof_east": "field",
+      "s_gas_roof_west": "field"
+    }
+  }
+]

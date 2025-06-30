@@ -15,23 +15,12 @@
   {
     "id": "electric_probing",
     "type": "requirement",
-    "tools": [ [ [ "voltmeter", 1 ], [ "toolset", -1 ] ] ]
+    "tools": [ [ [ "voltmeter", -1 ], [ "toolset", -1 ] ] ]
   },
   {
     "id": "welding_standard",
     "type": "requirement",
-    "//": "Crafting or repair of steel items or installation of vehicle parts",
-    "qualities": [ { "id": "GLARE", "level": 1 } ],
-    "tools": [
-      [
-        [ "welder", 10 ],
-        [ "welder_crude", 15 ],
-        [ "integrated_welder", 15 ],
-        [ "oxy_torch", 2 ],
-        [ "afs_plasma_torch_gun", 2 ],
-        [ "afs_plasma_torch", 1 ]
-      ]
-    ]
+    "extend": { "tools": [ [ [ "afs_plasma_torch_gun", 2 ], [ "afs_plasma_torch", 1 ] ] ] }
   },
   {
     "id": "afs_nanofab_material_3",

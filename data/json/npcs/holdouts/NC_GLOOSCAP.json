@@ -14,8 +14,7 @@
     "type": "talk_topic",
     "id": "TALK_GLOOSCAP",
     "dynamic_line": {
-      "u_has_var": "general_meeting_u_met_glooscap",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_glooscap" } ],
       "yes": [
         "Good to see you again, how can I help you?",
         {
@@ -37,29 +36,32 @@
     "responses": [
       {
         "text": "Glooscap?  That's a funny name.  Is it foreign?",
-        "condition": { "not": { "u_has_var": "general_meeting_u_met_glooscap", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_glooscap" } ] } },
         "topic": "TALK_GLOOSCAP_WHERE"
       },
       {
         "text": "[INT 11]  Like the Wabanaki myth?",
         "topic": "TALK_GLOOSCAP_MYTH",
         "condition": {
-          "and": [ { "u_has_intelligence": 11 }, { "not": { "u_has_var": "general_meeting_u_accused_malsumis", "value": "yes" } } ]
+          "and": [
+            { "u_has_intelligence": 11 },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_accused_malsumis" } ] } }
+          ]
         }
       },
       {
         "text": "So.  You're dressed like a hunter.  Are you a hunter?",
         "condition": {
           "and": [
-            { "u_has_var": "general_meeting_u_met_glooscap", "value": "yes" },
-            { "not": { "u_has_var": "general_meeting_u_befriended_glooscap", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_glooscap" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_befriended_glooscap" } ] } }
           ]
         },
         "topic": "TALK_GLOOSCAP_HUNTER"
       },
       {
         "text": "Have you had any luck out there?",
-        "condition": { "u_has_var": "general_meeting_u_befriended_glooscap", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_befriended_glooscap" } ] },
         "effect": "start_trade",
         "topic": "TALK_GLOOSCAP"
       },
@@ -97,7 +99,7 @@
         "condition": { "u_has_intelligence": 14 }
       },
       {
-        "text": "Yes, I'm a very smart survivor of the apocalypse.  Anyway, I need to move along.  Later Glooscap.",
+        "text": "Yes, I'm a very smart survivor of the apocalypse.  <end_talking_leave>  Later Glooscap.",
         "topic": "TALK_DONE"
       }
     ]
@@ -263,7 +265,7 @@
     "dynamic_line": "Another world is going and a new world is coming.  I hope this new one is better than the last, a new golden age.  So far not great.",
     "responses": [
       { "text": "Sure sure.  So are you on drugs?", "topic": "TALK_GLOOSCAP_DRUGS" },
-      { "text": "Let's talk about something else.", "topic": "TALK_GLOOSCAP" },
+      { "text": "<done_conversation_section>", "topic": "TALK_GLOOSCAP" },
       { "text": "Whatever, I don't have time for creepy stuff.", "topic": "TALK_DONE" }
     ]
   },
@@ -295,8 +297,8 @@
     "id": "TALK_SUGGEST_FOLLOW_GLOOSCAP",
     "dynamic_line": "Maybe some day.  If you can survive for long enough I may decide to come and stay with you.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GLOOSCAP" },
-      { "text": "I need to move on.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GLOOSCAP" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -304,8 +306,8 @@
     "id": "TALK_GLOOSCAP_DRUGS",
     "dynamic_line": "Not enough given what's happening.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GLOOSCAP" },
-      { "text": "I need to move on.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GLOOSCAP" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -397,7 +399,7 @@
     "dynamic_line": "I don't think so.  I'm pretty good at hunting though.",
     "responses": [
       { "text": "I guess that's something.", "topic": "TALK_GLOOSCAP" },
-      { "text": "I need to move on.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   }
 ]

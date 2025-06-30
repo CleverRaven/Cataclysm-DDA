@@ -1,0 +1,7 @@
+[
+  {
+    "type": "fault_group",
+    "id": "electronic_general",
+    "group": [ { "fault": "fault_emp_reboot" } ]
+  }
+]

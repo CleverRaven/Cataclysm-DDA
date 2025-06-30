@@ -10,10 +10,9 @@
 #include "activity_handlers.h"
 #include "assign.h"
 #include "debug.h"
-#include "flexbuffer_json-inl.h"
+#include "enums.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json_error.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -79,6 +78,7 @@ std::string enum_to_string<distraction_type>( distraction_type data )
         case distraction_type::temperature: return "temperature";
         case distraction_type::mutation: return "mutation";
         case distraction_type::oxygen: return "oxygen";
+        case distraction_type::withdrawal: return "withdrawal";
         // *INDENT-ON*
         default:
             cata_fatal( "Invalid distraction_type in enum_to_string" );

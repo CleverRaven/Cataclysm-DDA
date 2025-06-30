@@ -18,5 +18,10 @@
     "id": "NETHERPROOF",
     "type": "monster_flag",
     "//": "nether immunity"
+  },
+  {
+    "id": "MAGIC_USER",
+    "type": "monster_flag",
+    "//": "A monster that uses a lot of magic, for detection magic purposes."
   }
 ]

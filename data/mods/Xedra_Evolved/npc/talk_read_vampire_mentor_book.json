@@ -1,0 +1,75 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_READ_VAMPIRE_MENTOR_BOOK",
+    "dynamic_line": "[You skim through the book, searching for the components your mentor told you about, until you find the section with the components and their rituals]",
+    "responses": [
+      { "text": "[Read about the stormwrought blood]", "topic": "TALK_STORMWROUGHT_BLOOD" },
+      { "text": "[Read about the concentrated underhill essence]", "topic": "TALK_UNDERHILL_ESSENCE" },
+      { "text": "[Read about the dream-drainer mosquito's heart]", "topic": "TALK_DREAMDRAINER_HEART" },
+      { "text": "[Read about the moonstruck pearl]", "topic": "TALK_MONSTRUCK_PEARL" },
+      { "text": "[Read about the Abyssal Hunger's shard]", "topic": "TALK_ABYSSAL_HUNGER_SHARD" },
+      { "text": "[Close the book]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_STORMWROUGHT_BLOOD",
+    "dynamic_line": "To produce one unit of stormwrought blood, you need twenty-five liters of blood.  Any blood a vampire can feed from will do, but you must not mix different blood types or else the ritual will fail.\n\nThis ritual needs to be done within five meters of a tear in reality, or the blood will fail to attune to its energies.\n\nWhen the ritual will be completed, a storm charged with the same energies will begin.  Stay in it until the blood is simmering and it'll be ready to be used.  Do not worry if it doesn't fully charge the first time for these storms are frequently seen these days.",
+    "responses": [
+      { "text": "[Read about the concentrated underhill essence]", "topic": "TALK_UNDERHILL_ESSENCE" },
+      { "text": "[Read about the dream-drainer mosquito's heart]", "topic": "TALK_DREAMDRAINER_HEART" },
+      { "text": "[Read about the moonstruck pearl]", "topic": "TALK_MONSTRUCK_PEARL" },
+      { "text": "[Read about the Abyssal Hunger's shard]", "topic": "TALK_ABYSSAL_HUNGER_SHARD" },
+      { "text": "[Close the book]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_UNDERHILL_ESSENCE",
+    "dynamic_line": "To extract the two liters of Fae essence the ritual requires, you will need to have one lump of steel and one lump of cast iron on your person or nearby enough to be included in the ritual, Fae parts and a container for the liquid essence.\n\nIron, and to a lesser extend steel, are anathema to the Fae, a fact that the following ritual takes advantage of to separate the essence from the butchered corpse by temporarily amplifying their Fae-bane properties, pushing the essence out of the remains.\n\nAny Fae part will do, as long as their level of relative physics is higher than nothing.",
+    "responses": [
+      { "text": "[Read about the stormwrought blood]", "topic": "TALK_STORMWROUGHT_BLOOD" },
+      { "text": "[Read about the dream-drainer mosquito's heart]", "topic": "TALK_DREAMDRAINER_HEART" },
+      { "text": "[Read about the moonstruck pearl]", "topic": "TALK_MONSTRUCK_PEARL" },
+      { "text": "[Read about the Abyssal Hunger's shard]", "topic": "TALK_ABYSSAL_HUNGER_SHARD" },
+      { "text": "[Close the book]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DREAMDRAINER_HEART",
+    "dynamic_line": "To create a dream-drainer mosquito's heart, you'll need to gather some doses of lotus blossom, a handful of wyld candies, a small pile of dreamdross and a liter of Fae blood to create the dream-draining catalyst.\n\nOnce it is completed, find a mosquito and activate the catalyst while no farther than five meters away from it.  It must be a mosquito, anything else won't work.  The mosquito will then gorge itself on the catalyst and will suddenly transform into a dream-eating nightmare.\n\nOnce the dream-drainer mosquito appears, kill it and the heart will be yours.\n\nBe careful, as this mosquito wields powers akin to those of the Eaters of Dreams such as the ability to heal its wounds and throw piercing projectiles at you.",
+    "responses": [
+      { "text": "[Read about the stormwrought blood]", "topic": "TALK_STORMWROUGHT_BLOOD" },
+      { "text": "[Read about the concentrated underhill essence]", "topic": "TALK_UNDERHILL_ESSENCE" },
+      { "text": "[Read about the moonstruck pearl]", "topic": "TALK_MONSTRUCK_PEARL" },
+      { "text": "[Read about the Abyssal Hunger's shard]", "topic": "TALK_ABYSSAL_HUNGER_SHARD" },
+      { "text": "[Close the book]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MONSTRUCK_PEARL",
+    "dynamic_line": "To obtain a moonstruck pearl, you will need the skull of a March Lord, a bunch of glass shards, a handful of faewild dust, ten kilograms of Fae meat, enough bones to make a makeshift skeleton for that meat, some silver and the heart of a mythic monster.  The skull must be one of a March lord, for only they are resilient enough to contain the tremendous energies you will soon harness.\n\nOnce the revenant's effigy is completed, place it outdoors and wait until the full moon shines brightly in the sky.  Only then will you take it in your arms and utter the last few words of the ritual before the Luna-Attuned Revenant rises and reappears near you.\n\nThis revenant is a powerful foe, directly fueled by the moon itself and blessed with the ability to always see its foes.  Its attacks are very destructive and hard to dodge but you can severely weaken it by luring it anywhere the moon cannot reach it.  If you do this be warned that it will violently lash out at anything standing between itself and the moon.\n\nFortunately, the revenant cannot regenerate and its flesh lacks any kind of protection other than needing to be extremely heavily damaged to cause it to decohere and die, granting you the moonstruck pearl.\n\nRemember to quickly kill it, for the sun's rays will instantly slay the revenant, preventing you from obtaining the pearl.  Also keep in mind that the revenant will attempt to take revenge on you for its current state and is likely to priorize attacking you over its own wellbeing.",
+    "responses": [
+      { "text": "[Read about the stormwrought blood]", "topic": "TALK_STORMWROUGHT_BLOOD" },
+      { "text": "[Read about the concentrated underhill essence]", "topic": "TALK_UNDERHILL_ESSENCE" },
+      { "text": "[Read about the dream-drainer mosquito's heart]", "topic": "TALK_DREAMDRAINER_HEART" },
+      { "text": "[Read about the Abyssal Hunger's shard]", "topic": "TALK_ABYSSAL_HUNGER_SHARD" },
+      { "text": "[Close the book]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ABYSSAL_HUNGER_SHARD",
+    "dynamic_line": "To reach the space where the aforementioned shard can be found, you will need a few chunks of sulfur, a bottle of strong alcohol, red meat from an animal, meat from a mutant, meat from a human and meat from a Fae.  With all these components, the ritual will be possible to accomplish.\n\nHowever, do not initiate the ritual if you aren't in the condition to fight through hordes of foes, as it is what awaits you once you have completed the ritual.  You will be swallowed instantly by a nightmarish being known as the Abyssal Hunger and end up somewhere within it, where things akin to the cells of a body will attack you.\n\nAs you progress through the layers of its body, resistance will increase as you get closer to what constitutes its brain.  Within it, shards can be found.  Extract one, and you will return in our world at the exact place where you left it.\n\nTry to stay away from the red globules, they're incredibly powerful but almost fully blind.  The green globules will try to drag you closer to the red ones so be ready to kill all of them as quickly as you can.  Preparing ways to do so is a good idea, and so is bringing a source of light and preparing for a half-hour where the only thing you will do is fighting for your life.",
+    "responses": [
+      { "text": "[Read about the stormwrought blood]", "topic": "TALK_STORMWROUGHT_BLOOD" },
+      { "text": "[Read about the concentrated underhill essence]", "topic": "TALK_UNDERHILL_ESSENCE" },
+      { "text": "[Read about the dream-drainer mosquito's heart]", "topic": "TALK_DREAMDRAINER_HEART" },
+      { "text": "[Read about the moonstruck pearl]", "topic": "TALK_MONSTRUCK_PEARL" },
+      { "text": "[Close the book]", "topic": "TALK_DONE" }
+    ]
+  }
+]

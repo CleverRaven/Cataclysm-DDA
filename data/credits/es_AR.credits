@@ -1,6 +1,48 @@
 # Las líneas de más de 78 caracteres se cortarán automáticamente
 # La línea siguiente es para referencia
 ##############################################################################
+(<color_cyan>0.H</color>):</color>
+<color_white>Autor original:</color>    <color_white>Director del proyecto:</color>
+<color_yellow>Whales</color> (<color_dark_gray>retirado</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>Desarrolladores actuales:</color>
+<color_yellow>anoobindisguise</color> - Arreglo de bugs y pulido implacables en casi todas las áreas del juego.
+<color_yellow>GuardianDll</color> - Cambios aleatorios en el juego, y cambios aleatorios en los mods.
+<color_yellow>irwiss</color> - Arreglo gigantesco de bugs y code hardening.
+<color_yellow>Maleclypse</color> - Dirección de merging para este ciclo de lanzamiento y muchas mejoras para Xedra Evolved.
+
+<color_white>Agradecimientos especiales:</color>
+<color_yellow>anothersimulacrum</color> - Por resolver los problemas difíciles.
+<color_yellow>akrieger</color> - El Aplastador de Ralentizaciones.
+<color_yellow>Fris0uman</color> - Por administrar los grupos de gráficos y otras cosas.
+<color_yellow>John-Candlebury</color> - Por las peleas con jefes y los Protocolos de Aislamiento.
+<color_yellow>Night-Pryanik</color> - Por hacer que los resfriados y las gripes tengan finalmente algún sentido.
+<color_yellow>PatrikLundell</color> - Cambios enormes y muy necesarios en los campamentos de bandos, tanto en contenido como infraestructura.
+<color_yellow>Procyonae</color> - Por tantas mejoras en la generación de mapas y todo el backporting.
+<color_yellow>Qrox</color> - Por los arreglos de bugs, reseñas e infraestructura.
+<color_yellow>Ramza13</color> - Por hacer que tantos sueños de los modders se volvieran realidad.
+<color_yellow>RenechCDDA</color> - Por la Sombra, mejoras en los campamentos y Personalidad de los PNJ.
+<color_yellow>Rivet-the-Zombie</color> - Por llegar a las 10,000 merges.
+<color_yellow>Standing-Storm</color> - Por ser el más rápido de 0 a 100 por varios años.
+<color_yellow>Venera3</color> - Por el progreso en desmembramiento.
+<color_yellow>ZhilkinSerg</color> - Por el merge de todas las cosas.
+<color_yellow>alef</color>, <color_yellow>andrei8l</color>, <color_yellow>Karol1223</color>, <color_yellow>mqrause</color>, and <color_yellow>lispcoc</color>.
+
+<color_white>Agradecimientos especiales por contribución en arte:</color>
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>,
+<color_yellow>gettingusedto</color> y muchos más.
+
+<color_white>Para ver la lista completa de colaboradores, por favor, visitá:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+<color_cyan>https://github.com/I-am-Erk/CDDA-Tilesets/graphs/contributors</color>
+<color_cyan>https://github.com/pixel-32/CDDA-tileset/graphs/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> is released under <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+******************************************************************************
+
+(<color_cyan>0.G</color>):</color>
 <color_white>Autor original:</color>    <color_white>Director del proyecto:</color>
 <color_yellow>Whales</color> (<color_dark_gray>retirado</color>)    <color_yellow>KevinGranade</color>
 

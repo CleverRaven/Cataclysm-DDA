@@ -1,0 +1,17 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_local_metal_door_opening",
+    "terrain": [ { "result": "t_door_metal_c", "valid_terrain": [ "t_door_metal_locked" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_local_computer_shutdown",
+    "furniture": [ { "result": "f_console_broken", "valid_furniture": [ "f_console" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_local_metal_door_closing",
+    "terrain": [ { "result": "t_door_metal_locked", "valid_terrain": [ "t_door_metal_o" ] } ]
+  }
+]

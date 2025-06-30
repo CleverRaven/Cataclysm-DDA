@@ -1,6 +1,8 @@
-#include "cata_catch.h"
+#include <string>
 
+#include "bodypart.h"
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "item.h"
 #include "options.h"
@@ -20,6 +22,9 @@ static const character_modifier_id
 character_modifier_stamina_recovery_breathing_mod( "stamina_recovery_breathing_mod" );
 
 static const efftype_id effect_winded( "winded" );
+
+static const itype_id itype_scarf_fur( "scarf_fur" );
+static const itype_id itype_test_platinum_bit( "test_platinum_bit" );
 
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_run( "run" );
@@ -112,7 +117,7 @@ static void burden_player( Character &dummy, float burden_proportion )
 
     // Add a pile of test platinum bits (1g/unit) to reach the desired weight capacity
     if( burden_proportion > 0.0 ) {
-        item pile( "test_platinum_bit", calendar::turn, units );
+        item pile( itype_test_platinum_bit, calendar::turn, units );
         dummy.i_add( pile );
     }
 
@@ -503,7 +508,7 @@ TEST_CASE( "stamina_regen_with_mouth_encumbrance", "[stamina][update][regen][enc
     }
 
     GIVEN( "character has mouth encumbrance" ) {
-        dummy.wear_item( item( "scarf_fur" ) );
+        dummy.wear_item( item( itype_scarf_fur ) );
         REQUIRE( dummy.encumb( bodypart_id( "mouth" ) ) == 10 );
 
         THEN( "stamina regen is reduced" ) {
@@ -514,7 +519,7 @@ TEST_CASE( "stamina_regen_with_mouth_encumbrance", "[stamina][update][regen][enc
 
         WHEN( "they have even more mouth encumbrance" ) {
             // Layering two scarves triples the encumbrance
-            dummy.wear_item( item( "scarf_fur" ) );
+            dummy.wear_item( item( itype_scarf_fur ) );
             REQUIRE( dummy.encumb( bodypart_id( "mouth" ) ) == 30 );
 
             THEN( "stamina regen is reduced further" ) {

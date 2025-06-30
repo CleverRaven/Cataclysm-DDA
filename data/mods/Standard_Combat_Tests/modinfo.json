@@ -37,7 +37,7 @@
     "professions": [ "sct_mid" ],
     "map_extra": "mx_sct_mid",
     "flags": [ "CITY_START", "LONE_START" ],
-    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
+    "start_of_cataclysm": { "hour": 0, "day": 56, "season": "spring", "year": 1 },
     "start_of_game": { "hour": 8, "day": 45, "season": "summer", "year": 1 }
   },
   {
@@ -51,7 +51,7 @@
     "professions": [ "sct_late" ],
     "map_extra": "mx_sct_late",
     "flags": [ "CITY_START", "LONE_START" ],
-    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
+    "start_of_cataclysm": { "hour": 0, "day": 56, "season": "spring", "year": 1 },
     "start_of_game": { "hour": 8, "day": 45, "season": "autumn", "year": 1 }
   },
   {
@@ -64,7 +64,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_sct_day1",
     "object": {
       "place_terrain": [
@@ -92,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_sct_mid",
     "object": {
       "place_terrain": [
@@ -120,7 +118,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_sct_late",
     "object": {
       "place_terrain": [
@@ -178,7 +175,7 @@
     "id": "sct_late",
     "name": "Lategame",
     "points": 0,
-    "description": "Heavy (survivor pneumatic) post-cataclysm gear, excluding rare lootables.",
+    "description": "Heavy (survivor pneumatic) post-Cataclysm gear, excluding rare lootables.",
     "skills": [
       { "level": 8, "name": "melee" },
       { "level": 8, "name": "bashing" },

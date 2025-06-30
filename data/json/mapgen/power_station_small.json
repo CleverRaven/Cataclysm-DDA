@@ -1,42 +1,40 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "pwr_sub_s" ],
-    "weight": 10,
     "object": {
       "fill_ter": "t_concrete",
       "rows": [
         "........................",
-        "------------------------",
+        "||||||||||||||||||||||||",
         "|   T                  |",
         "|                      |",
         "|   }                  |",
         "| T hST                |",
-        "|              wwwwdwwww",
-        "| T {BT        vc*****Iv",
-        "|              Wc****aIv",
-        "| T hsT{BT     vC*****kW",
-        "|              vCa***wvW",
-        "|        8S    vC****w$w",
-        "| T      T     Wc****d*v",
-        "|    888       Wc****w&v",
-        "|    888       wwwwdwwww",
+        "|              ####d####",
+        "| T {BT        #c*****I#",
+        "|              Wc****aIW",
+        "| T hsT{BT     #C*****kW",
+        "|              #Ca***###",
+        "|        8S    #C****#$#",
+        "| T      T     Wc****d*#",
+        "|    888       Wc****#&#",
+        "|    888       #########",
         "| T  888 T          4  |",
         "|        8S            |",
         "|                      |",
         "| T hST{BT             |",
-        "|   {              -++--",
+        "|   {              |++||",
         "|   B              |  ..",
         "| T hST            |  ..",
         "|   }              |  ..",
-        "--------------------...."
+        "||||||||||||||||||||...."
       ],
+      "palettes": [ "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_concrete",
         "*": "t_floor",
         "+": "t_chaingate_c",
-        "-": "t_chainfence_h",
         ".": "t_grass",
         "8": "t_potential_trans",
         "B": "t_oil_circ_brkr_l",
@@ -52,19 +50,18 @@
         "d": "t_door_locked",
         "h": "t_station_disc",
         "s": "t_switchgear_s",
-        "v": "t_wall_b",
-        "w": "t_wall_b",
         "x": "t_chainfence_posts",
         "{": "t_current_trans",
-        "|": "t_chainfence_v",
+        "|": "t_chainfence",
         "}": "t_lgtn_arrest",
         "4": "t_gutter_downspout"
       },
       "toilets": { "&": {  } },
       "furniture": { "C": "f_console_broken", "c": "f_counter", "a": "f_stool", "I": "f_desk", "k": "f_filing_cabinet", "$": "f_sink" },
       "items": {
-        "I": { "item": "office", "chance": 30, "repeat": [ 1, 2 ] },
-        "k": { "item": "office_paper", "chance": 30, "repeat": [ 1, 2 ] }
+        "I": { "item": "SUS_office_desk", "chance": 80 },
+        "k": { "item": "SUS_office_filing_cabinet", "chance": 30, "repeat": [ 1, 2 ] },
+        "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [
         { "group": "supplies_electronics", "x": 16, "y": [ 7, 8 ], "chance": 40, "repeat": [ 1, 3 ] },
@@ -81,7 +78,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "pwr_sub_s_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",

@@ -1,0 +1,405 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "magiclysm_augmentation_clinic_ground", "magiclysm_augmentation_clinic_top", "magiclysm_augmentation_clinic_roof" ],
+    "copy-from": "magiclysm_augmentation_clinic_ground",
+    "sym": "A",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "goblin_1A",
+      "goblin_2A",
+      "goblin_3A",
+      "goblin_4A",
+      "goblin_5A",
+      "goblin_1B",
+      "goblin_2B",
+      "goblin_3B",
+      "goblin_4B",
+      "goblin_5B",
+      "goblin_1C",
+      "goblin_2C",
+      "goblin_3C",
+      "goblin_4C",
+      "goblin_5C",
+      "goblin_1A_roof",
+      "goblin_2A_roof",
+      "goblin_3A_roof",
+      "goblin_4A_roof",
+      "goblin_5A_roof",
+      "goblin_1B_roof",
+      "goblin_2B_roof",
+      "goblin_3B_roof",
+      "goblin_4B_roof",
+      "goblin_5B_roof",
+      "goblin_1C_roof",
+      "goblin_2C_roof",
+      "goblin_3C_roof",
+      "goblin_4C_roof",
+      "goblin_5C_roof"
+    ],
+    "copy-from": "goblin_1A",
+    "sym": "G",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "orc_village" ],
+    "copy-from": "orc_village",
+    "sym": "G",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "elf_workshop", "elf_workshop_roof" ],
+    "copy-from": "elf_workshop",
+    "sym": "E",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_shop",
+    "copy-from": "magic_shop",
+    "sym": "M",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_shop_2ndfloor",
+    "copy-from": "magic_shop_2ndfloor",
+    "sym": "M",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_shop_roof",
+    "copy-from": "magic_shop_roof",
+    "sym": "M",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_cabin",
+    "copy-from": "magic_cabin",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_cabin_roof",
+    "copy-from": "magic_cabin_roof",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "demon_spider_lair",
+    "copy-from": "demon_spider_lair",
+    "sym": "D",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "used_bookstore",
+    "copy-from": "used_bookstore",
+    "sym": "B",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "used_bookstore_roof",
+    "copy-from": "used_bookstore_roof",
+    "sym": "B",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "magic_basement", "house_technomancer_7", "house_technomancer_8" ],
+    "copy-from": "magic_basement",
+    "sym": "B",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "house_detatched5_basement" ],
+    "copy-from": "house_detatched5_basement",
+    "sym": "B",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "black_dragon_lair_z-0_NW", "black_dragon_lair_z-0_NE", "black_dragon_lair_z-0_SE", "black_dragon_lair_z-0_SW" ],
+    "copy-from": "black_dragon_lair_z-0_NW",
+    "sym": "D",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ogre_mound",
+    "copy-from": "ogre_mound",
+    "sym": "O",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ogre_mound_roof",
+    "copy-from": "ogre_mound_roof",
+    "sym": "O",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_retreat_ground",
+    "copy-from": "lake_retreat_ground",
+    "sym": "#",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_retreat_boathouse",
+    "copy-from": "lake_retreat_boathouse",
+    "sym": "B",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "wizardtower1_ground",
+      "wizardtower1_living",
+      "wizardtower1_golems",
+      "wizardtower1_study",
+      "wizardtower1_roof",
+      "wizardtower2_ground",
+      "wizardtower2_stairs1",
+      "wizardtower2_stairs2",
+      "wizardtower2_study",
+      "wizardtower2_roof"
+    ],
+    "copy-from": "wizardtower1_ground",
+    "sym": "W",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "forest_tomb", "forest_tomb_roof", "forest_tomb_bottom" ],
+    "copy-from": "forest_tomb",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_ground",
+    "copy-from": "magic_academy_ground",
+    "sym": "M",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "magic_academy_2nd",
+      "magic_academy_3rd",
+      "magic_academy_4th",
+      "magic_academy_5th",
+      "magic_academy_6th",
+      "magic_academy_7th",
+      "magic_academy_8th"
+    ],
+    "copy-from": "magic_academy_2nd",
+    "sym": "M",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_basement",
+    "copy-from": "magic_academy_basement",
+    "sym": "B",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_roof",
+    "copy-from": "magic_academy_roof",
+    "sym": "M",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "attunement_altar_NW",
+      "attunement_altar_NE",
+      "attunement_altar_SW",
+      "attunement_altar_SE",
+      "attunement_altar_NW_roof",
+      "attunement_altar_NE_roof",
+      "attunement_altar_SW_roof",
+      "attunement_altar_SE_roof"
+    ],
+    "copy-from": "attunement_altar_NW",
+    "sym": "A",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mine_balrog_west",
+      "mine_balrog_central",
+      "mine_balrog_east",
+      "mine_balrog_-1_west",
+      "mine_balrog_-1_central",
+      "mine_balrog_-1_east",
+      "mine_balrog_finale_nw",
+      "mine_balrog_finale_n",
+      "mine_balrog_finale_ne",
+      "mine_balrog_finale_sw",
+      "mine_balrog_finale_s",
+      "mine_balrog_finale_se",
+      "mine_balrog_bottomless_pit",
+      "mine_balrog_lava"
+    ],
+    "copy-from": "mine_balrog_west",
+    "sym": "M",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "magic_field_a1", "magic_field_a2", "magic_field_b1", "magic_field_b2" ],
+    "copy-from": "magic_field_a1",
+    "sym": ",",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "small_magic_field" ],
+    "copy-from": "small_magic_field",
+    "sym": ",",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "standing_teleport_stones" ],
+    "copy-from": "standing_teleport_stones",
+    "sym": "S",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "druid_ritual_home_z0", "druid_ritual_home_z1", "druid_ritual_home_z2", "druid_ritual_home_z3" ],
+    "copy-from": "druid_ritual_home_z0",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "druid_ritual_home_crown_nw",
+      "druid_ritual_home_crown_n",
+      "druid_ritual_home_crown_ne",
+      "druid_ritual_home_crown_w",
+      "druid_ritual_home_crown",
+      "druid_ritual_home_crown_e",
+      "druid_ritual_home_crown_sw",
+      "druid_ritual_home_crown_s",
+      "druid_ritual_home_crown_se"
+    ],
+    "copy-from": "druid_ritual_home_crown_nw",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "last_mage_on_earth_shelter" ],
+    "copy-from": "last_mage_on_earth_shelter",
+    "sym": "L",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "forge_x0y0z0",
+      "forge_x1y0z0",
+      "forge_x2y0z0",
+      "forge_x3y0z0",
+      "forge_x0y1z0",
+      "forge_x1y1z0",
+      "forge_x2y1z0",
+      "forge_x3y1z0",
+      "forge_x0y2z0",
+      "forge_x1y2z0",
+      "forge_x2y2z0",
+      "forge_x3y2z0",
+      "forge_x0y3z0",
+      "forge_x1y3z0",
+      "forge_x2y3z0",
+      "forge_x3y3z0",
+      "forge_x0y0z1",
+      "forge_x1y0z1",
+      "forge_x2y0z1",
+      "forge_x3y0z1",
+      "forge_x0y1z1",
+      "forge_x1y1z1",
+      "forge_x2y1z1",
+      "forge_x3y1z1",
+      "forge_x0y2z1",
+      "forge_x1y2z1",
+      "forge_x2y2z1",
+      "forge_x3y2z1",
+      "forge_x0y3z1",
+      "forge_x1y3z1",
+      "forge_x2y3z1",
+      "forge_x3y3z1",
+      "forge_x0y0z2",
+      "forge_x1y0z2",
+      "forge_x2y0z2",
+      "forge_x3y0z2",
+      "forge_x0y1z2",
+      "forge_x1y1z2",
+      "forge_x2y1z2",
+      "forge_x3y1z2",
+      "forge_x0y2z2",
+      "forge_x1y2z2",
+      "forge_x2y2z2",
+      "forge_x3y2z2",
+      "forge_x0y3z2",
+      "forge_x1y3z2",
+      "forge_x2y3z2",
+      "forge_x3y3z2",
+      "forge_x0y0z3",
+      "forge_x1y0z3",
+      "forge_x2y0z3",
+      "forge_x3y0z3",
+      "forge_x0y1z3",
+      "forge_x1y1z3",
+      "forge_x2y1z3",
+      "forge_x3y1z3",
+      "forge_x0y2z3",
+      "forge_x1y2z3",
+      "forge_x2y2z3",
+      "forge_x3y2z3",
+      "forge_x0y3z3",
+      "forge_x1y3z3",
+      "forge_x2y3z3",
+      "forge_x3y3z3",
+      "forge_x0y0z4",
+      "forge_x1y0z4",
+      "forge_x2y0z4",
+      "forge_x3y0z4",
+      "forge_x0y1z4",
+      "forge_x1y1z4",
+      "forge_x2y1z4",
+      "forge_x3y1z4",
+      "forge_x0y2z4",
+      "forge_x1y2z4",
+      "forge_x2y2z4",
+      "forge_x3y2z4",
+      "forge_x0y3z4",
+      "forge_x1y3z4",
+      "forge_x2y3z4",
+      "forge_x3y3z4"
+    ],
+    "copy-from": "forge_x0y0z0",
+    "sym": "F",
+    "color": "cyan"
+  }
+]

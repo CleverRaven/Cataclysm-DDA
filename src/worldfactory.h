@@ -56,8 +56,7 @@ struct WORLD {
          * all the world specific files. It depends on @ref world_name,
          * changing that will also change the result of this function.
          */
-        std::string folder_path() const;
-        cata_path folder_path_path() const;
+        cata_path folder_path() const;
 
         std::string world_name;
         options_manager::options_container WORLD_OPTIONS;
@@ -67,6 +66,7 @@ struct WORLD {
          * should be loaded for this world.
          */
         std::vector<mod_id> active_mod_order;
+        std::string timestamp;
 
         WORLD();
         explicit WORLD( const std::string &name );
@@ -75,10 +75,18 @@ struct WORLD {
         bool save_exists( const save_t &name ) const;
         void add_save( const save_t &name );
 
-        bool save( bool is_conversion = false ) const;
+        bool save() const;
 
         void load_options( const JsonArray &options_json );
         bool load_options();
+
+        bool save_timestamp() const;
+        bool load_timestamp();
+        bool create_timestamp();
+
+        bool has_compression_enabled() const;
+        bool set_compression_enabled( bool enabled ) const;
+
 };
 
 class mod_manager;
@@ -153,7 +161,8 @@ class worldfactory
         std::map<int, inclusive_rectangle<point>> draw_mod_list( const catacurses::window &w, int &start,
                                                size_t cursor, const std::vector<mod_id> &mods,
                                                bool is_active_list, const std::string &text_if_empty,
-                                               const catacurses::window &w_shift, bool recalc_start );
+                                               const catacurses::window &w_shift, bool recalc_start,
+                                               const std::vector<mod_id> &potential_conflicts = std::vector<mod_id>() );
 
         WORLD *add_world( std::unique_ptr<WORLD> retworld );
 

@@ -19,7 +19,7 @@
     "result_eocs": [
       {
         "id": "EOC_KNITTING_MORALE",
-        "condition": { "math": [ "u_skill('tailor')", ">=", "3" ] },
+        "condition": { "math": [ "u_skill('tailor') >= 3" ] },
         "effect": [
           {
             "u_message": "You admire your designs and find happiness in your advancements in the field of knitting.",

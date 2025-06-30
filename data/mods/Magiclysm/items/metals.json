@@ -1,7 +1,8 @@
 [
   {
     "id": "orichalcum_lump",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "lump of orichalcum", "str_pl": "lumps of orichalcum" },
     "description": "A lump of raw orichalcum.  Needs to be reformed into an ingot to be useful.",
@@ -20,16 +21,16 @@
   },
   {
     "id": "orichalcum_sliver",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "sliver of orichalcum", "str_pl": "slivers of orichalcum" },
     "description": "A sliver of orichalcum broken from a larger piece.  Needs to be reformed into an ingot to be useful.",
     "weight": "250 g",
     "volume": "250 ml",
     "price": "10 USD",
-    "to_hit": -2,
     "stack_size": 4,
-    "//": "Density 7.60g/cm³ ~ 1.9kg/250ml @ 250g/unit ~ stack 8 but mishapen so only 50% of this",
+    "//": "Density 7.60g/cm³ ~ 1.9kg/250ml @ 250g/unit ~ stack 8 but misshapen so only 50% of this",
     "material": [ "orichalcum_metal" ],
     "symbol": ",",
     "color": "light_green",
@@ -39,7 +40,7 @@
   },
   {
     "id": "orichalcum_ingot",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": "orichalcum ingot",
     "description": "An ingot of orichalcum.  About 3cm by 7cm by 12cm in size, ready to be used for various blacksmithing tasks.",
@@ -55,11 +56,12 @@
   },
   {
     "id": "mithril_lump",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "lump of mithril", "str_pl": "lumps of mithril" },
     "description": "A lump of raw mithril.  Needs to be reformed into an ingot to be useful.",
-    "weight": "675 g",
+    "weight": "332 g",
     "volume": "250 ml",
     "price": "25 USD",
     "to_hit": -4,
@@ -73,7 +75,7 @@
   },
   {
     "id": "mithril_ingot",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": "mithril ingot",
     "description": "An ingot of mithril.  About 3cm by 7cm by 12cm in size, ready to be used for various blacksmithing tasks.",
@@ -85,6 +87,21 @@
     "material": [ "mithril_metal" ],
     "symbol": "=",
     "color": "light_blue",
+    "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "crimsonite_ingot",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": "crimsonite ingot",
+    "description": "An ingot of crimsonite.  About 3cm by 7cm by 12cm in size, ready to be used for various blacksmithing tasks.",
+    "//": "slightly denser than copper",
+    "weight": "2250 g",
+    "volume": "253 ml",
+    "price": "63 USD 99 cent",
+    "material": [ "crimsonite_metal" ],
+    "symbol": "=",
+    "color": "red",
     "melee_damage": { "bash": 6 }
   }
 ]

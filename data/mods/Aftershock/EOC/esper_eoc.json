@@ -1,0 +1,383 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_ESPER_TRAIT_AND_SCHOOL_LIST",
+    "condition": {
+      "and": [
+        { "u_has_trait": "ESPER" },
+        {
+          "or": [
+            { "compare_string": [ "AFS_ELECTROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "AFS_TELEKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "AFS_TELEPATH", { "context_val": "school" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_ESPER_MAINTAINED_POWERS_LIST",
+    "condition": {
+      "or": [
+        { "u_has_effect": "effect_afs_electrokin_see_electricity" },
+        { "u_has_effect": "effect_afs_electrokin_hacking_interface" },
+        { "u_has_effect": "effect_afs_electrokin_personal_battery" },
+        { "u_has_effect": "effect_afs_telekinetic_momentum" },
+        { "u_has_effect": "effect_afs_telepath_sense_minds" },
+        { "u_has_effect": "effect_afs_telepathic_suggestion" },
+        { "u_has_effect": "effect_afs_telepathic_psi_armor" }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSI_CHANNEL_FAILURE",
+    "condition": {
+      "and": [
+        { "not": { "u_has_trait": "NOPAIN" } },
+        { "not": { "u_has_flag": "PAIN_IMMUNE" } },
+        { "x_in_y_chance": { "x": 1, "y": { "math": [ "10 - u_vitamin('vitamin_afs_maintained_powers')" ] } } }
+      ]
+    },
+    "effect": [ { "math": [ "u_pain()", "+=", "rand(2)" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD",
+    "condition": { "math": [ "u_val('focus') >= 75" ] },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "50" ] } ],
+    "false_effect": [ { "run_eocs": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD_2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD_2",
+    "condition": { "math": [ "u_val('focus') >= 50" ] },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "25" ] } ],
+    "false_effect": [ { "run_eocs": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD_3" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD_3",
+    "condition": { "math": [ "u_val('focus') >= 34" ] },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "10" ] } ],
+    "false_effect": [ { "run_eocs": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD_4" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD_4",
+    "condition": { "math": [ "u_val('focus') >= 30" ] },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "5" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_CHANNEL_COSTS_FOCUS",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "and": [ { "test_eoc": "EOC_CONDITION_ESPER_TRAIT_AND_SCHOOL_LIST" }, { "math": [ "u_val('focus') >= 15" ] } ] },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_CONCENTRATION_COSTS_FOCUS",
+    "condition": { "and": [ { "math": [ "u_vitamin('vitamin_afs_maintained_powers') > 0" ] }, { "math": [ "u_val('focus') >= 15" ] } ] },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_CONSEQUENCES_VALUE_INCREASER",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "test_eoc": "EOC_CONDITION_ESPER_TRAIT_AND_SCHOOL_LIST" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_AFS_ESPER_CONSEQUENCES_VALUE_INCREASER_2",
+            "condition": { "math": [ "u_esper_repeated_channeling_value < 20" ] },
+            "effect": [ { "math": [ "u_esper_repeated_channeling_value", "+=", "rng(1,5)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_CONSEQUENCES_VALUE_DECREASER",
+    "recurrence": [ "3 seconds", "30 seconds" ],
+    "global": true,
+    "run_for_npcs": true,
+    "condition": { "math": [ "u_esper_repeated_channeling_value > 0" ] },
+    "effect": [ { "math": [ "u_esper_repeated_channeling_value", "-=", "1" ] } ],
+    "false_effect": [ { "math": [ "u_esper_repeated_channeling_value = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE",
+    "effect": [ { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", "+=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE",
+    "effect": [ { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", "-=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_END_PSI_POWERS_MAINTAINED",
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_AFS_ELECTROKIN_REMOVE_SEE_ELECTRICITY",
+          "EOC_AFS_ELECTROKIN_REMOVE_HACKING_INTERFACE",
+          "EOC_AFS_ELECTROKIN_REMOVE_PERSONAL_BATTERY",
+          "EOC_AFS_TELEKIN_REMOVE_MOMENTUM",
+          "EOC_AFS_TELEPATH_REMOVE_TELEPATHIC_SHIELD",
+          "EOC_AFS_TELEPATH_REMOVE_SENSE_MINDS",
+          "EOC_AFS_TELEPATH_REMOVE_TELEPATHIC_SUGGESTION"
+        ]
+      },
+      { "math": [ "u_vitamin('vitamin_afs_maintained_powers') = 0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY",
+    "condition": {
+      "and": [
+        { "not": { "u_has_proficiency": "prof_concentration_basic" } },
+        { "math": [ "u_vitamin('vitamin_afs_maintained_powers') > 0" ] }
+      ]
+    },
+    "effect": [ { "math": [ "u_proficiency('prof_concentration_basic', 'format': 'percent')", "+=", "rand(4) / 24" ] } ],
+    "//": "adds 0% - 0.16% experience per run",
+    "false_effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY_INT",
+          "condition": {
+            "and": [
+              { "not": { "u_has_proficiency": "prof_concentration_intermediate" } },
+              { "math": [ "u_vitamin('vitamin_afs_maintained_powers') > 0" ] }
+            ]
+          },
+          "effect": [ { "math": [ "u_proficiency('prof_concentration_intermediate', 'format': 'percent')", "+=", "rand(4) / 48" ] } ],
+          "false_effect": {
+            "run_eocs": [
+              {
+                "id": "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY_MASTER",
+                "condition": {
+                  "and": [
+                    { "not": { "u_has_proficiency": "prof_concentration_master" } },
+                    { "math": [ "u_vitamin('vitamin_afs_maintained_powers') > 0" ] }
+                  ]
+                },
+                "effect": [ { "math": [ "u_proficiency('prof_concentration_master', 'format': 'percent')", "+=", "rand(4) / 96" ] } ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSIONICS_ADVERSE_EVENTS",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "and": [ { "test_eoc": "EOC_CONDITION_ESPER_TRAIT_AND_SCHOOL_LIST" } ] },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = _difficulty" ] },
+      {
+        "weighted_list_eocs": [
+          [ "EOC_AFS_PSIONICS_ADVERSE_EVENT_NOSEBLEED", 1 ],
+          [ "EOC_AFS_PSIONICS_ADVERSE_EVENT_HEADACHE", 1 ],
+          [ "EOC_AFS_PSIONICS_ADVERSE_EVENT_HEALTH_PENALTY", 1 ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSIONICS_ADVERSE_EVENT_NOSEBLEED",
+    "condition": {
+      "x_in_y_chance": {
+        "x": {
+          "math": [
+            "(u_esper_repeated_channeling_value * 8) + (u_latest_channeled_power_difficulty * 3) + (u_vitamin('vitamin_afs_maintained_powers') * 20)"
+          ]
+        },
+        "y": 1000
+      }
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, blood drips from your nose.", "type": "bad" },
+      { "u_add_effect": "bleed", "intensity": 1, "target_part": "head", "duration": "5 minutes" },
+      { "math": [ "u_hp('head')", "-=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSIONICS_ADVERSE_EVENT_HEADACHE",
+    "condition": {
+      "x_in_y_chance": {
+        "x": {
+          "math": [
+            "(u_esper_repeated_channeling_value * 8) + (u_latest_channeled_power_difficulty * 3) + (u_vitamin('vitamin_afs_maintained_powers') * 20)"
+          ]
+        },
+        "y": 1000
+      }
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, your head begins to throb.", "type": "bad" },
+      { "u_add_effect": "effect_afs_esper_headache", "duration": { "math": [ "rng(900,3600)" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSIONICS_ADVERSE_EVENT_HEALTH_PENALTY",
+    "condition": {
+      "x_in_y_chance": {
+        "x": {
+          "math": [
+            "(u_esper_repeated_channeling_value * 8) + (u_latest_channeled_power_difficulty * 3) + (u_vitamin('vitamin_afs_maintained_powers') * 20)"
+          ]
+        },
+        "y": 1000
+      }
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, you feel enervated.", "type": "bad" },
+      { "math": [ "u_health()", "-=", "10 + rand(25)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_INITIALIZE",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "test_eoc": "EOC_CONDITION_ESPER_TRAIT_AND_SCHOOL_LIST" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = _difficulty" ] },
+      { "run_eocs": "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE",
+    "effect": [ { "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "150 * u_latest_channeled_power_difficulty" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_BROKEN_LIMB_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "broken_bone",
+    "effect": [ { "run_eocs": [ "EOC_AFS_END_PSI_POWERS_MAINTAINED" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_SLEEP_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "or": [
+        { "compare_string": [ "sleep", { "context_val": "effect" } ] },
+        { "compare_string": [ "lying_down", { "context_val": "effect" } ] }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_AFS_END_PSI_POWERS_MAINTAINED" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_WINDED_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "or": [ { "compare_string": [ "winded", { "context_val": "effect" } ] } ] },
+    "effect": [ { "run_eocs": [ "EOC_AFS_END_PSI_POWERS_MAINTAINED" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_STUNNED_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "stunned", { "context_val": "effect" } ] },
+            { "compare_string": [ "psi_stunned", { "context_val": "effect" } ] }
+          ]
+        },
+        { "test_eoc": "EOC_CONDITION_ESPER_MAINTAINED_POWERS_LIST" }
+      ]
+    },
+    "effect": [
+      { "u_message": "As your head rings and your mind reels, you lose control of your powers!", "type": "bad" },
+      { "run_eocs": [ "EOC_AFS_END_PSI_POWERS_MAINTAINED" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_DAZED_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "dazed", { "context_val": "effect" } ] },
+            { "compare_string": [ "downed", { "context_val": "effect" } ] }
+          ]
+        },
+        { "test_eoc": "EOC_CONDITION_ESPER_MAINTAINED_POWERS_LIST" }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_AFS_ESPER_DAZED_ENDS_POWERS_2",
+            "condition": {
+              "roll_contested": {
+                "math": [
+                  "(u_val('intelligence') / 2) + u_skill('metaphysics') + (u_has_proficiency('prof_concentration_basic')) + (u_has_proficiency('prof_concentration_intermediate') * 2) + (u_has_proficiency('prof_concentration_master') * 3)"
+                ]
+              },
+              "difficulty": 20,
+              "die_size": 12
+            },
+            "effect": [  ],
+            "false_effect": [
+              { "u_message": "Your head is swimming.  You can no longer maintain your powers!", "type": "bad" },
+              { "run_eocs": [ "EOC_AFS_END_PSI_POWERS_MAINTAINED" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_WEARINESS_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "weary_7", { "context_val": "effect" } ] },
+            { "compare_string": [ "weary_8", { "context_val": "effect" } ] }
+          ]
+        },
+        { "test_eoc": "EOC_CONDITION_ESPER_MAINTAINED_POWERS_LIST" },
+        { "not": { "u_has_proficiency": "prof_concentration_master" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "You are almost too tired to think, and can't concentrate on maintaining your powers", "type": "bad" },
+      { "run_eocs": [ "EOC_AFS_END_PSI_POWERS_MAINTAINED" ] }
+    ]
+  }
+]

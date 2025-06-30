@@ -40,13 +40,14 @@
       "S": "f_sink",
       "T": "f_table",
       "U": "f_statue",
+      "Y": "f_bulletin",
+      "Z": "f_sink_gravity",
       "b": "f_bench",
       "c": "f_counter",
       "d": "f_dishwasher",
       "h": "f_chair",
       "i": "f_filing_cabinet",
       "k": "f_desk",
-      "l": "f_vending_c",
       "n": "f_slab",
       "o": "f_bookcase",
       "p": "f_cardboard_fort",
@@ -59,6 +60,8 @@
       "}": "f_rubble",
       "~": "f_shower"
     },
+    "vendingmachines": { "l": { "lootable": true } },
+    "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "t": {  } }
   },
   {

@@ -5,10 +5,7 @@
     "recurrence": "12 hours",
     "global": true,
     "condition": {
-      "and": [
-        { "not": { "u_near_om_location": "robofachq_subcc_a2", "range": 1 } },
-        { "math": [ "ancilla_bar_exists", "==", "1" ] }
-      ]
+      "and": [ { "not": { "u_near_om_location": "robofachq_subcc_a2", "range": 1 } }, { "math": [ "ancilla_bar_exists == 1" ] } ]
     },
     "effect": [
       {

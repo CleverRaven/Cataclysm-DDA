@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_Exodii_Stowaway",
+    "id": "GROUP_Exodii_Stowaway",
     "//": "An enemy that caught an interdimensional ride along with an Exodii.",
     "monsters": [
       { "monster": "mon_zomborg", "weight": 850 },
@@ -11,7 +11,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_Exodii_Scout_Small",
+    "id": "GROUP_Exodii_Scout_Small",
     "//": "A small Exodii scouting unit or party.",
     "monsters": [
       { "monster": "mon_exodii_quad", "weight": 800 },

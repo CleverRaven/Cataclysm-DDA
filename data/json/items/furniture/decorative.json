@@ -1,7 +1,7 @@
 [
   {
     "id": "bigmirror",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "standing mirror" },
     "looks_like": "f_bigmirror",
     "description": "A full-length mirror mounted in a sleek aluminum frame.  Metal stand is currently folded.",
@@ -9,6 +9,7 @@
     "volume": "5450 ml",
     "longest_side": "165 cm",
     "price": "149 USD",
+    "price_postapoc": "3 USD",
     "//": "Tried to base it on <https://www.amazon.com/dp/B09YPNXLFM>, but it's weight and out glass density seems to be incompatible",
     "//2": "165 cm x 61 cm x 0.5 cm, additional volume is from frame and stand",
     "material": [ { "type": "glass", "portion": 96 }, { "type": "aluminum", "portion": 4 } ],
@@ -17,7 +18,7 @@
     "color": "white"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "piano",
     "name": { "str_sp": "piano" },

@@ -1,7 +1,7 @@
 [
   {
     "abstract": "veh_tools_abstract",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "vehicle tool station" },
     "category": "veh_parts",
     "weight": "40000 g",
@@ -13,19 +13,19 @@
     "color": "light_cyan"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "veh_tools_kitchen",
     "copy-from": "veh_tools_abstract",
     "name": { "str": "mounted kitchen" },
-    "description": "A table rig with a faucet for water tank access, fume hood, drawers and fixtures for storing tools, low power electric connectors and valves for for fuel tank connections.",
+    "description": "A table rig with a faucet for water tank access, fume hood, drawers and fixtures for storing tools, low power electric connectors and valves for fuel tank connections.",
     "looks_like": "kitchen_unit"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "veh_tools_workshop",
     "copy-from": "veh_tools_abstract",
     "name": { "str": "mounted workshop" },
-    "description": "A table rig with drawers and fixtures for storing tools, wiring for high power electric connectors and valves for for fuel tank connections.",
+    "description": "A table rig with drawers and fixtures for storing tools, wiring for high power electric connectors and valves for fuel tank connections.",
     "looks_like": "welding_rig"
   },
   {
@@ -86,8 +86,8 @@
     "abstract": "veh_tools_part_abstract",
     "type": "vehicle_part",
     "breaks_into": [
-      { "count": [ 4, 6 ], "item": "steel_lump" },
-      { "count": [ 4, 6 ], "item": "steel_chunk" },
+      { "count": [ 4, 6 ], "item": "lc_steel_lump" },
+      { "count": [ 4, 6 ], "item": "lc_steel_chunk" },
       { "count": [ 4, 6 ], "item": "scrap" }
     ],
     "broken_color": "light_cyan",
@@ -148,7 +148,7 @@
     "type": "vehicle_part",
     "id": "veh_tools_kitchen",
     "copy-from": "veh_tools_part_abstract",
-    "description": "A table rig with a faucet for water tank access, fume hood, drawers and fixtures for storing tools, low power electric connectors and valves for for fuel tank connections.",
+    "description": "A table rig with a faucet for water tank access, fume hood, drawers and fixtures for storing tools, low power electric connectors and valves for fuel tank connections.",
     "item": "veh_tools_kitchen",
     "looks_like": "kitchen_unit",
     "pseudo_tools": [ { "id": "water_faucet" } ],
@@ -177,7 +177,7 @@
     "type": "vehicle_part",
     "id": "veh_tools_workshop",
     "copy-from": "veh_tools_part_abstract",
-    "description": "A table rig with drawers and fixtures for storing tools, wiring for high power electric connectors and valves for for fuel tank connections.",
+    "description": "A table rig with drawers and fixtures for storing tools, wiring for high power electric connectors and valves for fuel tank connections.",
     "looks_like": "welding_rig",
     "item": "veh_tools_workshop",
     "//": "allow tools here that require high power draw but no fume hood",

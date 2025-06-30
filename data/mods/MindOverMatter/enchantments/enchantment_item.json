@@ -1,6 +1,13 @@
 [
   {
     "type": "enchantment",
+    "id": "pyrokinetic_banked_fire_damage_enchant",
+    "has": "WORN",
+    "condition": { "not": "u_has_weapon" },
+    "melee_damage_bonus": [ { "type": "heat", "add": { "math": [ "u_spell_level('pyrokinetic_call_flames') + 5" ] } } ]
+  },
+  {
+    "type": "enchantment",
     "id": "telekin_ritual_summon_strength_enchant",
     "condition": "ALWAYS",
     "has": "HELD",

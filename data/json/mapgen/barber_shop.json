@@ -1,27 +1,26 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "barber_shop" ],
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
-        ".....#|||||+|||||#......",
+        ".....#:::::+:::::#......",
         ".....#@$       $@#......",
         ".....#@$       $@#......",
-        ".....##   V|V   ##......",
-        ".....#@$  A|A  $@#......",
-        ".....#@$  A|A  $@#......",
-        ".....#    V|V   ##......",
+        ".....##   V:V   ##......",
+        ".....#@$  A:A  $@#......",
+        ".....#@$  A:A  $@#......",
+        ".....#    V:V   ##......",
         ".....#DMD      $@#......",
         ".....#    f f  $@#......",
-        ".....###### ######^.....",
-        "....^#t   * #LL#__......",
-        ".....#K ### * L#__......",
-        ".....#D *X# ####__......",
-        ".....#K ### t#g___......",
-        ".....#D *X#  #g___......",
-        ".....######*##____......",
+        ".....#||||| |||###^.....",
+        "....^#t   * |LL#__......",
+        ".....#K ||| * L#__......",
+        ".....#D *X| |###__......",
+        ".....#K ||| t#g___......",
+        ".....#D *X|  #g___......",
+        ".....#|||||*|#____......",
         ".....#F     f#____......",
         ".....#p cTc  #____......",
         ".....#C cTc t#____......",
@@ -31,25 +30,9 @@
         "........................",
         "........................"
       ],
-      "parameters": {
-        "wall_type": {
-          "type": "ter_str_id",
-          "default": {
-            "distribution": [
-              [ "t_wall_b", 1 ],
-              [ "t_wall_g", 1 ],
-              [ "t_wall_p", 1 ],
-              [ "t_wall_P", 1 ],
-              [ "t_wall_r", 1 ],
-              [ "t_wall_w", 6 ],
-              [ "t_wall_y", 1 ]
-            ]
-          }
-        }
-      },
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
-        "#": { "param": "wall_type", "fallback": "t_brick_wall" },
-        "|": "t_wall_glass",
+        ":": "t_wall_glass",
         "+": "t_door_glass_c",
         "_": "t_concrete",
         "g": "t_concrete",
@@ -98,13 +81,14 @@
         "V": { "item": "hair_dye_display", "chance": 70, "repeat": [ 3, 4 ] },
         "S": { "item": "SUS_dishes", "chance": 65 },
         "C": { "item": "SUS_silverware", "chance": 45 },
-        "t": { "item": "trash", "chance": 25, "repeat": [ 1, 3 ] },
+        "t": { "item": "SUS_trash_trashcan_public", "chance": 25 },
         "F": { "item": "SUS_fridge_partial_empty", "chance": 65 },
         "L": [
           { "item": "SUS_hair_drawer", "chance": 45, "repeat": [ 1, 2 ] },
           { "item": "SUS_janitors_closet", "chance": 15 },
           { "item": "SUS_bathroom_sink", "chance": 45 }
-        ]
+        ],
+        "X": { "item": "SUS_toilet", "chance": 100 }
       },
       "place_monster": [
         { "monster": "mon_zombie", "x": 7, "y": 13, "chance": 10 },
@@ -114,7 +98,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "barber_shop_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -145,7 +128,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 6, 11 ], "y": [ 8, 13 ], "chance": 50, "repeat": [ 1, 3 ] } ]
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 6, 11 ], "y": [ 8, 13 ], "chance": 50, "repeat": [ 1, 3 ] } ]
     }
   }
 ]

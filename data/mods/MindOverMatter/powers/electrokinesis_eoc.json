@@ -1,23 +1,58 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_ELECTROKIN_PAIN_IMMUNE_ON",
-    "condition": { "not": { "u_has_effect": "effect_electrokinetic_pain_immune" } },
+    "id": "EOC_ELECTROKIN_PARALYSIS",
+    "//": "Complicated formula here is to produce diminishing returns, since stunning for too long might as well just kill the target.  Level 1 minimum is .4615 seconds moves lost, level 20 maximum is 6.25 seconds, all before Intelligence scaling",
     "effect": [
-      { "math": [ "u_electrokin_pain_value", "=", "u_pain()" ] },
-      { "math": [ "u_pain()", "=", "0" ] },
-      { "u_add_effect": "effect_electrokinetic_pain_immune", "duration": "1 hours" },
       {
-        "queue_eocs": "EOC_ELECTROKIN_PAIN_IMMUNE_OFF",
-        "time_in_future": [
+        "if": {
+          "not": {
+            "u_has_any_effect": [ "effect_electrokinetic_speed_boost", "effect_monster_neuro_acceleration", "effect_monster_neuro_acceleration" ]
+          }
+        },
+        "then": [
+          { "math": [ "u_paralysis_electrokin_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+          { "math": [ "u_paralysis_electrokin_power_level = n_spell_level('electrokinetic_paralysis')" ] },
+          { "math": [ "u_nether_attunement_paralysis_scaling = n_nether_attunement_power_scaling" ] },
           {
             "math": [
-              "( (u_spell_level('electrokinetic_pain_immune') * 8) + 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "_minimum_duration = min( ( ( (u_paralysis_electrokin_power_level * 0.2) + 1) * u_paralysis_electrokin_intelligence * u_nether_attunement_paralysis_scaling),5 )"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('electrokinetic_pain_immune') * 13) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "_maximum_duration = min( ( ( (u_paralysis_electrokin_power_level * 0.35) + 3) * u_paralysis_electrokin_intelligence * u_nether_attunement_paralysis_scaling),5 )"
+            ]
+          },
+          { "math": [ "_duration = rng(_minimum_duration, _maximum_duration)" ] },
+          { "u_add_effect": "downed", "duration": { "math": [ "_duration" ] } },
+          { "u_add_effect": "psi_dazed", "duration": { "math": [ "_duration" ] } },
+          { "u_add_effect": "effect_electrokin_paralysis", "duration": { "math": [ "_duration" ] } },
+          { "npc_message": "You overload the target's neurons!", "type": "good" }
+        ],
+        "else": { "npc_message": "You attempt to overload the target's neurons but nothing happens!", "type": "bad" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_PAIN_IMMUNE_ON",
+    "condition": { "not": { "u_has_effect": "effect_electrokinetic_pain_immune" } },
+    "effect": [
+      { "math": [ "u_electrokin_pain_value = u_pain()" ] },
+      { "math": [ "u_pain() = 0" ] },
+      { "u_add_effect": "effect_electrokinetic_pain_immune", "duration": "1 hours" },
+      {
+        "run_eocs": "EOC_ELECTROKIN_PAIN_IMMUNE_OFF",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( (u_spell_level('electrokinetic_pain_immune') + u_spell_level('electrokinetic_pain_immune_knack') ) * 8) + 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( ( (u_spell_level('electrokinetic_pain_immune') + u_spell_level('electrokinetic_pain_immune_knack') ) * 13) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -31,7 +66,26 @@
     "condition": { "u_has_effect": "effect_electrokinetic_pain_immune" },
     "effect": [
       { "u_lose_effect": "effect_electrokinetic_pain_immune" },
-      { "math": [ "u_pain()", "+=", "(u_electrokin_pain_value * 1.1)" ] }
+      { "math": [ "u_pain('type': 'perceived')", "+=", "(u_electrokin_pain_value * 1.1)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_SPEED_BOOST_TARGET_CHECKER",
+    "condition": "u_is_avatar",
+    "effect": [ { "run_eocs": "EOC_ELECTROKIN_SPEED_BOOST_INITIATE" } ],
+    "false_effect": [
+      { "math": [ "u_speed_boost_electrokin_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_speed_boost_electrokin_power_level = n_spell_level('electrokinetic_speed_boost')" ] },
+      { "math": [ "u_nether_attunement_speed_boost_scaling = n_nether_attunement_power_scaling" ] },
+      {
+        "u_add_effect": "effect_electrokinetic_speed_boost_npc",
+        "duration": {
+          "math": [
+            "rng( ( ( (u_speed_boost_electrokin_power_level * 9) + 40) * u_speed_boost_electrokin_intelligence * u_nether_attunement_speed_boost_scaling),( ( (u_speed_boost_electrokin_power_level * 28) + 143) * u_speed_boost_electrokin_intelligence * u_nether_attunement_speed_boost_scaling) )"
+          ]
+        }
+      }
     ]
   },
   {

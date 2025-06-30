@@ -12,7 +12,7 @@
         "run_eocs": [
           {
             "id": "EOC_perk_duck_and_weave_2",
-            "condition": { "math": [ "u_duck_and_weave_counter", ">=", "3" ] },
+            "condition": { "math": [ "u_duck_and_weave_counter >= 3" ] },
             "effect": [ { "u_add_effect": "effect_perk_duck_and_weave", "duration": 1 } ],
             "false_effect": [ { "math": [ "u_duck_and_weave_counter", "+=", "1" ] } ]
           }
@@ -37,7 +37,7 @@
         }
       ]
     },
-    "effect": [ { "math": [ "u_duck_and_weave_counter", "=", "0" ] }, { "u_lose_effect": "effect_perk_duck_and_weave" } ]
+    "effect": [ { "math": [ "u_duck_and_weave_counter = 0" ] }, { "u_lose_effect": "effect_perk_duck_and_weave" } ]
   },
   {
     "type": "effect_type",

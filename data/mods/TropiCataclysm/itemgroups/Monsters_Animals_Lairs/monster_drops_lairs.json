@@ -53,7 +53,7 @@
       { "item": "rock_large", "prob": 5 },
       { "item": "stick", "prob": 95 },
       { "item": "survivormap", "prob": 1 },
-      { "item": "miner_hat", "prob": 10 },
+      { "group": "hat_hard_flashlight", "prob": 10 },
       { "item": "honey_ant", "prob": 30 },
       { "item": "homemade_bomb_act", "prob": 1 }
     ]

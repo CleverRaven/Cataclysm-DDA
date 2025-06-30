@@ -1,10 +1,8 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_e1d" ],
     "//": "basement road_alt, wild 1, 0, -1.",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -27,29 +25,35 @@
         "...!!.############......",
         "...!!.#]]]]...#..#......",
         "......#]......+..+......",
-        ".....!#)..??..#..#......",
-        ".!!...#]..??..#..#......",
+        ".....!#)..?...#..#......",
+        ".!!...#]......#..#......",
         ".!!..!#]......#..#......",
         "......#].qq.q.#<<#......",
         "###++##############++###"
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
-      "furniture": { "?": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
+      "furniture": {
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
+        "!": [ "f_crate_c", "f_cardboard_box" ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "!": { "item": "crate_stack", "chance": 100 },
         "q": { "item": "tool_common_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 17, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 17, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_e1" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -85,14 +89,12 @@
         "K": { "item": "crate_cleaning", "chance": 100 },
         "I": { "item": "table_foyer", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_e1u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -121,26 +123,23 @@
         " c    |    aa   T|    c ",
         "###++##############++###"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
-        "|": "t_wall_r",
-        "-": "t_carpet_red",
-        "H": "t_carpet_red",
-        "E": "t_carpet_red",
-        "l": "t_carpet_red"
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "furniture": { "&": "f_sofa" },
       "items": { " ": { "item": "clutter_mansion", "chance": 2 }, "c": { "item": "suit_of_armor", "chance": 100 } },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 17, 21 ], "density": 0.15 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 17, 21 ], "density": 0.15 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_e2d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -169,14 +168,14 @@
         "...........<<........+.U",
         "###++##############++###"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "standard_domestic_palette" ],
       "terrain": {
         " ": "t_soil",
         ".": "t_thconc_floor",
         "0": "t_thconc_floor",
-        "-": "t_carpet_concrete_red",
-        "h": "t_carpet_concrete_red",
-        "=": "t_carpet_concrete_red"
+        "-": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
+        "h": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
+        "=": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" }
       },
       "furniture": { "=": "f_table", "?": "f_glass_fridge", "!": "f_speaker_cabinet" },
       "place_loot": [ { "item": "stereo", "x": 23, "y": 16, "chance": 100 }, { "item": "television", "x": 4, "y": 11, "chance": 100 } ],
@@ -187,15 +186,13 @@
         "?": { "item": "wetbar_fridge", "chance": 80 },
         "1": { "item": "wetbar_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 14, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 14, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_e2" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -224,22 +221,25 @@
         "      ||c  >>  c||      ",
         "|      ||||||||||      |"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_landscaping_palette" ],
-      "terrain": { "?": "t_water_pool_shallow_outdoors", "~": "t_thconc_floor", "&": "t_column", "-": "t_carpet_red" },
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_landscaping_palette" ],
+      "terrain": {
+        "?": "t_water_pool_shallow_outdoors",
+        "~": "t_thconc_floor",
+        "&": "t_column",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
+      },
       "items": {
         " ": { "item": "clutter_mansion", "chance": 1 },
         ".": { "item": "clutter_yard", "chance": 1 },
         "s": { "item": "table_foyer", "chance": 40 },
         "c": { "item": "suit_of_armor", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_e2u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -268,18 +268,18 @@
         "Y     y  TyrIyT  y     Y",
         "###++##############++###"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
-        "-": "t_carpet_red",
-        "H": "t_carpet_red",
-        "E": "t_carpet_red",
-        "l": "t_carpet_red",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "_": "t_concrete",
         ")": "t_door_glass_c",
         "%": "t_railing",
-        "s": "t_carpet_red"
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "furniture": { "&": "f_sofa" },
       "items": {
@@ -292,9 +292,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t1d" ],
-    "weight": 700,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -329,10 +327,8 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t1" ],
     "//": "updated",
-    "weight": 700,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -381,9 +377,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t1u" ],
-    "weight": 700,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -419,7 +413,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t2d" ],
     "weight": 800,
     "//": "secret room variant",
@@ -451,24 +444,24 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "standard_domestic_palette" ],
       "terrain": {
         " ": "t_soil",
         ".": "t_thconc_floor",
         "]": "t_sewage_pipe",
         ")": "t_sewage_pump",
-        "N": "t_carpet_concrete_green",
-        "-": "t_carpet_concrete_green",
-        "r": "t_carpet_concrete_green",
-        "I": "t_carpet_concrete_green",
-        "T": "t_carpet_concrete_green",
-        "h": "t_carpet_concrete_green",
-        "&": "t_carpet_concrete_green",
-        "?": "t_carpet_concrete_green",
-        "A": "t_carpet_concrete_green",
-        "@": "t_carpet_concrete_green",
+        "N": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "-": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "r": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "I": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "T": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "h": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "&": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "?": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "A": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "@": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
         "/": "t_door_locked_interior",
-        "%": "t_carpet_concrete_green"
+        "%": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" }
       },
       "furniture": {
         "%": "f_rack_wood",
@@ -498,19 +491,27 @@
           { "item": "tailorbooks", "chance": 60, "repeat": [ 0, 1 ] },
           { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
         ],
+        "f": [
+          { "item": "snacks_fancy", "chance": 65, "repeat": [ 1, 2 ] },
+          { "item": "table_sideboard", "chance": 40, "repeat": [ 2, 3 ] }
+        ],
+        "D": [ { "item": "sex_lair", "chance": 75, "repeat": [ 2, 3 ] }, { "item": "ss_merch_1", "chance": 55, "repeat": [ 2, 3 ] } ],
+        "d": [
+          { "item": "clothing_fancy", "chance": 75, "repeat": [ 2, 3 ] },
+          { "item": "beauty", "chance": 75, "repeat": [ 2, 3 ] }
+        ],
+        "h": [ { "item": "backroom", "chance": 55, "repeat": [ 1, 2 ] }, { "item": "tools_lighting", "chance": 100 } ],
         ".": { "item": "clutter_basement", "chance": 1 },
         "=": { "item": "sex_lair", "chance": 25, "repeat": [ 2, 4 ] },
         "!": { "item": "crate_stack", "chance": 100 },
-        "D": { "item": "sex_lair", "chance": 55, "repeat": [ 2, 6 ] },
-        "d": { "item": "sex_lair", "chance": 55, "repeat": [ 2, 6 ] }
+        "$": { "item": "creepy", "chance": 25 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ],
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ],
       "place_monster": [ { "monster": "mon_zombie_resort_dancer", "x": [ 5, 19 ], "y": [ 16, 18 ], "repeat": [ 1, 2 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t2" ],
     "weight": 1100,
     "object": {
@@ -541,8 +542,17 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
-      "terrain": { "i": "t_carpet_red", "-": "t_carpet_red", ")": "t_carpet_red" },
+      "palettes": [
+        "parametrized_carpets_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "terrain": {
+        "i": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        ")": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
+      },
       "furniture": { ")": "f_bed" },
       "place_loot": [ { "item": "television", "x": 4, "y": 16, "chance": 100 } ],
       "items": {
@@ -555,12 +565,11 @@
         "s": { "item": "nightstand", "chance": 40 },
         "d": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t2" ],
     "weight": 1000,
     "object": {
@@ -591,8 +600,17 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
-      "terrain": { ")": "t_carpet_red", ",": "t_carpet_red", "&": "t_door_metal_locked" },
+      "palettes": [
+        "parametrized_carpets_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "terrain": {
+        ")": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        ",": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "&": "t_door_metal_locked"
+      },
       "furniture": { ")": "f_bed" },
       "items": {
         "v": { "item": "mansion_safe", "chance": 100 },
@@ -602,7 +620,7 @@
         "~": { "item": "clutter_bathroom", "chance": 10 },
         ")": { "item": "bed", "chance": 40 },
         "R": { "item": "mansion_bookcase", "chance": 100 },
-        "6": { "item": "panic_room", "chance": 65, "repeat": [ 2, 6 ] },
+        "6": { "item": "panic_room", "chance": 75, "repeat": [ 2, 6 ] },
         "I": { "item": "nightstand", "chance": 40 },
         "d": { "item": "dresser_stack", "chance": 100 }
       },
@@ -610,12 +628,11 @@
         { "group": "corpse_mansion", "x": [ 10, 12 ], "y": [ 5, 7 ], "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "television", "x": 12, "y": 17, "chance": 100 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 10, 13 ], "y": [ 6, 10 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 10, 13 ], "y": [ 6, 10 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t2u" ],
     "weight": 1000,
     "object": {
@@ -646,16 +663,15 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
-        "-": "t_carpet_purple",
-        "@": "t_carpet_purple",
-        "h": "t_carpet_purple",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "@": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "Y": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        "`": "t_shingle_flat_roof",
-        "|": "t_wall_r"
+        "`": "t_shingle_flat_roof"
       },
       "furniture": { "&": "f_bed" },
       "place_loot": [
@@ -670,12 +686,11 @@
         ",": { "item": "clutter_bathroom", "chance": 15 },
         "I": { "item": "vanity", "chance": 30 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 11 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 11 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t2d" ],
     "weight": 1000,
     "object": {
@@ -697,8 +712,8 @@
         "#####%[###%[%%###[%#####",
         "   #....#......#...q#   ",
         "   #...............q#   ",
-        "   #]]]....}}.......#   ",
-        "   #..]....}}...=.=.#   ",
+        "   #]]]....}........#   ",
+        "   #..].........=.=.#   ",
         "   #..)]]...........#   ",
         "   #....]........ggg#   ",
         "   ##################   ",
@@ -715,7 +730,17 @@
         "[": "t_chaingate_c",
         "%": "t_chainfence"
       },
-      "furniture": { "&": "f_table", "=": "f_machinery_old", "}": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
+      "furniture": {
+        "&": "f_table",
+        "=": "f_machinery_old",
+        "}": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
+        "!": [ "f_crate_c", "f_cardboard_box" ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "!": { "item": "crate_stack", "chance": 100 },
@@ -723,12 +748,11 @@
         "x": { "item": "a_television", "chance": 100 },
         "c": { "item": "suit_of_armor", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t2u" ],
     "weight": 1000,
     "object": {
@@ -759,16 +783,15 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
-        "-": "t_carpet_yellow",
-        "&": "t_carpet_yellow",
-        "R": "t_carpet_yellow",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "R": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "Y": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        "`": "t_shingle_flat_roof",
-        "|": "t_wall_r"
+        "`": "t_shingle_flat_roof"
       },
       "furniture": { "&": "f_armchair" },
       "place_loot": [
@@ -777,14 +800,12 @@
         { "item": "stereo", "x": 4, "y": 4, "chance": 100 },
         { "item": "television", "x": 14, "y": 9, "chance": 100 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 11 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 11 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t4d" ],
-    "weight": 1100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -830,14 +851,12 @@
         "&": { "item": "table_wine", "chance": 100, "repeat": [ 1, 4 ] },
         ".": { "item": "clutter_basement", "chance": 1 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t4" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -866,11 +885,16 @@
         "............[...........",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "parametrized_carpets_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_landscaping_palette"
+      ],
       "terrain": {
-        "-": "t_carpet_purple",
-        "f": "t_carpet_purple",
-        "h": "t_carpet_purple",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "f": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "Y": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" }
       },
       "furniture": { ")": "f_speaker_cabinet" },
@@ -881,14 +905,12 @@
         "J": { "item": "table_sideboard", "chance": 35 },
         "x": { "item": "table_livingroom", "chance": 35 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t4u" ],
-    "weight": 1100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -921,7 +943,6 @@
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
-        "|": "t_wall_g",
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "`": "t_shingle_flat_roof"
       },
@@ -935,9 +956,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t5d" ],
-    "weight": 400,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -966,14 +985,14 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         " ": "t_soil",
         ".": "t_thconc_floor",
         "]": "t_door_glass_c",
-        "-": "t_carpet_concrete_purple",
-        "}": "t_carpet_concrete_purple",
-        "b": "t_carpet_concrete_purple",
+        "-": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
+        "}": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
+        "b": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
         "$": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "i": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "%": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
@@ -992,15 +1011,13 @@
         "`": { "item": "clutter_gym", "chance": 2 },
         "%": { "item": "locker_gym", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 14 ], "y": [ 2, 9 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 14 ], "y": [ 2, 9 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t5" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1029,8 +1046,14 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_landscaping_palette" ],
-      "terrain": { "-": "t_carpet_green", "?": "t_carpet_green", "&": "t_carpet_green", "h": "t_carpet_green", "з": "t_door_locked" },
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_landscaping_palette" ],
+      "terrain": {
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "з": "t_door_locked"
+      },
       "furniture": { "&": "f_table" },
       "place_loot": [
         { "item": "laptop", "x": 19, "y": 0, "chance": 100 },
@@ -1045,14 +1068,12 @@
         "R": { "item": "mansion_bookcase", "chance": 100 },
         "&": { "item": "mansion_bookcase", "chance": 20 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t5u" ],
-    "weight": 400,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1081,12 +1102,11 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
-        "-": "t_carpet_purple",
-        "@": "t_carpet_purple",
-        "|": "t_wall_b",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "@": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "`": "t_shingle_flat_roof"
       },
@@ -1100,14 +1120,12 @@
         "&": { "item": "mansion_guns", "chance": 50, "repeat": [ 2, 3 ] },
         "∞": { "item": "mansion_guns", "chance": 50, "repeat": [ 2, 3 ] }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 4, 21 ], "y": [ 2, 9 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 4, 21 ], "y": [ 2, 9 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t6d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -1121,8 +1139,8 @@
         "J~~~~~#~~~~~UUUY~#......",
         "##++################++##",
         ".......!!!..............",
-        "........!!.??.........!!",
-        ".!!........??.........!!",
+        "........!!.?..........!!",
+        ".!!...................!!",
         ".!!!!...#......#...!!...",
         "###!!.]]]].........!!.##",
         "  #...])#].....#..##### ",
@@ -1136,17 +1154,17 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         " ": "t_soil",
         ".": "t_thconc_floor",
         "]": "t_sewage_pipe",
         ")": "t_sewage_pump",
-        "-": "t_carpet_concrete_purple",
-        "E": "t_carpet_concrete_purple",
-        "r": "t_carpet_concrete_purple",
-        "T": "t_carpet_concrete_purple",
-        "P": "t_carpet_concrete_purple",
+        "-": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
+        "E": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
+        "r": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
+        "T": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
+        "P": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
         "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "A": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "w": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
@@ -1158,7 +1176,17 @@
         "&": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "h": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
       },
-      "furniture": { "&": "f_table", "!": [ "f_cardboard_box", "f_crate_c" ], "=": "f_machinery_old", "?": "f_generator_broken" },
+      "furniture": {
+        "&": "f_table",
+        "!": [ "f_cardboard_box", "f_crate_c" ],
+        "=": "f_machinery_old",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "~": { "item": "clutter_basement", "chance": 1 },
@@ -1167,15 +1195,13 @@
         "!": { "item": "crate_stack", "chance": 100 },
         "x": { "item": "a_television", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ],
-      "place_vehicles": [ { "vehicle": "laundry_cart", "x": [ 14, 15 ], "y": [ 0, 6 ], "chance": 100 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ],
+      "place_vehicles": [ { "vehicle": "laundry_cart", "x": [ 14, 15 ], "y": [ 0, 6 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t6" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1204,15 +1230,20 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "parametrized_carpets_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
       "terrain": {
-        "~": "t_carpet_green",
+        "~": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "'": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        "-": "t_carpet_yellow",
-        "H": "t_carpet_yellow",
-        ")": "t_carpet_yellow",
-        "r": "t_carpet_green",
-        "E": "t_carpet_green"
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        ")": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "r": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "furniture": { ")": "f_bed" },
       "items": {
@@ -1224,16 +1255,14 @@
         ")": { "item": "bed", "chance": 30 },
         "∞": { "item": "mansion_guns", "chance": 20 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t6u" ],
-    "weight": 1000,
     "object": {
-      "fill_ter": "t_carpet_green",
+      "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
       "rows": [
         "|8S|T≠ dd |  |UU|8,,|BB|",
         "9,,|E     +  | w|S,,+,,,",
@@ -1260,12 +1289,11 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
-        "|": "t_wall_y",
-        "-": "t_carpet_green",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "&": "t_floor",
         "s": "t_floor",
         "d": "t_floor",
@@ -1291,14 +1319,12 @@
         ",": { "item": "clutter_bathroom", "chance": 10 },
         "D": { "item": "dresser_servant", "chance": 45 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 7 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 7 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t7d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -1327,36 +1353,34 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         " ": "t_soil",
         ".": "t_thconc_floor",
-        "x": "t_carpet_concrete_yellow",
-        "-": "t_carpet_concrete_yellow",
-        "H": "t_carpet_concrete_yellow",
-        "s": "t_carpet_concrete_yellow",
-        "J": "t_carpet_concrete_yellow",
-        "m": "t_carpet_concrete_yellow"
+        "x": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "-": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "H": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "s": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "J": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "m": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" }
       },
       "furniture": { "&": "f_table", "!": [ "f_cardboard_box", "f_crate_c" ], "?": "f_sofa" },
       "items": {
         "-": { "item": "clutter_mansion", "chance": 1 },
         ".": { "item": "clutter_basement", "chance": 1 },
         "x": { "item": "a_television", "chance": 100 },
-        "J": { "item": "fridgesnacks", "chance": 45 },
+        "J": { "item": "SUS_fridge_snacks", "chance": 45 },
         "!": { "item": "crate_stack", "chance": 100 },
         "m": { "item": "vending_food", "chance": 40 },
         "s": { "item": "snacks_fancy", "chance": 35 },
         "n": { "item": "mansion_ammo", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t7" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1385,8 +1409,18 @@
         "........[...........[...",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
-      "terrain": { "-": "t_carpet_green", "l": "t_carpet_green", "≠": "t_carpet_green", "‡": "t_carpet_green" },
+      "palettes": [
+        "parametrized_carpets_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "terrain": {
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "≠": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "‡": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
       "furniture": { "‡": "f_sofa", "&": "f_table", ")": "f_speaker_cabinet" },
       "items": {
         ".": { "item": "clutter_yard", "chance": 1 },
@@ -1403,16 +1437,14 @@
         { "item": "metal_RPG_die", "x": 2, "y": 3, "chance": 10 },
         { "item": "RPG_die", "x": [ 1, 2 ], "y": [ 2, 3 ], "chance": 90, "repeat": [ 1, 4 ] }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_t7u" ],
-    "weight": 1000,
     "object": {
-      "fill_ter": "t_carpet_green",
+      "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
       "rows": [
         "#--h----F|    |t,S|UUww|",
         "-hffh---J|    ||+|||++||",
@@ -1439,31 +1471,28 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
-        "|": "t_wall_b",
         "U": "t_floor",
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "w": "t_floor",
-        "-": "t_carpet_green",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "%": "t_railing"
       },
       "place_loot": [ { "item": "microwave", "x": 8, "y": 2, "chance": 100 }, { "item": "television", "x": 4, "y": 12, "chance": 100 } ],
       "items": {
         "-": { "item": "clutter_mansion", "chance": 3 },
-        "F": { "item": "fridgesnacks", "chance": 45 },
+        "F": { "item": "SUS_fridge_snacks", "chance": 45 },
         "f": { "item": "wetbar_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 8 ], "y": [ 2, 11 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 8 ], "y": [ 2, 11 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_+1d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -1499,10 +1528,8 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_+1" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1540,14 +1567,12 @@
         "C": { "item": "garden_shed", "chance": 40 },
         "G": { "item": "snacks_fancy", "chance": 20 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_+1u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor_noroof",
       "rows": [
@@ -1583,7 +1608,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_+2d" ],
     "weight": 900,
     "object": {
@@ -1594,8 +1618,8 @@
         "#zz....].)]]]..#......!#",
         "#zz....]]]].]..#!....!!#",
         "#...........)..#...!!H!#",
-        "#!!...??.......+...!hH.#",
-        "#!!...??..=....#...iiHd#",
+        "#!!............+...!hH.#",
+        "#!!...?...=....#...iiHd#",
         "#............R.#....v!d#",
         "####+###########....hhc#",
         "#.....WO#--$rrr#&&...gh#",
@@ -1614,16 +1638,16 @@
         "#eehh!!.#zz.......JJJJJ#",
         "###########++###########"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "standard_domestic_palette" ],
       "terrain": {
         " ": "t_soil",
         ".": "t_thconc_floor",
         "]": "t_sewage_pipe",
         ")": "t_sewage_pump",
-        "-": "t_carpet_concrete_red",
-        "$": "t_carpet_concrete_red",
-        "r": "t_carpet_concrete_red",
-        "/": "t_carpet_concrete_red",
+        "-": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
+        "$": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
+        "r": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
+        "/": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
         "%": "t_door_metal_locked"
       },
       "furniture": {
@@ -1631,7 +1655,12 @@
         "/": "f_chair",
         "!": [ "f_cardboard_box", "f_crate_c" ],
         "=": "f_machinery_old",
-        "?": "f_generator_broken",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
         "$": "f_gunsafe_ml"
       },
       "items": {
@@ -1643,18 +1672,17 @@
         "J": { "item": "hardware_bulk", "chance": 30 },
         "q": { "item": "hardware_plumbing", "chance": 40 }
       },
+      "//": "Flavor spawn group for panic rooms with a different configuration of monsters for better story-telling.",
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 9, 14 ], "y": [ 9, 14 ], "density": 0.1 }
+        { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 },
+        { "monster": "GROUP_PANICROOM", "x": [ 9, 14 ], "y": [ 9, 14 ], "density": 0.1 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_+2" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1698,14 +1726,12 @@
         "f": { "item": "table_ballroom", "chance": 35 },
         "c": { "item": "suit_of_armor", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_+2u" ],
-    "weight": 900,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1741,7 +1767,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_+2d" ],
     "weight": 800,
     "object": {
@@ -1767,8 +1792,8 @@
         "#......!!.#..#....]).).#",
         "#!!....!!.#..+....]]]]]#",
         "#!!.......#..#......]..#",
-        "#.....!!!.#..#.??......#",
-        "#.....!!!.#..#.??.....q#",
+        "#.....!!!.#..#.........#",
+        "#.....!!!.#..#.?......q#",
         "#.UUU.....#..#......UU.#",
         "###########++###########"
       ],
@@ -1777,7 +1802,12 @@
       "furniture": {
         "&": "f_table",
         "=": "f_machinery_old",
-        "?": "f_generator_broken",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
         "!": [ "f_cardboard_box", "f_crate_c" ],
         "$": "f_gunsafe_ml"
       },
@@ -1789,15 +1819,13 @@
         "&": { "item": "hardware_bulk", "chance": 30 },
         "N": { "item": "construction_worker", "chance": 35 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_+3" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1854,14 +1882,12 @@
         "F": { "item": "vending_drink", "chance": 45 },
         "w": { "item": "sports", "chance": 35 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_+3u" ],
-    "weight": 800,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1897,9 +1923,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_+4d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -1928,34 +1952,32 @@
         "#         #..#         #",
         "###########++###########"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         " ": "t_soil",
         ".": "t_thconc_floor",
-        "-": "t_carpet_concrete_yellow",
-        "h": "t_carpet_concrete_yellow",
-        "&": "t_carpet_concrete_yellow",
-        "r": "t_carpet_concrete_yellow",
-        "J": "t_carpet_concrete_yellow",
-        "F": "t_carpet_concrete_yellow",
-        "Y": "t_carpet_concrete_yellow"
+        "-": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "h": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "&": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "r": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "J": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "F": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "Y": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" }
       },
       "furniture": { "!": [ "f_cardboard_box", "f_crate_c" ], "&": "f_console_broken", "?": "f_glass_fridge" },
       "items": {
         "t": { "item": "harddrugs", "chance": 30 },
         ".": { "item": "clutter_basement", "chance": 1 },
         "J": { "item": "vending_food", "chance": 25 },
-        "?": { "item": "fridgesnacks", "chance": 45 },
+        "?": { "item": "SUS_fridge_snacks", "chance": 45 },
         "!": { "item": "crate_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 8 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 8 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_+4" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1984,16 +2006,16 @@
         "#.........&~~&.........#",
         "##:::::::##++##:::::::##"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_landscaping_palette" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_landscaping_palette" ],
       "terrain": {
         "&": "t_column",
-        "-": "t_carpet_green",
-        "?": "t_carpet_green",
-        "h": "t_carpet_green",
-        "r": "t_carpet_green",
-        "Y": "t_carpet_green",
-        "E": "t_carpet_green",
-        "l": "t_carpet_green",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "r": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "Y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "~": "t_thconc_floor"
       },
       "furniture": { "?": "f_sofa" },
@@ -2028,14 +2050,12 @@
           "y": 15
         }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_+4u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2064,12 +2084,12 @@
         "#~~~~~~~~~%__%~~~~~~~~~#",
         "#####oo####++####oo#####"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
-        "-": "t_carpet_red",
-        "&": "t_carpet_red",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "_": "t_floor_noroof",
         "%": "t_railing"
       },
@@ -2079,14 +2099,12 @@
         " ": { "item": "clutter_mansion", "chance": 1 },
         "-": { "item": "clutter_mansion", "chance": 1 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 7 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 7 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_c1d" ],
-    "weight": 700,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -2121,18 +2139,15 @@
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "K": { "item": "crate_stack", "chance": 100 },
-        "m": { "item": "hardware_plumbing", "chance": 40 },
-        "r": { "item": "pantry", "chance": 25 }
+        "m": { "item": "hardware_plumbing", "chance": 40 }
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_c1" ],
-    "weight": 700,
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "........................",
         "........................",
@@ -2159,7 +2174,12 @@
         ".......#S===+=9|      T|",
         ".......########||++|||||"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "parametrized_linoleum_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
       "terrain": {
         "=": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "~": "t_water_pool",
@@ -2178,9 +2198,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_c1u" ],
-    "weight": 700,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2209,12 +2227,12 @@
         "~~~~~~~#TE  &xx&       #",
         "~~~~~~~##########++#####"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
-        "-": "t_carpet_red",
-        "e": "t_carpet_red",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "e": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "`": "t_shingle_flat_roof",
         "%": "t_railing",
         "³": "t_floor_waxed_y",
@@ -2234,14 +2252,12 @@
         "1": { "item": "wetbar_stack", "chance": 100 },
         "l": { "item": "snacks_fancy", "chance": 30 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 9, 21 ], "y": [ 17, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 9, 21 ], "y": [ 17, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_c2d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -2261,8 +2277,8 @@
         "     #&&&.....#.].....!#",
         "     ####....####....###",
         "       #......#........#",
-        "       #...!!.#.??.....#",
-        "       #r..!!...??..!..+",
+        "       #...!!.#.?......#",
+        "       #r..!!.......!..+",
         "       #r..........!!..+",
         "       #...........!!..#",
         "       #6....6.........#",
@@ -2272,17 +2288,25 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
-      "furniture": { "=": "f_machinery_old", "&": "f_table", "?": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
+      "furniture": {
+        "=": "f_machinery_old",
+        "&": "f_table",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
+        "!": [ "f_crate_c", "f_cardboard_box" ]
+      },
       "items": { ".": { "item": "clutter_basement", "chance": 1 }, "!": { "item": "crate_stack", "chance": 100 } },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_c2" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2311,8 +2335,17 @@
         ".......# b |8S~t|  |UUw#",
         "....[..##########++#####"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
-      "terrain": { "-": "t_carpet_red", "e": "t_carpet_red", "Y": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" } },
+      "palettes": [
+        "parametrized_carpets_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "terrain": {
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "e": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "Y": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
+      },
       "furniture": {
         "з": [ "f_treadmill", "f_treadmill_mechanical" ],
         "&": "f_exercise",
@@ -2331,14 +2364,12 @@
         "J": { "item": "wetbar_stack", "chance": 100 },
         "l": { "item": "table_livingroom", "chance": 30 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_c2u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2367,14 +2398,13 @@
         "~~~~~~~#T@@@I bD|   iiT#",
         "~~~~~~~##########++#####"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
-        "-": "t_carpet_yellow",
-        "&": "t_carpet_yellow",
-        "?": "t_carpet_yellow",
-        "|": "t_wall_b",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "`": "t_shingle_flat_roof",
         ")": "t_glass_roof"
@@ -2391,14 +2421,12 @@
         ",": { "item": "clutter_bathroom", "chance": 10 },
         "i": { "item": "wetbar_counter", "chance": 30 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 9, 21 ], "y": [ 9, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 9, 21 ], "y": [ 9, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_c3d" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -2435,15 +2463,13 @@
         "!": { "item": "crate_stack", "chance": 100 },
         "x": { "item": "a_television", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_c3" ],
     "//": "updated",
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2472,13 +2498,18 @@
         ".......#T      R|  |Y~S|",
         ".......##########++|||||"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "parametrized_carpets_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
       "terrain": {
         "Y": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        "&": "t_carpet_yellow",
-        "E": "t_carpet_yellow",
-        "l": "t_carpet_yellow",
-        "r": "t_carpet_yellow"
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "r": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
       "furniture": { ")": "f_table" },
       "items": {
@@ -2488,14 +2519,12 @@
         "R": { "item": "mansion_bookcase", "chance": 100 },
         ")": { "item": "table_livingroom", "chance": 30 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_c3u" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2524,17 +2553,16 @@
         "~~~~~~~#   MMTMMy  yMMT#",
         "~~~~~~~##########++#####"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
-        "-": "t_carpet_green",
-        "A": "t_carpet_green",
-        "e": "t_carpet_green",
-        "H": "t_carpet_green",
-        "i": "t_carpet_green",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "e": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "i": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "%": "t_railing",
-        "|": "t_wall_y",
         ")": "t_glass_roof",
         "_": "t_floor_waxed_y",
         ";": "t_floor_waxed",
@@ -2548,14 +2576,12 @@
         "s": { "item": "snacks_fancy", "chance": 20 },
         "∞": { "item": "mansion_guns", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 15, 21 ], "y": [ 9, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 15, 21 ], "y": [ 9, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_c4d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -2574,8 +2600,8 @@
         "      #######~~&&~~W~~Z#",
         "      #...!!#~~&&~~~~~~#",
         "      #.....#~~~~~~~~~~#",
-        "      #.??..######++####",
-        "      #.??.....#~~~~iii#",
+        "      #.?...######++####",
+        "      #........#~~~~iii#",
         "      #......=.#~~~~~~~+",
         "      #........+~~~~~~~+",
         "      #]]]]....+~~~~~~~#",
@@ -2604,7 +2630,17 @@
         "&": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "h": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
       },
-      "furniture": { "&": "f_table", "!": [ "f_cardboard_box", "f_crate_c" ], "=": "f_machinery_old", "?": "f_generator_broken" },
+      "furniture": {
+        "&": "f_table",
+        "!": [ "f_cardboard_box", "f_crate_c" ],
+        "=": "f_machinery_old",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "~": { "item": "clutter_basement", "chance": 1 },
@@ -2614,16 +2650,14 @@
         "!": { "item": "crate_stack", "chance": 100 },
         "x": { "item": "a_television", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 13, 21 ], "y": [ 7, 21 ], "density": 0.1 } ],
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 13, 21 ], "y": [ 7, 21 ], "density": 0.1 } ],
       "place_vehicles": [ { "vehicle": "laundry_cart", "x": [ 13, 18 ], "y": [ 8, 9 ], "chance": 50 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_c4" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2652,8 +2686,17 @@
         "......#Ts@@@@s T|  yi|<#",
         "......###########++#####"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
-      "terrain": { "-": "t_carpet_purple", "E": "t_carpet_purple", ")": "t_carpet_purple" },
+      "palettes": [
+        "parametrized_carpets_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "terrain": {
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        ")": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
+      },
       "furniture": { ")": "f_bed" },
       "items": {
         ".": { "item": "clutter_yard", "chance": 1 },
@@ -2663,14 +2706,12 @@
         "R": { "item": "mansion_bookcase", "chance": 100 },
         "s": { "item": "nightstand", "chance": 35 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_c4u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2704,8 +2745,7 @@
         "~": "t_open_air",
         "=": "t_open_air_rooved",
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        "`": "t_shingle_flat_roof",
-        "|": "t_wall_b"
+        "`": "t_shingle_flat_roof"
       },
       "furniture": { "?": "f_dresser" },
       "items": {
@@ -2714,14 +2754,12 @@
         ",": { "item": "softdrugs", "chance": 40 },
         "?": { "item": "dresser_servant", "chance": 45 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 18, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 18, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_c5d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -2752,14 +2790,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump", "/": "t_door_locked_interior" },
-      "furniture": {
-        "%": "f_rack_wood",
-        "!": "f_wood_keg",
-        "&": "f_table",
-        "?": "f_glass_fridge",
-        "=": "f_machinery_old",
-        "}": "f_generator_broken"
-      },
+      "furniture": { "%": "f_rack_wood", "!": "f_wood_keg", "&": "f_table", "?": "f_glass_fridge", "=": "f_machinery_old" },
       "liquids": { "!": { "liquid": "wine_chardonnay", "amount": [ 100, 500 ] } },
       "place_loot": [ { "item": "deck_of_cards", "x": 16, "y": 11, "chance": 100 } ],
       "items": {
@@ -2769,15 +2800,13 @@
         "&": { "item": "table_wine", "chance": 100, "repeat": [ 1, 4 ] },
         ".": { "item": "clutter_basement", "chance": 1 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 11, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 11, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_c5" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2806,29 +2835,32 @@
         "......#1O2O34| cy  yc  #",
         "......###########++#####"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "parametrized_carpets_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_landscaping_palette"
+      ],
       "terrain": {
         "i": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "A": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "Y": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
-        "&": "t_carpet_green",
-        "h": "t_carpet_green",
-        "f": "t_carpet_green"
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "f": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "items": {
         " ": { "item": "clutter_mansion", "chance": 1 },
         ".": { "item": "clutter_yard", "chance": 1 },
         "r": { "item": "table_sideboard", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ],
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ],
       "place_vehicles": [ { "vehicle": "cannon_3in", "x": 18, "y": 3, "chance": 1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mansion_c5u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2857,19 +2889,18 @@
         "``````#D ii D|T       T#",
         "``````###########++#####"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "`": "t_open_air",
-        "-": "t_carpet_yellow",
-        "@": "t_carpet_yellow",
-        "H": "t_carpet_yellow",
-        "E": "t_carpet_yellow",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "@": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "}": "t_door_curtain_c",
         "{": "t_door_curtain_o",
-        "l": "t_carpet_yellow",
-        "I": "t_carpet_yellow",
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "I": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "'": "t_thconc_floor",
-        "|": "t_wall_g",
         ".": "t_shingle_flat_roof"
       },
       "furniture": { "&": "f_sofa", "?": "f_armchair" },
@@ -2883,7 +2914,7 @@
         "-": { "item": "clutter_bedroom", "chance": 2 },
         "I": { "item": "nightstand", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 8, 21 ], "y": [ 12, 21 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 8, 21 ], "y": [ 12, 21 ], "density": 0.1 } ]
     }
   }
 ]

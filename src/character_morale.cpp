@@ -2,6 +2,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -17,8 +18,8 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "morale.h"
-#include "morale_types.h"
 #include "pimpl.h"
+#include "point.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -31,6 +32,12 @@ static const efftype_id effect_took_xanax( "took_xanax" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 
+static const morale_type morale_perm_fpmode_on( "morale_perm_fpmode_on" );
+static const morale_type morale_perm_hoarder( "morale_perm_hoarder" );
+static const morale_type morale_perm_noface( "morale_perm_noface" );
+static const morale_type morale_perm_nomad( "morale_perm_nomad" );
+
+static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_HOARDER( "HOARDER" );
 static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
@@ -63,7 +70,7 @@ void Character::hoarder_morale_penalty()
         pen = pen / 2;
     }
     if( pen > 0 ) {
-        add_morale( MORALE_PERM_HOARDER, -pen, -pen, 1_minutes, 1_minutes, true );
+        add_morale( morale_perm_hoarder, -pen, -pen, 1_minutes, 1_minutes, true );
     }
 }
 
@@ -75,7 +82,7 @@ void Character::apply_persistent_morale()
     }
     // Nomads get a morale penalty if they stay near the same overmap tiles too long.
     if( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) {
-        const tripoint_abs_omt ompos = global_omt_location();
+        const tripoint_abs_omt ompos = pos_abs_omt();
         float total_time = 0.0f;
         // Check how long we've stayed in any overmap tile within 5 of us.
         const int max_dist = 5;
@@ -112,7 +119,7 @@ void Character::apply_persistent_morale()
         const float t = ( total_time - min_time ) / ( max_time - min_time );
         const int pen = std::ceil( lerp_clamped( 0, max_unhappiness, t ) );
         if( pen > 0 ) {
-            add_morale( MORALE_PERM_NOMAD, -pen, -pen, 1_minutes, 1_minutes, true );
+            add_morale( morale_perm_nomad, -pen, -pen, 1_minutes, 1_minutes, true );
         }
     }
 
@@ -120,16 +127,16 @@ void Character::apply_persistent_morale()
         // Losing your face is distressing
         if( !( is_wearing( itype_foodperson_mask ) ||
                is_wearing( itype_foodperson_mask_on ) ) ) {
-            add_morale( MORALE_PERM_NOFACE, -20, -20, 1_minutes, 1_minutes, true );
+            add_morale( morale_perm_noface, -20, -20, 1_minutes, 1_minutes, true );
         } else if( is_wearing( itype_foodperson_mask ) ||
                    is_wearing( itype_foodperson_mask_on ) ) {
-            rem_morale( MORALE_PERM_NOFACE );
+            rem_morale( morale_perm_noface );
         }
 
         if( is_wearing( itype_foodperson_mask_on ) ) {
-            add_morale( MORALE_PERM_FPMODE_ON, 10, 10, 1_minutes, 1_minutes, true );
+            add_morale( morale_perm_fpmode_on, 10, 10, 1_minutes, 1_minutes, true );
         } else {
-            rem_morale( MORALE_PERM_FPMODE_ON );
+            rem_morale( morale_perm_fpmode_on );
         }
     }
 }
@@ -179,7 +186,7 @@ void Character::check_and_recover_morale()
 
     worn.check_and_recover_morale( test_morale );
 
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_functioning_mutations() ) {
         test_morale.on_mutation_gain( mut );
     }
 
@@ -206,3 +213,22 @@ void Character::check_and_recover_morale()
     }
 }
 
+void Character::disp_morale()
+{
+    int equilibrium = calc_focus_equilibrium();
+
+    int sleepiness_penalty = 0;
+    const int sleepiness_cap = focus_equilibrium_sleepiness_cap( equilibrium );
+
+    if( sleepiness_cap < equilibrium ) {
+        sleepiness_penalty = equilibrium - sleepiness_cap;
+        equilibrium = sleepiness_cap;
+    }
+
+    int pain_penalty = 0;
+    if( get_perceived_pain() && !has_trait( trait_CENOBITE ) ) {
+        pain_penalty = calc_focus_equilibrium( true ) - equilibrium - sleepiness_penalty;
+    }
+
+    morale->display( equilibrium, pain_penalty, sleepiness_penalty );
+}

@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_7.50mm_caseless",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.50mm caseless" },
     "description": "An intermediate bullet with an acceptable all-round performance.  Due to their role as UICA's standard issue rifle cartridge, these are ubiquitous wherever Earth makes its presence be known.",
     "weight": "12 g",
@@ -14,14 +15,38 @@
     "stack_size": 47,
     "ammo_type": "afs_7.50mm",
     "range": 36,
-    "damage": { "damage_type": "bullet", "amount": 44, "armor_penetration": 2 },
+    "damage": { "damage_type": "bullet", "amount": 45, "armor_penetration": 15 },
     "dispersion": 30,
     "recoil": 1500,
-    "extend": { "effects": [ "COOKOFF" ], "flags": [ "CASELESS_ROUNDS" ] }
+    "effects": [ "COOKOFF" ],
+    "flags": [ "CASELESS_ROUNDS" ]
+  },
+  {
+    "id": "afs_7.50mm_ap_caseless",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str_sp": "7.50mm AP caseless" },
+    "description": "Armor piercing 7.50mm ammunition with a tungsten carbide penetrator.  These rounds are designed to defeat body armor and other hard targets, but have reduced stopping power against unarmored targets.",
+    "weight": "12 g",
+    "volume": "194 ml",
+    "price": "2 USD 80 cent",
+    "material": [ "lead" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 30,
+    "stack_size": 47,
+    "ammo_type": "afs_7.50mm",
+    "range": 36,
+    "damage": { "damage_type": "bullet", "amount": 35, "armor_penetration": 30 },
+    "dispersion": 30,
+    "recoil": 1500,
+    "effects": [ "COOKOFF" ],
+    "flags": [ "CASELESS_ROUNDS" ]
   },
   {
     "id": "afs_7.50mm_rp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.50mm RP" },
     "description": "Civilian-legal 7.50mm ammunition featuring a reduced propellant case and unjacketed projectiles.  The 7.50mm RP round is extremely weak with very low stopping power, short range, and negligible recoil.  While cheaper than military grade rounds, it's only really useful for rifle training, and for hunting small animals.",
     "weight": "3 g",
@@ -37,6 +62,30 @@
     "damage": { "damage_type": "bullet", "amount": 12 },
     "dispersion": 60,
     "recoil": 150,
-    "extend": { "effects": [ "COOKOFF" ], "flags": [ "CASELESS_ROUNDS" ] }
+    "effects": [ "COOKOFF" ],
+    "flags": [ "CASELESS_ROUNDS" ]
+  },
+  {
+    "id": "afs_7.50mm_smart",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str_sp": "7.50mm SDART" },
+    "description": "High precision 7.50mm microjet darts for use in smart weaponry.  These low velocity rounds can adjust mid-flight to exploit weaknesses in the target's defenses.",
+    "//": "tiny guided rockets.",
+    "weight": "18 g",
+    "volume": "14 ml",
+    "price": "875 USD",
+    "material": [ "superalloy", "powder", "plastic" ],
+    "symbol": "=",
+    "color": "pink",
+    "count": 80,
+    "ammo_type": "afs_7.50mm_smart",
+    "range": 110,
+    "stack_size": 1,
+    "recoil": 100,
+    "effects": [ "NEVER_MISFIRES", "CASELESS_ROUNDS" ],
+    "damage": { "damage_type": "bullet", "amount": 35, "armor_penetration": 15 },
+    "critical_multiplier": 10,
+    "dispersion": 0
   }
 ]

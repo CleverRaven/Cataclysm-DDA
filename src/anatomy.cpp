@@ -2,8 +2,6 @@
 
 #include <algorithm>
 #include <cmath>
-#include <map>
-#include <set>
 #include <string>
 #include <unordered_set>
 
@@ -12,11 +10,7 @@
 #include "creature.h"
 #include "debug.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
-#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
-#include "json_error.h"
 #include "messages.h"
 #include "output.h"
 #include "rng.h"
@@ -57,7 +51,7 @@ void anatomy::load_anatomy( const JsonObject &jo, const std::string &src )
     anatomy_factory.load( jo, src );
 }
 
-void anatomy::load( const JsonObject &jo, const std::string_view )
+void anatomy::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "parts", unloaded_bps );
@@ -268,7 +262,7 @@ bodypart_id anatomy::select_blocking_part( const Creature *blocker, bool arm, bo
     for( const bodypart_id &bp : cached_bps ) {
         float block_score = bp->get_limb_score( limb_score_block );
         if( const Character *u = dynamic_cast<const Character *>( blocker ) ) {
-            block_score = u->get_part( bp )->get_limb_score( limb_score_block );
+            block_score = u->get_part( bp )->get_limb_score( *blocker, limb_score_block );
             // Weigh shielded bodyparts higher
             block_score *= u->worn_with_flag( flag_BLOCK_WHILE_WORN, bp ) ? 5 : 1;
         }

@@ -7,6 +7,7 @@
     "symbol": ".",
     "color": "magenta_white",
     "move_cost": 1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT" ]
   },
   {
@@ -14,12 +15,14 @@
     "id": "t_nm_wall_bone",
     "name": "bone wall",
     "description": "An amazingly durable, impregnable wall of bone stands before you, forming the outer shell of the eldritch monster.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "magenta_white",
     "move_cost": 0,
     "coverage": 100,
     "looks_like": "t_concrete_wall",
     "roof": "t_nm_floor_bone",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
   },
   {
@@ -34,6 +37,8 @@
     "coverage": 100,
     "looks_like": "t_concrete_wall",
     "roof": "t_nm_floor_bone",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
   },
   {
@@ -44,6 +49,7 @@
     "symbol": ".",
     "color": "magenta_white",
     "move_cost": 1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
     "looks_like": "t_thconc_floor_flesh"
   },
@@ -52,11 +58,13 @@
     "id": "t_nm_wall_flesh",
     "name": "flesh wall",
     "description": "Warm to the touch, the tainted flesh of this monstrous being still twitches.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "magenta_red",
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_nm_floor_flesh",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "looks_like": "t_concrete_wall_flesh",
     "bash": {
@@ -73,11 +81,13 @@
     "id": "t_nm_wall_cartilage",
     "name": "flesh wall",
     "description": "A thick wall of fleshy cartilage.  With the proper tools, you could smash right through it.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "magenta",
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_nm_floor_flesh",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "looks_like": "t_nm_wall_flesh",
     "bash": { "str_min": 15, "str_max": 25, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_nm_floor_flesh" }
@@ -88,11 +98,13 @@
     "name": "flesh wall",
     "//": " is spawning monsters on bashing/destruction of terrain possible? ",
     "description": "This section of flesh seems hollowed out.  You can see silky, translucent larvae wriggling inside, consuming flesh at a prodigious pace.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "yellow_red",
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_nm_floor_flesh",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "looks_like": "t_concrete_wall_flesh",
     "bash": {
@@ -125,6 +137,7 @@
     "color": "white",
     "move_cost": 0,
     "roof": "t_nm_floor_flesh",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "BLOCK_WIND", "NOITEM" ],
     "looks_like": "fd_web",
     "bash": { "sound": "Riiiiip!", "ter_set": "t_nm_floor_flesh", "str_min": 5, "str_max": 10 }
@@ -134,11 +147,13 @@
     "id": "t_nm_brain",
     "name": "nether brain",
     "description": "An oozing pile of wrinkled, decomposing flesh.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "magenta_red",
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_nm_floor_flesh",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
     "looks_like": "t_concrete_wall_flesh",
     "bash": {

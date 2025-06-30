@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_FLEXBUFFER_JSON_INL_H
 #define CATA_SRC_FLEXBUFFER_JSON_INL_H
 
+// IWYU pragma: private, include "flexbuffer_json.h"
+
 #include <optional>
 #include <string>
 #include <type_traits>
@@ -937,6 +939,19 @@ inline std::vector<std::string> JsonObject::get_as_string_array( const std::stri
         }
     } else {
         ret.emplace_back( get_string( name ) );
+    }
+    return ret;
+}
+inline std::set<std::string> JsonObject::get_as_string_set( const std::string &name ) const
+{
+    std::set<std::string> ret;
+    if( has_array( name ) ) {
+        JsonArray ja = get_array( name );
+        for( JsonValue jv : get_array( name ) ) {
+            ret.insert( jv );
+        }
+    } else if( has_string( name ) ) {
+        ret.insert( get_string( name ) );
     }
     return ret;
 }

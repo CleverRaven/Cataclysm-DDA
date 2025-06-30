@@ -132,10 +132,10 @@
       },
       {
         "text": "How are you doing these days?",
-        "condition": { "u_has_var": "talk_flag_TALK_ARSONIST_SUPPLIED", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "talk_flag_TALK_ARSONIST_SUPPLIED" } ] },
         "topic": "TALK_ARSONIST_TRADING"
       },
-      { "text": "Well, bye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -197,7 +197,7 @@
     "id": "MISSION_ARSONIST_1_AMMONIUM_NITRATE",
     "type": "mission_definition",
     "name": { "str": "Supply the arsonist" },
-    "description": "Bring the arsonist 120 units of commercial fertilizer",
+    "description": "Bring the arsonist 120 units of commercial fertilizer.",
     "difficulty": 1,
     "value": 500,
     "origins": [ "ORIGIN_SECONDARY" ],

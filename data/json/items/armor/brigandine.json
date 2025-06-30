@@ -1,7 +1,8 @@
 [
   {
     "id": "armor_lc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mild steel brigandine" },
     "description": "A vest made from tough fabric with steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
@@ -9,7 +10,7 @@
     "volume": "6137 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "canvas" ],
     "melee_damage": { "bash": 6 },
     "symbol": "[",
@@ -44,23 +45,26 @@
   },
   {
     "id": "xl_armor_lc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_brigandine",
-    "name": { "str": "XL mild steel brigandine" },
+    "name": { "str": "mild steel brigandine" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_lc_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_brigandine",
-    "name": { "str": "XS mild steel brigandine" },
+    "name": { "str": "mild steel brigandine" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_lc_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mild steel brigandine with shoulder guards", "str_pl": "mild steel brigandines with shoulder guards" },
     "description": "A vest made from tough fabric with steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
@@ -68,7 +72,7 @@
     "volume": "6593 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "lc_steel", "canvas" ],
     "melee_damage": { "bash": 6 },
     "symbol": "[",
@@ -111,23 +115,26 @@
   },
   {
     "id": "xl_armor_lc_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_brigandine_shoulders",
-    "name": { "str": "XL mild steel brigandine with shoulder guards", "str_pl": "XL mild steel brigandines with shoulder guards" },
+    "name": { "str": "mild steel brigandine with shoulder guards", "str_pl": "mild steel brigandines with shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_lc_brigandine_shoulders_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_brigandine_shoulders",
-    "name": { "str": "XS mild steel brigandine with shoulder guards", "str_pl": "XS mild steel brigandines with shoulder guards" },
+    "name": { "str": "mild steel brigandine with shoulder guards", "str_pl": "mild steel brigandines with shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_lc_coat_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mild steel brigandine coat" },
     "description": "A coat made from tough fabric with steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
@@ -135,7 +142,7 @@
     "volume": "6880 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "canvas" ],
     "melee_damage": { "bash": 6 },
     "symbol": "[",
@@ -181,23 +188,26 @@
   },
   {
     "id": "xl_armor_lc_coat_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_coat_brigandine",
-    "name": { "str": "XL mild steel brigandine coat" },
+    "name": { "str": "mild steel brigandine coat" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_lc_coat_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_coat_brigandine",
-    "name": { "str": "XS mild steel brigandine coat" },
+    "name": { "str": "mild steel brigandine coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_lc_coat_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": {
       "str": "mild steel brigandine coat with shoulder guards",
@@ -208,7 +218,7 @@
     "volume": "7336 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "lc_steel", "canvas" ],
     "melee_damage": { "bash": 6 },
     "symbol": "[",
@@ -262,104 +272,110 @@
   },
   {
     "id": "xl_armor_lc_coat_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_coat_brigandine_shoulders",
     "name": {
-      "str": "XL mild steel brigandine coat with shoulder guards",
-      "str_pl": "XL mild steel brigandine coats with shoulder guards"
+      "str": "mild steel brigandine coat with shoulder guards",
+      "str_pl": "mild steel brigandine coats with shoulder guards"
     },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_lc_coat_brigandine_shoulders_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_coat_brigandine_shoulders",
     "name": {
-      "str": "XS mild steel brigandine coat with shoulder guards",
-      "str_pl": "XS mild steel brigandine coats with shoulder guards"
+      "str": "mild steel brigandine coat with shoulder guards",
+      "str_pl": "mild steel brigandine coats with shoulder guards"
     },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_mc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel brigandine" },
     "copy-from": "armor_lc_brigandine",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_armor_mc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_mc_brigandine",
-    "name": { "str": "XL medium steel brigandine" },
+    "name": { "str": "medium steel brigandine" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_mc_brigandine",
-    "name": { "str": "XS medium steel brigandine" },
+    "name": { "str": "medium steel brigandine" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_mc_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel brigandine with shoulder guards", "str_pl": "medium steel brigandines with shoulder guards" },
     "copy-from": "armor_lc_brigandine_shoulders",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_armor_mc_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_mc_brigandine_shoulders",
-    "name": {
-      "str": "XL medium steel brigandine with shoulder guards",
-      "str_pl": "XL medium steel brigandines with shoulder guards"
-    },
+    "name": { "str": "medium steel brigandine with shoulder guards", "str_pl": "medium steel brigandines with shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_brigandine_shoulders_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_mc_brigandine_shoulders",
-    "name": {
-      "str": "XS medium steel brigandine with shoulder guards",
-      "str_pl": "XS medium steel brigandines with shoulder guards"
-    },
+    "name": { "str": "medium steel brigandine with shoulder guards", "str_pl": "medium steel brigandines with shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_mc_coat_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel brigandine coat" },
     "copy-from": "armor_lc_coat_brigandine",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_armor_mc_coat_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_mc_coat_brigandine",
-    "name": { "str": "XL medium steel brigandine coat" },
+    "name": { "str": "medium steel brigandine coat" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_coat_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_mc_coat_brigandine",
-    "name": { "str": "XS medium steel brigandine coat" },
+    "name": { "str": "medium steel brigandine coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_mc_coat_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": {
       "str": "medium steel brigandine coat with shoulder guards",
       "str_pl": "medium steel brigandine coats with shoulder guards"
@@ -369,98 +385,110 @@
   },
   {
     "id": "xl_armor_mc_coat_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_mc_coat_brigandine_shoulders",
     "name": {
-      "str": "XL medium steel brigandine coat with shoulder guards",
-      "str_pl": "XL medium steel brigandine coats with shoulder guards"
+      "str": "medium steel brigandine coat with shoulder guards",
+      "str_pl": "medium steel brigandine coats with shoulder guards"
     },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_coat_brigandine_shoulders_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_mc_coat_brigandine_shoulders",
     "name": {
-      "str": "XS medium steel brigandine coat with shoulder guards",
-      "str_pl": "XS medium steel brigandine coats with shoulder guards"
+      "str": "medium steel brigandine coat with shoulder guards",
+      "str_pl": "medium steel brigandine coats with shoulder guards"
     },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_hc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel brigandine" },
     "copy-from": "armor_lc_brigandine",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "xl_armor_hc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_hc_brigandine",
-    "name": { "str": "XL high steel brigandine" },
+    "name": { "str": "high steel brigandine" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_hc_brigandine",
-    "name": { "str": "XS high steel brigandine" },
+    "name": { "str": "high steel brigandine" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_hc_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel brigandine with shoulder guards", "str_pl": "high steel brigandines with shoulder guards" },
     "copy-from": "armor_lc_brigandine_shoulders",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "xl_armor_hc_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_hc_brigandine_shoulders",
-    "name": { "str": "XL high steel brigandine with shoulder guards", "str_pl": "XL high steel brigandines with shoulder guards" },
+    "name": { "str": "high steel brigandine with shoulder guards", "str_pl": "high steel brigandines with shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_brigandine_shoulders_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_hc_brigandine_shoulders",
-    "name": { "str": "XS high steel brigandine with shoulder guards", "str_pl": "XS high steel brigandines with shoulder guards" },
+    "name": { "str": "high steel brigandine with shoulder guards", "str_pl": "high steel brigandines with shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_hc_coat_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel brigandine coat" },
     "copy-from": "armor_lc_coat_brigandine",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "xl_armor_hc_coat_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_hc_coat_brigandine",
-    "name": { "str": "XL high steel brigandine coat" },
+    "name": { "str": "high steel brigandine coat" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_coat_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_hc_coat_brigandine",
-    "name": { "str": "XS high steel brigandine coat" },
+    "name": { "str": "high steel brigandine coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_hc_coat_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": {
       "str": "high steel brigandine coat with shoulder guards",
       "str_pl": "high steel brigandine coats with shoulder guards"
@@ -470,225 +498,240 @@
   },
   {
     "id": "xl_armor_hc_coat_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_hc_coat_brigandine_shoulders",
     "name": {
-      "str": "XL high steel brigandine coat with shoulder guards",
-      "str_pl": "XL high steel brigandine coats with shoulder guards"
+      "str": "high steel brigandine coat with shoulder guards",
+      "str_pl": "high steel brigandine coats with shoulder guards"
     },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_coat_brigandine_shoulders_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_hc_coat_brigandine_shoulders",
     "name": {
-      "str": "XS high steel brigandine coat with shoulder guards",
-      "str_pl": "XS high steel brigandine coats with shoulder guards"
+      "str": "high steel brigandine coat with shoulder guards",
+      "str_pl": "high steel brigandine coats with shoulder guards"
     },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_ch_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened brigandine" },
     "copy-from": "armor_lc_brigandine",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_armor_ch_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_ch_brigandine",
-    "name": { "str": "XL hardened brigandine" },
+    "name": { "str": "hardened brigandine" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_ch_brigandine",
-    "name": { "str": "XS hardened brigandine" },
+    "name": { "str": "hardened brigandine" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_ch_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened brigandine with shoulder guards", "str_pl": "hardened brigandines with shoulder guards" },
     "copy-from": "armor_lc_brigandine_shoulders",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_armor_ch_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_ch_brigandine_shoulders",
-    "name": { "str": "XL hardened brigandine with shoulder guards", "str_pl": "XL hardened brigandines with shoulder guards" },
+    "name": { "str": "hardened brigandine with shoulder guards", "str_pl": "hardened brigandines with shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_brigandine_shoulders_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_ch_brigandine_shoulders",
-    "name": { "str": "XS hardened brigandine with shoulder guards", "str_pl": "XS hardened brigandines with shoulder guards" },
+    "name": { "str": "hardened brigandine with shoulder guards", "str_pl": "hardened brigandines with shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_ch_coat_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened brigandine coat" },
     "copy-from": "armor_lc_coat_brigandine",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_armor_ch_coat_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_ch_coat_brigandine",
-    "name": { "str": "XL hardened brigandine coat" },
+    "name": { "str": "hardened brigandine coat" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_coat_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_ch_coat_brigandine",
-    "name": { "str": "XS hardened brigandine coat" },
+    "name": { "str": "hardened brigandine coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_ch_coat_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened brigandine coat with shoulder guards", "str_pl": "hardened brigandine coats with shoulder guards" },
     "copy-from": "armor_lc_coat_brigandine_shoulders",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_armor_ch_coat_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_ch_coat_brigandine_shoulders",
-    "name": {
-      "str": "XL hardened brigandine coat with shoulder guards",
-      "str_pl": "XL hardened brigandine coats with shoulder guards"
-    },
+    "name": { "str": "hardened brigandine coat with shoulder guards", "str_pl": "hardened brigandine coats with shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_coat_brigandine_shoulders_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_ch_coat_brigandine_shoulders",
-    "name": {
-      "str": "XS hardened brigandine coat with shoulder guards",
-      "str_pl": "XS hardened brigandine coats with shoulder guards"
-    },
+    "name": { "str": "hardened brigandine coat with shoulder guards", "str_pl": "hardened brigandine coats with shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_qt_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered brigandine" },
     "copy-from": "armor_lc_brigandine",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "xl_armor_qt_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_qt_brigandine",
-    "name": { "str": "XL tempered brigandine" },
+    "name": { "str": "tempered brigandine" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_qt_brigandine",
-    "name": { "str": "XS tempered brigandine" },
+    "name": { "str": "tempered brigandine" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_qt_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered brigandine with shoulder guards", "str_pl": "tempered brigandines with shoulder guards" },
     "copy-from": "armor_lc_brigandine_shoulders",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "xl_armor_qt_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_qt_brigandine_shoulders",
-    "name": { "str": "XL tempered brigandine with shoulder guards", "str_pl": "XL tempered brigandines with shoulder guards" },
+    "name": { "str": "tempered brigandine with shoulder guards", "str_pl": "tempered brigandines with shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_brigandine_shoulders_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_qt_brigandine_shoulders",
-    "name": { "str": "XS tempered brigandine with shoulder guards", "str_pl": "XS tempered brigandines with shoulder guards" },
+    "name": { "str": "tempered brigandine with shoulder guards", "str_pl": "tempered brigandines with shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_qt_coat_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered brigandine coat" },
     "copy-from": "armor_lc_coat_brigandine",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "xl_armor_qt_coat_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_qt_coat_brigandine",
-    "name": { "str": "XL tempered brigandine coat" },
+    "name": { "str": "tempered brigandine coat" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_coat_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_qt_coat_brigandine",
-    "name": { "str": "XS tempered brigandine coat" },
+    "name": { "str": "tempered brigandine coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_qt_coat_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered brigandine coat with shoulder guards", "str_pl": "tempered brigandine coats with shoulder guards" },
     "copy-from": "armor_lc_coat_brigandine_shoulders",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "xl_armor_qt_coat_brigandine_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_qt_coat_brigandine_shoulders",
-    "name": {
-      "str": "XL tempered brigandine coat with shoulder guards",
-      "str_pl": "XL tempered brigandine coats with shoulder guards"
-    },
+    "name": { "str": "tempered brigandine coat with shoulder guards", "str_pl": "tempered brigandine coats with shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_coat_brigandine_shoulders_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_qt_coat_brigandine_shoulders",
-    "name": {
-      "str": "XS tempered brigandine coat with shoulder guards",
-      "str_pl": "XS tempered brigandine coats with shoulder guards"
-    },
+    "name": { "str": "tempered brigandine coat with shoulder guards", "str_pl": "tempered brigandine coats with shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armguard_lc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of mild steel splint arm guards", "str_pl": "pairs of mild steel splint arm guards" },
     "description": "A pair of arm guards made of tough fabric sandwiched between alternating strips of steel.  Can be comfortably worn over chainmail for extra protection.",
@@ -697,7 +740,6 @@
     "longest_side": "30 cm",
     "price": "300 USD",
     "price_postapoc": "10 USD",
-    "to_hit": 1,
     "material": [ "lc_steel", "canvas" ],
     "symbol": "[",
     "looks_like": "armguard_hard",
@@ -722,115 +764,130 @@
   },
   {
     "id": "xl_armguard_lc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armguard_lc_brigandine",
-    "name": { "str": "XL pair of mild steel splint arm guards", "str_pl": "XL pairs of mild steel splint arm guards" },
+    "name": { "str": "pair of mild steel splint arm guards", "str_pl": "pairs of mild steel splint arm guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armguard_lc_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armguard_lc_brigandine",
-    "name": { "str": "XS pair of mild steel splint arm guards", "str_pl": "XS pairs of mild steel splint arm guards" },
+    "name": { "str": "pair of mild steel splint arm guards", "str_pl": "pairs of mild steel splint arm guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armguard_mc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of medium steel splint arm guards", "str_pl": "pairs of medium steel splint arm guards" },
     "copy-from": "armguard_lc_brigandine",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_armguard_mc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armguard_mc_brigandine",
-    "name": { "str": "XL pair of medium steel splint arm guards", "str_pl": "XL pairs of medium steel splint arm guards" },
+    "name": { "str": "pair of medium steel splint arm guards", "str_pl": "pairs of medium steel splint arm guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armguard_mc_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armguard_mc_brigandine",
-    "name": { "str": "XS pair of medium steel splint arm guards", "str_pl": "XS pairs of medium steel splint arm guards" },
+    "name": { "str": "pair of medium steel splint arm guards", "str_pl": "pairs of medium steel splint arm guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armguard_hc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of high steel splint arm guards", "str_pl": "pairs of high steel splint arm guards" },
     "copy-from": "armguard_lc_brigandine",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "xl_armguard_hc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armguard_hc_brigandine",
-    "name": { "str": "XL pair of high steel splint arm guards", "str_pl": "XL pairs of high steel splint arm guards" },
+    "name": { "str": "pair of high steel splint arm guards", "str_pl": "pairs of high steel splint arm guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armguard_hc_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armguard_hc_brigandine",
-    "name": { "str": "XS pair of high steel splint arm guards", "str_pl": "XS pairs of high steel splint arm guards" },
+    "name": { "str": "pair of high steel splint arm guards", "str_pl": "pairs of high steel splint arm guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armguard_ch_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of hardened splint arm guards", "str_pl": "pairs of hardened splint arm guards" },
     "copy-from": "armguard_lc_brigandine",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_armguard_ch_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armguard_ch_brigandine",
-    "name": { "str": "XL pair of hardened splint arm guards", "str_pl": "XL pairs of hardened splint arm guards" },
+    "name": { "str": "pair of hardened splint arm guards", "str_pl": "pairs of hardened splint arm guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armguard_ch_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armguard_ch_brigandine",
-    "name": { "str": "XS pair of hardened splint arm guards", "str_pl": "XS pairs of hardened splint arm guards" },
+    "name": { "str": "pair of hardened splint arm guards", "str_pl": "pairs of hardened splint arm guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armguard_qt_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of tempered splint arm guards", "str_pl": "pairs of tempered splint arm guards" },
     "copy-from": "armguard_lc_brigandine",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "xl_armguard_qt_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armguard_qt_brigandine",
-    "name": { "str": "XL pair of tempered splint arm guards", "str_pl": "XL pairs of tempered splint arm guards" },
+    "name": { "str": "pair of tempered splint arm guards", "str_pl": "pairs of tempered splint arm guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armguard_qt_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armguard_qt_brigandine",
-    "name": { "str": "XS pair of tempered splint arm guards", "str_pl": "XS pairs of tempered splint arm guards" },
+    "name": { "str": "pair of tempered splint arm guards", "str_pl": "pairs of tempered splint arm guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "legguard_lc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of mild steel splint leg guards", "str_pl": "pairs of mild steel splint leg guards" },
     "description": "A pair of leg guards made of tough fabric sandwiched between alternating strips of steel.  Can be comfortably worn over chainmail for extra protection.",
@@ -838,7 +895,6 @@
     "volume": "3278 ml",
     "price": "400 USD",
     "price_postapoc": "10 USD",
-    "to_hit": 1,
     "material": [ "lc_steel", "canvas" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
@@ -863,115 +919,130 @@
   },
   {
     "id": "xl_legguard_lc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "legguard_lc_brigandine",
-    "name": { "str": "XL pair of mild steel splint leg guards", "str_pl": "XL pairs of mild steel splint leg guards" },
+    "name": { "str": "pair of mild steel splint leg guards", "str_pl": "pairs of mild steel splint leg guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "legguard_lc_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "legguard_lc_brigandine",
-    "name": { "str": "XS pair of mild steel splint leg guards", "str_pl": "XS pairs of mild steel splint leg guards" },
+    "name": { "str": "pair of mild steel splint leg guards", "str_pl": "pairs of mild steel splint leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "legguard_mc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of medium steel splint leg guards", "str_pl": "pairs of medium steel splint leg guards" },
     "copy-from": "legguard_lc_brigandine",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_legguard_mc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "legguard_mc_brigandine",
-    "name": { "str": "XL pair of medium steel splint leg guards", "str_pl": "XL pairs of medium steel splint leg guards" },
+    "name": { "str": "pair of medium steel splint leg guards", "str_pl": "pairs of medium steel splint leg guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "legguard_mc_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "legguard_mc_brigandine",
-    "name": { "str": "XS pair of medium steel splint leg guards", "str_pl": "XS pairs of medium steel splint leg guards" },
+    "name": { "str": "pair of medium steel splint leg guards", "str_pl": "pairs of medium steel splint leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "legguard_hc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of high steel splint leg guards", "str_pl": "pairs of high steel splint leg guards" },
     "copy-from": "legguard_lc_brigandine",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "xl_legguard_hc_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "legguard_hc_brigandine",
-    "name": { "str": "XL pair of high steel splint leg guards", "str_pl": "XL pairs of high steel splint leg guards" },
+    "name": { "str": "pair of high steel splint leg guards", "str_pl": "pairs of high steel splint leg guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "legguard_hc_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "legguard_hc_brigandine",
-    "name": { "str": "XS pair of high steel splint leg guards", "str_pl": "XS pairs of high steel splint leg guards" },
+    "name": { "str": "pair of high steel splint leg guards", "str_pl": "pairs of high steel splint leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "legguard_ch_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of hardened splint leg guards", "str_pl": "pairs of hardened splint leg guards" },
     "copy-from": "legguard_lc_brigandine",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_legguard_ch_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "legguard_ch_brigandine",
-    "name": { "str": "XL pair of hardened splint leg guards", "str_pl": "XL pairs of hardened splint leg guards" },
+    "name": { "str": "pair of hardened splint leg guards", "str_pl": "pairs of hardened splint leg guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "legguard_ch_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "legguard_ch_brigandine",
-    "name": { "str": "XS pair of hardened splint leg guards", "str_pl": "XS pairs of hardened splint leg guards" },
+    "name": { "str": "pair of hardened splint leg guards", "str_pl": "pairs of hardened splint leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "legguard_qt_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of tempered splint leg guards", "str_pl": "pairs of tempered splint leg guards" },
     "copy-from": "legguard_lc_brigandine",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "xl_legguard_qt_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "legguard_qt_brigandine",
-    "name": { "str": "XL pair of tempered splint leg guards", "str_pl": "XL pairs of tempered splint leg guards" },
+    "name": { "str": "pair of tempered splint leg guards", "str_pl": "pairs of tempered splint leg guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "legguard_qt_brigandine_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "legguard_qt_brigandine",
-    "name": { "str": "XS pair of tempered splint leg guards", "str_pl": "XS pairs of tempered splint leg guards" },
+    "name": { "str": "pair of tempered splint leg guards", "str_pl": "pairs of tempered splint leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "lc_vambrace_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of mild steel splint vambraces", "str_pl": "pairs of mild steel splint vambraces" },
     "description": "A pair of vambraces made of tough fabric sandwiched between alternating strips of steel.  Can be comfortably worn over chainmail for extra protection.",
@@ -980,7 +1051,6 @@
     "longest_side": "12 cm",
     "price": "300 USD",
     "price_postapoc": "10 USD",
-    "to_hit": 1,
     "material": [ "lc_steel", "canvas" ],
     "symbol": "[",
     "looks_like": "armguard_bronze",
@@ -1005,115 +1075,130 @@
   },
   {
     "id": "xl_lc_vambrace_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_vambrace_brigandine",
-    "name": { "str": "XL pair of mild steel splint vambraces", "str_pl": "XL pairs of mild steel splint vambraces" },
+    "name": { "str": "pair of mild steel splint vambraces", "str_pl": "pairs of mild steel splint vambraces" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_lc_vambrace_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_vambrace_brigandine",
-    "name": { "str": "XS pair of mild steel splint vambraces", "str_pl": "XS pairs of mild steel splint vambraces" },
+    "name": { "str": "pair of mild steel splint vambraces", "str_pl": "pairs of mild steel splint vambraces" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mc_vambrace_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of medium steel splint vambraces", "str_pl": "pairs of medium steel splint vambraces" },
     "copy-from": "lc_vambrace_brigandine",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_mc_vambrace_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_vambrace_brigandine",
-    "name": { "str": "XL pair of medium steel splint vambraces", "str_pl": "XL pairs of medium steel splint vambraces" },
+    "name": { "str": "pair of medium steel splint vambraces", "str_pl": "pairs of medium steel splint vambraces" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_mc_vambrace_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_vambrace_brigandine",
-    "name": { "str": "XS pair of medium steel splint vambraces", "str_pl": "XS pairs of medium steel splint vambraces" },
+    "name": { "str": "pair of medium steel splint vambraces", "str_pl": "pairs of medium steel splint vambraces" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hc_vambrace_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of high steel splint vambraces", "str_pl": "pairs of high steel splint vambraces" },
     "copy-from": "lc_vambrace_brigandine",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "xl_hc_vambrace_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_vambrace_brigandine",
-    "name": { "str": "XL pair of high steel splint vambraces", "str_pl": "XL pairs of high steel splint vambraces" },
+    "name": { "str": "pair of high steel splint vambraces", "str_pl": "pairs of high steel splint vambraces" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_hc_vambrace_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_vambrace_brigandine",
-    "name": { "str": "XS pair of high steel splint vambraces", "str_pl": "XS pairs of high steel splint vambraces" },
+    "name": { "str": "pair of high steel splint vambraces", "str_pl": "pairs of high steel splint vambraces" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "ch_vambrace_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of hardened splint vambraces", "str_pl": "pairs of hardened splint vambraces" },
     "copy-from": "lc_vambrace_brigandine",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_ch_vambrace_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_vambrace_brigandine",
-    "name": { "str": "XL pair of hardened splint vambraces", "str_pl": "XL pairs of hardened splint vambraces" },
+    "name": { "str": "pair of hardened splint vambraces", "str_pl": "pairs of hardened splint vambraces" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_ch_vambrace_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_vambrace_brigandine",
-    "name": { "str": "XS pair of hardened splint vambraces", "str_pl": "XS pairs of hardened splint vambraces" },
+    "name": { "str": "pair of hardened splint vambraces", "str_pl": "pairs of hardened splint vambraces" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "qt_vambrace_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of tempered splint vambraces", "str_pl": "pairs of tempered splint vambraces" },
     "copy-from": "lc_vambrace_brigandine",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "xl_qt_vambrace_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_vambrace_brigandine",
-    "name": { "str": "XL pair of tempered splint vambraces", "str_pl": "XL pairs of tempered splint vambraces" },
+    "name": { "str": "pair of tempered splint vambraces", "str_pl": "pairs of tempered splint vambraces" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_qt_vambrace_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_vambrace_brigandine",
-    "name": { "str": "XS pair of tempered splint vambraces", "str_pl": "XS pairs of tempered splint vambraces" },
+    "name": { "str": "pair of tempered splint vambraces", "str_pl": "pairs of tempered splint vambraces" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "lc_greaves_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of mild steel splint greaves", "str_pl": "pairs of mild steel splint greaves" },
     "description": "A pair of greaves made of tough fabric sandwiched between alternating strips of steel.  Can be comfortably worn over chainmail for extra protection.",
@@ -1121,7 +1206,6 @@
     "volume": "1400 ml",
     "price": "400 USD",
     "price_postapoc": "10 USD",
-    "to_hit": 1,
     "material": [ "lc_steel", "canvas" ],
     "symbol": "[",
     "looks_like": "legguard_metal",
@@ -1146,124 +1230,139 @@
   },
   {
     "id": "xl_lc_greaves_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_greaves_brigandine",
-    "name": { "str": "XL pair of mild steel splint greaves", "str_pl": "XL pairs of mild steel splint greaves" },
+    "name": { "str": "pair of mild steel splint greaves", "str_pl": "pairs of mild steel splint greaves" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_lc_greaves_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_greaves_brigandine",
-    "name": { "str": "XS pair of mild steel splint greaves", "str_pl": "XS pairs of mild steel splint greaves" },
+    "name": { "str": "pair of mild steel splint greaves", "str_pl": "pairs of mild steel splint greaves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mc_greaves_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of medium steel splint greaves", "str_pl": "pairs of medium steel splint greaves" },
     "copy-from": "lc_greaves_brigandine",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_mc_greaves_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_greaves_brigandine",
-    "name": { "str": "XL pair of medium steel splint greaves", "str_pl": "XL pairs of medium steel splint greaves" },
+    "name": { "str": "pair of medium steel splint greaves", "str_pl": "pairs of medium steel splint greaves" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_mc_greaves_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_greaves_brigandine",
-    "name": { "str": "XS pair of medium steel splint greaves", "str_pl": "XS pairs of medium steel splint greaves" },
+    "name": { "str": "pair of medium steel splint greaves", "str_pl": "pairs of medium steel splint greaves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hc_greaves_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of high steel splint greaves", "str_pl": "pairs of high steel splint greaves" },
     "copy-from": "lc_greaves_brigandine",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "xl_hc_greaves_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_greaves_brigandine",
-    "name": { "str": "XL pair of high steel splint greaves", "str_pl": "XL pairs of high steel splint greaves" },
+    "name": { "str": "pair of high steel splint greaves", "str_pl": "pairs of high steel splint greaves" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_hc_greaves_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_greaves_brigandine",
-    "name": { "str": "XS pair of high steel splint greaves", "str_pl": "XS pairs of high steel splint greaves" },
+    "name": { "str": "pair of high steel splint greaves", "str_pl": "pairs of high steel splint greaves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "ch_greaves_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of hardened splint greaves", "str_pl": "pairs of hardened splint greaves" },
     "copy-from": "lc_greaves_brigandine",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_ch_greaves_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_greaves_brigandine",
-    "name": { "str": "XL pair of hardened splint greaves", "str_pl": "XL pairs of hardened splint greaves" },
+    "name": { "str": "pair of hardened splint greaves", "str_pl": "pairs of hardened splint greaves" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_ch_greaves_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_greaves_brigandine",
-    "name": { "str": "XS pair of hardened splint greaves", "str_pl": "XS pairs of hardened splint greaves" },
+    "name": { "str": "pair of hardened splint greaves", "str_pl": "pairs of hardened splint greaves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "qt_greaves_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of tempered splint greaves", "str_pl": "pairs of tempered splint greaves" },
     "copy-from": "lc_greaves_brigandine",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "xl_qt_greaves_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_greaves_brigandine",
-    "name": { "str": "XL pair of tempered splint greaves", "str_pl": "XL pairs of tempered splint greaves" },
+    "name": { "str": "pair of tempered splint greaves", "str_pl": "pairs of tempered splint greaves" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_qt_greaves_brigandine",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_greaves_brigandine",
-    "name": { "str": "XS pair of tempered splint greaves", "str_pl": "XS pairs of tempered splint greaves" },
+    "name": { "str": "pair of tempered splint greaves", "str_pl": "pairs of tempered splint greaves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "lc_brigandine_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of mild steel brigandine gloves", "str_pl": "pairs of mild steel brigandine gloves" },
-    "description": "A pair of gloves made of tough fabric, with steel plates of various size and shape riveted for additional protection, while still remaining relatively unhindering",
+    "description": "A pair of gloves made of tough fabric, with steel plates of various size and shape riveted for additional protection, while still remaining relatively unhindering.",
     "weight": "684 g",
     "volume": "750 ml",
     "price": "50 USD 12 cent",
     "price_postapoc": "25 USD",
-    "to_hit": -1,
-    "melee_damage": { "bash": 6 },
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "melee_damage": { "bash": 3 },
     "material": [ "canvas", "lc_steel" ],
     "symbol": "[",
     "color": "light_gray",
@@ -1300,115 +1399,130 @@
   },
   {
     "id": "xl_lc_brigandine_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_brigandine_hands",
-    "name": { "str": "XL pair of mild steel brigandine gloves", "str_pl": "XL pairs of mild steel brigandine gloves" },
+    "name": { "str": "pair of mild steel brigandine gloves", "str_pl": "pairs of mild steel brigandine gloves" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "lc_brigandine_hands_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_brigandine_hands",
-    "name": { "str": "XS pair of mild steel brigandine gloves", "str_pl": "XS pairs of mild steel brigandine gloves" },
+    "name": { "str": "pair of mild steel brigandine gloves", "str_pl": "pairs of mild steel brigandine gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mc_brigandine_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of medium steel brigandine gloves", "str_pl": "pairs of medium steel brigandine gloves" },
     "copy-from": "lc_brigandine_hands",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_mc_brigandine_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_brigandine_hands",
-    "name": { "str": "XL pair of medium steel brigandine gloves", "str_pl": "XL pairs of medium steel brigandine gloves" },
+    "name": { "str": "pair of medium steel brigandine gloves", "str_pl": "pairs of medium steel brigandine gloves" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "mc_brigandine_hands_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_brigandine_hands",
-    "name": { "str": "XS pair of medium steel brigandine gloves", "str_pl": "XS pairs of medium steel brigandine gloves" },
+    "name": { "str": "pair of medium steel brigandine gloves", "str_pl": "pairs of medium steel brigandine gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hc_brigandine_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of high steel brigandine gloves", "str_pl": "pairs of high steel brigandine gloves" },
     "copy-from": "lc_brigandine_hands",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "xl_hc_brigandine_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_brigandine_hands",
-    "name": { "str": "XL pair of high steel brigandine gloves", "str_pl": "XL pairs of high steel brigandine gloves" },
+    "name": { "str": "pair of high steel brigandine gloves", "str_pl": "pairs of high steel brigandine gloves" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "hc_brigandine_hands_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_brigandine_hands",
-    "name": { "str": "XS pair of high steel brigandine gloves", "str_pl": "XS pairs of high steel brigandine gloves" },
+    "name": { "str": "pair of high steel brigandine gloves", "str_pl": "pairs of high steel brigandine gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "ch_brigandine_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of hardened brigandine gloves", "str_pl": "pairs of hardened brigandine gloves" },
     "copy-from": "lc_brigandine_hands",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_ch_brigandine_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_brigandine_hands",
-    "name": { "str": "XL pair of hardened brigandine gloves", "str_pl": "XL pairs of hardened brigandine gloves" },
+    "name": { "str": "pair of hardened brigandine gloves", "str_pl": "pairs of hardened brigandine gloves" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "ch_brigandine_hands_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_brigandine_hands",
-    "name": { "str": "XS pair of hardened brigandine gloves", "str_pl": "XS pairs of hardened brigandine gloves" },
+    "name": { "str": "pair of hardened brigandine gloves", "str_pl": "pairs of hardened brigandine gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "qt_brigandine_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of tempered brigandine gloves", "str_pl": "pairs of tempered brigandine gloves" },
     "copy-from": "lc_brigandine_hands",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "xl_qt_brigandine_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_brigandine_hands",
-    "name": { "str": "XL pair of tempered brigandine gloves", "str_pl": "XL pairs of tempered brigandine gloves" },
+    "name": { "str": "pair of tempered brigandine gloves", "str_pl": "pairs of tempered brigandine gloves" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "qt_brigandine_hands_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_brigandine_hands",
-    "name": { "str": "XS pair of tempered brigandine gloves", "str_pl": "XS pairs of tempered brigandine gloves" },
+    "name": { "str": "pair of tempered brigandine gloves", "str_pl": "pairs of tempered brigandine gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "lc_knee_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of mild steel knee guards", "str_pl": "pairs of mild steel knee guards" },
     "description": "A pair of thin knee guards, forged from steel.  Can be comfortably worn over chainmail for extra protection.",
@@ -1416,7 +1530,6 @@
     "volume": "800 ml",
     "price": "25 USD",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "material": [ "lc_steel" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
@@ -1437,115 +1550,130 @@
   },
   {
     "id": "xl_lc_knee_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_knee_guards",
-    "name": { "str": "XL pair of mild steel knee guards", "str_pl": "XL pairs of mild steel knee guards" },
+    "name": { "str": "pair of mild steel knee guards", "str_pl": "pairs of mild steel knee guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "lc_knee_guards_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_knee_guards",
-    "name": { "str": "XS pair of mild steel knee guards", "str_pl": "XS pairs of mild steel knee guards" },
+    "name": { "str": "pair of mild steel knee guards", "str_pl": "pairs of mild steel knee guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mc_knee_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of medium steel knee guards", "str_pl": "pairs of medium steel knee guards" },
     "copy-from": "lc_knee_guards",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_mc_knee_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_knee_guards",
-    "name": { "str": "XL pair of medium steel knee guards", "str_pl": "XL pairs of medium steel knee guards" },
+    "name": { "str": "pair of medium steel knee guards", "str_pl": "pairs of medium steel knee guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "mc_knee_guards_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_knee_guards",
-    "name": { "str": "XS pair of medium steel knee guards", "str_pl": "XS pairs of medium steel knee guards" },
+    "name": { "str": "pair of medium steel knee guards", "str_pl": "pairs of medium steel knee guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hc_knee_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of high steel knee guards", "str_pl": "pairs of high steel knee guards" },
     "copy-from": "lc_knee_guards",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "xl_hc_knee_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_knee_guards",
-    "name": { "str": "XL pair of high steel knee guards", "str_pl": "XL pairs of high steel knee guards" },
+    "name": { "str": "pair of high steel knee guards", "str_pl": "pairs of high steel knee guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "hc_knee_guards_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_knee_guards",
-    "name": { "str": "XS pair of high steel knee guards", "str_pl": "XS pairs of high steel knee guards" },
+    "name": { "str": "pair of high steel knee guards", "str_pl": "pairs of high steel knee guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "ch_knee_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of hardened knee guards", "str_pl": "pairs of hardened steel knee guards" },
     "copy-from": "lc_knee_guards",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_ch_knee_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_knee_guards",
-    "name": { "str": "XL pair of hardened knee guards", "str_pl": "XL pairs of hardened knee guards" },
+    "name": { "str": "pair of hardened knee guards", "str_pl": "pairs of hardened knee guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "ch_knee_guards_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_knee_guards",
-    "name": { "str": "XS pair of hardened knee guards", "str_pl": "XS pairs of hardened knee guards" },
+    "name": { "str": "pair of hardened knee guards", "str_pl": "pairs of hardened knee guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "qt_knee_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of tempered knee guards", "str_pl": "pairs of tempered knee guards" },
     "copy-from": "lc_knee_guards",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "xl_qt_knee_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_knee_guards",
-    "name": { "str": "XL pair of tempered knee guards", "str_pl": "XL pairs of tempered knee guards" },
+    "name": { "str": "pair of tempered knee guards", "str_pl": "pairs of tempered knee guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "qt_knee_guards_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_knee_guards",
-    "name": { "str": "XS pair of tempered knee guards", "str_pl": "XS pairs of tempered knee guards" },
+    "name": { "str": "pair of tempered knee guards", "str_pl": "pairs of tempered knee guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "lc_elbow_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of mild steel elbow guards", "str_pl": "pairs of mild steel elbow guards" },
     "description": "A pair of thin elbow guards, forged from steel.  Can be comfortably worn over chainmail for extra protection.",
@@ -1553,7 +1681,6 @@
     "volume": "600 ml",
     "price": "35 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
     "material": [ "lc_steel" ],
     "symbol": "[",
     "looks_like": "armguard_hard",
@@ -1574,115 +1701,129 @@
   },
   {
     "id": "xl_lc_elbow_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_elbow_guards",
-    "name": { "str": "XL pair of mild steel elbow guards", "str_pl": "XL pairs of mild steel elbow guards" },
+    "name": { "str": "pair of mild steel elbow guards", "str_pl": "pairs of mild steel elbow guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "lc_elbow_guards_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_elbow_guards",
-    "name": { "str": "XS pair of mild steel elbow guards", "str_pl": "XS pairs of mild steel elbow guards" },
+    "name": { "str": "pair of mild steel elbow guards", "str_pl": "pairs of mild steel elbow guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mc_elbow_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of medium steel elbow guards", "str_pl": "pairs of medium steel elbow guards" },
     "copy-from": "lc_elbow_guards",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_mc_elbow_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_elbow_guards",
-    "name": { "str": "XL pair of medium steel elbow guards", "str_pl": "XL pairs of medium steel elbow guards" },
+    "name": { "str": "pair of medium steel elbow guards", "str_pl": "pairs of medium steel elbow guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "mc_elbow_guards_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_elbow_guards",
-    "name": { "str": "XS pair of medium steel elbow guards", "str_pl": "XS pairs of medium steel elbow guards" },
+    "name": { "str": "pair of medium steel elbow guards", "str_pl": "pairs of medium steel elbow guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hc_elbow_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of high steel elbow guards", "str_pl": "pairs of high steel elbow guards" },
     "copy-from": "lc_elbow_guards",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "xl_hc_elbow_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_elbow_guards",
-    "name": { "str": "XL pair of high steel elbow guards", "str_pl": "XL pairs of high steel elbow guards" },
+    "name": { "str": "pair of high steel elbow guards", "str_pl": "pairs of high steel elbow guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "hc_elbow_guards_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_elbow_guards",
-    "name": { "str": "XS pair of high steel elbow guards", "str_pl": "XS pairs of high steel elbow guards" },
+    "name": { "str": "pair of high steel elbow guards", "str_pl": "pairs of high steel elbow guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "ch_elbow_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of hardened elbow guards", "str_pl": "pairs of hardened elbow guards" },
     "copy-from": "lc_elbow_guards",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_ch_elbow_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_elbow_guards",
-    "name": { "str": "XL pair of hardened elbow guards", "str_pl": "XL pairs of hardened elbow guards" },
+    "name": { "str": "pair of hardened elbow guards", "str_pl": "pairs of hardened elbow guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "ch_elbow_guards_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_elbow_guards",
-    "name": { "str": "XS pair of hardened elbow guards", "str_pl": "XS pairs of hardened elbow guards" },
+    "name": { "str": "pair of hardened elbow guards", "str_pl": "pairs of hardened elbow guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "qt_elbow_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of tempered elbow guards", "str_pl": "pairs of tempered elbow guards" },
     "copy-from": "lc_elbow_guards",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "xl_qt_elbow_guards",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_elbow_guards",
-    "name": { "str": "XL pair of tempered elbow guards", "str_pl": "XL pairs of tempered elbow guards" },
+    "name": { "str": "pair of tempered elbow guards", "str_pl": "pairs of tempered elbow guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "qt_elbow_guards_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_elbow_guards",
-    "name": { "str": "XS pair of tempered elbow guards", "str_pl": "XS pairs of tempered elbow guards" },
+    "name": { "str": "pair of tempered elbow guards", "str_pl": "pairs of tempered elbow guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "lc_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "pair of mild steel shoulder guards", "str_pl": "pairs of mild steel shoulder guards" },
     "description": "A pair of thin shoulder guards, made of steel.  Designed to be attached to brigandine.",
@@ -1696,100 +1837,110 @@
   },
   {
     "id": "xl_lc_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "lc_shoulder_guards",
-    "name": { "str": "XL pair of mild steel shoulder guards", "str_pl": "XL pairs of mild steel shoulder guards" },
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 }
+    "name": { "str": "pair of mild steel shoulder guards", "str_pl": "pairs of mild steel shoulder guards" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "PREFIX_XL" ] }
   },
   {
     "id": "lc_shoulder_guards_xs",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "lc_shoulder_guards",
-    "name": { "str": "XS pair of mild steel shoulder guards", "str_pl": "XS pairs of mild steel shoulder guards" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 }
+    "name": { "str": "pair of mild steel shoulder guards", "str_pl": "pairs of mild steel shoulder guards" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "PREFIX_XS" ] }
   },
   {
     "id": "mc_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "lc_shoulder_guards",
     "name": { "str": "pair of medium steel shoulder guards", "str_pl": "pairs of medium steel shoulder guards" },
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_mc_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "mc_shoulder_guards",
-    "name": { "str": "XL pair of medium steel shoulder guards", "str_pl": "XL pairs of medium steel shoulder guards" },
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 }
+    "name": { "str": "pair of medium steel shoulder guards", "str_pl": "pairs of medium steel shoulder guards" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "PREFIX_XL" ] }
   },
   {
     "id": "mc_shoulder_guards_xs",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "mc_shoulder_guards",
-    "name": { "str": "XS pair of medium steel shoulder guards", "str_pl": "XS pairs of medium steel shoulder guards" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 }
+    "name": { "str": "pair of medium steel shoulder guards", "str_pl": "pairs of medium steel shoulder guards" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "PREFIX_XS" ] }
   },
   {
     "id": "hc_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "lc_shoulder_guards",
     "name": { "str": "pair of high steel shoulder guards", "str_pl": "pairs of high steel shoulder guards" },
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "xl_hc_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "hc_shoulder_guards",
-    "name": { "str": "XL pair of high steel shoulder guards", "str_pl": "XL pairs of high steel shoulder guards" },
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 }
+    "name": { "str": "pair of high steel shoulder guards", "str_pl": "pairs of high steel shoulder guards" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "PREFIX_XL" ] }
   },
   {
     "id": "hc_shoulder_guards_xs",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "hc_shoulder_guards",
-    "name": { "str": "XS pair of high steel shoulder guards", "str_pl": "XS pairs of high steel shoulder guards" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 }
+    "name": { "str": "pair of high steel shoulder guards", "str_pl": "pairs of high steel shoulder guards" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "PREFIX_XS" ] }
   },
   {
     "id": "ch_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "lc_shoulder_guards",
     "name": { "str": "pair of hardened shoulder guards", "str_pl": "pairs of hardened shoulder guards" },
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_ch_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "ch_shoulder_guards",
-    "name": { "str": "XL pair of hardened shoulder guards", "str_pl": "XL pairs of hardened shoulder guards" },
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 }
+    "name": { "str": "pair of hardened shoulder guards", "str_pl": "pairs of hardened shoulder guards" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "PREFIX_XL" ] }
   },
   {
     "id": "ch_shoulder_guards_xs",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "ch_shoulder_guards",
-    "name": { "str": "XS pair of hardened shoulder guards", "str_pl": "XS pairs of hardened shoulder guards" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 }
+    "name": { "str": "pair of hardened shoulder guards", "str_pl": "pairs of hardened shoulder guards" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "PREFIX_XS" ] }
   },
   {
     "id": "qt_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "lc_shoulder_guards",
     "name": { "str": "pair of tempered shoulder guards", "str_pl": "pairs of tempered shoulder guards" },
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "xl_qt_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "qt_shoulder_guards",
-    "name": { "str": "XL pair of tempered shoulder guards", "str_pl": "XL pairs of tempered shoulder guards" },
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 }
+    "name": { "str": "pair of tempered shoulder guards", "str_pl": "pairs of tempered shoulder guards" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "PREFIX_XL" ] }
   },
   {
     "id": "qt_shoulder_guards_xs",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "qt_shoulder_guards",
-    "name": { "str": "XS pair of tempered shoulder guards", "str_pl": "XS pairs of tempered shoulder guards" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 }
+    "name": { "str": "pair of tempered shoulder guards", "str_pl": "pairs of tempered shoulder guards" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "PREFIX_XS" ] }
   }
 ]

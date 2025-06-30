@@ -1,7 +1,8 @@
 [
   {
     "id": "beam_scatterer",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "beam scatterer" },
     "description": "A set of optics made to fit on laser weapons, which will diffract the laser beam into several lower powered beams.  This increases point-blank damage, but greatly reduces range.",
     "weight": "380 g",
@@ -21,7 +22,8 @@
   },
   {
     "id": "focusing_lens",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "focusing lens", "str_pl": "focusing lenses" },
     "description": "A set of optics to concentrate the laser beam on a smaller focus point.  This increases range and damage output, but complicates targeting.",
     "weight": "380 g",
@@ -41,7 +43,8 @@
   },
   {
     "id": "electrolaser_conversion",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "electrolaser conversion" },
     "description": "A set of high-tech electronics and optics.  Converts a laser pistol into a less-lethal electrolaser capable of stunning targets, at the cost of a decreased damage output and increased power consumption.",
     "weight": "380 g",
@@ -62,7 +65,8 @@
   },
   {
     "id": "effective_emitter",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "effective emitter" },
     "description": "A set of electronics to optimize emitter workcycle and increase overall energy efficiency.  Decreases power consumption.",
     "weight": "380 g",
@@ -81,7 +85,8 @@
   },
   {
     "id": "high_density_capacitor",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "high density capacitor" },
     "description": "A capacitor with a higher energy density.  Increases range and damage at the cost of markedly increased power consumption.",
     "weight": "380 g",

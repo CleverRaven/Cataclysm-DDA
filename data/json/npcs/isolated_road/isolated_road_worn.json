@@ -39,7 +39,7 @@
     "id": "JAY_RUCKERS_worn",
     "subtype": "collection",
     "entries": [
-      { "item": "linuxtshirt" },
+      { "item": "tshirt" },
       { "group": "ballistic_vest_light_pristine" },
       { "item": "boxer_briefs" },
       { "item": "jeans" },

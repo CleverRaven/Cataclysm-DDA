@@ -8,14 +8,126 @@
       "and": [
         { "not": { "u_has_effect": "effect_hedge_no_nightmares" } },
         { "u_has_effect": "nightmares" },
-        { "math": [ "dream_counter", "==", "0" ] }
+        { "math": [ "dream_counter == 0" ] }
       ]
     },
     "effect": [
       { "u_message": "nightmares", "snippet": true, "type": "bad" },
       { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 },
-      { "math": [ "dream_counter", "=", "1" ] },
-      { "queue_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
+      { "math": [ "dream_counter = 1" ] },
+      { "run_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW_NOW",
+    "//": "Copy and overwrite of EoC: original in json/monsters/singularities.json",
+    "effect": [
+      { "math": [ "Shadow_Lurking", "-=", "1" ] },
+      { "assign_mission": "MISSION_KILL_SHADOW" },
+      { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
+      { "u_location_variable": { "global_val": "shadow_encounter_XYZ_pos" }, "min_radius": 1, "max_radius": 1 },
+      { "run_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW",
+    "recurrence": "1 second",
+    "global": true,
+    "run_for_npcs": false,
+    "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen, or you've run far enough away from where it spawned (7.5 OMTs).",
+    "condition": {
+      "and": [
+        { "math": [ "has_var(shadow_encounter_XYZ_pos)" ] },
+        {
+          "or": [
+            { "npc_allies": 3 },
+            { "u_at_om_location": "FACTION_CAMP_ANY" },
+            { "not": "u_is_outside" },
+            "is_day",
+            { "math": [ "distance('u', shadow_encounter_XYZ_pos) >= 180" ] }
+          ]
+        },
+        { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60) > 0" ] }
+      ]
+    },
+    "//2": "Despawn shadow, adjust var for later to bring him back",
+    "//3": "Make player blind for zero turns(yes, zero!) so they can't see the thing 'die'/don't get a log message about it dying (stupid hack but it works)",
+    "effect": [
+      { "math": [ "Shadow_Lurking = 1" ] },
+      { "u_add_effect": "blind_no_msg", "duration": "0 second" },
+      { "remove_active_mission": "MISSION_KILL_SHADOW" },
+      { "u_message": "The wind laughs through the night", "type": "bad" },
+      {
+        "u_location_variable": { "global_val": "Shadow_monster" },
+        "monster": "mon_lieutenant_shadow",
+        "target_min_radius": 0,
+        "target_max_radius": 60
+      },
+      { "run_eocs": "EOC_KILL_SHADOW", "beta_loc": { "global_val": "Shadow_monster" } },
+      { "u_message": "…but it grows more distant for now.", "type": "good" }
+    ]
+  },
+  {
+    "id": "MISSION_KILL_SHADOW",
+    "type": "mission_definition",
+    "name": { "str": "Survive the night" },
+    "description": "You don't know what you're facing.  You only know that it's very dangerous.",
+    "goal": "MGOAL_KILL_MONSTER_TYPE",
+    "monster_type": "mon_lieutenant_shadow",
+    "monster_kill_goal": 1,
+    "difficulty": 10,
+    "value": 0,
+    "end": { "effect": { "run_eocs": "EOC_SHADOW_LOOT" } },
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "",
+      "offer": "",
+      "accepted": "",
+      "rejected": "",
+      "advice": "",
+      "inquire": "",
+      "success": "",
+      "success_lie": "",
+      "failure": ""
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_XE_SUNRISE_MORALE_OVERRIDES",
+    "condition": {
+      "not": { "u_has_any_trait": [ "VAMPIRE", "LILIN_TRAITS", "DHAMPIR_WEAKNESS_SUN_SENSITIVITY", "CHANGELING_COURT_WINTER" ] }
+    },
+    "effect": [ { "u_message": "You are ineligible for sunrises.", "type": "debug" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES",
+    "condition": { "not": { "u_has_any_trait": [ "VAMPIRE", "LILIN_TRAITS" ] } },
+    "effect": [ { "u_message": "You are ineligible for sunrises.", "type": "debug" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE",
+    "condition": { "or": [ { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" }, { "npc_has_flag": "DIMENSIONAL_ANCHOR" } ] },
+    "effect": { "u_message": "You feel a strange reverberation across your body.", "type": "warning" },
+    "false_effect": { "run_eocs": [ "EOC_STARE1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE1",
+    "condition": { "or": [ { "u_has_flag": "MAGICAL_MIND_PROTECTION" }, { "u_has_worn_with_flag": "MAGICAL_MIND_PROTECTION" } ] },
+    "effect": { "u_message": "You sense <npc_name> trying to enter your mind, but your magic protects you!", "type": "warning" },
+    "false_effect": { "run_eocs": [ "EOC_STARE2" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF",
+    "condition": {
+      "and": [ { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "not": { "u_has_flag": "MAGICAL_MIND_PROTECTION" } } ]
+    },
+    "effect": [  ]
   }
 ]

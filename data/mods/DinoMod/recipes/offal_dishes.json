@@ -22,7 +22,7 @@
         [ "veggy_any", 8, "LIST" ],
         [ "powder_eggs", 8 ],
         [ "eggs_bird", 8, "LIST" ],
-        [ "egg_reptile", 8 ],
+        [ "eggs_reptile", 8, "LIST" ],
         [ "mushroom_cooked", 8 ],
         [ "morel_cooked", 8 ],
         [ "mushroom", 8 ],

@@ -15,7 +15,7 @@ class window;
 #include <string>
 
 #include "color_loader.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "sdl_wrappers.h"
 #include "string_id.h"
 

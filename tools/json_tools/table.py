@@ -195,7 +195,7 @@ class CSVFormat:
         self.writer = csv.writer(sys.stdout)
 
     def to_utf8(self, lst):
-        return [str(elem).encode('utf-8') for elem in lst]
+        return [str(elem) for elem in lst]
 
     def header(self, columns):
         self.row(columns)

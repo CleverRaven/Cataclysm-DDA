@@ -27,8 +27,8 @@
   {
     "type": "fault_fix",
     "id": "mend_fault_engine_immobiliser_deactivate",
-    "name": "Deactivate immobiliser",
-    "success_msg": "You successfully deactivate the immobiliser of the %s.",
+    "name": "Deactivate immobilizer",
+    "success_msg": "You successfully deactivate the immobilizer of the %s.",
     "time": "5 m",
     "faults_removed": [ "fault_engine_immobiliser" ],
     "skills": { "mechanics": 2, "electronics": 5 },

@@ -1,5 +1,7 @@
+#include <cstdint>
 #include <cstdlib>
 #include <memory>
+#include <string>
 #include <utility>
 
 #include "avatar.h"
@@ -8,7 +10,6 @@
 #include "flag.h"
 #include "item.h"
 #include "itype.h"
-#include "npc.h"
 #include "player_helpers.h"
 #include "type_id.h"
 #include "units.h"
@@ -18,6 +19,18 @@ static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 static const efftype_id effect_common_cold( "common_cold" );
 static const efftype_id effect_flu( "flu" );
+
+static const itype_id itype_catfood( "catfood" );
+static const itype_id itype_coffee( "coffee" );
+static const itype_id itype_cola( "cola" );
+static const itype_id itype_dogfood( "dogfood" );
+static const itype_id itype_garlic( "garlic" );
+static const itype_id itype_icecream( "icecream" );
+static const itype_id itype_pine_nuts( "pine_nuts" );
+static const itype_id itype_rehydration_drink( "rehydration_drink" );
+static const itype_id itype_sheet_cotton( "sheet_cotton" );
+static const itype_id itype_toastem( "toastem" );
+static const itype_id itype_toastem_test( "toastem_test" );
 
 static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
@@ -33,7 +46,7 @@ TEST_CASE( "fun_for_non-food", "[fun_for][nonfood]" )
     std::pair<int, int> actual_fun;
 
     SECTION( "non-food has no fun value" ) {
-        item sheet_cotton( "sheet_cotton" );
+        item sheet_cotton( itype_sheet_cotton );
         REQUIRE_FALSE( sheet_cotton.is_comestible() );
 
         actual_fun = dummy.fun_for( sheet_cotton );
@@ -46,7 +59,7 @@ TEST_CASE( "fun_for_food_eaten_while_sick", "[fun_for][food][sick]" )
 {
     avatar dummy;
     std::pair<int, int> actual_fun;
-    item toastem( "toastem" );
+    item toastem( itype_toastem );
     REQUIRE( toastem.is_comestible() );
     // Base fun value for toast-em
     int toastem_fun = toastem.get_comestible_fun();
@@ -79,7 +92,7 @@ TEST_CASE( "fun_for_rotten_food", "[fun_for][food][rotten]" )
     std::pair<int, int> actual_fun;
 
     GIVEN( "some rotten food" ) {
-        item nuts( "pine_nuts" );
+        item nuts( itype_pine_nuts );
         REQUIRE( nuts.is_comestible() );
         // food rot > 1.0 is rotten
         nuts.set_relative_rot( 1.5 );
@@ -123,7 +136,7 @@ TEST_CASE( "fun_for_cold_food", "[fun_for][food][cold]" )
     std::pair<int, int> actual_fun;
 
     GIVEN( "food that tastes good, but better when cold" ) {
-        item cola( "cola" );
+        item cola( itype_cola );
         REQUIRE( cola.is_comestible() );
         REQUIRE( cola.has_flag( flag_EATEN_COLD ) );
         int cola_fun = cola.get_comestible_fun();
@@ -148,7 +161,7 @@ TEST_CASE( "fun_for_cold_food", "[fun_for][food][cold]" )
     }
 
     GIVEN( "food that tastes bad, but better when cold" ) {
-        item rehydration( "rehydration_drink" );
+        item rehydration( itype_rehydration_drink );
         REQUIRE( rehydration.is_comestible() );
         int rehydration_fun = rehydration.get_comestible_fun();
 
@@ -176,7 +189,7 @@ TEST_CASE( "fun_for_cold_food", "[fun_for][food][cold]" )
     }
 
     GIVEN( "food that tastes good, but no better when cold" ) {
-        item coffee( "coffee" );
+        item coffee( itype_coffee );
         REQUIRE( coffee.is_comestible() );
         int coffee_fun = coffee.get_comestible_fun();
 
@@ -214,7 +227,7 @@ TEST_CASE( "fun_for_melted_food", "[fun_for][food][melted]" )
     std::pair<int, int> actual_fun;
 
     GIVEN( "food that is fun but melts" ) {
-        item icecream( "icecream" );
+        item icecream( itype_icecream );
         REQUIRE( icecream.is_comestible() );
         REQUIRE( icecream.has_flag( flag_MELTS ) );
         int icecream_fun = icecream.get_comestible_fun();
@@ -246,7 +259,7 @@ TEST_CASE( "fun_for_cat_food", "[fun_for][food][cat][feline]" )
     std::pair<int, int> actual_fun;
 
     GIVEN( "cat food" ) {
-        item catfood( "catfood" );
+        item catfood( itype_catfood );
         REQUIRE( catfood.is_comestible() );
         REQUIRE( catfood.has_flag( flag_FELINE ) );
 
@@ -277,7 +290,7 @@ TEST_CASE( "fun_for_dog_food", "[fun_for][food][dog][lupine]" )
     std::pair<int, int> actual_fun;
 
     GIVEN( "dog food" ) {
-        item dogfood( "dogfood" );
+        item dogfood( itype_dogfood );
         REQUIRE( dogfood.is_comestible() );
         REQUIRE( dogfood.has_flag( flag_LUPINE ) );
 
@@ -309,7 +322,7 @@ TEST_CASE( "fun_for_gourmand", "[fun_for][food][gourmand]" )
     std::pair<int, int> actual_fun;
 
     GIVEN( "food that tastes good" ) {
-        item toastem( "toastem" );
+        item toastem( itype_toastem );
         REQUIRE( toastem.is_comestible() );
         int toastem_fun = toastem.get_comestible_fun();
         REQUIRE( toastem_fun > 0 );
@@ -334,7 +347,7 @@ TEST_CASE( "fun_for_gourmand", "[fun_for][food][gourmand]" )
     }
 
     GIVEN( "food that tastes bad" ) {
-        item garlic( "garlic" );
+        item garlic( itype_garlic );
         REQUIRE( garlic.is_comestible() );
         int garlic_fun = garlic.get_comestible_fun();
         // At fun == -1, Gourmand trait has no effect
@@ -367,7 +380,7 @@ TEST_CASE( "fun_for_food_eaten_too_often", "[fun_for][food][monotony]" )
     std::pair<int, int> actual_fun;
 
     // A big box of tasty toast-ems
-    item toastem( "toastem_test", calendar::turn );
+    item toastem( itype_toastem_test, calendar::turn );
     REQUIRE( toastem.is_comestible() );
 
     // Base fun value and monotony penalty for toast-em
@@ -416,7 +429,7 @@ TEST_CASE( "fun_for_bionic_bio_taste_blocker", "[fun_for][food][bionic]" )
     std::pair<int, int> actual_fun;
 
     GIVEN( "food that tastes bad" ) {
-        item garlic( "garlic" );
+        item garlic( itype_garlic );
         REQUIRE( garlic.is_comestible() );
         int garlic_fun = garlic.get_comestible_fun();
         REQUIRE( garlic_fun < 0 );

@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "report_march_lord",
     "name": { "str": "Report CO001141", "str_pl": "copies of Report CO001141" },
     "description": "A page from a report.",
@@ -8,7 +8,7 @@
     "snippet_category": "changeling_march_lord_report"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "border_patrol_files",
     "name": { "str_sp": "border patrol files" },
     "description": "A folder filled with pages.",
@@ -16,7 +16,7 @@
     "snippet_category": "border_patrol_files"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "green_postit_field_agent",
     "copy-from": "survnote",
     "name": { "str": "post-it note" },
@@ -24,7 +24,7 @@
     "snippet_category": "desk_postit_field_agent"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "agent_postit_gray",
     "copy-from": "lab_postit_bio",
     "name": { "str": "post-it note" },
@@ -32,7 +32,7 @@
     "snippet_category": "agent_postit_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "agent_postit_migo",
     "copy-from": "lab_postit_bio",
     "name": { "str": "post-it note" },
@@ -40,7 +40,7 @@
     "snippet_category": "agent_postit_migo"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "museum_plaques_visitors",
     "category": "books",
     "symbol": ",",
@@ -56,7 +56,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "museum_plaques_items",
     "category": "books",
     "symbol": ",",

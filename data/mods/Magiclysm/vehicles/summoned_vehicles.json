@@ -9,7 +9,8 @@
   {
     "id": "mana_wheel",
     "category": "veh_parts",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "name": "mana wheel",
     "description": "A column of mana energy that enables a floating disk to move.",
     "weight": "500 g",
@@ -37,6 +38,20 @@
       { "x": 0, "y": 0, "parts": [ "horn_car", "engine_vtwin_magic", "alternator_motorbike" ] },
       { "x": 1, "y": 0, "parts": [ "headlight", "battery_motorbike" ] },
       { "x": -1, "y": 0, "parts": [ "muffler", "box" ] }
+    ]
+  },
+  {
+    "id": "magic_comcycle",
+    "type": "vehicle",
+    "copy-from": "magic_motorcycle",
+    "name": "Co-op cycle",
+    "blueprint": [
+      [ "o#>o" ],
+      [ " #> " ]
+    ],
+    "parts": [
+      { "x": 0, "y": 1, "parts": [ "frame#cross", "wheel_mount_light", "wheel_motorbike", "seat" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_handle", "box" ] }
     ]
   },
   {
@@ -84,10 +99,11 @@
   },
   {
     "id": "mana",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "chems",
     "name": { "str_sp": "mana core power" },
-    "description": "Seeing this is a bug.",
+    "description": { "str": "Seeing this is a bug.", "//~": "NO_I18N" },
     "weight": "10 g",
     "volume": "10 ml",
     "phase": "solid",

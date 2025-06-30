@@ -3,13 +3,19 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "pouch_wild_druid",
-    "entries": [ { "item": "fur" }, { "item": "fur" }, { "item": "fur" }, { "item": "bone_tainted" }, { "item": "bone_tainted" } ]
+    "entries": [ { "item": "fur", "count": 3 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "quiver_mooserider",
     "entries": [ { "item": "arrow_heavy_fire_hardened_fletched", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_elven_ceremonial_guard",
+    "entries": [ { "item": "arrow_cf", "count": 40 } ]
   },
   {
     "type": "profession",
@@ -74,181 +80,6 @@
   },
   {
     "type": "profession",
-    "id": "priest_magic2",
-    "name": "Priest",
-    "description": "When the apocalypse struck you did everything you could to protect your parish faithful, but it appears that prayers were not enough.  Now that they are all dead, you should probably find something more tangible to protect you.",
-    "points": 0,
-    "flags": [ "SCEN_ONLY" ],
-    "skills": [ { "level": 3, "name": "speech" } ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "pants" },
-          { "item": "longshirt" },
-          { "item": "socks" },
-          { "item": "cassock" },
-          { "item": "dress_shoes" },
-          { "item": "holy_symbol" },
-          { "item": "holybook_bible1" },
-          { "item": "priest_beginner" },
-          { "item": "mbag" },
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
-  },
-  {
-    "type": "profession",
-    "id": "shinto_priest_magic2",
-    "name": "Kannushi",
-    "description": "You were one of the maintainers of a Shinto shrine, performing rituals and sacred tasks.  You preferred it when only the spirits of the dead inhabited your shrine, and not their rotting corpses.",
-    "points": 0,
-    "flags": [ "SCEN_ONLY" ],
-    "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "tailor" } ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "kariginu" },
-          { "item": "eboshi" },
-          { "item": "pants" },
-          { "item": "tabi_dress" },
-          { "item": "geta" },
-          { "item": "holy_symbol" },
-          { "item": "holybook_kojiki" },
-          { "item": "priest_beginner" },
-          { "item": "mbag" },
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
-  },
-  {
-    "type": "profession",
-    "id": "imam_magic2",
-    "name": { "male": "Imam", "female": "Mourchida" },
-    "description": "You spent much of your time prior to the apocalypse at the local mosque, studying the words of the Prophet and the Quran and guiding your community in prayer.  Back then they came from far and wide to listen to you, now they come to eat your brains.",
-    "points": 0,
-    "flags": [ "SCEN_ONLY" ],
-    "//": "No knife, fire, or decent storage/armor.  Skill points are countered.",
-    "skills": [ { "level": 2, "name": "speech" } ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "pants" },
-          { "item": "socks" },
-          { "item": "kufi" },
-          { "item": "thawb" },
-          { "item": "lowtops" },
-          { "item": "holybook_quran" },
-          { "item": "priest_beginner" },
-          { "item": "mbag" },
-          { "group": "charged_cell_phone" },
-          { "item": "tshirt", "variant": "generic_tshirt" }
-        ]
-      },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
-  },
-  {
-    "type": "profession",
-    "id": "rabbi_magic2",
-    "name": "Rabbi",
-    "description": "You were davening Shacharit in shul when the Cataclysm struck.  You had always taught that God will restore life to the dead after Moshiach has come, but not like this!",
-    "points": 0,
-    "flags": [ "SCEN_ONLY" ],
-    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "firstaid" } ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "pants" },
-          { "item": "leather_belt" },
-          { "item": "dress_shirt" },
-          { "item": "socks" },
-          { "item": "kittel" },
-          { "item": "kippah" },
-          { "item": "tallit_gadol" },
-          { "item": "dress_shoes" },
-          { "item": "holybook_talmud" },
-          { "item": "holybook_tanakh" },
-          { "item": "priest_beginner" },
-          { "item": "mbag" },
-          { "group": "charged_cell_phone" },
-          { "item": "holy_symbol", "variant": "jewish_necklace1" }
-        ]
-      },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
-  },
-  {
-    "type": "profession",
-    "id": "guru_magic2",
-    "name": "Guru",
-    "description": "You spent many years traveling the world, becoming wise and learned.  Normally, you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
-    "points": 2,
-    "flags": [ "SCEN_ONLY" ],
-    "//": "1.5 pts skills, cutting implement, and plenty of storage, so lack of fire only goes so far.",
-    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "survival" } ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "jeans" },
-          { "item": "socks" },
-          { "item": "robe" },
-          { "item": "turban" },
-          { "item": "waterskin" },
-          { "item": "pockknife" },
-          { "item": "mbag" },
-          { "item": "leathersandals" },
-          { "item": "holy_symbol" },
-          { "item": "wristwatch" },
-          { "item": "priest_beginner" },
-          { "group": "charged_cell_phone" },
-          { "item": "tshirt", "variant": "generic_tshirt" }
-        ]
-      },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "panties" } ] }
-    }
-  },
-  {
-    "type": "profession",
-    "id": "preacher_magic2",
-    "name": "Preacher",
-    "description": "You devoted your life to spreading the good word; always on the road, traveling from town to town.  Now everything has gone to hell, you can't host your daily podcast, and the undead listening to your sermons don't seem particularly moved.",
-    "points": 2,
-    "flags": [ "SCEN_ONLY" ],
-    "//": "Storage + 2 points in skills, - no knife or fire.",
-    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "driving" }, { "level": 1, "name": "computer" } ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "dress_shirt" },
-          { "item": "pants" },
-          { "item": "socks" },
-          { "item": "dress_shoes" },
-          { "item": "wristwatch" },
-          { "item": "backpack" },
-          { "item": "laptop" },
-          { "item": "flyer" },
-          { "item": "flyer" },
-          { "item": "flyer" },
-          { "item": "holy_symbol" },
-          { "item": "priest_beginner" },
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
-  },
-  {
-    "type": "profession",
     "id": "novice_necromancer",
     "name": "Novice Necromancer",
     "description": "You always had to hide your magic, as it was generally not an acceptable type of magic in the wizarding world, but with the Cataclysm you need to pull every trick out of the book.",
@@ -267,7 +98,7 @@
           { "item": "knit_scarf" },
           { "item": "leather_belt" },
           { "item": "primitive_knife", "container-item": "sheath" },
-          { "item": "tshirt", "variant": "start_a_cult_tshirt" },
+          { "item": "tshirt" },
           { "item": "onyx_silver_bracelet", "variant": "dark_bracelet" },
           { "item": "onyx_silver_ring", "variant": "dark_ring" }
         ]
@@ -480,7 +311,7 @@
           { "item": "chaps_leather" },
           { "item": "halter_top" },
           { "item": "jacket_leather" },
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "item": "dance_shoes" },
           { "item": "socks" },
           { "item": "purse" },
@@ -545,7 +376,7 @@
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "pants" },
-          { "item": "striped_shirt" },
+          { "item": "buttonshirt", "variant": "striped" },
           { "item": "hoodie" },
           { "item": "gloves_light" },
           { "item": "swag_bag" },
@@ -629,7 +460,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "light_minus_disposable_cell", "charges": 100 },
-          { "item": "light_minus_disposable_cell", "charges": 100, "container-item": "miner_hat" }
+          { "group": "hat_hard_flashlight", "prob": 40 }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -695,7 +526,7 @@
       { "id": "druid_summon_brambles", "level": 3 }
     ],
     "skills": [ { "level": 4, "name": "survival" }, { "level": 3, "name": "spellcraft" } ],
-    "proficiencies": [ "prof_knives_familiar" ],
+    "proficiencies": [ "prof_knives_familiar", "prof_butchering_basic", "prof_skinning_basic" ],
     "traits": [ "ANIMALEMPATH", "SLOWREADER", "DRUID" ],
     "items": {
       "both": {
@@ -720,9 +551,17 @@
     "type": "profession",
     "id": "archer_druid",
     "name": "Archer Druid",
-    "description": "You were a skillful and committed archer druid, making constant excursions to the forests in which you dedicated yourself to living of and with what nature had to offer you.  You were returning from your last travel when civilization fell upon itself.",
+    "description": "You were a skillful and committed archer druid, making constant excursions to the forests in which you dedicated yourself to living off of and with what nature had to offer you.  You were returning from your last travel when civilization fell upon itself.",
     "points": 5,
-    "proficiencies": [ "prof_bowyery", "prof_bow_basic", "prof_bow_expert", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_bowyery",
+      "prof_bow_basic",
+      "prof_bow_expert",
+      "prof_knives_familiar",
+      "prof_gross_anatomy",
+      "prof_butchering_basic",
+      "prof_skinning_basic"
+    ],
     "spells": [
       { "id": "druid_naturebow1", "level": 4 },
       { "id": "druid_natures_commune", "level": 3 },
@@ -784,7 +623,7 @@
       "male": { "entries": [ { "item": "undershirt" }, { "item": "boxer_briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
-    "traits": [ "ANIMIST", "TERRIFYING", "KILLER" ]
+    "traits": [ "ANIMIST", "TERRIFYING" ]
   },
   {
     "type": "profession",
@@ -858,7 +697,7 @@
     "type": "profession",
     "id": "academy_wizard",
     "name": "Academy Wizard",
-    "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful spells.  With the teachers converted into the undead and classes cancelled, the final lesson has begun.",
+    "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful spells.  With the teachers converted into the undead and classes canceled, the final lesson has begun.",
     "points": 4,
     "proficiencies": [ "prof_alchemy" ],
     "spells": [
@@ -958,7 +797,7 @@
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "PR24-retracted", "container-item": "police_belt" },
-          { "item": "sheriffshirt", "variant": "sheriff" }
+          { "item": "postman_shirt", "variant": "sheriff" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -979,7 +818,7 @@
       { "id": "recover_stamina", "level": 2 }
     ],
     "traits": [ "PROF_BOXER", "EARTHSHAPER" ],
-    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_gross_anatomy" ],
     "skills": [
       { "level": 2, "name": "melee" },
       { "level": 3, "name": "unarmed" },
@@ -1010,7 +849,7 @@
     "points": 4,
     "spells": [ { "id": "light_healing", "level": 3 }, { "id": "biomancer_cure_disease_minor", "level": 3 } ],
     "skills": [ { "level": 3, "name": "firstaid" }, { "level": 2, "name": "spellcraft" } ],
-    "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_burn_care" ],
+    "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_burn_care", "prof_gross_anatomy" ],
     "items": {
       "both": {
         "entries": [
@@ -1038,7 +877,16 @@
     "name": "Wildborne Rider",
     "description": "Abandoned at a young age and raised by moose, you had to master the wilds to survive.  While the modern world has been devoured, you and your steed are no stranger to hardship.",
     "points": 6,
-    "proficiencies": [ "prof_bowyery", "prof_fibers", "prof_knapping", "prof_bow_basic", "prof_bow_expert" ],
+    "proficiencies": [
+      "prof_bowyery",
+      "prof_fibers",
+      "prof_knapping",
+      "prof_bow_basic",
+      "prof_bow_expert",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_gross_anatomy"
+    ],
     "spells": [
       { "id": "druidic_healing", "level": 4 },
       { "id": "purify_seed", "level": 4 },
@@ -1094,7 +942,13 @@
       { "level": 2, "name": "survival" },
       { "level": 1, "name": "fabrication" }
     ],
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning", "prof_auto_rifles_familiar", "prof_auto_pistols_familiar" ],
+    "proficiencies": [
+      "prof_gunsmithing_basic",
+      "prof_gun_cleaning",
+      "prof_auto_rifles_familiar",
+      "prof_auto_pistols_familiar",
+      "prof_gross_anatomy"
+    ],
     "traits": [ "KELVINIST" ],
     "items": {
       "both": {
@@ -1110,7 +964,7 @@
           { "item": "attached_ear_plugs_off" },
           { "item": "helmet_army" },
           { "item": "hatchet" },
-          { "item": "balclava" },
+          { "item": "balclava", "variant": "black" },
           { "item": "rifle_case_soft" },
           { "item": "mess_kit" },
           { "item": "emer_blanket", "custom-flags": [ "no_auto_equip" ] },
@@ -1149,8 +1003,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "striped_shirt" },
-          { "item": "striped_pants" },
+          { "item": "jumpsuit_pocketless", "variant": "orange" },
           { "item": "sneakers" },
           { "item": "socks" },
           { "item": "sugar" }
@@ -1182,7 +1035,14 @@
     ],
     "traits": [ "DRUID", "PSYCHOPATH" ],
     "items": {
-      "both": { "entries": [ { "item": "striped_shirt" }, { "item": "striped_pants" }, { "item": "sneakers" }, { "item": "socks" } ] },
+      "both": {
+        "entries": [
+          { "item": "buttonshirt", "variant": "striped" },
+          { "item": "striped_pants" },
+          { "item": "sneakers" },
+          { "item": "socks" }
+        ]
+      },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
@@ -1255,6 +1115,83 @@
       },
       "male": { "entries": [ { "item": "under_armor_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "elven_ceremonial_guard",
+    "name": "Hy-Brasilean ambassadorial honor guard",
+    "description": "You were a ceremonial guard for the Hy-Brasilean ambassador to the United States, equipped to bring to mind the elven forest warriors of old.  You were trained in archery, since you had to use your bow to impress foreign dignitaries, but you never expected you'd actually have to take it into a real battle.  Then the Cataclysm hit.  The ambassador and most of your fellow guards are dead, and you'll probably never see home again, but hopefully your skills will keep you alive.",
+    "points": 12,
+    "skills": [
+      { "level": 8, "name": "gun" },
+      { "level": 7, "name": "archery" },
+      { "level": 4, "name": "rifle" },
+      { "level": 2, "name": "pistol" },
+      { "level": 6, "name": "survival" },
+      { "level": 5, "name": "speech" }
+    ],
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_spotting" ],
+    "traits": [
+      "THRESH_SPECIES_ELF",
+      "ANIMALEMPATH2",
+      "ELVEN_BUILD",
+      "ELVEN_SIGHT",
+      "ELVEN_BEAUTY",
+      "ELVEN_SLEEP",
+      "ELFA_EARS",
+      "ELVEN_HEARING",
+      "LIGHTSTEP",
+      "WILDWALKER",
+      "ANTIJUNK",
+      "WEAKSTOMACH",
+      "DISIMMUNE",
+      "PICKYEATER"
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "officer_uniform" },
+          { "item": "gloves_black" },
+          { "item": "socks" },
+          { "item": "wristwatch" },
+          { "item": "cloak_of_elvenkind" },
+          { "item": "boots_of_elvenkind" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
+          { "item": "bow_sling", "contents-item": [ "bow_of_elvenkind" ] },
+          { "item": "quiver_of_holding_plus_one", "contents-group": [ "quiver_elven_ceremonial_guard" ] },
+          { "item": "m18", "ammo-item": "9mmfmj", "charges": 10, "container-item": "holster" },
+          { "item": "sheath", "contents-item": [ "knife_hunting_plus_one" ] },
+          { "item": "water_clean", "charges": 6, "container-item": "canteen" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "shifter_druid",
+    "name": "Shifter Druid",
+    "description": "The ancient druidic art of taking animal forms had mostly fallen out of favor by the modern era, since most people didn't need to be a bear in their daily lives and even if they did transform into a raven, they still had to physically fly to their destination and couldn't check the internet for directions.  You, however, studied the ancient arts and gained the ability to transform yourself.  It's come in very handy since the world ended.",
+    "points": 6,
+    "spells": [ { "id": "druid_natures_commune", "level": 3 } ],
+    "skills": [ { "level": 3, "name": "survival" }, { "level": 2, "name": "spellcraft" } ],
+    "traits": [ "DRUID", "ANIMALEMPATH" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "robe" },
+          { "item": "chestwrap" },
+          { "item": "loincloth" },
+          { "item": "leathersandals" },
+          { "item": "gloves_wraps" },
+          { "item": "cloak" },
+          { "item": "leather_pouch" },
+          { "item": "water_clean", "container-item": "waterskin" },
+          { "item": "primitive_knife", "container-item": "sheath" }
+        ]
+      }
     }
   }
 ]

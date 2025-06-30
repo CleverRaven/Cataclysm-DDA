@@ -1,5 +1,7 @@
 #include <algorithm>
+#include <functional>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "bodypart.h"
@@ -7,6 +9,7 @@
 #include "character.h"
 #include "character_attire.h"
 #include "character_martial_arts.h"
+#include "coordinates.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
@@ -42,9 +45,11 @@ static const efftype_id effect_webbed( "webbed" );
 
 static const flag_id json_flag_GRAB( "GRAB" );
 
+static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
 
+static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_DOWNED_RECOVERY( "DOWNED_RECOVERY" );
 
 static const limb_score_id limb_score_balance( "balance" );
@@ -73,23 +78,27 @@ void Character::try_remove_downed()
     int chance = ( get_dex() + get_arm_str() / 2.0 ) * get_limb_score( limb_score_balance ) * 10.0;
     // Always 2,5% chance to stand up
     chance += has_flag( json_flag_DOWNED_RECOVERY ) ? 20 : 1;
-    if( !x_in_y( chance, 40 ) ) {
-        add_msg_if_player( _( "You struggle to stand." ) );
-    } else {
-        add_msg_player_or_npc( m_good,
-                               has_flag( json_flag_DOWNED_RECOVERY ) ? _( "You deftly roll to your feet." ) : _( "You stand up." ),
-                               has_flag( json_flag_DOWNED_RECOVERY ) ? _( "<npcname> deftly rolls to their feet." ) :
-                               _( "<npcname> stands up." ) );
-        remove_effect( effect_downed );
+    if( !has_flag( json_flag_CANNOT_MOVE ) ) {
+        if( !x_in_y( chance, 40 ) ) {
+            add_msg_if_player( _( "You struggle to stand." ) );
+        } else {
+            add_msg_player_or_npc( m_good,
+                                   has_flag( json_flag_DOWNED_RECOVERY ) ? _( "You deftly roll to your feet." ) : _( "You stand up." ),
+                                   has_flag( json_flag_DOWNED_RECOVERY ) ? _( "<npcname> deftly rolls to their feet." ) :
+                                   _( "<npcname> stands up." ) );
+            remove_effect( effect_downed );
+        }
     }
 }
 
 void Character::try_remove_bear_trap()
 {
+    map &here = get_map();
+
     /* Real bear traps can't be removed without the proper tools or immense strength; eventually this should
        allow normal players two options: removal of the limb or removal of the trap from the ground
        (at which point the player could later remove it from the leg with the right tools).
-       As such we are currently making it a bit easier for players and NPC's to get out of bear traps.
+       As such we are currently making it a bit easier for players and NPCs to get out of bear traps.
     */
     // If is riding, then despite the character having the effect, it is the mounted creature that escapes.
     if( is_avatar() && is_mounted() ) {
@@ -98,6 +107,7 @@ void Character::try_remove_bear_trap()
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
                 mon->remove_effect( effect_beartrap );
                 remove_effect( effect_beartrap );
+                here.spawn_item( pos_bub(), itype_beartrap );
                 add_msg( _( "The %s escapes the bear trap!" ), mon->get_name() );
             } else {
                 add_msg_if_player( m_bad,
@@ -107,6 +117,7 @@ void Character::try_remove_bear_trap()
     } else {
         if( can_escape_trap( 100 ) ) {
             remove_effect( effect_beartrap );
+            here.spawn_item( pos_bub(), itype_beartrap );
             add_msg_player_or_npc( m_good, _( "You free yourself from the bear trap!" ),
                                    _( "<npcname> frees themselves from the bear trap!" ) );
         } else {
@@ -146,8 +157,8 @@ void Character::try_remove_heavysnare()
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 32 ) ) {
                 mon->remove_effect( effect_heavysnare );
                 remove_effect( effect_heavysnare );
-                here.spawn_item( pos(), itype_rope_6 );
-                here.spawn_item( pos(), itype_snare_trigger );
+                here.spawn_item( pos_bub(), itype_rope_6 );
+                here.spawn_item( pos_bub(), itype_snare_trigger );
                 add_msg( _( "The %s escapes the heavy snare!" ), mon->get_name() );
             }
         }
@@ -156,10 +167,10 @@ void Character::try_remove_heavysnare()
             remove_effect( effect_heavysnare );
             add_msg_player_or_npc( m_good, _( "You free yourself from the heavy snare!" ),
                                    _( "<npcname> frees themselves from the heavy snare!" ) );
-            item rope( "rope_6", calendar::turn );
-            item snare( "snare_trigger", calendar::turn );
-            here.add_item_or_charges( pos(), rope );
-            here.add_item_or_charges( pos(), snare );
+            item rope( itype_rope_6, calendar::turn );
+            item snare( itype_snare_trigger, calendar::turn );
+            here.add_item_or_charges( pos_bub(), rope );
+            here.add_item_or_charges( pos_bub(), snare );
         } else {
             add_msg_if_player( m_bad,
                                _( "You try to free yourself from the heavy snare, but can't get loose!" ) );
@@ -212,7 +223,7 @@ bool Character::try_remove_grab( bool attacking )
                                        std::max( std::max( static_cast<float>( get_skill_level( skill_melee ) ) / 10, 0.1f ),
                                                std::max( static_cast<float>( get_skill_level( skill_unarmed ) ) / 8, 0.1f ) ) );
         int grab_break_factor = has_grab_break_tec() ? 10 : 0;
-        const tripoint_range<tripoint> &surrounding = here.points_in_radius( pos(), 1, 0 );
+        const tripoint_range<tripoint_bub_ms> &surrounding = here.points_in_radius( pos_bub(), 1, 0 );
 
         // Iterate through all our grabs and attempt to break them one by one
         for( const effect &eff : get_effects_with_flag( json_flag_GRAB ) ) {
@@ -221,7 +232,7 @@ bool Character::try_remove_grab( bool attacking )
             // We need to figure out which monster is responsible for this grab early for good messaging
             // For now, one grabber per limb TODO: handle multiple grabbers and decrement intensity
             monster *grabber = nullptr;
-            for( const tripoint loc : surrounding ) {
+            for( const tripoint_bub_ms loc : surrounding ) {
                 monster *mon = creatures.creature_at<monster>( loc );
                 if( mon && mon->is_grabbing( eff.get_bp().id() ) ) {
                     add_msg_debug( debugmode::DF_MATTACK, "Grabber %s found", mon->name() );

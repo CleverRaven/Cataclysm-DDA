@@ -1,7 +1,8 @@
 [
   {
     "id": "integrated_thick_skull",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "thick skull" },
     "description": "You've taken so many hits to the head that your skull's gotten thicker.",
@@ -11,7 +12,7 @@
     "material_thickness": 3,
     "symbol": "x",
     "color": "magenta",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "ZERO_WEIGHT", "NO_SALVAGE", "SOFT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "ZERO_WEIGHT", "SOFT" ],
     "armor": [
       {
         "covers": [ "head" ],

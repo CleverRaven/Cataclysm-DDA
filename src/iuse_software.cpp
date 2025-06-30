@@ -25,7 +25,7 @@ bool play_videogame( const std::string &function_name,
         bool foundkitten = findkitten.ret;
         if( foundkitten ) {
             game_data["end_message"] = _( "You found kitten!" );
-            game_data["moraletype"] = "MORALE_GAME_FOUND_KITTEN";
+            game_data["moraletype"] = "morale_game_found_kitten";
             score = 15;
         }
 
@@ -73,7 +73,7 @@ bool play_videogame( const std::string &function_name,
         game_data["end_message"] = string_format(
                                        _( "You struggle to get '%s' working, and finally give up to play minesweeper." ),
                                        function_name );
-        // TODO: better messages in morale system //  game_data["moraletype"]="MORALE_GAME_SOFTWARE_PROBLEM";
+        // TODO: better messages in morale system //  game_data["moraletype"]="morale_game_software_problem";
         return false;
     }
 }

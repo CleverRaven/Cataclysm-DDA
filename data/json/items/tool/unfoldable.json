@@ -1,9 +1,10 @@
 [
   {
     "id": "generic_folded_vehicle",
-    "type": "TOOL",
-    "name": { "str_sp": "seeing this is a bug" },
-    "description": "seeing this is a bug",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str_sp": "seeing this is a bug", "//~": "NO_I18N" },
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "volume": "0 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
@@ -14,7 +15,8 @@
   },
   {
     "id": "folded_bicycle",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "generic_folded_vehicle",
     "name": { "str": "folded Bicycle" },
     "description": "A folded Bicycle.",
@@ -29,7 +31,8 @@
   },
   {
     "id": "folded_wheelchair_generic",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "generic_folded_vehicle",
     "name": { "str": "folded wheelchair" },
     "description": "A folded Wheelchair.",
@@ -44,7 +47,8 @@
   },
   {
     "id": "folded_inflatable_boat",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "generic_folded_vehicle",
     "name": { "str": "inflatable boat" },
     "description": "This rubber rowboat (with oars included) is deflated for storage.  Activate it with an air pump in your inventory to inflate and launch it.",
@@ -59,10 +63,11 @@
   },
   {
     "id": "folded_skateboard_generic",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "generic_folded_vehicle",
     "name": { "str": "skateboard" },
-    "description": "A Skateboard.",
+    "description": "A skateboard.",
     "weight": "2898 g",
     "volume": "3750 ml",
     "symbol": "/",

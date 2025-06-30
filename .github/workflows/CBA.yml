@@ -29,11 +29,16 @@ jobs:
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: make
       run: |
+        clang++ --version
         ClangBuildAnalyzer --start .
-        CLANG=clang++-14 CXXFLAGS=-ftime-trace make
+        CLANG=clang++ CXXFLAGS=-ftime-trace make
         ClangBuildAnalyzer --stop . buildAnalysis
     - name: Analyze
       run: ClangBuildAnalyzer --analyze buildAnalysis
+    - uses: actions/upload-artifact@v4
+      with:
+        name: ClangBuildAnalyzer-analysis
+        path: buildAnalysis
     - uses: actions/upload-artifact@v4
       with:
         name: ClangBuildAnalyzer-traces

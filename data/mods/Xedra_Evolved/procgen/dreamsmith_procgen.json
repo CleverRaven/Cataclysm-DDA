@@ -75,96 +75,6 @@
         "increment": 1,
         "power_per_increment": 1,
         "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_ACID",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_BASH",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_BIO",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_BULLET",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_COLD",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_CUT",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_ELEC",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_HEAT",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_PURE",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_STAB",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
       }
     ],
     "passive_mult_procgen_values": [
@@ -257,6 +167,15 @@
         "increment": 0.1,
         "power_per_increment": 2000,
         "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 0,
+        "max_value": 0.8,
+        "type": "WEAKPOINT_ACCURACY",
+        "increment": 0.1,
+        "power_per_increment": 500,
+        "ench_has": "WIELD"
       }
     ],
     "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" }, { "weight": 50, "value": "passive_enchantment_mult" } ],
@@ -290,81 +209,81 @@
   },
   {
     "type": "relic_procgen_data",
-    "id": "dreamsmith_lottery_def",
+    "id": "dreamsmith_lottery_def_head",
+    "//": "In addition to stats and armor, this pool should related to perception, sight, or vision",
     "passive_add_procgen_values": [
-      { "weight": 100, "min_value": -1, "max_value": -20, "type": "ARMOR_ACID", "increment": -1, "power_per_increment": 75 },
       {
         "weight": 100,
-        "min_value": -1,
-        "max_value": -20,
-        "type": "ARMOR_BASH",
-        "increment": -1,
-        "power_per_increment": 150,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "DEXTERITY",
+        "increment": 1,
+        "power_per_increment": 1500,
         "ench_has": "WORN"
       },
       {
         "weight": 100,
-        "min_value": -1,
-        "max_value": -20,
-        "type": "ARMOR_BIO",
-        "increment": -1,
-        "power_per_increment": 75,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "INTELLIGENCE",
+        "increment": 1,
+        "power_per_increment": 1500,
         "ench_has": "WORN"
       },
       {
         "weight": 100,
-        "min_value": -1,
-        "max_value": -20,
-        "type": "ARMOR_BULLET",
-        "increment": -1,
-        "power_per_increment": 150,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "PERCEPTION",
+        "increment": 1,
+        "power_per_increment": 1500,
         "ench_has": "WORN"
       },
       {
         "weight": 100,
-        "min_value": -1,
-        "max_value": -20,
-        "type": "ARMOR_COLD",
-        "increment": -1,
-        "power_per_increment": 75,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "STRENGTH",
+        "increment": 1,
+        "power_per_increment": 1500,
         "ench_has": "WORN"
       },
       {
         "weight": 100,
-        "min_value": -1,
-        "max_value": -20,
-        "type": "ARMOR_CUT",
-        "increment": -1,
-        "power_per_increment": 150,
+        "min_value": 1,
+        "max_value": 25,
+        "type": "NIGHT_VIS",
+        "increment": 2,
+        "power_per_increment": 250,
         "ench_has": "WORN"
       },
       {
         "weight": 100,
-        "min_value": -1,
-        "max_value": -20,
-        "type": "ARMOR_ELEC",
-        "increment": -1,
-        "power_per_increment": 75,
+        "min_value": 1,
+        "max_value": 10,
+        "type": "RANGE",
+        "increment": 1,
+        "power_per_increment": 400,
         "ench_has": "WORN"
       },
       {
         "weight": 100,
-        "min_value": -1,
-        "max_value": -20,
-        "type": "ARMOR_HEAT",
-        "increment": -1,
-        "power_per_increment": 75,
+        "min_value": 2,
+        "max_value": 10,
+        "type": "OVERMAP_SIGHT",
+        "increment": 2,
+        "power_per_increment": 500,
         "ench_has": "WORN"
-      },
-      {
-        "weight": 100,
-        "min_value": -1,
-        "max_value": -20,
-        "type": "ARMOR_STAB",
-        "increment": -1,
-        "power_per_increment": 75,
-        "ench_has": "WORN"
-      },
+      }
+    ],
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" } ],
+    "items": [ { "weight": 100, "item": "dreamforged_fullhelmet" }, { "weight": 100, "item": "dreamforged_helmet" } ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "dreamsmith_lottery_def_body",
+    "//": "In addition to stats and armor, this pool should related to the concept of defense or avoiding attack or environmental protection",
+    "passive_add_procgen_values": [
       {
         "weight": 100,
         "min_value": 1,
@@ -430,20 +349,29 @@
       },
       {
         "weight": 100,
-        "min_value": -1,
-        "max_value": -50,
-        "type": "FOOTSTEP_NOISE",
-        "increment": -1,
-        "power_per_increment": 30,
+        "min_value": 0.01,
+        "max_value": 0.05,
+        "type": "FORCEFIELD",
+        "increment": 0.01,
+        "power_per_increment": 750,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 0.01,
+        "max_value": 0.05,
+        "type": "EVASION",
+        "increment": 0.01,
+        "power_per_increment": 750,
         "ench_has": "WORN"
       },
       {
         "weight": 100,
         "min_value": 1,
-        "max_value": 50,
-        "type": "SIGHT_RANGE_ELECTRIC",
-        "increment": 25,
-        "power_per_increment": 750,
+        "max_value": 4,
+        "type": "DODGE_CHANCE",
+        "increment": 1,
+        "power_per_increment": 1000,
         "ench_has": "WORN"
       },
       {
@@ -493,12 +421,231 @@
       }
     ],
     "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" } ],
-    "items": [
-      { "weight": 100, "item": "dreamforged_fullhelmet" },
-      { "weight": 100, "item": "dreamforged_helmet" },
-      { "weight": 100, "item": "dreamforged_plate_armor" },
-      { "weight": 100, "item": "dreamforged_armguard_plate" },
-      { "weight": 100, "item": "dreamforged_boots" }
-    ]
+    "items": [ { "weight": 100, "item": "dreamforged_plate_armor" } ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "dreamsmith_lottery_def_hands",
+    "//": "In addition to stats and armor, this pool should related to the concept of adroitness or martial skill",
+    "passive_add_procgen_values": [
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "DEXTERITY",
+        "increment": 1,
+        "power_per_increment": 1500,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "INTELLIGENCE",
+        "increment": 1,
+        "power_per_increment": 1500,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "PERCEPTION",
+        "increment": 1,
+        "power_per_increment": 1500,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "STRENGTH",
+        "increment": 1,
+        "power_per_increment": 1500,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 500,
+        "type": "MAX_MANA",
+        "increment": 100,
+        "power_per_increment": 600,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 3000,
+        "type": "MAX_STAMINA",
+        "increment": 500,
+        "power_per_increment": 500,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 10,
+        "type": "BLEED_STOP_BONUS",
+        "increment": 1,
+        "power_per_increment": 100,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 1,
+        "type": "BONUS_BLOCK",
+        "increment": 1,
+        "power_per_increment": 1500,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": -1,
+        "max_value": -50,
+        "type": "OBTAIN_COST_MULTIPLIER",
+        "increment": 2,
+        "power_per_increment": 100,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 10,
+        "type": "THROW_STR",
+        "increment": 1,
+        "power_per_increment": 250,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 20,
+        "type": "THROW_DAMAGE",
+        "increment": 1,
+        "power_per_increment": 100,
+        "ench_has": "WORN"
+      }
+    ],
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" } ],
+    "items": [ { "weight": 100, "item": "dreamforged_armguard_plate" } ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "dreamsmith_lottery_def_feet",
+    "//": "In addition to stats and armor, this pool should related to the movement or stealth",
+    "passive_add_procgen_values": [
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 1,
+        "type": "BONUS_DODGE",
+        "increment": 1,
+        "power_per_increment": 1500,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "DEXTERITY",
+        "increment": 1,
+        "power_per_increment": 1500,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "INTELLIGENCE",
+        "increment": 1,
+        "power_per_increment": 1500,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "PERCEPTION",
+        "increment": 1,
+        "power_per_increment": 1500,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "STRENGTH",
+        "increment": 1,
+        "power_per_increment": 1500,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": -1,
+        "max_value": -50,
+        "type": "FOOTSTEP_NOISE",
+        "increment": -1,
+        "power_per_increment": 30,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": -1,
+        "max_value": -25,
+        "type": "MOVE_COST",
+        "increment": -1,
+        "power_per_increment": 150,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": -1,
+        "max_value": -15,
+        "type": "MOVECOST_FLATGROUND_MOD",
+        "increment": -1,
+        "power_per_increment": 75,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": -1,
+        "max_value": -15,
+        "type": "MOVECOST_OBSTACLE_MOD",
+        "increment": -1,
+        "power_per_increment": 75,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 25,
+        "type": "STEALTH_MODIFIER",
+        "increment": 1,
+        "power_per_increment": 100,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 500,
+        "type": "MAX_MANA",
+        "increment": 100,
+        "power_per_increment": 600,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 3000,
+        "type": "MAX_STAMINA",
+        "increment": 500,
+        "power_per_increment": 500,
+        "ench_has": "WORN"
+      }
+    ],
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" } ],
+    "items": [ { "weight": 100, "item": "dreamforged_boots" } ]
   }
 ]

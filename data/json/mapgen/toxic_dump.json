@@ -13,9 +13,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "toxic_dump" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -68,6 +66,40 @@
         { "group": "toxic_waste", "x": [ 5, 20 ], "y": [ 5, 16 ], "chance": 40, "repeat": [ 3, 15 ] },
         { "item": "id_military", "x": 3, "y": [ 19, 21 ], "chance": 10 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "toxic_dump_roof" ],
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  --------              ",
+        "  -......-              ",
+        "  -......-              ",
+        "  -......-              ",
+        "  --------              ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

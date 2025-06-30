@@ -104,7 +104,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
@@ -130,7 +130,7 @@
       "items": [
         { "item": "pipe", "count": 1 },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
@@ -147,7 +147,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
@@ -174,7 +174,7 @@
       "items": [
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
-        { "item": "steel_chunk", "count": [ 2, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 3 ] },
         { "item": "scrap", "count": [ 2, 8 ] },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "hose", "count": 1 },
@@ -192,7 +192,7 @@
       "items": [
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "scrap", "count": [ 2, 8 ] },
         { "item": "cable", "charges": [ 1, 2 ] },
         { "item": "hose", "count": 1 },
@@ -232,7 +232,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
         { "item": "epoxy_chunk", "count": [ 30, 50 ] },
         { "item": "pipe", "count": 1 },
@@ -263,7 +263,7 @@
         { "item": "plastic_chunk", "count": [ 50, 75 ] },
         { "item": "power_supply", "count": 1 },
         { "item": "amplifier", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "scrap", "count": [ 12, 16 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "hose", "count": [ 0, 2 ] },
@@ -279,10 +279,9 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 4, 12 ] },
-        { "item": "steel_chunk", "count": [ 4, 8 ] },
+        { "item": "mc_steel_chunk", "count": [ 4, 8 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "element", "count": [ 1, 3 ] },
         { "item": "plastic_chunk", "count": [ 30, 50 ] },
         { "item": "pipe", "count": 1 },
         { "item": "glass_shard", "count": [ 25, 100 ] },
@@ -305,7 +304,7 @@
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "element", "count": [ 2, 3 ] },
@@ -321,7 +320,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 0, 6 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "element", "count": [ 1, 3 ] },
@@ -373,7 +372,7 @@
     "looks_like": "f_rack_coat",
     "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
     "deconstruct": {
-      "items": [ { "item": "steel_lump", "count": 1 }, { "item": "wheel_caster", "count": 1 }, { "item": "pipe", "count": 1 } ]
+      "items": [ { "item": "mc_steel_lump", "count": 1 }, { "item": "wheel_caster", "count": 1 }, { "item": "pipe", "count": 1 } ]
     },
     "bash": {
       "str_min": 14,
@@ -382,7 +381,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
         { "item": "pipe", "count": [ 0, 1 ] }
       ]
     }
@@ -403,15 +402,14 @@
       "items": [
         { "item": "glass_tube_small", "count": [ 6, 12 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "spectrophotometer", "count": 1 },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 3, 6 ] },
         { "item": "bottle_glass", "count": [ 2, 3 ] },
-        { "item": "motor_tiny", "count": 2 },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "motor_tiny", "count": 2 }
       ]
     },
     "bash": {
@@ -421,7 +419,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "glass_shard", "count": [ 42, 84 ] },
@@ -448,15 +446,14 @@
       "items": [
         { "item": "glass_tube_small", "count": [ 6, 12 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "spectrophotometer", "count": 1 },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 3, 6 ] },
         { "item": "bottle_glass", "count": [ 2, 3 ] },
-        { "item": "motor_tiny", "count": 2 },
-        { "item": "solder_wire", "charges": [ 1, 15 ] }
+        { "item": "motor_tiny", "count": 2 }
       ]
     },
     "bash": {
@@ -466,7 +463,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "glass_shard", "count": [ 42, 84 ] },
@@ -492,13 +489,12 @@
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "plastic_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "solder_wire", "charges": [ 1, 15 ] }
+        { "item": "cable", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -508,7 +504,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "pipe", "count": [ 1, 2 ] },
@@ -532,13 +528,12 @@
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "plastic_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "solder_wire", "charges": [ 1, 15 ] }
+        { "item": "cable", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -548,7 +543,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "pipe", "count": [ 1, 2 ] },
@@ -571,13 +566,12 @@
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "plastic_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "solder_wire", "charges": [ 1, 15 ] }
+        { "item": "cable", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -587,7 +581,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "pipe", "count": [ 1, 2 ] },
@@ -612,13 +606,12 @@
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "plastic_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "solder_wire", "charges": [ 1, 15 ] }
+        { "item": "cable", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -628,7 +621,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "pipe", "count": [ 1, 2 ] },
@@ -653,13 +646,12 @@
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "plastic_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "solder_wire", "charges": [ 1, 15 ] }
+        { "item": "cable", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -669,7 +661,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "pipe", "count": [ 1, 2 ] },
@@ -694,7 +686,7 @@
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "plastic_chunk", "count": [ 10, 15 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 3 ] }
@@ -707,7 +699,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "plastic_chunk", "count": [ 5, 10 ] }
@@ -730,15 +722,14 @@
       "items": [
         { "item": "glass_tube_small", "count": [ 6, 12 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 3, 6 ] },
         { "item": "oxygen_tank", "count": [ 1, 2 ] },
         { "item": "bottle_glass", "count": [ 2, 3 ] },
-        { "item": "motor_micro", "count": 2 },
-        { "item": "solder_wire", "charges": [ 1, 15 ] }
+        { "item": "motor_micro", "count": 2 }
       ]
     },
     "bash": {
@@ -748,7 +739,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "glass_shard", "count": [ 42, 84 ] },
@@ -764,7 +755,7 @@
     "type": "furniture",
     "id": "f_dialysis",
     "name": "dialysis machine",
-    "description": "A large machine for pumping and filtering the blood of somebody without the function of their kidneys.  Largely obsolete for those with access to bionics, but a lifeline to those that need it.",
+    "description": "A large machine for pumping and filtering the blood of somebody without the function of their kidneys.",
     "symbol": "8",
     "bgcolor": "white",
     "move_cost_mod": -1,
@@ -775,15 +766,14 @@
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 3, 6 ] },
         { "item": "metal_tank_little", "count": [ 0, 1 ] },
         { "item": "bottle_glass", "count": [ 2, 3 ] },
-        { "item": "motor_micro", "count": 2 },
-        { "item": "solder_wire", "charges": [ 1, 15 ] }
+        { "item": "motor_micro", "count": 2 }
       ]
     },
     "bash": {
@@ -793,7 +783,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "metal_tank_little", "count": [ 0, 1 ] },
@@ -819,14 +809,13 @@
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 3, 6 ] },
         { "item": "oxygen_tank", "count": [ 1, 2 ] },
-        { "item": "motor_tiny", "count": 2 },
-        { "item": "solder_wire", "charges": [ 1, 15 ] }
+        { "item": "motor_tiny", "count": 2 }
       ]
     },
     "bash": {
@@ -836,7 +825,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "glass_shard", "count": [ 42, 84 ] },
@@ -931,7 +920,7 @@
         { "item": "spectrophotometer", "count": 1 },
         { "item": "storage_battery", "count": 1 },
         { "item": "betavoltaic", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": 3 },
+        { "item": "mc_steel_chunk", "count": 3 },
         { "item": "sheet_metal", "count": 3 },
         { "item": "cable", "charges": 5 }
       ]
@@ -945,9 +934,126 @@
         { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
         { "item": "circuit", "count": [ 1, 6 ], "prob": 50 },
         { "item": "scrap", "count": [ 2, 5 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 15 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_xray",
+    "name": "X-ray scanner",
+    "looks_like": "f_machinery_electronic",
+    "description": "A table with a movable head, often used for medical examinations.",
+    "symbol": "X",
+    "bgcolor": "white",
+    "move_cost_mod": 6,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "PLACE_ITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 15, 20 ] },
+        { "item": "sheet_metal_small", "count": [ 1, 6 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 5 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dental_xray",
+    "name": "dental X-ray machine",
+    "description": "A device for creating radiographic images of the teeth.",
+    "symbol": "n",
+    "bgcolor": "white",
+    "move_cost_mod": 4,
+    "coverage": 65,
+    "required_str": -1,
+    "looks_like": "f_machinery_electronic",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_exam_chair",
+    "name": "exam chair",
+    "description": "A medical exam chair with an overhead light, bolted to the floor.",
+    "symbol": "h",
+    "bgcolor": "white",
+    "move_cost_mod": 4,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "CAN_SIT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "glass_shard", "count": [ 4, 8 ] },
+        { "item": "lightstrip", "count": 2 },
+        { "item": "pipe", "count": 1 },
+        { "item": "nuts_bolts", "charges": [ 2, 4 ] },
+        { "item": "leather", "count": [ 2, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 20,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
+        { "item": "glass_shard", "count": [ 4, 8 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": 1 }
       ]
     }
   }

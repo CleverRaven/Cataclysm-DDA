@@ -5,7 +5,13 @@
     "terrain": {
       ".": [ [ "t_region_groundcover", 60 ], "t_region_tree", "t_region_shrub" ],
       ",": [ [ "t_region_groundcover", 30 ], [ "t_region_groundcover_forest", 8 ], [ "t_region_tree", 2 ], "t_region_shrub" ],
-      ";": [ [ "t_region_groundcover", 10 ], [ "t_region_groundcover_forest", 8 ], [ "t_tree_hawk_nest", 6 ], "t_region_shrub" ],
+      ";": [
+        [ "t_region_groundcover", 10 ],
+        [ "t_region_groundcover_forest", 8 ],
+        [ "t_region_tree", 6 ],
+        [ "t_tree_hawk_nest", 1 ],
+        "t_region_shrub"
+      ],
       "|": [ [ "t_region_groundcover_forest", 7 ], "t_puddle" ]
     },
     "furniture": {

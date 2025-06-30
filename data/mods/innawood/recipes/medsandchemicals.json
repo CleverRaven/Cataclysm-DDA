@@ -244,7 +244,7 @@
     "difficulty": 4,
     "time": "20 m",
     "batch_time_factors": [ 80, 4 ],
-    "//": "chloralkali process, same as with bleach except we wont be washing gases",
+    "//": "chloralkali process, same as with bleach except we won't be washing gases",
     "//2": "This is a copy of the DDA recipe, with autolearn added.",
     "autolearn": true,
     "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "recipe_labchem", 3 ] ],

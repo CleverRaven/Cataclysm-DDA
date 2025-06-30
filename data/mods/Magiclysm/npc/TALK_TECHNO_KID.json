@@ -3,8 +3,7 @@
     "type": "talk_topic",
     "id": "TALK_TECHNO_KID",
     "dynamic_line": {
-      "u_has_var": "dialogue_techno_kid_talked_to_techno_kid",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_techno_kid_talked_to_techno_kid" } ],
       "no": "Do you seek power as well?",
       "yes": "Ah, hello again."
     },

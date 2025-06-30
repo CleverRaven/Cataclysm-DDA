@@ -21,5 +21,380 @@
     "book_learn": [ [ "grimy_recipe", 1 ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "research blood gifts",
+    "id": "xe_vampire_blood_gift_research",
+    "description": "With the expenditure of a large amount of blood and time, attempt to develop a new gift of the blood.",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_RESEARCH",
+    "skill_used": "deduction",
+    "difficulty": 0,
+    "time": "30 s",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_BEGIN",
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 500" ] },
+        "effect": [
+          { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] },
+          { "u_add_effect": "effect_vampire_studying_blood_gifts", "duration": "8 hours" },
+          { "u_assign_activity": "ACT_VAMPIRE_STUDYING_BLOOD_GIFTS", "duration": "8 hours" },
+          { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SWITCHER", "time_in_future": [ "120 minutes", "180 minutes" ] }
+        ],
+        "false_effect": [ { "u_message": "You do not have enough blood to experiment with your gifts.", "type": "bad" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SWITCHER",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_vampire_studying_blood_gifts" },
+        { "not": { "u_has_effect": "effect_vampire_recently_learned_blood_gifts" } }
+      ]
+    },
+    "//": "Switch statement below determines results.  The two rands on the end simulate rolling 2d10 to get a bell-curve distribution, and the cases are calibrated so a character with Deduction 2 and Intelligence 8 will fail to discover anything slightly more than half the time.  There are five tiers of vampire powers, so each tier is 3 higher (~30% less likely) than the previous tier, but since it's a bell curve, raising deduction and intelligence makes it increasingly much more likely to discover things.  With Deduction 10 and Intelligence 12, hitting case 17 will happen 100% of the time, case 23 will happen 85% of the time, and case 26 will happen 64% of the time.",
+    "effect": {
+      "switch": { "math": [ "(u_val('intelligence') / 2) + u_skill('deduction') + (rand(9) + 1) + (rand(9) + 1)" ] },
+      "cases": [
+        {
+          "case": 0,
+          "effect": [ { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SWITCHER", "time_in_future": [ "90 minutes", "150 minutes" ] } ]
+        },
+        { "case": 17, "effect": [ { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_01" } ] },
+        { "case": 20, "effect": [ { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_02" } ] },
+        { "case": 23, "effect": [ { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_03" } ] },
+        { "case": 26, "effect": [ { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_04" } ] },
+        { "case": 29, "effect": [ { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_05" } ] }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_01",
+    "//": "This should contain all tier 1 vampire powers",
+    "condition": { "u_has_effect": "effect_vampire_studying_blood_gifts" },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "EYEGLEAM",
+          "BLOOD_FUN",
+          "STAMINAFORBLOOD",
+          "COMMUNE_NIGHT",
+          "VAMPIRIC_STRENGTH",
+          "VAMPIRIC_RESILIENCE",
+          "VAMPIRE_HEIGHTENED_SENSES",
+          "VAMPIRE_SILENT_MOVE",
+          "VAMPIRE_HEALTH_BONUS",
+          "VAMPIRE_SENSE_CHILDREN_OF_THE_NIGHT"
+        ],
+        "type": "mutation",
+        "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ],
+        "false_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_FAILURE" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_02",
+    "//": "This should contain all tier 2 vampire powers",
+    "condition": { "u_has_effect": "effect_vampire_studying_blood_gifts" },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "BLOODHEAL",
+          "COAGULANTWEAVE",
+          "VAMPIRIC_DODGE",
+          "VAMPIRE_FEAR_GAZE",
+          "VAMPIRE_WALK_ON_WALLS",
+          "VAMPIRE_BEAST_CLAWS",
+          "VAMPIRE_SEE_HEAT",
+          "VAMPIRIC_STEALTH_BONUS",
+          "VAMPIRE_FEIGN_DEATH",
+          "VAMPIRE_BLOOD_TEMPORARY_BOOST"
+        ],
+        "type": "mutation",
+        "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ],
+        "false_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_01" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_03",
+    "//": "This should contain all tier 3 vampire powers",
+    "condition": { "u_has_effect": "effect_vampire_studying_blood_gifts" },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "BLOODHASTE",
+          "MAGICFORBLOOD",
+          "HYPNOTIC_GAZE",
+          "BLOODBANK",
+          "VAMPIRE_COMMAND_BEAST",
+          "VAMPIRE_EARTH_SLUMBER",
+          "VAMPIRE_CARDIO_BONUS",
+          "VAMPIRE_MOTION_ALARM",
+          "VAMPIRE_BONUS_HP"
+        ],
+        "type": "mutation",
+        "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ],
+        "false_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_02" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_04",
+    "//": "This should contain all tier 4 vampire powers",
+    "condition": { "u_has_effect": "effect_vampire_studying_blood_gifts" },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "TRUE_VAMPIRE_POWER",
+          "VAMPIRE_TORPOR",
+          "VAMPIRE_DOMINATE",
+          "VAMPIRE_NO_BREATHE",
+          "VAMPIRE_NO_ILLNESS",
+          "VAMPIRE_BAT_FORM",
+          "VAMPIRE_WOLF_FORM",
+          "VAMPIRE_MIST_FORM"
+        ],
+        "type": "mutation",
+        "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ],
+        "false_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_03" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_05",
+    "//": "This checks if the vampire has the required tier before trying to give them tier 5 powers",
+    "condition": { "u_has_trait": "BLOOD_DRINKER" },
+    "effect": [ { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_05_REAL" } ],
+    "false_effect": [
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_04" },
+      {
+        "u_message": "Your vampirism isn't potent enough to unlock a gift of this level, so you have to settle for a weaker gift.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_05_REAL",
+    "//": "This should contain all tier 5 vampire powers",
+    "//2": "The added effect checks if you have every single vampire power and gives a message after EoC completion so the player knows they have all the gifts.",
+    "condition": { "u_has_effect": "effect_vampire_studying_blood_gifts" },
+    "effect": [
+      { "u_add_effect": "effect_vampire_all_gift_check", "duration": "1 minute" },
+      {
+        "u_roll_remainder": [
+          "VAMPIRE_MASTER_MORTAL_MIND",
+          "VAMPIRE_DISTILLATE_INNER_BLOOD",
+          "VAMPIRE_SHADOW_FORM",
+          "VAMPIRE_LAST_BREATH_MIST",
+          "VAMPIRE_IRON_MIND",
+          "VAMPIRE_BLIND_THE_SUN"
+        ],
+        "type": "mutation",
+        "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ],
+        "false_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_04" ]
+      }
+    ]
+  },
+  {
+    "id": "ACT_VAMPIRE_STUDYING_BLOOD_GIFTS",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "studying blood gifts",
+    "based_on": "time",
+    "completion_eoc": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_FAILURE"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS",
+    "effect": [
+      { "u_message": "You learn a new blood gift.", "popup": true },
+      { "run_eocs": "EOC_MIST_FORM_BEFORE_LAST_BREATH" },
+      { "u_lose_effect": "effect_vampire_all_gift_check" },
+      { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
+      { "u_add_effect": "effect_vampire_recently_learned_blood_gifts", "duration": "5 days" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_FAILURE",
+    "condition": { "u_has_effect": "effect_vampire_all_gift_check" },
+    "effect": [
+      { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
+      { "u_lose_effect": "effect_vampire_all_gift_check" },
+      { "u_message": "You possess every single gift of the blood.  Nothing will be gained from further attempts." }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
+      { "u_lose_effect": "effect_vampire_all_gift_check" },
+      { "u_message": "Your experiments are fruitless.  You'll have to try again." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_BLOOD_GIFTS_CANCELLING_ACTIVITY_CANCELS_RESEARCH",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_VAMPIRE_STUDYING_BLOOD_GIFTS", { "context_val": "activity" } ] },
+        { "u_has_effect": "effect_vampire_studying_blood_gifts" }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_vampire_studying_blood_gifts" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "reshuffle vampiric weaknesses",
+    "id": "xe_vampire_blood_weaknesses_reshuffle",
+    "description": "With the expenditure of a large amount of blood and time, attempt to replace your weaknesses by new ones.  This cannot increase or decrease how many weaknesses you have.",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_RESEARCH",
+    "skill_used": "deduction",
+    "difficulty": 0,
+    "time": "30 s",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_BEGIN",
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 500" ] },
+        "effect": [
+          { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] },
+          { "u_add_effect": "effect_vampire_reshuffling_weaknesses", "duration": "8 hours" },
+          { "u_assign_activity": "ACT_VAMPIRE_RESHUFFLING_WEAKNESSES", "duration": "8 hours" },
+          {
+            "run_eocs": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_SWITCHER",
+            "time_in_future": [ "120 minutes", "180 minutes" ]
+          }
+        ],
+        "false_effect": [ { "u_message": "You do not have enough blood to try to change your weaknesses.", "type": "bad" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_SWITCHER",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_vampire_reshuffling_weaknesses" },
+        { "not": { "u_has_effect": "effect_vampire_recently_reshuffled_weaknesses" } }
+      ]
+    },
+    "//": "Switch statement below determines results.  The higher your intelligence and deduction, the easier it is to successfully reshuffle vampiric weaknesses.",
+    "effect": {
+      "switch": { "math": [ "(u_val('intelligence') / 2) + u_skill('deduction') + (rand(9) + 1) + (rand(9) + 1)" ] },
+      "cases": [
+        {
+          "case": 0,
+          "effect": [ { "run_eocs": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_SWITCHER", "time_in_future": [ "90 minutes", "150 minutes" ] } ]
+        },
+        { "case": 17, "effect": [ { "run_eocs": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_SUCCESS" } ] }
+      ]
+    }
+  },
+  {
+    "id": "ACT_VAMPIRE_RESHUFFLING_WEAKNESSES",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "reshuffling vampiric weaknesses",
+    "based_on": "time",
+    "completion_eoc": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_FAILURE"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_SUCCESS",
+    "effect": [
+      { "u_message": "Your current weaknesses vanish, but are immediately replaced by new ones.", "popup": true },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_MORE_BLOOD" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_GROTESQUE" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_EARTH_SLEEP" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_HOLY_BURN" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_VAST_WATER_BURN" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_ANIMAL_HATE" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_FIRE_VULNERABLE" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_COLD_BLOODED" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_BLOOD_CRAVING" },
+      { "u_lose_trait": "VAMPIRE_WEAKNESS_NO_FUN" },
+      { "u_lose_effect": "vampire_need_living_blood" },
+      { "u_lose_morale": "morale_vw_no_fun" },
+      { "run_eocs": "EOC_VAMPIRE_ADD_WEAKNESSES" },
+      { "u_lose_effect": "effect_vampire_reshuffling_weaknesses" },
+      { "u_add_effect": "effect_vampire_recently_reshuffled_weaknesses", "duration": "5 days" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_FAILURE",
+    "effect": [
+      { "u_lose_effect": "effect_vampire_reshuffling_weaknesses" },
+      { "u_message": "Your attempts are fruitless.  You'll have to try again." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_CANCELLING_ACTIVITY_CANCELS_WEAKNESS_RESHUFFLE",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_VAMPIRE_RESHUFFLING_WEAKNESSES", { "context_val": "activity" } ] },
+        { "u_has_effect": "effect_vampire_reshuffling_weaknesses" }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_vampire_reshuffling_weaknesses" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "anathema_blood_catalyst_unready",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "cooking",
+    "skills_required": [ "cooking", 2 ],
+    "difficulty": 2,
+    "flags": [ "SECRET" ],
+    "time": "10 m",
+    "components": [
+      [ [ "vampire_blood", 10 ] ],
+      [
+        [ "blood_acid", 10 ],
+        [ "blood_mi-go", 10 ],
+        [ "blood_tainted", 10 ],
+        [ "blood_acid_plant", 10 ],
+        [ "blood_acid_insect", 10 ],
+        [ "blood_acid_underground", 10 ]
+      ],
+      [
+        [ "formic_acid", 3 ],
+        [ "chem_acetic_acid", 3 ],
+        [ "chem_nitric_acid", 3 ],
+        [ "chem_sulphuric_acid", 3 ],
+        [ "chem_muriatic_acid", 3 ]
+      ],
+      [
+        [ "venom_bee", 6 ],
+        [ "venom_wasp", 6 ],
+        [ "venom_paralytic", 6 ],
+        [ "conc_venom", 3 ],
+        [ "conc_paralytic", 3 ]
+      ],
+      [ [ "nicotine_liquid", 100 ], [ "datura_seed", 10 ], [ "chem_toluene", 50 ], [ "leech_flower", 5 ] ]
+    ]
   }
 ]

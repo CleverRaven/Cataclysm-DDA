@@ -1,0 +1,50 @@
+[
+  {
+    "id": "xedra_jumpsuit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "jumpsuit",
+    "looks_like": "jumpsuit",
+    "name": { "str": "OA jumpsuit" },
+    "description": "A brown jumpsuit with OA written in big yellow block letters on the back.",
+    "color": "brown",
+    "variants": [
+      {
+        "id": "xedra_jumpsuit_offworld",
+        "name": { "str": "OA jumpsuit" },
+        "description": "A brown jumpsuit with OA written in big yellow block letters on the back.",
+        "weight": 2
+      },
+      {
+        "id": "xedra_jumpsuit_eater",
+        "name": { "str": "υ jumpsuit" },
+        "description": "A black jumpsuit with white symbol \"υ\" on the back.",
+        "weight": 2
+      },
+      {
+        "id": "xedra_jumpsuit_dreamer",
+        "name": { "str": "ϴ jumpsuit" },
+        "description": "A black jumpsuit with white symbol \"ϴ\" on the back.",
+        "weight": 2
+      },
+      {
+        "id": "xedra_jumpsuit_inventor",
+        "name": { "str": "ν jumpsuit" },
+        "description": "A black jumpsuit with white symbol \"ν\" on the back.",
+        "weight": 2
+      },
+      {
+        "id": "xedra_jumpsuit_dreamsmith",
+        "name": { "str": "τ jumpsuit" },
+        "description": "A black jumpsuit with white symbol \"τ\" on the back.",
+        "weight": 2
+      },
+      {
+        "id": "xedra_jumpsuit_psi",
+        "name": { "str": "Ψ jumpsuit" },
+        "description": "A black jumpsuit with white symbol \"Ψ\" on the back.",
+        "weight": 1
+      }
+    ]
+  }
+]

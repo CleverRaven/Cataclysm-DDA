@@ -26,6 +26,9 @@
       { "item": "sw_619", "prob": 30 },
       { "item": "sw_610", "prob": 30 },
       { "item": "sw629", "prob": 5 },
+      { "item": "colt_anaconda_8", "prob": 2 },
+      { "item": "colt_anaconda_6", "prob": 3 },
+      { "item": "colt_anaconda_4", "prob": 1 },
       { "item": "makarov", "prob": 5 },
       { "item": "m9", "prob": 50 }
     ]

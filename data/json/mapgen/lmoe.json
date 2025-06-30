@@ -1,10 +1,8 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lmoe" ],
     "//": "Above ground",
-    "weight": 100,
     "object": {
       "rows": [
         "       S     S         S",
@@ -37,10 +35,8 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lmoe_roof" ],
     "//": "Above ground",
-    "weight": 100,
     "object": {
       "fill_ter": "t_region_groundcover_barren",
       "rows": [
@@ -70,12 +66,26 @@
         "vvvvvvvvvvvvvvvvvvvvvvvv"
       ],
       "palettes": [ "bunker_ext" ],
-      "place_nested": [ { "chunks": [ "null", "lmoe_solar" ], "x": 11, "y": 10 } ]
+      "place_nested": [
+        {
+          "//": "6% chance of solar, 20% chance it's v2",
+          "chunks": [
+            [ "residential_1x2_solar", 12 ],
+            [ "residential_2x2_solar", 4 ],
+            [ "residential_1x3_solar", 8 ],
+            [ "residential_1x2_solar_v2", 3 ],
+            [ "residential_2x2_solar_v2", 1 ],
+            [ "residential_1x3_solar_v2", 2 ],
+            [ "null", 470 ]
+          ],
+          "x": 11,
+          "y": 10
+        }
+      ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lmoe_under_empty" ],
     "//": "Empty LMOE shelter that has been looted or used.",
     "//2": "This particular 2-bed shelter is a more professionally done, all metal bomb shelter with kitchen, secret safe room / gun locker, and workshop.",
@@ -113,7 +123,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lmoe_under_empty" ],
     "//": "Empty LMOE shelter that has been looted or used.",
     "//2": "This particular 4-bed shelter is definitely homemade, mostly carved out of bare rock, and seems to be incomplete.",
@@ -151,7 +160,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lmoe_under_empty" ],
     "//": "Empty LMOE shelter that has been looted or used.",
     "//2": "This is a commercially built 4-bed LMOE shelter based on IRL plans.",
@@ -195,11 +203,9 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lmoe_prepperquest" ],
     "//": "Above ground",
     "//2": "The front door to this LMOE is locked and can be unlocked by doing the prepper_1 quest line.",
-    "weight": 100,
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
@@ -235,11 +241,9 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lmoe_under_empty_prepperquest" ],
     "//": "This particular 2-bed shelter is a more professionally done, all metal bomb shelter with kitchen, secret safe room / gun locker, and workshop.",
     "//2": "This terrain is the destination for the prepper_1 quest.  The front door is locked and can be unlocked by completing the quest.",
-    "weight": 100,
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
@@ -273,12 +277,10 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lmoe_under" ],
     "//": "Stocked up LMOE shelter.",
     "//2": "This particular 2-bed shelter is a more professionally done, all metal bomb shelter with kitchen, secret safe room / gun locker, and workshop.",
     "//3": "For now this is just filler terrain, it shouldn't spawn in game.",
-    "weight": 50,
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
@@ -312,11 +314,9 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lmoe_zombie" ],
     "//": "Above ground",
     "//2": "blob psychosis influences more aggressive deterrents for intruders",
-    "weight": 100,
     "object": {
       "rows": [
         "       S     S         S",
@@ -369,7 +369,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lmoe_zombie_under_empty" ],
     "//": "Monster occupied LMOE shelter.",
     "//2": "This particular 4-bed shelter is definitely homemade, mostly carved out of bare rock, and seems to be incomplete.",
@@ -418,7 +417,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lmoe_zombie_under_empty" ],
     "//": "Monster occupied LMOE shelter.",
     "//2": "This is a commercially built 4-bed LMOE shelter based on IRL plans.",
@@ -476,7 +474,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lmoe_under_empty" ],
     "weight": 100,
     "//": "Empty LMOE shelter that has been looted or used.",

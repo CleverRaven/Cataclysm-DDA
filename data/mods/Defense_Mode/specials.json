@@ -150,19 +150,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "s_gunstore_looted",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "s_gunstore_looted_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "s_gunstore_2ndfloor_north" },
-      { "point": [ 0, 0, 2 ], "overmap": "s_gunstore_roof_north" }
-    ],
-    "locations": [ "field" ],
-    "city_distance": [ 40, -1 ],
-    "occurrences": [ 100, 100 ],
-    "flags": [ "DEFENSE_MODE", "GLOBALLY_UNIQUE" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "survivor_forest_camp",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "dm_survivor_forest_camp_north" } ],
     "locations": [ "forest_center" ],

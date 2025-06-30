@@ -1,6 +1,7 @@
 [
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "test_textbook_fabrication",
     "name": { "str": "Test Fabrication 0 to 20" },
     "description": "A testing fabrication book that brings your fabrication skill up to 20.",
@@ -9,10 +10,10 @@
     "material": [ "test_material" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "fabrication",
     "required_level": 0,
     "max_level": 20,
     "intelligence": 8,
-    "time": "30 m"
+    "time": "30 m",
+    "read_skill": "fabrication"
   }
 ]

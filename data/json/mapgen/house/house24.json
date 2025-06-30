@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "house_24",
     "//": "normal variant",
     "type": "mapgen",
@@ -27,7 +26,7 @@
         "..#~~~~~Y#x  H   |@@ E#.",
         "..#U~~~~Y#     hr|@@ D#.",
         "..#U~~~~~*      r|||||#.",
-        ".^#~A~~~~#       +---B#^",
+        ".^#éA~~~~#       +---B#^",
         "..#NNNqq~#RyHHHsR|t8SB#.",
         "..##########ooo########.",
         "...........!!!!!........",
@@ -36,6 +35,7 @@
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "-": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "é": "t_thconc_floor",
         "N": "t_thconc_floor",
         "Y": "t_thconc_floor",
         "U": "t_thconc_floor",
@@ -48,7 +48,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "house_24",
     "//": "Moving out variant",
     "type": "mapgen",
@@ -103,7 +102,7 @@
         "{": "f_dumpster"
       },
       "place_items": [
-        { "chance": 5, "item": "ammo_shotgun_rare", "x": 8, "y": 15 },
+        { "chance": 5, "item": "ammo_common_boxed", "x": 8, "y": 15 },
         { "chance": 50, "item": "camping", "x": 6, "y": 12 },
         { "chance": 50, "item": "glass_set", "x": 6, "y": 14 },
         { "chance": 25, "item": "clothing_work_boots", "x": 7, "y": 9 },
@@ -125,7 +124,7 @@
         { "chance": 50, "item": "clothing_female", "x": 6, "y": 4 },
         { "chance": 50, "item": "clothing_female", "x": 7, "y": 4 },
         { "chance": 30, "item": "clothing_glasses", "x": 3, "y": 14 },
-        { "chance": 10, "item": "guns_pistol_rare", "x": 8, "y": 16 },
+        { "chance": 10, "item": "guns_pistol_common", "x": 8, "y": 16 },
         { "chance": 70, "item": "crate_winter", "x": 14, "y": 5 },
         { "chance": 20, "repeat": 2, "item": "book_school", "x": 5, "y": 14 },
         { "chance": 80, "item": "crate_kitchen", "x": 11, "y": 14 },
@@ -140,7 +139,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "house_24",
     "//": "For sale variant",
     "type": "mapgen",
@@ -183,7 +181,7 @@
       },
       "furniture": { "u": "f_table", "P": "f_sign", "T": "f_table", "i": "f_trashcan" },
       "place_items": [
-        { "chance": 40, "item": "oven", "x": 11, "y": 10 },
+        { "chance": 40, "item": "SUS_oven", "x": 11, "y": 10 },
         { "chance": 45, "item": "bed", "x": 18, "y": 17 },
         { "chance": 45, "item": "bed", "x": 19, "y": 17 },
         { "chance": 45, "item": "bed", "x": 18, "y": 7 },
@@ -192,7 +190,7 @@
         { "chance": 20, "repeat": 2, "item": "book_survival", "x": 8, "y": 15 },
         { "chance": 25, "item": "barbecue", "x": 3, "y": 16 },
         { "chance": 25, "item": "fancyfurs", "x": [ 6, 7 ], "y": 20 },
-        { "chance": 25, "item": "guns_obscure", "x": 21, "y": 7 },
+        { "chance": 25, "item": "guns_common", "x": 21, "y": 7 },
         { "chance": 50, "repeat": 2, "item": "clothing_male", "x": 21, "y": 11 },
         { "chance": 25, "item": "clothing_work_hat", "x": 21, "y": 16 },
         { "chance": 30, "repeat": 2, "item": "female_underwear_top", "x": 5, "y": 18 },
@@ -226,7 +224,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_24_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -241,7 +238,7 @@
         "          --..........- ",
         "          -...........- ",
         "          -...........- ",
-        "          -...........- ",
+        "          -....1......- ",
         "          -...........- ",
         "  ---------...........- ",
         "  -...................- ",

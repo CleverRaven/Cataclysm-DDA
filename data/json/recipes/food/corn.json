@@ -46,7 +46,7 @@
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
     "//": "corncob weighs 690g, so about 14u heat + 1u for the oil ",
     "components": [
-      [ [ "corn", 1 ] ],
+      [ [ "corn", 1 ], [ "popcorn_cob", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ], [ "soysauce", 1 ] ],
       [
         [ "seasoning_italian", 1 ],

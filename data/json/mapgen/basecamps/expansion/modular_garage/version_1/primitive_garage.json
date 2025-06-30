@@ -1,19 +1,16 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmg_0",
     "object": { "mapgensize": [ 6, 6 ], "palettes": [ "acidia_camp_palette" ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_garage_0",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmg_0" ], "x": 10, "y": 10 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bc_prim_garage_0",
     "object": {
       "mapgensize": [ 17, 17 ],
@@ -36,12 +33,12 @@
         "                 ",
         "                 "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_ITEMS", "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "acidia_camp_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bc_prim_garage_1",
     "object": {
       "mapgensize": [ 17, 17 ],
@@ -64,12 +61,39 @@
         "                 ",
         "                 "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_ITEMS", "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "acidia_camp_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
+    "nested_mapgen_id": "bc_prim_garage_1_roof",
+    "object": {
+      "mapgensize": [ 17, 17 ],
+      "rows": [
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "    sss          ",
+        "    sss          ",
+        "    sss          ",
+        "    sss          ",
+        "    sss          ",
+        "    sss          ",
+        "    sss          ",
+        "    sss          ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 "
+      ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "bc_prim_garage_2",
     "object": {
       "mapgensize": [ 17, 17 ],
@@ -92,12 +116,39 @@
         "                 ",
         "                 "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_ITEMS", "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "acidia_camp_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
+    "nested_mapgen_id": "bc_prim_garage_2_roof",
+    "object": {
+      "mapgensize": [ 17, 17 ],
+      "rows": [
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "              sss",
+        "              sss",
+        "              sss",
+        "              sss",
+        "              sss",
+        "              sss",
+        "              sss",
+        "              sss",
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 "
+      ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "bc_prim_garage_3",
     "object": {
       "mapgensize": [ 17, 17 ],
@@ -120,12 +171,39 @@
         "                 ",
         "                 "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_ITEMS", "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "acidia_camp_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
+    "nested_mapgen_id": "bc_prim_garage_3_roof",
+    "object": {
+      "mapgensize": [ 17, 17 ],
+      "rows": [
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "       sssssss   ",
+        "       sssssss   ",
+        "       sssssss   ",
+        "       sssssss   ",
+        "       sssssss   ",
+        "       sssssss   ",
+        "       sssssss   ",
+        "       sssssss   ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 "
+      ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "bc_prim_garage_4",
     "object": {
       "mapgensize": [ 17, 17 ],
@@ -148,12 +226,39 @@
         "                 ",
         "                 "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_ITEMS", "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "acidia_camp_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
+    "nested_mapgen_id": "bc_prim_garage_4_roof",
+    "object": {
+      "mapgensize": [ 17, 17 ],
+      "rows": [
+        "                 ",
+        "    sss       sss",
+        "    s           s",
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "                s",
+        "                s",
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "    s           s",
+        "    sss       sss",
+        "                 ",
+        "                 "
+      ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "bc_prim_garage_5",
     "object": {
       "mapgensize": [ 17, 17 ],
@@ -176,12 +281,39 @@
         "                 ",
         "                 "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_ITEMS", "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "acidia_camp_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
+    "nested_mapgen_id": "bc_prim_garage_5_roof",
+    "object": {
+      "mapgensize": [ 17, 17 ],
+      "rows": [
+        "                 ",
+        "       sssssss   ",
+        "     sssssssssss ",
+        "    sssssssssssss",
+        "     ss       sss",
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "     s           ",
+        "     s           ",
+        "     ss       sss",
+        "    sssssssssssss",
+        "     sssssssssss ",
+        "       sssssss   ",
+        "                 ",
+        "                 "
+      ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "bc_prim_garage_6",
     "object": {
       "mapgensize": [ 17, 17 ],
@@ -204,49 +336,100 @@
         "                 ",
         "                 "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_ITEMS", "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "bc_prim_garage_6_roof",
+    "object": {
+      "mapgensize": [ 17, 17 ],
+      "rows": [
+        "sssss            ",
+        "ssss             ",
+        "ssss             ",
+        "sssss            ",
+        "ssss             ",
+        "ssss             ",
+        "ssss             ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 ",
+        "                 "
+      ],
       "palettes": [ "acidia_camp_palette" ]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmg_1",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "bc_prim_garage_0" ], "x": 2, "y": 6 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_field_camp_garage_1",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "bc_prim_garage_1" ], "x": 2, "y": 6 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "bc_prim_garage_1" ], "x": 2, "y": 6, "z": 0 },
+        { "chunks": [ "bc_prim_garage_1_roof" ], "x": 2, "y": 6, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_field_camp_garage_2",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "bc_prim_garage_2" ], "x": 2, "y": 6 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "bc_prim_garage_2" ], "x": 2, "y": 6, "z": 0 },
+        { "chunks": [ "bc_prim_garage_2_roof" ], "x": 2, "y": 6, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_field_camp_garage_3",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "bc_prim_garage_3" ], "x": 2, "y": 6 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "bc_prim_garage_3" ], "x": 2, "y": 6, "z": 0 },
+        { "chunks": [ "bc_prim_garage_3_roof" ], "x": 2, "y": 6, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_field_camp_garage_4",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "bc_prim_garage_4" ], "x": 2, "y": 6 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "bc_prim_garage_4" ], "x": 2, "y": 6, "z": 0 },
+        { "chunks": [ "bc_prim_garage_4_roof" ], "x": 2, "y": 6, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_field_camp_garage_5",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "bc_prim_garage_5" ], "x": 2, "y": 6 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "bc_prim_garage_5" ], "x": 2, "y": 6, "z": 0 },
+        { "chunks": [ "bc_prim_garage_5_roof" ], "x": 2, "y": 6, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_field_camp_garage_6",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "bc_prim_garage_6" ], "x": 2, "y": 6 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "bc_prim_garage_6" ], "x": 2, "y": 6, "z": 0 },
+        { "chunks": [ "bc_prim_garage_6_roof" ], "x": 2, "y": 6, "z": 1 }
+      ]
+    }
   }
 ]

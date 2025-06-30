@@ -25,6 +25,12 @@
   },
   {
     "type": "proficiency_category",
+    "id": "prof_butchering",
+    "name": "Butchering",
+    "description": "Proficiencies for carving and proper dressing of meat and skin of animals."
+  },
+  {
+    "type": "proficiency_category",
     "id": "prof_electronic",
     "name": "Electronics",
     "description": "Proficiencies for building and maintaining electronics and powered devices."

@@ -1,25 +1,24 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_0",
     "object": { "mapgensize": [ 6, 6 ], "palettes": [ "fbmk_common_palette" ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_canteen_0",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmk_0" ], "x": 10, "y": 10 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_canteen_fireplace",
-    "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_fireplace", "x": 11, "y": 8 },
-        { "point": "furniture", "id": "f_fireplace", "x": 13, "y": 8 },
-        { "point": "furniture", "id": "f_counter", "x": 10, "y": 8 }
+        { "point": "furniture", "id": "f_fireplace", "x": 11, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 11, "y": 8, "z": 1 },
+        { "point": "furniture", "id": "f_fireplace", "x": 13, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 13, "y": 8, "z": 1 },
+        { "point": "furniture", "id": "f_counter", "x": 10, "y": 8, "z": 0 }
       ],
       "place_loot": [ { "item": "pot", "x": 10, "y": 8 } ]
     }
@@ -27,12 +26,13 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_canteen_stove",
-    "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_woodstove", "x": 11, "y": 8 },
-        { "point": "furniture", "id": "f_woodstove", "x": 13, "y": 8 },
-        { "point": "furniture", "id": "f_counter", "x": 10, "y": 8 }
+        { "point": "furniture", "id": "f_woodstove", "x": 11, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_vent_pipe", "x": 11, "y": 8, "z": 1 },
+        { "point": "furniture", "id": "f_woodstove", "x": 13, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_vent_pipe", "x": 13, "y": 8, "z": 1 },
+        { "point": "furniture", "id": "f_counter", "x": 10, "y": 8, "z": 0 }
       ],
       "place_loot": [ { "item": "pot", "x": 10, "y": 8 }, { "item": "pan", "x": 10, "y": 8 } ]
     }
@@ -40,7 +40,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_canteen_well",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_water_pump", "x": 12, "y": 5 },
@@ -50,7 +49,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_canteen_counters",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -69,25 +67,23 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_canteen_counters",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_counters" ], "x": 9, "y": 7 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_canteen_smoking_kiln",
-    "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_smoking_rack", "x": 17, "y": 8 },
-        { "point": "furniture", "id": "f_smoking_rack", "x": 18, "y": 8 },
-        { "point": "furniture", "id": "f_smoking_rack", "x": 19, "y": 8 },
-        { "point": "furniture", "id": "f_kiln_empty", "x": 19, "y": 12 }
+        { "point": "furniture", "id": "f_smoking_rack", "x": 17, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_smoking_rack", "x": 18, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_smoking_rack", "x": 19, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_kiln_empty", "x": 19, "y": 12, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 19, "y": 12, "z": 1 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_canteen_pantry",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -106,24 +102,21 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_canteen_pantry_furniture",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_pantry" ], "x": 3, "y": 7 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_canteen_butchery_rack",
-    "method": "json",
     "object": {
       "set": [
         { "point": "furniture", "id": "f_butcher_rack", "x": 17, "y": 12 },
         { "point": "furniture", "id": "f_table", "x": 16, "y": 12 }
       ],
-      "place_loot": [ { "item": "knife_butcher", "x": 16, "y": 12 } ]
+      "place_loot": [ { "item": "knife_huge", "variant": "knife_butcher", "x": 16, "y": 12 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_canteen_dining_furniture",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -142,12 +135,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_canteen_dining_furniture",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_dining_furniture" ], "x": 9, "y": 15 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmk_canteen_planters",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -162,25 +153,21 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_canteen_planters_1",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_planters" ], "x": 4, "y": 4 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_canteen_planters_2",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_planters" ], "x": 8, "y": 4 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_canteen_planters_3",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_planters" ], "x": 14, "y": 4 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmk_canteen_planters_4",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_planters" ], "x": 18, "y": 4 } ] }
   }
 ]

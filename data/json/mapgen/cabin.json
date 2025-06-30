@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -39,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -75,9 +72,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_1" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -128,7 +123,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_1",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -164,9 +158,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_2" ],
-    "weight": 333,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -204,7 +196,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_2",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -239,10 +230,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_3",
     "type": "mapgen",
-    "weight": 350,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -277,7 +266,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_3",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -312,10 +300,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_4",
     "type": "mapgen",
-    "weight": 350,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -350,7 +336,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_4",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -385,10 +370,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_5",
     "type": "mapgen",
-    "weight": 350,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -422,7 +405,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_5",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -457,10 +439,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_6",
     "type": "mapgen",
-    "weight": 350,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -494,7 +474,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_6",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -529,10 +508,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_7",
     "type": "mapgen",
-    "weight": 350,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -567,7 +544,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_7",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -603,19 +579,17 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_strange" ],
     "//": "Strange Cabin",
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
         "                        ",
-        "^  FfffffffffffGfffffF  ",
-        "   F                 F  ",
-        "   F              ^  F  ",
-        "  ^F  |-w---|        F  ",
-        "   F  |cSecu|sssss   F  ",
+        "^  ffffffffffffGffffff  ",
+        "   f                 f  ",
+        "   f              ^  f  ",
+        "  ^f  |-w---|        f  ",
+        "   f  |cSecu|sssss   f  ",
         "  |-w-|O....=sssss|---| ",
         "  |H.T|c...u|-w-w-|>..w ",
         "  |H..+....u|d....|-|-| ",
@@ -639,7 +613,7 @@
         ".": { "items": { "item": "subway", "chance": 10 } },
         "L": { "furniture": "f_locker", "items": [ { "item": "bed", "chance": 60 }, { "item": "dresser", "chance": 40 } ] },
         "d": { "furniture": "f_dresser", "items": { "item": "dresser", "chance": 40 } },
-        "e": { "furniture": "f_fridge", "items": { "item": "fridgesnacks", "chance": 30 } },
+        "e": { "furniture": "f_fridge", "items": { "item": "SUS_fridge", "chance": 50 } },
         "o": { "furniture": "f_bookcase", "items": { "item": "novels", "chance": 40 } },
         "r": { "furniture": "f_rack", "items": { "item": "dresser", "chance": 40 } },
         "u": { "furniture": "f_cupboard", "items": { "item": "cannedfood", "chance": 30 } }
@@ -653,10 +627,9 @@
         ">": "t_stairs_down",
         "C": "t_column",
         "D": "t_door_locked_interior",
-        "F": "t_fence_v",
         "G": "t_fencegate_c",
         "^": "t_region_tree",
-        "f": "t_fence_h",
+        "f": "t_fence",
         "s": "t_sidewalk",
         "w": "t_window_boarded",
         "|": "t_wall_w",
@@ -673,16 +646,15 @@
         "h": "f_chair",
         "t": "f_table"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_monster": [ { "monster": "mon_darkman", "x": 8, "y": 10 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_strange_b" ],
     "//": "Strange Cabin (basement)",
-    "weight": 300,
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
@@ -743,7 +715,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_strange_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -778,10 +749,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "cabin_lapin",
     "type": "mapgen",
-    "weight": 150,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -797,7 +766,7 @@
         "...___w2     R# BBw_....",
         "..____w3 CC   +  D#_....",
         "..____#y ll  x#####%....",
-        "..____+       +  D#_....",
+        "..____+    ϟ  +  D#_....",
         "...___#cttc#+## BBw_....",
         "...___#cttc# T# BB#_....",
         "....._##ww######w##_....",
@@ -812,14 +781,13 @@
       ],
       "palettes": [ "cabin_palette" ],
       "terrain": { ".": "t_region_groundcover", "_": "t_region_soil", "x": "t_floor" },
-      "furniture": { "x": "f_firefly_terrarium" },
+      "furniture": { "x": "f_firefly_terrarium", "ϟ": "f_bulletin" },
       "place_monster": [ { "monster": "mon_rabbit", "x": 8, "y": 21, "repeat": [ 3, 6 ] } ],
       "place_npcs": [ { "class": "warrener", "x": 9, "y": 17 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cabin_roof_lapin",
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -842,11 +810,11 @@
         "      -------------     ",
         "                        ",
         "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
+        "  .....                 ",
+        "  .....                 ",
+        "  .....                 ",
+        "  .....                 ",
+        "  .....                 ",
         "                        "
       ],
       "palettes": [ "roof_palette" ],
@@ -855,9 +823,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_prepper" ],
-    "weight": 330,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -909,11 +875,9 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_prepper_shelter" ],
     "//": "A lmoe shelter replica refitted for the cabin's dug-out basement.",
     "//2": "This particular 4-bed shelter is definitely homemade, mostly carved out of bare rock, and seems to be incomplete.",
-    "weight": 100,
     "object": {
       "fill_ter": "t_dirt_underground",
       "rows": [

@@ -73,6 +73,7 @@
       {
         "id": "armor_thick",
         "name": "a thick part of the exoskeleton",
+        "is_good": false,
         "armor_mult": { "all": 1.5 },
         "crit_mult": { "all": 0.75 },
         "coverage_mult": { "cut": 1.5 },
@@ -106,6 +107,7 @@
       {
         "id": "head",
         "name": "the head",
+        "is_head": true,
         "damage_mult": { "all": 1.1 },
         "crit_mult": { "all": 1.1 },
         "armor_mult": { "physical": 0.75 },
@@ -125,6 +127,7 @@
       {
         "id": "eye",
         "name": "the eye",
+        "is_head": true,
         "armor_mult": { "physical": 0.4 },
         "crit_mult": { "all": 1.25 },
         "difficulty": { "ranged": 8, "melee": 6 },
@@ -142,6 +145,7 @@
       {
         "id": "mandible",
         "name": "the mandibles",
+        "is_head": true,
         "crit_mult": { "all": 1.25 },
         "difficulty": { "ranged": 5, "melee": 3 },
         "effects": [
@@ -212,6 +216,7 @@
       {
         "id": "mandible",
         "name": "the mandibles",
+        "is_head": true,
         "crit_mult": { "all": 1.25 },
         "difficulty": { "ranged": 5, "melee": 3 },
         "effects": [
@@ -307,7 +312,7 @@
         "armor_mult": { "physical": 0.2 },
         "difficulty": { "ranged": 7, "melee": 2 },
         "coverage_mult": { "point": 0.75 },
-        "required_effects": [ "staggered" ],
+        "condition": { "npc_has_any_effect": [ "staggered" ] },
         "effects": [
           { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 1, 100 ] },
           {
@@ -329,6 +334,7 @@
       {
         "id": "armor_thick",
         "name": "a thick part of its armor",
+        "is_good": false,
         "armor_mult": { "all": 1.5 },
         "crit_mult": { "all": 0.75 },
         "coverage_mult": { "cut": 1.5 },
@@ -356,7 +362,7 @@
         "armor_mult": { "all": 0.33 },
         "crit_mult": { "all": 1.2 },
         "coverage": 15,
-        "required_effects": [ "maimed_armor" ]
+        "condition": { "npc_has_any_effect": [ "maimed_armor" ] }
       },
       {
         "id": "abdomen",
@@ -434,6 +440,7 @@
       {
         "id": "eye",
         "name": "the eye",
+        "is_head": true,
         "armor_mult": { "physical": 0.4 },
         "crit_mult": { "all": 1.25 },
         "difficulty": { "ranged": 8, "melee": 6 },
@@ -451,6 +458,7 @@
       {
         "id": "mandible",
         "name": "the mandibles",
+        "is_head": true,
         "crit_mult": { "all": 1.25 },
         "difficulty": { "ranged": 5, "melee": 3 },
         "effects": [

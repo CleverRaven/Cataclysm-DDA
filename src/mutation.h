@@ -2,36 +2,37 @@
 #ifndef CATA_SRC_MUTATION_H
 #define CATA_SRC_MUTATION_H
 
-#include <climits>
-#include <iosfwd>
+#include <functional>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
-#include <unordered_map>
+#include <string_view>
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
-#include "character.h"
 #include "damage.h"
-#include "hash_utils.h"
+#include "enums.h"
 #include "memory_fast.h"
 #include "point.h"
-#include "translations.h"
+#include "sleep.h"
+#include "translation.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 
+class Character;
 class JsonArray;
 class JsonObject;
+class JsonOut;
+class JsonValue;
 class Trait_group;
 class item;
 class nc_color;
+struct const_dialogue;
 struct dream;
-
-enum game_message_type : int;
-
 template <typename E> struct enum_traits;
 
 extern std::vector<dream> dreams;
@@ -112,7 +113,7 @@ struct mut_personality_score {
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
-    std::function<bool( dialogue & )>trigger;
+    std::function<bool( const_dialogue const & )>trigger;
 
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
@@ -196,7 +197,10 @@ struct mutation_branch {
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;
+        // By default startingtrait = true traits can be randomly assigned, this allows that to be reversed.
+        bool random_at_chargen = true;
         bool activated     = false;
+        translation activation_msg;
         // Should it activate as soon as it is gained?
         bool starts_active = false;
         // Should it destroy gear on restricted body parts? (otherwise just pushes it off)
@@ -207,6 +211,7 @@ struct mutation_branch {
         bool sleepiness       = false;
         bool hunger        = false;
         bool thirst        = false;
+        bool mana       = false;
         // How many points it costs in character creation
         int points     = 0;
         // How many mutagen vitamins are consumed to gain this trait
@@ -254,6 +259,9 @@ struct mutation_branch {
         /**Map of angered species and there intensity*/
         std::map<species_id, int> anger_relations;
 
+        std::vector<species_id> empathize_with;
+        std::vector<species_id> no_empathize_with;
+
         /**List of material required for food to be be edible*/
         std::set<material_id> can_only_eat;
 
@@ -285,6 +293,9 @@ struct mutation_branch {
         std::vector<effect_on_condition_id> deactivated_eocs;
         /** mutation enchantments */
         std::vector<enchantment_id> enchantments;
+
+        /** alternate comfort conditions */
+        std::vector<comfort_data> comfort;
 
         struct OverrideLook {
             std::string id;
@@ -342,9 +353,6 @@ struct mutation_branch {
         std::set<sub_bodypart_str_id> remove_rigid_subparts;
         // item flags that allow wearing gear even if its body part is restricted
         std::set<flag_id> allowed_items;
-        // Mutation stat mods
-        /** Key pair is <active: bool, mod type: "STR"> */
-        std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> mods;
         std::map<bodypart_str_id, resistances> armor; // Modifiers to protection values
         std::vector<itype_id> integrated_armor; // Armor pseudo-items that are put on by this mutation
         std::vector<matype_id>
@@ -355,6 +363,7 @@ struct mutation_branch {
         translation raw_desc;
     public:
         std::string name( const std::string &variant = "" ) const;
+        // Stored description of mutation. Character::mutation_desc() should be prioritized over this, if possible, for parse_tags support
         std::string desc( const std::string &variant = "" ) const;
 
         /**
@@ -400,7 +409,7 @@ struct mutation_branch {
         // For init.cpp: reset (clear) the mutation data
         static void reset_all();
         // For init.cpp: load mutation data from json
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static void load_trait( const JsonObject &jo, const std::string &src );
         // For init.cpp: check internal consistency (valid ids etc.) of all mutations
         static void check_consistency();
@@ -549,8 +558,10 @@ std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids )
 std::vector<trait_id> get_mutations_in_type( const std::string &id );
 bool mutation_is_in_category( const trait_id &mut, const mutation_category_id &cat );
 std::vector<trait_and_var> mutations_var_in_type( const std::string &id );
-bool trait_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
-bool trait_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
+bool trait_var_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
+bool trait_var_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
+bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
+bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept;
 
 bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
@@ -558,8 +569,6 @@ bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
 bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
-int get_total_nonbad_in_category( const mutation_category_id &categ );
-
 enum class mutagen_technique : int {
     consumed_mutagen,
     injected_mutagen,
@@ -573,7 +582,5 @@ template<>
 struct enum_traits<mutagen_technique> {
     static constexpr mutagen_technique last = mutagen_technique::num_mutagen_techniques;
 };
-
-void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category );
 
 #endif // CATA_SRC_MUTATION_H

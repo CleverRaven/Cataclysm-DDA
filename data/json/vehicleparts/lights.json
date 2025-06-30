@@ -69,7 +69,7 @@
     "folded_volume": "2 L",
     "breaks_into": [
       { "item": "cable", "charges": [ 1, 4 ] },
-      { "item": "steel_chunk", "count": [ 0, 2 ] },
+      { "item": "lc_steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "requirements": {
@@ -180,8 +180,8 @@
     "damage_modifier": 10,
     "folded_volume": "500 ml",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "lc_steel_lump", "count": [ 4, 6 ] },
+      { "item": "lc_steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] },
       { "item": "cable", "charges": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 1, 3 ] }
