@@ -13,18 +13,8 @@
     "looks_like": "storage_battery",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [
-      "FRAGILE",
-      "CANT_WEAR",
-      "NO_UNLOAD",
-      "NO_RELOAD",
-      "RECHARGE",
-      "WATERPROOF",
-      "IS_UPS",
-      "USE_UPS",
-      "EXO_PSU",
-      "ONLY_ONE"
-    ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS", "USE_UPS", "EXO_PSU" ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": 0, "coverage": 20, "covers": [ "torso" ] } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 40000 } } ]
   },
@@ -42,7 +32,8 @@
     "looks_like": "1cyl_combustion",
     "color": "dark_gray",
     "ammo": "gasoline",
-    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "USE_UPS", "EXO_PSU", "ONLY_ONE" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "USE_UPS", "EXO_PSU" ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": 0, "coverage": 40, "covers": [ "torso" ] } ],
     "pocket_data": [
       {
@@ -68,7 +59,8 @@
     "looks_like": "1cyl_combustion",
     "color": "dark_gray",
     "ammo": [ "gasoline", "diesel", "jp8", "avgas", "lamp_oil", "motor_oil", "propane", "conc_alcohol", "ammonia_liquid" ],
-    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "USE_UPS", "EXO_PSU", "ONLY_ONE" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "USE_UPS", "EXO_PSU" ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": 0, "coverage": 40, "covers": [ "torso" ] } ],
     "pocket_data": [
       {
