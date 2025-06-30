@@ -52,5 +52,28 @@
     "react_cost": "30 J",
     "time": "1 s",
     "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_cameleoflage_fifth_sun",
+    "type": "bionic",
+    "name": { "str": "Tapayaxitilmàtli" },
+    "description": "A series of implants under your skin throughout your body that bend light around you when activated, making it much harder to spot you from a distance.  While not invisibility, it can keep you unseen when it counts.  Activate to toggle on.",
+    "occupied_bodyparts": [
+      [ "torso", 8 ],
+      [ "head", 2 ],
+      [ "arm_l", 3 ],
+      [ "arm_r", 3 ],
+      [ "hand_l", 1 ],
+      [ "hand_r", 1 ],
+      [ "leg_l", 4 ],
+      [ "leg_r", 4 ],
+      [ "foot_l", 1 ],
+      [ "foot_r", 1 ]
+    ],
+    "act_cost": "500 J",
+    "react_cost": "500 J",
+    "time": "1 s",
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "STEALTH_MODIFIER", "add": 50 } ] } ],
+    "flags": [ "BIONIC_TOGGLED" ]
   }
 ]

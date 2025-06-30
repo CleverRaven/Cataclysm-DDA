@@ -744,7 +744,8 @@
       "bio_dangersight_eyes_standard",
       "bio_power_storage_fifth_sun",
       "bio_metabolics_fifth_sun",
-      "bio_physical_buffs_fifth_sun"
+      "bio_physical_buffs_fifth_sun",
+      "bio_cameleoflage_fifth_sun"
     ],
     "traits": [ "FIFTH_SUN_PEOPLE" ],
     "items": {
@@ -762,7 +763,7 @@
             "item": "mom_fifth_sun_stungun_pistol",
             "ammo-item": "mom_fifth_sun_stungun_ammo",
             "charges": 25,
-            "container-item": "itzcuauhtli_holster"
+            "container-item": "itzcuauhtli_holster_m12"
           },
           { "item": "itzcuauhtli_pants_army" },
           { "item": "itzcuauhtli_combat_shirt" },
