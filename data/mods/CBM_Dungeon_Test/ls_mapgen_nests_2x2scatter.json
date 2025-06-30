@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_2x2_furniture",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -11,13 +10,18 @@
       ],
       "palettes": [
         "labyrinthine_base_palette",
-        { "distribution": [ "labyrinthine_item_palette_utility_tier0", "labyrinthine_item_palette_dining_tier0" ] }
+        {
+          "distribution": [
+            "labyrinthine_item_palette_utility_tier0",
+            "labyrinthine_item_palette_dining_tier0",
+            "labyrinthine_item_palette_bunk_room_tier0"
+          ]
+        }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_2x2_furniture",
     "object": { "mapgensize": [ 2, 2 ], "rows": [
         "BL",
@@ -26,7 +30,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_2x2_furniture",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -36,13 +39,18 @@
       ],
       "palettes": [
         "labyrinthine_base_palette",
-        { "distribution": [ "labyrinthine_item_palette_dining_tier0", "labyrinthine_item_palette_bunk_room_tier0" ] }
+        {
+          "distribution": [
+            "labyrinthine_item_palette_utility_tier0",
+            "labyrinthine_item_palette_dining_tier0",
+            "labyrinthine_item_palette_bunk_room_tier0"
+          ]
+        }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_2x2_furniture",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -52,14 +60,19 @@
       ],
       "palettes": [
         "labyrinthine_base_palette",
-        { "distribution": [ "labyrinthine_item_palette_utility_tier0", "labyrinthine_item_palette_bunk_room_tier0" ] }
+        {
+          "distribution": [
+            "labyrinthine_item_palette_utility_tier0",
+            "labyrinthine_item_palette_dining_tier0",
+            "labyrinthine_item_palette_bunk_room_tier0"
+          ]
+        }
       ],
       "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_2x2_furniture",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -69,14 +82,19 @@
       ],
       "palettes": [
         "labyrinthine_base_palette",
-        { "distribution": [ "labyrinthine_item_palette_utility_tier0", "labyrinthine_item_palette_dining_tier0" ] }
+        {
+          "distribution": [
+            "labyrinthine_item_palette_utility_tier0",
+            "labyrinthine_item_palette_dining_tier0",
+            "labyrinthine_item_palette_bunk_room_tier0"
+          ]
+        }
       ],
       "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_2x2_furniture",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -86,13 +104,18 @@
       ],
       "palettes": [
         "labyrinthine_base_palette",
-        { "distribution": [ "labyrinthine_item_palette_utility_tier0", "labyrinthine_item_palette_dining_tier0" ] }
+        {
+          "distribution": [
+            "labyrinthine_item_palette_utility_tier0",
+            "labyrinthine_item_palette_dining_tier0",
+            "labyrinthine_item_palette_bunk_room_tier0"
+          ]
+        }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_2x2_furniture",
     "object": {
       "mapgensize": [ 2, 2 ],

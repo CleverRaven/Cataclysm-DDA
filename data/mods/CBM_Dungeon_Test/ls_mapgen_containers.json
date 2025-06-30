@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "labyrinth_hall_straight",
     "object": {
       "fill_ter": "t_nl_metal_floor",
@@ -10,7 +9,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "labyrinth_hall_curved",
     "object": {
       "fill_ter": "t_nl_metal_floor",
@@ -19,7 +17,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "labyrinth_hall_tee",
     "object": {
       "fill_ter": "t_nl_metal_floor",
@@ -28,7 +25,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "labyrinth_hall_four_way",
     "object": {
       "fill_ter": "t_nl_metal_floor",
@@ -37,7 +33,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "labyrinth_hall_end",
     "object": {
       "fill_ter": "t_nl_metal_floor",

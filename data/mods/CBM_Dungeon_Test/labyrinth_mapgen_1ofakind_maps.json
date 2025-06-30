@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "labyrinth_entrance" ],
     "object": {
       "fill_ter": "t_nl_metal_floor",

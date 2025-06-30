@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_straight_template_chasm",
     "//": "hallway in a chasm",
     "object": {
@@ -38,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_straight_template_chasm",
     "//": "split passage",
     "object": {
@@ -83,7 +81,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_straight_template_chasm",
     "//": "wiggly passage",
     "object": {
@@ -119,7 +116,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_straight_template_chasm",
     "//": "hallway in a chasm with possible half-formed juts",
     "object": {
@@ -165,7 +161,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_corner_template_chasm",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -205,7 +200,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_corner_template_chasm",
     "//": "Messy corner",
     "object": {
@@ -241,7 +235,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_corner_template_chasm",
     "//": "Swingy corner, decent chance of a room in the middle",
     "object": {
@@ -285,7 +278,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_tee_template_chasm",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -325,7 +317,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_4way_template_chasm",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -365,7 +356,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_deadend_template_chasm",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -401,7 +391,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_12x12hallcorner_basic",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -424,7 +413,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_12x12hall4way_basic",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -447,7 +435,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_12x12halltee_basic",
     "object": {
       "mapgensize": [ 12, 12 ],

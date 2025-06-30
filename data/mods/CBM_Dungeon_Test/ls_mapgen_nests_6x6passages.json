@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_ew_6x6hall_basic",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -18,7 +17,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_ns_6x6hall_basic",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -35,7 +33,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_ns_6x6hall_fancy",
     "//": "narrowing type",
     "object": {
@@ -53,7 +50,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_ns_6x6hall_fancy",
     "//": "moth-eaten type",
     "object": {
@@ -71,7 +67,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_ns_6x6hall_fancy",
     "//": "walled type",
     "object": {
@@ -89,7 +84,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_ns_6x6hall_fancy",
     "//": "split type",
     "object": {
@@ -107,7 +101,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_ns_6x6hall_fancy",
     "//": "hole type",
     "object": {
@@ -125,7 +118,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_ns_6x6hall_fancy",
     "//": "tiny storeroom type",
     "object": {
@@ -145,7 +137,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_ns_6x6hall_fancy",
     "//": "jagged hole type",
     "object": {
@@ -163,7 +154,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_ns_6x6hall_fancy",
     "//": "holy rusted metal batman type",
     "object": {
@@ -181,7 +171,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_ew_6x6hall_fancy",
     "//": "moth-eaten type",
     "object": {
@@ -199,7 +188,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_ew_6x6hall_fancy",
     "//": "wall support type",
     "object": {
@@ -217,7 +205,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_ew_6x6hall_fancy",
     "//": "narrowing type",
     "object": {
@@ -235,7 +222,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_ew_6x6hall_fancy",
     "//": "swoopy-up type",
     "object": {
@@ -253,7 +239,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_ew_6x6hall_fancy",
     "//": "swoopy-down type",
     "object": {
@@ -271,7 +256,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_ew_6x6hall_fancy",
     "//": "holy rusted metal batman type",
     "object": {
@@ -289,7 +273,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_secorner_6x6hall_basic",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -306,7 +289,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_necorner_6x6hall_basic",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -323,7 +305,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_nwcorner_6x6hall_basic",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -340,7 +321,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_swcorner_6x6hall_basic",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -357,7 +337,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_Tn_6x6hall_basic",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -374,7 +353,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_Tn_6x6hall_basic",
     "//": "swoopy type",
     "object": {
@@ -392,7 +370,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_Tw_6x6hall_basic",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -409,7 +386,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_Tw_6x6hall_basic",
     "//": "swoopy type",
     "object": {
@@ -427,7 +403,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_Te_6x6hall_basic",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -444,7 +419,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_Te_6x6hall_basic",
     "//": "swoopy type",
     "object": {
@@ -462,7 +436,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_Ts_6x6hall_basic",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -479,7 +452,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_Ts_6x6hall_basic",
     "//": "swoopy type",
     "object": {
@@ -497,7 +469,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_4way_6x6hall_basic",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -514,7 +485,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_4way_6x6hall_basic",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -531,7 +501,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_4way_6x6hall_basic",
     "object": {
       "mapgensize": [ 6, 6 ],

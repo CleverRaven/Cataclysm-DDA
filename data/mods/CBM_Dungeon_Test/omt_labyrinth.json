@@ -6,7 +6,7 @@
     "id": "labyrinth_hall",
     "sym": "%",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "high",
     "travel_cost_type": "impassable",
     "flags": [ "LINEAR", "SHOULD_NOT_SPAWN" ]
   },
@@ -17,7 +17,7 @@
     "id": "labyrinth_entrance",
     "sym": "%",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "high",
     "travel_cost_type": "impassable",
     "flags": [ "SHOULD_NOT_SPAWN" ]
   }

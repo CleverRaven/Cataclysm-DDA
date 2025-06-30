@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_deadend_template_chasm",
     "//": "Hanging room, hard to reach.  The machine should interact to extend a bridge.  Good treasure.",
     "object": {
@@ -41,7 +40,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "LS_10x10_deadend_1_room0",
     "//": "Treasure room with autodoc!",
     "object": {
@@ -65,7 +63,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "LS_10x10_deadend_1_room1",
     "//": "Treasure room Circle of Wings",
     "object": {
@@ -92,7 +89,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "LS_10x10_deadend_1_room2",
     "//": "Room full of shelves, should have CBMs and weapons and a big fight",
     "object": {
@@ -123,7 +119,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "LS_10x10_deadend_1_room3",
     "//": "Room full of shelves, should have CBMs",
     "object": {

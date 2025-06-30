@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_straight_template_rooms",
     "//": "Two basic rooms, offset doors.  Fits room contents maps ls_straight_2basic_rooms_offset and ls_straight_2basic_rooms_anydoor",
     "object": {
@@ -43,7 +42,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_straight_template_rooms",
     "//": "Bubble cell rooms",
     "object": {
@@ -86,7 +84,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_straight_template_rooms",
     "//": "Bubble cell rooms2",
     "object": {
@@ -122,7 +119,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_corner_template_rooms",
     "//": "large room with small cells",
     "object": {
@@ -165,7 +161,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_tee_template_rooms",
     "//": "tee with large square rooms",
     "object": {
@@ -208,7 +203,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_4way_template_rooms",
     "//": "large room for setpiece nests",
     "object": {
@@ -246,7 +240,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_deadend_template_rooms",
     "//": "single large room, ideal for nested maps",
     "object": {
@@ -284,7 +277,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_straight_2basic_rooms_offset",
     "//": "Two rooms full of general junk and monsters.  Set up for a door entry in the upper left and lower right.",
     "object": {
@@ -316,7 +308,11 @@
       "palettes": [
         "labyrinthine_base_palette",
         {
-          "distribution": [ [ "labyrinthine_item_palette_utility_tier0", 2 ], "labyrinthine_item_palette_dining_tier0" ]
+          "distribution": [
+            "labyrinthine_item_palette_utility_tier0",
+            "labyrinthine_item_palette_dining_tier0",
+            "labyrinthine_item_palette_bunk_room_tier0"
+          ]
         }
       ],
       "monsters": { "1": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
@@ -324,7 +320,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_straight_2basic_rooms_offset",
     "//": "Two rooms with keycard access gated by a computer",
     "object": {
@@ -366,7 +361,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_straight_2basic_rooms_anydoor",
     "//": "Two rooms full of general junk and monsters.  Set up so that any of the middle edge tiles can be an entrance.",
     "object": {
@@ -401,7 +395,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_cornersquarerooms_22x22_rooms",
     "//": "Two rooms full of general junk and monsters.  Set up so that any of the middle edge tiles can be an entrance.",
     "object": {
@@ -435,7 +428,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_teesquarerooms_22x22_rooms",
     "//": "Two rooms full of general junk and monsters.  Set up so that any of the middle edge tiles can be an entrance.",
     "object": {
@@ -469,7 +461,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_bubblecell_6x6_room_Wentry",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -486,7 +477,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_bubblecell_6x6_room_Wentry",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -503,7 +493,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_bubblecell_5x5_room_Wentry",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -519,7 +508,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_bubblecell_5x5_room_Wentry",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -535,7 +523,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_bubblecell_6x6_room_Eentry",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -552,7 +539,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_bubblecell_6x6_room_Eentry",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -569,7 +555,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_bubblecell_5x5_room_Eentry",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -585,7 +570,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_bubblecell_5x5_room_Eentry",
     "object": {
       "mapgensize": [ 5, 5 ],

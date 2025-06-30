@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_4waysquarerooms_22x22_rooms",
     "//": "Room with open cells along the sides.",
     "object": {
@@ -37,7 +36,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_4waysquarerooms_22x22_rooms",
     "//": "Basic square room with some turrets and cover.",
     "object": {
@@ -71,7 +69,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_openarea_12x12_rooms",
     "//": "central area to place in larger rooms",
     "object": {
@@ -95,7 +92,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_openarea_12x12_rooms",
     "//": "central area to place in larger rooms",
     "object": {
@@ -119,7 +115,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_openarea_12x12_rooms",
     "//": "central area to place in larger rooms",
     "object": {
@@ -143,7 +138,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_8x8_se_entry_room",
     "//": "Small round room",
     "object": {
@@ -163,7 +157,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ls_8x8_se_entry_room",
     "//": "Room with nooks",
     "object": {

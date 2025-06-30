@@ -6,13 +6,7 @@
       { "u_location_variable": { "u_val": "player_location_before_labyrinth" } },
       {
         "u_location_variable": { "global_val": "original_labyrinth_portal_loc" },
-        "target_params": {
-          "om_terrain": "labyrinth_entrance",
-          "om_special": "labyrinthine_structure",
-          "search_range": 2500,
-          "cant_see": true,
-          "z": -7
-        },
+        "target_params": { "om_terrain": "labyrinth_entrance", "om_special": "labyrinthine_structure", "cant_see": true, "z": -7 },
         "furniture": "f_scrap_antenna",
         "target_max_radius": 20,
         "x_adjust": 1

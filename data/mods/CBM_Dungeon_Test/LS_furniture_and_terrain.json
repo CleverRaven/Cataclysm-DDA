@@ -43,7 +43,9 @@
         },
         {
           "id": "EOC_LS_Obelisk_0_grant",
-          "condition": { "and": [ { "u_has_var": "ls_had_a_passcode", "value": "yes" }, { "not": { "u_has_trait": "LS_Passcode_0" } } ] },
+          "condition": {
+            "and": [ { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] }, { "not": { "u_has_trait": "LS_Passcode_0" } } ]
+          },
           "effect": [
             {
               "u_message": "You see a tall, olive green, metallic pillar covered in swirling patterns.  As you focus on it, you feel a burning sensation on your skin.  You have learned the Thief's Passcode.",
@@ -54,7 +56,7 @@
         },
         {
           "id": "EOC_LS_Obelisk_0_firsttime",
-          "condition": { "not": { "u_has_var": "ls_had_a_passcode", "value": "yes" } },
+          "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
           "effect": [
             {
               "u_message": "You see a tall, olive green, metallic pillar covered in swirling patterns.  As you focus on it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of your own face, smirking; it's the 'Thief's Passcode'.  <ls_obelisk_firsttime2>",
@@ -85,7 +87,9 @@
         },
         {
           "id": "EOC_LS_Obelisk_1_grant",
-          "condition": { "and": [ { "u_has_var": "ls_had_a_passcode", "value": "yes" }, { "not": { "u_has_trait": "LS_Passcode_1" } } ] },
+          "condition": {
+            "and": [ { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] }, { "not": { "u_has_trait": "LS_Passcode_1" } } ]
+          },
           "effect": [
             {
               "u_message": "You see a squat, angry-looking, indigo metallic pillar covered carved in relief with the image of flying birds.  As you focus on it, you feel a burning sensation on your skin.  You have learned the Circle of Wings Passcode.",
@@ -96,7 +100,7 @@
         },
         {
           "id": "EOC_LS_Obelisk_1_firsttime",
-          "condition": { "not": { "u_has_var": "ls_had_a_passcode", "value": "yes" } },
+          "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
           "effect": [
             {
               "u_message": "You see a squat, angry-looking, indigo metallic pillar covered carved in relief with the image of flying birds.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of wings in a circle, running into themselves like an ouroboros; it's the 'Circle of Wings Passcode'.  <ls_obelisk_firsttime2>",
@@ -127,7 +131,9 @@
         },
         {
           "id": "EOC_LS_Obelisk_2_grant",
-          "condition": { "and": [ { "u_has_var": "ls_had_a_passcode", "value": "yes" }, { "not": { "u_has_trait": "LS_Passcode_2" } } ] },
+          "condition": {
+            "and": [ { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] }, { "not": { "u_has_trait": "LS_Passcode_2" } } ]
+          },
           "effect": [
             {
               "u_message": "You see a thick, powerful, gold-burnished pillar covered in what look like deep fingernail scratches.  As you focus on it, you feel a burning sensation on your skin.  You have learned the Hard Nails Passcode.",
@@ -138,7 +144,7 @@
         },
         {
           "id": "EOC_LS_Obelisk_2_firsttime",
-          "condition": { "not": { "u_has_var": "ls_had_a_passcode", "value": "yes" } },
+          "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
           "effect": [
             {
               "u_message": "You see a thick, powerful, gold-burnished pillar covered in what look like deep fingernail scratches.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of a hand clawing down a sheet of metal; it's the 'Hard Nails Passcode'.  <ls_obelisk_firsttime2>",
@@ -169,7 +175,9 @@
         },
         {
           "id": "EOC_LS_Obelisk_3_grant",
-          "condition": { "and": [ { "u_has_var": "ls_had_a_passcode", "value": "yes" }, { "not": { "u_has_trait": "LS_Passcode_3" } } ] },
+          "condition": {
+            "and": [ { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] }, { "not": { "u_has_trait": "LS_Passcode_3" } } ]
+          },
           "effect": [
             {
               "u_message": "You see a beautiful pillar the color of roses or blood, absolutely perfect in its proportions.  As your eyes are drawn to it, you feel a burning sensation on your skin.  You have learned the Laughing Man Passcode.",
@@ -180,7 +188,7 @@
         },
         {
           "id": "EOC_LS_Obelisk_3_firsttime",
-          "condition": { "not": { "u_has_var": "ls_had_a_passcode", "value": "yes" } },
+          "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
           "effect": [
             {
               "u_message": "You see a beautiful pillar the color of roses or blood, absolutely perfect in its proportions.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of a handsome man laughing.  At first glance it appears charming and friendly, but the longer you examine it, the more it appears to be inhumanly cold and cruel; it's the 'Laughing Man Passcode'.  <ls_obelisk_firsttime2>",
@@ -281,7 +289,7 @@
     "name": "metallic wall",
     "looks_like": "t_wall_metal",
     "description": "A durable wall of ordinary looking sheet metal, at first.  Staring closer, the welds and joins seem to form strange fractal patterns.",
-    "symbol": "LINE_OXOX",
+    "symbol": "-",
     "color": "cyan",
     "move_cost": 0,
     "coverage": 100,
@@ -313,7 +321,7 @@
     "name": "metallic wall",
     "copy-from": "t_nl_metal_wall",
     "description": "A durable wall of ordinary looking sheet metal, at first.  Staring closer, the welds and joins seem to form strange fractal patterns.",
-    "symbol": "LINE_OXOX",
+    "symbol": "-",
     "color": "cyan",
     "connect_groups": "WALL",
     "connects_to": "WALL",
@@ -336,7 +344,7 @@
     "name": "scrap metal wall",
     "looks_like": "t_scrap_wall",
     "description": "A relatively simple wall made of cobbled-together scrap metal.  The wires and bolts holding it together seem to be in just slightly different configurations whenever you look back at it.",
-    "symbol": "LINE_OXOX",
+    "symbol": "-",
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,
