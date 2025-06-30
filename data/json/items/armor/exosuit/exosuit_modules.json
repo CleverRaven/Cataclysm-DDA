@@ -12,7 +12,7 @@
     "symbol": "=",
     "looks_like": "storage_battery",
     "color": "light_gray",
-    "ammo": [ "battery" ],
+    "tool_ammo": [ "battery" ],
     "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS", "USE_UPS", "EXO_PSU" ],
     "max_worn": 1,
     "armor": [ { "encumbrance": 0, "coverage": 20, "covers": [ "torso" ] } ],
@@ -111,7 +111,7 @@
     "symbol": "o",
     "color": "white",
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
+    "tool_ammo": [ "battery" ],
     "flags": [ "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET" ],
     "use_action": {
       "type": "transform",
