@@ -798,6 +798,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_articulation", "required": true }
     ],
     "components": [ [ [ "scrap_bronze", 10 ] ] ]

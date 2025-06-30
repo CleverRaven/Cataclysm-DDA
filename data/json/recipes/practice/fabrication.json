@@ -102,5 +102,49 @@
     "using": [ [ "welding_standard", 60 ] ],
     "autolearn": [ [ "fabrication", 6 ] ],
     "book_learn": [ [ "welding_book", 4 ] ]
+  },
+  {
+    "id": "prac_redsmithing",
+    "type": "practice",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "redsmithing (beginner)",
+    "description": "Practice the basics of redsmithing by working copper into some simple forms and designs.",
+    "skill_used": "fabrication",
+    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 4 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
+      { "proficiency": "prof_redsmithing", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ],
+    "byproducts": [ [ "copper", 50 ] ],
+    "autolearn": [ [ "fabrication", 4 ] ],
+    "book_learn": [ [ "bronze_book", 1 ], [ "bronze_mag", 2 ], [ "alloy_book", 2 ], [ "textbook_armwest", 3 ], [ "textbook_weapwest", 3 ], [ "textbook_armschina", 3 ] ]
+  },
+  {
+    "id": "prac_redsmithing_adv",
+    "type": "practice",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "redsmithing (advanced)",
+    "description": "Practice the more advanced techniques of redsmithing by working bronze into different and complex forms and designs.",
+    "skill_used": "fabrication",
+    "practice_data": { "min_difficulty": 4, "max_difficulty": 5, "skill_limit": 6 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": true },
+      { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_redsmithing_adv", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "components": [ [ [ "scrap_bronze", 4 ] ] ],
+    "byproducts": [ [ "scrap_bronze", 2 ] ],
+    "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
+    "autolearn": [ [ "fabrication", 6 ] ],
+    "book_learn": [ [ "bronze_book", 3 ], [ "bronze_mag", 4 ], [ "alloy_book", 4 ], [ "textbook_armwest", 5 ], [ "textbook_weapwest", 5 ], [ "textbook_armschina", 5 ] ]
   }
 ]
