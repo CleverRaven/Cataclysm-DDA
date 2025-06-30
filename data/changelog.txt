@@ -138,6 +138,7 @@ river generation overhaul
 faction camp food supply can expire over time
 Roads cross streams at culverts
 Add Weight Modifying Enchantment
+Query to quick-reveal all nearby wires when revealing wall wires
 
 
 ## Content:
@@ -825,6 +826,7 @@ Mod Conflicts
 [Bombastic Perks] Limit metamagic perks to Magiclysm
 Aftershock: More mundane tools are available in exoplanet
 [MoM] Add possible `Mathematican A57` boss fight to Research Facility
+[Crazy Cataclysm] Add the immortal snail as second nemesis
 
 
 ## Balance:
@@ -922,6 +924,7 @@ Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
 World sliders rebalanced to offer differing gameplay experiences
 Some recipes have 'hard' proficiency requirements
+Expanded spawns for some proper melee weapons
 
 
 ## Bugfixes:
