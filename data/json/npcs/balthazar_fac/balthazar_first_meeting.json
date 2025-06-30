@@ -33,7 +33,7 @@
   {
     "id": "TALK_BALTHAZAR_MEET_ACCEPTED_MISSION_WEAK",
     "type": "talk_topic",
-    "dynamic_line": "You'll help me?!  Thank you so, so much.  I really wasn't looking forward to dying a slow death in here.  Also, before you go, if you bring more solar panels than I need I'll try and see if I can't gather some more rewards.  I think the power will be enough for a while but please hurry up.",
+    "dynamic_line": "You'll help me?!  Thank you so, so much.  I really wasn't looking forward to dying a slow death in here.  I think the power will be enough for a while but please hurry up.",
     "speaker_effect": {
       "effect": { "u_add_var": "dialogue_balthazar_u_discovered_balthazar_fac", "value": "yes" },
       "sentinel": "discovered_balthazar"
@@ -99,7 +99,7 @@
   {
     "id": "TALK_BALTHAZAR_MEET_REWARD_NEGOTIATE_WEAK_3",
     "type": "talk_topic",
-    "dynamic_line": "You know what?  Fuck you, I'll just wait for someone else.",
+    "dynamic_line": "Y- You know what?  Fuck you, I'll just wait for someone else.",
     "speaker_effect": { "effect": "end_conversation" },
     "responses": [ { "text": "Leave.", "topic": "TALK_DONE" } ]
   },
@@ -110,7 +110,7 @@
     "dynamic_line": "This bunker has a control center for the local bots so I made them only attack when attacked first.",
     "speaker_effect": { "effect": { "math": [ "u_knowns_control_center_balthazar = 1" ] }, "sentinel": "knows_control_center" },
     "responses": [
-      { "text": "Seems handy.", "topic": "TALK_BALTHAZAR_MEET_DESCRIPTION_WEAK" },
+      { "text": "Sounds useful.", "topic": "TALK_BALTHAZAR_MEET_DESCRIPTION_WEAK" },
       {
         "text": "So you do have some tech you can give me.",
         "condition": { "math": [ "u_negotiated_balthazar_solar == 2" ] },
@@ -156,5 +156,13 @@
       { "text": "I guess so.", "topic": "TALK_BALTHAZAR_MEET_DESCRIPTION_WEAK" },
       { "text": "How come you're locked up?", "topic": "TALK_BALTHAZAR_MEET_BUNKER_WEAK" }
     ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_MEET_STRONG",
+    "//": "Balthazar is in a good position right now and will treat people as buyable goods",
+    "type": "talk_topic",
+    "dynamic_line": "I have no need for you right now.",
+    "//1": "Not implemented yet, will start from second mission onward",
+    "responses": [ { "text": "Walk away.", "topic": "TALK_DONE" } ]
   }
 ]

@@ -8,7 +8,7 @@
     "global": true,
     "effect": [
       { "math": [ "balthazar_power = 10" ] },
-      { "math": [ "balthazar_daily_power_gain = 1" ] },
+      { "math": [ "balthazar_daily_power_gain = rand(2) - 1" ] },
       { "run_eocs": "EOC_DAILY_BALTHAZAR_POWER" }
     ]
   },
@@ -25,6 +25,7 @@
     "id": "EOC_BALTHAZAR_CHECK_PROGRESS",
     "global": true,
     "effect": [
+      { "if": { "math": [ "balthazar_power <= 0" ] }, "then": { "run_eocs": "EOC_BALTHAZAR_GONE" } },
       {
         "if": { "and": [ { "math": [ "balthazar_solar_power != 1" ] }, { "math": [ "balthazar_power >= 50" ] } ] },
         "then": { "run_eocs": "EOC_BALTHAZAR_SET_UP_SOLAR" }
@@ -36,21 +37,22 @@
     "id": "EOC_BALTHAZAR_SET_UP_SOLAR",
     "global": true,
     "effect": [
-      {
-        "update_mapgen": [
-          {
-            "om_terrain": "balthazar_bunker_02",
-            "place_nested": [ { "chunks": [ "balthazar_bunker_solar_panel_row_1" ], "x": 5, "y": 1 } ]
-          },
-          {
-            "om_terrain": "balthazar_bunker_03",
-            "place_nested": [ { "chunks": [ "balthazar_bunker_solar_panel_row_2" ], "x": 0, "y": 1 } ]
-          }
-        ]
-      },
+      { "mapgen_update": "balthazar_bunker_solar_panel_row_l", "om_terrain": "balthazar_bunker_02" },
+      { "mapgen_update": "balthazar_bunker_solar_panel_row_r", "om_terrain": "balthazar_bunker_03" },
       { "math": [ "balthazar_power += 20" ] },
       { "math": [ "balthazar_daily_power_gain += 1" ] },
       { "math": [ "balthazar_solar_power = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BALTHAZAR_GONE",
+    "global": true,
+    "effect": [
+      { "mapgen_update": "remove_balthazar_intercom", "om_terrain": "balthazar_bunker_01" },
+      { "mapgen_update": "remove_balthazar_intercom", "om_terrain": "balthazar_bunker_03_-1" },
+      { "math": [ "balthazar_power = 0" ] },
+      { "math": [ "balthazar_daily_power_gain = 0" ] }
     ]
   },
   {
