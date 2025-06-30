@@ -192,5 +192,29 @@
       [ "textbook_weparabic", 4 ],
       [ "textbook_armschina", 4 ]
     ]
+  },
+  {
+    "id": "prac_armorsmithing",
+    "type": "practice",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "armorsmithing",
+    "description": "Practice working metal into the form of various armor pieces, and test their articulation with you using a cotton jacket along with the armor pieces.",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "tailor", 4 ] ],
+    "practice_data": { "min_difficulty": 4, "max_difficulty": 5, "skill_limit": 6 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": true },
+      { "proficiency": "prof_blacksmithing", "required": true },
+      { "proficiency": "prof_armorsmithing", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "jacket_light", -1 ] ] ],
+    "byproducts": [ [ "scrap", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 10 ], [ "steel_standard", 10 ] ],
+    "autolearn": [ [ "fabrication", 6 ], [ "tailor", 4 ] ],
+    "book_learn": [ [ "textbook_armeast", 4 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ]
   }
 ]
