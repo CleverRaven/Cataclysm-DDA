@@ -791,6 +791,7 @@
           { "item": "itzcuauhtli_jacket_army_modern" },
           { "item": "legpouch_large", "contents-group": "lightning_rifle_ammo_mags" },
           { "item": "mom_fifth_sun_standard_body_armor", "charges": 672 },
+          { "item": "mom_fifth_sun_eagle_tac_helmet", "charges": 672 },
           {
             "item": "itzcuauhtli_wrist_computer",
             "variant": "itzcuauhtli_wrist_computer_standard",

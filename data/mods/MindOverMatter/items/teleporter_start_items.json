@@ -223,6 +223,73 @@
     "default": "mom_lightning_rifle_ammo"
   },
   {
+    "id": "mom_fifth_sun_eagle_tac_helmet",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str": "Imperial Navy battle helmet" },
+    "description": "An all-encompassing helmet, standard issue for Imperial warrior orders.  Containing integral hearing protection and air filtration while still leaving your mouth free, highlights distant targets to provide easier targeting in battlefield conditions, has integral nightvision and thermal sensing, provides some protection against telepathic assault, and looks great while doing it.  This one has the eagle and stars of the Itzcuāuhtli Corps on it.",
+    "weight": "1180 g",
+    "volume": "1850 ml",
+    "price": "2 kUSD",
+    "price_postapoc": "100 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "fifth_sun_antiballistic_cloth", "plastic" ],
+    "symbol": "[",
+    "looks_like": "tac_fullhelmet",
+    "color": "dark_gray",
+    "warmth": 15,
+    "material_thickness": 8,
+    "techniques": [ "WBLOCK_1" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 672 } } ],
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You flip the switch and activate the helmet's functions.",
+        "target": "mom_fifth_sun_eagle_tac_helmet_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The switch clicks but nothing happens.",
+        "need_worn": true,
+        "menu_text": "Flip the switch"
+      }
+    ],
+    "passive_effects": [
+      { "id": "nvg_great" },
+      { "id": "THERMAL_VISION_GOOD" },
+      { "id": "ench_mom_fifth_sun_targeting_assistance" },
+      { "condition": "ACTIVE", "incoming_damage_mod": [ { "type": "psi_telepathic_damage", "multiply": -0.33 } ] }
+    ],
+    "armor": [
+      { "encumbrance_modifiers": [ "WELL_SUPPORTED" ], "coverage": 100, "covers": [ "head" ] },
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 }
+    ],
+    "melee_damage": { "bash": 1 },
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ]
+  },
+  {
+    "id": "mom_fifth_sun_eagle_tac_helmet_on",
+    "copy-from": "mom_fifth_sun_eagle_tac_helmet",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "name": { "str": "Imperial Navy battle helmet (active)", "str_pl": "Imperial Navy battle helmets (active)" },
+    "description": "An all-encompassing helmet, standard issue for Imperial warrior orders.  Containing integral hearing protection and air filtration while still leaving your mouth free, highlights distant targets to provide easier targeting in battlefield conditions, has integral nightvision and thermal sensing, provides some protection against telepathic assault, and looks great while doing it.  This one has the eagle and stars of the Itzcuāuhtli Corps on it.  It is currently active.",
+    "power_draw": "10 W",
+    "revert_to": "mom_fifth_sun_eagle_tac_helmet",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "mom_fifth_sun_eagle_tac_helmet",
+        "msg": "You flip the switch and deactivate the helmet's functions.",
+        "menu_text": "Flip the switch",
+        "type": "transform"
+      }
+    ],
+    "extend": {
+      "flags": [ "FIX_FARSIGHT", "FIX_NEARSIGHT", "GAS_PROOF", "PARTIAL_DEAF", "PSYSHIELD_PARTIAL", "SUN_GLASSES", "ZOOM", "WATCH" ]
+    }
+  },
+  {
     "id": "mom_fifth_sun_standard_body_armor",
     "type": "ITEM",
     "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
@@ -597,6 +664,7 @@
   },
   {
     "id": "holy_symbol_fifth_sun",
+    "copy-from": "holy_symbol",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "Imperial Church holy symbol" },
