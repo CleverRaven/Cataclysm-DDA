@@ -160,5 +160,37 @@
       [ "textbook_weapwest", 5 ],
       [ "textbook_armschina", 5 ]
     ]
+  },
+  {
+    "id": "prac_blacksmithing",
+    "type": "practice",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "blacksmithing",
+    "description": "Practice working metal into some simple but useful forms and designs.",
+    "skill_used": "fabrication",
+    "practice_data": { "min_difficulty": 3, "max_difficulty": 4, "skill_limit": 5 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
+      { "proficiency": "prof_blacksmithing", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "byproducts": [ [ "scrap", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 4 ] ],
+    "autolearn": [ [ "fabrication", 5 ] ],
+    "book_learn": [
+      [ "textbook_fabrication", 3 ],
+      [ "reference_fabrication1", 3 ],
+      [ "alloy_book", 3 ],
+      [ "welding_book", 3 ],
+      [ "textbook_weapeast", 4 ],
+      [ "textbook_armeast", 4 ],
+      [ "textbook_armwest", 4 ],
+      [ "textbook_weapwest", 4 ],
+      [ "textbook_weparabic", 4 ],
+      [ "textbook_armschina", 4 ]
+    ]
   }
 ]
