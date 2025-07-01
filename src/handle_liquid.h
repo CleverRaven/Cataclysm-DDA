@@ -6,6 +6,7 @@
 #include "item_location.h"
 #include "point.h"
 
+class Character;
 class item;
 class monster;
 class vehicle;
@@ -42,6 +43,14 @@ namespace liquid_handler
  * `true` indicates some charges have been transferred (but not necessarily all of them).
  */
 void handle_all_liquid( item liquid, int radius, const item *avoid = nullptr );
+
+/**
+ * Store any liquids produced during an NPC activity (e.g. crafting or disassembly) into
+ * nearby containers. Will spill on the ground if no suitable containers are found.
+ * Does not consume moves (the move cost is presumed to be covered by the activity that
+ * produced the liquid).
+ */
+void handle_npc_liquid( item liquid, Character &who );
 
 /**
  * Consume / handle as much of the liquid as possible in varying ways. This function can

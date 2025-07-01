@@ -21,7 +21,6 @@
 #include "debug.h"
 #include "effect_on_condition.h"
 #include "enum_traits.h"
-#include "enums.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
@@ -1334,18 +1333,8 @@ std::function<bool( const item & )> recipe::get_component_filter(
     };
 }
 
-bool recipe::npc_can_craft( std::string &reason ) const
+bool recipe::npc_can_craft( std::string & ) const
 {
-    if( result()->phase != phase_id::SOLID ) {
-        reason = _( "Ordering NPC to craft non-solid item is currently only implemented for camps." );
-        return false;
-    }
-    for( const auto& [bp, _] : get_byproducts() ) {
-        if( bp->phase != phase_id::SOLID ) {
-            reason = _( "Ordering NPC to craft non-solid item is currently only implemented for camps." );
-            return false;
-        }
-    }
     return true;
 }
 
