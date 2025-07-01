@@ -4069,7 +4069,7 @@ Defaults true. If a road can be found within 3 OMTs of the starting position, re
 
 Defaults 15. How much of the initial map should be known when the game is started? This value is a radius.
 
-## `eocs`
+## `eoc`
 (optional, array of strings)
 
 A list of eocs that are triggered once for each new character on scenario start.
