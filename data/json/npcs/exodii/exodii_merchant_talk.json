@@ -27,6 +27,17 @@
     ],
     "type": "talk_topic",
     "responses": [
+      {
+        "text": "[PLAYTEST] Send me to the Labyrinthine Structure alpha test 0.1, I know it's low on content and lacking combat balance, but I still want to check it out!",
+        "effect": { "run_eocs": "EOC_LS_Teleport_to_labyrinth" },
+        "condition": { "u_has_trait": "LS_Alphatest" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[PLAYTEST] Tell me more about the Labyrinthine Structure alpha test.",
+        "condition": { "u_has_trait": "LS_Alphatest" },
+        "topic": "TALK_EXODII_MERCHANT_Alphatest"
+      },
       { "text": "What've you got for trade?", "effect": "start_trade", "topic": "TALK_EXODII_MERCHANT_DoneTrade" },
       {
         "text": "Can you do something for me?",
