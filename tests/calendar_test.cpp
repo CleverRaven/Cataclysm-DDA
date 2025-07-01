@@ -1,5 +1,6 @@
 #include <array>
-#include <stddef.h>
+#include <functional>
+#include <cstddef>
 #include <string>
 #include <utility>
 #include <vector>
@@ -7,6 +8,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
+#include "options.h"
 #include "string_formatter.h"
 
 TEST_CASE( "time_duration_to_string", "[calendar][nogame]" )
@@ -144,6 +146,7 @@ TEST_CASE( "seasons_over_time", "[calendar]" )
 TEST_CASE( "time_point_to_string", "[calendar]" )
 {
     REQUIRE( calendar::year_length() == 364_days );
+    REQUIRE( get_option<bool>( "SHOW_MONTHS" ) );
 
     CHECK( to_string( calendar::turn_zero + 7_days ) == "Year 1, Mar 28 12:00:00AM" );
     CHECK( to_string( calendar::turn_zero + 9_days ) == "Year 1, Mar 30 12:00:00AM" );
@@ -158,4 +161,26 @@ TEST_CASE( "time_point_to_string", "[calendar]" )
     CHECK( to_string( calendar::turn_zero + 364_days - calendar::turn_zero_offset() ) ==
            "Year 2, Jan 1 12:00:00AM" );
     CHECK( to_string( calendar::turn_zero + 364_days ) == "Year 2, Mar 21 12:00:00AM" );
+
+    on_out_of_scope restore_show_months( []() {
+        get_options().get_option( "SHOW_MONTHS" ).setValue( "true" );
+    } );
+    get_options().get_option( "SHOW_MONTHS" ).setValue( "false" );
+    REQUIRE_FALSE( get_option<bool>( "SHOW_MONTHS" ) );
+
+    CHECK( to_string( calendar::turn_zero + 7_days ) == "Year 1, Spring, day 8 12:00:00AM" );
+    CHECK( to_string( calendar::turn_zero + 11_days ) == "Year 1, Spring, day 12 12:00:00AM" );
+    CHECK( to_string( calendar::turn_zero + 12_days ) == "Year 1, Spring, day 13 12:00:00AM" );
+    CHECK( to_string( calendar::turn_zero + 31_days + 4_days ) == "Year 1, Spring, day 36 12:00:00AM" );
+    CHECK( to_string( calendar::turn_zero + 91_days ) == "Year 1, Summer, day 1 12:00:00AM" );
+    CHECK( to_string( calendar::turn_zero + 91_days + 30_days ) ==
+           "Year 1, Summer, day 31 12:00:00AM" );
+    CHECK( to_string( calendar::turn_zero + 91_days * 2 + 27_days ) ==
+           "Year 1, Autumn, day 28 12:00:00AM" );
+    CHECK( to_string( calendar::turn_zero + 91_days * 3 ) == "Year 1, Winter, day 1 12:00:00AM" );
+    CHECK( to_string( calendar::turn_zero + 364_days - calendar::turn_zero_offset() - 1_days ) ==
+           "Year 1, Winter, day 10 12:00:00AM" );
+    CHECK( to_string( calendar::turn_zero + 364_days - calendar::turn_zero_offset() ) ==
+           "Year 2, Winter, day 11 12:00:00AM" );
+    CHECK( to_string( calendar::turn_zero + 364_days ) == "Year 2, Spring, day 1 12:00:00AM" );
 }
