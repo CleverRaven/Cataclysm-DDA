@@ -1,0 +1,34 @@
+{
+  "name": "cdda_twison",
+  "version": "0.0.2",
+  "description": "Export your Twine 2 story as a JSON document for CDDA NPC talk topics",
+  "main": "format.js",
+  "scripts": {
+    "test": "cd test && mocha test.js",
+    "build": "node build.js",
+    "start": "node server.js",
+    "watch": "node watch.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CleverRaven/Cataclysm-DDA/tools/cdda-twison/"
+  },
+  "author": "SittingDucken",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SittingDucken/cdda-twison/issues"
+  },
+  "homepage": "https://github.com/CleverRaven/Cataclysm-DDA/tools/",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "express": "^4.13.3",
+    "jsdom": "^16.3.0",
+    "uglify-js": "^2.8.29",
+    "watch": "^0.16.0"
+  },
+  "dependencies": {
+    "gh-pages": "^3.1.0",
+    "jsdom-global": "^3.0.2",
+    "mocha": "^8.0.1"
+  }
+}
