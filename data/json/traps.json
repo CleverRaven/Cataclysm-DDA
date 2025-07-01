@@ -988,18 +988,9 @@
     "//": "netherum labyrinth trap that takes you out of the dungeon when you fall into a chasm",
     "name": "sparkling chasm",
     "color": "dark_gray",
-    "action": "spell",
     "copy-from": "tr_swirling_vortex",
-    "spell_data": { "id": "sparkling_chasm_exit" }
-  },
-  {
-    "type": "SPELL",
-    "id": "sparkling_chasm_exit",
-    "name": "sparkling chasm exit",
-    "description": "sparkling chasm exit",
-    "shape": "blast",
-    "valid_targets": [ "hostile", "ground", "self", "ally" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_LS_Exit_labyrinth_sparkling_chasm"
+    "action": "eocs",
+    "eocs": [ "EOC_LS_Exit_labyrinth_sparkling_chasm" ],
+    "always_invisible": true
   }
 ]
