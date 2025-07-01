@@ -289,6 +289,7 @@ struct overmap_highway_settings {
     int longest_slant_length = 0;
     int longest_bend_length = 0;
 
+    bool needs_finalize = false;
     void finalize();
     overmap_highway_settings() = default;
 };

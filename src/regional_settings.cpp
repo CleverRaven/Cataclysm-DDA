@@ -466,8 +466,8 @@ static void load_overmap_highway_settings( const JsonObject &jo,
         overmap_highway_settings &overmap_highway_settings,
         const bool strict, const bool overlay )
 {
-    if( !jo.has_object( "overmap_highway_settings" ) && get_option<bool>( "OVERMAP_PLACE_HIGHWAYS" ) ) {
-        if( strict ) {
+    if( !jo.has_object( "overmap_highway_settings" ) ) {
+        if( strict && get_option<bool>( "OVERMAP_PLACE_HIGHWAYS" ) ) {
             jo.throw_error( "OVERMAP_PLACE_HIGHWAYS set to true, but \"overmap_highway_settings\" not defined in region_settings" );
         }
     } else {
@@ -546,6 +546,7 @@ static void load_overmap_highway_settings( const JsonObject &jo,
             2 ) {
             jo.throw_error( "highway intersection radius too large" );
         }
+        overmap_highway_settings.needs_finalize = true;
     }
 }
 
@@ -1088,10 +1089,12 @@ void overmap_lake_settings::finalize()
 
 void overmap_highway_settings::finalize()
 {
-    four_way_intersections.finalize();
-    three_way_intersections.finalize();
-    bends.finalize();
-    road_connections.finalize();
+    if( needs_finalize ) {
+        four_way_intersections.finalize();
+        three_way_intersections.finalize();
+        bends.finalize();
+        road_connections.finalize();
+    }
 }
 
 map_extras map_extras::filtered_by( const mapgendata &dat ) const
