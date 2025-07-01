@@ -356,6 +356,11 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "1x1_open_air",
+    "object": { "mapgensize": [ 1, 1 ], "terrain": { " ": "t_open_air" }, "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ] }
+  },
+  {
+    "type": "mapgen",
     "//": "A nested map bash damage.",
     "nested_mapgen_id": "1x1_2z_bash",
     "object": {
