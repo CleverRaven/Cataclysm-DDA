@@ -11637,15 +11637,28 @@ bool game::can_move_furniture( tripoint_bub_ms fdest, const tripoint_rel_ms &dp 
     bool is_ramp_or_road = here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fdest ) ||
                            here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, fdest ) ||
                            here.has_flag( ter_furn_flag::TFLAG_ROAD, fdest );
-    return  here.passable( fdest ) &&
-            creatures.creature_at<npc>( fdest ) == nullptr &&
-            creatures.creature_at<monster>( fdest ) == nullptr &&
-            ( !pulling_furniture || is_empty( u.pos_bub() + dp ) ) &&
-            ( !has_floor || here.has_flag( ter_furn_flag::TFLAG_FLAT, fdest ) ||
-              is_ramp_or_road ) &&
-            !here.has_furn( fdest ) &&
-            !here.veh_at( fdest ) &&
-            ( !has_floor || here.tr_at( fdest ).is_null() );
+    if( !here.passable( fdest ) ) {
+        return false;
+    }
+    if( creatures.creature_at<npc>( fdest ) != nullptr ||
+        creatures.creature_at<monster>( fdest ) != nullptr ) {
+        return false;
+    }
+    if( !( !pulling_furniture || is_empty( u.pos_bub() + dp ) ) &&
+        ( !has_floor || here.has_flag( ter_furn_flag::TFLAG_FLAT, fdest ) ||
+          is_ramp_or_road ) ) {
+        return false;
+    }
+    if( here.has_furn( fdest ) ) {
+        return false;
+    }
+    if( here.veh_at( fdest ) ) {
+        return false;
+    }
+    if( !( !has_floor || here.tr_at( fdest ).is_null() ) ) {
+        return false;
+    }
+    return true;
 }
 
 int game::grabbed_furn_move_time( const tripoint_rel_ms &dp )
