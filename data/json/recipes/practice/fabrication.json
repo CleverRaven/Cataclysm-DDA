@@ -213,7 +213,7 @@
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "jacket_light", -1 ] ] ],
     "byproducts": [ [ "scrap", 5 ] ],
-    "using": [ [ "blacksmithing_standard", 10 ], [ "steel_standard", 10 ] ],
+    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 5 ] ],
     "autolearn": [ [ "fabrication", 6 ], [ "tailor", 4 ] ],
     "book_learn": [ [ "textbook_armeast", 4 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ]
   },
