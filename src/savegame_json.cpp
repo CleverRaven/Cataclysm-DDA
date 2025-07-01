@@ -185,6 +185,11 @@ obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER
     }
 };
 
+static const std::string TIED_DOWN_FURNITURE = "tied_down_furniture";
+
+static std::unordered_map<ter_str_id, std::pair<ter_str_id, furn_str_id>> ter_migrations;
+static std::unordered_map<furn_str_id, std::pair<ter_str_id, furn_str_id>> furn_migrations;
+
 // TODO: investigate serializing other members of the Creature class hierarchy
 static void serialize( const weak_ptr_fast<monster> &obj, JsonOut &jsout )
 {
@@ -2891,6 +2896,14 @@ void item::io( Archive &archive )
             }
         }
     }
+
+    if( auto var = item_vars.find( TIED_DOWN_FURNITURE ); var != item_vars.end() ) {
+        const furn_str_id furnstr( var->second.str() );
+        if( auto it = furn_migrations.find( furnstr ); it != furn_migrations.end() ) {
+            set_var( TIED_DOWN_FURNITURE, it->second.second.str() );
+        }
+    }
+
     // TODO: change default to empty string
     archive.io( "name", corpse_name, std::string() );
     archive.io( "owner", owner, faction_id::NULL_ID() );
@@ -4696,9 +4709,6 @@ void _write_rle_terrain( JsonOut &jsout, std::string_view ter, int num )
 }
 
 } // namespace
-
-static std::unordered_map<ter_str_id, std::pair<ter_str_id, furn_str_id>> ter_migrations;
-static std::unordered_map<furn_str_id, std::pair<ter_str_id, furn_str_id>> furn_migrations;
 
 void ter_furn_migrations::load( const JsonObject &jo )
 {

@@ -429,10 +429,6 @@ std::string PATH_INFO::tileset_conf()
 {
     return "tileset.txt";
 }
-cata_path PATH_INFO::mods_replacements()
-{
-    return datadir_path_value / "mods" / "replacements.json";
-}
 cata_path PATH_INFO::mods_dev_default()
 {
     return datadir_path_value / "mods" / "default.json";

@@ -50,8 +50,6 @@ if ! lang/extract_json_strings.py \
         -X data/core/sentinels.json \
         -X data/raw/color_templates/no_bright_background.json \
         -X data/mods/Magiclysm/Spells/debug.json \
-        -D data/mods/BlazeIndustries \
-        -D data/mods/desert_region \
         -n "$package $version" \
         -r lang/po/base.pot
 then

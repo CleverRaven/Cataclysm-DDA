@@ -183,6 +183,7 @@ class vehicle_stack : public item_stack
         void insert( map &here, const item &newitem ) override;
         int count_limit() const override;
         units::volume max_volume() const override;
+        units::volume stored_volume() const override;
 };
 
 enum towing_point_side : int {
@@ -2178,6 +2179,7 @@ class vehicle
         void use_washing_machine( map &here, int p );
         void use_dishwasher( map &here, int p );
         void use_monster_capture( int part, map *here, const tripoint_bub_ms &pos );
+        void use_tiedown_furniture( int part, map *here, const tripoint_bub_ms & );
         void use_harness( int part, map *here, const tripoint_bub_ms &pos );
 
         void build_electronics_menu( map &here, veh_menu &menu );

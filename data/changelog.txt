@@ -138,7 +138,7 @@ river generation overhaul
 faction camp food supply can expire over time
 Roads cross streams at culverts
 Add Weight Modifying Enchantment
-Assigns different grades of steel to 'landscape' tools
+Query to quick-reveal all nearby wires when revealing wall wires
 
 
 ## Content:
@@ -836,21 +836,9 @@ Mod Conflicts
 [Bombastic Perks] Limit metamagic perks to Magiclysm
 Aftershock: More mundane tools are available in exoplanet
 [MoM] Add possible `Mathematican A57` boss fight to Research Facility
-[Magiclysm/Bombastic Perks]: Add Efficient Spell metamagic perk
-[XE] Mentor tweaks
-Fully gate Chronomancy insight menu against difficulty adjustments
-Vampirism updates to account for new base blood need.
-[MoM] Add extremely rare setpiece with dead Texopapalotl crew member
-[MoM] Make Torrential Channeling even stronger and even more dangerous
-Aftershock: Create industrially themed formless ruins
-[Magiclysm] Add Repulsion Wave magus spell
-[MoM/Bombastic Perks] Update Clear-minded Channeling perk
 [Magiclysm] Spellcasting always grants proficiency XP
-[Magiclysm] Rework attunement requirements
-[Magiclysm] Add feral animists
-[MoM] Grounding Meditation scales with metaphysics
-[Magiclysm] Add CLIMATE_CONTROL_HEAT to the stone slumber trait
 [MoM] Add Achievements
+[Crazy Cataclysm] Add the immortal snail as second nemesis
 
 
 ## Balance:
@@ -948,12 +936,7 @@ Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
 World sliders rebalanced to offer differing gameplay experiences
 Some recipes have 'hard' proficiency requirements
-Remove toggling skill training on/off
-Allow using powdered milk in a new protein smoothie recipe
-Don't show hostile NPCs on overmap
-Obsolete the Ruger Charger/Varmint Pistol, as it is illegal in Massachusetts.
-Remove the Glock 31 as it does not appear in MA firearm data
-The cataclysm starts 5 days before game start
+Expanded spawns for some proper melee weapons
 
 
 ## Bugfixes:

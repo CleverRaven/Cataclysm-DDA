@@ -221,6 +221,18 @@ units::volume vehicle_stack::max_volume() const
     return std::min( vpi.size, 10000_liter );
 }
 
+units::volume vehicle_stack::stored_volume() const
+{
+    if( vp.get_base().has_var( "tied_down_furniture" ) ) { // There's a furniture in the way!!
+        return max_volume();
+    }
+    units::volume ret = 0_ml;
+    for( const item &it : *items ) {
+        ret += it.volume();
+    }
+    return ret;
+}
+
 // Vehicle class methods.
 
 vehicle::vehicle( const vproto_id &proto_id )
@@ -8328,6 +8340,11 @@ void vehicle::calc_mass_center( map &here, bool use_precalc ) const
         }
         if( vp.part().info().cargo_weight_modifier != 100 ) {
             m_part_items *= static_cast<float>( vp.part().info().cargo_weight_modifier ) / 100.0f;
+        }
+        if( vp.has_feature( "FURNITURE_TIEDOWN" ) &&
+            vp.part().get_base().has_var( "tied_down_furniture" ) ) {
+            furn_str_id carried_furniture( vp.part().get_base().get_var( "tied_down_furniture" ) );
+            m_part_items += carried_furniture->mass;
         }
         m_part += m_part_items;
 
