@@ -267,5 +267,37 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 4 ] ],
     "autolearn": [ [ "fabrication", 6 ] ],
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "reference_fabrication1", 4 ] ]
+  },
+  {
+    "id": "prac_case_hardening",
+    "type": "practice",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "case hardening",
+    "description": "Practice heating steel packed in charcoal at different high temperatures and times, and then comparing the properties of the resulting hard case.",
+    "skill_used": "fabrication",
+    "practice_data": { "min_difficulty": 5, "max_difficulty": 6, "skill_limit": 7 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": true },
+      { "proficiency": "prof_blacksmithing", "time_multiplier": 1, "skill_penalty": 0 },
+      { "proficiency": "prof_case_hardening", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "forge", 100 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
+    "byproducts": [ [ "scrap", 2 ] ],
+    "using": [ [ "carbon", 10 ], [ "steel_standard", 4 ] ],
+    "autolearn": [ [ "fabrication", 7 ] ],
+    "book_learn": [
+      [ "textbook_weapeast", 5 ],
+      [ "textbook_armeast", 5 ],
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weapwest", 5 ],
+      [ "textbook_weparabic", 5 ],
+      [ "textbook_armschina", 5 ],
+      [ "textbook_fabrication", 6 ],
+      [ "welding_book", 6 ]
+    ]
   }
 ]
