@@ -5136,7 +5136,9 @@ bool move_furniture_on_vehicle_activity_actor::move_furniture( Character &who ) 
         transfer_furniture( *vp, *vp_dest );
     } else {
         vp->part_with_feature( "FURNITURE_TIEDOWN", true )->part().unload_furniture( here, dest );
-        stop_grab( who );
+        if( avatar *a = dynamic_cast<avatar *>( &who ) ) {
+            a->grab( object_type::FURNITURE, who.grab_point );
+        }
     }
     if( shifting ) {
         tripoint_rel_ms d_sum = who.grab_point + dp;

@@ -11866,6 +11866,11 @@ bool game::grabbed_furn_move( const tripoint_rel_ms &dp )
         here.furn_set( fpos, furn_str_id::NULL_ID(), true );
         here.veh_at( fdest )->vehicle().invalidate_mass();
         add_msg( _( "You load the furniture onto the vehicle." ) );
+        tripoint_rel_ms new_grab_pt( fdest - ( u.pos_bub() +
+                                               ( shifting_furniture ? tripoint_rel_ms::zero : dp ) ) );
+        if( std::abs( new_grab_pt.x() ) < 2 && std::abs( new_grab_pt.y() ) < 2 ) {
+            u.grab( object_type::FURNITURE_ON_VEHICLE, new_grab_pt );
+        }
         return shifting_furniture;
     } else {
         // Actually move the furniture.
