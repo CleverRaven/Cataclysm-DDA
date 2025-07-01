@@ -313,12 +313,7 @@ static const json_character_flag json_flag_VINE_RAPPEL( "VINE_RAPPEL" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
-static const mod_id MOD_INFORMATION_Graphical_Overmap( "Graphical_Overmap" );
-static const mod_id MOD_INFORMATION_StatsThroughSkills( "StatsThroughSkills" );
 static const mod_id MOD_INFORMATION_dda( "dda" );
-static const mod_id MOD_INFORMATION_no_fungal_growth( "no_fungal_growth" );
-static const mod_id MOD_INFORMATION_sees_player_hitbutton( "sees_player_hitbutton" );
-static const mod_id MOD_INFORMATION_sees_player_retro( "sees_player_retro" );
 
 static const mongroup_id GROUP_BLACK_ROAD( "GROUP_BLACK_ROAD" );
 
@@ -800,6 +795,7 @@ void game::setup()
 
         load_core_data();
     }
+    world_generator->get_mod_manager().load_mods_list( world_generator->active_world );
     load_world_modfiles();
     // Panel manager needs JSON data to be loaded before init
     panel_manager::get_manager().init();
@@ -3420,59 +3416,25 @@ void game::load_world_modfiles()
 
 void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs )
 {
-    std::vector<mod_id> missing;
-    std::vector<mod_id> available;
-
-    for( const mod_id &e : packs ) {
-        if( e.is_valid() ) {
-            available.emplace_back( e );
-        } else {
-            missing.push_back( e );
+    for( const auto &mod : packs ) {
+        // Suppress missing mods the player chose to leave in the modlist
+        if( !mod.is_valid() ) {
+            continue;
         }
-    }
-
-    for( const auto &e : available ) {
-        loading_ui::show( msg, e->name() );
-        const MOD_INFORMATION &mod = *e;
+        loading_ui::show( msg, mod->name() );
         restore_on_out_of_scope restore_check_plural( check_plural );
-        if( mod.ident.str() == "test_data" ) {
+        if( mod.str() == "test_data" ) {
             check_plural = check_plural_t::none;
         }
-        load_mod_data_from_dir( mod.path, mod.ident.str() );
+        load_mod_data_from_dir( mod->path, mod.str() );
     }
 
-    for( const auto &e : available ) {
-        loading_ui::show( msg, e->name() );
-        const MOD_INFORMATION &mod = *e;
-        load_mod_interaction_data_from_dir( mod.path / "mod_interactions", mod.ident.str() );
-    }
-
-    // Missing mods removed within the last version cycle trigger a different message to make it clear they have been intentionally removed
-    const std::unordered_set<mod_id> removed_mods {
-        MOD_INFORMATION_Graphical_Overmap, // Removed in 0.I
-        MOD_INFORMATION_sees_player_retro, // Removed in 0.I
-        MOD_INFORMATION_no_fungal_growth, // Removed in 0.I
-        MOD_INFORMATION_StatsThroughSkills, // Removed in 0.I
-        MOD_INFORMATION_sees_player_hitbutton // Removed in 0.I
-    };
-    std::unordered_set<mod_id> mods_to_remove;
-    for( const mod_id &e : missing ) {
-        if( removed_mods.find( e ) == removed_mods.end() ) {
-            if( query_yn( _( "Mod %s not found in mods folder, remove it from this world's modlist?" ),
-                          e.c_str() ) ) {
-                mods_to_remove.insert( e );
-            }
-        } else if( query_yn( _( "Mod %s has been removed, remove it from this world's modlist?" ),
-                             e.c_str() ) ) {
-            mods_to_remove.insert( e );
+    for( const auto &mod : packs ) {
+        if( !mod.is_valid() ) {
+            continue;
         }
-    }
-    if( !mods_to_remove.empty() ) {
-        auto &mods = world_generator->active_world->active_mod_order;
-        mods.erase( std::remove_if( mods.begin(), mods.end(), [&mods_to_remove]( const auto e ) {
-            return mods_to_remove.find( e ) != mods_to_remove.end();
-        } ), mods.end() );
-        world_generator->get_mod_manager().save_mods_list( world_generator->active_world );
+        loading_ui::show( msg, mod->name() );
+        load_mod_interaction_data_from_dir( mod->path / "mod_interactions", mod.str() );
     }
 }
 

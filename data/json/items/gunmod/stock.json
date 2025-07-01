@@ -216,7 +216,8 @@
     "handling_modifier": -10,
     "mod_targets": [ "smg", "rifle", "shotgun" ],
     "//": "though the stock isn't COLLAPSED it is functionally the same",
-    "flags": [ "REMOVED_STOCK", "IRREMOVABLE" ]
+    "flags": [ "REMOVED_STOCK", "IRREMOVABLE" ],
+    "to_hit_mod": -1
   },
   {
     "id": "pistol_stock",
