@@ -73,7 +73,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "M12 \"Cochmamauhtia\" Pistol" },
-    "description": "The M12 was designed as a less-than-lethal alternative to more dangerous forms of crowd pacification, able to disable a target for up to a minute with a single shot and few to no permanent effects.  While it cannot be said to be nonlethal because it is not safe to use on targets with heart conditions or epilepsy, it is a great improvement over the previous X04 \"Tecuacuilli\" which, on unfortunately not-rare-enough occasions, could cause permanent paralysis. On this world, though, you don't think the M12's lethality or lack thereof is going to be much of a concern.",
+    "description": "The M12 was designed as a less-than-lethal alternative to more dangerous forms of crowd pacification, able to disable a target for up to a minute with a single shot and few to no permanent effects.  While it cannot be said to be nonlethal because it is not safe to use on targets with heart conditions or epilepsy, it is a great improvement over the previous X04 \"Tecuacuilli\" which, on unfortunately not-rare-enough occasions, could cause permanent paralysis.  On this world, though, you don't think the M12's lethality or lack thereof is going to be much of a concern.",
     "melee_damage": { "bash": 5 },
     "reload_noise_volume": 5,
     "weight": "680 g",
