@@ -256,8 +256,7 @@
     "description": "You can drain a bit of vital energy from victims when attacking their minds with telepathy or their bodies with vitakinesis.",
     "valid": false,
     "starting_trait": true,
-    "purifiable": false,
-    "prereqs": [ "ALWAYS_GAIN_PSIONICS" ]
+    "purifiable": false
   },
   {
     "type": "mutation",

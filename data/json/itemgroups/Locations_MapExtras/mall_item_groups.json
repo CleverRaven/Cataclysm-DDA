@@ -10,7 +10,7 @@
     "ammo": 75,
     "magazine": 100,
     "items": [
-      { "group": "ammo_any_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_unopened", "prob": 50 },
       { "item": "radio", "prob": 30, "charges": 100 },
       { "item": "mp3", "prob": 25, "charges": 100 },
       { "item": "pride_flag", "prob": 1 },
@@ -219,7 +219,7 @@
     "items": [
       { "item": "portable_game", "prob": 20, "charges": 100 },
       [ "antenna", 25 ],
-      { "group": "ammo_any_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_unopened", "prob": 50 },
       { "item": "mp3", "prob": 30, "charges": 100 },
       { "group": "new_phones", "prob": 90 },
       { "group": "new_usb_drives", "prob": 10 },

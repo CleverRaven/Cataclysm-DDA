@@ -111,7 +111,8 @@ void scenario::load( const JsonObject &jo, std::string_view )
     if( !was_loaded ) {
 
         int _start_of_cataclysm_hour = 0;
-        int _start_of_cataclysm_day = 1 + get_option<int>( "SEASON_LENGTH" ) / 3 * 2;
+        // The cataclysm started 5 days before game start
+        int _start_of_cataclysm_day = ( 1 + get_option<int>( "SEASON_LENGTH" ) / 3 * 2 ) - 5;
         season_type _start_of_cataclysm_season = SPRING;
         int _start_of_cataclysm_year = 1;
         if( jo.has_member( "start_of_cataclysm" ) ) {

@@ -351,6 +351,24 @@ std::optional<T> query_int_impl( string_input_popup &p, const bool loop, const b
     return 0;
 }
 
+std::optional<tripoint_abs_omt> string_input_popup::query_coordinate_abs_impl( bool loop,
+        bool draw_only )
+{
+    do {
+        const std::string &queried_string = query_string( loop, draw_only );
+        ret_val<tripoint_abs_omt> result = try_parse_coordinate_abs( queried_string );
+        if( canceled() || queried_string.empty() ) {
+            return std::nullopt;
+        }
+        if( result.success() ) {
+            return result.value();
+        }
+        popup( result.str() );
+    } while( loop );
+
+    return tripoint_abs_omt::zero;
+}
+
 std::optional<int> string_input_popup::query_int( const bool loop, const bool draw_only )
 {
     return query_int_impl<int>( *this, loop, draw_only );

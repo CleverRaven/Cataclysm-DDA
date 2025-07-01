@@ -38,6 +38,7 @@ from .parsers.limb_score import parse_limb_score
 from .parsers.loot_zone import parse_loot_zone
 from .parsers.map_extra import parse_map_extra
 from .parsers.mapgen import parse_mapgen
+from .parsers.mod_migration import parse_mod_migration
 from .parsers.mutation import parse_mutation
 from .parsers.nested_category import parse_nested_category
 from .parsers.npc import parse_npc
@@ -169,6 +170,7 @@ parsers = {
     "migration": dummy_parser,
     "mission_definition": parse_mission_definition,
     "mod_info": parse_mod_info,
+    "mod_migration": parse_mod_migration,
     "mod_tileset": dummy_parser,
     "monster": parse_monster,
     "monster_adjustment": dummy_parser,

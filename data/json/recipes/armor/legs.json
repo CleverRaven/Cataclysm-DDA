@@ -921,7 +921,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
+    "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 3 ],

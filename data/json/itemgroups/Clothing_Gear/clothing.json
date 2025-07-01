@@ -2157,10 +2157,6 @@
       [ "sports_bra", 50 ],
       [ "camisole", 30 ],
       [ "halter_top", 30 ],
-      [ "bikini_top", 5 ],
-      [ "bikini_top_short", 1 ],
-      [ "bikini_top_leather", 3 ],
-      [ "bikini_top_fur", 2 ],
       { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 70, "event": "independence_day" }
     ]
   },
@@ -2172,8 +2168,6 @@
       [ "boy_shorts", 50 ],
       { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 2 },
       { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 70, "event": "independence_day" },
-      [ "bikini_bottom", 9 ],
-      [ "bikini_bottom_short", 1 ],
       { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 70, "event": "independence_day" }
     ]
   },
@@ -2199,10 +2193,7 @@
       [ "briefs", 30 ],
       [ "boxer_briefs", 50 ],
       [ "long_underpants", 20 ],
-      [ "under_armor_shorts", 20 ],
-      [ "trunks", 10 ],
-      [ "swim_briefs", 5 ],
-      [ "speedo", 1 ]
+      [ "under_armor_shorts", 20 ]
     ]
   },
   {

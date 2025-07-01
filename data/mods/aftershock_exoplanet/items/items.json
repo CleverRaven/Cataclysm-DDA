@@ -242,6 +242,19 @@
     "category": "spare_parts"
   },
   {
+    "type": "ITEM",
+    "id": "afs_catalytic_core",
+    "name": { "str_sp": "catalytic rod" },
+    "description": "A gleaming rod of hyperspace-age alloy, manufactured through arts lost to the discontinuity.  A critical and near irreplaceable component of interstellar industry, it would fetch a high price anywhere.",
+    "symbol": "o",
+    "color": "yellow",
+    "weight": "40 kg",
+    "volume": "10 L",
+    "price": "45 kUSD",
+    "material": [ "copper", "lead", "steel" ],
+    "category": "spare_parts"
+  },
+  {
     "id": "afs_glass_device",
     "type": "ITEM",
     "name": { "str": "glass device" },

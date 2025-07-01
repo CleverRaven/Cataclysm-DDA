@@ -710,7 +710,6 @@
           "mx_exocrash_2": 5
         }
       },
-      "bridgehead_ground": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "park": { "chance": 60, "extras": { "mx_fungal_zone": 100 } },
       "road_nesw_manhole": { "chance": 20, "extras": { "mx_city_trap": 1, "mx_laststand": 1 } },
       "build": {

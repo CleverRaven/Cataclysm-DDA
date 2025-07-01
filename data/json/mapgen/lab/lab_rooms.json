@@ -202,7 +202,7 @@
       "mapping": {
         "c": {
           "items": [
-            { "item": "office", "chance": 30 },
+            { "item": "SUS_office_desk", "chance": 30 },
             { "item": "SUS_science_personal_effects", "chance": 10 },
             { "item": "textbooks", "chance": 3 },
             { "item": "science", "chance": 3 }
@@ -234,7 +234,7 @@
       "mapping": {
         "c": {
           "items": [
-            { "item": "office", "chance": 30 },
+            { "item": "SUS_office_desk", "chance": 30 },
             { "item": "SUS_science_personal_effects", "chance": 10 },
             { "item": "textbooks", "chance": 3 },
             { "item": "science", "chance": 3 }
@@ -565,7 +565,7 @@
         "x......"
       ],
       "palettes": [ "lab_palette" ],
-      "mapping": { "t": { "items": [ { "item": "office", "chance": 15 } ] } }
+      "mapping": { "t": { "items": [ { "item": "SUS_office_desk", "chance": 15 } ] } }
     }
   },
   {
@@ -588,7 +588,7 @@
       ],
       "palettes": [ "lab_palette" ],
       "mapping": {
-        "t": { "items": [ { "item": "office", "chance": 10 } ] },
+        "t": { "items": [ { "item": "SUS_office_desk", "chance": 10 } ] },
         "c": { "item": [ { "item": "television", "chance": 10 } ] }
       }
     }
@@ -612,7 +612,7 @@
         "........."
       ],
       "palettes": [ "lab_palette" ],
-      "mapping": { "t": { "items": [ { "item": "office", "chance": 10 } ] } }
+      "mapping": { "t": { "items": [ { "item": "SUS_office_desk", "chance": 10 } ] } }
     }
   },
   {

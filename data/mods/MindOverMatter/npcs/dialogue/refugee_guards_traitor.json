@@ -243,7 +243,8 @@
             {
               "u_message": "<npc_name> seems ready to attack you but suddenly freezes in place.  For a moment, caught between worlds, they stare straight ahead.  As the cold and the darkness of a teleport begin to overtake them and the air around them wavers like summer heat, they open their mouth to scream.\n\nAnd then, they are gone.",
               "popup": true
-            }
+            },
+            { "give_achievement": "mom_oublietted_refugee_center_traitor" }
           ]
         },
         "failure": { "topic": "TALK_DONE", "effect": [ "hostile", { "u_message": "You failed to teleport <npc_name>!", "type": "bad" } ] }

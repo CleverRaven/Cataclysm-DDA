@@ -612,7 +612,7 @@
     "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "myopia contact lenses (daily)" },
-    "description": "Small plastic case with two daily-use soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  They sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>nearsightedness</color>, and should be discarded after <color_light_blue>16 hours</color> of use.",
+    "description": "Small plastic case with two daily-use soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>nearsightedness</color>, and should be discarded after <color_light_blue>16 hours</color> of use.",
     "symbol": "[",
     "color": "cyan",
     "use_action": [
@@ -750,7 +750,7 @@
     "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "bifocal contact lenses (weekly)" },
-    "description": "Small plastic case with two extended-wear soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  They sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>both nearsightedness and farsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
+    "description": "Small plastic case with two extended-wear soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>both nearsightedness and farsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
     "symbol": "[",
     "color": "cyan",
     "use_action": [

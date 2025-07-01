@@ -223,6 +223,35 @@ dbl_or_var get_dbl_or_var( const JsonObject &jo, std::string_view member, bool r
     return ret_val;
 }
 
+dbl_or_var get_dbl_or_var( const JsonValue &jv )
+{
+    dbl_or_var ret_val;
+    if( jv.test_array() ) {
+        JsonArray ja = jv.get_array();
+        ret_val.min = get_dbl_or_var_part( ja.next_value() );
+        ret_val.max = get_dbl_or_var_part( ja.next_value() );
+        ret_val.pair = true;
+    } else {
+        ret_val.min = get_dbl_or_var_part( jv );
+    }
+    return ret_val;
+}
+
+dbl_or_var dbl_or_var_reader::get_next( const JsonValue &jv ) const
+{
+    return get_dbl_or_var( jv );
+}
+
+bool dbl_or_var_reader::operator()( const JsonObject &jo, const std::string_view member_name,
+                                    dbl_or_var &member, bool /*was_loaded*/ ) const
+{
+    if( !jo.has_member( member_name ) ) {
+        return false;
+    }
+    member = get_dbl_or_var( jo, member_name );
+    return true;
+}
+
 duration_or_var_part get_duration_or_var_part( const JsonValue &jv )
 {
     duration_or_var_part ret_val;

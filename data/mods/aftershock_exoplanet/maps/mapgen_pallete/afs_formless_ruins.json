@@ -47,5 +47,16 @@
     },
     "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "&": {  } }
+  },
+  {
+    "type": "palette",
+    "id": "afs_pipe",
+    "terrain": {
+      "|": "t_wall_metal",
+      "°": "t_open_air",
+      "-": [ [ "t_snow", 5 ], [ "t_ice", 1 ] ],
+      "~": [ [ "t_snow", 1 ], [ "t_ice", 5 ] ]
+    },
+    "furniture": { "o": "f_snow_medium" }
   }
 ]

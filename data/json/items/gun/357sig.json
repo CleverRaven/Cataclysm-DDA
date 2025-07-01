@@ -18,29 +18,6 @@
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p226mag_12rd_357sig" ] } ]
   },
   {
-    "id": "glock_31",
-    "copy-from": "glock_22",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "name": { "str": "Glock 31" },
-    "description": "A full size .357 SIG Glock pistol.  It is extremely similar to the Glock 22, and could be converted to fire .40 S&W by switching the barrel.",
-    "ascii_picture": "glock_20",
-    "weight": "660 g",
-    "volume": "443 ml",
-    "longest_side": "234 mm",
-    "barrel_length": "114 mm",
-    "price_postapoc": "22 USD 50 cent",
-    "min_cycle_recoil": 450,
-    "ammo": [ "357sig" ],
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "glock40mag_10", "glock40mag", "glock40bigmag" ]
-      }
-    ]
-  },
-  {
     "id": "p320_357sig",
     "copy-from": "gun_base_357sig_semi_pistol",
     "looks_like": "glock_17",

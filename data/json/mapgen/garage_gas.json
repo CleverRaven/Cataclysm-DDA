@@ -84,7 +84,7 @@
         { "group": "snacks", "x": [ 27, 29 ], "y": [ 15, 16 ], "chance": 80, "repeat": [ 2, 8 ] },
         { "group": "snacks", "x": 34, "y": [ 18, 20 ], "chance": 80, "repeat": [ 2, 8 ] },
         { "group": "smoke_shop", "x": 34, "y": [ 14, 15 ], "chance": 70, "repeat": [ 1, 2 ] },
-        { "group": "office", "x": [ 37, 39 ], "y": 19, "chance": 75, "repeat": [ 1, 2 ] },
+        { "group": "SUS_office_desk", "x": [ 37, 39 ], "y": 19, "chance": 75, "repeat": [ 1, 2 ] },
         { "group": "manuals", "x": [ 40, 43 ], "y": 21, "chance": 50, "repeat": [ 1, 2 ] },
         { "group": "mechanics", "x": 34, "y": [ 12, 15 ], "chance": 85, "repeat": [ 1, 2 ] },
         { "group": "mechanics", "x": [ 44, 47 ], "y": 19, "chance": 85, "repeat": [ 1, 3 ] },

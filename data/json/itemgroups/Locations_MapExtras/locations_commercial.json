@@ -14,7 +14,7 @@
       { "item": "cigar_cutter", "prob": 10 },
       { "item": "cigar_punch", "prob": 8 },
       { "item": "sponge", "prob": 10 },
-      { "group": "ammo_pocket_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_random", "prob": 50 },
       { "item": "vibrator", "prob": 3, "charges": [ 0, 100 ] },
       { "item": "condom", "prob": 5, "count": [ 1, 3 ] },
       { "item": "mag_porn", "prob": 20 },
@@ -100,7 +100,7 @@
       { "group": "superglue", "prob": 45 },
       { "item": "flashlight", "prob": 25, "charges": [ 0, 300 ] },
       [ "thread", 20 ],
-      { "group": "ammo_pocket_batteries_full", "prob": 25 },
+      { "group": "box_of_batteries_unopened", "prob": 25 },
       { "item": "candle", "prob": 25, "charges": [ 0, 100 ] },
       { "group": "small_candles_in_box", "prob": 10 },
       [ "hammer", 20 ],
@@ -1346,7 +1346,7 @@
     "id": "oa_ig_cs_lockers",
     "//": "For cs_car_showroom",
     "items": [
-      { "group": "ammo_pocket_batteries_full", "prob": 10 },
+      { "group": "box_of_batteries_random", "prob": 10 },
       { "item": "radio", "prob": 10, "charges": [ 0, 100 ] },
       [ "cotton_patchwork", 30 ],
       [ "dress_shoes", 20 ],
@@ -1372,7 +1372,7 @@
     "id": "oa_ig_cd_lockers",
     "//": "for cs_car_dealership",
     "items": [
-      { "group": "ammo_pocket_batteries_full", "prob": 10 },
+      { "group": "box_of_batteries_random", "prob": 10 },
       { "item": "radio", "prob": 10, "charges": [ 0, 100 ] },
       [ "cotton_patchwork", 30 ],
       [ "jack", 20 ],
@@ -1433,7 +1433,7 @@
     "id": "oa_ig_ts_lockers",
     "//": "for cs_tire_shop",
     "items": [
-      { "group": "ammo_pocket_batteries_full", "prob": 10 },
+      { "group": "box_of_batteries_random", "prob": 10 },
       { "item": "radio", "prob": 10, "charges": [ 0, 100 ] },
       [ "cotton_patchwork", 30 ],
       [ "jack", 20 ],
@@ -1464,7 +1464,8 @@
     "id": "oa_ig_ts_crates",
     "//": "for cs_tire_shop",
     "items": [
-      { "group": "ammo_any_batteries_full", "prob": 10 },
+      { "group": "box_of_batteries_unopened", "prob": 10 },
+      { "group": "ammo_heavy_batteries_full", "prob": 10 },
       { "item": "radio", "prob": 10, "charges": [ 0, 100 ] },
       [ "cotton_patchwork", 30 ],
       [ "jack", 20 ],
@@ -1730,7 +1731,7 @@
     "//": "For s_electronics shops",
     "items": [
       [ "cable", 95 ],
-      { "group": "ammo_pocket_batteries_full", "prob": 85 },
+      { "group": "box_of_batteries_unopened", "prob": 85 },
       [ "scrap", 70 ],
       [ "e_scrap", 95 ],
       [ "antenna", 50 ],
@@ -1841,7 +1842,7 @@
     "items": [
       { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
       [ "mag_computer", 20 ],
-      { "group": "ammo_pocket_batteries_full", "prob": 20 },
+      { "group": "box_of_batteries_unopened", "prob": 20 },
       [ "radio", 20 ],
       [ "television", 20 ],
       [ "two_way_radio", 20 ],

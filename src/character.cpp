@@ -2853,6 +2853,7 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
         }
     }
     bool level_up = false;
+    // NOTE: Normally always training, this training toggle is just retained for tests
     if( amount > 0 && level.isTraining() ) {
         int old_practical_level = static_cast<int>( get_skill_level( id ) );
         int old_theoretical_level = get_knowledge_level( id );
@@ -2881,7 +2882,8 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
 
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
-        if( !( has_flag( json_flag_PRED4 ) && skill.is_combat_skill() ) ) {
+        const bool predator_training_combat = has_flag( json_flag_PRED4 ) && skill.is_combat_skill();
+        if( skill.training_consumes_focus() && !predator_training_combat ) {
             // Base reduction on the larger of 1% of total, or practice amount.
             // The latter kicks in when long actions like crafting
             // apply many turns of gains at once.
@@ -4043,7 +4045,7 @@ units::mass Character::get_weight() const
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
     ret += bionics_weight();       // Weight of installed bionics
-    return ret;
+    return enchantment_cache->modify_value( enchant_vals::mod::TOTAL_WEIGHT, ret );
 }
 
 std::pair<int, int> Character::climate_control_strength() const
@@ -6359,7 +6361,8 @@ bool Character::has_calorie_deficit() const
 
 units::mass Character::bodyweight() const
 {
-    return bodyweight_fat() + bodyweight_lean();
+    return std::max( 1_gram, enchantment_cache->modify_value( enchant_vals::mod::WEIGHT,
+                     bodyweight_fat() + bodyweight_lean() ) );
 }
 
 units::mass Character::bodyweight_fat() const
@@ -7218,8 +7221,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
 
     actually_used->activation_consume( charges_used.value(), pt, this );
 
-    if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ||
-        actually_used->is_deployable() ) {
+    if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ) {
         i_rem( actually_used );
         return true;
     }
@@ -7512,9 +7514,10 @@ void Character::signal_nemesis()
 
 void Character::vomit()
 {
+    const units::volume stomach_contents_before_vomit = stomach.contains();
     get_event_bus().send<event_type::throws_up>( getID() );
 
-    if( stomach.contains() != 0_ml ) {
+    if( stomach_contents_before_vomit != 0_ml ) {
         get_map().add_field( adjacent_tile(), fd_bile, 1 );
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
     }
@@ -7546,7 +7549,7 @@ void Character::vomit()
     remove_effect( effect_pkill2 );
     remove_effect( effect_pkill3 );
     // Don't wake up when just retching
-    if( stomach.contains() > 0_ml ) {
+    if( stomach_contents_before_vomit > 0_ml ) {
         wake_up();
     }
 }
@@ -12281,7 +12284,7 @@ read_condition_result Character::check_read_condition( const item &book ) const
             !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
             result |= read_condition_result::NEED_GLASSES;
         }
-        if( fine_detail_vision_mod() > 4 ) {
+        if( fine_detail_vision_mod() > 4 && !book.has_flag( flag_CAN_USE_IN_DARK ) ) {
             result |= read_condition_result::TOO_DARK;
         }
         if( is_blind() ) {
@@ -12339,7 +12342,7 @@ const Character *Character::get_book_reader( const item &book,
         reasons.emplace_back( is_avatar() ? _( "Your eyes won't focus without reading glasses." ) :
                               string_format( _( "%s's eyes won't focus without reading glasses." ), disp_name() ) );
     } else if( condition & read_condition_result::TOO_DARK &&
-               !has_flag( json_flag_READ_IN_DARKNESS ) ) {
+               !has_flag( json_flag_READ_IN_DARKNESS ) && !book.has_flag( flag_CAN_USE_IN_DARK ) ) {
         // Too dark to read only applies if the player can read to himself
         reasons.emplace_back( _( "It's too dark to read!" ) );
         return nullptr;
@@ -13245,6 +13248,11 @@ bool Character::wield( item_location loc, bool remove_old )
     }
 
     if( remove_old && loc ) {
+        // Remove DROPPED_FAVORITES autonote if exists.
+        if( overmap_buffer.note( pos_abs_omt() ) == loc.get_item()->display_name() ) {
+            overmap_buffer.delete_note( pos_abs_omt() );
+        }
+
         loc.remove_item();
     }
     return true;
@@ -13674,11 +13682,6 @@ bool Character::can_lift( vehicle &veh, map &here ) const
     }
     const int npc_str = get_lift_assist();
     return str + npc_str >= veh.lift_strength( here );
-}
-
-static std::string wrap60( const std::string &text )
-{
-    return string_join( foldstring( text, 60 ), "\n" );
 }
 
 bool character_martial_arts::pick_style( const Character &you ) // Style selection menu
