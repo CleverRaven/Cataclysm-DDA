@@ -714,6 +714,8 @@ void map::vehmove()
         vehs.emplace( connected_veh, false ); // add with 'false' if does not exist (off map)
     }
     for( const std::pair<vehicle *const, bool> &veh_pair : vehs ) {
+        veh_pair.first->process_effects();
+        veh_pair.first->recalculate_enchantment_cache();
         veh_pair.first->idle( *this, /* on_map = */ veh_pair.second );
     }
 

@@ -7092,6 +7092,30 @@
     "difficulty": 3
   },
   {
+    "id": "nested_throwing_weapons",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "name": "throwing weapons",
+    "description": "Recipes related to making all kind of weapons designed to be thrown at the enemy.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lawn_dart", "weighted_dart", "throwing_knife", "throwing_axe", "throwing_stick", "nested_javelins" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_javelins",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "javelins",
+    "description": "Recipes related to constructing all kinds of javelins in their various forms.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "javelin_fletched", "javelin_fletched_bronze", "javelin", "javelin_iron" ],
+    "difficulty": 3
+  },
+  {
     "id": "nested_ballistic_plates",
     "type": "nested_category",
     "activity_level": "BRISK_EXERCISE",

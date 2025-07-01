@@ -1324,6 +1324,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
     mandatory( jo, was_loaded, "required_str", move_str_req );
+    optional( jo, was_loaded, "mass", mass, 1000_kilogram );
     optional( jo, was_loaded, "fall_damage_reduction", fall_damage_reduction, 0 );
     int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
     optional( jo, was_loaded, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, 300 );

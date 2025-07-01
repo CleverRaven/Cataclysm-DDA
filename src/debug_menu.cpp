@@ -283,6 +283,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
 		case debug_menu::debug_menu_index::WRITE_CITY_LIST: return "WRITE_CITY_LIST";
         case debug_menu::debug_menu_index::TALK_TOPIC: return "TALK_TOPIC";
         case debug_menu::debug_menu_index::IMGUI_DEMO: return "IMGUI_DEMO";
+        case debug_menu::debug_menu_index::VEHICLE_EFFECTS: return "VEHICLE_EFFECTS";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -949,7 +950,8 @@ static int vehicle_uilist()
         { uilist_entry( debug_menu_index::VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change battery charge" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_VEHICLE, true, 's', _( "Spawn a vehicle" ) ) },
         { uilist_entry( debug_menu_index::VEHICLE_DELETE, true, 'd', _( "Delete vehicle" ) ) },
-        { uilist_entry( debug_menu_index::VEHICLE_EXPORT, true, 'e', _( "Export vehicle as prototype" ) ) }
+        { uilist_entry( debug_menu_index::VEHICLE_EXPORT, true, 'e', _( "Export vehicle as prototype" ) ) },
+        { uilist_entry( debug_menu_index::VEHICLE_EFFECTS, true, 'f', _( "Export vehicle effects to file" ) ) }
     };
 
     return uilist( _( "Vehicle…" ), uilist_initializer );
@@ -3768,6 +3770,30 @@ static void vehicle_export()
     add_msg( m_bad, _( "There's no vehicle there." ) );
 }
 
+static void vehicle_effects()
+{
+    map &here = get_map();
+
+    optional_vpart_position v_part_pos = here.veh_at( player_picks_tile() );
+    if( !v_part_pos ) {
+        add_msg( m_bad, _( "There's no vehicle there." ) );
+        return;
+    }
+
+    write_to_file( "effect_list.output", [&]( std::ostream & testfile ) {
+        testfile << "|;id;duration;intensity;perm;bp" << std::endl;
+
+        for( const effect &eff :  v_part_pos.value().vehicle().get_effects() ) {
+            testfile << "|;" << eff.get_id().str() << ";" << to_string( eff.get_duration() ) << ";" <<
+                     eff.get_intensity() << ";" << ( eff.is_permanent() ? "true" : "false" ) << ";" << std::endl;
+        }
+
+    }, "effect_list" );
+
+    popup( _( "Effect list written to effect_list.output" ) );
+
+}
+
 static void wind_direction()
 {
     uilist wind_direction_menu;
@@ -4393,7 +4419,9 @@ void debug()
         case debug_menu_index::VEHICLE_EXPORT:
             vehicle_export();
             break;
-
+        case debug_menu_index::VEHICLE_EFFECTS:
+            vehicle_effects();
+            break;
         case debug_menu_index::IMPORT_FOLLOWER:
             import_folower();
             break;

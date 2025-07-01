@@ -3748,7 +3748,8 @@ creature_size monster::get_size() const
 
 units::mass monster::get_weight() const
 {
-    return units::operator*( type->weight, get_size() / type->size );
+    return enchantment_cache->modify_value( enchant_vals::mod::TOTAL_WEIGHT,
+                                            units::operator*( type->weight, get_size() / type->size ) );
 }
 
 units::mass monster::weight_capacity() const

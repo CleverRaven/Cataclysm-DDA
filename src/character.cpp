@@ -4045,7 +4045,7 @@ units::mass Character::get_weight() const
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
     ret += bionics_weight();       // Weight of installed bionics
-    return ret;
+    return enchantment_cache->modify_value( enchant_vals::mod::TOTAL_WEIGHT, ret );
 }
 
 std::pair<int, int> Character::climate_control_strength() const

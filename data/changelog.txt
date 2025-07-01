@@ -826,6 +826,8 @@ Mod Conflicts
 [Bombastic Perks] Limit metamagic perks to Magiclysm
 Aftershock: More mundane tools are available in exoplanet
 [MoM] Add possible `Mathematican A57` boss fight to Research Facility
+[Magiclysm] Spellcasting always grants proficiency XP
+[MoM] Add Achievements
 [Crazy Cataclysm] Add the immortal snail as second nemesis
 
 
@@ -1286,6 +1288,8 @@ Special vision save failure
 Players learning from NPCs while blind and teaching NPCs while blind is now fixed.
 Attempt to increase average autotravel speed when driving on straight roads
 remove landmines from weird places
+Fix special attacks overwriting cooldown values to zero
+Scenario still had adult hobbies applied
 
 
 ## Performance:
@@ -1316,6 +1320,7 @@ Vehicles are slightly more efficient
 vision_transparency_cache isn't rebuilt if transparency_cache_dirty isn't set
 AIM cache filter function once
 Cache item info, reducing time of crafting filter `d:` to ~32%
+Speed up mapgen especially noticeable in Sky Islands
 
 
 ## Infrastructure:
@@ -1450,6 +1455,8 @@ Allow monsters to have different climb/swim/dig speeds
 Mapgen: removed unused, obsoleted and pointless JSON fields
 Zstandard compressed save data for disk space savings.
 bulk overmap testing debug tools
+Adds a vertical stack of omt scope for mapgen parameters
+Monsters can be forced to flee through an EoC
 
 
 ## Build:
