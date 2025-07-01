@@ -8,6 +8,7 @@
     "time": "25 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "nails", 36, "LIST" ] ], [ [ "pebble", 200 ] ], [ [ "material_soil", 75 ] ] ],
+    "pre_special": "check_empty",
     "post_terrain": "f_planter"
   },
   {
