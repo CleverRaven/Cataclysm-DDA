@@ -118,7 +118,7 @@
     "time": "10 m",
     "melee_damage": { "bash": 4 },
     "read_skill": "deduction",
-    "read_fun": -10
+    "read_fun": -7
   },
   {
     "id": "book_deduction_lies",

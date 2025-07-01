@@ -409,7 +409,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "cabin_book_lies", "cabin_roof_book_lies" ],
-    "name": "old cabin",
+    "name": "cabin",
     "sym": "C",
     "color": "green",
     "vision_levels": "open_land",
