@@ -310,9 +310,8 @@
       "DEAF",
       "MODULE_HOLDER"
     ],
-    "relic_data": {
-      "passive_effects": [
-        { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CARRY_WEIGHT", "add": 20000 } ] }
+    "passive_effects": [
+      { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CARRY_WEIGHT", "add": 20000 } ] }
       ]
     },
     "use_action": [
@@ -557,7 +556,7 @@
       "TARDIS",
       "MODULE_HOLDER"
     ],
-    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
+    "passive_effects": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
     "use_action": [
       {
         "target": "dod_modular_exosuit_light_on",
@@ -591,8 +590,8 @@
       "FLASH_PROTECTION",
       "TARDIS",
       "MODULE_HOLDER"
-    ],
-    "relic_data": { "passive_effects": [ { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 5 } ] } ] },
+    ],,
+    "passive_effects": [ { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 5 } ] } ],
     "power_draw": "5787 mW",
     "revert_to": "dod_modular_exosuit_light",
     "use_action": [
