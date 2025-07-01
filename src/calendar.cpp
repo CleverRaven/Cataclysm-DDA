@@ -832,12 +832,23 @@ season_type season_of_year( const time_point &p )
 std::string to_string( const time_point &p )
 {
     const int year = calendar::years_since_cataclysm( p ) + 1;
-    const std::pair<month, int> month_day = month_and_day( p );
     const std::string time = to_string_time_of_day( p );
+    if( get_option<bool>( "SHOW_MONTHS" ) && calendar::year_length() == 364_days ) {
+        const std::pair<month, int> month_day = month_and_day( p );
 
-    //~ 1 is the year, 2 is the month, 3 is the day, 4 is the time of the day in its usual format
-    return string_format( _( "Year %1$d, %2$s %3$d %4$s" ), year, to_string( month_day.first ),
-                          month_day.second, time );
+        //~ 1 is the year, 2 is the month, 3 is the day, 4 is the time of the day in its usual format
+        return string_format( _( "Year %1$d, %2$s %3$d %4$s" ), year, to_string( month_day.first ),
+                              month_day.second, time );
+    } else if( calendar::eternal_season() ) {
+        const int day = to_days<int>( time_past_new_year( p ) );
+        //~ 1 is the year, 2 is the day (of the *year*), 3 is the time of the day in its usual format
+        return string_format( _( "Year %1$d, day %2$d %3$s" ), year, day, time );
+    }
+    const int day = day_of_season<int>( p ) + 1;
+    //~ 1 is the year, 2 is the season name, 3 is the day (of the season), 4 is the time of the day in its usual format
+    return string_format( _( "Year %1$d, %2$s, day %3$d %4$s" ), year,
+                          calendar::name_season( season_of_year( p ) ), day, time );
+
 }
 
 time_duration calendar::turn_zero_offset()
@@ -966,15 +977,26 @@ std::string get_diary_time_str( const time_point &turn, time_accuracy acc )
         case time_accuracy::FULL:
             return to_string( turn );
         case time_accuracy::PARTIAL:
-            // partial accuracy, able to see the sky
-            //~ Time of year:
-            //~ $1 = year since Cataclysm
-            //~ $2 = month
-            //~ $3 = day of month
-            //~ $4 = approximate time of day
-            return string_format( _( "Year %1$d, %2$s day %3$d, %4$s" ), year,
-                                  to_string( month_day.first ), month_day.second,
-                                  display::time_approx( turn ) );
+            if( get_option<bool>( "SHOW_MONTHS" ) ) {
+                // partial accuracy, able to see the sky
+                //~ Time of year:
+                //~ $1 = year since Cataclysm
+                //~ $2 = month
+                //~ $3 = day of month
+                //~ $4 = approximate time of day
+                return string_format( _( "Year %1$d, %2$s day %3$d, %4$s" ), year,
+                                      to_string( month_day.first ), month_day.second,
+                                      display::time_approx( turn ) );
+            } else {
+                //~ Time of year:
+                //~ $1 = year since Cataclysm
+                //~ $2 = season
+                //~ $3 = day of season
+                //~ $4 = approximate time of day
+                return string_format( _( "Year %1$d, %2$s day %3$d, %4$s" ), year,
+                                      calendar::name_season( season_of_year( turn ) ),
+                                      day_of_season<int>( turn ) + 1, display::time_approx( turn ) );
+            }
         default:
             DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
                     << "Unknown time_accuracy " << io::enum_to_string<time_accuracy>( acc );
