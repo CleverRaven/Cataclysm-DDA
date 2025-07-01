@@ -126,7 +126,7 @@
     "subtypes": [ "TOOL" ],
     "name": { "str": "Lies", "str_pl": "copies of Lies" },
     "//": "The writer wrote this book as fast as they could, for they knew the Lies would soon kill them for doing so.",
-    "description": "A haphazardly-written book filled with ramblings about something it calls \"the Lies\".  You feel threatened by this book, uneasy at the thought of having it on your person, but parsing its texts could give you insight on how things truly are. \nOnly the first third of the pages are filled with text, and the last written page is splattered in red.",
+    "description": "A haphazardly-written book filled with ramblings about something it calls \"the Lies\".  You feel threatened by this book, uneasy at the thought of having it on your person, but parsing its texts could give you insight on how things truly are.\nOnly the first third of the pages are filled with text, and the last written page is splattered in red.",
     "//2": "When possible, this should be a book.  There is currently no way to hook EOCs to reading a certain book.",
     "weight": "830 g",
     "volume": "1320 ml",
