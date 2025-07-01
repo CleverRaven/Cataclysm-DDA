@@ -1582,6 +1582,119 @@ void vehicle::use_monster_capture( int part, map */*here*/, const tripoint_bub_m
     invalidate_mass();
 }
 
+static void place_carried_furniture( map *here, item &base_copy,
+                                     const std::string &item_var_string )
+{
+    furn_str_id tied_down_furniture( base_copy.get_var( item_var_string ) );
+    if( !tied_down_furniture.is_valid() ) {
+        debugmsg( "Invalid stored furniture %s", base_copy.get_var( item_var_string ) );
+        base_copy.erase_var( item_var_string ); // to prevent bricking the item
+        return;
+    }
+
+    const std::function<bool( const tripoint_bub_ms & )> tile_without_furniture_obstruction =
+    [&here]( const tripoint_bub_ms & target ) {
+        // target does not have furniture or any vehicle part
+        // TODO: Where else can't we place a new furniture? There must be a common function for this
+        if( !here->has_furn( target ) && !here->veh_at( target ) ) {
+            return true;
+        }
+        return false;
+    };
+
+    // doesn't actually display for choose_adjacent_highlight since we don't allow auto selection
+    std::string fail_msg =
+        _( "Can't put furniture there.  There is a vehicle or another furniture in the way." );
+
+    std::optional<tripoint_bub_ms> selected_tile = choose_adjacent_highlight( *here,
+            string_format( _( "Select where to place the %s." ), tied_down_furniture->name() ),
+            fail_msg,
+            tile_without_furniture_obstruction, false, false );
+
+    if( selected_tile ) {
+        here->furn_set( *selected_tile, tied_down_furniture );
+        base_copy.erase_var( item_var_string );
+    } else {
+        add_msg( fail_msg ); // user cancelled or picked invalid tile
+    }
+}
+
+static void pickup_furniture_for_carry( map *here, item &base_copy,
+                                        const std::string &item_var_string )
+{
+    const std::function<bool( const tripoint_bub_ms & )> tile_with_furniture =
+    [&here]( const tripoint_bub_ms & target ) {
+        return here->has_furn( target );
+    };
+
+    std::optional<tripoint_bub_ms> selected_tile = choose_adjacent_highlight( *here,
+            _( "Select a furniture to load into the vehicle." ),
+            _( "No adjacent furniture." ),
+            tile_with_furniture, false, true );
+
+    if( !selected_tile ) {
+        return; // no adjacent furniture (they got msg) or they cancelled on purpose, so just return
+    }
+
+    const furn_str_id picked_up_furn = here->furn( *selected_tile )->id;
+
+    const Character &you = get_player_character();
+    const int lifting_str_available = you.get_lift_str() + you.get_lift_assist();
+
+    if( picked_up_furn->move_str_req < 0 ) {
+        add_msg( _( "That furniture can't be moved." ) );
+        return;
+    } else if( picked_up_furn->move_str_req > lifting_str_available ) {
+        if( you.get_lift_assist() > 0 ) {
+            add_msg( string_format( _( "Even working together, you are unable to lift the %s." ),
+                                    picked_up_furn->name() ) );
+        } else {
+            add_msg( string_format( _( "You aren't able to lift the %s on your own." ),
+                                    picked_up_furn->name() ) );
+        }
+        return;
+    }
+
+    here->furn_clear( *selected_tile );
+
+    // The awful hack that makes this all work. We store the furniture's string id directly on the item as an item var.
+    base_copy.set_var( item_var_string, picked_up_furn.c_str() );
+}
+
+void vehicle::use_tiedown_furniture( int part, map *here, const tripoint_bub_ms & )
+{
+    if( !here ) {
+        // should never happen!
+        debugmsg( "vehicle::use_tiedown_furniture() called without a map pointer, please report this error" );
+        return;
+    }
+
+    if( parts[part].is_broken() || parts[part].removed ) {
+        add_msg( _( "The %s is broken and cannot be used." ), parts[part].name() );
+        return;
+    }
+
+    const std::string item_var_string = "tied_down_furniture";
+
+    // Use a copy of the item because get_base() returns a const reference for safety
+    item base_copy = item( parts[part].get_base() );
+    const bool will_unload_furniture = base_copy.has_var( item_var_string );
+
+    if( !get_items( parts[part] ).empty() && !will_unload_furniture ) {
+        add_msg( m_warning, _( "Can't store furniture while there are items in the way." ) );
+        return;
+    }
+
+    if( will_unload_furniture ) {
+        place_carried_furniture( here, base_copy, item_var_string );
+    } else {
+        pickup_furniture_for_carry( here, base_copy, item_var_string );
+    }
+
+    parts[part].set_base( std::move( base_copy ) );
+    invalidate_mass();
+}
+
 void vehicle::use_harness( int part, map *here, const tripoint_bub_ms &pos )
 {
     if( here !=
@@ -2329,6 +2442,15 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         menu.add( _( "Capture or release a creature" ) )
         .hotkey( "USE_CAPTURE_MONSTER_VEH" )
         .on_submit( [this, mc_idx, vppos, here] { use_monster_capture( mc_idx, here, vppos ); } );
+    }
+
+    const std::optional<vpart_reference> vp_furniture_tiedown =
+        vp.avail_part_with_feature( "FURNITURE_TIEDOWN" );
+    if( vp_furniture_tiedown ) {
+        const size_t mc_idx = vp_furniture_tiedown->part_index();
+        menu.add( _( "Tie down or remove a furniture" ) )
+        .hotkey( "USE_TIEDOWN_FURNITURE_VEH" )
+        .on_submit( [this, mc_idx, vppos, here] { use_tiedown_furniture( mc_idx, here, vppos ); } );
     }
 
     const std::optional<vpart_reference> vp_bike_rack = vp.avail_part_with_feature( "BIKE_RACK_VEH" );
