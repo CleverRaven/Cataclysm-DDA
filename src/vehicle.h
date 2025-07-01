@@ -733,6 +733,7 @@ class vpart_display
         const vpart_id &id;
         const vpart_variant &variant;
         nc_color color = c_black;
+        std::string carried_furn;
         char32_t symbol = ' '; // symbol in unicode
         int symbol_curses = ' '; // symbol converted to curses ACS encoding if needed
         bool is_broken = false;
