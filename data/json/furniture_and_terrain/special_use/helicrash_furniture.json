@@ -1,0 +1,118 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_sunkenhelicopter_floor",
+    "name": "aisle",
+    "description": "An aisle.",
+    "connect_groups": [ "INDOORFLOOR", "MULCHFLOOR" ],
+    "copy-from": "t_scrap_floor"
+  },
+  {
+    "type": "terrain",
+    "id": "t_sunkenhelicopter_floor_rotator",
+    "connect_groups": [ "INDOORFLOOR", "MULCHFLOOR" ],
+    "copy-from": "t_sunkenhelicopter_floor"
+  },
+  {
+    "type": "terrain",
+    "id": "t_sunkenhelicopter_wall_nw",
+    "name": "board",
+    "copy-from": "t_scrap_wall",
+    "description": "A metal wall. Keeps zombies outside the vehicle and prevents people from seeing through it."
+  },
+  {
+    "type": "terrain",
+    "id": "t_sunkenhelicopter_wall_ne",
+    "copy-from": "t_sunkenhelicopter_wall_nw"
+  },
+  {
+    "type": "terrain",
+    "id": "t_sunkenhelicopter_wall_w",
+    "copy-from": "t_sunkenhelicopter_wall_nw"
+  },
+  {
+    "type": "terrain",
+    "id": "t_sunkenhelicopter_wall_e",
+    "copy-from": "t_sunkenhelicopter_wall_nw"
+  },
+  {
+    "type": "terrain",
+    "id": "t_sunkenhelicopter_wall_s",
+    "copy-from": "t_sunkenhelicopter_wall_nw"
+  },
+  {
+    "type": "terrain",
+    "id": "t_sunkenhelicopter_wall_sw",
+    "copy-from": "t_sunkenhelicopter_wall_nw"
+  },
+  {
+    "type": "terrain",
+    "id": "t_sunkenhelicopter_wall_se",
+    "copy-from": "t_sunkenhelicopter_wall_nw"
+  },
+  {
+    "type": "terrain",
+    "id": "t_sunkenhelicopter_quarterpanel_n_middle",
+    "name": "quarterpanel",
+    "description": "A half-height metal wall. Keeps zombies outside the vehicle but allows people to see over it.",
+    "copy-from": "t_drystone_wall_half",
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "lc_steel_chunk", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sunkenhelicopter_quarterpanel_n_left",
+    "copy-from": "t_sunkenhelicopter_quarterpanel_n_middle"
+  },
+  {
+    "type": "terrain",
+    "id": "t_sunkenhelicopter_quarterpanel_n_right",
+    "copy-from": "t_sunkenhelicopter_quarterpanel_n_middle"
+  },
+  {
+    "type": "terrain",
+    "id": "t_sunkenhelicopter_windshield_n",
+    "copy-from": "t_window",
+    "name": "windshield",
+    "description": "A sheet of glass that lets you see outside the vehicle.",
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "NOITEM" ],
+    "shoot": { "reduce_damage": [ 1, 4 ], "reduce_damage_laser": [ 0, 4 ], "destroy_damage": [ 1, 4 ], "no_laser_destroy": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sunkenhelicopter_frame",
+    "name": "frame",
+    "description": "A metal framework. Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "copy-from": "t_junk_floor"
+  },
+  {
+    "type": "furniture",
+    "id": "f_sunkenhelicopter_seat_rotating",
+    "name": "bucket seat",
+    "description": "A soft upholstered car seat, contoured to hold one person.",
+    "copy-from": "f_armchair",
+    "rotates_to": "MULCHFLOOR"
+  },
+  {
+    "type": "terrain",
+    "id": "t_sunkenhelicopter_roof",
+    "name": "roof",
+    "description": "A metal roof.",
+    "copy-from": "t_sunkenhelicopter_floor"
+  },
+  {
+    "type": "terrain",
+    "id": "t_sunkenhelicopter_rotor",
+    "name": "eavy-duty military Blackhawk rotors",
+    "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
+    "copy-from": "t_sunkenhelicopter_floor"
+  }
+]

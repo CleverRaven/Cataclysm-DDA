@@ -36,6 +36,7 @@
         "topic": "TALK_GUARD_Boris_Mission_1"
       },
       { "text": "How did you get saddled with guard duty?", "topic": "TALK_GUARD_FM_BACKGROUND" },
+      { "text": "Heard anything about an helicopter crash?", "topic": "TALK_GUARD_FM_HELICRASH_ANECDOTE" },
       { "text": "Don't mind me…", "topic": "TALK_DONE" }
     ]
   },

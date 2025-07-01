@@ -51,7 +51,47 @@
         }
       },
       { "text": "Does the Old Guard need anything?", "topic": "TALK_MISSION_LIST" },
-      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+      {
+        "text": "About that offer, let's hear it.",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "helicrash_tip_offer" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "got_helicrash_location" } ] } }
+          ]
+        },
+        "topic": "TALK_OLD_GUARD_REP_TIP1"
+      },
+      {
+        "text": "What was the helicopter cargo?",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "helicrash_tip_offer" } ] },
+            { "compare_string": [ "yes", { "u_val": "got_helicrash_location" } ] }
+          ]
+        },
+        "topic": "TALK_OLD_GUARD_REP_TIP_CARGO0"
+      },
+      {
+        "text": "<end_talking_bye>",
+        "effect": [ { "u_add_var": "helicrash_tip_offer", "value": "yes" } ],
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "proven_worth_to_old_guard_rep" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "helicrash_tip_offer" } ] } }
+          ]
+        },
+        "topic": "TALK_OLD_GUARD_REP_TIP0"
+      },
+      {
+        "text": "<end_talking_bye>",
+        "condition": {
+          "or": [
+            { "not": { "compare_string": [ "yes", { "u_val": "proven_worth_to_old_guard_rep" } ] } },
+            { "compare_string": [ "yes", { "u_val": "helicrash_tip_offer" } ] }
+          ]
+        },
+        "topic": "TALK_DONE"
+      }
     ],
     "//": "TODO: The rep should know whether you're actually a sworn officer: Wearing the badge without the trait => Bad idea"
   },
@@ -189,6 +229,7 @@
         "place_npcs": [ { "class": "bandit", "x": 12, "y": 12, "target": true } ]
       }
     },
+    "end": { "effect": [ { "u_add_var": "proven_worth_to_old_guard_rep", "value": "yes" } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REP_2",
