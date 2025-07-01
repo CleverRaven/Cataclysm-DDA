@@ -4,6 +4,7 @@
 #include <climits>
 #include <cstdlib>
 #include <functional>
+#include <iostream>
 #include <limits>
 #include <list>
 #include <string>
@@ -113,6 +114,19 @@ template void comp_selection<item_comp>::serialize( JsonOut &jsout ) const;
 template void comp_selection<tool_comp>::deserialize( const JsonObject &data );
 template void comp_selection<item_comp>::deserialize( const JsonObject &data );
 
+crafting_queue::crafting_queue( const recipe *rec, inventory &map_inv, int batch_size,
+                                Character *crafter, const requirement_data *reqs )
+{
+    // TODO: after deduped_requirements.select_alternative?
+    if( !rec->recursive_comp_crafts( this, map_inv, batch_size, crafter, reqs ).success() ||
+        empty() ) {
+        add_msg_debug( debugmode::DF_CRAFTING, "crafting %s cancled, couldnt find craftable components" );
+        return;
+    }
+
+
+}
+
 void craft_command::execute( const std::optional<tripoint_bub_ms> &new_loc )
 {
     loc = new_loc;
@@ -126,24 +140,12 @@ void craft_command::execute( bool only_cache_comps )
     }
 
     bool need_selections = true;
-    inventory map_inv;
-    map_inv.form_from_map( crafter->pos_bub(), PICKUP_RANGE, crafter );
+
+    inventory map_inv = crafter->get_crafting_inv();
 
 
-    // crafting_queue = rec->to_craft( map_inv, batch_size, crafter );
-    std::vector<const recipe *> crafting_queue;
-    if( !rec->recursive_comp_crafts( crafting_queue, map_inv, batch_size, crafter ).success() ) {
-        add_msg_debug( debugmode::DF_CRAFTING, "crafting %s cancled" );
-        return;
-    }
 
-    if( crafting_queue.empty() ) {
-        debugmsg( "no craftable found" );
-        return;
-    }
-    current_craft = crafting_queue.back();
-
-    if( current_craft->is_null() ) {
+    if( rec->is_null() ) {
         debugmsg( "recipe is null" );
         return;
     }
@@ -161,7 +163,7 @@ void craft_command::execute( bool only_cache_comps )
     }
 
     if( need_selections ) {
-        if( !crafter->can_make( current_craft, batch_size ) ) {
+        if( !crafter->can_make( rec, batch_size ) ) {
             if( crafter->can_start_craft( rec, recipe_filter_flags::none, batch_size ) ) {
                 if( !query_yn( _( "You don't have enough charges to complete the %s.\n"
                                   "Start crafting anyway?" ), rec->result_name() ) ) {
@@ -178,7 +180,7 @@ void craft_command::execute( bool only_cache_comps )
 
         flags = recipe_filter_flags::no_rotten;
 
-        if( !crafter->can_start_craft( current_craft, flags, batch_size ) ) {
+        if( !crafter->can_start_craft( rec, flags, batch_size ) ) {
             if( !query_yn( _( "This craft will use rotten components.\n"
                               "Start crafting anyway?" ) ) ) {
                 return;
@@ -187,7 +189,7 @@ void craft_command::execute( bool only_cache_comps )
         }
 
         flags |= recipe_filter_flags::no_favorite;
-        if( !crafter->can_start_craft( current_craft, flags, batch_size ) ) {
+        if( !crafter->can_start_craft( rec, flags, batch_size ) ) {
             if( !query_yn( _( "This craft will use favorited components.\n"
                               "Start crafting anyway?" ) ) ) {
                 return;
@@ -197,16 +199,24 @@ void craft_command::execute( bool only_cache_comps )
         }
 
         item_selections.clear();
-        const auto filter = current_craft->get_component_filter( flags );
-        const requirement_data *needs = current_craft->deduped_requirements().select_alternative(
+        const auto filter = rec->get_component_filter( flags );
+        const requirement_data *needs = rec->deduped_requirements().select_alternative(
                                             *crafter, filter, batch_size, craft_flags::start_only );
         if( !needs ) {
             return;
         }
-
+        if( craft_queue.empty() ) {
+            craft_queue = crafting_queue( rec, map_inv, batch_size, crafter, needs );
+        }
+        std::cout << rec->result_name() << " queue:\n";
+        for( auto &[r, batch] : craft_queue ) {
+            std::cout << r->result_name() << "\n";
+        }
+        current_craft = craft_queue.get_next();
         for( const auto &it : needs->get_components() ) {
             comp_selection<item_comp> is =
-                crafter->select_item_component( it, batch_size, map_inv, true, filter, true, true, current_craft );
+                crafter->select_item_component( it, batch_size, map_inv, true, filter, true, true,
+                                                rec );
             if( is.use_from == usage_from::cancel ) {
                 return;
             }
@@ -449,12 +459,12 @@ item craft_command::create_in_progress_craft()
     // Use up the components and tools
     item_components used;
     std::vector<item_comp> comps_used;
-    if( !current_craft || current_craft->is_null() ) {
+    if( !rec || rec->is_null() ) {
         debugmsg( "attempted to create craft item without recipe" );
         return item();
     }
     if( crafter->has_trait( trait_DEBUG_HS ) ) {
-        return item( current_craft, batch_size, used, comps_used );
+        return item( rec, batch_size, used, comps_used );
     }
 
     if( empty() ) {
@@ -508,7 +518,7 @@ item craft_command::create_in_progress_craft()
         }
     }
 
-    item new_craft( current_craft, batch_size, used, comps_used );
+    item new_craft( rec, batch_size, used, comps_used );
 
     new_craft.set_cached_tool_selections( tool_selections );
     new_craft.set_tools_to_continue( true );

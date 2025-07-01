@@ -68,6 +68,20 @@ struct craft_selection {
     void deserialize( const JsonObject &data );
 };
 
+
+struct crafting_queue: std::vector<std::pair< const recipe *, int>> {
+    public:
+        crafting_queue() = default;
+        crafting_queue( const recipe *rec, inventory &map_inv, int batch_size, Character *crafter,
+                        const requirement_data *reqs );
+
+        std::pair< const recipe *, int> get_next() {
+            std::pair< const recipe *, int>  ret = back();
+            pop_back();
+            return ret;
+        }
+};
+
 /**
 *   Class that describes a crafting job.
 *
@@ -129,8 +143,8 @@ class craft_command
         // Location of the workbench to place the item on
         // zero_tripoint indicates crafting without a workbench
         std::optional<tripoint_bub_ms> loc;
-        const recipe *current_craft;
-        std::vector<const recipe *> crafting_queue;
+        std::pair<const recipe *, int>current_craft;
+        crafting_queue craft_queue;
         std::vector<comp_selection<item_comp>> item_selections;
         std::vector<comp_selection<tool_comp>> tool_selections;
 

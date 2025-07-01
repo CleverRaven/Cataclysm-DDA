@@ -600,6 +600,13 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
     return conts;
 }
 
+inventory Character::get_crafting_inv()
+{
+    inventory map_inv;
+    map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
+    return map_inv;
+}
+
 bool Character::can_make( const recipe *r, int batch_size ) const
 {
     const inventory &crafting_inv = crafting_inventory();
@@ -2065,7 +2072,7 @@ craft_selection Character::select_component_to_craft(
     uilist cmenu;
     for( const auto&[ rec, component] : components ) {
         if( ( is_npc() && !npc_query ) || components.size() == 1 ) {
-            return craft_selection{component, rec};
+            //     return craft_selection{component, rec};
         }
         // std::stringstream str = "" << batch << " " << rec->ident().c_str();
         //TODO: make actual recipe string
