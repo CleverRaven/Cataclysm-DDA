@@ -16,7 +16,7 @@
   {
     "id": "TALK_BALTHAZAR_MEET_DESCRIPTION_WEAK",
     "type": "talk_topic",
-    "dynamic_line": "The bunker has a field of solar panels nearby but some of the staff damaged them badly when they turned into those... things.  I need you to gather at least 12 panels so I can stabilize my power output.",
+    "dynamic_line": "The bunker has a field of solar panels nearby but some of the staff damaged them badly when they turned into those… things.  I need you to gather at least 12 panels so I can stabilize my power output.",
     "responses": [
       {
         "text": "Alright, I'll see what I can gather.",
