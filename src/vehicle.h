@@ -29,6 +29,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "effect.h"
 #include "enums.h"
 #include "global_vars.h"
 #include "item.h"
@@ -36,6 +37,7 @@
 #include "item_location.h"
 #include "item_stack.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "math_parser_diag_value.h"
 #include "npc.h"
@@ -52,6 +54,7 @@
 // IWYU pragma: no_forward_declare npc // behind unique_ptr
 class Character;
 class Creature;
+class effect_source;
 class JsonArray;
 class JsonObject;
 class JsonOut;
@@ -889,7 +892,18 @@ class vehicle
         void clear_values();
         void add_chat_topic( const std::string &topic );
         int get_passenger_count( bool hostile ) const;
-
+        enchant_cache enchantment_cache; //NOLINT(cata-serialize)
+        void recalculate_enchantment_cache();
+        std::map<efftype_id, effect> effects;
+        void process_effects();
+        void remove_effect( const efftype_id &eff_id );
+        bool has_effect( const efftype_id &eff_id ) const;
+        std::vector<std::reference_wrapper<const effect>> get_effects() const;
+        /** Adds or modifies an effect. If intensity is given it will set the effect intensity
+            to the given value, or as close as max_intensity values permit. */
+        void add_effect( const effect_source &source, const efftype_id &eff_id, const time_duration &dur,
+                         bool permanent = false, int intensity = 0 );
+        bool has_visible_effect();
         /**
          * Find a possibly off-map vehicle. If necessary, loads up its submap through
          * the global MAPBUFFER and pulls it from there. For this reason, you should only
@@ -2101,6 +2115,7 @@ class vehicle
         void toggle_autopilot( map &here );
         void enable_patrol( map &here );
         void toggle_tracking();
+        void display_effects();
         //scoop operation,pickups, battery drain, etc.
         void operate_scoop( map &here );
         void operate_reaper( map &here );

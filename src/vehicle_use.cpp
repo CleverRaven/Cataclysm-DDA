@@ -556,6 +556,18 @@ void vehicle::toggle_tracking()
     }
 }
 
+void vehicle::display_effects()
+{
+    std::string effect_message;
+    for( auto &elem : effects ) {
+        if( elem.first->is_show_in_info() ) {
+            effect_message += elem.second.disp_name() + ": " + elem.second.disp_desc();
+            effect_message += '\n';
+        }
+    }
+    add_msg( effect_message );
+}
+
 void vehicle::connect( map *here, const tripoint_bub_ms &source_pos,
                        const tripoint_bub_ms &target_pos )
 {
@@ -2017,6 +2029,13 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .keep_menu_open()
         .hotkey( "TOGGLE_TRACKING" )
         .on_submit( [this] { toggle_tracking(); } );
+    }
+
+    if( has_visible_effect() ) {
+        menu.add( _( "Examine vehicle effects" ) )
+        .skip_theft_check()
+        .skip_locked_check()
+        .on_submit( [this] { display_effects(); } );
     }
 
     if( is_locked && controls_here ) {
