@@ -353,6 +353,7 @@
       [ [ "rock_large", 2 ], [ "rock", 40 ] ],
       [ [ "wood_panel", 1 ], [ "sheet_metal", 1 ] ]
     ],
+    "pre_special": "check_empty",
     "post_terrain": "f_screw_press"
   },
   {
