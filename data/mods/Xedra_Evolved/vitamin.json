@@ -114,6 +114,16 @@
     "rate": "0 m"
   },
   {
+    "id": "xedra_knowing_lies",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Knowledge of the Lies" },
+    "//": "This vitamin scales everything the player gains and suffers from reading this book.",
+    "min": 0,
+    "max": 99999,
+    "rate": "1 m"
+  },
+  {
     "id": "mutagen_earthkin",
     "type": "vitamin",
     "vit_type": "counter",
