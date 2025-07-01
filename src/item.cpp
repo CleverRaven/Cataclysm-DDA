@@ -12905,7 +12905,7 @@ bool item::use_amount_internal( const itype_id &it, int &quantity, std::list<ite
 
 bool item::allow_crafting_component() const
 {
-    if( ( is_toolmod() && is_irremovable() ) || has_flag( flag_PSEUDO ) ) {
+    if( has_flag( flag_PSEUDO ) ) {
         return false;
     }
 
