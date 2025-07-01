@@ -316,16 +316,6 @@ Snippetize Tshirt variants
 Exodii Ceramics
 Opiate Vitamin
 Add arab and islamic clothes for women
-Spawn metal trash in scrapyard
-Adds poutine, gravy, instant gravy
-Make grassy areas in the junkyard make sense again
-Add trashcans in strip mall clothing stores
-Don't put 20 bags of trash in 1 trashcan
-Use SUS for public trashcans on mall 2nd floor
-The military base has barbed wire instead of minefields
-Allows the player to cook up Julienne fries
-Put public trash in stores and businesses
-Two new rifles, M&P 15 in .223 and .22 LR
 
 
 ## Interface:
@@ -1299,16 +1289,7 @@ Players learning from NPCs while blind and teaching NPCs while blind is now fixe
 Attempt to increase average autotravel speed when driving on straight roads
 remove landmines from weird places
 Fix special attacks overwriting cooldown values to zero
-[MoM] Add Extended Channeling to new channeling success jmath
-Remove trash from the filing cabinet
-Use correct arguments for om_target_tile
-Fix endless loop when mutating with low primer vitamin
-Fix lack of gaining power xp
-Add Bayonet Lug to Mossberg 590A1
-[Magiclysm/MoM] Fix supernatural welding
 Scenario still had adult hobbies applied
-Powdered Milk Now Gives its Calories
-Remove 4 guns to match MA gun legality
 
 
 ## Performance:
