@@ -115,6 +115,7 @@ Use the `Home` key to return to the top.
       - [`oxytorch`](#oxytorch)
       - [`prying`](#prying)
       - [`required_str`](#required_str)
+      - [`mass`](#mass)
       - [`crafting_pseudo_item`](#crafting_pseudo_item)
       - [`workbench`](#workbench)
       - [`plant_data`](#plant_data)
