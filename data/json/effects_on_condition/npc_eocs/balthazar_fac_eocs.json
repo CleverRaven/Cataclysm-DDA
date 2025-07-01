@@ -50,7 +50,6 @@
     "global": true,
     "effect": [
       { "mapgen_update": "remove_balthazar_intercom", "om_terrain": "balthazar_bunker_01" },
-      { "mapgen_update": "remove_balthazar_intercom", "om_terrain": "balthazar_bunker_03_-1" },
       { "math": [ "balthazar_power = 0" ] },
       { "math": [ "balthazar_daily_power_gain = 0" ] }
     ]
@@ -59,12 +58,12 @@
     "type": "effect_on_condition",
     "id": "EOC_BALTHAZAR_SECUBOT_DEATH",
     "global": true,
-    "effect": [ { "math": [ "balthazar_power -= 5" ] } ]
+    "effect": [ { "math": [ "balthazar_power -= 5" ] }, { "run_eocs": "EOC_BALTHAZAR_CHECK_PROGRESS" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_BALTHAZAR_TURRET_DEATH",
     "global": true,
-    "effect": [ { "math": [ "balthazar_power -= 2" ] } ]
+    "effect": [ { "math": [ "balthazar_power -= 2" ] }, { "run_eocs": "EOC_BALTHAZAR_CHECK_PROGRESS" } ]
   }
 ]
