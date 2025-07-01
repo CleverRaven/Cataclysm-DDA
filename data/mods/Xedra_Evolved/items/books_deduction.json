@@ -251,24 +251,17 @@
       { "run_eocs": [ "EOC_STARE_EFF2" ] },
       { "run_eocs": [ "EOC_STARE_EFF3" ] },
       { "run_eocs": [ "EOC_STARE_EFF4" ] },
-      { "math": [ "u_deduction_from_book_lies_counter += 1250" ] },
+      { "math": [ "u_deduction_from_book_lies_counter += 750" ] },
       { "run_eocs": "EOC_READING_BOOK_LIES_HOUND_PROOF" },
       { "math": [ "u_delay_before_hound = 0" ] },
-      { "math": [ "u_delay_before_hound += rng(5,15)" ] }
+      { "math": [ "u_delay_before_hound += rng(5, 15)" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_READING_BOOK_LIES_HOUND_PROOF",
     "//": "By being immune to mind taint, the player draws more ire from the Lies, as they hate being resisted.",
-    "condition": {
-      "or": [
-        { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" },
-        { "u_has_flag": "DIMENSIONAL_ANCHOR" },
-        { "u_has_flag": "MAGICAL_MIND_PROTECTION" },
-        { "u_has_worn_with_flag": "MAGICAL_MIND_PROTECTION" }
-      ]
-    },
+    "condition": { "not": { "u_has_effect": "taint" } },
     "effect": [
       { "math": [ "u_hp('head') -= 5" ] },
       { "math": [ "u_hp('torso') -= 5" ] },
@@ -285,17 +278,17 @@
     "//": "At this point, the Lies are actively trying to kill the player and they have no reason to hold back now.  The attempts will continue until the player stops reading or dies.",
     "condition": { "math": [ "u_delay_before_claw <= 0" ] },
     "effect": [
-      { "math": [ "u_random_clawed_part = rng(1,6)" ] },
-      { "if": { "math": [ "u_random_clawed_part == 1" ] }, "then": { "math": [ "u_hp('head') -= 40" ] } },
-      { "if": { "math": [ "u_random_clawed_part == 2" ] }, "then": { "math": [ "u_hp('torso') -= 40" ] } },
-      { "if": { "math": [ "u_random_clawed_part == 3" ] }, "then": { "math": [ "u_hp('arm_l') -= 40" ] } },
-      { "if": { "math": [ "u_random_clawed_part == 4" ] }, "then": { "math": [ "u_hp('arm_r') -= 40" ] } },
-      { "if": { "math": [ "u_random_clawed_part == 5" ] }, "then": { "math": [ "u_hp('leg_l') -= 40" ] } },
-      { "if": { "math": [ "u_random_clawed_part == 6" ] }, "then": { "math": [ "u_hp('leg_r') -= 40" ] } },
+      { "math": [ "u_random_clawed_part = rand(5)" ] },
+      { "if": { "math": [ "u_random_clawed_part == 0" ] }, "then": { "math": [ "u_hp('head') -= rng(35, 45)" ] } },
+      { "if": { "math": [ "u_random_clawed_part == 1" ] }, "then": { "math": [ "u_hp('torso') -= rng(35, 45)" ] } },
+      { "if": { "math": [ "u_random_clawed_part == 2" ] }, "then": { "math": [ "u_hp('arm_l') -= rng(35, 45)" ] } },
+      { "if": { "math": [ "u_random_clawed_part == 3" ] }, "then": { "math": [ "u_hp('arm_r') -= rng(35, 45)" ] } },
+      { "if": { "math": [ "u_random_clawed_part == 4" ] }, "then": { "math": [ "u_hp('leg_l') -= rng(35, 45)" ] } },
+      { "if": { "math": [ "u_random_clawed_part == 5" ] }, "then": { "math": [ "u_hp('leg_r') -= rng(35, 45)" ] } },
       { "math": [ "u_deduction_from_book_lies_counter += 6250" ] },
-      { "u_message": "book_lies_claw", "snippet": true, "type": "popup" },
+      { "u_message": "book_lies_claw", "snippet": true, "type": "bad", "popup": true },
       { "math": [ "u_delay_before_claw = 0" ] },
-      { "math": [ "u_delay_before_claw += rng(25,35)" ] }
+      { "math": [ "u_delay_before_claw += rng(25, 35)" ] }
     ]
   },
   {
