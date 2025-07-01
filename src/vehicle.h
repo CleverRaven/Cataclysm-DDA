@@ -383,6 +383,9 @@ struct vehicle_part {
         /** Try to set fault returning false if specified fault cannot occur with this item */
         bool fault_set( const fault_id &f );
 
+        void load_furniture( map &here, const tripoint_bub_ms &from );
+        void unload_furniture( map &here, const tripoint_bub_ms &to );
+
         /**
          *  Get NPC currently assigned to this part (seat, turret etc)?
          *  @note checks crew member is alive and currently allied to the player

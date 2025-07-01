@@ -531,6 +531,49 @@ bool vehicle_part::fault_set( const fault_id &f )
     return true;
 }
 
+bool vpart_position::can_load_furniture() const
+{
+    std::optional<vpart_reference> loader = part_with_feature( "FURNITURE_TIEDOWN", true );
+    if( !loader.has_value() ) {
+        return false;
+    }
+    if( !loader->items().empty() ) {
+        return false;
+    }
+    if( loader->part().get_base().has_var( "tied_down_furniture" ) ) {
+        return false;
+    }
+    return true;
+}
+
+void vehicle_part::load_furniture( map &here, const tripoint_bub_ms &from )
+{
+    if( base.has_var( "tied_down_furniture" ) ) {
+        return;
+    }
+
+    // The awful hack that makes this all work. We store the furniture's string id directly on the item as an item var.
+    base.set_var( "tied_down_furniture", here.furn( from ).id().str() );
+    here.furn_clear( from );
+}
+
+void vehicle_part::unload_furniture( map &here, const tripoint_bub_ms &to )
+{
+    if( !base.has_var( "tied_down_furniture" ) ) {
+        return;
+    }
+    furn_str_id carried_furn( base.get_var( "tied_down_furniture" ) );
+    if( !carried_furn.is_valid() ) {
+        debugmsg( "Invalid carried furniture %s", carried_furn.str() );
+        return;
+    }
+    if( here.has_furn( to ) ) {
+        return;
+    }
+    base.remove_var( "tied_down_furniture" );
+    here.furn_set( to, carried_furn );
+}
+
 npc *vehicle_part::crew() const
 {
     if( is_broken() || !crew_id.is_valid() ) {

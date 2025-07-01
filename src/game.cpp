@@ -11653,7 +11653,9 @@ bool game::can_move_furniture( tripoint_bub_ms fdest, const tripoint_rel_ms &dp 
         return false;
     }
     if( here.veh_at( fdest ) ) {
-        return false;
+        if( !here.veh_at( fdest )->can_load_furniture() ) {
+            return false;
+        }
     }
     if( !( !has_floor || here.tr_at( fdest ).is_null() ) ) {
         return false;
@@ -11857,9 +11859,19 @@ bool game::grabbed_furn_move( const tripoint_rel_ms &dp )
     sounds::sound( fdest, furntype.move_str_req * 2, sounds::sound_t::movement,
                    _( "a scraping noise." ), true, "misc", "scraping" );
 
-    // Actually move the furniture.
-    here.furn_set( fdest, here.furn( fpos ), false, false, true );
-    here.furn_set( fpos, furn_str_id::NULL_ID(), true );
+    if( here.veh_at( fdest ) ) {
+        u.grab( object_type::NONE );
+        here.veh_at( fdest )->part_with_feature( "FURNITURE_TIEDOWN", true )->part().load_furniture( here,
+                fpos );
+        here.furn_set( fpos, furn_str_id::NULL_ID(), true );
+        here.veh_at( fdest )->vehicle().invalidate_mass();
+        add_msg( _( "You load the furniture onto the vehicle." ) );
+        return shifting_furniture;
+    } else {
+        // Actually move the furniture.
+        here.furn_set( fdest, here.furn( fpos ), false, false, true );
+        here.furn_set( fpos, furn_str_id::NULL_ID(), true );
+    }
 
     if( fire_intensity == 1 && !pulling_furniture ) {
         here.remove_field( fpos, fd_fire );
