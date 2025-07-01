@@ -187,7 +187,7 @@
     "relations": {
       "your_followers": {
         "kill on sight": false,
-        "watch your back": false,
+        "watch your back": true,
         "share my stuff": false,
         "guard your stuff": true,
         "lets you in": true,

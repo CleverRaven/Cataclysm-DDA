@@ -69,12 +69,7 @@
     "type": "talk_topic",
     "dynamic_line": [ "Yes?", "Hmm?", "What is it?" ],
     "responses": [
-      {
-        "text": "Can we trade?",
-        "trial": { "type": "CONDITION", "condition": { "math": [ "balthazar_open_trade == 1" ] } },
-        "success": { "topic": "TALK_NONE", "effect": "start_trade" },
-        "failure": { "topic": "TALK_BALTHAZAR_NO_TRADE_YET" }
-      },
+      { "text": "Can we trade?", "topic": "TALK_BALTHAZAR_NO_TRADE_YET" },
       {
         "text": "Tell me your story.",
         "trial": { "type": "CONDITION", "condition": { "math": [ "balthazar_power < 50" ] } },
@@ -164,7 +159,7 @@
         { "u_spawn_item": "guns_rifle_milspec", "count": 2, "use_item_group": true },
         { "u_spawn_item": "stanag30", "count": 2 },
         { "u_spawn_item": "MRE", "count": 5, "use_item_group": true },
-        { "u_consume_item_sum": [ { "item": "ground_solar_panel", "amount": 12 } ] }
+        { "u_consume_item": "ground_solar_panel", "count": 12, "popup": true }
       ]
     },
     "responses": [ { "text": "Thanks.", "topic": "TALK_BALTHAZAR_INTERCOM_MAIN" } ]
@@ -182,7 +177,7 @@
         { "u_spawn_item": "stanag30", "count": 2 },
         { "u_spawn_item": "MRE", "count": 5, "use_item_group": true },
         { "u_spawn_item": "bot_manhack" },
-        { "u_consume_item_sum": [ { "item": "ground_solar_panel", "amount": 12 } ] }
+        { "u_consume_item": "ground_solar_panel", "count": 12, "popup": true }
       ]
     },
     "responses": [ { "text": "Thanks.", "topic": "TALK_BALTHAZAR_INTERCOM_MAIN" } ]
