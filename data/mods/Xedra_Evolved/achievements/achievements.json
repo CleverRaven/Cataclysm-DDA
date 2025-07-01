@@ -257,8 +257,8 @@
   {
     "id": "achievement_lvl_10_deduction",
     "type": "achievement",
-    "name": { "str": "" },
-    "description": ".",
+    "name": { "str": "Knowing everything you weren't meant to know" },
+    "description": "The things that aren't, that never were, that have yet to be and that are but shouldn't be, they hold no secret from you now.",
     "requirements": [ { "event_statistic": "num_gains_deduction_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_5_deduction" ]
   },
