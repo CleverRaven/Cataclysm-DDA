@@ -1,11 +1,63 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_UPGRADE_GAIN_HEARTWHIP",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": {
+      "and": [
+        { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" },
+        { "not": { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP" } },
+        { "npc_has_species": "VAMPIRE" },
+        { "not": { "u_has_wielded_with_skill": "pistol" } },
+        { "not": { "u_has_wielded_with_skill": "rifle" } },
+        { "not": { "u_has_wielded_with_skill": "shotgun" } },
+        { "not": { "u_has_wielded_with_skill": "smg" } },
+        { "not": { "u_has_wielded_with_skill": "launcher" } },
+        { "not": { "u_has_wielded_with_skill": "gun" } }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade = 5" ] },
+      { "u_add_effect": "effect_bloodthorn_druid_upgrade_ready", "duration": "7 days" },
+      { "u_learn_recipe": "bloodthorn_druid_upgrade_recipe" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_UPGRADE_GAIN_PROGRESSION",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": {
+      "and": [
+        { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP" },
+        { "u_has_wielded_with_flag": "REACH3" },
+        { "npc_has_species": "VAMPIRE" }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills ++" ] },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills >= u_bloodthorn_druid_vampires_killed_to_upgrade" ] },
+            { "not": { "u_has_effect": "effect_bloodthorn_druid_upgrade_ready" } }
+          ]
+        },
+        "then": [
+          { "u_add_effect": "effect_bloodthorn_druid_upgrade_ready", "duration": "7 days" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP_SUMMON",
     "condition": { "not": "u_has_weapon" },
     "effect": [
       { "u_spawn_item": "heartvine_whip", "suppress_message": true, "force_equip": true },
-      { "u_add_effect": "bleed", "intensity": 1, "target_part": "arm_r", "duration": "5 minutes" }
+      { "u_add_effect": "bleed", "intensity": 1, "target_part": "arm_r", "duration": "5 minutes" },
+      { "run_eocs": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP_SUMMON_REMOVE_BLOOD", "time_in_future": "10 seconds" }
     ],
     "false_effect": [
       {
