@@ -5077,7 +5077,11 @@ bool move_furniture_on_vehicle_activity_actor::can_move_furn_on_veh_to( map &her
         return false;
     }
 
-    if( !here.veh_at( dest ) || !here.veh_at( dest )->can_load_furniture() ) {
+    if( here.veh_at( dest ) && !here.veh_at( dest )->can_load_furniture() ) {
+        return false;
+    }
+
+    if( !g->can_move_furniture( dest, dp ) ) {
         return false;
     }
 
@@ -5095,6 +5099,15 @@ static void transfer_furniture( vpart_position &from, vpart_position &to )
     to_base.set_var( "tied_down_furniture", furn );
     from_part.set_base( std::move( from_base ) );
     to_part.set_base( std::move( to_base ) );
+}
+
+static void stop_grab( Character &who )
+{
+    if( avatar *a = dynamic_cast<avatar *>( &who ) ) {
+        a->grab( object_type::NONE );
+    } else {
+        debugmsg( "who in grabbing is not an avatar??" );
+    }
 }
 
 bool move_furniture_on_vehicle_activity_actor::move_furniture( Character &who ) const
@@ -5119,17 +5132,18 @@ bool move_furniture_on_vehicle_activity_actor::move_furniture( Character &who ) 
     bool shifting = !pushing && !pulling;
 
     std::optional<vpart_position> vp_dest = here.veh_at( dest );
-    transfer_furniture( *vp, *vp_dest );
+    if( vp_dest ) {
+        transfer_furniture( *vp, *vp_dest );
+    } else {
+        vp->part_with_feature( "FURNITURE_TIEDOWN", true )->part().unload_furniture( here, dest );
+        stop_grab( who );
+    }
     if( shifting ) {
         tripoint_rel_ms d_sum = who.grab_point + dp;
         if( std::abs( d_sum.x() ) < 2 && std::abs( d_sum.y() ) < 2 ) {
             who.grab_point = d_sum;
         } else {
-            if( avatar *a = dynamic_cast<avatar *>( &who ) ) {
-                a->grab( object_type::NONE );
-            } else {
-                debugmsg( "who in grabbing is not an avatar??" );
-            }
+            stop_grab( who );
         }
         return true;
     }
