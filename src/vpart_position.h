@@ -100,6 +100,7 @@ class vpart_position
         void form_inventory( map &here, inventory &inv ) const;
 
         bool can_load_furniture() const;
+        bool has_loaded_furniture() const;
 
         tripoint_bub_ms pos_bub( const map &here ) const;
         tripoint_abs_ms pos_abs() const;

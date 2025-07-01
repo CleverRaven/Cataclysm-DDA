@@ -10693,7 +10693,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
             add_msg( m_warning, _( "You move into the %s, releasing it." ), grabbed_vehicle->name );
             u.grab( object_type::NONE );
         }
-    } else if( grabbed ) {
+    } else if( grabbed && u.get_grab_type() != object_type::FURNITURE_ON_VEHICLE ) {
         // We were grabbing something WEIRD, let's pretend we weren't
         grabbed = false;
     }
@@ -11950,6 +11950,11 @@ bool game::grabbed_move( const tripoint_rel_ms &dp, const bool via_ramp )
 
     if( u.get_grab_type() == object_type::FURNITURE ) {
         u.assign_activity( move_furniture_activity_actor( dp, via_ramp ) );
+        return true;
+    }
+
+    if( u.get_grab_type() == object_type::FURNITURE_ON_VEHICLE ) {
+        u.assign_activity( move_furniture_on_vehicle_activity_actor( dp, via_ramp ) );
         return true;
     }
 

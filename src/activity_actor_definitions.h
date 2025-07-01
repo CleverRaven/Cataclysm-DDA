@@ -1509,6 +1509,37 @@ class disassemble_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+class move_furniture_on_vehicle_activity_actor : public activity_actor
+{
+    private:
+        tripoint_rel_ms dp;
+        bool via_ramp;
+
+    public:
+        move_furniture_on_vehicle_activity_actor( const tripoint_rel_ms &dp, bool via_ramp ) :
+            dp( dp ), via_ramp( via_ramp ) {}
+        const activity_id &get_type() const override {
+            static const activity_id ACT_FURNITURE_MOVE( "ACT_FURNITURE_MOVE" );
+            return ACT_FURNITURE_MOVE;
+        }
+
+        bool can_move_furn_on_veh_to( map &, const tripoint_bub_ms & ) const;
+        // false = move player, true = don't move player
+        bool move_furniture( Character & ) const;
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<move_furniture_on_vehicle_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
 class move_furniture_activity_actor : public activity_actor
 {
     private:

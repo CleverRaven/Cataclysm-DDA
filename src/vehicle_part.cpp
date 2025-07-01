@@ -546,6 +546,15 @@ bool vpart_position::can_load_furniture() const
     return true;
 }
 
+bool vpart_position::has_loaded_furniture() const
+{
+    std::optional<vpart_reference> loader = part_with_feature( "FURNITURE_TIEDOWN", true );
+    if( !loader.has_value() ) {
+        return false;
+    }
+    return loader->part().get_base().has_var( "tied_down_furniture" );
+}
+
 void vehicle_part::load_furniture( map &here, const tripoint_bub_ms &from )
 {
     if( base.has_var( "tied_down_furniture" ) ) {
