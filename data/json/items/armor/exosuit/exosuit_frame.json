@@ -298,7 +298,6 @@
         "layers": [ "OUTER" ]
       }
     ],
-    "tool_ammo": "battery",
     "flags": [
       "USE_UPS",
       "STURDY",
@@ -310,13 +309,9 @@
       "DEAF",
       "MODULE_HOLDER"
     ],
-    "passive_effects": [
-      { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CARRY_WEIGHT", "add": 20000 } ] }
-      ]
-    },
     "use_action": [
       {
-        "target": "dod_modular_exosuit_on",
+        "target": "modular_exosuit_on",
         "msg": "The %s engages.",
         "active": true,
         "need_charges": 1,
@@ -324,6 +319,10 @@
         "type": "transform"
       },
       "MANAGE_EXOSUIT"
+    ],
+    "tool_ammo": "battery",
+    "passive_effects": [
+      { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CARRY_WEIGHT", "add": 20000 } ] }
     ]
   },
   {
@@ -590,7 +589,7 @@
       "FLASH_PROTECTION",
       "TARDIS",
       "MODULE_HOLDER"
-    ],,
+    ],
     "passive_effects": [ { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 5 } ] } ],
     "power_draw": "5787 mW",
     "revert_to": "dod_modular_exosuit_light",
