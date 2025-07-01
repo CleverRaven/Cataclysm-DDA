@@ -397,5 +397,106 @@
         { "u_spawn_item": "FMCNote", "count": 25 }
       ]
     }
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_TIP0",
+    "type": "talk_topic",
+    "dynamic_line": "Wait.  Before you go, I got an offer for you if you're interested.",
+    "responses": [
+      { "text": "I'm listening.", "topic": "TALK_OLD_GUARD_REP_TIP1" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_TIP1",
+    "type": "talk_topic",
+    "dynamic_line": "A helicopter crashed in the region not long ago, at first I thought it was just a rumor, caravan guards talking about some crash nearby, but then I got a visit from a couple of Old Guard people looking for a lost helicopter, one of them got quite drunk one night and shared some interesting details, turns out it was an Old Guard heli coming back from way out west with quite the cargo.  That's all you're getting for free though, I'd like to see some return on investment on that bottle you understand.",
+    "responses": [
+      {
+        "text": "I'm not buying anything before knowing that this isn't a complete invention.",
+        "topic": "TALK_OLD_GUARD_REP_TIP_PROOF"
+      },
+      {
+        "text": "Why sell the info instead of retrieving the cargo yourself?  What happened to the old guard investigation?  How can you be sure that it wasn't looted already?  This sounds sketchy as hell.",
+        "topic": "TALK_OLD_GUARD_REP_TIP_SKETCHY"
+      },
+      {
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 50 } },
+        "effect": [
+          { "u_location_variable": { "context_val": "sunken_heli" }, "target_params": { "om_terrain": "sunken_heli" } },
+          { "reveal_map": { "context_val": "sunken_heli" }, "radius": 10 },
+          { "u_sell_item": "FMCNote", "count": 50 },
+          { "u_add_var": "got_helicrash_location", "value": "yes" }
+        ],
+        "text": "[50 merch] Sure, dialogue.",
+        "topic": "TALK_OLD_GUARD_REP_TIP2"
+      },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_TIP_PROOF",
+    "type": "talk_topic",
+    "dynamic_line": "Ain't you the suspicious type.  Sure, go ask the guards, they'll tell you about it.",
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_TIP_SKETCHY",
+    "type": "talk_topic",
+    "dynamic_line": "Sigh.  Well, let's just say that the location of the helicopter doesn't make the retrieval of the cargo…trivial.  Apparently the higher-ups at the Old Guard agreed that it was too hard and too far to be worth.  It wasn't transporting Jesus you know, just valuable cargo.",
+    "responses": [ { "text": "Go back", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_TIP2",
+    "type": "talk_topic",
+    "dynamic_line": "Alright, give me your map I'll show you the location.",
+    "responses": [
+      { "text": "What about the cargo?", "topic": "TALK_OLD_GUARD_REP_TIP_CARGO0" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_TIP_CARGO0",
+    "type": "talk_topic",
+    "dynamic_line": "Wouldn't you like to know?  Since that's the most valuable part, I'd say that's worth a little extra.",
+    "responses": [
+      {
+        "trial": { "type": "INTIMIDATE", "difficulty": 0, "mod": [ [ "FEAR", 0 ] ] },
+        "text": "This wasn't the deal and you're already wearing my nerves thin asshole, tell me or I'll make you pick your teeth off the floor.",
+        "success": { "topic": "TALK_OLD_GUARD_REP_TIP_CARGO1" },
+        "failure": { "topic": "TALK_OLD_GUARD_REP_TIP_CARGO0_INTIMIDATE_FAILURE" }
+      },
+      {
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 0 ], [ "VALUE", 0 ] ] },
+        "text": "Come on, you already got what you wanted, are you really trying to fleece me?",
+        "success": { "topic": "TALK_OLD_GUARD_REP_TIP_CARGO1" },
+        "failure": { "topic": "TALK_OLD_GUARD_REP_TIP_CARGO0_PERSUADE_FAILURE" }
+      },
+      {
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 25 } },
+        "effect": { "u_sell_item": "FMCNote", "count": 25 },
+        "text": "[25 merch] This better be worth.",
+        "topic": "TALK_OLD_GUARD_REP_TIP_CARGO1"
+      },
+      { "text": "I'm fine actually.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_TIP_CARGO0_INTIMIDATE_FAILURE",
+    "type": "talk_topic",
+    "dynamic_line": "Text failure intimidate.",
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_TIP_CARGO0_PERSUADE_FAILURE",
+    "type": "talk_topic",
+    "dynamic_line": "Text failure persuade.",
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_TIP_CARGO1",
+    "type": "talk_topic",
+    "dynamic_line": "The heli was transporting a few sets of those combat exoskeletons back from a Doubletech testing site way out west, the ones they were showing on TV before all this, I'm sure a guy like you could put those to good use.  I won't risk my life for one but if you succeed and would like to trade them you know where to find me.",
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
   }
 ]
