@@ -7,15 +7,16 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rows": [
-        ".....",
-        ".....",
-        ".....",
-        ".....",
-        "....."
+        "     ",
+        "     ",
+        "     ",
+        "     ",
+        "     "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "standard_domestic_palette" ],
       "place_loot": [ { "group": "book_lies_dead_body", "x": 1, "y": 2, "chance": 100 } ],
-      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 3, 6 ] } ]
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 7, 10 ] } ]
     }
   },
   {
@@ -26,15 +27,16 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rows": [
-        ".....",
-        ".....",
-        ".....",
-        ".....",
-        "....."
+        "     ",
+        "     ",
+        "     ",
+        "     ",
+        "     "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "standard_domestic_palette" ],
       "place_loot": [ { "group": "book_lies_dead_body", "x": 1, "y": 2, "chance": 100 } ],
-      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 3, 6 ] } ]
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 7, 10 ] } ]
     }
   },
   {
@@ -45,15 +47,16 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rows": [
-        ".....",
-        ".....",
-        ".....",
-        ".....",
-        "....."
+        "     ",
+        "     ",
+        "     ",
+        "     ",
+        "     "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "standard_domestic_palette" ],
       "place_loot": [ { "group": "book_lies_dead_body", "x": 1, "y": 2, "chance": 100 } ],
-      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 3, 6 ] } ]
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 7, 10 ] } ]
     }
   },
   {
@@ -64,15 +67,16 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rows": [
-        ".....",
-        ".....",
-        ".....",
-        ".....",
-        "....."
+        "     ",
+        "     ",
+        "     ",
+        "     ",
+        "     "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "standard_domestic_palette" ],
       "place_loot": [ { "group": "book_lies_dead_body", "x": 1, "y": 2, "chance": 100 } ],
-      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 3, 6 ] } ]
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 7, 10 ] } ]
     }
   }
 ]

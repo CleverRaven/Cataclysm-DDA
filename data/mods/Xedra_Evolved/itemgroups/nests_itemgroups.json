@@ -173,7 +173,6 @@
       { "item": "human_sweetbread", "damage": [ 3, 4 ], "count": [ 1, 3 ] },
       { "item": "human_kidney", "damage": [ 3, 4 ], "count": [ 2, 4 ] },
       { "item": "human_fat", "damage": [ 3, 4 ], "count": [ 14, 18 ] },
-      { "item": "blood", "count": [ 22, 26 ] },
       { "item": "bone_human", "damage": [ 3, 4 ], "count": [ 24, 28 ] },
       { "item": "human_marrow", "damage": [ 3, 4 ], "count": [ 5, 7 ] },
       { "item": "sinew", "damage": [ 3, 4 ], "count": [ 56, 68 ] },
