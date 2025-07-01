@@ -943,14 +943,14 @@
       "ter_set": "t_window",
       "items": [
         { "item": "2x4", "count": 7 },
-        { "item": "nail", "charges": [ 6, 8 ] },
+        { "item": "nail", "charges": [ 10, 16 ] },
         { "item": "wood_panel", "count": 4 },
         { "item": "hinge", "count": 4 },
         { "item": "nuts_bolts", "count": 8 }
       ]
     },
     "bash": {
-      "str_min": 3,
+      "str_min": 6,
       "str_max": 30,
       "sound": "crash!",
       "sound_fail": "wham!",
@@ -970,7 +970,7 @@
       "message": "You pry the shutters off the window.",
       "items": [
         { "item": "2x4", "count": 7 },
-        { "item": "nail", "charges": [ 7, 9 ] },
+        { "item": "nail", "charges": [ 14, 16 ] },
         { "item": "wood_panel", "count": [ 2, 4 ] },
         { "item": "hinge", "count": [ 0, 3 ] },
         { "item": "nuts_bolts", "count": [ 1, 4 ] }
