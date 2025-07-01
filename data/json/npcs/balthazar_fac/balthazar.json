@@ -103,7 +103,10 @@
       {
         "text": "Here you go.",
         "condition": {
-          "and": [ { "u_has_items": { "item": "ground_solar_panel", "count": 12 } }, { "math": [ "u_negotiated_balthazar_solar < 1" ] } ]
+          "and": [
+            { "u_has_items_sum": [ { "item": "ground_solar_panel", "amount": 12 } ] },
+            { "math": [ "u_negotiated_balthazar_solar < 1" ] }
+          ]
         },
         "switch": true,
         "topic": "TALK_BALTHAZAR_SOLAR_PANEL_REWARD_SMALL"
@@ -112,7 +115,7 @@
         "text": "Here you go.",
         "condition": {
           "and": [
-            { "u_has_items": { "item": "ground_solar_panel", "count": 12 } },
+            { "u_has_items_sum": [ { "item": "ground_solar_panel", "amount": 12 } ] },
             { "math": [ "u_negotiated_balthazar_solar <= 1" ] }
           ]
         },
@@ -123,7 +126,7 @@
         "text": "Here you go.",
         "condition": {
           "and": [
-            { "u_has_items": { "item": "ground_solar_panel", "count": 12 } },
+            { "u_has_items_sum": [ { "item": "ground_solar_panel", "amount": 12 } ] },
             { "math": [ "u_negotiated_balthazar_solar == 3" ] }
           ]
         },
