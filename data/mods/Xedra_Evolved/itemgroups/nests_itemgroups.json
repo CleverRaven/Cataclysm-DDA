@@ -175,7 +175,6 @@
       { "item": "human_fat", "damage": [ 3, 4 ], "count": [ 14, 18 ] },
       { "item": "bone_human", "damage": [ 3, 4 ], "count": [ 24, 28 ] },
       { "item": "human_marrow", "damage": [ 3, 4 ], "count": [ 5, 7 ] },
-      { "item": "sinew", "damage": [ 3, 4 ], "count": [ 56, 68 ] },
       { "item": "raw_hleather", "damage": [ 3, 4 ], "count": [ 1, 3 ] },
       { "item": "ruined_chunks", "damage": [ 3, 4 ], "count": [ 120, 130 ] },
       { "group": "default_zombie_death_drops", "damage": [ 3, 4 ] }
