@@ -555,7 +555,7 @@
       "TARDIS",
       "MODULE_HOLDER"
     ],
-    "passive_effects": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
+    "passive_effects": { "id": "ench_exo_strength" },
     "use_action": [
       {
         "target": "dod_modular_exosuit_light_on",
