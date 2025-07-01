@@ -2,7 +2,7 @@
   {
     "id": "dod_modular_exosuit",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "exosuit frame" },
     "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the head, torso, power supply, back, arms, and legs.",
     "weight": "75 kg",
@@ -311,7 +311,7 @@
     ],
     "use_action": [
       {
-        "target": "modular_exosuit_on",
+        "target": "dod_modular_exosuit_on",
         "msg": "The %s engages.",
         "active": true,
         "need_charges": 1,
@@ -398,7 +398,7 @@
     "id": "dod_modular_exosuit_light",
     "copy-from": "dod_modular_exosuit",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "light exosuit frame" },
     "description": "This is a light duty exosuit frame.  This lighter version of the exosuit draws less power but has less capacity for equipment and uses a fixed cage for collision protection instead of modular armor.",
     "weight": "30 kg",
