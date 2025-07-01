@@ -269,7 +269,7 @@
       { "math": [ "u_hp('arm_r') -= 5" ] },
       { "math": [ "u_hp('leg_l') -= 5" ] },
       { "math": [ "u_hp('leg_r') -= 5" ] },
-      { "u_message": "book_lies_taint_resisted", "snippet": true, "type": "bad" }
+      { "u_message": "book_lies_taint_resisted", "snippet": true, "type": "bad", "popup": true }
     ]
   },
   {
