@@ -298,7 +298,7 @@
         "layers": [ "OUTER" ]
       }
     ],
-    "ammo": "battery",
+    "tool_ammo": "battery",
     "flags": [
       "USE_UPS",
       "STURDY",
@@ -544,7 +544,7 @@
         "layers": [ "OUTER" ]
       }
     ],
-    "ammo": "battery",
+    "tool_ammo": "battery",
     "flags": [
       "USE_UPS",
       "STURDY",
