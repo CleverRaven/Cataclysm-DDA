@@ -1002,11 +1002,7 @@
         { "item": "nuts_bolts", "count": [ 1, 4 ] }
       ]
     },
-    "prying": {
-      "result": "t_window_boarded_shutters_open_fully",
-      "duration": "30 seconds",
-      "message": "You pry the window open"
-    }
+    "prying": { "result": "t_window_boarded_shutters_open_fully", "duration": "30 seconds", "message": "You pry the window open" }
   },
   {
     "type": "terrain",
