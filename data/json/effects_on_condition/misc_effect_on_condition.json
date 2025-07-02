@@ -448,23 +448,5 @@
     "id": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES",
     "condition": { "math": [ "0 == 0" ] },
     "effect": [  ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_REVEAL_HELI",
-    "effect": [ { "assign_mission": "MISSION_FIND_SUNKEN_HELICOPTER" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_REVEAL_HELI_CORRECT",
-    "effect": [
-      { "u_location_variable": { "context_val": "sunken_heli" }, "target_params": { "om_terrain": "sunken_heli" } },
-      { "reveal_map": { "context_val": "sunken_heli" }, "radius": 10 }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PROVE_WORTH",
-    "effect": { "u_add_var": "proven_worth_to_old_guard_representative", "value": "yes" }
   }
 ]

@@ -6807,7 +6807,7 @@
       { "point": [ 1, 1, -2 ], "locations": [ "lake_water_cube" ] },
       { "point": [ 1, 1, -3 ], "locations": [ "lake_water_cube" ] },
       { "point": [ 1, 1, -4 ], "overmap": "sunken_heli_roof", "locations": [ "lake_water_cube" ] },
-      { "point": [ 1, 1, -5 ], "overmap": "sunken_heli" },
+      { "point": [ 1, 1, -5 ], "overmap": "sunken_helicopter" },
       { "point": [ 1, 2, -5 ], "overmap": "nether_cucumber_lake_bed" },
       { "point": [ 2, 0, -5 ], "overmap": "nether_cucumber_lake_bed" },
       { "point": [ 2, 1, -5 ], "overmap": "nether_cucumber_lake_bed" },

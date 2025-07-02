@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [ "sunken_heli" ],
+    "id": [ "sunken_helicopter" ],
     "name": "sunken heli",
     "sym": "~",
     "color": "light_blue",
