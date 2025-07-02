@@ -68,6 +68,73 @@
     "default": "mom_fusion_ammo"
   },
   {
+    "id": "mom_fifth_sun_stungun_pistol",
+    "looks_like": "v29",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "M12 \"Cochmamauhtia\" Pistol" },
+    "description": "The M12 was designed as a less-than-lethal alternative to more dangerous forms of crowd pacification, able to disable a target for up to a minute with a single shot and few to no permanent effects.  While it cannot be said to be nonlethal because it is not safe to use on targets with heart conditions or epilepsy, it is a great improvement over the previous X04 \"Tecuacuilli\" which, on unfortunately not-rare-enough occasions, could cause permanent paralysis.  On this world, though, you don't think the M12's lethality or lack thereof is going to be much of a concern.",
+    "melee_damage": { "bash": 5 },
+    "reload_noise_volume": 5,
+    "weight": "680 g",
+    "volume": "1 L",
+    "longest_side": "233 mm",
+    "symbol": "(",
+    "color": "cyan",
+    "skill": "pistol",
+    "material": [ "nether_crystal", "steel" ],
+    "dispersion": 100,
+    "durability": 10,
+    "loudness": 25,
+    "reload": 200,
+    "range": 20,
+    "ammo_effects": [ "NEURAL_STUNGUN" ],
+    "ammo": [ "mom_fifth_sun_stungun_ammo" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "25 ml", "item_restriction": [ "mom_fifth_sun_stungun_mag" ] } ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR" ]
+  },
+  {
+    "id": "mom_fifth_sun_stungun_mag",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "M12 power pack" },
+    "description": "A power pack for the Ch47.",
+    "weight": "40 g",
+    "volume": "20 ml",
+    "material": [ "nether_crystal", "steel" ],
+    "price": "100 USD",
+    "price_postapoc": "1 cent",
+    "symbol": "#",
+    "color": "red",
+    "ammo_type": [ "mom_fusion_ammo" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "mom_fifth_sun_stungun_ammo": 25 } } ]
+  },
+  {
+    "id": "mom_fifth_sun_stungun_ammo",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "M12 power cartridge" },
+    "description": "Power cartridges for the M12.  You had better make every shot count, because there's no way you're finding any more of these.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": "1 USD 60 cent",
+    "price_postapoc": "8 USD",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "superalloy", "steel" ],
+    "symbol": "=",
+    "color": "red",
+    "count": 40,
+    "stack_size": 40,
+    "ammo_type": "mom_fifth_sun_stungun_ammo",
+    "damage": { "damage_type": "electric", "amount": 3 }
+  },
+  {
+    "type": "ammunition_type",
+    "id": "mom_fifth_sun_stungun_ammo",
+    "name": "M12 neural shot",
+    "default": "mom_fifth_sun_stungun_ammo"
+  },
+  {
     "id": "mom_lightning_rifle",
     "looks_like": "laser_rifle",
     "type": "ITEM",
@@ -126,7 +193,8 @@
     "symbol": "#",
     "color": "red",
     "ammo_type": [ "mom_lightning_rifle_ammo" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "mom_lightning_rifle_ammo": 120 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "mom_lightning_rifle_ammo": 120 } } ],
+    "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "mom_lightning_rifle_ammo",
@@ -153,6 +221,73 @@
     "name": "tlapetlaniliztli ammo",
     "//": "Lightning flash",
     "default": "mom_lightning_rifle_ammo"
+  },
+  {
+    "id": "mom_fifth_sun_eagle_tac_helmet",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str": "Imperial Navy battle helmet" },
+    "description": "An all-encompassing helmet, standard issue for Imperial warrior orders.  Containing integral hearing protection and air filtration while still leaving your mouth free, highlights distant targets to provide easier targeting in battlefield conditions, has integral nightvision and thermal sensing, provides some protection against telepathic assault, and looks great while doing it.  This one has the eagle and stars of the Itzcuāuhtli Corps on it.",
+    "weight": "1180 g",
+    "volume": "1850 ml",
+    "price": "2 kUSD",
+    "price_postapoc": "100 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "fifth_sun_antiballistic_cloth", "plastic" ],
+    "symbol": "[",
+    "looks_like": "tac_fullhelmet",
+    "color": "dark_gray",
+    "warmth": 15,
+    "material_thickness": 8,
+    "techniques": [ "WBLOCK_1" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 672 } } ],
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You flip the switch and activate the helmet's functions.",
+        "target": "mom_fifth_sun_eagle_tac_helmet_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The switch clicks but nothing happens.",
+        "need_worn": true,
+        "menu_text": "Flip the switch"
+      }
+    ],
+    "passive_effects": [
+      { "id": "nvg_great" },
+      { "id": "THERMAL_VISION_GOOD" },
+      { "id": "ench_mom_fifth_sun_targeting_assistance" },
+      { "condition": "ACTIVE", "incoming_damage_mod": [ { "type": "psi_telepathic_damage", "multiply": -0.33 } ] }
+    ],
+    "armor": [
+      { "encumbrance_modifiers": [ "WELL_SUPPORTED" ], "coverage": 100, "covers": [ "head" ] },
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 }
+    ],
+    "melee_damage": { "bash": 1 },
+    "flags": [ "VARSIZE", "WATERPROOF", "MUNDANE", "STURDY", "PADDED" ]
+  },
+  {
+    "id": "mom_fifth_sun_eagle_tac_helmet_on",
+    "copy-from": "mom_fifth_sun_eagle_tac_helmet",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "name": { "str": "Imperial Navy battle helmet (active)", "str_pl": "Imperial Navy battle helmets (active)" },
+    "description": "An all-encompassing helmet, standard issue for Imperial warrior orders.  Containing integral hearing protection and air filtration while still leaving your mouth free, highlights distant targets to provide easier targeting in battlefield conditions, has integral nightvision and thermal sensing, provides some protection against telepathic assault, and looks great while doing it.  This one has the eagle and stars of the Itzcuāuhtli Corps on it.  It is currently active.",
+    "power_draw": "10 W",
+    "revert_to": "mom_fifth_sun_eagle_tac_helmet",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "mom_fifth_sun_eagle_tac_helmet",
+        "msg": "You flip the switch and deactivate the helmet's functions.",
+        "menu_text": "Flip the switch",
+        "type": "transform"
+      }
+    ],
+    "extend": {
+      "flags": [ "FIX_FARSIGHT", "FIX_NEARSIGHT", "GAS_PROOF", "PARTIAL_DEAF", "PSYSHIELD_PARTIAL", "SUN_GLASSES", "ZOOM", "WATCH" ]
+    }
   },
   {
     "id": "mom_fifth_sun_standard_body_armor",
@@ -351,6 +486,26 @@
     ]
   },
   {
+    "id": "itzcuauhtli_holster_m12",
+    "copy-from": "holster",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "M12 holster" },
+    "description": "A holster for the M12.  You could put one of the primitive local ranged weapons in here too, if you had to.",
+    "pocket_data": [
+      {
+        "magazine_well": "350 ml",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "moves": 50
+      }
+    ]
+  },
+  {
     "id": "itzcuauhtli_tunic",
     "copy-from": "dress_shirt",
     "type": "ITEM",
@@ -482,5 +637,37 @@
         "weight": 1
       }
     ]
+  },
+  {
+    "id": "itzcuauhtli_pants_army",
+    "copy-from": "pants_army",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str_sp": "Itzcuāuhtli Corps combat uniform pants" },
+    "description": "The standard combat uniform of the Itzcuāuhtli Corps, in shades of dark green and grey.  These are pants, with several pockets."
+  },
+  {
+    "id": "itzcuauhtli_combat_shirt",
+    "copy-from": "combat_shirt",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str_sp": "Itzcuāuhtli Corps combat uniform shirt" },
+    "description": "The standard combat uniform of the Itzcuāuhtli Corps, in shades of dark green and grey.  This is a shirt."
+  },
+  {
+    "id": "itzcuauhtli_jacket_army_modern",
+    "copy-from": "jacket_army_modern",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str_sp": "Itzcuāuhtli Corps combat uniform jacket" },
+    "description": "The standard combat uniform of the Itzcuāuhtli Corps, in shades of dark green and grey.  This is a jacket.  It has the eagle over a field of stars symbol of the Itzcuāuhtli Corps on both shoulders."
+  },
+  {
+    "id": "holy_symbol_fifth_sun",
+    "copy-from": "holy_symbol",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Imperial Church holy symbol" },
+    "description": "A necklace made of fine gold chain, bearing an image of Jesucristo as the Ultimate Sacrifice as a pendant, his heart clearly visible through his chest.  Under his left hand is a raindrop, representing the Aeon Tláloc, and under his right hand is a sun disc, representing the Aeon Huītzilōpōchtli."
   }
 ]

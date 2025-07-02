@@ -627,8 +627,12 @@
             "charges": [ 7000, 10000 ]
           },
           { "item": "matrix_crystal_teleportation" },
-          { "item": "mom_fusion_pistol" },
-          { "item": "mom_fusion_mag", "ammo-item": "mom_fusion_ammo", "charges": 40 }
+          {
+            "item": "mom_fusion_mag",
+            "ammo-item": "mom_fusion_ammo",
+            "container-item": "mom_fusion_pistol",
+            "charges": 40
+          }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -636,6 +640,7 @@
     },
     "whitelist_hobbies": false,
     "hobbies": [
+      "gateway_teleporter",
       "knack_flexibility",
       "knack_adrenaline",
       "knack_clair_better_senses",
@@ -729,6 +734,141 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "psi_fifth_sun_cuauhpilli_special_forces",
+    "name": "Cuāuhpilli Special Forces",
+    "description": "You were on guard duty when the ship was preparing to enter Tliltilhuicaātl and had just braced for the jump when something went wrong.  The ship seemed like it was turning inside out, then you seemed like you were turning inside out, and suddenly you were planetside in the ruins of a dying world.  You've served the Excān Tlahtōlōyān on a dozen worlds, taken five captives, and even have clearance for contact with huecachane civilizations, but none of that has prepared you for the Cataclysm",
+    "points": 10,
+    "proficiencies": [
+      "prof_spotting",
+      "prof_wound_care",
+      "prof_knives_familiar",
+      "prof_gross_anatomy",
+      "prof_auto_rifles_familiar",
+      "prof_auto_pistols_familiar"
+    ],
+    "skills": [
+      { "level": 8, "name": "gun" },
+      { "level": 8, "name": "rifle" },
+      { "level": 6, "name": "pistol" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "stabbing" },
+      { "level": 4, "name": "dodge" },
+      { "level": 4, "name": "firstaid" },
+      { "level": 4, "name": "survival" },
+      { "level": 4, "name": "speech" }
+    ],
+    "CBMs": [
+      "bio_dangersight_eyes_standard",
+      "bio_power_storage_fifth_sun",
+      "bio_metabolics_fifth_sun",
+      "bio_physical_buffs_fifth_sun",
+      "bio_cameleoflage_fifth_sun"
+    ],
+    "traits": [ "FIFTH_SUN_PEOPLE" ],
+    "items": {
+      "both": {
+        "entries": [
+          {
+            "item": "mom_lightning_rifle",
+            "variant": "mom_lightning_rifle_standard",
+            "ammo-item": "mom_lightning_rifle_ammo",
+            "charges": 120
+          },
+          { "item": "socks" },
+          { "item": "holy_symbol_fifth_sun" },
+          { "item": "itzcuauhtli_boots", "variant": "itzcuauhtli_boots_standard" },
+          {
+            "item": "mom_fifth_sun_stungun_pistol",
+            "ammo-item": "mom_fifth_sun_stungun_ammo",
+            "charges": 25,
+            "container-item": "itzcuauhtli_holster_m12"
+          },
+          { "item": "itzcuauhtli_pants_army" },
+          { "item": "itzcuauhtli_combat_shirt" },
+          { "item": "itzcuauhtli_jacket_army_modern" },
+          { "item": "legpouch_large", "contents-group": "lightning_rifle_ammo_mags" },
+          { "item": "mom_fifth_sun_standard_body_armor", "charges": 672 },
+          { "item": "mom_fifth_sun_eagle_tac_helmet", "charges": 672 },
+          {
+            "item": "itzcuauhtli_wrist_computer",
+            "variant": "itzcuauhtli_wrist_computer_standard",
+            "charges": [ 7000, 10000 ]
+          }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "requirement": "mom_find_dead_fifth_sun_ocelopilli_trooper",
+    "whitelist_hobbies": false,
+    "hobbies": [
+      "newly_biokinetic",
+      "mid_biokinetic",
+      "late_biokinetic",
+      "newly_clairsentient",
+      "mid_clairsentient",
+      "late_clairsentient",
+      "newly_electrokinetic",
+      "mid_electrokinetic",
+      "late_electrokinetic",
+      "newly_photokinetic",
+      "mid_photokinetic",
+      "late_photokinetic",
+      "newly_pyrokinetic",
+      "mid_pyrokinetic",
+      "late_pyrokinetic",
+      "newly_telekinetic",
+      "mid_telekinetic",
+      "late_telekinetic",
+      "newly_telepath",
+      "mid_telepath",
+      "late_telepath",
+      "newly_teleporter",
+      "mid_teleporter",
+      "late_teleporter",
+      "gateway_teleporter",
+      "newly_vitakinetic",
+      "mid_vitakinetic",
+      "late_vitakinetic",
+      "knack_flexibility",
+      "knack_adrenaline",
+      "knack_clair_better_senses",
+      "knack_clair_danger_sense",
+      "knack_clair_astral_projection",
+      "knack_electrokinetic_pain_immune",
+      "knack_electrokinetic_hacking_interface",
+      "knack_photokinetic_camouflage",
+      "knack_photokinetic_hide_ugly",
+      "knack_photokinetic_radio",
+      "knack_pyrokinetic_flash",
+      "knack_pyrokinetic_call_flames",
+      "knack_pyrokinetic_cloak",
+      "knack_telekinetic_push",
+      "knack_telekinetic_slam_down",
+      "knack_telekinetic_wave",
+      "knack_telepathic_shield",
+      "knack_telepathic_mind_sense",
+      "knack_telepathic_morale",
+      "knack_telepathic_mesmerize",
+      "knack_telepathic_animal_mind_control",
+      "knack_telepathic_invisibility",
+      "knack_vita_health_power",
+      "knack_vita_concentrated_healing",
+      "knack_vita_remove_poison",
+      "knack_vita_cure_disease"
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "lightning_rifle_ammo_mags",
+    "entries": [
+      { "item": "mom_lightning_rifle_mag", "ammo-item": "mom_lightning_rifle_ammo", "charges": 120 },
+      { "item": "mom_lightning_rifle_mag", "ammo-item": "mom_lightning_rifle_ammo", "charges": 120 }
     ]
   },
   {

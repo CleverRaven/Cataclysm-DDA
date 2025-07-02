@@ -29,7 +29,8 @@
       "sloc_house_boarded",
       "sloc_mall_food_court"
     ],
-    "professions": [ "psi_teleporter_slider" ],
+    "professions": [ "psi_teleporter_slider", "psi_fifth_sun_cuauhpilli_special_forces" ],
+    "forbidden_traits": [ "ALWAYS_GAIN_PSIONICS" ],
     "reveal_locale": false,
     "requirement": "mom_psi_awakening_teleportation",
     "flags": [ "LONE_START" ]
