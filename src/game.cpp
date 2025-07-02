@@ -10693,7 +10693,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
             add_msg( m_warning, _( "You move into the %s, releasing it." ), grabbed_vehicle->name );
             u.grab( object_type::NONE );
         }
-    } else if( grabbed ) {
+    } else if( grabbed && u.get_grab_type() != object_type::FURNITURE_ON_VEHICLE ) {
         // We were grabbing something WEIRD, let's pretend we weren't
         grabbed = false;
     }
@@ -11637,15 +11637,30 @@ bool game::can_move_furniture( tripoint_bub_ms fdest, const tripoint_rel_ms &dp 
     bool is_ramp_or_road = here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fdest ) ||
                            here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, fdest ) ||
                            here.has_flag( ter_furn_flag::TFLAG_ROAD, fdest );
-    return  here.passable( fdest ) &&
-            creatures.creature_at<npc>( fdest ) == nullptr &&
-            creatures.creature_at<monster>( fdest ) == nullptr &&
-            ( !pulling_furniture || is_empty( u.pos_bub() + dp ) ) &&
-            ( !has_floor || here.has_flag( ter_furn_flag::TFLAG_FLAT, fdest ) ||
-              is_ramp_or_road ) &&
-            !here.has_furn( fdest ) &&
-            !here.veh_at( fdest ) &&
-            ( !has_floor || here.tr_at( fdest ).is_null() );
+    if( !here.passable( fdest ) ) {
+        return false;
+    }
+    if( creatures.creature_at<npc>( fdest ) != nullptr ||
+        creatures.creature_at<monster>( fdest ) != nullptr ) {
+        return false;
+    }
+    if( !( !pulling_furniture || is_empty( u.pos_bub() + dp ) ) &&
+        ( !has_floor || here.has_flag( ter_furn_flag::TFLAG_FLAT, fdest ) ||
+          is_ramp_or_road ) ) {
+        return false;
+    }
+    if( here.has_furn( fdest ) ) {
+        return false;
+    }
+    if( here.veh_at( fdest ) ) {
+        if( !here.veh_at( fdest )->can_load_furniture() ) {
+            return false;
+        }
+    }
+    if( !( !has_floor || here.tr_at( fdest ).is_null() ) ) {
+        return false;
+    }
+    return true;
 }
 
 int game::grabbed_furn_move_time( const tripoint_rel_ms &dp )
@@ -11844,9 +11859,24 @@ bool game::grabbed_furn_move( const tripoint_rel_ms &dp )
     sounds::sound( fdest, furntype.move_str_req * 2, sounds::sound_t::movement,
                    _( "a scraping noise." ), true, "misc", "scraping" );
 
-    // Actually move the furniture.
-    here.furn_set( fdest, here.furn( fpos ), false, false, true );
-    here.furn_set( fpos, furn_str_id::NULL_ID(), true );
+    if( here.veh_at( fdest ) ) {
+        u.grab( object_type::NONE );
+        here.veh_at( fdest )->part_with_feature( "FURNITURE_TIEDOWN", true )->part().load_furniture( here,
+                fpos );
+        here.furn_set( fpos, furn_str_id::NULL_ID(), true );
+        here.veh_at( fdest )->vehicle().invalidate_mass();
+        add_msg( _( "You load the furniture onto the vehicle." ) );
+        tripoint_rel_ms new_grab_pt( fdest - ( u.pos_bub() +
+                                               ( shifting_furniture ? tripoint_rel_ms::zero : dp ) ) );
+        if( std::abs( new_grab_pt.x() ) < 2 && std::abs( new_grab_pt.y() ) < 2 ) {
+            u.grab( object_type::FURNITURE_ON_VEHICLE, new_grab_pt );
+        }
+        return shifting_furniture;
+    } else {
+        // Actually move the furniture.
+        here.furn_set( fdest, here.furn( fpos ), false, false, true );
+        here.furn_set( fpos, furn_str_id::NULL_ID(), true );
+    }
 
     if( fire_intensity == 1 && !pulling_furniture ) {
         here.remove_field( fpos, fd_fire );
@@ -11925,6 +11955,11 @@ bool game::grabbed_move( const tripoint_rel_ms &dp, const bool via_ramp )
 
     if( u.get_grab_type() == object_type::FURNITURE ) {
         u.assign_activity( move_furniture_activity_actor( dp, via_ramp ) );
+        return true;
+    }
+
+    if( u.get_grab_type() == object_type::FURNITURE_ON_VEHICLE ) {
+        u.assign_activity( move_furniture_on_vehicle_activity_actor( dp, via_ramp ) );
         return true;
     }
 

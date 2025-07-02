@@ -7158,6 +7158,11 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint_bub_ms &p,
                                                 player_character.grab_point ) ) ) ) {
             memory_sym = sym;
         }
+        if( !vd.carried_furn.empty() ) {
+            furn_str_id furn( vd.carried_furn );
+            sym = furn->symbol();
+            tercol = furn->color();
+        }
     }
 
     if( param.memorize() && memory_cache_ter_is_dirty( p ) ) {
