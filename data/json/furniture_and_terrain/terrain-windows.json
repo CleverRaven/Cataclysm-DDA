@@ -977,16 +977,7 @@
     "copy-from": "t_window_boarded_shutters_closed",
     "close": "t_window_boarded_shutters_closed",
     "open": "t_window_boarded_shutters_open_fully",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "REDUCE_SCENT",
-      "BLOCK_WIND",
-      "WINDOW",
-      "OPENCLOSE_INSIDE",
-      "SUPPORTS_ROOF"
-    ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "WINDOW", "OPENCLOSE_INSIDE", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 3,
       "str_max": 8,
