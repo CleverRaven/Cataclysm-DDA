@@ -1,11 +1,11 @@
 [
   {
-    "id": "duffelbag_xl_poly",
+    "id": "duffelbag_l_poly",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "//": "Inspired by Eagle Creek 110L duffel bag, 86x38x34cm when packed full",
-    "name": { "str": "extra large duffel bag" },
-    "description": "An extra large duffel bag.  Provides lots of storage, but is severely encumbering.",
+    "name": { "str": "large duffel bag" },
+    "description": "A large duffel bag.  Provides lots of storage, but is severely encumbering.",
     "weight": "1050 g",
     "volume": "7 L",
     "price": "129 USD",
@@ -58,12 +58,12 @@
     ]
   },
   {
-    "id": "duffelbag_xxl_nylon",
+    "id": "duffelbag_xl_nylon",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "//": "Inspired by an Amazon Basics 150L foldable nylon duffel bag, 82x43x43cm when packed full",
-    "name": { "str": "huge duffel bag" },
-    "description": "A huge nylon duffel bag.  Provides tons of storage, but is extremely encumbering.",
+    "name": { "str": "big duffel bag" },
+    "description": "A big nylon duffel bag.  Provides tons of storage, but is extremely encumbering.",
     "weight": "770 g",
     "volume": "9 L",
     "price": "19 USD",
