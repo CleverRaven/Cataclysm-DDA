@@ -53,7 +53,7 @@
     "false_effect": [
       { "u_add_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP" },
       {
-        "u_message": "You feel the Heartvine extending itself into your arms, coiling and lurking near your wrists.  With a moment's concentration, you could extend part of it into a whip and scourge the blooddrinkers with it, and in doing so, feed your Heartvine.  Call it forth and rid the world of the vampiric scourge.\n\nKills with the Heartwhip will empower your Heartvine; enough kills and further gifts will be revealed to you.",
+        "u_message": "You feel the Heartvine extending itself into your arms, coiling and lurking near your wrists.  With a moment's concentration, you could extend part of it into a whip and scourge the blood-drinkers with it, and in doing so, feed your Heartvine.  Call it forth and rid the world of the vampiric scourge.\n\nKills with the Heartwhip will empower your Heartvine; enough kills and further gifts will be revealed to you.",
         "type": "good"
       },
       { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade = 5" ] },

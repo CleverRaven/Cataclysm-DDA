@@ -2562,9 +2562,9 @@ Heartfires
 heartlike
 Heartseed
 Heartseeds
-Heartvine
-Heartvines
-Heartwhip
+heartvine
+heartvines
+heartwhip
 Heathrow
 heatsink
 heatsinks
