@@ -964,19 +964,6 @@
         { "item": "nuts_bolts", "count": [ 1, 4 ] }
       ]
     },
-    "prying": {
-      "result": "t_window",
-      "duration": "5 minutes",
-      "message": "You pry the shutters off the window.",
-      "items": [
-        { "item": "2x4", "count": 7 },
-        { "item": "nail", "charges": [ 14, 16 ] },
-        { "item": "wood_panel", "count": [ 2, 4 ] },
-        { "item": "hinge", "count": [ 0, 3 ] },
-        { "item": "nuts_bolts", "count": [ 1, 4 ] }
-      ],
-      "prying_data": { "prying_nails": true }
-    },
     "shoot": { "reduce_damage": [ 10, 25 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 10, 40 ] }
   },
   {
@@ -1014,6 +1001,11 @@
         { "item": "hinge", "count": [ 0, 3 ] },
         { "item": "nuts_bolts", "count": [ 1, 4 ] }
       ]
+    },
+    "prying": {
+      "result": "t_window_boarded_shutters_open_fully",
+      "duration": "30 seconds",
+      "message": "You pry the window open"
     }
   },
   {
