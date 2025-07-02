@@ -5,6 +5,7 @@
 #include <cerrno>
 #include <charconv>
 #include <cmath>
+#include <cstddef>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -33,6 +34,8 @@
 #include "translations.h"
 #include "unicode.h"
 #include "zlib.h"
+#include "zzip.h"
+#include "zzip_stack.h"
 
 static double pow10( unsigned int n )
 {
@@ -83,7 +86,7 @@ bool isBetween( int test, int down, int up )
     return test > down && test < up;
 }
 
-bool lcmatch( const std::string_view str, const std::string_view qry )
+bool lcmatch( std::string_view str, std::string_view qry )
 {
     // It will be quite common for the query string to be empty.  Anything will
     // match in that case, so short-circuit and avoid the expensive
@@ -112,12 +115,12 @@ bool lcmatch( const std::string_view str, const std::string_view qry )
     return false;
 }
 
-bool lcmatch( const translation &str, const std::string_view qry )
+bool lcmatch( const translation &str, std::string_view qry )
 {
     return lcmatch( str.translated(), qry );
 }
 
-bool match_include_exclude( const std::string_view text, std::string filter )
+bool match_include_exclude( std::string_view text, std::string filter )
 {
     size_t iPos;
     bool found = false;
@@ -602,6 +605,44 @@ bool read_from_file_optional_json( const cata_path &path,
     return file_exist( path.get_unrelative_path() ) && read_from_file_json( path, reader );
 }
 
+bool read_from_zzip_optional( const std::shared_ptr<zzip> &z,
+                              const std::filesystem::path &file,
+                              const std::function<void( std::string_view )> &reader )
+{
+    if( !z || !z->has_file( file ) ) {
+        return false;
+    }
+    try {
+        std::vector<std::byte> file_data = z->get_file( file );
+        std::string_view sv{ reinterpret_cast<const char *>( file_data.data() ), file_data.size() };
+        reader( sv );
+        return true;
+    } catch( const std::exception &err ) {
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), file.generic_u8string().c_str(),
+                  err.what() );
+        return false;
+    }
+}
+
+bool read_from_zzip_optional( const std::shared_ptr<zzip_stack> &z,
+                              const std::filesystem::path &file,
+                              const std::function<void( std::string_view )> &reader )
+{
+    if( !z || !z->has_file( file ) ) {
+        return false;
+    }
+    try {
+        std::vector<std::byte> file_data = z->get_file( file );
+        std::string_view sv{ reinterpret_cast<const char *>( file_data.data() ), file_data.size() };
+        reader( sv );
+        return true;
+    } catch( const std::exception &err ) {
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), file.generic_u8string().c_str(),
+                  err.what() );
+        return false;
+    }
+}
+
 std::string obscure_message( const std::string &str, const std::function<char()> &f )
 {
     //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
@@ -672,7 +713,7 @@ bool string_empty_or_whitespace( const std::string &s )
     } );
 }
 
-int string_view_cmp( const std::string_view l, const std::string_view r )
+int string_view_cmp( std::string_view l, std::string_view r )
 {
     size_t min_len = std::min( l.size(), r.size() );
     int result = memcmp( l.data(), r.data(), min_len );
@@ -686,7 +727,7 @@ int string_view_cmp( const std::string_view l, const std::string_view r )
 }
 
 template<typename Integer>
-Integer svto( const std::string_view s )
+Integer svto( std::string_view s )
 {
     Integer result = 0;
     const char *end = s.data() + s.size();
@@ -699,7 +740,7 @@ Integer svto( const std::string_view s )
 
 template int svto<int>( std::string_view );
 
-std::vector<std::string> string_split( const std::string_view string, char delim )
+std::vector<std::string> string_split( std::string_view string, char delim )
 {
     std::vector<std::string> elems;
 

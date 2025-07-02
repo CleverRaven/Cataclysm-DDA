@@ -94,7 +94,6 @@ static const mtype_id mon_generator( "mon_generator" );
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
 static const species_id species_SLIME( "SLIME" );
 
-static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
@@ -1646,7 +1645,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint_bub_
         guilt_thresholds[max_kills] = _( "You feel uneasy about killing %s." );
 
         Character &guy = *guilt_target;
-        if( guy.has_trait( trait_PSYCHOPATH ) || guy.has_trait( trait_KILLER ) ||
+        if( guy.has_trait( trait_PSYCHOPATH ) ||
             guy.has_flag( json_flag_PRED3 ) || guy.has_flag( json_flag_PRED4 ) ) {
             // specially immune.
             return;
@@ -1876,7 +1875,8 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
             // we wannt to leave 1 hp on each already unbroken limb
             caster_total_hp -= unbroken_parts;
             if( overflow > caster_total_hp ) {
-                caster.add_msg_if_player( m_bad, _( "Banishment failed, you are too weak!" ) );
+                std::string spell_name = sp.name();
+                caster.add_msg_if_player( m_bad, string_format( _( "%s failed, you are too weak!" ), spell_name ) );
                 return;
             } else {
                 // can change if a part has less hp than this
@@ -1900,7 +1900,7 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
             }
         }
 
-        caster.add_msg_if_player( m_good, string_format( _( "%s banished." ), mon->name() ) );
+        caster.add_msg_if_player( m_good, string_format( _( "The %s disappears." ), mon->name() ) );
         // banished monsters take their stuff with them
         mon->death_drops = false;
         mon->die( &here, &caster );

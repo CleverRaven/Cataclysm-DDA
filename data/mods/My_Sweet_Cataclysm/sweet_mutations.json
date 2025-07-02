@@ -64,5 +64,9 @@
       }
     ],
     "flags": [ "NO_THIRST", "NO_DISEASE", "NO_RADIATION", "BLEED_IMMUNE", "INFECTION_IMMUNE" ]
+  },
+  {
+    "type": "overlay_order",
+    "overlay_ordering": [ { "id": [ "SUGAR" ], "order": 1500 } ]
   }
 ]

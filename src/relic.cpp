@@ -165,7 +165,7 @@ void relic_procgen_data::enchantment_active::deserialize( const JsonObject &jobj
     load( jobj );
 }
 
-void relic_procgen_data::load( const JsonObject &jo, const std::string_view )
+void relic_procgen_data::load( const JsonObject &jo, std::string_view )
 {
     for( const JsonObject jo_inner : jo.get_array( "passive_add_procgen_values" ) ) {
         int weight = 0;
@@ -366,7 +366,7 @@ void relic::load( const JsonObject &jo )
     if( jo.has_member( "charges_per_activation" ) ) {
         charge.charges_per_use = jo.get_int( "charges_per_activation", 1 );
     }
-    jo.read( "name", item_name_override );
+    jo.read( "artifact_name", item_name_override );
     moves = jo.get_int( "moves", 100 );
 }
 

@@ -14,7 +14,7 @@
   {
     "type": "start_location",
     "id": "sloc_afs_glacial_tunnels",
-    "name": "Somewhere Underground",
-    "terrain": [ "afs_tunnel" ]
+    "name": "Exploring a tunnel",
+    "terrain": [ "afs_tunnel_sinkhole" ]
   }
 ]

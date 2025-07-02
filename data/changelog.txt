@@ -131,6 +131,13 @@ Rebalance the chance for armor to be damaged by attacks.
 Allow event character_ranged_attacks_* catch throw attack, add context val is_throw to determine whether the event was triggered by a thrown attack.
 Underground Temperature now depends on Region Settings
 Modinfo Blacklist
+Add a dentist office map
+Item faults
+Make aggro_character respect anger_relations
+river generation overhaul
+faction camp food supply can expire over time
+Roads cross streams at culverts
+Add Weight Modifying Enchantment
 
 
 ## Content:
@@ -304,6 +311,10 @@ Mortar framework
 Improves/adds missions, rewards and interactions with the New England Community Church
 Military outposts have been revamped
 Adds a new nether monster
+Snippetize Tshirt variants
+Exodii Ceramics
+Opiate Vitamin
+Add arab and islamic clothes for women
 
 
 ## Interface:
@@ -415,6 +426,12 @@ Dont show liquids from held or worn container
 Don't hardcode help text: Autopickup Manager
 Move camp-specific recipes to their own category
 Debug option to view used palette symbols
+Add option to disable mouse
+Add "in use" info to item's name and info if item has "activity_var" var.
+Create a terminal-like default theme for Imgui
+Add NPC faction and NPC omt location to mission entries
+Describe stat level in new character window
+Severe hypovolemic shock message now mentions saline infusion instead of transfusion
 
 
 ## Mods:
@@ -792,6 +809,22 @@ Isolation Protocol: Office Levels
 [XE] Adds a special boss encounter for tier 5 vampires.
 Modify Gracken and Paraclesian butcher / dissection empathy by jsonizing species empathy
 [Xedra Evolved] Add playable dhampirs
+[Xedra Evolved] Vampires can drink blood
+Aftershock: Merge aftershock and aftershock exoplanet.
+Aftershock: Heat Crashed Ship.
+Mod Conflicts
+[Xedra Evolved] Add design docs for easier collaboration
+[Xedra Evolved] Add feral vampires, put them in house nests + caves
+[The Backrooms] Expand the Backrooms to multiple Z-levels, add stairs
+[MoM] Nether Attunement Spoilers document
+[MoM] Add Noetic resonance detector
+[Xedra Evolved] Remove vampires' free bite, vampires take more mutagen
+[MoM] Hostile NPC dialogue updates
+[MoM] Add psychic knacks
+[MoM/XE] Add profession: Mobile Task Force: Psi 7 "Sleepwalkers" 
+[Bombastic Perks] Limit metamagic perks to Magiclysm
+Aftershock: More mundane tools are available in exoplanet
+[MoM] Add possible `Mathematican A57` boss fight to Research Facility
 
 
 ## Balance:
@@ -887,6 +920,8 @@ Removed morale penalties and rare drops from dismemberment
 `Uncaring` characters can socialize with NPCs but they don't like it
 Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
+World sliders rebalanced to offer differing gameplay experiences
+Some recipes have 'hard' proficiency requirements
 
 
 ## Bugfixes:
@@ -1236,6 +1271,18 @@ Audit of Wood panel from Beam and Sheet to replace Byproduct with Result Multi
 Fix 0.5 L I1 Diesel engine not consuming fuel
 'None'-skill crafting counts as max level, not level 0
 [Sky Island] Fix possible painkiller death loop
+Can't craft batches so big that they vanish when the game has nowhere to put them
+[Xedra Evolved] Fix werewolf biting
+Continue with destination activity if route is empty
+Allow moving out of impassable, aquatic treated as swimming, non-swimmers can walk in shallow water
+Book recipes are now available through camp crafting
+Fix ranged_damage automatically extending
+Remove consumed faction camp calorie stores instead of leaving zombie entries
+Special vision save failure
+[Bugfixes] Star vampires no longer drain blood when doing no damage
+Players learning from NPCs while blind and teaching NPCs while blind is now fixed.
+Attempt to increase average autotravel speed when driving on straight roads
+remove landmines from weird places
 
 
 ## Performance:
@@ -1393,6 +1440,13 @@ generic factory: islot_ammo, islot_bionic, islot_magazine; general islot cleanup
 generic_factory: islot_mod, islot_gunmod, islot_tool
 Allow setting 0 spoil time to enable copy-from for 0 spoiling
 add some AIM tests
+Warn on load if files have been modified
+standardize query_int()
+Always Display Spell Tabs
+Allow monsters to have different climb/swim/dig speeds
+Mapgen: removed unused, obsoleted and pointless JSON fields
+Zstandard compressed save data for disk space savings.
+bulk overmap testing debug tools
 
 
 ## Build:
@@ -1418,6 +1472,7 @@ Update vcpkg commit to new mainline, remove portfile override
 Improve ccache performance with age based eviction instead of coarse size limits.
 Fix CMake Linux VCPKG build
 Initial support for GNU Make for Windows
+Move Android bundle generation to manually triggered workflow
 
 
 ## I18N and A11Y:
@@ -1441,6 +1496,7 @@ Make Portugal Portugues appear in Options
 Restructure the template file
 [MoM] Dont extract monster/fake spells/effects for translation
 Miscellaneous NO_I18N additions
+Translate martial art condition text and cable notification text
 
 
 # 0.H (Herbert)

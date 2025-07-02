@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "color.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "dialogue_helpers.h"
 
@@ -248,9 +249,11 @@ class string_input_popup // NOLINT(cata-xy)
          */
         /**@{*/
         void query( bool loop = true, bool draw_only = false );
-        int query_int( bool loop = true, bool draw_only = false );
-        int64_t query_int64_t( bool loop = true, bool draw_only = false );
+        std::optional<int> query_int( bool loop = true, bool draw_only = false );
+        std::optional<int64_t> query_int64_t( bool loop = true, bool draw_only = false );
         const std::string &query_string( bool loop = true, bool draw_only = false );
+        std::optional<tripoint_abs_omt> query_coordinate_abs_impl( bool loop = true,
+                bool draw_only = false );
         /**@}*/
         /**
          * Whether the input box was canceled via the ESCAPE key (or similar)

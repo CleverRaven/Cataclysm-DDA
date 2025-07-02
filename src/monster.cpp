@@ -78,7 +78,6 @@
 #include "speed_description.h"
 #include "string_formatter.h"
 #include "talker.h"
-#include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
@@ -187,9 +186,6 @@ static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_nether_player_hate( "nether_player_hate" );
 static const mfaction_str_id monfaction_wasp( "wasp" );
 
-static const morale_type morale_killer_has_killed( "morale_killer_has_killed" );
-static const morale_type morale_killer_need_to_kill( "morale_killer_need_to_kill" );
-
 static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
 static const species_id species_CYBORG( "CYBORG" );
 static const species_id species_FISH( "FISH" );
@@ -212,7 +208,6 @@ static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
-static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
 static const trait_id trait_PHEROMONE_AMPHIBIAN( "PHEROMONE_AMPHIBIAN" );
 static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
@@ -1040,6 +1035,13 @@ void monster::print_info_imgui() const
     ImGui::TextColored( symbol_color, "%s %s", name().c_str(),
                         get_effect_status().c_str() );
 
+    if( debug_mode ) {
+        dialogue d( get_talker_for( const_cast<monster *>( this ) ), get_talker_for( get_avatar() ) );
+        for( const std::pair<const std::string, mtype_special_attack> &attack : type->special_attacks ) {
+            ImGui::Text( "%s: %g", attack.first.c_str(), attack.second->cooldown.evaluate( d ) );
+        }
+    }
+
     Character &pc = get_player_character();
     bool sees_player = sees( here, pc );
     const bool player_knows = !pc.has_trait( trait_INATTENTIVE );
@@ -1194,7 +1196,7 @@ std::vector<std::string> monster::extended_description() const
 
     using flag_description = std::pair<const mon_flag_id, std::string>;
     const auto describe_flags = [this, &tmp](
-                                    const std::string_view format,
+                                    std::string_view format,
                                     const std::vector<flag_description> &flags_names,
     const std::string &if_empty = "" ) {
         std::string flag_descriptions = enumerate_as_string( flags_names.begin(),
@@ -1210,7 +1212,7 @@ std::vector<std::string> monster::extended_description() const
 
     using property_description = std::pair<bool, std::string>;
     const auto describe_properties = [&tmp](
-                                         const std::string_view format,
+                                         std::string_view format,
                                          const std::vector<property_description> &property_names,
     const std::string &if_empty = "" ) {
         std::string property_descriptions = enumerate_as_string( property_names.begin(),
@@ -1420,7 +1422,26 @@ bool monster::can_dig() const
 
 bool monster::digs() const
 {
-    return has_flag( mon_flag_DIGS );
+    return has_flag( mon_flag_DIGS ) || type->move_skills.dig.has_value() ;
+}
+
+int monster::get_dig_mod() const
+{
+    if( type->move_skills.dig.has_value() ) {
+        int percentile = type->move_skills.dig.value() * ( move_skills_data::max_movemod_penalty / 10 );
+        return move_skills_data::max_movemod_penalty - percentile;
+    } else if( has_flag( mon_flag_DIGS ) || has_flag( mon_flag_CAN_DIG ) ) {
+        return 1;
+    }
+
+    // cannot dig
+    return -1;
+}
+
+int monster::dig_skill() const
+{
+    return type->move_skills.dig.value_or( has_flag( mon_flag_DIGS ) ||
+                                           has_flag( mon_flag_CAN_DIG ) ? 9 : -1 );
 }
 
 bool monster::flies() const
@@ -1430,12 +1451,66 @@ bool monster::flies() const
 
 bool monster::climbs() const
 {
-    return has_flag( mon_flag_CLIMBS );
+    return has_flag( mon_flag_CLIMBS ) || type->move_skills.climb.has_value();
+}
+
+int monster::climb_skill() const
+{
+    return type->move_skills.climb.value_or( has_flag( mon_flag_CLIMBS ) ? 9 : -1 );
+}
+
+
+int monster::get_climb_mod() const
+{
+    if( type->move_skills.climb.has_value() ) {
+        int percentile = type->move_skills.climb.value() * ( move_skills_data::max_movemod_penalty / 10 );
+        return move_skills_data::max_movemod_penalty - percentile;
+    } else if( has_flag( mon_flag_CLIMBS ) ) {
+        // only for backwards compatibility. In future move away from flags
+        return 1;
+    }
+
+    // cannot climb
+    return -1;
 }
 
 bool monster::swims() const
 {
-    return has_flag( mon_flag_SWIMS );
+    return has_flag( mon_flag_SWIMS ) || has_flag( mon_flag_AQUATIC ) ||
+           type->move_skills.swim.has_value();
+}
+
+int monster::swim_skill() const
+{
+    if( type->move_skills.swim.has_value() ) {
+        return type->move_skills.swim.value();
+    } else if( has_flag( mon_flag_SWIMS ) ) {
+        // Backwardscompatibility only
+        return 10;
+    } else if( has_flag( mon_flag_AQUATIC ) ) {
+        // arbitrary value, if a specific speed is desired, use move_skills
+        return 6;
+    }
+    return -1;
+}
+
+int monster::get_swim_mod() const
+{
+    if( type->move_skills.swim.has_value() ) {
+        int percentile = type->move_skills.swim.value() * ( move_skills_data::max_movemod_penalty / 10 );
+        return move_skills_data::max_movemod_penalty - percentile;
+
+    } else if( has_flag( mon_flag_SWIMS ) ) {
+        // only for backwards compatibility. In future move away from flags
+        // vanilla fish have fastest possible swimspeed
+        return 0;
+    } else if( can_submerge() ) {
+        // monsters that can submerge can walk underwater. Simulated with min swimskill
+        return move_skills_data::max_movemod_penalty;
+    }
+
+    // cannot swim
+    return -1;
 }
 
 bool monster::can_act() const
@@ -1690,10 +1765,33 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
     }
+
     if( effect_cache[FLEEING] ) {
         return MATT_FLEE;
     }
 
+    // CHECK FOR ANGER RELATIONS **HERE**
+    bool target_has_anger_relation = false;
+    if( u != nullptr ) {
+        for( const trait_id &mut : u->get_functioning_mutations() ) {
+            const mutation_branch &branch = *mut;
+            for( const std::pair<const species_id, int> &elem : branch.anger_relations ) {
+                if( type->in_species( elem.first ) ) {
+                    target_has_anger_relation = true;
+                    break;
+                }
+            }
+            if( target_has_anger_relation ) {
+                break;
+            }
+        }
+    }
+    // ONLY IGNORE IF NEITHER AGGRO NOR ANGER-RELATION
+    if( u != nullptr && !aggro_character && !u->is_monster() && !target_has_anger_relation ) {
+        return MATT_IGNORE;
+    }
+
+    // Now proceed to calculate anger/morale
     int effective_anger  = anger;
     int effective_morale = morale;
 
@@ -1734,6 +1832,7 @@ monster_attitude monster::attitude( const Character *u ) const
             effective_morale -= 10;
         }
 
+        // Animal Discord/Empathy
         // Check for Discord first so we can apply temporary effects that make animals hate you
         if( has_flag( mon_flag_ANIMAL ) ) {
             if( u->has_flag( json_flag_ANIMALDISCORD ) ) {
@@ -1803,10 +1902,6 @@ monster_attitude monster::attitude( const Character *u ) const
     if( has_flag( mon_flag_KEEP_DISTANCE ) &&
         rl_dist( pos_abs(), get_dest() ) < type->tracking_distance ) {
         return MATT_FLEE;
-    }
-
-    if( u != nullptr && !aggro_character && !u->is_monster() ) {
-        return MATT_IGNORE;
     }
 
     return MATT_ATTACK;
@@ -2405,6 +2500,12 @@ bool monster::move_effects( bool )
         return true;
     }
 
+    // If the monster has the CANNOT_MOVE flag, they can't
+    // perform any move effects, so skip this step
+    if( has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
+        return false;
+    }
+
     map &here = get_map();
     bool u_see_me = get_player_view().sees( here, *this );
     if( has_effect( effect_tied ) ) {
@@ -2806,7 +2907,7 @@ void monster::disable_special( const std::string &special_name )
     special_attacks.at( special_name ).enabled = false;
 }
 
-bool monster::special_available( const std::string_view special_name ) const
+bool monster::special_available( std::string_view special_name ) const
 {
     std::map<std::string, mon_special_attack>::const_iterator iter = special_attacks.find(
                 special_name );
@@ -2967,14 +3068,6 @@ void monster::die( map *here, Creature *nkiller )
             cata::event e = cata::event::make<event_type::character_kills_monster>( ch->getID(), type->id,
                             compute_kill_xp( type->id ) );
             get_event_bus().send_with_talker( ch, this, e );
-            if( ch->is_avatar() && ch->has_trait( trait_KILLER ) ) {
-                if( one_in( 4 ) ) {
-                    const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
-                    ch->add_msg_if_player( m_good, "%s", snip );
-                }
-                ch->add_morale( morale_killer_has_killed, 5, 10, 6_hours, 4_hours );
-                ch->rem_morale( morale_killer_need_to_kill );
-            }
         }
     }
     creature_tracker &creatures = get_creature_tracker();
@@ -3312,7 +3405,7 @@ void monster::spawn_dissectables_on_death( item *corpse ) const
                 dissectable.set_flag( flg );
             }
             for( const fault_id &flt : entry.faults ) {
-                dissectable.faults.emplace( flt );
+                dissectable.set_fault( flt );
             }
             if( corpse ) {
                 corpse->put_in( dissectable, pocket_type::CORPSE );

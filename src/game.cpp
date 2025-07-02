@@ -52,6 +52,7 @@
 #include "bodygraph.h"
 #include "bodypart.h"
 #include "butchery_requirements.h"
+#include "butchery.h"
 #include "cached_options.h"
 #include "cata_imgui.h"
 #include "cata_path.h"
@@ -77,6 +78,7 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
+#include "current_map.h"
 #include "cursesport.h" // IWYU pragma: keep
 #include "damage.h"
 #include "debug.h"
@@ -214,6 +216,7 @@
 #include "weather.h"
 #include "weather_type.h"
 #include "worldfactory.h"
+#include "zzip.h"
 
 #if defined(TILES)
 #include "sdl_utils.h"
@@ -225,14 +228,6 @@
 #define UNUSED
 #endif
 
-static const activity_id ACT_BLEED( "ACT_BLEED" );
-static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
-static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
-static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
-static const activity_id ACT_DISSECT( "ACT_DISSECT" );
-static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
-static const activity_id ACT_QUARTER( "ACT_QUARTER" );
-static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
@@ -294,10 +289,6 @@ static const furn_str_id furn_f_rope_up( "f_rope_up" );
 static const furn_str_id furn_f_vine_up( "f_vine_up" );
 static const furn_str_id furn_f_web_up( "f_web_up" );
 
-static const harvest_drop_type_id harvest_drop_blood( "blood" );
-static const harvest_drop_type_id harvest_drop_offal( "offal" );
-static const harvest_drop_type_id harvest_drop_skin( "skin" );
-
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id itype_battery( "battery" );
@@ -323,7 +314,9 @@ static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
 static const mod_id MOD_INFORMATION_Graphical_Overmap( "Graphical_Overmap" );
+static const mod_id MOD_INFORMATION_StatsThroughSkills( "StatsThroughSkills" );
 static const mod_id MOD_INFORMATION_dda( "dda" );
+static const mod_id MOD_INFORMATION_no_fungal_growth( "no_fungal_growth" );
 static const mod_id MOD_INFORMATION_sees_player_hitbutton( "sees_player_hitbutton" );
 static const mod_id MOD_INFORMATION_sees_player_retro( "sees_player_retro" );
 
@@ -461,6 +454,7 @@ game::game() :
     scent_ptr( *this ),
     achievements_tracker_ptr( *stats_tracker_ptr, achievement_attained, achievement_failed, true ),
     m( *map_ptr ),
+    current_map( *current_map_ptr ),
     u( *u_ptr ),
     scent( *scent_ptr ),
     timed_events( *timed_event_manager_ptr ),
@@ -473,6 +467,7 @@ game::game() :
     tileset_zoom( DEFAULT_TILESET_ZOOM ),
     last_mouse_edge_scroll( std::chrono::steady_clock::now() )
 {
+    current_map.set( &m );
     first_redraw_since_waiting_started = true;
     reset_light_level();
     events().subscribe( &*stats_tracker_ptr );
@@ -987,7 +982,7 @@ bool game::start_game()
     here.build_map_cache( level );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
     overmap_buffer.reveal( u.pos_abs_omt().xy(),
-                           get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
+                           get_scenario()->get_distance_initial_visibility(), 0 );
 
     const int city_size = get_option<int>( "CITY_SIZE" );
     if( get_scenario()->get_reveal_locale() && city_size > 0 ) {
@@ -1219,6 +1214,8 @@ vehicle *game::place_vehicle_nearby(
             // try place vehicle there.
             tinymap target_map;
             target_map.load( goal, false );
+            // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+            swap_map swap( *target_map.cast_to_map() );
             const tripoint_omt_ms tinymap_center( SEEX, SEEY, goal.z() );
             static constexpr std::array<units::angle, 4> angles = {{
                     0_degrees, 90_degrees, 180_degrees, 270_degrees
@@ -3240,12 +3237,19 @@ bool game::load( const save_t &name )
 
                     u = avatar();
                     u.set_save_id( name.decoded_name() );
-                    if( !read_from_file(
-                            save_file_path,
-                    [this, &save_file_path]( std::istream & is ) {
-                    unserialize( is, save_file_path );
-                    } ) ) {
-                        abort = true;
+
+                    if( world_generator->active_world->has_compression_enabled() ) {
+                        std::shared_ptr<zzip> z = zzip::load( ( save_file_path + ".zzip" ).get_unrelative_path() );
+                        abort = !read_from_zzip_optional( z, save_file_path.get_unrelative_path().filename(),
+                        [this]( std::string_view sv ) {
+                            unserialize( std::string{ sv } );
+                        } );
+                    } else {
+                        abort = !read_from_file(
+                                    save_file_path,
+                        [this, &save_file_path]( std::istream & is ) {
+                            unserialize( is, save_file_path );
+                        } );
                     }
                 }
             },
@@ -3447,6 +3451,8 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs 
     const std::unordered_set<mod_id> removed_mods {
         MOD_INFORMATION_Graphical_Overmap, // Removed in 0.I
         MOD_INFORMATION_sees_player_retro, // Removed in 0.I
+        MOD_INFORMATION_no_fungal_growth, // Removed in 0.I
+        MOD_INFORMATION_StatsThroughSkills, // Removed in 0.I
         MOD_INFORMATION_sees_player_hitbutton // Removed in 0.I
     };
     std::unordered_set<mod_id> mods_to_remove;
@@ -3519,9 +3525,20 @@ bool game::save_player_data()
 {
     const cata_path playerfile = PATH_INFO::player_base_save_path();
 
-    const bool saved_data = write_to_file( playerfile + SAVE_EXTENSION, [&]( std::ostream & fout ) {
-        serialize( fout );
-    }, _( "player data" ) );
+    bool saved_data;
+    if( world_generator->active_world->has_compression_enabled() ) {
+        std::stringstream save;
+        serialize_json( save );
+        std::shared_ptr<zzip> z = zzip::load( ( playerfile + SAVE_EXTENSION +
+                                                ".zzip" ).get_unrelative_path() );
+        saved_data = z->add_file( ( playerfile + SAVE_EXTENSION ).get_unrelative_path().filename(),
+                                  save.str() );
+        saved_data = saved_data && z->compact( 1.0 );
+    } else {
+        saved_data = write_to_file( playerfile + SAVE_EXTENSION, [&]( std::ostream & fout ) {
+            serialize_json( fout );
+        }, _( "player data" ) );
+    }
     const bool saved_map_memory = u.save_map_memory();
     const bool saved_log = write_to_file( playerfile + SAVE_EXTENSION_LOG, [&](
     std::ostream & fout ) {
@@ -4508,8 +4525,8 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
                 }
 
                 const pathfinding_settings pf_settings = pathfinding_settings{ 8, distance, distance * 2, 4, true, true, false, true, false, false };
-
-                if( !get_map().route( u.pos_bub(), critter->pos_bub(), pf_settings ).empty() ) {
+                const pathfinding_target pf_t = pathfinding_target::point( critter->pos_bub() );
+                if( !get_map().route( u.pos_bub(), pf_t, pf_settings ).empty() ) {
                     return critter;
                 }
                 continue;
@@ -4900,7 +4917,7 @@ void game::cleanup_dead()
                 overmap_buffer.remove_npc( ( *it )->getID() );
                 it = critter_tracker->active_npc.erase( it );
             } else {
-                it++;
+                ++it;
             }
         }
     }
@@ -7906,7 +7923,7 @@ std::optional<std::vector<tripoint_bub_ms>> game::safe_route_to( Character &who,
         if( is_dangerous_tile( p ) ) {
             continue;
         }
-        const route_t route = here.route( who.pos_bub(), p,
+        const route_t route = here.route( who.pos_bub(), pathfinding_target::point( p ),
         who.get_pathfinding_settings(), [this]( const tripoint_bub_ms & p ) {
             return is_dangerous_tile( p );
         } );
@@ -9803,280 +9820,6 @@ static void add_disassemblables( uilist &menu,
     }
 }
 
-static std::string wrap60( const std::string &text )
-{
-    return string_join( foldstring( text, 60 ), "\n" );
-}
-
-// Butchery sub-menu and time calculation
-static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int index = -1 )
-{
-    avatar &player_character = get_avatar();
-    constexpr int num_butcher_types = static_cast<int>( butcher_type::NUM_TYPES );
-
-    std::array<time_duration, num_butcher_types> cut_times;
-    std::array<bool, num_butcher_types> has_started;
-    for( int bt_i = 0; bt_i < num_butcher_types; bt_i++ ) {
-        const butcher_type bt = static_cast<butcher_type>( bt_i );
-        int time_to_cut = 0;
-        if( index != -1 ) {
-            const mtype &corpse = *corpses[index]->get_mtype();
-            const float factor = corpse.harvest->get_butchery_requirements().get_fastest_requirements(
-                                     player_character.crafting_inventory(),
-                                     corpse.size, bt ).first;
-            time_to_cut = butcher_time_to_cut( player_character, *corpses[index], bt ) * factor;
-            has_started[bt_i] = butcher_get_progress( *corpses[index], bt ) > 0;
-        } else {
-            has_started[bt_i] = false;
-            for( const map_stack::iterator &it : corpses ) {
-                const mtype &corpse = *it->get_mtype();
-                const float factor = corpse.harvest->get_butchery_requirements().get_fastest_requirements(
-                                         player_character.crafting_inventory(),
-                                         corpse.size, bt ).first;
-                time_to_cut += butcher_time_to_cut( player_character, *it, bt ) * factor;
-                has_started[bt_i] |= butcher_get_progress( *it, bt ) > 0;
-            }
-        }
-        cut_times[bt_i] = time_duration::from_moves( time_to_cut );
-    }
-    auto cut_time = [&]( butcher_type bt ) {
-        return to_string_clipped( cut_times[static_cast<int>( bt )] );
-    };
-    auto progress_str = [&]( butcher_type bt ) {
-        std::string result;
-        if( index != -1 ) {
-            const double progress = butcher_get_progress( *corpses[index], bt );
-            if( progress > 0 ) {
-                result = string_format( _( "%d%% complete" ), static_cast<int>( 100 * progress ) );
-            }
-        } else {
-            for( const map_stack::iterator &it : corpses ) {
-                const double progress = butcher_get_progress( *it, bt );
-                if( progress > 0 ) {
-                    result = _( "partially complete" );
-                }
-            }
-        }
-        return result.empty() ? "" : ( " " + colorize( result, c_dark_gray ) );
-    };
-    const bool enough_light = player_character.fine_detail_vision_mod() <= 4;
-
-    const int factor = player_character.max_quality( qual_BUTCHER, PICKUP_RANGE );
-    const std::string msgFactor = factor > INT_MIN
-                                  ? string_format( _( "Your best tool has <color_cyan>%d butchering</color>." ), factor )
-                                  :  _( "You have no butchering tool." );
-
-    const int factorD = player_character.max_quality( qual_CUT_FINE, PICKUP_RANGE );
-    const std::string msgFactorD = factorD > INT_MIN
-                                   ? string_format( _( "Your best tool has <color_cyan>%d fine cutting</color>." ), factorD )
-                                   :  _( "You have no fine cutting tool." );
-
-    bool has_blood = false;
-    bool has_skin = false;
-    bool has_organs = false;
-    std::string dissect_wp_hint; // dissection weakpoint proficiencies training hint
-
-    if( index != -1 ) {
-        const mtype *dead_mon = corpses[index]->get_mtype();
-        if( dead_mon ) {
-            for( const harvest_entry &entry : dead_mon->harvest.obj() ) {
-                if( entry.type == harvest_drop_skin && !corpses[index]->has_flag( flag_SKINNED ) ) {
-                    has_skin = true;
-                }
-                if( entry.type == harvest_drop_offal && !( corpses[index]->has_flag( flag_QUARTERED ) ||
-                        corpses[index]->has_flag( flag_FIELD_DRESS ) ||
-                        corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
-                    has_organs = true;
-                }
-                if( entry.type == harvest_drop_blood && dead_mon->bleed_rate > 0 &&
-                    !( corpses[index]->has_flag( flag_QUARTERED ) ||
-                       corpses[index]->has_flag( flag_FIELD_DRESS ) ||
-                       corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) || corpses[index]->has_flag( flag_BLED ) ) ) {
-                    has_blood = true;
-                }
-            }
-            if( !dead_mon->families.families.empty() ) {
-                dissect_wp_hint += std::string( "\n\n" ) + _( "Dissecting may yield knowledge of:" );
-                for( const weakpoint_family &wf : dead_mon->families.families ) {
-                    std::string prof_status;
-                    if( !player_character.has_prof_prereqs( wf.proficiency ) ) {
-                        prof_status += colorize( string_format( " (%s)", _( "missing proficiencies" ) ), c_red );
-                    } else if( player_character.has_proficiency( wf.proficiency ) ) {
-                        prof_status += colorize( string_format( " (%s)", _( "already known" ) ), c_dark_gray );
-                    }
-                    dissect_wp_hint += string_format( "\n  %s%s", wf.proficiency->name(), prof_status );
-                }
-            }
-        }
-    }
-
-    // Returns true if a cruder method is already in progress, to disallow finer butchering methods
-    auto has_started_cruder_type = [&]( butcher_type bt ) {
-        for( int other_bt = 0; other_bt < num_butcher_types; other_bt++ ) {
-            if( has_started[other_bt] && cut_times[other_bt] < cut_times[static_cast<int>( bt )] ) {
-                return true;
-            }
-        }
-        return false;
-    };
-    auto is_enabled = [&]( butcher_type bt ) {
-        if( bt == butcher_type::DISMEMBER ) {
-            return true;
-        } else if( !enough_light
-                   || ( bt == butcher_type::FIELD_DRESS && !has_organs )
-                   || ( bt == butcher_type::SKIN && !has_skin )
-                   || ( bt == butcher_type::BLEED && !has_blood )
-                   || has_started_cruder_type( bt ) ) {
-            return false;
-        }
-        return true;
-    };
-
-    const std::string cannot_see = colorize( _( "can't see!" ), c_red );
-    auto time_or_disabledreason = [&]( butcher_type bt ) {
-        if( bt == butcher_type::DISMEMBER ) {
-            return cut_time( bt );
-        } else if( !enough_light ) {
-            return cannot_see;
-        } else if( bt == butcher_type::FIELD_DRESS && !has_organs ) {
-            return colorize( _( "has no organs" ), c_red );
-        } else if( bt == butcher_type::SKIN && !has_skin ) {
-            return colorize( _( "has no skin" ), c_red );
-        } else if( bt == butcher_type::BLEED && !has_blood ) {
-            return colorize( _( "has no blood" ), c_red );
-        } else if( has_started_cruder_type( bt ) ) {
-            return colorize( _( "other type started" ), c_red );
-        }
-        return cut_time( bt );
-    };
-
-    uilist smenu;
-    smenu.desc_enabled = true;
-    smenu.title = _( "Choose type of butchery:" );
-
-    smenu.addentry_col( static_cast<int>( butcher_type::QUICK ), is_enabled( butcher_type::QUICK ),
-                        'B', _( "Quick butchery" )
-                        + progress_str( butcher_type::QUICK ),
-                        time_or_disabledreason( butcher_type::QUICK ),
-                        wrap60( string_format( "%s  %s",
-                                _( "This technique is used when you are in a hurry, "
-                                   "but still want to harvest something from the corpse. "
-                                   " Yields are lower as you don't try to be precise, "
-                                   "but it's useful if you don't want to set up a workshop.  "
-                                   "Prevents zombies from raising." ),
-                                msgFactor ) ) );
-    smenu.addentry_col( static_cast<int>( butcher_type::FULL ),
-                        is_enabled( butcher_type::FULL ),
-                        'b', _( "Full butchery" )
-                        + progress_str( butcher_type::FULL ),
-                        time_or_disabledreason( butcher_type::FULL ),
-                        wrap60( string_format( "%s  %s",
-                                _( "This technique is used to properly butcher a corpse, "
-                                   "and requires a rope & a tree or a butchering rack, "
-                                   "a flat surface (for ex. a table, a leather tarp, etc.) "
-                                   "and good tools.  Yields are plentiful and varied, "
-                                   "but it is time consuming." ),
-                                msgFactor ) ) );
-    smenu.addentry_col( static_cast<int>( butcher_type::FIELD_DRESS ),
-                        is_enabled( butcher_type::FIELD_DRESS ),
-                        'f', _( "Field dress corpse" )
-                        + progress_str( butcher_type::FIELD_DRESS ),
-                        time_or_disabledreason( butcher_type::FIELD_DRESS ),
-                        wrap60( string_format( "%s  %s",
-                                _( "Technique that involves removing internal organs and "
-                                   "viscera to protect the corpse from rotting from inside.  "
-                                   "Yields internal organs.  Carcass will be lighter and will "
-                                   "stay fresh longer.  Can be combined with other methods for "
-                                   "better effects." ),
-                                msgFactor ) ) );
-    smenu.addentry_col( static_cast<int>( butcher_type::SKIN ),
-                        is_enabled( butcher_type::SKIN ),
-                        's', _( "Skin corpse" )
-                        + progress_str( butcher_type::SKIN ),
-                        time_or_disabledreason( butcher_type::SKIN ),
-                        wrap60( string_format( "%s  %s",
-                                _( "Skinning a corpse is an involved and careful process that "
-                                   "usually takes some time.  You need skill and an appropriately "
-                                   "sharp and precise knife to do a good job.  Some corpses are "
-                                   "too small to yield a full-sized hide and will instead produce "
-                                   "scraps that can be used in other ways." ),
-                                msgFactor ) ) );
-    smenu.addentry_col( static_cast<int>( butcher_type::BLEED ),
-                        is_enabled( butcher_type::BLEED ),
-                        'l', _( "Bleed corpse" )
-                        + progress_str( butcher_type::BLEED ),
-                        time_or_disabledreason( butcher_type::BLEED ),
-                        wrap60( string_format( "%s  %s",
-                                _( "Bleeding involves severing the carotid arteries and jugular "
-                                   "veins, or the blood vessels from which they arise.  "
-                                   "You need skill and an appropriately sharp and precise knife "
-                                   "to do a good job." ),
-                                msgFactor ) ) );
-    smenu.addentry_col( static_cast<int>( butcher_type::QUARTER ),
-                        is_enabled( butcher_type::QUARTER ),
-                        'k', _( "Quarter corpse" )
-                        + progress_str( butcher_type::QUARTER ),
-                        time_or_disabledreason( butcher_type::QUARTER ),
-                        wrap60( string_format( "%s  %s",
-                                _( "By quartering a previously field dressed corpse you will "
-                                   "acquire four parts with reduced weight and volume.  It "
-                                   "may help in transporting large game.  This action destroys "
-                                   "skin, hide, pelt, etc., so don't use it if you want to "
-                                   "harvest them later." ),
-                                msgFactor ) ) );
-    smenu.addentry_col( static_cast<int>( butcher_type::DISMEMBER ),
-                        is_enabled( butcher_type::DISMEMBER ),
-                        'm', _( "Dismember corpse" )
-                        + progress_str( butcher_type::DISMEMBER ),
-                        time_or_disabledreason( butcher_type::DISMEMBER ),
-                        wrap60( string_format( "%s  %s",
-                                _( "If you're aiming to just destroy a body outright and don't "
-                                   "care about harvesting it, dismembering it will hack it apart "
-                                   "in a very short amount of time but yields little to no usable flesh." ),
-                                msgFactor ) ) );
-    smenu.addentry_col( static_cast<int>( butcher_type::DISSECT ),
-                        is_enabled( butcher_type::DISSECT ),
-                        'd', _( "Dissect corpse" )
-                        + progress_str( butcher_type::DISSECT ),
-                        time_or_disabledreason( butcher_type::DISSECT ),
-                        wrap60( string_format( "%s  %s%s",
-                                _( "By careful dissection of the corpse, you will examine it for "
-                                   "possible bionic implants, or discrete organs and harvest them "
-                                   "if possible.  Requires scalpel-grade cutting tools, ruins "
-                                   "corpse, and consumes a lot of time.  Your medical knowledge "
-                                   "is most useful here." ),
-                                msgFactorD, dissect_wp_hint ) ) );
-    smenu.query();
-    switch( smenu.ret ) {
-        case static_cast<int>( butcher_type::QUICK ):
-            player_character.assign_activity( ACT_BUTCHER, 0, true );
-            break;
-        case static_cast<int>( butcher_type::FULL ):
-            player_character.assign_activity( ACT_BUTCHER_FULL, 0, true );
-            break;
-        case static_cast<int>( butcher_type::FIELD_DRESS ):
-            player_character.assign_activity( ACT_FIELD_DRESS, 0, true );
-            break;
-        case static_cast<int>( butcher_type::SKIN ):
-            player_character.assign_activity( ACT_SKIN, 0, true );
-            break;
-        case static_cast<int>( butcher_type::BLEED ) :
-            player_character.assign_activity( ACT_BLEED, 0, true );
-            break;
-        case static_cast<int>( butcher_type::QUARTER ):
-            player_character.assign_activity( ACT_QUARTER, 0, true );
-            break;
-        case static_cast<int>( butcher_type::DISMEMBER ):
-            player_character.assign_activity( ACT_DISMEMBER, 0, true );
-            break;
-        case static_cast<int>( butcher_type::DISSECT ):
-            player_character.assign_activity( ACT_DISSECT, 0, true );
-            break;
-        default:
-            return;
-    }
-}
-
 void game::butcher()
 {
     map &here = get_map();
@@ -10311,12 +10054,18 @@ void game::butcher()
                 case MULTISALVAGE:
                     u.assign_activity( longsalvage_activity_actor( salvage_tool_index ) );
                     break;
-                case MULTIBUTCHER:
-                    butcher_submenu( corpses );
-                    for( map_stack::iterator &it : corpses ) {
-                        u.activity.targets.emplace_back( map_cursor( u.pos_abs() ), &*it );
+                case MULTIBUTCHER: {
+                    const std::optional<butcher_type> bt = butcher_submenu( corpses );
+                    if( bt.has_value() ) {
+                        std::vector<butchery_data> bd;
+                        for( map_stack::iterator &it : corpses ) {
+                            item_location corpse_loc = item_location( map_cursor( u.pos_abs() ), &*it );
+                            bd.emplace_back( corpse_loc, bt.value() );
+                        }
+                        u.assign_activity( butchery_activity_actor( bd ) );
                     }
                     break;
+                }
                 case MULTIDISASSEMBLE_ONE:
                     u.disassemble_all( true );
                     break;
@@ -10329,8 +10078,12 @@ void game::butcher()
             }
             break;
         case BUTCHER_CORPSE: {
-            butcher_submenu( corpses, indexer_index );
-            u.activity.targets.emplace_back( map_cursor( u.pos_abs() ), &*corpses[indexer_index] );
+            const std::optional<butcher_type> bt = butcher_submenu( corpses, indexer_index );
+            if( bt.has_value() ) {
+                item_location corpse_loc = item_location( map_cursor( u.pos_abs() ), &*corpses[indexer_index] );
+                butchery_data bd( corpse_loc, bt.value() );
+                u.assign_activity( butchery_activity_actor( bd ) );
+            }
         }
         break;
         case BUTCHER_DISASSEMBLE: {
@@ -11249,6 +11002,158 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
     return true;
 }
 
+
+static void autopulp_or_butcher( avatar &u )
+{
+
+    const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
+
+    if( pulp_butcher == "off" ) {
+        return;
+    }
+
+    enum class AUTO_AREA : int {
+        CENTER,
+        ADJACENT
+    };
+
+    enum class AUTO_TYPE : int {
+        BUTCHER_QUICK,
+        PULP,
+        PULP_OR_DISMEMBER
+    };
+
+    enum class AUTO_WHO : int {
+        ALL,
+        ZOMBIES
+    };
+
+    map &here = get_map();
+    AUTO_AREA area{};
+    AUTO_TYPE type{};
+    AUTO_WHO who{};
+
+    // probably replace this with enum
+    if( pulp_butcher == "butcher" ) {
+        area = AUTO_AREA::CENTER;
+        type = AUTO_TYPE::BUTCHER_QUICK;
+        who = AUTO_WHO::ALL;
+    } else if( pulp_butcher == "pulp" ) {
+        area = AUTO_AREA::CENTER;
+        type = AUTO_TYPE::PULP;
+        who = AUTO_WHO::ALL;
+    } else if( pulp_butcher == "pulp_adjacent" ) {
+        area = AUTO_AREA::ADJACENT;
+        type = AUTO_TYPE::PULP;
+        who = AUTO_WHO::ALL;
+    } else if( pulp_butcher == "pulp_zombie_only" ) {
+        area = AUTO_AREA::CENTER;
+        type = AUTO_TYPE::PULP;
+        who = AUTO_WHO::ZOMBIES;
+    } else if( pulp_butcher == "pulp_adjacent_zombie_only" ) {
+        area = AUTO_AREA::ADJACENT;
+        type = AUTO_TYPE::PULP;
+        who = AUTO_WHO::ZOMBIES;
+    } else if( pulp_butcher == "pulp_or_dismember" ) {
+        area = AUTO_AREA::CENTER;
+        type = AUTO_TYPE::PULP_OR_DISMEMBER;
+        who = AUTO_WHO::ALL;
+    } else if( pulp_butcher == "pulp_or_dismember_adjacent" ) {
+        area = AUTO_AREA::ADJACENT;
+        type = AUTO_TYPE::PULP_OR_DISMEMBER;
+        who = AUTO_WHO::ALL;
+    } else if( pulp_butcher == "pulp_or_dismember_zombies_only" ) {
+        area = AUTO_AREA::CENTER;
+        type = AUTO_TYPE::PULP_OR_DISMEMBER;
+        who = AUTO_WHO::ZOMBIES;
+    } else if( pulp_butcher == "pulp_or_dismember_zombies_only_adjacent" ) {
+        area = AUTO_AREA::ADJACENT;
+        type = AUTO_TYPE::PULP_OR_DISMEMBER;
+        who = AUTO_WHO::ZOMBIES;
+    }
+
+    std::vector<tripoint_bub_ms> target;
+    switch( area ) {
+        case AUTO_AREA::CENTER: {
+            target.push_back( u.pos_bub() );
+            break;
+        }
+        case AUTO_AREA::ADJACENT: {
+            target.reserve( eight_horizontal_neighbors.size() );
+            for( const tripoint &dir : eight_horizontal_neighbors ) {
+                target.emplace_back( u.pos_bub() + dir );
+            }
+            break;
+        }
+    }
+
+    std::vector<item_location> corpses;
+    for( const tripoint_bub_ms &pos : target ) {
+        for( item &it : here.i_at( pos ) ) {
+            // skip not corpses or corpses that are already pulped
+            if( !it.is_corpse() || it.damage() >= it.max_damage() ) {
+                continue;
+            }
+            if( who == AUTO_WHO::ZOMBIES && !it.get_mtype()->has_flag( mon_flag_REVIVES ) ) {
+                continue;
+            }
+            const item_location corpse_loc( map_cursor( pos ), &it );
+            corpses.push_back( corpse_loc );
+        }
+    }
+
+    if( corpses.empty() ) {
+        return;
+    }
+    switch( type ) {
+        case AUTO_TYPE::BUTCHER_QUICK: {
+            std::vector<butchery_data> butchery_list;
+            for( item_location corpse : corpses ) {
+                butchery_data bd( corpse, butcher_type::QUICK );
+                butchery_list.emplace_back( bd );
+            }
+            if( !butchery_list.empty() ) {
+                u.assign_activity( butchery_activity_actor( butchery_list ) );
+            }
+            return;
+        }
+        case AUTO_TYPE::PULP: {
+            if( !corpses.empty() ) {
+                u.assign_activity( pulp_activity_actor( corpses ) );
+            }
+            return;
+        }
+        case AUTO_TYPE::PULP_OR_DISMEMBER: {
+
+            std::vector<item_location> to_be_pulped;
+            std::vector<butchery_data> to_be_butchered;
+            to_be_pulped.reserve( corpses.size() );
+            to_be_butchered.reserve( corpses.size() );
+            for( item_location &loc : corpses ) {
+                if( g->can_pulp_corpse( u, *loc.get_item()->get_mtype() ) ) {
+                    to_be_pulped.emplace_back( loc );
+                } else {
+                    butchery_data bd( loc, butcher_type::DISMEMBER );
+                    to_be_butchered.emplace_back( bd );
+                }
+            }
+
+            // what happens right now is that whatever activity is assigned last is one that actually fires
+            // it would be nice to make it to store activity in backlog and fire from it
+            // (doesn't work because in this case activity starts from the middle, bypassing ::start() function)
+            // or some another reasonable alternative
+            // but this would suffice
+            if( !to_be_butchered.empty() ) {
+                u.assign_activity( player_activity( butchery_activity_actor( to_be_butchered ) ) );
+            }
+            if( !to_be_pulped.empty() ) {
+                u.assign_activity( player_activity( pulp_activity_actor( to_be_pulped ) ) );
+            }
+            return;
+        }
+    }
+}
+
 point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
 {
     map &here = get_map();
@@ -11422,7 +11327,7 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
     // adjusted_pos = ( old_pos.x - submap_shift.x * SEEX, old_pos.y - submap_shift.y * SEEY, old_pos.z )
 
     //Auto pulp or butcher and Auto foraging
-    if( !quick && get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0  && !u.is_mounted() ) {
+    if( !quick && get_option<bool>( "AUTO_FEATURES" )  && mostseen == 0 && !u.is_mounted() ) {
         static constexpr std::array<direction, 8> adjacentDir = {
             direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST,
             direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST
@@ -11461,57 +11366,7 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
             }
         }
 
-        const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
-        if( pulp_butcher == "butcher" &&
-            u.max_quality( qual_BUTCHER, PICKUP_RANGE ) > INT_MIN ) {
-            std::vector<item *> corpses;
-
-            for( item &it : here.i_at( u.pos_bub() ) ) {
-                corpses.push_back( &it );
-            }
-
-            if( !corpses.empty() ) {
-                u.assign_activity( ACT_BUTCHER, 0, true );
-                for( item *it : corpses ) {
-                    u.activity.targets.emplace_back( map_cursor( u.pos_abs() ), it );
-                }
-            }
-        } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||
-                   pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
-            const bool acid_immune = u.is_immune_damage( damage_acid ) || u.is_immune_field( fd_acid );
-            const auto corpse_available = [&]( const tripoint_bub_ms & pos ) {
-                for( const item &maybe_corpse : here.i_at( pos ) ) {
-                    if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
-                        ( !maybe_corpse.get_mtype()->bloodType().obj().has_acid || acid_immune ) ) {
-                        if( pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
-                            if( !maybe_corpse.get_mtype()->has_flag( mon_flag_REVIVES ) ) {
-                                continue;
-                            } else {
-                                return true;
-                            }
-                        } else {
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            };
-            if( pulp_butcher == "pulp_adjacent" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
-                std::set<tripoint_abs_ms> places;
-                for( const direction &elem : adjacentDir ) {
-                    if( corpse_available( u.pos_bub() + displace_XY( elem ) ) ) {
-                        places.emplace( here.get_abs( u.pos_bub() + displace_XY( elem ) ) );
-                    }
-                }
-                if( !places.empty() ) {
-                    u.assign_activity( pulp_activity_actor( places ) );
-                }
-            } else {
-                if( corpse_available( u.pos_bub() ) ) {
-                    u.assign_activity( pulp_activity_actor( here.get_abs( u.pos_bub() ) ) );
-                }
-            }
-        }
+        autopulp_or_butcher( u );
     }
 
     // Auto pickup
@@ -12187,10 +12042,11 @@ void game::water_affect_items( Character &ch ) const
             loc->deactivate();
             // TODO: Maybe different types of wet faults? But I can't think of any.
             // This just means it's still too wet to use.
-            loc->set_fault( faults::random_of_type( "wet" ) ) ;
+            // TODO2: add fault types to electronics, remove `force` argument from here
+            loc->set_random_fault_of_type( "wet", true );
             // An electronic item in water is also shorted.
             if( loc->has_flag( flag_ELECTRONIC ) ) {
-                loc->set_fault( faults::random_of_type( "shorted" ) );
+                loc->set_random_fault_of_type( "shorted", true );
             }
         } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
                    && !loc.protected_from_liquids() ) {
@@ -12755,12 +12611,16 @@ void game::vertical_move( int movez, bool force, bool peeking )
         return;
     }
 
-    const tripoint_bub_ms old_pos = pos;
+    tripoint_bub_ms old_pos = pos;
     const tripoint_abs_ms old_abs_pos = here.get_abs( old_pos );
-    point_rel_sm submap_shift;
     const bool z_level_changed = vertical_shift( z_after );
     if( !force ) {
-        submap_shift = update_map( stairs.x(), stairs.y(), z_level_changed );
+        const point_rel_sm submap_shift = update_map( stairs.x(), stairs.y(), z_level_changed );
+        // Adjust all bubble coordinates used according to the submap shift.
+        const point_rel_ms ms_shift = coords::project_to<coords::ms>( submap_shift );
+        pos = pos - ms_shift;
+        old_pos = old_pos - ms_shift;
+        stairs = stairs - ms_shift;
     }
 
     // if an NPC or monster is on the stairs when player ascends/descends
@@ -12839,9 +12699,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( u.is_hauling() ) {
-        const tripoint_bub_ms adjusted_pos = old_pos - coords::project_to<coords::ms>( point_rel_sm(
-                submap_shift ) ).raw();
-        start_hauling( adjusted_pos );
+        start_hauling( old_pos );
     }
 
     here.invalidate_map_cache( here.get_abs_sub().z() );
@@ -13243,7 +13101,7 @@ point_rel_sm game::update_map( int &x, int &y, bool z_level_changed )
             ( *it )->on_unload();
             it = critter_tracker->active_npc.erase( it );
         } else {
-            it++;
+            ++it;
         }
     }
 
@@ -13496,10 +13354,8 @@ void game::display_scent()
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_SCENT );
     } else {
-        int div;
-        bool got_value = query_int( div, _( "Set the Scent Map sensitivity to (0 to cancel)?" ) );
-        if( !got_value || div < 1 ) {
-            add_msg( _( "Never mind." ) );
+        int div = 0;
+        if( !query_int( div, false, _( "Set scent map sensitivity to?" ) ) || div != 0 ) {
             return;
         }
         shared_ptr_fast<game::draw_callback_t> scent_cb = make_shared_fast<game::draw_callback_t>( [&]() {
@@ -14371,7 +14227,7 @@ pulp_data game::calculate_character_ability_to_pulp( const Character &you )
     // the idea was that roll_damage() gonna handle melee skills, but it doesn't care for skill, apparently?
     const std::pair<float, item> pair_bash = you.get_best_weapon_by_damage_type( damage_bash );
     pulp_power_bash = pair_bash.first;
-    pd.bash_tool = pair_bash.second.display_name();
+    pd.bash_tool = item::nname( pair_bash.second.typeId() );
 
     if( pair_bash.second.has_flag( flag_MESSY ) || pair_bash.first > 40 ) {
         pd.mess_radius = 2;
@@ -14442,9 +14298,9 @@ pulp_data game::calculate_character_ability_to_pulp( const Character &you )
             you.get_skill_level( skill_survival ),
             you.get_skill_level( skill_firstaid ) ) );
 
-    pd.pulp_power = bash_factor * skill_factor * ( pd.can_cut_precisely ? 1 : 0.85 );
+    pd.nominal_pulp_power = bash_factor * skill_factor * ( pd.can_cut_precisely ? 1 : 0.85 );
 
-    add_msg_debug( debugmode::DF_ACTIVITY, "final pulp_power: %s", pd.pulp_power );
+    add_msg_debug( debugmode::DF_ACTIVITY, "final pulp_power: %s", pd.nominal_pulp_power );
 
     // since we are trying to depict pulping as more involved than you Isaac Clarke the corpse 100% of time,
     // we would assume there is some time between attacks, where you try to reach some sweet spot,
@@ -14478,11 +14334,22 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
 
     float corpse_volume = units::to_liter( corpse_mtype.volume );
     // in seconds
-    int time_to_pulp = ( std::pow( corpse_volume, pow_factor ) * 1000 ) / pd.pulp_power;
-
+    int time_to_pulp = ( std::pow( corpse_volume, pow_factor ) * 1000 ) / pd.nominal_pulp_power;
     // in seconds also
     // 30 seconds for human body volume of 62.5L, scale from this
     int min_time_to_pulp = 30 * corpse_volume / 62.5;
+
+    // you have a hard time pulling armor to reach important parts of this monster
+    if( corpse_mtype.has_flag( mon_flag_PULP_PRYING ) ) {
+        if( pd.can_pry_armor ) {
+            time_to_pulp *= 1.25;
+        } else {
+            time_to_pulp *= 1.7;
+        }
+    }
+
+    // Adjust pulp_power to match the time taken.
+    pd.pulp_power = ( std::pow( corpse_volume, pow_factor ) * 1000 ) / time_to_pulp;
 
     // +25% to pulp time if char knows no weakpoints of monster
     // -25% if knows all of them
@@ -14495,19 +14362,19 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
                 pd.unknown_prof = wf.proficiency;
             }
         }
+        // We're not adjusting pulp_power here, so no proficiency will result in more
+        // splatter and full proficiency will result in less, as no needless bashes
+        // resulting in splatter are made.
         time_to_pulp *= 1.25 - 0.5 * wp_known / corpse_mtype.families.families.size();
     }
 
-    // you have a hard time pulling armor to reach important parts of this monster
-    if( corpse_mtype.has_flag( mon_flag_PULP_PRYING ) ) {
-        if( pd.can_pry_armor ) {
-            time_to_pulp *= 1.25;
-        } else {
-            time_to_pulp *= 1.7;
-        }
+    if( time_to_pulp < min_time_to_pulp ) {
+        pd.time_to_pulp = min_time_to_pulp;
+        // Reducing the power to match the time in order to get the same amount of splatter.
+        pd.pulp_power = pd.time_to_pulp / ( std::pow( corpse_volume, pow_factor ) * 1000 );
+    } else {
+        pd.time_to_pulp = time_to_pulp;
     }
-
-    pd.time_to_pulp = std::max( min_time_to_pulp, time_to_pulp );
 
     return pd;
 }
@@ -14607,7 +14474,7 @@ avatar &get_avatar()
 
 map &get_map()
 {
-    return g->m;
+    return g->current_map.get_map();
 }
 
 map &reality_bubble()

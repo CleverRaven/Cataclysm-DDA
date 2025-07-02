@@ -12,6 +12,7 @@
     "weight": "120 kg",
     "hp": 120,
     "speed": 95,
+    "move_skills": { "swim": 8 },
     "material": [ "flesh" ],
     "symbol": "Y",
     "color": "red",
@@ -37,7 +38,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "QUEEN", "PATH_AVOID_DANGER", "PULP_PRYING", "EATS" ],
+    "flags": [ "SMELLS", "HEARS", "SEES", "GRABS", "ARTHROPOD_BLOOD", "QUEEN", "PATH_AVOID_DANGER", "PULP_PRYING", "EATS" ],
     "armor": { "bash": 20, "cut": 30, "bullet": 24 }
   },
   {
@@ -54,6 +55,7 @@
     "weight": "680 g",
     "hp": 2,
     "speed": 150,
+    "move_skills": { "swim": 10 },
     "dodge": 8,
     "material": [ "flesh" ],
     "symbol": "f",
@@ -69,7 +71,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "fish_tiny",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "abstract": "mon_fish_small",
@@ -85,6 +87,7 @@
     "weight": "1500 g",
     "hp": 6,
     "speed": 150,
+    "move_skills": { "swim": 10 },
     "dodge": 8,
     "material": [ "flesh" ],
     "symbol": "f",
@@ -101,7 +104,7 @@
     "harvest": "fish_small",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dissect": "dissect_fish_sample_single",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "abstract": "mon_fish_medium",
@@ -117,6 +120,7 @@
     "weight": "4535 g",
     "hp": 10,
     "speed": 150,
+    "move_skills": { "swim": 9 },
     "dodge": 8,
     "material": [ "flesh" ],
     "symbol": "f",
@@ -133,7 +137,7 @@
     "harvest": "fish_small",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dissect": "dissect_fish_sample_single",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "abstract": "mon_fish_large",
@@ -149,6 +153,7 @@
     "weight": "12 kg",
     "hp": 20,
     "speed": 150,
+    "move_skills": { "swim": 8 },
     "dodge": 8,
     "material": [ "flesh" ],
     "symbol": "F",
@@ -165,7 +170,7 @@
     "harvest": "fish_large",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dissect": "dissect_fish_sample_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "abstract": "mon_fish_huge",
@@ -181,6 +186,7 @@
     "weight": "40750 g",
     "hp": 30,
     "speed": 150,
+    "move_skills": { "swim": 7 },
     "dodge": 8,
     "material": [ "flesh" ],
     "symbol": "F",
@@ -196,7 +202,7 @@
     "harvest": "fish_large",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dissect": "dissect_fish_sample_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "abstract": "mon_fry",
@@ -212,6 +218,7 @@
     "weight": "1 g",
     "hp": 1,
     "speed": 150,
+    "move_skills": { "swim": 1 },
     "dodge": 10,
     "material": [ "flesh" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
@@ -226,7 +233,7 @@
     "melee_training_cap": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s is smashed to non-recognizable pieces." },
-    "flags": [ "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+    "flags": [ "SEES", "SMELLS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "abstract": "mon_fry_mutant",
@@ -241,6 +248,7 @@
     "weight": "275 g",
     "hp": 3,
     "speed": 150,
+    "move_skills": { "swim": 1 },
     "dodge": 8,
     "material": [ "flesh" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
@@ -255,7 +263,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "mutant_fish",
     "dissect": "dissect_fish_sample_single",
-    "flags": [ "SEES", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+    "flags": [ "SEES", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_fish_brown_trout",
@@ -925,6 +933,7 @@
     "weight": "680 g",
     "hp": 12,
     "speed": 80,
+    "move_skills": { "swim": 8 },
     "material": [ "flesh" ],
     "symbol": "f",
     "color": "red",
@@ -939,7 +948,7 @@
     "reproduction": { "baby_type": { "baby_egg": "egg_fish" }, "baby_count": 2, "baby_timer": 180 },
     "baby_flags": [ "SUMMER", "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "AQUATIC", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD" ]
   },
   {
     "id": "mon_fish_crayfish",
@@ -954,6 +963,7 @@
     "weight": "52 g",
     "hp": 3,
     "speed": 150,
+    "move_skills": { "swim": 8 },
     "material": [ "flesh" ],
     "symbol": "f",
     "color": "red",
@@ -968,7 +978,7 @@
     "reproduction": { "baby_type": { "baby_monster": "mon_fry_crayfish" }, "baby_count": 3, "baby_timer": 17 },
     "baby_flags": [ "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "AQUATIC", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD" ]
   },
   {
     "id": "mon_fry_crayfish",
@@ -992,6 +1002,7 @@
     "weight": "2150 g",
     "hp": 10,
     "speed": 150,
+    "move_skills": { "swim": 10 },
     "material": [ "flesh" ],
     "symbol": "f",
     "color": "white",
@@ -1004,7 +1015,7 @@
     "harvest": "fish_small",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dissect": "dissect_slimy_fish_single",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_crayfish_small",
@@ -1031,6 +1042,7 @@
     "weight": "81500 g",
     "hp": 50,
     "speed": 130,
+    "move_skills": { "swim": 10 },
     "material": [ "flesh" ],
     "symbol": "y",
     "color": "red",
@@ -1053,7 +1065,7 @@
     "fear_triggers": [ "FIRE" ],
     "upgrades": { "age_grow": 42, "into": "mon_crayfish_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "PULP_PRYING", "ARTHROPOD_BLOOD" ],
+    "flags": [ "SMELLS", "HEARS", "SEES", "GRABS", "PULP_PRYING", "ARTHROPOD_BLOOD" ],
     "armor": { "cut": 8, "bullet": 6 }
   },
   {
@@ -1087,13 +1099,14 @@
     "bodytype": "crab",
     "species": [ "MUTANT" ],
     "speed": 150,
+    "move_skills": { "swim": 8 },
     "material": [ "flesh" ],
     "symbol": "y",
     "vision_day": 15,
     "harvest": "mutant_shellfish",
     "upgrades": { "age_grow": 30, "into": "mon_giant_crayfish" },
     "fear_triggers": [ "HURT", "PLAYER_CLOSE", "SOUND" ],
-    "extend": { "flags": [ "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ] }
+    "extend": { "flags": [ "AQUATIC", "WATER_CAMOUFLAGE" ] }
   },
   {
     "id": "mon_razorclaw",
@@ -1107,6 +1120,7 @@
     "weight": "81500 g",
     "hp": 80,
     "speed": 85,
+    "move_skills": { "swim": 8 },
     "material": [ "flesh" ],
     "symbol": "Y",
     "color": "magenta",
@@ -1132,7 +1146,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER", "PULP_PRYING", "EATS" ],
+    "flags": [ "SMELLS", "HEARS", "SEES", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER", "PULP_PRYING", "EATS" ],
     "armor": { "bash": 10, "cut": 18, "bullet": 14 }
   },
   {
@@ -1147,6 +1161,7 @@
     "weight": "81500 g",
     "hp": 180,
     "speed": 150,
+    "move_skills": { "swim": 10 },
     "material": [ "flesh" ],
     "symbol": "C",
     "color": "white_magenta",
@@ -1162,7 +1177,7 @@
     "dissect": "dissect_fish_sample_small",
     "reproduction": { "baby_type": { "baby_egg": "egg_fish" }, "baby_count": 1, "baby_timer": 6 },
     "baby_flags": [ "SPRING" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "AQUATIC" ]
   },
   {
     "id": "mon_mutant_salmon",
@@ -1177,6 +1192,7 @@
     "hp": 110,
     "armor": { "bash": 4, "cut": 3, "bullet": 2 },
     "speed": 175,
+    "move_skills": { "swim": 10 },
     "attack_cost": 145,
     "material": [ "flesh" ],
     "symbol": "S",
@@ -1195,7 +1211,7 @@
     "baby_flags": [ "AUTUMN" ],
     "upgrades": { "age_grow": 30, "into": "mon_mutant_salmon_huge" },
     "anger_triggers": [ "HURT" ],
-    "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
+    "flags": [ "SEES", "HEARS", "AQUATIC" ]
   },
   {
     "id": "mon_mutant_salmon_huge",
@@ -1210,6 +1226,7 @@
     "hp": 225,
     "armor": { "bash": 8, "cut": 6, "bullet": 3 },
     "speed": 175,
+    "move_skills": { "swim": 10 },
     "attack_cost": 150,
     "material": [ "flesh" ],
     "symbol": "S",
@@ -1227,7 +1244,7 @@
     "baby_flags": [ "AUTUMN" ],
     "upgrades": { "age_grow": 42, "into": "mon_mutant_salmon_mega" },
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
+    "flags": [ "SEES", "HEARS", "AQUATIC" ]
   },
   {
     "id": "mon_fry_mutant_salmon",
@@ -1248,6 +1265,7 @@
     "hp": 240,
     "armor": { "bash": 10, "cut": 9, "bullet": 3 },
     "speed": 200,
+    "move_skills": { "swim": 10 },
     "attack_cost": 150,
     "material": [ "flesh" ],
     "symbol": "S",
@@ -1265,7 +1283,7 @@
     "reproduction": { "baby_type": { "baby_egg": "egg_mutant_salmon" }, "baby_count": 5, "baby_timer": 50 },
     "baby_flags": [ "AUTUMN" ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
+    "flags": [ "SEES", "HEARS", "AQUATIC" ]
   },
   {
     "id": "mon_sewer_fish",

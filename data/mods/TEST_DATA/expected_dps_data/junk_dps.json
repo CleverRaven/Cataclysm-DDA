@@ -55,7 +55,6 @@
       "torch_lit": 5.4,
       "pipe_quiver_large": 5.83,
       "bipod_handguard": 7.69,
-      "bipod_mod": 7.69,
       "bipod": 7.69,
       "bipod_handguard_deployed": 7.69,
       "wizard_cane": 7.86,
@@ -74,7 +73,8 @@
       "stick": 9.04,
       "bolt_ballista_steel": 7.64,
       "chain": 4.53,
-      "pastaextruder": 5.89
+      "pastaextruder": 5.89,
+      "bike_basket": 6.82
     }
   }
 ]

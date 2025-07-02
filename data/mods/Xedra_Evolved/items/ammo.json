@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "throwing_knives",
     "symbol": ";",
     "color": "light_gray",
@@ -24,7 +25,8 @@
   },
   {
     "id": "moon_tears_fasteners",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "moon tears fastener" },
     "description": "A pin-shaped piece of moon tears and dreamdross.  It can be used to repair items made of moon tears.",
@@ -45,7 +47,8 @@
     "effects": [ "NON_FOULING", "HURT_WHEN_WIELDED" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "moon_tear_chain_link",
     "category": "spare_parts",
     "price": "1 USD 50 cent",
@@ -62,7 +65,8 @@
   },
   {
     "id": "9x21mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x21mm Gyurza SP-10 (7N29)" },
     "description": "The 9×21mm Gyurza (Гюрза, Russian for 'blunt-nosed viper') round is a Russian handgun round designed to defeat body armor that was developed by TsNIITochMash for its SR-1 Vektor semi-automatic pistol and SR-2 Veresk submachine gun.  The 7N29 AP loading fires a 6.7 g (103 gr) bullet at 410 m/s (1,300 ft/s) with 560 J (410 ft⋅lb) of muzzle energy, and will reportedly penetrate two 1.2 mm titanium plates, plus 30 layers of Kevlar, at 50 m (160 ft).  The disadvantage of the rounds is that high impact velocities are needed for them to work effectively, so the bullets are relatively light to maximize their muzzle velocity.  This means they will lose velocity relatively quickly, limiting their effective range.",
     "weight": "6700 mg",
@@ -85,7 +89,8 @@
   },
   {
     "id": "aetheric_charge",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "aetheric charge" },
     "description": "Charged ether pulled out of the void between all things.",
     "price": "10 USD",
@@ -102,7 +107,8 @@
     "flags": [ "ZERO_WEIGHT" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "grappler_sinew",
     "category": "spare_parts",
     "price": "0 cent",
@@ -120,7 +126,8 @@
     "stack_size": 200
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "runner_sinew",
     "category": "spare_parts",
     "price": "0 cent",
@@ -138,7 +145,8 @@
     "stack_size": 200
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "underdeveloped_sinew",
     "category": "spare_parts",
     "price": "0 cent",
@@ -157,7 +165,8 @@
   },
   {
     "id": "glamour_charge",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "glamour charge" },
     "description": "Power used to fuel hedge magic.",
     "price": "10 USD",
@@ -169,7 +178,8 @@
   },
   {
     "id": "xedra_time_charge",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "collected time" },
     "description": "Stored time.",
     "price": "10 USD",

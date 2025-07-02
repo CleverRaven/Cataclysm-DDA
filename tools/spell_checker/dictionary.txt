@@ -4,6 +4,8 @@ AAC
 AAR
 AB
 Abanaderly
+abaya
+abayas
 Abbie
 Abby
 ABC
@@ -2068,6 +2070,7 @@ Florida
 Florunner
 fluffernutter
 fluffies
+Fluffycats
 fluidic
 fluorescents
 fluoxetine
@@ -2620,6 +2623,7 @@ Hiep
 Higgins
 highschool
 hijab
+hijabs
 Himalayan
 Hindu
 Hinduism
@@ -3067,6 +3071,7 @@ Justo
 Justus
 Kabura
 kabuto
+kabutos
 Kaczynski
 Kadambawa
 Kafka
@@ -4311,6 +4316,8 @@ Ninhursag
 ninjutsu
 niño
 Nipâta
+niqab
+niqabs
 Nishan
 Niten
 Nitron
@@ -4787,6 +4794,7 @@ Plympton
 PM
 pm
 PMC
+pocketless
 podling
 podlings
 pokeball
@@ -5306,6 +5314,7 @@ Samoyed
 Samoyeds
 Samuel
 Samuels
+Samurais
 Sanatsugâtîya
 Sanchez
 sanctacaris
@@ -6539,6 +6548,7 @@ Unicode
 unitard
 unitards
 unjacketed
+unknowable
 unlife
 unlively
 unlockable

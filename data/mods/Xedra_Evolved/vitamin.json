@@ -19,10 +19,10 @@
     "name": { "str": "Stolen Blood" },
     "excess": "blood_quenched",
     "deficiency": "withering",
-    "min": -12000,
+    "min": -1502,
     "max": 32600,
     "rate": "0 m",
-    "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -11998 ], [ -11999, -12000 ] ],
+    "disease": [ [ -1, -300 ], [ -301, -750 ], [ -751, -1500 ], [ -1501, -1502 ] ],
     "disease_excess": [ [ 1800, 2400 ], [ 2401, 4400 ], [ 4401, 5600 ] ]
   },
   {
@@ -130,6 +130,17 @@
     "vit_type": "counter",
     "name": { "str": "Arvore Mutagen" },
     "excess": "mutagen_plantkin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_alchemical_plantkin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Arvore Alchemical Mutagen" },
+    "excess": "mutagen_alchemical_plantkin",
     "min": 0,
     "max": 2500,
     "rate": "1 h",

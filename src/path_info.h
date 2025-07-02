@@ -74,6 +74,7 @@ cata_path lastworld();
 cata_path legacy_fontdata();
 cata_path memorialdir_path();
 cata_path achievementdir_path();
+cata_path compression_folder_path();
 cata_path moddir();
 cata_path mods_dev_default();
 cata_path mods_user_default();

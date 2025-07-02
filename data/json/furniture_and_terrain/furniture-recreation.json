@@ -127,7 +127,7 @@
     "name": "target",
     "description": "A long sheet of metal, cut into a roughly human shape and held upright by a pipe frame.  There are two bullseye targets painted onto it, a large one on the torso, and a smaller one on the head.  It is peppered with small dents and holes, and a large amount of the paint has flaked or chipped off.",
     "symbol": "@",
-    "color": "black",
+    "color": "dark_gray",
     "move_cost_mod": 2,
     "coverage": 40,
     "required_str": 5,

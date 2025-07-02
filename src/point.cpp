@@ -105,16 +105,17 @@ std::ostream &operator<<( std::ostream &os, const tripoint &pos )
 std::istream &operator>>( std::istream &is, point &pos )
 {
     char c;
-    is.get( c ) &&c == '(' &&is >> pos.x &&is.get( c ) &&c == ',' &&is >> pos.y &&
-                                is.get( c ) &&c == ')';
+    // silence -Wunused-value
+    static_cast<void>( is.get( c ) && c == '(' && is >> pos.x && is.get( c ) && c == ',' &&
+                       is >> pos.y && is.get( c ) && c == ')' );
     return is;
 }
 
 std::istream &operator>>( std::istream &is, tripoint &pos )
 {
     char c;
-    is.get( c ) &&c == '(' &&is >> pos.x &&is.get( c ) &&c == ',' &&is >> pos.y &&
-                                is.get( c ) &&c == ',' &&is >> pos.z &&is.get( c ) &&c == ')';
+    static_cast<void>( is.get( c ) && c == '(' && is >> pos.x && is.get( c ) && c == ',' &&
+                       is >> pos.y && is.get( c ) && c == ',' && is >> pos.z && is.get( c ) && c == ')' );
     return is;
 }
 

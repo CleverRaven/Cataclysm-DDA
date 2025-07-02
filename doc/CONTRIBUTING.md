@@ -89,7 +89,7 @@ Extensive documentation of classes and class members will make the code more rea
 
 Use the following template for commenting classes:
 
-```c++
+```cpp
 /**
  * Brief description
  *
@@ -100,7 +100,7 @@ class foo {
 
 Use the following template for commenting functions:
 
-```c++
+```cpp
 /**
  * Brief description
  *
@@ -113,7 +113,7 @@ int foo(int param1);
 
 Use the following template for commenting member variables:
 
-```c++
+```cpp
 /** Brief description **/
 int foo;
 ```

@@ -35,6 +35,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "omdata.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -1168,7 +1169,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         try_opposite = false;
     } else if( cat_list.get_weight() > 0 ) {
         cat = *cat_list.pick();
-        cat_list.add_or_replace( cat, 0 );
+        cat_list.remove( cat );
         add_msg_debug( debugmode::DF_MUTATION, "Picked category %s", cat.c_str() );
         // Only decide if it's good or bad after we pick the category.
         if( roll_bad_mutation( cat ) ) {
@@ -1325,7 +1326,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                 cat = *cat_list.pick();
                 add_msg_debug( debugmode::DF_MUTATION, "No valid traits in category found, new category %s",
                                cat.c_str() );
-                cat_list.add_or_replace( cat, 0 );
+                cat_list.remove( cat );
             } else {
                 // every option we have vitamins for is invalid
                 add_msg_if_player( m_bad,
@@ -2586,12 +2587,17 @@ std::string Character::mutation_name( const trait_id &mut ) const
 
 std::string Character::mutation_desc( const trait_id &mut ) const
 {
+    std::string description;
     auto it = cached_mutations.find( mut );
     if( it != cached_mutations.end() && it->second.variant != nullptr ) {
-        return mut->desc( it->second.variant->id );
+        description = mut->desc( it->second.variant->id );
+    } else {
+        description = mut->desc();
     }
 
-    return mut->desc();
+    parse_tags( description, *this, *this );
+
+    return description;
 }
 
 void Character::customize_appearance( customize_appearance_choice choice )

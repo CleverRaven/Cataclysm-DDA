@@ -95,5 +95,13 @@
     "//": "Hidden effect to set off an EoC",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_fall_one_story",
+    "//": "Hidden effect, lets you fall one story",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "ONE_STORY_FALL" ]
   }
 ]

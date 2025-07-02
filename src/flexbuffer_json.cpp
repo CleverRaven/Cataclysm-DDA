@@ -91,11 +91,17 @@ void Json::throw_error( const JsonPath &path, int offset, const std::string &mes
         }
         return root_->get_source_path().u8string();
     }();
-    TextJsonIn jsin( *original_json, source_path );
+    if( original_json ) {
+        TextJsonIn jsin( *original_json, source_path );
 
-    advance_jsin( &jsin, flexbuffer_root_from_storage( root_->get_storage() ), path );
+        advance_jsin( &jsin, flexbuffer_root_from_storage( root_->get_storage() ), path );
 
-    jsin.error( offset, message );
+        jsin.error( offset, message );
+    } else {
+        std::ifstream fake_stream;
+        TextJsonIn jsin( fake_stream, source_path );
+        jsin.error( offset, message );
+    }
 }
 
 void Json::throw_error_after( const JsonPath &path, const std::string &message ) const
@@ -294,7 +300,7 @@ void JsonObject::report_unvisited() const
 #endif
 }
 
-void JsonObject::error_no_member( const std::string_view member ) const
+void JsonObject::error_no_member( std::string_view member ) const
 {
     std::unique_ptr<std::istream> original_json = root_->get_source_stream();
     std::string source_path = [&] {
@@ -355,7 +361,7 @@ void JsonObject::throw_error( const std::string &err ) const
     Json::throw_error( path_, 0, err );
 }
 
-void JsonObject::throw_error_at( const std::string_view member, const std::string &err ) const
+void JsonObject::throw_error_at( std::string_view member, const std::string &err ) const
 {
     std::optional<JsonValue> member_opt = get_member_opt( member );
     if( member_opt.has_value() ) {

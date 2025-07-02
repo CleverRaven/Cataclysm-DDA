@@ -17,6 +17,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_imgui.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
 #include "color.h"
 #include "coordinates.h"
@@ -232,7 +233,7 @@ class wish_mutate_callback: public uilist_callback
                              mdata.visibility,
                              mdata.ugliness );
                 ImGui::NewLine();
-                ImGui::TextWrapped( "%s", mdata.desc().c_str() );
+                ImGui::TextWrapped( "%s", you->mutation_desc( mdata.id ).c_str() );
             }
 
             float y = ImGui::GetContentRegionMax().y - 3 * ImGui::GetTextLineHeightWithSpacing();
@@ -424,7 +425,7 @@ void debug_menu::wishbionics( Character *you )
             }
             case 3: {
                 int new_value = 0;
-                if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
+                if( query_int( new_value, false, _( "Set the value to (in kJ)?  Currently: %s" ),
                                units::display( power_max ) ) ) {
                     you->set_max_power_level( units::from_kilojoule( static_cast<std::int64_t>( new_value ) ) );
                     you->set_power_level( you->get_power_level() );
@@ -433,7 +434,7 @@ void debug_menu::wishbionics( Character *you )
             }
             case 4: {
                 int new_value = 0;
-                if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
+                if( query_int( new_value, false, _( "Set the value to (in J)?  Currently: %s" ),
                                units::display( power_max ) ) ) {
                     you->set_max_power_level( units::from_joule( static_cast<std::int64_t>( new_value ) ) );
                     you->set_power_level( you->get_power_level() );
@@ -442,7 +443,7 @@ void debug_menu::wishbionics( Character *you )
             }
             case 5: {
                 int new_value = 0;
-                if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
+                if( query_int( new_value, false, _( "Set the value to (in kJ)?  Currently: %s" ),
                                units::display( power_level ) ) ) {
                     you->set_power_level( units::from_kilojoule( static_cast<std::int64_t>( new_value ) ) );
                 }
@@ -450,7 +451,7 @@ void debug_menu::wishbionics( Character *you )
             }
             case 6: {
                 int new_value = 0;
-                if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
+                if( query_int( new_value, false, _( "Set the value to (in J)?  Currently: %s" ),
                                units::display( power_level ) ) ) {
                     you->set_power_level( units::from_joule( static_cast<std::int64_t>( new_value ) ) );
                 }
@@ -498,6 +499,7 @@ void debug_menu::wisheffect( Creature &p )
         {
             descstr << eff.disp_desc( false ) << '\n';
         }
+        descstr << eff.disp_mod_source_info() << '\n';
 
         return descstr.str();
     };
@@ -583,7 +585,7 @@ void debug_menu::wisheffect( Creature &p )
             effect &eff = effects[efmenu.ret - offset];
 
             int duration = to_seconds<int>( eff.get_duration() );
-            query_int( duration, _( "Set duration (current %1$d): " ), duration );
+            query_int( duration, false, _( "Set duration (current %1$d): " ), duration );
             if( duration < 0 ) {
                 continue;
             }
@@ -710,6 +712,9 @@ class wish_monster_callback: public uilist_callback
                                                 header.c_str() ).x ) * 0.5 );
                     ImGui::TextColored( c_cyan, "%s", header.c_str() );
 
+                    // show debug info
+                    restore_on_out_of_scope<bool> restore_debugmode( debug_mode );
+                    debug_mode = true;
                     tmp.print_info_imgui();
                 }
 
@@ -773,7 +778,8 @@ void debug_menu::wishmonstergroup( tripoint_abs_omt &loc )
         const mongroup_id selected_group( possible_groups[selected] );
         new_group.type = selected_group;
         int new_value = new_group.population; // default value if query declined
-        query_int( new_value, _( "Set population to what value?  Currently %d" ), new_group.population );
+        query_int( new_value, false, _( "Set population to what value?  Currently %d" ),
+                   new_group.population );
         new_group.population = new_value;
         overmap &there = overmap_buffer.get( project_to<coords::om>( loc ).xy() );
         there.debug_force_add_group( new_group );

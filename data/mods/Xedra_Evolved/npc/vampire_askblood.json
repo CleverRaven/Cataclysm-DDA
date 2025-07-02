@@ -216,7 +216,7 @@
         "if": "has_beta",
         "then": { "if": { "npc_has_trait": "FAE_CREATURE" }, "then": { "math": [ "u_vampire_just_drank_fae_blood = 1" ] } }
       },
-      { "run_eocs": "EOC_VAMPIRE_GAIN_BLOOD_VITAMIN" }
+      { "run_eocs": [ "EOC_VAMPIRE_GAIN_BLOOD_VITAMIN", "EOC_DHAMPIR_GAIN_CALORIES_FROM_NON_BAGGED_BLOOD" ] }
     ]
   },
   {

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_small_urban_farm_a1_floor_1",
     "object": {
       "fill_ter": "t_metal_floor",
@@ -50,7 +49,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_small_urban_farm_a1_floor_2",
     "object": {
       "fill_ter": "t_metal_floor",
@@ -107,7 +105,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_small_urban_farm_a1_floor_3",
     "object": {
       "fill_ter": "t_metal_floor",

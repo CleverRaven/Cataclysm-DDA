@@ -37,6 +37,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "weighted_list.h"
 
 // IWYU pragma: no_forward_declare std::hash
 class Character;
@@ -921,6 +922,9 @@ struct islot_gunmod : common_ranged_data {
     /** Multiplies base loudness as provided by the currently loaded ammo */
     float loudness_multiplier = 1;
 
+    /** Alters the gun to_hit */
+    int to_hit_mod = 0;
+
     /** How much time does this gunmod take to install? */
     time_duration install_time = 0_seconds;
 
@@ -1242,13 +1246,13 @@ class islot_milling
 
 struct memory_card_info {
     float data_chance;
-    itype_id on_read_convert_to;
+    itype_id on_read_convert_to;  // NOLINT(cata-serialize)
 
-    float photos_chance;
-    int photos_amount;
+    float photos_chance;  // NOLINT(cata-serialize)
+    int photos_amount;  // NOLINT(cata-serialize)
 
-    float songs_chance;
-    int songs_amount;
+    float songs_chance;  // NOLINT(cata-serialize)
+    int songs_amount; // NOLINT(cata-serialize)
 
     float recipes_chance;
     int recipes_amount;
@@ -1256,6 +1260,9 @@ struct memory_card_info {
     int recipes_level_max;
     std::set<crafting_category_id> recipes_categories;
     bool secret_recipes;
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
 };
 
 struct item_melee_damage {
@@ -1358,10 +1365,9 @@ struct itype {
 
         requirement_id template_requirements;
 
-    protected:
+    public:
         itype_id id = itype_id::NULL_ID(); /** unique string identifier for this type */
 
-    public:
         // The container it comes in
         std::optional<itype_id> default_container;
         std::optional<std::string> default_container_variant;
@@ -1415,7 +1421,16 @@ struct itype {
         std::set<itype_id> repair;
 
         /** What faults (if any) can occur */
-        std::set<fault_id> faults;
+        weighted_int_list<fault_id> faults;
+
+        /** used to store fault types on load, when we cannot populate `faults` just yet
+        `faults` is populated with values from this in finalize_post() down the road, and then this var is never used again
+        first int is weight if overriden
+        second int is weight added to original weight
+        third float is multiplier of original weight
+        fourth string is the fault group id
+        */
+        std::vector<std::tuple<int, int, float, std::string>> fault_groups;
 
         /** Magazine types (if any) for each ammo type that can be used to reload this item */
         std::map< ammotype, std::set<itype_id> > magazines;
@@ -1543,9 +1558,6 @@ struct itype {
         // Should the item explode when lit on fire
         bool explode_in_fire = false;
 
-        // used for generic_factory for copy-from
-        bool was_loaded = false;
-
         // Expand snippets in the description and save the description on the object
         bool expand_snippets = false;
 
@@ -1583,7 +1595,7 @@ struct itype {
         std::string nname( unsigned int quantity ) const;
 
         // Allow direct access to the type id for the few cases that need it.
-        itype_id get_id() const {
+        const itype_id &get_id() const {
             return id;
         }
 
@@ -1641,6 +1653,11 @@ struct itype {
 
         // returns true if it is one of the outcomes of cutting
         bool is_basic_component() const;
+
+        // used for generic_factory for copy-from
+        bool was_loaded = false;
+        void load( const JsonObject &jo, std::string_view src );
+        void load_slots( const JsonObject &jo, bool was_loaded );
 };
 
 void load_charge_removal_blacklist( const JsonObject &jo, std::string_view src );

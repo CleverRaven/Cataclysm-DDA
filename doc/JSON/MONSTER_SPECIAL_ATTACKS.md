@@ -21,6 +21,10 @@ Monster creatures in C:DDA not only can do simple melee attacks, they have a wid
 
 Depending on the intended effect, these can be valid `use_actions` for tools and weapons, hardcoded special attacks, any normal physical attack or even spells.  Also, depending on the kind of attack, these can be cooldown-based, conditioned or occur on death.
 
+## Special attack selection logic
+
+On each action the monster evaluates each special attack in alphabetical order, attempting to trigger each attack that is not in cooldown in turn until one is found whose preconditions are met or the monster runs out of candidates. This means "Early" attacks with low, or especially zero cooldowns will trigger very frequently unless they have preconditions preventing this. The cooldown is not set unless the attack is triggered.  Early attacks with low cooldowns can effecctively "starve" later special attacks and even the monster's default melee attack.
+
 
 ## TODO
 
@@ -36,7 +40,7 @@ Monster special attacks can be defined either as old style arrays, new style obj
 
 Generally [hardcoded special attacks](#hardcoded-special-attacks) are declared this way, although it can also be used for [JSON-declared attacks](/data/json/monster_special_attacks) too.  It contains 2 elements, the `id` of the attack and the cooldown:
 
-```JSON
+```jsonc
 "special_attacks": [ [ "ACID", 10 ] ]
 ```
 
@@ -49,14 +53,14 @@ It contains either:
 
 Depending on the kind of attack, it may contain additional required members.  Example:
 
-```JSON
+```jsonc
 "special_attacks": [
     { "type": "leap", "cooldown": 10, "max_range": 4 }
 ]
 ```
 In the case of separately defined attacks the object has to contain at least an `id` member.  In this case the attack will use the default attack data defined in `monster_attacks.json`, if a field is additionally defined it will overwrite those defaults.  These attacks have the common type `monster_attack`.  Example:
 
-```JSON
+```jsonc
 "special_attacks": [
     { "id": "impale" }
 ]
@@ -67,7 +71,7 @@ In the case of separately defined attacks the object has to contain at least an 
 
 `special_attacks` may contain a mixture of the old and new style:
 
-```JSON
+```jsonc
 "special_attacks": [
     [ "ACID", 10 ],
     { "type": "leap", "cooldown": 8, "max_range": 4 },
@@ -167,7 +171,7 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 
 ## JSON special attacks
 
-These special attacks are defined in [JSON](/data/json/monster_special_attacks), and belong to the `monster_attack` type, `melee` attack_type.  These don't have to be declared in the monster's attack data, the `id` of the desired attack can be used instead.  All fields beyond `id` are optional.
+These special attacks are defined in [JSON](/data/json/monster_special_attacks), and belong to the `monster_attack` type, `melee` attack_type.  These don't have to be declared in the monster's attack data, the `id` of the desired attack can be used instead.  All fields beyond `id` and `cooldown` are optional.
 
 | field                       | description
 | ---                         | ---
@@ -308,7 +312,7 @@ Makes the monster leap a few tiles over passable terrain as long as it can see i
 
 A special defense attack, triggered when the monster is attacked.  It should contain an array with the `id` of the defense (see a full list below) and the chance for that defense to be actually triggered.  Example:
 
-```JSON
+```jsonc
 "special_when_hit": [ "ZAPBACK", 100 ]
 ```
 

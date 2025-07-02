@@ -383,11 +383,6 @@ void Character::pick_name( bool bUseDefault )
     }
 }
 
-static std::string wrap60( const std::string &text )
-{
-    return string_join( foldstring( text, 60 ), "\n" );
-}
-
 static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles,
                                   const avatar &u )
 {
@@ -808,8 +803,7 @@ bool avatar::create( character_type type, const std::string &tempname )
             tabs.position.last();
             break;
     }
-
-    // Don't apply the default backgrounds on a template
+    // Don't apply the default backgrounds on a template or scenario with SKIP_DEFAULT_BACKGROUND
     if( type != character_type::TEMPLATE &&
         !get_scenario()->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
         add_default_background();
@@ -1132,7 +1126,7 @@ static void draw_points( const catacurses::window &w, pool_type pool, const avat
 
 template <class Compare>
 static void draw_filter_and_sorting_indicators( const catacurses::window &w,
-        const input_context &ctxt, const std::string_view filterstring, const Compare &sorter )
+        const input_context &ctxt, std::string_view filterstring, const Compare &sorter )
 {
     const char *const sort_order = sorter.sort_by_points ? _( "default" ) : _( "name" );
     const std::string sorting_indicator = string_format( "[%1$s] %2$s: %3$s",
@@ -1457,6 +1451,42 @@ static std::string assemble_stat_help( const input_context &ctxt )
                ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
 }
 
+static std::string stat_level_description( int stat_value )
+{
+    // Breakpoint values are largely borrowed from GAME_BALANCE.md.
+    std::string description;
+    if( stat_value >= 20 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "inhuman" );
+    } else if( stat_value > 14 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "extraordinary" );
+    } else if( stat_value > 12 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "top 1%" );
+    } else if( stat_value > 10 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "top 10%" );
+    } else if( stat_value > 8 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "above average" );
+    } else if( stat_value == 8 ) { // special handling
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "average human" );
+    } else if( stat_value > 6 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "below average" );
+    } else if( stat_value > 4 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "impaired" );
+    } else if( stat_value >= 0 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "incapacitated" );
+    }
+
+    return description;
+}
+
 /** Handle the stats tab of the character generation menu */
 void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 {
@@ -1526,6 +1556,8 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                 mvwprintz( w, point( 2, i + iHeaderHeight ), i == sel ? COL_SELECT : c_light_gray, "%s:",
                            stat_labels[i].translated() );
                 mvwprintz( w, point( 16, i + iHeaderHeight ), c_light_gray, "%2d", *stats[i] );
+                mvwprintz( w, point( 19, i + iHeaderHeight ), c_light_gray, "(%s)",
+                           stat_level_description( *stats[i] ) );
             }
         }
 
@@ -4710,23 +4742,16 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     break;
                 }
                 case char_creation::AGE: {
-                    popup.title( _( "Enter age in years.  Minimum 16, maximum 55" ) )
-                    .text( string_format( "%d", you.base_age() ) )
-                    .only_digits( true );
-                    const int result = popup.query_int();
-                    if( result != 0 ) {
+                    int result = you.base_age();
+                    if( query_int( result, false, _( "Enter age in years.  Minimum 16, maximum 55" ) ) && result > 0 ) {
                         you.set_base_age( clamp( result, 16, 55 ) );
                     }
                     break;
                 }
                 case char_creation::HEIGHT: {
-                    popup.title( string_format( _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
-                                                min_allowed_height,
-                                                max_allowed_height ) )
-                    .text( string_format( "%d", you.base_height() ) )
-                    .only_digits( true );
-                    const int result = popup.query_int();
-                    if( result != 0 ) {
+                    int result = you.base_height();
+                    if( query_int( result, false, _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
+                                   min_allowed_height, max_allowed_height ) && result > 0 ) {
                         you.set_base_height( clamp( result, min_allowed_height, max_allowed_height ) );
                     }
                     break;
@@ -5099,7 +5124,9 @@ void reset_scenario( avatar &u, const scenario *scen )
     u.prof = &default_prof.obj();
 
     u.hobbies.clear();
-    u.add_default_background();
+    if( !scen->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
+        u.add_default_background();
+    };
     u.clear_mutations();
     u.recalc_hp();
     u.empty_skills();

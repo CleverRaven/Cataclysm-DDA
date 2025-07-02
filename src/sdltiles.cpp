@@ -191,6 +191,10 @@ static void InitSDL()
     SDL_SetHint( SDL_HINT_IME_SUPPORT_EXTENDED_TEXT, "1" );
 #endif
 
+#if defined(SDL_HINT_WINDOWS_DPI_AWARENESS)
+    SDL_SetHint( SDL_HINT_WINDOWS_DPI_AWARENESS, "permonitorv2" );
+#endif
+
 #if defined(SDL_HINT_APP_NAME)
     // Requires SDL 2.0.18. String used multiple ways, one of them is the game
     // identifying itself when asking to inhibit screensaver via dbus under
@@ -998,8 +1002,9 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     // draw nearby seen npcs
     for( const shared_ptr_fast<npc> &guy : npcs_near_player ) {
         const tripoint_abs_omt &guy_loc = guy->pos_abs_omt();
-        if( guy_loc.z() == center_pos.z() && ( has_debug_vision ||
-                                               overmap_buffer.seen_more_than( guy_loc, om_vision_level::details ) ) ) {
+        if( guy_loc.z() == center_pos.z() &&
+            ( has_debug_vision || overmap_buffer.seen_more_than( guy_loc, om_vision_level::details ) ) &&
+            !guy->guaranteed_hostile() ) {
             draw_entity_with_overlays( *guy, global_omt_to_draw_position( guy_loc ),
                                        lit_level::LIT,
                                        height_3d );
@@ -1089,6 +1094,11 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
     std::vector<std::pair<nc_color, std::string>> notes_window_text;
 
+    if( viewing_weather ) {
+        // We hijack this to avoid repeating code just for this simple notice. Notes will still display normally
+        notes_window_text.emplace_back( c_yellow, _( "WEATHER MODE" ) );
+    }
+
     if( uistate.overmap_show_map_notes ) {
         const std::string &note_text = overmap_buffer.note( center_pos );
         if( !note_text.empty() ) {
@@ -1107,7 +1117,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( has_debug_vision ||
         overmap_buffer.seen_more_than( center_pos, om_vision_level::details ) ) {
         for( const auto &npc : npcs_near_player ) {
-            if( !npc->marked_for_death && npc->pos_abs_omt() == center_pos ) {
+            if( !npc->marked_for_death && npc->pos_abs_omt() == center_pos && !npc->guaranteed_hostile() ) {
                 notes_window_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
             }
         }
@@ -2959,6 +2969,7 @@ static void CheckMessages()
 
     std::optional<point> resize_dims;
     bool render_target_reset = false;
+    using cata::options::mouse;
 
     while( SDL_PollEvent( &ev ) ) {
         imclient->process_input( &ev );
@@ -3214,6 +3225,9 @@ static void CheckMessages()
                 gamepad::handle_scheduler_event( ev );
                 break;
             case SDL_MOUSEMOTION:
+                if( ! mouse.enabled ) {
+                    break;
+                }
                 if( get_option<std::string>( "HIDE_CURSOR" ) == "show" ||
                     get_option<std::string>( "HIDE_CURSOR" ) == "hidekb" ) {
                     if( !SDL_ShowCursor( -1 ) ) {
@@ -3226,6 +3240,9 @@ static void CheckMessages()
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
+                if( ! mouse.enabled ) {
+                    break;
+                }
                 switch( ev.button.button ) {
                     case SDL_BUTTON_LEFT:
                         last_input = input_event( MouseInput::LeftButtonPressed, input_event_t::mouse );
@@ -3243,6 +3260,9 @@ static void CheckMessages()
                 break;
 
             case SDL_MOUSEBUTTONUP:
+                if( ! mouse.enabled ) {
+                    break;
+                }
                 switch( ev.button.button ) {
                     case SDL_BUTTON_LEFT:
                         last_input = input_event( MouseInput::LeftButtonReleased, input_event_t::mouse );
@@ -3260,6 +3280,9 @@ static void CheckMessages()
                 break;
 
             case SDL_MOUSEWHEEL:
+                if( ! mouse.enabled ) {
+                    break;
+                }
                 if( ev.wheel.y > 0 ) {
                     last_input = input_event( MouseInput::ScrollWheelUp, input_event_t::mouse );
                 } else if( ev.wheel.y < 0 ) {
@@ -3697,7 +3720,12 @@ void catacurses::init_interface()
     init_term_size_and_scaling_factor();
 
     WinCreate();
-
+    using cata::options::mouse;
+    if( mouse.enabled ) {
+        ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+    } else {
+        ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
+    }
     dbg( D_INFO ) << "Initializing SDL Tiles context";
     fartilecontext = std::make_shared<cata_tiles>( renderer, geometry, ts_cache );
     if( use_far_tiles ) {

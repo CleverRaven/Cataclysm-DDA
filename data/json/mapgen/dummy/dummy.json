@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//unexplored": "This mapgen exist only for suppressing 'No mapgen terrain exists for %s' type of errors on game start and shouldn't spawn ingame",
     "//omt_obsolete": "This mapgen is used for replacing obsoleted overmap terrain, normally it shouldn't spawn",
     "om_terrain": [ "unexplored", "omt_obsolete" ],

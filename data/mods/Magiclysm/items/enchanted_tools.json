@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "crowbar_plus_one",
     "copy-from": "crowbar",
     "name": { "str": "crowbar +1", "str_pl": "crowbars +1" },
@@ -9,7 +9,7 @@
     "extend": { "qualities": [ [ "PRY", 4 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "crowbar_plus_two",
     "copy-from": "crowbar",
     "name": { "str": "crowbar +2", "str_pl": "crowbars +2" },
@@ -18,7 +18,7 @@
     "extend": { "qualities": [ [ "PRY", 5 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "knife_hunting_plus_one",
     "copy-from": "knife_hunting",
     "name": { "str": "hunting knife +1", "str_pl": "hunting knives +1" },
@@ -27,7 +27,7 @@
     "extend": { "qualities": [ [ "BUTCHER", 33 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "knife_hunting_plus_two",
     "copy-from": "knife_hunting",
     "name": { "str": "hunting knife +2", "str_pl": "hunting knives +2" },
@@ -36,7 +36,7 @@
     "extend": { "qualities": [ [ "BUTCHER", 36 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "jack_plus_one",
     "copy-from": "jack",
     "name": { "str": "bottle jack +1", "str_pl": "bottle jacks +1" },
@@ -44,7 +44,7 @@
     "extend": { "qualities": [ [ "JACK", 18 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "jack_plus_two",
     "copy-from": "jack",
     "name": { "str": "bottle jack +2", "str_pl": "bottle jacks +2" },
@@ -52,7 +52,7 @@
     "extend": { "qualities": [ [ "JACK", 20 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "scalpel_plus_one",
     "copy-from": "scalpel",
     "name": { "str": "scalpel +1", "str_pl": "scalpels +1" },
@@ -60,7 +60,7 @@
     "extend": { "qualities": [ [ "CUT_FINE", 4 ], [ "BUTCHER", 9 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "scalpel_plus_two",
     "copy-from": "scalpel",
     "name": { "str": "scalpel +2", "str_pl": "scalpels +2" },
@@ -68,7 +68,7 @@
     "extend": { "qualities": [ [ "CUT_FINE", 5 ], [ "BUTCHER", 10 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "knife_butcher_plus_one",
     "copy-from": "knife_huge",
     "name": { "str": "butcher knife +1", "str_pl": "butcher knives +1" },
@@ -76,7 +76,7 @@
     "extend": { "qualities": [ [ "BUTCHER", 28 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "knife_butcher_plus_two",
     "copy-from": "knife_huge",
     "name": { "str": "butcher knife +2", "str_pl": "butcher knives +2" },
@@ -84,7 +84,7 @@
     "extend": { "qualities": [ [ "BUTCHER", 30 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "knife_meat_cleaver_plus_one",
     "copy-from": "knife_cleaver",
     "name": { "str": "meat cleaver +1", "str_pl": "meat cleavers +1" },
@@ -92,7 +92,7 @@
     "extend": { "qualities": [ [ "BUTCHER", 28 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "knife_meat_cleaver_plus_two",
     "copy-from": "knife_cleaver",
     "name": { "str": "meat cleaver +2", "str_pl": "meat cleavers +2" },
@@ -100,7 +100,7 @@
     "extend": { "qualities": [ [ "BUTCHER", 30 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "knife_carving_plus_one",
     "copy-from": "knife_large",
     "name": { "str": "carving knife +1", "str_pl": "carving knives +1" },
@@ -108,7 +108,7 @@
     "extend": { "qualities": [ [ "BUTCHER", 24 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "knife_carving_plus_two",
     "copy-from": "knife_large",
     "name": { "str": "carving knife +2", "str_pl": "carving knives +2" },
@@ -116,7 +116,7 @@
     "extend": { "qualities": [ [ "BUTCHER", 26 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "butchering_kit_plus_one",
     "copy-from": "butchering_kit",
     "name": { "str": "butchering kit +1", "str_pl": "butchering kits +1" },
@@ -124,7 +124,7 @@
     "extend": { "qualities": [ [ "BUTCHER", 41 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "butchering_kit_plus_two",
     "copy-from": "butchering_kit",
     "name": { "str": "butchering kit +2", "str_pl": "butchering kits +2" },

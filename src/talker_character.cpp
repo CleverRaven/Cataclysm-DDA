@@ -311,9 +311,9 @@ void talker_character::mutate( const int &highest_cat_chance, const bool &use_vi
 }
 
 void talker_character::mutate_category( const mutation_category_id &mut_cat,
-                                        const bool &use_vitamins )
+                                        const bool &use_vitamins, const bool &true_random )
 {
-    me_chr->mutate_category( mut_cat, use_vitamins );
+    me_chr->mutate_category( mut_cat, use_vitamins, true_random );
 }
 
 void talker_character::mutate_towards( const trait_id &trait, const mutation_category_id &mut_cat,
@@ -463,9 +463,10 @@ int talker_character_const::get_spell_exp( const spell_id &spell_name ) const
     return me_chr_const->magic->get_spell( spell_name ).xp();
 }
 
-int talker_character_const::get_spell_difficulty( const spell_id &spell_name ) const
+int talker_character_const::get_spell_difficulty( const spell_id &spell_name,
+        bool ignore_modifiers = false ) const
 {
-    if( !me_chr_const->magic->knows_spell( spell_name ) ) {
+    if( ignore_modifiers || !me_chr_const->magic->knows_spell( spell_name ) ) {
         return spell_name->get_difficulty( *me_chr_const );
     }
     return me_chr_const->magic->get_spell( spell_name ).get_difficulty( *me_chr_const );

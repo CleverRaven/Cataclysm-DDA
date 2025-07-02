@@ -514,6 +514,8 @@
       "sleepiness_min": [ 10 ],
       "sleepiness_max": [ 20 ],
       "sleepiness_chance": [ 9000 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 9000 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ 0 ],
       "h_mod_chance": [ 9000 ]
@@ -524,6 +526,8 @@
       "sleepiness_max": [ 20 ],
       "stamina_chance": [ -300 ],
       "sleepiness_chance": [ -300 ],
+      "health_min": [ -1 ],
+      "health_chance": [ -1000 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ -50 ],
       "h_mod_chance": [ -200 ]
@@ -599,9 +603,47 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_dhampir_the_blood_is_the_life",
+    "//": "Hidden--prevents gaining blood when using The Blood is the Life",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_dhampir_empowered_blood_indicator",
     "name": [ "Empowered Blood" ],
     "desc": [ "Your blood hums with power, allowing you to access more of your vampiric abilities." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_enervated_blood",
+    "name": [ "Enervated Blood" ],
+    "desc": [
+      "You have used up much of the power in your blood, and are slightly listless as a result.  In addition, some of your vampiric powers will not function as well, or at all, until the power returns to your blood."
+    ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "HUNGER",
+            "multiply": { "math": [ "0.05 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * 0.001), 0, 1)" ] }
+          },
+          {
+            "value": "THIRST",
+            "multiply": { "math": [ "0.05 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * 0.001), 0, 1)" ] }
+          },
+          {
+            "value": "SLEEPINESS",
+            "multiply": { "math": [ "0.05 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * 0.001), 0, 1)" ] }
+          },
+          {
+            "value": "REGEN_STAMINA",
+            "multiply": { "math": [ "-0.025 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * -0.00025), -0.5, 0)" ] }
+          }
+        ]
+      }
+    ],
+    "removes_effects": [ "withering" ]
   },
   {
     "type": "effect_type",
@@ -609,7 +651,7 @@
     "//": "Hidden--tied to a conditional enchantment",
     "name": [ "" ],
     "desc": [ "" ],
-    "flags": [ "WINGS_1" ]
+    "flags": [ "ONE_STORY_FALL" ]
   },
   {
     "type": "effect_type",
@@ -697,6 +739,14 @@
                 "1 + (vampire_total_tier_one_traits_plus_potency() * 0.25) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)  + (vampire_total_tier_five_traits_plus_cauldron() * 1)"
               ]
             }
+          },
+          {
+            "value": "OVERKILL_DAMAGE",
+            "add": {
+              "math": [
+                "-10 + (vampire_total_tier_one_traits_plus_potency() * -1) + (vampire_total_tier_two_traits() * -2) + (vampire_total_tier_three_traits() * -3) + (vampire_total_tier_four_traits_plus_potence() * -4)  + (vampire_total_tier_five_traits_plus_cauldron() * -5)"
+              ]
+            }
           }
         ]
       }
@@ -746,6 +796,14 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_health_bonus",
+    "//": "Hidden effect, grants dhampirs and vampires bonus health when at positive blood",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 3 ], "health_tick": [ 3600 ] }
   },
   {
     "type": "effect_type",
@@ -821,10 +879,49 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampiric_stealth_bonus",
+    "name": [ "Cloak of Shadows" ],
+    "desc": [ "You are clouding nearby minds and are harder to spot in dim light or darkness." ],
+    "enchantments": [
+      {
+        "condition": { "or": [ { "not": "is_day" }, { "not": "u_is_outside" } ] },
+        "values": [
+          {
+            "value": "STEALTH_MODIFIER",
+            "add": {
+              "math": [
+                "min(30 + ((vampire_total_tier_one_traits_plus_potency() * 0.25) + (vampire_total_tier_two_traits() * 0.4) + (vampire_total_tier_three_traits() * 0.55) + (vampire_total_tier_four_traits_plus_potence() * 0.75) + (vampire_total_tier_five_traits_plus_cauldron() * 1)), 60)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vampire_fear_gazed",
     "//": "Hidden effect, used to prevent spamming fear gaze repeatedly.",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_feign_death",
+    "name": [ "Corpse's Countenance" ],
+    "desc": [ "Nothing here but a corpse." ],
+    "remove_message": "You end your imitation of death.",
+    "rating": "mixed",
+    "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ], "ench_effects": [ { "effect": "downed", "intensity": 1 } ] } ],
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_feign_death_ended",
+    "name": [ "Feigned Death" ],
+    "desc": [ "You've been caught, and they know you aren't dead" ],
+    "rating": "bad",
+    "removes_effects": [ "effect_vampire_feign_death" ]
   },
   {
     "type": "effect_type",
@@ -834,7 +931,7 @@
     "remove_message": "You snap out of your fugue.",
     "rating": "bad",
     "show_in_info": true,
-    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "MUTE" ]
   },
   {
     "type": "effect_type",
@@ -2121,6 +2218,31 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_sense_vampire",
+    "name": [ "Sense the Night Hunters" ],
+    "desc": [ "You can sense nearby vampires." ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "or": [
+                { "npc_has_any_trait": [ "VAMPIRE", "VAMPIRE2", "VAMPIRE3", "VAMPIRE4", "BLOOD_DRINKER" ] },
+                { "npc_has_species": "VAMPIRE" }
+              ]
+            },
+            "distance": { "math": [ "u_val('perception') * 2" ] },
+            "precise": true,
+            "ignores_aiming_cone": true,
+            "descriptions": [ { "id": "vamnpire_sense", "text": "You detect a vampire here.", "symbol": "V", "color": "red" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_xe_deciphering_hedge_tome",
     "//": "Hidden effect, used to check that you're still researching.",
     "name": [ "" ],
@@ -2205,6 +2327,42 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_hedge_astral_projection",
+    "name": [ "Etheric Form" ],
+    "desc": [ "Your spirit wanders the world." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": -0.96 },
+          { "value": "EVASION", "add": 1 },
+          { "value": "PHASE_DISTANCE", "add": 2 }
+        ]
+      }
+    ],
+    "flags": [
+      "ETHEREAL",
+      "INVISIBLE",
+      "FEATHER_FALL",
+      "CLIMB_FLYING",
+      "LEVITATION",
+      "ITEM_WATERPROOFING",
+      "WATERWALKING",
+      "NO_SPELLCASTING"
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_protect_the_mind",
+    "name": [ "Ordered Mind" ],
+    "desc": [ "Your mind is set in order, walled and guarded." ],
+    "rating": "good",
+    "flags": [ "MAGICAL_MIND_PROTECTION" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_skinchanged_penalties",
     "name": [ "Skinchanged Mind" ],
     "desc": [ "You're starting to get used to being an animal.  Even enjoy it." ],
@@ -2279,6 +2437,31 @@
       "You consumed Arvore destiny draught.",
       "You consumed a large amount of Arvore destiny draught.",
       "You consumed a life-changing amount of Arvore destiny draught."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_ARVORE" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Anomalous chlorophyll content in blood sample"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_alchemical_plantkin",
+    "name": [ "Arvore Stolen Power Mutation", "Arvore Stolen Power Transformation", "Arvore Stolen Power Metamorphosis" ],
+    "desc": [
+      "You consumed Arvore alchemical draught.",
+      "You consumed a large amount of Arvore alchemical draught.",
+      "You consumed a life-changing amount of Arvore alchemical draught."
     ],
     "max_intensity": 3,
     "resist_traits": [ "THRESH_ARVORE" ],
@@ -3572,7 +3755,9 @@
       "pre_flu",
       "pre_common_cold",
       "blood_spiders",
-      "visuals"
+      "visuals",
+      "xe_hydrating_gout_incubation",
+      "xe_hydrating_gout"
     ]
   },
   {
@@ -3586,5 +3771,42 @@
     "scaling_mods": { "int_mod": [ -2 ] },
     "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.1 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "disease_type",
+    "id": "xe_hydrating_gout_incubation",
+    "min_duration": "22 h",
+    "max_duration": "26 h",
+    "min_intensity": 1,
+    "max_intensity": 1,
+    "symptoms": "xe_hydrating_gout_incubation"
+  },
+  {
+    "type": "effect_type",
+    "id": "xe_hydrating_gout_incubation",
+    "name": [ "Imminent Hydrating Gout" ],
+    "//": "Required for an incubation period",
+    "desc": [
+      "You are about to suffer from the hydrating gout.  This disease causes the spontaneous generation of water inside the body, and becomes more virulent the more hydrated the afflicted is."
+    ],
+    "apply_message": "You have a bad feeling about drinking more water.",
+    "rating": "bad",
+    "immune_flags": [ "NO_THIRST" ],
+    "blood_analysis_description": "Unknown water-producing pathogen."
+  },
+  {
+    "type": "effect_type",
+    "id": "xe_hydrating_gout",
+    "name": [ "Hydrating Gout" ],
+    "desc": [
+      "You are suffering from the peculiar illness known as hydrating gout.  This disease causes the spontaneous generation of water inside the body, and becomes more virulent the more hydrated the afflicted is."
+    ],
+    "apply_memorial_log": "Caught a supernatural illness.",
+    "remove_memorial_log": "Got over the hydrating gout.",
+    "apply_message": "You feel you're going to drown in your own body water.",
+    "remove_message": "You no longer fear the absence of thirst.",
+    "rating": "bad",
+    "immune_flags": [ "NO_THIRST" ],
+    "blood_analysis_description": "Unknown water-producing pathogen."
   }
 ]

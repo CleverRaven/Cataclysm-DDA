@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "stadium_0_0", "stadium_1_0", "stadium_2_0", "stadium_3_0" ] ],
     "object": {
       "fill_ter": "t_pavement",
@@ -36,7 +35,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "stadium_0_1", "stadium_1_1", "stadium_2_1", "stadium_3_1" ],
       [ "stadium_0_2", "stadium_1_2", "stadium_2_2", "stadium_3_2" ],
@@ -182,7 +180,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "stadium_0_1_1", "stadium_1_1_1", "stadium_2_1_1", "stadium_3_1_1" ],
       [ "stadium_0_2_1", "stadium_1_2_1", "stadium_2_2_1", "stadium_3_2_1" ],
@@ -297,7 +294,7 @@
         "É": { "item": "coffee_fridge", "chance": 45, "repeat": [ 1, 10 ] },
         "E": { "item": "beer", "chance": 35, "repeat": [ 1, 20 ] },
         "K": { "item": "snacks", "chance": 40, "repeat": [ 1, 20 ] },
-        "e": { "item": "fridgesnacks", "chance": 45, "repeat": [ 1, 6 ] }
+        "e": { "item": "SUS_fridge_snacks", "chance": 45, "repeat": [ 1, 6 ] }
       },
       "place_item": [ { "item": "television", "x": 92, "y": 47 } ],
       "place_loot": [
@@ -327,7 +324,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "stadium_0_1_2", "stadium_1_1_2", "stadium_2_1_2", "stadium_3_1_2" ],
       [ "stadium_0_2_2", "stadium_1_2_2", "stadium_2_2_2", "stadium_3_2_2" ],
@@ -484,7 +480,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "stadium_1_1_3", "stadium_2_1_3" ] ],
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -520,7 +515,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "stadium_0_3_3" ],
     "object": {
       "fill_ter": "t_shingle_flat_roof",

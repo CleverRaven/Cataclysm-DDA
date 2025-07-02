@@ -398,6 +398,7 @@ static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ALCMET( "ALCMET" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
+static const trait_id trait_DHAMPIR_TRAIT( "DHAMPIR_TRAIT" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATPOISON( "EATPOISON" );
 static const trait_id trait_GILLS( "GILLS" );
@@ -3528,7 +3529,7 @@ std::optional<int> iuse::c4( Character *p, item *it, const tripoint_bub_ms & )
     int time = 0;
     bool got_value = false;
     if( p->is_avatar() ) {
-        got_value = query_int( time, _( "Set the timer to how many seconds (0 to cancel)?" ) );
+        got_value = query_int( time, false, _( "Set the timer to how many seconds (0 to cancel)?" ) );
         if( !got_value || time <= 0 ) {
             p->add_msg_if_player( _( "Never mind." ) );
             return std::nullopt;
@@ -3672,7 +3673,7 @@ std::optional<int> iuse::firecracker( Character *p, item *it, const tripoint_bub
 std::optional<int> iuse::mininuke( Character *p, item *it, const tripoint_bub_ms & )
 {
     int time;
-    bool got_value = query_int( time, _( "Set the timer to ___ turns (0 to cancel)?" ) );
+    bool got_value = query_int( time, false, _( "Set the timer to ___ turns (0 to cancel)?" ) );
     if( !got_value || time <= 0 ) {
         p->add_msg_if_player( _( "Never mind." ) );
         return std::nullopt;
@@ -4594,7 +4595,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
-        if( p->has_trait( trait_VAMPIRE ) ) {
+        if( p->has_trait( trait_VAMPIRE ) || p->has_trait( trait_DHAMPIR_TRAIT ) ) {
             vampire = true;
         }
         // From wikipedia,
@@ -5616,7 +5617,7 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bu
     return 0;
 }
 
-static int get_quality_from_string( const std::string_view s )
+static int get_quality_from_string( std::string_view s )
 {
     const ret_val<int> try_quality = try_parse_integer<int>( s, false );
     if( try_quality.success() ) {
@@ -8097,7 +8098,7 @@ int item::contain_monster( const tripoint_bub_ms &target )
     set_var( "name", string_format( _( "%s holding %s" ), type->nname( 1 ),
                                     f.type->nname() ) );
     // Need to add the weight of the empty container because item::weight uses the "weight" variable directly.
-    set_var( "weight", to_milligram( type->weight + f.get_weight() ) );
+    set_var( "weight", static_cast<double>( to_milligram( type->weight + f.get_weight() ) ) );
     g->remove_zombie( f );
     return 0;
 }

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "arcology_2x2_gate",
     "//": "Goes to 9x9 arcology stores",
     "object": {
@@ -15,7 +14,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for spaces 9x9.  Add walls around it and entrances.",
     "nested_mapgen_id": "arcology_9x9_candy_shop",
     "object": {
@@ -36,9 +34,9 @@
       "nested": { "1": { "chunks": [ "arcology_2x2_gate" ] } },
       "furniture": {
         "?": "f_console_broken",
-        "L": "f_table",
-        "H": "f_table",
-        "G": "f_table",
+        "L": "f_metal_table",
+        "H": "f_metal_table",
+        "G": "f_metal_table",
         "M": "f_displaycase",
         "w": "f_rack_wood",
         "V": "f_glass_cabinet",
@@ -64,7 +62,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for spaces 9x9.  Beauty and cosmetics shop.",
     "nested_mapgen_id": "arcology_9x9_beauty_shop",
     "object": {
@@ -92,9 +89,9 @@
       },
       "furniture": {
         "?": "f_console_broken",
-        "L": "f_table",
-        "H": "f_table",
-        "G": "f_table",
+        "L": "f_metal_table",
+        "H": "f_metal_table",
+        "G": "f_metal_table",
         "M": "f_displaycase",
         "w": "f_rack",
         "V": "f_glass_cabinet",
@@ -114,7 +111,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 vitamin shop.",
     "nested_mapgen_id": "arcology_9x9_vitamin_shop",
     "object": {
@@ -146,9 +142,9 @@
       },
       "furniture": {
         "?": "f_console_broken",
-        "L": "f_table",
-        "H": "f_table",
-        "G": "f_table",
+        "L": "f_metal_table",
+        "H": "f_metal_table",
+        "G": "f_metal_table",
         "M": "f_counter",
         "V": "f_rack",
         "w": "f_rack",
@@ -160,14 +156,13 @@
         "H": [ { "item": "arcology_vitamin_shop", "chance": 30, "repeat": [ 1, 2 ] } ],
         "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "arcology_vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "M": [ { "item": "office", "chance": 30, "repeat": [ 0, 4 ] } ],
+        "M": [ { "item": "SUS_office_desk", "chance": 30 } ],
         "V": [ { "item": "arcology_vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ]
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 cellphone shop.",
     "nested_mapgen_id": "city_block_9x9_cellphone_shop_front",
     "object": {
@@ -199,8 +194,8 @@
       },
       "furniture": {
         "?": "f_console_broken",
-        "L": "f_table",
-        "H": "f_table",
+        "L": "f_metal_table",
+        "H": "f_metal_table",
         "G": "f_displaycase",
         "M": "f_counter",
         "V": "f_rack",
@@ -220,7 +215,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 music shop.",
     "nested_mapgen_id": "city_block_9x9_music_shop_front",
     "object": {
@@ -240,8 +234,8 @@
       "terrain": { " ": "t_floor", "G": "t_carpet_red", "L": "t_carpet_red", ".": "t_carpet_red", "?": "t_carpet_red" },
       "furniture": {
         "?": "f_console_broken",
-        "L": "f_table",
-        "H": "f_table",
+        "L": "f_metal_table",
+        "H": "f_metal_table",
         "G": "f_displaycase",
         "M": "f_counter",
         "V": "f_bookcase",
@@ -254,14 +248,13 @@
         "G": [ { "item": "mussto_windinst", "chance": 30, "repeat": [ 1, 2 ] } ],
         "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "mussto_stringinst", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "M": [ { "item": "office", "chance": 30, "repeat": [ 0, 1 ] } ],
+        "M": [ { "item": "SUS_office_desk", "chance": 30, "repeat": [ 0, 1 ] } ],
         "V": [ { "item": "musicstore_showpiece", "chance": 30, "repeat": [ 0, 4 ] } ]
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 electronics shop.  needs aftershocking",
     "nested_mapgen_id": "arcology_8x8_electronic",
     "object": {
@@ -287,8 +280,8 @@
       },
       "furniture": {
         "?": "f_console_broken",
-        "L": "f_table",
-        "B": "f_table",
+        "L": "f_metal_table",
+        "B": "f_metal_table",
         "H": "f_displaycase",
         "G": "f_displaycase",
         "M": "f_counter",
@@ -303,7 +296,7 @@
         "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "elecsto_entapl", "chance": 30, "repeat": [ 0, 4 ] } ],
         "B": [ { "item": "elecsto_homapl", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "M": [ { "item": "office", "chance": 30, "repeat": [ 0, 1 ] } ],
+        "M": [ { "item": "SUS_office_desk", "chance": 30, "repeat": [ 0, 1 ] } ],
         "V": [
           { "item": "elecsto_lights", "chance": 30, "repeat": [ 0, 4 ] },
           { "item": "elecsto_diy", "chance": 30, "repeat": [ 0, 4 ] }
@@ -313,7 +306,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 8x8 pizza shop. Make foodplace shop.",
     "nested_mapgen_id": "arcology_8x8_foodplace",
     "object": {
@@ -348,7 +340,7 @@
       },
       "furniture": {
         "?": "f_console_broken",
-        "L": "f_table",
+        "L": "f_metal_table",
         "i": "f_oven",
         "s": "f_sink",
         "R": "f_bench",
@@ -379,7 +371,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for spaces 9x9.  Beauty and cosmetics shop.",
     "nested_mapgen_id": "arcology_24x24_s",
     "object": {
@@ -422,9 +413,9 @@
       },
       "furniture": {
         "?": "f_console_broken",
-        "L": "f_table",
-        "H": "f_table",
-        "G": "f_table",
+        "L": "f_metal_table",
+        "H": "f_metal_table",
+        "G": "f_metal_table",
         "M": "f_displaycase",
         "w": "f_rack",
         "V": "f_glass_cabinet",

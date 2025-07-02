@@ -11,6 +11,11 @@
   },
   {
     "type": "overmap_location",
+    "id": "stream",
+    "terrains": [ "stream" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "forest_without_trail",
     "terrains": [ "forest", "forest_thick" ]
   },
@@ -159,11 +164,6 @@
     "type": "overmap_location",
     "id": "ocean_shore",
     "terrains": [ "ocean_shore" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "potential_basement_lab_entrance",
-    "terrains": [ "basement" ]
   },
   {
     "type": "overmap_location",

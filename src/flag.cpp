@@ -57,6 +57,7 @@ const flag_id flag_CAMERA_PRO( "CAMERA_PRO" );
 const flag_id flag_CANNIBAL( "CANNIBAL" );
 const flag_id flag_CANT_HEAL_EVERYONE( "CANT_HEAL_EVERYONE" );
 const flag_id flag_CANT_WEAR( "CANT_WEAR" );
+const flag_id flag_CAN_USE_IN_DARK( "CAN_USE_IN_DARK" );
 const flag_id flag_CARNIVORE_OK( "CARNIVORE_OK" );
 const flag_id flag_CASING( "CASING" );
 const flag_id flag_CATTLE( "CATTLE" );
@@ -411,7 +412,7 @@ const json_flag &json_flag::get( const std::string &id )
     return f_id.is_valid() ? *f_id : null_value;
 }
 
-void json_flag::load( const JsonObject &jo, const std::string_view )
+void json_flag::load( const JsonObject &jo, std::string_view )
 {
     // TODO: mark fields as mandatory where appropriate
     optional( jo, was_loaded, "info", info_ );

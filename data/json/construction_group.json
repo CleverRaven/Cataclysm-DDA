@@ -2094,5 +2094,10 @@
     "type": "construction_group",
     "id": "cover_windowframe_with_sheet",
     "name": "Cover Empty Window With Sheet"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_beanbag",
+    "name": "Place a bean bag"
   }
 ]

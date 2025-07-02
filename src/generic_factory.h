@@ -133,7 +133,6 @@ const my_class &string_id<my_class>::obj() const
 template<typename T>
 class generic_factory
 {
-
     public:
         virtual ~generic_factory() = default;
 
@@ -938,7 +937,7 @@ bool unicode_codepoint_from_symbol_reader(
     const JsonObject &jo, std::string_view member_name, uint32_t &member, bool );
 
 //Reads a standard single-float "proportional" entry
-float read_proportional_entry( const JsonObject &jo, const std::string_view &key );
+float read_proportional_entry( const JsonObject &jo, std::string_view key );
 
 namespace reader_detail
 {
@@ -1586,6 +1585,17 @@ class text_style_check_reader : public generic_typed_reader<text_style_check_rea
 
     private:
         allow_object object_allowed;
+};
+
+struct dbl_or_var;
+
+class dbl_or_var_reader : public generic_typed_reader<dbl_or_var>
+{
+    public:
+        bool operator()( const JsonObject &jo, std::string_view member_name,
+                         dbl_or_var &member, bool /*was_loaded*/ ) const;
+    private:
+        dbl_or_var get_next( const JsonValue &jv ) const;
 };
 
 #endif // CATA_SRC_GENERIC_FACTORY_H

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_crashed_cargo_shuttle" ],
     "object": {
       "predecessor_mapgen": "field",
@@ -55,7 +54,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_crashed_cargo_shuttle_wraitheon" ],
     "object": {
       "predecessor_mapgen": "field",

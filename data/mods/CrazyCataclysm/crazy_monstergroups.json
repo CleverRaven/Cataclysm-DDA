@@ -85,5 +85,12 @@
     "id": "GROUP_SEWAGE_TREATMENT",
     "is_animal": true,
     "monsters": [ { "monster": "mon_gator", "weight": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_NEMESIS",
+    "override": true,
+    "//": "nemesis squad",
+    "monsters": [ { "monster": "mon_shia", "weight": 1 }, { "monster": "mon_immortal_snail", "weight": 1 } ]
   }
 ]

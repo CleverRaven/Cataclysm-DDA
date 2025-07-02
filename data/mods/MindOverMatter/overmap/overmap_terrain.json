@@ -7,7 +7,30 @@
     "sym": "*",
     "color": "white",
     "flags": [ "NO_ROTATE" ],
-    "see_cost": "medium"
+    "see_cost": "medium",
+    "travel_cost_type": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mom_texopapalotl_crew_shed" ],
+    "vision_levels": "isolated_building",
+    "name": "shack",
+    "sym": "C",
+    "looks_like": "cabin",
+    "color": "i_brown",
+    "see_cost": "high",
+    "travel_cost_type": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mom_texopapalotl_crew_shed_roof" ],
+    "vision_levels": "roof_or_air",
+    "name": "shack roof",
+    "sym": "C",
+    "looks_like": "cabin_roof",
+    "color": "i_brown",
+    "see_cost": "none",
+    "travel_cost_type": "field"
   },
   {
     "type": "overmap_terrain",

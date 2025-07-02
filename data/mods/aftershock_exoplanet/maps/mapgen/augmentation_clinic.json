@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_augmentation_clinic_n1" ],
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -36,14 +35,14 @@
       "furniture": {
         "?": "f_autodoc",
         "/": "f_autodoc_couch",
-        "T": "f_table",
+        "T": "f_metal_table",
         "n": "f_trashcan",
         "E": "f_machinery_electronic",
         "B": "f_monomolecularsaw"
       },
       "items": {
         "c": { "item": "dissection", "chance": 80, "repeat": [ 1, 3 ] },
-        "d": { "item": "office", "chance": 60 },
+        "d": { "item": "SUS_office_desk", "chance": 60 },
         "l": [
           { "item": "dresser", "chance": 60, "repeat": [ 4, 9 ] },
           { "item": "harddrugs", "chance": 30, "repeat": [ 1, 3 ] },
@@ -65,7 +64,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "afs_augmentation_clinic_n2" ],
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -97,7 +95,7 @@
       ],
       "palettes": [ "aug_clinic" ],
       "terrain": { " ": "t_open_air" },
-      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "o": "f_sofa", "T": "f_table", "Á": "f_armchair", "n": "f_trashcan" },
+      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "o": "f_sofa", "T": "f_metal_table", "Á": "f_armchair", "n": "f_trashcan" },
       "computers": {
         "5": {
           "name": "Secure Bionic Storage Access",
@@ -110,7 +108,7 @@
         "B": { "item": "hospital_bed", "chance": 60 },
         "R": { "item": "SUS_trash_floor", "chance": 50 },
         "o": { "item": "waitingroom", "chance": 60 },
-        "e": { "item": "fridge", "chance": 80, "repeat": [ 1, 3 ] },
+        "e": { "item": "SUS_fridge", "chance": 80 },
         "C": { "item": "dresser", "chance": 75 },
         "$": [
           { "item": "bionics", "chance": 70, "repeat": [ 1, 2 ] },
@@ -118,7 +116,7 @@
           { "item": "afs_bionic_toolkit", "chance": 80 }
         ],
         "f": { "item": "SUS_office_filing_cabinet", "chance": 90 },
-        "d": { "item": "office", "chance": 60 },
+        "d": { "item": "SUS_office_desk", "chance": 60 },
         "l": [
           { "item": "harddrugs", "chance": 30, "repeat": [ 1, 3 ] },
           { "item": "drugs_analgesic", "chance": 20, "repeat": [ 1, 3 ] },
@@ -143,7 +141,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_augmentation_clinic_n3",
     "object": {
       "fill_ter": "t_floor",
@@ -193,7 +190,7 @@
         "&": "f_roof_turbine_vent",
         "=": "f_vent_pipe",
         "b": "f_bed",
-        "t": "f_table",
+        "t": "f_metal_table",
         "c": "f_armchair",
         "f": "f_filing_cabinet",
         "?": "f_autodoc",
@@ -218,7 +215,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_augmentation_clinic_n4",
     "object": {
       "fill_ter": "t_flat_roof",

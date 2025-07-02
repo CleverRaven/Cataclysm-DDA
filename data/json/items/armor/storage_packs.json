@@ -1,0 +1,74 @@
+[
+  {
+    "id": "backpack_small",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "small backpack" },
+    "description": "A small simple backpack, probably sized for a kid.",
+    "weight": "333 g",
+    "volume": "2 L",
+    "price": "19 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "750 ml",
+        "max_contains_volume": "12 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "40 cm",
+        "moves": 300
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "moves": 300,
+        "description": "A zipper pocket, meant for pens and pencils."
+      }
+    ],
+    "warmth": 6,
+    "material_thickness": 2,
+    "flags": [ "BELTED" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 40,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ],
+    "variants": [
+      {
+        "id": "color",
+        "weight": 17,
+        "name": "small backpack",
+        "description": "A little <color> backpack, probably sized for a kid.",
+        "expand_snippets": true
+      },
+      {
+        "id": "boy",
+        "name": { "str": "boy's backpack" },
+        "description": "A boy's backpack.  <boy_brand>",
+        "expand_snippets": true
+      },
+      {
+        "id": "girl",
+        "name": { "str": "girl's backpack" },
+        "description": "A girl's backpack.  <girl_brand>",
+        "expand_snippets": true
+      },
+      {
+        "id": "kid",
+        "name": { "str": "kid's backpack" },
+        "description": "A kid's backpack.  <kid_brand>",
+        "expand_snippets": true
+      }
+    ]
+  }
+]
