@@ -16,7 +16,7 @@
     "id": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP",
     "name": { "str": "Heartwhip" },
     "points": 2,
-    "description": "You can cause a sudden outgrowth of your Heartvine into a living weapon like a whip, ready to scourge the undead.",
+    "description": "You can cause a sudden outgrowth of your Heartvine into a living whip-like weapon, ready to scourge the undead.",
     "purifiable": false,
     "valid": false,
     "active": true,

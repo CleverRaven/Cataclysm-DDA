@@ -3762,5 +3762,22 @@
     "scaling_mods": { "int_mod": [ -2 ] },
     "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.1 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bloodthorn_druid_upgrade_ready",
+    "name": [ "Twitching Heartvines" ],
+    "desc": [
+      "You can occasionally feel your heartvines twitch beneath your skin.  They are ready to grow.  Seek out the unspoiled wilderness and allow them to flourish."
+    ],
+    "apply_message": "As the vampire dies you feel your heartvines stir, invigorated by the creature's blood.  You must seek out the wilderness and meditate there to allow your heartvine to grow.",
+    "remove_message": "Your heartvines cease their movements."
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bloodthorn_druid_upgrade_active",
+    "//": "Hidden effect to make sure you're actually researching",
+    "name": [ "" ],
+    "desc": [ "" ]
   }
 ]
