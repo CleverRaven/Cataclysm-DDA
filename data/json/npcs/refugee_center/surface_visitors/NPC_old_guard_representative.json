@@ -549,7 +549,7 @@
   {
     "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_0_INTIMIDATE_FAILURE",
     "type": "talk_topic",
-    "dynamic_line": "& He tenses and grits his teeth for a moment before regaining his composure. \"No, we both know you won't.  Let's pretend this never happened, offer's still up.\"",
+    "dynamic_line": "& He tenses and grits his teeth for a moment before regaining his composure.  \"No, we both know you won't.  Let's pretend this never happened, offer's still up.\"",
     "responses": [ { "text": "Fine…", "topic": "TALK_NONE" } ]
   },
   {

@@ -90,7 +90,7 @@
     "type": "terrain",
     "id": "t_sunkenhelicopter_frame",
     "name": "waterlogged frame",
-    "description": "A waterlogged metal framework. Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  It has started to degrade after some time spent underwater.  Absolutely unrecoverable.",
+    "description": "A waterlogged metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  It has started to degrade after some time spent underwater.  Absolutely unrecoverable.",
     "copy-from": "t_junk_floor"
   },
   {
