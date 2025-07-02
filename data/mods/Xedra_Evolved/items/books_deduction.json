@@ -96,5 +96,254 @@
     "time": "30 m",
     "melee_damage": { "bash": 4 },
     "read_skill": "deduction"
+  },
+  {
+    "id": "book_deduction_out_of_place",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "name": { "str_sp": "Out-of-place manuscript" },
+    "description": "This book always feels like it shouldn't be where it is.  Its texts are incoherent and illogical, but they promise to help you understand something.  Reading a few words from its pages is enough to give you a headache.",
+    "//": "When possible, reading it should be literally painful.  Not much, but enough for the player to notice.",
+    "weight": "1360 g",
+    "volume": "2 L",
+    "price": "85 USD",
+    "price_postapoc": "12 USD 50 cent",
+    "material": [ "paper", "cardboard" ],
+    "symbol": "?",
+    "color": "black_white",
+    "required_level": 4,
+    "max_level": 7,
+    "intelligence": 12,
+    "time": "10 m",
+    "melee_damage": { "bash": 4 },
+    "read_skill": "deduction",
+    "read_fun": -7
+  },
+  {
+    "id": "book_deduction_lies",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "Lies", "str_pl": "copies of Lies" },
+    "//": "The writer wrote this book as fast as they could, for they knew the Lies would soon kill them for doing so.",
+    "description": "A haphazardly-written book filled with ramblings about something it calls \"the Lies\".  You feel threatened by this book, uneasy at the thought of having it on your person, but parsing its texts could give you insight on how things truly are.\nOnly the first third of the pages are filled with text, and the last written page is splattered in red.",
+    "//2": "When possible, this should be a book.  There is currently no way to hook EOCs to reading a certain book.",
+    "weight": "830 g",
+    "volume": "1320 ml",
+    "price": "1 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "dark_gray",
+    "use_action": { "type": "effect_on_conditions", "description": "Read the book.", "effect_on_conditions": [ "EOC_READ_BOOK_LIES" ] },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_BOOK_LIES",
+    "//": "If the player can survive reading this book for 8 consecutive hours, then they clearly are at a point where they don't need the deduction skill.",
+    "condition": { "math": [ "u_skill('deduction') >= 7" ] },
+    "effect": [ { "run_eocs": [ "EOC_READ_BOOK_LIES_REAL" ] } ],
+    "false_effect": [ { "u_message": "Fortunately, you lack the deductive abilities to understand this book.", "type": "good" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_BOOK_LIES_REAL",
+    "condition": { "math": [ "u_skill('deduction') < 10" ] },
+    "effect": [
+      { "u_assign_activity": "ACT_READING_BOOK_LIES", "duration": "8 hours" },
+      { "u_message": "You begin your read, for better or worse.", "type": "mixed" }
+    ],
+    "false_effect": [ { "u_message": "Rejoice, for you have no reason to read this book anymore.", "type": "good" } ]
+  },
+  {
+    "id": "ACT_READING_BOOK_LIES",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "reading",
+    "based_on": "time",
+    "can_resume": false,
+    "rooted": true,
+    "do_turn_eoc": "EOC_READING_BOOK_LIES_TIME",
+    "completion_eoc": "EOC_DEDUCTION_FROM_BOOK_LIES"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READING_BOOK_LIES_TIME",
+    "//": "This EOC stops the book from firing every second.  It's lethal enough already.",
+    "effect": [
+      { "math": [ "u_time_reading_book_lies ++" ] },
+      { "if": { "math": [ "u_time_reading_book_lies >= 10" ] }, "then": { "run_eocs": [ "EOC_READING_BOOK_LIES" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READING_BOOK_LIES",
+    "//": "The skill gains mostly come from the Lies striking back.  Reading the book won't give much by itself.",
+    "//2": "Can't place two different maths in the same then, so I have to call more EOCs.",
+    "//3": "Effects that can physically damage you have a minimum time between two triggers.",
+    "effect": [
+      { "math": [ "u_vitamin('xedra_knowing_lies') ++" ] },
+      { "math": [ "u_deduction_from_book_lies_counter ++" ] },
+      { "math": [ "u_delay_before_hound --" ] },
+      { "math": [ "u_delay_before_claw --" ] },
+      { "math": [ "u_time_reading_book_lies = 0" ] },
+      {
+        "if": { "math": [ "rand(u_vitamin('xedra_knowing_lies')) >= 150" ] },
+        "then": { "run_eocs": [ "EOC_READING_BOOK_LIES_PAIN" ] }
+      },
+      {
+        "if": { "math": [ "rand(u_vitamin('xedra_knowing_lies')) >= 150" ] },
+        "then": { "run_eocs": [ "EOC_READING_BOOK_LIES_HEALTH" ] }
+      },
+      {
+        "if": { "math": [ "rand(u_vitamin('xedra_knowing_lies')) >= 300" ] },
+        "then": { "run_eocs": [ "EOC_READING_BOOK_LIES_MORALE" ] }
+      },
+      {
+        "if": { "math": [ "rand(u_vitamin('xedra_knowing_lies')) >= 1200" ] },
+        "then": { "run_eocs": [ "EOC_READING_BOOK_LIES_HOUNDS" ] }
+      },
+      {
+        "if": { "math": [ "rand(u_vitamin('xedra_knowing_lies')) >= 2000" ] },
+        "then": { "run_eocs": [ "EOC_READING_BOOK_LIES_CLAW" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READING_BOOK_LIES_PAIN",
+    "condition": { "x_in_y_chance": { "x": 1, "y": 2 } },
+    "effect": [ { "math": [ "u_pain()++" ] }, { "math": [ "u_deduction_from_book_lies_counter += 25" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READING_BOOK_LIES_HEALTH",
+    "effect": [ { "math": [ "u_health()--" ] }, { "math": [ "u_deduction_from_book_lies_counter += 25" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READING_BOOK_LIES_MORALE",
+    "condition": { "x_in_y_chance": { "x": 1, "y": 3 } },
+    "effect": [
+      { "math": [ "morale_book_lies = -3 * u_skill('deduction')" ] },
+      {
+        "u_add_morale": "morale_book_lies",
+        "bonus": { "math": [ "morale_book_lies" ] },
+        "max_bonus": { "math": [ "morale_book_lies" ] },
+        "duration": "30 minutes",
+        "decay_start": "15 minutes"
+      },
+      { "math": [ "u_deduction_from_book_lies_counter += 50" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READING_BOOK_LIES_HOUNDS",
+    "//": "Calling the other stare EOCs won't work thus the subsequent EOCs are all called here.",
+    "condition": { "math": [ "u_delay_before_hound <= 0" ] },
+    "effect": [
+      {
+        "u_add_effect": "taint",
+        "intensity": { "math": [ "u_effect_intensity('taint') + 1" ] },
+        "duration": [ "2 m", "5 m" ]
+      },
+      { "run_eocs": [ "EOC_STARE_EFF2" ] },
+      { "run_eocs": [ "EOC_STARE_EFF3" ] },
+      { "run_eocs": [ "EOC_STARE_EFF4" ] },
+      { "math": [ "u_deduction_from_book_lies_counter += 750" ] },
+      { "run_eocs": "EOC_READING_BOOK_LIES_HOUND_PROOF" },
+      { "math": [ "u_delay_before_hound = 0" ] },
+      { "math": [ "u_delay_before_hound += rng(5, 15)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READING_BOOK_LIES_HOUND_PROOF",
+    "//": "By being immune to mind taint, the player draws more ire from the Lies, as they hate being resisted.",
+    "condition": { "not": { "u_has_effect": "taint" } },
+    "effect": [
+      { "math": [ "u_hp('head') -= 5" ] },
+      { "math": [ "u_hp('torso') -= 5" ] },
+      { "math": [ "u_hp('arm_l') -= 5" ] },
+      { "math": [ "u_hp('arm_r') -= 5" ] },
+      { "math": [ "u_hp('leg_l') -= 5" ] },
+      { "math": [ "u_hp('leg_r') -= 5" ] },
+      { "u_message": "book_lies_taint_resisted", "snippet": true, "type": "bad", "popup": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READING_BOOK_LIES_CLAW",
+    "//": "At this point, the Lies are actively trying to kill the player and they have no reason to hold back now.  The attempts will continue until the player stops reading or dies.",
+    "condition": { "math": [ "u_delay_before_claw <= 0" ] },
+    "effect": [
+      { "math": [ "u_random_clawed_part = rand(5)" ] },
+      { "if": { "math": [ "u_random_clawed_part == 0" ] }, "then": { "math": [ "u_hp('head') -= rng(35, 45)" ] } },
+      { "if": { "math": [ "u_random_clawed_part == 1" ] }, "then": { "math": [ "u_hp('torso') -= rng(35, 45)" ] } },
+      { "if": { "math": [ "u_random_clawed_part == 2" ] }, "then": { "math": [ "u_hp('arm_l') -= rng(35, 45)" ] } },
+      { "if": { "math": [ "u_random_clawed_part == 3" ] }, "then": { "math": [ "u_hp('arm_r') -= rng(35, 45)" ] } },
+      { "if": { "math": [ "u_random_clawed_part == 4" ] }, "then": { "math": [ "u_hp('leg_l') -= rng(35, 45)" ] } },
+      { "if": { "math": [ "u_random_clawed_part == 5" ] }, "then": { "math": [ "u_hp('leg_r') -= rng(35, 45)" ] } },
+      { "math": [ "u_deduction_from_book_lies_counter += 6250" ] },
+      { "u_message": "book_lies_claw", "snippet": true, "type": "bad", "popup": true },
+      { "math": [ "u_delay_before_claw = 0" ] },
+      { "math": [ "u_delay_before_claw += rng(25, 35)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READING_BOOK_LIES_STOPPED",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": { "and": [ { "compare_string": [ "ACT_READING_BOOK_LIES", { "context_val": "activity" } ] } ] },
+    "effect": [ { "run_eocs": "EOC_DEDUCTION_FROM_BOOK_LIES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEDUCTION_FROM_BOOK_LIES",
+    "//": "Gives a message based on the total deduction xp gained.  Too little is a waste of time.  Too much is a huge risk.  Just enough will ensure steady progress with a mostly-reasonable cost.",
+    "effect": [
+      {
+        "if": { "math": [ "u_deduction_from_book_lies_counter <= 15500" ] },
+        "then": {
+          "u_message": "You gained almost no knowledge from this session.  Maybe if you read more, you will gain more.",
+          "type": "bad"
+        }
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_deduction_from_book_lies_counter > 15500" ] },
+            { "math": [ "u_deduction_from_book_lies_counter <= 33000" ] }
+          ]
+        },
+        "then": { "u_message": "You gained a decent amount of knowledge from this read.", "type": "good" }
+      },
+      {
+        "if": { "math": [ "u_deduction_from_book_lies_counter > 33000" ] },
+        "then": {
+          "u_message": "You bear the marks inflicted by beings that do not want you to know this much.  Not moderating your use of this book will have consequences, but what you are gaining from it might be worth the cost.",
+          "type": "mixed"
+        }
+      },
+      {
+        "if": { "math": [ "u_deduction_from_book_lies_counter > 33000" ] },
+        "then": {
+          "math": [ "u_deduction_from_book_lies_counter += (u_deduction_from_book_lies_counter + u_deduction_from_book_lies_counter)" ]
+        }
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_deduction_from_book_lies_counter > 15500" ] },
+            { "math": [ "u_deduction_from_book_lies_counter <= 33000" ] }
+          ]
+        },
+        "then": { "math": [ "u_deduction_from_book_lies_counter += u_deduction_from_book_lies_counter" ] }
+      },
+      { "math": [ "u_skill_exp('deduction', 'format': 'raw')", "+=", "u_deduction_from_book_lies_counter" ] },
+      { "math": [ "u_deduction_from_book_lies_counter = 0" ] }
+    ]
   }
 ]

@@ -1046,12 +1046,14 @@ Character status value  | Description
 `THIRST`                | 
 `THROW_STR`             | Increases your strength for throwing purposes. Not limited by your throwing skill (you still throw it as precise as your skill allows you, just further). Only additive. Rule of thumb: one additional point of strength allow you to throw 113 g object 10 tiles further, or 1130 g object 1 tile further, limited by [ str * 3 + skill ]. Full calculations are in Character::throw_range
 `THROW_DAMAGE`          | Increases the damage of any thrown projectile. `add` adds this amount of damage to the projectile as bash damage, `multiply` would increase all projectile damage, not only bash type.
+`TOTAL_WEIGHT`          | Affects your total weight, including all worn items, bionics, etc.
 `UGLINESS`              | Affects your `ugliness` stat, which affects NPCs' initial opinion of you.
 `VITAMIN_ABSORB_MOD`    | Increases amount of vitamins obtained from the food
 `VOMIT_MUL`             | Affects your chances to vomit.
 `WEAKNESS_TO_WATER`     | Amount of damage character gets when wet, once per second; scales with wetness, being 50% wet deal only half of damage; negative values restore hp; flat number with default value of 0, so `multiply` is useful only in combination with `add`; Works with float numbers, so `"add": -0.3` would result in restoring 1 hp with 30% change, and 70% chance to do nothing
 `WEAKPOINT_ACCURACY`    | Increases the coverage of every weakpoint you hit, therefore, increasing chances to hit said weakpoint. Works only if weakpoint has `"is_good": true` (all weakpoints have it true by default)
 `WEAPON_DISPERSION`     | Positive value increase the dispersion, negative decrease one.
+`WEIGHT`                | Modifies the character weight, without calories or fat mass alterations. `add` would add the weight of a character in grams. Character weight cannot be less than 1 g.
 
 Enchanted item value | Description
 ---                  |---
@@ -1066,6 +1068,18 @@ Character status value  | Description
 `VISION_RANGE`          | Affects monster vision range, both day and night one.
 `SPEED`                 | Affects the base speed of the monster.
 `LUMINATION`            | Affects monster luminance
+`TOTAL_WEIGHT`          | Affects monsters weight
+
+
+### Enchantments on vehicles
+A small subset of enchantments can be applied to vehicles via effects or parts. These are listed below:
+
+Character status value  | Description
+---                     |---
+`TOTAL_WEIGHT`          | Affects the vehicles total weight.
+`FUEL_USAGE`            | Affects the vehicles fuel usage.
+`TURNING_DIFFICULTY`    | Affects turning ability
+
 
 ### Enchantment value examples
 

@@ -115,6 +115,7 @@ Use the `Home` key to return to the top.
       - [`oxytorch`](#oxytorch)
       - [`prying`](#prying)
       - [`required_str`](#required_str)
+      - [`mass`](#mass)
       - [`crafting_pseudo_item`](#crafting_pseudo_item)
       - [`workbench`](#workbench)
       - [`plant_data`](#plant_data)
@@ -2451,6 +2452,7 @@ it is present to help catch errors.
   "tags": [ "combat_skill" ],
   "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
   "display_category": "display_ranged",
+  "consumes_focus": true,
   "sort_rank": 11000,
   "teachable": true,
   "level_descriptions_theory": [
@@ -2478,6 +2480,7 @@ it is present to help catch errors.
 | `tags`                     | Identifies special cases. Currently valid tags are: "combat_skill" and "contextual_skill". |
 | `time_to_attack`           | Object used to calculate the movecost for firing a gun. |
 | `display_category`         | Category in the character info screen where this skill is displayed. |
+| `consumes_focus`           | (Boolean) Whether focus is consumed when this skill is trained.
 | `sort_rank`                | Order in which the skill is shown. |
 | `teachable`                | Whether it's possible to teach this skill between characters. (Default = true) |
 | `companion_skill_practice` | Determines the priority of this skill within a mision skill category when an NPC gains experience from a companion mission. |
@@ -3185,6 +3188,7 @@ Examples from the actual definitions:
     "deployed_item": "plastic_sheet",
     "light_emitted": 5,
     "required_str": 18,
+    "mass": "60 kg",
     "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD" ],
     "connect_groups" : [ "WALL" ],
     "connects_to" : [ "WALL" ],
@@ -3355,6 +3359,10 @@ oxytorch: {
 #### `required_str`
 
 Strength required to move the furniture around. Negative values indicate an unmovable furniture.
+
+#### `mass`
+
+(Optional) Defaults 1000 kilograms. The weight of this furniture.
 
 #### `crafting_pseudo_item`
 
@@ -4061,7 +4069,7 @@ Defaults true. If a road can be found within 3 OMTs of the starting position, re
 
 Defaults 15. How much of the initial map should be known when the game is started? This value is a radius.
 
-## `eocs`
+## `eoc`
 (optional, array of strings)
 
 A list of eocs that are triggered once for each new character on scenario start.
@@ -4074,7 +4082,7 @@ A list of mission ids that will be started and assigned to the player at the sta
 ## `start_of_cataclysm`
 (optional, object with optional members "hour", "day", "season" and "year")
 
-Allows customization of Cataclysm start date. If `start_of_cataclysm` is not set the corresponding default values are used instead - `Year 1, Spring, Day 61, 00:00:00`. Can be changed in new character creation screen.
+Allows customization of Cataclysm start date. If `start_of_cataclysm` is not set the corresponding default values are used instead - `Year 1, Spring, Day 56, 00:00:00`. Can be changed in new character creation screen.
 
 ```jsonc
 "start_of_cataclysm": { "hour": 7, "day": 10, "season": "winter", "year": 1 }

@@ -1,0 +1,42 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "labyrinth_entrance" ],
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "rows": [
+        "vvvvvvvvv3     vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvv..vv....vv..vvvvvv",
+        "vvvvvv.Lvv....vvL.vvvvvv",
+        "vvvvvvvvvv(..(vvvvvvvvvv",
+        "2     vvv||++||vvv2     ",
+        "      ..(|Ç..(|(..      ",
+        "      ...+....+...      ",
+        "      ...+.A..+...      ",
+        "      ..(|(..L|(..      ",
+        "      vvv||++||vvv      ",
+        "vvvvvvvvvv(..(vvvvvvvvvv",
+        "vvvvvv.Lvv....vvL.vvvvvv",
+        "vvvvvv..vv....vv..vvvvvv",
+        "vvvvvvvvv3     vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "nested": {
+        "1": { "chunks": [ "ls_12x12hall4way_basic" ] },
+        "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },
+        "3": { "chunks": [ "ls_ns_6x6hall_basic" ] }
+      },
+      "computers": { "Ç": { "name": "Exit Controls", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_Exit_Controls" ] } }
+    }
+  }
+]

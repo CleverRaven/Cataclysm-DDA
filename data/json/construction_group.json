@@ -1557,6 +1557,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_anvil_ingot",
+    "name": "Mount Ingot Anvil"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_anvil_scavenged",
+    "name": "Mount Scavenged Anvil"
+  },
+  {
+    "type": "construction_group",
     "id": "place_forge",
     "name": "Place Forge"
   },
@@ -2094,5 +2104,10 @@
     "type": "construction_group",
     "id": "cover_windowframe_with_sheet",
     "name": "Cover Empty Window With Sheet"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_beanbag",
+    "name": "Place a bean bag"
   }
 ]

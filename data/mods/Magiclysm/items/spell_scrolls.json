@@ -2448,5 +2448,15 @@
     "name": { "str": "Formula of Morphogenic Mastery", "str_pl": "Formulae of Morphogenic Mastery" },
     "description": "This research paper has an extremely complicated series of formulae with various genetic code diagrams interspersed.  It claims that the spell will allow conscious control over any \"morphogenic alterations\".",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_control_mutations" ] }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_push_nearby_enemies_back",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Repulsion Wave", "str_pl": "Scrolls of Repulsion Wave" },
+    "description": "Unless a wave of force to hurl anyone nearby backwards.  Great for the commute.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_push_nearby_enemies_back" ] }
   }
 ]

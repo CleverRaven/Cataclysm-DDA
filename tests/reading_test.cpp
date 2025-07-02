@@ -1,3 +1,4 @@
+#include <functional>
 #include <initializer_list>
 #include <memory>
 #include <string>
@@ -11,6 +12,7 @@
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
+#include "flag.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -537,24 +539,40 @@ TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
     clear_avatar();
     item book( itype_test_textbook_fabrication );
 
-    WHEN( "having a book int the inventory" ) {
+    WHEN( "having a book in the inventory" ) {
 
         dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
-        dummy.i_add( item( itype_atomic_lamp ) );
-        REQUIRE( dummy.fine_detail_vision_mod() == 1 );
-
         item_location ereader = dummy.i_add( item( itype_test_ebook_reader ) );
 
         ereader->put_in( book, pocket_type::E_FILE_STORAGE );
+        REQUIRE( ereader->has_flag( flag_CAN_USE_IN_DARK ) );
+
+        item *ebook = ereader->get_item_with( [&]( const item & it ) {
+            return it.typeId() == book.typeId();
+        } );
+        REQUIRE_FALSE( ebook->is_null() );
+
+        // CAN_USE_IN_DARK should get inherited from the ereader.
+        REQUIRE( ebook->has_flag( flag_CAN_USE_IN_DARK ) );
 
         item battery( itype_test_battery_disposable );
         battery.ammo_set( battery.ammo_default(), 100 );
         ereader->put_in( battery, pocket_type::MAGAZINE_WELL );
-        item_location booklc{dummy, &book};
+        item_location booklc{dummy, ebook};
+        REQUIRE( booklc );
 
-        test_ebook_is_reading( dummy, ereader, booklc );
+        WHEN( "it is bright outside" ) {
+            dummy.i_add( item( itype_atomic_lamp ) );
+            REQUIRE( dummy.fine_detail_vision_mod() == 1 );
+            test_ebook_is_reading( dummy, ereader, booklc );
+        }
 
-
+        WHEN( "it is dark outside" ) {
+            time_point midnight = calendar::turn - time_past_midnight( calendar::turn ) + 1_days;
+            set_time( midnight );
+            REQUIRE( dummy.fine_detail_vision_mod() > 4 );
+            test_ebook_is_reading( dummy, ereader, booklc );
+        }
     }
 
     GIVEN( "a book nearby" ) {

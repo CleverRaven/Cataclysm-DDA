@@ -156,6 +156,7 @@
     "clip_size": 9,
     "valid_mod_locations": [
       [ "barrel", 1 ],
+      [ "bayonet lug", 1 ],
       [ "loading port", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],

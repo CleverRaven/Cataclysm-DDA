@@ -981,5 +981,16 @@
     "action": "caltrops_glass",
     "drops": [ "caltrops_teeth" ],
     "vehicle_data": { "damage": 600 }
+  },
+  {
+    "type": "trap",
+    "id": "tr_nl_chasm",
+    "//": "netherum labyrinth trap that takes you out of the dungeon when you fall into a chasm",
+    "name": "sparkling chasm",
+    "color": "dark_gray",
+    "copy-from": "tr_swirling_vortex",
+    "action": "eocs",
+    "eocs": [ "EOC_LS_Exit_labyrinth_sparkling_chasm" ],
+    "always_invisible": true
   }
 ]

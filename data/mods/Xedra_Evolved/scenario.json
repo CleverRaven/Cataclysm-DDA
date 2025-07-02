@@ -30,7 +30,7 @@
     "type": "scenario",
     "id": "paraclesian_birth",
     "name": "Paraclesian Birth",
-    "flags": [ "LONE_START" ],
+    "flags": [ "LONE_START", "SKIP_DEFAULT_BACKGROUND" ],
     "points": 0,
     "description": "Your first moments of life.  An elemental fae birth on a dying world.  Now you have to figure out how to survive on your own.  (Select the location that matches your profession or you may have a short journey)  P.S. This scenario is still in development, PRs for additional content welcome.",
     "start_name": "Paraclesian Birth",

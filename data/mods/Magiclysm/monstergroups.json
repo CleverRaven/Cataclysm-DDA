@@ -81,6 +81,8 @@
     "id": "GROUP_FERAL_WIZARDS",
     "monsters": [
       { "monster": "mon_feral_human_magician", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_feral_animist", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_feral_animist_enhanced", "weight": 5, "cost_multiplier": 4 },
       { "monster": "mon_feral_druid", "weight": 50, "cost_multiplier": 2 },
       { "monster": "mon_feral_druid_enhanced", "weight": 5, "cost_multiplier": 4 },
       { "monster": "mon_feral_earthshaper", "weight": 50, "cost_multiplier": 2 },

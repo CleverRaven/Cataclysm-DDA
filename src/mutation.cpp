@@ -1169,7 +1169,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         try_opposite = false;
     } else if( cat_list.get_weight() > 0 ) {
         cat = *cat_list.pick();
-        cat_list.add_or_replace( cat, 0 );
+        cat_list.remove( cat );
         add_msg_debug( debugmode::DF_MUTATION, "Picked category %s", cat.c_str() );
         // Only decide if it's good or bad after we pick the category.
         if( roll_bad_mutation( cat ) ) {
@@ -1326,7 +1326,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                 cat = *cat_list.pick();
                 add_msg_debug( debugmode::DF_MUTATION, "No valid traits in category found, new category %s",
                                cat.c_str() );
-                cat_list.add_or_replace( cat, 0 );
+                cat_list.remove( cat );
             } else {
                 // every option we have vitamins for is invalid
                 add_msg_if_player( m_bad,

@@ -6817,6 +6817,14 @@ void item::update_inherited_flags()
             }
         }
     }
+
+    // ensure efiles in device can be used in darkness if edevice can be used in darkness
+    if( has_flag( flag_CAN_USE_IN_DARK ) ) {
+        for( item *file : efiles() ) {
+            file->set_flag( flag_CAN_USE_IN_DARK );
+        }
+    }
+
     update_prefix_suffix_flags();
 }
 
@@ -12897,7 +12905,7 @@ bool item::use_amount_internal( const itype_id &it, int &quantity, std::list<ite
 
 bool item::allow_crafting_component() const
 {
-    if( ( is_toolmod() && is_irremovable() ) || has_flag( flag_PSEUDO ) ) {
+    if( has_flag( flag_PSEUDO ) ) {
         return false;
     }
 
