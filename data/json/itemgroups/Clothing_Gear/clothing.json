@@ -2134,6 +2134,12 @@
   },
   {
     "type": "item_group",
+    "id": "large_duffelbags",
+    "subtype": "distribution",
+    "entries": [ { "item": "duffelbag_xl_poly", "prob": 60 }, { "item": "duffelbag_xxl_nylon", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
     "id": "dresses",
     "items": [
       [ "dress", 65 ],
