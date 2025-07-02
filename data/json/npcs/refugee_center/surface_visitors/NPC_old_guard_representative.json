@@ -572,7 +572,9 @@
     "goal": "MGOAL_GO_TO",
     "value": 0,
     "difficulty": 0,
-    "start": { "assign_mission_target": { "om_terrain": "sunken_helicopter", "reveal_radius": 5 } },
+    "start": {
+      "assign_mission_target": { "om_terrain": "sunken_helicopter", "om_special": "sunken_helicopter", "reveal_radius": 5 }
+    },
     "end": { "effect": { "u_add_var": "eoc_sample_item_transporter_set_coordinates", "value": "yes" } },
     "origins": [ "ORIGIN_NULL" ],
     "invisible_on_complete": true
