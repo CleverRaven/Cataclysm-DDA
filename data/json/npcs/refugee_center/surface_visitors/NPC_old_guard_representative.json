@@ -561,7 +561,7 @@
   {
     "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_1",
     "type": "talk_topic",
-    "dynamic_line": "Fine.  The heli was transporting a few sets of those combat exoskeletons back from a Doubletech testing site way out west, the ones they were showing on TV before all this, I'm sure a guy like you could put those to good use.  I won't risk my life for one but if you succeed and would like to trade them you know where to find me.",
+    "dynamic_line": "Fine.  The heli was transporting a few sets of those combat exoskeletons back from a DoubleTech testing site way out west, the ones they were showing on TV before all this, I'm sure a guy like you could put those to good use.  I won't risk my life for one but if you succeed and would like to trade them you know where to find me.",
     "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
