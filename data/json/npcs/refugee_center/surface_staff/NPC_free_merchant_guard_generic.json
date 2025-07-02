@@ -36,7 +36,16 @@
         "topic": "TALK_GUARD_Boris_Mission_1"
       },
       { "text": "How did you get saddled with guard duty?", "topic": "TALK_GUARD_FM_BACKGROUND" },
-      { "text": "Heard anything about an helicopter crash?", "topic": "TALK_GUARD_FM_HELICRASH_ANECDOTE" },
+      {
+        "text": "Heard anything about an helicopter crash?",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "helicrash_tip_offer" } ] },
+            { "not": { "u_has_mission": "MISSION_FIND_SUNKEN_HELICOPTER" } }
+          ]
+        },
+        "topic": "TALK_GUARD_FM_HELICRASH_ANECDOTE"
+      },
       { "text": "Don't mind me…", "topic": "TALK_DONE" }
     ]
   },
