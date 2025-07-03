@@ -621,7 +621,8 @@
   },
   {
     "id": "sky_island_windblock",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Personal Windblock" },
     "description": "The island is protecting you against the winds as long as you are on it.",
     "weight": "1 g",

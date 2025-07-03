@@ -358,7 +358,7 @@
   },
   {
     "id": "upgradekey_scouting6",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Warpforged Telescope" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 6",
@@ -424,7 +424,7 @@
   },
   {
     "id": "upgradekey_scouting7",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Agglomerated Oculus" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 5",
@@ -498,7 +498,7 @@
   },
   {
     "id": "upgradekey_scouting8",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Other Eye of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 8",
@@ -564,7 +564,7 @@
   },
   {
     "id": "upgradekey_scoutingclairvoyance1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Higher Viewpoint" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting Clairvoyance 1",
@@ -630,7 +630,7 @@
   },
   {
     "id": "upgradekey_scoutingclairvoyance2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "All-Seeing Effigy" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting Clairvoyance 2",
@@ -1034,7 +1034,7 @@
   },
   {
     "id": "upgradekey_landing6",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Familiarity Gemstone" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 6",
@@ -1105,7 +1105,7 @@
   },
   {
     "id": "upgradekey_landing7",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Warm Welcome" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 7",
@@ -1171,7 +1171,7 @@
   },
   {
     "id": "upgradekey_landing8",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Emissary's Herald" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 8",
@@ -1237,7 +1237,7 @@
   },
   {
     "id": "upgradekey_landing_waterwalking",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Cloaking Buoyancy" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing Boost: Waterwalking.",
@@ -1301,7 +1301,7 @@
   },
   {
     "id": "upgradekey_landing_flight",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Inverted Gravity Bubble" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing Boost: Flight.",
@@ -1366,7 +1366,7 @@
   },
   {
     "id": "upgradekey_landing_phase",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Universal Access Pass" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing Boost: Phasing.",
@@ -1707,7 +1707,7 @@
   },
   {
     "id": "upgradekey_stability5",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Explorer's Ward" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 5",
@@ -1772,7 +1772,7 @@
   },
   {
     "id": "upgradekey_stability6",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Island-Bound Armor" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 6",
@@ -1837,7 +1837,7 @@
   },
   {
     "id": "upgradekey_stability7",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Triune Anchor" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 7",
@@ -2094,7 +2094,7 @@
   },
   {
     "id": "upgradekey_exit3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Thrice-Sided Door" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Four Exits per Expedition",
@@ -2158,7 +2158,7 @@
   },
   {
     "id": "upgradekey_exit4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Intangible Door Stopper" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Five Exits per Expedition",
@@ -2437,7 +2437,7 @@
   },
   {
     "id": "upgradekey_bonusmissions4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Petrified Duty's Call" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Four Missions per Expedition",
@@ -2505,7 +2505,7 @@
   },
   {
     "id": "upgradekey_bonusmissions5",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Oath of the Island's Enforcer" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Five Missions per Expedition",
@@ -5129,7 +5129,7 @@
   },
   {
     "id": "upgradekey_windblock",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Wind Redirector" },
     "description": "This strange metaphysical artifact will make the island protect you from the winds while you are not earthside.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: personal windblock.",
@@ -5184,7 +5184,7 @@
       "effect": [
         { "u_add_trait": "mut_skyisland_personal_temperature_adaptation" },
         { "u_forget_recipe": "upgradekey_temperature_control" },
-        { "math": [ "temperature_adaptation = 1" ] },
+        { "math": [ "skyisland_personal_temperature_adaptation = 1" ] },
         {
           "u_message": "Your skin shimmer for a second.  As long as you are on the island, you won't be affected by temperature.",
           "type": "mixed"
@@ -5194,7 +5194,7 @@
   },
   {
     "id": "upgradekey_temperature_control",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Climate Self-Injector" },
     "description": "This strange metaphysical artifact will make the island protect you from temperature while you are not earthside.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: personal temperature adaptation.",
