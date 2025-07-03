@@ -117,7 +117,7 @@
     "name": [ "" ],
     "desc": [ "" ],
     "rating": "good",
-    "enchantments": [ { "condition": "always", "values": [ { "value": "PHASE_DISTANCE", "add": 1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "PHASE_DISTANCE", "add": 1 } ] } ]
   },
   {
     "id": "effect_warped_super_clairvoyance",
