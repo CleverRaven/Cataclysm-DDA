@@ -26,7 +26,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "components": [
-      [ [ "flour", 22, "CRAFTABLE" ], [ "bread_flour", 5, "CRAFTABLE" ] ],
+      [ [ "flour", 22 ], [ "bread_flour", 5, "CRAFTABLE" ] ],
       [ [ "yeast", 1 ] ],
       [ [ "water_clean", 2 ] ],
       [ [ "sugar", 4 ] ]

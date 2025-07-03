@@ -2069,13 +2069,18 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
 
 // copied from select_item_component
 craft_selection Character::select_component_to_craft(
-    std::vector<std::pair< const recipe *, item_comp>>
+    const recipe *result, std::vector<std::pair< const recipe *, item_comp>>
     &components, int batch,
     const std::function<bool( const item & )> &filter, bool npc_query ) const
 {
     std::function<bool( const item & )> preferred_component_filter = [&filter]( const item & it ) {
         return is_preferred_component( it ) && filter( it );
     };
+
+    if( components.size() == 1 ) {
+        const auto sel = components.back();
+        return craft_selection{sel.second, sel.first};
+    }
 
     uilist cmenu;
     for( const auto&[ rec, component] : components ) {
@@ -2094,7 +2099,7 @@ craft_selection Character::select_component_to_craft(
     }
 
     // Get the selection via a menu popup
-    cmenu.title = _( "Craft which component?" );
+    cmenu.title = _( string_format( "Craft which component for %s?", result->result_name( ) ) );
     cmenu.query();
 
     if( cmenu.ret == UILIST_CANCEL ) {

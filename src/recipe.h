@@ -23,7 +23,7 @@
 class Character;
 class JsonObject;
 class cata_variant;
-struct queue;
+struct craft_step_data;
 class item;
 class item_components;
 template <typename E> struct enum_traits;
@@ -185,9 +185,9 @@ class recipe
          * adds self to @ref lst if craftable and call @ref recursive_comp_crafts for components that are craftable
          * If multiple alternative conponents are craftable, show a selector menu to select which component to craft.
          */
-        ret_val<void> recursive_comp_crafts( queue *lst,
+        ret_val<void> recursive_comp_crafts( std::vector<craft_step_data> &queue,
                                              const read_only_visitable &crafting_inv,
-                                             int batch, Character *crafter, const requirement_data *reqs ) const;
+                                             int batch, Character *crafter ) const;
         /** Prevent this recipe from ever being added to the player's learned recipes ( used for special NPC crafting ) */
         bool never_learn = false;
 

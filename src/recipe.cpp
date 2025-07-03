@@ -99,9 +99,9 @@ int recipe::get_skill_cap() const
 //     return ret;
 // }
 
-ret_val<void> recipe::recursive_comp_crafts( queue *lst,
+ret_val<void> recipe::recursive_comp_crafts( std::vector<craft_step_data> &queue,
         const read_only_visitable
-        &crafting_inv, int batch, Character *crafter, const requirement_data *reqs ) const
+        &crafting_inv, int batch, Character *crafter ) const
 {
 
     static auto any_has_status = []( const std::vector<item_comp> &comps,
@@ -114,8 +114,10 @@ ret_val<void> recipe::recursive_comp_crafts( queue *lst,
         return false;
     };
 
-    lst->emplace_back( this, batch );
-    if( lst->size() > 10 ) {
+    const requirement_data *reqs = deduped_requirements().select_alternative( *crafter,
+                                   get_component_filter( ), batch, craft_flags::start_only );
+    queue.emplace_back( this, batch, reqs );
+    if( queue.size() > 10 ) {
         return ret_val<void>::make_failure( "too many recursive component crafts required" );
     }
     // requirement_data reqs = simple_requirements();
@@ -147,12 +149,13 @@ ret_val<void> recipe::recursive_comp_crafts( queue *lst,
 
 
         // int comp_batch = batch * ();
-        craft_selection sel = crafter->select_component_to_craft( craft, batch, get_component_filter() );
+        craft_selection sel = crafter->select_component_to_craft( this, craft, batch,
+                              get_component_filter() );
         if( sel.cancled ) {
             return ret_val<void>::make_failure();
         }
 
-        if( !sel.rec->recursive_comp_crafts( lst, crafting_inv, batch, crafter, reqs ).success() ) {
+        if( !sel.rec->recursive_comp_crafts( queue, crafting_inv, batch, crafter, reqs ).success() ) {
             return ret_val<void>::make_failure();
         }
 
