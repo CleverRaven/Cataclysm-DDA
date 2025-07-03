@@ -641,9 +641,33 @@
     "copy-from": "shotgun_s",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "double barrel shotgun" },
-    "description": "An old shotgun, possibly antique.  It is little more than a pair of barrels, a wood stock, and a hammer to strike the cartridges.",
+    "name": { "str": "double-barreled shotgun" },
+    "description": "The classic double-barreled shotgun, with the barrels arranged side-by-side.  It consists of little more than 2 barrels, a striker to hit the shell, and a wooden stock",
     "//": "Based on a CZ-USA Redhead 26in 12ga 3in ou",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "s&r",
+        "name": { "str": "S&R Ranger 12 gauge shotgun" },
+        "description": "An antique double-barreled shotgun chambered in 12 gauge.  These were made by many different manufacturers, but these inexpensive firearms were all sold in the Sears and Roebuck catalog in the days of yore."
+      },
+      {
+        "id": "pbt",
+        "name": {
+          "str": "Parker Bros. Trojan 12 gauge shotgun",
+          "//NOLINT(cata-text-style)": "Bros. is an abbreviation, not the end of sentence"
+        },
+        "description": {
+          "str": "An antique double-barreled shotgun chambered in 12 gauge.  Not to be confused with the board game company of the same name, Parker Bros. made shotguns from 1867 to 1942, before they were phased out of production by Remington, who had acquired the company the previous decade.  These shotguns were sold in many different \"grades\" at varying price points, with higher quality of engravings being included at higher cost.  This particular shotgun is a \"Trojan\", which was the cheapest grade Parker Bros. sold.",
+          "//NOLINT(cata-text-style)": "Bros. is an abbreviation, not the end of sentence"
+        }
+      },
+      {
+        "id": "czb",
+        "name": { "str": "CZ Bobwhite 12 gauge shotgun" },
+        "description": "A relatively modern double-barreled shotgun chambered in 12 gauge.  \"CZ\" stands for \"Česká zbrojovka\", or Czech armory.  CZ's weapons are either Czech imports or produced by their US based subsidiaries.  This specific model is the Bobwhite, with a wooden stock and black chrome barrels."
+      }
+    ],
     "ascii_picture": "2barrel_shotgun",
     "clip_size": 2,
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
@@ -688,6 +712,14 @@
     "name": { "str": "single barrel shotgun" },
     "description": "An old shotgun, possibly antique.  It is little more than a barrel, a wood stock, and a hammer to strike the cartridge.  Its simple design keeps it both light and accurate.",
     "//": "Based on a H&R Topper 58",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "hrt",
+        "name": { "str": "H&R Topper 58" },
+        "description": "A single barreled 12 gauge shotgun with an 18.5 inch barrel, produced by H&R.  While Harrington and Richardson has gone through many different acquisitions, name changes, and bankruptcies, it produces the same or similar weapons that it did in the early 20th century.  This particular model, the 58, was mass-produced between 1974-1981."
+      }
+    ],
     "weight": "2494 g",
     "volume": "2044 ml",
     "longest_side": "109 cm",
