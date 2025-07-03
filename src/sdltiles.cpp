@@ -234,7 +234,7 @@ static void InitSDL()
 static bool SetupRenderTarget()
 {
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
-    if( printErrorIf( SDL_SetRenderTarget( renderer.get(), NULL ) != 0,
+    if( printErrorIf( SDL_SetRenderTarget( renderer.get(), nullptr ) != 0,
                       "SDL_SetRenderTarget failed" ) ) {
         return false;
     }

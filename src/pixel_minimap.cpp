@@ -451,7 +451,7 @@ void pixel_minimap::render( const tripoint_bub_ms &center )
     render_critters( center );
 
     //set display buffer to main screen
-    SetRenderTarget( renderer, NULL );
+    SetRenderTarget( renderer, nullptr );
     //paint intermediate texture to screen
     RenderCopy( renderer, main_tex, &main_tex_clip_rect, &screen_clip_rect );
 }
