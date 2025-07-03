@@ -79,10 +79,7 @@
           },
           { "item": "water_clean", "count": [ 6, 12 ], "prob": 20 },
           {
-            "collection": [
-              { "item": "protein_bar_evac", "count": 12, "container-item": "box_small" },
-              { "item": "protein_bar_evac", "count": [ 8, 12 ], "container-item": "box_small" }
-            ],
+            "collection": [ { "item": "protein_bar_evac", "count": [ 10, 12 ], "container-item": "box_small" } ],
             "prob": 60
           },
           {
@@ -147,10 +144,7 @@
             "prob": 50
           },
           {
-            "collection": [
-              { "item": "protein_bar_evac", "count": [ 1, 12 ], "container-item": "box_small" },
-              { "item": "protein_bar_evac", "count": [ 0, 11 ], "container-item": "box_small" }
-            ],
+            "collection": [ { "item": "protein_bar_evac", "count": [ 1, 11 ], "container-item": "box_small" } ],
             "prob": 60
           },
           {
