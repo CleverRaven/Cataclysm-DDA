@@ -310,7 +310,7 @@
     "subtypes": [ "ARMOR" ],
     "//": "Inspired by Under Armour Undeniable 5.0 XL",
     "name": { "str": "big gym bag" },
-    "description": "A very spacious bag for carrying things to the gym.  Basically an extremely large duffel bag.",
+    "description": "A very spacious bag for carrying things to the gym.  Basically a very large duffel bag.",
     "weight": "1400 g",
     "volume": "15 L",
     "price": "70 USD",
