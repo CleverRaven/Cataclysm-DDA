@@ -1173,18 +1173,19 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_object( "bash" ) ) {
-        if( !bash ) {
+        bool bash_loaded = !!bash;
+        if( !bash_loaded ) {
             bash.emplace();
         }
-        bash->load( jo.get_object( "bash" ), was_loaded,
-                    "terrain " +
-                    id.str() ); //TODO: Make overwriting these with "bash": { } works while still allowing overwriting single values ie for "ter_set"
+        //TODO: Make overwriting these with "bash": { } works while still allowing overwriting single values ie for "ter_set"
+        bash->load( jo.get_object( "bash" ), bash_loaded, "terrain " + id.str() );
     }
     if( jo.has_object( "deconstruct" ) ) {
-        if( !deconstruct ) {
+        bool deconstruct_loaded = !!deconstruct;
+        if( !deconstruct_loaded ) {
             deconstruct.emplace();
         }
-        deconstruct->load( jo.get_object( "deconstruct" ), was_loaded, "terrain " + id.str() );
+        deconstruct->load( jo.get_object( "deconstruct" ), deconstruct_loaded, "terrain " + id.str() );
     }
 }
 
@@ -1362,16 +1363,18 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_object( "bash" ) ) {
-        if( !bash ) {
+        bool bash_loaded = !!bash;
+        if( !bash_loaded ) {
             bash.emplace();
         }
-        bash->load( jo.get_object( "bash" ), was_loaded, "furniture " + id.str() );
+        bash->load( jo.get_object( "bash" ), bash_loaded, "furniture " + id.str() );
     }
     if( jo.has_object( "deconstruct" ) ) {
-        if( !deconstruct ) {
+        bool deconstruct_loaded = !!deconstruct;
+        if( !deconstruct_loaded ) {
             deconstruct.emplace();
         }
-        deconstruct->load( jo.get_object( "deconstruct" ), was_loaded, "furniture " + id.str() );
+        deconstruct->load( jo.get_object( "deconstruct" ), deconstruct_loaded, "furniture " + id.str() );
     }
 
     if( jo.has_object( "workbench" ) ) {
