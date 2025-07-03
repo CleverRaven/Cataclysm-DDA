@@ -1,1 +1,0 @@
-Pillow>=9.0.0  # for the generate_overmap_sprites.py

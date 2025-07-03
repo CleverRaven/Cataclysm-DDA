@@ -1,8 +1,0 @@
-[
-  {
-    "type": "overmap_terrain",
-    "id": "river_center",
-    "copy-from": "river_center",
-    "color": "light_gray"
-  }
-]

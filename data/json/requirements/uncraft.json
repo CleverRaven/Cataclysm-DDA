@@ -1,8 +1,0 @@
-[
-  {
-    "id": "uncraft_book",
-    "type": "requirement",
-    "//": "Result of disassembling books, magazines and similar items",
-    "components": [ [ [ "paper", 1 ] ] ]
-  }
-]

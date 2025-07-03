@@ -1,4 +1,0 @@
-# Disable most checks as this is third-party code
-# Have to enable at least one check, so pick a benign one!
-#InheritParentConfig: false
-Checks:              cppcoreguidelines-avoid-goto

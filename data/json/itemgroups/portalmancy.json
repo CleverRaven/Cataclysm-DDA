@@ -1,8 +1,0 @@
-[
-  {
-    "type": "item_group",
-    "id": "portalmancy",
-    "subtype": "distribution",
-    "items": [ [ "altered_exposed_wiring_prototype", 10 ] ]
-  }
-]

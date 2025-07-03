@@ -1,9 +1,0 @@
-[
-  {
-    "//": "edited from no_wildlife",
-    "type": "MONSTER_WHITELIST",
-    "mode": "EXCLUSIVE",
-    "categories": [ "WILDLIFE", "MUTANT" ],
-    "species": [ "MOXIE", "ROBOT" ]
-  }
-]

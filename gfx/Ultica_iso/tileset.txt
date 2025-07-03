@@ -1,4 +1,0 @@
-NAME: Ultica_iso
-VIEW: Ultica_iso
-JSON: tile_config.json
-TILESET: tiles.png

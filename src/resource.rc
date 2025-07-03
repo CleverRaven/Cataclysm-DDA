@@ -1,8 +1,0 @@
-#ifndef RESOURCE_RC_INCLUDED
-#define RESOURCE_RC_INCLUDED
-
-#include <windows.h>
-0  ICON  "../data/cataicon.ico"
-1  RT_MANIFEST "../data/application_manifest.xml"
-
-#endif // RESOURCE_RC_INCLUDED
