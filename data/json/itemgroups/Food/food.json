@@ -56,7 +56,8 @@
       { "item": "freeze_dried_meal", "prob": 10 },
       { "prob": 40, "group": "gelatin_powder_bag_plastic_25" },
       { "prob": 15, "group": "chem_agar_bottle_plastic_small_50" },
-      { "item": "gelatin_dessert_powder", "prob": 40 }
+      { "item": "gelatin_dessert_powder", "prob": 40 },
+      { "group": "instant_gravy", "prob": 4 }
     ]
   },
   {
@@ -140,7 +141,8 @@
       { "item": "marshmallow_fluff", "prob": 10 },
       { "item": "honey_bottled", "prob": 35 },
       { "prob": 35, "group": "honey_glassed_jar_glass_sealed_5" },
-      { "prob": 15, "group": "oyster_crackers_plastic_bag_vac_8" }
+      { "prob": 15, "group": "oyster_crackers_plastic_bag_vac_8" },
+      { "group": "instant_gravy", "prob": 10 }
     ]
   },
   {
@@ -804,7 +806,8 @@
       { "count": [ 0, 3 ], "group": "fried_mozzarella_sticks_bag_plastic_4" },
       { "item": "hotdogs_cooked", "count": [ 0, 3 ] },
       { "count": [ 0, 3 ], "group": "corndogs_cooked_wrapper_2" },
-      { "count": [ 0, 3 ], "group": "bacon_bag_plastic_2" }
+      { "count": [ 0, 3 ], "group": "bacon_bag_plastic_2" },
+      { "group": "instant_gravy_tub", "prob": 20 }
     ]
   },
   {
@@ -897,7 +900,8 @@
       { "item": "noodles_fast", "prob": 30 },
       { "item": "milkshake_fastfood", "prob": 15 },
       { "group": "teabag_box", "prob": 5 },
-      { "group": "soup_box", "prob": 5 }
+      { "group": "soup_box", "prob": 5 },
+      { "group": "instant_gravy_tub", "prob": 12 }
     ]
   },
   {
@@ -1427,5 +1431,27 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "soup_instant_vegetable_powder", "container-item": "null", "count": [ 1, 1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "instant_gravy_packets",
+    "subtype": "distribution",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "gravy_mix", "count": 8, "prob": 90 }, { "item": "vegan_gravy_mix", "count": 8, "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "instant_gravy_tub",
+    "//": "Higher chance of vegan gravy as a lot of food services will keep vegan just because it's good enough and won't cause fuss with diet restrictions.",
+    "//1": "Odd serving count as I really didn't feel like adding a specific gravy powder container",
+    "subtype": "distribution",
+    "container-item": "plastic_bucket",
+    "entries": [ { "item": "gravy_mix", "count": 850, "prob": 50 }, { "item": "vegan_gravy_mix", "count": 850, "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "instant_gravy",
+    "subtype": "collection",
+    "entries": [ { "group": "instant_gravy_tub", "prob": 5 }, { "group": "instant_gravy_packets", "count": [ 1, 12 ], "prob": 60 } ]
   }
 ]

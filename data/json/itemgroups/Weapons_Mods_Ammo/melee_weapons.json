@@ -48,7 +48,9 @@
       { "item": "shovel", "prob": 8 },
       { "item": "rake", "prob": 8 },
       { "item": "crowbar", "prob": 8 },
-      { "item": "makeshift_crowbar", "prob": 16 }
+      { "item": "makeshift_crowbar", "prob": 16 },
+      { "item": "knuckle_brass", "prob": 2 },
+      { "item": "knuckle_steel_forged", "prob": 1 }
     ]
   },
   {

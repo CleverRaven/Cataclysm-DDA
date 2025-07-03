@@ -122,5 +122,22 @@
     "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.  This particular chair was painted white.",
     "copy-from": "chair_wood",
     "color": "white"
+  },
+  {
+    "type": "ITEM",
+    "id": "beanbag",
+    "name": { "str": "bean bag" },
+    "description": "A large cushion filled with beads often used as a seat.",
+    "category": "other",
+    "symbol": "O",
+    "color": "light_blue",
+    "flags": [ "NO_SALVAGE" ],
+    "price_postapoc": "2 USD",
+    "longest_side": "1 meter",
+    "volume": "250 L",
+    "weight": "4 kg",
+    "material": [ "nylon", "plastic" ],
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 0 }
   }
 ]

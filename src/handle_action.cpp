@@ -770,6 +770,15 @@ static void grab()
                 return;
             }
         }
+        if( vp->has_loaded_furniture() ) {
+            furn_str_id furn( vp->part_with_feature( "FURNITURE_TIEDOWN",
+                              true )->part().get_base().get_var( "tied_down_furniture" ) );
+            if( query_yn( _( "Grab %s on %s?" ), furn->name(), veh_name ) ) {
+                you.grab( object_type::FURNITURE_ON_VEHICLE, grabp - you.pos_bub() );
+                add_msg( m_info, _( "You grab the %s loaded on the %s." ), furn->name(), veh_name );
+                return;
+            }
+        }
         //solid vehicles can't be grabbed while boarded
         const optional_vpart_position vp_boarded = here.veh_at( you.pos_bub() );
         if( vp_boarded ) {

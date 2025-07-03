@@ -64,7 +64,7 @@ class item_stack
         /** Maximum volume allowed here */
         virtual units::volume max_volume() const = 0;
         /** Total volume of the items here */
-        units::volume stored_volume() const;
+        virtual units::volume stored_volume() const;
         units::volume free_volume() const;
         /**
          * Returns how many of the specified item (or how many charges if it's counted by charges)

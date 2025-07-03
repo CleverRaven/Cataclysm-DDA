@@ -313,8 +313,8 @@
     "variants": [
       {
         "id": "ptr_603",
-        "name": { "str": "PTR 603 submachine gun" },
-        "description": "The PTR 603 is a semi-automatic copy of the famous MP5 series, domestically produced for the US market on original Heckler & Koch tooling by PTR Industries.  Like the MP5, its roller delayed blowback action offers smooth shooting and precision, setting it apart from other submachine guns and pistol caliber carbines.  This model is configured as a pistol to avoid inconvenient and costly NFA regulations.  A welded-on section of M1913 rail offers convenient mounting for aftermarket optics, but precludes the use of claw mounts."
+        "name": { "str": "PTR 9KT" },
+        "description": "The PTR 9KT is a semi-automatic copy of the famous MP5 series, domestically produced for the US market on original Heckler & Koch tooling by PTR Industries.  Like the MP5, its roller delayed blowback action offers smooth shooting and precision, setting it apart from other submachine guns and pistol caliber carbines.  This model is configured as a pistol to avoid inconvenient and costly NFA regulations.  A welded-on section of M1913 rail offers convenient mounting for aftermarket optics, but precludes the use of claw mounts."
       }
     ],
     "weight": "2177 g",
@@ -331,7 +331,7 @@
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock accessory", 1 ],
       [ "stock mount", 1 ],
@@ -1162,61 +1162,6 @@
           "btmp9mag_9x19mm_25",
           "btmp9mag_9x19mm_30",
           "btmp9mag_9x19mm_50rd"
-        ]
-      }
-    ]
-  },
-  {
-    "id": "draco_9mm",
-    "//": "Based off of https://www.centuryarms.com/draco-nak9.html",
-    "copy-from": "gun_base_9mm_semi_pistol",
-    "looks_like": "draco",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "name": { "str": "Glock AK pistol" },
-    "description": "A 9mm AK pistol that accepts Glock magazines.  Has an 11.14\" barrel.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "draco_9mm",
-        "name": { "str": "Century Arms NAK 9" },
-        "description": "The NAK 9 is a Century Arms imported gun.  It is essentially a shortened AK with no stock, chambered in 9mm and accepting Glock magazines, with an 11.14\" barrel."
-      }
-    ],
-    "weight": "2894 g",
-    "volume": "1617 ml",
-    "longest_side": "495 mm",
-    "barrel_length": "283 mm",
-    "price": "699 USD 99 cent",
-    "price_postapoc": "15 USD",
-    "material": [ "steel", "wood" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
-    "range": 5,
-    "dispersion": 250,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "glockmag_10",
-          "glock17_10",
-          "glockmag",
-          "glockbigmag",
-          "glock17_17",
-          "glock17_22",
-          "glock_drum_50rd",
-          "glock_drum_100rd"
         ]
       }
     ]

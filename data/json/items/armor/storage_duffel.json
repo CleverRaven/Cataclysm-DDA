@@ -1,0 +1,166 @@
+[
+  {
+    "id": "duffelbag_l_poly",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "//": "Inspired by Eagle Creek 110L duffel bag, 86x38x34cm when packed full",
+    "name": { "str": "large duffel bag" },
+    "description": "A large duffel bag.  Provides lots of storage, but is severely encumbering.",
+    "weight": "1050 g",
+    "volume": "7 L",
+    "price": "129 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "looks_like": "rucksack",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "108 L",
+        "max_contains_weight": "60 kg",
+        "max_item_length": "80 cm",
+        "magazine_well": "6 L",
+        "moves": 300
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "30 cm",
+        "moves": 120,
+        "description": "A zippered side pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "100 cm",
+        "min_item_length": "40 cm",
+        "moves": 80,
+        "extra_encumbrance": 5,
+        "description": "Awkwardly looped through the straps.",
+        "ripoff": 1,
+        "transparent": true
+      }
+    ],
+    "material_thickness": 2,
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": 8,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
+  },
+  {
+    "id": "duffelbag_xl_nylon",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "//": "Inspired by an Amazon Basics 150L foldable nylon duffel bag, 82x43x43cm when packed full",
+    "name": { "str": "big duffel bag" },
+    "description": "A big nylon duffel bag.  Provides tons of storage, but is extremely encumbering.",
+    "weight": "770 g",
+    "volume": "9 L",
+    "price": "19 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "rucksack",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "144 L",
+        "max_contains_weight": "60 kg",
+        "max_item_length": "80 cm",
+        "magazine_well": "8 L",
+        "moves": 300
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "25 cm",
+        "moves": 120,
+        "description": "A zippered side pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "25 cm",
+        "moves": 120,
+        "description": "A zippered side pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "25 cm",
+        "moves": 120,
+        "description": "A zippered side pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "25 cm",
+        "moves": 120,
+        "description": "A zippered side pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "25 cm",
+        "moves": 120,
+        "description": "A zippered side pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "25 cm",
+        "moves": 120,
+        "description": "A zippered side pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "20 cm",
+        "moves": 500,
+        "description": "A tiny zippered interior pouch."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "100 cm",
+        "min_item_length": "40 cm",
+        "moves": 80,
+        "extra_encumbrance": 5,
+        "description": "Awkwardly looped through the carry handles.",
+        "ripoff": 1,
+        "transparent": true
+      }
+    ],
+    "material_thickness": 0.2,
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": 10,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
+  }
+]

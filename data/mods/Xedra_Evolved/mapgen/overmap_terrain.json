@@ -405,5 +405,16 @@
     "sym": ".",
     "color": "blue",
     "see_cost": "low"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_book_lies", "cabin_roof_book_lies" ],
+    "name": "cabin",
+    "sym": "C",
+    "color": "green",
+    "vision_levels": "open_land",
+    "looks_like": "cabin",
+    "see_cost": "high",
+    "mondensity": 2
   }
 ]

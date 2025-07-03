@@ -237,5 +237,11 @@
       { "u_lose_effect": "effect_black_nether_water_nightmares" }
     ],
     "false_effect": [ { "u_lose_effect": "effect_black_nether_water_nightmares" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FIFTH_SUN_NEURAL_STUNGUN",
+    "condition": "has_beta",
+    "effect": [ { "npc_add_effect": "effect_electrokin_paralysis", "duration": { "math": [ "rng(15,60)" ] } } ]
   }
 ]

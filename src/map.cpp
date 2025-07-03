@@ -714,6 +714,8 @@ void map::vehmove()
         vehs.emplace( connected_veh, false ); // add with 'false' if does not exist (off map)
     }
     for( const std::pair<vehicle *const, bool> &veh_pair : vehs ) {
+        veh_pair.first->process_effects();
+        veh_pair.first->recalculate_enchantment_cache();
         veh_pair.first->idle( *this, /* on_map = */ veh_pair.second );
     }
 
@@ -2141,40 +2143,20 @@ uint8_t map::get_known_rotates_to_f( const tripoint_bub_ms &p,
  */
 const harvest_id &map::get_harvest( const tripoint_bub_ms &pos ) const
 {
-    const furn_id &furn_here = furn( pos );
-    if( !furn_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
-        const harvest_id &harvest = furn_here->get_harvest();
-        if( !harvest.is_null() ) {
-            return harvest;
-        }
+    const harvest_id &furn_harvest = furn( pos )->get_harvest();
+    if( !furn_harvest.is_null() ) {
+        return furn_harvest;
     }
-
-    const ter_id &ter_here = ter( pos );
-    if( ter_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
-        return harvest_id::NULL_ID();
-    }
-
-    return ter_here->get_harvest();
+    return ter( pos )->get_harvest();
 }
 
 const std::set<std::string> &map::get_harvest_names( const tripoint_bub_ms &pos ) const
 {
-    static const std::set<std::string> null_harvest_names = {};
     const furn_id &furn_here = furn( pos );
     if( furn_here->can_examine( pos ) ) {
-        if( furn_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
-            return null_harvest_names;
-        }
-
         return furn_here->get_harvest_names();
     }
-
-    const ter_id &ter_here = ter( pos );
-    if( ter_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
-        return null_harvest_names;
-    }
-
-    return ter_here->get_harvest_names();
+    return ter( pos )->get_harvest_names();
 }
 
 /*
@@ -7175,6 +7157,11 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint_bub_ms &p,
                   && veh->get_points().count( ( player_character.pos_abs() +
                                                 player_character.grab_point ) ) ) ) {
             memory_sym = sym;
+        }
+        if( !vd.carried_furn.empty() ) {
+            furn_str_id furn( vd.carried_furn );
+            sym = furn->symbol();
+            tercol = furn->color();
         }
     }
 

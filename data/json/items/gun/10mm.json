@@ -139,7 +139,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "BA10 rifle" },
-    "description": "A semi-automatic rifle chambered in 10mm and accepting BA10 magazines.",
+    "description": "A semi-automatic carbine chambered in 10mm and accepting BA10 magazines.",
     "variant_type": "gun",
     "variants": [
       {
@@ -166,7 +166,7 @@
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock accessory", 1 ],
       [ "stock", 1 ],

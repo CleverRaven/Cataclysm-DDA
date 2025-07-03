@@ -1254,5 +1254,21 @@
     "is_bayonet": true,
     "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "install_time": "5 m"
+  },
+  {
+    "id": "glock_31",
+    "copy-from": "glock_22",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Glock 31" },
+    "description": "A full size .357 SIG Glock pistol.  It is extremely similar to the Glock 22, and could be converted to fire .40 S&W by switching the barrel.",
+    "ascii_picture": "glock_20",
+    "weight": "660 g",
+    "volume": "443 ml",
+    "longest_side": "234 mm",
+    "barrel_length": "114 mm",
+    "price_postapoc": "22 USD 50 cent",
+    "flags": [ "NO_TURRET" ],
+    "min_cycle_recoil": 450
   }
 ]

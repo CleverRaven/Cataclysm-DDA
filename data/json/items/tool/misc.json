@@ -1088,9 +1088,10 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "epoxy", "nylon" ],
-    "flags": [ "REACH_ATTACK", "REACH3" ],
+    "flags": [ "REACH_ATTACK", "REACH3", "WHIP" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
-    "melee_damage": { "cut": 1 }
+    "melee_damage": { "cut": 1 },
+    "weapon_category": [ "WHIPS" ]
   },
   {
     "id": "riding_crop",

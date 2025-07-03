@@ -337,5 +337,27 @@
     "symbol": "?",
     "color": "light_gray",
     "read_skill": "fabrication"
+  },
+  {
+    "id": "mag_druid_items_master",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "name": { "str": "Taming the Wildwood", "str_pl": "copies of Taming the Wildwood" },
+    "description": "A paperback tome on the art of growing wildwood entities.",
+    "//": "All recipes related to the wildwood set should inevitably live here.",
+    "weight": "900 g",
+    "volume": "750 ml",
+    "price": "42 USD",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "required_level": 4,
+    "max_level": 5,
+    "intelligence": 10,
+    "time": "25 m",
+    "melee_damage": { "bash": 5 },
+    "read_skill": "spellcraft",
+    "read_fun": -1
   }
 ]

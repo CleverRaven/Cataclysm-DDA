@@ -25,6 +25,7 @@
 #include "game.h"
 #include "line.h"
 #include "map.h"
+#include "mapgendata.h"
 #include "memory_fast.h"
 #include "mod_manager.h"
 #include "mongroup.h"
@@ -1076,6 +1077,13 @@ std::optional<overmap_special_id> overmapbuffer::overmap_special_at(
     return om_loc.om->overmap_special_at( om_loc.local );
 }
 
+std::optional<mapgen_arguments> overmapbuffer::get_existing_omt_stack_arguments(
+    const point_abs_omt &p )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p );
+    return om_loc.om->get_existing_omt_stack_arguments( p );
+}
+
 bool overmapbuffer::check_ot( const std::string &type, ot_match_type match_type,
                               const tripoint_abs_omt &p )
 {
@@ -1098,19 +1106,9 @@ void overmapbuffer::add_unique_special( const overmap_special_id &id )
     placed_unique_specials.emplace( id );
 }
 
-void overmapbuffer::add_overmap_unique_special( const overmap_special_id &id )
-{
-    if( contains_unique_special( id ) ) {
-        debugmsg( "Overmap unique overmap special placed more than once: %s", id.str() );
-    }
-    placed_overmap_unique_specials.emplace( id );
-    unique_special_count[id]++;
-}
-
 bool overmapbuffer::contains_unique_special( const overmap_special_id &id ) const
 {
-    return placed_unique_specials.find( id ) != placed_unique_specials.end() ||
-           placed_overmap_unique_specials.find( id ) != placed_overmap_unique_specials.end();
+    return placed_unique_specials.find( id ) != placed_unique_specials.end();
 }
 
 static omt_find_params assign_params(
@@ -1216,29 +1214,115 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
     std::vector<tripoint_abs_omt> result;
     int found_dist = std::numeric_limits<int>::max();
 
-    for( const point_abs_omt &loc_xy : closest_points_first( origin.xy(), min_dist, max_dist ) ) {
-        const int dist_xy = square_dist( origin.xy(), loc_xy );
+    // If we're looking for an existing special we can make use of the OM's map of points with specials rather
+    // than searching the whole OM.
+    if( params.om_special.has_value() ) {
+        const int om_range = max_dist / OMAPX + 1; // +1 because we may be close to OM borders.
+        const tripoint_abs_om center = coords::project_to<coords::om>( origin );
+        const overmap_special_id special_id = params.om_special.value();
 
-        if( found_dist < dist_xy ) {
-            break;
-        }
+        for( int i = 0; i <= om_range; i++ ) {
+            for( const point_abs_om &om : closest_points_first( center.xy(), i, i ) ) {
+                if( has( om ) ) {
+                    overmap &om_data = get( om );
+                    point_abs_omt om_base = coords::project_to<coords::omt>( om );
 
-        for( int z = params.min_z; z <= params.max_z; z++ ) {
-            const tripoint_abs_omt loc( loc_xy, z );
-            const int dist = square_dist( origin, loc );
+                    for( auto &element : om_data.overmap_special_placements ) {
+                        if( element.second == special_id ) {
+                            const tripoint_abs_omt loc = om_base + element.first.raw();
+                            if( is_findable_location( loc, params ) ) {
+                                const int dist_xy = square_dist( origin.xy(), loc.xy() );
 
-            if( found_dist < dist ) {
-                continue;
+                                if( dist_xy >= min_dist && dist_xy < max_dist ) {
+                                    result.push_back( loc );
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
-            if( is_findable_location( loc, params ) ) {
-                found_dist = dist;
-                result.push_back( loc );
+            if( !result.empty() ) {
+                tripoint_abs_omt result_pos = result.front();
+                int found_dist = square_dist( origin.xy(), result_pos.xy() );
+
+                for( const tripoint_abs_omt &loc : result ) {
+                    const int dist_xy = square_dist( origin.xy(), loc.xy() );
+
+                    if( dist_xy < found_dist ) {
+                        result_pos = loc;
+                        found_dist = dist_xy;
+                    }
+                }
+
+                // Note that this logic is less fancy than the non special one below. Here we just
+                // return the first position with the shortest distance found in the unsorted map,
+                // rather than collecting all positions with an equal distance and randomly select
+                // one. The assumption is that an unsorted map provides the random element, while
+                // the logic below removes the search order bias that would occur otherwise.
+                return result_pos;
+            }
+        }
+
+        return tripoint_abs_omt::invalid;
+    } else {
+
+        for( const point_abs_omt &loc_xy : closest_points_first( origin.xy(), min_dist, max_dist ) ) {
+            const int dist_xy = square_dist( origin.xy(), loc_xy );
+
+            if( found_dist < dist_xy ) {
+                break;
+            }
+
+            for( int z = params.min_z; z <= params.max_z; z++ ) {
+                const tripoint_abs_omt loc( loc_xy, z );
+                const int dist = square_dist( origin, loc );
+
+                if( found_dist < dist ) {
+                    continue;
+                }
+
+                if( is_findable_location( loc, params ) ) {
+                    found_dist = dist;
+                    result.push_back( loc );
+                }
+            }
+        }
+
+        return random_entry( result, tripoint_abs_omt::invalid );
+    }
+}
+
+tripoint_abs_omt overmapbuffer::find_existing_globally_unique( const tripoint_abs_omt &origin,
+        const omt_find_params &params )
+{
+    // Should only be called if the target is present in the set of placed globally unique specials.
+
+    //TODO: Update the globally unique set to contain positions and add code here
+    // to return that position and only fall through to the search code below if the position is
+    // invalid (because the entry is converted from an earlier version where the position wasn't
+    // recorded).
+    const tripoint_abs_om center = coords::project_to<coords::om>( origin );
+
+    // Very long range which will take forever if filled. Max is an arbitrary number.
+    const overmap_special_id special_id = params.om_special.value();
+    for( point_abs_om om : closest_points_first( center.xy(), 0, 100 ) ) {
+        if( has( om ) ) {
+            overmap &om_data = get( om );
+            point_abs_omt om_base = coords::project_to<coords::omt>( om );
+
+            for( auto &element : om_data.overmap_special_placements ) {
+                if( element.second == special_id ) {
+                    const tripoint_abs_omt loc = om_base + element.first.raw();
+                    if( is_findable_location( loc, params ) ) {
+                        return loc;
+                    }
+                }
             }
         }
     }
 
-    return random_entry( result, tripoint_abs_omt::invalid );
+    return tripoint_abs_omt::invalid;
 }
 
 std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &origin,
@@ -1249,9 +1333,38 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &o
     const int min_dist = params.min_distance;
     const int max_dist = params.search_range ? params.search_range : OMAPX;
 
-    for( const tripoint_abs_omt &loc : closest_points_first( origin, min_dist, max_dist ) ) {
-        if( is_findable_location( loc, params ) ) {
-            result.push_back( loc );
+    // If we're looking for an existing special we can make use of the OM's map of points with specials rather
+    // than searching the whole OM.
+    if( params.om_special.has_value() ) {
+        const int om_min_range = min_dist / OMAPX;
+        const int om_max_range = max_dist / OMAPX + 1; // +1 because we may be close to OM borders.
+        const tripoint_abs_om center = coords::project_to<coords::om>( origin );
+        const overmap_special_id special_id = params.om_special.value();
+
+        for( const point_abs_om &om : closest_points_first( center.xy(), om_min_range, om_max_range ) ) {
+            if( has( om ) ) {
+                overmap &om_data = get( om );
+                point_abs_omt om_base = coords::project_to<coords::omt>( om );
+
+                for( auto &element : om_data.overmap_special_placements ) {
+                    if( element.second == special_id ) {
+                        const tripoint_abs_omt loc = om_base + element.first.raw();
+                        if( is_findable_location( loc, params ) ) {
+                            const int dist_xy = square_dist( origin.xy(), loc.xy() );
+
+                            if( dist_xy >= min_dist && dist_xy < max_dist ) {
+                                result.push_back( loc );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        for( const tripoint_abs_omt &loc : closest_points_first( origin, min_dist, max_dist ) ) {
+            if( is_findable_location( loc, params ) ) {
+                result.push_back( loc );
+            }
         }
     }
 

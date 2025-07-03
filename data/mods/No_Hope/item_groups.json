@@ -157,13 +157,6 @@
   },
   {
     "type": "item_group",
-    "id": "rare",
-    "subtype": "distribution",
-    "copy-from": "rare",
-    "extend": { "entries": [ { "item": "bio_blade", "prob": 10 }, { "item": "bio_speed", "prob": 10 } ] }
-  },
-  {
-    "type": "item_group",
     "id": "sewage_plant",
     "subtype": "distribution",
     "copy-from": "sewage_plant",
@@ -307,13 +300,6 @@
     "ammo": 50,
     "magazine": 100,
     "entries": [ { "item": "flamethrower", "charges": [ 0, 500 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "bunker_basement_loot",
-    "subtype": "distribution",
-    "copy-from": "bunker_basement_loot",
-    "extend": { "entries": [ { "group": "bionics_mil", "prob": 1 } ] }
   },
   {
     "id": "necropolis_visitors",

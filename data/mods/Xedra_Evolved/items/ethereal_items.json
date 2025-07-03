@@ -321,7 +321,8 @@
       "FLAMING",
       "FIRE"
     ],
-    "passive_effects": [ { "id": "SALAMANDER_SUMMON_WHIP" } ]
+    "passive_effects": [ { "id": "SALAMANDER_SUMMON_WHIP" } ],
+    "weapon_category": [ "WHIPS" ]
   },
   {
     "id": "undine_waters_map",

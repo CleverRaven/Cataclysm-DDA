@@ -1,0 +1,90 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mag_awoken_weaver",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_ENCHANTING",
+    "skill_used": "spellcraft",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
+    "using": [ [ "mana_energy_weak", 1 ] ],
+    "components": [ [ [ "mag_brokeweaver", 1 ] ], [ [ "rune_druid", 1 ] ], [ [ "mag_awakened_water", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "mag_immature_weaver",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_ENCHANTING",
+    "skill_used": "spellcraft",
+    "difficulty": 2,
+    "skills_required": [ "fabrication", 2 ],
+    "time": "120 m",
+    "book_learn": [ [ "mag_druid_items_master", 2 ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "CHISEL", "level": 1 } ],
+    "using": [ [ "mana_energy_weak", 2 ] ],
+    "components": [
+      [ [ "enchanted_wood", 2 ] ],
+      [ [ "rune_druid", 1 ] ],
+      [ [ "mag_awakened_water", 100 ] ],
+      [ [ "tallow", 1 ], [ "wax_any", 1, "LIST" ], [ "candle", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mag_wildwood_beetle_ball",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_ENCHANTING",
+    "skill_used": "spellcraft",
+    "difficulty": 6,
+    "skills_required": [ "fabrication", 3 ],
+    "book_learn": [ [ "mag_druid_items_master", 5 ] ],
+    "time": "300 m",
+    "autolearn": true,
+    "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "CHISEL", "level": 2 } ],
+    "using": [ [ "mana_energy_strong", 3 ] ],
+    "components": [
+      [ [ "enchanted_wood", 2 ] ],
+      [ [ "mana_pearl", 2 ] ],
+      [ [ "rune_druid", 1 ] ],
+      [ [ "mag_awakened_water", 50 ] ],
+      [ [ "tallow", 1 ], [ "wax_any", 1, "LIST" ], [ "candle", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "rune_wildwood",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_ENCHANTING",
+    "skill_used": "spellcraft",
+    "difficulty": 3,
+    "skills_required": [ "fabrication", 2 ],
+    "time": "5 m",
+    "book_learn": [ [ "mag_druid_items_master", 3 ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "CHISEL", "level": 1 } ],
+    "tools": [ [ [ "mag_large_wildwood_beetle_ball", -1 ] ] ],
+    "using": [ [ "mana_energy_weak", 1 ], [ "mag_green_roughage", 2 ] ],
+    "components": [ [ [ "rune_druid", 1 ] ], [ [ "mag_awakened_water", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mag_sealed_glowing_gourd",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_ENCHANTING",
+    "skill_used": "spellcraft",
+    "difficulty": 2,
+    "skills_required": [ "cooking", 2 ],
+    "book_learn": [ [ "mag_druid_items_master", 2 ] ],
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
+    "using": [ [ "mana_energy_weak", 2 ] ],
+    "components": [ [ [ "bottle_gourd", 1 ] ], [ [ "rune_druid", 1 ] ], [ [ "water", 9 ], [ "water_clean", 9 ] ] ]
+  }
+]

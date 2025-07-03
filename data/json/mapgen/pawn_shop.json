@@ -76,7 +76,7 @@
         "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [
-        { "group": "office", "x": 18, "y": [ 17, 19 ], "chance": 90 },
+        { "group": "SUS_office_desk", "x": 18, "y": [ 17, 19 ], "chance": 90 },
         { "group": "homeguns", "x": 21, "y": [ 18, 21 ], "chance": 50, "repeat": [ 1, 2 ] },
         { "group": "harddrugs", "x": [ 16, 17 ], "y": 21, "chance": 20, "repeat": [ 1, 2 ] },
         { "group": "cash_register_random", "x": 16, "y": [ 6, 8 ] }
@@ -218,7 +218,7 @@
         "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [
-        { "group": "office", "x": [ 8, 10 ], "y": 18, "chance": 90 },
+        { "group": "SUS_office_desk", "x": [ 8, 10 ], "y": 18, "chance": 90 },
         { "group": "homeguns", "x": 12, "y": [ 18, 21 ], "chance": 50, "repeat": [ 1, 2 ] },
         { "group": "harddrugs", "x": 6, "y": [ 18, 20 ], "chance": 20, "repeat": [ 1, 2 ] },
         { "group": "cash_register_random", "x": 7, "y": 18 }
@@ -410,7 +410,7 @@
       },
       "items": {
         "t": { "item": "bondage", "chance": 80, "repeat": [ 2, 4 ] },
-        "f": { "item": "office", "chance": 80, "repeat": [ 1, 2 ] },
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 80, "repeat": [ 1, 2 ] },
         "G": { "item": "Gimp", "chance": 100 },
         "M": { "item": "Maynard", "chance": 100 }
       },
@@ -418,7 +418,7 @@
         { "item": "pitchfork", "chance": 100, "x": 15, "y": 15 },
         { "item": "stepladder", "chance": 100, "x": 11, "y": 16 },
         { "item": "m1911", "chance": 100, "x": 15, "y": 6 },
-        { "item": "katana", "chance": 100, "x": 12, "y": 16 }
+        { "item": "hc_katana", "chance": 100, "x": 12, "y": 16 }
       ],
       "liquids": { "w": { "liquid": "water", "amount": [ 1, 3 ] }, "h": { "liquid": "water", "amount": [ 1, 2 ] } },
       "place_fields": [ { "field": "fd_blood", "x": 12, "y": 7 }, { "field": "fd_blood", "x": 10, "y": 6 } ],

@@ -80,7 +80,7 @@
       },
       "items": {
         "o": { "item": "novels", "chance": 70, "repeat": [ 1, 10 ] },
-        "r": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 1, 3 ] },
+        "r": { "item": "SUS_trash_trashcan", "chance": 70 },
         "t": { "item": "SUS_toilet", "chance": 50 },
         "R": { "item": "SUS_trash_dumpster", "chance": 80 },
         "d": { "item": "SUS_office_desk", "chance": 33 },
@@ -331,7 +331,7 @@
       },
       "items": {
         "o": { "item": "novels", "chance": 70, "repeat": [ 1, 10 ] },
-        "r": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 1, 3 ] },
+        "r": { "item": "SUS_trash_trashcan", "chance": 70 },
         "t": { "item": "SUS_toilet", "chance": 50 },
         "R": { "item": "SUS_trash_dumpster", "chance": 80 },
         "d": { "item": "SUS_office_desk", "chance": 33 },
