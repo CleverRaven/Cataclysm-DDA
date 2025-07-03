@@ -4408,6 +4408,8 @@ Fields can exist on top of terrain/furniture, and support different intensity le
       "sound_fail": "shwomp", // sound on failure
       "msg_success": "You brush the gum web aside.", // message on success
       "move_cost": 120, // how many moves it costs to successfully bash that field (default: 100)
+      "hit_field": [ "fd_fire", 1 ] // field to create when hit and intensity. Also created on destruction
+      "destroyed_field": [ "fd_fire", 2 ] // field to create when destroyed and intensity
       "items": [                                   // item dropped upon successful bashing
         { "item": "2x4", "count": [ 5, 8 ] },
         { "item": "nail", "charges": [ 6, 8 ] },

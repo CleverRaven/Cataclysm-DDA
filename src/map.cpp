@@ -4063,6 +4063,11 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
                            "smash_fail", soundfxvariant );
         }
 
+        // add here because early return, otherwise they're added at the end
+        if( !bash->hit_field.first.is_null() ) {
+            add_field( p, bash->hit_field.first, bash->hit_field.second );
+        }
+
         return;
     }
 
@@ -4209,6 +4214,13 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
 
     if( will_collapse && !has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p ) ) {
         collapse_at( tripoint_bub_ms( p ), params.silent, true, bash->explosive > 0 );
+    }
+
+    if( !bash->hit_field.first.is_null() ) {
+        add_field( p, bash->hit_field.first, bash->hit_field.second );
+    }
+    if( !bash->destroyed_field.first.is_null() ) {
+        add_field( p, bash->destroyed_field.first, bash->destroyed_field.second );
     }
 
     params.did_bash = true;
