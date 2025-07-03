@@ -41,7 +41,9 @@ point point::rotate( int turns, const point &dim ) const
 
 float point::distance( const point &rhs ) const
 {
-    return std::sqrt( static_cast<float>( std::pow( x - rhs.x, 2 ) + std::pow( y - rhs.y, 2 ) ) );
+    float dx = x - rhs.x;
+    float dy = y - rhs.y;
+    return std::sqrt( dx * dx + dy * dy );
 }
 
 int point::distance_manhattan( const point &rhs ) const
