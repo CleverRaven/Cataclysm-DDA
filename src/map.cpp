@@ -3568,7 +3568,7 @@ bool map::terrain_moppable( const tripoint_bub_ms &p )
 
     // Moppable fields ( blood )
     for( const std::pair<const field_type_id, field_entry> &pr : field_at( p ) ) {
-        if( pr.second.get_field_type().obj().phase == phase_id::LIQUID ) {
+        if( pr.first->phase == phase_id::LIQUID || pr.first->moppable ) {
             return true;
         }
     }
