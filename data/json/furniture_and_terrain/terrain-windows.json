@@ -881,11 +881,11 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "splinter", "count": [ 0, 2 ] }, { "item": "glass_shard", "count": [ 25, 42 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] }, { "item": "glass_shard", "count": [ 25, 42 ] } ]
     },
     "prying": {
-      "result": "t_window_frame",
-      "duration": "30 seconds",
+      "result": "t_window",
+      "duration": "2 minutes",
       "message": "You pry the boards from the window.",
       "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
       "prying_data": { "prying_nails": true }
@@ -919,16 +919,94 @@
       "sound_vol": 14,
       "sound_fail_vol": 10,
       "ter_set": "t_window_empty",
-      "items": [ { "item": "splinter", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "prying": {
       "result": "t_window_empty",
-      "duration": "30 seconds",
+      "duration": "2 minutes",
       "message": "You pry the boards from the window frame.",
       "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
       "prying_data": { "prying_nails": true }
     },
     "shoot": { "reduce_damage": [ 9, 21 ], "reduce_damage_laser": [ 5, 16 ], "destroy_damage": [ 10, 40 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_boarded_shutters_closed",
+    "name": "window with makeshift shutters",
+    "description": "A glass window with a heavy makeshift shutter bolted into the window frame, with a wooden bar to close it from the inside.  It's fairly sturdy when closed.",
+    "symbol": "=",
+    "copy-from": "t_window_boarded",
+    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "WINDOW", "OPENCLOSE_INSIDE", "SUPPORTS_ROOF" ],
+    "open": "t_window_boarded_shutters_open",
+    "deconstruct": {
+      "ter_set": "t_window",
+      "items": [
+        { "item": "2x4", "count": 7 },
+        { "item": "nail", "charges": [ 10, 16 ] },
+        { "item": "wood_panel", "count": 4 },
+        { "item": "hinge", "count": 4 },
+        { "item": "nuts_bolts", "count": 8 }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "crash!",
+      "sound_fail": "wham!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_frame",
+      "items": [
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "glass_shard", "count": [ 25, 42 ] },
+        { "item": "hinge", "count": [ 0, 3 ] },
+        { "item": "nuts_bolts", "count": [ 1, 4 ] }
+      ]
+    },
+    "shoot": { "reduce_damage": [ 10, 25 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 10, 40 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_boarded_shutters_open",
+    "name": "window with open makeshift shutters",
+    "looks_like": "t_window",
+    "description": "A glass window with a heavy makeshift shutter bolted into the window frame, with a wooden bar to close it from the inside.  The shutters are currently open, and offer no more defense than any glass window.",
+    "symbol": "/",
+    "coverage": 70,
+    "copy-from": "t_window_boarded_shutters_closed",
+    "close": "t_window_boarded_shutters_closed",
+    "open": "t_window_boarded_shutters_open_fully",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "WINDOW", "OPENCLOSE_INSIDE", "SUPPORTS_ROOF" ],
+    "bash": {
+      "str_min": 3,
+      "str_max": 8,
+      "sound": "glass shattering!",
+      "sound_fail": "wham!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_frame",
+      "items": [
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "glass_shard", "count": [ 25, 42 ] },
+        { "item": "hinge", "count": [ 0, 3 ] },
+        { "item": "nuts_bolts", "count": [ 1, 4 ] }
+      ]
+    },
+    "prying": { "result": "t_window_boarded_shutters_open_fully", "duration": "30 seconds", "message": "You pry the window open" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_boarded_shutters_open_fully",
+    "name": "window with open makeshift shutters",
+    "looks_like": "t_window_open",
+    "description": "A glass window with a heavy makeshift shutter bolted into the window frame, with a wooden bar to close it from the inside.  Both the shutters and the window glass are wide open, offering no defense.",
+    "symbol": "0",
+    "move_cost": 5,
+    "coverage": 70,
+    "copy-from": "t_window_boarded_shutters_open",
+    "close": "t_window_boarded_shutters_open",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "WINDOW", "OPENCLOSE_INSIDE", "SUPPORTS_ROOF", "PERMEABLE" ]
   },
   {
     "type": "terrain",

@@ -11,6 +11,11 @@
   },
   {
     "type": "construction_group",
+    "id": "wooden_shutters",
+    "name": "Built Wooden Window Shutters"
+  },
+  {
+    "type": "construction_group",
     "id": "board_up_wood_door",
     "name": "Board Up Wood Door"
   },
