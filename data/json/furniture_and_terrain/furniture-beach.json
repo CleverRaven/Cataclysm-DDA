@@ -26,7 +26,9 @@
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "items": [ { "item": "splinter", "count": [ 25, 100 ] } ]
+      "items": [ { "item": "splinter", "count": [ 25, 100 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE" ]
   },
@@ -58,7 +60,9 @@
         { "item": "2x4", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 4, 8 ] },
         { "item": "splinter", "count": [ 15, 30 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   }
 ]

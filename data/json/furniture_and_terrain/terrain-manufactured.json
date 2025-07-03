@@ -794,7 +794,9 @@
       "sound": "whack!",
       "sound_fail": "thunk.",
       "ter_set": "t_covered_well",
-      "items": [ { "item": "string_6", "count": [ 0, 18 ] }, { "item": "splinter", "count": [ 0, 24 ] } ]
+      "items": [ { "item": "string_6", "count": [ 0, 18 ] }, { "item": "splinter", "count": [ 0, 24 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "liquid_source": { "id": "water" },
     "examine_action": "water_source"
@@ -1399,7 +1401,9 @@
         { "item": "2x4", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1425,7 +1429,9 @@
         { "item": "2x4", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1542,7 +1548,9 @@
         { "item": "stick", "count": [ 2, 7 ] },
         { "item": "splinter", "count": [ 8, 20 ] },
         { "item": "pine_bough", "count": [ 0, 2 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE" ]
@@ -1566,7 +1574,9 @@
         { "item": "stick", "count": [ 1, 2 ] },
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "plastic_chunk", "count": [ 4, 8 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "deconstruct": {
       "ter_set": "t_dirt",

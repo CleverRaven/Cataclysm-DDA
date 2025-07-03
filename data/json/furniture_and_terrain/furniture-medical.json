@@ -80,7 +80,9 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "sheet_cotton", "count": [ 3, 4 ] },
         { "item": "cotton_patchwork", "count": [ 3, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
