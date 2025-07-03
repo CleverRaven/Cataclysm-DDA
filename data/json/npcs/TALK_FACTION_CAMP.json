@@ -308,7 +308,7 @@
   {
     "id": "TALK_CAMP_TUTORIAL_POTTERY_COTTAGE",
     "type": "talk_topic",
-    "dynamic_line": "You can build a faction camp in a pottery cottage.  Setting up your base there allows you to use the char kiln and clay kiln for crafting.  You can add a butchery rack to the facilities, as well as build blacksmithing facilities.",
+    "": "You can build a faction camp in a pottery cottage.  Setting up your base there allows you to use the char kiln and clay kiln for crafting.  You can add a butchery rack to the facilities, as well as build blacksmithing facilities.",
     "responses": [
       { "text": "I want to go back to the list of possible camps.", "topic": "TALK_CAMP_TUTORIAL_BUILDING" },
       { "text": "Got it.  Tell me about expansions.", "topic": "TALK_CAMP_TUTORIAL_EXPANSIONS" },
