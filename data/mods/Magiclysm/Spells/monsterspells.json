@@ -731,7 +731,7 @@
     "id": "EOC_MAGICLYSM_WILL_O_THE_WISP_DRAINING_ATTACK",
     "condition": "u_is_character",
     "effect": [
-      { "math": [ "_attack_value = (150 + rand(100))" ] },
+      { "math": [ "_attack_value = (100 + rand(100))" ] },
       { "math": [ "u_calories()", "-=", "_attack_value" ] },
       { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "_attack_value" ] }
     ],

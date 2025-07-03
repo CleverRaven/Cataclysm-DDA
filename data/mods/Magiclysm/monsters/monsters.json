@@ -272,7 +272,7 @@
     "symbol": "o",
     "color": "yellow",
     "aggression": 5,
-    "morale": 100,
+    "morale": 30,
     "melee_skill": 1,
     "melee_dice": 1,
     "melee_dice_sides": 4,
