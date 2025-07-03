@@ -1,0 +1,77 @@
+[
+  {
+    "type": "SPELL",
+    "id": "afs_cryosuit_ui_spell",
+    "//": "Triggered by enchantment added to all cryosuits. ",
+    "name": { "str": "updates the cryosuit UI", "//~": "NO_I18N" },
+    "description": { "str": "EOCs the player.", "//~": "NO_I18N" },
+    "valid_targets": [ "self", "hostile", "ally" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "base_casting_time": 75,
+    "shape": "blast",
+    "min_range": 0,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "afs_cryosuit_ui_eoc"
+  },
+  {
+    "id": "afs_cryosuit_ui_eoc",
+    "//": "Sends warnings and updates the sidebar power gauge.",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "//": "No need to check for anything since only worn active cryosuits can call this.",
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "worn_only": true, "flags": [ "ACTIVE_CRYOSUIT" ] } ],
+        "true_eocs": [
+          {
+            "id": "_update_ui",
+            "effect": [
+              { "math": [ "u_cryosuit_power = n_val('power_percentage')" ] },
+              {
+                "if": {
+                  "and": [
+                    { "math": [ "u_cryosuit_power < 5" ] },
+                    { "math": [ "u_cryosuit_power > 0" ] },
+                    { "not": { "u_has_effect": "afs_cryosuit_warning" } }
+                  ]
+                },
+                "then": [
+                  { "if": { "u_has_effect": "sleep" }, "then": { "u_lose_effect": "sleep" } },
+                  {
+                    "u_message": "Your cryosuit sounds a critical power warning!",
+                    "type": "warning",
+                    "popup": true,
+                    "popup_w_interrupt_query": true,
+                    "interrupt_type": "eoc"
+                  },
+                  { "u_add_effect": "afs_cryosuit_warning", "duration": "15 minutes" }
+                ],
+                "else": {
+                  "if": { "and": [ { "math": [ "u_cryosuit_power < 15" ] }, { "not": { "u_has_effect": "afs_cryosuit_warning" } } ] },
+                  "then": [
+                    { "if": { "u_has_effect": "sleep" }, "then": { "u_lose_effect": "sleep" } },
+                    {
+                      "u_message": "Your cryosuit sounds a low power warning!",
+                      "type": "warning",
+                      "popup": true,
+                      "popup_w_interrupt_query": true,
+                      "interrupt_type": "eoc"
+                    },
+                    { "u_add_effect": "afs_cryosuit_warning", "duration": "45 minutes" }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "afs_cryosuit_warning",
+    "type": "effect_type"
+  }
+]
