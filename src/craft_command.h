@@ -69,17 +69,64 @@ struct craft_selection {
 };
 
 
-struct crafting_queue: std::vector<std::pair< const recipe *, int>> {
+struct queue: std::vector<std::pair< const recipe *, int>> {
     public:
-        crafting_queue() = default;
-        crafting_queue( const recipe *rec, inventory &map_inv, int batch_size, Character *crafter,
-                        const requirement_data *reqs );
+        queue() = default;
+        queue( const recipe *rec, inventory &map_inv, int batch_size, Character *crafter,
+               const requirement_data *reqs );
 
         std::pair< const recipe *, int> get_next() {
             std::pair< const recipe *, int>  ret = back();
             pop_back();
             return ret;
         }
+};
+
+class craft_queue
+{
+    public:
+        craft_queue() = default;
+        craft_queue( const recipe *to_make, int batch_size, bool is_long, Character *crafter,
+                     const std::optional<tripoint_bub_ms> &loc ) :
+            rec( to_make ), batch_size( batch_size ), longcraft( is_long ), crafter( crafter ), loc( loc ) {}
+
+    private:
+        const recipe *rec = nullptr;
+        int batch_size = 0;
+        /**
+        * Indicates whether the player has initiated a one off craft or wishes to craft as
+        * long as possible.
+        */
+        bool longcraft = false;
+        // This is mainly here for maintainability reasons.
+        Character *crafter;
+
+        recipe_filter_flags flags = recipe_filter_flags::none;
+
+        // Location of the workbench to place the item on
+        // zero_tripoint indicates crafting without a workbench
+        std::optional<tripoint_bub_ms> loc;
+
+        const recipe *current_rec() {
+            return craft_queue_.empty() ? rec : craft_queue_.back().first;
+        }
+        int current_batch() {
+            return craft_queue_.empty() ? current_batch() : craft_queue_.back().second;
+        }
+        queue craft_queue_;
+        std::vector<comp_selection<item_comp>> item_selections;
+        std::vector<comp_selection<tool_comp>> tool_selections;
+
+        /** Checks if tools we selected in a previous call to execute() are still available. */
+        std::vector<comp_selection<item_comp>> check_item_components_missing(
+                                                const read_only_visitable &map_inv ) const;
+        /** Checks if items we selected in a previous call to execute() are still available. */
+        std::vector<comp_selection<tool_comp>> check_tool_components_missing(
+                                                const read_only_visitable &map_inv ) const;
+
+        /** Creates a continue pop up asking to continue crafting and listing the missing components */
+        bool query_continue( const std::vector<comp_selection<item_comp>> &missing_items,
+                             const std::vector<comp_selection<tool_comp>> &missing_tools );
 };
 
 /**
@@ -111,7 +158,7 @@ class craft_command
         item create_in_progress_craft();
 
         bool is_long() const {
-            return longcraft;
+            return longcraft || craft_queue.size() > 1;
         }
 
         bool has_cached_selections() const {
@@ -144,7 +191,7 @@ class craft_command
         // zero_tripoint indicates crafting without a workbench
         std::optional<tripoint_bub_ms> loc;
         std::pair<const recipe *, int>current_craft;
-        crafting_queue craft_queue;
+        queue craft_queue;
         std::vector<comp_selection<item_comp>> item_selections;
         std::vector<comp_selection<tool_comp>> tool_selections;
 

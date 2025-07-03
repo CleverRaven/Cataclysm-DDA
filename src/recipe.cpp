@@ -100,7 +100,7 @@ int recipe::get_skill_cap() const
 //     return ret;
 // }
 
-ret_val<void> recipe::recursive_comp_crafts( crafting_queue *lst,
+ret_val<void> recipe::recursive_comp_crafts( queue *lst,
         const read_only_visitable
         &crafting_inv, int batch, Character *crafter, const requirement_data *reqs ) const
 {

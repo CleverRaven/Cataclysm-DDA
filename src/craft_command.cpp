@@ -114,16 +114,15 @@ template void comp_selection<item_comp>::serialize( JsonOut &jsout ) const;
 template void comp_selection<tool_comp>::deserialize( const JsonObject &data );
 template void comp_selection<item_comp>::deserialize( const JsonObject &data );
 
-crafting_queue::crafting_queue( const recipe *rec, inventory &map_inv, int batch_size,
-                                Character *crafter, const requirement_data *reqs )
+queue::queue( const recipe *rec, inventory &map_inv, int batch_size,
+              Character *crafter, const requirement_data *reqs )
 {
-    // TODO: after deduped_requirements.select_alternative?
+
     if( !rec->recursive_comp_crafts( this, map_inv, batch_size, crafter, reqs ).success() ||
         empty() ) {
         add_msg_debug( debugmode::DF_CRAFTING, "crafting %s cancled, couldnt find craftable components" );
         return;
     }
-
 
 }
 
@@ -200,19 +199,28 @@ void craft_command::execute( bool only_cache_comps )
 
         item_selections.clear();
         const auto filter = rec->get_component_filter( flags );
-        const requirement_data *needs = rec->deduped_requirements().select_alternative(
-                                            *crafter, filter, batch_size, craft_flags::start_only );
+
+        if( craft_queue.empty() ) {
+            // TODO: after deduped_requirements.select_alternative?
+            if( !rec->recursive_comp_crafts( &craft_queue, map_inv, batch_size, crafter, needs ).success() ||
+                craft_queue.empty() ) {
+                add_msg_debug( debugmode::DF_CRAFTING, "crafting %s cancled, couldnt find craftable components" );
+                return;
+            }
+            // craft_queue = queue( rec, map_inv, batch_size, crafter, needs );
+        }
+
+        const requirement_data *needs = current_rec()->deduped_requirements().select_alternative(
+                                            *crafter, filter, current_batch(), craft_flags::start_only );
         if( !needs ) {
             return;
         }
-        if( craft_queue.empty() ) {
-            craft_queue = crafting_queue( rec, map_inv, batch_size, crafter, needs );
-        }
+
         std::cout << rec->result_name() << " queue:\n";
         for( auto &[r, batch] : craft_queue ) {
             std::cout << r->result_name() << "\n";
         }
-        current_craft = craft_queue.get_next();
+        current_craft = craft_queue.back();
         for( const auto &it : needs->get_components() ) {
             comp_selection<item_comp> is =
                 crafter->select_item_component( it, batch_size, map_inv, true, filter, true, true,
