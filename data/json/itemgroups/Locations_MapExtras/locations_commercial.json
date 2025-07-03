@@ -665,7 +665,7 @@
       [ "molle_medium_rucksack", 40 ],
       [ "molle_large_rucksack", 25 ],
       [ "duffelbag", 10 ],
-      [ "long_duffelbag", 10 ],
+      { "group": "large_duffelbags", "prob": 10 },
       [ "backpack_tactical_large", 10 ],
       [ "binoculars", 20 ],
       { "group": "crossbow_bolts", "prob": 7 },
