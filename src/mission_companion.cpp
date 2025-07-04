@@ -2261,9 +2261,10 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
             std::tie( omp, local_sm ) = project_remain<coords::om>( sm );
             overmap &omi = overmap_buffer.get( omp );
 
-            auto monster_bucket = omi.monster_map.equal_range( local_sm );
-            std::for_each( monster_bucket.first,
-            monster_bucket.second, [&]( std::pair<const tripoint_om_sm, monster> &monster_entry ) {
+            auto monster_bucket = omi.monster_map.find( local_sm );
+            std::for_each( monster_bucket->second.begin(),
+                           monster_bucket->second.end(), [&monsters_around]( std::pair<const tripoint_abs_ms, monster>
+            &monster_entry ) {
                 monster &this_monster = monster_entry.second;
                 monsters_around.push_back( &this_monster );
             } );
