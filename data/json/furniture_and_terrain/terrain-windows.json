@@ -761,7 +761,9 @@
         { "item": "2x4", "count": [ 0, 5 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -794,7 +796,9 @@
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -827,7 +831,9 @@
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -881,7 +887,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] }, { "item": "glass_shard", "count": [ 25, 42 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] }, { "item": "glass_shard", "count": [ 25, 42 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "prying": {
       "result": "t_window",
@@ -919,7 +927,9 @@
       "sound_vol": 14,
       "sound_fail_vol": 10,
       "ter_set": "t_window_empty",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "prying": {
       "result": "t_window_empty",
@@ -962,7 +972,9 @@
         { "item": "glass_shard", "count": [ 25, 42 ] },
         { "item": "hinge", "count": [ 0, 3 ] },
         { "item": "nuts_bolts", "count": [ 1, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "shoot": { "reduce_damage": [ 10, 25 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 10, 40 ] }
   },
@@ -991,7 +1003,9 @@
         { "item": "glass_shard", "count": [ 25, 42 ] },
         { "item": "hinge", "count": [ 0, 3 ] },
         { "item": "nuts_bolts", "count": [ 1, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "prying": { "result": "t_window_boarded_shutters_open_fully", "duration": "30 seconds", "message": "You pry the window open" }
   },
@@ -1030,7 +1044,9 @@
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_window_boarded",
-      "items": [ { "item": "splinter", "count": [ 0, 8 ] } ]
+      "items": [ { "item": "splinter", "count": [ 0, 8 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 20, 50 ] }
   },
@@ -1059,7 +1075,9 @@
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_window_boarded_noglass",
-      "items": [ { "item": "splinter", "count": [ 0, 8 ] } ]
+      "items": [ { "item": "splinter", "count": [ 0, 8 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "shoot": { "reduce_damage": [ 14, 26 ], "reduce_damage_laser": [ 10, 26 ], "destroy_damage": [ 20, 50 ] }
   },

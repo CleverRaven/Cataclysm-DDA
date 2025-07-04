@@ -4392,6 +4392,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     "has_acid": false, // See has_fire
     "has_elec": false, // See has_fire
     "has_fume": false, // See has_fire, non-breathing monsters are immune to this field
+    "moppable": false // can be cleaned by mop
     "display_items": true, // If the field should obscure items on this tile
     "display_field": true, // If the field has a visible sprite or symbol, default false
     "description_affix": "covered_in", // Description affix for items in this field, possible values are "in", "covered_in", "on", "under", and "illuminated_by"
@@ -4407,6 +4408,8 @@ Fields can exist on top of terrain/furniture, and support different intensity le
       "sound_fail": "shwomp", // sound on failure
       "msg_success": "You brush the gum web aside.", // message on success
       "move_cost": 120, // how many moves it costs to successfully bash that field (default: 100)
+      "hit_field": [ "fd_fire", 1 ] // field to create when hit and intensity. Also created on destruction
+      "destroyed_field": [ "fd_fire", 2 ] // field to create when destroyed and intensity
       "items": [                                   // item dropped upon successful bashing
         { "item": "2x4", "count": [ 5, 8 ] },
         { "item": "nail", "charges": [ 6, 8 ] },

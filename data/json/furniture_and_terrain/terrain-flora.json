@@ -22,7 +22,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -237,7 +239,9 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 15, 30 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 15, 30 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -252,7 +256,9 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 2, 6 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 2, 6 ] }, { "item": "splinter", "count": [ 10, 20 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -285,7 +291,9 @@
         { "item": "splinter", "count": [ 0, 4 ] },
         { "item": "twig", "count": [ 2, 7 ] },
         { "item": "leaves", "count": [ 5, 20 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -430,7 +438,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -458,7 +468,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -483,7 +495,9 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -507,7 +521,9 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -536,7 +552,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -564,7 +582,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -593,7 +613,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -621,7 +643,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -650,7 +674,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -678,7 +704,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -707,7 +735,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -735,7 +765,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -763,7 +795,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -790,7 +824,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -817,7 +853,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -843,7 +881,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -872,7 +912,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -900,7 +942,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -924,7 +968,9 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -958,7 +1004,9 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -997,7 +1045,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1023,7 +1073,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1052,7 +1104,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1078,7 +1132,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1104,7 +1160,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1130,7 +1188,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1159,7 +1219,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1187,7 +1249,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1216,7 +1280,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1243,7 +1309,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1272,7 +1340,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1299,7 +1369,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1328,7 +1400,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1355,7 +1429,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1377,7 +1453,9 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1405,7 +1483,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1433,7 +1513,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -2039,7 +2121,9 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ]
+      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -2060,7 +2144,9 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "//": "Tree trunks sometimes may have shoots growing on them (coppicing)",
-      "items": [ { "item": "splinter", "count": [ 5, 15 ] }, { "item": "twig", "prob": 40, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "splinter", "count": [ 5, 15 ] }, { "item": "twig", "prob": 40, "count": [ 1, 2 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
