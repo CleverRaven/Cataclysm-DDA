@@ -3613,7 +3613,7 @@ bool map::mop_spills( const tripoint_bub_ms &p )
 
     field &fld = field_at( p );
     for( const auto &it : fld ) {
-        if( it.first->phase == phase_id::LIQUID ) {
+        if( it.first->phase == phase_id::LIQUID || it.first->moppable ) {
             remove_field( p, it.first );
             retval = true;
         }
