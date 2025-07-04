@@ -1949,6 +1949,7 @@
     "id": "gym",
     "type": "item_group",
     "items": [
+      { "group": "gym_bags", "prob": 20 },
       [ "water_clean", 12 ],
       [ "lemonade", 12 ],
       [ "sports_drink", 12 ],
