@@ -543,9 +543,21 @@ class overmap
          * When monsters despawn during map-shifting they will be added here.
          * map::spawn_monsters will load them and place them into the reality bubble
          * (adding it to the creature tracker and putting it onto the map).
-         * This stores each submap worth of monsters in a different bucket of the multimap.
+         * This stores each submap worth of monsters in a seperate tree.
          */
-        std::unordered_multimap<tripoint_om_sm, monster> monster_map;
+        // This very much needs to be much smaller, just holding enough state so we know
+        // what kind of monster it is, and it's navigation goals.
+        // Destination, which might be an abs tripoint or possibly a direction.
+        // Intensity, which tracks the monster forgetting about whatever stimulii it was?
+        // Possibly some accuracy number so if it keeps getting stimulii (e.g. hears noises)
+        // it can refine the direction of movement.
+        // Monster type, pointer or string_id<monster>
+        // In particular the above data will be referenced by the horde navigation code and the
+        // below data will mostly just be stored to recreate the monster once it enters the map or
+        // interacts with something where we want a whole monster instance.
+        // Evolution data?
+        // HP, conditions
+        std::unordered_map <tripoint_om_sm, std::map<tripoint_abs_ms, monster>> monster_map;
 
         // parse data in an opened overmap file
         void unserialize( const cata_path &file_name, std::istream &fin );
