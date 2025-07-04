@@ -3041,12 +3041,15 @@ bool overmap::mongroup_check( const mongroup &candidate ) const
 
 bool overmap::monster_check( const std::pair<tripoint_om_sm, monster> &candidate ) const
 {
-    const auto matching_range = monster_map.equal_range( candidate.first );
-    return std::find_if( matching_range.first, matching_range.second,
-    [candidate]( const std::pair<tripoint_om_sm, monster> &match ) {
+    const auto bucket = monster_map.find( candidate.first );
+    if( bucket == monster_map.end() ) {
+        return false;
+    }
+    return std::find_if( bucket->second.begin(), bucket->second.end(),
+    [&candidate]( const std::pair<const tripoint_abs_ms, monster> &match ) {
         return candidate.second.pos_bub() == match.second.pos_bub() &&
                candidate.second.type == match.second.type;
-    } ) != matching_range.second;
+    } ) != bucket->second.end();
 }
 
 void overmap::insert_npc( const shared_ptr_fast<npc> &who )
@@ -3363,7 +3366,19 @@ bool overmap::passable( const tripoint_om_ms &p )
         // Promote to error later.
         return false;
     }
-    return ptr->passable[index.y() * 24 + index.x()];
+    if( !ptr->passable[index.y() * 24 + index.x()] ) {
+        return false;
+    }
+    tripoint_om_sm submap_offset = project_to<coords::sm>( p );
+    std::unordered_map<tripoint_om_sm, std::map<tripoint_abs_ms, monster>>::iterator monster_submap =
+                monster_map.find( submap_offset );
+    if( monster_submap == monster_map.end() || monster_submap->second.empty() ) {
+        // No monsters present means no blocking.
+        return true;
+    }
+    // TODO reconsider pruning p down to tripoint_om_ms in the first place.
+    tripoint_abs_ms potential_blocking_monster_loc = project_combine( pos(), p );
+    return !monster_submap->second.count( potential_blocking_monster_loc );
 }
 
 std::shared_ptr<map_data_summary> overmap::get_omt_summary( const tripoint_om_omt &p )
@@ -4227,8 +4242,11 @@ monster &overmap::spawn_monster( const tripoint_abs_ms &p, mtype_id id )
     monster spawnee( id );
     // TODO: smaller horde monster representation with cleaner API.
     spawnee.set_pos_abs_only( p );
-    std::unordered_multimap<tripoint_om_sm, monster>::iterator result =
-        monster_map.insert( std::make_pair( sm, spawnee ) );
+    // The [] operator creates a nested std::map if not present already.
+    std::map<const tripoint_abs_ms, monster>::iterator result;
+    bool inserted;
+    std::tie( result, inserted ) =
+        monster_map[sm].insert( std::make_pair( p, spawnee ) );
     return result->second;
 }
 
@@ -4239,65 +4257,93 @@ monster &overmap::spawn_monster( const tripoint_abs_ms &p, mtype_id id )
 void overmap::move_hordes()
 {
     // TODO: throttle processing of monsters, downgrade size of stored monster entry.
-    for( std::unordered_multimap<tripoint_om_sm, monster>::iterator mon = monster_map.begin();
-         mon != monster_map.end(); ) {
-        // If we have a goal, proceed toward it.
-        tripoint_abs_ms destination = mon->second.pos_abs();
-        if( mon->second.has_dest() ) {
-            destination = mon->second.get_dest();
-        } else if( mon->second.wandf > 0 ) {
-            destination = mon->second.wander_pos;
-        }
-        if( destination != mon->second.pos_abs() ) {
-            mon->second.mod_moves( mon->second.get_speed() );
-            if( mon->second.get_moves() <= 0 ) {
+    // Specifically for throttling, only a process a subset of the eligible monster buckets per invocation.
+    for( std::pair<const tripoint_om_sm, std::map<tripoint_abs_ms, monster>> &monster_submap :
+         monster_map ) {
+        for( std::map<tripoint_abs_ms, monster>::iterator mon = monster_submap.second.begin();
+             mon != monster_submap.second.end(); ) {
+            // hijacking this member to track time since last processed, to be replaced with
+            // a dedicated member in a new type that represents a horde entity.
+            // This might have an issue where a monster prevented from acting possibly should
+            // get another chance to act?
+            if( mon->second.lastseen_turn && *mon->second.lastseen_turn == calendar::turn ) {
                 mon++;
                 continue;
             }
-            std::vector<tripoint_abs_ms> viable_candidates;
-            // TODO: wandering, pathing.
-            tripoint_abs_ms candidate = line_to( mon->second.pos_abs(), destination ).front();
-            // Call up to overmapbuffer in case it needs to dispatch to an adjacent overmap.
-            if( overmap_buffer.passable( candidate ) ) {
-                viable_candidates.push_back( candidate );
+            mon->second.lastseen_turn = calendar::turn;
+            // If we have a goal, proceed toward it.
+            tripoint_abs_ms destination = mon->second.pos_abs();
+            if( mon->second.has_dest() ) {
+                destination = mon->second.get_dest();
+            } else if( mon->second.wandf > 0 ) {
+                destination = mon->second.wander_pos;
             }
-            if( viable_candidates.empty() ) {
-                // We're stuck.
-                // TODO: try to wander to get around obstacles, or smash.
-                mon++;
-                continue;
-            }
-            mon->second.set_pos_abs_only( viable_candidates.front() );
-            // TODO: nuanced move costs.
-            mon->second.mod_moves( -100 );
-            if( viable_candidates.front() == mon->second.get_dest() ) {
-                mon->second.unset_dest();
-            }
-            if( get_map().inbounds( viable_candidates.front() ) ) {
-                monster *placed_monster =
-                    g->place_critter_around( mon->second.type->id, get_map().get_bub( viable_candidates.front() ), 2 );
-                // TODO: this should be bundled into a constructor.
-                if( mon->second.has_dest() ) {
-                    placed_monster->set_dest( mon->second.get_dest() );
+            if( destination != mon->second.pos_abs() ) {
+                mon->second.mod_moves( mon->second.get_speed() );
+                if( mon->second.get_moves() <= 0 ) {
+                    mon++;
+                    continue;
                 }
-                placed_monster->wander_to( mon->second.wander_pos, mon->second.wandf );
-                mon = monster_map.erase( mon );
-                continue;
-            }
-            point_abs_om dest_omp;
-            tripoint_om_sm dest_sm;
-            std::tie( dest_omp, dest_sm ) = project_remain<coords::om>( project_to<coords::sm>
-                                            ( viable_candidates.front() ) );
-            // Handle shifting to a new submap bucket, also handles shifting to new overmap.
-            if( dest_sm != mon->first ) {
-                // This copies the monster to the new bucket but does not clean it up.
-                overmap_buffer.despawn_monster( mon->second );
-                // So we need to manually erase and advance the iterator.
-                mon = monster_map.erase( mon );
-                continue;
+                std::vector<tripoint_abs_ms> viable_candidates;
+                // TODO: wandering, pathing.
+                tripoint_abs_ms candidate = line_to( mon->second.pos_abs(), destination ).front();
+                // Call up to overmapbuffer in case it needs to dispatch to an adjacent overmap.
+                if( overmap_buffer.passable( candidate ) ) {
+                    viable_candidates.push_back( candidate );
+                }
+                if( viable_candidates.empty() ) {
+                    // We're stuck.
+                    // TODO: try to wander to get around obstacles, or smash.
+                    mon++;
+                    continue;
+                }
+                mon->second.set_pos_abs_only( viable_candidates.front() );
+                // TODO: nuanced move costs.
+                mon->second.mod_moves( -100 );
+                if( viable_candidates.front() == mon->second.get_dest() ) {
+                    mon->second.unset_dest();
+                }
+                if( get_map().inbounds( viable_candidates.front() ) ) {
+                    monster *placed_monster =
+                        g->place_critter_around( mon->second.type->id, get_map().get_bub( viable_candidates.front() ), 2 );
+                    if( placed_monster == nullptr ) {
+                        // If the tile is occupied it can't enter, just don't move for now.
+                        continue;
+                    }
+                    // TODO: this should be bundled into a constructor.
+                    if( mon->second.has_dest() ) {
+                        placed_monster->set_dest( mon->second.get_dest() );
+                    }
+                    placed_monster->lastseen_turn.reset();;
+                    placed_monster->wander_to( mon->second.wander_pos, mon->second.wandf );
+                    mon = monster_submap.second.erase( mon );
+                    // Do we need to delete the current tree if it's empty, or not bother and
+                    // just remove it on reserialize? Not bothering now because this loop
+                    // structure will be overhauled shortly.
+                    continue;
+                }
+                point_abs_om dest_omp;
+                tripoint_om_sm dest_sm;
+                std::tie( dest_omp, dest_sm ) = project_remain<coords::om>( project_to<coords::sm>
+                                                ( viable_candidates.front() ) );
+                std::map<tripoint_abs_ms, monster> *destination_submap = &monster_submap.second;
+                // Handle shifting to a new submap bucket, also handles shifting to new overmap.
+                if( dest_sm != monster_submap.first ) {
+                    overmap *dest_om = overmap_buffer.get_existing( dest_omp );
+                    if( dest_om == nullptr ) {
+                        mon++;
+                        continue;
+                    }
+                    destination_submap = &dest_om->monster_map[dest_sm];
+                }
+                std::map<tripoint_abs_ms, monster>::iterator moving_mon = mon;
+                // Advance the loop iterator past the current node, which we will be removing.
+                mon++;
+                auto monster_node = monster_submap.second.extract( moving_mon );
+                monster_node.key() = viable_candidates.front();
+                destination_submap->insert( std::move( monster_node ) );
             }
         }
-        mon++;
     }
 }
 
@@ -4440,21 +4486,21 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
             }
         }
     }
-    // TODO: not deleting to make this a range loop
-    for( std::unordered_multimap<tripoint_om_sm, monster>::iterator mon = monster_map.begin();
-         mon != monster_map.end(); ) {
-        tripoint_abs_ms origin = project_to<coords::ms>( absp ) + point{ 6, 6 };
-        const int dist = rl_dist( origin, mon->second.pos_abs() );
-        // Sound intensity is scaled down by SEEX earlier in sound processing, scale it back up.
-        int eff_power = sig_power * SEEX - dist;
-        if( eff_power <= 0 ) {
-            ++mon;
-            continue;
+    // TODO: not deleting so make this a range loop
+    for( std::pair<const tripoint_om_sm, std::map<tripoint_abs_ms, monster>> &monster_submap :
+         monster_map ) {
+        for( std::pair<const tripoint_abs_ms, monster> &mon : monster_submap.second ) {
+            tripoint_abs_ms origin = project_to<coords::ms>( absp ) + point{ 6, 6 };
+            const int dist = rl_dist( origin, mon.second.pos_abs() );
+            // Sound intensity is scaled down by SEEX earlier in sound processing, scale it back up.
+            int eff_power = sig_power * SEEX - dist;
+            if( eff_power <= 0 ) {
+                continue;
+            }
+            if( mon.second.wandf < eff_power ) {
+                mon.second.wander_to( origin, eff_power );
+            }
         }
-        if( mon->second.wandf < eff_power ) {
-            mon->second.wander_to( origin, eff_power );
-        }
-        ++mon;
     }
 }
 

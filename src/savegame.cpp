@@ -628,8 +628,8 @@ void overmap::unserialize( const JsonObject &jsobj )
                 monster new_monster;
                 monster_location.deserialize( monster_map_json.next_value() );
                 new_monster.deserialize( monster_map_json.next_object(), project_combine( loc, monster_location ) );
-                monster_map.insert( std::make_pair( monster_location,
-                                                    std::move( new_monster ) ) );
+                monster_map[monster_location].insert( std::make_pair( new_monster.pos_abs(),
+                                                      std::move( new_monster ) ) );
             }
         } else if( name == "tracked_vehicles" ) {
             JsonArray tracked_vehicles_json = om_member;
@@ -1355,9 +1355,11 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "monster_map" );
     json.start_array();
-    for( const auto &i : monster_map ) {
-        i.first.serialize( json );
-        i.second.serialize( json );
+    for( auto &monster_submap : monster_map ) {
+        for( auto &monster_entry : monster_submap.second ) {
+            monster_submap.first.serialize( json );
+            monster_entry.second.serialize( json );
+        }
     }
     json.end_array();
     fout << std::endl;

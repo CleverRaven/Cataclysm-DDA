@@ -596,6 +596,9 @@ bool overmapbuffer::passable( const tripoint_abs_ms &p )
     tripoint_om_ms offset;
     std::tie( loc, offset ) = project_remain<coords::om>( p );
     overmap *om = get_existing( loc );
+    if( om == nullptr ) {
+        return false;
+    }
     return om->passable( offset );
 }
 
@@ -605,6 +608,9 @@ std::shared_ptr<map_data_summary> overmapbuffer::get_omt_summary( const tripoint
     tripoint_om_omt offset;
     std::tie( loc, offset ) = project_remain<coords::om>( p );
     overmap *om = get_existing( loc );
+    if( om == nullptr ) {
+        return {};
+    }
     return om->get_omt_summary( offset );
 }
 
@@ -614,7 +620,10 @@ void overmapbuffer::set_passable( const tripoint_abs_ms &p, bool new_passable )
     tripoint_om_ms offset;
     std::tie( loc, offset ) = project_remain<coords::om>( p );
     overmap *om = get_existing( loc );
-    return om->set_passable( offset, new_passable );
+    if( om == nullptr ) {
+        return;
+    }
+    om->set_passable( offset, new_passable );
 }
 
 void overmapbuffer::set_passable( const tripoint_abs_omt &p,
@@ -622,6 +631,9 @@ void overmapbuffer::set_passable( const tripoint_abs_omt &p,
 {
     const tripoint_abs_om loc = project_to<coords::om>( p );
     overmap *om = get_existing( loc.xy() );
+    if( om == nullptr ) {
+        return;
+    }
     om->set_passable( p, new_passable );
 }
 
@@ -1932,9 +1944,12 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal
     tripoint_om_sm current_submap_loc;
     std::tie( omp, current_submap_loc ) = project_remain<coords::om>( p );
     overmap &om = get( omp );
-    auto monster_bucket = om.monster_map.equal_range( current_submap_loc );
-    std::for_each( monster_bucket.first, monster_bucket.second,
-    [&]( std::pair<const tripoint_om_sm, monster> &monster_entry ) {
+    auto monster_bucket = om.monster_map.find( current_submap_loc );
+    if( monster_bucket == om.monster_map.end() ) {
+        return;
+    }
+    std::for_each( monster_bucket->second.begin(), monster_bucket->second.end(),
+    [&]( std::pair<const tripoint_abs_ms, monster> &monster_entry ) {
         monster &this_monster = monster_entry.second;
         map &here = get_map();
         const tripoint_bub_ms local = this_monster.pos_bub( here );
@@ -1942,13 +1957,14 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal
         if( !spawn_nonlocal ) {
             cata_assert( here.inbounds( local ) );
         }
+        // This needs to verify that the monster can be placed, otherwise it will fail with a debugmsg in creature_tracker::add()
         monster *const placed = g->place_critter_around( make_shared_fast<monster>( this_monster ),
                                 local, 0, true );
         if( placed ) {
             placed->on_load();
         }
     } );
-    om.monster_map.erase( current_submap_loc );
+    om.monster_map.erase( monster_bucket );
 }
 
 void overmapbuffer::despawn_monster( const monster &critter )
@@ -1964,7 +1980,7 @@ void overmapbuffer::despawn_monster( const monster &critter )
         //if the monster is the 'hunted' trait's nemesis, it becomes an overmap horde
         om.place_nemesis( critter.pos_abs_omt() );
     } else {
-        om.monster_map.insert( std::make_pair( sm, critter ) );
+        om.monster_map[sm].insert( std::make_pair( critter.pos_abs(), critter ) );
     }
 }
 
