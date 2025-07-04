@@ -172,9 +172,9 @@
       { "id": "CONTAIN", "level": 1 },
       { "id": "CUT", "level": 2 },
       { "id": "BOIL", "level": 2 },
-      { "id": "FILTER", "level": 2 }
+      { "id": "STRAIN", "level": 2 }
     ],
-    "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ], [ [ "screw_press_tool", -1 ] ] ],
+    "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ], [ [ "screw_press", -1 ] ] ],
     "components": [
       [
         [ "sweet_fruit_like", 2, "LIST" ],
@@ -287,9 +287,9 @@
       { "id": "CONTAIN", "level": 1 },
       { "id": "CUT", "level": 2 },
       { "id": "BOIL", "level": 2 },
-      { "id": "FILTER", "level": 2 }
+      { "id": "STRAIN", "level": 2 }
     ],
-    "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ], [ [ "screw_press_tool", -1 ] ] ],
+    "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ], [ [ "screw_press", -1 ] ] ],
     "//1": "1u base + 1u ingredient + 6u evaporation",
     "components": [ [ [ "sugar_beet", 3 ] ], [ [ "water_clean", 1 ], [ "water", 1 ] ] ]
   },
