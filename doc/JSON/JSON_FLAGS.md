@@ -1285,6 +1285,7 @@ See [Character](#character)
 ### Overmap connections
 
 - ```ORTHOGONAL``` The connection generally prefers straight lines, avoids turning wherever possible.
+- ```PERPENDICULAR_CROSSING``` The connection will never turn while crossing the given location AND may not cross the location in a parallel direction.
 
 ### Overmap specials
 

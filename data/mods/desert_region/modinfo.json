@@ -24,5 +24,11 @@
     "name": "LONGITUDE",
     "stype": "float",
     "value": -115.14
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_HIGHWAYS",
+    "stype": "bool",
+    "value": false
   }
 ]

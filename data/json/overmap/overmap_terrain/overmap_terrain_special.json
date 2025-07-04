@@ -51,7 +51,7 @@
     "type": "overmap_terrain",
     "id": "special_field_highway",
     "copy-from": "special_field",
-    "extend": { "flags": [ "HIGHWAY", "SHOULD_NOT_SPAWN" ] }
+    "extend": { "flags": [ "HIGHWAY_SPECIAL" ] }
   },
   {
     "type": "overmap_terrain",
@@ -181,7 +181,13 @@
     "type": "overmap_terrain",
     "id": "hw_reserved_water",
     "copy-from": "hw_reserved",
-    "extend": { "flags": [ "RIVER", "SHOULD_NOT_SPAWN" ] }
+    "extend": { "flags": [ "RIVER" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hw_reserved_ramp",
+    "//": "for placing adjacent to bridgeheads for z = 1 ramp detection",
+    "copy-from": "hw_reserved"
   },
   {
     "type": "overmap_terrain",

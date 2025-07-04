@@ -249,6 +249,8 @@ void overmapbuffer::clear()
     known_non_existing.clear();
     placed_unique_specials.clear();
     unique_special_count.clear();
+    highway_intersections.clear();
+    highway_global_offset = point_abs_om::invalid;
     overmap_count = 0;
     major_river_count = 0;
     last_requested_overmap = nullptr;
@@ -894,6 +896,7 @@ overmap_path_params overmap_path_params::for_player()
 {
     overmap_path_params ret;
     // 24 tiles = 24 seconds walking
+    ret.set_cost( oter_travel_cost_type::highway, 16 );
     ret.set_cost( oter_travel_cost_type::road, 24 );
     ret.set_cost( oter_travel_cost_type::dirt_road, 24 );
     ret.set_cost( oter_travel_cost_type::field, 36 );
@@ -919,6 +922,7 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
 {
     const bool can_offroad = offroad_coeff >= 0.05;
     overmap_path_params ret;
+    ret.set_cost( oter_travel_cost_type::highway, 6 );
     ret.set_cost( oter_travel_cost_type::road, 8 ); // limited by vehicle autodrive speed
     const int field_cost = can_offroad ? std::lround( 12 / std::min( 1.0f, offroad_coeff ) ) : -1;
     ret.set_cost( oter_travel_cost_type::field, field_cost );
@@ -1664,6 +1668,18 @@ city_reference overmapbuffer::closest_known_city( const tripoint_abs_sm &center 
     }
 
     return city_reference::invalid;
+}
+
+overmap_highway_intersection_point overmapbuffer::get_overmap_highway_intersection_point(
+    const point_abs_om &p )
+{
+    return overmap_buffer.highway_intersections[p.to_string_writable()];
+}
+
+void overmapbuffer::set_overmap_highway_intersection_point( const point_abs_om &p,
+        const overmap_highway_intersection_point &intersection )
+{
+    overmap_buffer.highway_intersections[p.to_string_writable()] = intersection;
 }
 
 std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
