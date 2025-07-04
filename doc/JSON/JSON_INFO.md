@@ -201,7 +201,7 @@ Use the `Home` key to return to the top.
   - [`requirement`](#requirement)
   - [`reveal_locale`](#reveal_locale)
   - [`distance_initial_visibility`](#distance_initial_visibility)
-  - [`eocs`](#eocs)
+  - [`eoc`](#eoc)
   - [`missions`](#missions)
   - [`start_of_cataclysm`](#start_of_cataclysm)
   - [`start_of_game`](#start_of_game)
