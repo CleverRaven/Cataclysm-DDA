@@ -940,7 +940,7 @@
   {
     "id": "hair_dye_display",
     "type": "item_group",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [ { "item": "hair_dye_kit", "prob": 100 }, { "group": "hair_dye", "prob": 90 } ]
   }
 ]
