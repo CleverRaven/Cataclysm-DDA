@@ -4,7 +4,6 @@
     "overmap_terrain_coverage_whitelist": [
       "ants_lab",
       "ants_lab_stairs",
-      "hw_railings",
       "ice_lab",
       "ice_lab_core",
       "ice_lab_finale",

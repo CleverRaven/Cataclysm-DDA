@@ -820,6 +820,7 @@ std::string enum_to_string<oter_travel_cost_type>( oter_travel_cost_type data )
     switch( data ) {
         // *INDENT-OFF*
         case oter_travel_cost_type::other: return "other";
+        case oter_travel_cost_type::highway: return "highway";
         case oter_travel_cost_type::road: return "road";
         case oter_travel_cost_type::field: return "field";
         case oter_travel_cost_type::dirt_road: return "dirt_road";
@@ -6572,6 +6573,12 @@ pf::directed_path<point_om_omt> overmap::lay_out_connection(
             if( existing_submap ) {
                 return pf::node_score::rejected;
             }
+        }
+
+        //forces perpendicular crossing
+        if( subtype->is_perpendicular_crossing() && id->is_rotatable() &&
+            om_direction::are_parallel( cur.dir, id->get_dir() ) ) {
+            return pf::node_score::rejected;
         }
 
         if( existing_connection && id->is_rotatable() && cur.dir != om_direction::type::invalid &&
