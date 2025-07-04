@@ -2274,14 +2274,13 @@
     "desc": [ "Your vision is obscured by a disgusting splatter of bile." ],
     "apply_message": "You're covered in bile!",
     "rating": "bad",
-    "base_mods": { "per_mod": [ -3 ] },
     "max_duration": "30 s",
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.1 },
       { "limb_score": "night_vis", "modifier": 0.0 },
       { "limb_score": "reaction", "modifier": 0.2 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL" ],
     "show_in_info": true
   },
   {

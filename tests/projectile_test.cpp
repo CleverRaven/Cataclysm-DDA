@@ -13,6 +13,8 @@
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "npc.h"
+#include "player_helpers.h"
 #include "pocket_type.h"
 #include "point.h"
 #include "projectile.h"
@@ -20,8 +22,13 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+static const efftype_id efftype_bile_stink( "bile_stink" );
+
 static const itype_id itype_308( "308" );
+static const itype_id itype_boomer_head( "boomer_head" );
+static const itype_id itype_hazmat_suit( "hazmat_suit" );
 static const itype_id itype_m1a( "m1a" );
+
 
 static tripoint_bub_ms projectile_end_point( const std::vector<tripoint_bub_ms> &range,
         const item &gun, int speed, int proj_range )
@@ -80,4 +87,30 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
 
     // But that a bullet without the correct amount cannot
     CHECK( projectile_end_point( range, gun, 10, 3 ) == range[0] );
+}
+
+TEST_CASE( "liquid_projectiles_applies_effect", "[projectile]" )
+{
+    map &here = get_map();
+    clear_avatar();
+    clear_npcs();
+    clear_map();
+
+    Character &player = get_player_character();
+    arm_shooter( player, itype_boomer_head );
+    const tripoint_bub_ms next_to = player.adjacent_tile();
+    const item hazmat( itype_hazmat_suit );
+
+    npc &dummy = spawn_npc( next_to.xy(), "thug" );
+
+    //Fire on naked NPC and check that it got the effect
+    player.fire_gun( here, dummy.pos_bub(), 10, *player.get_wielded_item() );
+    CHECK( dummy.has_effect( efftype_bile_stink ) );
+
+    dummy.clear_effects();
+
+    //Fire on NPC with hazmat suit and check that it didn't get the effect
+    dummy.wear_item( hazmat );
+    player.fire_gun( here, dummy.pos_bub(), 10, *player.get_wielded_item() );
+    CHECK( !dummy.has_effect( efftype_bile_stink ) );
 }
