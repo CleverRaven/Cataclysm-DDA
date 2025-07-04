@@ -599,6 +599,10 @@ class Creature : public viewer
             return false;
         }
 
+        virtual bool has_monochrome_overlay() const {
+            return false;
+        }
+
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         virtual float fall_damage_mod() const = 0;
         /** Deals falling/collision damage with terrain/creature at pos */

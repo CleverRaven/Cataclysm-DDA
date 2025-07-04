@@ -82,6 +82,14 @@ enum class TILE_CATEGORY {
     last
 };
 
+// Possible color overlays that can modify how a sprite or tile should look
+enum class COLOR_OVERLAY {
+    NONE,
+    NIGHT_VISION,
+    MONOCHROME,
+    last
+};
+
 const std::unordered_map<std::string, TILE_CATEGORY> to_TILE_CATEGORY = {
     {"none", TILE_CATEGORY::NONE},
     {"vehicle_part", TILE_CATEGORY::VEHICLE_PART},
@@ -128,10 +136,10 @@ class tile_lookup_res
 class texture
 {
     private:
-        std::shared_ptr<SDL_Texture> sdl_texture_ptr;
         SDL_Rect srcrect = { 0, 0, 0, 0 };
 
     public:
+        std::shared_ptr<SDL_Texture> sdl_texture_ptr;
         texture( std::shared_ptr<SDL_Texture> ptr,
                  const SDL_Rect &rect ) : sdl_texture_ptr( std::move( ptr ) ),
             srcrect( rect ) { }
@@ -195,6 +203,7 @@ class tileset
         float tile_pixelscale = 1.0f;
 
         std::vector<texture> tile_values;
+        std::vector<texture> monochrome_tile_values;
         std::vector<texture> shadow_tile_values;
         std::vector<texture> night_tile_values;
         std::vector<texture> overexposed_tile_values;
@@ -255,6 +264,9 @@ class tileset
         }
         const texture *get_night_tile( const size_t index ) const {
             return get_if_available( index, night_tile_values );
+        }
+        const texture *get_monochrome_tile( const size_t index ) const {
+            return get_if_available( index, monochrome_tile_values );
         }
         const texture *get_shadow_tile( const size_t index ) const {
             return get_if_available( index, shadow_tile_values );
@@ -496,59 +508,59 @@ class cata_tiles
     private:
         bool draw_from_id_string_internal( const std::string &id, const tripoint_bub_ms &pos, int subtile,
                                            int rota,
-                                           lit_level ll, int retract, bool apply_night_vision_goggles, int &height_3d );
+                                           lit_level ll, int retract, COLOR_OVERLAY color_overlay, int &height_3d );
         bool draw_from_id_string_internal( const std::string &id, TILE_CATEGORY category,
                                            const std::string &subcategory, const tripoint_bub_ms &pos, int subtile, int rota,
-                                           lit_level ll, int retract, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
+                                           lit_level ll, int retract, COLOR_OVERLAY color_overlay, int &height_3d, int intensity_level,
                                            const std::string &variant, const point &offset );
     protected:
         bool draw_from_id_string( const std::string &id, const tripoint_bub_ms &pos, int subtile, int rota,
                                   lit_level ll,
-                                  bool apply_night_vision_goggles );
+                                  COLOR_OVERLAY color_overlay );
         bool draw_from_id_string( const std::string &id, const tripoint_abs_omt &pos, int subtile, int rota,
                                   lit_level ll,
-                                  bool apply_night_vision_goggles ) {
+                                  COLOR_OVERLAY color_overlay ) {
             // A number of operations follow this pattern, i.e. tripoint_abs_omt coordinates are cast to tripoint_bub_ms and the call
             // is forwarded to the "normal" operation. This relies on the underlying logic being the same regardless of the coordinate
             // system and scale.
             return draw_from_id_string( id, tripoint_bub_ms( pos.raw() ), subtile, rota, ll,
-                                        apply_night_vision_goggles );
+                                        color_overlay );
         }
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint_bub_ms &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles );
+                                  lit_level ll, COLOR_OVERLAY color_overlay );
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint_abs_omt &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles ) {
+                                  lit_level ll, COLOR_OVERLAY color_overlay ) {
             return draw_from_id_string( id, category, subcategory, tripoint_bub_ms( pos.raw() ), subtile, rota,
-                                        ll, apply_night_vision_goggles );
+                                        ll, color_overlay );
         }
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint_bub_ms &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d );
+                                  lit_level ll, COLOR_OVERLAY color_overlay, int &height_3d );
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint_abs_omt &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d ) {
+                                  lit_level ll, COLOR_OVERLAY color_overlay, int &height_3d ) {
             return draw_from_id_string( id, category, subcategory, tripoint_bub_ms( pos.raw() ), subtile, rota,
-                                        ll, apply_night_vision_goggles, height_3d );
+                                        ll, color_overlay, height_3d );
         };
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint_bub_ms &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level );
+                                  lit_level ll, COLOR_OVERLAY color_overlay, int &height_3d, int intensity_level );
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint_bub_ms &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
+                                  lit_level ll, COLOR_OVERLAY color_overlay, int &height_3d, int intensity_level,
                                   const std::string &variant );
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint_bub_ms &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
+                                  lit_level ll, COLOR_OVERLAY color_overlay, int &height_3d, int intensity_level,
                                   const std::string &variant, const point &offset );
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-            bool apply_night_vision_goggles, int retract, int &height_3d, const point &offset );
+            COLOR_OVERLAY color_overlay, int retract, int &height_3d, const point &offset );
         bool draw_tile_at( const tile_type &tile, const point &, unsigned int loc_rand, int rota,
-                           lit_level ll, bool apply_night_vision_goggles, int retract, int &height_3d,
+                           lit_level ll, COLOR_OVERLAY color_overlay, int retract, int &height_3d,
                            const point &offset );
 
         /* Tile Picking */
@@ -582,6 +594,11 @@ class cata_tiles
         const memorized_tile &get_furniture_memory_at( const tripoint_abs_ms &p ) const;
         const memorized_tile &get_trap_memory_at( const tripoint_abs_ms &p ) const;
         const memorized_tile &get_vpart_memory_at( const tripoint_abs_ms &p ) const;
+
+        COLOR_OVERLAY calculate_color_overlay( const Creature &cr) const;
+        COLOR_OVERLAY calculate_color_overlay( const monster &mon) const;
+        COLOR_OVERLAY calculate_color_overlay( const Character &ch) const;
+        COLOR_OVERLAY calculate_color_overlay() const;
 
         /** Drawing Layers */
         bool would_apply_vision_effects( visibility_type visibility ) const;

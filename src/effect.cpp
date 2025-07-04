@@ -693,6 +693,10 @@ bool effect_type::is_show_in_info() const
 {
     return show_in_info;
 }
+bool effect_type::has_monochrome_overlay() const
+{
+    return monochrome_overlay;
+}
 bool effect_type::load_miss_msgs( const JsonObject &jo, std::string_view member )
 {
     return jo.read( member, miss_msgs );
@@ -1593,6 +1597,7 @@ void load_effect_type( const JsonObject &jo, std::string_view src )
     new_etype.main_parts_only = jo.get_bool( "main_parts_only", false );
     new_etype.show_in_info = jo.get_bool( "show_in_info", false );
     new_etype.show_intensity = jo.get_bool( "show_intensity", true );
+    new_etype.monochrome_overlay = jo.get_bool( "monochrome_overlay", false );
     new_etype.pkill_addict_reduces = jo.get_bool( "pkill_addict_reduces", false );
 
     new_etype.pain_sizing = jo.get_bool( "pain_sizing", false );
