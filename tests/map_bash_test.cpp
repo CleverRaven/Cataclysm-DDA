@@ -241,7 +241,7 @@ TEST_CASE( "shooting_at_terrain", "[rng][map][bash][ranged]" )
     clear_map();
 
     // Make a shooter
-    standard_npc shooter( "Shooter", { 10, 10, 0 } );
+    standard_npc shooter( "Shooter", { 30, 30, 0 } );
     shooter.set_body();
     shooter.worn.wear_item( shooter, item( itype_backpack ), false, false );
     SECTION( "birdshot vs brick wall near" ) {
