@@ -453,10 +453,10 @@ void overmap::unserialize( const JsonObject &jsobj )
             omt_stack_arguments_map.emplace( p );
         }
     }
+    std::vector<tripoint_abs_omt> camps_to_place;
     // Extract layers first so predecessor deduplication can happen.
     if( jsobj.has_member( "layers" ) ) {
         std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
-        std::vector<tripoint_abs_omt> camps_to_place;
         JsonArray layers_json = jsobj.get_array( "layers" );
 
         for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
@@ -498,7 +498,7 @@ void overmap::unserialize( const JsonObject &jsobj )
             }
         }
         migrate_oter_ids( oter_id_migrations );
-        migrate_camps( camps_to_place );
+        // Don't do camps_to_place migration attempt yet bc we haven't deserialised existing camps
     }
     for( JsonMember om_member : jsobj ) {
         const std::string name = om_member.name();
@@ -673,7 +673,7 @@ void overmap::unserialize( const JsonObject &jsobj )
             for( JsonObject camp_json : camps_json ) {
                 basecamp new_camp;
                 new_camp.deserialize( camp_json );
-                camps.push_back( new_camp );
+                add_camp( new_camp.camp_omt_pos().xy(), new_camp );
             }
         } else if( name == "overmap_special_placements" ) {
             JsonArray special_placements_json = om_member;
@@ -794,6 +794,7 @@ void overmap::unserialize( const JsonObject &jsobj )
             }
         }
     }
+    migrate_camps( camps_to_place );
 }
 
 // throws std::exception
@@ -1383,8 +1384,8 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "camps" );
     json.start_array();
-    for( const basecamp &i : camps ) {
-        json.write( i );
+    for( const auto &i : camps ) {
+        json.write( i.second );
     }
     json.end_array();
     fout << std::endl;
