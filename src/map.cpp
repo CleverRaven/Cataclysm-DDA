@@ -4438,6 +4438,10 @@ void map::crush( const tripoint_bub_ms &p )
 }
 double map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_items )
 {
+    if( !inbounds( p ) ) {
+        debugmsg( "Called map::shoot on out-of-bounds tile %s", p.to_string() );
+        return 0;
+    }
     // TODO: make bashing better a destroying, worse at penetrating
     std::map<damage_type_id, float> dmg_by_type {};
     damage_instance &impact = proj.multishot ? proj.shot_impact : proj.impact;
