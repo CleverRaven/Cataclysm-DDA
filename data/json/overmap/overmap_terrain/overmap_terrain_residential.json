@@ -6,6 +6,7 @@
     "sym": "O",
     "color": "dark_gray",
     "copy-from": "generic_city_building_no_sidewalk",
+    "travel_cost_type": "basement",
     "flags": [ "KNOWN_UP", "GENERIC_LOOT" ]
   },
   {
