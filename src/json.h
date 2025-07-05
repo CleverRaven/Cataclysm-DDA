@@ -81,6 +81,13 @@ struct key_from_json_string<Enum, std::enable_if_t<std::is_enum_v<Enum>>> {
     }
 };
 
+template<typename T>
+struct key_from_json_string<T, std::void_t<decltype( std::declval<T &>().to_string_writable() )>> {
+    T operator()( const std::string &s ) {
+        return T::from_string( s );
+    }
+};
+
 struct number_sci_notation {
     bool negative = false;
     // AKA the significand
@@ -853,6 +860,12 @@ class JsonOut
         template<typename T>
         void write_as_string( const int_id<T> &s ) {
             write( s.id() );
+        }
+
+        template <typename T>
+        auto write_as_string( const T &value ) -> decltype( std::declval<T &>().to_string_writable(),
+                void() ) {
+            write( value.to_string_writable() );
         }
 
         template<typename T, typename U>

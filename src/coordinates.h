@@ -220,6 +220,10 @@ class coord_point_ob : public
             return *this == invalid;
         }
 
+        static coord_point_ob from_string( const std::string &s ) {
+            return coord_point_ob( Point::from_string( s ) );
+        }
+
         static constexpr bool is_inbounds = false;
         using this_as_tripoint = coord_point_ob<tripoint, Origin, Scale>;
         using this_as_point = coord_point_ob<point, Origin, Scale>;

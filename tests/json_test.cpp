@@ -962,6 +962,30 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
     }
 }
 
+TEST_CASE( "serialize_map_with_point_key", "[json]" )
+{
+    SECTION( "empty map" ) {
+        std::map<tripoint, int> empty;
+        test_serialization( empty, "{}" );
+    }
+    SECTION( "map with one element" ) {
+        std::map<tripoint, int> one_element;
+        one_element.emplace( tripoint( 4, 3, 2 ), 7 );
+        test_serialization( one_element, "{\"(4,3,2)\":7}" );
+    }
+    SECTION( "map with two elements" ) {
+        std::map<tripoint, int> two_element;
+        two_element.emplace( tripoint( 1, 2, 3 ), 4 );
+        two_element.emplace( tripoint( 8, 7, 6 ), 5 );
+        test_serialization( two_element, "{\"(1,2,3)\":4,\"(8,7,6)\":5}" );
+    }
+    SECTION( "map with typed tripoint" ) {
+        std::map<tripoint_abs_omt, float> typed;
+        typed.emplace( tripoint_abs_omt( 8, 8, 0 ), 2.5f );
+        test_serialization( typed, "{\"(8,8,0)\":2.500000}" );
+    }
+}
+
 TEST_CASE( "serialize_optional", "[json]" )
 {
     SECTION( "simple_empty_optional" ) {
