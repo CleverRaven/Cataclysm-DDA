@@ -363,7 +363,7 @@
   {
     "id": "TALK_SCRAP_TRADER_ASK_INTERVAL",
     "type": "talk_topic",
-    "dynamic_line": "Nope, although I have a really good claim by the river.  Gonna go fetch them soon, be right back in <interval>.",
+    "dynamic_line": "Nope, although I have a really good claim by the river.  Gonna go fetch them soon, be right back on <restock_time_point>.",
     "responses": [ { "text": "Well, good luck.", "topic": "TALK_NPC_SCRAP_TRADER" } ]
   }
 ]
