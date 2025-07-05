@@ -991,6 +991,7 @@
     "copy-from": "tr_swirling_vortex",
     "action": "eocs",
     "eocs": [ "EOC_LS_Exit_labyrinth_sparkling_chasm" ],
+    "visibility": 1000,
     "always_invisible": true
   }
 ]

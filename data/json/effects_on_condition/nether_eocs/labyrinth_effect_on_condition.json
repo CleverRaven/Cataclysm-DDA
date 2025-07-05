@@ -29,7 +29,7 @@
     "effect": [
       { "u_teleport": { "u_val": "player_location_before_labyrinth" }, "force": true },
       {
-        "u_message": "As you fall into the chasm, you see a multitude of stars, spots, and other shapes.  It's like your sinking ever further into a liquid solution, and falling through the air at the same time.  Your head throbs with pain as the pressure increases, and you black out.  When you come to, you're back in reality disoriented but unharmed.",
+        "u_message": "As you fall into the chasm, you see a multitude of stars, spots, and other shapes.  It's like you're sinking ever further into quicksand, yet falling through the air at the same time.  Your head throbs with pain as the pressure increases, and you black out.  When you come to, you're back in reality: disoriented but unharmed.",
         "popup": true
       }
     ]
