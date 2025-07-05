@@ -2452,7 +2452,7 @@
     "points": -1,
     "vitamin_cost": 60,
     "description": "You find it difficult to see very far in bright light.  On its own, this doesn't necessarily make you any better in the dark.",
-    "types": [ "EYES", "VISION" ],
+    "starting_trait": true,
     "cancels": [ "MYOPIC" ],
     "category": [ "CHIROPTERAN", "TROGLOBITE" ],
     "flags": [ "MYOPIC_IN_LIGHT" ]
