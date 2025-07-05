@@ -900,7 +900,7 @@
     "id": "overrun",
     "name": "Challenge - Overrun",
     "points": 3,
-    "description": "Despite all the soldiers, guns, and minefields, the military base you were in was overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and you are now stuck in the warehouse by yourself.  You are not sure if anyone made it to the armory, or if you are the last one alive.",
+    "description": "Despite all the soldiers, guns, and barbed wire, the military base you were in was overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and you are now stuck in the warehouse by yourself.  You are not sure if anyone made it to the armory, or if you are the last one alive.",
     "start_name": "Military Base Warehouse",
     "allowed_locs": [ "sloc_military_base_warehouse" ],
     "professions": [
