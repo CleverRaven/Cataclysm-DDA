@@ -110,7 +110,11 @@
     "difficulty": 7,
     "time": "3 h",
     "book_learn": [ [ "bronze_book", 4 ], [ "bronze_mag", 5 ], [ "textbook_armschina", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" }
+    ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold_long", -1 ] ] ],
     "components": [
@@ -148,7 +152,11 @@
     "difficulty": 6,
     "time": "3 h",
     "book_learn": [ [ "bronze_book", 4 ], [ "bronze_mag", 5 ], [ "textbook_weapwest", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" }
+    ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [
@@ -177,6 +185,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_bladesmith", "required": true }
     ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
@@ -205,7 +214,11 @@
     "time": "3 h",
     "book_learn": [ [ "bronze_book", 4 ], [ "bronze_mag", 5 ] ],
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" }
+    ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [

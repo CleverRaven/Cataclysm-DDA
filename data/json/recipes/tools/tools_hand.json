@@ -126,6 +126,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking", "required": true },
       { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_toolsmithing", "required": true }
     ],
     "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ], [ "nuts_bolts", 1 ] ] ]
@@ -228,6 +229,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_toolsmithing" }
     ],
     "components": [ [ [ "scrap_bronze", 2 ] ] ]
@@ -341,6 +343,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_toolsmithing" }
     ],
     "tools": [
@@ -365,6 +368,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_toolsmithing" }
     ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
@@ -391,6 +395,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_toolsmithing" }
     ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
@@ -412,6 +417,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_toolsmithing" }
     ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
@@ -794,6 +800,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_toolsmithing" }
     ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
@@ -1225,6 +1232,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_toolsmithing" }
     ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
@@ -1268,7 +1276,11 @@
     "time": "4 h",
     "book_learn": [ [ "bronze_book", 5 ] ],
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" }
+    ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
@@ -1453,6 +1465,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_toolsmithing" }
     ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
