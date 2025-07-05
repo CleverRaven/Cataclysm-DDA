@@ -117,8 +117,8 @@
   {
     "id": "mon_zombie_fat",
     "type": "MONSTER",
-    "name": { "str": "fat zombie" },
-    "description": "Stumbling as it moves, this corpse of an overweight human regards its surroundings with an empty black gaze.",
+    "name": { "str": "bulging zombie" },
+    "description": "Stumbling as it moves, this bulging bloated corpse regards its surroundings with an empty black gaze.  Strange nodules, pustules and growths decorate what skin you can see.",
     "copy-from": "mon_zombie",
     "proportional": { "volume": 1.5, "weight": 1.5 },
     "hp": 95,
