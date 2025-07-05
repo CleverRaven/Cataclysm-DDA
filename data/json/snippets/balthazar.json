@@ -1,0 +1,41 @@
+[
+  {
+    "type": "snippet",
+    "category": "<balthazar_camp>",
+    "text": [ "<balthazar_prefix> <balthazar_location> <balthazar_affix>", "<balthazar_boring>" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<balthazar_prefix>",
+    "text": [ "Black", "Basilisk", "Ebon", "Forgotten", "Defensive", "Vortex", "Calculation", "Pegasus", "Final", "Astral" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<balthazar_location>",
+    "text": [ "site", "bunker", "station", "base" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<balthazar_affix>",
+    "text": [ "alpha", "beta", "gamma", "delta", "lambda", "omega", "terra", "nova", "apex", "thor" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<balthazar_boring>",
+    "text": [
+      "Olster Engineering",
+      "Reserve Production Facility",
+      "Boston Inc",
+      "Milford Corporation",
+      "Lawrence Logistics",
+      "Brockton Warehouse",
+      "Acton Actionables",
+      "Winchester Power",
+      "Ashland Ltd",
+      "Penologies Inc",
+      "Aaron Dynamics",
+      "Yuri Statics",
+      "Douglas Statistics"
+    ]
+  }
+]

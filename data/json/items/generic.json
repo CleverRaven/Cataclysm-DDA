@@ -3527,6 +3527,11 @@
   },
   {
     "type": "ITEM",
+    "id": "broken_turret_rifle_balthazar",
+    "copy-from": "broken_turret_rifle"
+  },
+  {
+    "type": "ITEM",
     "id": "broken_crows_m240",
     "symbol": ",",
     "color": "green",
@@ -3568,6 +3573,11 @@
     "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
     "melee_damage": { "bash": 4, "cut": 4 }
+  },
+  {
+    "type": "ITEM",
+    "id": "broken_secubot_balthazar",
+    "copy-from": "broken_secubot"
   },
   {
     "type": "ITEM",
