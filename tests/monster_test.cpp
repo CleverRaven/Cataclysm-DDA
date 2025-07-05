@@ -902,3 +902,67 @@ TEST_CASE( "monster_cant_enter_reality_bubble_because_wall", "[monster][hordes]"
     CAPTURE( step_attempts );
     REQUIRE( g->num_creatures() == 1 );
 }
+
+static void walk_toward_monster_off_the_map( tripoint_bub_ms monster_spawn_location_rel,
+        point walk_direction )
+{
+    clear_map();
+    map &here = get_map();
+    // Place character in the central submap of map.
+    tripoint_bub_ms player_start_pos{ 11 * 6, 11 * 6, 0 };
+    CAPTURE( monster_spawn_location_rel );
+    tripoint_abs_ms monster_spawn_location = here.get_abs( monster_spawn_location_rel );
+    // Player spawned at known location.
+    get_player_character().setpos( here, player_start_pos );
+
+    // Place monster in overmap::monster_map off the edge of the reality bubble.
+    monster &test_mon = overmap_buffer.spawn_monster( monster_spawn_location, mon_zombie );
+    test_mon.nickname.assign( "crash test dummy alpha" );
+
+    // move player toward monster, triggering map shifts
+    int num_steps = 0;
+    while( g->num_creatures() == 1 && num_steps < 100 ) {
+        ++num_steps;
+        g->walk_move( get_player_character().pos_bub() + walk_direction );
+        for( monster &critter : g->all_monsters() ) {
+            if( critter.nickname.compare( "crash test dummy alpha" ) != 0 ) {
+                g->remove_zombie( critter );
+            } else {
+                // Target zombie spawned.
+                // Zombie should not have moved.
+                CHECK( critter.pos_abs() == monster_spawn_location );
+                // Assert that monsters appear on edge of map when expected.
+                CHECK( rl_dist( critter.pos_abs(), get_player_character().pos_abs() ) >= 60 );
+            }
+        }
+    }
+    INFO( "Never found the target monster." );
+    REQUIRE( g->num_creatures() == 2 );
+}
+
+TEST_CASE( "monsters_appear_on_map_as_expected", "[monster][map][hordes]" )
+{
+    // The goal of the variations here is to catch edge cases concerning direction of movement or
+    // which quadrant of an OMT the monster is on.
+    tripoint_bub_ms origin_of_center_of_map{ 5 * 12, 5 * 12, 0 };
+    tripoint_bub_ms omt_origin_to_east_of_map = origin_of_center_of_map + point( 12 * 8, 0 );
+    walk_toward_monster_off_the_map( omt_origin_to_east_of_map + point( 6, 6 ), point::east );
+    walk_toward_monster_off_the_map( omt_origin_to_east_of_map + point( 18, 6 ), point::east );
+    walk_toward_monster_off_the_map( omt_origin_to_east_of_map + point( 6, 18 ), point::east );
+    walk_toward_monster_off_the_map( omt_origin_to_east_of_map + point( 18, 18 ), point::east );
+    tripoint_bub_ms omt_origin_to_west_of_map = origin_of_center_of_map + point( -12 * 8, 0 );
+    walk_toward_monster_off_the_map( omt_origin_to_west_of_map + point( 6, 6 ), point::west );
+    walk_toward_monster_off_the_map( omt_origin_to_west_of_map + point( 18, 6 ), point::west );
+    walk_toward_monster_off_the_map( omt_origin_to_west_of_map + point( 6, 18 ), point::west );
+    walk_toward_monster_off_the_map( omt_origin_to_west_of_map + point( 18, 18 ), point::west );
+    tripoint_bub_ms omt_origin_to_north_of_map = origin_of_center_of_map + point( 0, -12 * 8 );
+    walk_toward_monster_off_the_map( omt_origin_to_north_of_map + point( 6, 6 ), point::north );
+    walk_toward_monster_off_the_map( omt_origin_to_north_of_map + point( 18, 6 ), point::north );
+    walk_toward_monster_off_the_map( omt_origin_to_north_of_map + point( 6, 18 ), point::north );
+    walk_toward_monster_off_the_map( omt_origin_to_north_of_map + point( 18, 18 ), point::north );
+    tripoint_bub_ms omt_origin_to_south_of_map = origin_of_center_of_map + point( 0, 12 * 8 );
+    walk_toward_monster_off_the_map( omt_origin_to_south_of_map + point( 6, 6 ), point::south );
+    walk_toward_monster_off_the_map( omt_origin_to_south_of_map + point( 18, 6 ), point::south );
+    walk_toward_monster_off_the_map( omt_origin_to_south_of_map + point( 6, 18 ), point::south );
+    walk_toward_monster_off_the_map( omt_origin_to_south_of_map + point( 18, 18 ), point::south );
+}
