@@ -5,12 +5,14 @@
 #include <stdint.h>
 #include <algorithm>
 #include <array>
+#include <bitset>
 #include <climits>
 #include <cstdlib>
 #include <functional>
 #include <iosfwd>
 #include <iterator>
 #include <map>
+#include <memory>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -49,6 +51,7 @@ class cata_path;
 class character_id;
 class npc;
 class overmap_connection;
+struct map_data_summary;
 struct regional_settings;
 template <typename T> struct enum_traits;
 
@@ -131,6 +134,7 @@ struct map_layer {
     cata::mdarray<oter_id, point_om_omt> terrain;
     cata::mdarray<om_vision_level, point_om_omt> visible;
     cata::mdarray<bool, point_om_omt> explored;
+    cata::mdarray<std::shared_ptr<map_data_summary>, point_om_omt> map_cache;
     std::vector<om_note> notes;
     std::vector<om_map_extra> extras;
 };
@@ -315,6 +319,19 @@ class overmap
         void delete_extra( const tripoint_om_omt &p );
 
         /**
+         * Access cache of map data for agents operating at overmap scale.
+         */
+        bool passable( const tripoint_om_ms &p );
+        std::shared_ptr<map_data_summary> get_omt_summary( const tripoint_om_omt &p );
+        void set_passable( const tripoint_om_ms &p, bool new_passable );
+        void set_passable( const tripoint_abs_omt &p, const std::bitset<24 * 24> &new_passable );
+    private:
+        void set_passable( const tripoint_abs_omt &p, std::shared_ptr<map_data_summary> new_passable );
+        void set_passable( const tripoint_abs_omt &p, string_id<map_data_summary> new_passable );
+    public:
+        // Spawn a monter at overmap scale.
+        monster &spawn_monster( const tripoint_abs_ms &p, mtype_id id );
+        /**
          * Getter for overmap scents.
          * @returns a reference to a scent_trace from the requested location.
          */
@@ -332,6 +349,8 @@ class overmap
         static bool inbounds( const point_om_omt &p, int clearance = 0 ) {
             return inbounds( tripoint_om_omt( p, 0 ), clearance );
         }
+        bool inbounds( const tripoint_abs_ms &p );
+
         /**
          * Return a vector containing the absolute coordinates of
          * every matching note on the current z level of the current overmap.
@@ -476,9 +495,21 @@ class overmap
          * When monsters despawn during map-shifting they will be added here.
          * map::spawn_monsters will load them and place them into the reality bubble
          * (adding it to the creature tracker and putting it onto the map).
-         * This stores each submap worth of monsters in a different bucket of the multimap.
+         * This stores each submap worth of monsters in a seperate tree.
          */
-        std::unordered_multimap<tripoint_om_sm, monster> monster_map;
+        // This very much needs to be much smaller, just holding enough state so we know
+        // what kind of monster it is, and it's navigation goals.
+        // Destination, which might be an abs tripoint or possibly a direction.
+        // Intensity, which tracks the monster forgetting about whatever stimulii it was?
+        // Possibly some accuracy number so if it keeps getting stimulii (e.g. hears noises)
+        // it can refine the direction of movement.
+        // Monster type, pointer or string_id<monster>
+        // In particular the above data will be referenced by the horde navigation code and the
+        // below data will mostly just be stored to recreate the monster once it enters the map or
+        // interacts with something where we want a whole monster instance.
+        // Evolution data?
+        // HP, conditions
+        std::unordered_map <tripoint_om_sm, std::map<tripoint_abs_ms, monster>> monster_map;
 
         // parse data in an opened overmap file
         void unserialize( const cata_path &file_name, std::istream &fin );

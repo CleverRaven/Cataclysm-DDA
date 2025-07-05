@@ -3,6 +3,7 @@
 #define CATA_SRC_OVERMAPBUFFER_H
 
 #include <array>
+#include <bitset>
 #include <functional>
 #include <map>
 #include <memory>
@@ -443,6 +444,10 @@ class overmapbuffer
         t_extras_vector find_extras( int z, const std::string_view pattern ) {
             return get_extras( z, pattern ); // filter with pattern
         }
+        bool passable( const tripoint_abs_ms &p );
+        std::shared_ptr<map_data_summary> get_omt_summary( const tripoint_abs_omt &p );
+        void set_passable( const tripoint_abs_ms &p, bool new_passable );
+        void set_passable( const tripoint_abs_omt &p, const std::bitset<24 * 24> &new_passable );
         /**
          * Signal nearby hordes to move to given location.
          * @param center The origin of the signal, hordes (that recognize the signal) want to go
@@ -450,6 +455,10 @@ class overmapbuffer
          * @param sig_power The signal strength, higher values means it visible farther away.
          */
         void signal_hordes( const tripoint_abs_sm &center, int sig_power );
+        /**
+          * Clear all the mongroups, intended for test code only.
+        */
+        void clear_mongroups();
         /**
          * Process nearby monstergroups (dying mostly).
          */
@@ -491,6 +500,10 @@ class overmapbuffer
          * p is an absolute *submap* coordinate.
          */
         void spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal = false );
+        /**
+         * Spawn a specified monster type at a specified location on an overmap.
+         */
+        monster &spawn_monster( const tripoint_abs_ms &p, mtype_id id );
         /**
          * Despawn the monster back onto the overmap. The monsters position
          * (monster::pos()) is interpreted as relative to the main map.
