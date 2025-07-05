@@ -7119,7 +7119,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint_bub_ms &p,
             // (that are visible to the player!), we always set the symbol.
             // If there are items and the field does not hide them,
             // the code handling items will override it.
-            draw_item_sym = ( field_symbol == "'%" );
+            draw_item_sym = ( field_symbol == "%" );
             // If field display_priority is > 1, and the field is set to hide items,
             //draw the field as it obscures what's under it.
             if( ( field_symbol != "%" && fid.obj().priority > 1 ) || ( field_symbol != "%" &&
