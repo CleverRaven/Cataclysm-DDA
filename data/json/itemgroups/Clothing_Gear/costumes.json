@@ -259,7 +259,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "santa_beard", "prob": 20 },
-      { "item": "mask_guy_fawkes", "prob": 10 },
+      { "item": "mask_skull", "variant": "guy_fawkes", "prob": 10 },
       { "item": "mask_hockey", "prob": 20 },
       { "item": "bondage_mask", "prob": 5 },
       { "item": "blindfold", "prob": 5 },
