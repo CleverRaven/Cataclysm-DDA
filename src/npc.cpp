@@ -3057,11 +3057,11 @@ void npc::die( map *here, Creature *nkiller )
             if( morale_effect == 0 ) {
                 // No morale effect
             } else if( morale_effect <= -50 ) {
-                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 2_days, 3_hours );
+                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 14_days, 7_days );
             } else if( morale_effect > -50 && morale_effect < 0 ) {
-                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 1_days, 1_hours );
+                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 10_days, 7_days );
             } else {
-                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 3_hours, 7_minutes );
+                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 7_days, 4_days );
             }
         }
     }

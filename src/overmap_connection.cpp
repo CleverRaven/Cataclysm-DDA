@@ -20,6 +20,7 @@ generic_factory<overmap_connection> connections( "overmap connection" );
 static const std::unordered_map<std::string, overmap_connection::subtype::flag>
 connection_subtype_flag_map = {
     { "ORTHOGONAL", overmap_connection::subtype::flag::orthogonal },
+    { "PERPENDICULAR_CROSSING", overmap_connection::subtype::flag::perpendicular_crossing }
 };
 
 template<>

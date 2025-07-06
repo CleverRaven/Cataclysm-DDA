@@ -186,6 +186,7 @@
       [ "spell_scroll_magus_mana_bolt", 35 ],
       [ "spell_scroll_magus_mana_beam", 35 ],
       [ "spell_scroll_magus_escape", 50 ],
+      [ "spell_scroll_magus_push_nearby_enemies_back", 50 ],
       [ "spell_scroll_magus_slow", 40 ],
       [ "spell_scroll_magus_teleport_mark", 25 ],
       [ "spell_scroll_cats_grace", 50 ],

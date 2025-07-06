@@ -103,7 +103,7 @@
         "P": { "item": "SUS_office_desk", "chance": 80 },
         "n": { "item": "dinnerware", "chance": 25 },
         "C": { "item": "dentist_supplies", "chance": 75 },
-        "t": { "item": "SUS_trash_trashcan", "chance": 100 }
+        "t": { "item": "SUS_trash_trashcan_public", "chance": 100 }
       },
       "place_loot": [ { "item": "microwave", "x": 4, "y": 11 } ]
     }

@@ -161,6 +161,11 @@
   },
   {
     "type": "item_group",
+    "id": "afs_welding_paste_tube",
+    "items": [ { "item": "afs_welding_paste", "count": 280 } ]
+  },
+  {
+    "type": "item_group",
     "id": "afs_tools_welding",
     "//": "tools used for sci-fi and not sci-fi welding.",
     "ammo": 75,
@@ -168,7 +173,9 @@
     "items": [
       {
         "distribution": [
-          { "item": "welder", "prob": 40 },
+          { "item": "welder", "prob": 20 },
+          { "item": "squeeze_tube", "contents-group": "afs_welding_paste_tube", "prob": 20, "count": [ 1, 2 ] },
+          { "item": "welder", "prob": 20 },
           {
             "collection": [
               { "item": "oxy_torch", "prob": 100, "count": [ 1, 2 ] },
@@ -203,6 +210,7 @@
     "type": "item_group",
     "id": "afs_tools_welding_consumable",
     "items": [
+      { "item": "squeeze_tube", "contents-group": "afs_welding_paste_tube", "prob": 90, "count": [ 1, 2 ] },
       { "item": "welding_rod_steel", "prob": 90, "charges": [ 1000, 1600 ] },
       { "item": "welding_rod_alloy", "prob": 40, "charges": [ 1000, 1600 ] },
       { "item": "welding_wire_steel", "prob": 90, "charges": [ 1000, 1600 ] },

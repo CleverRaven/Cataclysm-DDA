@@ -142,6 +142,7 @@
     "special_attacks": [
       {
         "type": "spell",
+        "cooldown": 0,
         "spell_data": { "id": "boomer_claymore_initial", "min_level": 0 },
         "monster_message": "A bombardier boomer explodes!"
       }

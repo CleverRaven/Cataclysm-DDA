@@ -1147,7 +1147,9 @@
         { "item": "splinter", "count": [ 10, 20 ] },
         { "item": "rope_6", "count": [ 0, 2 ] },
         { "item": "string_6", "count": [ 0, 1 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1171,7 +1173,9 @@
         { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "cable", "charges": [ 0, 1 ] },
         { "item": "scrap", "count": [ 3, 5 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {

@@ -58,7 +58,7 @@
       "NO_UNLOAD"
     ],
     "tool_ammo": "battery",
-    "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ]
+    "passive_effects": [ { "id": "afs_ench_climate_control_warm" }, { "id": "afs_ench_cryo_ui" } ]
   },
   {
     "id": "afs_magellan_suit_on",
@@ -78,7 +78,8 @@
       "menu_text": "Turn off",
       "msg": "Your %s deactivates.",
       "target": "afs_magellan_suit"
-    }
+    },
+    "extend": { "flags": [ "ACTIVE_CRYOSUIT" ] }
   },
   {
     "id": "afs_frontier_cryo",
@@ -148,6 +149,7 @@
     "power_draw": "6944 mW",
     "warmth": 150,
     "revert_to": "afs_frontier_cryo",
+    "extend": { "flags": [ "ACTIVE_CRYOSUIT" ] },
     "use_action": {
       "type": "transform",
       "ammo_scale": 0,
@@ -182,6 +184,8 @@
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 2 },
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": 2 },
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 2 },
+      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 2 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 2 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 2 },
       { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 2 },
@@ -230,7 +234,8 @@
       "menu_text": "Turn off",
       "msg": "Your %s deactivates.",
       "target": "afs_combat_cryo"
-    }
+    },
+    "extend": { "flags": [ "ACTIVE_CRYOSUIT" ] }
   },
   {
     "id": "afs_combat_cryo_xl",
@@ -240,6 +245,14 @@
     "copy-from": "afs_combat_cryo",
     "description": "A sleek black undersuit criss-crossed with the tubing of a heat regulation unit.  Insulation is kept at a minimum to allow for combat mobility, and the suit is quite power hungry as a result.  Despite the name, it's minimally protective and designed to be worn under a set of armor.  Made to fit the uplifted, the heavily augmented, or similarly sized individuals.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s.",
+      "target": "afs_combat_cryo_on_xl",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead."
+    },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
@@ -249,7 +262,15 @@
     "name": { "str": "combat cryo suit (on)", "str_pl": "combat cryo suits (on)" },
     "copy-from": "afs_combat_cryo_on",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "revert_to": "afs_combat_cryo_xl",
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "afs_combat_cryo_xl"
+    },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ACTIVE_CRYOSUIT" ] }
   },
   {
     "id": "afs_cryopod_bodyglove",
@@ -307,6 +328,7 @@
     "looks_like": "afs_cryopod_bodyglove",
     "description": "A dark orange bodyglove, hundreds of tubes curl over its surface, tracing the contours of human musculature.  Meant to control body temperature during prolonged cryopreservation, it could easily keep you comfortable in any earthly climate.  The temperature control units of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
     "power_draw": "90 W",
+    "warmth": 150,
     "revert_to": "afs_cryopod_bodyglove",
     "use_action": {
       "type": "transform",
@@ -315,6 +337,16 @@
       "msg": "Your %s deactivates.",
       "target": "afs_cryopod_bodyglove"
     },
-    "flags": [ "VARSIZE", "SKINTIGHT", "RAINPROOF", "STURDY", "WATERPROOF", "PADDED", "THERMOMETER", "HYGROMETER" ]
+    "flags": [
+      "VARSIZE",
+      "SKINTIGHT",
+      "RAINPROOF",
+      "STURDY",
+      "WATERPROOF",
+      "PADDED",
+      "THERMOMETER",
+      "HYGROMETER",
+      "ACTIVE_CRYOSUIT"
+    ]
   }
 ]

@@ -1,0 +1,64 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "labyrinthine_structure",
+    "subtype": "mutable",
+    "locations": [ "subterranean_empty", "land" ],
+    "check_for_locations": [ [ [ 0, 0, 1 ], [ "open_air" ] ], [ [ 0, 0, 0 ], [ "land" ] ] ],
+    "check_for_locations_area": [ { "type": [ "subterranean_empty" ], "from": [ -4, -4, -7 ], "to": [ 4, 4, -7 ] } ],
+    "//": "Placed with EoC",
+    "occurrences": [ 0, 0 ],
+    "flags": [ "EXODII" ],
+    "joins": [ { "id": "passage_to_passage", "into_locations": [ "subterranean_empty" ] }, { "id": "surface_to_z-7" } ],
+    "overmaps": {
+      "root": { "overmap": "field", "above": "surface_to_z-7" },
+      "root_to_entrance": { "overmap": "open_air", "below": "surface_to_z-7", "locations": [ "open_air" ] },
+      "entrance": {
+        "overmap": "labyrinth_entrance_north",
+        "north": "passage_to_passage",
+        "east": "passage_to_passage",
+        "south": "passage_to_passage",
+        "west": "passage_to_passage"
+      },
+      "crossroads": {
+        "overmap": "labyrinth_hall_nesw",
+        "north": "passage_to_passage",
+        "east": "passage_to_passage",
+        "south": "passage_to_passage",
+        "west": "passage_to_passage"
+      },
+      "tee": {
+        "overmap": "labyrinth_hall_nes",
+        "north": "passage_to_passage",
+        "east": "passage_to_passage",
+        "south": "passage_to_passage"
+      },
+      "straight_passage": { "overmap": "labyrinth_hall_ew", "east": "passage_to_passage", "west": "passage_to_passage" },
+      "corner": { "overmap": "labyrinth_hall_ne", "north": "passage_to_passage", "east": "passage_to_passage" },
+      "dead_end": { "overmap": "labyrinth_hall_end_west", "west": "passage_to_passage" }
+    },
+    "root": "root",
+    "phases": [
+      [
+        {
+          "name": "entrance",
+          "chunk": [ { "overmap": "root_to_entrance", "pos": [ 0, 0, 1 ] }, { "overmap": "entrance", "pos": [ 0, 0, -7 ] } ],
+          "max": 1
+        }
+      ],
+      [
+        { "overmap": "straight_passage", "max": { "poisson": 20 } },
+        { "overmap": "corner", "max": { "poisson": 30 } },
+        { "overmap": "tee", "max": { "poisson": 20 } },
+        { "overmap": "dead_end", "weight": 1 }
+      ],
+      [
+        { "overmap": "dead_end", "weight": 2000 },
+        { "overmap": "straight_passage", "weight": 20 },
+        { "overmap": "corner", "weight": 100 },
+        { "overmap": "tee", "weight": 20 },
+        { "overmap": "crossroads", "weight": 1 }
+      ]
+    ]
+  }
+]

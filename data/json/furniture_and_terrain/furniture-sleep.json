@@ -26,7 +26,9 @@
         { "item": "sheet_cotton", "count": [ 5, 6 ] },
         { "item": "cotton_patchwork", "count": [ 8, 15 ] },
         { "item": "scrap", "count": [ 10, 20 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -59,7 +61,9 @@
         { "item": "sheet_cotton", "count": [ 10, 13 ] },
         { "item": "cotton_patchwork", "count": [ 8, 14 ] },
         { "item": "scrap", "count": [ 20, 40 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -90,7 +94,9 @@
         { "item": "cotton_patchwork", "count": [ 10, 15 ] },
         { "item": "down_feather", "count": [ 45, 55 ] },
         { "item": "scrap", "count": [ 10, 20 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -124,7 +130,9 @@
         { "item": "cotton_patchwork", "count": [ 12, 14 ] },
         { "item": "down_feather", "count": [ 90, 110 ] },
         { "item": "scrap", "count": [ 20, 40 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -184,7 +192,9 @@
         { "item": "2x4", "count": [ 5, 8 ] },
         { "item": "nail", "charges": [ 6, 8 ] },
         { "item": "splinter", "count": [ 3, 6 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -325,7 +335,9 @@
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "sheet_cotton", "count": [ 2, 3 ] },
         { "item": "cotton_patchwork", "count": [ 6, 14 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -351,7 +363,9 @@
         { "item": "stick", "count": [ 2, 3 ] },
         { "item": "straw_pile", "count": [ 100, 120 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   }
 ]

@@ -88,6 +88,8 @@ class fault
         // int is additive (default 0), float is multiplier (default 1)
         std::vector<std::tuple<int, float, damage_type_id>> armor_mod() const;
         bool affected_by_degradation() const;
+        double encumb_mod_flat() const;
+        double encumb_mod_mult() const;
         bool has_flag( const std::string &flag ) const;
         const std::set<fault_id> &get_block_faults() const;
 
@@ -112,6 +114,8 @@ class fault
         int degradation_mod_ = 0;
         std::vector<std::tuple<int, float, damage_type_id>> melee_damage_mod_;
         std::vector<std::tuple<int, float, damage_type_id>> armor_mod_;
+        int encumbrance_mod_flat_ = 0;
+        float encumbrance_mod_mult_ = 1.f;
         // todo add tool_quality_mod_; axe with no handle won't axe
         bool affected_by_degradation_ = false;
 

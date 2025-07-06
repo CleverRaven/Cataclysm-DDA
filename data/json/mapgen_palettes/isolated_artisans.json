@@ -88,7 +88,7 @@
       "m": "f_metal_crate_o"
     },
     "items": {
-      "k": { "item": "office", "chance": 25 },
+      "k": { "item": "SUS_office_desk", "chance": 25 },
       "f": { "item": "SUS_fridge", "chance": 45, "repeat": [ 1, 2 ] },
       "o": { "item": "SUS_oven", "chance": 40 },
       "8": { "item": "homebooks", "chance": 45, "repeat": [ 1, 3 ] },

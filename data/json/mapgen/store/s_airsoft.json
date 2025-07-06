@@ -74,7 +74,7 @@
         },
         "T": { "item": "dishes_dining", "chance": 20 },
         "F": { "item": "SUS_fridge_breakroom", "chance": 75 },
-        "y": { "item": "SUS_trash_trashcan", "chance": 100 },
+        "y": { "item": "SUS_trash_trashcan_public", "chance": 100 },
         "S": { "item": "SUS_bathroom_sink", "chance": 100 },
         "v": { "item": "SUS_bathroom_sink", "chance": 100 },
         "C": { "item": "SUS_appliances_cupboard", "chance": 100 },

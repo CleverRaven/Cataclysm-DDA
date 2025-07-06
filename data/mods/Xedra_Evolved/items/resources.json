@@ -56,7 +56,23 @@
     "name": { "str_sp": "water" },
     "copy-from": "water",
     "calories": 0,
-    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] }
+    "extend": {
+      "flags": [ "NUTRIENT_OVERRIDE" ],
+      "contamination": [ { "disease": "xe_hydrating_gout_incubation", "probability": 0.1 } ]
+    }
+  },
+  {
+    "id": "water_murky",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "DRINK",
+    "name": { "str_sp": "murky water" },
+    "copy-from": "water_murky",
+    "calories": 0,
+    "extend": {
+      "flags": [ "NUTRIENT_OVERRIDE" ],
+      "contamination": [ { "disease": "xe_hydrating_gout_incubation", "probability": 10 } ]
+    }
   },
   {
     "id": "scrap_shadowstuff",

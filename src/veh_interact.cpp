@@ -1894,6 +1894,7 @@ void veh_interact::do_remove( map &here )
             move_in_list( pos, action, parts_here.size() );
         }
     }
+    veh->recalculate_enchantment_cache();
 }
 
 void veh_interact::do_siphon( map &here )

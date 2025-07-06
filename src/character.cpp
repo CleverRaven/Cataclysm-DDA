@@ -2853,6 +2853,7 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
         }
     }
     bool level_up = false;
+    // NOTE: Normally always training, this training toggle is just retained for tests
     if( amount > 0 && level.isTraining() ) {
         int old_practical_level = static_cast<int>( get_skill_level( id ) );
         int old_theoretical_level = get_knowledge_level( id );
@@ -2881,7 +2882,8 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
 
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
-        if( !( has_flag( json_flag_PRED4 ) && skill.is_combat_skill() ) ) {
+        const bool predator_training_combat = has_flag( json_flag_PRED4 ) && skill.is_combat_skill();
+        if( skill.training_consumes_focus() && !predator_training_combat ) {
             // Base reduction on the larger of 1% of total, or practice amount.
             // The latter kicks in when long actions like crafting
             // apply many turns of gains at once.
@@ -4043,7 +4045,7 @@ units::mass Character::get_weight() const
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
     ret += bionics_weight();       // Weight of installed bionics
-    return ret;
+    return enchantment_cache->modify_value( enchant_vals::mod::TOTAL_WEIGHT, ret );
 }
 
 std::pair<int, int> Character::climate_control_strength() const
@@ -5665,11 +5667,13 @@ void Character::toolmod_add( item_location tool, item_location mod )
         return;
     }
 
-    if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
-                   colorize( mod->tname(), mod->color_in_inventory() ),
-                   colorize( tool->tname(), tool->color_in_inventory() ) ) ) {
-        add_msg_if_player( _( "Never mind." ) );
-        return; // player canceled installation
+    if( mod->is_irremovable() ) {
+        if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
+                       colorize( mod->tname(), mod->color_in_inventory() ),
+                       colorize( tool->tname(), tool->color_in_inventory() ) ) ) {
+            add_msg_if_player( _( "Never mind." ) );
+            return; // player canceled installation
+        }
     }
 
     assign_activity( ACT_TOOLMOD_ADD, 1, -1 );
@@ -7219,8 +7223,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
 
     actually_used->activation_consume( charges_used.value(), pt, this );
 
-    if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ||
-        actually_used->is_deployable() ) {
+    if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ) {
         i_rem( actually_used );
         return true;
     }

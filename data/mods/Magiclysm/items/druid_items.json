@@ -1,0 +1,364 @@
+[
+  {
+    "abstract": "mag_wildwood",
+    "type": "ITEM",
+    "name": "abstract wildwood doodad",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "description": { "str": "A generic wildwood doodad used" },
+    "warmth": 0,
+    "material": [ "wood", "veggy" ],
+    "symbol": "x",
+    "color": "light_green",
+    "max_worn": 1
+  },
+  {
+    "id": "mag_pseudo_weaver",
+    "copy-from": "fake_item",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "Wildwood Weaver" },
+    "sub": "sewing_kit",
+    "qualities": [ [ "SEW", 4 ], [ "SEW_CURVED", 1 ], [ "KNIT", 1 ], [ "LEATHER_AWL", 2 ], [ "CUT", 2 ], [ "FABRIC_CUT", 2 ] ],
+    "tool_ammo": [ "mag_awakened_water" ],
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_fabric",
+        "materials": [
+          "cotton",
+          "leather",
+          "lycra",
+          "nylon",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "kevlar_layered",
+          "neoprene",
+          "parabolan_wool",
+          "gutskin",
+          "canvas"
+        ],
+        "skill": "tailor",
+        "tool_quality": 1,
+        "cost_scaling": 0.1,
+        "move_cost": 300
+      },
+      [ "PLAY_GAME" ]
+    ]
+  },
+  {
+    "id": "mag_green_roughage",
+    "type": "requirement",
+    "components": [
+      [
+        [ "young_leaves", 2 ],
+        [ "leaves", 2 ],
+        [ "grape_leaves", 2 ],
+        [ "fiddlehead_raw", 2 ],
+        [ "cattail_rhizome", 2 ],
+        [ "raw_dandelion", 2 ],
+        [ "juniper", 2 ]
+      ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mushroom_collection",
+    "subtype": "distribution",
+    "entries": [ { "item": "mushroom", "count": 1 }, { "item": "mushroom_morel", "count": 1 } ]
+  },
+  {
+    "type": "material",
+    "id": "mag_awakened_water",
+    "name": "Awakened Water",
+    "//": "Dilluted mana components mixed with water.  Enacted by a druid's rune.",
+    "copy-from": "water"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "mag_awakened_water",
+    "name": "Awakened Water",
+    "default": "mag_awakened_water"
+  },
+  {
+    "id": "mag_awakened_water",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str_sp": "glowing awakened water" },
+    "description": "A nutrient-rich elixir for wildwood entities.  No longer fit for consumption.",
+    "category": "fuel",
+    "weight": "750 mg",
+    "volume": "200ml",
+    "price": "2 USD",
+    "price_postapoc": "20 cent",
+    "phase": "liquid",
+    "container": "bottle_gourd",
+    "material": [ "mag_awakened_water" ],
+    "symbol": "=",
+    "color": "light_blue",
+    "count": 225,
+    "stack_size": 20,
+    "ammo_type": "mag_awakened_water"
+  },
+  {
+    "id": "mag_sealed_glowing_gourd",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "clothing",
+    "name": { "str_sp": "sealed glowing gourd" },
+    "description": "A gourd sealed with a druid's rune.  You may harvest the liquid inside when it is done brewing.",
+    "weight": "2125 g",
+    "volume": "2500 ml",
+    "material": [ "wood" ],
+    "symbol": "6",
+    "color": "brown",
+    "use_action": {
+      "target": "mag_awakened_water",
+      "msg": "The rune cracks as you open the gourd and collect the liquid.",
+      "container": "bottle_gourd",
+      "target_charges": 225,
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 28800,
+      "not_ready_msg": "The liquid isn't done brewing yet."
+    },
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "TRADER_AVOID" ],
+    "armor": [
+      {
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 3,
+        "coverage": 8,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_front" ]
+      }
+    ]
+  },
+  {
+    "id": "mag_immature_weaver",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "copy-from": "mag_wildwood",
+    "name": { "str": "immature wildwood weaver" },
+    "sub": "sewing_kit",
+    "description": "This weaver is immature, it needs to be fed with awakened water to grow.  It attentively observes its surroundings.",
+    "weight": "50 g",
+    "volume": "125 ml",
+    "sided": true,
+    "flags": [
+      "AURA",
+      "STURDY",
+      "ONE_PER_LAYER",
+      "WATER_FRIENDLY",
+      "ALLOWS_NATURAL_ATTACKS",
+      "OVERSIZE",
+      "ALLOWS_REMOTE_USE",
+      "PADDED"
+    ],
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ],
+    "tool_ammo": [ "mag_awakened_water" ],
+    "qualities": [ [ "SEW", 4 ], [ "SEW_CURVED", 1 ], [ "KNIT", 1 ], [ "LEATHER_AWL", 2 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "mag_awakened_water": 350 } } ],
+    "use_action": [
+      {
+        "target": "mag_adult_weaver",
+        "msg": "The %s matures.  Another pair of legs sharpen into blades for cutting fabric.  It still has some room to grow.",
+        "active": true,
+        "moves": 50,
+        "need_charges": 350,
+        "need_charges_msg": "The weaver does not have enough liquid.",
+        "type": "delayed_transform",
+        "transform_age": 432000,
+        "not_ready_msg": "The weaver isn't done growing yet."
+      },
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_fabric",
+        "materials": [
+          "cotton",
+          "leather",
+          "lycra",
+          "nylon",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "kevlar_layered",
+          "neoprene",
+          "parabolan_wool",
+          "gutskin",
+          "canvas",
+          "black_dragon_hide"
+        ],
+        "skill": "tailor",
+        "tool_quality": 1,
+        "cost_scaling": 0.1,
+        "move_cost": 700
+      }
+    ]
+  },
+  {
+    "id": "mag_adult_weaver",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "adult wildwood weaver" },
+    "sub": "sewing_kit",
+    "copy-from": "mag_immature_weaver",
+    "description": "This weaver is fully grown.  There's no light behind its eyes, yet.",
+    "extend": { "qualities": [ [ "CUT", 2 ], [ "FABRIC_CUT", 2 ] ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "mag_awakened_water": 300 } } ],
+    "use_action": [
+      {
+        "target": "mag_awoken_weaver",
+        "msg": "The %s awakens.  It gazes at you with its many eyes, ready to serve you.",
+        "active": true,
+        "moves": 50,
+        "need_charges": 300,
+        "need_charges_msg": "The weaver does not have enough liquid.",
+        "type": "delayed_transform",
+        "transform_age": 432000,
+        "not_ready_msg": "The weaver isn't done growing yet."
+      },
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_fabric",
+        "materials": [
+          "cotton",
+          "leather",
+          "lycra",
+          "nylon",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "kevlar_layered",
+          "neoprene",
+          "parabolan_wool",
+          "gutskin",
+          "canvas",
+          "black_dragon_hide"
+        ],
+        "skill": "tailor",
+        "tool_quality": 1,
+        "cost_scaling": 0.1,
+        "move_cost": 500
+      }
+    ]
+  },
+  {
+    "id": "mag_awoken_weaver",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "name": { "str": "awoken wildwood weaver" },
+    "sub": "sewing_kit",
+    "description": "You never thought you'd see the day when a wildwood entity would be so playful and docile.  This weaver is ready to serve you, and can be used to repair clothing or create a shelter.",
+    "copy-from": "mag_adult_weaver",
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "skills": [ { "value": "tailor", "add": 1 } ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "mag_awakened_water": 250 } } ],
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_fabric",
+        "materials": [
+          "cotton",
+          "leather",
+          "lycra",
+          "nylon",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "kevlar_layered",
+          "neoprene",
+          "parabolan_wool",
+          "gutskin",
+          "canvas",
+          "black_dragon_hide",
+          "demon_chitin"
+        ],
+        "skill": "tailor",
+        "tool_quality": 1,
+        "cost_scaling": 0.1,
+        "move_cost": 300
+      },
+      [ "PLAY_GAME" ]
+    ]
+  },
+  {
+    "type": "ITEM",
+    "id": "mag_brokeweaver",
+    "subtypes": [ "ARTIFACT" ],
+    "symbol": ";",
+    "color": "green",
+    "name": { "str": "small damaged weaver" },
+    "description": "A tiny broken weaver.  Its legs bent and broken, it can no longer be used to repair clothing or create a shelter.",
+    "material": [ "wood", "veggy" ],
+    "weight": "50 g",
+    "volume": "125 ml",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "mag_wildwood_beetle_ball",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "small wildwood stag beetle ball" },
+    "description": "A small ball made of wildwood.  A narrative relief of a stag beetle dancing wraps the ball.  A soft chittering noise can be heard from it.",
+    "//": "Considering writing code to check for u_has_item_named so that the ball can be dynamic based on a final selector ingredient.",
+    "//1": "Then the EOC would check for what the ball is named and do effects based on that.",
+    "weight": "425 g",
+    "volume": "500 ml",
+    "copy-from": "mag_wildwood",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "mag_awakened_water": 400 } } ],
+    "charges_per_use": 125,
+    "use_action": [
+      { "type": "cast_spell", "spell_id": "mag_summon_mushrooms", "no_fail": true, "level": 1 },
+      {
+        "target": "mag_large_wildwood_beetle_ball",
+        "msg": "The %s surges in size.  It shudders and rolls around as the relief begins to move on its own.",
+        "active": true,
+        "need_charges": 400,
+        "need_charges_msg": "The beetle does not have enough liquid to grow.",
+        "type": "delayed_transform",
+        "transform_age": 864000,
+        "not_ready_msg": "The beetle isn't done growing yet."
+      }
+    ]
+  },
+  {
+    "id": "mag_large_wildwood_beetle_ball",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "wildwood stag beetle ball" },
+    "description": "A large ball made of wildwood.  A narrative relief of a dancing stag beetle wraps the ball.  A soft chittering noise can be heard from it as the relief flows across the surface.",
+    "//": "Add final selector for a beetle vehicle that's drag only.  Intended to be used with a tow chain, and have a small compartment for cargo.",
+    "weight": "850 g",
+    "volume": "1000 ml",
+    "copy-from": "mag_wildwood",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "mag_awakened_water": 300 } } ],
+    "charges_per_use": 100,
+    "use_action": [ { "type": "cast_spell", "spell_id": "mag_open_beetle_ball_large", "no_fail": true, "level": 1 } ]
+  },
+  {
+    "id": "rune_wildwood",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "COMESTIBLE" ],
+    "name": { "str": "wildwood rune" },
+    "description": "A small druid rune wrapped in a leaf.  It appears to be made of some kind of resin, and is very sticky.",
+    "price": "0 USD",
+    "weight": "40 g",
+    "volume": "50 ml",
+    "quench": 1,
+    "calories": 350,
+    "symbol": ",",
+    "color": "green",
+    "comestible_type": "INVALID",
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "rune_wildwood" ]
+  }
+]

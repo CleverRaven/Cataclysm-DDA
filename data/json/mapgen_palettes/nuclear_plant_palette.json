@@ -3,15 +3,17 @@
     "type": "palette",
     "id": "nuclear_plant_palette",
     "terrain": {
-      ".": [ [ "t_region_groundcover", 300 ], [ "t_region_shrub", 5 ], [ "t_puddle", 1 ] ],
+      ".": [ [ "t_region_groundcover", 500 ], [ "t_region_tree", 1 ], [ "t_region_shrub", 2 ], [ "t_puddle", 2 ] ],
       ";": "t_open_air",
       ":": "t_open_air_rooved",
+      "?": [ [ "t_soil", 90 ], [ "t_rock", 10 ] ],
       "I": "t_strconc_wall",
       "+": [ [ "t_door_metal_interior_locked", 65 ], [ "t_door_metal_c", 30 ], [ "t_door_metal_o", 5 ] ],
+      "0": [ [ "t_door_metal_bulkhead_c", 95 ], [ "t_door_metal_bulkhead_o", 5 ] ],
       "i": [ [ "t_card_industrial", 65 ], [ "t_card_reader_broken", 35 ] ],
       "$": "t_door_metal_locked",
       "D": "t_door_c",
-      "O": "t_double_pane_glass",
+      "O": [ [ "t_window", 99 ], [ "t_window_frame", 1 ] ],
       "f": "t_metal_railing",
       "F": "t_fence_barbed",
       "1": [ [ "t_tree_pine", 25 ], [ "t_tree_pine_harvested", 60 ], [ "t_tree_deadpine", 15 ] ],
@@ -23,7 +25,7 @@
       "*": "t_metal_floor",
       "N": "t_metal_floor",
       "#": "t_grate",
-      "a": [ [ "t_pavement", 900 ], [ "t_region_groundcover_barren", 1 ], [ "t_region_groundcover", 1 ] ],
+      "a": [ [ "t_pavement", 1900 ], [ "t_region_groundcover_barren", 1 ] ],
       "A": "t_pavement_y",
       "M": "t_wall_metal",
       "~": "t_water_pool",
@@ -32,7 +34,7 @@
       "P": "t_sewage_pump",
       "o": "t_bulk_tank",
       "=": "t_metal_ventilation_shutter",
-      "b": [ [ "t_oil_circ_brkr_l", 80 ], [ "t_oil_circ_brkr_s", 20 ] ],
+      "b": [ [ "t_oil_circ_brkr_l", 95 ], [ "t_oil_circ_brkr_s", 5 ] ],
       "e": [ [ "t_station_disc", 60 ], [ "t_current_trans", 10 ], [ "t_potential_trans", 30 ] ],
       "8": "t_potential_trans",
       "E": [ [ "t_switchgear_l", 90 ], [ "t_switchgear_s", 10 ] ],
@@ -54,6 +56,26 @@
       ">": "t_stairs_down"
     },
     "furniture": {
+      ".": [ [ "f_null", 300 ], [ "f_region_weed", 2 ] ],
+      "S": [
+        [ "f_anvil", 10 ],
+        [ "f_forge", 10 ],
+        [ "f_kiln_metal_empty", 10 ],
+        [ "f_arcfurnace_empty", 40 ],
+        [ "f_beverly_shear", 40 ],
+        [ "f_drill_press", 80 ],
+        [ "f_tablesaw", 80 ],
+        [ "f_mitresaw", 40 ],
+        [ "f_bandsaw", 40 ],
+        [ "f_planer", 40 ],
+        [ "f_jointer", 40 ],
+        [ "f_hydraulic_press", 60 ],
+        [ "f_heavy_lathe", 40 ],
+        [ "f_hoist_chain", 20 ],
+        [ "f_hoist_pulley", 20 ],
+        [ "f_router", 70 ]
+      ],
+      "5": "f_air_compressor",
       "m": [ [ "f_machinery_heavy", 40 ], [ "f_machinery_light", 40 ], [ "f_machinery_electronic", 20 ] ],
       "G": "f_generator_broken",
       "s": "f_server",
@@ -66,6 +88,7 @@
       "t": "f_toilet",
       "T": "f_table",
       "j": "f_chair",
+      "J": [ [ "f_ground_cable", 7 ], [ "f_electrical_conduit", 92 ] ],
       "V": "f_utility_shelf",
       "z": "f_rack",
       "Z": "f_filing_cabinet",
@@ -80,7 +103,8 @@
       "Q": [ [ "f_crate_c", 65 ], [ "f_crate_o", 10 ], [ "f_cardboard_box", 25 ] ],
       "C": [ [ "f_console_broken", 70 ], [ "f_console_broken_table", 30 ] ],
       "N": "f_nuclear_fuel_cell",
-      "k": [ [ "f_nuclear_fuel_cell", 60 ], [ "f_null", 40 ] ]
+      "k": [ [ "f_nuclear_fuel_cell", 60 ], [ "f_null", 40 ] ],
+      "K": [ [ "f_indoor_plant", 70 ], [ "f_indoor_plant_y", 30 ] ]
     },
     "items": {
       "7": { "item": "cleaning", "chance": 10, "repeat": [ 1, 2 ] },
@@ -176,9 +200,8 @@
       "u": { "item": "SUS_trash_trashcan", "chance": 30 },
       "T": [
         { "item": "SUS_office_mess", "chance": 3, "repeat": [ 1, 2 ] },
-        { "item": "office", "chance": 3, "repeat": [ 1, 2 ] },
         { "item": "consumer_electronics", "chance": 1 },
-        { "item": "SUS_office_desk", "chance": 1 }
+        { "item": "SUS_office_desk", "chance": 5 }
       ],
       "Q": [
         { "item": "hardware_bulk", "chance": 40, "repeat": [ 1, 3 ] },

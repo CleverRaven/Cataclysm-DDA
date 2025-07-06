@@ -1686,7 +1686,7 @@
     "id": "painting",
     "copy-from": "sheet_canvas",
     "category": "other",
-    "name": { "str_sp": "painting" },
+    "name": { "str": "painting" },
     "description": "A painting that someone has made.",
     "price": "100 USD",
     "price_postapoc": "1 USD",
