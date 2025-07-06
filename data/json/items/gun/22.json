@@ -758,6 +758,7 @@
     "price": "169 USD",
     "price_postapoc": "1 USD",
     "material": [ "steel", "plastic" ],
+    "melee_damage": { "bash": 7 },
     "range": 4,
     "ammo": [ "22" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 3 },

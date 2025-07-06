@@ -60,6 +60,7 @@
     "price": "579 USD",
     "price_postapoc": "1 USD",
     "material": [ "steel", "plastic", "aluminum" ],
+    "melee_damage": { "bash": 3 },
     "dispersion": 480,
     "sight_dispersion": 1200,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
