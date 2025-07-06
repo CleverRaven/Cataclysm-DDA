@@ -9,7 +9,8 @@
     "//": "zombie scientists are recognised as friendly by the lab's defense system",
     "categories": [ "CLASSIC" ],
     "color": "white_cyan",
-    "death_drops": "mon_zombie_scientist_death_drops"
+    "death_drops": "mon_zombie_scientist_death_drops",
+    "delete": { "flags": [ "GROUP_BASH" ] }
   },
   {
     "id": "mon_zombie_labsecurity",
