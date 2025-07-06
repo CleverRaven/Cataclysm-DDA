@@ -222,6 +222,8 @@
     ]
   },
   {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "protein_bar_peanut",
     "copy-from": "protein_bar_zero",
     "description": "A dairy-free protein bar.  Contains peanuts.",
@@ -259,6 +261,8 @@
     ]
   },
   {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "protein_bar_milk",
     "copy-from": "protein_bar_zero",
     "description": "A nut-free protein bar.  Contains whey.",
