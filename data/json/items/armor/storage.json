@@ -1049,7 +1049,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "duffel bag" },
-    "description": "A huge duffel bag.  Provides plenty of storage, but is severely encumbering.",
+    "description": "A canvas duffel bag.  Provides plenty of storage, but is fairly encumbering.",
     "weight": "933 g",
     "volume": "6 L",
     "price": "120 USD",
@@ -1061,7 +1061,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "35 L",
+        "max_contains_volume": "60 L",
         "max_contains_weight": "60 kg",
         "max_item_length": "55 cm",
         "magazine_well": "5 L",
