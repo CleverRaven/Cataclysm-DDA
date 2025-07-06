@@ -10,5 +10,11 @@
     "version": "0.1",
     "obsolete": true,
     "//": "should not be deleted until actual biomes exist in the game"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_HIGHWAYS",
+    "stype": "bool",
+    "value": false
   }
 ]

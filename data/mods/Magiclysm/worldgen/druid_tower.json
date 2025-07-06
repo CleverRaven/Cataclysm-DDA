@@ -204,7 +204,7 @@
       "palettes": [ "druid_ritual_home" ],
       "terrain": { " ": "t_open_air", ">": "t_triffid_slope_down", "<": "t_triffid_slope_up" },
       "items": {
-        "d": [ { "item": "office", "chance": 10, "repeat": [ 2, 4 ] }, { "item": "bedroom", "chance": 35, "repeat": [ 2, 4 ] } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 50 }, { "item": "bedroom", "chance": 35, "repeat": [ 2, 4 ] } ],
         "B": [
           { "item": "homebooks", "chance": 50, "repeat": [ 2, 4 ] },
           { "item": "druid_items", "chance": 5 },
@@ -270,7 +270,7 @@
           { "item": "novels", "chance": 20, "repeat": [ 2, 4 ] }
         ],
         "d": [
-          { "item": "office", "chance": 30, "repeat": [ 2, 4 ] },
+          { "item": "SUS_office_desk", "chance": 30 },
           { "item": "magic_shop_potions", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "magic_shop_wands", "chance": 15 },
           { "item": "enchanted_small_items", "chance": 20 },
@@ -335,7 +335,7 @@
       "furniture": { "ŧ": "f_druid_table", "O": "f_magic_circle" },
       "items": {
         "ŧ": [
-          { "item": "office", "chance": 50, "repeat": [ 2, 4 ] },
+          { "item": "SUS_office_desk", "chance": 50 },
           { "item": "magic_shop_potions", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "magic_shop_wands", "chance": 15 },
           { "item": "enchanted_small_items", "chance": 20 },

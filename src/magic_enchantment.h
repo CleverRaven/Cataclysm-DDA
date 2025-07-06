@@ -26,6 +26,7 @@ class JsonOut;
 class JsonValue;
 class item;
 class monster;
+class vehicle;
 struct const_dialogue;
 
 namespace enchant_vals
@@ -147,6 +148,9 @@ enum class mod : int {
     MOVEMENT_EXERTION_MODIFIER,
     WEAKPOINT_ACCURACY,
     MOTION_ALARM,
+    TOTAL_WEIGHT,
+    FUEL_USAGE,
+    TURNING_DIFFICULTY,
     NUM_MOD
 };
 } // namespace enchant_vals
@@ -192,6 +196,11 @@ class enchantment
         bool is_active( const monster &mon ) const;
 
         bool is_monster_relevant() const;
+
+        // same as above except for vehicles. Much more limited.
+        bool is_active( const vehicle &veh, bool active ) const;
+
+        bool is_vehicle_relevant() const;
 
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available
@@ -301,6 +310,7 @@ class enchant_cache : public enchantment
         units::energy modify_value( enchant_vals::mod mod_val, units::energy value ) const;
         units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
         units::volume modify_value( enchant_vals::mod mod_val, units::volume value ) const;
+        units::power modify_value( enchant_vals::mod mod_val, units::power value ) const;
         units::temperature_delta modify_value( enchant_vals::mod mod_val,
                                                units::temperature_delta value ) const;
         time_duration modify_value( enchant_vals::mod mod_val, time_duration value ) const;
@@ -312,6 +322,7 @@ class enchant_cache : public enchantment
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs, const Character &guy );
         void force_add( const enchantment &rhs, const monster &mon );
+        void force_add( const enchantment &rhs, const vehicle &veh );
         void force_add( const enchantment &rhs );
         void force_add( const enchant_cache &rhs );
         void force_add_with_dialogue( const enchantment &rhs, const const_dialogue &d,

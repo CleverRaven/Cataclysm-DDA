@@ -148,5 +148,17 @@
     "//": "remove after 0.I",
     "id": "40mmEMP_act",
     "replace": "40x46mm_m433"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": "afs_magellan_suit_helmet_on",
+    "replace": "afs_magellan_suit_helmet"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": "afs_frontier_cryomask_on",
+    "replace": "afs_frontier_cryomask"
   }
 ]

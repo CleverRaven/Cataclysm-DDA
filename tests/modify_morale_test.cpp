@@ -323,7 +323,6 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
     const int huge_morale_penalty = -60;
     const int moderate_morale_penalty = -25;
     const int minor_morale_penalty = -10;
-    const int minor_morale_bonus = 10;
 
     item_location human = dummy.i_add( item( itype_bone_human ) );
     REQUIRE( human->has_vitamin( vitamin_human_flesh_vitamin ) );
@@ -354,10 +353,10 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
         dummy.toggle_trait( trait_CANNIBAL );
         REQUIRE( dummy.has_trait( trait_CANNIBAL ) );
 
-        THEN( "they get a morale bonus for eating humans" ) {
+        THEN( "they receive no morale penalty for eating humans" ) {
             dummy.clear_morale();
             dummy.modify_morale( *human );
-            CHECK( dummy.has_morale( morale_cannibal ) >= minor_morale_bonus );
+            CHECK( dummy.has_morale( morale_cannibal ) == 0 );
         }
 
         AND_WHEN( "they are also a psychopath" ) {

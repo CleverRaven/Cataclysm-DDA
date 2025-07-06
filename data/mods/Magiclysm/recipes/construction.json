@@ -165,5 +165,24 @@
     "post_terrain": "f_druid_chair",
     "activity_level": "LIGHT_EXERCISE",
     "required_skills": [ [ "fabrication", 0 ] ]
+  },
+  {
+    "type": "construction_group",
+    "id": "build_weaver",
+    "name": "Put Wildwood Weaver down to build a shelter"
+  },
+  {
+    "type": "construction",
+    "id": "constr_magiclysm_weaver",
+    "group": "build_weaver",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "spellcraft", 4 ] ],
+    "time": "10 m",
+    "components": [ [ [ "mag_awoken_weaver", 1 ] ] ],
+    "using": [ [ "mag_wildwood_construction", 2 ] ],
+    "dark_craftable": true,
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "NO_EXERCISE"
   }
 ]

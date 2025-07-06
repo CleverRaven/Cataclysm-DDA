@@ -16,7 +16,9 @@
       "str_max": 30,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 3, 5 ] } ]
+      "items": [ { "item": "splinter", "count": [ 3, 5 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -39,7 +41,9 @@
       "str_max": 60,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 64, 96 ] } ]
+      "items": [ { "item": "splinter", "count": [ 64, 96 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "shoot": { "reduce_damage": [ 5, 20 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 15, 45 ] }
   },
@@ -63,7 +67,9 @@
       "str_max": 40,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 150, 225 ] } ]
+      "items": [ { "item": "splinter", "count": [ 150, 225 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -87,7 +93,9 @@
       "str_max": 25,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 25 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -110,7 +118,9 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 40, 64 ] } ]
+      "items": [ { "item": "splinter", "count": [ 40, 64 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
@@ -134,7 +144,9 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 100, 175 ] } ]
+      "items": [ { "item": "splinter", "count": [ 100, 175 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -156,7 +168,9 @@
       "str_max": 50,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 40, 64 ] } ]
+      "items": [ { "item": "splinter", "count": [ 40, 64 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
@@ -181,7 +195,9 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": 25 } ]
+      "items": [ { "item": "splinter", "count": 25 } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -209,7 +225,9 @@
         { "item": "water_faucet", "prob": 50 },
         { "item": "pipe_fittings", "count": [ 0, 2 ] },
         { "item": "splinter", "count": [ 10, 20 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -233,9 +251,40 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 7, 14 ] } ]
+      "items": [ { "item": "splinter", "count": [ 7, 14 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75 L" }
+  },
+  {
+    "id": "wildwood_weaver_shelter",
+    "breaks_into": [
+      { "count": 1, "item": "mag_brokeweaver" },
+      { "count": [ 1, 5 ], "item": "scrap_cotton" },
+      { "count": [ 4, 20 ], "item": "mag_awakened_water" }
+    ],
+    "categories": [ "utility" ],
+    "color": "green",
+    "description": "A shelter woven from wildwood weaver's webs.  It can be used to rest, and the weaver provides assistance in any tailoring task.",
+    "durability": 15,
+    "flags": [ "BED", "OPAQUE", "BOARDABLE", "NONBELTABLE", "APPLIANCE", "EXTRA_DRAG", "NO_INSTALL_HIDDEN", "HUGE_OK", "ROOF" ],
+    "comfort": 5,
+    "floor_bedding_warmth": 500,
+    "pseudo_tools": [
+      { "id": "spinwheelitem" },
+      { "id": "mag_pseudo_weaver" },
+      { "id": "scutcheritem" },
+      { "id": "loom_frame" },
+      { "id": "shed_stick" },
+      { "id": "towel", "hotkey": "t" }
+    ],
+    "item": "mag_awoken_weaver",
+    "location": "center",
+    "looks_like": "t_leanto",
+    "name": { "str": "awoken weaver shelter" },
+    "type": "vehicle_part",
+    "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
   }
 ]

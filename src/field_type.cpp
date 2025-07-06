@@ -292,6 +292,7 @@ void field_type::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "has_acid", has_acid, false );
     optional( jo, was_loaded, "has_elec", has_elec, false );
     optional( jo, was_loaded, "has_fume", has_fume, false );
+    optional( jo, was_loaded, "moppable", moppable, false );
     optional( jo, was_loaded, "priority", priority, 0 );
     optional( jo, was_loaded, "half_life", half_life, 0_turns );
     optional( jo, was_loaded, "linear_half_life", linear_half_life, false );

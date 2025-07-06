@@ -80,6 +80,9 @@
       "You are invisible for a very brief time.  Now's your chance to get to cover.  You're also incorporeal enough to not take fall damage, but hopefully that won't be relevant."
     ],
     "flags": [ "INVISIBLE", "FEATHER_FALL" ],
+    "max_intensity": 2,
+    "int_dur_factor": "10 s",
+    "decay_messages": [ [ "Your warpcloak is about to fade away.", "bad" ] ],
     "remove_message": "You fully materialize.  You're not invisible anymore!"
   },
   {
@@ -90,5 +93,41 @@
     "rating": "good",
     "remove_message": "You can no longer walk on the water.",
     "flags": [ "ITEM_WATERPROOFING", "WATERWALKING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_warped_waterwalking_hidden",
+    "//": "hidden message-less version of warped waterwalking, so the player won't get extra messages as it's all part of the warpcloak.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "flags": [ "ITEM_WATERPROOFING", "WATERWALKING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_warped_flight",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "flags": [ "LEVITATION", "CLIMB_FLYING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_warped_phasing",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "PHASE_DISTANCE", "add": 1 } ] } ]
+  },
+  {
+    "id": "effect_warped_super_clairvoyance",
+    "type": "effect_type",
+    "name": [ "Warped Omniscience" ],
+    "desc": [ "Nothing escapes your sight." ],
+    "apply_message": "Your vision expands until you see everything.",
+    "remove_message": "Your sight returns to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "flags": [ "SUPER_CLAIRVOYANCE" ]
   }
 ]

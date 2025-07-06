@@ -803,8 +803,7 @@ bool avatar::create( character_type type, const std::string &tempname )
             tabs.position.last();
             break;
     }
-
-    // Don't apply the default backgrounds on a template
+    // Don't apply the default backgrounds on a template or scenario with SKIP_DEFAULT_BACKGROUND
     if( type != character_type::TEMPLATE &&
         !get_scenario()->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
         add_default_background();
@@ -5125,7 +5124,9 @@ void reset_scenario( avatar &u, const scenario *scen )
     u.prof = &default_prof.obj();
 
     u.hobbies.clear();
-    u.add_default_background();
+    if( !scen->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
+        u.add_default_background();
+    };
     u.clear_mutations();
     u.recalc_hp();
     u.empty_skills();

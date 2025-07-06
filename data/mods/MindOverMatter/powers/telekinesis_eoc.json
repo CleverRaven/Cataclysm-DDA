@@ -140,6 +140,38 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_WAVE_TARGETS",
+    "condition": "has_alpha",
+    "effect": [
+      { "npc_location_variable": { "context_val": "player_position" } },
+      {
+        "math": [ "u_telekinesis_power_level = (n_spell_level('telekinetic_wave') + n_spell_level('telekinetic_wave_knack') )" ]
+      },
+      { "math": [ "u_telekinesis_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_nether_attunement_telekinesis_scaling = n_nether_attunement_power_scaling" ] },
+      { "math": [ "u_telekinesis_weight_ratio = 55" ] },
+      {
+        "math": [
+          "u_weight_ratio",
+          "=",
+          "( ( (u_telekinesis_power_level * u_telekinesis_weight_ratio) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + (u_telekinesis_weight_ratio / 2) ) / (u_weight() / 1000000)"
+        ]
+      },
+      { "math": [ "u_telekinesis_shove_spell_level = clamp( ( (u_weight_ratio - 1) * 2), 0, 30)" ] },
+      {
+        "if": { "x_in_y_chance": { "x": { "math": [ "u_weight_ratio * 1000" ] }, "y": 1000 } },
+        "then": [ { "u_add_effect": "downed", "duration": 2 } ]
+      },
+      {
+        "u_knockback": { "math": [ "u_telekinesis_shove_spell_level" ] },
+        "stun": 2,
+        "dam_mult": { "math": [ "1 + (u_telekinesis_shove_spell_level * 0.4)" ] },
+        "direction_var": { "context_val": "player_position" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_SELECTOR",
     "effect": [
       { "math": [ "u_telekinesis_power_level = n_spell_level('telekinetic_move_large_weight')" ] },

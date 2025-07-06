@@ -2,7 +2,7 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting",
     "type": "talk_topic",
-    "dynamic_line": "A lot of the time, yes.  Our address is in the computers of most of the evac shelters around here, and people keep showing up that we have to turn away.  It gets easier when you have something you can read off a script.",
+    "dynamic_line": "A lot of the time, yes.  Our address is on the info boards of most of the evac shelters around here, and people keep showing up that we have to turn away.  It gets easier when you have something you can read off a script.",
     "responses": [
       { "text": "I'm sorry.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_End" },
       { "text": "That sounds a little cruel.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_Cruel" },

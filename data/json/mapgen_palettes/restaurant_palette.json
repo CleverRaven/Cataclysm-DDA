@@ -87,7 +87,7 @@
       "e": { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] },
       "k": { "item": "fireplace_fill", "chance": 30, "repeat": [ 2, 5 ] },
       "n": { "item": "SUS_dishwasher", "chance": 70 },
-      "r": [ { "item": "SUS_office_desk", "chance": 5 }, { "item": "office", "chance": 25 } ],
+      "r": [ { "item": "SUS_office_desk", "chance": 25 } ],
       "t": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] },
       "B": { "item": "keg_beer", "chance": 70 },
       "L": { "item": "unisex_coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
@@ -98,7 +98,7 @@
         { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 2 ] }
       ],
       "U": [ { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] }, { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] } ],
-      "Y": { "item": "SUS_trash_trashcan", "chance": 100 },
+      "Y": { "item": "SUS_trash_trashcan_public", "chance": 100 },
       "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
       "2": { "item": "SUS_cookware", "chance": 100 },
       "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],

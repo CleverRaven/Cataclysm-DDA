@@ -47,6 +47,7 @@
     "book_learn": [ [ "concrete_book", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "batch_time_factors": [ 75, 3 ],
+    "charges": 150,
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 50 ], [ "material_gravel", 50 ] ] ]
   },

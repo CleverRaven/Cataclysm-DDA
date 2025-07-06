@@ -1,0 +1,58 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "afs_formless_ruins_pipe" ],
+    "object": {
+      "predecessor_mapgen": "field",
+      "rows": [
+        "1           1           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "1           1           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "formless_ruins_ribs1", 20 ],
+            [ "formless_ruins_ribs2", 20 ],
+            [ "formless_ruins_empty1", 10 ],
+            [ "formless_ruins_empty2", 10 ],
+            [ "formless_ruins_empty3", 10 ],
+            [ "formless_ruins_empty4", 10 ]
+          ]
+        }
+      },
+      "place_loot": [ { "group": "afs_formless_ruins_random_loot", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monster": [
+        { "monster": "mon_wraitheon_isohypsa", "x": 12, "y": 12, "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] } },
+        {
+          "monster": "mon_wraitheon_irradiant",
+          "x": 8,
+          "y": 8,
+          "spawn_data": { "patrol": [ { "x": 8, "y": 8 }, { "x": 8, "y": 16 }, { "x": 16, "y": 16 }, { "x": 16, "y": 8 } ] }
+        },
+        { "monster": "mon_wraitheon_kaburaya", "x": 4, "y": 4, "repeat": [ 6, 10 ] }
+      ]
+    }
+  }
+]

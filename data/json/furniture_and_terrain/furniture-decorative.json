@@ -137,7 +137,9 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 9, 12 ] } ]
+      "items": [ { "item": "splinter", "count": [ 9, 12 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -336,7 +338,9 @@
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
-      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] }, { "item": "splinter", "count": [ 5, 15 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] }, { "item": "splinter", "count": [ 5, 15 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {

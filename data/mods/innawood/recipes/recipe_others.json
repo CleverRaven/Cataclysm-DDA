@@ -92,7 +92,8 @@
     "components": [
       [ [ "glass_shard", 3 ], [ "pipe_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ],
       [ [ "plastic_chunk", 1 ] ]
-    ]
+    ],
+    "charges": 40
   },
   {
     "type": "recipe",
