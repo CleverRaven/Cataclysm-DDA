@@ -20,8 +20,7 @@
     "upgrades": { "half_life": 168, "into_group": "GROUP_ZOMBIE_BOOMER_UPGRADE" },
     "fungalize_into": "mon_boomer_dusted",
     "armor": { "electric": 2 },
-    "extend": { "flags": [ "BILE_BLOOD" ], "weakpoint_sets": [ "wps_humanoid_head_small" ], "special_attacks": [ [ "BOOMER", 20 ] ] },
-    "delete": { "flags": [ "SMELLS" ] }
+    "extend": { "flags": [ "BILE_BLOOD" ], "weakpoint_sets": [ "wps_humanoid_head_small" ], "special_attacks": [ [ "BOOMER", 20 ] ] }
   },
   {
     "id": "mon_boomer_huge",
