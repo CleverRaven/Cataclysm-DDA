@@ -527,7 +527,7 @@
         { "group": "MRE", "x": [ 49, 55 ], "y": [ 53, 54 ], "chance": 75, "repeat": 1500 },
         { "group": "MRE", "x": [ 49, 55 ], "y": 48, "chance": 75, "repeat": 750 },
         { "group": "groce_pasta", "x": [ 44, 46 ], "y": 54, "chance": 75, "repeat": [ 50, 150 ] },
-        { "group": "dry_beans_bag_plastic_6", "x": [ 41, 43 ], "y": 54, "chance": 75, "repeat": [ 50, 150 ] },
+        { "group": "dry_beans_bag_plastic_full", "x": [ 41, 43 ], "y": 54, "chance": 75, "repeat": [ 50, 150 ] },
         { "group": "big_canned_food", "x": [ 36, 40 ], "y": 54, "chance": 75, "repeat": [ 50, 150 ] },
         { "group": "oatmeal_box_small_4", "x": [ 45, 46 ], "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
         { "group": "flour_bag_paper", "x": [ 43, 44 ], "y": 53, "chance": 75, "repeat": [ 50, 150 ] },

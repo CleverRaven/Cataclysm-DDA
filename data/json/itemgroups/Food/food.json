@@ -48,13 +48,13 @@
       { "item": "dry_corn", "prob": 1 },
       { "item": "dry_fruit", "prob": 10 },
       { "prob": 40, "group": "oatmeal_box_small_4" },
-      { "prob": 15, "group": "fruit_leather_bag_plastic_5" },
+      { "prob": 15, "group": "fruit_leather_bag_plastic_full" },
       { "item": "salted_fish", "prob": 15 },
-      { "prob": 40, "group": "dry_beans_bag_plastic_6" },
-      { "prob": 30, "group": "dry_lentils_bag_plastic_2" },
-      { "prob": 40, "group": "dry_rice_bag_plastic_3" },
+      { "prob": 40, "group": "dry_beans_bag_plastic_full" },
+      { "prob": 30, "group": "dry_lentils_bag_plastic_full" },
+      { "prob": 40, "group": "dry_rice_bag_plastic_full" },
       { "item": "freeze_dried_meal", "prob": 10 },
-      { "prob": 40, "group": "gelatin_powder_bag_plastic_25" },
+      { "prob": 40, "group": "gelatin_powder_bag_plastic_full" },
       { "prob": 15, "group": "chem_agar_bottle_plastic_small_50" },
       { "item": "gelatin_dessert_powder", "prob": 40 },
       { "group": "instant_gravy", "prob": 4 }
@@ -242,8 +242,8 @@
       { "prob": 20, "group": "cocoa_powder_various" },
       { "prob": 20, "group": "milk_cocoa_powder_various" },
       { "prob": 30, "group": "cornmeal_box_small_10" },
-      { "prob": 20, "group": "tortilla_corn_bag_plastic_12" },
-      { "prob": 20, "group": "tortilla_flour_bag_plastic_12" },
+      { "prob": 20, "group": "tortilla_corn_bag_plastic_full" },
+      { "prob": 20, "group": "tortilla_flour_bag_plastic_full" },
       { "prob": 20, "group": "powder_eggs_bottle_plastic_small_16" },
       { "prob": 12, "group": "protein_powder_bottle_plastic_small_1_9" },
       { "item": "dry_meat", "prob": 10 },
@@ -277,9 +277,9 @@
       { "item": "catfood", "prob": 5, "container-item": "can_food" },
       { "prob": 8, "group": "fish_pickled_jar_glass_sealed_2" },
       { "item": "lutefisk", "prob": 1 },
-      { "prob": 40, "group": "dry_beans_bag_plastic_6" },
-      { "prob": 40, "group": "dry_lentils_bag_plastic_2" },
-      { "prob": 40, "group": "dry_rice_bag_plastic_3" },
+      { "prob": 40, "group": "dry_beans_bag_plastic_full" },
+      { "prob": 40, "group": "dry_lentils_bag_plastic_full" },
+      { "prob": 40, "group": "dry_rice_bag_plastic_full" },
       { "prob": 6, "group": "meat_pickled_jar_glass_sealed_2" },
       { "prob": 2, "group": "kitchen_sealed_3L_jar" },
       { "group": "big_canned_food", "prob": 1 },
@@ -525,7 +525,7 @@
       { "prob": 55, "group": "pretzels_bag_plastic_3" },
       { "item": "jerky", "prob": 55 },
       { "prob": 55, "group": "porkstick_bag_plastic_4" },
-      { "prob": 50, "group": "nachos_bag_plastic_3" },
+      { "prob": 50, "group": "nachos_bag_plastic_full" },
       { "prob": 40, "group": "chocpretzels_bag_plastic_3" },
       { "prob": 25, "group": "popcorn_bag_plastic_4" },
       { "prob": 35, "group": "popcorn2_bag_plastic_4" },
@@ -561,7 +561,7 @@
       { "prob": 10, "group": "pepper_various" },
       { "item": "syrup", "prob": 10 },
       { "item": "coffee_syrup", "prob": 10 },
-      { "prob": 25, "group": "fruit_leather_bag_plastic_5" },
+      { "prob": 25, "group": "fruit_leather_bag_plastic_full" },
       { "item": "kernels", "prob": 25 },
       { "prob": 20, "group": "pine_nuts_bag_plastic_4" },
       { "group": "teabag_box", "prob": 10 },
@@ -580,7 +580,7 @@
       { "prob": 15, "group": "granola_bag_plastic_4" },
       { "prob": 8, "group": "mintpatties_bag_plastic_3" },
       { "prob": 8, "group": "choco_coffee_beans_bag_plastic_5" },
-      { "prob": 15, "group": "fruit_leather_bag_plastic_5" },
+      { "prob": 15, "group": "fruit_leather_bag_plastic_full" },
       { "prob": 20, "group": "pine_nuts_bag_plastic_4" }
     ]
   },
@@ -1034,27 +1034,24 @@
   },
   {
     "type": "item_group",
-    "id": "fruit_leather_bag_plastic_5",
+    "id": "fruit_leather_bag_plastic_full",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "fruit_leather", "container-item": "null", "count": 5 } ]
+    "entries": [ { "item": "fruit_leather", "container-item": "null", "count": 10 } ]
   },
   {
     "type": "item_group",
-    "id": "dry_lentils_bag_plastic_2",
+    "id": "dry_lentils_bag_plastic_full",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "dry_lentils", "container-item": "null", "count": 2 } ]
+    "entries": [ { "item": "dry_lentils", "container-item": "null", "count": 4 } ]
   },
   {
     "type": "item_group",
-    "id": "gelatin_powder_bag_plastic_25",
+    "id": "gelatin_powder_bag_plastic_full",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "gelatin_powder", "container-item": "null", "count": 25 } ]
+    "entries": [ { "item": "gelatin_powder", "container-item": "null", "count": 50 } ]
   },
   {
     "type": "item_group",
