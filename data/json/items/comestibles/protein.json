@@ -193,14 +193,28 @@
     "variants": [
       {
         "id": "chips",
+        "name": "protein bar",
         "description": "This one is drizzled with chocolate and chocolate chips on top.",
         "append": true,
         "weight": 12
       },
-      { "id": "vanilla", "description": "This one is vanilla flavored.", "append": true, "weight": 6 },
-      { "id": "cinnamon", "description": "This one is flavored like a cinnamon roll.", "append": true, "weight": 6 },
+      {
+        "id": "vanilla",
+        "name": "protein bar",
+        "description": "This one is vanilla flavored.",
+        "append": true,
+        "weight": 6
+      },
+      {
+        "id": "cinnamon",
+        "name": "protein bar",
+        "description": "This one is flavored like a cinnamon roll.",
+        "append": true,
+        "weight": 6
+      },
       {
         "id": "caramel",
+        "name": "protein bar",
         "description": "This one is bound together by caramel, and has a chocolate coated underside.",
         "append": true,
         "weight": 3
@@ -216,24 +230,28 @@
     "variants": [
       {
         "id": "chocolate",
+        "name": "protein bar",
         "description": "This one is full of smooth peanut butter, with an outer coating of chocolate.",
         "append": true,
         "weight": 6
       },
       {
         "id": "chips",
+        "name": "protein bar",
         "description": "This one is a mix of chocolate chips and peanut butter.",
         "append": true,
         "weight": 6
       },
       {
         "id": "pb",
+        "name": "protein bar",
         "description": "This one is mostly just plain peanut butter that's been heavily sweetened.",
         "append": true,
         "weight": 6
       },
       {
         "id": "cookie",
+        "name": "protein bar",
         "description": "This one has the soft consistency of cookie dough, filled with chocolate chips.",
         "append": true,
         "weight": 3
@@ -250,30 +268,35 @@
     "variants": [
       {
         "id": "strawberry",
+        "name": "protein bar",
         "description": "This one is flavored like strawberry shortcake, with a pink drizzle over a white coating.",
         "append": true,
         "weight": 6
       },
       {
         "id": "raspberry",
+        "name": "protein bar",
         "description": "This one is white chocolate raspberry flavored, with a red and white coating.",
         "append": true,
         "weight": 6
       },
       {
         "id": "blueberry",
+        "name": "protein bar",
         "description": "This one is flavored like a blueberry muffin.  You can see dried blueberries throughout the bar.",
         "append": true,
         "weight": 6
       },
       {
         "id": "lemon",
+        "name": "protein bar",
         "description": "This one is flavored like lemon cake, with a sugary white drizzle over a yellow coating.",
         "append": true,
         "weight": 6
       },
       {
         "id": "bday",
+        "name": "protein bar",
         "description": "This one has a white coating covered in sprinkles to resemble a birthday cake.  Happy birthday?",
         "append": true,
         "weight": 1
