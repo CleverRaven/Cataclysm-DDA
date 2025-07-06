@@ -48,11 +48,7 @@
     "description": "A 6 round magazine for the micro conceal carry pistol.",
     "variant_type": "gun",
     "variants": [
-      {
-        "id": "lws32mag",
-        "name": { "str": "Seecamp LWS 32 magazine" },
-        "description": "A 6 round magazine for the LWS 32."
-      }
+      { "id": "lws32mag", "name": { "str": "Seecamp LWS 32 magazine" }, "description": "A 6 round magazine for the LWS 32." }
     ],
     "weight": "30 g",
     "volume": "20 ml",

@@ -747,7 +747,7 @@
       {
         "id": "savage_rascal",
         "name": { "str": "Savage Rascal" },
-    "description": "A .22 Long Rifle rifle that chambers just one shot.  Its main use is for the youth, and not much else.  God help you if you hope to use this thing to a meaningful effect."
+        "description": "A .22 Long Rifle rifle that chambers just one shot.  Its main use is for the youth, and not much else.  God help you if you hope to use this thing to a meaningful effect."
       }
     ],
     "//": "Stats from https://savagearms.com/firearms/sku/13775",
