@@ -234,8 +234,8 @@ static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
 
 static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
 
-static const npc_class_id NC_ROBOFAC_INTERCOM( "NC_ROBOFAC_INTERCOM" );
 static const npc_class_id NC_BALTHAZAR_INTERCOM( "NC_BALTHAZAR_INTERCOM" );
+static const npc_class_id NC_ROBOFAC_INTERCOM( "NC_ROBOFAC_INTERCOM" );
 
 static const proficiency_id proficiency_prof_disarming( "prof_disarming" );
 static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
