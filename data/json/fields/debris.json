@@ -21,7 +21,6 @@
     "mopsafe": true,
     "moppable": true,
     "percent_spread": 20,
-    "half_life": "5 days",
     "phase": "gas",
     "looks_like": "t_open_air"
   },
@@ -37,8 +36,8 @@
     "mopsafe": true,
     "moppable": true,
     "percent_spread": 8,
-    "half_life": "7 days",
-    "phase": "gas"
+    "phase": "gas",
+    "looks_like": "fd_dust"
   },
   {
     "id": "fd_mechanical_fluid",
@@ -50,6 +49,8 @@
     ],
     "description_affix": "covered_in",
     "is_splattering": true,
+    "mopsafe": true,
+    "moppable": true,
     "half_life": "10 days",
     "phase": "liquid",
     "display_field": true,
@@ -64,7 +65,8 @@
       { "name": "puddle of dirty water", "color": "dark_gray" }
     ],
     "description_affix": "covered_in",
-    "is_splattering": true,
+    "mopsafe": true,
+    "moppable": true,
     "half_life": "2 hours",
     "phase": "liquid",
     "display_field": true,
