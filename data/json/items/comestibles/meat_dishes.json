@@ -764,6 +764,7 @@
     "color": "brown",
     "spoils_in": "360 days",
     "container": "bag_plastic_small",
+    "count": 4,
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,
