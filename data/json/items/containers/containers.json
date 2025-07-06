@@ -1185,7 +1185,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "max_contains_volume": "540 ml",
-        "max_contains_weight": "500 g",
+        "max_contains_weight": "800 g",
         "max_item_length": "11 cm"
       }
     ],
