@@ -201,7 +201,7 @@
       "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
       "families": [ "prof_wp_syn_armored", "prof_wp_nat_armored" ]
     },
-    "delete": { "flags": [ "GRABS" ] },
+    "delete": { "flags": [ "GRABS" ] }
   },
   {
     "id": "mon_zombie_kevlar_2",
