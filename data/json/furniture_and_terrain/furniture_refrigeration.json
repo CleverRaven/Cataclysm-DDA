@@ -17,7 +17,8 @@
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "apartment_fridge_destroyed" }, { "group": "apartment_freezer_destroyed" } ]
+      "items": [ { "group": "apartment_fridge_destroyed" }, { "group": "apartment_freezer_destroyed" } ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -40,7 +41,8 @@
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "minifridge_destroyed" } ]
+      "items": [ { "group": "minifridge_destroyed" } ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -63,7 +65,8 @@
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "glass_fridge_destroyed" } ]
+      "items": [ { "group": "glass_fridge_destroyed" } ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -86,7 +89,8 @@
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "glass_fridge_double_destroyed" } ]
+      "items": [ { "group": "glass_fridge_double_destroyed" } ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -109,7 +113,8 @@
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "heavy_duty_fridge_destroyed" } ]
+      "items": [ { "group": "heavy_duty_fridge_destroyed" } ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -132,7 +137,8 @@
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "display_fridge_destroyed" } ]
+      "items": [ { "group": "display_fridge_destroyed" } ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -155,7 +161,8 @@
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "minifreezer_destroyed" } ]
+      "items": [ { "group": "minifreezer_destroyed" } ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -178,7 +185,8 @@
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "chest_minifreezer_destroyed" } ]
+      "items": [ { "group": "chest_minifreezer_destroyed" } ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -201,7 +209,8 @@
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "chest_freezer_destroyed" } ]
+      "items": [ { "group": "chest_freezer_destroyed" } ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -224,7 +233,8 @@
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "heavy_duty_freezer_destroyed" } ]
+      "items": [ { "group": "heavy_duty_freezer_destroyed" } ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -247,7 +257,8 @@
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "glass_freezer_destroyed" } ]
+      "items": [ { "group": "glass_freezer_destroyed" } ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -270,7 +281,8 @@
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "display_freezer_destroyed" } ]
+      "items": [ { "group": "display_freezer_destroyed" } ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   }
 ]
