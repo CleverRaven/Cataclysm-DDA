@@ -156,6 +156,7 @@
     "color": "light_green_white",
     "melee_skill": 5,
     "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "vision_day": 30,
     "harvest": "zombie_kevlar",
     "grab_strength": 30,
