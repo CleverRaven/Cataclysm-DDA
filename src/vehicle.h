@@ -29,17 +29,22 @@
 #include "color.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "effect.h"
 #include "enums.h"
+#include "global_vars.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "item_stack.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
+#include "math_parser_diag_value.h"
 #include "npc.h"
 #include "point.h"
 #include "ret_val.h"
 #include "safe_reference.h"
+#include "talker.h"
 #include "tileray.h"
 #include "type_id.h"
 #include "units.h"
@@ -49,6 +54,7 @@
 // IWYU pragma: no_forward_declare npc // behind unique_ptr
 class Character;
 class Creature;
+class effect_source;
 class JsonArray;
 class JsonObject;
 class JsonOut;
@@ -180,6 +186,7 @@ class vehicle_stack : public item_stack
         void insert( map &here, const item &newitem ) override;
         int count_limit() const override;
         units::volume max_volume() const override;
+        units::volume stored_volume() const override;
 };
 
 enum towing_point_side : int {
@@ -375,6 +382,9 @@ struct vehicle_part {
 
         /** Try to set fault returning false if specified fault cannot occur with this item */
         bool fault_set( const fault_id &f );
+
+        void load_furniture( map &here, const tripoint_bub_ms &from );
+        void unload_furniture( map &here, const tripoint_bub_ms &to );
 
         /**
          *  Get NPC currently assigned to this part (seat, turret etc)?
@@ -723,6 +733,7 @@ class vpart_display
         const vpart_id &id;
         const vpart_variant &variant;
         nc_color color = c_black;
+        std::string carried_furn;
         char32_t symbol = ' '; // symbol in unicode
         int symbol_curses = ' '; // symbol converted to curses ACS encoding if needed
         bool is_broken = false;
@@ -807,6 +818,10 @@ class vpart_display
 class vehicle
 {
     private:
+        // TODO: Get rid of untyped overload.
+        // Miscellaneous key/value pairs.
+        global_variables::impl_t values;
+        bool has_structural_part( const point &dp ) const;
         bool has_structural_part( const point_rel_ms &dp ) const;
         bool is_structural_part_removed() const;
         void open_or_close( map &here, int part_index, bool opening );
@@ -869,6 +884,30 @@ class vehicle
         template<typename Vehicle>
         static std::map<Vehicle *, float> search_connected_vehicles( const map &here, Vehicle *start );
     public:
+        std::vector<std::string> chat_topics; // What it has to say.
+        void set_value( const std::string &key, diag_value value );
+        template <typename... Args>
+        void set_value( const std::string &key, Args... args ) {
+            set_value( key, diag_value{ std::forward<Args>( args )... } );
+        }
+        void remove_value( const std::string &key );
+        diag_value const &get_value( const std::string &key ) const;
+        diag_value const *maybe_get_value( const std::string &key ) const;
+        void clear_values();
+        void add_chat_topic( const std::string &topic );
+        int get_passenger_count( bool hostile ) const;
+        enchant_cache enchantment_cache; //NOLINT(cata-serialize)
+        void recalculate_enchantment_cache();
+        std::map<efftype_id, effect> effects;
+        void process_effects();
+        void remove_effect( const efftype_id &eff_id );
+        bool has_effect( const efftype_id &eff_id ) const;
+        std::vector<std::reference_wrapper<const effect>> get_effects() const;
+        /** Adds or modifies an effect. If intensity is given it will set the effect intensity
+            to the given value, or as close as max_intensity values permit. */
+        void add_effect( const effect_source &source, const efftype_id &eff_id, const time_duration &dur,
+                         bool permanent = false, int intensity = 0 );
+        bool has_visible_effect();
         /**
          * Find a possibly off-map vehicle. If necessary, loads up its submap through
          * the global MAPBUFFER and pulls it from there. For this reason, you should only
@@ -1582,6 +1621,8 @@ class vehicle
 
         // get the total mass of vehicle, including cargo and passengers
         units::mass total_mass( map &here ) const;
+        // get the mass of vehicle, excluding cargo and passengers
+        units::mass unloaded_mass() const;
         // Get the total mass of the vehicle minus the weight of any creatures that are
         // powering it; ie, the mass of the vehicle that the wheels are supporting
         units::mass weight_on_wheels( map &here ) const;
@@ -2078,6 +2119,7 @@ class vehicle
         void toggle_autopilot( map &here );
         void enable_patrol( map &here );
         void toggle_tracking();
+        void display_effects();
         //scoop operation,pickups, battery drain, etc.
         void operate_scoop( map &here );
         void operate_reaper( map &here );
@@ -2156,6 +2198,7 @@ class vehicle
         void use_washing_machine( map &here, int p );
         void use_dishwasher( map &here, int p );
         void use_monster_capture( int part, map *here, const tripoint_bub_ms &pos );
+        void use_tiedown_furniture( int part, map *here, const tripoint_bub_ms & );
         void use_harness( int part, map *here, const tripoint_bub_ms &pos );
 
         void build_electronics_menu( map &here, veh_menu &menu );
@@ -2544,5 +2587,7 @@ class MapgenRemovePartHandler : public RemovePartHandler
             return m;
         }
 };
-
+std::unique_ptr<talker> get_talker_for( vehicle &me );
+std::unique_ptr<const_talker> get_talker_for( const vehicle &me );
+std::unique_ptr<talker> get_talker_for( vehicle *me );
 #endif // CATA_SRC_VEHICLE_H

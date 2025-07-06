@@ -87,7 +87,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "carcrash_10x10_rand",
     "//": "Randomizes between the three car crash variants. The walls for the structure being damaged start at y:3.",
     "object": {
@@ -104,7 +103,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "carcrash_10x10_straight",
     "//": "Same as 8x8, but made to distribute with the diagonal variants of the same size.",
     "object": {
@@ -115,7 +113,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "carcrash_8x8_straight",
     "//": "The walls for the structure being damaged start at y:3.",
     "object": {
@@ -132,13 +129,12 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "struc_damage" ],
-      "place_vehicles": [ { "chance": 100, "fuel": 10, "rotation": 90, "status": 1, "vehicle": "cars_only", "x": 4, "y": 4 } ],
+      "place_vehicles": [ { "fuel": 10, "rotation": 90, "status": 1, "vehicle": "cars_only", "x": 4, "y": 4 } ],
       "place_nested": [ { "chunks": [ [ "null", 50 ], [ "carcrash_8x8_straight_bloodcorpse", 50 ] ], "x": 0, "y": 0 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "carcrash_10x10_diag_fromleft",
     "//": "The walls for the structure being damaged start at y:3.",
     "object": {
@@ -157,13 +153,12 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "struc_damage" ],
-      "place_vehicles": [ { "chance": 100, "fuel": 10, "rotation": 35, "status": 1, "vehicle": "cars_only", "x": 5, "y": 3 } ],
+      "place_vehicles": [ { "fuel": 10, "rotation": 35, "status": 1, "vehicle": "cars_only", "x": 5, "y": 3 } ],
       "place_nested": [ { "chunks": [ [ "null", 50 ], [ "carcrash_10x10_diag_fromleft_bloodcorpse", 50 ] ], "x": 0, "y": 0 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "carcrash_10x10_diag_fromright",
     "//": "The walls for the structure being damaged start at y:3.",
     "object": {
@@ -182,13 +177,12 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "struc_damage" ],
-      "place_vehicles": [ { "chance": 100, "fuel": 10, "rotation": 145, "status": 1, "vehicle": "cars_only", "x": 4, "y": 4 } ],
+      "place_vehicles": [ { "fuel": 10, "rotation": 145, "status": 1, "vehicle": "cars_only", "x": 4, "y": 4 } ],
       "place_nested": [ { "chunks": [ [ "null", 50 ], [ "carcrash_10x10_diag_fromright_bloodcorpse", 50 ] ], "x": 0, "y": 0 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "carcrash_8x8_straight_bloodcorpse",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -209,7 +203,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "carcrash_10x10_diag_fromleft_bloodcorpse",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -232,7 +225,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "carcrash_10x10_diag_fromright_bloodcorpse",
     "object": {
       "mapgensize": [ 10, 10 ],

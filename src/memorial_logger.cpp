@@ -124,8 +124,8 @@ void memorial_logger::clear()
  * the character dies. The message should contain only the informational string,
  * as the timestamp and location will be automatically prepended.
  */
-void memorial_logger::add( const std::string_view male_msg,
-                           const std::string_view female_msg )
+void memorial_logger::add( std::string_view male_msg,
+                           std::string_view female_msg )
 {
     Character &player_character = get_player_character();
     const std::string_view msg = player_character.male ? male_msg : female_msg;
@@ -257,7 +257,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     //HP
 
     const auto limb_hp =
-    [&file, &indent, &u]( const std::string_view desc, const bodypart_id & bp ) {
+    [&file, &indent, &u]( std::string_view desc, const bodypart_id & bp ) {
         file << indent <<
              string_format( desc, u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) ) << eol;
     };
@@ -1144,6 +1144,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_falls_asleep:
         case event_type::character_radioactively_mutates:
         case event_type::character_wears_item:
+        case event_type::character_takeoff_item:
         case event_type::character_wields_item:
         case event_type::character_armor_destroyed:
         case event_type::character_casts_spell:

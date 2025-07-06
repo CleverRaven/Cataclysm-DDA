@@ -20,6 +20,7 @@ generic_factory<overmap_connection> connections( "overmap connection" );
 static const std::unordered_map<std::string, overmap_connection::subtype::flag>
 connection_subtype_flag_map = {
     { "ORTHOGONAL", overmap_connection::subtype::flag::orthogonal },
+    { "PERPENDICULAR_CROSSING", overmap_connection::subtype::flag::perpendicular_crossing }
 };
 
 template<>
@@ -97,7 +98,7 @@ bool overmap_connection::has( const int_id<oter_t> &oter ) const
     } ) != subtypes.cend();
 }
 
-void overmap_connection::load( const JsonObject &jo, const std::string_view )
+void overmap_connection::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, false, "subtypes", subtypes );
 }

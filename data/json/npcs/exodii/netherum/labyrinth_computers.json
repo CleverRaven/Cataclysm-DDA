@@ -1,0 +1,214 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Exit_Controls",
+    "dynamic_line": "&You see a strangely mundane black computer screen, with a blinking green cursor awaiting input.\n\n<color_light_green> @User > _</color>",
+    "responses": [
+      { "text": "Activate exit protocol", "topic": "COMP_LS_Exit_Controls2" },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Exit_Controls2",
+    "dynamic_line": "&<color_light_green> @User > skill -EXIT -@User\n<color_light_green>Really exit?  You will not be able to return to the same place.",
+    "responses": [
+      { "text": "Yes.", "effect": { "run_eocs": "EOC_LS_Exit_labyrinth" }, "topic": "TALK_DONE" },
+      { "text": "No.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "COMP_LS_Passcode_Door", "COMP_LS_Passcode_Door2", "COMP_LS_Passcode_Door3" ],
+    "responses": [
+      {
+        "text": "Unlock connected doors",
+        "effect": [ { "run_eocs": [ "EOC_LS_Unlock", "EOC_LS_Passcode_Generator" ] }, { "math": [ "npc_LS_door_requests", "=", "1" ] } ],
+        "topic": "COMP_LS_Passcode_Door2",
+        "condition": { "math": [ "npc_LS_door_requests", "<", "1" ] }
+      },
+      {
+        "text": "Lock connected doors",
+        "effect": [ { "run_eocs": [ "EOC_LS_Lock" ] }, { "math": [ "npc_LS_door_requests", "+=", "1" ] } ],
+        "topic": "COMP_LS_Passcode_Door3",
+        "condition": { "math": [ "npc_LS_door_requests", "==", "1" ] }
+      },
+      {
+        "text": "Unlock connected doors",
+        "topic": "COMP_LS_Passcode_Door4",
+        "condition": { "math": [ "npc_LS_door_requests", "==", "2" ] }
+      },
+      {
+        "text": "Now all the doors are *gone*, what the hell.",
+        "topic": "COMP_LS_Passcode_Door5",
+        "condition": { "math": [ "npc_LS_door_requests", "==", "3" ] }
+      },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Passcode_Door",
+    "dynamic_line": "&You see a strangely mundane black computer screen, with a blinking green cursor awaiting input.\n\n<color_light_green> @User > _</color>"
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Passcode_Door2",
+    "dynamic_line": "&<color_light_green> @User > doorstatus --update=unlock\n<color_light_green>Command accepted.\n<color_light_green>Nearby doors unlocked.\n<color_light_green>Thank you for using TempleOS.\n\n<color_light_green> @User > _"
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Passcode_Door3",
+    "dynamic_line": "&<color_light_green> @User > doorstatus --update=lock\n<color_light_green>Command accepted.\n<color_light_green>Nearby doors locked.\n<color_light_green>Warning: What is done cannot be undone.  This does not represent a return to how things were.  You can never go back.\n\n<color_light_green> @User > _"
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Passcode_Door4",
+    "dynamic_line": "&<color_light_green> @User > doorstatus --update=unlock\n<color_light_green>Bad command or file name.\n<color_light_green>What is done cannot be undone.  Please see prior user warning.\n\n<color_light_green> @User > _",
+    "responses": [
+      { "text": "There must be some way to force the computer to do it.", "topic": "COMP_LS_Passcode_Door4sudo" },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Passcode_Door4sudo",
+    "dynamic_line": "&<color_light_green> @User > doorstatus --update=unlock --force\n<color_light_green>Error: Insufficient  confidence.\n<color_light_green>Aborted: No forceable process.\n @User > sudo doorstatus --update=unlock\n<color_light_green>Oh, is that how it will be?  Very well.\n<color_light_green>Blood tax requested.\nA drawer on the side of the terminal slides open, revealing a small, thin needle.\n\n<color_light_green> @User > _",
+    "responses": [
+      {
+        "text": "[ Prick yourself on the needle ]",
+        "topic": "COMP_LS_Passcode_Door4blood",
+        "effect": [
+          { "math": [ "u_vitamin('blood')", "*=", "0.75" ] },
+          { "math": [ "npc_LS_door_requests", "+=", "1" ] },
+          { "run_eocs": [ "EOC_LS_ReallyUnlock" ] }
+        ]
+      },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Passcode_Door4blood",
+    "dynamic_line": "&As it enters your skin, the thin needle seems to pulse, greedily gulping from your offered hand, and you feel abruptly dizzy and lightheaded.  It feels like it took a *lot* of blood.\n\n<color_light_green> @User > Inflict --damage=lifeblood\n<color_light_green>Processing contribution of reality ||||||||| 100%\n<color_light_green>Nearby doors unlocked.\n\n<color_light_green> @User > _",
+    "responses": [ { "text": "Log off.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Passcode_Door5",
+    "dynamic_line": "&<color_light_green> @User > doorstatus --list\n<color_light_green>12 drwxr-xr-x 1 @User\n<color_light_green>File lost or deleted.\n<color_light_green>A new, stronger reality has supplanted the previous.  Thank you for using TempleOS.\n<color_light_green> @User > _",
+    "responses": [ { "text": "Log off.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [
+      "COMP_LS_Bridge_control_deadend_1",
+      "COMP_LS_Bridge_control_deadend_1_Extend_passcode0",
+      "COMP_LS_Bridge_control_deadend_1_Extend_passcode1",
+      "COMP_LS_Bridge_control_deadend_1_Extend_passcode2",
+      "COMP_LS_Bridge_control_deadend_1_Extend_passcode3",
+      "COMP_LS_Bridge_control_deadend_1_Retract",
+      "COMP_LS_Bridge_control_deadend_1_Extend_nopasscode"
+    ],
+    "responses": [
+      {
+        "text": "Enter the Thief's Passcode to extend the bridge.",
+        "effect": [
+          { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode0" },
+          { "math": [ "npc_LS_bridge_requests", "=", "1" ] },
+          { "u_lose_trait": "LS_Passcode_0" }
+        ],
+        "condition": { "and": [ { "math": [ "npc_LS_bridge_requests", "<", "1" ] }, { "u_has_trait": "LS_Passcode_0" } ] },
+        "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode0"
+      },
+      {
+        "text": "Enter the Circle of Wings Passcode to extend the bridge.",
+        "effect": [
+          { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode1" },
+          { "math": [ "npc_LS_bridge_requests", "=", "1" ] },
+          { "u_lose_trait": "LS_Passcode_1" }
+        ],
+        "condition": { "and": [ { "math": [ "npc_LS_bridge_requests", "<", "1" ] }, { "u_has_trait": "LS_Passcode_1" } ] },
+        "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode1"
+      },
+      {
+        "text": "Enter the Hard Nails Passcode to extend the bridge.",
+        "effect": [
+          { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode2" },
+          { "math": [ "npc_LS_bridge_requests", "=", "1" ] },
+          { "u_lose_trait": "LS_Passcode_2" }
+        ],
+        "condition": { "and": [ { "math": [ "npc_LS_bridge_requests", "<", "1" ] }, { "u_has_trait": "LS_Passcode_2" } ] },
+        "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode2"
+      },
+      {
+        "text": "Enter the Laughing Man Passcode to extend the bridge.",
+        "effect": [
+          { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode3" },
+          { "math": [ "npc_LS_bridge_requests", "=", "1" ] },
+          { "u_lose_trait": "LS_Passcode_3" }
+        ],
+        "condition": { "and": [ { "math": [ "npc_LS_bridge_requests", "<", "1" ] }, { "u_has_trait": "LS_Passcode_3" } ] },
+        "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode3"
+      },
+      {
+        "text": "Try to extend the bridge to the treasure room.",
+        "condition": { "math": [ "npc_LS_bridge_requests", "<", "1" ] },
+        "topic": "COMP_LS_Bridge_control_deadend_1_Extend_nopasscode"
+      },
+      {
+        "text": "Retract the bridge",
+        "topic": "COMP_LS_Bridge_control_deadend_1_Retract",
+        "condition": { "math": [ "npc_LS_bridge_requests", ">", "1" ] }
+      },
+      {
+        "text": "[Computers] Try to find a way to force it.",
+        "condition": { "and": [ { "math": [ "u_skill('computer')", ">", "2" ] }, { "math": [ "npc_LS_bridge_requests", "==", "2" ] } ] },
+        "topic": "COMP_LS_Bridge_control_deadend_1_force"
+      },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1",
+    "dynamic_line": "&You see a strangely mundane black computer screen, with a blinking green cursor awaiting input.\n\n<color_light_green> @User > _</color>"
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_Extend_nopasscode",
+    "dynamic_line": "&<color_light_green> @User > bridge --update=extend\n<color_light_green>Error: No PASSCODE or CONFIDENCE.\n<color_light_green>If you have a PASSCODE, please enter using syntax --pass=\"your password\"\n<color_light_green>If you have not been granted a PASSCODE, contact your system obelisk for help.\n\n<color_light_green> @User > _"
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_Extend_passcode0",
+    "dynamic_line": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode0>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>Watch your step.\n\n<color_light_green> @User > _</color>"
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_Extend_passcode1",
+    "dynamic_line": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode1>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>You are free.\n\n<color_light_green> @User > _</color>"
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_Extend_passcode2",
+    "dynamic_line": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode2>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>Kick some ass.\n\n<color_light_green> @User > _</color>"
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_Extend_passcode3",
+    "dynamic_line": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode3>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>Asshole.\n\n<color_light_green> @User > _</color>"
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_Retract",
+    "dynamic_line": "&<color_light_green> @User > bridge --update=retract\n<color_light_green>Error: Insufficient confidence.\n<color_light_green>What is done cannot be undone.\n\n<color_light_green> @User > _</color>",
+    "speaker_effect": { "effect": { "math": [ "npc_LS_bridge_requests", "=", "2" ] } }
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_force",
+    "dynamic_line": "&<color_light_green> @User > help --retract\n<color_light_green>Help?  @User help request logged.\n<color_light_green>Error: \"Help\" - implied payment|cost detected.\n<color_light_green>Error: Payment|cost not implemented.  Try again some day.\n\n<color_light_green> @User > _</color>",
+    "responses": [ { "text": "Log off.", "topic": "TALK_DONE" } ]
+  }
+]

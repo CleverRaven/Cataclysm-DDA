@@ -1,12 +1,6 @@
 [
   {
     "type": "ammunition_type",
-    "id": "NULL",
-    "name": "none",
-    "default": "null"
-  },
-  {
-    "type": "ammunition_type",
     "id": "458wm",
     "name": ".458 Winchester Magnum",
     "default": "458wm"
@@ -76,6 +70,12 @@
     "id": "gene_sting",
     "name": "yugg stinger",
     "default": "gene_sting_barb"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "nether_huntsman_javelin_ammo",
+    "name": "alien outgrowth",
+    "default": "nether_huntsman_javelin"
   },
   {
     "type": "ammunition_type",
@@ -229,6 +229,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "460sw",
+    "name": ".460 S&W Magnum",
+    "default": "460sw"
+  },
+  {
+    "type": "ammunition_type",
     "id": "45colt",
     "name": ".45 Colt",
     "default": "45colt_cowboy"
@@ -334,6 +340,12 @@
     "id": "m235",
     "name": "M235 66mm Incendiary TPA",
     "default": "m235tpa"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "mortar_60mm",
+    "name": "60 mm mortar cartridge",
+    "default": "60mm_shell_m720a1"
   },
   {
     "type": "ammunition_type",
@@ -869,6 +881,12 @@
     "id": "graphite",
     "name": "graphite",
     "default": "graphite"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "quill_ink",
+    "name": "quill ink",
+    "default": "quill_ink"
   },
   {
     "type": "ammunition_type",

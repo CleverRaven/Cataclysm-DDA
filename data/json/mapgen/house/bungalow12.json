@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow12",
-    "method": "json",
     "object": {
       "palettes": [
         "domestic_general_construction_and_variant_palette",
@@ -16,7 +15,7 @@
         ".-------p...............",
         ".------!!!!!..!!!!!.....",
         ".-!###o###oo##oo####~~~.",
-        ".-!#J4666,y h y  +Z#`&~.",
+        ".-!#J4666=y h y  +Z#`&~.",
         ".-!oO===== hffh  +W#`&~.",
         ".-!oJ=3JA=  ff  y###`&~.",
         ".-!#5=2J== hffh y:````~.",
@@ -52,6 +51,7 @@
         "₸": "t_concrete",
         "~": "t_glass_railing",
         "A": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "=": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
@@ -67,13 +67,12 @@
         { "item": "television", "x": 11, "y": 15, "chance": 100 }
       ],
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 17, "y": 0 } ],
-      "vehicles": { ")": { "vehicle": "swivel_chair", "chance": 100, "status": 1 } }
+      "vehicles": { ")": { "vehicle": "swivel_chair", "status": 1 } }
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "bungalow12_roof",
-    "method": "json",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [

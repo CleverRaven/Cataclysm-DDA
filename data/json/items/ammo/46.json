@@ -1,7 +1,8 @@
 [
   {
     "id": "46mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "4.6x30mm" },
     "description": "4.6x30mm ammunition with a 31gr copper plated steel bullet.  The 4.6x30mm round was developed by H&K to compete with FN Herstal's 5.7x28mm cartridge.  It has low recoil and excellent armor penetration.",
     "ascii_picture": "46mm",
@@ -27,7 +28,8 @@
   {
     "id": "bp_46mm",
     "copy-from": "46mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "4.6x30mm, black powder" },
     "description": "4.6x30mm ammunition with a 31gr copper plated lead bullets.  The 4.6x30mm round was developed by H&K to compete with FN Herstal's 5.7x28mm cartridge.  It has low recoil, but lacks its usual armor penetration due to using a simple lead bullet rather than a proper factory-made penetrator projectile.",
     "material": [ "brass", "lead", "powder" ],
@@ -43,7 +45,8 @@
   {
     "id": "reloaded_46mm",
     "copy-from": "46mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "4.6x30mm, reloaded" },
     "description": "4.6x30mm ammunition with a 31gr copper plated lead bullets.  The 4.6x30mm round was developed by H&K to compete with FN Herstal's 5.7x28mm cartridge.  It has low recoil, but lacks its usual armor penetration due to using a simple lead bullet rather than a proper factory-made penetrator projectile.",
     "material": [ "brass", "lead", "powder" ],

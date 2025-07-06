@@ -63,8 +63,9 @@
 #include "talker.h"
 #include "text.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
+#include "vpart_position.h"
 
 struct species_type;
 
@@ -100,6 +101,8 @@ static std::string target_to_string( spell_target data )
             return pgettext( "Valid spell target", "item" );
         case spell_target::field:
             return pgettext( "Valid spell target", "field" );
+        case spell_target::vehicle:
+            return pgettext( "Valid spell target", "vehicle" );
         case spell_target::num_spell_targets:
             break;
     }
@@ -121,6 +124,7 @@ std::string enum_to_string<spell_target>( spell_target data )
         case spell_target::none: return "none";
         case spell_target::item: return "item";
         case spell_target::field: return "field";
+        case spell_target::vehicle: return "vehicle";
         case spell_target::num_spell_targets: break;
     }
     cata_fatal( "Invalid valid_target" );
@@ -291,6 +295,11 @@ void spell_type::load_spell( const JsonObject &jo, const std::string &src )
     spell_factory.load( jo, src );
 }
 
+void spell_type::finalize_all()
+{
+    spell_factory.finalize();
+}
+
 static std::string moves_to_string( const int moves )
 {
     if( moves < to_moves<int>( 2_seconds ) ) {
@@ -300,7 +309,7 @@ static std::string moves_to_string( const int moves )
     }
 }
 
-void spell_type::load( const JsonObject &jo, const std::string_view src )
+void spell_type::load( const JsonObject &jo, std::string_view src )
 {
     src_mod = mod_id( src );
     mandatory( jo, was_loaded, "name", name );
@@ -342,6 +351,11 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
 
     const auto trigger_reader = enum_flags_reader<spell_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
+
+    if( jo.has_member( "condition" ) ) {
+        read_condition( jo, "condition", condition, false );
+        has_condition = true;
+    }
 
     optional( jo, was_loaded, "extra_effects", additional_spells );
 
@@ -1650,6 +1664,27 @@ bool spell::is_valid_target( spell_target t ) const
     return type->valid_targets[t];
 }
 
+bool spell::valid_by_condition( const Creature &caster, const Creature &target ) const
+{
+    if( type->has_condition ) {
+        const_dialogue d( get_const_talker_for( caster ), get_const_talker_for( target ) );
+        return type->condition( d );
+    } else {
+        return true;
+    }
+}
+
+bool spell::valid_by_condition( const Creature &caster ) const
+{
+    if( type->has_condition ) {
+        const_dialogue d( get_const_talker_for( caster ), nullptr );
+        return type->condition( d );
+    } else {
+        return true;
+    }
+}
+
+
 bool spell::is_valid_target( const Creature &caster, const tripoint_bub_ms &p ) const
 {
     bool valid = false;
@@ -1664,8 +1699,13 @@ bool spell::is_valid_target( const Creature &caster, const tripoint_bub_ms &p ) 
         valid = valid && target_by_monster_id( p );
         valid = valid && target_by_species_id( p );
         valid = valid && ignore_by_species_id( p );
+        valid = valid && valid_by_condition( caster, *cr );
+    } else if( get_map().veh_at( p ) ) {
+        valid = is_valid_target( spell_target::vehicle ) || is_valid_target( spell_target::ground );
+        valid = valid && valid_by_condition( caster );
     } else {
         valid = is_valid_target( spell_target::ground );
+        valid = valid && valid_by_condition( caster );
     }
     return valid;
 }
@@ -2332,7 +2372,7 @@ void known_magic::serialize( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
-    json.member( "invlets", invlets );
+    json.member( "invlets", spells_to_invlets );
     json.member( "favorites", favorites );
 
     json.end_object();
@@ -2356,7 +2396,8 @@ void known_magic::deserialize( const JsonObject &data )
             spellbook.emplace( sp, spell( sp, xp ) );
         }
     }
-    data.read( "invlets", invlets );
+    data.read( "invlets", spells_to_invlets );
+    build_invlets_to_spells();
     data.read( "favorites", favorites );
 }
 
@@ -2410,10 +2451,10 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
                 } else if( cancel == sp->spell_class->cancels.front() ) {
                     trait_cancel = cancel->name();
                     if( sp->spell_class->cancels.size() == 1 ) {
-                        trait_cancel = string_format( "%s: %s", trait_cancel, cancel->desc() );
+                        trait_cancel = string_format( "%s: %s", trait_cancel, guy.mutation_desc( cancel ) );
                     }
                 } else {
-                    trait_cancel = string_format( _( "%s, %s" ), trait_cancel, cancel->name() );
+                    trait_cancel = string_format( _( "%s, %s" ), trait_cancel, guy.mutation_desc( cancel ) );
                 }
                 if( cancel == sp->spell_class->cancels.back() ) {
                     trait_cancel += ".";
@@ -2421,10 +2462,10 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
             }
             if( !guy.is_avatar() || query_yn(
                     _( "Learning this spell will make you a\n\n%s: %s\n\nand lock you out of\n\n%s\n\nContinue?" ),
-                    sp->spell_class->name(), sp->spell_class->desc(), trait_cancel ) ) {
+                    sp->spell_class->name(), guy.mutation_desc( sp->spell_class ), trait_cancel ) ) {
                 guy.set_mutation( sp->spell_class );
                 guy.on_mutation_gain( sp->spell_class );
-                guy.add_msg_if_player( sp->spell_class.obj().desc() );
+                guy.add_msg_if_player( guy.mutation_desc( sp->spell_class ) );
             } else {
                 return;
             }
@@ -2716,16 +2757,21 @@ class spellcasting_callback : public uilist_callback
                 int invlet = 0;
                 invlet = popup_getkey( _( "Choose a new hotkey for this spell." ) );
                 if( inv_chars.valid( invlet ) ) {
-                    std::set<int> used_invlets{ spellcasting_callback::reserved_invlets };
-                    get_player_character().magic->update_used_invlets( used_invlets );
-                    const bool invlet_set = get_player_character().magic->set_invlet(
-                                                known_spells[entnum]->id(), invlet, used_invlets );
-                    // TODO: if key already in use, have spells swap invlets?
-                    if( !invlet_set ) {
-                        popup( _( "Hotkey already used." ) );
+                    if( spellcasting_callback::reserved_invlets.count( invlet ) ) {
+                        popup( _( "Can't use a reserved hotkey." ) );
                     } else {
-                        popup( _( "%c set.  Close and reopen spell menu to refresh list with changes." ),
-                               invlet );
+                        const bool invlet_set = get_player_character().magic->set_invlet(
+                                                    known_spells[entnum]->id(), invlet );
+                        if( !invlet_set ) {
+                            if( query_yn( _( "Hotkey already used.  Swap hotkeys?" ) ) ) {
+                                get_player_character().magic->swap_invlet( known_spells[entnum]->id(), invlet );
+                                popup( _( "%c set.  Close and reopen spell menu to refresh list with changes." ),
+                                       invlet );
+                            }
+                        } else {
+                            popup( _( "%c set.  Close and reopen spell menu to refresh list with changes." ),
+                                   invlet );
+                        }
                     }
                 } else {
                     popup( _( "Hotkey removed." ) );
@@ -2866,7 +2912,9 @@ void spellcasting_callback::display_spell_info( size_t index )
     cataimgui::set_scroll( spell_info_scroll );
     ImGui::TextColored( c_yellow, "%s", sp.spell_class() == trait_NONE ? _( "Classless" ) :
                         sp.spell_class()->name().c_str() );
-    std::vector<std::string> lines = string_split( sp.description(), '\n' );
+    std::string desc = sp.description();
+    parse_tags( desc, *get_avatar().as_character(), *get_avatar().as_character() );
+    std::vector<std::string> lines = string_split( desc, '\n' );
     for( std::string &l : lines ) {
         cataimgui::TextColoredParagraph( c_white, l );
         ImGui::NewLine();
@@ -3090,26 +3138,58 @@ void spellcasting_callback::display_spell_info( size_t index )
     }
 }
 
-bool known_magic::set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets )
+bool known_magic::set_invlet( const spell_id &sp, int invlet )
 {
-    if( used_invlets.count( invlet ) > 0 ) {
+    if( invlets_to_spells.count( invlet ) ) {
         return false;
     }
-    invlets[sp] = invlet;
-    // TODO: we should really update used_invlets too, to avoid inconsistency
+    rem_invlet( sp );
+    spells_to_invlets[sp] = invlet;
+    invlets_to_spells[invlet] = sp;
     return true;
+}
+
+void known_magic::swap_invlet( const spell_id &new_sp, int invlet )
+{
+    if( !invlets_to_spells.count( invlet ) ) {
+        // If invlet is not in use, simply set it.
+        if( !set_invlet( new_sp, invlet ) ) {
+            debugmsg( "Failed to set '%s' spell to '%c' invlet", new_sp.c_str(), static_cast<char>( invlet ) );
+        }
+        return;
+    }
+    spell_id old_sp = invlets_to_spells[invlet];
+    int new_sp_old_invlet = get_invlet( new_sp );
+
+    rem_invlet( old_sp );
+    rem_invlet( new_sp );
+    spells_to_invlets[new_sp] = invlet;
+    invlets_to_spells[invlet] = new_sp;
+    if( new_sp != old_sp && new_sp_old_invlet != 0 ) {
+        spells_to_invlets[old_sp] = new_sp_old_invlet;
+        invlets_to_spells[new_sp_old_invlet] = old_sp;
+    }
 }
 
 void known_magic::rem_invlet( const spell_id &sp )
 {
-    // TODO: ... except that rem_invlet cannot update used_invlets (not passed in)
-    invlets.erase( sp );
+    auto it = spells_to_invlets.find( sp );
+    if( it == spells_to_invlets.end() ) {
+        return;
+    }
+    invlets_to_spells.erase( it->second );
+    spells_to_invlets.erase( it );
 }
 
-void known_magic::update_used_invlets( std::set<int> &used_invlets )
+void known_magic::build_invlets_to_spells()
 {
-    for( const std::pair<const spell_id, int> &invlet_pair : invlets ) {
-        used_invlets.emplace( invlet_pair.second );
+    invlets_to_spells.clear();
+    for( auto const &[spell_id, invlet] : spells_to_invlets ) {
+        if( !invlets_to_spells.insert( {invlet, spell_id} ).second ) {
+            // Two spells are mapped to the same invlet, this should not have happened.
+            debugmsg( "Two spells are assigned invlet '%d': '%s', '%s'", invlet, spell_id.c_str(),
+                      invlets_to_spells[invlet].c_str() );
+        }
     }
 }
 
@@ -3127,23 +3207,29 @@ bool known_magic::is_favorite( const spell_id &sp )
     return favorites.count( sp ) > 0;
 }
 
-int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
+int known_magic::get_invlet( const spell_id &sp )
 {
-    auto found = invlets.find( sp );
-    if( found != invlets.end() ) {
+    auto found = spells_to_invlets.find( sp );
+    if( found != spells_to_invlets.end() ) {
         return found->second;
     }
-    update_used_invlets( used_invlets );
     // For spells without an invlet, assign first available one.
     // Assignment is "sticky" (permanent), to avoid invlets getting scrambled
     // when spells are added or subtracted.
     // TODO: respect "Auto inventory letters" option?
     for( char &ch : inv_chars.get_allowed_chars() ) {
         int invlet = static_cast<int>( static_cast<unsigned char>( ch ) );
-        if( set_invlet( sp, invlet, used_invlets ) ) {
-            used_invlets.emplace( invlet );
-            return invlet;
+        if( invlets_to_spells.count( invlet ) ) {
+            continue;
         }
+        if( spellcasting_callback::reserved_invlets.count( invlet ) ) {
+            continue;
+        }
+        if( !set_invlet( sp, invlet ) ) {
+            debugmsg( "Attempt to set invlet '%c' for '%s' failed", ch, sp.c_str() );
+            continue;
+        }
+        return invlet;
     }
     return 0;
 }
@@ -3152,11 +3238,9 @@ spell &known_magic::select_spell( Character &guy )
 {
     std::vector<spell *> known_spells_sorted = get_spells();
 
-    std::set<int> used_invlets{ spellcasting_callback::reserved_invlets };
-
     // Sort the spell lists by 3 dimensions.
     sort( known_spells_sorted.begin(), known_spells_sorted.end(),
-    [&guy, &used_invlets, this]( spell * left, spell * right ) -> int {
+    [&guy, this]( spell * left, spell * right ) -> int {
         const bool l_fav = guy.magic->is_favorite( left->id() );
         const bool r_fav = guy.magic->is_favorite( right->id() );
         // 1. Favorite spells before non-favorite
@@ -3164,8 +3248,8 @@ spell &known_magic::select_spell( Character &guy )
         {
             return l_fav > r_fav;
         }
-        const int l_invlet = get_invlet( left->id(), used_invlets );
-        const int r_invlet = get_invlet( right->id(), used_invlets );
+        const int l_invlet = get_invlet( left->id() );
+        const int r_invlet = get_invlet( right->id() );
         // 2. By invlet, if present (but in allowed_chars order; e.g.,
         //    lower-case first)
         if( l_invlet != r_invlet )
@@ -3204,7 +3288,7 @@ spell &known_magic::select_spell( Character &guy )
 
     std::vector<std::pair<std::string, std::string>> categories;
     for( const spell *s : known_spells_sorted ) {
-        if( s->can_cast( guy ) && ( s->spell_class().is_valid() || s->spell_class() == trait_NONE ) ) {
+        if( ( s->spell_class().is_valid() || s->spell_class() == trait_NONE ) ) {
             const std::string spell_class_name = s->spell_class() == trait_NONE ? _( "Classless" ) :
                                                  s->spell_class().obj().name();
             categories.emplace_back( s->spell_class().str(), spell_class_name );
@@ -3239,7 +3323,7 @@ spell &known_magic::select_spell( Character &guy )
 
     for( size_t i = 0; i < known_spells_sorted.size(); i++ ) {
         spell_menu.addentry( static_cast<int>( i ), known_spells_sorted[i]->can_cast( guy ),
-                             get_invlet( known_spells_sorted[i]->id(), used_invlets ), known_spells_sorted[i]->name() );
+                             get_invlet( known_spells_sorted[i]->id() ), known_spells_sorted[i]->name() );
     }
     refresh_favorite( &spell_menu, known_spells_sorted );
 

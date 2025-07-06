@@ -27,6 +27,7 @@
     "furniture": {
       "x": "f_console_broken",
       "n": "f_displaycase",
+      "X": [ [ "f_console_broken", 10 ], [ "f_washer", 5 ], [ "f_dryer", 5 ], [ "f_dishwasher", 5 ], [ "f_shredder", 2 ] ],
       "1": "f_rack",
       "2": "f_rack",
       "3": "f_rack",
@@ -52,8 +53,9 @@
       "n": { "item": "elecsto_persele", "chance": 50 },
       "o": { "item": "supplies_electronics", "chance": 50, "repeat": [ 2, 5 ] },
       "O": { "item": "supplies_electronics", "chance": 50, "repeat": [ 3, 5 ] },
-      "d": { "item": "office_mess", "chance": 20, "repeat": [ 1, 2 ] },
-      "f": { "item": "file_room", "chance": 50, "repeat": [ 1, 5 ] }
+      "d": { "item": "SUS_office_desk", "chance": 75 },
+      "}": { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 5 ] },
+      "T": { "item": "SUS_toilet", "chance": 50 }
     }
   }
 ]

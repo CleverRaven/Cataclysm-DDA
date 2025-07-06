@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "police_dept_u000", "police_dept_u100" ], [ "police_dept_u010", "police_dept_u110" ] ],
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -71,9 +70,9 @@
         { "vehicle": "police_pileup", "x": 39, "y": 43, "chance": 20, "rotation": 90 },
         { "vehicle": "police_pileup", "x": 34, "y": 43, "chance": 20, "rotation": 90 },
         { "vehicle": "police_pileup", "x": 29, "y": 43, "chance": 20, "rotation": 90 },
-        { "vehicle": "swivel_chair", "x": 42, "y": [ 26, 27 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "swivel_chair", "x": [ 10, 16 ], "y": [ 16, 18 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "swivel_chair", "x": [ 10, 16 ], "y": [ 16, 18 ], "chance": 100, "rotation": 90 }
+        { "vehicle": "swivel_chair", "x": 42, "y": [ 26, 27 ], "rotation": 90 },
+        { "vehicle": "swivel_chair", "x": [ 10, 16 ], "y": [ 16, 18 ], "rotation": 90 },
+        { "vehicle": "swivel_chair", "x": [ 10, 16 ], "y": [ 16, 18 ], "rotation": 90 }
       ],
       "place_monsters": [
         { "monster": "GROUP_POLICE", "x": [ 0, 23 ], "y": [ 0, 23 ] },
@@ -96,7 +95,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "police_dept_u001", "police_dept_u101" ], [ "police_dept_u011", "police_dept_u111" ] ],
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -183,11 +181,11 @@
         "0": "t_gutter_drop"
       },
       "place_vehicles": [
-        { "vehicle": "swivel_chair", "x": [ 36, 37 ], "y": [ 29, 31 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "swivel_chair", "x": [ 28, 29 ], "y": [ 5, 7 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "swivel_chair", "x": 44, "y": [ 6, 8 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "swivel_chair", "x": 45, "y": [ 6, 8 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "swivel_chair", "x": 46, "y": [ 6, 8 ], "chance": 100, "rotation": 90 }
+        { "vehicle": "swivel_chair", "x": [ 36, 37 ], "y": [ 29, 31 ], "rotation": 90 },
+        { "vehicle": "swivel_chair", "x": [ 28, 29 ], "y": [ 5, 7 ], "rotation": 90 },
+        { "vehicle": "swivel_chair", "x": 44, "y": [ 6, 8 ], "rotation": 90 },
+        { "vehicle": "swivel_chair", "x": 45, "y": [ 6, 8 ], "rotation": 90 },
+        { "vehicle": "swivel_chair", "x": 46, "y": [ 6, 8 ], "rotation": 90 }
       ],
       "place_monsters": [
         { "monster": "GROUP_POLICE", "x": [ 0, 23 ], "y": [ 0, 23 ] },
@@ -199,7 +197,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "police_dept_u002", "police_dept_u102" ], [ "police_dept_u012", "police_dept_u112" ] ],
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -272,7 +269,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "police_dept_b10", "police_dept_b00" ], [ "police_dept_b11", "police_dept_b01" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -357,7 +353,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "police_dept_d100", "police_dept_d000" ], [ "police_dept_d110", "police_dept_d010" ] ],
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -447,7 +442,7 @@
         "o": "t_thconc_floor",
         "!": "t_thconc_floor"
       },
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 36, 39 ], "y": [ 20, 21 ], "chance": 100, "rotation": 90 } ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 36, 39 ], "y": [ 20, 21 ], "rotation": 90 } ],
       "place_monsters": [
         { "monster": "GROUP_POLICE", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "monster": "GROUP_POLICE", "x": [ 24, 47 ], "y": [ 0, 23 ] },
@@ -469,7 +464,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "police_dept_d101", "police_dept_d001" ], [ "police_dept_d111", "police_dept_d011" ] ],
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -572,8 +566,8 @@
         { "item": "analytical_set_basic", "x": 24, "y": [ 7, 12 ], "chance": 6 }
       ],
       "place_vehicles": [
-        { "vehicle": "swivel_chair", "x": 19, "y": [ 7, 12 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "swivel_chair", "x": 25, "y": [ 7, 12 ], "chance": 100, "rotation": 90 }
+        { "vehicle": "swivel_chair", "x": 19, "y": [ 7, 12 ], "rotation": 90 },
+        { "vehicle": "swivel_chair", "x": 25, "y": [ 7, 12 ], "rotation": 90 }
       ],
       "place_monsters": [
         { "monster": "GROUP_POLICE", "x": [ 0, 23 ], "y": [ 0, 23 ] },
@@ -585,7 +579,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "police_dept_d102", "police_dept_d002" ], [ "police_dept_d112", "police_dept_d012" ] ],
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -657,7 +650,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "police_dept_skyway" ],
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -694,7 +686,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "police_dept_skyway_roof" ],
     "object": {
       "fill_ter": "t_tar_flat_roof",

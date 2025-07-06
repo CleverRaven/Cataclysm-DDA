@@ -1,7 +1,7 @@
 [
   {
     "id": "cauldron_demon_chitin",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "cauldron of purification", "str_pl": "cauldrons of purification" },
     "description": "This cauldron made of demon spider chitin seems to absorb the light.  It will hold 16 liters of material and will absorb poisons from it.  It may have other properties that require discovery.",
@@ -21,7 +21,7 @@
   },
   {
     "id": "cauldron_orichalcum",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "orichalcum cauldron" },
     "description": "This is an alchemical cauldron made of orichalcum.  The metal is especially resistant to the unique types of corrosion caused by alchemy.",
@@ -41,7 +41,8 @@
   },
   {
     "id": "demon_forge",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "demon forge" },
     "description": "This is a portable version of the charcoal forge that is magically enhanced and fortified with demon spider chitin in order to be able to resmelt magical metals into their workable ingot form.",
     "weight": "8 kg",
@@ -50,14 +51,14 @@
     "material": [ { "type": "demon_chitin", "portion": 40 }, { "type": "cement", "portion": 60 } ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "alumentum" ],
     "sub": "forge",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "alumentum": 500 } } ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 9 },
+    "tool_ammo": [ "alumentum" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fireproof_mortar",
     "symbol": "%",
     "color": "light_red",
@@ -75,7 +76,8 @@
     "id": "sewing_kit",
     "name": "sewing kit",
     "copy-from": "sewing_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
@@ -106,7 +108,8 @@
     "id": "tailors_kit",
     "name": "tailor's kit",
     "copy-from": "tailors_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "use_action": [
       {
         "type": "repair_item",
@@ -138,7 +141,8 @@
   },
   {
     "id": "parabolan_wool_staple",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "parabolan wool staple" },
     "description": "The natural cluster of parabolan wool fibers.  Could be processed to felt patches or yarns.",
@@ -153,7 +157,8 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "glassteel_shard",
     "copy-from": "glass_shard",
     "name": { "str": "glassteel shard" },
@@ -164,7 +169,8 @@
   },
   {
     "id": "magic_circle_rank_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Magic Circle Rank 1", "str_pl": "Magic Circles Rank 1" },
     "description": {
       "str": "This is the pseudo-tool provided by having a nearby magic circle.  You shouldn't see this as an individual item.",
@@ -179,7 +185,8 @@
   },
   {
     "id": "magic_circle_rank_2",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Magic Circle Rank 2", "str_pl": "Magic Circles Rank 2" },
     "description": {
       "str": "This is the pseudo-tool provided by having a nearby magic circle.  You shouldn't see this as an individual item.",

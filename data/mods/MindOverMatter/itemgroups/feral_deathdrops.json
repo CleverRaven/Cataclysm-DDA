@@ -252,7 +252,6 @@
       { "group": "security_shoes", "prob": 70, "damage": [ 1, 4 ] },
       { "group": "security_torso", "prob": 70, "damage": [ 1, 4 ] },
       { "group": "underwear", "damage": [ 1, 4 ] },
-      { "group": "underwear", "damage": [ 1, 4 ] },
       { "group": "clothing_glasses", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
       { "group": "wallets_phavian", "damage": [ 1, 4 ] },

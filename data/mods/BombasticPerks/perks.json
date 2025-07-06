@@ -767,6 +767,17 @@
   },
   {
     "type": "mutation",
+    "id": "perk_metamagic_efficient",
+    "name": { "str": "Metamagic: Efficient Spell" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You can cast your spells more efficiently at the cost of a more difficult cast.  *75% casting cost, +5 difficulty.  Can be toggled on or of by activating this trait.",
+    "active": true,
+    "activated_eocs": [ "EOC_metamagic_toggle_efficient" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_metamagic_intuitive",
     "name": { "str": "Metamagic: Intuitive Spell" },
     "points": 0,
@@ -904,6 +915,16 @@
     "enchantments": [
       { "condition": { "u_has_wielded_with_flag": "OLD_GUN" }, "values": [ { "value": "RANGED_DAMAGE", "multiply": 0.25 } ] }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_dice_addition_damage",
+    "name": { "str": "Damage dice" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Before Cataclysm, you always used dice to determine the damage in the game.  Now, the power of fate allows you to use dice to deal additional mysterious damage.  Throwing dice using a sling or similar weapon deals additional damage, which depends on the number of sides of the dice.",
+    "category": [ "perk" ]
   },
   {
     "type": "mutation",

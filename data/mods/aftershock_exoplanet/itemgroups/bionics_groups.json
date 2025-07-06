@@ -1,0 +1,239 @@
+[
+  {
+    "id": "bionics",
+    "type": "item_group",
+    "copy-from": "bionics",
+    "extend": {
+      "items": [
+        [ "bio_microgen", 5 ],
+        [ "bn_bio_solar", 10 ],
+        [ "afs_bio_missiles", 10 ],
+        [ "afs_bio_linguistic_coprocessor", 10 ],
+        [ "afs_bio_dopamine_stimulators", 10 ],
+        [ "afs_bio_neurosoft_aeronautics", 5 ],
+        [ "bio_shield_weak", 25 ],
+        [ "afs_bio_translocator", 5 ],
+        [ "bio_shock_absorber", 2 ],
+        [ "afs_bio_skullgun", 5 ],
+        [ "afs_bio_beavy_batteries", 20 ],
+        [ "afs_bio_chemical_enhancement_rig", 10 ]
+      ]
+    }
+  },
+  {
+    "id": "bionics_common",
+    "type": "item_group",
+    "copy-from": "bionics_common",
+    "extend": {
+      "items": [
+        [ "bn_bio_solar", 10 ],
+        [ "afs_bio_linguistic_coprocessor", 8 ],
+        [ "afs_bio_beavy_batteries", 20 ],
+        [ "bio_shield_weak", 25 ]
+      ]
+    }
+  },
+  {
+    "id": "bionics_reaver",
+    "type": "item_group",
+    "items": [
+      [ "bio_microgen", 3 ],
+      [ "bio_power_storage", 10 ],
+      [ "bio_batteries", 10 ],
+      [ "bio_metabolics", 10 ],
+      [ "bio_ethanol", 10 ],
+      [ "bio_ups", 10 ],
+      [ "bio_torsionratchet", 10 ],
+      [ "bio_ears", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_eye_optic", 10 ],
+      [ "bio_eye_enhancer", 10 ],
+      [ "bio_dex_enhancer", 10 ],
+      [ "bio_str_enhancer", 10 ],
+      [ "bio_night_vision", 10 ],
+      [ "bio_infrared", 10 ],
+      [ "bio_recycler", 10 ],
+      [ "bio_digestion", 10 ],
+      [ "bio_evap", 10 ],
+      [ "bio_water_extractor", 10 ],
+      [ "bio_carbon", 10 ],
+      [ "bio_targeting", 10 ],
+      [ "bio_ground_sonar", 10 ],
+      [ "bio_face_mask", 10 ],
+      [ "bio_scent_mask", 10 ],
+      [ "bio_cloak", 10 ],
+      [ "bio_synaptic_regen", 12 ],
+      [ "afs_bio_deck", 10 ],
+      [ "bio_lockpick", 10 ],
+      [ "bio_blood_anal", 10 ],
+      [ "bio_geiger", 10 ],
+      [ "bio_radscrubber", 10 ],
+      [ "bio_laser", 10 ],
+      [ "bio_emp", 10 ],
+      [ "bio_flashbang", 10 ],
+      [ "bio_blade", 2 ],
+      [ "bio_speed", 2 ],
+      [ "bio_adrenaline", 10 ],
+      [ "bio_watch", 10 ],
+      [ "bio_meteorologist", 10 ],
+      [ "bio_cable", 10 ],
+      [ "bio_weight", 10 ],
+      [ "bio_jointservo", 10 ],
+      [ "bio_shotgun", 10 ],
+      [ "bio_recoil", 10 ],
+      [ "bio_shield_weak", 10 ],
+      [ "afs_bio_chemical_enhancement_rig", 10 ],
+      [ "bio_shield_weak", 10 ],
+      [ "afs_bio_skullgun", 10 ]
+    ]
+  },
+  {
+    "id": "bionics_mil",
+    "type": "item_group",
+    "copy-from": "bionics_mil",
+    "extend": {
+      "items": [
+        [ "afs_bio_neurosoft_aeronautics", 10 ],
+        [ "afs_bio_beavy_batteries", 10 ],
+        [ "afs_bio_melee_counteraction", 10 ],
+        [ "afs_bio_melee_optimization_unit", 10 ],
+        [ "afs_bio_monowhip", 10 ],
+        [ "afs_bio_blood_plus", 10 ],
+        [ "bio_shield_heavy", 3 ],
+        [ "bio_shield_weak", 10 ],
+        [ "bio_shield_medium", 26 ],
+        [ "afs_bio_translocator", 5 ],
+        [ "afs_bio_blood_brain", 1 ],
+        [ "bio_shock_absorber", 2 ],
+        [ "afs_bio_skullgun", 2 ]
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_sci",
+    "subtype": "distribution",
+    "//": "High-tech bionics, handy for the harried researcher.  They get access to classified toys too, but only stuff a scientist would have use for.",
+    "items": [
+      [ "burnt_out_bionic", 60 ],
+      [ "bio_batteries", 30 ],
+      [ "bio_power_storage", 30 ],
+      [ "bio_metabolics", 5 ],
+      [ "bio_ethanol", 5 ],
+      [ "bio_ups", 10 ],
+      [ "bio_torsionratchet", 30 ],
+      [ "bio_tools", 10 ],
+      [ "bio_flashlight", 30 ],
+      [ "bio_lighter", 25 ],
+      [ "bio_magnet", 20 ],
+      [ "bio_memory", 15 ],
+      [ "bio_ears", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_eye_optic", 10 ],
+      [ "bio_eye_enhancer", 5 ],
+      [ "bio_dex_enhancer", 5 ],
+      [ "bio_int_enhancer", 10 ],
+      [ "bio_night_vision", 1 ],
+      [ "bio_infrared", 2 ],
+      [ "bio_synaptic_regen", 12 ],
+      [ "bio_gills", 5 ],
+      [ "bio_climate", 2 ],
+      [ "bio_heatsink", 2 ],
+      [ "bio_blood_filter", 10 ],
+      [ "bio_fingerhack", 2 ],
+      [ "bio_lockpick", 2 ],
+      [ "bio_surgical_razor", 8 ],
+      [ "bio_nanobots", 15 ],
+      [ "bio_blood_anal", 10 ],
+      [ "bio_geiger", 15 ],
+      [ "bio_radscrubber", 10 ],
+      [ "bio_watch", 40 ],
+      [ "bio_leukocyte", 15 ],
+      [ "bio_syringe", 2 ],
+      [ "bio_jointservo", 10 ],
+      [ "bio_soporific", 2 ],
+      [ "bn_bio_solar", 5 ],
+      [ "bio_microgen", 2 ]
+    ]
+  },
+  {
+    "id": "bionics_op",
+    "type": "item_group",
+    "items": [
+      [ "bio_microgen", 3 ],
+      [ "bn_bio_solar", 15 ],
+      [ "afs_bio_missiles", 10 ],
+      [ "afs_bio_melee_counteraction", 10 ],
+      [ "afs_bio_monowhip", 10 ],
+      [ "afs_bio_melee_optimization_unit", 10 ],
+      [ "afs_bio_neurosoft_aeronautics", 10 ],
+      [ "afs_bio_dopamine_stimulators", 10 ],
+      [ "bio_shield_heavy", 1 ],
+      [ "afs_bio_translocator", 5 ],
+      [ "bio_shock_absorber", 2 ],
+      [ "afs_bio_skullgun", 2 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "nanofab_recipes",
+    "copy-from": "nanofab_recipes",
+    "extend": {
+      "items": [
+        [ "bn_bio_solar", 15 ],
+        [ "afs_bio_wind_turbine", 10 ],
+        [ "afs_bio_missiles", 10 ],
+        [ "afs_bio_melee_counteraction", 10 ],
+        [ "afs_bio_melee_optimization_unit", 10 ],
+        [ "afs_bio_neurosoft_aeronautics", 10 ],
+        [ "afs_bio_dopamine_stimulators", 10 ],
+        [ "afs_bio_monowhip", 10 ],
+        [ "afs_bio_blood_plus", 10 ],
+        [ "afs_bio_translocator", 5 ],
+        [ "afs_bio_skullgun", 2 ]
+      ]
+    }
+  },
+  {
+    "id": "afs_bionics_power",
+    "type": "item_group",
+    "items": [ [ "bio_power_storage_mkII", 1 ], [ "bio_power_storage", 14 ], [ "bio_microgen", 5 ] ]
+  },
+  {
+    "id": "afs_bionic_toolkit",
+    "type": "item_group",
+    "items": [ [ "afs_complete_bionic_toolkit", 1 ], [ "bionic_maintenance_toolkit", 14 ] ]
+  },
+  {
+    "id": "bionics_subs",
+    "type": "item_group",
+    "items": [ [ "afs_bio_missiles", 10 ], [ "afs_bio_dopamine_stimulators", 15 ] ]
+  },
+  {
+    "id": "CBM_SUBS",
+    "type": "harvest",
+    "entries": [
+      {
+        "drop": "bio_power_storage",
+        "type": "bionic",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionics_subs",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionics_subs",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  }
+]

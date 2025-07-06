@@ -120,7 +120,7 @@
 #include "trap.h"
 #include "try_parse_integer.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
@@ -398,6 +398,7 @@ static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ALCMET( "ALCMET" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
+static const trait_id trait_DHAMPIR_TRAIT( "DHAMPIR_TRAIT" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATPOISON( "EATPOISON" );
 static const trait_id trait_GILLS( "GILLS" );
@@ -3273,7 +3274,7 @@ std::optional<int> iuse::geiger( Character *p, item *it, const tripoint_bub_ms &
         }
         case 1:
             p->add_msg_if_player( m_info, _( "The ground's radiation level: %d mSv/h" ),
-                                  get_map().get_radiation( p->pos_bub() ) );
+                                  here.get_radiation( p->pos_bub() ) );
             break;
         case 2:
             p->add_msg_if_player( _( "The geiger counter's scan LED turns on." ) );
@@ -3334,7 +3335,7 @@ std::optional<int> iuse::teleport( Character *p, item *it, const tripoint_bub_ms
         return std::nullopt;
     }
     p->mod_moves( -to_moves<int>( 1_seconds ) );
-    teleport::teleport( *p );
+    teleport::teleport_creature( *p );
     return 1;
 }
 
@@ -3528,7 +3529,7 @@ std::optional<int> iuse::c4( Character *p, item *it, const tripoint_bub_ms & )
     int time = 0;
     bool got_value = false;
     if( p->is_avatar() ) {
-        got_value = query_int( time, _( "Set the timer to how many seconds (0 to cancel)?" ) );
+        got_value = query_int( time, false, _( "Set the timer to how many seconds (0 to cancel)?" ) );
         if( !got_value || time <= 0 ) {
             p->add_msg_if_player( _( "Never mind." ) );
             return std::nullopt;
@@ -3672,7 +3673,7 @@ std::optional<int> iuse::firecracker( Character *p, item *it, const tripoint_bub
 std::optional<int> iuse::mininuke( Character *p, item *it, const tripoint_bub_ms & )
 {
     int time;
-    bool got_value = query_int( time, _( "Set the timer to ___ turns (0 to cancel)?" ) );
+    bool got_value = query_int( time, false, _( "Set the timer to ___ turns (0 to cancel)?" ) );
     if( !got_value || time <= 0 ) {
         p->add_msg_if_player( _( "Never mind." ) );
         return std::nullopt;
@@ -3698,7 +3699,7 @@ std::optional<int> iuse::portal( Character *p, item *it, const tripoint_bub_ms &
         return std::nullopt;
     }
     tripoint_bub_ms t( pos.x() + rng( -2, 2 ), pos.y() + rng( -2, 2 ), pos.z() );
-    get_map().trap_set( t, tr_portal );
+    here.trap_set( t, tr_portal );
     return 1;
 }
 
@@ -4594,7 +4595,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
-        if( p->has_trait( trait_VAMPIRE ) ) {
+        if( p->has_trait( trait_VAMPIRE ) || p->has_trait( trait_DHAMPIR_TRAIT ) ) {
             vampire = true;
         }
         // From wikipedia,
@@ -5616,7 +5617,7 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bu
     return 0;
 }
 
-static int get_quality_from_string( const std::string_view s )
+static int get_quality_from_string( std::string_view s )
 {
     const ret_val<int> try_quality = try_parse_integer<int>( s, false );
     if( try_quality.success() ) {
@@ -6458,7 +6459,7 @@ static item::extended_photo_def photo_def_for_camera_point( const tripoint_bub_m
     }
     photo_text += "\n" + overmap_desc + ".";
 
-    if( get_map().get_abs_sub().z() >= 0 && need_store_weather ) {
+    if( here.get_abs_sub().z() >= 0 && need_store_weather ) {
         photo_text += "\n\n";
         if( is_dawn( calendar::turn ) ) {
             photo_text += _( "It is <color_yellow>sunrise</color>. " );
@@ -7198,7 +7199,7 @@ std::optional<int> iuse::radiocontrol_tick( Character *p, item *it, const tripoi
     if( !it->ammo_sufficient( p ) ) {
         it->active = false;
         p->remove_value( "remote_controlling" );
-    } else if( p->get_value( "remote_controlling" ).empty() ) {
+    } else if( !p->maybe_get_value( "remote_controlling" ) ) {
         it->active = false;
     }
 
@@ -7241,13 +7242,10 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint_bu
                 p->add_msg_if_player( _( "No active RC cars on ground and in range." ) );
                 return 1;
             } else {
-                std::stringstream car_location_string;
-                // Populate with the point and stash it.
-                car_location_string << rc_item_location.x() << ' ' <<
-                                    rc_item_location.y() << ' ' << rc_item_location.z();
                 p->add_msg_if_player( m_good, _( "You take control of the RC car." ) );
 
-                p->set_value( "remote_controlling", car_location_string.str() );
+                // FIXME: migrate to abs
+                p->set_value( "remote_controlling", tripoint_abs_ms{ rc_item_location.raw() } );
                 it->active = true;
             }
         }
@@ -7888,6 +7886,8 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
 
 std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     weather_manager &weather = get_weather();
     const w_point weatherPoint = *weather.weather_precise;
 
@@ -7900,8 +7900,8 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
     }
     if( it->has_flag( flag_THERMOMETER ) ) {
         std::string temperature_str;
-        if( get_map().has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p->pos_bub() ) ||
-            get_map().has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p->pos_bub() ) ) {
+        if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p->pos_bub() ) ||
+            here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p->pos_bub() ) ) {
             temperature_str = print_temperature( get_weather().get_cur_weather_gen().get_water_temperature() );
         } else {
             temperature_str = print_temperature( player_local_temp );
@@ -7935,7 +7935,7 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
 
     if( it->typeId() == itype_weather_reader ) {
         int vehwindspeed = 0;
-        if( optional_vpart_position vp = get_map().veh_at( p->pos_bub() ) ) {
+        if( optional_vpart_position vp = here.veh_at( p->pos_bub() ) ) {
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->pos_abs_omt() );
@@ -8098,7 +8098,7 @@ int item::contain_monster( const tripoint_bub_ms &target )
     set_var( "name", string_format( _( "%s holding %s" ), type->nname( 1 ),
                                     f.type->nname() ) );
     // Need to add the weight of the empty container because item::weight uses the "weight" variable directly.
-    set_var( "weight", to_milligram( type->weight + f.get_weight() ) );
+    set_var( "weight", static_cast<double>( to_milligram( type->weight + f.get_weight() ) ) );
     g->remove_zombie( f );
     return 0;
 }

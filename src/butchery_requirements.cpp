@@ -4,7 +4,6 @@
 #include <functional>
 #include <string>
 
-#include "activity_handlers.h"
 #include "creature.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -12,6 +11,7 @@
 #include "generic_factory.h"
 #include "item.h"
 #include "requirements.h"
+#include "butchery.h"
 
 namespace
 {
@@ -50,7 +50,7 @@ bool butchery_requirements::is_valid() const
     return butchery_req_factory.is_valid( this->id );
 }
 
-void butchery_requirements::load( const JsonObject &jo, const std::string_view )
+void butchery_requirements::load( const JsonObject &jo, std::string_view )
 {
     for( const JsonMember member : jo.get_object( "requirements" ) ) {
         float modifier = std::stof( member.name() );

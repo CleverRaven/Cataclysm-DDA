@@ -16,6 +16,7 @@
 
 #include "action.h"
 #include "activity_actor_definitions.h"
+#include "avatar_action.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_assert.h"
@@ -72,7 +73,7 @@
 #include "timed_event.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "vehicle.h"
@@ -243,12 +244,12 @@ bool avatar::should_show_map_memory() const
 
 bool avatar::save_map_memory()
 {
-    return player_map_memory->save( get_map().get_abs( pos_bub() ) );
+    return player_map_memory->save( pos_abs() );
 }
 
 void avatar::load_map_memory()
 {
-    player_map_memory->load( get_map().get_abs( pos_bub() ) );
+    player_map_memory->load( pos_abs() );
 }
 
 void avatar::prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 )
@@ -264,13 +265,13 @@ const memorized_tile &avatar::get_memorized_tile( const tripoint_abs_ms &p ) con
     return mm_submap::default_tile;
 }
 
-void avatar::memorize_terrain( const tripoint_abs_ms &p, const std::string_view id,
+void avatar::memorize_terrain( const tripoint_abs_ms &p, std::string_view id,
                                int subtile, int rotation )
 {
     player_map_memory->set_tile_terrain( p, id, subtile, rotation );
 }
 
-void avatar::memorize_decoration( const tripoint_abs_ms &p, const std::string_view id,
+void avatar::memorize_decoration( const tripoint_abs_ms &p, std::string_view id,
                                   int subtile, int rotation )
 {
     player_map_memory->set_tile_decoration( p, id, subtile, rotation );
@@ -1090,7 +1091,6 @@ void avatar::reset_stats()
     Character::reset_stats();
 
     recalc_sight_limits();
-    recalc_speed_bonus();
 
 }
 
@@ -1283,6 +1283,8 @@ void avatar::rebuild_aim_cache() const
 
 void avatar::set_movement_mode( const move_mode_id &new_mode )
 {
+    map &here = get_map();
+
     if( can_switch_to( new_mode ) ) {
         if( is_hauling() && new_mode->stop_hauling() ) {
             stop_hauling();
@@ -1293,8 +1295,8 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
         recalculate_enchantment_cache();
         // crouching affects visibility
         //TODO: Replace with dirtying vision_transparency_cache
-        get_map().set_transparency_cache_dirty( pos_bub() );
-        get_map().set_seen_cache_dirty( posz() );
+        here.set_transparency_cache_dirty( pos_bub() );
+        here.set_seen_cache_dirty( posz() );
         recoil = MAX_RECOIL;
     } else {
         add_msg( new_mode->change_message( false, get_steed_type() ) );
@@ -1361,91 +1363,21 @@ void avatar::cycle_move_mode_reverse()
     }
 }
 
-bool avatar::wield( item_location target )
+
+bool avatar::wield( item &it )
 {
-    return wield( *target, target.obtain_cost( *this ) );
+    if( !avatar_action::check_stealing( *this, it ) ) {
+        return false;
+    }
+    return Character::wield( it );
 }
 
-bool avatar::wield( item &target )
+bool avatar::wield( item_location loc, bool remove_old )
 {
-    invalidate_inventory_validity_cache();
-    invalidate_leak_level_cache();
-    return wield( target,
-                  item_handling_cost( target, true,
-                                      is_worn( target ) ? INVENTORY_HANDLING_PENALTY / 2 :
-                                      INVENTORY_HANDLING_PENALTY ) );
-}
-
-bool avatar::wield( item &target, const int obtain_cost )
-{
-    if( is_wielding( target ) ) {
-        return true;
-    }
-
-    item_location weapon = get_wielded_item();
-    if( weapon && weapon->has_item( target ) ) {
-        add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
+    if( !avatar_action::check_stealing( *this, *loc ) ) {
         return false;
     }
-
-    if( !can_wield( target ).success() ) {
-        return false;
-    }
-
-    bool combine_stacks = weapon && target.can_combine( *weapon );
-    if( !combine_stacks && !unwield() ) {
-        return false;
-    }
-    cached_info.erase( "weapon_value" );
-    if( target.is_null() ) {
-        return true;
-    }
-
-    // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
-    // Worn items (including guns with shoulder straps) are faster but still slower
-    // than a skilled player with a holster.
-    // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
-
-    bool worn = is_worn( target );
-    const int mv = obtain_cost;
-
-    if( worn ) {
-        target.on_takeoff( *this );
-    }
-
-    add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
-    mod_moves( -mv );
-
-    if( has_item( target ) ) {
-        item removed = i_rem( &target );
-        if( combine_stacks ) {
-            weapon->combine( removed );
-        } else {
-            set_wielded_item( removed );
-
-        }
-    } else {
-        if( combine_stacks ) {
-            weapon->combine( target );
-        } else {
-            set_wielded_item( target );
-        }
-    }
-
-    // set_wielded_item invalidates the weapon item_location, so get it again
-    weapon = get_wielded_item();
-    last_item = weapon->typeId();
-    recoil = MAX_RECOIL;
-
-    weapon->on_wield( *this );
-
-    cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
-    get_event_bus().send_with_talker( this, &weapon, e );
-
-    inv->update_invlet( *weapon );
-    inv->update_cache_with_item( *weapon );
-
-    return true;
+    return Character::wield( loc, remove_old );
 }
 
 item::reload_option avatar::select_ammo( const item_location &base, bool prompt,

@@ -2,7 +2,8 @@
   {
     "id": "dreamforged_longbow",
     "looks_like": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "symbol": "(",
     "color": "light_gray",
     "name": { "str": "dreamforged bow" },
@@ -26,17 +27,6 @@
     "weight": "884 g",
     "volume": "2800 ml",
     "longest_side": "160 cm",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "forged_dreamstuff", "covered_by_mat": 100, "thickness": 2 } ],
-          "encumbrance": 14,
-          "coverage": 0,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 11 },
@@ -48,10 +38,20 @@
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "armor": [
+      {
+        "material": [ { "type": "forged_dreamstuff", "covered_by_mat": 100, "thickness": 2 } ],
+        "encumbrance": 14,
+        "coverage": 0,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_dreamforged",
     "name": { "str": "dreamforged arrow" },
     "symbol": "=",
@@ -75,7 +75,8 @@
   {
     "id": "dreamforged_crossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "light_gray",
     "name": { "str": "dreamforged crossbow" },
@@ -111,7 +112,8 @@
     "melee_damage": { "bash": 11 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "bolt_dreamforged",
     "price": "20 USD",
     "name": { "str": "dreamforged bolt" },

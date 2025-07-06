@@ -12,8 +12,8 @@
     "energy_consumption": "124500 W",
     "folded_volume": "2 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 10, 20 ] },
-      { "item": "steel_chunk", "count": [ 10, 20 ] },
+      { "item": "mc_steel_lump", "count": [ 10, 20 ] },
+      { "item": "mc_steel_chunk", "count": [ 10, 20 ] },
       { "item": "scrap", "count": [ 10, 20 ] }
     ],
     "requirements": {
@@ -32,7 +32,8 @@
   },
   {
     "id": "mana",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "chems",
     "name": { "str_sp": "mana core power" },
     "description": { "str": "Seeing this is a bug.", "//~": "NO_I18N" },
@@ -145,7 +146,8 @@
   {
     "id": "floral_battery",
     "copy-from": "battery_car",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str_sp": "solar power" },
     "description": "Magical solar power, to power a floral vessel.",
     "weight": "1500 g",

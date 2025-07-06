@@ -1,7 +1,8 @@
 [
   {
     "id": "survivor_belt_notools",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "survivor belt" },
     "description": "A custom-built leather belt covered with pouches, with a sheath to carry a smaller blade, a holster to carry a pistol and a loop for holding larger tools.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
     "weight": "1549 g",
@@ -89,7 +90,9 @@
   },
   {
     "id": "survivor_goggles",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
     "name": { "str": "survivor goggles", "str_pl": "pairs of survivor goggles" },
     "description": "A custom-built pair of armored goggles with tinted lenses.  Comfortable and built to last, they provide excellent protection from environmental dangers.",
     "weight": "212 g",
@@ -118,7 +121,8 @@
   },
   {
     "id": "survivor_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "survivor harness", "str_pl": "survivor harnesses" },
     "description": "A custom-built light harness covered with pouches and including an integral tactical sling for a small rifle or other such weapon.  Durable and carefully crafted to be comfortable to wear.  Activate to holster/draw your weapon.",
     "weight": "320 g",
@@ -180,7 +184,8 @@
   },
   {
     "id": "xl_survivor_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "survivor_vest",
     "name": { "str": "survivor harness", "str_pl": "survivor harnesses" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
@@ -188,7 +193,8 @@
   },
   {
     "id": "xs_survivor_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "survivor_vest",
     "name": { "str": "survivor harness", "str_pl": "survivor harnesses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },

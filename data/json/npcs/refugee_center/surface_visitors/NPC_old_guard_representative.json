@@ -51,7 +51,37 @@
         }
       },
       { "text": "Does the Old Guard need anything?", "topic": "TALK_MISSION_LIST" },
-      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+      {
+        "text": "I wanted to ask you something about that offer.",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "found_sunken_helicopter" } ] } },
+            { "compare_string": [ "yes", { "u_val": "sunken_helicopter_tip_offer" } ] }
+          ]
+        },
+        "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_HUB"
+      },
+      {
+        "text": "<end_talking_bye>",
+        "effect": [ { "u_add_var": "sunken_helicopter_tip_offer", "value": "yes" } ],
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "proven_worth_to_old_guard_representative" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "sunken_helicopter_tip_offer" } ] } }
+          ]
+        },
+        "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_0"
+      },
+      {
+        "text": "<end_talking_bye>",
+        "condition": {
+          "or": [
+            { "not": { "compare_string": [ "yes", { "u_val": "proven_worth_to_old_guard_representative" } ] } },
+            { "compare_string": [ "yes", { "u_val": "sunken_helicopter_tip_offer" } ] }
+          ]
+        },
+        "topic": "TALK_DONE"
+      }
     ],
     "//": "TODO: The rep should know whether you're actually a sworn officer: Wearing the badge without the trait => Bad idea"
   },
@@ -189,6 +219,7 @@
         "place_npcs": [ { "class": "bandit", "x": 12, "y": 12, "target": true } ]
       }
     },
+    "end": { "effect": [ { "u_add_var": "proven_worth_to_old_guard_representative", "value": "yes" } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REP_2",
@@ -397,5 +428,155 @@
         { "u_spawn_item": "FMCNote", "count": 25 }
       ]
     }
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_0",
+    "type": "talk_topic",
+    "dynamic_line": "Wait.  Before you go, I got an offer for you if you're interested.",
+    "responses": [
+      { "text": "What is it?", "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_1" },
+      { "text": "Maybe later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_HUB",
+    "type": "talk_topic",
+    "dynamic_line": "I'm listening.",
+    "responses": [
+      {
+        "text": "Tell me about it.",
+        "condition": { "not": { "u_has_mission": "MISSION_FIND_SUNKEN_HELICOPTER" } },
+        "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_1"
+      },
+      {
+        "text": "Anything else I should know?",
+        "condition": { "u_has_mission": "MISSION_FIND_SUNKEN_HELICOPTER" },
+        "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_DANGER"
+      },
+      {
+        "text": "Tell me about the cargo.",
+        "condition": { "u_has_mission": "MISSION_FIND_SUNKEN_HELICOPTER" },
+        "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_0"
+      },
+      { "text": "Never mind…", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_1",
+    "type": "talk_topic",
+    "dynamic_line": "A helicopter crashed in the region not long ago, at first I thought it was just a rumor, caravan guards talking about some crash nearby, but then I got a visit from a couple of Old Guard people looking for a lost helicopter, one of them got quite drunk one night and shared some interesting details, turns out it was an Old Guard heli coming back from way out west with quite the cargo, and I know where you can find it.  That's all you're getting for free though, I'd like to see some return on investment on that bottle you understand.",
+    "responses": [
+      { "text": "I'm not buying anything without some proof.", "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_PROOF" },
+      {
+        "text": "Why sell the info instead of retrieving the cargo yourself?  What happened to the old guard investigation?  How can you be sure that it wasn't looted already?  This sounds sketchy as hell.",
+        "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_SKETCHY"
+      },
+      {
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 50 } },
+        "effect": [ { "u_sell_item": "FMCNote", "count": 50 }, { "assign_mission": "MISSION_FIND_SUNKEN_HELICOPTER" } ],
+        "text": "[50 merch] Fine.",
+        "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_2",
+        "failure_explanation": "You don't have enough.",
+        "failure_topic": "TALK_DONE"
+      },
+      { "text": "Never mind…", "topic": "TALK_OLD_GUARD_REP" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_PROOF",
+    "type": "talk_topic",
+    "dynamic_line": "&He crosses his arms.  \"Fine.  Go talk to the guards, that crash was all the talk among them for a while.  Look, I'm not trying to do you over, I wouldn't risk my reputation and my job for a handful of cash, feel free to tell everyone in the center that I'm a liar sending people to their death for a quick buck if you find out that I lied.\"",
+    "responses": [ { "text": "I see…", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_SKETCHY",
+    "type": "talk_topic",
+    "dynamic_line": "&He sighs.  \"Well, let's just say that the location of the helicopter doesn't make the retrieval of the cargo…trivial.  Apparently the higher-ups at the Old Guard agreed that it was too hard and too far to be worth.  It wasn't transporting Jesus, just valuable cargo.\"",
+    "responses": [ { "text": "I see…", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_DANGER",
+    "type": "talk_topic",
+    "dynamic_line": "Yes actually.  The scout told me that he saw something weird down at the lake.  Translucent shapes swimming close to the surface from time to time.  I'm sure it has something to do with the weird storm that brought the helicopter down.",
+    "responses": [ { "text": "I see…", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_2",
+    "type": "talk_topic",
+    "dynamic_line": "Alright, give me your map I'll show you the location.",
+    "responses": [
+      { "text": "I had other questions.", "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_HUB" },
+      { "text": "Thanks.", "topic": "TALK_OLD_GUARD_REP" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_0",
+    "type": "talk_topic",
+    "dynamic_line": "The cargo?  That's the kind of optional information worth a small supplement.",
+    "responses": [
+      {
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "failed_representative_cargo_trial" } ] } },
+        "trial": { "type": "INTIMIDATE", "difficulty": 50, "mod": [ [ "FEAR", 2 ], [ "TRUST", -2 ] ] },
+        "text": "This wasn't the deal and you're starting to wear my nerves thin asshole, tell me or I'll make you pick your teeth off the floor.",
+        "success": { "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_1" },
+        "failure": {
+          "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_0_INTIMIDATE_FAILURE",
+          "effect": { "u_add_var": "failed_representative_cargo_trial", "value": "yes" },
+          "opinion": { "trust": -1 }
+        }
+      },
+      {
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "failed_representative_cargo_trial" } ] } },
+        "trial": { "type": "PERSUADE", "difficulty": 50, "mod": [ [ "FEAR", -2 ], [ "TRUST", 2 ] ] },
+        "text": "Come on, you already got what you wanted, are you really trying to fleece me?",
+        "success": { "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_1" },
+        "failure": {
+          "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_0_PERSUADE_FAILURE",
+          "effect": { "u_add_var": "failed_representative_cargo_trial", "value": "yes" }
+        }
+      },
+      {
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 25 } },
+        "effect": { "u_sell_item": "FMCNote", "count": 25 },
+        "text": "[25 merch] This better be worth.",
+        "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_1",
+        "failure_explanation": "You don't have enough.",
+        "failure_topic": "TALK_DONE"
+      },
+      { "text": "Never mind…", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_0_INTIMIDATE_FAILURE",
+    "type": "talk_topic",
+    "dynamic_line": "& He tenses and grits his teeth for a moment before regaining his composure.  \"No, we both know you won't.  Let's pretend this never happened, offer's still up.\"",
+    "responses": [ { "text": "Fine…", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_0_PERSUADE_FAILURE",
+    "type": "talk_topic",
+    "dynamic_line": "What are you talking about, I'm not \"fleecing\" anyone, you're free to make the retrieval with the information you have, all I'm offering is purely optional information for a reasonable price.",
+    "responses": [ { "text": "Fine…", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_1",
+    "type": "talk_topic",
+    "dynamic_line": "Fine.  The heli was transporting a few sets of those combat exoskeletons back from a DoubleTech testing site way out west, the ones they were showing on TV before all this, I'm sure a guy like you could put those to good use.  I won't risk my life for one but if you succeed and would like to trade them you know where to find me.",
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_FIND_SUNKEN_HELICOPTER",
+    "type": "mission_definition",
+    "name": { "str": "Find the sunken helicopter" },
+    "description": "You got the location of a sunken helicopter, all that's left to do is find a way to get there.",
+    "goal": "MGOAL_GO_TO",
+    "value": 0,
+    "difficulty": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "sunken_helicopter", "om_special": "sunken_helicopter", "reveal_radius": 5 }
+    },
+    "end": { "effect": { "u_add_var": "eoc_sample_item_transporter_set_coordinates", "value": "yes" } },
+    "origins": [ "ORIGIN_NULL" ],
+    "invisible_on_complete": true
   }
 ]

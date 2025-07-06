@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "mall_a_56_basement",
@@ -61,7 +60,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "mall_a_65_basement",
@@ -112,15 +110,14 @@
       },
       "furniture": { "{": "f_bench", "}": "f_bench", "Y": "f_trashcan" },
       "place_vehicles": [
-        { "vehicle": "food_cart", "x": 75, "y": 3, "chance": 100, "rotation": 270 },
-        { "vehicle": "ice_cream_cart", "x": 93, "y": 3, "chance": 100, "rotation": 180 }
+        { "vehicle": "food_cart", "x": 75, "y": 3, "rotation": 270 },
+        { "vehicle": "ice_cream_cart", "x": 93, "y": 3, "rotation": 180 }
       ],
       "place_monster": [ { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 0, 9 ], "repeat": [ 8, 12 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mall_a_67_sub_basement", "mall_a_68_sub_basement", "mall_a_69_sub_basement" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",

@@ -1073,7 +1073,7 @@ std::pair<std::string, nc_color> display::carry_weight_value_color( const avatar
     return std::make_pair( weight_text, weight_color );
 }
 
-std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string_view
+std::pair<std::string, nc_color> display::overmap_note_symbol_color( std::string_view
         note_text )
 {
     std::string ter_sym = "N";
@@ -1425,7 +1425,7 @@ nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id 
             return display::bodytemp_color( u, bid );
         }
         case bodygraph_var::encumb: {
-            int level = u.get_part_encumbrance_data( bid ).encumbrance;
+            int level = u.get_part_encumbrance( bid );
             return display::encumb_color( level );
         }
         case bodygraph_var::status: {

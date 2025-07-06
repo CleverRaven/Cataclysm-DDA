@@ -19,7 +19,9 @@
       "str_max": 25,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 30, 60 ] } ]
+      "items": [ { "item": "splinter", "count": [ 30, 60 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -41,7 +43,9 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 150, 350 ] } ]
+      "items": [ { "item": "splinter", "count": [ 150, 350 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -62,7 +66,9 @@
       "str_max": 50,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 50, 150 ] } ]
+      "items": [ { "item": "splinter", "count": [ 50, 150 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
@@ -84,7 +90,9 @@
       "str_max": 40,
       "sound": "crunch!",
       "sound_fail": "whack.",
-      "items": [ { "item": "splinter", "count": [ 50, 150 ] } ]
+      "items": [ { "item": "splinter", "count": [ 50, 150 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -111,7 +119,9 @@
         { "item": "sheet_cotton", "count": [ 5, 6 ] },
         { "item": "cotton_patchwork", "count": [ 8, 15 ] },
         { "item": "scrap", "count": [ 10, 20 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -139,7 +149,9 @@
         { "item": "cotton_patchwork", "count": [ 10, 15 ] },
         { "item": "down_feather", "count": [ 45, 55 ] },
         { "item": "scrap", "count": [ 10, 20 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   }
 ]

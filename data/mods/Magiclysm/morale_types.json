@@ -8,5 +8,10 @@
     "id": "morale_forest_unity",
     "type": "morale_type",
     "text": "Peace of the Forest"
+  },
+  {
+    "id": "morale_need_shiny_objects",
+    "type": "morale_type",
+    "text": "Lacking shiny objects"
   }
 ]

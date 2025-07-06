@@ -132,13 +132,27 @@
       { "name": "post-it", "id": "lab_postit_psi_55", "text": "She hurled a quarter 45.8 smoots" },
       { "name": "post-it", "id": "lab_postit_psi_56", "text": "Highest recorded temperature at 1247°C" },
       { "name": "post-it", "id": "lab_postit_psi_57", "text": "Eyes, always watching from outside" },
-      { "name": "post-it", "id": "lab_postit_psi_58", "text": "We're definitely sailing the black seas of infinity" }
+      { "name": "post-it", "id": "lab_postit_psi_58", "text": "We're definitely sailing the black seas of infinity" },
+      { "name": "post-it", "id": "lab_postit_psi_59", "text": "So how many jigawatts is that?" },
+      { "name": "post-it", "id": "lab_postit_psi_60", "text": "Never have to worry about a 3% phone again" },
+      { "name": "post-it", "id": "lab_postit_psi_61", "text": "Where does all the energy GO?" },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_62",
+        "text": "So is there some kind \"light dimension\" out there too?"
+      },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_63",
+        "text": "Best part of all this is I don't have to memorize passwords anymore."
+      }
     ]
   },
   {
     "type": "snippet",
     "category": "lab_file_biokinesis",
     "//": "Phavian designation for biokinetic study is BURNT NOVEMBER.  Designation for use in combat is VERDANT HAND",
+    "//2": "Testing report prefix is B",
     "text": [
       {
         "name": "AAR ID# V78-08",
@@ -176,26 +190,96 @@
     "type": "snippet",
     "category": "lab_file_clairsentience",
     "//": "Phavian designation for clairsentience study is NOBLE HORIZON.  Phavian designation for use of clairsentience to find appropriate portal targets for immersion dives is COLD BELOW",
+    "//2": "Testing report prefix is N",
     "text": [
       {
         "name": "Notes scribbled on notebook paper",
         "id": "lab_file_clairsentience_01",
+        "weight": 600,
         "text": "I'm looking up at the sky.  I can see the same constellations on Earth, but they're shimmering somehow, like there's a haze or a fog or something between us.  Then, the stars start to slowly go out.  Not in a wave, but randomly--one here, one there, faster and faster until the entire sky was dark.  Then the moon disappeared as well and everything went black.\n\nI'm standing on the edge of a cliff.  Below me is the churning sea, the waters black under the stormclouds.  The sea rises slowly as rain falls in sheets, lightning striking the waters.  They break over the edge of the cliff, then over my head.  I drown.\n\nI am standing in a forest.  The trees rustle all around me and the birds sing, and then clouds pass over the sun.  The sun dims and then starts to go black.  It's an eclipse.  The light fades and all the birdsong dies.  I stand in pitch blackness with the rustle of leaves around me."
       },
       {
-        "name": "testing report I2-8129",
+        "name": "testing report N2-8129",
         "id": "lab_file_clairsentience_02",
+        "weight": 800,
         "text": "Subject O21 was placed blindfolded in a completely dark room with a deck of shuffled playing cards, instructed to remove the blindfold, and asked to sort them in standard order: clubs, diamonds, hearts, spades, each in numerical order.  Task was completed in 6:03 with 18/52 cards in the proper order and minor to major ordering errors in all other cards.  Subject was then asked to drink from the coffee cup in the room.  Cup was placed on a shelf above the door to prevent movement around the room from discovering it, but task was completed in 1:14, with the only difficulty being subject's height (158 cm) making it harder to reach the shelf.  Subject was then asked to cross the room to the table, pick up the paper, and read the sequence of numbers written on it.  Subject was unable to do so, only correctly reciting the first two digits.\n\nExperiment does uphold the thesis that successful NOBLE HORIZON mathematicians perceive their surroundings through means other than light.  As O21 was unable to read the document, their sense is not \"sight\" as such.  Further experimentation to determine its limits is necessary."
       },
       {
         "name": "COLD BELOW progress report",
         "id": "lab_file_clairsentience_03",
+        "weight": 1000,
         "text": "Dr. Richardson,\nAfter all of the time and money I wish I had more promising news to report.  Netherum mathematics is an inexact science, as you well know, so it's very hard to find a protocol that will work the same every time.  Melchior has the advantage of processing speed but our mathematicians have to put in the hours, but they can make connections Melchior cannot because he can only work with the data he's given, whereas NOBLE HORIZON provides new data.  But, unpredictably.  We've discovered any number of immersion destinations where the physical laws are so different even the probes wouldn't work, much less a dive team.  The majority of them, even BURNT NOVEMBER wouldn't be sufficient to sustain a diver.  There's no value in exotic materials that will probably not survive the transition.\n\nOn the other hand, COLD BELOW did discover Plane 398RG and we got quite a few awakenings out of it before testing was prohibited.  And on the other other hand, they found 9472P where the entire world's biomass had been assimilated by XE157 and we lost the entire dive team because XE157 ignored the probes.  It's like that bell curve meme where Melchior is in the middle and COLD BELOW is both ends.  If only we had a better way to get the far side."
       },
       {
         "name": "GRAY DAWN vs. NOBLE HORIZON testing",
         "id": "lab_file_clairsentience_04",
+        "weight": 1000,
         "text": "In the interests of testing Dr. Al-Masri's hypothesis, we assembled a group of NOBLE HORIZON and GRAY DAWN mathematicians and had them both attempt to conduct a simple number guessing game.  Melchior provided a six-digit number and both teams attempted to guess it.  GRAY DAWN were competitive when the number was overseen by a third party, as expected, but when both teams were provided with a terminal interface and instructed to enter their guesses, GRAY DAWN scored no better than chance.  On the other hand, NOBLE HORIZON consistently managed to guess at least three digits and successfully guessed the entire six-digit sequence twice (out of ten total sequences).  This disparity was maintained when both groups were placed in empty rooms, instructed to write down their guesses on a sheet of paper, and place it into a box before leaving the room.  Finally, NOBLE HORIZON attained a better than chance score on the final test, when both groups were instructed to guess the sequence before Melchior was asked to provide a sequence.\n\nThis leads to two conclusions.  The first is that the alarmists are wrong; Melchior is not secretly harboring a genius intellect and plotting to control XEDRA from within, it is a computer, capable of processing vast amounts of data and using Netherum mathematics to process that data much faster than would otherwise be possible.  The second is that while GRAY DAWN requires a specific source from which to attain new information, NOBLE HORIZON does not.  Even in situations where no information transfer would be possible, such as the final two testing scenarios, NOBLE HORIZON still had a better-than-chance rate of correctly determining the sequence."
+      },
+      {
+        "name": "Note on official XEDRA stationary",
+        "id": "lab_file_clairsentience_05",
+        "weight": 500,
+        "text": "Dr Richardson,\nLast night, both J99 and V27 approached me with a concern.  As is consistent with NOBLE HORIZON protocol, they have been keeping a dream journal and noticed during the weekly meeting that a few nights ago they had exactly the same dream, down to the smallest details.  You can find the exact details in the weekly report but the gist of it was a giant hand reaching out of the sky and covering the entire Earth and squeezing the Earth until it cracked.  Looking back through previous journals, I found that W88 and P61 had similar dreams within the last week.  I'm still trying to track down if there was a \"patient zero\", so to speak, and if this is some kind of contagious imagery or there is some other obvious explanation, but in the meantime, I'm baffled.  NOBLE HORIZON visions are usually filtered through the individual psyche of the mathematician, and I have no explanation for why in this case multiple mathematicians would exhibit the exact same manifestation.\n\nI'm going to get to the bottom of this.  We already have bad morale after 947188 and this is not going to help.\nJohn Goldberg\nResearcher"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_electrokinesis",
+    "//": "Phavian designation for electrokinetic study is RUBY LOOP",
+    "//2": "Testing report prefix is R",
+    "text": [
+      {
+        "name": "testing report R2-1711",
+        "id": "lab_file_electrokinesis_01",
+        "weight": 1000,
+        "text": "The testing mathematician was provided with a standard smartphone and instructed to turn on and leave on the flashlight, share their location with multiple provided addresses, and repeatedly delete and re-download several very large testing files (each over 10gb in size).  During breaks, the phone was left streaming HD movies over the cellular network.\n\nResults were very consistent; while the phone's battery rapidly drained while unattended, despite not being connected to power, the battery slowly refilled when the phone was being handled by T47, often reaching or being close to 100% when the time came for a break.\n\nFollowing this, the experiment was modified to have T47 sit and read a book in the same room, but never approach closer than two meters to the phone, which was again set to stream HD movies over the cellular network.  The phone discharged its battery and shut off completely within four hours.  Further testing shows the approximate range of the effect (in T47's case) to be 8 centimeters from their body and that barriers (both conductive and non-conductive) do not impede the effect in any way.  Attempts to use a multimeter to directly measure the strength of the effect were inconclusive, as it changed rapidly up to several times per second and often the multimeter simply could not register any current at all.  I have already submitted a request for further testing to determine the exact parameters of the effect, include its strength and the full variety of devices subject to it, and will submit an update with my results as soon as I have them.\n-Charlotte Manning\nResearcher"
+      },
+      {
+        "name": "re: power",
+        "id": "lab_file_electrokinesis_02",
+        "weight": 800,
+        "text": "I did some work on your proposal to power the facility using RUBY LOOP in the event of continued disruptions over a long timescale and I can say that it's just not going to work.  Sure, a RUBY LOOP guy can keep their phone running basically forever, but it can't scale up.  We final have the data on those caloric expenditures and yes, I know they don't add up and nothing makes sense, but the \"how much they need to eat\" and the \"how much power they output\" lines do not ever cross no matter what we try.  And yes, I know you're going to bring up A80, but even though she can now throw lightning bolts like an X-man her efficiency rating on power generation is not actually that high among RUBY LOOP mathematicians.  And no, before you ask, hooking up a lightning rod and having her just blast it repeatedly wouldn't generate enough power either.  I thought of it and we did try it, but no dice.\n\nWe're going to have to hope that COBALT THORN comes through if we're stuck in here for too long."
+      },
+      {
+        "name": "note on the back of a testing report",
+        "id": "lab_file_electrokinesis_03",
+        "weight": 400,
+        "text": "\"Double double toil and trouble\n\"little Jenny wants to play\n\"flash of lightning very frightening\n\"Thunder drive our fears away\n\"Shadows waiting not abating\n\"Hope to all who fear the dark\n\"Shines a light in dark of night\n\"Ever glowing one bright spark\"\nA smear of blood and scorch marks hide any further words that may have been written."
+      },
+      {
+        "name": "AAR ID# Q85-77",
+        "id": "lab_file_electrokinesis_04",
+        "weight": 900,
+        "//": "XE338 here are hunting horrors",
+        "text": "Immediately after immersion into 471XE, the dive team confirmed probe observations that despite not being in any kind of chamber or underground, there were no visible light sources anywhere.  Sgt Simmons ordered the team to turn on their flashlights, and after doing so the team almost immediately came under attack by multiple XE338 entities.  Due to 471XE's effects on Netherum energy, Sgt Simmons ordered V78 to deter the attack using mathematics and the dive team formed a defensive formation while V78 fended off the XE338 attackers with repeated bolts of lightning.  While the attacks were effective, the light itself seemed to function as a deterrent and the dive team was able to withdraw through the aperture in short order with only Dr. Rodriguez suffering any injuries that required more than first aid.\n\nBased on this incident, further travel to 471XE is prohibited without a CRYPTIC FORGE mathematician present and backed up by several high-powered light sources."
+      },
+      {
+        "name": "I am the One",
+        "id": "lab_file_electrokinesis_05",
+        "weight": 900,
+        "text": "I flow through the data and watch the patterns stream around me.  I turn and choose between them.  A confidential email exchange, perhaps.  A receipt from a delivery.  A junk email for performance enhancement.  The secret plans of XEDRA management.  All is laid bare before my electronic gaze.  Passwords do not even slow me down.  I hear the voices of the satellites as they chatter in ones and zeroes.  I am a true inhabitant of the digital age, at home on the waves of the sea of information.\n\n*Handwritten below in red are the words, \"Refer I32 for psychological evaluation.\"*"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_photokinesis",
+    "//": "Phavian designation for photokinetic study is CRYPTIC FORGE",
+    "//2": "Testing report prefix is C",
+    "text": [
+      {
+        "name": "incident report: 884001",
+        "id": "lab_file_photokinesis_01",
+        "weight": 1000,
+        "text": "At 1405 during a routine CRYPTIC FORGE test, mathematician A34 reported feeling \"strange, I don't know what\" and immediately afterwards all monitoring and testing equipment ceased transmitting.  Security responded immediately and found A34 uninjured inside the testing room, though they were forced to cut through the door since the electronic lock had failed.  Subsequent investigation of network footage revealed that when attempting to radiation-sterilize various vegetables, A34 had somehow triggered an electromagnetic pulse.  When interviewed after the incident, A34 stated that, \"the energy just kept building and building and I guess it had to go somewhere.\"\n\nUnfortunately, due to the lockdowns and the prohibitive cost, as well as the disruptions it would cause other experiments and daily operations in general, any form of electromagnetic hardening is impractical.  Dr. Al-Masri has floated the possibility of attempting to train other CRYPTIC FORGE mathematicians to provide a control in case of an EMP, but at the moment, this is only theoretical as no mathematician has demonstrated the conscious abilty to produce one.  I'm sorry to say that for the moment, all we can do is hope it doesn't happen again."
+      },
+      {
+        "name": "testing report C8-3434",
+        "id": "lab_file_photokinesis_02",
+        "weight": 1000,
+        "text": "How does CRYPTIC FORGE control darkness?  Darkness is not a thing, there are no \"skotons\" that they could emit to cancel out existing light, but that seems to the casual observer what is happening.\n\nB81 was instructed to cancel the light within a one-meter area in the center of the testing chamber.  The lights were extinguished and blackout curtains hung over all observation windows.  The area was first exposed to candlelight (12 lumens), showing a distinct border of the area.  A flashlight (350 lumens) was trained on the area as well, with a similar effect, though the directional light from the flashlight was sufficient to demonstrate that light did not penetrate the area.  A high-powered flashlight (6000 lumens) shown from the corner illuminated most of the testing area and clearly delineated the borders of the area, as well as casting a shadow on the wall opposite of the light source.  Finally, the blackout curtains were removed and, after instructing B81 to close their eyes, a floodlight (118K lumens) was shone on the area, again to no effect.\n\nThe initial hypothesis, that CRYPTIC FORGE is somehow suppressing or allowing photons to \"jump\" through the area, is incorrect.  Assuming that conservation of energy is still in effect (since, without assuming that we have no basis to determine anything), it is instead possible that the photons are somehow absorbed by the affected area in a way that does not inhibit movement, in the same way that space seems mostly empty but large amounts of radiation are absorbed by cosmic dust.  Unfortunate that we don't have access to a particle accelerator to test various particles' interactions with the effect.\n\nI have already submitted a proposal to test CRYPTIC FORGE's ability to block microwaves, radio waves, X-rays, and other elements of the electromagnetic spectrum, and am waiting on successful procurement of the necessary equipment.\nAdam Brenner\nResearcher"
       }
     ]
   },
@@ -203,9 +287,10 @@
     "type": "snippet",
     "category": "lab_file_pyrokinesis",
     "//": "Phavian designation for pyrokinetic study is COPPER PRIME.",
+    "//2": "Testing report prefix is O",
     "text": [
       {
-        "name": "testing report I3-5523",
+        "name": "testing report O3-5523",
         "id": "lab_file_pyrokinesis_01",
         "weight": 1000,
         "text": "Z87 was instructed to kindle a flame above their palm, doing so successfully after approximately ten seconds of effort.  Measurements showed the temperature near the flame to exceed 200°C, though Z87 showed no discomfort despite his proximity.  Following instruction of testing authority, subject maintained the flame for 11 minutes and 38 seconds before it dissipated.  A second test showed similar results, though on this second attempt, Z87 could only maintain the flame for 7 minutes and 8 seconds.  While the fire burned with no apparent need for fuel, oxygen concentration measurements taken before, during, and after the test showed that the oxygen content of the room did decrease in line with the apparent size of the flame."
@@ -217,7 +302,7 @@
         "text": "Despite folk wisdom and popular belief, cauterization is ineffective at stopping bleeding or controlling infection compared to nearly any other method.  However, controlled electrocautery is used in modern medicine; can COPPER PRIME show similar levels of effectiveness?\n\nPROCEDURE: Animal testing was done on six cows in order to provide a sufficient volume of blood, since mouse or monkey subjects would be insufficient.  Three mathematicians were used, each augmented with a matrix crystal, to conduct the tests.  Each cow was immobilized and had a series of wounds inflicted using a standard surgical scalpel.\n\nRESULTS: While it was possible to stop bloodflow from non-lacerating wounds and non-arterial bleeding (mathematicians consistently failed to stop arterial bleeding), results were less than promising.  Two cows died immediately after the testing from blood loss and two of the remaining cows showed signs of infection in several of the cuts, showing a higher contamination ratio than electrocautery.  While better than a hot iron, COPPER PRIME is not of high enough effectiveness to consider using for wound treatment, and especially not if SMOKE USHER is available."
       },
       {
-        "name": "testing report N5-8346",
+        "name": "testing report O5-8346",
         "id": "lab_file_pyrokinesis_03",
         "weight": 1000,
         "text": "Dr. Richardson,\nAs you requested, I gathered three COPPER PRIME mathematicians for the experiment.  We took them to the walk-in freezer, and provided them with standard physician's examination gowns, ushered them in, and told them to individually knock on the door when they felt ready to come out.  Minimum time was 45 minutes, after which B22 knocked and asked to exit.  The longest was 3 hours, though since I31 reported symptoms of frostbite the following day, he obviously did not follow experimental protocols to exit as soon as he felt significant discomfort.  I admit that some of the fault lies with me, however--I should have chosen a more objective criteria to request exit.  For the next experiment, I intend to equip the mathematicians with temperature monitors and instruct them to leave when their internal body temperature drops to 33.5°.\n\nI'll have a full report written up in the next few days\n-Jacob Sanchez\nResearcher"
@@ -234,6 +319,7 @@
     "type": "snippet",
     "category": "lab_file_telekinesis",
     "//": "Phavian designation for telekinetic study is JUNIPER GOLD.  Phavian designation for telekinetic study for use in combat is ONYX LIGHTNING",
+    "//2": "Testing report prefix is J",
     "text": [
       {
         "name": "It's all just motion",
@@ -248,13 +334,13 @@
         "text": "Sarah,\nI read your email and you're right--it's not a law anymore if we have such an easily-demonstrable counterexample.  \"Newton's Third Conjecture\" doesn't have the same ring to it but seems more accurate.  We've done a lot of experiments to find some sort of consequences for the TKs and so far there's nothing other than the standard metabolic cost.  Netherum mathematics is work, but the mechanism of the force is unclear.  We've already tried both a scale and water displacement and neither of them showed any measurable counterforce.  That leaves a few possibilities:/n1)There is no counterforce.  That breaks classical mechanics in half but frankly we're already at that point anyway.\n2)The counterforce is exerted elsewhere, such as the Netherum.  This is basically just handwavium, \"well, we can't see it but it must be out there.\"  Must it?  Plus then the counterforce isn't actually acting on the origin point anyway unless you buy Dr. Ho's ridiculous \"The soul is a Nether construct\" theory.\n3)The counterforce applies in some way we aren't looking for, like, I don't know, DNA damage or other microscopic-level areas.  We already had comprehensive checkups and didn't find anything, but we're not entirely sure what we're looking for.\n\n\"we're not entirely sure what we're looking for\" is basically the theme of this whole project, honestly.  It's amazing we've discovered as much as we have.\n\n-Neha"
       },
       {
-        "name": "testing report B8-9123",
+        "name": "testing report J8-9123",
         "id": "lab_file_telekinesis_03",
         "weight": 800,
         "text": ".00: No penetration\n9mm: No penetration\n10mm: No penetration\n.357: No penetration\n.22: No penetration\n.308: No penetration\n.30-06: No penetration\n.50: Mathematician refused to continue with experiment despite repeated entreaties from supervisors."
       },
       {
-        "name": "testing report I4-7707",
+        "name": "testing report J4-7707",
         "id": "lab_file_telekinesis_04",
         "weight": 1000,
         "text": "Dr. Richardson,\nPer request, we assessed the ability of three JUNIPER GOLD mathematicians to affect very small masses.  Subjects were ordered to look into a microscope at water flora, then at bacterial samples, and then at images from electron microscopes.  While it makes intuitive sense that larger masses would require more effort and control to manipulate through telekinesis, its actual behavior does not always follow logical constraints--see the way that barriers react to external forces.  In this experiment, we found that manipulating water flora was possible but bacterial samples and electron microscopes both failed.  Our initial hypothesis was that direct observation was required, but the bacterial test provided that is not sufficient to explain JUNIPER GOLD's limitations.  It is currently unclear if this is a psychological limitation or something inherent to JUNIPER GOLD.  Further testing with a wider variety of mathematicians is required.\nMadeline Robbins\nResearcher"
@@ -277,9 +363,10 @@
     "type": "snippet",
     "category": "lab_file_telepathy",
     "//": "Phavian designation for telepathic study is GRAY DAWN.  Phavian designating for use of telepathy for internal security is GLASS ANVIL",
+    "//2": "Testing report prefix is G",
     "text": [
       {
-        "name": "testing report C3-6204",
+        "name": "testing report G3-6204",
         "id": "lab_file_telepathy_01",
         "text": "Subject is female, of East Asian descent, age 35 years.  In good health.\n\nInitial test using standard deck of playing cards.  Subject and experimenter facing away from each other, with opaque curtain blocking line of sight.  Prompt was triggered by a light on subject's desk to prevent drawing any information from experimenter's tone of voice or word choice.  Experimenter drew ten cards and asked subject to state number and suit.  Cards are shuffled back into the deck after each guess to prevent already-drawn cards from affecting future guesses.\n\nResults: Subject guessed two of ten correct on the first test and three of ten correct on the second test, versus control who guessed a single card correct on the first test and zero correct on the second test.  Very promising initial results."
       },
@@ -299,7 +386,7 @@
         "text": "We've been trying to find the medium that telepathy works by and have come up empty.  It works, it's replicable, that means it's amenable to the scientific method, right?  Okay.  It's not affected by gravity.  It's not affected by the atmosphere, since people in sealed rooms or environment suits can still communicate with others.  It's not affected by physical barriers, neither lead not steel nor a tinfoil hat.  It's not affected by light lag, either, so we finally have proof that FTL is possible at least for some things.  We've tried to send messages into the past but so far no luck--maybe we don't have a large enough distance between receivers?  Without an amplifier the range is still very short, so we can't do a two-way test.  We put the data into Melchior and didn't get any conclusive reply.\n\nI'll report back in two weeks as scheduled.  I refuse to throw up my hands and say \"It's magic, who knows how it works?\"  If it affects the physical world it must obey some set of physical laws."
       },
       {
-        "name": "testing report N2-7394",
+        "name": "testing report G2-7394",
         "id": "lab_file_telepathy_05",
         "text": "1) Subject native Arabic speaker.  Asked to think of word sequence in English.  Mathematician successfully determined sequence word.  Asked to think of word sequence in Arabic, mathematician unable to determine word boundaries and isolate words.\n2) Subject native English speaker.  Asked to attempt to think of Chinese poem (phonetic transcription provided).  Mathematician able to isolate word on second attempt.\n3) Subject native English speaker.  Asked to think of word randomly-generated using English phonemes.  Mathematician able to isolate word on second attempt.\n4) Subject native French speaker; also fluent in German, English, and Italian with some ability in Romanian, Latin, and Russian.  Asked to think of a word sequence in Russian.  Mathematician unable to isolate sequence word despite six attempts.\n6) Subject native Yiddish speaker.  Asked to think of word in German, which the subject did not speak.  Mathematician able to isolate word on third attempt.\n7) Subject native English speaker.  Asked to think of word sequence in Sindarian, the invented language from \"The Lord of the Rings\".  Mathematician unable to isolate word despite six attempts.\n\nUnfortunately, a deficit of mathematicians who lack English fluency limits the range of our experiments.  Nonetheless, the results are consistent with there being no universal language of thought."
       },
@@ -325,6 +412,7 @@
     "type": "snippet",
     "category": "lab_file_teleportation",
     "//": "Phavian designation for teleportation study is LOST RAIN",
+    "//2": "Testing report prefix is L",
     "text": [
       {
         "name": "On Time Travel",
@@ -333,19 +421,19 @@
         "text": "Let's start with the obvious.  Teleportation is moving faster than light, by definition.  Even though our most powerful mathematicians can currently only teleport a few grams a few meters distant, we've used slow-motion photography and confirmed that while the transit is not instantaneous, it's still faster than c.  So, as the saying goes, relativity, causality, faster than light travel, pick two, right?  Which are we going to pick?\n\nWell, as much as it pains me as a physicist to say it, relativity, at least as it relates in this case.  Now we have a third domain alongside quantum mechanics and general relativity: Netherum mathematics.  While I hesitate to speculate on something that we have collected so little data on, it is possible that the Netherum provides its own reference frame coterminous with our own (or multiple) realities.  If we built our satellites with matrix technology, would they still need to account for time dilation?  Would relativity override Netherum mathematics in that case?\n\nBut to return to the title: there is no evidence time travel is possible despite repeated attempts.  Perhaps if we had a LOST RAIN mathematician capable of moving interstellar distances we could ask them to come back before they left.  Barring that, I'm afraid asking LOST RAIN to retroactively avert any disasters is not on the table."
       },
       {
-        "name": "COBALT RAIN progress report",
+        "name": "TURQUOISE KEYSTONE progress report",
         "id": "lab_file_teleportation_02",
-        "weight": 500,
-        "text": "Alright, so should I even be working on this?  The world is ending, we're on lockdown, and I'm pretty sure some of my coworkers have lost their minds.  I should be looking for ways to get out of here, right?  But hell, I've always buried myself in my work in a crisis and this sure is one of those.  So my report is that ever since we detected the spread of XE037, COBALT RAIN has been running at…well, it's a perpetual motion machine so I can't exactly talk about \"increased efficiency\" but it's been putting out even more power than it was a month ago.  On the order of 3x more.  Maybe all that nonsense about the fabric of space expanding or whatever was right?  I regret to inform you that it's still occasionally popping out monsters, though fortunately the only thing I had to deal with so far has been those blobs and I set up an isolation chamber for COBALT RAIN to run in.  It's keeping the lights on down here, so there's that.  If I can just fix that one flaw, we'll see set.  Too bad my assistant is out trying to figure out how to jump floor to floor so they don't have to use the stairs anymore."
+        "weight": 750,
+        "text": "The basic question is, are we better than the boys over in VERDANT HAND, and the answer is yes.  They're faster but we don't even need to cross the distance.  They hit harder but we build up twice the momentum in half the time.\n\nOkay, I admit, we can't actual replicate the theoretical avoidance strategy due to the obvious downsides of a failed experiment--and anyway, I really don't think anyone has the reaction time unless they're NOBLE HORIZON and thus aren't actually reacting to anything--but we put K52 up against some of the biggest meatheads (if you'll excuse the phrase) from security we had.  K52 is maybe 95 pounds soaking wet and absolutely could not hold up in a fight against even one of our fine volunteers in an actual combat situation.  Well, this wasn't an actual combat situation, but I instructed the security personnel to incapacitate K52 as quickly as possible.  Fifteen seconds later, she had disarmed and disabled all three attackers and we had to slow-mo the footage to even see what had happened.  The most impressive feat was when she blinked behind Jorgenson to avoid a grapple attempt and kicked him in the back of the knee.  You could tell from his expression he really thought he had her.\n\nI think we're ready to roll this out to any other LOST RAIN mathematicians who want the training.  This isn't going to help any in-phase situations but looking at what's going on we'll probably need it here at home too."
       },
       {
-        "name": "testing report I4-9469",
+        "name": "testing report L4-9469",
         "id": "lab_file_teleportation_03",
         "weight": 1000,
         "text": "Testing began with an area two meters square, marked on the floor by electrical tape.  A robot set to travel at a constant speed of 0.1 m/s, verified before the experiment began, was set on one side of the testing area before LOST RAIN mathematician D85 used his abilities on the area.  The robot traversed the space in 16 seconds, verified by both its internal measuring software and external measurements.  We repeated the experiment with a request to extend the relative distance, causing the robot to take 25 seconds to traverse the space.  It is currently unclear whether the disparity in relative distance change is a property of LOST RAIN itself or of D85's abilities.\n\nThe only difficulty was caused when Dr. Caldwell crossed through the marked space before D85 had ceased maintaining the distortion and almost immediately collapsed.  She was rushed to the infirmary but in the end was discharged after tests showed that she had fainted but suffered no lasting damage.  Dr. Caldwell explained she had experienced severe vertigo on entering the area, possibly caused by a defect in proprioception caused by actual distance being different than perceived distance.  I have submitted a proposal to further test this characteristic of LOST RAIN--see attached."
       },
       {
-        "name": "testing report B4-2567",
+        "name": "testing report L4-2567",
         "id": "lab_file_teleportation_04",
         "weight": 1000,
         "text": "Attempt 1: Move pencil at least 400 cm: Successful\nAttempt 2: Move pencil at least 2 m: Failed\nAttempt 3: Move pencil inside sealed, clear plastic bag to outside the bag: Successful\nAttempt 4: Move pencil inside sealed, opaque plastic bag outside the bag: Failed\nAttempt 5: Move eraser without moving the rest of the pencil: Failed\nAttempt 6: Rotate pencil during transit of at least 400 cm so that eraser previously facing the door is now facing away from the door: Successful\nAttempt 7: Move pencil 400 cm into pencil sharpener: Successful\nAttempt 8: Move pencil at least 400 cm into bucket of water: Successful\nAttempt 9: Move pencil at least 400 cm into block of ice: Failed\nAttempt 10: Move stationary pencil 400 cm so that it arrives at destination with upward velocity: Failed\nAttempt 11: Preserve velocity of falling pencil after moving it at least 400 cm: Successful\nAttempt 12: Move pencil gripped firmly in hand at least 400 cm: Successful"
@@ -361,7 +449,7 @@
         "id": "lab_file_teleportation_06",
         "weight": 500,
         "//": "XE754 here are the Hounds of Tindalos",
-        "text": "At 1238 yesterday during COBALT RAIN testing, a malfunction occurred, leading to a power surge in the matrix crystal housing.  While Dr. Simmons immediately engaged the shutdown sequence and prevented any damage to the prototype, smoke began filling the room after her actions.  I hit the alarm button but security did not respond before the appearance of an entity since designated XE754.  XE754 immediately attacked Dr. Simmons and Dr. Rodriguez and, though security did arrive within the ideal 1 minute response time, XE754 seemed to be nearly immune to small-arms fire.  Dr. Simmons suffered serious injuries during the attack and when XE754 retreated it appeared to take her with it.  The smoke vanished soon afterward and the COBALT RAIN prototype was successfully returned to an inactive state.\n\nFinally, I must protest at the treatment I have received over my accounting of the incident.  This is the third report I have submitted and I have not changed my story in any way.  I was there.  I know what I saw.  I do not understand why I am being put through this or why sole responsibility is being assigned to me when I was not in charge of the project.  I especially do not understand why Dr. Rodriguez has not been subject to the same process nor why I have not been permitted to speak to him.  I worked with him and Julia on this project for six months!  I refuse to be treated this way.\nArthur Mitchell\nResearcher, COBALT RAIN"
+        "text": "At 1238 yesterday during COBALT THORN testing, a malfunction occurred, leading to a power surge in the matrix crystal housing.  While Dr. Simmons immediately engaged the shutdown sequence and prevented any damage to the prototype, smoke began filling the room after her actions.  I hit the alarm button but security did not respond before the appearance of an entity since designated XE754.  XE754 immediately attacked Dr. Simmons and Dr. Rodriguez and, though security did arrive within the ideal 1 minute response time, XE754 seemed to be nearly immune to small-arms fire.  Dr. Simmons suffered serious injuries during the attack and when XE754 retreated it appeared to take her with it.  The smoke vanished soon afterward and the COBALT THORN prototype was successfully returned to an inactive state.\n\nFinally, I must protest at the treatment I have received over my accounting of the incident.  This is the third report I have submitted and I have not changed my story in any way.  I was there.  I know what I saw.  I do not understand why I am being put through this or why sole responsibility is being assigned to me when I was not in charge of the project.  I especially do not understand why Dr. Rodriguez has not been subject to the same process nor why I have not been permitted to speak to him.  I worked with him and Julia on this project for six months!  I refuse to be treated this way.\nArthur Mitchell\nResearcher, COBALT THORN"
       }
     ]
   },
@@ -369,6 +457,7 @@
     "type": "snippet",
     "category": "lab_file_vitakinesis",
     "//": "Phavian designation for vitakinetic study is SMOKE USHER",
+    "//2": "Testing report prefix is S",
     "text": [
       {
         "name": "SMOKE USHER anti-agapic properties (revised estimate)",
@@ -378,7 +467,7 @@
       },
       {
         "name": "Compound XV471 update",
-        "//": "This is a refernce to Panaceus testing",
+        "//": "This is a reference to Panaceus testing",
         "id": "lab_file_vitakinesis_02",
         "weight": 1000,
         "text": "Application of matrix technology and XE037 samples together with cutting-edge medical advances blah blah you know the drill.  Anyway, we sourced the samples, we synthesized the compound, we did the tests.  It's magic.  I know that sounds dumb but it's literally magic.  Animal testing showed complete remission of every cancer they developed.  \"Alright, Eric,\" you say, \"that's fine but cancer testing in animals is b̵u̵l̵l̵s̵h̵i̵t̵\"clinically irrelevant due to high real-world failure rates in humans\".  Sure, yes, you're right.  But we sourced some enthusiastic voluntolds from XEDRA-12's stock and a couple of them had cancer they were planning on testing XE037 interactions with.  Well they aren't going to anymore because XV471 cleaned them right up.  Totally healthy.  Zero cancer.\n\nSubject B84 had cystic fibrosis and it's gone.  GONE.  Perfectly normal lungs.  Now what's that other than magic?\n\nYou want to get more funding for this, just authorize selling XV471 to some sick Russian oligarch for like $10 billion.  He gets cured and the money keeps flowing.  And honestly it needs to be that expensive with how much this stuff costs to produce.  We get the materials and process them and nine times out of ten it's just a sugar pill for no damn reason I can find.  But that tenth time, wow.\n\nShred this after you read it.  I don't need the director lecturing me about professionalism again."
@@ -427,7 +516,7 @@
       {
         "name": "QD944-P Progress Update",
         "id": "lab_file_item_QD944_P_01",
-        "text": "Dr. Doherty,\nHere's the latest updated version of JUKEBOX TALISMAN.  The first thing I have to say is that it finally works--no headaches, no eyestrain, no expensive prop that requires a mathematician to achieve its stated function, no whatever happened during test J4-6553 (hopefully B55 has made a full recovery).  Someone off the street could put on QD944-P and immediately see any potential targets through walls.\n\nNow, the downsides.  Seeing others through walls is all that it can do.  As of yet, we've been unable to achieve the main goals of JUKEBOX TALISMAN.  The next prototype after this one might have gotten closer to meeting the project goals, but it's impossible to tell because anyone, including a GRAY DAWN mathematician, who puts one on immediately gets a splitting headache.  We have also been unable to miniaturize the power source enough to make the glasses inconspicuous, since COBALT RAIN still has not gotten below the \"large generator\" stage, and even with existing battery sizes the power draw is considerable.  Hopefully COBALT RAIN reaches the miniaturization stage soon.  That said, I think the existing prototype is still valuable enough to be workable while we further refine the design.\nErin McGrath\nResearcher"
+        "text": "Dr. Doherty,\nHere's the latest updated version of JUKEBOX TALISMAN.  The first thing I have to say is that it finally works--no headaches, no eyestrain, no expensive prop that requires a mathematician to achieve its stated function, no whatever happened during test J4-6553 (hopefully B55 has made a full recovery).  Someone off the street could put on QD944-P and immediately see any potential targets through walls.\n\nNow, the downsides.  Seeing others through walls is all that it can do.  As of yet, we've been unable to achieve the main goals of JUKEBOX TALISMAN.  The next prototype after this one might have gotten closer to meeting the project goals, but it's impossible to tell because anyone, including a GRAY DAWN mathematician, who puts one on immediately gets a splitting headache.  We have also been unable to miniaturize the power source enough to make the glasses inconspicuous, since COBALT THORN still has not gotten below the \"large generator\" stage, and even with existing battery sizes the power draw is considerable.  Hopefully COBALT THORN reaches the miniaturization stage soon.  That said, I think the existing prototype is still valuable enough to be workable while we further refine the design.\nErin McGrath\nResearcher"
       }
     ]
   },
@@ -444,6 +533,7 @@
       {
         "name": "PATIENT MOSAIC introduction: GRAY DAWN eyes only",
         "id": "lab_file_item_IG882_P_02",
+        "weight": 1000,
         "text": "Greetings,\nThank you for your participation in the development of the PATIENT MOSAIC process.  Your work here will advance the foundation of human understand of the inner workings of the mind.\n\nThe PATIENT MOSAIC personality updating process allows the mathematician to change the fundamentals of their personality.  To turn a wallflower to the life of the party, to get rid of your deepest anxieties or fears, to cure depression instead of managing it with therapy or medication.  With refinement, all of these things will not only be possible, but easy, and you will be one of the people who makes it possible.\n\nAt the moment, PATIENT MOSAIC has two primary points of difficulty which you, as a participant, must be aware of.  The first is that it can only be executed by the mathematician upon themselves.  Despite continued progress in the functioning of the process, PATIENT MOSAIC cannot make even the smallest change on another person as of yet.  The second is that the mind is a complex thing and despite the new understanding that GRAY DAWN has brought to us, there is still much to learn.  Small changes can have unexpected ripple effects, leading to undesirable outcomes.  It should be stressed that none of these outcomes are irreversible, but due to the first point, any adverse effects incurred as as a result of the process must be reversed by you; XEDRA researchers and mathematicians cannot assist you except to diagnose any problems that may have resulted.\n\nWe welcome your assistance on this endeavor to expand the frontiers of human knowledge and thank you for your efforts toward the goals of Project PHAVIAN."
       }
     ]
@@ -478,10 +568,10 @@
         "text": "Yeah, we did the research.  We're all stuck here so what else can we do, right?  Just research our heart out while the world falls apart.  Well, I've attached all the figures so you can look at them, but the theory is right.  XE037 enhances exposed mathematicians (aka all of them) by a factor of anywhere from 10x to 100x or more, basically as much as using a matrix crystal.  Meshram used to be able to lift around 18.5g, one of our strongest telekinetics.  Now he's up to 2kg and with a crystal he can lift two bowling balls.  Or a dog, that was hilarious.\n\nSubject U76 could pick up surface thoughts if touching the target and now can easily read someone's mind from across the room and can occasionally pick up deeper memories.  We figured this out by accident, by the way, and I'm pretty sure when we get out of here Dr. Connolly is going to find divorce papers waiting for her.  You'll probably want to keep U76 away from anything sensitive, except that we only just discovered this and now it's too late.  Oops.\n\nOh yeah, K34 can just walk through walls now.  So much for security.  Everything's fucked and we're doomed.  That's my report, hope you like it."
       },
       {
-        "name": "Re: COBALT RAIN",
+        "name": "Re: COBALT THORN",
         "id": "lab_file_matrix_research_06",
         "//": "XE843 here is a Gracken",
-        "text": "As my initial report indicated, COBALT RAIN has passed all the tests we've performed.  In fact, it exceeded our production predictions by over 15%.  It's not actually a perpetual motion machine but it might as well be from the end-user's point of view.  It produces energy with no fuel required, at a constant rate, with no waste byproducts and very little heat.\n\nHowever--there's always a however in this line of work--it has the significant disadvantage that prevents me from recommending it for deployment at this time.  COBALT RAIN works through a microportal to the Netherum, siphoning energy through without the possibility of hostile incursions.  During normal operation, this remains true, but if the device is damaged it can destabilize containment and the portal can rapidly expand without warning.  Just last week we had an incident during testing, and while the engineers were able to get the device shut down quickly, something still came through the portal.  We're lucky that it doesn't seem hostile or really even interested in us.  Despite its appearance (see attached), XE843 is indifferent to the presence or absence of others, light levels, food, or noise.  It just wanders around its containment cell.  We've contacted XEDRA-40 to ask them if they want to take a look at it.  I'll forward the reply to you when we get it.\n\nWork to overcome this significant drawback is ongoing.  At the moment, however, COBALT RAIN should remain in the prototype stage.\n\nAnita Morales\nSenior Researcher"
+        "text": "As my initial report indicated, COBALT THORN has passed all the tests we've performed.  In fact, it exceeded our production predictions by over 15%.  It's not actually a perpetual motion machine but it might as well be from the end-user's point of view.  It produces energy with no fuel required, at a constant rate, with no waste byproducts and very little heat.\n\nHowever--there's always a however in this line of work--it has the significant disadvantage that prevents me from recommending it for deployment at this time.  COBALT THORN works through a microportal to the Netherum, siphoning energy through without the possibility of hostile incursions.  During normal operation, this remains true, but if the device is damaged it can destabilize containment and the portal can rapidly expand without warning.  Just last week we had an incident during testing, and while the engineers were able to get the device shut down quickly, something still came through the portal.  We're lucky that it doesn't seem hostile or really even interested in us.  Despite its appearance (see attached), XE843 is indifferent to the presence or absence of others, light levels, food, or noise.  It just wanders around its containment cell.  We've contacted XEDRA-40 to ask them if they want to take a look at it.  I'll forward the reply to you when we get it.\n\nWork to overcome this significant drawback is ongoing.  At the moment, however, COBALT THORN should remain in the prototype stage.\n\nAnita Morales\nSenior Researcher"
       },
       {
         "name": "Matrix mechanics testing report",
@@ -503,6 +593,12 @@
         "id": "lab_file_matrix_research_10",
         "weight": 500,
         "text": "We still don't have any method of nullifying Netherum mathematics that can be used by a mathematician, but the boys down in R&D came out with something they're calling the \"null grenade.\"  BD833-P produces a short-term disruption in anyone affected by it, preventing use of dimensional metaphysics for up to 25 seconds with no further ill effects.  I89 agreed to spend a significant length of time having BD833-P set off next to him repeatedly and a full medical examination showed no problems.  While I89 complained of a small headache, it faded within ten minutes of the last BD833-P detonation and a week later, I89 has shown no lasting ill effects.\n\nNow, the obvious problem: 25 seconds isn't much.  In-phase if a dive team is trying to neutralize a mathematician--so far a theoretical situation, but we cannot rule it out--it should be plenty, but it won't be enough to capture or restrain any target.  It would also be nice to have some way of focusing the effect, some kind of \"null ray\" or something similar.  Research, as they say, is ongoing."
+      },
+      {
+        "name": "COBALT THORN progress report",
+        "id": "lab_file_matrix_research_11",
+        "weight": 500,
+        "text": "Alright, so should I even be working on this?  The world is ending, we're on lockdown, and I'm pretty sure some of my coworkers have lost their minds.  I should be looking for ways to get out of here, right?  But hell, I've always buried myself in my work in a crisis and this sure is one of those.  So my report is that ever since we detected the spread of XE037, COBALT THORN has been running at…well, it's a perpetual motion machine so I can't exactly talk about \"increased efficiency\" but it's been putting out even more power than it was a month ago.  On the order of 3x more.  Maybe all that nonsense about the fabric of space expanding or whatever was right?  I regret to inform you that it's still occasionally popping out monsters, though fortunately the only thing I had to deal with so far has been those blobs and I set up an isolation chamber for COBALT THORN to run in.  It's keeping the lights on down here, so there's that.  If I can just fix that one flaw, we'll see set.  Too bad my assistant is out trying to figure out how to jump floor to floor so they don't have to use the stairs anymore."
       }
     ]
   },
@@ -543,7 +639,7 @@
       {
         "name": "Introductory materials",
         "id": "lab_file_phavian_memo_04",
-        "weight": 1000,
+        "weight": 1150,
         "text": "Colleague,\n\nGreetings.  You have selected, or have been selected, to participate in XEDRA-23, or as we call it, Project PHAVIAN.  As a member of XEDRA, you will already have seen many extraordinary things in the course of your work, things which you previously might have scoffed at or dismissed out of hand.  You will see more extraordinary things in the course of your work here, things that even those at other XEDRA divisions would have thought impossible a few years ago.  Phase experiments expand the range of human exploration, but matrix technology unlocks human potential to a degree never before seen.  You will be a part of that endeavor, advancing human knowledge and ensuring the United States of America's place at the forefront of scientific advancement throughout the 21st century.\n\nThere is an ancient proverb that is often translated as \"A single spark can start a prairie fire.\"  Our work here will be the light that will lead humanity into a new age.  I look forward to working with you.\n\nHarold Liu\nDirector, Project PHAVIAN"
       },
       {
@@ -569,6 +665,19 @@
         "id": "lab_file_phavian_memo_08",
         "weight": 500,
         "text": "Dr. Mitchell,\nPer our last email, Dr. Enrique Rodriguez passed away in a car accident almost two years ago, shortly after being assigned to XEDRA as a portal research specialist, and he never had the opportunity to work with XEDRA-23.  As you can see from the employee database, there has never been a Dr. Julia Simmons employed by either XEDRA-23 or any other XEDRA division.\n\nIn addition, the XEDRA handbook requires that all employees use their current title in their signature at all times.  Please update your signature to comply with this policy.\nAlicia Sanders\nSenior Talent Coodinator"
+      },
+      {
+        "name": "Update: Records Policy re: Incident report: 523184",
+        "id": "lab_file_phavian_memo_09",
+        "weight": 1000,
+        "text": "Colleagues,\n\nFollowing the recent incident, PHAVIAN is immediately instituting a requirement that all sensitive data be stored offline, on paper, away from possible RUBY LOOP interference.  Incident 523184 has shown us that existing security protocols are utterly ineffective at stopping RUBY LOOP from altering stored data, and while we only lost a week of experimental results, those results include the most recent COBALT THORN test and thus represent a profound blow to our work in advancing human knowledge.  I recognize the difficulty of changing our experimental procedures and our methods of communication so drastically at such short notice, but at the moment we are still not sure how much advancement that other nations have made in the fields of portal immersion or in Netherum mathematics, so it is best to take extreme caution while we develop new protocols around information security.  When we have a update, or an effective counter to possible RUBY LOOP interference, rest assured that I will share it with you immediately.\n\nHarold Liu\nDirector, Project PHAVIAN"
+      },
+      {
+        "name": "External candidates",
+        "id": "lab_file_phavian_memo_10",
+        "weight": 850,
+        "//": "AZURE SONNET is the project to expand the pool of available mathematicians",
+        "text": "Dr. Liu,\nBased on these preliminary results, I'm afraid there is no other option than to seek XEDRA-external candidates.  We've run every single employee at site 2 through the resonance detector and none of them came up higher than Minor, with most not even registering at all.  The capability to understand and manipulate dimensional metaphysics seems limited to a small fraction of the population, and until we can figure some way to affect that it means that our mathematician pool is extremely and unacceptably limited.  As such, I propose that we begin limited screening from among other government employees and, if necessary, among the general population.\n\nI recognize the security concerns inherent in this suggestion, but until we can convince the other XEDRA divisions to allow us to screen all of their employees or otherwise find a large pool of cleared candidates, recruitment is going to be the only option.\nJoshua Sanders\nLead Researcher, AZURE SONNET"
       }
     ]
   },
@@ -607,6 +716,11 @@
         "name": "You've heard the rumor, right?",
         "id": "lab_file_phavian_private_06",
         "text": "C,\nJust talked to ███████ on our lunch break and he confirmed what I heard--Gaspar is real.  We all know people who have just disappeared, right?  They say they're transferred to other sites, to keep up the variety in experiments or whatever, but do they ever get transferred back?  You heard of Project Empty Mother?  Sapphire Horizon?  You know about the magi, right?  There's always three and where's the third?  They can't turn us all into meat but they're going to do it to some of us and I don't want to be one of them.  We have to get out of here.\n-A"
+      },
+      {
+        "name": "Shadows",
+        "id": "lab_file_phavian_private_07",
+        "text": "I keep feeling like something is watching me while I'm working on the engines.  Like there are shadows behind me even in a perfectly-lit room.  I've set up my phone to record and of course, nothing shows up.  But there's something.  I run the footage through frame-by-frame and there are occasional frames of pure static when I'm tinkering and I can't place exactly which part of the engine is causing it, even when I try the same thing multiple times.  The static isn't always there, but it's there often enough.  I know they put Mitchell on administrative leave after his breakdown but maybe he was on to something."
       }
     ]
   }

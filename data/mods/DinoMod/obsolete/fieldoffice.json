@@ -11,7 +11,6 @@
     "mondensity": 2,
     "mapgen": [
       {
-        "method": "json",
         "weight": 10000,
         "object": {
           "rows": [
@@ -73,6 +72,7 @@
             "H": "f_hay",
             "I": "f_hay"
           },
+          "items": { "B": { "item": "SUS_toilet", "chance": 50 } },
           "toilets": { "B": {  } }
         }
       }

@@ -1,7 +1,7 @@
 [
   {
     "id": "foot_locker_aluminum",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "aluminum foot locker" },
     "description": "An aluminum storage box, capable of holding any number of things.  The lid has a small lock.",
@@ -30,7 +30,7 @@
   },
   {
     "id": "foot_locker",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "steel foot locker" },
     "description": "A steel storage box, capable of holding any number of things.  The lid has a small lock.",
     "copy-from": "foot_locker_aluminum",

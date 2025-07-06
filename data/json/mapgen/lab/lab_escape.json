@@ -2,7 +2,6 @@
   {
     "//": "Cells where the player starts during a lab escape.",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_escape_cells" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -42,7 +41,7 @@
           "item": [
             { "item": "bottle_plastic", "amount": [ 1, 2 ] },
             { "item": "can_food", "amount": [ 1, 2 ] },
-            { "item": "steel_chunk", "amount": 1 }
+            { "item": "lc_steel_chunk", "amount": 1 }
           ]
         }
       }
@@ -51,7 +50,6 @@
   {
     "//": "South of cells where the player starts during a lab escape. Should include a monster who can break glass",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_escape_entrance" ],
     "weight": 100,
     "object": {
@@ -103,7 +101,6 @@
   {
     "//": "South of cells where the player starts during a lab escape. Should include a monster who can break glass",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_escape_entrance" ],
     "weight": 100,
     "object": {
@@ -155,7 +152,6 @@
   {
     "//": "Cross floorplan which fills a quadrant with rocks when a side is empty, and possibly adds vaults.",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_escape_entrance" ],
     "weight": 100,
     "object": {
@@ -203,14 +199,12 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sub_t_stairs_up",
     "object": { "rows": [ "<" ], "terrain": { "<": [ "t_stairs_up" ] }, "mapgensize": [ 1, 1 ] }
   },
   {
     "//": "Creates border walls for a lab based on its neighboring tiles, but only south east and west.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_border_walls_sew",
     "object": {
       "mapgensize": [ 24, 24 ],

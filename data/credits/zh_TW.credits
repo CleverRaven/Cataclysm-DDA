@@ -1,36 +1,36 @@
 ＃超過78個字符的行將自動換行
 ＃以下僅供參考
 ##############################################################################
-(<color_cyan>0.H</color>):</color>
+（<color_cyan>0.H</color>）：</color>
 <color_white> 原作者：</color>    <color_white> 專案管理員：</color>
 <color_yellow>Whales</color> (<color_dark_gray>退休</color>)    <color_yellow>KevinGranade</color>
 
 <color_white>目前主要開發者：</color>
-<color_yellow>anoobindisguise</color> - Relentless bugfixing and polish across most areas of the game.
-<color_yellow>GuardianDll</color> - Random changes in game, random changes in mods.
-<color_yellow>irwiss</color> - Massive bugfixing and code hardening.
-<color_yellow>Maleclypse</color> - Lead Merger for this release cycle and many enhancements to Xedra Evolved.
+<color_yellow>anoobindisguise</color> - 对游戏的大部分领域进行持续地错误修复和完善。
+<color_yellow>GuardianDll</color> - 对游戏和mod的各种修改。
+<color_yellow>irwiss</color> - 大量的错误修复和代码增强。
+<color_yellow>Maleclypse</color> - 本次发布周期的主要合并者及对Xedra 超进化的许多增强。
 
 <color_white>特別感謝：</color>
-<color_yellow>anothersimulacrum</color> - For solving difficult problems.
-<color_yellow>akrieger</color> - The Slowdown Smasher.
-<color_yellow>Fris0uman</color> - For managing the tilesets and more.
-<color_yellow>John-Candlebury</color> - For boss fights and Isolation Protocols.
-<color_yellow>Night-Pryanik</color> - For making colds and the flu finally make sense.
-<color_yellow>PatrikLundell</color> - Massive and sorely needed overhauls to faction camp content and infrastructure.
-<color_yellow>Procyonae</color> - For so much mapgen improvements and all the backporting.
-<color_yellow>Qrox</color> - For bugfixes, reviews and infrastructure.
-<color_yellow>Ramza13</color> - For making so many modders dreams come true.
-<color_yellow>RenechCDDA</color> - For the Shadow, camp improvements and NPC Personality.
-<color_yellow>Rivet-the-Zombie</color> - For hitting 10,000 merges.
-<color_yellow>Standing-Storm</color> - For the fastest 0 to 100 in several years.
-<color_yellow>Venera3</color> - For limbification progress.
+<color_yellow>anothersimulacrum</color> - 解决各种难题。
+<color_yellow>akrieger</color> - 卡顿毁灭者。
+<color_yellow>Fris0uman</color> - 管理贴图和其他事务。
+<color_yellow>John-Candlebury</color> - BOSS战和《隔离协议》
+<color_yellow>Night-Pryanik</color> - 终于让感冒和流感符合逻辑。
+<color_yellow>PatrikLundell</color> - 派系营地内容和代码基础设施大规模且亟需的翻新。
+<color_yellow>Procyonae</color> - 大量的地图改进和所有的反向移植。
+<color_yellow>Qrox</color> - 错误修复、PR审查和代码基础设施建设。
+<color_yellow>Ramza13</color> - 让许多mod制作者梦想成真。
+<color_yellow>RenechCDDA</color> - 影子？营地改进和NPC性格。
+<color_yellow>Rivet-the-Zombie</color> - 完成10000次合并。
+<color_yellow>Standing-Storm</color> - 近年来最快从0到100。
+<color_yellow>Venera3</color> - 推进新的肢体系统。
 <color_yellow>ZhilkinSerg</color> - 整合所有的東西。
-<color_yellow>alef</color>, <color_yellow>andrei8l</color>, <color_yellow>Karol1223</color>, <color_yellow>mqrause</color>, and <color_yellow>lispcoc</color>.
+<color_yellow>alef</color>, <color_yellow>andrei8l</color>, <color_yellow>Karol1223</color>, <color_yellow>mqrause</color>和<color_yellow>lispcoc</color>.
 
 <color_white>特別感謝藝術貢獻：</color>
 <color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>,
-<color_yellow>gettingusedto</color>, and many more.
+<color_yellow>gettingusedto</color>和许多其他贡献者。
 
 <color_white>所有貢獻者的完整清單請見：</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
@@ -42,7 +42,7 @@
 
 ******************************************************************************
 
-(<color_cyan>0.G</color>):</color>
+（0.G）：
 <color_white> 原作者：</color>    <color_white> 專案管理員：</color>
 <color_yellow>Whales</color> (<color_dark_gray>退休</color>)    <color_yellow>KevinGranade</color>
 

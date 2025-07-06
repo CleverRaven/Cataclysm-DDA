@@ -175,6 +175,7 @@
     "special_attacks": [
       {
         "type": "gun",
+        "cooldown": 0,
         "move_cost": 100,
         "gun_type": "watercannon",
         "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],
@@ -552,6 +553,7 @@
       "FAE_CREATURE",
       "STUN_IMMUNE",
       "HAS_MIND",
+      "MAGIC_USER",
       "BASHES",
       "DESTROYS",
       "PUSH_MON",

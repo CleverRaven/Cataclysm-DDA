@@ -78,7 +78,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "viewer.h"
@@ -259,7 +259,7 @@ static Creature *sting_get_target( monster *z, float range = 5.0f )
 
     // Can't see/reach target, no attack
     if( !z->sees( here,  *target ) ||
-        !get_map().clear_path( z->pos_bub(), target->pos_bub(), range, 1, 100 ) ) {
+        !here.clear_path( z->pos_bub(), target->pos_bub(), range, 1, 100 ) ) {
         return nullptr;
     }
 
@@ -785,7 +785,7 @@ bool mattack::acid_barf( monster *z )
 
     z->mod_moves( -to_moves<int>( 1_seconds ) * 0.8 );
     // Make sure it happens before uncanny dodge
-    get_map().add_field( target->pos_bub(), fd_acid, 1 );
+    here.add_field( target->pos_bub(), fd_acid, 1 );
 
     bodypart_id hit = target->get_random_body_part();
     damage_instance dam_inst = damage_instance( damage_acid, rng( 5, 12 ) );
@@ -845,11 +845,12 @@ bool mattack::shockstorm( monster *z )
     }
 
     Creature *target = z->attack_target();
-    const tripoint_bub_ms target_pos = target->pos_bub( here );
 
     if( target == nullptr ) {
         return false;
     }
+
+    const tripoint_bub_ms target_pos = target->pos_bub( here );
 
     Character &player_character = get_player_character();
     bool seen = player_character.sees( here, *z );
@@ -1609,8 +1610,9 @@ bool mattack::triffid_heartbeat( monster *z )
     creature_tracker &creatures = get_creature_tracker();
     static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false, false,
             false );
+    const pathfinding_target pf_t = pathfinding_target::point( z_pos );
     if( rl_dist( z_pos, pos ) > 5 &&
-        !here.route( pos, z_pos, root_pathfind ).empty() ) {
+        !here.route( pos, pf_t, root_pathfind ).empty() ) {
         add_msg( m_warning, _( "The root walls creak around you." ) );
         for( const tripoint_bub_ms &dest : here.points_in_radius( z_pos, 3 ) ) {
             if( g->is_empty( dest ) && one_in( 4 ) ) {
@@ -1621,7 +1623,7 @@ bool mattack::triffid_heartbeat( monster *z )
         }
         // Open blank tiles as long as there's no possible route
         int tries = 0;
-        while( here.route( pos, z_pos, root_pathfind ).empty() &&
+        while( here.route( pos, pf_t, root_pathfind ).empty() &&
                tries < 20 ) {
             point_bub_ms p( rng( pos.x(), z_pos.x() - 3 ),
                             rng( pos.y(), z_pos.y() - 3 ) );
@@ -1710,13 +1712,13 @@ bool mattack::fungus( monster *z )
 
 bool mattack::fungus_corporate( monster *z )
 {
-    const map &here = get_map();
+    map &here = get_map();
 
     if( x_in_y( 1, 20 ) ) {
         sounds::sound( z->pos_bub(), 10, sounds::sound_t::speech, _( "\"Buy SpOreos™ now!\"" ) );
         if( get_player_view().sees( here, *z ) ) {
             add_msg( m_warning, _( "Delicious snacks are released from the %s!" ), z->name() );
-            get_map().add_item( z->pos_bub(), item( itype_sporeos ) );
+            here.add_item( z->pos_bub(), item( itype_sporeos ) );
         } // only spawns SpOreos if the player is near; can't have the COMMONERS stealing our product from good customers
         return true;
     } else {
@@ -3769,7 +3771,7 @@ bool mattack::riotbot( monster *z )
                          _( "You deftly slip out of the handcuffs just as the robot closes them.  The robot didn't seem to notice!" ) );
                 foe->i_add( handcuffs );
             } else {
-                foe->wield( *foe->i_add( handcuffs ) );
+                foe->wield( foe->i_add( handcuffs ) );
                 item_location wielded = foe->get_wielded_item();
                 if( wielded && wielded->type == handcuffs.type ) {
                     wielded->set_flag( flag_NO_UNWIELD );
@@ -3887,7 +3889,7 @@ bool mattack::evolve_kill_strike( monster *z )
     damage_instance damage( z->type->melee_damage );
     damage.mult_damage( 1.33f );
     damage.add( damage_instance( damage_stab, dice( z->type->melee_dice, z->type->melee_sides ),
-                                 rng( 5, 15 ), 1.0, 0.5 ) );
+                                 z->type->melee_dice_ap + rng( 5, 15 ), 1.0, 0.5 ) );
 
     if( target->dodge_check( z, bodypart_id( "torso" ), damage ) ) {
         game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
@@ -4465,7 +4467,7 @@ bool mattack::kamikaze( monster *z )
             item i_explodes( act_bomb_type, calendar::turn );
             i_explodes.active = true;
             i_explodes.countdown_point = calendar::turn_zero;
-            i_explodes.process( get_map(), nullptr, z->pos_bub() );
+            i_explodes.process( here, nullptr, z->pos_bub() );
             return false;
         }
         return false;

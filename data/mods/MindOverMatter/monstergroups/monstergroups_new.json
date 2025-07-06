@@ -8,9 +8,9 @@
       { "monster": "mon_hidebehind", "weight": 20 },
       { "monster": "mon_psi_gremlin", "weight": 100 },
       { "monster": "mon_psi_gremlin", "weight": 15, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_cockatrice", "weight": 75, "starts": "21 days" },
-      { "monster": "mon_cockatrice", "weight": 10, "pack_size": [ 3, 5 ], "starts": "21 days" },
-      { "monster": "mon_hodag", "weight": 10, "starts": "180 days" },
+      { "monster": "mon_cockatrice", "weight": 75, "starts": "84 days" },
+      { "monster": "mon_cockatrice", "weight": 10, "pack_size": [ 3, 5 ], "starts": "84 days" },
+      { "monster": "mon_hodag", "weight": 10, "starts": "720 days" },
       { "monster": "mon_bandersnatch", "weight": 5 },
       { "monster": "mon_fear_hawk", "weight": 10 },
       { "monster": "mon_hellhound", "weight": 75 }
@@ -100,10 +100,10 @@
       { "monster": "mon_kreck", "weight": 60, "cost_multiplier": 5 },
       { "monster": "mon_gracke", "weight": 100 },
       { "monster": "mon_mi_go", "weight": 60 },
-      { "monster": "mon_mi_go_slaver", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" },
-      { "monster": "mon_mi_go_myrmidon", "weight": 10, "cost_multiplier": 4, "starts": "210 hours" },
-      { "monster": "mon_mi_go_telepath", "weight": 7, "cost_multiplier": 4, "starts": "210 hours" },
-      { "monster": "mon_mi_go_biokinetic", "weight": 2, "cost_multiplier": 8, "starts": "210 hours" },
+      { "monster": "mon_mi_go_slaver", "weight": 50, "cost_multiplier": 2, "starts": "35 days" },
+      { "monster": "mon_mi_go_myrmidon", "weight": 10, "cost_multiplier": 4, "starts": "35 days" },
+      { "monster": "mon_mi_go_telepath", "weight": 7, "cost_multiplier": 4, "starts": "35 days" },
+      { "monster": "mon_mi_go_biokinetic", "weight": 2, "cost_multiplier": 8, "starts": "35 days" },
       { "monster": "mon_nether_eater", "weight": 60 }
     ]
   },
@@ -216,15 +216,15 @@
     "id": "GROUP_CIVILIANS_PSYCHIC_FERAL",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_civilian_biokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
-      { "monster": "mon_civilian_clairsentient", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
-      { "monster": "mon_civilian_electrokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
-      { "monster": "mon_civilian_photokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
-      { "monster": "mon_civilian_pyrokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
-      { "monster": "mon_civilian_telekinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
-      { "monster": "mon_civilian_telepath", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
-      { "monster": "mon_civilian_teleporter", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
-      { "monster": "mon_civilian_vitakinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" }
+      { "monster": "mon_civilian_biokinetic", "weight": 1, "cost_multiplier": 0, "ends": "12 days" },
+      { "monster": "mon_civilian_clairsentient", "weight": 1, "cost_multiplier": 0, "ends": "12 days" },
+      { "monster": "mon_civilian_electrokinetic", "weight": 1, "cost_multiplier": 0, "ends": "12 days" },
+      { "monster": "mon_civilian_photokinetic", "weight": 1, "cost_multiplier": 0, "ends": "12 days" },
+      { "monster": "mon_civilian_pyrokinetic", "weight": 1, "cost_multiplier": 0, "ends": "12 days" },
+      { "monster": "mon_civilian_telekinetic", "weight": 1, "cost_multiplier": 0, "ends": "12 days" },
+      { "monster": "mon_civilian_telepath", "weight": 1, "cost_multiplier": 0, "ends": "12 days" },
+      { "monster": "mon_civilian_teleporter", "weight": 1, "cost_multiplier": 0, "ends": "12 days" },
+      { "monster": "mon_civilian_vitakinetic", "weight": 1, "cost_multiplier": 0, "ends": "12 days" }
     ]
   },
   {

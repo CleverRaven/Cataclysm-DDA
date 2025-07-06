@@ -185,6 +185,11 @@ obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER
     }
 };
 
+static const std::string TIED_DOWN_FURNITURE = "tied_down_furniture";
+
+static std::unordered_map<ter_str_id, std::pair<ter_str_id, furn_str_id>> ter_migrations;
+static std::unordered_map<furn_str_id, std::pair<ter_str_id, furn_str_id>> furn_migrations;
+
 // TODO: investigate serializing other members of the Creature class hierarchy
 static void serialize( const weak_ptr_fast<monster> &obj, JsonOut &jsout )
 {
@@ -472,7 +477,6 @@ void SkillLevel::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "level", _level );
     json.member( "exercise", _exercise );
-    json.member( "istraining", _isTraining );
     json.member( "lastpracticed", _lastPracticed );
     json.member( "knowledgeLevel", _knowledgeLevel );
     json.member( "knowledgeExperience", _knowledgeExperience );
@@ -492,7 +496,6 @@ void SkillLevel::deserialize( const JsonObject &data )
     if( _exercise < 0 ) {
         _exercise = 0;
     }
-    data.read( "istraining", _isTraining );
     data.read( "rustaccumulator", _rustAccumulator );
     if( !data.read( "lastpracticed", _lastPracticed ) ) {
         _lastPracticed = calendar::start_of_game;
@@ -1076,7 +1079,7 @@ void Character::load( const JsonObject &data )
     calc_encumbrance();
 
     assign( data, "power_level", power_level, false, 0_kJ );
-    assign( data, "max_power_level_modifier", max_power_level_modifier, false, units::energy_min );
+    assign( data, "max_power_level_modifier", max_power_level_modifier, false, units::energy::min() );
 
     // Bionic power should not be negative!
     if( power_level < 0_mJ ) {
@@ -1222,25 +1225,25 @@ void Character::load( const JsonObject &data )
                 if( pseudo.has_flag( flag_INTEGRATED ) ) {
                     // Migrate old fuels to new system.
                     // Needed to be compatible with 0.F
-                    if( b_it == itype_internal_gasoline_tank && !get_value( "gasoline" ).empty() ) {
+                    if( b_it == itype_internal_gasoline_tank && !get_value( "gasoline" ).is_empty() ) {
                         item gasoline( fuel_type_gasoline );
-                        gasoline.charges = std::stoi( get_value( "gasoline" ) );
+                        gasoline.charges = get_value( "gasoline" ).dbl();
                         remove_value( "gasoline" );
                         pseudo.put_in( gasoline, pocket_type::CONTAINER );
-                    } else if( b_it == itype_internal_ethanol_tank && !get_value( "alcohol" ).empty() ) {
+                    } else if( b_it == itype_internal_ethanol_tank && !get_value( "alcohol" ).is_empty() ) {
                         item ethanol( fuel_type_chem_ethanol );
-                        ethanol.charges = std::stoi( get_value( "alcohol" ) );
+                        ethanol.charges = get_value( "alcohol" ).dbl();
                         remove_value( "alcohol" );
                         pseudo.put_in( ethanol, pocket_type::CONTAINER );
-                    } else if( b_it == itype_internal_oil_tank && !get_value( "motor_oil" ).empty() ) {
+                    } else if( b_it == itype_internal_oil_tank && !get_value( "motor_oil" ).is_empty() ) {
                         item oil( fuel_type_motor_oil );
-                        oil.charges = std::stoi( get_value( "motor_oil" ) );
+                        oil.charges = get_value( "motor_oil" ).dbl();
                         remove_value( "motor_oil" );
                         pseudo.put_in( oil, pocket_type::CONTAINER );
-                    } else if( b_it == itype_internal_battery_compartment && !get_value( "battery" ).empty() ) {
+                    } else if( b_it == itype_internal_battery_compartment && !get_value( "battery" ).is_empty() ) {
                         item battery( itype_medium_battery_cell );
                         item battery_charge( fuel_type_battery );
-                        battery_charge.charges = std::min( 500, std::stoi( get_value( "battery" ) ) );
+                        battery_charge.charges = std::min( 500., get_value( "battery" ).dbl() );
                         battery.put_in( battery_charge, pocket_type::MAGAZINE );
                         remove_value( "battery" );
                         pseudo.put_in( battery, pocket_type::MAGAZINE_WELL );
@@ -1310,14 +1313,9 @@ void Character::load( const JsonObject &data )
         queued_eoc temp;
         temp.time = time_point( elem.get_int( "time" ) );
         temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-        std::unordered_map<std::string, std::string> context;
-        // context variables
-        for( const JsonMember &jm : elem.get_object( "context" ) ) {
-            context[jm.name()] = jm.get_string();
-        }
-        game::legacy_migrate_npctalk_var_prefix( context );
+        elem.read( "context", temp.context );
+        game::legacy_migrate_npctalk_var_prefix( temp.context );
 
-        temp.context = context;
         queued_effect_on_conditions.push( temp );
     }
     data.read( "inactive_eocs", inactive_effect_on_condition_vector );
@@ -1646,6 +1644,8 @@ void avatar::store( JsonOut &json ) const
     json.member( "preferred_aiming_mode", preferred_aiming_mode );
 
     json.member( "power_prev_turn", power_prev_turn );
+    json.member( "may_activity_occupancy_after_end_items_loc",
+                 may_activity_occupancy_after_end_items_loc );
 }
 
 void avatar::deserialize( const JsonObject &data )
@@ -1782,6 +1782,8 @@ void avatar::load( const JsonObject &data )
     }
 
     data.read( "snippets_read", snippets_read );
+    data.read( "may_activity_occupancy_after_end_items_loc",
+               may_activity_occupancy_after_end_items_loc );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2262,6 +2264,8 @@ void npc::load( const JsonObject &data )
     data.read( "unique_id", unique_id );
     clear_personality_traits();
     generate_personality_traits();
+    data.read( "may_activity_occupancy_after_end_items_loc",
+               may_activity_occupancy_after_end_items_loc );
 }
 
 /*
@@ -2333,6 +2337,8 @@ void npc::store( JsonOut &json ) const
 
     json.member( "complaints", complaints );
     json.member( "unique_id", unique_id );
+    json.member( "may_activity_occupancy_after_end_items_loc",
+                 may_activity_occupancy_after_end_items_loc );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2815,7 +2821,7 @@ static void load_legacy_craft_data( io::JsonObjectOutputArchive &, T & )
 
 static std::set<itype_id> charge_removal_blacklist;
 
-void load_charge_removal_blacklist( const JsonObject &jo, const std::string_view/*src*/ )
+void load_charge_removal_blacklist( const JsonObject &jo, std::string_view/*src*/ )
 {
     jo.allow_omitted_members();
     std::set<itype_id> new_blacklist;
@@ -2825,7 +2831,7 @@ void load_charge_removal_blacklist( const JsonObject &jo, const std::string_view
 
 static std::set<itype_id> temperature_removal_blacklist;
 
-void load_temperature_removal_blacklist( const JsonObject &jo, const std::string_view/*src*/ )
+void load_temperature_removal_blacklist( const JsonObject &jo, std::string_view/*src*/ )
 {
     jo.allow_omitted_members();
     std::set<itype_id> new_blacklist;
@@ -2881,7 +2887,7 @@ void item::io( Archive &archive )
         const std::string prefix = "npctalk_var_";
         for( auto i = item_vars.begin(); i != item_vars.end(); ) {
             if( i->first.rfind( prefix, 0 ) == 0 ) {
-                std::map<std::string, std::string>::node_type extracted = ( *item_vars ).extract( i++ );
+                global_variables::impl_t::node_type extracted = ( *item_vars ).extract( i++ );
                 std::string new_key = extracted.key().substr( prefix.size() );
                 extracted.key() = new_key;
                 item_vars.insert( std::move( extracted ) );
@@ -2890,6 +2896,14 @@ void item::io( Archive &archive )
             }
         }
     }
+
+    if( auto var = item_vars.find( TIED_DOWN_FURNITURE ); var != item_vars.end() ) {
+        const furn_str_id furnstr( var->second.str() );
+        if( auto it = furn_migrations.find( furnstr ); it != furn_migrations.end() ) {
+            set_var( TIED_DOWN_FURNITURE, it->second.second.str() );
+        }
+    }
+
     // TODO: change default to empty string
     archive.io( "name", corpse_name, std::string() );
     archive.io( "owner", owner, faction_id::NULL_ID() );
@@ -3429,6 +3443,8 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "om_id", om_id );
     data.read( "faceDir", fdir );
     data.read( "moveDir", mdir );
+    data.read( "values", values );
+    data.read( "chat_topics", chat_topics );
     int turn_dir_int;
     data.read( "turn_dir", turn_dir_int );
     turn_dir = units::from_degrees( turn_dir_int );
@@ -3495,6 +3511,7 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "labels", labels );
     data.read( "fuel_remainder", fuel_remainder );
     data.read( "fuel_used_last_turn", fuel_used_last_turn );
+    data.read( "effects", effects );
 
     refresh( );
 
@@ -3521,6 +3538,7 @@ void vehicle::deserialize( const JsonObject &data )
     // that can't be used as it currently stands because it would also
     // make it instantly fire all its turrets upon load.
     of_turn = 0;
+    recalculate_enchantment_cache();
 }
 
 void vehicle::deserialize_parts( const JsonArray &data )
@@ -3546,6 +3564,8 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "posx", pos.x() );
     json.member( "posy", pos.y() );
     json.member( "om_id", om_id );
+    json.member( "values", values );
+    json.member( "chat_topics", chat_topics );
     json.member( "faceDir", std::lround( to_degrees( face.dir() ) ) );
     json.member( "moveDir", std::lround( to_degrees( move.dir() ) ) );
     json.member( "turn_dir", std::lround( to_degrees( turn_dir ) ) );
@@ -3607,6 +3627,7 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "magic", magic );
     json.member( "smart_controller", smart_controller_cfg );
     json.member( "vehicle_noise", vehicle_noise );
+    json.member( "effects", effects );
 
     json.end_object();
 }
@@ -3736,11 +3757,17 @@ void faction::deserialize( const JsonObject &jo )
     jo.read( "size", size );
     jo.read( "power", power );
     if( jo.has_int( "food_supply" ) ) {
+        int calories;
         // Legacy kcal value found, migrate to calories
-        jo.read( "food_supply", food_supply.calories );
-        food_supply.calories *= 1000;
+        jo.read( "food_supply", calories );
+        calories *= 1000;
+        add_kcal( calories, calendar::turn_zero );
+    } else if( jo.has_object( "fac_food_supply" ) ) {
+        std::map<time_point, nutrients> legacy_food;
+        jo.read( "fac_food_supply", legacy_food[calendar::turn_zero] );
+        add_to_food_supply( legacy_food );
     } else {
-        jo.read( "fac_food_supply", food_supply );
+        jo.read( "fac_food_supply", _food_supply );
     }
     if( !jo.read( "wealth", wealth ) ) {
         wealth = 100;
@@ -3763,7 +3790,16 @@ void faction::serialize( JsonOut &json ) const
     json.member( "known_by_u", known_by_u );
     json.member( "size", size );
     json.member( "power", power );
-    json.member( "fac_food_supply", food_supply );
+    // pruned version of the food supply
+    cata::list<std::pair<time_point, nutrients>> pruned_food_supply = _food_supply;
+    for( auto it = pruned_food_supply.begin(); it != pruned_food_supply.end(); ) {
+        if( it->first != calendar::turn_zero && it->first < calendar::turn ) {
+            it = pruned_food_supply.erase( it );
+        } else {
+            ++it;
+        }
+    }
+    json.member( "fac_food_supply", pruned_food_supply );
     json.member( "wealth", wealth );
     json.member( "opinion_of", opinion_of );
     json.member( "relations" );
@@ -4667,7 +4703,7 @@ void stats_tracker::deserialize( const JsonObject &jo )
 namespace
 {
 
-void _write_rle_terrain( JsonOut &jsout, const std::string_view ter, int num )
+void _write_rle_terrain( JsonOut &jsout, std::string_view ter, int num )
 {
     jsout.start_array();
     jsout.write( ter );
@@ -4676,9 +4712,6 @@ void _write_rle_terrain( JsonOut &jsout, const std::string_view ter, int num )
 }
 
 } // namespace
-
-static std::unordered_map<ter_str_id, std::pair<ter_str_id, furn_str_id>> ter_migrations;
-static std::unordered_map<furn_str_id, std::pair<ter_str_id, furn_str_id>> furn_migrations;
 
 void ter_furn_migrations::load( const JsonObject &jo )
 {

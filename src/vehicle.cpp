@@ -22,6 +22,7 @@
 #include "activity_handlers.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "cata_assert.h"
 #include "cata_bitset.h"
 #include "cata_utility.h"
@@ -34,6 +35,7 @@
 #include "cuboid_rectangle.h"
 #include "damage.h"
 #include "debug.h"
+#include "effect_source.h"
 #include "enum_traits.h"
 #include "enums.h"
 #include "event.h"
@@ -58,6 +60,7 @@
 #include "mapdata.h"
 #include "material.h"
 #include "math_defines.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "mod_manager.h"
 #include "monster.h"
@@ -76,6 +79,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "submap.h"
+#include "talker_vehicle.h"
 #include "translation.h"
 #include "translations.h"
 #include "units_utility.h"
@@ -217,6 +221,18 @@ units::volume vehicle_stack::max_volume() const
     }
     // Set max volume for vehicle cargo to prevent integer overflow
     return std::min( vpi.size, 10000_liter );
+}
+
+units::volume vehicle_stack::stored_volume() const
+{
+    if( vp.get_base().has_var( "tied_down_furniture" ) ) { // There's a furniture in the way!!
+        return max_volume();
+    }
+    units::volume ret = 0_ml;
+    for( const item &it : *items ) {
+        ret += it.volume();
+    }
+    return ret;
 }
 
 // Vehicle class methods.
@@ -755,7 +771,7 @@ void vehicle::drive_to_local_target( map *here, const tripoint_abs_ms &target,
 {
     Character &player_character = get_player_character();
     if( follow_protocol && player_character.in_vehicle ) {
-        if( here == &get_map() ) { // TODO: Make sound handling map aware
+        if( here == &reality_bubble() ) { // TODO: Make sound handling map aware
             sounds::sound( pos_bub( *here ), 30, sounds::sound_t::alert,
                            string_format( _( "the %s emitting a beep and saying \"Autonomous driving protocols suspended!\"" ),
                                           name ) );
@@ -770,7 +786,7 @@ void vehicle::drive_to_local_target( map *here, const tripoint_abs_ms &target,
     bool stop = precollision_check( angle, *here, follow_protocol );
     if( stop ) {
         if( autopilot_on ) {
-            if( here == &get_map() ) { // TODO: Make sound handling map aware
+            if( here == &reality_bubble() ) { // TODO: Make sound handling map aware
                 sounds::sound( pos_bub( *here ), 30, sounds::sound_t::alert,
                                string_format( _( "the %s emitting a beep and saying \"Obstacle detected!\"" ),
                                               name ) );
@@ -957,7 +973,7 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
                     // on the main game map. And assume that we run from some mapgen code if called on
                     // another instance.
                     // TODO: Make this capable of distinguishing between mapgen and non bubble active maps.
-                    if( g && &get_map() == &m ) {
+                    if( g && &reality_bubble() == &m ) {
                         handler_ptr = std::make_unique<DefaultRemovePartHandler>();
                     } else {
                         handler_ptr = std::make_unique<MapgenRemovePartHandler>( m );
@@ -1086,7 +1102,7 @@ void vehicle::unlock()
             vp.enabled = false;
         }
         if( vp.is_engine() ) {
-            vp.base.faults.erase( fault_engine_immobiliser );
+            vp.base.remove_fault( fault_engine_immobiliser );
         }
     }
 }
@@ -1098,7 +1114,7 @@ void vehicle::backfire( map *here, const vehicle_part &vp ) const
     const std::string text = _( "a loud BANG! from the %s" ); // NOLINT(cata-text-style);
     const tripoint_bub_ms pos = bub_part_pos( *here, vp );
     const int volume = 40 + units::to_watt( part_vpower_w( *here, vp, true ) ) / 10000;
-    if( here == &get_map() ) { // TODO: Make sound handling map aware.
+    if( here == &reality_bubble() ) { // TODO: Make sound handling map aware.
         sounds::sound( pos, volume, sounds::sound_t::movement,
                        string_format( text, vp.name() ), true, "vehicle", "engine_backfire" );
     }
@@ -1182,6 +1198,42 @@ int vehicle::power_to_energy_bat( const units::power power, const time_duration 
     units::energy produced = power * d;
     int produced_kj = roll_remainder( units::to_millijoule( produced ) / 1000000.0 );
     return produced_kj;
+}
+
+// Methods for setting/getting misc key/value pairs.
+void vehicle::set_value( const std::string &key, diag_value value )
+{
+    values[ key ] = std::move( value );
+}
+
+void vehicle::remove_value( const std::string &key )
+{
+    values.erase( key );
+}
+
+diag_value const &vehicle::get_value( const std::string &key ) const
+{
+    return global_variables::_common_get_value( key, values );
+}
+
+diag_value const *vehicle::maybe_get_value( const std::string &key ) const
+{
+    return global_variables::_common_maybe_get_value( key, values );
+}
+
+void vehicle::clear_values()
+{
+    values.clear();
+}
+
+void vehicle::add_chat_topic( const std::string &topic )
+{
+    chat_topics.emplace_back( topic );
+}
+
+bool vehicle::has_structural_part( const point &dp ) const
+{
+    return vehicle::has_structural_part( point_rel_ms( dp ) );
 }
 
 bool vehicle::has_structural_part( const point_rel_ms &dp ) const
@@ -1476,6 +1528,150 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
     return false;
 }
 
+void vehicle::recalculate_enchantment_cache()
+{
+    enchantment_cache.clear();
+
+    for( const auto &elem : effects ) {
+        for( const enchantment_id &ench_id : elem.first->enchantments ) {
+            const enchantment &ench = ench_id.obj();
+            if( ench.is_active( *this, true ) ) {
+                enchantment_cache.force_add( ench, *this );
+            }
+        }
+    }
+
+    for( vehicle_part &part : parts ) {
+        if( part.removed ) {
+            continue;
+        }
+        for( const enchantment_id &ench_id : part.info().enchantments ) {
+            const enchantment &ench = ench_id.obj();
+            if( ench.is_active( *this, part.enabled ) && ench.is_vehicle_relevant() ) {
+                enchantment_cache.force_add( ench, *this );
+            }
+        }
+    }
+}
+
+void vehicle::add_effect( const effect_source &source, const efftype_id &eff_id,
+                          const time_duration &dur, bool permanent, int intensity )
+{
+    if( !eff_id.is_valid() ) {
+        debugmsg( "Invalid effect, ID: %s", eff_id.c_str() );
+        return;
+    }
+    const effect_type &type = eff_id.obj();
+
+    // Then check if the effect is blocked by another
+    for( auto &elem : effects ) {
+        for( const auto &blocked_effect : elem.second.get_blocks_effects() ) {
+            if( blocked_effect == eff_id ) {
+                // The effect is blocked by another, return
+                return;
+            }
+        }
+    }
+
+    bool found = false;
+    // Check if we already have it
+    auto found_effect = effects.find( eff_id );
+    if( found_effect != effects.end() ) {
+        found = true;
+        effect &e = found_effect->second;
+        // If we do, mod the duration, factoring in the mod value
+        e.mod_duration( dur * e.get_dur_add_perc() / 100 );
+        // Limit to max duration
+        if( e.get_duration() > e.get_max_duration() ) {
+            e.set_duration( e.get_max_duration() );
+        }
+        // Adding a permanent effect makes it permanent
+        if( e.is_permanent() ) {
+            e.pause_effect();
+        }
+    }
+
+    if( !found ) {
+        // If we don't already have it then add a new one
+
+        // Now we can make the new effect for application
+        effect e( effect_source( source ), &type, dur, bodypart_str_id::NULL_ID(), permanent, intensity,
+                  calendar::turn );
+        // Bound to max duration
+        if( e.get_duration() > e.get_max_duration() ) {
+            e.set_duration( e.get_max_duration() );
+        }
+
+        // Force intensity if it is duration based
+        if( e.get_int_dur_factor() != 0_turns ) {
+            const int intensity = std::ceil( e.get_duration() / e.get_int_dur_factor() );
+            e.set_intensity( std::max( 1, intensity ) );
+        }
+        // Bound new effect intensity by [1, max intensity]
+        if( e.get_intensity() < 1 ) {
+            add_msg_debug( debugmode::DF_CREATURE, "Bad intensity, ID: %s", e.get_id().c_str() );
+            e.set_intensity( 1 );
+        } else if( e.get_intensity() > e.get_max_intensity() ) {
+            e.set_intensity( e.get_max_intensity() );
+        }
+        effects[eff_id] = e;
+    }
+}
+
+void vehicle::process_effects()
+{
+    // id's of all effects to be removed.
+    std::vector<efftype_id> rem_ids;
+
+    // Decay/removal of effects
+    for( auto &elem : effects ) {
+        // Add any effects that others remove to the removal list
+        for( const auto &removed_effect : elem.second.get_removes_effects() ) {
+            rem_ids.push_back( removed_effect );
+        }
+        std::vector<bodypart_id> empty_bp;
+        effect &e = elem.second;
+
+        // Run decay effects, marking effects for removal as necessary.
+        e.decay( rem_ids, empty_bp, calendar::turn, false );
+    }
+
+    // Actually remove effects. This should be the last thing done in process_effects().
+    for( efftype_id &id : rem_ids ) {
+        remove_effect( id );
+    }
+}
+
+bool vehicle::has_visible_effect()
+{
+    for( const auto &elem : effects ) {
+        if( elem.first->is_show_in_info() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::vector<std::reference_wrapper<const effect>> vehicle::get_effects() const
+{
+    std::vector<std::reference_wrapper<const effect>> effs;
+    effs.reserve( effects.size() );
+    for( const std::pair<const efftype_id, effect> &_it : effects ) {
+        effs.emplace_back( _it.second );
+    }
+    return effs;
+}
+
+void vehicle::remove_effect( const efftype_id &eff_id )
+{
+    effects.erase( eff_id );
+}
+
+bool vehicle::has_effect( const efftype_id &eff_id ) const
+{
+    return effects.count( eff_id );
+}
+
 bool vehicle::is_appliance() const
 {
     return has_tag( flag_APPLIANCE );
@@ -1556,6 +1752,7 @@ int vehicle::install_part( map &here, const point_rel_ms &dp, vehicle_part &&vp 
     const int vp_installed_index = parts.size() - 1;
     refresh( );
     coeff_air_changed = true;
+    recalculate_enchantment_cache();
     return vp_installed_index;
 }
 
@@ -2671,6 +2868,18 @@ std::optional<vpart_reference> vpart_position::obstacle_at_part() const
     return part;
 }
 
+int vpart_position::get_movecost() const
+{
+
+    if( obstacle_at_part() ) {
+        return 0;
+    } else if( part_with_feature( VPFLAG_AISLE, true ) ) {
+        return 2;
+    } else {
+        return 8;
+    }
+}
+
 std::optional<vpart_reference> vpart_position::part_displayed() const
 {
     int part_id = vehicle().part_displayed_at( mount_pos(), true );
@@ -3174,7 +3383,7 @@ int vehicle::get_next_shifted_index( int original_index, Character &you ) const
     int ret_index = original_index;
     bool found_shifted_index = false;
     for( const vpart_reference &vpr : get_all_parts() ) {
-        if( you.get_value( "veh_index_type" ) == vpr.info().name() ) {
+        if( you.get_value( "veh_index_type" ).str() == vpr.info().name() ) {
             ret_index = vpr.part_index();
             found_shifted_index = true;
             break;
@@ -3584,7 +3793,20 @@ units::mass vehicle::total_mass( map &here ) const
         calc_mass_center( here, false );
     }
 
-    return mass_cache;
+    return enchantment_cache.modify_value( enchant_vals::mod::TOTAL_WEIGHT, mass_cache );
+}
+
+units::mass vehicle::unloaded_mass() const
+{
+    units::mass m_total = 0_gram;
+    for( const vpart_reference &vp : get_all_parts() ) {
+        if( vp.part().removed || vp.part().is_fake ) {
+            continue;
+        }
+        m_total += vp.part().base.weight();
+
+    }
+    return enchantment_cache.modify_value( enchant_vals::mod::TOTAL_WEIGHT, m_total );
 }
 
 units::mass vehicle::weight_on_wheels( map &here ) const
@@ -3600,7 +3822,8 @@ units::mass vehicle::weight_on_wheels( map &here ) const
             }
         }
     }
-    return vehicle_mass - animal_mass;
+    return enchantment_cache.modify_value( enchant_vals::mod::TOTAL_WEIGHT,
+                                           vehicle_mass - animal_mass );
 }
 
 const point_rel_ms &vehicle::rotated_center_of_mass( map &here ) const
@@ -4953,7 +5176,8 @@ float vehicle::handling_difficulty( map &here ) const
     // TestVehicle but on fungal bed (0.5 friction) and bad steering = 10
     // TestVehicle but turned 90 degrees during this turn (0 align) = 10
     const float diff_mod = ( 1.0f - steer ) + ( 1.0f - ktraction ) + ( 1.0f - aligned );
-    return velocity * diff_mod / vehicles::vmiph_per_tile;
+    return enchantment_cache.modify_value( enchant_vals::mod::TURNING_DIFFICULTY,
+                                           velocity * diff_mod / vehicles::vmiph_per_tile );
 }
 
 units::power vehicle::engine_fuel_usage( const vehicle_part &vp ) const
@@ -4961,7 +5185,8 @@ units::power vehicle::engine_fuel_usage( const vehicle_part &vp ) const
     if( !is_engine_on( vp ) || is_perpetual_type( vp ) ) {
         return 0_W;
     }
-    const units::power usage = vp.info().energy_consumption;
+    units::power usage = vp.info().energy_consumption;
+    usage = enchantment_cache.modify_value( enchant_vals::mod::FUEL_USAGE, usage );
     if( vp.has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
         return usage * 2;
     }
@@ -5927,13 +6152,12 @@ void vehicle::on_move( map &here )
     }
 
     Character &pc = get_player_character();
-    // TODO: Send ID of driver
-    get_event_bus().send<event_type::vehicle_moves>(
-        is_passenger( pc ), player_is_driving_this_veh( &here ), remote_controlled( pc ),
-        is_flying_in_air(), is_watercraft() && can_float( here ), can_use_rails( here ),
-        is_falling, is_in_water( true ) && !can_float( here ),
-        skidding, velocity, sm_pos.z()
-    );
+    cata::event e = cata::event::make<event_type::vehicle_moves>(
+                        is_passenger( pc ), player_in_control( here, pc ), remote_controlled( pc ),
+                        is_flying_in_air(), is_watercraft() && can_float( here ), can_use_rails( here ),
+                        is_falling, is_in_water( true ) && !can_float( here ),
+                        skidding, velocity, sm_pos.z() );
+    get_event_bus().send_with_talker( this, &pc, e );
 }
 
 void vehicle::slow_leak( map &here )
@@ -6622,8 +6846,10 @@ void vehicle::refresh( const bool remove_fakes )
     // re-install fake parts - this could be done in a separate function, but we want to
     // guarantee that the fake parts were removed before being added
     if( remove_fakes && !has_tag( "wreckage" ) && !is_appliance() ) {
+        // Calling add_fake_part can change that container, so iterate over a copy instead.
+        const decltype( relative_parts ) copy_of_relative_parts = relative_parts;
         // add all the obstacles first
-        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : relative_parts ) {
+        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : copy_of_relative_parts ) {
             add_fake_part( rp.first, "OBSTACLE" );
         }
         // then add protrusions that hanging on top of fake obstacles.
@@ -6634,11 +6860,11 @@ void vehicle::refresh( const bool remove_fakes )
         }
 
         // add fake camera parts so vision isn't blocked by fake parts
-        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : relative_parts ) {
+        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : copy_of_relative_parts ) {
             add_fake_part( rp.first, "CAMERA" );
         }
         // add fake curtains so vision is correctly blocked
-        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : relative_parts ) {
+        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : copy_of_relative_parts ) {
             add_fake_part( rp.first, "CURTAIN" );
         }
     } else {
@@ -7540,7 +7766,7 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
         }
     };
     std::unique_ptr<RemovePartHandler> handler_ptr;
-    if( g && &get_map() ==
+    if( g && &reality_bubble() ==
         &here ) { // TODO: Refine logic to determine whether it's mapgen or game play.
         handler_ptr = std::make_unique<DefaultRemovePartHandler>();
     } else {
@@ -7750,7 +7976,8 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
             if( !magic ) {
                 here.add_item_or_charges( vppos, part_as_item );
             }
-            if( !g || &get_map() != &here ) { // TODO: Refine logic to determine if this is mapgen or gameplay.
+            if( !g || &reality_bubble() !=
+                &here ) { // TODO: Refine logic to determine if this is mapgen or gameplay.
                 MapgenRemovePartHandler handler( here );
                 remove_part( vp, handler );
             } else {
@@ -7875,7 +8102,7 @@ item vehicle::get_folded_item( map &here ) const
     const int avg_part_damage = static_cast<int>( sum_of_damage / num_of_parts );
 
     folded.set_var( "tracking", tracking_on ? 1 : 0 );
-    folded.set_var( "weight", to_milligram( total_mass( here ) ) );
+    folded.set_var( "weight", static_cast<double>( to_milligram( total_mass( here ) ) ) );
     folded.set_var( "volume", folded_volume / 250_ml );
     folded.set_var( "name", string_format( _( "folded %s" ), name ) );
     folded.set_var( "vehicle_name", name );
@@ -8264,6 +8491,11 @@ void vehicle::calc_mass_center( map &here, bool use_precalc ) const
         if( vp.part().info().cargo_weight_modifier != 100 ) {
             m_part_items *= static_cast<float>( vp.part().info().cargo_weight_modifier ) / 100.0f;
         }
+        if( vp.has_feature( "FURNITURE_TIEDOWN" ) &&
+            vp.part().get_base().has_var( "tied_down_furniture" ) ) {
+            furn_str_id carried_furniture( vp.part().get_base().get_var( "tied_down_furniture" ) );
+            m_part_items += carried_furniture->mass;
+        }
         m_part += m_part_items;
 
         if( vp.has_feature( VPFLAG_BOARDABLE ) ) {
@@ -8287,17 +8519,35 @@ void vehicle::calc_mass_center( map &here, bool use_precalc ) const
     mass_cache = m_total;
     mass_dirty = false;
 
-    const float x = xf / mass_cache;
-    const float y = yf / mass_cache;
+    // If no reall parts remain the weight is zero, and we'd end up with division by zero.
+    const float x = mass_cache == 0_gram ? 0 : xf / mass_cache;
+    const float y = mass_cache == 0_gram ? 0 : yf / mass_cache;
     if( use_precalc ) {
         mass_center_precalc.x() = std::round( x );
         mass_center_precalc.y() = std::round( y );
-        mass_center_precalc_dirty = false;
     } else {
         mass_center_no_precalc.x() = std::round( x );
         mass_center_no_precalc.y() = std::round( y );
-        mass_center_no_precalc_dirty = false;
     }
+
+    mass_center_no_precalc_dirty = false;
+}
+
+int vehicle::get_passenger_count( bool hostile ) const
+{
+    int count = 0;
+    for( const rider_data &rd : get_riders() ) {
+        if( rd.psg->is_npc() && rd.psg->as_npc()->is_enemy() == hostile ) {
+            count++;
+        }
+        if( rd.psg->is_monster() &&
+            ( rd.psg->as_monster()->attitude( get_avatar().as_character() ) == monster_attitude::MATT_ATTACK )
+            ==
+            hostile ) {
+            count++;
+        }
+    }
+    return count;
 }
 
 bounding_box vehicle::get_bounding_box( bool use_precalc, bool no_fake )
@@ -8618,4 +8868,17 @@ void MapgenRemovePartHandler::add_item_or_charges(
         return;
     }
     here->add_item_or_charges( loc, std::move( it ) );
+}
+
+std::unique_ptr<talker> get_talker_for( vehicle &me )
+{
+    return std::make_unique<talker_vehicle>( &me );
+}
+std::unique_ptr<const_talker> get_talker_for( const vehicle &me )
+{
+    return std::make_unique<talker_vehicle_const>( &me );
+}
+std::unique_ptr<talker> get_talker_for( vehicle *me )
+{
+    return std::make_unique<talker_vehicle>( me );
 }

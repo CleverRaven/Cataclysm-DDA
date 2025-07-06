@@ -36,7 +36,7 @@
       { "item": "socks" },
       { "item": "sweater" },
       { "item": "jeans" },
-      { "item": "jacket_leather_red" },
+      { "item": "jacket_leather" },
       { "item": "hat_ball" },
       { "item": "sunglasses" },
       { "item": "boots_combat" }
@@ -97,25 +97,20 @@
         "text": "Hi, Draco, how are you doing?",
         "condition": {
           "and": [
-            { "not": { "compare_string": [ "3", { "u_val": "general_meeting_Draco_Dune_convo_depth" } ] } },
-            { "not": { "compare_string": [ "7", { "u_val": "general_meeting_Draco_Dune_convo_depth" } ] } }
+            { "math": [ "u_general_meeting_Draco_Dune_convo_depth != 3 " ] },
+            { "math": [ "u_general_meeting_Draco_Dune_convo_depth != 7 " ] }
           ]
         },
         "topic": "TALK_REFUGEE_Draco_2"
       },
       {
         "text": "Hi again, Draco, nice to see you too.",
-        "condition": {
-          "and": [
-            { "compare_string": [ "3", { "u_val": "general_meeting_Draco_Dune_convo_depth" } ] },
-            { "not": { "compare_string": [ "7", { "u_val": "general_meeting_Draco_Dune_convo_depth" } ] } }
-          ]
-        },
+        "condition": { "math": [ "u_general_meeting_Draco_Dune_convo_depth == 3 " ] },
         "topic": "TALK_REFUGEE_Draco_5a"
       },
       {
         "text": "Hi again, Draco, nice to see you too.",
-        "condition": { "compare_string": [ "7", { "u_val": "general_meeting_Draco_Dune_convo_depth" } ] },
+        "condition": { "math": [ "u_general_meeting_Draco_Dune_convo_depth == 7 " ] },
         "topic": "TALK_REFUGEE_Draco_7"
       },
       { "text": "Hi Draco, nice to see you too.  <end_talking_leave>", "topic": "TALK_DONE" }

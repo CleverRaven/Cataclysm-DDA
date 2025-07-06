@@ -109,6 +109,8 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_COMBAT_MOUNT,
        mon_flag_CONSOLE_DESPAWN,
        mon_flag_CONVERSATION,
+       mon_flag_COPY_SUMMONER_LOOK,
+       mon_flag_COPY_AVATAR_LOOK,
        mon_flag_CORNERED_FIGHTER,
        mon_flag_DEADLY_VIRUS,
        mon_flag_DESTROYS,
@@ -244,6 +246,19 @@ struct pet_food_data {
     void deserialize( const JsonObject &data );
 };
 
+/** movement data */
+struct move_skills_data {
+    // 10 means max movecost of 500 * terrain-difficulty with 0 skill
+    const static int max_movemod_penalty = 10;
+    std::optional<int> climb;
+    std::optional<int> dig;
+    std::optional<int> swim;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &data );
+};
+
 enum class mdeath_type {
     NORMAL,
     SPLATTER,
@@ -344,6 +359,12 @@ struct mtype {
          * of this type (if it's friendly).
          */
         itype_id revert_to_itype;
+
+        /**
+         * If this is not empty, the monster will become this item when mdeath::BROKEN
+         * is triggered. Overwrites the normal hardcoded broken item.
+         */
+        itype_id broken_itype;
         /**
          * If this monster is a rideable mech with built-in weapons, this is the weapons id
          */
@@ -435,6 +456,8 @@ struct mtype {
 
         int hp = 0;
         int speed = 0;          /** e.g. human = 100 */
+        move_skills_data move_skills;   /** climb, dig, swim; 0-100, defaults to 0 */
+
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
         int stomach_size = 0;         /** how many times this monster will eat */
@@ -452,6 +475,7 @@ struct mtype {
         int melee_skill = 0;    /** melee hit skill, 20 is superhuman hitting abilities */
         int melee_dice = 0;     /** number of dice of bonus bashing damage on melee hit */
         int melee_sides = 0;    /** number of sides those dice have */
+        int melee_dice_ap = 0;  /** ap value of the melee dice*/
 
         int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
         int sk_dodge = 0;       /** dodge skill */

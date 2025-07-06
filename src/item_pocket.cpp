@@ -730,7 +730,7 @@ int item_pocket::ammo_consume( int qty )
     std::list<item>::iterator it;
     for( it = contents.begin(); it != contents.end(); ) {
         if( it->has_flag( flag_CASING ) ) {
-            it++;
+            ++it;
             continue;
         }
         if( need >= it->charges ) {
@@ -808,7 +808,8 @@ void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
 
     for( auto iter = contents.begin(); iter != contents.end(); ) {
         if( iter->made_of( phase_id::LIQUID ) ) {
-            while( iter->charges > 0 && liquid_handler::handle_liquid( *iter, avoid, 1 ) ) {
+            liquid_dest_opt liquid_target;
+            while( iter->charges > 0 && liquid_handler::handle_liquid( *iter, liquid_target, avoid, 1 ) ) {
                 // query until completely handled or explicitly canceled
             }
             if( iter->charges == 0 ) {
@@ -1597,7 +1598,7 @@ ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
     }
 
     if( copies_remaining > 1 ) {
-        int how_many_copies_fit = std::min( { copies_remaining, copy_weight_capacity, copy_volume_capacity } );
+        int how_many_copies_fit = std::min( { data->holster ? 1 : copies_remaining, copy_weight_capacity, copy_volume_capacity } );
         copies_remaining -= how_many_copies_fit;
     } else {
         copies_remaining = 0;
@@ -1780,7 +1781,7 @@ static void move_to_parent_pocket_recursive( map &here, const tripoint_bub_ms &p
                                         _( "<npcname>'s %s falls to the ground." ), it.display_name() );
     } else {
         // TODO: Make operation map aware.
-        add_msg_if_player_sees( get_map().get_bub( here.get_abs( pos ) ), m_bad,
+        add_msg_if_player_sees( reality_bubble().get_bub( here.get_abs( pos ) ), m_bad,
                                 _( "The %s falls to the ground." ),
                                 it.display_name() );
     }

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of art.",
     "nested_mapgen_id": "basement_storage_1x1",
     "object": {
@@ -14,7 +13,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of hardware.",
     "nested_mapgen_id": "basement_storage_1x1",
     "object": {
@@ -27,7 +25,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of bedding.",
     "nested_mapgen_id": "basement_storage_1x1",
     "object": {
@@ -40,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of winter clothing.",
     "nested_mapgen_id": "basement_storage_1x1",
     "object": {
@@ -53,7 +49,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of work clothing.",
     "nested_mapgen_id": "basement_storage_1x1",
     "object": {
@@ -71,7 +66,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of old clothing.",
     "nested_mapgen_id": "basement_storage_1x1",
     "object": {
@@ -84,7 +78,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of toys.",
     "nested_mapgen_id": "basement_storage_1x1",
     "object": {
@@ -108,7 +101,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "utility_3x3_N",
     "object": {
@@ -124,7 +116,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "utility_3x3_S",
     "object": {
@@ -140,7 +131,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "utility_3x3_W",
     "object": {
@@ -156,7 +146,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "utility_3x3_e",
     "object": {
@@ -172,7 +161,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "recroom_12x12",
     "object": {
@@ -219,7 +207,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "tvroom_12x12",
     "object": {
@@ -255,7 +242,7 @@
         "!": { "item": "toy_box", "chance": 80, "repeat": [ 1, 10 ] },
         "=": [
           { "item": "toy_box", "chance": 5 },
-          { "item": "trash", "chance": 1 },
+          { "item": "SUS_trash_floor", "chance": 1 },
           { "item": "bed", "chance": 1 },
           { "item": "candy_chocolate", "chance": 2 }
         ],
@@ -265,7 +252,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "workoutroom_12x12",
     "object": {
@@ -309,7 +295,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_woodworker",
     "object": {
@@ -353,7 +338,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_bike",
     "object": {
@@ -383,7 +367,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basement",
     "nested_mapgen_id": "room_6x6_junk",
     "object": {
@@ -404,7 +387,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basement",
     "nested_mapgen_id": "room_6x6_junk_S",
     "object": {
@@ -432,7 +414,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basement",
     "nested_mapgen_id": "room_6x6_junk_E",
     "object": {
@@ -460,7 +441,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basement",
     "nested_mapgen_id": "room_6x6_junk_W",
     "object": {
@@ -488,7 +468,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_weed_N",
     "//": "an grow area for various recreations",
     "object": {
@@ -549,7 +528,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_weed_S",
     "//": "an grow area for various recreations",
     "object": {
@@ -610,7 +588,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_weed_E",
     "//": "an grow area for various recreations",
     "object": {
@@ -671,7 +648,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_weed_W",
     "//": "an grow area for various recreations",
     "object": {
@@ -732,7 +708,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_recroom_N",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -768,7 +743,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_recroom_N",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -807,7 +781,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_recroom_S",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -843,7 +816,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_recroom_S",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -883,7 +855,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_recroom_E",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -919,7 +890,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_recroom_E",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -958,7 +928,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_recroom_W",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -994,7 +963,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_9x9_recroom_W",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -1033,7 +1001,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_9x9_cellar_E",
     "object": {
@@ -1081,7 +1048,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_9x9_cellar_W",
     "object": {
@@ -1129,7 +1095,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_9x9_cellar_S",
     "object": {
@@ -1178,7 +1143,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_9x9_cellar_N",
     "object": {
@@ -1226,7 +1190,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_office_N",
     "object": {
@@ -1245,7 +1208,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_office_S",
     "object": {
@@ -1264,7 +1226,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_office_E",
     "object": {
@@ -1283,7 +1244,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_office_W",
     "object": {
@@ -1302,7 +1262,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_brewer_W",
     "object": {
@@ -1331,7 +1290,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_brewer_E",
     "object": {
@@ -1360,7 +1318,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_brewer_N",
     "object": {
@@ -1389,7 +1346,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_brewer_S",
     "object": {
@@ -1418,7 +1374,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_guns_N",
     "weight": 1000,
@@ -1457,23 +1412,12 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
-          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "repeat": [ 1, 2 ] }
         ],
-        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
-        "?": [
-          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
-        ],
+        "?": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
           { "item": "museum_guns", "chance": 1 },
           { "item": "tools_common", "chance": 60 },
@@ -1486,7 +1430,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_guns_S",
     "weight": 1000,
@@ -1518,23 +1461,12 @@
       "furniture": { "%": "f_rack_wood", "$": "f_rack_wood", "=": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
-          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "repeat": [ 1, 2 ] }
         ],
-        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
-        "?": [
-          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
-        ],
+        "?": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
           { "item": "museum_guns", "chance": 1 },
           { "item": "tools_common", "chance": 60 },
@@ -1547,7 +1479,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_guns_E",
     "weight": 1000,
@@ -1578,23 +1509,12 @@
       "furniture": { "%": "f_locker", "$": "f_locker", "?": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
-          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "repeat": [ 1, 2 ] }
         ],
-        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
-        "?": [
-          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
-        ],
+        "?": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
           { "item": "museum_guns", "chance": 1 },
           { "item": "tools_common", "chance": 60 },
@@ -1607,7 +1527,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_guns_W",
     "weight": 1000,
@@ -1639,23 +1558,12 @@
       "furniture": { "%": "f_locker", "$": "f_locker", "=": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
-          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "repeat": [ 1, 2 ] }
         ],
-        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
-        "=": [
-          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
-        ],
+        "=": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
           { "item": "museum_guns", "chance": 1 },
           { "item": "tools_common", "chance": 60 },
@@ -1668,7 +1576,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "7x7_tent_indoors",
     "//": "a tent for basements, indoor scenarios",
     "object": {
@@ -1706,7 +1613,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "7x7_band_practice_open",
     "//": "a band practice space in an open area",
     "object": {
@@ -1757,7 +1663,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_wine_cellar_N",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -1799,7 +1704,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_wine_cellar_S",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -1841,7 +1745,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_wine_cellar_E",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -1883,7 +1786,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_wine_cellar_W",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -1925,7 +1827,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_recroom_N",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -1963,7 +1864,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_junk_N",
     "//": "room of junk",
     "object": {
@@ -1983,7 +1883,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_junk_S",
     "//": "room of junk",
     "object": {
@@ -2003,7 +1902,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_junk_E",
     "//": "room of junk",
     "object": {
@@ -2023,7 +1921,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_junk_W",
     "//": "room of junk",
     "object": {
@@ -2043,7 +1940,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_recroom_N",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -2077,7 +1973,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_recroom_S",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -2115,7 +2010,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_recroom_S",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -2150,7 +2044,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_recroom_E",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -2190,7 +2083,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_recroom_E",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -2225,7 +2117,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_recroom_W",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -2264,7 +2155,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_7x7_recroom_W",
     "//": "an entertainment area for various recreations",
     "object": {
@@ -2299,7 +2189,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_holdout_N",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2323,7 +2212,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_holdout_S",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2347,7 +2235,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_holdout_E",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2371,7 +2258,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_holdout_W",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2395,7 +2281,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_sauna_N",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2412,7 +2297,7 @@
       "furniture": { "0": "f_brazier" },
       "place_loot": [
         { "item": "towel", "x": 1, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
-        { "item": "charcoal", "x": 3, "y": 2, "chance": 100, "repeat": [ 3, 10 ] },
+        { "group": "charcoal_bag_part", "x": 3, "y": 2, "chance": 100, "repeat": [ 1, 2 ] },
         { "item": "bucket", "x": 3, "y": 1, "chance": 100 },
         { "item": "water_clean", "x": 1, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
       ]
@@ -2420,7 +2305,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_sauna_S",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2437,7 +2321,7 @@
       "furniture": { "0": "f_brazier" },
       "place_loot": [
         { "item": "towel", "x": 1, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
-        { "item": "charcoal", "x": 3, "y": 2, "chance": 100, "repeat": [ 3, 10 ] },
+        { "group": "charcoal_bag_part", "x": 3, "y": 2, "chance": 100, "repeat": [ 1, 2 ] },
         { "item": "bucket", "x": 3, "y": 3, "chance": 100 },
         { "item": "water_clean", "x": 1, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
       ]
@@ -2445,7 +2329,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_sauna_E",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2462,7 +2345,7 @@
       "furniture": { "0": "f_brazier" },
       "place_loot": [
         { "item": "towel", "x": 1, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
-        { "item": "charcoal", "x": 2, "y": 1, "chance": 100, "repeat": [ 3, 10 ] },
+        { "group": "charcoal_bag_part", "x": 2, "y": 1, "chance": 100, "repeat": [ 1, 2 ] },
         { "item": "bucket", "x": 3, "y": 1, "chance": 100 },
         { "item": "water_clean", "x": 1, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
       ]
@@ -2470,7 +2353,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_sauna_W",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2487,7 +2369,7 @@
       "furniture": { "0": "f_brazier" },
       "place_loot": [
         { "item": "towel", "x": 3, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
-        { "item": "charcoal", "x": 2, "y": 1, "chance": 100, "repeat": [ 3, 10 ] },
+        { "group": "charcoal_bag_part", "x": 2, "y": 1, "chance": 100, "repeat": [ 1, 2 ] },
         { "item": "bucket", "x": 1, "y": 1, "chance": 100 },
         { "item": "water_clean", "x": 3, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
       ]
@@ -2495,7 +2377,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_pool",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2515,7 +2396,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_gym_N",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2544,7 +2424,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_gym_S",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2570,7 +2449,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_gym_E",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2596,7 +2474,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_gym_W",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -2622,7 +2499,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_8x8_junk_N",
     "//": "room of junk",
     "object": {
@@ -2644,7 +2520,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_8x8_junk_S",
     "//": "room of junk",
     "object": {
@@ -2666,7 +2541,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_8x8_junk_E",
     "//": "room of junk",
     "object": {
@@ -2684,12 +2558,11 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 4, "y": 3 } ]
+      "place_vehicles": [ { "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 4, "y": 3 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_8x8_junk_W",
     "//": "room of junk",
     "object": {
@@ -2707,13 +2580,12 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "place_vehicles": [ { "vehicle": "bikeshop", "x": 1, "y": 2, "rotation": 180, "chance": 100 } ],
+      "place_vehicles": [ { "vehicle": "bikeshop", "x": 1, "y": 2, "rotation": 180 } ],
       "place_items": [ { "item": "bikeshop_tools", "x": 1, "y": 2, "chance": 80, "repeat": [ 1, 3 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_gym_N",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2751,7 +2623,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_gym_S",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2790,7 +2661,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_gym_E",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2828,7 +2698,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_gym_W",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -2866,7 +2735,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_electronics_open",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -2929,7 +2797,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_sewing_open",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -2993,7 +2860,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_8x8_hobby_N",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3014,7 +2880,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_8x8_hobby_S",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3035,7 +2900,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_8x8_hobby_E",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3056,7 +2920,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_8x8_hobby_W",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -3077,7 +2940,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_junk_N",
     "//": "room of junk",
     "object": {
@@ -3097,13 +2959,12 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "standard_domestic_palette" ],
-      "place_vehicles": [ { "vehicle": "bikeshop", "x": 6, "y": 3, "rotation": 270, "chance": 100 } ],
+      "place_vehicles": [ { "vehicle": "bikeshop", "x": 6, "y": 3, "rotation": 270 } ],
       "place_items": [ { "item": "bikeshop_tools", "x": 9, "y": 2, "chance": 80, "repeat": [ 1, 3 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_junk_S",
     "//": "room of junk",
     "object": {
@@ -3123,13 +2984,12 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "standard_domestic_palette" ],
-      "place_vehicles": [ { "vehicle": "bikeshop", "x": 6, "y": 5, "rotation": 270, "chance": 100 } ],
+      "place_vehicles": [ { "vehicle": "bikeshop", "x": 6, "y": 5, "rotation": 270 } ],
       "place_items": [ { "item": "bikeshop_tools", "x": 9, "y": 2, "chance": 80, "repeat": [ 1, 3 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_junk_E",
     "//": "room of junk",
     "object": {
@@ -3149,13 +3009,12 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "standard_domestic_palette" ],
-      "place_vehicles": [ { "vehicle": "boats_narrow", "x": 4, "y": 3, "rotation": 180, "chance": 100 } ],
+      "place_vehicles": [ { "vehicle": "boats_narrow", "x": 4, "y": 3, "rotation": 180 } ],
       "place_items": [ { "item": "fishing_items", "x": 9, "y": 2, "chance": 80, "repeat": [ 1, 3 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_junk_W",
     "//": "room of junk",
     "object": {
@@ -3175,13 +3034,12 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "standard_domestic_palette" ],
-      "place_vehicles": [ { "vehicle": "boats_narrow", "x": 4, "y": 3, "rotation": 180, "chance": 100 } ],
+      "place_vehicles": [ { "vehicle": "boats_narrow", "x": 4, "y": 3, "rotation": 180 } ],
       "place_items": [ { "item": "fishing_items", "x": 9, "y": 2, "chance": 80, "repeat": [ 1, 3 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_pool_N",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -3206,7 +3064,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_pool_S",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -3231,7 +3088,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_pool_W",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -3256,7 +3112,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_pool_E",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -3281,7 +3136,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_recording_studio_N",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -3337,7 +3191,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_recording_studio_S",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -3394,7 +3247,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_recording_studio_E",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -3451,7 +3303,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_10x10_recording_studio_W",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -3508,7 +3359,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_10x10_woodworker_N",
     "object": {
@@ -3544,12 +3394,11 @@
         "G": [ { "item": "wood_workshop", "chance": 90, "repeat": [ 0, 3 ] } ],
         "E": [ { "item": "home_hw", "chance": 90, "repeat": [ 0, 3 ] } ]
       },
-      "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
+      "place_vehicles": [ { "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_10x10_woodworker_S",
     "object": {
@@ -3585,12 +3434,11 @@
         "G": [ { "item": "wood_workshop", "chance": 90, "repeat": [ 0, 3 ] } ],
         "E": [ { "item": "home_hw", "chance": 80, "repeat": [ 0, 2 ] } ]
       },
-      "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
+      "place_vehicles": [ { "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_10x10_woodworker_E",
     "object": {
@@ -3626,12 +3474,11 @@
         "G": [ { "item": "wood_workshop", "chance": 90, "repeat": [ 0, 3 ] } ],
         "E": [ { "item": "home_hw", "chance": 80, "repeat": [ 0, 2 ] } ]
       },
-      "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
+      "place_vehicles": [ { "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_10x10_woodworker_W",
     "object": {
@@ -3667,12 +3514,11 @@
         "G": [ { "item": "wood_workshop", "chance": 90, "repeat": [ 0, 3 ] } ],
         "E": [ { "item": "home_hw", "chance": 80, "repeat": [ 0, 2 ] } ]
       },
-      "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
+      "place_vehicles": [ { "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_10x10_guns_N",
     "object": {
@@ -3720,23 +3566,12 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
-          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "repeat": [ 1, 2 ] }
         ],
-        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
-        "=": [
-          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
-        ],
+        "=": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
           { "item": "museum_guns", "chance": 1 },
           { "item": "tools_common", "chance": 60 },
@@ -3749,7 +3584,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_10x10_guns_E",
     "object": {
@@ -3797,23 +3631,12 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
-          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "repeat": [ 1, 2 ] }
         ],
-        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
-        "=": [
-          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
-        ],
+        "=": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
           { "item": "museum_guns", "chance": 1 },
           { "item": "tools_common", "chance": 60 },
@@ -3826,7 +3649,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_10x10_guns_S",
     "object": {
@@ -3874,23 +3696,12 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
-          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "repeat": [ 1, 2 ] }
         ],
-        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
-        "=": [
-          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
-        ],
+        "=": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
           { "item": "museum_guns", "chance": 1 },
           { "item": "tools_common", "chance": 60 },
@@ -3903,7 +3714,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_10x10_guns_W",
     "object": {
@@ -3951,23 +3761,12 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
-          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "repeat": [ 1, 2 ] }
         ],
-        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
-        "=": [
-          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
-        ],
+        "=": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
           { "item": "museum_guns", "chance": 1 },
           { "item": "tools_common", "chance": 60 },
@@ -3980,7 +3779,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "11x11_gym_open",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -4015,7 +3813,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "11x11_recroom_open",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -4052,7 +3849,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "11x11_recroom_open",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -4096,7 +3892,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_11x11_apartment_N",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -4120,7 +3915,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_11x11_apartment_S",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -4144,7 +3938,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_11x11_apartment_E",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -4168,7 +3961,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "room_11x11_apartment_W",
     "object": {
       "mapgensize": [ 11, 11 ],

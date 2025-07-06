@@ -24,6 +24,8 @@
       { "item": "punch_dagger", "container-item": "gartersheath1", "prob": 2, "damage": [ 1, 4 ] },
       { "item": "switchblade", "prob": 15 },
       { "item": "bbholster", "prob": 5 },
+      { "item": "knuckle_brass", "prob": 15 },
+      { "item": "knuckle_steel_forged", "prob": 8 },
       { "group": "default_zombie_items_pockets", "prob": 25, "count": [ 0, 4 ] }
     ]
   },

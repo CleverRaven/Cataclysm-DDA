@@ -92,7 +92,8 @@
       "colt_python",
       "colt_anaconda_8",
       "colt_anaconda_6",
-      "colt_anaconda_4"
+      "colt_anaconda_4",
+      "460_xvr"
     ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_revolver"
@@ -154,7 +155,19 @@
       "ruger_charger",
       "hk_mp5_semi_pistol",
       "TDI_10",
-      "draco_9mm"
+      "draco_9mm",
+      "p365",
+      "swbodyguard",
+      "glock_42",
+      "glock_23",
+      "glock_27",
+      "glock_30",
+      "glock_36",
+      "glock_43",
+      "glock_43x",
+      "glock_26",
+      "glock_34",
+      "glock_48"
     ],
     "type": "MIGRATION",
     "replace": "pistol_medium"
@@ -180,7 +193,7 @@
     "replace": "pistol_pipe_smg"
   },
   {
-    "id": [ "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1", "taurus_judge" ],
+    "id": [ "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1", "taurus_judge", "sw642" ],
     "type": "MIGRATION",
     "replace": "pistol_revolver"
   },
@@ -208,7 +221,7 @@
     "replace": "pistol_smg"
   },
   {
-    "id": [ "ruger_1022", "ruger_1022_auto", "ruger_charger_auto", "rossi_gallery", "marlin60" ],
+    "id": [ "ruger_1022", "ruger_1022_auto", "ruger_charger_auto", "rossi_gallery", "marlin60", "mp_15_22" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_rifle"
   },
@@ -228,7 +241,9 @@
       "1911_22",
       "rio_bravo",
       "henry_golden_boy",
-      "sw617"
+      "sw617",
+      "sr22",
+      "glock_44"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"
@@ -311,6 +326,7 @@
       "browning_blr",
       "remington_700",
       "savage_111f",
+      "scar_17s",
       "steyr_scout",
       "M24",
       "sharps"
@@ -366,6 +382,7 @@
       "ar15_762",
       "rifle_223",
       "ruger_mini",
+      "mp_15",
       "sig_assault_rifle",
       "steyr_aug",
       "iwi_tavor_x95_300blk",
@@ -390,7 +407,8 @@
       "ak308",
       "papm77",
       "rfb_308",
-      "rdb_223"
+      "rdb_223",
+      "scar_16s"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
@@ -453,7 +471,8 @@
       "benelli_tsa",
       "bigun",
       "mossberg_590m",
-      "USAS_12"
+      "USAS_12",
+      "m1014"
     ],
     "type": "MIGRATION",
     "replace": "shot_tactical"
@@ -467,7 +486,10 @@
       "mossberg_590",
       "mossberg_930",
       "remington_870",
-      "remington_870_express"
+      "remington_870_express",
+      "ithaca37",
+      "browning_a5",
+      "remington_1100"
     ],
     "type": "MIGRATION",
     "replace": "shot_pump"

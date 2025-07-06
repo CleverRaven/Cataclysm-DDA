@@ -1187,7 +1187,7 @@
   {
     "type": "item_group",
     "id": "test_npc_eyes",
-    "items": [ [ "glasses_safety", 20 ], [ "sunglasses", 20 ], [ "fancy_sunglasses", 10 ] ]
+    "items": [ [ "glasses_safety", 20 ], [ "sunglasses", 20 ] ]
   },
   {
     "type": "item_group",

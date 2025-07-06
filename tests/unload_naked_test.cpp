@@ -40,7 +40,7 @@ TEST_CASE( "unload_revolver_naked_one_bullet", "[unload][nonmagzine]" )
 
     // Unload weapon
     item_location revo_loc = player_character.get_wielded_item();
-    player_character.set_moves( 100 );
+    player_character.set_moves( 200 );
     REQUIRE( player_character.unload( revo_loc ) );
     player_character.activity.do_turn( player_character );
 
@@ -75,10 +75,10 @@ TEST_CASE( "unload_revolver_naked_fully_loaded", "[unload][nonmagzine]" )
 
     // Unload weapon
     item_location revo_loc = player_character.get_wielded_item();
-    player_character.set_moves( 100 );
+    player_character.set_moves( 200 );
     REQUIRE( player_character.unload( revo_loc ) );
     while( player_character.activity ) {
-        player_character.set_moves( 100 );
+        player_character.set_moves( 200 );
         player_character.activity.do_turn( player_character );
     }
 

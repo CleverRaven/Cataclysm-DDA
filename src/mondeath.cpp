@@ -139,7 +139,7 @@ item_location mdeath::splatter( map *here, monster &z )
 
         if( z.type->size >= creature_size::medium ) {
             number_of_gibs += rng( 1, 6 );
-            if( get_map().inbounds( z.pos_abs() ) ) {
+            if( reality_bubble().inbounds( z.pos_abs() ) ) {
                 sfx::play_variant_sound( "mon_death", "zombie_gibbed", sfx::get_heard_volume( z.pos_bub() ) );
             }
         }
@@ -192,7 +192,7 @@ item_location mdeath::splatter( map *here, monster &z )
         if( !z.has_eaten_enough() ) {
             corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
         }
-        return here->add_item_ret_loc( z.pos_bub( *here ), corpse );
+        return here->add_item_or_charges_ret_loc( z.pos_bub( *here ), corpse );
     }
     return {};
 }
@@ -210,14 +210,19 @@ void mdeath::broken( map *here, monster &z )
     if( z.no_corpse_quiet ) {
         return;
     }
+    std::string item_id;
 
-    //FIXME Remove hardcoded id manipulation
-    std::string item_id = z.type->id.str();
-    if( item_id.compare( 0, 4, "mon_" ) == 0 ) {
-        item_id.erase( 0, 4 );
+    if( !z.type->broken_itype.is_empty() ) {
+        item_id = z.type->broken_itype.str();
+    } else {
+        item_id = z.type->id.str();
+        //FIXME Remove hardcoded id manipulation
+        if( item_id.compare( 0, 4, "mon_" ) == 0 ) {
+            item_id.erase( 0, 4 );
+        }
+        // make "broken_manhack", or "broken_eyebot", ...
+        item_id.insert( 0, "broken_" );
     }
-    // make "broken_manhack", or "broken_eyebot", ...
-    item_id.insert( 0, "broken_" );
     item broken_mon( itype_id( item_id ), calendar::turn );
     const int max_hp = std::max( z.get_hp_max(), 1 );
     const float overflow_damage = std::max( -z.get_hp(), 0 );
@@ -284,5 +289,5 @@ item_location make_mon_corpse( map *here, monster &z, int damageLvl )
     if( !z.has_eaten_enough() ) {
         corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
     }
-    return here->add_item_ret_loc( z.pos_bub( *here ), corpse );
+    return here->add_item_or_charges_ret_loc( z.pos_bub( *here ), corpse );
 }

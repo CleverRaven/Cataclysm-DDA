@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_house_wasp",
     "object": {
       "ter_furn_transforms": { " ": { "transform": "remove_door" } },
@@ -31,7 +30,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "3x3_wasp_pod",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -155,13 +153,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_remove_window",
     "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "remove_window", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_wall_to_paper",
     "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "wall_to_paper", "x": 0, "y": 0 } ] }
   },

@@ -2,7 +2,7 @@
 
 NPCs can assign missions to the player.  There is a fairly regular structure for this:
 
-```JSON
+```jsonc
   {
     "id": "MISSION_GET_BLACK_BOX_TRANSCRIPT",
     "type": "mission_definition",
@@ -61,7 +61,7 @@ Supports variable objects and math expressions.
 Not required, but it's strongly recommended that you summarize all relevant info for the mission.
 You may refer to mission end effects of the "u_buy_item" type, as long as they do not come at a
 cost to the player. See the example below:
-```JSON
+```jsonc
     "id": "MISSION_EXAMPLE_TOKENS",
     "type": "mission_definition",
     "name": "Murder Money",
@@ -194,7 +194,7 @@ Identifier             | Description
 `offset_x`,<br\>`offset_y`,<br\>`offset_z` | After finding or creating `om_terrain`, offset the mission target terrain by the offsets in overmap terrain coordinates.
 
 **example**
-```JSON
+```jsonc
 {
   "assign_mission_target": {
     "om_terrain": "necropolis_c_44",
@@ -271,7 +271,7 @@ An NPC, monster, or computer placed using `update_mapgen` will be the target of 
 
 ## Adding new missions to NPC dialogue
 In order to assign missions to NPCs, the first step is to find that NPC's definition.  For unique NPCs this is usually at the top of the npc's JSON file and looks something like this:
-```JSON
+```jsonc
 {
   "type": "npc",
   "id": "refugee_beggar2",
@@ -303,7 +303,7 @@ Either of these options will allow the player to do normal mission management di
 
 This is an example of how a custom mission inquiry might appear.  This will only appear in the NPC's dialogue
 options if the player has already been assigned a mission.
-```JSON
+```jsonc
 {
   "type": "talk_topic",
   "//": "Generic responses for Old Guard Necropolis NPCs that can have missions",

@@ -13,7 +13,7 @@ Mods are permitted to remove, add, or change this secrecy as they see fit, but t
 ## Generation
 
 The procedural generation of artifacts is defined in Json. The object looks like the following:
-```json
+```jsonc
   {
     "type": "relic_procgen_data",
     "id": "cult",

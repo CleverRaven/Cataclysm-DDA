@@ -253,5 +253,31 @@
     "stat_type": "count",
     "event_transformation": "avatar_gains_deduction_level_5",
     "description": { "str_sp": "Investigation skill level 5 gained" }
+  },
+  {
+    "id": "achievement_lvl_10_deduction",
+    "type": "achievement",
+    "name": { "str": "Knowing everything you weren't meant to know" },
+    "description": "The things that aren't, that never were, that have yet to be and that are but shouldn't be, they hold no secret from you now.",
+    "requirements": [ { "event_statistic": "num_gains_deduction_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_5_deduction" ]
+  },
+  {
+    "id": "avatar_gains_deduction_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "deduction" ] },
+      "new_level": { "equals": [ "int", "10" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_deduction_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_deduction_level_10",
+    "description": { "str_sp": "Investigation skill level 10 gained" }
   }
 ]

@@ -1,0 +1,24 @@
+[
+  {
+    "type": "item_group",
+    "id": "astronaut_mre_full_pack",
+    "subtype": "collection",
+    "entries": [ { "item": "afs_mre_package", "contents-group": "astronaut_mre_contents", "sealed": true } ]
+  },
+  {
+    "type": "item_group",
+    "id": "astronaut_mre_contents",
+    "subtype": "collection",
+    "entries": [
+      { "group": "mre_entrees", "count": 2 },
+      { "item": "heatpack", "count": 2 },
+      {
+        "item": "crackers",
+        "count": [ 0, 2 ],
+        "container-item": "null",
+        "entry-wrapper": "mre_bag_small",
+        "sealed": true
+      }
+    ]
+  }
+]

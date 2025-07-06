@@ -44,8 +44,8 @@
         },
         "descriptions": [
           {
-            "id": "moving_creature",
-            "symbol": "?",
+            "id": "human_sense",
+            "symbol": "@",
             "color": "c_white",
             "text": "The forest nervously whispers to you about the presence of humans."
           }

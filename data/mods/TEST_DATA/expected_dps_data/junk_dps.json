@@ -3,7 +3,8 @@
     "type": "test_data",
     "//": "Uncategorized improvised weapons",
     "expected_dps": {
-      "shock_epee": 5.59,
+      "shock_epee": 8.6,
+      "shock_sabre": 7.4,
       "pointy_stick_long": 5.83,
       "pointy_stick": 5.89,
       "fencing_sabre_sharpened": 8.03,
@@ -54,7 +55,6 @@
       "torch_lit": 5.4,
       "pipe_quiver_large": 5.83,
       "bipod_handguard": 7.69,
-      "bipod_mod": 7.69,
       "bipod": 7.69,
       "bipod_handguard_deployed": 7.69,
       "wizard_cane": 7.86,
@@ -72,8 +72,9 @@
       "arisaka_monopod": 8.66,
       "stick": 9.04,
       "bolt_ballista_steel": 7.64,
-      "chain": 9.64,
-      "pastaextruder": 5.89
+      "chain": 4.53,
+      "pastaextruder": 5.89,
+      "bike_basket": 6.82
     }
   }
 ]

@@ -45,6 +45,15 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "HOBBY_DHAMPIR",
+    "name": "Dhampir (Species)",
+    "description": "One of your parents was always a little odd.  They stayed out of the sun as much as they could, their eyes were a bit of an odd color, and they vanished without a trace before you grew old enough to ask them why they left the room every time you got a scrape that drew blood.  But now that you're older, you understand.  You are the child of a vampire, and have inherited a small portion of their power.",
+    "points": 3,
+    "traits": [ "DHAMPIR_TRAIT", "VAMPIRE_BLOOD_ARTS", "VAMPIRIC_STRENGTH", "DHAMPIR_DETECT_VAMPIRES" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "PARACLESIAN_BIRTH",
     "name": "Paraclesian Birth",
     "description": "By dint of your birth you already have some knowledge of how the universe really works.",

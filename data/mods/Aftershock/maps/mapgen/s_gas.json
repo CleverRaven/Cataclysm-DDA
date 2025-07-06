@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_gas" ],
     "weight": 1450,
     "object": {
@@ -41,8 +40,9 @@
       "toilets": { "&": {  } },
       "gaspumps": { "G": {  } },
       "items": {
-        "d": { "item": "office", "chance": 33, "repeat": [ 1, 2 ] },
-        "k": { "item": "snacks", "chance": 33, "repeat": [ 1, 2 ] }
+        "d": { "item": "SUS_office_desk", "chance": 33, "repeat": [ 1, 2 ] },
+        "k": { "item": "snacks", "chance": 33, "repeat": [ 1, 2 ] },
+        "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [
         { "group": "behindcounter", "x": 9, "y": [ 14, 16 ], "chance": 80, "repeat": [ 0, 2 ] },
@@ -55,6 +55,41 @@
         "ñ": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true, "networked": true },
         "V": { "item_group": "plut_cell_vending", "reinforced": true, "powered": true, "networked": true }
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "s_gas_roof" ],
+    "weight": 1450,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "            ----------- ",
+        "          -.-.........- ",
+        " ------------.........- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " --------.............- ",
+        "        -.............- ",
+        "        -.............- ",
+        "        -----.........- ",
+        "            -.........- ",
+        "            ----------- ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

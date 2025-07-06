@@ -2,7 +2,7 @@
 
 A `ter_furn_transform` is a type of json object that allows you to specify a transformation of a "tile" from one type to another.  Tile in this context can refer to field, furniture, terrain or trap.
 
-```json
+```jsonc
 [
   {
     "type": "ter_furn_transform",
@@ -23,7 +23,7 @@ The example above turns `terrain` "sand" into "dirt". It does so by comparing th
 
 If, however, we wanted to turn sand into "dirt or grass" we can do:
 
-```json
+```jsonc
 "terrain": [
   {
     "result": [ "t_dirt", "t_grass" ],
@@ -35,7 +35,7 @@ If, however, we wanted to turn sand into "dirt or grass" we can do:
 
 `message_good` is optional and defaults to true.  The example chooses either dirt or grass at a 1:1 ratio, which can be modified to a 4:1 ratio:
 
-```json
+```jsonc
 "terrain": [
   {
     "result": [ [ "t_dirt", 4 ], "t_grass" ],
@@ -49,7 +49,7 @@ As you can see, you can mix and match arrays with weights with single strings.  
 
 All of the above applies to `fields`, `furniture`, and `traps` as well.
 
-```json
+```jsonc
 "field": [
   { "result": "fd_null", "valid_field": [ "fd_fire" ], "message": "The fires suddenly vanishes!", "message_good": true }
 ],
@@ -64,7 +64,7 @@ All of the above applies to `fields`, `furniture`, and `traps` as well.
 
 You can also use flags instead of specific IDs for furniture, terrain and traps.
 
-```json
+```jsonc
 "terrain": [
   {
     "result": "t_dirt",

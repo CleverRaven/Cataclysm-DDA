@@ -61,11 +61,10 @@ the mapgen file has some meta data tags and the `"object"` data which defines ev
 Sample:
 ```
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_restaurant_coffee",
     "weight": 250,
 ```
-1. `"type"` will always be mapgen (we'll cover other map types in future tutorials), the `"method"` will always be JSON.  This data tells the program how to treat this file.
+1. `"type"` will always be mapgen (we'll cover other map types in future tutorials).  This data tells the program how to treat this file.
 
 2. `"om_terrain"`: this is basically your internal name for the map (not the name that shows up on the overmap).  It should usually be unique unless you plan on having multiple variants of the same map which **share the same building foundation shape** (note: I mean the actual shape of the building's foundation).
 
@@ -179,7 +178,7 @@ Sample:
         "C": { "item": "SUS_office_desk", "chance": 33 },
         "D": { "item": "coffee_trash", "chance": 75 },
         "F": { "item": "coffee_fridge", "chance": 80, "repeat": [ 1, 8 ] },
-        "G": { "item": "oven", "chance": 35 },
+        "G": { "item": "SUS_oven", "chance": 35 },
         "L": { "item": "coffee_locker", "chance": 75 },
         "U": { "item": "coffee_dishes", "chance": 75 },
         "X": { "item": "coffee_newsstand", "chance": 90, "repeat": [ 1, 8 ] },
@@ -255,7 +254,7 @@ The first entry is using  that explicit symbol placement technique.  The end ent
 
 8. Vehicle spawns:
 ```
-"vehicles": { "c": { "vehicle": "swivel_chair", "chance": 100 } }
+"vehicles": { "c": { "vehicle": "swivel_chair" } }
 ```
 Our vehicle happens to be a swivel chair using explicit symbol placement.
 
@@ -331,7 +330,6 @@ sample roof:
 ```
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_01_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

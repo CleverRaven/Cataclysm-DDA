@@ -31,7 +31,9 @@
 #include "line.h"
 #include "map.h"
 #include "mapdata.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
+#include "overmapbuffer.h"
 #include "options.h"
 #include "player_activity.h"
 #include "point.h"
@@ -40,7 +42,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 
 using ItemCount = std::pair<item, int>;
@@ -197,10 +199,10 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
 
     if( !newit.is_owned_by( player_character, true ) ) {
         // Has the player given input on if stealing is ok?
-        if( player_character.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+        if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
             Pickup::query_thief();
         }
-        if( player_character.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+        if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
             return true; // Since we are honest, return no problem before picking up
         }
     }
@@ -335,6 +337,12 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
         }
         player_character.flag_encumbrance();
         player_character.invalidate_weight_carried_cache();
+
+        // Remove DROPPED_FAVORITES autonote if exists.
+        const tripoint_abs_omt note_pos = player_character.pos_abs_omt();
+        if( overmap_buffer.note( note_pos ) == newit.display_name() ) {
+            overmap_buffer.delete_note( note_pos );
+        }
     }
 
     return picked_up || !did_prompt;

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_marked_crosswalk_and_lights",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -17,7 +16,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_marked_crosswalk_and_lights_placement",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -31,7 +29,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "18x18_marked_crosswalk_traffic_lights",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -45,7 +42,54 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
+    "nested_mapgen_id": "culvert_east",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "        ____",
+        "        ___.",
+        "        __..",
+        "        _~~~",
+        "        _~~~",
+        "        _~~~",
+        "        _~~~",
+        "        _~~~",
+        "        _~~~",
+        "        __..",
+        "        ___.",
+        "        ____"
+      ],
+      "terrain": { ".": "t_region_groundcover", "~": "t_water_moving_sh", "_": "t_concrete" },
+      "furniture": { ".": "f_null", "~": "f_null", "_": "f_null" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "culvert_west",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "____        ",
+        ".___        ",
+        "..__        ",
+        "~~~_        ",
+        "~~~_        ",
+        "~~~_        ",
+        "~~~_        ",
+        "~~~_        ",
+        "~~~_        ",
+        "..__        ",
+        ".___        ",
+        "____        "
+      ],
+      "terrain": { ".": "t_region_groundcover", "~": "t_water_moving_sh", "_": "t_concrete" },
+      "furniture": { ".": "f_null", "~": "f_null", "_": "f_null" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "16x16_marked_crosswalk_h",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -73,7 +117,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "16x16_marked_crosswalk_v",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -101,7 +144,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_marked_crosswalks",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -140,7 +182,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_traffic_lights",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -175,7 +216,40 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
+    "nested_mapgen_id": "24x24_stop_signs",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "//": "Could merge with crosswalks so they're not independant, places traffic light on right of joining roads",
+      "place_nested": [
+        {
+          "chunks": [ "1x1_stop_sign" ],
+          "x": 3,
+          "y": 3,
+          "neighbors": { "north": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
+        },
+        {
+          "chunks": [ "1x1_stop_sign" ],
+          "x": 20,
+          "y": 3,
+          "neighbors": { "east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
+        },
+        {
+          "chunks": [ "1x1_stop_sign" ],
+          "x": 20,
+          "y": 20,
+          "neighbors": { "south": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
+        },
+        {
+          "chunks": [ "1x1_stop_sign" ],
+          "x": 3,
+          "y": 20,
+          "neighbors": { "west": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "24x24_traffic_lights_rotary",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -194,7 +268,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_street_lights_end_straight",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -216,7 +289,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_street_lights_straight",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -250,7 +322,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_street_lights_cul_de_sac",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -266,7 +337,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_traffic_light",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -277,7 +347,16 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
+    "nested_mapgen_id": "1x1_stop_sign",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "S" ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "1x1_street_light",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -288,7 +367,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_trash",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -298,7 +376,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "3x3_road_corner_ne",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -315,7 +392,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "3x3_road_corner_se",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -331,7 +407,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "3x3_road_corner_sw",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -347,7 +422,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "3x3_road_corner_nw",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -363,7 +437,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_sidewalk_ns_long",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -376,7 +449,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_sidewalk_ns_double",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -389,7 +461,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "12x12_sidewalk_ns_half",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -414,7 +485,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_sidewalk_ns_corner_double",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -424,7 +494,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_sidewalk_ew_long",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -437,7 +506,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "12x12_sidewalk_ew_half",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -462,7 +530,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_sidewalk_end_straight",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -476,7 +543,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_sidewalk_ew_corner_double",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -486,7 +552,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_sidewalk_esw_corner_half_e",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -496,7 +561,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_sidewalk_esw_corner_half_w",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -506,7 +570,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "4x4_sidewalk",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -523,7 +586,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_sidewalk_curved_curvy_double",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -536,7 +598,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "4x4_sidewalk_curved_curvy_inner",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -553,7 +614,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_sidewalk_curved_curvy_outer",
     "weight": 3,
     "//": "mapgendata::first_predecessor doesn't work perfectly so overwrite corner",
@@ -597,7 +657,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_sidewalk_curved_curvy_outer",
     "weight": 5,
     "object": {
@@ -640,7 +699,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_sidewalk_curved_curvy_outer",
     "weight": 1,
     "object": {
@@ -683,7 +741,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_sidewalk_curved_curvy_outer",
     "weight": 1,
     "object": {
@@ -721,7 +778,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_sidewalk_curved_curvy_outer",
     "weight": 5,
     "object": {
@@ -759,7 +815,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_sidewalk_curved_curvy_outer",
     "//": "mapgendata::first_predecessor doesn't work perfectly so disabled for now",
     "weight": 0,
@@ -795,14 +850,13 @@
       "palettes": [ "road_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_vehicles": [
-        { "vehicle": "food_carts", "x": 5, "y": 5, "fuel": -1, "status": -1, "chance": 100, "rotation": 0 },
-        { "vehicle": "food_carts", "x": 5, "y": 7, "fuel": -1, "status": -1, "chance": 100, "rotation": 0 }
+        { "vehicle": "food_carts", "x": 5, "y": 5, "fuel": -1, "status": -1, "rotation": 0 },
+        { "vehicle": "food_carts", "x": 5, "y": 7, "fuel": -1, "status": -1, "rotation": 0 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "4x4_rotary_sidewalk_ne",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -819,7 +873,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "4x4_rotary_sidewalk_se",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -836,7 +889,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "4x4_rotary_sidewalk_sw",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -853,7 +905,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "4x4_rotary_sidewalk_nw",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -870,7 +921,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_rotary_center_basic",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -890,7 +940,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_rotary_center_fountain",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -910,7 +959,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_rotary_center_statue",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -930,7 +978,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_rotary_center_flowers",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -950,7 +997,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_rotary_center_shrubs",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -970,7 +1016,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_layby_junction_NW",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -1007,7 +1052,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_layby_junction_NE",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -1044,7 +1088,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_layby_junction_ES",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -1081,7 +1124,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_layby_junction_EN",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -1118,7 +1160,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_layby_junction_SE",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -1155,7 +1196,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_layby_junction_SW",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -1192,7 +1232,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_layby_junction_WS",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -1229,7 +1268,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_layby_junction_WN",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -1266,7 +1304,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_zombies",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -1292,7 +1329,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_zombies_placement",
     "object": {
       "mapgensize": [ 24, 24 ],

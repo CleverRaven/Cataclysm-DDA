@@ -15,17 +15,17 @@
     },
     "items": {
       ".": [
-        { "item": "trash", "chance": 25, "repeat": 2 },
+        { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
         { "item": "road", "chance": 2 },
         { "item": "allclothes_damaged", "chance": 3 },
         { "item": "stoner", "chance": 1 },
-        { "item": "oven", "chance": 2 },
+        { "item": "SUS_oven", "chance": 2 },
         { "item": "garden_shed", "chance": 2 },
         { "item": "homebooks", "chance": 2 },
         { "item": "wheels", "chance": 2 },
         { "item": "oa_ig_rd_electronic_trash", "chance": 2 },
         { "item": "oa_ig_rd_metal_trash", "chance": 2 },
-        { "item": "oa_ig_rd_glass_trash", "chance": 2 },
+        { "item": "SUS_trash_glass", "chance": 2 },
         { "item": "creepy", "chance": 1 },
         { "item": "chem_home", "chance": 1 },
         { "item": "hardware", "chance": 2 },
@@ -34,17 +34,17 @@
         { "item": "oa_ig_ash_pile", "chance": 1 }
       ],
       "z": [
-        { "item": "trash", "chance": 35 },
+        { "item": "SUS_trash_floor", "chance": 35 },
         { "item": "road", "chance": 1 },
         { "item": "allclothes_damaged", "chance": 2 },
         { "item": "stoner", "chance": 1 },
-        { "item": "oven", "chance": 1 },
+        { "item": "SUS_oven", "chance": 1 },
         { "item": "garden_shed", "chance": 1 },
         { "item": "homebooks", "chance": 1 },
         { "item": "wheels", "chance": 1 },
         { "item": "oa_ig_rd_electronic_trash", "chance": 2 },
         { "item": "oa_ig_rd_metal_trash", "chance": 2 },
-        { "item": "oa_ig_rd_glass_trash", "chance": 2 },
+        { "item": "SUS_trash_glass", "chance": 2 },
         { "item": "creepy", "chance": 1 },
         { "item": "chem_home", "chance": 1 },
         { "item": "hardware", "chance": 1 },
@@ -53,23 +53,23 @@
         { "item": "oa_ig_ash_pile", "chance": 1 }
       ],
       "#": [
-        { "item": "trash", "chance": 15 },
+        { "item": "SUS_trash_floor", "chance": 15 },
         { "item": "road", "chance": 1 },
-        { "item": "oa_ig_rd_glass_trash", "chance": 1 },
+        { "item": "SUS_trash_glass", "chance": 1 },
         { "item": "allclothes_damaged", "chance": 1 },
-        { "item": "oven", "chance": 1 },
+        { "item": "SUS_oven", "chance": 1 },
         { "item": "wheels", "chance": 1 },
         { "item": "garden_shed", "chance": 1 },
         { "item": "oa_ig_rd_metal_trash", "chance": 1 },
         { "item": "hardware", "chance": 1 },
         { "item": "misc_smoking", "chance": 1 },
+        { "item": "protein_bar_box_small", "chance": 1 },
         { "item": "oa_ig_ash_pile", "chance": 1 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "dumpsite",
     "object": {
       "predecessor_mapgen": "forest",
@@ -171,12 +171,18 @@
       "place_monsters": [
         { "monster": "DUMP_ANIMALS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
         { "monster": "DUMP_ZOMBIES", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10 }
-      ]
+      ],
+      "nested": {
+        "z": { "chunks": [ "1x1_bash" ] },
+        "#": { "chunks": [ "1x1_bash" ] },
+        "_": { "chunks": [ "1x1_bash" ] },
+        ".": { "chunks": [ "1x1_bash" ] },
+        " ": { "chunks": [ "1x1_bash" ] }
+      }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "dumpsite_edge",
     "object": {
       "predecessor_mapgen": "field",
@@ -263,7 +269,14 @@
       "place_monsters": [
         { "monster": "DUMP_ANIMALS", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 5 },
         { "monster": "DUMP_ZOMBIES", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 10 }
-      ]
+      ],
+      "nested": {
+        "z": { "chunks": [ "1x1_bash" ] },
+        "#": { "chunks": [ "1x1_bash" ] },
+        "_": { "chunks": [ "1x1_bash" ] },
+        ".": { "chunks": [ "1x1_bash" ] },
+        " ": { "chunks": [ "1x1_bash" ] }
+      }
     }
   }
 ]

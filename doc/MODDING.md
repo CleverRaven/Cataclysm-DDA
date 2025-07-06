@@ -17,7 +17,7 @@ A mod is created by creating a folder within Cataclysm's `data/mods` directory. 
 ### Modinfo.json
 The modinfo.json file is a file that contains metadata for your mod. Every mod must have a `modinfo.json` file in order for Cataclysm to find it.
 A barebones `modinfo.json` file looks like this:
-````json
+```jsonc
 [
   {
     "type": "MOD_INFO",
@@ -25,13 +25,13 @@ A barebones `modinfo.json` file looks like this:
     "name": "Mod's Display Name"
   }
 ]
-````
+```
 
 This is the absolute bare minimum, but you may want to add `authors`(You!), a `description` and a `category`. See below for more possibilities.
 
 ### All MOD_INFO fields
 Here is a full list of supported values for MOD_INFO:
-````json
+```jsonc
 [
   {
     "type": "MOD_INFO",                             // Mandatory, you're making one of these!
@@ -48,7 +48,7 @@ Here is a full list of supported values for MOD_INFO:
     "path": "my_mod_files/"                         // Optional, this directory relative to modinfo.json's location will be considered the mod's actual directory. e.g. if modinfo.json is located at C:\CDDA\my_mod\modinfo.json, then the mod files would be considered to be at C:\CDDA\my_mod\my_mod_files\. A file such as C:\CDDA\my_mod\some_other_file.json would be ignored, it isn't located inside the specified directory.
   }
 ]
-````
+```
 
 The `category` attribute denotes where the mod will appear in the mod selection menu. These are the available categories to choose from, with some examples chosen from mods that existed when this document was written. Pick whichever one applies best to your mod when writing your modinfo file.
  - `content` - A mod that adds a lot of stuff. Typically reserved for large mods (eg: Core game files, Aftershock)
@@ -75,7 +75,7 @@ It's worth reading [JSON/JSON_INFO.md](JSON/JSON_INFO.md) to get a comprehensive
 
 ### Adding a scenario
 Scenarios are what the game uses to determine your general situation when you create a character. They determine when and where your character may spawn in the world, and what professions can be used. They are also used to determine whether those professions can have mutations starting out. Below you will find the JSON definition for the game's built-in `Large Building` scenario.
-````json
+```jsonc
 [
   {
     "type": "scenario",
@@ -105,11 +105,11 @@ Scenarios are what the game uses to determine your general situation when you cr
     "flags": [ "CITY_START", "LONE_START" ]
   }
 ]
-````
+```
 
 ### Adding a profession.
 Professions are what the game calls the character classes you can choose from when the game starts. Professions can start with traits, skills, items, and even pets! Below is the definition for the Police Officer profession:
-````json
+```jsonc
 [
   {
     "type": "profession",
@@ -121,10 +121,11 @@ Professions are what the game calls the character classes you can choose from wh
     "traits": [ "PROF_POLICE" ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "boots", "whistle", "wristwatch" ],
+        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "whistle", "wristwatch" ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_two_way_radio" },
+          { "item": "postman_shirt", "variant": "sheriff" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
@@ -135,12 +136,12 @@ Professions are what the game calls the character classes you can choose from wh
     }
   }
 ]
-````
+```
 
 ### Adding an item
 Items are where you really want to read the [JSON/JSON_INFO.md](JSON/JSON_INFO.md) file, just because there's so much that you can do with them, and every category of item is a little bit different.
 <!--I chose this one because it's about as basic an item as I could find. Everything else does something.-->
-````json
+```jsonc
 [
   {
     "id": "family_photo",
@@ -157,13 +158,13 @@ Items are where you really want to read the [JSON/JSON_INFO.md](JSON/JSON_INFO.m
     "color": "light_gray"
   }
 ]
-````
+```
 
 ### Preventing monsters from spawning
 This kind of mod is relatively simple, but very useful. If you don't want to deal with certain types of monsters in your world, this is how you do it. You can create blacklists and whitelists to define the allowed monsters individually, by species, or by category. In order to create these you'll need the relevant identifiers; look for a monster's `id`, `species`, and any `categories` in its JSON definition, which can be found in `data/json/monsters/` for the core game.
 
 Below is an excerpt from the `Mythos` mod that shows how to blacklist monsters individually and by species. This will prevent all zombies, cyborgs, and robots from spawning in-game, with fungal zombies specified by `id`.
-````json
+```jsonc
 [
   {
     "type": "MONSTER_BLACKLIST",
@@ -184,18 +185,18 @@ Below is an excerpt from the `Mythos` mod that shows how to blacklist monsters i
     "species": [ "ZOMBIE", "ROBOT", "CYBORG" ]
   }
 ]
-````
+```
 The following is an example of how to blacklist monsters by category. In this case, it will remove all classic zombie types from the game.
-````json
+```jsonc
 [
   {
     "type": "MONSTER_BLACKLIST",
     "categories": [ "CLASSIC" ]
   }
 ]
-````
+```
 You can also define exclusions to a blacklist by combining it with a whitelist. Expanding on the previous example, this will remove all classic zombie types except zombie horses.
-````json
+```jsonc
 [
   {
     "type": "MONSTER_BLACKLIST",
@@ -208,9 +209,9 @@ You can also define exclusions to a blacklist by combining it with a whitelist. 
     ]
   }
 ]
-````
+```
 Alternatively, if you only want specific monsters or species to appear, you can define an exclusive whitelist. Note that this will override any defined blacklists. The example below is from the `No Monsters` mod, which prevents all monsters except wildlife from spawning.
-````json
+```jsonc
 [
   {
     "type": "MONSTER_WHITELIST",
@@ -218,9 +219,9 @@ Alternatively, if you only want specific monsters or species to appear, you can 
     "categories": [ "WILDLIFE" ]
   }
 ]
-````
+```
 You can define a non-exclusive whitelist by itself, but they have no notable effect unless they're combined with blacklists or exclusive whitelists as shown above. This can still be useful because these lists are combined across all active mods, so you might include one to ensure certain monster types are present for your mod. For example, `Crazy Cataclysm` uses the list below to enable some monsters that the core game blacklists by default, allowing them to spawn regardless of any other mods that might try to disable them.
-````json
+```jsonc
 [
   {
     "type": "MONSTER_WHITELIST",
@@ -234,12 +235,12 @@ You can define a non-exclusive whitelist by itself, but they have no notable eff
     ]
   }
 ]
-````
+```
 
 ### Preventing locations from spawning
 <!--I'm not especially happy with this section. Blacklisting things on the map works differently depending on what you're blacklisting. Overmap specials are different from overmap extras, city buildings, and building groups.-->
 Preventing certain types of locations from spawning in-game is a little trickier depending on the type of thing you want to target. An overmap building can either be a standard building, or an overmap special. If you want to block things with a specific flag from spawning, you can blacklist those in a very similar manner to monsters. The example below is also from the `No Fungal Monsters` mod, and stops all fungal regions from spawning.
-````json
+```jsonc
 [
   {
     "type": "region_overlay",
@@ -247,12 +248,12 @@ Preventing certain types of locations from spawning in-game is a little trickier
     "overmap_feature_flag_settings": { "blacklist": [ "FUNGAL" ] }
   }
 ]
-````
+```
 
 If the location you want to blacklist is an overmap special, you'll likely have to copy it from its definition, and manually set it's `occurrences` attribute to read `[ 0, 0 ]`.
 
 Finally, if you're trying to blacklist something that spawns inside of cities, you can do that with a region overlay. The below example is used in the `No rail stations` mod, and stops railroad stations from spawning inside of cities. It doesn't stop the railroad station overmap special from spawning, though.
-````json
+```jsonc
 [
   {
     "type": "region_overlay",
@@ -260,14 +261,14 @@ Finally, if you're trying to blacklist something that spawns inside of cities, y
     "city": { "houses": { "railroad_city": 0 } }
   }
 ]
-````
+```
 
 ### Disabling certain scenarios
 The `SCENARIO_BLACKLIST` can be either a blacklist or a whitelist.
 When it is a whitelist, it blacklists all scenarios but the ones specified.
 No more than one blacklist can be specified at one time - this is in all json loaded for a particular game (all mods + base game), not just your specific mod.
 The format is as follows:
-```json
+```jsonc
 [
   {
     "type": "SCENARIO_BLACKLIST",
@@ -284,7 +285,7 @@ The `profession_blacklist` can be either a blacklist or a whitelist.
 When it is a whitelist, only the professions/hobbies specified may be chosen.
 No more than one blacklist can be specified at one time - this is in all json loaded for a particular game (all mods + base game), not just your specific mod.
 The format is as follows:
-```json
+```jsonc
 [
   {
     "type": "profession_blacklist",
@@ -300,7 +301,7 @@ Valid values for `subtype` are `whitelist` and `blacklist`.
 
 You can't edit existing dialog, but you can add new dialogue by adding a new response that can kick off new dialogue and missions. Here is a working example from DinoMod:
 
-```json
+```jsonc
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_WEARING",
@@ -314,7 +315,7 @@ You can't edit existing dialog, but you can add new dialogue by adding a new res
 ```
 ## Adjusting monster stats
 Monster stats can be adjusted using the `monster_adjustment` JSON element.
-```json
+```jsonc
   {
     "type": "monster_adjustment",
     "species": "ZOMBIE",
@@ -344,11 +345,11 @@ but you make an external option `AUTO_FEATURES` set to true when the player load
 
 The following characters: `[ { , } ] : "` are *very* important when adding or modifying JSON files. This means a single missing `,` or `[` or `}` can be the difference between a working file and a hanging game at startup.
 If you want to include these characters in whatever you are doing (for instance, if you want to put a quote inside an item's description), you can do so by putting a backslash before the relevant character. This is known as "escaping" that character. For instance, I can make an item's description contain a quote if I want by doing this:
-````json
+```jsonc
 ...
 "description": "This is a shirt that says \"I wanna kill ALL the zombies\" on the front.",
 ...
-````
+```
 
 In game, that appears like this:
 `This is a shirt that says "I wanna kill ALL the zombies" on the front.`

@@ -26,6 +26,7 @@
     "name": { "str": "Alarm System" },
     "description": "A motion-detecting alarm system will notice almost all movement within a fifteen-foot radius, and will silently alert you.  This is very useful during sleep, or if you suspect a cloaked pursuer.",
     "occupied_bodyparts": [ [ "torso", 2 ], [ "head", 1 ] ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "MOTION_ALARM", "add": 5 } ] } ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "1 J",
     "react_cost": "1 J",
@@ -800,8 +801,12 @@
     "name": { "str": "WearMan" },
     "description": "Surgically implanted into your skull near the eardrums are two speakers, as well as a small port behind the left earlobe.  They can pick up local radio waves and play downloaded music in concert hall quality.  It came pre-installed with \"Rubik's Mickse\".",
     "occupied_bodyparts": [ [ "head", 1 ] ],
-    "flags": [ "USES_BIONIC_POWER" ],
-    "passive_pseudo_items": [ "internal_mp3" ]
+    "flags": [ "USES_BIONIC_POWER", "BIONIC_TOGGLED" ],
+    "act_cost": "1 J",
+    "react_cost": "1 J",
+    "time": "1 s",
+    "activated_eocs": [ "EOC_BIONIC_WEARMAN_SELECTOR" ],
+    "deactivated_eocs": [ "EOC_BIONIC_WEARMAN_REMOVAL" ]
   },
   {
     "id": "bio_voice_b",
@@ -954,6 +959,7 @@
     "type": "bionic",
     "name": { "str": "Calorie Tracker" },
     "description": "A module implanted in your body measures your calorie intake and expenditure at all times.",
+    "flags": [ "CALORIE_BURN" ],
     "occupied_bodyparts": [ [ "torso", 1 ] ]
   },
   {

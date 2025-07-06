@@ -53,6 +53,7 @@
 #include "npc.h"
 #include "options.h"
 #include "overmapbuffer.h"
+#include "pathfinding.h"
 #include "pickup.h"
 #include "player_activity.h"
 #include "pocket_type.h"
@@ -124,9 +125,6 @@ static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
 
 static const requirement_id requirement_data_mining_standard( "mining_standard" );
-
-static const species_id species_FERAL( "FERAL" );
-static const species_id species_HUMAN( "HUMAN" );
 
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
@@ -214,12 +212,15 @@ static bool handle_spillable_contents( Character &c, item &it, map &m )
     return false;
 }
 
-static void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<item> &items,
-                              const vpart_reference &vpr )
+//try to put items into_vehicle .If fail,first try to add to character bag, then character try wield  it, last drop.
+static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_drop_reason reason,
+        const std::list<item> &items,
+        const vpart_reference &vpr )
 {
     map &here = get_map();
+    std::vector<item_location> result;
     if( items.empty() ) {
-        return;
+        return result;
     }
     c.invalidate_weight_carried_cache();
     vehicle_part &vp = vpr.part();
@@ -228,7 +229,6 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     int items_did_not_fit_count = 0;
     int into_vehicle_count = 0;
     const std::string part_name = vp.info().name();
-
     // can't use constant reference here because of the spill_contents()
     for( item it : items ) {
         if( handle_spillable_contents( c, it, here ) ) {
@@ -254,13 +254,14 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
             add_msg( m_mixed, _( "Unable to fit %1$s in the %2$s's %3$s." ), it.tname(), veh.name, part_name );
             // Retain item in inventory if overflow not too large/heavy or wield if possible otherwise drop on the ground
             if( c.can_pickVolume( it ) && c.can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-                c.i_add( it );
+                result.push_back( c.i_add( it ) );
             } else if( !c.has_wield_conflicts( it ) && c.can_wield( it ).success() ) {
                 c.wield( it );
+                result.emplace_back( c.get_wielded_item() );
             } else {
                 const std::string ter_name = here.name( where );
                 add_msg( _( "The %s falls to the %s." ), it.tname(), ter_name );
-                here.add_item_or_charges( where, it );
+                result.push_back( here.add_item_or_charges_ret_loc( where, it ) );
             }
         }
         it.handle_pickup_ownership( c );
@@ -335,6 +336,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
                 break;
         }
     }
+    return result;
 }
 
 std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
@@ -345,7 +347,7 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
         return {};
     }
     const std::string ter_name = here->name( where );
-    const bool can_move_there = here->passable( where );
+    const bool can_move_there = here->passable_through( where );
 
     if( same_type( items ) ) {
         const item &it = items.front();
@@ -396,7 +398,11 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
                 break;
         }
 
-        if( get_option<bool>( "AUTO_NOTES_DROPPED_FAVORITES" ) && it.is_favorite ) {
+        if( get_option<bool>( "AUTO_NOTES_DROPPED_FAVORITES" )
+            && ( it.is_favorite
+        || it.has_any_with( []( const item & it ) {
+        return it.is_favorite;
+    }, pocket_type::CONTAINER ) ) ) {
             const tripoint_abs_omt your_pos = you.pos_abs_omt();
             if( !overmap_buffer.has_note( your_pos ) ) {
                 overmap_buffer.add_note( your_pos, it.display_name() );
@@ -455,10 +461,31 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
 {
     const std::optional<vpart_reference> vp = here->veh_at( where ).cargo();
     if( vp && !force_ground ) {
-        put_into_vehicle( you, reason, items, *vp );
+        try_to_put_into_vehicle( you, reason, items, *vp );
         return;
     }
     drop_on_map( you, reason, items, here, where );
+}
+
+std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
+        item_drop_reason reason,
+        const std::list<item> &items )
+{
+    map &here = get_map();
+
+    return put_into_vehicle_or_drop_ret_locs( you, reason, items, &here, you.pos_bub( here ) );
+}
+
+std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
+        item_drop_reason reason,
+        const std::list<item> &items,
+        map *here, const tripoint_bub_ms &where, bool force_ground )
+{
+    const std::optional<vpart_reference> vp = here->veh_at( where ).cargo();
+    if( vp && !force_ground ) {
+        return try_to_put_into_vehicle( you, reason, items, *vp );
+    }
+    return drop_on_map( you, reason, items, here, where );
 }
 
 static double get_capacity_fraction( int capacity, int volume )
@@ -666,7 +693,7 @@ std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoin
     map &here = get_map();
 
     for( const tripoint_bub_ms &tp : here.points_in_radius( dest, 1 ) ) {
-        if( tp != you.pos_bub() && here.passable( tp ) ) {
+        if( tp != you.pos_bub() && here.passable_through( tp ) ) {
             passable_tiles.emplace( tp );
         }
     }
@@ -674,10 +701,9 @@ std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoin
     const std::vector<tripoint_bub_ms> &sorted =
         get_sorted_tiles_by_distance( you.pos_bub(), passable_tiles );
 
-    const auto &avoid = you.get_path_avoid();
     for( const tripoint_bub_ms &tp : sorted ) {
         std::vector<tripoint_bub_ms> route =
-            here.route( you.pos_bub(), tp, you.get_pathfinding_settings(), avoid );
+            here.route( you, pathfinding_target::point( tp ) );
 
         if( !route.empty() ) {
             return route;
@@ -694,7 +720,7 @@ static std::vector<tripoint_bub_ms> route_best_workbench(
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_bub_ms &tp : here.points_in_radius( dest, 1 ) ) {
-        if( tp == you.pos_bub() || ( here.passable( tp ) && !creatures.creature_at( tp ) ) ) {
+        if( tp == you.pos_bub() || ( here.passable_through( tp ) && !creatures.creature_at( tp ) ) ) {
             passable_tiles.insert( tp );
         }
     }
@@ -748,14 +774,13 @@ static std::vector<tripoint_bub_ms> route_best_workbench(
         return best_bench_multi_a > best_bench_multi_b;
     };
     std::stable_sort( sorted.begin(), sorted.end(), cmp );
-    const auto &avoid = you.get_path_avoid();
     if( sorted.front() == you.pos_bub() ) {
         // We are on the best tile
         return {};
     }
     for( const tripoint_bub_ms &tp : sorted ) {
         std::vector<tripoint_bub_ms> route =
-            here.route( you.pos_bub(), tp, you.get_pathfinding_settings(), avoid );
+            here.route( you, pathfinding_target::point( tp ) );
 
         if( !route.empty() ) {
             return route;
@@ -848,7 +873,7 @@ bool already_done( construction const &build, tripoint_bub_ms const &loc )
 
 static activity_reason_info find_base_construction(
     Character &you,
-    const inventory &inv,
+    const tripoint_bub_ms &inv_from_loc,
     const tripoint_bub_ms &loc,
     const std::optional<construction_id> &part_con_idx,
     const construction_id &idx )
@@ -878,14 +903,10 @@ static activity_reason_info find_base_construction(
     }
 
     const construction &build = con == nullptr ? idx.obj() : *con;
-    bool pcb = player_can_build( you, inv, build, true );
-    //already done?
     if( already_done( build, loc ) ) {
         return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, build.id );
     }
-
-    const bool has_skill = you.meets_skill_requirements( build );
-    if( !has_skill ) {
+    if( !you.meets_skill_requirements( build ) ) {
         return activity_reason_info::build( do_activity_reason::DONT_HAVE_SKILL, false, build.id );
     }
     //if there's an appropriate partial construction on the tile, then we can work on it, no need to check inventories.
@@ -896,16 +917,15 @@ static activity_reason_info find_base_construction(
         }
         return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, build.id );
     }
-    //can build?
-    if( cc ) {
-        if( pcb ) {
-            return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, build.id );
-        }
+    if( !cc ) {
+        return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
+    }
+    const inventory &inv = you.crafting_inventory( inv_from_loc, PICKUP_RANGE );
+    if( !player_can_build( you, inv, build, true ) ) {
         //can't build with current inventory, do not look for pre-req
         return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, build.id );
     }
-
-    return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
+    return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, build.id );
 }
 
 static bool are_requirements_nearby(
@@ -1212,12 +1232,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         if( !corpses.empty() ) {
             for( item &body : corpses ) {
                 const mtype &corpse = *body.get_mtype();
-                // TODO: Extract this bool into a function
-                const bool is_human = corpse.id == mtype_id::NULL_ID() ||
-                                      corpse.in_species( species_HUMAN ) ||
-                                      corpse.in_species( species_FERAL );
-                if( is_human && !you.okay_with_eating_humans() ) {
-                    return activity_reason_info::fail( do_activity_reason::REFUSES_THIS_WORK );
+                for( species_id species : corpse.species ) {
+                    if( you.empathizes_with_species( species ) ) {
+                        return activity_reason_info::fail( do_activity_reason::REFUSES_THIS_WORK );
+                    }
                 }
             }
             if( big_count > 0 && small_count == 0 ) {
@@ -1295,12 +1313,11 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             }
             nearest_src_loc = route.back();
         }
-        const inventory pre_inv = you.crafting_inventory( nearest_src_loc, PICKUP_RANGE );
         if( !zones.empty() ) {
             const blueprint_options &options = dynamic_cast<const blueprint_options &>
                                                ( zones.front().get_options() );
             const construction_id index = options.get_index();
-            return find_base_construction( you, pre_inv, src_loc, part_con_idx,
+            return find_base_construction( you, nearest_src_loc, src_loc, part_con_idx,
                                            index );
         }
     } else if( act == ACT_MULTIPLE_FARM ) {
@@ -1640,7 +1657,7 @@ static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map(
                     }
                     break;
                 }
-                it++;
+                ++it;
             }
             if( line_found ) {
                 while( true ) {
@@ -1664,7 +1681,7 @@ static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map(
                             remainder -= quantity_here2;
                         }
                     }
-                    it--;
+                    --it;
                 }
             }
         }
@@ -1698,7 +1715,7 @@ static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map(
                     }
                     break;
                 }
-                it++;
+                ++it;
             }
             if( line_found ) {
                 while( true ) {
@@ -1722,7 +1739,7 @@ static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map(
                             remainder -= quantity_here2;
                         }
                     }
-                    it--;
+                    --it;
                 }
             }
         }
@@ -1745,7 +1762,7 @@ static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map(
                     line_found = true;
                     break;
                 }
-                it++;
+                ++it;
             }
         }
     }
@@ -1967,6 +1984,8 @@ static bool butcher_corpse_activity( Character &you, const tripoint_bub_ms &src_
             you.assign_activity( ACT_BUTCHER_FULL, 0, true );
             you.activity.targets.emplace_back( map_cursor( src_loc ), &elem );
             you.activity.placement = here.get_abs( src_loc );
+            you.may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor{here.get_abs( src_loc )},
+                    &elem );
             return true;
         }
     }
@@ -2074,8 +2093,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                     return;
                 }
                 std::vector<tripoint_bub_ms> route;
-                route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
-                                    you.get_path_avoid() );
+                route = here.route( you, pathfinding_target::adjacent( src_loc ) );
                 if( route.empty() ) {
                     // can't get there, can't do anything, skip it
                     continue;
@@ -2245,30 +2263,16 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             // adjacent to the loot source tile
             if( !is_adjacent_or_closer ) {
                 std::vector<tripoint_bub_ms> route;
-                bool adjacent = false;
 
                 // get either direct route or route to nearest adjacent tile if
                 // source tile is impassable
-                if( here.passable( src_loc ) ) {
-                    route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
-                                        you.get_path_avoid() );
-                } else {
-                    // impassable source tile (locker etc.),
-                    // get route to nearest adjacent tile instead
-                    route = route_adjacent( you, src_loc );
-                    adjacent = true;
-                }
+                route = here.route( you, pathfinding_target::adjacent( src_loc ) );
 
                 // check if we found path to source / adjacent tile
                 if( route.empty() ) {
                     add_msg( m_info, _( "%s can't reach the source tile.  Try to sort out loot without a cart." ),
                              you.disp_name() );
                     continue;
-                }
-
-                // shorten the route to adjacent tile, if necessary
-                if( !adjacent ) {
-                    route.pop_back();
                 }
 
                 // set the destination and restart activity after player arrives there
@@ -3869,4 +3873,28 @@ bool try_fuel_fire( player_activity &act, Character &you, const bool starting_fi
         }
     }
     return true;
+}
+
+void activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now(
+    Character &you )
+{
+    if( you.is_avatar() && ( !you.activity )  && ( !you.get_destination_activity() ) ) {
+        clean_may_activity_occupancy_items_var( you );
+    }
+}
+void activity_handlers::clean_may_activity_occupancy_items_var( Character &you )
+{
+    std::string character_name = you.name;
+    const std::function<bool( const item *const )> activity_var_checker = [character_name](
+    const item * const it )->bool{
+        return it->has_var( "activity_var" )
+        && it->get_var( "activity_var", "" ) == character_name;
+    };
+    for( item_location &loc : you.may_activity_occupancy_after_end_items_loc ) {
+        if( loc && activity_var_checker( loc.get_item() ) ) {
+            loc.get_item()->erase_var( "activity_var" );
+        }
+    }
+    you.may_activity_occupancy_after_end_items_loc.clear();
+
 }

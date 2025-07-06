@@ -7,7 +7,7 @@ These are defined in JSON as `martial_art`, which sets rules for usage and appli
 
 ## Martial arts
 
-```json
+```jsonc
 {
   "type": "martial_art",
   "id": "style_debug",                   // Unique ID. Must be one continuous word, use underscores if necessary
@@ -65,7 +65,7 @@ These are defined in JSON as `martial_art`, which sets rules for usage and appli
 
 ### Martial art buffs
 
-```json
+```jsonc
 ...
   {
     "id": "debug_elem_resist",           // Unique ID. Must be one continuous word
@@ -91,7 +91,7 @@ Martial art buffs (`static_buffs`, `onmove_buffs`, etc.) are inlined in their pa
 
 Additionally, when read externally (such as, by EOCs), their syntax is `mabuff:ID`:
 
-```json
+```jsonc
   "condition": { "u_has_effect": "mabuff:buff_aikido_static1" },
 ```
 
@@ -100,7 +100,7 @@ Additionally, when read externally (such as, by EOCs), their syntax is `mabuff:I
 
 Techniques are special attacks performed while using a given MA style.  These are automatically used according to their specific requirements, as defined in their JSON blocks:
 
-```JSON
+```jsonc
 {
   "type": "technique",
   "id": "tec_debug_arpen",               // Unique ID. Must be one continuous word
@@ -144,7 +144,7 @@ Techniques are special attacks performed while using a given MA style.  These ar
   "weighting": 2,                        // Affects likelihood this technique will be selected when many are available. Negative weighting means the technique is only included in the list of possible techs once out of every `weighting` times ( 1/3 for a weighting of -3)
   "defensive": true,                     // Game won't try to select this technique when attacking
   "miss_recovery": true,                 // Misses while attacking will use half as many moves
-  "messages": [                          // What is printed when this technique is used by the player and by an npc
+  "messages": [                          // What is printed when this technique is used by the player and by an npc. Should NOT end with punctuation mark, for it is then extended with ` but deal no damage` or ` and deal X damage`
     "You phase-strike %s",
     "<npcname> phase-strikes %s"
   ],
@@ -160,7 +160,7 @@ All fields, except for the ID, type and name are optional.
 
 ### Technique effects
 
-```json
+```jsonc
 ...
   "tech_effects": [
     {
@@ -183,7 +183,7 @@ All fields, except for the ID, type and name are optional.
 
 The fields `flat_bonuses` and `mult_bonuses` can contain any number of bonus entries:
 
-```json
+```jsonc
   "flat_bonuses": [
     { "stat": "dodge", "scale": 1.0 },
     { "stat": "damage", "type": "bash", "scaling-stat": "per", "scale": 0.15 }
@@ -209,21 +209,21 @@ Field            | Description
 
 Incoming bashing damage is decreased by 30% of strength value.  Only useful on buffs:
 
-```json
+```jsonc
   "flat_bonuses": [ { "stat": "armor", "type": "bash", "scaling-stat": "str", "scale": 0.3 } ]
 ```
 
 
 All cutting damage done is multiplied by 10% of dexterity:
 
-```json
+```jsonc
   "mult_bonuses": [ { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.1 } ]
 ```
 
 
 Move cost is decreased by 100% of strength value
 
-```json
+```jsonc
   "flat_bonuses": [ { "stat": "movecost", "scaling-stat": "str", "scale": -1.0 } ]
 ```
 
@@ -234,7 +234,7 @@ Attack vectors define which (sub)bodypart are used for the attack in question.  
 
 Note: for the (sub)part to apply its unarmed damage it needs unrestricted natural attacks.
 
-```JSON
+```jsonc
 [ 
   {
     "type": "attack_vector",             // Always attack_vector

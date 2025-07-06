@@ -1,9 +1,10 @@
 [
   {
     "id": "2_shot_special",
+    "copy-from": "gun_base_handgun_manual",
     "looks_like": "glock_17",
-    "type": "GUN",
-    "reload_noise_volume": 10,
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "double barrel .38 pistol" },
     "//": "Volume+barrel length based off a Bond Arms derringer. with extra length in the barrel.",
     "description": "A crudely made double barrel pistol firing .38 Special ammo.  Unfortunately, the name is less about the double barrels and more about the number of shots you'll get before it breaks down on you.",
@@ -14,29 +15,22 @@
     "barrel_length": "168 mm",
     "price": "20 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "steel" ],
-    "symbol": "(",
-    "color": "brown",
     "ammo": [ "38" ],
-    "skill": "pistol",
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 620,
+    "valid_mod_locations": [ [ "stock mount", 1 ] ],
     "durability": 3,
-    "blackpowder_tolerance": 60,
     "clip_size": 2,
     "reload": 200,
-    "valid_mod_locations": [  ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "EASY_CLEAN", "NO_TURRET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38": 2 } } ],
-    "melee_damage": { "bash": 3 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38": 2 } } ]
   },
   {
     "id": "model_10_revolver",
-    "copy-from": "pistol_revolver",
+    "copy-from": "gun_base_handgun_manual",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "six-shooter" },
     "description": "A six-shot revolver, produced since 1899 and known as the most popular handgun of the 20th century.  It has a swing-out cylinder for ease of reloading.",
     "variant_type": "gun",
@@ -53,13 +47,10 @@
     "barrel_length": "141 mm",
     "//": "101.6mm + 39.4mm max OAL for 38spl. Revolvers just built different.",
     "price": "424 USD",
-    "price_postapoc": "12 USD 50 cent",
     "material": [ "steel", "wood" ],
-    "color": "dark_gray",
     "ammo": [ "38" ],
     "dispersion": 480,
-    "durability": 8,
-    "blackpowder_tolerance": 56,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "clip_size": 6,
     "pocket_data": [
       {
@@ -68,14 +59,14 @@
         "ammo_restriction": { "38": 6 },
         "allowed_speedloaders": [ "38_speedloader6" ]
       }
-    ],
-    "melee_damage": { "bash": 9 }
+    ]
   },
   {
     "id": "rifle_38",
-    "copy-from": "gun_base",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "pipe rifle: .38 Special", "str_pl": "pipe rifles: .38 Special" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "ascii_picture": "ps_pipe_gun",
@@ -84,30 +75,24 @@
     "longest_side": "100 cm",
     "price": "100 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "color": "brown",
     "ammo": [ "38" ],
-    "skill": "rifle",
     "dispersion": 550,
     "durability": 6,
-    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
     "barrel_volume": "360 ml",
     "barrel_length": "600 mm",
     "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ] ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT", "EASY_CLEAN" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38": 1 } } ],
-    "melee_damage": { "bash": 10 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38": 1 } } ]
   },
   {
     "id": "ruger_lcr_38",
-    "copy-from": "pistol_revolver",
+    "copy-from": "gun_base_handgun_manual",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "conceal-carry six-shooter" },
     "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame.",
     "variant_type": "gun",
@@ -126,22 +111,10 @@
     "price": "545 USD",
     "price_postapoc": "10 USD",
     "material": [ "steel", "aluminum", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
     "ammo": [ "38" ],
     "dispersion": 480,
-    "durability": 10,
-    "blackpowder_tolerance": 56,
     "clip_size": 5,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -149,14 +122,14 @@
         "ammo_restriction": { "38": 5 },
         "allowed_speedloaders": [ "38_speedloader5" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "colt_python",
-    "copy-from": "pistol_revolver",
+    "copy-from": "gun_base_handgun_manual",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": "classic .357 revolver", "//": "This looks like a classic revolver, from a western" },
     "//": "This is the Colt Python 2020 6-inch version.",
     "description": "A six inch revolver chambered in .357 Magnum/.38 Special.  Favorite of sheriffs and post-Cataclysm survivor group leaders.",
@@ -165,27 +138,14 @@
     "volume": "703 ml",
     "longest_side": "292 mm",
     "barrel_length": "152 mm",
-    "symbol": "(",
-    "color": "light_gray",
     "//2": "Price of one according to colt's own website. Goddamn.",
     "price": "1 kUSD 599 USD",
     "price_postapoc": "20 USD",
-    "to_hit": { "grip": "solid", "length": "short", "balance": "neutral", "surface": "point" },
     "material": [ "steel", "wood" ],
     "ammo": [ "357mag", "38" ],
     "dispersion": 280,
-    "durability": 10,
-    "blackpowder_tolerance": 48,
     "clip_size": 6,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
-      [ "sights", 1 ],
-      [ "stocks mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -201,13 +161,13 @@
         "name": { "str_sp": "Colt Python" },
         "description": "Made by Colt, this six inch six-shooter is one of the most lauded revolvers ever produced.  Can fire .38 Special and .357 Magnum."
       }
-    ],
-    "melee_damage": { "bash": 9 }
+    ]
   },
   {
     "id": "sw_619",
-    "copy-from": "pistol_revolver",
-    "type": "GUN",
+    "copy-from": "gun_base_handgun_manual",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": "7-shots .357 revolver" },
     "description": "A revolver chambered in .357, with a 6 inch barrel and 7 shots.",
     "ascii_picture": "sw_610",
@@ -220,22 +180,10 @@
     "price": "980 USD",
     "price_postapoc": "12 USD 50 cent",
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "light_gray",
     "ammo": [ "357mag", "38" ],
     "dispersion": 320,
-    "durability": 10,
-    "blackpowder_tolerance": 56,
     "clip_size": 7,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -255,33 +203,22 @@
   },
   {
     "id": "chiappa_rhino",
-    "copy-from": "pistol_revolver",
-    "type": "GUN",
+    "copy-from": "gun_base_handgun_manual",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": ".357 revolver" },
     "description": "A revolver chambered in .357, with a 6 inch barrel and 6 shots.",
-    "symbol": "(",
-    "color": "light_gray",
     "looks_like": "sw_619",
     "price": "1 kUSD 800 USD",
     "price_postapoc": "80 USD",
     "material": [ "steel", "wood" ],
+    "ammo": [ "357mag", "38" ],
     "weight": "936 g",
     "volume": "700 ml",
     "longest_side": "267 mm",
     "barrel_length": "152 mm",
     "dispersion": 300,
-    "durability": 10,
-    "blackpowder_tolerance": 56,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "ammo": [ "357mag", "38" ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "clip_size": 6,
     "pocket_data": [
       {
@@ -302,9 +239,10 @@
   },
   {
     "id": "rp63",
-    "copy-from": "pistol_revolver",
+    "copy-from": "gun_base_handgun_manual",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": ".357-caliber snub-nosed revolver" },
     "description": "Short, stout, and compact, this stainless steel revolver is a handy dispenser of .357-magnum, or lower-power .38-caliber, cartridges.  Six rounds fit within the weapon, though its small stature and short barrel ensure that each pull of the trigger is all but a pyrotechnic spectacle: flashy, loud, and jumpy.",
     "variant_type": "gun",
@@ -324,24 +262,12 @@
     "//3": "Yes, the revolver is actually 193 mm long rather than 19 cm, but I deemed not having it fit in a standard-sized pocket because of a 3 mm difference to be silly.",
     "price": "469 USD 99 cent",
     "price_postapoc": "10 USD 40 cent",
-    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
-    "color": "dark_gray",
     "ammo": [ "357mag", "38" ],
     "//4": "3 to 3.5-inch groups at 10 yards shooting off-handed: https://www.shootingillustrated.com/content/review-rossi-rp-63-revolver/",
     "dispersion": 350,
-    "durability": 8,
-    "blackpowder_tolerance": 56,
     "clip_size": 6,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -349,14 +275,14 @@
         "ammo_restriction": { "357mag": 6, "38": 6 },
         "allowed_speedloaders": [ "38_speedloader6" ]
       }
-    ],
-    "melee_damage": { "bash": 6 }
+    ]
   },
   {
     "id": "uberti_1873",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "reproduction .357 lever-action rifle" },
     "description": "This fine lever-action rifle is chambered in the powerful .357 Magnum cartridge, with an 20\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
@@ -374,33 +300,28 @@
     "barrel_length": "508 mm",
     "price": "1429 USD",
     "price_postapoc": "15 USD",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
     "material": [ "steel", "wood" ],
-    "color": "dark_gray",
     "range": 7,
     "ammo": [ "357mag", "38" ],
     "dispersion": 140,
-    "durability": 8,
-    "blackpowder_tolerance": 56,
     "clip_size": 10,
     "valid_mod_locations": [
-      [ "grip", 1 ],
+      [ "barrel", 1 ],
       [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
-      [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NO_TURRET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 10, "38": 10 } } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 10, "38": 10 } } ]
   },
   {
     "id": "rossi_r92_357_20",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "long-barreled .357 lever-action rifle" },
     "description": "This lever-action rifle is chambered in the powerful .357 Magnum cartridge, with an 20\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
@@ -418,33 +339,28 @@
     "barrel_length": "508 mm",
     "price": "840 USD 99 cent",
     "price_postapoc": "15 USD",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
     "material": [ "steel", "wood" ],
-    "color": "dark_gray",
     "range": 7,
     "ammo": [ "357mag", "38" ],
     "dispersion": 140,
-    "durability": 8,
-    "blackpowder_tolerance": 56,
     "clip_size": 10,
     "valid_mod_locations": [
-      [ "grip", 1 ],
+      [ "barrel", 1 ],
       [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
-      [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NO_TURRET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 10, "38": 10 } } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 10, "38": 10 } } ]
   },
   {
     "id": "rossi_r92_357_16",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": ".357 lever-action rifle" },
     "description": "This fine lever-action rifle is chambered in the powerful .357 Magnum cartridge, with an 16\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
@@ -462,26 +378,56 @@
     "barrel_length": "406 mm",
     "price": "833 USD 99 cent",
     "price_postapoc": "15 USD",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
     "material": [ "steel", "wood" ],
-    "color": "dark_gray",
     "range": 5,
     "ammo": [ "357mag", "38" ],
     "dispersion": 140,
-    "durability": 8,
-    "blackpowder_tolerance": 56,
     "clip_size": 8,
     "valid_mod_locations": [
-      [ "grip", 1 ],
+      [ "barrel", 1 ],
       [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
-      [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NO_TURRET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 8, "38": 8 } } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 8, "38": 8 } } ]
+  },
+  {
+    "id": "sw642",
+    "copy-from": "gun_base_handgun_manual",
+    "looks_like": "sw_619",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str_sp": ".38 conceal carry revolver" },
+    "description": "This .38 revolver is quite small and lightweight, due to its short barrel and aluminum material.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "sw642",
+        "name": { "str": "S&W model 642" },
+        "description": "A modern version of the Airweight, the 642 is a lightweight .38 caliber revolver, made with an aluminum frame."
+      }
+    ],
+    "weight": "414 g",
+    "volume": "301 ml",
+    "longest_side": "194 mm",
+    "barrel_length": "78 mm",
+    "//": "47.8mm + 30.5mm max OAL for 38spl. Revolvers just built different.",
+    "price": "539 USD",
+    "material": [ "steel", "plastic", "aluminum" ],
+    "ammo": [ "38" ],
+    "dispersion": 350,
+    "clip_size": 5,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "38": 5 },
+        "allowed_speedloaders": [ "38_speedloader5" ]
+      }
+    ]
   }
 ]

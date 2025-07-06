@@ -37,6 +37,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "output.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
 #include "pocket_type.h"
@@ -46,9 +47,8 @@
 #include "smart_controller_ui.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
@@ -556,6 +556,18 @@ void vehicle::toggle_tracking()
     }
 }
 
+void vehicle::display_effects()
+{
+    std::string effect_message;
+    for( auto &elem : effects ) {
+        if( elem.first->is_show_in_info() ) {
+            effect_message += elem.second.disp_name() + ": " + elem.second.disp_desc();
+            effect_message += '\n';
+        }
+    }
+    add_msg( effect_message );
+}
+
 void vehicle::connect( map *here, const tripoint_bub_ms &source_pos,
                        const tripoint_bub_ms &target_pos )
 {
@@ -892,13 +904,7 @@ void vehicle::reload_seeds( map *here, const tripoint_bub_ms &pos )
     if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const int count = std::get<2>( seed_entries[seed_index] );
         int amount = 0;
-        const std::string popupmsg = string_format( _( "Move how many?  [Have %d] (0 to cancel)" ), count );
-
-        amount = string_input_popup()
-                 .title( popupmsg )
-                 .width( 5 )
-                 .only_digits( true )
-                 .query_int();
+        query_int( amount, false, _( "Move how many?  [Have %d] (0 to cancel)" ), count );
 
         if( amount > 0 ) {
             int actual_amount = std::min( amount, count );
@@ -954,7 +960,7 @@ void vehicle::play_chimes( map &here ) const
     }
 
     for( const vpart_reference &vp : get_enabled_parts( "CHIMES" ) ) {
-        if( &here == &get_map() ) { // TODO: Make sound handling map aware
+        if( &here == &reality_bubble() ) { // TODO: Make sound handling map aware
             sounds::sound( vp.pos_bub( here ), 40, sounds::sound_t::music,
                            _( "a simple melody blaring from the loudspeakers." ), false, "vehicle", "chimes" );
         }
@@ -989,7 +995,7 @@ void vehicle::crash_terrain_around( map &here )
             velocity = 0;
             cruise_velocity = 0;
             here.destroy( crush_target );
-            if( &here == &get_map() ) { // TODO: Make sound handling map aware
+            if( &here == &reality_bubble() ) { // TODO: Make sound handling map aware
                 sounds::sound( crush_target, 500, sounds::sound_t::combat, _( "Clanggggg!" ), false,
                                "smash_success", "hit_vehicle" );
             }
@@ -1023,7 +1029,7 @@ void vehicle::transform_terrain( map &here )
             const int speed = std::abs( velocity );
             int v_damage = rng( 3, speed );
             damage( here, vp.part_index(), v_damage, damage_bash, false );
-            if( &here == &get_map() ) { // TODO: Make sound handling map aware.
+            if( &here == &reality_bubble() ) { // TODO: Make sound handling map aware.
                 sounds::sound( start_pos, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
                                "smash_success", "hit_vehicle" );
             }
@@ -1059,7 +1065,7 @@ void vehicle::operate_reaper( map &here )
                  seed_type, plant_produced, seed_produced, false ) ) {
             here.add_item_or_charges( reaper_pos, i );
         }
-        if( &here == &get_map() ) { // TODO: Make sound handling map aware.
+        if( &here == &reality_bubble() ) { // TODO: Make sound handling map aware.
             sounds::sound( reaper_pos, rng( 10, 25 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",
                            "reaper" );
         }
@@ -1094,7 +1100,7 @@ void vehicle::operate_planter( map &here )
                 } else if( !here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
                     damage( here, planter_id, rng( 1, 10 ), damage_bash, false );
-                    if( &here == &get_map() ) { // TODO: Make sound handling map aware
+                    if( &here == &reality_bubble() ) { // TODO: Make sound handling map aware
                         sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
                                        "hit_vehicle" );
                     }
@@ -1126,7 +1132,7 @@ void vehicle::operate_scoop( map &here )
                 _( "Whirrrr" ), _( "Ker-chunk" ), _( "Swish" ), _( "Cugugugugug" )
             }
         };
-        if( &here == &get_map() ) { // TODO: Make sound handling map aware.
+        if( &here == &reality_bubble() ) { // TODO: Make sound handling map aware.
             sounds::sound( bub_part_pos( here, scoop ), rng( 20, 35 ), sounds::sound_t::combat,
                            random_entry_ref( sound_msgs ), false, "vehicle", "scoop" );
         }
@@ -1160,7 +1166,7 @@ void vehicle::operate_scoop( map &here )
                 //The scoop will not destroy the item, but it may damage it a bit.
                 that_item_there->inc_damage();
                 //The scoop gets a lot louder when breaking an item.
-                if( &here == &get_map() ) { // TODO: Make sound handling map aware.
+                if( &here == &reality_bubble() ) { // TODO: Make sound handling map aware.
                     sounds::sound( position, rng( 10,
                                                   that_item_there->volume() * 2 / 250_ml + 10 ),
                                    sounds::sound_t::combat, _( "BEEEThump" ), false, "vehicle", "scoop_thump" );
@@ -1184,7 +1190,7 @@ void vehicle::alarm( map &here )
 
         //if alarm found, make noise, else set alarm disabled
         if( found_alarm ) {
-            if( &here == &get_map() ) { // TODO: Make sound handling map aware.
+            if( &here == &reality_bubble() ) { // TODO: Make sound handling map aware.
                 const std::array<std::string, 4> sound_msgs = { {
                         _( "WHOOP WHOOP" ), _( "NEEeu NEEeu NEEeu" ), _( "BLEEEEEEP" ), _( "WREEP" )
                     }
@@ -1588,10 +1594,116 @@ void vehicle::use_monster_capture( int part, map */*here*/, const tripoint_bub_m
     invalidate_mass();
 }
 
+static void place_carried_furniture( map &here, vehicle_part &part )
+{
+    static const std::string item_var_string = "tied_down_furniture";
+    furn_str_id tied_down_furniture( part.get_base().get_var( item_var_string ) );
+    if( !tied_down_furniture.is_valid() ) {
+        debugmsg( "Invalid stored furniture %s", tied_down_furniture.str() );
+        item base_copy( part.get_base() );
+        base_copy.erase_var( item_var_string ); // to prevent bricking the item
+        part.set_base( std::move( base_copy ) );
+        return;
+    }
+
+    const std::function<bool( const tripoint_bub_ms & )> tile_without_furniture_obstruction =
+    [&here]( const tripoint_bub_ms & target ) {
+        // target does not have furniture or any vehicle part
+        // TODO: Where else can't we place a new furniture? There must be a common function for this
+        if( !here.has_furn( target ) && !here.veh_at( target ) ) {
+            return true;
+        }
+        return false;
+    };
+
+    // doesn't actually display for choose_adjacent_highlight since we don't allow auto selection
+    std::string fail_msg =
+        _( "Can't put furniture there.  There is a vehicle or another furniture in the way." );
+
+    std::optional<tripoint_bub_ms> selected_tile = choose_adjacent_highlight( here,
+            string_format( _( "Select where to place the %s." ), tied_down_furniture->name() ),
+            fail_msg,
+            tile_without_furniture_obstruction, false, false );
+
+    if( selected_tile ) {
+        part.unload_furniture( here, *selected_tile );
+    } else {
+        add_msg( fail_msg ); // user cancelled or picked invalid tile
+    }
+}
+
+static void pickup_furniture_for_carry( map &here, vehicle_part &part )
+{
+    const std::function<bool( const tripoint_bub_ms & )> tile_with_furniture =
+    [&here]( const tripoint_bub_ms & target ) {
+        return here.has_furn( target );
+    };
+
+    std::optional<tripoint_bub_ms> selected_tile = choose_adjacent_highlight( here,
+            _( "Select a furniture to load into the vehicle." ),
+            _( "No adjacent furniture." ),
+            tile_with_furniture, false, true );
+
+    if( !selected_tile ) {
+        return; // no adjacent furniture (they got msg) or they cancelled on purpose, so just return
+    }
+
+    const furn_str_id picked_up_furn = here.furn( *selected_tile )->id;
+
+    const Character &you = get_player_character();
+    const int lifting_str_available = you.get_lift_str() + you.get_lift_assist();
+
+    if( picked_up_furn->move_str_req < 0 ) {
+        add_msg( _( "That furniture can't be moved." ) );
+        return;
+    } else if( picked_up_furn->move_str_req > lifting_str_available ) {
+        if( you.get_lift_assist() > 0 ) {
+            add_msg( string_format( _( "Even working together, you are unable to lift the %s." ),
+                                    picked_up_furn->name() ) );
+        } else {
+            add_msg( string_format( _( "You aren't able to lift the %s on your own." ),
+                                    picked_up_furn->name() ) );
+        }
+        return;
+    }
+
+    part.load_furniture( here, *selected_tile );
+}
+
+void vehicle::use_tiedown_furniture( int part, map *here, const tripoint_bub_ms & )
+{
+    if( !here ) {
+        // should never happen!
+        debugmsg( "vehicle::use_tiedown_furniture() called without a map pointer, please report this error" );
+        return;
+    }
+
+    if( parts[part].is_broken() || parts[part].removed ) {
+        add_msg( _( "The %s is broken and cannot be used." ), parts[part].name() );
+        return;
+    }
+
+
+    const bool will_unload_furniture = parts[part].get_base().has_var( "tied_down_furniture" );
+
+    if( !get_items( parts[part] ).empty() && !will_unload_furniture ) {
+        add_msg( m_warning, _( "Can't store furniture while there are items in the way." ) );
+        return;
+    }
+
+    if( will_unload_furniture ) {
+        place_carried_furniture( *here, parts[part] );
+    } else {
+        pickup_furniture_for_carry( *here, parts[part] );
+    }
+
+    invalidate_mass();
+}
+
 void vehicle::use_harness( int part, map *here, const tripoint_bub_ms &pos )
 {
     if( here !=
-        &get_map() ) { // TODO: Work needed on used operations for this to be possible to remove.
+        &reality_bubble() ) { // TODO: Work needed on used operations for this to be possible to remove.
         debugmsg( "vehicle::use_harness can only be used with the reality bubble." );
         return;
     }
@@ -1910,6 +2022,13 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .keep_menu_open()
         .hotkey( "TOGGLE_TRACKING" )
         .on_submit( [this] { toggle_tracking(); } );
+    }
+
+    if( has_visible_effect() ) {
+        menu.add( _( "Examine vehicle effects" ) )
+        .skip_theft_check()
+        .skip_locked_check()
+        .on_submit( [this] { display_effects(); } );
     }
 
     if( is_locked && controls_here ) {
@@ -2274,7 +2393,8 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
             .on_submit( [this, vp_tank_idx] {
                 item &vp_tank_item = parts[vp_tank_idx].base;
                 item &water = vp_tank_item.only_item();
-                liquid_handler::handle_liquid( water, &vp_tank_item, 1, nullptr, this, vp_tank_idx );
+                liquid_dest_opt liquid_target;
+                liquid_handler::handle_liquid( water, liquid_target, &vp_tank_item, 1, nullptr, this, vp_tank_idx );
             } );
 
             menu.add( _( "Have a drink" ) )
@@ -2334,6 +2454,15 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         menu.add( _( "Capture or release a creature" ) )
         .hotkey( "USE_CAPTURE_MONSTER_VEH" )
         .on_submit( [this, mc_idx, vppos, here] { use_monster_capture( mc_idx, here, vppos ); } );
+    }
+
+    const std::optional<vpart_reference> vp_furniture_tiedown =
+        vp.avail_part_with_feature( "FURNITURE_TIEDOWN" );
+    if( vp_furniture_tiedown ) {
+        const size_t mc_idx = vp_furniture_tiedown->part_index();
+        menu.add( _( "Tie down or remove a furniture" ) )
+        .hotkey( "USE_TIEDOWN_FURNITURE_VEH" )
+        .on_submit( [this, mc_idx, vppos, here] { use_tiedown_furniture( mc_idx, here, vppos ); } );
     }
 
     const std::optional<vpart_reference> vp_bike_rack = vp.avail_part_with_feature( "BIKE_RACK_VEH" );

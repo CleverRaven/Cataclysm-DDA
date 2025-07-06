@@ -1,5 +1,184 @@
 [
   {
+    "abstract": "mon_vampire_generic",
+    "type": "MONSTER",
+    "name": { "str_sp": "generic vampire", "//~": "NO_I18N" },
+    "description": { "str": "I vant to suck your blood!  Bluh!  BLUH!", "//~": "NO_I18N" },
+    "default_faction": "vampire",
+    "bodytype": "human",
+    "species": [ "VAMPIRE", "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 90,
+    "speed": 80,
+    "material": [ "flesh" ],
+    "symbol": "V",
+    "color": "red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 3,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "dodge": 3,
+    "weakpoints": [
+      { "name": "the head", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
+    "families": [ "prof_wp_demihuman" ],
+    "bleed_rate": 80,
+    "vision_day": 45,
+    "vision_night": 15,
+    "harvest": "vampire",
+    "path_settings": { "max_dist": 5 },
+    "grab_strength": 30,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 } ],
+    "death_drops": "default_moroi_death_drops",
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "GRABS", "WARM", "BASHES", "REVIVES", "PUSH_MON", "VAMP_VIRUS" ],
+    "armor": { "bash": 15, "cut": 5, "bullet": 14, "electric": 6, "heat": -20 }
+  },
+  {
+    "id": "mon_vampire_feral",
+    "copy-from": "mon_vampire_generic",
+    "type": "MONSTER",
+    "name": { "str_sp": "wight" },
+    "description": "This creature scarcely looks like the human you know they must once have been.  Red eyes lit by a faint inner glow, a pair of protruding fangs, fingers twisted into claws, clothes in tatters, and skin so covered in dirt and blood you have no idea what color it originally was.  They move like a wild animal, occasionally dropping on all fours and raising their head to sniff the air.",
+    "vision_day": 25,
+    "vision_night": 25,
+    "grab_strength": 30,
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "bite_humanoid",
+          "cooldown": 3,
+          "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ],
+          "eoc": [ "EOC_VAMPIRE_DRINK_BLOOD", "EOC_FERAL_VAMPIRE_GAIN_RANDOM_BUFF" ]
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_vampire_claw_no_strength_buff",
+          "cooldown": 3,
+          "move_cost": 110,
+          "damage_max_instance": [ { "damage_type": "cut", "amount": 10 } ],
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "effect_vampire_monster_strength" } } ]
+          },
+          "hit_dmg_u": "%1$s claws at your %2$s!",
+          "hit_dmg_npc": "%1$s claws at <npcname>!",
+          "miss_msg_u": "%1$s claws at you, but you dodge!",
+          "miss_msg_npc": "%1$s tries to claw at <npcname>, but they dodge!",
+          "no_dmg_msg_u": "%1$s claws at your %2$s, but fails to penetrate armor.",
+          "no_dmg_msg_npc": "%1$s tries to claw at <npcname>, but fails to penetrate armor.",
+          "dodgeable": true,
+          "blockable": true
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_vampire_claw_with_strength_buff",
+          "cooldown": 3,
+          "move_cost": 110,
+          "damage_max_instance": [ { "damage_type": "cut", "amount": 18, "armor_multiplier": 0.75 } ],
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "effect_vampire_monster_strength" } } ]
+          },
+          "hit_dmg_u": "%1$s claws at your %2$s!",
+          "hit_dmg_npc": "%1$s claws at <npcname>!",
+          "miss_msg_u": "%1$s claws at you, but you dodge!",
+          "miss_msg_npc": "%1$s tries to claw at <npcname>, but they dodge!",
+          "no_dmg_msg_u": "%1$s claws at your %2$s, but fails to penetrate armor.",
+          "no_dmg_msg_npc": "%1$s tries to claw at <npcname>, but fails to penetrate armor.",
+          "dodgeable": true,
+          "blockable": false
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_vampire_use_random_buff",
+          "cooldown": 60,
+          "move_cost": 10,
+          "range": 10,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
+          "eoc": [ "EOC_FERAL_VAMPIRE_GAIN_RANDOM_BUFF" ],
+          "condition": {
+            "not": {
+              "u_has_any_effect": [
+                "effect_vampire_monster_strength",
+                "effect_vampire_monster_agility",
+                "effect_vampire_monster_resilience",
+                "effect_vampire_monster_speed"
+              ]
+            }
+          },
+          "hit_dmg_u": "",
+          "hit_dmg_npc": "",
+          "miss_msg_u": "",
+          "miss_msg_npc": "",
+          "no_dmg_msg_u": "",
+          "no_dmg_msg_npc": "",
+          "dodgeable": false,
+          "uncanny_dodgeable": false,
+          "blockable": false
+        }
+      ],
+      "flags": [ "FILTHY", "KEENNOSE" ]
+    },
+    "death_drops": "revenant_death_drops"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_DRINK_BLOOD",
+    "condition": "npc_is_character",
+    "effect": [
+      { "math": [ "_vampire_amount_drained", "=", "400 + rand(100)" ] },
+      {
+        "if": { "npc_has_flag": "BLEEDSLOW2" },
+        "then": [
+          { "math": [ "n_vitamin('blood')", "-=", "_vampire_amount_drained / 3" ] },
+          { "math": [ "n_vitamin('redcells')", "-=", "_vampire_amount_drained / 3" ] }
+        ],
+        "else": {
+          "if": { "npc_has_flag": "BLEEDSLOW" },
+          "then": [
+            { "math": [ "n_vitamin('blood')", "-=", "_vampire_amount_drained / 1.5" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "_vampire_amount_drained / 1.5" ] }
+          ],
+          "else": [
+            { "math": [ "n_vitamin('blood')", "-=", "_vampire_amount_drained" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "_vampire_amount_drained" ] }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FERAL_VAMPIRE_GAIN_RANDOM_BUFF",
+    "condition": { "or": [ "npc_is_character", { "npc_has_species": "HUMAN" }, { "npc_has_species": "FERAL" } ] },
+    "effect": {
+      "switch": { "math": [ "rand(6)" ] },
+      "cases": [
+        {
+          "case": 0,
+          "effect": [ { "u_add_effect": "effect_vampire_monster_strength", "duration": { "math": [ "rng(15,45)" ] } } ]
+        },
+        {
+          "case": 2,
+          "effect": [ { "u_add_effect": "effect_vampire_monster_agility", "duration": { "math": [ "rng(15,45)" ] } } ]
+        },
+        {
+          "case": 4,
+          "effect": [ { "u_add_effect": "effect_vampire_monster_resilience", "duration": { "math": [ "rng(15,45)" ] } } ]
+        },
+        {
+          "case": 6,
+          "effect": [ { "u_add_effect": "effect_vampire_monster_speed", "duration": { "math": [ "rng(15,45)" ] } } ]
+        }
+      ]
+    }
+  },
+  {
     "id": "mon_vampire_moroi",
     "type": "MONSTER",
     "name": { "str_sp": "moroi" },
@@ -30,7 +209,7 @@
     "bleed_rate": 80,
     "vision_day": 45,
     "vision_night": 15,
-    "harvest": "demihuman",
+    "harvest": "vampire",
     "path_settings": { "max_dist": 5 },
     "grab_strength": 20,
     "special_attacks": [
@@ -76,7 +255,7 @@
     "bleed_rate": 40,
     "vision_day": 30,
     "vision_night": 15,
-    "harvest": "demihuman",
+    "harvest": "vampire",
     "path_settings": { "max_dist": 5 },
     "grab_strength": 20,
     "special_attacks": [
@@ -89,7 +268,7 @@
       { "id": "grab", "cooldown": 7 }
     ],
     "death_drops": "default_moroi_death_drops",
-    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "GRABS", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "HAS_MIND", "GRABS", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
     "armor": { "bash": 25, "cut": 8, "bullet": 24, "electric": 14 }
   },
   {
@@ -124,7 +303,7 @@
     "vision_night": 3,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "renfield_death_drops",
-    "upgrades": { "half_life": 50, "into_group": "GROUP_RENFIELD_UPGRADE" },
+    "upgrades": { "half_life": 200, "into_group": "GROUP_RENFIELD_UPGRADE" },
     "zombify_into": "mon_zombie",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [
@@ -193,7 +372,7 @@
     ],
     "death_drops": "renfield_9mm_death_drops",
     "zombify_into": "mon_zombie",
-    "upgrades": { "half_life": 50, "into_group": "GROUP_RENFIELD_UPGRADE" },
+    "upgrades": { "half_life": 200, "into_group": "GROUP_RENFIELD_UPGRADE" },
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT", "PLAYER_WEAK" ],
     "flags": [
       "SEES",
@@ -445,7 +624,7 @@
     "default_faction": "small_animal",
     "bodytype": "bird",
     "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
+    "species": [ "MAMMAL", "NIGHT_CREATURE" ],
     "volume": "750 ml",
     "weight": "1 kg",
     "hp": 10,
@@ -478,7 +657,7 @@
     "default_faction": "small_animal",
     "bodytype": "bird",
     "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL", "RENFIELD" ],
+    "species": [ "MAMMAL", "RENFIELD", "NIGHT_CREATURE" ],
     "volume": "1500 ml",
     "weight": "2 kg",
     "hp": 20,
@@ -511,7 +690,7 @@
     "default_faction": "small_animal",
     "bodytype": "bird",
     "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL", "RENFIELD" ],
+    "species": [ "MAMMAL", "RENFIELD", "NIGHT_CREATURE" ],
     "diff": 4,
     "volume": "4 L",
     "weight": "6 kg",

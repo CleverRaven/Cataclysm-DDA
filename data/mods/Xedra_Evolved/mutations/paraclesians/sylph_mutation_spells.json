@@ -377,6 +377,30 @@
     "duration_increment": 16500
   },
   {
+    "id": "sylph_bonus_melee_range_spell",
+    "type": "SPELL",
+    "name": "Breeze-Cutting Blows",
+    "description": "The Sylph strikes through the air so precisely that the air itself is cut and carries their force outward.  While the spell is in effect, the Sylph can make melee strikes and affect distant targets.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "effect": "attack",
+    "effect_str": "effect_sylph_bonus_melee_range",
+    "shape": "blast",
+    "spell_class": "SYLPH",
+    "teachable": false,
+    "flags": [ "VERBAL", "NO_PROJECTILE", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "dex_to_level(1)" ] },
+    "difficulty": 7,
+    "base_casting_time": 200,
+    "magic_type": "xe_fey_magick",
+    "base_energy_cost": 500,
+    "final_energy_cost": 250,
+    "energy_increment": -15,
+    "min_duration": 30000,
+    "max_duration": 1080000,
+    "duration_increment": 16500
+  },
+  {
     "id": "sylph_cultivate_goblin_fruit",
     "type": "SPELL",
     "name": "Cultivate Goblin Fruit",
@@ -681,11 +705,11 @@
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
     "flags": [ "NO_EXPLOSION_SFX", "RANDOM_AOE" ],
-    "effect": "area_pull",
+    "effect": "area_push",
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('sylph_massive_lightning_bolt_spell') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) )), 50)"
+        "min( ( ( (u_spell_level('sylph_massive_lightning_bolt_spell') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) ), 50)"
       ]
     },
     "max_range": 50,

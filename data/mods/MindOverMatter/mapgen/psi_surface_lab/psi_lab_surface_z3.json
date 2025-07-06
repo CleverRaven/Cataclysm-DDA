@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "psi_phavian_lab_block3A0",
@@ -164,8 +163,8 @@
         "........................................................................................................................"
       ],
       "items": {
-        "&": [ { "item": "tools_science", "chance": 5 }, { "item": "trash", "chance": 50, "repeat": [ 1, 2 ] } ],
-        "f": [ { "item": "SUS_fridge_breakroom", "chance": 60 }, { "item": "fridgesnacks", "chance": 60, "repeat": [ 2, 10 ] } ],
+        "&": [ { "item": "tools_science", "chance": 5 }, { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "f": [ { "item": "SUS_fridge_breakroom", "chance": 60 }, { "item": "SUS_fridge_snacks", "chance": 60, "repeat": [ 2, 4 ] } ],
         "l": [
           { "item": "lab_shoes", "chance": 70, "repeat": 2 },
           { "item": "lab_pants", "chance": 70, "repeat": 2 },
@@ -249,7 +248,8 @@
         { "chunks": [ "psi_phavian_lab_2partworkspace_back_5x5" ], "x": 91, "y": 106 },
         { "chunks": [ "psi_phavian_lab_2partworkspace_front_5x5" ], "x": 97, "y": 106 },
         { "chunks": [ "psi_phavian_lab_2partworkspace_back_5x5" ], "x": 103, "y": 106 }
-      ]
+      ],
+      "place_monster": [ { "monster": "mon_transcendant_alpha_psion", "x": 56, "y": 84, "chance": 20 } ]
     }
   }
 ]

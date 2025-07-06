@@ -2,8 +2,8 @@
   {
     "id": "veh_forge",
     "breaks_into": [
-      { "count": [ 4, 5 ], "item": "steel_lump" },
-      { "count": [ 4, 6 ], "item": "steel_chunk" },
+      { "count": [ 4, 5 ], "item": "mc_steel_lump" },
+      { "count": [ 4, 6 ], "item": "mc_steel_chunk" },
       { "count": [ 4, 6 ], "item": "scrap" }
     ],
     "categories": [ "utility" ],
@@ -34,8 +34,8 @@
   {
     "id": "veh_kiln",
     "breaks_into": [
-      { "count": [ 4, 5 ], "item": "steel_lump" },
-      { "count": [ 4, 6 ], "item": "steel_chunk" },
+      { "count": [ 4, 5 ], "item": "mc_steel_lump" },
+      { "count": [ 4, 6 ], "item": "mc_steel_chunk" },
       { "count": [ 4, 6 ], "item": "scrap" }
     ],
     "categories": [ "utility" ],
@@ -89,8 +89,8 @@
     "pseudo_tools": [ { "id": "oil_press_electric" } ],
     "size": "5 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 3, 6 ] },
+      { "item": "lc_steel_lump", "count": [ 4, 7 ] },
+      { "item": "lc_steel_chunk", "count": [ 3, 6 ] },
       { "item": "sheet_metal_small", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 4, 7 ] },
       { "item": "element", "count": [ 0, 2 ] },
@@ -101,7 +101,7 @@
   },
   {
     "id": "door_lock",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "door lock set" },
     "description": "Some wires and gears for connecting door handles and an unlocking knob to a latching mechanism, and a sturdy lock to go on the outer surface.  It is meant to be installed in a vehicle door or hatch.",
     "symbol": "+",

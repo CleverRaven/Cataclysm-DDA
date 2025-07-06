@@ -60,7 +60,7 @@
 #include "translation_cache.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_iteminfo.h"
 #include "ui_manager.h"
 #include "uistate.h"
@@ -141,7 +141,7 @@ static int related_menu_fill( uilist &rmenu,
 static item get_recipe_result_item( const recipe &rec, Character &crafter );
 static void compare_recipe_with_item( const item &recipe_item, Character &crafter );
 
-static std::string get_cat_unprefixed( const std::string_view prefixed_name )
+static std::string get_cat_unprefixed( std::string_view prefixed_name )
 {
     return std::string( prefixed_name.substr( 3, prefixed_name.size() - 3 ) );
 }
@@ -151,7 +151,7 @@ void load_recipe_category( const JsonObject &jsobj, const std::string &src )
     craft_cat_list.load( jsobj, src );
 }
 
-void crafting_category::load( const JsonObject &jo, const std::string_view )
+void crafting_category::load( const JsonObject &jo, std::string_view )
 {
     // Ensure id is correct
     if( id.str().find( "CC_" ) != 0 ) {
@@ -182,7 +182,7 @@ void crafting_category::load( const JsonObject &jo, const std::string_view )
     }
 }
 
-static std::string get_subcat_unprefixed( const std::string_view cat,
+static std::string get_subcat_unprefixed( std::string_view cat,
         const std::string &prefixed_name )
 {
     std::string prefix = "CSC_" + get_cat_unprefixed( cat ) + "_";
@@ -397,7 +397,7 @@ static std::vector<std::string> recipe_info(
     const recipe &recp,
     const availability &avail,
     Character &guy,
-    const std::string_view qry_comps,
+    std::string_view qry_comps,
     const int batch_size,
     const int fold_width,
     const nc_color &color,
@@ -944,7 +944,7 @@ struct item_info_cache {
 };
 
 static recipe_subset filter_recipes( const recipe_subset &available_recipes,
-                                     const std::string_view qry,
+                                     std::string_view qry,
                                      const Character &crafter,
                                      const std::function<void( size_t, size_t )> &progress_callback )
 {
@@ -1380,10 +1380,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                           crafter ) - crafting_group.begin();
 
     // Get everyone's recipes
-    // WTF? If called with dummy npc, we have to do this. Why? Why doesn't Character::get_group_available_recipes()
-    // already include get_learned_recipes()?
-    const recipe_subset &available_recipes = camp_crafting ? crafter->get_learned_recipes() :
-            crafter->get_group_available_recipes();
+    const recipe_subset &available_recipes = crafter->get_group_available_recipes( inventory_override );
     std::map<character_id, std::map<const recipe *, availability>> guy_availability_cache;
     // next line also inserts empty cache for crafter->getID()
     std::map<const recipe *, availability> *availability_cache =
@@ -2338,7 +2335,7 @@ static void compare_recipe_with_item( const item &recipe_item, Character &crafte
     } while( true );
 }
 
-static bool query_is_yes( const std::string_view query )
+static bool query_is_yes( std::string_view query )
 {
     const std::string_view subquery = query.substr( 2 );
 

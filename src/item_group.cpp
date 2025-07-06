@@ -34,6 +34,9 @@
 #include "type_id.h"
 #include "units.h"
 
+static const fault_id fault_gun_dirt( "fault_gun_dirt" );
+static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
+
 std::size_t Item_spawn_data::create( ItemList &list,
                                      const time_point &birthday, spawn_flags flags ) const
 {
@@ -505,10 +508,10 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
         // if gun RNG is dirty, must add dirt fault to allow cleaning
         if( random_dirt > 0 ) {
             new_item.set_var( "dirt", random_dirt );
-            new_item.faults.emplace( "fault_gun_dirt" );
+            new_item.set_fault( fault_gun_dirt );
             // chance to be unlubed, but only if it's not a laser or something
         } else if( one_in( 10 ) && !new_item.has_flag( flag_NEEDS_NO_LUBE ) ) {
-            new_item.faults.emplace( "fault_gun_unlubricated" );
+            new_item.faults.emplace( fault_gun_unlubricated );
         }
     }
 
@@ -637,8 +640,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
 
         if( new_item.is_magazine() ||
             new_item.has_pocket_type( pocket_type::MAGAZINE_WELL ) ) {
-            bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining( ) == 0 && ch == -1 &&
-                              ( !new_item.is_tool() || new_item.type->tool->rand_charges.empty() );
+            bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining() == 0 && ch == -1;
             bool spawn_mag = rng( 0, 99 ) < with_magazine && !new_item.magazine_integral() &&
                              !new_item.magazine_current();
 

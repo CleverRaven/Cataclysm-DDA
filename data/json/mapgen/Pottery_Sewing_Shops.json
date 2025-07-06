@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "craft_shop_2" ],
     "object": {
       "fill_ter": "t_floor",
@@ -87,8 +86,9 @@
       "toilets": { "t": {  } },
       "items": {
         "L": { "item": "SUS_janitors_closet", "chance": 90 },
-        "U": { "item": "trash", "chance": 75, "repeat": [ 1, 5 ] },
-        "R": { "item": "trash", "chance": 60, "repeat": [ 1, 3 ] }
+        "U": { "item": "SUS_trash_dumpster", "chance": 75 },
+        "R": { "item": "SUS_trash_trashcan", "chance": 60 },
+        "t": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_items": [
         { "item": "sewing_group", "x": [ 8, 8 ], "y": [ 9, 11 ], "chance": 75, "repeat": [ 2, 10 ] },
@@ -118,7 +118,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "craft_shop_2ndfloor_2",
     "object": {
       "fill_ter": "t_floor",
@@ -154,7 +153,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "craft_shop_roof_2",
     "object": {
       "fill_ter": "t_tile_flat_roof",

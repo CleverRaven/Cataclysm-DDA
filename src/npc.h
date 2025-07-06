@@ -951,7 +951,8 @@ class npc : public Character
         time_duration time_to_read( const item &book, const Character &reader ) const;
         void do_npc_read( bool ebook = false );
         void stow_item( item &it );
-        bool wield( item &it ) override;
+        bool wield( item &it );
+        bool wield( item_location loc, bool remove_old = true );
         void drop( const drop_locations &what, const tripoint_bub_ms &target,
                    bool stash ) override;
         bool adjust_worn();
@@ -1275,7 +1276,7 @@ class npc : public Character
 
         // The preceding are in npcmove.cpp
 
-        bool query_yn( const std::string &mes ) const override;
+        bool query_yn( const std::string &msg ) const override;
 
         std::vector<std::string> extended_description() const override;
         std::string get_epilogue() const;
@@ -1396,7 +1397,11 @@ class npc : public Character
         npc_follower_rules rules;
         bool marked_for_death = false; // If true, we die as soon as we respawn!
         bool hit_by_player = false;
+        // times their opinion has increased from chatting, upper bounds on 'forgiveness'
+        int opinion_values_raised = 0;
         bool hallucination = false; // If true, NPC is an hallucination
+        bool spawn_corpse = true;
+        bool quiet_death = false; // supress messages about death
         std::vector<npc_need> needs;
         std::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.

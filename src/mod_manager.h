@@ -59,6 +59,9 @@ struct MOD_INFORMATION {
         /** What other mods must be loaded prior to this one? */
         std::vector<mod_id> dependencies;
 
+        /** What other mods are incompatible with this one? */
+        std::vector<mod_id> conflicts;
+
         /** Core mods are loaded before any other mods */
         bool core = false;
 
@@ -78,6 +81,12 @@ std::string get_origin( const std::vector<std::pair<src_id, mod_id>> &src )
     }, enumeration_conjunction::arrow );
     return string_format( _( "Origin: %s" ), origin_str );
 }
+
+struct mod_migrations {
+    static void load( const JsonObject &jo );
+    static void check();
+    static void reset();
+};
 
 class mod_manager
 {
@@ -161,9 +170,6 @@ class mod_manager
         void load_modfile( const JsonObject &jo, const cata_path &path );
 
         bool set_default_mods( const mod_id &ident );
-        void remove_mod( const mod_id &ident );
-        void remove_invalid_mods( std::vector<mod_id> &mods ) const;
-        void load_replacement_mods( const cata_path &path );
 
         pimpl<dependency_tree> tree;
 
@@ -172,8 +178,6 @@ class mod_manager
          */
         std::map<mod_id, MOD_INFORMATION> mod_map;
         t_mod_list default_mods;
-        /** Second field is optional replacement mod */
-        std::map<mod_id, mod_id> mod_replacements;
 
         std::vector<mod_id> usable_mods;
 
@@ -193,6 +197,8 @@ class mod_ui
                       std::vector<mod_id> &active_list );
         void try_rem( size_t selection, std::vector<mod_id> &active_list );
         void try_shift( char direction, size_t &selection, std::vector<mod_id> &active_list );
+
+        bool confirm_mod_compatibility( const mod_id &checked_mod, const std::vector<mod_id> &active_list );
 
         bool can_shift_up( size_t selection, const std::vector<mod_id> &active_list );
         bool can_shift_down( size_t selection, const std::vector<mod_id> &active_list );

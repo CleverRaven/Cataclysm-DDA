@@ -51,16 +51,6 @@
   },
   {
     "type": "item_group",
-    "id": "ammo",
-    "subtype": "distribution",
-    "entries": [
-      { "group": "ammo_pistol_common", "prob": 1000 },
-      { "group": "ammo_shotgun_common", "prob": 1000 },
-      { "group": "ammo_rifle_common", "prob": 1000 }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "launchers",
     "subtype": "distribution",
     "entries": [
@@ -145,8 +135,7 @@
       { "item": "bow_sight_pin", "prob": 50 },
       { "item": "bow_silencer", "prob": 50 },
       { "item": "bow_stabilizer", "prob": 50 },
-      { "item": "bow_stabilizer_set", "prob": 40 },
-      { "item": "gun_crossbow", "prob": 40 }
+      { "item": "bow_stabilizer_set", "prob": 40 }
     ]
   },
   {

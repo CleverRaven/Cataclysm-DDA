@@ -6,17 +6,19 @@
     "name": "gas station",
     "looks_like": "s_gas",
     "color": "light_blue",
-    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] },
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 6, 12 ], "chance": 100 },
+    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES", "PP_GENERATE_RIOT_DAMAGE" ] },
     "land_use_code": "commercial"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gas", "s_gas_g1" ],
+    "id": [ "s_gas_0_0", "s_gas_1_0", "s_gas_0_1", "s_gas_1_1", "s_gas_g1" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "gas station",
     "looks_like": "s_gas",
     "color": "light_blue",
-    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] }
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 6, 12 ], "chance": 100 },
+    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES", "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -31,12 +33,12 @@
   {
     "type": "overmap_terrain",
     "id": [ "s_gas_g0" ],
-    "copy-from": "s_gas",
+    "copy-from": "s_gas_0_0",
     "sym": "─"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gas_roof_1", "s_gas_g1_roof" ],
+    "id": [ "s_gas_0_0_roof", "s_gas_1_0_roof", "s_gas_0_1_roof", "s_gas_1_1_roof", "s_gas_roof_1", "s_gas_g1_roof" ],
     "copy-from": "generic_city_building_roof",
     "name": "gas station roof",
     "color": "light_blue"
@@ -387,7 +389,8 @@
     "looks_like": "s_gun_a",
     "name": "gun store",
     "color": "red",
-    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
+    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] },
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -501,7 +504,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_restaurant_fast", "s_restaurant_fast_1" ],
+    "id": [
+      "s_restaurant_fast",
+      "s_restaurant_fast_1",
+      "drive_through_0_0",
+      "drive_through_1_0",
+      "drive_through_2_0",
+      "drive_through_0_1",
+      "drive_through_1_1",
+      "drive_through_2_1"
+    ],
     "copy-from": "generic_city_building",
     "looks_like": "s_restaurant_fast",
     "name": "fast food restaurant",
@@ -510,7 +522,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_restaurant_fast_roof", "s_restaurant_fast_roof_1" ],
+    "id": [
+      "s_restaurant_fast_roof",
+      "s_restaurant_fast_roof_1",
+      "drive_through_roof_0_0",
+      "drive_through_roof_1_0",
+      "drive_through_roof_2_0",
+      "drive_through_roof_0_1",
+      "drive_through_roof_1_1",
+      "drive_through_roof_2_1"
+    ],
     "copy-from": "generic_city_building_roof",
     "looks_like": "s_restaurant_fast_roof",
     "name": "fast food restaurant roof",
@@ -2059,5 +2080,21 @@
     "looks_like": "barber_shop_roof",
     "sym": "b",
     "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_airsoft" ],
+    "copy-from": "generic_city_building",
+    "name": "airsoft store",
+    "sym": "a",
+    "color": "red_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_airsoft_roof" ],
+    "copy-from": "generic_city_building_roof",
+    "name": "airsoft store roof",
+    "sym": "a",
+    "color": "red_white"
   }
 ]

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "ground entrance",
     "om_terrain": [
       [ "goblin_1A", "goblin_2A", "goblin_3A", "goblin_4A", "goblin_5A" ],
@@ -88,7 +87,7 @@
       "items": {
         "c": { "item": "stash_wood", "chance": 50 },
         "h": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
-        "%": { "item": "trash", "chance": 40, "repeat": [ 1, 2 ] }
+        "%": { "item": "SUS_trash_floor", "chance": 40, "repeat": [ 1, 2 ] }
       },
       "place_nested": [
         { "chunks": [ "goblin_north_nest" ], "x": 25, "y": 11 },
@@ -239,7 +238,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "goblin_1A_roof", "goblin_2A_roof", "goblin_3A_roof", "goblin_4A_roof", "goblin_5A_roof" ],
       [ "goblin_1B_roof", "goblin_2B_roof", "goblin_3B_roof", "goblin_4B_roof", "goblin_5B_roof" ],

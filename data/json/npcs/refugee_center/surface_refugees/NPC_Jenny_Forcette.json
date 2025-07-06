@@ -35,7 +35,7 @@
       { "item": "sports_bra" },
       { "item": "panties" },
       { "item": "socks" },
-      { "item": "tshirt", "variant": "tux" },
+      { "item": "tshirt" },
       { "item": "jeans" },
       { "item": "hoodie" },
       { "item": "sneakers" },
@@ -375,7 +375,7 @@
       {
         "text": "If I see anything, I'll let you know.  Can you tell me more about your project?",
         "topic": "TALK_REFUGEE_JENNY_Project2",
-        "effect": { "assign_mission": "MISSION_REFUGEE_Jenny_GET_PNEUMATICS" },
+        "effect": { "add_mission": "MISSION_REFUGEE_Jenny_GET_PNEUMATICS" },
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REFUGEE_Jenny_GET_PNEUMATICS" } },

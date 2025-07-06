@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_occupied_a",
     "object": {
       "mapgensize": [ 18, 18 ],
@@ -33,7 +32,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_barricaded_a",
     "object": {
       "mapgensize": [ 18, 18 ],
@@ -66,7 +64,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_looted_a",
     "object": {
       "mapgensize": [ 18, 18 ],
@@ -96,7 +93,7 @@
       "palettes": [ "gunstore_palette_looted" ],
       "nested": {
         "0": { "chunks": [ [ "gunstore_looted_safes_a", 50 ], [ "gunstore_looted_handloading_a", 50 ] ] },
-        "1": { "chunks": [ [ "gunstore_looted_storage_a", 1 ], [ "gunstore_unlooted_storage_a", 1 ] ] },
+        "1": { "chunks": [ [ "gunstore_looted_storage_a", 9 ], [ "gunstore_unlooted_storage_a", 1 ] ] },
         ".": { "chunks": [ [ "gunstore_looted_floor", 4 ], [ "null", 20 ] ] }
       },
       "place_loot": [ { "group": "SUS_gunstore_optics_display", "x": 10, "y": 8, "repeat": [ 0, 2 ] } ]
@@ -104,7 +101,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_ransacked_a",
     "object": {
       "mapgensize": [ 18, 18 ],
@@ -152,7 +148,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_occupied_b",
     "object": {
       "mapgensize": [ 21, 21 ],
@@ -187,7 +182,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_barricaded_b",
     "object": {
       "mapgensize": [ 21, 21 ],
@@ -221,7 +215,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_looted_b",
     "object": {
       "mapgensize": [ 21, 21 ],
@@ -257,7 +250,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_ransacked_b",
     "object": {
       "mapgensize": [ 21, 21 ],
@@ -303,15 +295,13 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_looted_floor",
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_items": [
         { "item": "casings", "x": 0, "y": 0, "chance": 40 },
-        { "item": "trash", "x": 0, "y": 0, "chance": 30 },
-        { "item": "ammo_pistol_common", "x": 0, "y": 0, "chance": 5 },
-        { "item": "ammo_rifle_common", "x": 0, "y": 0, "chance": 5 }
+        { "item": "SUS_trash_floor", "x": 0, "y": 0, "chance": 30 },
+        { "item": "ammo_common_loose", "x": 0, "y": 0, "chance": 5 }
       ],
       "place_item": [
         { "item": "glass_shard", "x": 0, "y": 0, "chance": 15, "repeat": [ 1, 8 ] },
@@ -323,7 +313,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_barricaded_safes_a",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -340,7 +329,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_barricaded_handloading_a",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -358,7 +346,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_looted_safes_a",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -375,7 +362,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_looted_handloading_a",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -393,7 +379,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_looted_storage_a",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -410,7 +395,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunstore_unlooted_storage_a",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -427,7 +411,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "destroyed_furniture_concrete_floor",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -438,7 +421,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "no_items_concrete_floor",
     "object": {
       "mapgensize": [ 1, 1 ],

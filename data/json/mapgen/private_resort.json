@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "p_resort_1nw", "p_resort_1nn", "p_resort_1ne" ], [ "null", "p_resort_1mm", "p_resort_1ee" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -97,41 +96,40 @@
       ],
       "place_vehicles": [
         { "vehicle": "pickup", "x": 13, "y": 13, "chance": 33, "rotation": 270 },
-        { "vehicle": "policesuv", "x": 11, "y": 7, "chance": 100, "rotation": 90 }
+        { "vehicle": "policesuv", "x": 11, "y": 7, "rotation": 90 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "p_resort_1ww" ],
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        " F  |:|1::::666666:|j:8:",
-        " F  |:|1:::::::::::||||:",
-        " F  |:|1::::::::::O|j:8:",
-        " F  |:|2::CCdCCl::O|||||",
-        " F  |:|2::C555Cl::O|j:8:",
-        " F  |:|3:::::::::::||||:",
-        " F  |:|3::COOOC::::|j:8:",
-        " F  |-||-|||||||CC||||||",
-        " F  |,,,,,,;,,,,,,ffSSff",
-        " F  |,,,,,,#,,,,,,,,,,,,",
-        " F  o,,HH,,##,,,,,,,,,,,",
-        " F  o,HTTH,,############",
+        " F  #:|1::::666666:|j:8:",
+        " F  #:|1:::::::::::||||:",
+        " F  #:|1::::::::::O|j:8:",
+        " F  #:|2::CCdCCl::O|||||",
+        " F  #:|2::C555Cl::O|j:8:",
+        " F  #:|3:::::::::::||||:",
+        " F  #:|3::COOOC::::|j:8:",
+        " F  #-||-|||||||CC||||||",
+        " F  #,,,,,,;,,,,,,ffSSff",
+        " F  #,,,,,,C,,,,,,,,,,,,",
+        " F  o,,HH,,CC,,,,,,,,,,,",
+        " F  o,HTTH,,CCCCCCCCCCCC",
         " F  o,HTTH,,§§§§§§§§§§§§",
-        " F  |,HTTH,,,,,,,,,,,,,,",
+        " F  #,HTTH,,,,,,,,,,,,,,",
         " F  o,HTTH,,,HH,,,,HH,,,",
         " F  o,HTTH,,HTTH,,HTTH,,",
         " F  o,HTTH,,HTTH,,HTTH,,",
-        " F  |,HTTH,,,HH,,,,HH,,,",
+        " F  #,HTTH,,,HH,,,,HH,,,",
         " F  o,HTTH,,,,,,,,,,,,,,",
         " F  o,HTTH,,HTTH,,HTTH,,",
         " F  o,,HH,,,HTTH,,HTTH,,",
-        " F  |,,,,,,,,,,,,,,,,,,,",
-        " F  |,,,,,,,,,,,,,,,,,,,",
-        " F  ||+|||||||||||||||+|"
+        " F  #,,,,,,,,,,,,,,,,,,,",
+        " F  #,,,,,,,,,,,,,,,,,,,",
+        " F  #|+|||||||||||||||+|"
       ],
       "palettes": [ "p_resort_palette_restaraunt" ],
       "place_items": [ { "chance": 30, "item": "bar_table", "x": [ 12, 23 ], "y": 11, "repeat": [ 15, 20 ] } ]
@@ -139,7 +137,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "p_resort_1sw", "p_resort_1ss", "p_resort_1se" ], [ "p_resort_pw", "p_resort_pm", "p_resort_pe" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -222,8 +219,8 @@
         { "group": "GROUP_RESORT_MIXED_STAFF", "x": [ 48, 66 ], "y": [ 0, 7 ] }
       ],
       "place_vehicles": [
-        { "vehicle": "police_pileup", "x": 28, "y": 15, "chance": 100, "rotation": 270 },
-        { "vehicle": "police_pileup", "x": 43, "y": 20, "chance": 100, "rotation": 0 },
+        { "vehicle": "police_pileup", "x": 28, "y": 15, "rotation": 270 },
+        { "vehicle": "police_pileup", "x": 43, "y": 20, "rotation": 0 },
         { "vehicle": "limousine", "x": 35, "y": 42, "chance": 75, "rotation": 90 }
       ],
       "place_signs": [
@@ -234,7 +231,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "p_resort_2nw", "p_resort_2nn", "p_resort_2ne" ],
       [ "p_resort_2ww", "p_resort_2mm", "p_resort_2ee" ],
@@ -329,7 +325,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "p_resort_rnw", "p_resort_rnn", "p_resort_rne" ],
       [ "p_resort_rww", "p_resort_rmm", "p_resort_ree" ],
@@ -417,7 +412,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "p_resort_0nw" ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -473,7 +467,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "p_resort_0se" ],
     "object": {
       "fill_ter": "t_thconc_floor",

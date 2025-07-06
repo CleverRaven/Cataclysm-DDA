@@ -5,13 +5,15 @@
     "name": "Living Paradox",
     "points": 0,
     "description": "You have an intimate sense for the flow of time, and you can use your power to manipulate it.  Activate this trait to spend learned insight.",
+    "types": [ "HERITAGE" ],
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "spells_learned": [ [ "xedra_chronomancer_time_freeze_target", 6 ], [ "xedra_chronomancer_normalize_time", 1 ] ],
     "vitamin_rates": [ [ "xedra_chronomancer_insight", -86400 ] ],
     "active": true,
-    "activated_eocs": [ "EOC_XEDRA_CHRONOMANCER_OPEN_INSIGHT_MENU" ]
+    "activated_eocs": [ "EOC_XEDRA_CHRONOMANCER_OPEN_INSIGHT_MENU" ],
+    "activation_msg": ""
   },
   {
     "type": "mutation",

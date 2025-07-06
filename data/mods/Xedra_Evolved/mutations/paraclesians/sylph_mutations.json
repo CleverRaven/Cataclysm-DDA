@@ -35,6 +35,7 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 10 }
     ],
+    "enchantments": [ { "values": [ { "value": "WEIGHT", "multiply": -0.1 } ] } ],
     "integrated_armor": [ "integrated_cloud_skin" ]
   },
   {
@@ -62,6 +63,7 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
+    "enchantments": [ { "values": [ { "value": "WEIGHT", "multiply": -0.2 } ] } ],
     "integrated_armor": [ "integrated_storm_skin" ]
   },
   {
@@ -173,6 +175,18 @@
   },
   {
     "type": "mutation",
+    "id": "SYLPH_BONUS_MELEE_RANGE",
+    "name": { "str": "Breeze-Cutting Blows" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to strike so precisely that the air will carry their melee attacks a short distance.",
+    "prereqs": [ "SYLPH_BONUS_RANGE", "SYLPH_DEX_BONUS_2" ],
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "sylph_bonus_melee_range_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SLOWFALL",
     "name": { "str": "Slow Fall" },
     "points": 3,
@@ -181,6 +195,7 @@
     "description": "Upon gaining this ability the Sylph ceases to fall at speeds that would damage themselves, no matter how high the fall is.",
     "changes_to": [ "SYLPH_GLIDING" ],
     "category": [ "SYLPH" ],
+    "enchantments": [ { "values": [ { "value": "WEIGHT", "multiply": -0.05 } ] } ],
     "flags": [ "FEATHER_FALL" ]
   },
   {
@@ -528,7 +543,7 @@
     "prereqs": [ "SYLPH_FAST_CAST" ],
     "category": [ "SYLPH" ],
     "threshreq": [ "THRESH_SYLPH" ],
-    "enchantments": [ "sylph_fast_cast2" ]
+    "enchantments": [ "sylph_fast_cast2", { "values": [ { "value": "WEIGHT", "multiply": -0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -597,7 +612,13 @@
     "prereqs": [ "SYLPH_DEX_BONUS_2" ],
     "category": [ "SYLPH" ],
     "threshreq": [ "THRESH_SYLPH" ],
-    "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_sylph_cannot_be_slowed", "intensity": 1 } ] } ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "WEIGHT", "multiply": -0.05 } ],
+        "ench_effects": [ { "effect": "effect_sylph_cannot_be_slowed", "intensity": 1 } ]
+      }
+    ],
     "flags": [ "STEADY", "SLUDGE_IMMUNE", "WEB_WALKER" ]
   },
   {

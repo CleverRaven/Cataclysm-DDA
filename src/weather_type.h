@@ -90,6 +90,8 @@ struct weather_type {
         float sight_penalty = 0.0f;
         // Modification to ambient light.
         int light_modifier = 0;
+        // Multiplier to ambient light.
+        float light_multiplier = 1.f;
         // Multiplier to radiation from Sun.
         float sun_multiplier = 1.f;
         // Sound attenuation of a given weather type.

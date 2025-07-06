@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "hunting_blind_1_roof",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -36,7 +35,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "hunting_blind" ],
     "weight": 100,
     "object": {
@@ -70,16 +68,12 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "0": "t_window_empty", "c": "t_dirtfloor", "f": "t_dirtfloor", "|": "t_wall_wood" },
       "furniture": { "c": "f_camp_chair" },
-      "place_items": [
-        { "item": "ammo_rifle_common", "x": 16, "y": 14, "chance": 10 },
-        { "item": "ammo_shotgun_common", "x": 15, "y": 14, "chance": 25 }
-      ],
+      "place_items": [ { "item": "ammo_hunting", "x": 16, "y": 9, "chance": 20 } ],
       "place_nested": [ { "chunks": [ "hunting_blind_1_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "hunting_blind_2_roof",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -114,7 +108,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "hunting_blind" ],
     "weight": 100,
     "object": {
@@ -148,10 +141,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "0": "t_window_empty", "c": "t_dirtfloor", "f": "t_dirtfloor", "|": "t_wall_wood" },
       "furniture": { "c": "f_camp_chair" },
-      "place_items": [
-        { "item": "ammo_rifle_common", "x": 12, "y": 9, "chance": 10 },
-        { "item": "ammo_shotgun_common", "x": 13, "y": 10, "chance": 25 }
-      ],
+      "place_items": [ { "item": "ammo_hunting", "x": 12, "y": 9, "chance": 35 } ],
       "place_nested": [ { "chunks": [ "hunting_blind_2_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   }
