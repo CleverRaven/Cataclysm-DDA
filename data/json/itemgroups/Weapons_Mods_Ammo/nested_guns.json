@@ -563,6 +563,19 @@
     ]
   },
   {
+    "id": "nested_lws32",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "lws32", "charges": [ 0, 6 ] },
+      { "item": "lws32mag" },
+      { "item": "lws32mag", "prob": 50 },
+      { "group": "on_hand_32" }
+    ]
+  },
+  {
     "id": "nested_rugerlcp",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1601,6 +1614,14 @@
     "entries": [ { "item": "henry_golden_boy", "charges": [ 0, 16 ] }, { "group": "on_hand_22" } ]
   },
   {
+    "id": "nested_rascal",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "savage_rascal", "charges": [ 0, 11 ] }, { "group": "on_hand_22" } ]
+  },
+  {
     "id": "nested_rossi_gallery",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1653,6 +1674,14 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "remington_700", "charges": [ 0, 4 ] }, { "group": "on_hand_3006" } ]
+  },
+  {
+    "id": "nested_remington_700_308",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "remington_700_308", "charges": [ 0, 4 ] }, { "group": "on_hand_308" } ]
   },
   {
     "id": "nested_ruger_1022",

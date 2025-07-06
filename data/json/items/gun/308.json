@@ -598,5 +598,44 @@
     "clip_size": 5,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock accessory", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "steyr_scout_mag", "steyr_scout_mag_makeshift" ] } ]
+  },
+  {
+    "id": "remington_700_308",
+    "copy-from": "gun_base_rifle_manual",
+    "looks_like": "ar15",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "hunting rifle" },
+    "description": "A very accurate rifle chambered for the powerful .308 round.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "remington_700_308",
+        "name": { "str": "Remington Model 700" },
+        "description": "An ubiquitous bolt action rifle, the Model 700 is used by police agencies, militaries, and civilians alike around the globe.  Simple, accurate, and cheap."
+      }
+    ],
+    "weight": "3289 g",
+    "volume": "3190 ml",
+    "longest_side": "1141 mm",
+    "barrel_length": "610 mm",
+    "price": "1 kUSD 400 USD",
+    "price_postapoc": "30 USD",
+    "material": [ "steel", "plastic" ],
+    "ammo": [ "308" ],
+    "dispersion": 120,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "clip_size": 4,
+    "barrel_volume": "750 ml",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 4 } } ]
   }
 ]

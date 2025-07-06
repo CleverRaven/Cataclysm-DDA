@@ -36,5 +36,34 @@
     "dispersion": 480,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "41 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "kp32mag" ] } ]
+  },
+  {
+    "id": "lws32",
+    "looks_like": "glock_17",
+    "copy-from": "gun_base_32_semi_pistol",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "micro conceal carry pistol" },
+    "description": "A very small pistol chambered in .32 ACP.  Due to its intended role, it lacks any sights.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "lws32",
+        "name": { "str": "Seecamp LWS 32" },
+        "description": "A very small pistol chambered in .32 ACP.  It lacks any sort of sights as it's designed for very close engagement distances."
+      }
+    ],
+    "weight": "296 g",
+    "volume": "105 ml",
+    "longest_side": "127 mm",
+    "barrel_length": "51 mm",
+    "price": "579 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "steel", "plastic", "aluminum" ],
+    "melee_damage": { "bash": 3 },
+    "dispersion": 480,
+    "sight_dispersion": 1200,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [ { "magazine_well": "41 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "lws32mag" ] } ]
   }
 ]
