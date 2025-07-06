@@ -13,6 +13,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "bleed_rate": 50,
+    "vision_day": 30,
     "harvest": "mr_bones",
     "special_attacks": [ { "id": "grab", "cooldown": 21 }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid", "cooldown": 5 } ],
     "upgrades": { "half_life": 128, "into_group": "GROUP_SKELETON_UPGRADE" },
@@ -52,7 +53,8 @@
     "upgrades": { "half_life": 180, "into": "mon_skeleton_hulk" },
     "fungalize_into": "mon_skeleton_brute_dusted",
     "armor": { "bash": 12, "cut": 30, "acid": 1, "bullet": 30, "electric": 4 },
-    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ], "flags": [ "PULP_PRYING" ] }
+    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ], "flags": [ "PULP_PRYING" ] },
+    "delete": { "flags": [ "STUMBLES" ] }
   },
   {
     "id": "mon_skeleton_electric",
@@ -67,6 +69,7 @@
     "material": [ "bone" ],
     "color": "blue_white",
     "melee_damage": [ { "damage_type": "electric", "amount": 12 }, { "damage_type": "cut", "amount": 3 } ],
+    "vision_day": 30,
     "luminance": 8,
     "bleed_rate": 0,
     "harvest": "mr_bones",
@@ -84,7 +87,8 @@
       "weakpoint_sets": [ "wps_bone_armor" ],
       "families": [ "prof_wp_skeleton", "prof_electromagnetics" ],
       "flags": [ "ELECTRIC", "PULP_PRYING" ]
-    }
+    },
+    "delete": { "flags": [ "STUMBLES" ] }
   },
   {
     "id": "mon_skeleton_hulk",
