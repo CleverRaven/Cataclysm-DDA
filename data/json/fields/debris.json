@@ -5,7 +5,7 @@
     "intensity_levels": [
       { "name": "dust", "sym": "%", "color": "brown", "transparent": true, "dangerous": false, "concentration": 1 },
       {
-        "name": "fountain of dust",
+        "name": "dust and grime",
         "sym": "%",
         "color": "brown",
         "transparent": true,
@@ -20,13 +20,13 @@
     "description_affix": "covered_in",
     "mopsafe": true,
     "moppable": true,
-    "percent_spread": 33,
+    "percent_spread": 20,
     "phase": "gas"
   },
   {
     "type": "field_type",
     "id": "fd_splinters",
-    "intensity_levels": [ { "name": "splinters", "sym": "%", "color": "brown", "transparent": true, "dangerous": false, "concentration": 1 } ],
+    "intensity_levels": [ { "name": "wood debris", "sym": "%", "color": "brown", "transparent": true, "dangerous": false, "concentration": 1 } ],
     "priority": 2,
     "dirty_transparency_cache": false,
     "display_items": true,
