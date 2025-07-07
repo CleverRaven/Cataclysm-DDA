@@ -256,7 +256,7 @@
     "name": "manual tooling",
     "description": "Practice working metal into the complex forms and designs of several tools like hammers and screwdrivers.",
     "skill_used": "fabrication",
-    "practice_data": { "min_difficulty": 4, "max_difficulty": 5, "skill_limit": 6 },
+    "practice_data": { "min_difficulty": 4, "max_difficulty": 5, "skill_limit": 5 },
     "proficiencies": [
       { "proficiency": "prof_metalworking", "required": true },
       { "proficiency": "prof_blacksmithing", "required": true },
@@ -264,8 +264,8 @@
     ],
     "time": "1 h",
     "tools": [ [ [ "drift", -1 ] ] ],
-    "byproducts": [ [ "scrap", 2 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 4 ] ],
+    "byproducts": [ [ "scrap", 7 ] ],
+    "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 7 ] ],
     "autolearn": [ [ "fabrication", 6 ] ],
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "reference_fabrication1", 4 ] ]
   },
