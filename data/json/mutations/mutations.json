@@ -67,7 +67,7 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "EYES", "VISION" ],
-    "cancels": [ "EAGLEEYED", "EYEBULGE", "INFRARED", "MEMBRANE", "MYOPIC", "SEESLEEP" ],
+    "cancels": [ "EAGLEEYED", "EYEBULGE", "INFRARED", "MEMBRANE", "MYOPIC", "HYPEROPIC", "MESOPIC", "SEESLEEP" ],
     "description": "You have human eyes."
   },
   {
@@ -1533,7 +1533,7 @@
     "vitamin_cost": 160,
     "description": "Without glasses, your seeing radius is severely reduced!  However, you are guaranteed to start with a pair of glasses.",
     "starting_trait": true,
-    "cancels": [ "URSINE_EYE" ],
+    "cancels": [ "URSINE_EYE", "MESOPIC" ],
     "category": [ "BEAST" ],
     "flags": [ "MYOPIC" ]
   },
@@ -1590,6 +1590,7 @@
     "points": -2,
     "description": "Without reading glasses, you are unable to read anything, and take penalties on melee accuracy and electronics/tailoring crafting.  However, you are guaranteed to start with a pair of reading glasses.",
     "starting_trait": true,
+    "cancels": [ "MESOPIC" ],
     "flags": [ "HYPEROPIC" ]
   },
   {
@@ -2452,8 +2453,8 @@
     "points": -1,
     "vitamin_cost": 60,
     "description": "You find it difficult to see very far in bright light.  On its own, this doesn't necessarily make you any better in the dark.",
-    "types": [ "EYES", "VISION" ],
-    "cancels": [ "MYOPIC" ],
+    "starting_trait": true,
+    "cancels": [ "MYOPIC", "HYPEROPIC" ],
     "category": [ "CHIROPTERAN", "TROGLOBITE" ],
     "flags": [ "MYOPIC_IN_LIGHT" ]
   },
