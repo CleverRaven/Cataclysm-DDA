@@ -122,7 +122,7 @@
   {
     "id": "bloodthorne_druid_bandage_01",
     "type": "ITEM",
-    "name": "Heartvines",
+    "name": { "str_sp": "Heartvines" },
     "looks_like": "bandage",
     "description": { "str": "A magical bandage.  You should never see this.", "//~": "NO_I18N" },
     "weight": "0 g",
@@ -138,7 +138,7 @@
   {
     "id": "bloodthorne_druid_bandages_02",
     "type": "ITEM",
-    "name": "Heartvines",
+    "name": { "str_sp": "Heartvines" },
     "looks_like": "bandage",
     "description": { "str": "A magical bandage.  You should never see this.", "//~": "NO_I18N" },
     "weight": "0 g",
@@ -154,7 +154,7 @@
   {
     "id": "bloodthorne_druid_bandages_03",
     "type": "ITEM",
-    "name": "Heartvines",
+    "name": { "str_sp": "Heartvines" },
     "looks_like": "bandage",
     "description": { "str": "A magical bandage.  You should never see this.", "//~": "NO_I18N" },
     "weight": "0 g",
