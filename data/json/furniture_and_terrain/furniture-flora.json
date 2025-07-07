@@ -569,7 +569,9 @@
         { "item": "stick_long", "count": [ 2, 3 ] },
         { "item": "splinter", "count": [ 5, 10 ] },
         { "item": "leaves", "count": [ 5, 8 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -595,7 +597,9 @@
         { "item": "stick_long", "count": [ 3, 6 ] },
         { "item": "splinter", "count": [ 8, 16 ] },
         { "item": "leaves", "count": [ 7, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -619,7 +623,9 @@
         { "item": "stick_long", "count": [ 3, 6 ] },
         { "item": "splinter", "count": [ 8, 16 ] },
         { "item": "leaves", "count": [ 7, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -643,7 +649,9 @@
         { "item": "stick_long", "count": [ 3, 6 ] },
         { "item": "splinter", "count": [ 8, 16 ] },
         { "item": "leaves", "count": [ 7, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -667,7 +675,9 @@
         { "item": "stick_long", "count": [ 3, 6 ] },
         { "item": "splinter", "count": [ 8, 16 ] },
         { "item": "leaves", "count": [ 7, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -691,7 +701,9 @@
         { "item": "stick", "count": [ 5, 12 ] },
         { "item": "stick_long", "count": [ 5, 12 ] },
         { "item": "splinter", "count": [ 12, 38 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   }
 ]

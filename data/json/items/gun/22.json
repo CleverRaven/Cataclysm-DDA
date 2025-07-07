@@ -662,6 +662,48 @@
     "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock44_mag" ] } ]
   },
   {
+    "id": "savage_rascal",
+    "copy-from": "gun_base_rifle_manual",
+    "looks_like": "marlin_9a",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "small game single shot rifle" },
+    "description": "A .22 Long Rifle rifle that chambers just one shot.  Its main use is for the youth, and not much else.  God help you if you hope to use this thing to a meaningful effect.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "savage_rascal",
+        "name": { "str": "Savage Rascal" },
+        "description": "A .22 Long Rifle rifle that chambers just one shot.  Its main use is for the youth, and not much else.  God help you if you hope to use this thing to a meaningful effect."
+      }
+    ],
+    "//": "Stats from https://savagearms.com/firearms/sku/13775",
+    "weight": "1230 g",
+    "volume": "1284 ml",
+    "longest_side": "783 mm",
+    "barrel_length": "410 mm",
+    "price": "169 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "steel", "plastic" ],
+    "melee_damage": { "bash": 7 },
+    "range": 4,
+    "ammo": [ "22" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
+    "dispersion": 100,
+    "clip_size": 1,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 1 } } ]
+  },
+  {
     "id": "mp_15_22",
     "looks_like": "ar15",
     "copy-from": "gun_base_22_semi_rifle",

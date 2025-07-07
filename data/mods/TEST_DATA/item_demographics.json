@@ -731,7 +731,8 @@
             "rough_rider_pistol_9": 1,
             "rossi_gallery": 1,
             "sr22": 1,
-            "sw617": 1
+            "sw617": 1,
+            "savage_rascal": 1
           }
         },
         {
@@ -871,7 +872,8 @@
             "m110a1": 1,
             "ak308": 1,
             "ar10": 1,
-            "rfb_308": 1
+            "rfb_308": 1,
+            "remington_700_308": 1
           }
         },
         {
@@ -970,7 +972,8 @@
             "rm51_assault_rifle": 1,
             "makarov": 1,
             "skorpion_82": 1,
-            "rifle_9x18": 1
+            "rifle_9x18": 1,
+            "lws32": 1
           }
         }
       ]
@@ -1030,6 +1033,7 @@
             "model_10_revolver": 1,
             "modular_ar_pistol": 1,
             "chiappa_rhino": 1,
+            "lws32": 1,
             "p08": 1,
             "p220_10": 1,
             "p226_357sig": 1,
@@ -1188,6 +1192,7 @@
             "psl": 1,
             "rdb_223": 1,
             "remington_700": 1,
+            "remington_700_308": 1,
             "remington700_270": 1,
             "rfb_308": 1,
             "rifle_22": 1,
@@ -1218,6 +1223,7 @@
             "ruger_pr": 1,
             "savage_111f": 1,
             "savage112": 1,
+            "savage_rascal": 1,
             "scar_16s": 1,
             "scar_17s": 1,
             "scar_h": 1,

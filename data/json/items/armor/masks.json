@@ -282,27 +282,6 @@
     ]
   },
   {
-    "id": "mask_guy_fawkes",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "category": "armor",
-    "name": { "str": "Guy Fawkes mask" },
-    "description": "Remember, remember, the fifth of November.",
-    "weight": "45 g",
-    "volume": "750 ml",
-    "price": "40 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "looks_like": "mask_hockey",
-    "color": "white",
-    "warmth": 5,
-    "material_thickness": 0.2,
-    "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
-  },
-  {
     "id": "mask_hockey",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -414,6 +393,11 @@
         "description": "It's a plastic mask of a lonely spirit.",
         "weight": 15,
         "append": true
+      },
+      {
+        "id": "guy_fawkes",
+        "name": { "str": "Guy Fawkes mask" },
+        "description": "Remember, remember, the fifth of November."
       }
     ]
   },

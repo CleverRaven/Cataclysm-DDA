@@ -130,7 +130,7 @@
     "subtype": "distribution",
     "id": "common_magazines_32",
     "//": "Collections of magazines for 32 ACP guns that are sold in gunstores, such as a PPK.",
-    "items": [ { "item": "ppkmag", "prob": 100 }, { "item": "kp32mag", "prob": 68 } ]
+    "items": [ { "item": "ppkmag", "prob": 100 }, { "item": "kp32mag", "prob": 68 }, { "item": "lws32mag", "prob": 2000 } ]
   },
   {
     "type": "item_group",

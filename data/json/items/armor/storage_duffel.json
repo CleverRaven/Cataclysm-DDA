@@ -1,5 +1,381 @@
 [
   {
+    "id": "duffelbag_gym_xxs",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "//": "Inspired by Under Armour Undeniable 5.0 XXS",
+    "name": { "str": "small gym bag" },
+    "description": "A little bag for carrying items to the gym.  Basically an extremely small duffel bag.",
+    "weight": "350 g",
+    "volume": "3 L",
+    "price": "35 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "looks_like": "duffelbag",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "18 L",
+        "max_contains_weight": "35 kg",
+        "max_item_length": "20 cm",
+        "magazine_well": "2 L",
+        "moves": 300
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "25 cm",
+        "moves": 120,
+        "description": "A zippered front pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "510 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "24 cm",
+        "moves": 80,
+        "description": "Mesh pocket for small items.",
+        "ripoff": 2
+      }
+    ],
+    "material_thickness": 1,
+    "use_action": [ { "type": "attach_molle", "size": 2 }, { "type": "detach_molle" } ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": 1,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
+  },
+  {
+    "id": "duffelbag_gym_xs",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "//": "Inspired by Under Armour Undeniable 5.0 XS and Nike Gym Club Duffel Bag 24L",
+    "name": { "str": "light gym bag" },
+    "description": "A light bag for carrying items to the gym.  Basically a very small duffel bag.",
+    "weight": "450 g",
+    "volume": "4 L",
+    "price": "40 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "looks_like": "duffelbag",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "24 L",
+        "max_contains_weight": "40 kg",
+        "max_item_length": "40 cm",
+        "magazine_well": "3 L",
+        "moves": 300
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "30 cm",
+        "moves": 120,
+        "description": "A zippered front pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "510 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "24 cm",
+        "moves": 80,
+        "description": "Mesh pocket for small items.",
+        "ripoff": 2
+      }
+    ],
+    "material_thickness": 1,
+    "use_action": [ { "type": "attach_molle", "size": 2 }, { "type": "detach_molle" } ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": 1,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
+  },
+  {
+    "id": "duffelbag_gym_s",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "//": "Inspired by Under Armour Undeniable 5.0 S",
+    "name": { "str": "gym bag" },
+    "description": "A bag for carrying items to the gym.  Basically a small duffel bag.",
+    "weight": "600 g",
+    "volume": "6 L",
+    "price": "45 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "looks_like": "duffelbag",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "40 L",
+        "max_contains_weight": "60 kg",
+        "max_item_length": "55 cm",
+        "magazine_well": "5 L",
+        "moves": 300
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "40 cm",
+        "moves": 120,
+        "description": "A zippered front pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "32 cm",
+        "moves": 80,
+        "description": "Mesh pocket for a water bottle.",
+        "ripoff": 2
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "32 cm",
+        "moves": 80,
+        "description": "Mesh pocket for a water bottle.",
+        "ripoff": 2
+      }
+    ],
+    "material_thickness": 1,
+    "use_action": [ { "type": "attach_molle", "size": 2 }, { "type": "detach_molle" } ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
+  },
+  {
+    "id": "duffelbag_gym_m",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "//": "Inspired by Under Armour Undeniable 5.0 M",
+    "name": { "str": "gym bag" },
+    "description": "A bag for carrying items to the gym.  Basically a duffel bag.",
+    "weight": "800 g",
+    "volume": "7 L",
+    "price": "50 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "looks_like": "duffelbag",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "60 L",
+        "max_contains_weight": "60 kg",
+        "max_item_length": "60 cm",
+        "magazine_well": "6 L",
+        "moves": 300
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "50 cm",
+        "moves": 120,
+        "description": "A zippered front pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "32 cm",
+        "moves": 80,
+        "description": "Mesh pocket for a water bottle.",
+        "ripoff": 2
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "32 cm",
+        "moves": 80,
+        "description": "Mesh pocket for a water bottle.",
+        "ripoff": 2
+      }
+    ],
+    "material_thickness": 1,
+    "use_action": [ { "type": "attach_molle", "size": 2 }, { "type": "detach_molle" } ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
+  },
+  {
+    "id": "duffelbag_gym_l",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "//": "Inspired by Under Armour Undeniable 5.0 L",
+    "name": { "str": "large gym bag" },
+    "description": "A bag for carrying items to the gym.  Basically a large duffel bag.",
+    "weight": "1100 g",
+    "volume": "10 L",
+    "price": "60 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "looks_like": "duffelbag",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "101 L",
+        "max_contains_weight": "60 kg",
+        "max_item_length": "70 cm",
+        "magazine_well": "9 L",
+        "moves": 300
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "60 cm",
+        "moves": 120,
+        "description": "A zippered front pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "32 cm",
+        "moves": 80,
+        "description": "Mesh pocket for a water bottle.",
+        "ripoff": 2
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "32 cm",
+        "moves": 80,
+        "description": "Mesh pocket for a water bottle.",
+        "ripoff": 2
+      }
+    ],
+    "material_thickness": 1,
+    "use_action": [ { "type": "attach_molle", "size": 2 }, { "type": "detach_molle" } ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
+  },
+  {
+    "id": "duffelbag_gym_xl",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "//": "Inspired by Under Armour Undeniable 5.0 XL",
+    "name": { "str": "big gym bag" },
+    "description": "A very spacious bag for carrying things to the gym.  Basically a very large duffel bag.",
+    "weight": "1400 g",
+    "volume": "15 L",
+    "price": "70 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "looks_like": "duffelbag",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "144 L",
+        "max_contains_weight": "60 kg",
+        "max_item_length": "80 cm",
+        "magazine_well": "14 L",
+        "moves": 300
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "60 cm",
+        "moves": 120,
+        "description": "A zippered front pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "35 cm",
+        "moves": 80,
+        "description": "Mesh pocket for a water bottle.",
+        "ripoff": 2
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "35 cm",
+        "moves": 80,
+        "description": "Mesh pocket for a water bottle.",
+        "ripoff": 2
+      }
+    ],
+    "material_thickness": 1,
+    "use_action": [ { "type": "attach_molle", "size": 2 }, { "type": "detach_molle" } ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
+  },
+  {
     "id": "duffelbag_l_poly",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],

@@ -154,7 +154,11 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_32",
-    "items": [ { "group": "nested_kp32", "prob": 100 }, { "group": "nested_walther_ppk", "prob": 71 } ]
+    "items": [
+      { "group": "nested_kp32", "prob": 100 },
+      { "group": "nested_walther_ppk", "prob": 71 },
+      { "group": "nested_lws32", "prob": 2000 }
+    ]
   },
   {
     "type": "item_group",
@@ -315,7 +319,11 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_32",
-    "items": [ { "item": "kp32", "prob": 10, "charges": [ 0, -1 ] }, { "item": "walther_ppk", "prob": 1, "charges": [ 0, -1 ] } ]
+    "items": [
+      { "item": "kp32", "prob": 10, "charges": [ 0, -1 ] },
+      { "item": "walther_ppk", "prob": 1, "charges": [ 0, -1 ] },
+      { "item": "lws32", "prob": 200, "charges": [ 0, -1 ] }
+    ]
   },
   {
     "type": "item_group",
@@ -491,7 +499,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_32",
-    "items": [ { "item": "kp32", "prob": 100 }, { "item": "walther_ppk", "prob": 71 } ]
+    "items": [ { "item": "kp32", "prob": 100 }, { "item": "walther_ppk", "prob": 71 }, { "item": "lws32", "prob": 2000 } ]
   },
   {
     "type": "item_group",
@@ -544,6 +552,7 @@
       { "group": "nested_rio_bravo", "prob": 15 },
       { "group": "nested_henry_golden_boy", "prob": 31 },
       { "group": "nested_marlin60", "prob": 20 },
+      { "group": "nested_rascal", "prob": 4 },
       { "group": "nested_mp_15_22", "prob": 45 }
     ]
   },
@@ -576,7 +585,8 @@
       { "group": "nested_fn_fal", "prob": 5 },
       { "group": "nested_hk_g3", "prob": 1 },
       { "group": "nested_ak308", "prob": 20 },
-      { "group": "nested_steyr_scout", "prob": 6 }
+      { "group": "nested_steyr_scout", "prob": 6 },
+      { "group": "nested_remington_700_308", "prob": 83 }
     ]
   },
   {
@@ -724,6 +734,7 @@
       { "item": "rio_bravo", "prob": 15 },
       { "item": "henry_golden_boy", "prob": 31 },
       { "item": "marlin60", "prob": 20 },
+      { "item": "savage_rascal", "prob": 4 },
       { "item": "mp_15_22", "prob": 45 }
     ]
   },
@@ -757,7 +768,8 @@
       { "item": "fn_fal_semi", "prob": 5 },
       { "item": "hk_g3", "prob": 1 },
       { "item": "ak308", "prob": 20 },
-      { "item": "steyr_scout", "prob": 6 }
+      { "item": "steyr_scout", "prob": 6 },
+      { "item": "remington_700_308", "prob": 83 }
     ]
   },
   {

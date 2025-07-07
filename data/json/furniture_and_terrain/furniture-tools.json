@@ -382,7 +382,9 @@
         { "item": "wood_beam", "count": [ 0, 2 ] },
         { "item": "2x4", "count": [ 2, 6 ] },
         { "item": "splinter", "count": [ 5, 20 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -854,7 +856,9 @@
         { "item": "2x4", "count": [ 4, 10 ] },
         { "item": "nail", "charges": [ 10, 30 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1303,7 +1307,9 @@
         { "item": "sheet_metal_small", "count": [ 2, 6 ] },
         { "item": "scrap", "count": [ 5, 10 ] },
         { "item": "splinter", "count": 1 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1339,7 +1345,9 @@
         { "item": "sheet_metal_small", "count": [ 2, 6 ] },
         { "item": "scrap", "count": [ 5, 10 ] },
         { "item": "splinter", "count": 1 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1366,7 +1374,9 @@
         { "item": "2x4", "count": [ 4, 8 ] },
         { "item": "cordage_6", "count": [ 80, 120 ] },
         { "item": "splinter", "count": 2 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1393,7 +1403,9 @@
         { "item": "2x4", "count": [ 4, 8 ] },
         { "item": "cordage_6", "count": [ 80, 120 ] },
         { "item": "splinter", "count": 2 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1598,7 +1610,9 @@
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },
         { "item": "scrap", "count": [ 3, 5 ] },
         { "item": "rock", "count": [ 8, 15 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1626,7 +1640,9 @@
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },
         { "item": "scrap", "count": [ 3, 5 ] },
         { "item": "rock", "count": [ 8, 15 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {

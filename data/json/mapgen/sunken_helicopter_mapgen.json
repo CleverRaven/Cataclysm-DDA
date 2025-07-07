@@ -1,0 +1,104 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "sunken_helicopter" ] ],
+    "object": {
+      "predecessor_mapgen": "lake_bed",
+      "rows": [
+        "                        ",
+        "        #qwe            ",
+        "        qWWxe           ",
+        "        .h.hx#          ",
+        "        42.26           ",
+        "       #x...x #         ",
+        "      # xh,h.           ",
+        "        4h,h6           ",
+        "        4h,h6           ",
+        "        19.73           ",
+        "         xx3s           ",
+        "        ##  ss          ",
+        "       #     s          ",
+        "         #   ss         ",
+        "        w     ss        ",
+        "        w      s        ",
+        "       qwe     s C;     ",
+        "               C o ;    ",
+        "             o;CC       ",
+        "            ;  C        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        "W": "t_sunkenhelicopter_windshield_n",
+        "1": "t_sunkenhelicopter_wall_sw",
+        "2": "t_sunkenhelicopter_wall_s",
+        "3": "t_sunkenhelicopter_wall_se",
+        "4": "t_sunkenhelicopter_wall_w",
+        "6": "t_sunkenhelicopter_wall_e",
+        "7": "t_sunkenhelicopter_wall_nw",
+        "9": "t_sunkenhelicopter_wall_ne",
+        "q": "t_sunkenhelicopter_quarterpanel_n_left",
+        "w": "t_sunkenhelicopter_quarterpanel_n_middle",
+        "e": "t_sunkenhelicopter_quarterpanel_n_right",
+        ".": "t_sunkenhelicopter_floor",
+        ",": "t_sunkenhelicopter_floor_rotator",
+        "x": "t_sunkenhelicopter_frame"
+      },
+      "item": { "s": { "item": "rope_6" }, "#": { "item": "scrap" }, ";": { "item": "2x4" } },
+      "furniture": { "C": "f_metal_crate_c", "o": "f_metal_crate_o", "h": "f_sunkenhelicopter_seat_rotating" },
+      "place_items": [
+        { "x": 15, "y": 17, "item": "combat_exoskeleton_medium_damaged", "chance": 66, "repeat": 2 },
+        { "x": 15, "y": 18, "item": "combat_exoskeleton_light_damaged", "chance": 66, "repeat": 3 },
+        { "x": 17, "y": 16, "item": "combat_exoskeleton_heavy_damaged", "chance": 66, "repeat": 6 },
+        { "x": 16, "y": 18, "item": "combat_exoskeleton_armor_set_damaged", "chance": 66, "repeat": 5 },
+        { "x": 15, "y": 19, "item": "combat_exoskeleton_armor_set_damaged", "chance": 66, "repeat": 6 }
+      ],
+      "place_monster": [ { "monster": "mon_nether_cucumber", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 80, "repeat": 8 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "sunken_heli_roof" ] ],
+    "object": {
+      "fill_ter": "t_water_cube",
+      "rows": [
+        "                        ",
+        "                        ",
+        "         OOx            ",
+        "        OOOOx           ",
+        "        OOOOO           ",
+        "        xOOOx           ",
+        "        xOXOO           ",
+        "        OOOOO           ",
+        "        OOOOO           ",
+        "        OOOOO           ",
+        "         xxO            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "O": "t_sunkenhelicopter_roof", "X": "t_sunkenhelicopter_rotor", "x": "t_sunkenhelicopter_frame" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "nether_cucumber_lake_bed" ] ],
+    "object": {
+      "predecessor_mapgen": "lake_bed",
+      "place_monster": [ { "monster": "mon_nether_cucumber", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 80, "repeat": 5 } ]
+    }
+  }
+]

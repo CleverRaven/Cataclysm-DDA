@@ -3974,7 +3974,7 @@ bool npc::find_corpse_to_pulp()
         {
             if( it.can_revive() ) {
                 const mtype &corpse = *it.get_corpse_mon();
-                if( g->can_pulp_corpse( *this, corpse ) ) {
+                if( !g->can_pulp_corpse( *this, corpse ) ) {
                     continue;
                 }
 

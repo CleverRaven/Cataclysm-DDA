@@ -9155,10 +9155,11 @@ void butchery_activity_actor::do_turn( player_activity &act, Character &you )
     if( this_bd->progress >= this_bd->time_to_butcher ) {
         // this corpse is done
         destroy_the_carcass( *this_bd, you );
-        bd.pop_back();
         if( bd.empty() ) {
             act.moves_left = 0;
             return;
+        } else {
+            bd.pop_back();
         }
     } else {
         this_bd->progress += 1_seconds;
