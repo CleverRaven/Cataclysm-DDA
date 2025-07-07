@@ -2558,6 +2558,12 @@
   },
   {
     "type": "MIGRATION",
+    "id": "mask_guy_fawkes",
+    "replace": "mask_skull",
+    "variant": "guy_fawkes"
+  },
+  {
+    "type": "MIGRATION",
     "id": "robofac_head_rig_ir",
     "replace": "robofac_head_rig_nv"
   },
