@@ -529,6 +529,7 @@
   {
     "id": "heartvine_whip",
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "category": "weapons",
     "name": { "str": "heartvine whip" },
     "description": "A lengthy vine, growing out of your arm and wrapping around your wrist.  It has a series of long, sharp thorns on the parts away from your body.",

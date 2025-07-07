@@ -2097,16 +2097,6 @@
     "purifiable": false,
     "valid": false,
     "profession": true,
-    "types": [ "HERITAGE" ],
-    "enchantments": [
-      {
-        "condition": "ALWAYS",
-        "values": [ { "value": "MAX_MANA", "add": { "math": [ "bloodthorn_druid_traits_sum() * 250" ] } } ]
-      },
-      {
-        "condition": { "math": "u_arvore_is_in_wilderness == 1" },
-        "values": { "value": "REGEN_MANA", "multiply": { "math": [ "bloodthorn_druid_traits_sum() * 0.05" ] } }
-      }
-    ]
+    "types": [ "HERITAGE" ]
   }
 ]

@@ -118,7 +118,7 @@
         ],
         "else": [
           {
-            "u_message": "You have terrible dreams of blood and darkness, interrupted by the sensation of prickling thorns.  You need to get out to the wild places if you want your curse to be purged",
+            "u_message": "You have terrible dreams of blood and darkness, interrupted by the sensation of prickling thorns.  You need to sleep out in the wild places if you want your curse to be purged",
             "type": "mixed"
           },
           { "math": [ "u_pain()", "+=", "10 + rand(10)" ] },

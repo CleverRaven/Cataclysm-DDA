@@ -21,7 +21,7 @@
         ]
       }
     ],
-    "flags": [ "ATTUNEMENT", "HERITAGE" ]
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
