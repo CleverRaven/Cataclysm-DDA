@@ -165,7 +165,6 @@ static const skill_id skill_unarmed( "unarmed" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
-static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_NO_BASH( "NO_BASH" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
@@ -3042,14 +3041,9 @@ void npc::die( map *here, Creature *nkiller )
             if( player_character.has_flag( json_flag_PSYCHOPATH ) ||
                 player_character.has_flag( json_flag_SAPIOVORE ) ) {
                 morale_effect = 0;
-            } // Killer has the psychopath flag, so we're at +5 total. Whee!
-            if( player_character.has_trait( trait_KILLER ) ) {
-                morale_effect += 5;
             } // only god can juge me
             if( player_character.has_flag( json_flag_SPIRITUAL ) &&
-                ( !player_character.has_flag( json_flag_PSYCHOPATH ) ||
-                  ( player_character.has_flag( json_flag_PSYCHOPATH ) &&
-                    player_character.has_trait( trait_KILLER ) ) ) &&
+                !player_character.has_flag( json_flag_PSYCHOPATH ) &&
                 !player_character.has_flag( json_flag_SAPIOVORE ) ) {
                 if( morale_effect < 0 ) {
                     add_msg( _( "You feel ashamed of your actions." ) );
@@ -3063,11 +3057,11 @@ void npc::die( map *here, Creature *nkiller )
             if( morale_effect == 0 ) {
                 // No morale effect
             } else if( morale_effect <= -50 ) {
-                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 2_days, 3_hours );
+                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 14_days, 7_days );
             } else if( morale_effect > -50 && morale_effect < 0 ) {
-                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 1_days, 1_hours );
+                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 10_days, 7_days );
             } else {
-                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 3_hours, 7_minutes );
+                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 7_days, 4_days );
             }
         }
     }

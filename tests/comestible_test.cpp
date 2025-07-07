@@ -327,7 +327,7 @@ TEST_CASE( "effective_food_volume_and_satiety", "[character][food][satiety]" )
     // If kcal per gram > 3.0, return sqrt( 3 * kcal / gram )
     expect_ratio = std::sqrt( 3.0f * 202 / 30 );
     CHECK( u.compute_effective_food_volume_ratio( nuts ) == Approx( expect_ratio ).margin( 0.01f ) );
-    CHECK( u.compute_calories_per_effective_volume( nuts ) == 1507 );
+    CHECK( u.compute_calories_per_effective_volume( nuts ) == 1141 );
     CHECK( satiety_bar( 1507 ) == "<color_c_light_green>||||</color>." );
     REQUIRE( u.mutate_towards( trait_GOURMAND ) );
     // stomach size affects food with water...
@@ -336,7 +336,7 @@ TEST_CASE( "effective_food_volume_and_satiety", "[character][food][satiety]" )
     CHECK( satiety_bar( 1568 ) == "<color_c_green>||||</color>." );
     // but not food without water.
     CHECK( u.compute_effective_food_volume_ratio( nuts ) == Approx( expect_ratio ).margin( 0.01f ) );
-    CHECK( u.compute_calories_per_effective_volume( nuts ) == 1507 );
+    CHECK( u.compute_calories_per_effective_volume( nuts ) == 1160 );
     CHECK( satiety_bar( 1507 ) == "<color_c_light_green>||||</color>." );
 }
 

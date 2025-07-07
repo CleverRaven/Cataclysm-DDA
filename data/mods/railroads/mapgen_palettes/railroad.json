@@ -91,8 +91,8 @@
       "a": { "item": "SUS_trash_trashcan", "chance": 30 },
       "!": { "item": "SUS_trash_trashcan", "chance": 30 },
       "&": { "item": "SUS_trash_trashcan", "chance": 30 },
-      "d": { "item": "office", "chance": 30 },
-      "C": [ { "item": "office", "chance": 30 }, { "item": "cash_register_random", "chance": 100 } ],
+      "d": { "item": "SUS_office_desk", "chance": 30 },
+      "C": [ { "item": "SUS_office_desk", "chance": 30 }, { "item": "cash_register_random", "chance": 100 } ],
       "l": { "item": "clothing_work_set", "chance": 30 },
       "b": [ { "item": "snacks", "chance": 10 }, { "item": "novels", "chance": 10 }, { "item": "alcohol", "chance": 5 } ],
       "B": [

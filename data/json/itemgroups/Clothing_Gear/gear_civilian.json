@@ -270,7 +270,7 @@
       [ "mintpatties", 20 ],
       { "item": "electrohack", "prob": 3, "charges": [ 0, 100 ] },
       { "group": "civilian_usb_drives", "prob": 5 },
-      { "group": "ammo_pocket_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_random", "prob": 50 },
       [ "file", 10 ],
       [ "manual_computer", 20 ],
       [ "hackerman_computer", 10 ],

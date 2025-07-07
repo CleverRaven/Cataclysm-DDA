@@ -3,7 +3,7 @@ If you want to remove some item, it is rarely as straightforward as "remove the 
 
 Migration is used, when we want to remove one item by replacing it with another item, that do exist in the game, or to maintain a consistent list of item type ids. After migration, the item can be safely removed - remember to remove all mentions of entity elsewhere
 
-Migration and obsoletion should happen in `\data\json\obsoletion_and_migration_<current_stable_version>` folder
+Migration and obsoletion should happen in `\data\json\obsoletion_and_migration_<current_stable_version>` folder except for mod migration which is handled in `\data\core\`
 
 # Item migration
 
@@ -308,9 +308,26 @@ Don't need any migration
 
 body_part have no infrastructure to migrate them, just copy the entire json of body_part to the obsoletion folder
 
-# Mod obsoletion
+# Mods
 
-For mods, you need to add an `"obsolete": true,` boolean into MOD_INFO, which prevent the mod from showing into the mod list.
+## Obsoletion
+
+To obsolete a mod, you need to add an `"obsolete": true,` boolean into MOD_INFO, which prevents the mod from showing in the mod list when creating a new world but won't affect existing worlds.
+
+When declaring a mod obsolete, consider also adding its directory to the `lang/update_pot.sh` file via the `-D` argument to `extract_json_strings.py` so it's no longer exposed to translation.
+
+```diff
+echo "> Extracting strings from JSON"
+if ! lang/extract_json_strings.py \
+        -i data \
+        ...
++       -D data/mods/YOUR_DEPRECATED_MOD \
+        -n "$package $version" \
+        -r lang/po/gui.pot \
+        -o lang/po/json.pot
+```
+
+### Example
 
 ```jsonc
   {
@@ -324,17 +341,39 @@ For mods, you need to add an `"obsolete": true,` boolean into MOD_INFO, which pr
   }
 ```
 
-When declaring a mod obsolete, also consider adding its directory to the `lang/update_pot.sh` file via the `-D` argument to `extract_json_strings.py`:
 
-```diff
-echo "> Extracting strings from JSON"
-if ! lang/extract_json_strings.py \
-        -i data \
-        ...
-        -D data/mods/BlazeIndustries \
-        -D data/mods/desert_region \
-+       -D data/mods/YOUR_DEPRECATED_MOD \
-        -n "$package $version" \
-        -r lang/po/gui.pot \
-        -o lang/po/json.pot
+## Migration
+
+Mod migrations should be located in the `\data\core\` folder and enable a no longer existing `id` to be silently migrated to a new id when loading a world where the old mod is present.
+
+```json
+  {
+    "type": "mod_migration",
+    "//": "Migrated in 0.X experimental meaning this can be removed after 0.X stable",
+    "id": "old_mod_id",
+    "new_id": "new_mod_id"
+  }
 ```
+
+## Removal
+
+Mod removals should be located in the `\data\core\` folder and must include a message that will appear when querying the player what to do when loading a world where the old mod is present.
+
+### Example
+
+```json
+  {
+    "type": "mod_migration",
+    "//": "Removed in 0.X experimental meaning this can be removed after 0.X stable",
+    "id": "old_mod_id",
+    "removal_message": "Removed because it hasn't been maintained in a decade."
+  }
+```
+
+The above would lead to this (translated) query:
+
+```
+Mod old_mod_id has been removed with reason: Removed because it hasn't been maintained in a decade.
+Remove it from this world's modlist?
+```
+

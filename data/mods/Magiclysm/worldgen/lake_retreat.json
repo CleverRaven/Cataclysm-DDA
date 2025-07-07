@@ -88,7 +88,7 @@
           { "item": "novels", "chance": 20, "repeat": [ 2, 4 ] }
         ],
         "I": [
-          { "item": "office", "chance": 30, "repeat": [ 2, 4 ] },
+          { "item": "SUS_office_desk", "chance": 50 },
           { "item": "magic_shop_potions", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "magic_shop_wands", "chance": 15 },
           { "item": "enchanted_small_items", "chance": 20 }

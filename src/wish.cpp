@@ -17,6 +17,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_imgui.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
 #include "color.h"
 #include "coordinates.h"
@@ -711,6 +712,9 @@ class wish_monster_callback: public uilist_callback
                                                 header.c_str() ).x ) * 0.5 );
                     ImGui::TextColored( c_cyan, "%s", header.c_str() );
 
+                    // show debug info
+                    restore_on_out_of_scope<bool> restore_debugmode( debug_mode );
+                    debug_mode = true;
                     tmp.print_info_imgui();
                 }
 

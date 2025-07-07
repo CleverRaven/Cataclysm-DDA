@@ -8,7 +8,7 @@
     "components": [
       [ [ "copper", 3 ] ],
       [ [ "lead", 5 ] ],
-      [ [ "338lapua_casing", 1 ] ],
+      [ [ "unprimed_338lapua_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 58 ] ]
     ]
@@ -21,7 +21,7 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "copper", 6 ] ],
-      [ [ "338lapua_casing", 1 ] ],
+      [ [ "unprimed_338lapua_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 58 ] ],
       [ [ "scrap", 1 ] ]
@@ -35,11 +35,19 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "copper", 3 ] ],
-      [ [ "338lapua_casing", 1 ] ],
+      [ [ "unprimed_338lapua_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 58 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "incendiary", 6 ] ]
     ]
+  },
+  {
+    "result": "338lapua_casing",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "unprimed_338lapua_casing", 1 ] ], [ [ "spent_lgrifle_primer", 1 ] ] ]
   }
 ]

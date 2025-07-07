@@ -216,7 +216,8 @@
       "ruger_mk4_mag",
       "1911_22_mag",
       "sr22_mag",
-      "glock44_mag"
+      "glock44_mag",
+      "mp1522_mag"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_mag"

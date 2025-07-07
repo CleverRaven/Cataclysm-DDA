@@ -3965,7 +3965,7 @@
     "id": "pallet",
     "type": "ITEM",
     "name": { "str": "wooden pallet" },
-    "description": "This is a heavy and bulky 40x48 inch palette.",
+    "description": "This is a heavy and bulky 40x48 inch pallet.",
     "weight": "28 kg",
     "volume": "194400 ml",
     "material": [ "wood" ],

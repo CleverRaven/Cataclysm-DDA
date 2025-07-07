@@ -1515,7 +1515,7 @@ void mattack_actor::load( const JsonObject &jo, const std::string &src )
         assign( jo, "id", id, false );
     }
 
-    cooldown = get_dbl_or_var( jo, "cooldown", false, 0.0 );
+    mandatory( jo, was_loaded, "cooldown", cooldown, dbl_or_var_reader{} );
 
     load_internal( jo, src );
     // Set was_loaded manually because we don't have generic_factory to do it for us

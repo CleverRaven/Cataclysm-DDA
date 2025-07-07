@@ -630,5 +630,17 @@
     "id": "mil_base_minefield_sw",
     "copy-from": "generic_mil_base_minefield",
     "sym": "└"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_gate_right",
+    "copy-from": "generic_mil_base_minefield",
+    "sym": "┐"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_gate_left",
+    "copy-from": "generic_mil_base_minefield",
+    "sym": "┌"
   }
 ]

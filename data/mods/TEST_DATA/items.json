@@ -1003,7 +1003,8 @@
         "max_contains_weight": "1 g",
         "weight_multiplier": 0.0
       }
-    ]
+    ],
+    "extend": { "flags": [ "CAN_USE_IN_DARK" ] }
   },
   {
     "id": "test_battery_disposable",

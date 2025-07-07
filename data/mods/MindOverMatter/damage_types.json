@@ -237,7 +237,7 @@
         { "not": { "npc_has_flag": "TELESTOP" } }
       ]
     },
-    "effect": [ { "npc_cast_spell": { "id": "teleport_blink", "min_level": 10 } } ]
+    "effect": [ { "npc_cast_spell": { "id": "teleport_damage_type_blink", "min_level": 10 } } ]
   },
   {
     "id": "psi_enervation_damage",

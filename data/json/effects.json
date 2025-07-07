@@ -4324,7 +4324,7 @@
       "You've lost some blood and look somewhat pale.",
       "You've lost a large amount of blood, and you're not feeling well.",
       "You've lost an awful lot of blood, and your condition is severe.  Seek medical attention.",
-      "You've lost tremendous amount of blood, and you're standing on death's door.  Transfusion might save you."
+      "You've lost tremendous amount of blood, and you're standing on death's door.  Saline infusion might save you."
     ],
     "apply_message": "You have lost a lot of blood, and your condition worsens.",
     "remove_message": "You are no longer in shock.",

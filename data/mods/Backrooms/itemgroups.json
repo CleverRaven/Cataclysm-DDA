@@ -604,9 +604,8 @@
     "subtype": "distribution",
     "entries": [
       { "group": "cubical_office", "count": [ 1, 6 ], "prob": 100 },
-      { "group": "office", "count": [ 1, 5 ], "prob": 100 },
-      { "group": "SUS_office_mess", "count": [ 1, 2 ], "prob": 35 },
-      { "group": "SUS_office_desk", "prob": 50 }
+      { "group": "SUS_office_desk", "prob": 100 },
+      { "group": "SUS_office_mess", "count": [ 1, 2 ], "prob": 35 }
     ]
   },
   {

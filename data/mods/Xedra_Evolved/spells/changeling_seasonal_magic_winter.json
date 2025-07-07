@@ -146,7 +146,7 @@
     "id": "changeling_winter_silence_spell",
     "type": "SPELL",
     "name": "The Rime-Stilled Tongue",
-    "description": "Instill ice into a single target's tongue, rendering it heavy and unwieldy in their mouth, and silent their voice with it.  The affected target will not be able to speak or make any noise at all.  The glamour <color_green>lasts much longer</color> in winter.",
+    "description": "Instill ice into a single target's tongue, rendering it heavy and unwieldy in their mouth, and silence their voice with it.  The affected target will not be able to speak or make any noise at all.  The glamour <color_green>lasts much longer</color> in winter.",
     "message": "Snow forms around your hand as you gesture at your target.",
     "flags": [ "SOMATIC", "NO_LEGS", "RANDOM_DURATION" ],
     "magic_type": "xe_fey_seasonal_magick_winter",
@@ -159,12 +159,8 @@
     "difficulty": 3,
     "effect": "attack",
     "effect_str": "effect_changeling_winter_silence",
-    "min_range": {
-      "math": [ "min( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.8) + u_skill('deduction')), 30)" ]
-    },
-    "max_range": {
-      "math": [ "min( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.8) + u_skill('deduction')), 30)" ]
-    },
+    "min_range": 20,
+    "max_range": 20,
     "min_duration": {
       "math": [
         "( ( 788 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 253) + (u_skill('deduction') * 672) ) ) * (global_what_is_the_season == 4 ? 2.4 : 1)"
@@ -179,6 +175,41 @@
       "math": [ "max( ( 150 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') - (u_skill('deduction') * 2)), 75)" ]
     },
     "base_casting_time": 25
+  },
+  {
+    "id": "changeling_winter_blinding_spell",
+    "type": "SPELL",
+    "name": "Snow-Blindness",
+    "description": "Call up the essence of an endless snow field, shining a moment of brilliant light into your target's eyes and blinding them.  The glamour only works outdoors during the day.  The glamour's duration <color_yellow>is reduced</color> in summer.",
+    "message": "You gesture and your target blinks.",
+    "flags": [ "SOMATIC", "NO_LEGS", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "hostile", "ally" ],
+    "condition": { "and": [ "npc_is_outside", "is_day" ] },
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 4,
+    "effect": "attack",
+    "effect_str": "blind",
+    "min_range": 20,
+    "max_range": 20,
+    "min_duration": {
+      "math": [
+        "( ( 1733 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 557) + (u_skill('deduction') * 1680) ) ) * (global_what_is_the_season == 2 ? 0.6 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 3368 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 1345) + (u_skill('deduction') * 3963) ) ) * (global_what_is_the_season == 2 ? 0.4 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 250 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') - (u_skill('deduction') * 2)), 120)" ]
+    },
+    "base_casting_time": 50
   },
   {
     "id": "changeling_winter_frozen_breath_spell",
@@ -436,6 +467,45 @@
     "field_chance": 1
   },
   {
+    "id": "changeling_winter_cut_off_fey_nature_spell",
+    "type": "SPELL",
+    "name": "The Soul of Iron",
+    "description": "Infuse yourself with the cold and the stasis of iron, cutting off your fey powers.  You will no longer to be able to use any glamours, but can touch iron and steel without penalty.  This glamour's duration is <color_green>extended</color> in winter.",
+    "message": "You feel an dull cold fill your entire body.",
+    "flags": [ "VERBAL", "NO_LEGS", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 9,
+    "effect": "attack",
+    "effect_str": "effect_changeling_winter_cut_off_fey_nature",
+    "components": "spell_components_changeling_dreamsparks_3",
+    "min_duration": {
+      "math": [
+        "( ( 5978 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 2684) + (u_skill('deduction') * 8225) ) ) * (global_what_is_the_season == 4 ? 1.4 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 28028 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 13630) + (u_skill('deduction') * 30212) ) ) * (global_what_is_the_season == 4 ? 1.4 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 600 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 5 ) - (u_skill('deduction') * 10)), 400)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 2000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 10 ) - (u_skill('deduction') * 50)), 500)"
+      ]
+    }
+  },
+  {
     "id": "changeling_winter_pure_area_darkness_spell",
     "type": "SPELL",
     "name": "The Long Dark",
@@ -452,7 +522,7 @@
     "difficulty": 10,
     "effect": "effect_on_condition",
     "effect_str": "EOC_CHANGELING_WINTER_PURE_AREA_DARKNESS",
-    "components": "spell_components_changeling_dreamspark_5",
+    "components": "spell_components_changeling_dreamsparks_5",
     "min_duration": {
       "math": [
         "( ( 3985 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 1678) + (u_skill('deduction') * 4985) ) ) * (global_what_is_the_season == 2 ? 0.3 : 1)"

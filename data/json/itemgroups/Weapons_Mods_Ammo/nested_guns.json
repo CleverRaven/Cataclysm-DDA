@@ -247,19 +247,6 @@
     ]
   },
   {
-    "id": "nested_glock_31",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "glock_31", "charges": [ 0, 15 ] },
-      { "item": "glock40mag" },
-      { "item": "glock40mag", "prob": 50 },
-      { "group": "on_hand_357sig" }
-    ]
-  },
-  {
     "id": "nested_glock_40",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -428,19 +415,6 @@
       { "item": "1911_22", "charges": [ 0, 10 ] },
       { "item": "1911_22_mag" },
       { "item": "1911_22_mag", "prob": 50 },
-      { "group": "on_hand_22" }
-    ]
-  },
-  {
-    "id": "nested_ruger_charger",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "ruger_charger", "charges": [ 0, 10 ] },
-      { "item": "ruger1022mag" },
-      { "item": "ruger1022mag", "prob": 50 },
       { "group": "on_hand_22" }
     ]
   },
@@ -1023,58 +997,6 @@
       { "item": "tdi_10mm_mag" },
       { "item": "tdi_10mm_mag", "prob": 50 },
       { "group": "on_hand_10mm" }
-    ]
-  },
-  {
-    "id": "nested_draco",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "draco", "charges": [ 0, 30 ] },
-      { "item": "akmag30" },
-      { "item": "akmag30", "prob": 50 },
-      { "group": "on_hand_762" }
-    ]
-  },
-  {
-    "id": "nested_draco_mini",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "draco_mini", "charges": [ 0, 30 ] },
-      { "item": "akmag30" },
-      { "item": "akmag30", "prob": 50 },
-      { "group": "on_hand_762" }
-    ]
-  },
-  {
-    "id": "nested_draco_micro",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "draco_micro", "charges": [ 0, 30 ] },
-      { "item": "akmag30" },
-      { "item": "akmag30", "prob": 50 },
-      { "group": "on_hand_762" }
-    ]
-  },
-  {
-    "id": "nested_draco_9mm",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "draco_9mm", "charges": [ 0, 17 ] },
-      { "item": "glockbigmag" },
-      { "item": "glock17_17", "prob": 50 },
-      { "group": "on_hand_9mm" }
     ]
   },
   {
@@ -1746,6 +1668,19 @@
     ]
   },
   {
+    "id": "nested_mp_15_22",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "mp_15_22", "charges": [ 0, 10 ] },
+      { "item": "mp1522_mag" },
+      { "item": "mp1522_mag", "prob": 50 },
+      { "group": "on_hand_22" }
+    ]
+  },
+  {
     "id": "nested_ruger_mini",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1755,6 +1690,19 @@
       { "item": "ruger_mini", "charges": [ 0, 5 ] },
       { "item": "ruger10" },
       { "item": "ruger10", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_mp_15",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "mp_15", "charges": [ 0, 5 ] },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },

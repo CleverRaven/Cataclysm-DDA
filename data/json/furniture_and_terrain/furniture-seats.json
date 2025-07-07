@@ -547,7 +547,7 @@
     "comfort": 6,
     "floor_bedding_warmth": 500,
     "required_str": 10,
-    "deconstruct": { "items": [ { "item": "sheet_nylon", "count": 14 }, { "item": "plastic_chunk", "count": [ 15, 30 ] } ] },
+    "deconstruct": { "items": [ { "item": "beanbag", "count": 1 } ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CAN_SIT", "UNSTABLE" ],
     "bash": {
       "str_min": 12,

@@ -261,7 +261,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 12 minutes to 23 minutes 20 seconds, plus 6 minutes 12 seconds to 13 minutes 30 seconds minutes per level<br />
 *Stamina Cost*: 3500, minus 75 per level to a minimum of 2000<br />
 *Channeling Time*: 50 moves, minus 2 moves per level to a minimum of 20<br />
-*Effects*: Allows the psion to see in the dark.  This increases the psion's night vision by 2 squares plus 1.5 squares per power level.<br />
+*Effects*: Allows the psion to "see" in the dark--this is technically not sight but functions that way for game purposes.  This increases the psion's night vision by 2 squares plus 1.5 squares per power level.  If the psions also has Heightened Senses level 8 or higher (counting Intelligence and Nether Attunement scaling) active, they can craft in darkness as well.<br />
 *Prerequisites*: Heightened Senses 8<br />
 </details>
 <details>
@@ -1055,7 +1055,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Duration*: Instant<br />
 *Stamina Cost*: 4500, minus 125 per level to a minimum of 2250<br />
 *Channeling Time*: 50 moves, minus 4 moves per level to a minimum of 20<br />
-*Effects*: Unleash an indiscriminate wave of force, knocking back everything nearby by 2 to 6 squares, plus 1 square per 10 power levels to 1 square per four power levels. This power affects item and allies as well as enemies.<br />
+*Effects*: Unleash an indiscriminate wave of force, knocking back everything nearby. Like Force Shove, the distance is based on the weight ratio: (power level * 55 kg) * Intelligence modifier * Nether Attunement modifier, divided by the target's weight in kg.  This power affects allies as well as enemies.<br />
 *Prerequisites*: Force Shove 7, Knockdown 4 <br />
 </details>
 <details>

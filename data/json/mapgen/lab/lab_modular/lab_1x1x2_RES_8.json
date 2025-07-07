@@ -91,7 +91,7 @@
       "terrain": { "!": "t_open_air_rooved", "U": "t_linoleum_gray" },
       "items": {
         "f": { "item": "snacks", "chance": 5 },
-        "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "office", "chance": 25 } ],
+        "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "SUS_office_desk", "chance": 25 } ],
         "U": { "item": "cleaning", "chance": 30 },
         "≠": [
           { "item": "prison_weapons", "chance": 30 },

@@ -202,8 +202,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_npc_intercom_trade" } ] } },
-            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" },
-            { "not": { "compare_string": [ "yes", { "u_val": "u_informed_robofac_of_exodii" } ] } }
+            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" }
           ]
         }
       },
@@ -224,6 +223,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "u_give_robofac_exodii_info" } ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" } },
             { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_npc_intercom_trade" } ] } }
           ]
         }

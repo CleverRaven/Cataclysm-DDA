@@ -398,6 +398,7 @@ static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ALCMET( "ALCMET" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
+static const trait_id trait_DHAMPIR_TRAIT( "DHAMPIR_TRAIT" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATPOISON( "EATPOISON" );
 static const trait_id trait_GILLS( "GILLS" );
@@ -4594,7 +4595,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
-        if( p->has_trait( trait_VAMPIRE ) ) {
+        if( p->has_trait( trait_VAMPIRE ) || p->has_trait( trait_DHAMPIR_TRAIT ) ) {
             vampire = true;
         }
         // From wikipedia,

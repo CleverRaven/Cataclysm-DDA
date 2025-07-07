@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <exception>
+#include <iostream>
 #include <memory>
 #include <numeric>
 #include <optional>
@@ -25,7 +26,6 @@
 #include "debug.h"
 #include "effect_on_condition.h"
 #include "enum_traits.h"
-#include "enums.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
@@ -84,16 +84,22 @@ int recipe::get_skill_cap() const
     }
 }
 
-std::vector<const recipe *> recipe::to_craft( const read_only_visitable
-        &crafting_inv, int batch, Character *crafter ) const
-{
-    std::vector<const recipe *> ret;
-    recursive_comp_crafts( ret, crafting_inv, batch, crafter );
+// std::vector<std::pair<const recipe *, int>> recipe::to_craft( const read_only_visitable
+//         &crafting_inv, int batch, Character *crafter ) const
+// {
+//     return to_craft( crafting_inv, batch, crafter, &simple_requirements() );
+// }
 
-    return ret;
-}
+// std::vector<std::pair<const recipe *, int>> recipe::to_craft( const read_only_visitable
+//         &crafting_inv, int batch, Character *crafter, const requirement_data *reqs ) const
+// {
+//     std::vector<std::pair<const recipe *, int>> ret;
+//     recursive_comp_crafts( ret, crafting_inv, batch, crafter, reqs );
 
-ret_val<void> recipe::recursive_comp_crafts( std::vector<const recipe *> &lst,
+//     return ret;
+// }
+
+ret_val<void> recipe::recursive_comp_crafts( std::vector<craft_step_data> &queue,
         const read_only_visitable
         &crafting_inv, int batch, Character *crafter ) const
 {
@@ -108,16 +114,18 @@ ret_val<void> recipe::recursive_comp_crafts( std::vector<const recipe *> &lst,
         return false;
     };
 
-    lst.push_back( this );
-    if( lst.size() > 10 ) {
+    const requirement_data *reqs = deduped_requirements().select_alternative( *crafter,
+                                   get_component_filter( ), batch, craft_flags::start_only );
+    queue.emplace_back( this, batch, reqs );
+    if( queue.size() > 10 ) {
         return ret_val<void>::make_failure( "too many recursive component crafts required" );
     }
-    requirement_data reqs = simple_requirements();
+    // requirement_data reqs = simple_requirements();
 
-    std::map<const item_comp, std::vector<const recipe *>> craftables = reqs.get_craftable_comps();
+    std::map<const item_comp, std::vector<const recipe *>> craftables = reqs->get_craftable_comps();
 
 
-    for( const std::vector<item_comp> &comps : reqs.get_components() ) {
+    for( const std::vector<item_comp> &comps : reqs->get_components() ) {
         // filter out components that have available alternatives
         if( any_has_status( comps ) ) {
             continue;
@@ -126,7 +134,7 @@ ret_val<void> recipe::recursive_comp_crafts( std::vector<const recipe *> &lst,
         const recipe_subset learned_recipes = crafter->get_learned_recipes();
         // if multiple alternative components are craftable, get which one to craft
         for( item_comp it : comps ) {
-            for( const recipe *rec : reqs.craftable_recs_for_comp( it, crafting_inv,
+            for( const recipe *rec : reqs->craftable_recs_for_comp( it, crafting_inv,
                     get_component_filter(), learned_recipes,
                     batch ) ) {
                 craft.emplace_back( rec, it );
@@ -140,13 +148,16 @@ ret_val<void> recipe::recursive_comp_crafts( std::vector<const recipe *> &lst,
         }
 
 
-
-        craft_selection sel = crafter->select_component_to_craft( craft, batch, get_component_filter() );
+        // int comp_batch = batch * ();
+        craft_selection sel = crafter->select_component_to_craft( this, craft, batch,
+                              get_component_filter() );
         if( sel.cancled ) {
             return ret_val<void>::make_failure();
         }
 
-        sel.rec->recursive_comp_crafts( lst, crafting_inv, batch, crafter );
+        if( !sel.rec->recursive_comp_crafts( queue, crafting_inv, batch, crafter ).success() ) {
+            return ret_val<void>::make_failure();
+        }
 
     }
 
@@ -274,6 +285,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 id = recipe_id( jo.get_string( "id" ) );
             }
         } else {
+            optional( jo, false, "name", name_ );
             id = recipe_id( result_.str() );
         }
     }
@@ -660,6 +672,19 @@ static cata::value_ptr<parameterized_build_reqs> calculate_all_blueprint_reqs(
     return result;
 }
 
+// static void print_requirement_data( requirement_data &data )
+// {
+//     std::cout << "[\n";
+//     for( std::vector<item_comp> &comps : data.get_components() ) {
+//         std::cout << "\t[\n";
+//         for( item_comp comp : comps ) {
+//             std::cout << "\t\t\"" << comp.type.c_str() << "\",\n";
+//         }
+//         std::cout << "\t],\n";
+//     }
+//     std::cout << "],\n";
+// }
+
 void recipe::finalize()
 {
     if( bp_autocalc ) {
@@ -680,6 +705,19 @@ void recipe::finalize()
 
         deduped_requirements_ = deduped_requirement_data( requirements_, ident() );
     }
+
+    // if( deduped_requirements_.alternatives().size() > 5 &&
+    //     deduped_requirements_.alternatives().size() < 10 ) {
+    //     std::cout << id.c_str() << ":\n";
+    //     for( requirement_data data : deduped_requirements_.alternatives() ) {
+    //         print_requirement_data( data );
+    //     }
+    //     std::cout << "reqs:\n";
+    //     print_requirement_data( requirements_ );
+    // }
+    // if( deduped_requirements_.alternatives().size() > 20 ) {
+    //     std::cout << id.str() << ": " << deduped_requirements_.alternatives().size();
+    // }
 
     if( contained && container.is_null() ) {
         container = item::find_type( result_ )->default_container.value_or( itype_id::NULL_ID() );
@@ -735,6 +773,11 @@ void recipe::finalize()
         if( skill_used ) {
             autolearn_requirements[ skill_used ] = difficulty;
         }
+    }
+
+    // ensure result name is always in front of the name for searching in crafting menu
+    if( !name_.empty() && !is_practice() && !is_nested() && result_ ) {
+        name_ = translation::to_translation( string_format( name_, result_->nname( makes_amount() ) ) );
     }
 }
 
@@ -1402,18 +1445,8 @@ std::function<bool( const item & )> recipe::get_component_filter(
     };
 }
 
-bool recipe::npc_can_craft( std::string &reason ) const
+bool recipe::npc_can_craft( std::string & ) const
 {
-    if( result()->phase != phase_id::SOLID ) {
-        reason = _( "Ordering NPC to craft non-solid item is currently only implemented for camps." );
-        return false;
-    }
-    for( const auto& [bp, _] : get_byproducts() ) {
-        if( bp->phase != phase_id::SOLID ) {
-            reason = _( "Ordering NPC to craft non-solid item is currently only implemented for camps." );
-            return false;
-        }
-    }
     return true;
 }
 

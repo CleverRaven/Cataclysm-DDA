@@ -401,6 +401,7 @@
     "special_attacks": [
       {
         "type": "gun",
+        "cooldown": 0,
         "move_cost": 150,
         "gun_type": "nailgun",
         "fake_skills": [ [ "gun", 0 ], [ "pistol", 2 ] ],
@@ -484,6 +485,7 @@
     "special_attacks": [
       {
         "type": "gun",
+        "cooldown": 0,
         "move_cost": 100,
         "gun_type": "watercannon",
         "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],

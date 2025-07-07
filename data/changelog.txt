@@ -135,6 +135,10 @@ Add a dentist office map
 Item faults
 Make aggro_character respect anger_relations
 river generation overhaul
+faction camp food supply can expire over time
+Roads cross streams at culverts
+Add Weight Modifying Enchantment
+Query to quick-reveal all nearby wires when revealing wall wires
 
 
 ## Content:
@@ -311,6 +315,7 @@ Adds a new nether monster
 Snippetize Tshirt variants
 Exodii Ceramics
 Opiate Vitamin
+Add arab and islamic clothes for women
 
 
 ## Interface:
@@ -425,6 +430,9 @@ Debug option to view used palette symbols
 Add option to disable mouse
 Add "in use" info to item's name and info if item has "activity_var" var.
 Create a terminal-like default theme for Imgui
+Add NPC faction and NPC omt location to mission entries
+Describe stat level in new character window
+Severe hypovolemic shock message now mentions saline infusion instead of transfusion
 
 
 ## Mods:
@@ -814,6 +822,13 @@ Mod Conflicts
 [Xedra Evolved] Remove vampires' free bite, vampires take more mutagen
 [MoM] Hostile NPC dialogue updates
 [MoM] Add psychic knacks
+[MoM/XE] Add profession: Mobile Task Force: Psi 7 "Sleepwalkers" 
+[Bombastic Perks] Limit metamagic perks to Magiclysm
+Aftershock: More mundane tools are available in exoplanet
+[MoM] Add possible `Mathematican A57` boss fight to Research Facility
+[Magiclysm] Spellcasting always grants proficiency XP
+[MoM] Add Achievements
+[Crazy Cataclysm] Add the immortal snail as second nemesis
 
 
 ## Balance:
@@ -911,6 +926,7 @@ Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
 World sliders rebalanced to offer differing gameplay experiences
 Some recipes have 'hard' proficiency requirements
+Expanded spawns for some proper melee weapons
 
 
 ## Bugfixes:
@@ -1264,6 +1280,16 @@ Can't craft batches so big that they vanish when the game has nowhere to put the
 [Xedra Evolved] Fix werewolf biting
 Continue with destination activity if route is empty
 Allow moving out of impassable, aquatic treated as swimming, non-swimmers can walk in shallow water
+Book recipes are now available through camp crafting
+Fix ranged_damage automatically extending
+Remove consumed faction camp calorie stores instead of leaving zombie entries
+Special vision save failure
+[Bugfixes] Star vampires no longer drain blood when doing no damage
+Players learning from NPCs while blind and teaching NPCs while blind is now fixed.
+Attempt to increase average autotravel speed when driving on straight roads
+remove landmines from weird places
+Fix special attacks overwriting cooldown values to zero
+Scenario still had adult hobbies applied
 
 
 ## Performance:
@@ -1294,6 +1320,7 @@ Vehicles are slightly more efficient
 vision_transparency_cache isn't rebuilt if transparency_cache_dirty isn't set
 AIM cache filter function once
 Cache item info, reducing time of crafting filter `d:` to ~32%
+Speed up mapgen especially noticeable in Sky Islands
 
 
 ## Infrastructure:
@@ -1426,6 +1453,10 @@ standardize query_int()
 Always Display Spell Tabs
 Allow monsters to have different climb/swim/dig speeds
 Mapgen: removed unused, obsoleted and pointless JSON fields
+Zstandard compressed save data for disk space savings.
+bulk overmap testing debug tools
+Adds a vertical stack of omt scope for mapgen parameters
+Monsters can be forced to flee through an EoC
 
 
 ## Build:
@@ -1451,6 +1482,7 @@ Update vcpkg commit to new mainline, remove portfile override
 Improve ccache performance with age based eviction instead of coarse size limits.
 Fix CMake Linux VCPKG build
 Initial support for GNU Make for Windows
+Move Android bundle generation to manually triggered workflow
 
 
 ## I18N and A11Y:

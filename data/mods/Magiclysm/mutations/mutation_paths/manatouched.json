@@ -355,13 +355,6 @@
   },
   {
     "type": "mutation",
-    "id": "RADIOGENIC",
-    "copy-from": "RADIOGENIC",
-    "valid": true,
-    "extend": { "category": [ "MANATOUCHED" ] }
-  },
-  {
-    "type": "mutation",
     "id": "MORE_PAIN",
     "copy-from": "MORE_PAIN",
     "valid": true,

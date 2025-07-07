@@ -2923,11 +2923,11 @@ bool overmap_special::can_belong_to_city( const tripoint_om_omt &p, const city &
     }
     if( constraints_.city_distance.max > std::max( OMAPX, OMAPY ) ) {
         // Only care that we're more than min away from a city
-        return !omap.distance_to_city( p, constraints_.city_distance.min );
+        return !omap.approx_distance_to_city( p, constraints_.city_distance.min ).has_value();
     }
-    const std::optional<int> dist = omap.distance_to_city( p, constraints_.city_distance.max );
+    const std::optional<int> dist = omap.approx_distance_to_city( p, constraints_.city_distance.max );
     // Found a city within max and it's greater than min away
-    return !!dist && constraints_.city_distance.min < *dist;
+    return dist.has_value() && constraints_.city_distance.min < *dist;
 }
 
 bool overmap_special::has_flag( const std::string &flag ) const
@@ -3604,6 +3604,36 @@ std::vector<point_abs_omt> overmap::find_extras( const int z, const std::string 
     return extra_locations;
 }
 
+std::optional<mapgen_arguments> overmap::get_existing_omt_stack_arguments(
+    const point_abs_omt &p ) const
+{
+    auto it_args = omt_stack_arguments_map.find( p );
+    if( it_args != omt_stack_arguments_map.end() ) {
+        return it_args->second;
+    }
+    return std::nullopt;
+}
+
+std::optional<cata_variant> overmap::get_existing_omt_stack_argument( const point_abs_omt &p,
+        const std::string &param_name ) const
+{
+    auto it_args = omt_stack_arguments_map.find( p );
+    if( it_args != omt_stack_arguments_map.end() ) {
+        const std::unordered_map<std::string, cata_variant> &args_map = it_args->second.map;
+        auto it_arg = args_map.find( param_name );
+        if( it_arg != args_map.end() ) {
+            return it_arg->second;
+        }
+    }
+    return std::nullopt;
+}
+
+void overmap::add_omt_stack_argument( const point_abs_omt &p, const std::string &param_name,
+                                      const cata_variant &value )
+{
+    omt_stack_arguments_map[p].add( param_name, value );
+}
+
 bool overmap::inbounds( const tripoint_om_omt &p, int clearance )
 {
     static constexpr tripoint_om_omt overmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
@@ -3711,7 +3741,6 @@ void overmap::generate( const std::vector<const overmap *> &neighbor_overmaps,
     if( get_option<bool>( "OVERMAP_PLACE_SPECIALS" ) ) {
         place_specials( enabled_specials );
     }
-    overmap_buffer.clear_overmap_uniques();
     if( get_option<bool>( "OVERMAP_PLACE_FOREST_TRAILHEADS" ) ) {
         place_forest_trailheads();
     }
@@ -4202,7 +4231,6 @@ bool overmap::is_in_city( const tripoint_om_omt &p ) const
         // Legacy handling
         return distance_to_city( p ) == 0;
     }
-
 }
 
 std::optional<int> overmap::distance_to_city( const tripoint_om_omt &p,
@@ -4225,6 +4253,22 @@ std::optional<int> overmap::distance_to_city( const tripoint_om_omt &p,
         }
     }
     return {};
+}
+
+std::optional<int> overmap::approx_distance_to_city( const tripoint_om_omt &p,
+        int max_dist_to_check ) const
+{
+    std::optional<int> ret;
+    for( const city &elem : cities ) {
+        const int dist = elem.get_distance_from( p );
+        if( dist == 0 ) {
+            return 0;
+        }
+        if( dist <= max_dist_to_check ) {
+            ret = ret.has_value() ? std::min( ret.value(), dist ) : dist;
+        }
+    }
+    return ret;
 }
 
 void overmap::flood_fill_city_tiles()
@@ -7091,6 +7135,22 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
     return rotation != last ? *rotation : om_direction::type::invalid;
 }
 
+void overmap::log_unique_special( const overmap_special_id &id )
+{
+    if( contains_unique_special( id ) ) {
+        debugmsg( "Overmap unique overmap special placed more than once: %s", id.str() );
+    }
+    overmap_buffer.log_unique_special( id );
+}
+
+bool overmap::contains_unique_special( const overmap_special_id &id ) const
+{
+    return std::find_if( overmap_special_placements.begin(),
+    overmap_special_placements.end(), [&id]( const auto & it ) {
+        return it.second == id;
+    } ) != overmap_special_placements.end();
+}
+
 bool overmap::can_place_special( const overmap_special &special, const tripoint_om_omt &p,
                                  om_direction::type dir, const bool must_be_unexplored ) const
 {
@@ -7099,8 +7159,9 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
     if( !special.id ) {
         return false;
     }
-    if( ( special.has_flag( "GLOBALLY_UNIQUE" ) || special.has_flag( "OVERMAP_UNIQUE" ) ) &&
-        overmap_buffer.contains_unique_special( special.id ) ) {
+    if( ( special.has_flag( "GLOBALLY_UNIQUE" ) &&
+          overmap_buffer.contains_unique_special( special.id ) ) ||
+        ( special.has_flag( "OVERMAP_UNIQUE" ) && contains_unique_special( special.id ) ) ) {
         return false;
     }
 
@@ -7174,7 +7235,7 @@ std::vector<tripoint_om_omt> overmap::place_special(
         //       point_abs_omt location = coords::project_to<coords::omt>(this->pos()) + p.xy().raw();
         //        DebugLog(DL_ALL, DC_ALL) << "Globally Unique " << special.id.c_str() << " added at " << location.to_string_writable();
     } else if( special.has_flag( "OVERMAP_UNIQUE" ) ) {
-        overmap_buffer.add_overmap_unique_special( special.id );
+        log_unique_special( special.id );
     }
     // CITY_UNIQUE is handled in place_building()
 
@@ -7745,23 +7806,26 @@ void overmap::place_radios()
 void overmap::open( overmap_special_batch &enabled_specials )
 {
     if( world_generator->active_world->has_compression_enabled() ) {
+        assure_dir_exist( PATH_INFO::world_base_save_path() / "overmaps" );
         const std::string terfilename = overmapbuffer::terrain_filename( loc );
         const std::filesystem::path terfilename_path = std::filesystem::u8path( terfilename );
         const cata_path zzip_path = PATH_INFO::world_base_save_path() / "overmaps" / terfilename_path +
                                     ".zzip";
-        std::shared_ptr<zzip> z = zzip::load( zzip_path.get_unrelative_path(),
-                                              ( PATH_INFO::world_base_save_path() / "overmaps.dict" ).get_unrelative_path()
-                                            );
+        if( file_exist( zzip_path ) ) {
+            std::shared_ptr<zzip> z = zzip::load( zzip_path.get_unrelative_path(),
+                                                  ( PATH_INFO::world_base_save_path() / "overmaps.dict" ).get_unrelative_path()
+                                                );
 
-        if( read_from_zzip_optional( z, terfilename_path, [this]( std::string_view sv ) {
-        std::istringstream is{ std::string( sv ) };
-        unserialize( is );
-        } ) ) {
-            const cata_path plrfilename = overmapbuffer::player_filename( loc );
-            read_from_file_optional( plrfilename, [this, &plrfilename]( std::istream & is ) {
-                unserialize_view( plrfilename, is );
-            } );
-            return;
+            if( read_from_zzip_optional( z, terfilename_path, [this]( std::string_view sv ) {
+            std::istringstream is{ std::string( sv ) };
+            unserialize( is );
+            } ) ) {
+                const cata_path plrfilename = overmapbuffer::player_filename( loc );
+                read_from_file_optional( plrfilename, [this, &plrfilename]( std::istream & is ) {
+                    unserialize_view( plrfilename, is );
+                } );
+                return;
+            }
         }
     } else {
         const cata_path terfilename = PATH_INFO::world_base_save_path() / overmapbuffer::terrain_filename(
@@ -7819,6 +7883,7 @@ void overmap::save() const
             throw std::runtime_error( string_format( "Failed to save omap %d.%d to %s", loc.x(),
                                       loc.y(), zzip_path.get_unrelative_path().generic_u8string().c_str() ) );
         }
+        z->compact( 2.0 );
     } else {
         write_to_file( PATH_INFO::world_base_save_path() / overmapbuffer::terrain_filename( loc ), [&](
         std::ostream & stream ) {

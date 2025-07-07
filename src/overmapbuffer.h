@@ -391,6 +391,8 @@ class overmapbuffer
             const tripoint_abs_omt &origin, const std::string &type, int radius, bool must_be_seen,
             ot_match_type match_type = ot_match_type::type, bool existing_overmaps_only = false,
             const std::optional<overmap_special_id> &om_special = std::nullopt );
+        tripoint_abs_omt find_existing_globally_unique( const tripoint_abs_omt &origin,
+                const omt_find_params &params );
 
         /* These functions return the overmap that contains the given
          * overmap terrain coordinate, and the local coordinates of that point
@@ -586,8 +588,6 @@ class overmapbuffer
         overmap mutable *last_requested_overmap;
         // Set of globally unique overmap specials that have already been placed
         std::unordered_set<overmap_special_id> placed_unique_specials;
-        // This tracks the overmap unique specials we have placed during the current oms generate().
-        std::unordered_set<overmap_special_id> placed_overmap_unique_specials;
         // This tracks the overmap unique specials we have placed. It is used to
         // Adjust weights of special spawns to correct for things like failure to spawn.
         std::unordered_map<overmap_special_id, int> unique_special_count;
@@ -620,6 +620,7 @@ class overmapbuffer
                        const tripoint_abs_omt &p );
         bool check_overmap_special_type( const overmap_special_id &id, const tripoint_abs_omt &loc );
         std::optional<overmap_special_id> overmap_special_at( const tripoint_abs_omt & );
+        std::optional<mapgen_arguments> get_existing_omt_stack_arguments( const point_abs_omt &p );
 
         /**
         * These versions of the check_* methods will only check existing overmaps, and
@@ -635,14 +636,13 @@ class overmapbuffer
          */
         void add_unique_special( const overmap_special_id &id );
         /**
-         * Adds the given overmap unique overmap special to the lists of placed specials.
+         * Logs the placement of the given unique overmap special
          */
-        void add_overmap_unique_special( const overmap_special_id &id );
-        void clear_overmap_uniques() {
-            placed_overmap_unique_specials.clear();
+        void log_unique_special( const overmap_special_id &id ) {
+            unique_special_count[id]++;
         }
         /**
-         * Returns true if the given globally/overmap unique overmap special has already been placed.
+         * Returns true if the given globally unique overmap special has already been placed.
          */
         bool contains_unique_special( const overmap_special_id &id ) const;
         /**

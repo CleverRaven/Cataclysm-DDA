@@ -723,5 +723,11 @@
         [ "ji", -1 ]
       ]
     ]
+  },
+  {
+    "id": "whips",
+    "type": "requirement",
+    "//": "Any weapon that features a handle and flexible lash.",
+    "tools": [ [ [ "dressage_whip", -1 ], [ "bullwhip", -1 ], [ "bullwhip_razor", -1 ] ] ]
   }
 ]

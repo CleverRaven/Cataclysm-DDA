@@ -367,7 +367,7 @@ float Character::get_hit_weapon( const item &weap ) const
     }
 
     /** @EFFECT_MELEE improves hit chance for all items (including non-weapons) */
-    return ( skill / 3.0f ) + ( get_skill_level( skill_melee ) / 2.0f ) + weap.type->m_to_hit;
+    return ( skill / 3.0f ) + ( get_skill_level( skill_melee ) / 2.0f ) + weap.get_to_hit();
 }
 
 float Character::get_melee_hit_base() const
@@ -1122,11 +1122,10 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
         /** @EFFECT_UNARMED increases critical chance */
         weapon_crit_chance = 0.5 + 0.05 * get_skill_level( skill_unarmed );
     }
-
-    if( weap.type->m_to_hit > 0 ) {
-        weapon_crit_chance = std::max( weapon_crit_chance, 0.5 + 0.1 * weap.type->m_to_hit );
-    } else if( weap.type->m_to_hit < 0 ) {
-        weapon_crit_chance += 0.1 * weap.type->m_to_hit;
+    if( weap.get_to_hit() > 0 ) {
+        weapon_crit_chance = std::max( weapon_crit_chance, 0.5 + 0.1 * weap.get_to_hit() );
+    } else if( weap.get_to_hit() < 0 ) {
+        weapon_crit_chance += 0.1 * weap.get_to_hit();
     }
     weapon_crit_chance = limit_probability( weapon_crit_chance );
 

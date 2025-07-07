@@ -1766,6 +1766,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic )
     } else if( topic == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );
+        } else if( !actor( false )->can_see() ) {
+            return _( "Sorry, I'm not sure how to teach the blind." );
         } else if( actor( true )->skills_offered_to( *actor( false ) ).empty() &&
                    actor( true )->styles_offered_to( *actor( false ) ).empty() &&
                    actor( true )->spells_offered_to( *actor( false ) ).empty() &&
@@ -1978,6 +1980,10 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response_none( _( "Oh, okay." ) );
             return;
         }
+        if( !actor( false )->can_see() ) {
+            add_response_none( _( "You're not sure how to teach them while blind." ) );
+            return;
+        }
         for( const spell_id &sp : spells ) {
             const std::string &text =
                 string_format( "%s: %s", _( "Spell" ), actor( false )->spell_training_text( *actor( true ), sp ) );
@@ -2071,6 +2077,11 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 add_response( string_format( _( "Yes, let's resume training %s" ), skillt->name() ),
                               "TALK_TRAIN_START", skillt );
             }
+        }
+
+        if( !actor( false )->can_see() ) {
+            add_response_none( _( "Oh, okay." ) );
+            return;
         }
         const std::vector<matype_id> &styles = actor( true )->styles_offered_to( *actor( false ) );
         const std::vector<skill_id> &trainable = actor( true )->skills_offered_to( *actor( false ) );

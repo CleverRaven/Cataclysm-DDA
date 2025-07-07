@@ -153,7 +153,7 @@
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
       },
       "items": {
-        "I": { "item": "office", "chance": 30 },
+        "I": { "item": "SUS_office_desk", "chance": 30 },
         "f": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "y": { "item": "SUS_trash_floor", "chance": 20, "repeat": [ 2, 4 ] },
         "C": { "item": "stoner", "chance": 20, "repeat": [ 2, 4 ] },

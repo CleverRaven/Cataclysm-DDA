@@ -79,6 +79,7 @@
       { "group": "jewelry_front", "prob": 40 },
       { "group": "costume_jewelry_vampire", "prob": 5 },
       { "group": "costume_jewelry_dark", "prob": 5 },
+      { "group": "mansion_exotic_weapons", "prob": 5 },
       { "group": "mansion_guns", "prob": 95 },
       { "group": "mansion_guns", "prob": 80 }
     ]
@@ -109,6 +110,20 @@
       { "group": "mansion_guns", "prob": 40 },
       { "group": "mansion_guns", "prob": 80 },
       { "group": "mansion_guns", "prob": 95 }
+    ]
+  },
+  {
+    "id": "mansion_exotic_weapons",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "rapiers", "prob": 50 },
+      { "group": "estocs", "prob": 50 },
+      { "group": "cavalry_sabres", "prob": 25 },
+      { "group": "longswords", "prob": 25 },
+      { "group": "arming_swords", "prob": 25 },
+      { "group": "broadswords", "prob": 25 },
+      { "group": "katanas", "prob": 50 }
     ]
   },
   {

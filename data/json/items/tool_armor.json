@@ -552,7 +552,7 @@
     "etransfer_rate": "30 MB",
     "e_port": "phone",
     "e_ports_banned": [ "USB-A", "memory card", "camera" ],
-    "extend": { "flags": [ "WATER_FRIENDLY", "THERMOMETER", "HYGROMETER", "BAROMETER" ] },
+    "extend": { "flags": [ "WATER_FRIENDLY", "THERMOMETER", "HYGROMETER", "BAROMETER", "CAN_USE_IN_DARK" ] },
     "delete": { "flags": [ "WATER_BREAK", "FRAGILE" ] },
     "use_action": [
       "E_FILE_DEVICE",
@@ -1245,7 +1245,8 @@
       "THERMOMETER",
       "WATER_BREAK",
       "PADDED",
-      "ELECTRONIC"
+      "ELECTRONIC",
+      "CAN_USE_IN_DARK"
     ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "tool_ammo": "battery"

@@ -423,7 +423,7 @@
       "items": {
         "u": { "item": "coffee_display", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
-        "=": { "item": "office", "chance": 20 }
+        "=": { "item": "SUS_office_desk", "chance": 20 }
       }
     }
   },
@@ -515,7 +515,7 @@
       "items": {
         "u": { "item": "coffee_table", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
-        "=": { "item": "office", "chance": 20 },
+        "=": { "item": "SUS_office_desk", "chance": 20 },
         "ü": { "item": "consumer_electronics", "chance": 60 },
         "M": { "item": "jewelry_front", "chance": 60 }
       }
@@ -609,7 +609,7 @@
       "items": {
         "u": { "item": "coffee_table", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
-        "=": { "item": "office", "chance": 20 },
+        "=": { "item": "SUS_office_desk", "chance": 20 },
         "ü": { "item": "produce", "chance": 30, "repeat": 3 }
       }
     }
@@ -702,7 +702,7 @@
       "items": {
         "u": { "item": "coffee_table", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
-        "=": { "item": "office", "chance": 20 },
+        "=": { "item": "SUS_office_desk", "chance": 20 },
         "ü": { "item": "consumer_electronics", "chance": 60 }
       }
     }
@@ -796,7 +796,7 @@
       "items": {
         "u": { "item": "coffee_table", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
-        "=": { "item": "office", "chance": 20 }
+        "=": { "item": "SUS_office_desk", "chance": 20 }
       }
     }
   },

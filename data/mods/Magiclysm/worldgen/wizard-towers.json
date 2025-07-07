@@ -160,7 +160,7 @@
       "E": { "item": "dresser", "chance": 50, "repeat": [ 1, 5 ] },
       "f": { "item": "fireplace_fill", "chance": 30, "repeat": [ 2, 5 ] },
       "F": [ { "item": "SUS_fridge", "chance": 95 }, { "item": "potions_common", "chance": 5, "repeat": [ 1, 3 ] } ],
-      "i": [ { "item": "SUS_office_filing_cabinet", "chance": 30 }, { "item": "office", "chance": 50, "repeat": [ 1, 4 ] } ],
+      "i": [ { "item": "SUS_office_filing_cabinet", "chance": 30 }, { "item": "SUS_office_desk", "chance": 50 } ],
       "I": { "item": "SUS_dishwasher", "chance": 50 },
       "m": { "item": "magic_tools_and_loot", "chance": 25 },
       "o": { "item": "SUS_oven", "chance": 70 },

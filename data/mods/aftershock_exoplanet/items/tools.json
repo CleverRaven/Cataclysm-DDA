@@ -127,6 +127,22 @@
     }
   },
   {
+    "id": "afs_welding_paste",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str_sp": "self-welding paste" },
+    "description": "A pyrotechnic metal suspension that can be applied to metal surfaces and ignited to create 'temporary' welds.  Intended for use in emergency situations.",
+    "weight": "2 mg",
+    "volume": "1 ml",
+    "price": "1 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "steel", "powder" ],
+    "symbol": ";",
+    "color": "red",
+    "qualities": [ [ "WELD", 2 ] ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
     "id": "afs_plasma_torch",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],

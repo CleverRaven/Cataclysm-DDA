@@ -1133,55 +1133,55 @@
       },
       {
         "id": "shark",
-        "name": { "str": "shark hoodie" },
+        "name": { "str": "shark cropped hoodie" },
         "append": true,
         "description": "This one is made to look like a cute shark."
       },
       {
         "id": "bear",
-        "name": { "str": "bear hoodie" },
+        "name": { "str": "bear cropped hoodie" },
         "append": true,
         "description": "This one is made to look like a cute bear."
       },
       {
         "id": "cat",
-        "name": { "str": "cat hoodie" },
+        "name": { "str": "cat cropped hoodie" },
         "append": true,
         "description": "This one is made to look like a cute cat."
       },
       {
         "id": "bunny",
-        "name": { "str": "bunny hoodie" },
+        "name": { "str": "bunny cropped hoodie" },
         "append": true,
         "description": "This one is made to look like a cute bunny."
       },
       {
         "id": "wolf",
-        "name": { "str": "wolf hoodie" },
+        "name": { "str": "wolf cropped hoodie" },
         "append": true,
         "description": "This one is made to look like a cute wolf."
       },
       {
         "id": "lizard",
-        "name": { "str": "lizard hoodie" },
+        "name": { "str": "lizard cropped hoodie" },
         "append": true,
         "description": "This one is made to look like a cute lizard."
       },
       {
         "id": "dog",
-        "name": { "str": "dog hoodie" },
+        "name": { "str": "dog cropped hoodie" },
         "append": true,
         "description": "This one is made to look like a cute dog."
       },
       {
         "id": "panda",
-        "name": { "str": "panda hoodie" },
+        "name": { "str": "panda cropped hoodie" },
         "append": true,
         "description": "This one is made to look like a cute panda."
       },
       {
         "id": "frog",
-        "name": { "str": "frog hoodie" },
+        "name": { "str": "frog cropped hoodie" },
         "append": true,
         "description": "This one is made to look like a cute frog."
       }

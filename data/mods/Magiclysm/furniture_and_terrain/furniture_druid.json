@@ -237,5 +237,34 @@
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75 L" }
+  },
+  {
+    "id": "wildwood_weaver_shelter",
+    "breaks_into": [
+      { "count": 1, "item": "mag_brokeweaver" },
+      { "count": [ 1, 5 ], "item": "scrap_cotton" },
+      { "count": [ 4, 20 ], "item": "mag_awakened_water" }
+    ],
+    "categories": [ "utility" ],
+    "color": "green",
+    "description": "A shelter woven from wildwood weaver's webs.  It can be used to rest, and the weaver provides assistance in any tailoring task.",
+    "durability": 15,
+    "flags": [ "BED", "OPAQUE", "BOARDABLE", "NONBELTABLE", "APPLIANCE", "EXTRA_DRAG", "NO_INSTALL_HIDDEN", "HUGE_OK", "ROOF" ],
+    "comfort": 5,
+    "floor_bedding_warmth": 500,
+    "pseudo_tools": [
+      { "id": "spinwheelitem" },
+      { "id": "mag_pseudo_weaver" },
+      { "id": "scutcheritem" },
+      { "id": "loom_frame" },
+      { "id": "shed_stick" },
+      { "id": "towel", "hotkey": "t" }
+    ],
+    "item": "mag_awoken_weaver",
+    "location": "center",
+    "looks_like": "t_leanto",
+    "name": { "str": "awoken weaver shelter" },
+    "type": "vehicle_part",
+    "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
   }
 ]
