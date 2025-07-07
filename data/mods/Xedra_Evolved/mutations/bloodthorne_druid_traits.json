@@ -4,13 +4,24 @@
     "id": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT",
     "name": { "str": "Heartvines" },
     "points": 0,
-    "mixed_effect": true,
     "description": "After being infused with the power of nature, part of the ritual of the bloodthornes was the implantation of a symbiotic plant.  You aren't sure where it came from or what its natural habitat is, but now it's a part of you.  You require slightly more food and water than normal to feed it, but have the power to fight back against the blood-drinkers..",
     "purifiable": false,
     "valid": false,
     "visibility": 2,
     "ugliness": 1,
-    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 0.1 }, { "value": "THIRST", "multiply": 0.1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 0.1 }, { "value": "THIRST", "multiply": 0.1 } ] } ],
+    "flags": [ "ATTUNEMENT", "HERITAGE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_SORCERY",
+    "name": "Thornwitchery",
+    "points": 0,
+    "description": "This is the schoool trait for Bloodthorne Druids.  You shouldn't see it directly.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false
   },
   {
     "id": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP",
@@ -29,5 +40,14 @@
         "values": [ { "value": "METABOLISM", "multiply": 0.2 }, { "value": "THIRST", "multiply": 0.2 } ]
       }
     ]
+  },
+  {
+    "id": "BLOODTHORNE_DRUID_REGAIN_BLOOD",
+    "name": { "str": "Woodblood Restoration" },
+    "points": 2,
+    "description": "The first principle of avoiding the blood-drinkers is to avoid losing your blood.  While standing on natural foliage, you can use this spell to replenish any lost blood.",
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "bloodthorne_druid_regain_blood_spell", 1 ] ]
   }
 ]

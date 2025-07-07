@@ -12,7 +12,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "commune with nature",
     "id": "xe_bloodthorn_druid_upgrade_recipe",
-    "description": "With the expenditure of a large amount of blood and time, attempt to develop a new gift of the blood.",
+    "description": "Your heartvine has drunk up enough vampire blood that it is ready to greant you a new gift.  Seek out the wild places to allow it to grow.",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_RESEARCH",
     "skill_used": "deduction",
@@ -25,8 +25,51 @@
         "id": "EOC_XE_BLOODTHORNE_DRUID_RESEARCH_BEGIN",
         "condition": { "u_has_effect": "effect_bloodthorn_druid_upgrade_ready" },
         "effect": [
-          { "u_add_effect": "effect_bloodthorn_druid_upgrade_active", "duration": "8 hours" },
-          { "u_assign_activity": "ACT_BLOODTHORNE_DRUID_COMMUNION", "duration": "8 hours" }
+          {
+            "if": {
+              "and": [
+                { "not": { "u_near_om_location": "road", "range": 2 } },
+                {
+                  "or": [
+                    { "u_at_om_location": "forest_thick" },
+                    { "u_near_om_location": "great_tree_z0_nw", "range": 2 },
+                    { "u_near_om_location": "great_tree_z0_se", "range": 2 },
+                    { "u_near_om_location": "great_tree_z1_nw", "range": 2 },
+                    { "u_near_om_location": "great_tree_z1_se", "range": 2 },
+                    { "u_near_om_location": "great_tree_z2_nw", "range": 2 },
+                    { "u_near_om_location": "great_tree_z2_se", "range": 2 },
+                    { "u_near_om_location": "great_tree_z3_06", "range": 2 },
+                    { "u_near_om_location": "great_tree_z3_11", "range": 2 },
+                    { "u_near_om_location": "great_tree_z4_06", "range": 2 },
+                    { "u_near_om_location": "great_tree_z4_11", "range": 2 },
+                    { "u_near_om_location": "great_tree_z5_06", "range": 2 },
+                    { "u_near_om_location": "great_tree_z5_11", "range": 2 },
+                    { "u_near_om_location": "great_tree_z6_nw", "range": 2 },
+                    { "u_near_om_location": "great_tree_z6_se", "range": 2 },
+                    { "u_near_om_location": "great_tree_z6_n2", "range": 2 },
+                    { "u_near_om_location": "great_tree_z6_se", "range": 2 },
+                    { "u_near_om_location": "great_tree_z7_nw", "range": 2 },
+                    { "u_near_om_location": "great_tree_z7_se", "range": 2 },
+                    { "u_near_om_location": "great_tree_crown_06", "range": 2 },
+                    { "u_near_om_location": "great_tree_crown_11", "range": 2 },
+                    { "u_near_om_location": "great_tree_crown_top_01", "range": 2 },
+                    { "u_near_om_location": "great_tree_crown_top_04", "range": 2 },
+                    { "u_near_om_location": "great_tree_roots", "range": 2 },
+                    { "u_near_om_location": "great_tree_roots_se", "range": 2 },
+                    { "u_near_om_location": "great_tree_roots_nw", "range": 2 }
+                  ]
+                }
+              ]
+            },
+            "then": [
+              { "u_add_effect": "effect_bloodthorn_druid_upgrade_active", "duration": "8 hours" },
+              { "u_assign_activity": "ACT_BLOODTHORNE_DRUID_COMMUNION", "duration": "8 hours" }
+            ],
+            "else": {
+              "u_message": "You must commune with nature in the wild places.  Seek the depths of the sylvan wilderness.",
+              "type": "mixed"
+            }
+          }
         ],
         "false_effect": [ { "u_message": "Your heartvine is not ready to grow.  You must water it with vamprie blood.", "type": "bad" } ]
       }
@@ -49,7 +92,14 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_END",
     "condition": { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP" },
-    "effect": [  ],
+    "effect": [
+      {
+        "u_roll_remainder": [ "BLOODTHORNE_DRUID_REGAIN_BLOOD" ],
+        "type": "mutation",
+        "true_eocs": [ { "id": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS", "effect": [ { "npc_unset_flag": "FILTHY" } ] } ],
+        "false_eocs": [  ]
+      }
+    ],
     "false_effect": [
       { "u_add_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP" },
       {

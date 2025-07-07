@@ -1,0 +1,34 @@
+[
+  {
+    "id": "xedra_bloodthorne_sorcery",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_SPELLCASTING" ],
+    "cannot_cast_message": "Your thornwitchery will not come to your call!",
+    "failure_cost_percent": 0.75,
+    "max_book_level": 0,
+    "failure_chance_formula_id": "xe_bloodthorne_sorcery_failure_chance"
+  },
+  {
+    "id": "bloodthorne_druid_regain_blood_spell",
+    "type": "SPELL",
+    "name": "Woodblood Restoration",
+    "description": "While in a forest or on natural foliage, restore your lost blood or that of an ally.",
+    "message": "",
+    "valid_targets": [ "self", "ally" ],
+    "flags": [ "SOMATIC", "NO_LEGS" ],
+    "magic_type": "xedra_bloodthorne_sorcery",
+    "condition": {
+      "or": [
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" }
+      ]
+    },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BLOODTHORNE_DRUID_REGAIN_BLOOD",
+    "shape": "blast",
+    "min_range": 1,
+    "base_casting_time": 150,
+    "base_energy_cost": { "math": [ "max( ( 200 - (bloodthorn_druid_traits_sum() * 5) ), 50)" ] }
+  }
+]

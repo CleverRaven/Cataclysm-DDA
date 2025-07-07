@@ -911,10 +911,11 @@
     "type": "profession",
     "id": "xedra_bloodthorne_druid_profession",
     "name": "Bloodthorne Druid",
-    "description": "You had just been inducted into the order and gone on a few vampire hunts when the Cataclysm happened.  As the sky broke and reality twisted you ran, and you survived, but you know that some of the vampires did too.  .",
+    "description": "You had just been inducted into the order and gone on a few vampire hunts when the Cataclysm happened, though you had never personally killed a vampire yourself.  As the sky broke and reality twisted you ran, and you survived, but you know that some of the vampires did too.  Your oaths still hold; the blood-drinkers must be destroyed.",
     "points": 0,
     "skills": [ { "level": 3, "name": "deduction" }, { "level": 3, "name": "survival" } ],
     "traits": [
+      "BLOODTHORNE_SORCERY",
       "BLOODTHORNE_DRUID",
       "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT",
       "JAUNDICE_ARVORE_ALCHEMY",
@@ -938,8 +939,7 @@
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
+          { "item": "knife_combat", "container-item": "sheath" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },

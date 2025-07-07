@@ -1,0 +1,24 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_REGAIN_BLOOD",
+    "effect": [
+      {
+        "math": [
+          "_blood_bonus",
+          "+=",
+          "(50 * bloodthorn_druid_traits_sum_as_npc() ) + (25 * n_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )"
+        ]
+      },
+      {
+        "math": [
+          "_redcells_bonus",
+          "+=",
+          "(50 * bloodthorn_druid_traits_sum_as_npc() ) + (25 * n_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )"
+        ]
+      },
+      { "math": [ "u_vitamin('blood')", "+=", "_blood_bonus" ] },
+      { "math": [ "u_vitamin('redcells')", "+=", "_redcells_bonus" ] }
+    ]
+  }
+]
