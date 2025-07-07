@@ -94,7 +94,12 @@
     "condition": { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP" },
     "effect": [
       {
-        "u_roll_remainder": [ "BLOODTHORNE_DRUID_REGAIN_BLOOD", "BLOODTHORNE_DRUID_BONUS_MANA_REGEN", "BLOODTHORNE_DRUID_STOP_BLEEDING" ],
+        "u_roll_remainder": [
+          "BLOODTHORNE_DRUID_REGAIN_BLOOD",
+          "BLOODTHORNE_DRUID_BONUS_MANA_REGEN",
+          "BLOODTHORNE_DRUID_STOP_BLEEDING",
+          "BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES"
+        ],
         "type": "mutation",
         "true_eocs": [
           {

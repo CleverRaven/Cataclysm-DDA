@@ -86,6 +86,45 @@
   },
   {
     "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES",
+    "name": { "str": "Balm of Nature" },
+    "points": 3,
+    "description": "Your heartvines frequently cause you pain on their own, to say nothing of the wounds you suffer fighting the vampires, but now it doesn't seem to affect you as much.  Your strength, dexterity, and speed are penalized less by the pain you feel.",
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "PAIN_PENALTY_MOD_STR",
+            "multiply": {
+              "math": [
+                "max( ( -0.15 + (-0.02 * bloodthorn_druid_traits_sum() ) + (-0.01 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ), -0.6)"
+              ]
+            }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_DEX",
+            "multiply": {
+              "math": [
+                "max( ( -0.15 + (-0.02 * bloodthorn_druid_traits_sum() ) + (-0.01 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ), -0.6)"
+              ]
+            }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_SPEED",
+            "multiply": {
+              "math": [
+                "max( ( -0.15 + (-0.02 * bloodthorn_druid_traits_sum() ) + (-0.01 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ), -0.6)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "BLOODTHORNE_DRUID_BONUS_MANA_REGEN",
     "name": { "str": "In Tune with the Wild" },
     "points": 2,
