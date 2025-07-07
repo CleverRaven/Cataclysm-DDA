@@ -36,6 +36,7 @@
   },
   {
     "id": "bloodthorne_druid_stop_bleeding_spell",
+    "type": "SPELL",
     "name": "Thorn-sealed Wounds",
     "description": "When bleeding, your heartvines can pull the wound closed and stop it.  This is painful, but will prevent further bleeding.  If there are any vampires or their servants nearby, the heartvines will also lash out at them as they pull the wound closed.",
     "message": "",
@@ -64,6 +65,7 @@
   },
   {
     "id": "bloodthorne_druid_stop_bleeding_spell_thornlash",
+    "type": "SPELL",
     "name": { "str": "Thorn-sealed Wound Vampire Lash", "//~": "NO_I18N" },
     "description": {
       "str": "Hits nearby vampires and their servants when you close your wounds.  You shouldn't see this.",
@@ -88,6 +90,7 @@
   },
   {
     "id": "bloodthorne_druid_whip_targets_in_nature_spell",
+    "type": "SPELL",
     "name": "Verdant Scourge",
     "description": "You can bring the fury of nature to bear on your enemies.  When a target is in thick grass, shrubbery, or other foliage, or is affected by Hungry Thirsty Roots, you can cause the plants to grow long thorns and pierce them.",
     "message": "",
@@ -107,6 +110,7 @@
     },
     "effect": "attack",
     "effect_str": "",
+    "shape": "blast",
     "damage_type": "stab",
     "min_damage": {
       "math": [ "5 + (3 * bloodthorn_druid_traits_sum() ) + (1.5 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]

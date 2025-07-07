@@ -46,7 +46,7 @@
     "active": true,
     "activated_eocs": [ "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP_SUMMON" ],
     "activation_msg": "A vine erupts from your arm and wraps around your wrist before snugly fitting itself into your hand.",
-    "activation_is_setup": true,
+    "activated_is_setup": true,
     "enchantments": [
       {
         "condition": "ACTIVE",
