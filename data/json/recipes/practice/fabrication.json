@@ -112,16 +112,16 @@
     "name": "redsmithing (beginner)",
     "description": "Practice the basics of redsmithing by working copper into some simple forms and designs.",
     "skill_used": "fabrication",
-    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 4 },
+    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 3 },
     "proficiencies": [
       { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
       { "proficiency": "prof_redsmithing", "time_multiplier": 1, "skill_penalty": 0 }
     ],
     "time": "1 h",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ],
-    "byproducts": [ [ "copper", 50 ] ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "components": [ [ [ "copper_scrap_equivalent", 10, "LIST" ] ] ],
+    "byproducts": [ [ "scrap_copper", 2 ], [ "copper", 150 ] ],
     "autolearn": [ [ "fabrication", 4 ] ],
     "book_learn": [
       [ "bronze_book", 1 ],
