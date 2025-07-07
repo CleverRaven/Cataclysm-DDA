@@ -218,9 +218,9 @@ class overmap_special_batch
 * Highways use a grid of overmap points to determine where intersections are generated.
 * These grid points have an offset to make highways look more natural.
 */
-struct overmap_highway_intersection_point {
-    overmap_highway_intersection_point() = default;
-    explicit overmap_highway_intersection_point( point_abs_om grid_pos ) : grid_pos( grid_pos ) {};
+struct interhighway_node {
+    interhighway_node() = default;
+    explicit interhighway_node( point_abs_om grid_pos ) : grid_pos( grid_pos ) {};
     //offset position; effectively where the intersection special is placed
     point_abs_om offset_pos = point_abs_om::invalid;
     //grid point; used to bound any given overmap
@@ -234,8 +234,13 @@ struct overmap_highway_intersection_point {
     void deserialize( const JsonObject &obj );
 };
 
-//has-a directed_node, contains pre-generated data for where highway specials get placed
-struct highway_node {
+/*
+* Contains pre - generated data for where and in what direction highway
+* segments/specials get placed on the scale of one overmap.
+* also contains whether the piece of highway is a segment or a special,
+* and (if applicable) if the segment is a ramp or not
+*/
+struct intrahighway_node {
     pf::directed_node<tripoint_om_omt> path_node =
         pf::directed_node<tripoint_om_omt>( tripoint_om_omt::invalid, om_direction::type::invalid );
     overmap_special_id placed_special = overmap_special_id::NULL_ID();
@@ -243,8 +248,8 @@ struct highway_node {
     bool is_ramp = false;
     //whether to flip ramp direction
     bool ramp_down = false;
-    explicit highway_node( tripoint_om_omt pos, om_direction::type dir,
-                           overmap_special_id placed_spec, bool is_seg = true ) {
+    explicit intrahighway_node( tripoint_om_omt pos, om_direction::type dir,
+                                overmap_special_id placed_spec, bool is_seg = true ) {
         path_node = pf::directed_node<tripoint_om_omt>( pos, dir );
         placed_special = placed_spec;
         is_segment = is_seg;
@@ -277,6 +282,7 @@ extern template struct pos_dir<tripoint_rel_omt>;
 
 using om_pos_dir = pos_dir<tripoint_om_omt>;
 using rel_pos_dir = pos_dir<tripoint_rel_omt>;
+using Highway_path = std::vector<intrahighway_node>;
 
 template<typename Tripoint>
 // NOLINTNEXTLINE(cert-dcl58-cpp)
@@ -310,10 +316,11 @@ class overmap
             return urbanity;
         }
         //will this OMT contain a lake before or after it is generated?
-        static bool omt_is_lake( const point_abs_omt &origin, const point_om_omt &offset,
-                                 double noise_threshold );
+        static bool omt_lake_noise_threshold( const point_abs_omt &origin, const point_om_omt &offset,
+                                              double noise_threshold );
         //does the overmap have at least one lake OMT?
-        static bool has_lake( const point_abs_om &p, double noise_threshold );
+        //TODO: extend pre-determined lake generation so we know instead of guess
+        static bool guess_has_lake( const point_abs_om &p, double noise_threshold, int tile_count );
 
         void save() const;
 
@@ -478,6 +485,9 @@ class overmap
         // Random point used for special connections if there's no cities on the overmap, joins to all roads_out
         std::optional<point_om_omt> fallback_road_connection_point; // NOLINT(cata-serialize)
 
+        // Whether this overmap has a highway connection point at this direction (N/E/S/W)
+        std::array<tripoint_om_omt, 4> highway_connections;
+
         std::array<map_layer, OVERMAP_LAYERS> layer;
         std::unordered_map<tripoint_abs_omt, scent_trace> scents;
 
@@ -586,46 +596,47 @@ class overmap
         void place_forest_trailheads();
 
         void place_roads( const std::vector<const overmap *> &neighbor_overmaps );
-        // Draws paths for highways, placing reserved terrain and non-highway-segment specials
-        // @return all highway paths (already placed as reserved tiles)
-        std::vector<std::vector<highway_node>> place_highways( const std::vector<const overmap *>
-                                            &neighbor_overmaps );
-        //place highway supports *below* the given point through water
-        void place_highway_supports( const tripoint_om_omt &p, om_direction::type dir, int base_z,
-                                     bool is_segment );
+        /**
+        * Draws paths for highways, placing reserved highway terrain and non-highway-segment specials
+        * @return all highway paths from edges of overmaps to intersections or other overmap edges (up to 4 paths)
+        */
+        std::vector<Highway_path> place_highways( const std::vector<const overmap *>
+                &neighbor_overmaps );
+        /**
+        * sub-function for place_highway_reserved_path
+        * draws a single line segment of highway, placing slants
+        * draw_direction is from sp1 to sp2
+        */
+        Highway_path place_highway_line(
+            const tripoint_om_omt &sp1, const tripoint_om_omt &sp2,
+            const om_direction::type &draw_direction, int path_init_z, int base_z );
+        /**
+        * sub-function for place_highways
+        * lays out reserved OMTs for highway segments, and places non-segment specials
+        */
+        Highway_path place_highway_reserved_path( const tripoint_om_omt &p1,
+                const tripoint_om_omt &p2,
+                int dir1, int dir2, int base_z );
+        /*
+        * tries to find a point to place an intersection special where it isn't on water
+        * @return point in radius of center without water; invalid if none found
+        */
+        tripoint_om_omt find_highway_intersection_point( const overmap_special_id &special,
+                const tripoint_om_omt &center, const om_direction::type &dir, int border ) const;
+        //given a path of highway nodes, remove small gaps of land in raised segments
+        void highway_handle_ramps( Highway_path &path, int base_z );
         //places highway special, replacing fallback supports with mutable supports that extend downwards
         void place_highway_supported_special( const overmap_special_id &special,
                                               const tripoint_om_omt &placement,
                                               const om_direction::type &dir );
-        // Whether this overmap has a highway connection point at this direction (N/E/S/W)
-        std::array<tripoint_om_omt, 4> highway_connections;
         // Replace reserved OMTs with necessary specials given what has drawn over them since place_highways()
-        void finalize_highways( std::vector<std::vector<highway_node>> &paths );
-        void set_highway_global_offset();
-        point_abs_om get_highway_global_offset() const;
+        void finalize_highways( std::vector<Highway_path> &paths );
         bool highway_intersection_exists( const point_abs_om &intersection_om ) const;
         /**
         * is this an overmap containing a highway?
         * @return adjacent N/E/S/W overmaps containing highways, if applicable
         */
         std::optional<std::bitset<4>> is_highway_overmap() const;
-        /**
-        *
-        */
-        void generate_highway_intersection_point( const point_abs_om &generated_om_pos ) const;
-        /**
-        * given an overmap point, finds and generates the highway intersection points boxing it in,
-        * ordered from closest to the center to furthest from the center
-        * NOTE: this function can be generalized if necessary
-        */
-        std::vector<point_abs_om> find_highway_intersection_bounds( const point_abs_om &generated_om_pos )
-        const;
-        /*
-        * given an overmap point, finds and generates cardinal adjacent highway intersection points
-        * pointers are guaranteed to be non-null
-        */
-        std::vector<overmap_highway_intersection_point> find_highway_adjacent_intersections(
-            const point_abs_om &generated_om_pos ) const;
         /*
         * gets all points drawn for exactly one highway segment special, given a highway path node
         * @return { set of points, offset direction from initial node point }

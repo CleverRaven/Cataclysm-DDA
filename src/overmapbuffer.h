@@ -222,6 +222,7 @@ class overmapbuffer
         std::string get_vehicle_ter_sym( const tripoint_abs_omt &omt );
         std::string get_vehicle_tile_id( const tripoint_abs_omt &omt );
         const regional_settings &get_settings( const tripoint_abs_omt &p );
+        const regional_settings &get_default_settings( const point_abs_om &p );
         /**
          * Accessors for horde introspection into overmaps.
          * Probably also useful for NPC overmap-scale navigation.
@@ -571,10 +572,26 @@ class overmapbuffer
         // most central overmap highway intersection
         point_abs_om highway_global_offset = point_abs_om::invalid;
         // all highway intersections
-        std::map<std::string, overmap_highway_intersection_point> highway_intersections;
-        overmap_highway_intersection_point get_overmap_highway_intersection_point( const point_abs_om &p );
+        std::map<std::string, interhighway_node> highway_intersections;
+        interhighway_node get_overmap_highway_intersection_point( const point_abs_om &p );
         void set_overmap_highway_intersection_point( const point_abs_om &p,
-                const overmap_highway_intersection_point &intersection );
+                const interhighway_node &intersection );
+        void set_highway_global_offset();
+        point_abs_om get_highway_global_offset() const;
+        /*
+        * given an overmap point, finds and generates cardinal-adjacent highway intersection points
+        */
+        std::vector<interhighway_node>
+        find_highway_adjacent_intersections( const point_abs_om &generated_om_pos );
+        bool highway_intersection_exists( const point_abs_om &intersection_om ) const;
+        void generate_highway_intersection_point( const point_abs_om &generated_om_pos );
+        /**
+        * given an overmap point, finds and generates the highway intersection points boxing it in,
+        * ordered from closest to the center to furthest from the center
+        * NOTE: this function can be generalized if necessary
+        */
+        std::vector<point_abs_om> find_highway_intersection_bounds( const point_abs_om
+                & generated_om_pos );
 
     private:
         /**

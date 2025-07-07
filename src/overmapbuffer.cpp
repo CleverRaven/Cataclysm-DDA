@@ -10,6 +10,7 @@
 #include <string>
 #include <tuple>
 
+#include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
 #include "cata_assert.h"
@@ -27,16 +28,19 @@
 #include "map.h"
 #include "mapgendata.h"
 #include "memory_fast.h"
+#include "messages.h"
 #include "mod_manager.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
 #include "omdata.h"
+#include "options.h"
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_types.h"
 #include "path_info.h"
 #include "point.h"
+#include "regional_settings.h"
 #include "rng.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
@@ -260,6 +264,18 @@ const regional_settings &overmapbuffer::get_settings( const tripoint_abs_omt &p 
 {
     overmap *om = get_om_global( p ).om;
     return om->get_settings();
+}
+
+const regional_settings &overmapbuffer::get_default_settings( const point_abs_om &p )
+{
+    const std::string rsettings_id = get_option<std::string>( "DEFAULT_REGION" );
+    t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
+
+    if( rsit == region_settings_map.end() ) {
+        debugmsg( "overmap%s: can't find region '%s'", p.to_string(),
+                  rsettings_id.c_str() ); // gonna die now =[
+    }
+    return rsit->second;
 }
 
 void overmapbuffer::add_note( const tripoint_abs_omt &p, const std::string &message )
@@ -896,7 +912,7 @@ overmap_path_params overmap_path_params::for_player()
 {
     overmap_path_params ret;
     // 24 tiles = 24 seconds walking
-    ret.set_cost( oter_travel_cost_type::highway, 16 );
+    ret.set_cost( oter_travel_cost_type::highway, 24 );
     ret.set_cost( oter_travel_cost_type::road, 24 );
     ret.set_cost( oter_travel_cost_type::dirt_road, 24 );
     ret.set_cost( oter_travel_cost_type::field, 36 );
@@ -1670,17 +1686,112 @@ city_reference overmapbuffer::closest_known_city( const tripoint_abs_sm &center 
     return city_reference::invalid;
 }
 
-overmap_highway_intersection_point overmapbuffer::get_overmap_highway_intersection_point(
+interhighway_node overmapbuffer::get_overmap_highway_intersection_point(
     const point_abs_om &p )
 {
     return overmap_buffer.highway_intersections[p.to_string_writable()];
 }
 
 void overmapbuffer::set_overmap_highway_intersection_point( const point_abs_om &p,
-        const overmap_highway_intersection_point &intersection )
+        const interhighway_node &intersection )
 {
     overmap_buffer.highway_intersections[p.to_string_writable()] = intersection;
 }
+
+
+void overmapbuffer::set_highway_global_offset()
+{
+    //this only happens exactly once, upon generation of the first overmap
+    const tripoint_abs_om center = project_to<coords::om>( get_avatar().pos_abs() );
+    overmap_buffer.highway_global_offset = point_abs_om( center.xy() );
+}
+
+point_abs_om overmapbuffer::get_highway_global_offset() const
+{
+    return overmap_buffer.highway_global_offset;
+}
+
+std::vector<interhighway_node>
+overmapbuffer::find_highway_adjacent_intersections( const point_abs_om &generated_om_pos )
+{
+    const overmap_highway_settings &highway_settings = get_default_settings(
+                generated_om_pos ).overmap_highway;
+    const int c_seperation = highway_settings.grid_column_seperation;
+    const int r_seperation = highway_settings.grid_row_seperation;
+
+    //generate adjacent intersection points
+    std::vector<interhighway_node> adjacent_intersections;
+    for( const point &cardinal : four_adjacent_offsets ) {
+        const point_abs_om p( generated_om_pos.x() + cardinal.x * c_seperation,
+                              generated_om_pos.y() + cardinal.y * r_seperation );
+        if( !highway_intersection_exists( p ) ) {
+            generate_highway_intersection_point( p );
+        }
+        adjacent_intersections.emplace_back( overmap_buffer.get_overmap_highway_intersection_point( p ) );
+    }
+
+    //store adjacencies in calling intersection point
+    interhighway_node this_intersection =
+        overmap_buffer.get_overmap_highway_intersection_point( generated_om_pos );
+    const int adjacencies = four_adjacent_offsets.size();
+    for( int i = 0; i < adjacencies; i++ ) {
+        point_abs_om &new_intersection = this_intersection.adjacent_intersections[i];
+        if( new_intersection.is_invalid() ) {
+            new_intersection = adjacent_intersections[i].grid_pos;
+        }
+    }
+    overmap_buffer.set_overmap_highway_intersection_point( generated_om_pos, this_intersection );
+
+    return adjacent_intersections;
+}
+
+bool overmapbuffer::highway_intersection_exists( const point_abs_om &intersection_om ) const
+{
+    return highway_intersections.find( intersection_om.to_string_writable() ) !=
+           highway_intersections.end();
+}
+
+
+void overmapbuffer::generate_highway_intersection_point( const point_abs_om &generated_om_pos )
+{
+    const overmap_highway_settings &highway_settings = get_default_settings(
+                generated_om_pos ).overmap_highway;
+    const int intersection_max_radius = highway_settings.intersection_max_radius;
+    if( !highway_intersection_exists( generated_om_pos ) ) {
+        interhighway_node new_intersection( generated_om_pos );
+        new_intersection.generate_offset( intersection_max_radius );
+        add_msg_debug( debugmode::DF_HIGHWAY, "Generated intersection at overmap %s.",
+                       new_intersection.offset_pos.to_string_writable() );
+        overmap_buffer.highway_intersections.insert( { generated_om_pos.to_string_writable(), new_intersection } );
+    }
+}
+
+std::vector<point_abs_om> overmapbuffer::find_highway_intersection_bounds( const point_abs_om
+        & generated_om_pos )
+{
+    const overmap_highway_settings &highway_settings = get_default_settings(
+                generated_om_pos ).overmap_highway;
+    const int c_seperation = highway_settings.grid_column_seperation;
+    const int r_seperation = highway_settings.grid_row_seperation;
+
+    point_abs_om center = overmap_buffer.highway_global_offset;
+    point_rel_om diff = generated_om_pos - center;
+    int colsign = std::copysign( 1.0, diff.x() / static_cast<double>( c_seperation ) );
+    int rowsign = std::copysign( 1.0, diff.y() / static_cast<double>( r_seperation ) );
+    // these are returned in clockwise order AND so the furthest from the highway origin is last
+    std::vector<point_abs_om> bounds = { point_abs_om( center.x(), center.y() + rowsign * r_seperation ),
+                                         point_abs_om( center.x(), center.y() ),
+                                         point_abs_om( center.x() + colsign * c_seperation, center.y() ),
+                                         point_abs_om( center.x() + colsign * c_seperation, center.y() + rowsign * r_seperation )
+                                       };
+    for( const point_abs_om &p : bounds ) {
+        if( !highway_intersection_exists( p ) ) {
+            generate_highway_intersection_point( p );
+        }
+    }
+    return bounds;
+}
+
 
 std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
 {
