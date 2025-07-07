@@ -131,7 +131,7 @@
     "type": "jmath_function",
     "id": "xe_fey_elemental_magick_arvore_failure_chance",
     "num_args": 0,
-    "return": "clamp( ( ( (global_what_is_the_season == 4 ? 0.15 : 0 ) + (u_spell_difficulty(_spell_id) * 0.09 ) + xe_fey_magick_mana_penalty() ) + (u_skill('deduction') * -0.03) + (u_spell_level(_spell_id) * -0.06 ) * (u_effect_intensity('effect_arvore_is_day_in_the_sun_not_winter') > -1 ? 0.5 : 1 ) ), 0, 1)"
+    "return": "clamp( ( ( ( (global_what_is_the_season == 4 ? 0.15 : 0 ) + (u_spell_difficulty(_spell_id) * 0.09 ) + xe_fey_magick_mana_penalty() ) + (u_skill('deduction') * -0.03) + (u_spell_level(_spell_id) * -0.06 ) ) * (u_effect_intensity('effect_arvore_is_day_in_the_sun_not_winter') > -1 ? 0.5 : 1 ) ), 0, 1)"
   },
   {
     "type": "jmath_function",
