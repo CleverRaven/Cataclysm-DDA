@@ -12,7 +12,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "commune with nature",
     "id": "xe_bloodthorn_druid_upgrade_recipe",
-    "description": "Your heartvine has drunk up enough vampire blood that it is ready to greant you a new gift.  Seek out the wild places to allow it to grow.",
+    "description": "Your heartvine has drunk up enough vampire blood that it is ready to grant you a new gift.  Seek out the wild places to allow it to grow.",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_RESEARCH",
     "skill_used": "deduction",
@@ -71,7 +71,7 @@
             }
           }
         ],
-        "false_effect": [ { "u_message": "Your heartvine is not ready to grow.  You must water it with vamprie blood.", "type": "bad" } ]
+        "false_effect": [ { "u_message": "Your heartvine is not ready to grow.  You must water it with vampire blood.", "type": "bad" } ]
       }
     ]
   },

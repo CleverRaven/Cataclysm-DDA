@@ -17,7 +17,7 @@
     "id": "BLOODTHORNE_SORCERY",
     "name": "Thornwitchery",
     "points": 0,
-    "description": "This is the schoool trait for Bloodthorne Druids.  You shouldn't see it directly.",
+    "description": "This is the school trait for Bloodthorne Druids.  You shouldn't see it directly.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
