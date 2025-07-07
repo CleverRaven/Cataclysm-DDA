@@ -75,6 +75,16 @@
   },
   {
     "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_WHIP_TARGETS_IN_NATURE",
+    "name": { "str": "Verdant Scourge" },
+    "points": 2,
+    "description": "You can bring the fury of nature to bear on your enemies.  When a target is in thick foliage, you can cause the plants to grow long thorns and pierce them.",
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "bloodthorne_druid_whip_targets_in_nature_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "BLOODTHORNE_DRUID_BONUS_MANA_REGEN",
     "name": { "str": "In Tune with the Wild" },
     "points": 2,

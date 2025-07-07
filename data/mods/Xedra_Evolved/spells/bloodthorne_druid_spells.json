@@ -19,6 +19,8 @@
     "valid_targets": [ "self", "ally" ],
     "flags": [ "SOMATIC", "NO_LEGS" ],
     "magic_type": "xedra_bloodthorne_sorcery",
+    "skill": "deduction",
+    "spell_class": "BLOODTHORNE_SORCERY",
     "condition": {
       "or": [
         { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
@@ -40,6 +42,8 @@
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
     "magic_type": "xedra_bloodthorne_sorcery",
+    "skill": "deduction",
+    "spell_class": "BLOODTHORNE_SORCERY",
     "condition": {
       "or": [
         { "u_has_effect": "bleed", "bodypart": "head" },
@@ -69,6 +73,8 @@
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "RANDOM_DAMAGE" ],
     "magic_type": "xedra_bloodthorne_sorcery",
+    "skill": "deduction",
+    "spell_class": "BLOODTHORNE_SORCERY",
     "effect": "attack",
     "effect_str": "bleed",
     "shape": "blast",
@@ -79,5 +85,44 @@
     "max_duration": 36000,
     "min_aoe": 1,
     "targeted_monster_species": [ "VAMPIRE", "RENFIELD" ]
+  },
+  {
+    "id": "bloodthorne_druid_whip_targets_in_nature_spell",
+    "name": "Verdant Scourge",
+    "description": "You can bring the fury of nature to bear on your enemies.  When a target is in thick grass, shrubbery, or other foliage, or is affected by Hungry Thirsty Roots, you can cause the plants to grow long thorns and pierce them.",
+    "message": "",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "VERBAL", "NO_LEGS", "RANDOM_DAMAGE" ],
+    "magic_type": "xedra_bloodthorne_sorcery",
+    "skill": "deduction",
+    "spell_class": "BLOODTHORNE_SORCERY",
+    "condition": {
+      "or": [
+        { "npc_has_effect": "effect_hungry_roots" },
+        { "npc_is_on_terrain": "t_grass_long" },
+        { "npc_is_on_terrain": "t_grass_tall" },
+        { "npc_is_on_terrain_with_flag": "YOUNG" },
+        { "npc_is_on_terrain_with_flag": "SHRUB" }
+      ]
+    },
+    "effect": "attack",
+    "effect_str": "",
+    "damage_type": "stab",
+    "min_damage": {
+      "math": [ "5 + (3 * bloodthorn_druid_traits_sum() ) + (1.5 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
+    },
+    "max_damage": {
+      "math": [ "20 + (5.5 * bloodthorn_druid_traits_sum() ) + (2.5 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
+    },
+    "min_range": 15,
+    "max_range": 15,
+    "min_aoe": {
+      "math": [ "0 + (0.2 * bloodthorn_druid_traits_sum() ) + (0.05 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
+    },
+    "max_aoe": {
+      "math": [ "0 + (0.2 * bloodthorn_druid_traits_sum() ) + (0.05 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
+    },
+    "base_casting_time": 175,
+    "base_energy_cost": { "math": [ "max( ( 350 - (bloodthorn_druid_traits_sum() * 6) ), 150)" ] }
   }
 ]
