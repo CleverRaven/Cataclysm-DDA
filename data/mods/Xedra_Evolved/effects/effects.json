@@ -1482,8 +1482,15 @@
   {
     "type": "effect_type",
     "id": "effect_arvore_attacked_a_triffid",
-    "name": [ "Broken Green Pact " ],
+    "name": [ "Broken Green Pact" ],
     "desc": [ "You broke the pact of the green and have no more protection from the triffids' wrath." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_arvore_is_day_in_the_sun_not_winter",
+    "//": "Hidden effect, used in Arvore spellcasting failure calculations",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
