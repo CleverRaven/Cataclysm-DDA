@@ -1976,6 +1976,20 @@
     ]
   },
   {
+    "id": "achievement_reach_balthazar",
+    "type": "achievement",
+    "name": "Bunker Robot(s)",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "balthazar_bunker" ],
+        "visible": "when_achievement_completed",
+        "description": "Find the bunker complex"
+      }
+    ]
+  },
+  {
     "id": "achievement_reach_hub01",
     "type": "achievement",
     "name": "Is this thing on?",

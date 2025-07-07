@@ -5,7 +5,7 @@
     "intensity_levels": [
       { "name": "dust", "sym": "%", "color": "brown", "transparent": true, "dangerous": false, "concentration": 1 },
       {
-        "name": "fountain of dust",
+        "name": "dust and grime",
         "sym": "%",
         "color": "brown",
         "transparent": true,
@@ -20,13 +20,14 @@
     "description_affix": "covered_in",
     "mopsafe": true,
     "moppable": true,
-    "percent_spread": 33,
-    "phase": "gas"
+    "percent_spread": 20,
+    "phase": "gas",
+    "looks_like": "t_open_air"
   },
   {
     "type": "field_type",
     "id": "fd_splinters",
-    "intensity_levels": [ { "name": "splinters", "sym": "%", "color": "brown", "transparent": true, "dangerous": false, "concentration": 1 } ],
+    "intensity_levels": [ { "name": "wood debris", "sym": "%", "color": "brown", "transparent": true, "dangerous": false, "concentration": 1 } ],
     "priority": 2,
     "dirty_transparency_cache": false,
     "display_items": true,
@@ -35,6 +36,40 @@
     "mopsafe": true,
     "moppable": true,
     "percent_spread": 8,
-    "phase": "gas"
+    "phase": "gas",
+    "looks_like": "fd_dust"
+  },
+  {
+    "id": "fd_mechanical_fluid",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "mechanical fluid splatter", "color": "light_gray" },
+      { "name": "mechanical fluid stain" },
+      { "name": "puddle of mechanical fluid", "color": "dark_gray" }
+    ],
+    "description_affix": "covered_in",
+    "is_splattering": true,
+    "mopsafe": true,
+    "moppable": true,
+    "half_life": "10 days",
+    "phase": "liquid",
+    "display_field": true,
+    "looks_like": "fd_sludge"
+  },
+  {
+    "id": "fd_dirty_water",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "dirty water splatter", "color": "light_gray" },
+      { "name": "dirty water stain" },
+      { "name": "puddle of dirty water", "color": "dark_gray" }
+    ],
+    "description_affix": "covered_in",
+    "mopsafe": true,
+    "moppable": true,
+    "half_life": "2 hours",
+    "phase": "liquid",
+    "display_field": true,
+    "looks_like": "water"
   }
 ]
