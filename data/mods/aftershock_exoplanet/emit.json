@@ -44,5 +44,13 @@
     "intensity": 3,
     "chance": 100,
     "qty": 12
+  },
+  {
+    "id": "weak_toxic_dust",
+    "type": "emit",
+    "field": "fd_toxic_dust",
+    "intensity": 2,
+    "chance": 2,
+    "qty": 6
   }
 ]

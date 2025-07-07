@@ -722,6 +722,15 @@
   {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
+    "id": "fresh_fries_j",
+    "name": { "str_sp": "Julienne fries" },
+    "copy-from": "fries",
+    "description": "Homemade deep-fried potatoes cut long and thin, with a touch of salt.  These were somewhat of a fad before the world ended.  Crunchy and delicious.",
+    "fun": 4
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "poutine",
     "name": { "str_sp": "poutine" },
     "weight": "131 g",

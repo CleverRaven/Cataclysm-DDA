@@ -68,7 +68,7 @@
       "~": { "item": "restaur_bath", "chance": 20 },
       "P": { "item": "SUS_toilet", "chance": 50 },
       "S": { "item": "restaur_sink", "chance": 90 },
-      "&": { "item": "SUS_trash_trashcan", "chance": 65 },
+      "&": { "item": "SUS_trash_trashcan_public", "chance": 65 },
       "d": { "item": "SUS_trash_dumpster", "chance": 50 }
     }
   },

@@ -112,7 +112,7 @@
       "ɤ": "f_counter_gate_c"
     },
     "items": {
-      "Y": [ { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 3 ] } ],
+      "Y": [ { "item": "SUS_trash_trashcan", "chance": 20 } ],
       "P": [
         { "item": "SUS_office_filing_cabinet", "chance": 100, "repeat": [ 1, 4 ] },
         { "item": "low_level_badges_mutagen", "chance": 10 }
@@ -235,7 +235,7 @@
         { "item": "camping", "chance": 5, "repeat": [ 1, 2 ] }
       ],
       "V": { "item": "home_display_case", "chance": 50 },
-      "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 30 },
       "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
       "2": { "item": "SUS_cookware", "chance": 100 },
       "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
@@ -462,7 +462,7 @@
         { "item": "supplies_reagents_lab", "chance": 5, "repeat": [ 1, 2 ] }
       ],
       "V": { "item": "mut_lab", "chance": 50 },
-      "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 30 },
       "8": [
         { "item": "SUS_bathroom_cabinet", "chance": 30 },
         { "item": "SUS_bathroom_medicine", "chance": 40 },
@@ -588,7 +588,7 @@
         { "item": "supplies_reagents_lab", "chance": 5, "repeat": [ 1, 2 ] }
       ],
       "V": { "item": "softdrugs", "chance": 50 },
-      "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 30 },
       "8": [
         { "item": "SUS_bathroom_cabinet", "chance": 30 },
         { "item": "SUS_bathroom_medicine", "chance": 40 },

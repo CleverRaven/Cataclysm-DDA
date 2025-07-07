@@ -109,7 +109,7 @@
       ],
       "items": {
         "@": { "item": "bed", "chance": 80 },
-        "D": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 3 ] },
+        "D": { "item": "SUS_trash_trashcan", "chance": 60 },
         "F": { "item": "SUS_fridge_survivor", "chance": 60 },
         "L": { "item": "allclothes", "chance": 90, "repeat": [ 1, 5 ] },
         "c": [ { "item": "kitchen_appliances", "chance": 5 }, { "item": "dishes_utility", "chance": 5 } ],
@@ -201,7 +201,7 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 21, 23 ] }
       ],
       "items": {
-        "D": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 3 ] },
+        "D": { "item": "SUS_trash_trashcan", "chance": 60 },
         "L": { "item": "cleaning", "chance": 80, "repeat": [ 2, 6 ] },
         "S": [ { "item": "dishes_dining", "chance": 80, "repeat": [ 1, 3 ] }, { "item": "dishes_utility", "chance": 10 } ],
         "T": { "item": "dishes_dining", "chance": 5 },
@@ -286,7 +286,7 @@
       ],
       "items": {
         "@": { "item": "bed", "chance": 80 },
-        "D": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 3 ] },
+        "D": { "item": "SUS_trash_trashcan", "chance": 60 },
         "L": { "item": "shelter", "chance": 30 },
         "i": { "item": "SUS_office_desk", "chance": 90 },
         "k": { "item": "cubical_office", "chance": 20, "repeat": [ 1, 2 ] },

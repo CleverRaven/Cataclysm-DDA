@@ -839,6 +839,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_clair_craft_in_darkness",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "CRAFT_IN_DARKNESS" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_clair_better_senses",
     "name": [ "Heightened Senses" ],
     "desc": [ "You are enhancing your mundane senses." ],
@@ -992,6 +999,20 @@
             }
           }
         ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "u_has_effect": "effect_clair_better_senses" },
+            { "not": { "u_has_effect": "effect_clair_better_senses_pain" } },
+            {
+              "math": [
+                "(u_spell_level('clair_better_senses') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) >= 8"
+              ]
+            }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_clair_craft_in_darkness", "intensity": 1 } ]
       }
     ]
   },

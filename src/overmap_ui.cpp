@@ -590,7 +590,7 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
     oter_display_lru lru_cache;
     oter_display_options oter_opts( orig, sight_points );
     oter_opts.show_weather = ( uistate.overmap_debug_weather || uistate.overmap_visible_weather ) &&
-                             cursor_pos.z() == 10;
+                             cursor_pos.z() == OVERMAP_HEIGHT;
     oter_opts.show_pc = true;
     oter_opts.debug_scent = data.debug_scent;
     oter_opts.show_map_revealed = uistate.overmap_show_revealed_omts;
@@ -610,7 +610,7 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
         data.cursor_pos = next_path;
         oter_opts.center = next_path;
         blink = true;
-        corner_text.emplace_back( c_yellow, _( "FAST TRAVELING…" ) );
+        corner_text.emplace_back( c_yellow, _( "FAST TRAVELING" ) );
     }
     oter_opts.blink = blink;
 
@@ -670,6 +670,12 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
         // get seen NPCs
         for( const auto &np : npcs_near_player ) {
             if( np->posz() != cursor_pos.z() ) {
+                continue;
+            }
+
+            // Since most hostiles are "bandits", including *ambushes*, being able to see them in advance makes them largely impotent.
+            // This can be revisited when/if we get NPC overmap behavior to act in a more directed hostile fashion.
+            if( np->guaranteed_hostile() ) {
                 continue;
             }
 
@@ -877,6 +883,10 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
         corner_text.emplace_back( c_white, data.message );
     }
 
+    if( oter_opts.show_weather ) {
+        corner_text.emplace_back( c_yellow, _( "WEATHER MODE" ) );
+    }
+
     if( uistate.overmap_show_map_notes ) {
         const std::string &note_text = overmap_buffer.note( cursor_pos );
         if( !note_text.empty() ) {
@@ -894,7 +904,7 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
 
     if( has_debug_vision || overmap_buffer.seen_more_than( cursor_pos, om_vision_level::details ) ) {
         for( const auto &npc : npcs_near_player ) {
-            if( !npc->marked_for_death && npc->pos_abs_omt() == cursor_pos ) {
+            if( !npc->marked_for_death && npc->pos_abs_omt() == cursor_pos && !npc->guaranteed_hostile() ) {
                 corner_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
             }
         }
@@ -2531,7 +2541,7 @@ void ui::omap::display_weather()
 {
     g->overmap_data = overmap_ui::overmap_draw_data_t();
     tripoint_abs_omt pos = get_player_character().pos_abs_omt();
-    pos.z() = 10;
+    pos.z() = OVERMAP_HEIGHT;
     g->overmap_data.origin_pos = pos;
     uistate.overmap_debug_weather = true;
     overmap_ui::display();
@@ -2542,7 +2552,7 @@ void ui::omap::display_visible_weather()
 {
     g->overmap_data = overmap_ui::overmap_draw_data_t();
     tripoint_abs_omt pos = get_player_character().pos_abs_omt();
-    pos.z() = 10;
+    pos.z() = OVERMAP_HEIGHT;
     g->overmap_data.origin_pos = pos;
     uistate.overmap_visible_weather = true;
     overmap_ui::display();

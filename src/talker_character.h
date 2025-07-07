@@ -96,7 +96,7 @@ class talker_character_const: virtual public const_talker
         int get_spell_level( const trait_id & ) const override;
         int get_spell_level( const spell_id & ) const override;
         int get_spell_exp( const spell_id & ) const override;
-        int get_spell_difficulty( const spell_id & ) const override;
+        int get_spell_difficulty( const spell_id &, bool ) const override;
         int get_highest_spell_level() const override;
         int get_spell_count( const trait_id & ) const override;
         int get_spell_sum( const trait_id &school, int min_level ) const override;

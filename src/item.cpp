@@ -8420,6 +8420,16 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
 
     encumber += static_cast<int>( std::ceil( get_clothing_mod_val( clothing_mod_type_encumbrance ) ) );
 
+    if( !faults.empty() ) {
+        int add = 0;
+        float mult = 1.f;
+        for( const fault_id fault : faults ) {
+            add += fault->encumb_mod_flat();
+            mult *= fault->encumb_mod_mult();
+        }
+        encumber = std::max( 0.f, ( encumber + add ) * mult );
+    }
+
     return encumber;
 }
 
@@ -12905,7 +12915,7 @@ bool item::use_amount_internal( const itype_id &it, int &quantity, std::list<ite
 
 bool item::allow_crafting_component() const
 {
-    if( ( is_toolmod() && is_irremovable() ) || has_flag( flag_PSEUDO ) ) {
+    if( has_flag( flag_PSEUDO ) ) {
         return false;
     }
 

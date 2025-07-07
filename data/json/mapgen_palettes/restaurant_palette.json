@@ -98,7 +98,7 @@
         { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 2 ] }
       ],
       "U": [ { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] }, { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] } ],
-      "Y": { "item": "SUS_trash_trashcan", "chance": 100 },
+      "Y": { "item": "SUS_trash_trashcan_public", "chance": 100 },
       "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
       "2": { "item": "SUS_cookware", "chance": 100 },
       "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],

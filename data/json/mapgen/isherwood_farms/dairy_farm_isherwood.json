@@ -98,7 +98,7 @@
           { "item": "SUS_cookware", "chance": 20, "repeat": [ 2, 4 ] },
           { "item": "SUS_utensils", "chance": 20, "repeat": [ 2, 4 ] }
         ],
-        "t": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 2, 4 ] }
+        "t": { "item": "SUS_trash_trashcan", "chance": 20 }
       },
       "item": { "}": { "item": "cattlefodder_large", "chance": 35, "amount": [ 0, 4 ] } },
       "place_vehicles": [

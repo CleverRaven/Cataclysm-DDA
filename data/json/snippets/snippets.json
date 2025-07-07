@@ -729,5 +729,35 @@
       { "id": "random_color_silver", "text": { "ctxt": "<color>", "str": "silver" } },
       { "id": "random_color_white", "text": { "ctxt": "<color>", "str": "white" } }
     ]
+  },
+  {
+    "type": "snippet",
+    "//": "This is a dissection, and we are trained for dissection, so no morale penalty, anger, and lighter flavor text.",
+    "category": "msg_human_dissection_with_prof",
+    "text": [
+      "You grit your teeth and get to work.",
+      "The task at hand is unpleasant, but you steel your nerves regardless.",
+      "Hopefully whatever you can glean from this autopsy is worth the effort."
+    ]
+  },
+  {
+    "type": "snippet",
+    "//": "Message indicating we are dissecting without the stomach for it, but not actually butchering.  Lower morale penalty",
+    "category": "msg_human_dissection_no_prof",
+    "text": [
+      "This is nothing like dissecting a frog in biology class.  You feel sick inside.",
+      "You wonder how anyone manages to do this ghastly work.",
+      "The grim nature of your task deeply upsets you, leaving you feeling disgusted with yourself."
+    ]
+  },
+  {
+    "type": "snippet",
+    "//": "Message showing a character disgust of butchering a fellow human.  Do not include dissection or dismemberment.",
+    "category": "msg_human_butchery",
+    "text": [
+      "You clench your teeth at the prospect of this gruesome job.",
+      "This will haunt you in your dreams.",
+      "You try to look away, but this gruesome image will stay on your mind for some time."
+    ]
   }
 ]

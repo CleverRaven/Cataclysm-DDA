@@ -1046,6 +1046,7 @@
     "price": "200 USD",
     "price_postapoc": "2 USD",
     "material": [ "steel" ],
+    "qualities": [ [ "ANVIL", 2 ] ],
     "symbol": "=",
     "color": "light_gray",
     "ammo_type": "components"
@@ -1062,6 +1063,7 @@
     "price": "400 USD",
     "price_postapoc": "4 USD",
     "material": [ "steel" ],
+    "qualities": [ [ "ANVIL", 2 ] ],
     "symbol": "=",
     "color": "light_gray",
     "ammo_type": "components"

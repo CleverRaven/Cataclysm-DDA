@@ -519,7 +519,8 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
             if( found ) {
                 FAIL( "oter_type_id was found in map but had SHOULD_NOT_SPAWN flag" );
             } else {
-                bool is_whitelisted = id->has_flag( oter_flags::ocean );
+                //oceans and highways are not guaranteed to be inside the checked overmap radius
+                bool is_whitelisted = id->has_flag( oter_flags::ocean ) || id->has_flag( oter_flags::highway );
                 for( const std::regex &wl : test_data::overmap_terrain_coverage_whitelist ) {
                     std::cmatch m;
                     is_whitelisted = is_whitelisted || (

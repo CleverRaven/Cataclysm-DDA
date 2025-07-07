@@ -529,6 +529,7 @@
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "mission_completed_Boris_mission_1", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Boris_1b" },
+        { "u_add_var": "proven_worth_to_old_guard_representative", "value": "yes" },
         { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "3" ] },
         { "mapgen_update": "boris_cleanup_garage", "om_terrain": "evac_center_8" },
         { "mapgen_update": "boris_cleanup_back_bay", "om_terrain": "evac_center_9" }
