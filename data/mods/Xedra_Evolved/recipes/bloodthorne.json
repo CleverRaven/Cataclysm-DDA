@@ -10,7 +10,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "commune with nature",
+    "name": "heartvine communion",
     "id": "xe_bloodthorn_druid_upgrade_recipe",
     "description": "Your heartvine has drunk up enough vampire blood that it is ready to grant you a new gift.  Seek out the wild places to allow it to grow.",
     "category": "CC_XEDRA",
@@ -96,7 +96,16 @@
       {
         "u_roll_remainder": [ "BLOODTHORNE_DRUID_REGAIN_BLOOD", "BLOODTHORNE_DRUID_BONUS_MANA_REGEN" ],
         "type": "mutation",
-        "true_eocs": [ { "id": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS", "effect": [ { "npc_unset_flag": "FILTHY" } ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS",
+            "effect": [
+              { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade", "+=", "2" ] },
+              { "math": [ "u_bloodthorn_druid_required_arvore_traits ++" ] },
+              { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills = 0" ] }
+            ]
+          }
+        ],
         "false_eocs": [  ]
       }
     ],
@@ -107,6 +116,7 @@
         "type": "good"
       },
       { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade = 5" ] },
+      { "math": [ "u_bloodthorn_druid_required_arvore_traits = 4" ] },
       { "u_add_effect": "formication", "duration": [ "30 minutes", "120 minutes" ], "target_part": "arm_l" },
       { "u_add_effect": "formication", "duration": [ "30 minutes", "120 minutes" ], "target_part": "arm_r" }
     ]
