@@ -1,5 +1,6 @@
 [
   {
+    "//": "Bloodthorne druid spells should deal with blood, thorns, the wilderness, and fighting vampires.  Their spells do not always have to affect vampires in some way, but they should generally be oriented toward combat against them--they can use Arvore magic as more generalist nature magic.",
     "id": "xedra_bloodthorne_sorcery",
     "type": "magic_type",
     "energy_source": "MANA",
@@ -30,5 +31,53 @@
     "min_range": 1,
     "base_casting_time": 150,
     "base_energy_cost": { "math": [ "max( ( 200 - (bloodthorn_druid_traits_sum() * 5) ), 50)" ] }
+  },
+  {
+    "id": "bloodthorne_druid_stop_bleeding_spell",
+    "name": "Thorn-sealed Wounds",
+    "description": "When bleeding, your heartvines can pull the wound closed and stop it.  This is painful, but will prevent further bleeding.  If there are any vampires or their servants nearby, the heartvines will also lash out at them as they pull the wound closed.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
+    "magic_type": "xedra_bloodthorne_sorcery",
+    "condition": {
+      "or": [
+        { "u_has_effect": "bleed", "bodypart": "head" },
+        { "u_has_effect": "bleed", "bodypart": "torso" },
+        { "u_has_effect": "bleed", "bodypart": "arm_r" },
+        { "u_has_effect": "bleed", "bodypart": "arm_l" },
+        { "u_has_effect": "bleed", "bodypart": "leg_r" },
+        { "u_has_effect": "bleed", "bodypart": "leg_l" }
+      ]
+    },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING",
+    "extra_effects": [ { "id": "bloodthorne_druid_stop_bleeding_spell_thornlash" } ],
+    "shape": "blast",
+    "min_range": 1,
+    "base_casting_time": 75,
+    "base_energy_cost": { "math": [ "max( ( 150 - (bloodthorn_druid_traits_sum() * 4) ), 50)" ] }
+  },
+  {
+    "id": "bloodthorne_druid_stop_bleeding_spell_thornlash",
+    "name": { "str": "Thorn-sealed Wound Vampire Lash", "//~": "NO_I18N" },
+    "description": {
+      "str": "Hits nearby vampires and their servants when you close your wounds.  You shouldn't see this.",
+      "//~": "NO_I18N"
+    },
+    "message": "",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "RANDOM_DAMAGE" ],
+    "magic_type": "xedra_bloodthorne_sorcery",
+    "effect": "attack",
+    "effect_str": "bleed",
+    "shape": "blast",
+    "damage_type": "cut",
+    "min_damage": 5,
+    "max_damage": 25,
+    "min_duration": 6000,
+    "max_duration": 36000,
+    "min_aoe": 1,
+    "targeted_monster_species": [ "VAMPIRE", "RENFIELD" ]
   }
 ]

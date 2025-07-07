@@ -65,6 +65,16 @@
   },
   {
     "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_STOP_BLEEDING",
+    "name": { "str": "Thorn-sealed Wounds" },
+    "points": 2,
+    "description": "When bleeding, your heartvines can pull the wound closed and stop it.  This is painful, but will prevent further bleeding.  If there are any vampires or their servants nearby, the heartvines will also lash out at them as they pull the wound closed.",
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "bloodthorne_druid_stop_bleeding_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "BLOODTHORNE_DRUID_BONUS_MANA_REGEN",
     "name": { "str": "In Tune with the Wild" },
     "points": 2,
