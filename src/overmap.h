@@ -52,6 +52,7 @@ class cata_path;
 class character_id;
 class npc;
 class overmap_connection;
+struct horde_entity;
 struct map_data_summary;
 struct regional_settings;
 template <typename T> struct enum_traits;
@@ -369,7 +370,7 @@ class overmap
         void set_passable( const tripoint_abs_omt &p, string_id<map_data_summary> new_passable );
     public:
         // Spawn a monter at overmap scale.
-        monster &spawn_monster( const tripoint_abs_ms &p, mtype_id id );
+        horde_entity &spawn_monster( const tripoint_abs_ms &p, mtype_id id );
         /**
          * Getter for overmap scents.
          * @returns a reference to a scent_trace from the requested location.
@@ -540,24 +541,18 @@ class overmap
         void add_omt_stack_argument( const point_abs_omt &p, const std::string &param_name,
                                      const cata_variant &value );
         /**
-         * When monsters despawn during map-shifting they will be added here.
+         * Monster entries live here so they can move around at overmap scales.
+         * When monsters despawn during map-shifting they will also be added here.
          * map::spawn_monsters will load them and place them into the reality bubble
          * (adding it to the creature tracker and putting it onto the map).
          * This stores each submap worth of monsters in a seperate tree.
          */
-        // This very much needs to be much smaller, just holding enough state so we know
-        // what kind of monster it is, and it's navigation goals.
-        // Destination, which might be an abs tripoint or possibly a direction.
-        // Intensity, which tracks the monster forgetting about whatever stimulii it was?
-        // Possibly some accuracy number so if it keeps getting stimulii (e.g. hears noises)
-        // it can refine the direction of movement.
-        // Monster type, pointer or string_id<monster>
-        // In particular the above data will be referenced by the horde navigation code and the
-        // below data will mostly just be stored to recreate the monster once it enters the map or
-        // interacts with something where we want a whole monster instance.
-        // Evolution data?
-        // HP, conditions
-        std::unordered_map <tripoint_om_sm, std::map<tripoint_abs_ms, monster>> monster_map;
+        // As this container holds a large number of entries (many thousands per overmap),
+        // there are a number of optimizations that are worth investigating.
+        // One is minimizing the sizes of the keys.  The outer key could be tripoint_om_sm<byte>
+        // and the inner key could be a point_omt_ms<byte>, shrinking their memory footprint from
+        // 12 bytes each to 3 and two bytes each respectively.
+        std::unordered_map <tripoint_om_sm, std::map<tripoint_abs_ms, horde_entity>> monster_map;
 
         // parse data in an opened overmap file
         void unserialize( const cata_path &file_name, std::istream &fin );

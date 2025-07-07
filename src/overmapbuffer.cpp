@@ -23,6 +23,7 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "horde_entity.h"
 #include "line.h"
 #include "map.h"
 #include "mapgendata.h"
@@ -31,6 +32,7 @@
 #include "mod_manager.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
 #include "options.h"
@@ -1949,17 +1951,23 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal
         return;
     }
     std::for_each( monster_bucket->second.begin(), monster_bucket->second.end(),
-    [&]( std::pair<const tripoint_abs_ms, monster> &monster_entry ) {
-        monster &this_monster = monster_entry.second;
+    [&]( std::pair<const tripoint_abs_ms, horde_entity> &monster_entry ) {
         map &here = get_map();
-        const tripoint_bub_ms local = this_monster.pos_bub( here );
+        const tripoint_bub_ms local = here.get_bub( monster_entry.first );
         // The monster position must be local to the main map when added to the game
         if( !spawn_nonlocal ) {
             cata_assert( here.inbounds( local ) );
         }
         // This needs to verify that the monster can be placed, otherwise it will fail with a debugmsg in creature_tracker::add()
-        monster *const placed = g->place_critter_around( make_shared_fast<monster>( this_monster ),
-                                local, 0, true );
+        monster *placed = nullptr;
+        if( monster_entry.second.monster_data ) {
+            placed = g->place_critter_around( make_shared_fast<monster>
+                                              ( *monster_entry.second.monster_data ),
+                                              local, 1, true );
+            // TODO: make sure entity data such as destination is synched
+        } else {
+            placed = g->place_critter_around( monster_entry.second.type_id->id, local, 1 );
+        }
         if( placed ) {
             placed->on_load();
         }
@@ -1980,11 +1988,12 @@ void overmapbuffer::despawn_monster( const monster &critter )
         //if the monster is the 'hunted' trait's nemesis, it becomes an overmap horde
         om.place_nemesis( critter.pos_abs_omt() );
     } else {
-        om.monster_map[sm].insert( std::make_pair( critter.pos_abs(), critter ) );
+        // TODO, this should be emplace?
+        om.monster_map[sm].insert( std::make_pair( critter.pos_abs(), horde_entity( critter ) ) );
     }
 }
 
-monster &overmapbuffer::spawn_monster( const tripoint_abs_ms &p, mtype_id id )
+horde_entity &overmapbuffer::spawn_monster( const tripoint_abs_ms &p, mtype_id id )
 {
     // Get the overmap coordinates and get the overmap, sm is now local to that overmap
     point_abs_om omp;
