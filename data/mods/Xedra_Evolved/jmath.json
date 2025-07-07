@@ -119,7 +119,7 @@
     "type": "jmath_function",
     "id": "xe_fey_elemental_magick_base_xp_rate",
     "num_args": 0,
-    "return": "125 * ( ( ( ( (u_val('intelligence') - 8) / 8) + ( u_skill('deduction') / 10) + ( u_spell_difficulty(_spell_id) / 20) ) / 5 ) + 1)"
+    "return": "125 * ( ( ( ( (u_val('intelligence') - 8) / 8) + ( u_skill('deduction') / 10) ) / 5 ) + 1)"
   },
   {
     "type": "jmath_function",

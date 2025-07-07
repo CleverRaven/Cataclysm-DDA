@@ -4,7 +4,7 @@
     "type": "magic_type",
     "energy_source": "MANA",
     "cannot_cast_flags": [ "NO_FEY_MAGIC", "NO_SPELLCASTING" ],
-    "cannot_cast_message": "You can't draw on the pwoer of nature!",
+    "cannot_cast_message": "You can't draw on the power of nature!",
     "failure_cost_percent": 0.25,
     "max_book_level": 0,
     "casting_xp_formula_id": "xe_fey_elemental_magick_arvore_exp_per_cast",
