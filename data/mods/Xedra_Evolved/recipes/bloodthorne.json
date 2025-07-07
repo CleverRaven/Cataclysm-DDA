@@ -98,7 +98,8 @@
           "BLOODTHORNE_DRUID_REGAIN_BLOOD",
           "BLOODTHORNE_DRUID_BONUS_MANA_REGEN",
           "BLOODTHORNE_DRUID_STOP_BLEEDING",
-          "BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES"
+          "BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES",
+          "BLOODTHORNE_DRUID_WHIP_TARGETS_IN_NATURE"
         ],
         "type": "mutation",
         "true_eocs": [
@@ -107,11 +108,16 @@
             "effect": [
               { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade", "+=", "2" ] },
               { "math": [ "u_bloodthorn_druid_required_arvore_traits ++" ] },
-              { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills = 0" ] }
+              { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills = 0" ] },
+              { "u_lose_effect": "effect_bloodthorn_druid_upgrade_ready" },
+              {
+                "u_message": "The twitching of your heartvines subsides.  You have unlocked new gifts of nature.",
+                "type": "good"
+              }
             ]
           }
         ],
-        "false_eocs": [  ]
+        "false_eocs": [ "EOC_XE_BLOODTHORN_DRUID_RESEARCH_ADVANCE_TO_TIER_2" ]
       }
     ],
     "false_effect": [
@@ -125,5 +131,10 @@
       { "u_add_effect": "formication", "duration": [ "30 minutes", "120 minutes" ], "target_part": "arm_l" },
       { "u_add_effect": "formication", "duration": [ "30 minutes", "120 minutes" ], "target_part": "arm_r" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_ADVANCE_TO_TIER_2",
+    "effect": [ { "run_eocs": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS" } ]
   }
 ]

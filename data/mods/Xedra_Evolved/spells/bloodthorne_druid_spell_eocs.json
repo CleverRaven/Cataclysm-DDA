@@ -21,7 +21,7 @@
       "switch": { "math": [ "( (2 * bloodthorn_druid_traits_sum() ) + u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ] },
       "cases": [
         {
-          "case": 20,
+          "case": 0,
           "effect": [
             { "u_spawn_item": "bloodthorne_druid_bandage_01", "suppress_message": true },
             {
@@ -38,11 +38,11 @@
                 }
               ]
             },
-            { "u_remove_item_with": "bloodthorne_druid_bandage_01" }
+            { "run_eocs": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING_CLEANUP", "time_in_future": 1 }
           ]
         },
         {
-          "case": 40,
+          "case": 20,
           "effect": [
             { "u_spawn_item": "bloodthorne_druid_bandage_02", "suppress_message": true },
             {
@@ -59,11 +59,11 @@
                 }
               ]
             },
-            { "u_remove_item_with": "bloodthorne_druid_bandage_02" }
+            { "run_eocs": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING_CLEANUP", "time_in_future": 1 }
           ]
         },
         {
-          "case": 60,
+          "case": 40,
           "effect": [
             { "u_spawn_item": "bloodthorne_druid_bandage_03", "suppress_message": true },
             {
@@ -80,10 +80,19 @@
                 }
               ]
             },
-            { "u_remove_item_with": "bloodthorne_druid_bandage_03" }
+            { "run_eocs": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING_CLEANUP", "time_in_future": 1 }
           ]
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING_CLEANUP",
+    "effect": [
+      { "u_remove_item_with": "bloodthorne_druid_bandage_01" },
+      { "u_remove_item_with": "bloodthorne_druid_bandage_02" },
+      { "u_remove_item_with": "bloodthorne_druid_bandage_03" }
+    ]
   }
 ]

@@ -77,7 +77,6 @@
     "effect_str": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING",
     "extra_effects": [ { "id": "bloodthorne_druid_stop_bleeding_spell_thornlash" } ],
     "shape": "blast",
-    "min_range": 1,
     "base_casting_time": 75,
     "base_energy_cost": { "math": [ "max( ( 150 - (bloodthorn_druid_traits_sum() * 4) ), 50)" ] }
   },
@@ -113,7 +112,7 @@
     "description": "You can bring the fury of nature to bear on your enemies.  When a target is in thick grass, shrubbery, or other foliage, or is affected by Hungry Thirsty Roots, you can cause the plants to grow long thorns and pierce them.",
     "message": "",
     "valid_targets": [ "hostile" ],
-    "flags": [ "VERBAL", "NO_LEGS", "RANDOM_DAMAGE" ],
+    "flags": [ "VERBAL", "NO_LEGS", "RANDOM_DAMAGE", "SILENT" ],
     "magic_type": "xedra_bloodthorne_sorcery",
     "skill": "deduction",
     "spell_class": "BLOODTHORNE_SORCERY",
@@ -131,10 +130,10 @@
     "shape": "blast",
     "damage_type": "stab",
     "min_damage": {
-      "math": [ "5 + (3 * bloodthorn_druid_traits_sum() ) + (1.5 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
+      "math": [ "5 + (2 * bloodthorn_druid_traits_sum() ) + (0.8 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
     },
     "max_damage": {
-      "math": [ "20 + (5.5 * bloodthorn_druid_traits_sum() ) + (2.5 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
+      "math": [ "20 + (3.5 * bloodthorn_druid_traits_sum() ) + (1.8 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
     },
     "min_range": 15,
     "max_range": 15,
