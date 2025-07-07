@@ -113,7 +113,12 @@
       "success_lie": "Wait, you couldn't possibly have the data!  Liar!",
       "failure": "What a shame, that data could have proved invaluable…"
     },
-    "end": { "effect": { "u_spawn_item": "FMCNote", "count": 30 } }
+    "end": {
+      "effect": [
+        { "u_spawn_item": "FMCNote", "count": 30 },
+        { "u_add_var": "proven_worth_to_old_guard_representative", "value": "yes" }
+      ]
+    }
   },
   {
     "id": "MISSION_SCIENCE_REP_2",

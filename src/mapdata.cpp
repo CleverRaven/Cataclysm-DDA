@@ -355,6 +355,11 @@ void map_common_bash_info::load( const JsonObject &jo, const bool was_loaded,
     optional( jo, was_loaded, "sound", sound, to_translation( "smash!" ) );
     optional( jo, was_loaded, "sound_fail", sound_fail, to_translation( "thump!" ) );
 
+    optional( jo, was_loaded, "hit_field", hit_field,
+              std::make_pair( field_type_str_id::NULL_ID(), 0 ) );
+    optional( jo, was_loaded, "destroyed_field", destroyed_field,
+              std::make_pair( field_type_str_id::NULL_ID(), 0 ) );
+
     if( jo.has_member( "items" ) ) {
         drop_group = item_group::load_item_group( jo.get_member( "items" ), "collection",
                      "map_bash_info for " + context );
@@ -1173,18 +1178,19 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_object( "bash" ) ) {
-        if( !bash ) {
+        bool bash_loaded = !!bash;
+        if( !bash_loaded ) {
             bash.emplace();
         }
-        bash->load( jo.get_object( "bash" ), was_loaded,
-                    "terrain " +
-                    id.str() ); //TODO: Make overwriting these with "bash": { } works while still allowing overwriting single values ie for "ter_set"
+        //TODO: Make overwriting these with "bash": { } works while still allowing overwriting single values ie for "ter_set"
+        bash->load( jo.get_object( "bash" ), bash_loaded, "terrain " + id.str() );
     }
     if( jo.has_object( "deconstruct" ) ) {
-        if( !deconstruct ) {
+        bool deconstruct_loaded = !!deconstruct;
+        if( !deconstruct_loaded ) {
             deconstruct.emplace();
         }
-        deconstruct->load( jo.get_object( "deconstruct" ), was_loaded, "terrain " + id.str() );
+        deconstruct->load( jo.get_object( "deconstruct" ), deconstruct_loaded, "terrain " + id.str() );
     }
 }
 
@@ -1194,6 +1200,12 @@ void map_common_bash_info::check( const std::string &id ) const
         if( !item_group::group_is_defined( drop_group ) ) {
             debugmsg( "%s: bash result item group %s does not exist", id, drop_group.c_str() );
         }
+    }
+    if( !hit_field.first.is_null() && !hit_field.first.is_valid() ) {
+        debugmsg( "%s: invalid hit_field '%s'", id, hit_field.first.str() );
+    }
+    if( !destroyed_field.first.is_null() && !destroyed_field.first.is_valid() ) {
+        debugmsg( "%s: invalid destroyed_field '%s'", id, destroyed_field.first.str() );
     }
 }
 void map_ter_bash_info::check( const std::string &id ) const
@@ -1362,16 +1374,18 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_object( "bash" ) ) {
-        if( !bash ) {
+        bool bash_loaded = !!bash;
+        if( !bash_loaded ) {
             bash.emplace();
         }
-        bash->load( jo.get_object( "bash" ), was_loaded, "furniture " + id.str() );
+        bash->load( jo.get_object( "bash" ), bash_loaded, "furniture " + id.str() );
     }
     if( jo.has_object( "deconstruct" ) ) {
-        if( !deconstruct ) {
+        bool deconstruct_loaded = !!deconstruct;
+        if( !deconstruct_loaded ) {
             deconstruct.emplace();
         }
-        deconstruct->load( jo.get_object( "deconstruct" ), was_loaded, "furniture " + id.str() );
+        deconstruct->load( jo.get_object( "deconstruct" ), deconstruct_loaded, "furniture " + id.str() );
     }
 
     if( jo.has_object( "workbench" ) ) {

@@ -91,5 +91,15 @@
     "valid": false,
     "player_display": false,
     "override_look": { "id": "mon_hologram", "tile_category": "monster" }
+  },
+  {
+    "type": "mutation",
+    "id": "MAG_STAG_BEETLE_BOND",
+    "name": { "str": "Beetle Bond" },
+    "points": 0,
+    "description": "You have gained a bond with a stag beetle.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
   }
 ]

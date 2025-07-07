@@ -34,5 +34,11 @@
     "type": "requirement",
     "//": "Pickaxe tools",
     "extend": { "tools": [ [ [ "pickaxe_plus_one", -1 ], [ "pickaxe_plus_two", -1 ], [ "eshaper_pickaxe", -1 ] ] ] }
+  },
+  {
+    "id": "mag_wildwood_construction",
+    "type": "requirement",
+    "//": "Tools and components for wildwood construction. Components ruin appliance construction, keep to tools.",
+    "tools": [ [ [ "mag_awakened_water", 100 ] ] ]
   }
 ]

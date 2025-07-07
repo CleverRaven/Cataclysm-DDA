@@ -4723,7 +4723,8 @@
       "THRESH_RAT",
       "THRESH_MOUSE",
       "THRESH_BATRACHIAN",
-      "THRESH_CRUSTACEAN"
+      "THRESH_CRUSTACEAN",
+      "THRESH_GASTROPOD"
     ],
     "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.25 ] ] ] ],
     "category": [ "TROGLOBITE", "RAPTOR", "RAT", "CHIMERA", "BATRACHIAN", "GASTROPOD", "CRUSTACEAN" ]
@@ -10582,7 +10583,7 @@
     "name": { "str": "Dark Triad" },
     "types": [ "SOCIAL" ],
     "cancels": [ "ASOCIAL1", "ASOCIAL2", "SOCIAL1", "SOCIAL2" ],
-    "description": "You are a god among mortals and they are all so very dissapointing.  Why should you even bother to hide your dissapointment in their failures?",
+    "description": "You are a god among mortals and they are all so very disappointing.  Why should you even bother to hide your disappointment in their failures?",
     "valid": false,
     "points": -1,
     "flags": [ "ASOCIAL2" ],

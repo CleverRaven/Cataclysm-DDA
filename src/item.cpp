@@ -8420,6 +8420,16 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
 
     encumber += static_cast<int>( std::ceil( get_clothing_mod_val( clothing_mod_type_encumbrance ) ) );
 
+    if( !faults.empty() ) {
+        int add = 0;
+        float mult = 1.f;
+        for( const fault_id fault : faults ) {
+            add += fault->encumb_mod_flat();
+            mult *= fault->encumb_mod_mult();
+        }
+        encumber = std::max( 0.f, ( encumber + add ) * mult );
+    }
+
     return encumber;
 }
 

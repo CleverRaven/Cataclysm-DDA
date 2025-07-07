@@ -358,6 +358,7 @@
     "components": [
       [ [ "ph_meter", 1 ] ],
       [ [ "spectrophotometer", 1 ] ],
+      [ [ "cuvettes", 1 ] ],
       [ [ "paper", 1 ] ],
       [ [ "balance_small", 1 ] ],
       [ [ "melting_point", 1 ] ],

@@ -277,7 +277,9 @@
         { "item": "splinter", "count": [ 4, 8 ] },
         { "item": "2x4", "count": 2 },
         { "item": "nail", "charges": [ 2, 5 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {

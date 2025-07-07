@@ -284,7 +284,6 @@ monster::monster( const mtype_id &id ) : monster()
     }
     anger = type->agro;
     morale = type->morale;
-    stomach_size = type->stomach_size;
     faction = type->default_faction;
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( mon_flag_NO_BREED );
@@ -697,10 +696,10 @@ int monster::get_amount_eaten() const
 
 int monster::get_stomach_fullness_percent() const
 {
-    if( stomach_size == 0 ) {
+    if( type->stomach_size == 0 ) {
         return 100; // no div-by-zero
     }
-    return get_amount_eaten() / stomach_size;
+    return get_amount_eaten() / type->stomach_size;
 }
 
 bool monster::has_eaten_enough() const
@@ -712,7 +711,7 @@ bool monster::has_eaten_enough() const
 
 bool monster::has_fully_eaten() const
 {
-    return amount_eaten >= stomach_size;
+    return amount_eaten >= type->stomach_size;
 }
 
 void monster::digest_food()

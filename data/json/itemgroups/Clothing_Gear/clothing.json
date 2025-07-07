@@ -2077,6 +2077,7 @@
       { "item": "bigback", "prob": 1 },
       { "item": "travelpack", "prob": 5 },
       { "item": "rucksack", "prob": 1 },
+      { "group": "large_gym_bags", "prob": 5 },
       { "item": "leg_bag", "prob": 1 },
       { "item": "quiver_takedown_bow", "prob": 1 }
     ]
@@ -2093,7 +2094,8 @@
       { "item": "backpack_tactical_large", "prob": 1 },
       { "group": "molle_backpacks_and_accessories", "prob": 1 },
       { "item": "duffelbag", "prob": 5 },
-      { "item": "long_duffelbag", "prob": 5 },
+      { "group": "large_duffelbags", "prob": 5 },
+      { "group": "large_gym_bags", "prob": 10 },
       { "item": "bigback", "prob": 1 },
       { "item": "travelpack", "prob": 5 },
       { "item": "rucksack", "prob": 1 }
@@ -2108,11 +2110,35 @@
       { "item": "purse", "prob": 40 },
       { "item": "mbag", "prob": 20 },
       { "item": "slingpack", "prob": 8 },
+      { "group": "small_gym_bags", "prob": 10 },
       { "item": "backpack_small", "prob": 10 },
       { "item": "backpack_denim", "prob": 3 },
       { "item": "backpack_leather", "prob": 8 },
       { "item": "briefcase", "prob": 10 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "small_gym_bags",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "duffelbag_gym_xxs", "prob": 2 },
+      { "item": "duffelbag_gym_xs", "prob": 5 },
+      { "item": "duffelbag_gym_s", "prob": 20 },
+      { "item": "duffelbag_gym_m", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "large_gym_bags",
+    "subtype": "distribution",
+    "entries": [ { "item": "duffelbag_gym_l", "prob": 10 }, { "item": "duffelbag_gym_xl", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "gym_bags",
+    "subtype": "distribution",
+    "entries": [ { "group": "small_gym_bags", "prob": 5 }, { "group": "large_gym_bags", "prob": 1 } ]
   },
   {
     "type": "item_group",
@@ -2131,6 +2157,16 @@
     "id": "bags_trip",
     "subtype": "distribution",
     "entries": [ { "item": "suitcase_l", "prob": 37 }, { "item": "suitcase_m", "prob": 55 }, { "item": "duffelbag", "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "large_duffelbags",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "large_gym_bags", "prob": 100 },
+      { "item": "duffelbag_l_poly", "prob": 60 },
+      { "item": "duffelbag_xl_nylon", "prob": 30 }
+    ]
   },
   {
     "type": "item_group",
@@ -2903,7 +2939,7 @@
       [ "tacvest", 10 ],
       { "group": "molle_backpacks_and_accessories", "prob": 8 },
       [ "duffelbag", 15 ],
-      [ "long_duffelbag", 5 ],
+      { "group": "large_duffelbags", "prob": 5 },
       [ "dump_pouch", 20 ],
       [ "legrig", 10 ],
       [ "under_armor", 20 ],
@@ -2931,7 +2967,7 @@
     "items": [
       { "group": "gasmask_bag_full", "prob": 10 },
       [ "duffelbag", 15 ],
-      [ "long_duffelbag", 5 ],
+      { "group": "large_duffelbags", "prob": 5 },
       { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "military_nvg", "prob": 1, "charges": [ 0, 100 ] },
@@ -3311,8 +3347,9 @@
       [ "purse", 14 ],
       [ "slingpack", 12 ],
       [ "rucksack", 12 ],
+      { "group": "gym_bags", "prob": 40 },
       [ "duffelbag", 8 ],
-      [ "long_duffelbag", 4 ],
+      { "group": "large_duffelbags", "prob": 4 },
       [ "quiver_takedown_bow", 1 ],
       [ "mask_h20survivor", 1 ],
       [ "mask_bal", 14 ],
@@ -4035,6 +4072,7 @@
           { "item": "slingpack", "prob": 65 },
           { "item": "purse", "prob": 70 },
           { "item": "briefcase", "prob": 40 },
+          { "item": "duffelbag", "prob": 20 },
           { "item": "leg_bag", "prob": 1 },
           { "item": "leg_small_bag", "prob": 1 },
           { "item": "armrig", "prob": 1 }
@@ -4070,8 +4108,9 @@
           { "item": "backpack", "prob": 85 },
           { "item": "backpack_denim", "prob": 5 },
           { "item": "backpack_hiking", "prob": 25 },
+          { "group": "gym_bags", "prob": 80 },
           { "item": "duffelbag", "prob": 80 },
-          { "item": "long_duffelbag", "prob": 10 },
+          { "group": "large_duffelbags", "prob": 10 },
           { "item": "travelpack", "prob": 25 },
           { "item": "gobag", "prob": 1 }
         ],
@@ -4129,6 +4168,7 @@
           { "item": "backpack", "prob": 85 },
           { "item": "backpack_denim", "prob": 5 },
           { "item": "travelpack", "prob": 25 },
+          { "group": "small_gym_bags", "prob": 40 },
           { "item": "gobag", "prob": 1 }
         ],
         "prob": 80
