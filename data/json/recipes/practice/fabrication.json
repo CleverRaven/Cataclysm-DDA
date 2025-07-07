@@ -141,16 +141,17 @@
     "name": "redsmithing (advanced)",
     "description": "Practice the more advanced techniques of redsmithing by working bronze into different and complex forms and designs.",
     "skill_used": "fabrication",
-    "practice_data": { "min_difficulty": 4, "max_difficulty": 5, "skill_limit": 6 },
+    "practice_data": { "min_difficulty": 4, "max_difficulty": 5, "skill_limit": 5 },
     "proficiencies": [
       { "proficiency": "prof_metalworking", "required": true },
       { "proficiency": "prof_redsmithing", "required": true },
       { "proficiency": "prof_redsmithing_adv", "time_multiplier": 1, "skill_penalty": 0 }
     ],
     "time": "1 h",
-    "components": [ [ [ "scrap_bronze", 4 ] ] ],
-    "byproducts": [ [ "scrap_bronze", 2 ] ],
-    "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
+    "components": [ [ [ "scrap_bronze", 16 ] ] ],
+    "byproducts": [ [ "scrap_bronze", 8 ] ],
+    "using": [ [ "forging_standard", 9 ], [ "bronzesmithing_tools", 1 ] ],
     "autolearn": [ [ "fabrication", 6 ] ],
     "book_learn": [
       [ "bronze_book", 3 ],
