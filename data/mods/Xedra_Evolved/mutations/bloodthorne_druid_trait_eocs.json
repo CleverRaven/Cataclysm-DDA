@@ -31,15 +31,25 @@
     "id": "EOC_BLOODTHORNE_DRUID_UPGRADE_GAIN_PROGRESSION",
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
+    "//": "Partial credit for kills without your heartwhip, to handle killing vampires using magick",
     "condition": {
       "and": [
         { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP" },
-        { "and": [ { "u_has_wielded_with_flag": "MAGIC_FOCUS" }, { "u_has_wielded_with_flag": "REACH3" } ] },
+        { "not": { "u_has_wielded_with_skill": "pistol" } },
+        { "not": { "u_has_wielded_with_skill": "rifle" } },
+        { "not": { "u_has_wielded_with_skill": "shotgun" } },
+        { "not": { "u_has_wielded_with_skill": "smg" } },
+        { "not": { "u_has_wielded_with_skill": "launcher" } },
+        { "not": { "u_has_wielded_with_skill": "gun" } },
         { "npc_has_species": "VAMPIRE" }
       ]
     },
     "effect": [
-      { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills ++" ] },
+      {
+        "if": { "and": [ { "u_has_wielded_with_flag": "MAGIC_FOCUS" }, { "u_has_wielded_with_flag": "REACH3" } ] },
+        "then": { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills ++" ] },
+        "else": { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills", "+=", "0.3334" ] }
+      },
       {
         "if": {
           "and": [
