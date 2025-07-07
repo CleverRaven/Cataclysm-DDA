@@ -94,7 +94,7 @@
     "condition": { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP" },
     "effect": [
       {
-        "u_roll_remainder": [ "BLOODTHORNE_DRUID_REGAIN_BLOOD" ],
+        "u_roll_remainder": [ "BLOODTHORNE_DRUID_REGAIN_BLOOD", "BLOODTHORNE_DRUID_BONUS_MANA_REGEN" ],
         "type": "mutation",
         "true_eocs": [ { "id": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS", "effect": [ { "npc_unset_flag": "FILTHY" } ] } ],
         "false_eocs": [  ]

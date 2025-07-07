@@ -9,7 +9,18 @@
     "valid": false,
     "visibility": 2,
     "ugliness": 1,
-    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 0.1 }, { "value": "THIRST", "multiply": 0.1 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": 0.1 },
+          { "value": "THIRST", "multiply": 0.1 },
+          {
+            "value": "MAX_MANA",
+            "add": { "math": [ "(50 * bloodthorn_druid_traits_sum() ) + (25 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ] }
+          }
+        ]
+      }
+    ],
     "flags": [ "ATTUNEMENT", "HERITAGE" ]
   },
   {
@@ -45,9 +56,35 @@
     "id": "BLOODTHORNE_DRUID_REGAIN_BLOOD",
     "name": { "str": "Woodblood Restoration" },
     "points": 2,
-    "description": "The first principle of avoiding the blood-drinkers is to avoid losing your blood.  While standing on natural foliage, you can use this spell to replenish any lost blood.",
+    "description": "The first principle of defeating the blood-drinkers is to avoid losing your blood.  While standing on natural foliage, you can use this spell to replenish any lost blood.",
     "purifiable": false,
     "valid": false,
     "spells_learned": [ [ "bloodthorne_druid_regain_blood_spell", 1 ] ]
+  },
+  {
+    "id": "BLOODTHORNE_DRUID_BONUS_MANA_REGEN",
+    "name": { "str": "In Tune with the Wild" },
+    "points": 2,
+    "description": "Thornwitchery draws its power from the wild places, and while there you grow stronger.  Your mana recovery is increased when in the wilderness away from civilization.",
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
+            { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" }
+          ]
+        },
+        "values": [
+          {
+            "value": "REGEN_MANA",
+            "multiply": {
+              "math": [ "(0.02 * bloodthorn_druid_traits_sum() ) + (0.01 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
+            }
+          }
+        ]
+      }
+    ]
   }
 ]
