@@ -11,6 +11,24 @@
     "failure_chance_formula_id": "xe_bloodthorne_sorcery_failure_chance"
   },
   {
+    "id": "bloodthorne_druid_summon_whip",
+    "type": "SPELL",
+    "name": { "str": "Summon Heartvine Whip", "//~": "NO_I18N" },
+    "description": { "str": "Needed to summon the heartwhip and wield it.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_LEGS" ],
+    "effect": "spawn_item",
+    "effect_str": "heartvine_whip",
+    "shape": "blast",
+    "max_level": 0,
+    "min_damage": 1,
+    "max_damage": 1,
+    "difficulty": 0,
+    "spell_class": "NONE",
+    "min_duration": 10000000,
+    "max_duration": 10000000
+  },
+  {
     "id": "bloodthorne_druid_regain_blood_spell",
     "type": "SPELL",
     "name": "Woodblood Restoration",

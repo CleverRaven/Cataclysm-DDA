@@ -65,20 +65,34 @@
     "id": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP_SUMMON",
     "condition": { "not": "u_has_weapon" },
     "effect": [
-      { "u_spawn_item": "heartvine_whip", "suppress_message": true, "force_equip": true },
+      { "u_cast_spell": { "id": "bloodthorne_druid_summon_whip", "hit_self": true } },
       { "u_add_effect": "bleed", "intensity": 1, "target_part": "arm_r", "duration": "5 minutes" },
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "wielded_only": true } ],
+        "true_eocs": {
+          "id": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP_APPLY_UNWIELD",
+          "condition": { "not": { "npc_has_flag": "NO_UNWIELD" } },
+          "effect": [ { "npc_set_flag": "NO_UNWIELD" } ]
+        }
+      },
       { "run_eocs": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP_SUMMON_REMOVE_BLOOD", "time_in_future": "10 seconds" }
     ],
-    "false_effect": [
-      {
-        "if": { "and": [ { "u_has_wielded_with_flag": "MAGIC_FOCUS" }, { "u_has_wielded_with_flag": "REACH3" } ] },
-        "then": [
-          { "u_message": "The heartwhip retracts, slithering through your grip and back within your body.", "type": "neutral" },
-          { "u_remove_item_with": "heartvine_whip" }
-        ],
-        "else": [ { "u_message": "Your hands need to be free to summon the heartwhip.", "type": "bad" } ]
-      }
+    "false_effect": [ { "u_message": "Your hands need to be free to summon the heartwhip.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP_UNSUMMON",
+    "condition": { "and": [ { "u_has_wielded_with_flag": "MAGIC_FOCUS" }, { "u_has_wielded_with_flag": "REACH3" } ] },
+    "effect": [
+      { "u_message": "The heartwhip retracts, slithering through your grip and back within your body.", "type": "neutral" },
+      { "u_remove_item_with": "heartvine_whip" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP_SUMMON_REMOVE_BLOOD",
+    "effect": [ { "u_lose_effect": "bleed", "target_part": "arm_r" } ]
   },
   {
     "type": "effect_on_condition",
