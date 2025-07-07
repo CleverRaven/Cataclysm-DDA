@@ -193,8 +193,7 @@ void craft_command::execute( bool only_cache_comps )
             // TODO: after deduped_requirements.select_alternative?
             // const requirement_data *rneeds = rec->deduped_requirements().select_alternative( *crafter, filter,
             //                                  current_batch(), craft_flags::start_only );
-            if( !to_make.rec->recursive_comp_crafts( craft_queue, map_inv, to_make.batch, crafter,
-                    to_make.req ).success() ||
+            if( !to_make.rec->recursive_comp_crafts( craft_queue, map_inv, to_make.batch, crafter ).success() ||
                 craft_queue.empty() ) {
                 add_msg_debug( debugmode::DF_CRAFTING, "crafting %s cancled, couldnt find craftable components" );
                 return;
@@ -211,10 +210,10 @@ void craft_command::execute( bool only_cache_comps )
             std::cout << r->result_name() << "\n";
         }
 
-        for( const auto &it : to_make.req->get_components() ) {
+        for( const auto &it : current_rec().req->get_components() ) {
             comp_selection<item_comp> is =
-                crafter->select_item_component( it, to_make.batch, map_inv, true, filter, true, true,
-                                                to_make.rec );
+                crafter->select_item_component( it, current_rec().batch, map_inv, true, filter, true, true,
+                                                current_rec().rec );
             if( is.use_from == usage_from::cancel ) {
                 return;
             }
@@ -222,9 +221,9 @@ void craft_command::execute( bool only_cache_comps )
         }
 
         tool_selections.clear();
-        for( const auto &it : to_make.req->get_tools() ) {
+        for( const auto &it : current_rec().req->get_tools() ) {
             comp_selection<tool_comp> ts = crafter->select_tool_component(
-            it, to_make.batch, map_inv, true, true, true, []( int charges ) {
+            it, current_rec().batch, map_inv, true, true, true, []( int charges ) {
                 return ( charges / 20 ) + ( charges % 20 );
             } );
             if( ts.use_from == usage_from::cancel ) {
@@ -242,13 +241,16 @@ void craft_command::execute( bool only_cache_comps )
     crafter->last_batch = to_make.batch;
     crafter->lastrecipe = to_make.rec->ident();
 
+    // as soon as in-progress crafts are recognized as components, move this to activity_actor::finish()
+    craft_queue.pop_back();
+
     const auto iter = std::find( uistate.recent_recipes.begin(), uistate.recent_recipes.end(),
-                                 to_make.rec->ident() );
+                                 current_rec().rec->ident() );
     if( iter != uistate.recent_recipes.end() ) {
         uistate.recent_recipes.erase( iter );
     }
 
-    uistate.recent_recipes.push_back( to_make.rec->ident() );
+    uistate.recent_recipes.push_back( current_rec().rec->ident() );
 
     if( uistate.recent_recipes.size() > 20 ) {
         uistate.recent_recipes.erase( uistate.recent_recipes.begin() );

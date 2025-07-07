@@ -985,16 +985,12 @@ bool requirement_data::comp_is_craftable( const read_only_visitable &crafting_in
         const T comp, const std::function<bool( const item & )> &filter, int batch,
         const recipe_subset &learned_recipes )
 {
-    add_msg( "\n" );
     if( comp.get_component_type() != component_type::ITEM || !comp.craftable ) {
-        add_msg( _( "component %s is not an item component or not marked craftable" ), comp.type.c_str() );
         return false;
     }
     if( learned_recipes.empty() ) {
-        add_msg( _( "no learned_recipes provided for component %s" ), comp.type.c_str() );
         return false;
     }
-    add_msg( _( "%s potentially craftable" ), comp.type.c_str() );
     std::vector<const recipe *> recs;
 
 
@@ -1009,7 +1005,8 @@ bool requirement_data::comp_is_craftable( const read_only_visitable &crafting_in
     recs = learned_recipes.recipes_that_produce( type );
 
     if( recs.empty() ) {
-        add_msg( _( "no recipes found for component %s" ), comp.type.c_str() );
+        add_msg_debug( debugmode::DF_CRAFTING,  _( "no recipes found for component %s" ),
+                       comp.type.c_str() );
         return false;
     }
 
@@ -1019,14 +1016,12 @@ bool requirement_data::comp_is_craftable( const read_only_visitable &crafting_in
         const int num_recipe_craft = std::ceil( static_cast<float>( rec->makes_amount() ) /
                                                 static_cast<float>( comp.count * batch ) );
         if( num_recipe_craft <= 0 ) {
-            add_msg( _( "no requirements? recipe result: %i, num needed: %i" ), rec->makes_amount(),
-                     comp.count * batch );
+            add_msg_debug( debugmode::DF_CRAFTING, _( "no requirements? recipe result: %i, num needed: %i" ),
+                           rec->makes_amount(),
+                           comp.count * batch );
         } else if( rec->simple_requirements().can_make_with_inventory( crafting_inv, filter,
                    num_recipe_craft, craft_flags::none, true, learned_recipes ) ) {
-            add_msg( "%s can be substituted by its recipe %s", comp.type.c_str(), rec->ident().c_str() );
             ret = true;
-        } else {
-            add_msg( "%s missing components for recipe %s", comp.type.c_str(), rec->ident().c_str() );
         }
     }
     return ret;
@@ -1085,7 +1080,6 @@ bool requirement_data::has_comps( const read_only_visitable &crafting_inv,
             // components available
             if( comp.has( crafting_inv, filter, batch, flags, use_ups ) ) {
                 comp.available = available_status::a_true;
-                add_msg( _( "directly have comp %s" ), comp.type.c_str() );
                 // if not, check if craftable
             } else if( comp.get_component_type() == component_type::ITEM &&
                        comp_is_craftable( crafting_inv, comp, filter, batch, learned_recipes ) ) {

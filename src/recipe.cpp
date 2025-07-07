@@ -155,7 +155,7 @@ ret_val<void> recipe::recursive_comp_crafts( std::vector<craft_step_data> &queue
             return ret_val<void>::make_failure();
         }
 
-        if( !sel.rec->recursive_comp_crafts( queue, crafting_inv, batch, crafter, reqs ).success() ) {
+        if( !sel.rec->recursive_comp_crafts( queue, crafting_inv, batch, crafter ).success() ) {
             return ret_val<void>::make_failure();
         }
 
