@@ -3590,6 +3590,33 @@
   },
   {
     "type": "overmap_special",
+    "id": "balthazar_bunker",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "balthazar_bunker_00_north" },
+      {
+        "point": [ 1, 0, 0 ],
+        "overmap": "balthazar_bunker_01_north",
+        "camp": "balthazar_fac",
+        "camp_name": "<balthazar_camp>"
+      },
+      { "point": [ 0, 1, 0 ], "overmap": "balthazar_bunker_02_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "balthazar_bunker_03_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "balthazar_bunker_00_-1_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "balthazar_bunker_01_-1_north" },
+      { "point": [ 0, 1, -1 ], "overmap": "balthazar_bunker_02_-1_north" },
+      { "point": [ 1, 1, -1 ], "overmap": "balthazar_bunker_03_-1_north" },
+      { "point": [ 0, 1, -2 ], "overmap": "balthazar_bunker_02_-2_north" }
+    ],
+    "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "field", "forest_without_trail" ],
+    "city_distance": [ 8, -1 ],
+    "city_sizes": [ 1, 16 ],
+    "occurrences": [ 33, 100 ],
+    "priority": 1,
+    "flags": [ "SAFE_AT_WORLDGEN", "MAN_MADE", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "hub_01",
     "overmaps": [
       { "point": [ 0, -2, 1 ], "overmap": "robofachq_meteorology_roof0_north" },

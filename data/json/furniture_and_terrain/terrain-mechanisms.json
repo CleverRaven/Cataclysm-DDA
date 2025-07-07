@@ -292,6 +292,28 @@
   },
   {
     "type": "terrain",
+    "id": "t_intercom_balthazar",
+    "name": "intercom",
+    "description": "A rudimentary intercom panel.  This one looks to be set up in a hurry with the microphone and speaker just dangling.",
+    "symbol": "=",
+    "color": "light_gray",
+    "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "FREE_TO_EXAMINE" ],
+    "//": "For the player to chat with an NPC through the intercom, the npc must have NC_BALTHAZAR and must be within 10 tiles of the intercom.",
+    "examine_action": "intercom_balthazar",
+    "bash": {
+      "str_min": 18,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_strconc_wall",
+      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_card_robofac",
     "looks_like": "t_card_science",
     "name": "card reader",
