@@ -227,7 +227,7 @@
     "name": "bladesmithing",
     "description": "Practice working metal into the form of useful blades of all sizes and designs, grind them until you learn how much is too much.",
     "skill_used": "fabrication",
-    "practice_data": { "min_difficulty": 4, "max_difficulty": 5, "skill_limit": 6 },
+    "practice_data": { "min_difficulty": 4, "max_difficulty": 5, "skill_limit": 5 },
     "proficiencies": [
       { "proficiency": "prof_metalworking", "required": true },
       { "proficiency": "prof_blacksmithing", "required": true },
@@ -235,9 +235,9 @@
     ],
     "time": "1 h",
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "byproducts": [ [ "scrap", 2 ] ],
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 4 ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ],
+    "byproducts": [ [ "scrap", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 17 ], [ "steel_standard", 5 ] ],
     "autolearn": [ [ "fabrication", 6 ] ],
     "book_learn": [
       [ "textbook_weapeast", 4 ],
