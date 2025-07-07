@@ -2069,7 +2069,7 @@ craft_selection Character::select_component_to_craft(
         }
         // std::stringstream str = "" << batch << " " << rec->ident().c_str();
         //TODO: make actual recipe string
-        cmenu.addentry( std::to_string( batch ) + " " + rec->ident().c_str() );
+        cmenu.addentry( string_format( "%i %s", batch, rec->result_name( true ) ) );
         if( cmenu.entries.empty() ) {
             debugmsg( "Attempted a recipe with no available components!" );
             craft_selection selected;
