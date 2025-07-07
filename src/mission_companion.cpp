@@ -37,6 +37,7 @@
 #include "faction_camp.h"
 #include "flexbuffer_json.h"
 #include "game.h"
+#include "horde_entity.h"
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
@@ -2263,10 +2264,13 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
 
             auto monster_bucket = omi.monster_map.find( local_sm );
             std::for_each( monster_bucket->second.begin(),
-                           monster_bucket->second.end(), [&monsters_around]( std::pair<const tripoint_abs_ms, monster>
+                           monster_bucket->second.end(), [&monsters_around]( std::pair<const tripoint_abs_ms, horde_entity>
             &monster_entry ) {
-                monster &this_monster = monster_entry.second;
-                monsters_around.push_back( &this_monster );
+                // TODO: figure out hwat to do if this involves lightweight horde entities?
+                if( monster_entry.second.monster_data ) {
+                    monster &this_monster = *monster_entry.second.monster_data;
+                    monsters_around.push_back( &this_monster );
+                }
             } );
         }
     }
