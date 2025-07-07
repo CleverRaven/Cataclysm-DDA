@@ -2584,7 +2584,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_LIST_ITEMS:
-            list_items_monsters();
+            list_surroundings();
             break;
 
         case ACTION_ZONES:

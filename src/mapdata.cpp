@@ -1229,6 +1229,16 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "item", base_item, itype_id::NULL_ID() );
 }
 
+bool map_data_common_t::is_terrain() const
+{
+    return false;
+}
+
+bool ter_t::is_terrain() const
+{
+    return true;
+}
+
 bool ter_t::is_null() const
 {
     return id == ter_str_id::NULL_ID();
