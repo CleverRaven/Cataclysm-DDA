@@ -35,6 +35,7 @@
     "player_display": false
   },
   {
+    "type": "mutation",
     "id": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP",
     "name": { "str": "Heartwhip" },
     "points": 2,
@@ -53,6 +54,7 @@
     ]
   },
   {
+    "type": "mutation",
     "id": "BLOODTHORNE_DRUID_REGAIN_BLOOD",
     "name": { "str": "Woodblood Restoration" },
     "points": 2,
@@ -62,6 +64,7 @@
     "spells_learned": [ [ "bloodthorne_druid_regain_blood_spell", 1 ] ]
   },
   {
+    "type": "mutation",
     "id": "BLOODTHORNE_DRUID_BONUS_MANA_REGEN",
     "name": { "str": "In Tune with the Wild" },
     "points": 2,

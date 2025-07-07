@@ -557,11 +557,11 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "melee_damage": { "cut": 13 },
     "weapon_category": [ "WHIPS" ],
-    "enchantments": [
+    "passive_effects": [
       {
+        "has": "WIELD",
         "condition": {
           "and": [
-            { "u_has_wielded_with_flag": "WHIP" },
             {
               "or": [
                 { "math": [ "u_mon_species_nearby('RENFIELD', 'radius': 3, 'attitude': 'both') >= 1" ] },
