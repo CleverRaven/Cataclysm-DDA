@@ -1,4 +1,6 @@
+#if !defined(__IPHONEOS__)
 #include "inventory_ui.h"
+#endif
 
 #include <chrono>
 #include <optional>
@@ -63,7 +65,12 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 
-#if defined(__ANDROID__)
+#if defined(__IPHONEOS__)
+#include "inventory_ui.h"
+#include "input_context.h"
+#endif
+
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 #include <SDL_keyboard.h>
 #endif
 
@@ -3909,7 +3916,8 @@ inventory_drop_selector::inventory_drop_selector( Character &p,
     inventory_multiselector( p, preset, selection_column_title ),
     warn_liquid( warn_liquid )
 {
-#if defined(__ANDROID__)
+    //FIXME: allow_text_entry is inaccessible??????
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     // allow user to type a drop number without dismissing virtual keyboard after each keypress
     ctxt.allow_text_entry = true;
 #endif
@@ -3921,7 +3929,8 @@ inventory_insert_selector::inventory_insert_selector( Character &p,
         const bool warn_liquid ) :
     inventory_drop_selector( p, preset, selection_column_title, warn_liquid )
 {
-#if defined(__ANDROID__)
+    //FIXME: allow_text_entry is inaccessible??????
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     // allow user to type a drop number without dismissing virtual keyboard after each keypress
     ctxt.allow_text_entry = true;
 #endif
@@ -4242,7 +4251,8 @@ pickup_selector::pickup_selector( Character &p, const inventory_selector_preset 
 {
     ctxt.register_action( "WEAR" );
     ctxt.register_action( "WIELD" );
-#if defined(__ANDROID__)
+    //FIXME: allow_text_entry is inaccessible??????
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     // allow user to type a drop number without dismissing virtual keyboard after each keypress
     ctxt.allow_text_entry = true;
 #endif
