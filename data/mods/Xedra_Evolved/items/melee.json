@@ -555,7 +555,7 @@
       "REACH3",
       "WHIP"
     ],
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "melee_damage": { "cut": 13 },
     "weapon_category": [ "WHIPS" ],
     "passive_effects": [ { "id": "BLOODTHORNE_DRUID_HEARTWHIP" } ]
