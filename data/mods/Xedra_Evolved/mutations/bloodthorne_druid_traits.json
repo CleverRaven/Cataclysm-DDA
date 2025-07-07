@@ -22,7 +22,7 @@
       }
     ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "TREE_COMMUNION_PLUS" ]
   },
   {
     "type": "mutation",
@@ -150,5 +150,51 @@
         ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_AURA_OF_VINES",
+    "name": { "str": "Entanglement of Vines" },
+    "points": 2,
+    "description": "Your heartvines have grown enough that you can extend numerous vines around you.  These vines will retaliate against attackers, defend you, assist you in casting magicks if your hands are full, allow you to descend buildings by grasping handholds, and alert you to nearby dangers.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "mana": true,
+    "cost": 1,
+    "time": 5,
+    "activation_msg": "A multitude of vines burst from your flesh!",
+    "enchantments": [ { "condition": "ACTIVE", "mutations": [ "BLOODTHORNE_DRUID_AURA_OF_VINES_TRAIT" ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_AURA_OF_VINES_TRAIT",
+    "name": { "str": "Entanglement of Vines", "//~": "NO_I18N" },
+    "points": 2,
+    "visibility": 10,
+    "ugliness": 6,
+    "description": { "str": "The active trait for Entanglement of Vines.  You shouldn't see this.", "//~": "NO_I18N" },
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": 0.25 },
+          { "value": "THIRST", "multiply": 0.25 },
+          { "value": "BONUS_BLOCK", "add": 2 },
+          { "value": "MOTION_ALARM", "add": 6 }
+        ],
+        "hit_me_effect": [
+          {
+            "id": "bloodthorne_druid_aura_of_vines_retaliate",
+            "once_in": 3,
+            "message": "Your vines whip out at your attacker.",
+            "npc_message": "%1$s's vines whip out at their attacker."
+          }
+        ]
+      }
+    ],
+    "flags": [ "SUBTLE_SPELL", "VINE_RAPPEL" ]
   }
 ]

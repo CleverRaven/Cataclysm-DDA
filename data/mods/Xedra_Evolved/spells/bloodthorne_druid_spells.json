@@ -145,5 +145,24 @@
     },
     "base_casting_time": 175,
     "base_energy_cost": { "math": [ "max( ( 350 - (bloodthorn_druid_traits_sum() * 6) ), 150)" ] }
+  },
+  {
+    "id": "bloodthorne_druid_aura_of_vines_retaliate",
+    "name": { "str": "Entanglement of Vines Retaliation", "//~": "NO_I18N" },
+    "description": { "str": "Hits targets when you have Entanglement of Vines active.  You shouldn't see this.", "//~": "NO_I18N" },
+    "message": "",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "RANDOM_DAMAGE" ],
+    "magic_type": "xedra_bloodthorne_sorcery",
+    "skill": "deduction",
+    "spell_class": "BLOODTHORNE_SORCERY",
+    "effect": "attack",
+    "effect_str": "bleed",
+    "shape": "blast",
+    "damage_type": "cut",
+    "min_damage": 5,
+    "max_damage": 25,
+    "min_range": 2,
+    "max_range": 2
   }
 ]
