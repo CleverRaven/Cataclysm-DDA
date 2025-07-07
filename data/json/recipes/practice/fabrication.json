@@ -171,15 +171,15 @@
     "name": "blacksmithing",
     "description": "Practice working metal into some simple but useful forms and designs.",
     "skill_used": "fabrication",
-    "practice_data": { "min_difficulty": 3, "max_difficulty": 4, "skill_limit": 5 },
+    "practice_data": { "min_difficulty": 3, "max_difficulty": 4, "skill_limit": 4 },
     "proficiencies": [
       { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
       { "proficiency": "prof_blacksmithing", "time_multiplier": 1, "skill_penalty": 0 }
     ],
     "time": "1 h",
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "byproducts": [ [ "scrap", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 4 ] ],
+    "byproducts": [ [ "scrap", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 11 ], [ "steel_standard", 5 ] ],
     "autolearn": [ [ "fabrication", 5 ] ],
     "book_learn": [
       [ "textbook_fabrication", 3 ],
