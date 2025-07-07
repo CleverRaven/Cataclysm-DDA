@@ -21,7 +21,8 @@
         { "item": "metal_tank_little", "count": [ 0, 2 ] },
         { "item": "jerrycan", "count": [ 0, 2 ] },
         { "item": "metal_tank", "count": [ 0, 2 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 2 ]
     },
     "deconstruct": {
       "items": [
@@ -57,7 +58,8 @@
         { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 7 ] },
         { "item": "pipe", "count": [ 0, 1 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     },
     "deconstruct": {
       "items": [
@@ -165,7 +167,8 @@
         { "item": "bearing", "charges": [ 2, 8 ] },
         { "item": "frame", "prob": 20 },
         { "item": "motor_small", "prob": 10 }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -222,7 +225,8 @@
         { "item": "motor", "prob": 10 },
         { "item": "metal_tank", "prob": 20 },
         { "item": "motor_large", "prob": 5 }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 2 ]
     }
   },
   {
@@ -278,8 +282,8 @@
         { "item": "2x4", "count": 2 },
         { "item": "nail", "charges": [ 2, 5 ] }
       ],
-      "hit_field": [ "fd_dust", 2 ],
-      "destroyed_field": [ "fd_splinters", 1 ]
+      "hit_field": [ "fd_dust", 3 ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -516,7 +520,8 @@
         { "item": "amplifier", "prob": 40 },
         { "item": "plastic_chunk", "count": [ 2, 8 ] },
         { "item": "scrap", "count": [ 3, 8 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
