@@ -17,9 +17,9 @@
     "description": "At a glance this just looks like darkness.  Then, gazing deeper, you think it might be full of stars.  Still deeper, perhaps those stars are eyes?",
     "symbol": "*",
     "color": "dark_gray",
-    "move_cost": 2,
+    "move_cost": -1,
     "coverage": 0,
     "trap": "tr_nl_chasm",
-    "flags": [ "TRANSPARENT", "EMPTY_SPACE", "NOITEM" ]
+    "flags": [ "TRANSPARENT", "EMPTY_SPACE", "DESTROY_ITEM", "NOCOLLIDE" ]
   }
 ]
