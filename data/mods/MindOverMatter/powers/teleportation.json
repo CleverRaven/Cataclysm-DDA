@@ -732,11 +732,8 @@
   {
     "id": "teleport_farstep_real",
     "type": "SPELL",
-    "name": { "str": "[Ψ]Farstep Real", "//": "NO_I18N" },
-    "description": {
-      "str": "The actual farstep power, after checking the volume of your goods.  You shouldn't see this.",
-      "//~": "NO_I18N"
-    },
+    "name": "[Ψ]Farstep",
+    "description": "Skating along the void between dimensions, move to a specific place nearby.\n\nThe power <color_red>will fail</color> if the volume of your carried gear is too great.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground" ],
