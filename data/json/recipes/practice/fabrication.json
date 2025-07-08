@@ -278,7 +278,7 @@
     "name": "case hardening",
     "description": "Practice heating steel packed in charcoal at different high temperatures and times, and then comparing the properties of the resulting hard case.",
     "skill_used": "fabrication",
-    "practice_data": { "min_difficulty": 5, "max_difficulty": 6, "skill_limit": 7 },
+    "practice_data": { "min_difficulty": 5, "max_difficulty": 6, "skill_limit": 6 },
     "proficiencies": [
       { "proficiency": "prof_metalworking", "required": true },
       { "proficiency": "prof_blacksmithing", "time_multiplier": 1, "skill_penalty": 0 },
