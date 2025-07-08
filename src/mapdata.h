@@ -59,6 +59,8 @@ struct map_common_bash_info { //TODO: Half of this shouldn't be common
         translation sound;      // sound made on success ('You hear a "smash!"')
         translation sound_fail; // sound made on fail
         std::vector<furn_str_id> tent_centers;
+        std::pair<field_type_str_id, int> hit_field; // field spawned on any hit
+        std::pair<field_type_str_id, int> destroyed_field; // field spawned on successful bash
         void load( const JsonObject &jo, bool was_loaded, const std::string &context );
         void check( const std::string &id ) const;
         std::string potential_bash_items( const std::string &ter_furn_name ) const;
@@ -707,6 +709,7 @@ struct furn_t : map_data_common_t {
     itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req = 0; //The amount of strength required to move through this furniture easily.
+    units::mass mass = 0_gram;
 
     cata::value_ptr<activity_data_furn> boltcut; // Bolt cutting action data
     cata::value_ptr<activity_data_furn> hacksaw; // Hacksaw action data

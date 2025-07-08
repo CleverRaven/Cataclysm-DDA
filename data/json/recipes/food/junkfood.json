@@ -185,6 +185,26 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "fresh_fries_j",
+    "charges": 3,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "20 m",
+    "book_learn": [ [ "mag_glam", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_knife_skills", "time_multiplier": 2 },
+      { "proficiency": "prof_frying" }
+    ],
+    "components": [ [ [ "potato", 1 ] ], [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ], [ [ "fry_oil", 4, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cheese_fries",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -195,7 +215,7 @@
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "//": "you're just melting the cheese, not much energy needed",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-    "components": [ [ [ "cheese_standard", 1, "LIST" ] ], [ [ "fries", 1 ], [ "fresh_fries", 1 ] ] ]
+    "components": [ [ [ "cheese_standard", 1, "LIST" ] ], [ [ "fries", 1 ], [ "fresh_fries", 1 ], [ "fresh_fries_j", 1 ] ] ]
   },
   {
     "type": "recipe",

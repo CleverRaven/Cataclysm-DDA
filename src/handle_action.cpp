@@ -770,6 +770,15 @@ static void grab()
                 return;
             }
         }
+        if( vp->has_loaded_furniture() ) {
+            furn_str_id furn( vp->part_with_feature( "FURNITURE_TIEDOWN",
+                              true )->part().get_base().get_var( "tied_down_furniture" ) );
+            if( query_yn( _( "Grab %s on %s?" ), furn->name(), veh_name ) ) {
+                you.grab( object_type::FURNITURE_ON_VEHICLE, grabp - you.pos_bub() );
+                add_msg( m_info, _( "You grab the %s loaded on the %s." ), furn->name(), veh_name );
+                return;
+            }
+        }
         //solid vehicles can't be grabbed while boarded
         const optional_vpart_position vp_boarded = here.veh_at( you.pos_bub() );
         if( vp_boarded ) {
@@ -1011,6 +1020,9 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
                            "field" );
             here.remove_field( smashp, fd_to_smsh.first );
             here.spawn_items( smashp, item_group::items_from( bash_info->drop_group, calendar::turn ) );
+            if( !bash_info->destroyed_field.first.is_null() ) {
+                here.add_field( smashp, bash_info->destroyed_field.first, bash_info->destroyed_field.second );
+            }
             mod_moves( - bash_info->fd_bash_move_cost );
             add_msg( m_info, bash_info->field_bash_msg_success.translated() );
             ret.did_smash = true;
@@ -1024,6 +1036,9 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
             ret.resistance = bash_info->str_min;
             ret.did_smash = true;
             return ret;
+        }
+        if( ret.did_smash && !bash_info->hit_field.first.is_null() ) {
+            here.add_field( smashp, bash_info->hit_field.first, bash_info->hit_field.second );
         }
     }
 

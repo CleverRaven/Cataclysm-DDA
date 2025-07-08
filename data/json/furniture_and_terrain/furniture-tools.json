@@ -302,6 +302,50 @@
   },
   {
     "type": "furniture",
+    "id": "f_anvil_ingot",
+    "name": "makeshift anvil",
+    "looks_like": "f_anvil",
+    "description": "A steel ingot mounted into a heavy log to make a suitable anvil.  Smaller steel pieces serve as shaping surfaces.",
+    "symbol": "^",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 10,
+    "crafting_pseudo_item": "fake_anvil",
+    "deconstruct": { "items": [ { "item": "10l_steel", "count": 1 }, { "item": "spike", "count": 5 }, { "item": "log", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 14,
+      "str_max": 28,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "10l_steel", "count": 1 }, { "item": "log", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_anvil_scavenged",
+    "name": "scavenged anvil",
+    "looks_like": "f_anvil",
+    "description": "An old machinery part, cut and smoothed to make a serviceable anvil, and mounted to a heavy log stand.",
+    "symbol": "^",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 10,
+    "crafting_pseudo_item": "fake_anvil",
+    "deconstruct": { "items": [ { "item": "anvil_scavenged", "count": 1 }, { "item": "log", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 14,
+      "str_max": 28,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "anvil_scavenged", "count": 1 }, { "item": "log", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_still",
     "name": "still",
     "looks_like": "f_standing_tank",
@@ -338,7 +382,9 @@
         { "item": "wood_beam", "count": [ 0, 2 ] },
         { "item": "2x4", "count": [ 2, 6 ] },
         { "item": "splinter", "count": [ 5, 20 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -810,7 +856,9 @@
         { "item": "2x4", "count": [ 4, 10 ] },
         { "item": "nail", "charges": [ 10, 30 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1259,7 +1307,9 @@
         { "item": "sheet_metal_small", "count": [ 2, 6 ] },
         { "item": "scrap", "count": [ 5, 10 ] },
         { "item": "splinter", "count": 1 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1295,7 +1345,9 @@
         { "item": "sheet_metal_small", "count": [ 2, 6 ] },
         { "item": "scrap", "count": [ 5, 10 ] },
         { "item": "splinter", "count": 1 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1322,7 +1374,9 @@
         { "item": "2x4", "count": [ 4, 8 ] },
         { "item": "cordage_6", "count": [ 80, 120 ] },
         { "item": "splinter", "count": 2 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1349,7 +1403,9 @@
         { "item": "2x4", "count": [ 4, 8 ] },
         { "item": "cordage_6", "count": [ 80, 120 ] },
         { "item": "splinter", "count": 2 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1554,7 +1610,9 @@
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },
         { "item": "scrap", "count": [ 3, 5 ] },
         { "item": "rock", "count": [ 8, 15 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1582,7 +1640,9 @@
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },
         { "item": "scrap", "count": [ 3, 5 ] },
         { "item": "rock", "count": [ 8, 15 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {

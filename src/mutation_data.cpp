@@ -645,7 +645,8 @@ static void check_consistency( const std::vector<trait_id> &mvec, const trait_id
             debugmsg( "mutation %s refers to undefined %s %s", mid.c_str(), what.c_str(), m.c_str() );
         }
 
-        if( m == mid ) {
+        // TODO: The context check here is gross but this is throwing false positives on #81278 that I don't know how to check for in a better way and I can't repro a crash even if the mutation doesn't cancel cancelling itself it just makes the UI a bit unintuitive
+        if( m == mid && what != "cancels" ) {
             debugmsg( "mutation %s refers to itself in %s context.  The program will crash if the player gains this mutation.",
                       mid.c_str(), what.c_str() );
         }

@@ -11,6 +11,11 @@
   },
   {
     "type": "construction_group",
+    "id": "wooden_shutters",
+    "name": "Built Wooden Window Shutters"
+  },
+  {
+    "type": "construction_group",
     "id": "board_up_wood_door",
     "name": "Board Up Wood Door"
   },
@@ -1554,6 +1559,16 @@
     "type": "construction_group",
     "id": "place_anvil_crude",
     "name": "Place Small Anvil"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_anvil_ingot",
+    "name": "Mount Ingot Anvil"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_anvil_scavenged",
+    "name": "Mount Scavenged Anvil"
   },
   {
     "type": "construction_group",

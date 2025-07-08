@@ -517,6 +517,14 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
 
     new_item.set_itype_variant( variant );
 
+    if( !faults.empty() ) {
+        for( const std::pair<fault_id, int> &f : faults ) {
+            if( x_in_y( f.second, 100 ) ) {
+                new_item.set_fault( f.first, false, false );
+            }
+        }
+    }
+
     {
         // create container here from modifier or from default to get max charges later
         std::optional<item> cont;

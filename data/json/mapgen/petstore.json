@@ -290,8 +290,10 @@
       "place_items": [
         { "chance": 55, "item": "clothing_outdoor_torso", "x": [ 5, 6 ], "y": 21 },
         { "chance": 70, "repeat": [ 1, 2 ], "item": "vet_softdrug", "x": 2, "y": [ 8, 10 ] },
-        { "chance": 55, "item": "SUS_trash_trashcan", "x": 6, "y": 14 },
-        { "chance": 55, "item": "SUS_trash_trashcan", "x": 12, "y": 5 },
+        { "chance": 55, "item": "SUS_trash_trashcan_public", "x": 6, "y": 14 },
+        { "chance": 55, "item": "SUS_trash_trashcan_public", "x": 12, "y": 5 },
+        { "chance": 55, "item": "SUS_trash_trashcan_public", "x": 9, "y": 19 },
+        { "chance": 55, "item": "SUS_trash_trashcan_public", "x": 22, "y": 5 },
         { "chance": 20, "item": "vet_hardrug", "x": 2, "y": 11 },
         { "chance": 85, "repeat": [ 1, 4 ], "item": "vet_utility", "x": 14, "y": 14 },
         { "chance": 85, "repeat": [ 1, 4 ], "item": "vet_utility", "x": 14, "y": 12 },

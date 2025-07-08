@@ -234,6 +234,7 @@ static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
 
 static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
 
+static const npc_class_id NC_BALTHAZAR_INTERCOM( "NC_BALTHAZAR_INTERCOM" );
 static const npc_class_id NC_ROBOFAC_INTERCOM( "NC_ROBOFAC_INTERCOM" );
 
 static const proficiency_id proficiency_prof_disarming( "prof_disarming" );
@@ -1723,6 +1724,19 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint_bub_ms &exam
         if( can_hack( you ) && query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
             try_start_hacking( you, tripoint_bub_ms( examp ) );
         }
+    }
+}
+
+void iexamine::intercom_balthazar( Character &you, const tripoint_bub_ms &examp )
+{
+    const std::vector<npc *> intercom_npcs = g->get_npcs_if( [examp]( const npc & guy ) {
+        return guy.myclass == NC_BALTHAZAR_INTERCOM && rl_dist( guy.pos_bub(), examp ) < 10;
+    } );
+    if( intercom_npcs.empty() ) {
+        you.add_msg_if_player( m_info, _( "No one responds." ) );
+    } else {
+        // TODO: This needs to be converted a talker_console or something
+        get_avatar().talk_to( get_talker_for( *intercom_npcs.front() ), false );
     }
 }
 
@@ -7742,6 +7756,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "cardreader_robofac", &iexamine::cardreader_robofac },
             { "cardreader_fp", &iexamine::cardreader_foodplace },
             { "intercom", &iexamine::intercom },
+            { "intercom_balthazar", &iexamine::intercom_balthazar },
             { "rubble", &iexamine::rubble },
             { "chainfence", &iexamine::chainfence },
             { "bars", &iexamine::bars },

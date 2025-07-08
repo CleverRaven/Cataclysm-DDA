@@ -556,7 +556,6 @@ class monster : public Creature
         int anger = 0;
         int morale = 0;
     private:
-        int stomach_size = 0;
         int amount_eaten = 0;
         void recheck_fed_status();
     public:

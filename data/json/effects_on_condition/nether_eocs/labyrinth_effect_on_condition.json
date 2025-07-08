@@ -1,0 +1,143 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_Teleport_to_labyrinth",
+    "effect": [
+      { "u_location_variable": { "u_val": "player_location_before_labyrinth" } },
+      {
+        "u_location_variable": { "global_val": "original_labyrinth_portal_loc" },
+        "target_params": { "om_terrain": "labyrinth_entrance", "om_special": "labyrinthine_structure", "cant_see": true, "z": -7 },
+        "furniture": "f_scrap_antenna",
+        "target_max_radius": 20,
+        "x_adjust": 1
+      },
+      { "u_teleport": { "global_val": "original_labyrinth_portal_loc" }, "fail_message": "Nope!", "force": true },
+      { "u_message": "Zwoink.", "popup": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_Exit_labyrinth",
+    "effect": [
+      { "u_teleport": { "u_val": "player_location_before_labyrinth" }, "force": true },
+      { "u_message": "Zworunk", "popup": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_Exit_labyrinth_sparkling_chasm",
+    "effect": [
+      { "u_teleport": { "u_val": "player_location_before_labyrinth" }, "force": true },
+      {
+        "u_message": "As you fall into the chasm, you see a multitude of stars, spots, and other shapes.  It's like your sinking ever further into a liquid solution, and falling through the air at the same time.  Your head throbs with pain as the pressure increases, and you black out.  When you come to, you're back in reality disoriented but unharmed.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "id": "EOC_LS_Computer",
+    "type": "effect_on_condition",
+    "effect": [ "open_dialogue" ]
+  },
+  {
+    "id": "EOC_LS_Passcode_Randomize",
+    "type": "effect_on_condition",
+    "effect": [ { "math": [ "LS_Passcode_Selector", "=", "rng(1, 3)" ] } ]
+  },
+  {
+    "id": "EOC_LS_Passcode_Selector",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "if": { "and": [ { "math": [ "LS_Passcode_Selector", "==", "3" ] }, { "u_has_trait": "LS_Passcode_3" } ] },
+        "then": { "math": [ "LS_Passcode_Selector", "-=", "1" ] }
+      },
+      {
+        "if": { "and": [ { "math": [ "LS_Passcode_Selector", "==", "2" ] }, { "u_has_trait": "LS_Passcode_2" } ] },
+        "then": { "math": [ "LS_Passcode_Selector", "-=", "1" ] }
+      },
+      {
+        "if": { "and": [ { "math": [ "LS_Passcode_Selector", "==", "1" ] }, { "u_has_trait": "LS_Passcode_1" } ] },
+        "then": { "math": [ "LS_Passcode_Selector", "-=", "1" ] }
+      }
+    ]
+  },
+  {
+    "id": "EOC_LS_Bridge_control_deadend_1_Passcode0",
+    "type": "effect_on_condition",
+    "effect": [
+      { "mapgen_update": "UM_Bridge_control_deadend_1_extend" },
+      {
+        "switch": { "math": [ "rng(1,1)" ] },
+        "//": "This is all vestigial now, but saved for when there are multiple map options.",
+        "cases": [ { "case": 1, "effect": [ { "mapgen_update": "UM_LS_deadend_1_room0" } ] } ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_LS_Bridge_control_deadend_1_Passcode1",
+    "type": "effect_on_condition",
+    "effect": [
+      { "mapgen_update": "UM_Bridge_control_deadend_1_extend" },
+      {
+        "switch": { "math": [ "rng(1,1)" ] },
+        "//": "This is all vestigial now, but saved for when there are multiple map options.",
+        "cases": [ { "case": 1, "effect": [ { "mapgen_update": "UM_LS_deadend_1_room1" } ] } ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_LS_Bridge_control_deadend_1_Passcode2",
+    "type": "effect_on_condition",
+    "effect": [
+      { "mapgen_update": "UM_Bridge_control_deadend_1_extend" },
+      {
+        "switch": { "math": [ "rng(1,1)" ] },
+        "//": "This is all vestigial now, but saved for when there are multiple map options.",
+        "cases": [ { "case": 1, "effect": [ { "mapgen_update": "UM_LS_deadend_1_room2" } ] } ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_LS_Bridge_control_deadend_1_Passcode3",
+    "type": "effect_on_condition",
+    "effect": [
+      { "mapgen_update": "UM_Bridge_control_deadend_1_extend" },
+      {
+        "switch": { "math": [ "rng(1,1)" ] },
+        "//": "This is all vestigial now, but saved for when there are multiple map options.",
+        "cases": [ { "case": 1, "effect": [ { "mapgen_update": "UM_LS_deadend_1_room3" } ] } ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_LS_Unlock",
+    "type": "effect_on_condition",
+    "effect": [ { "mapgen_update": "UM_LS_Unlock" } ]
+  },
+  {
+    "id": "EOC_LS_Lock",
+    "type": "effect_on_condition",
+    "effect": [ { "mapgen_update": "UM_LS_Lock" } ]
+  },
+  {
+    "id": "EOC_LS_ReallyUnlock",
+    "type": "effect_on_condition",
+    "effect": [ { "mapgen_update": "UM_LS_ReallyUnlock" } ]
+  },
+  {
+    "id": "EOC_LS_Passcode_Generator",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "switch": { "math": [ "LS_Passcode_Selector" ] },
+        "cases": [
+          { "case": 0, "effect": [ { "mapgen_update": "UM_LS_Passcode_Generator_0" } ] },
+          { "case": 1, "effect": [ { "mapgen_update": "UM_LS_Passcode_Generator_1" } ] },
+          { "case": 2, "effect": [ { "mapgen_update": "UM_LS_Passcode_Generator_2" } ] },
+          { "case": 3, "effect": [ { "mapgen_update": "UM_LS_Passcode_Generator_3" } ] }
+        ]
+      }
+    ]
+  }
+]

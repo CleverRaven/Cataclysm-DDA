@@ -6,6 +6,7 @@
     "entries": [
       {
         "item": "mom_lightning_rifle",
+        "variant": "mom_lightning_rifle_non_fifth_sun",
         "ammo-item": "mom_lightning_rifle_ammo",
         "prob": 70,
         "charges": [ 85, 120 ],

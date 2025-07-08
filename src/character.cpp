@@ -4045,7 +4045,7 @@ units::mass Character::get_weight() const
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
     ret += bionics_weight();       // Weight of installed bionics
-    return ret;
+    return enchantment_cache->modify_value( enchant_vals::mod::TOTAL_WEIGHT, ret );
 }
 
 std::pair<int, int> Character::climate_control_strength() const
@@ -5667,11 +5667,13 @@ void Character::toolmod_add( item_location tool, item_location mod )
         return;
     }
 
-    if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
-                   colorize( mod->tname(), mod->color_in_inventory() ),
-                   colorize( tool->tname(), tool->color_in_inventory() ) ) ) {
-        add_msg_if_player( _( "Never mind." ) );
-        return; // player canceled installation
+    if( mod->is_irremovable() ) {
+        if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
+                       colorize( mod->tname(), mod->color_in_inventory() ),
+                       colorize( tool->tname(), tool->color_in_inventory() ) ) ) {
+            add_msg_if_player( _( "Never mind." ) );
+            return; // player canceled installation
+        }
     }
 
     assign_activity( ACT_TOOLMOD_ADD, 1, -1 );

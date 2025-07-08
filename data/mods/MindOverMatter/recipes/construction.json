@@ -45,7 +45,7 @@
     "category": "APPLIANCE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
-    "components": [ [ [ "psi_noetic_resonance_detector", 1 ] ], [ [ "w_table", 1 ] ], [ [ "chair_wood", 1 ] ] ],
+    "components": [ [ [ "psi_noetic_resonance_detector", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "NO_EXERCISE"

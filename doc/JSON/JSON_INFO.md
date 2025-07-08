@@ -115,6 +115,7 @@ Use the `Home` key to return to the top.
       - [`oxytorch`](#oxytorch)
       - [`prying`](#prying)
       - [`required_str`](#required_str)
+      - [`mass`](#mass)
       - [`crafting_pseudo_item`](#crafting_pseudo_item)
       - [`workbench`](#workbench)
       - [`plant_data`](#plant_data)
@@ -200,7 +201,7 @@ Use the `Home` key to return to the top.
   - [`requirement`](#requirement)
   - [`reveal_locale`](#reveal_locale)
   - [`distance_initial_visibility`](#distance_initial_visibility)
-  - [`eocs`](#eocs)
+  - [`eoc`](#eoc)
   - [`missions`](#missions)
   - [`start_of_cataclysm`](#start_of_cataclysm)
   - [`start_of_game`](#start_of_game)
@@ -1606,6 +1607,8 @@ Faults can be defined for more specialized damage of an item.
   "price_modifier": 0.4, // (Optional, double) Defaults to 1 if not specified. A multiplier on the price of an item when this fault is present. Values above 1.0 will increase the item's value.
   "melee_damage_mod": [ { "damage_id": "cut", "add": -5, "multiply": 0.8 } ], // (Optional) alters the melee damage of this type for item, if fault of this type is presented. `damage_id` is mandatory, `add` is 0 by default, `multiply` is 1 by default
   "armor_mod": [ { "damage_id": "cut", "add": -5, "multiply": 0.8 } ], // (Optional) Same as armor_mod, changes the protection value of damage type of the faulted item if it's presented
+  "encumbrance_add": 20,  // if armor, item encumbrance will be modified by this amount, in this case +20 encumbrance
+  "encumbrance_mult": 1.3, // if armor, item encumbrance will be multiplied by this amount, in this case 1.3x as much (100-> 130)
   "block_faults": [ "fault_handle_chipping", "fault_handle_cracked" ], // Faults, that cannot be applied if this fault is already presented on item. If there is already such a fault, it will be removed. Can't have chipped blade if the blade is gone
   "flags": [ "JAMMED_GUN" ] // optional flags, see below
 }
@@ -3187,6 +3190,7 @@ Examples from the actual definitions:
     "deployed_item": "plastic_sheet",
     "light_emitted": 5,
     "required_str": 18,
+    "mass": "60 kg",
     "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD" ],
     "connect_groups" : [ "WALL" ],
     "connects_to" : [ "WALL" ],
@@ -3357,6 +3361,10 @@ oxytorch: {
 #### `required_str`
 
 Strength required to move the furniture around. Negative values indicate an unmovable furniture.
+
+#### `mass`
+
+(Optional) Defaults 1000 kilograms. The weight of this furniture.
 
 #### `crafting_pseudo_item`
 
@@ -4063,7 +4071,7 @@ Defaults true. If a road can be found within 3 OMTs of the starting position, re
 
 Defaults 15. How much of the initial map should be known when the game is started? This value is a radius.
 
-## `eocs`
+## `eoc`
 (optional, array of strings)
 
 A list of eocs that are triggered once for each new character on scenario start.
@@ -4076,7 +4084,7 @@ A list of mission ids that will be started and assigned to the player at the sta
 ## `start_of_cataclysm`
 (optional, object with optional members "hour", "day", "season" and "year")
 
-Allows customization of Cataclysm start date. If `start_of_cataclysm` is not set the corresponding default values are used instead - `Year 1, Spring, Day 61, 00:00:00`. Can be changed in new character creation screen.
+Allows customization of Cataclysm start date. If `start_of_cataclysm` is not set the corresponding default values are used instead - `Year 1, Spring, Day 56, 00:00:00`. Can be changed in new character creation screen.
 
 ```jsonc
 "start_of_cataclysm": { "hour": 7, "day": 10, "season": "winter", "year": 1 }
@@ -4386,6 +4394,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     "has_acid": false, // See has_fire
     "has_elec": false, // See has_fire
     "has_fume": false, // See has_fire, non-breathing monsters are immune to this field
+    "moppable": false // can be cleaned by mop
     "display_items": true, // If the field should obscure items on this tile
     "display_field": true, // If the field has a visible sprite or symbol, default false
     "description_affix": "covered_in", // Description affix for items in this field, possible values are "in", "covered_in", "on", "under", and "illuminated_by"
@@ -4401,6 +4410,8 @@ Fields can exist on top of terrain/furniture, and support different intensity le
       "sound_fail": "shwomp", // sound on failure
       "msg_success": "You brush the gum web aside.", // message on success
       "move_cost": 120, // how many moves it costs to successfully bash that field (default: 100)
+      "hit_field": [ "fd_fire", 1 ] // field to create when hit and intensity. Also created on destruction
+      "destroyed_field": [ "fd_fire", 2 ] // field to create when destroyed and intensity
       "items": [                                   // item dropped upon successful bashing
         { "item": "2x4", "count": [ 5, 8 ] },
         { "item": "nail", "charges": [ 6, 8 ] },

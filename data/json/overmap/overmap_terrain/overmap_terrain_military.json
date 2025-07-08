@@ -590,7 +590,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_mil_base_minefield",
-    "name": "military base minefield",
+    "name": "military base perimeter",
     "vision_levels": "open_land",
     "color": "light_gray",
     "see_cost": "none"

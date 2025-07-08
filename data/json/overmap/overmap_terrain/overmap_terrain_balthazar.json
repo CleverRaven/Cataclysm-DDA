@@ -1,0 +1,38 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "balthazar_bunker_00", "balthazar_bunker_01" ],
+    "name": "bunker complex",
+    "sym": "B",
+    "color": "light_red",
+    "vision_levels": "isolated_building",
+    "see_cost": "high",
+    "travel_cost_type": "impassable"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "balthazar_bunker_02", "balthazar_bunker_03" ],
+    "name": "bunker solar farm",
+    "sym": "B",
+    "color": "yellow",
+    "vision_levels": "isolated_electronics",
+    "see_cost": "medium",
+    "travel_cost_type": "impassable"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "balthazar_bunker_00_-1",
+      "balthazar_bunker_01_-1",
+      "balthazar_bunker_02_-1",
+      "balthazar_bunker_03_-1",
+      "balthazar_bunker_02_-2"
+    ],
+    "name": "underground bunker complex",
+    "sym": "B",
+    "color": "light_red",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "travel_cost_type": "impassable"
+  }
+]

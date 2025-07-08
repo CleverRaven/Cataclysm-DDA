@@ -911,6 +911,11 @@ std::shared_ptr<zzip> zzip::create_from_folder( std::filesystem::path const &pat
         if( !entry.is_regular_file() ) {
             continue;
         }
+        size_t size = entry.file_size();
+        if( size == 0 ) {
+            // Skip empty files, not supported.
+            continue;
+        }
         total_file_size += entry.file_size();
         files_to_insert.emplace( entry.path().generic_u8string() );
     }
@@ -960,6 +965,10 @@ std::shared_ptr<zzip> zzip::create_from_folder_with_files( std::filesystem::path
 
     for( std::filesystem::path const &file_path : files ) {
         std::shared_ptr<const mmap_file> file = mmap_file::map_file( file_path );
+        if( !file ) {
+            // This is really a higher level error but we should just continue if we can.
+            continue;
+        }
         std::string file_relative_path = file_path.lexically_relative( folder ).generic_u8string();
         size_t compressed_size = 0;
         size_t needed = 0;

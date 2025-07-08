@@ -39,7 +39,11 @@
       {
         "text": "That's right.",
         "topic": "TALK_DONE",
-        "effect": [ "remove_stolen_status", { "math": [ "telepathically_stole_recently", "+=", "rand(5)" ] } ]
+        "effect": [
+          "remove_stolen_status",
+          { "math": [ "telepathically_stole_recently", "+=", "rand(5)" ] },
+          { "give_achievement": "mom_use_telepathy_to_steal" }
+        ]
       }
     ]
   },

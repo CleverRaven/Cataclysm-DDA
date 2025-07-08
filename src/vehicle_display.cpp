@@ -41,7 +41,8 @@ vpart_display::vpart_display()
 
 vpart_display::vpart_display( const vehicle_part &vp )
     : id( vp.info().id )
-    , variant( vp.info().variants.at( vp.variant ) ) {}
+    , variant( vp.info().variants.at( vp.variant ) )
+    , carried_furn( vp.get_base().get_var( "tied_down_furniture" ) ) {}
 
 std::string vpart_display::get_tileset_id() const
 {

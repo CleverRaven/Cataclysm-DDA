@@ -35,10 +35,68 @@
     ]
   },
   {
+    "id": "mon_magi_shadow_monster",
+    "type": "MONSTER",
+    "//": "The version for monster summons.",
+    "copy-from": "mon_magi_shadow",
+    "name": { "str": "shadow" },
+    "description": "This is an animate shadow.  Looking like nothing more than an errant patch of normal shadow, it draws your attention by the way it moves subtly and whispers softly in the back of your mind.  Strange intrusive thoughts accompany the quiet murmur, awakening your most horrific memories and fears.",
+    "default_faction": "zombie"
+  },
+  {
     "id": "mon_keeper_of_the_glades_shaman",
     "copy-from": "mon_keeper_of_the_glades",
     "type": "MONSTER",
     "name": { "str_sp": "keeper of the glades" },
     "extend": { "special_attacks": [  ] }
+  },
+  {
+    "id": "mon_mag_stag_beetle",
+    "type": "MONSTER",
+    "name": { "str": "massive stag beetle" },
+    "description": "This enormous stag beetle has reached mutated maturity.",
+    "default_faction": "player",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "INSECT" ],
+    "looks_like": "mon_stag_beetle_giant",
+    "volume": "400 L",
+    "weight": "600 kg",
+    "hp": 300,
+    "speed": 80,
+    "material": [ "iflesh" ],
+    "symbol": "S",
+    "color": "brown",
+    "morale": 30,
+    "aggro_character": false,
+    "melee_skill": 5,
+    "melee_dice": 6,
+    "melee_dice_sides": 6,
+    "stomach_size": 400,
+    "melee_damage": [ { "damage_type": "cut", "amount": 9 } ],
+    "dodge": 1,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_beetle" ],
+    "petfood": { "food": [ "rune_wildwood" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "weakpoints": [
+      { "name": "a soft section of chitin", "armor_mult": { "physical": 0.33 }, "coverage": 20 },
+      { "name": "a crack in the chitin", "armor_mult": { "physical": 0 }, "coverage": 5 }
+    ],
+    "vision_day": 14,
+    "vision_night": 12,
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "fear_triggers": [ "FIRE" ],
+    "flags": [
+      "HEARS",
+      "PET_MOUNTABLE",
+      "PUSH_MON",
+      "PUSH_VEH",
+      "GOODHEARING",
+      "PATH_AVOID_DANGER",
+      "SEES",
+      "SMELLS",
+      "WARM",
+      "EATS"
+    ],
+    "armor": { "bash": 60, "cut": 72, "acid": 18, "heat": 8, "bullet": 50, "psionic": 14 }
   }
 ]

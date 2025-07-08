@@ -1072,7 +1072,7 @@
       [ "heels", 20 ],
       [ "cotton_patchwork", 20 ],
       { "group": "tinware", "prob": 20 },
-      [ "mask_guy_fawkes", 10 ],
+      { "item": "mask_skull", "variant": "guy_fawkes", "prob": 10 },
       [ "gold_ear", 10 ],
       [ "bone_tainted", 5 ],
       [ "silver_ear", 5 ],

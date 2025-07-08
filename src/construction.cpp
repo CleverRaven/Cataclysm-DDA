@@ -47,6 +47,8 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "panels.h"
 #include "player_activity.h"
 #include "point.h"
@@ -1438,12 +1440,21 @@ void complete_construction( Character *you )
 bool construct::check_channel( const tripoint_bub_ms &p )
 {
     map &here = get_map();
-    for( const point &offset : four_adjacent_offsets ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + offset ) ) {
-            return true;
-        }
+    const std::function<bool( const point & )> has_current = [&p, &here]( const point & offset ) {
+        return here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + offset );
+    };
+    const std::function<bool( const tripoint_abs_omt & )> river_at = []( const tripoint_abs_omt & pt ) {
+        return is_river( overmap_buffer.ter( pt ) );
+    };
+    if( !std::any_of( four_adjacent_offsets.begin(), four_adjacent_offsets.end(), has_current ) ) {
+        return false;
     }
-    return false;
+    tripoint_abs_omt omt_pt = project_to<coords::omt>( here.get_abs( p ) );
+    tripoint_range<tripoint_abs_omt> nearby_omts = points_in_radius<tripoint_abs_omt>( omt_pt, 1 );
+    if( !std::any_of( nearby_omts.begin(), nearby_omts.end(), river_at ) ) {
+        return false;
+    }
+    return true;
 }
 
 bool construct::check_empty_lite( const tripoint_bub_ms &p )
