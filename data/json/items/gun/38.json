@@ -416,6 +416,7 @@
     "barrel_length": "78 mm",
     "//": "47.8mm + 30.5mm max OAL for 38spl. Revolvers just built different.",
     "price": "539 USD",
+    "price_postapoc": "10 USD",
     "material": [ "steel", "plastic", "aluminum" ],
     "ammo": [ "38" ],
     "dispersion": 350,
