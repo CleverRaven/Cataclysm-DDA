@@ -2974,7 +2974,11 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 45 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "DIG", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_metalworking", "required": true }, { "proficiency": "prof_redsmithing", "required": true } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": true },
+      { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_redsmithing_adv" }
+    ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "scrap_bronze", 90 ] ] ]
   },
