@@ -10,7 +10,6 @@
 #include <string>
 #include <tuple>
 
-#include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
 #include "cata_assert.h"
@@ -938,7 +937,7 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
 {
     const bool can_offroad = offroad_coeff >= 0.05;
     overmap_path_params ret;
-    ret.set_cost( oter_travel_cost_type::highway, 6 );
+    ret.set_cost( oter_travel_cost_type::highway, 3 );
     ret.set_cost( oter_travel_cost_type::road, 8 ); // limited by vehicle autodrive speed
     const int field_cost = can_offroad ? std::lround( 12 / std::min( 1.0f, offroad_coeff ) ) : -1;
     ret.set_cost( oter_travel_cost_type::field, field_cost );
@@ -1702,8 +1701,8 @@ void overmapbuffer::set_overmap_highway_intersection_point( const point_abs_om &
 void overmapbuffer::set_highway_global_offset()
 {
     //this only happens exactly once, upon generation of the first overmap
-    const tripoint_abs_om center = project_to<coords::om>( get_avatar().pos_abs() );
-    overmap_buffer.highway_global_offset = point_abs_om( center.xy() );
+    //TODO: there should be an intersection around the avatar's start location, not 0,0
+    overmap_buffer.highway_global_offset = point_abs_om();
 }
 
 point_abs_om overmapbuffer::get_highway_global_offset() const

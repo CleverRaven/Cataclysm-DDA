@@ -3724,7 +3724,7 @@ void overmap::generate( const std::vector<const overmap *> &neighbor_overmaps,
         }
     }
 
-    std::vector<std::vector<intrahighway_node>> highway_paths;
+    std::vector<Highway_path> highway_paths;
     calculate_urbanity();
     calculate_forestosity();
     if( get_option<bool>( "OVERMAP_POPULATE_OUTSIDE_CONNECTIONS_FROM_NEIGHBORS" ) ) {

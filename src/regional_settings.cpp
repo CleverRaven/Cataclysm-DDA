@@ -1088,7 +1088,7 @@ void overmap_lake_settings::finalize()
 void overmap_highway_settings::finalize()
 {
     //finds longest special in a building collection
-    auto find_longest_special = [&]( const building_bin & b ) {
+    auto find_longest_special = []( const building_bin & b ) {
         int longest_length = 0;
         for( const auto &weighted_pair : b.get_all_buildings() ) {
             const overmap_special_id &special = weighted_pair.obj;

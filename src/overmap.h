@@ -611,6 +611,15 @@ class overmap
             const tripoint_om_omt &sp1, const tripoint_om_omt &sp2,
             const om_direction::type &draw_direction, int path_init_z, int base_z );
         /**
+        * sub-function for place_highway_reserved_path
+        * draws multiple line segments of highway, connected by bends
+        * draw_direction is from sp1 to sp2
+        */
+        void place_highway_lines_with_bends( Highway_path &highway_path,
+                                             const std::vector<std::pair<tripoint_om_omt, om_direction::type>> &bend_points,
+                                             const tripoint_om_omt &start_point, const tripoint_om_omt &end_point,
+                                             om_direction::type direction, int base_z );
+        /**
         * sub-function for place_highways
         * lays out reserved OMTs for highway segments, and places non-segment specials
         */
@@ -623,6 +632,17 @@ class overmap
         */
         tripoint_om_omt find_highway_intersection_point( const overmap_special_id &special,
                 const tripoint_om_omt &center, const om_direction::type &dir, int border ) const;
+        //segments adjacent to specials must have the special's z-value for correct ramp handling
+        void highway_handle_special_z( Highway_path &highway_path, int base_z );
+        // determine which overmaps have adjacent oceans (if applicable)
+        // @return { abort highway generation, adjacent ocean overmaps }
+        std::pair<bool, std::bitset<HIGHWAY_MAX_CONNECTIONS>> highway_handle_oceans();
+        // determine end points for a highway in this overmap, given existing neighboring overmaps/oceans
+        // @return success, selected end points in corresponding parameter
+        bool highway_select_end_points( const std::vector<const overmap *> &neighbor_overmaps,
+                                        std::array<tripoint_om_omt, HIGHWAY_MAX_CONNECTIONS> &end_points,
+                                        std::bitset<HIGHWAY_MAX_CONNECTIONS> &neighbor_connections,
+                                        const std::bitset<HIGHWAY_MAX_CONNECTIONS> &ocean_neighbors, int base_z );
         //given a path of highway nodes, remove small gaps of land in raised segments
         void highway_handle_ramps( Highway_path &path, int base_z );
         //places highway special, replacing fallback supports with mutable supports that extend downwards
