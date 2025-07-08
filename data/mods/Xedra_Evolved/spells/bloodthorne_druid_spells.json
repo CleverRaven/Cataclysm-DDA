@@ -148,6 +148,7 @@
   },
   {
     "id": "bloodthorne_druid_aura_of_vines_retaliate",
+    "type": "SPELL",
     "name": { "str": "Entanglement of Vines Retaliation", "//~": "NO_I18N" },
     "description": { "str": "Hits targets when you have Entanglement of Vines active.  You shouldn't see this.", "//~": "NO_I18N" },
     "message": "",
@@ -164,5 +165,35 @@
     "max_damage": 25,
     "min_range": 2,
     "max_range": 2
+  },
+  {
+    "id": "bloodthorne_druid_heal_from_spilled_blood_spell",
+    "type": "SPELL",
+    "name": "Drinking Crimson Rain",
+    "description": "Vampires are known for drinking blood but plants will drink anything that sinks into the soil.  This spell draws all blood spilled onto the earth in the area around you through the roots to be absorbed by your heartvines, healing you.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "SOMATIC", "NO_LEGS" ],
+    "magic_type": "xedra_bloodthorne_sorcery",
+    "skill": "deduction",
+    "spell_class": "BLOODTHORNE_SORCERY",
+    "condition": {
+      "or": [
+        { "u_is_on_terrain_with_flag": "PLOWABLE" },
+        { "u_is_on_terrain_with_flag": "SHRUB" },
+        { "u_is_on_terrain_with_flag": "YOUNG" }
+      ]
+    },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD",
+    "shape": "blast",
+    "min_aoe": {
+      "math": [ "1 + (0.2 * bloodthorn_druid_traits_sum() ) + (0.05 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
+    },
+    "max_aoe": {
+      "math": [ "1 + (0.2 * bloodthorn_druid_traits_sum() ) + (0.05 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
+    },
+    "base_casting_time": 350,
+    "base_energy_cost": { "math": [ "max( ( 550 - (bloodthorn_druid_traits_sum() * 10) ), 350)" ] }
   }
 ]

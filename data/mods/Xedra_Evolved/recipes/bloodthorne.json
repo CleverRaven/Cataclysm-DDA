@@ -136,7 +136,13 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_ADVANCE_TO_TIER_2",
     "condition": { "u_has_trait": "BLOODTHORNE_DRUID_AURA_OF_VINES" },
-    "effect": [ { "u_roll_remainder": [  ], "type": "mutation", "true_eocs": [ "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS" ] } ],
+    "effect": [
+      {
+        "u_roll_remainder": [ "BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD" ],
+        "type": "mutation",
+        "true_eocs": [ "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS" ]
+      }
+    ],
     "false_effect": [ { "u_add_trait": "BLOODTHORNE_DRUID_AURA_OF_VINES" }, { "run_eocs": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS" } ]
   }
 ]

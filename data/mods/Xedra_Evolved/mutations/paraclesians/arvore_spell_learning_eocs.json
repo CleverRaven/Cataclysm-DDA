@@ -66,16 +66,14 @@
     "id": "EOC_ARVORE_SUCCESSFUL_LEVELER_MESSAGE",
     "effect": [
       {
-        "if": {
-          "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT",
-          "then": {
-            "u_message": "Your time spent under the shadows of the trees has increased your facility with your stolen fey magicks.",
-            "type": "good"
-          },
-          "else": {
-            "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
-            "type": "good"
-          }
+        "if": { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" },
+        "then": {
+          "u_message": "Your time spent under the shadows of the trees has increased your facility with your stolen fey magicks.",
+          "type": "good"
+        },
+        "else": {
+          "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
+          "type": "good"
         }
       }
     ]

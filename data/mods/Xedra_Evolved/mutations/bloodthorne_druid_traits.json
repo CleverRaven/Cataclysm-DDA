@@ -196,5 +196,15 @@
       }
     ],
     "flags": [ "SUBTLE_SPELL", "VINE_RAPPEL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD",
+    "name": { "str": "Drinking Crimson Rain" },
+    "points": 4,
+    "description": "Vampires are known for drinking blood but plants will drink anything that sinks into the soil.  This spell draws all blood spilled onto the earth in the area around you through the roots to be absorbed by your heartvines, healing you.",
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "bloodthorne_druid_heal_from_spilled_blood_spell", 1 ] ]
   }
 ]
