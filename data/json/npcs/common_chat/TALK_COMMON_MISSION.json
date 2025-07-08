@@ -226,7 +226,7 @@
         "effect": "mission_success"
       },
       {
-        "text": "I've taken care of it",
+        "text": "I've taken care of it.",
         "topic": "TALK_MISSION_SUCCESS",
         "condition": { "and": [ "mission_complete", { "mission_goal": "MGOAL_COMPUTER_TOGGLE" } ] },
         "switch": true,

@@ -591,7 +591,7 @@
   {
     "id": "TALK_ROBOFAC_WHO_SENT_YOU",
     "type": "talk_topic",
-    "dynamic_line": "We are listening…\n\nYou detect a slight elevation in their voice, with a start you realize they are nervous.",
+    "dynamic_line": "&\"We are listening…\"\n\nYou detect a slight elevation in their voice, with a start you realize they are nervous.",
     "responses": [
       {
         "text": "Actually I was just joking.  Our meeting is indeed a fortunate accident but now that I have your attention would you be interested in trading in some goods?",

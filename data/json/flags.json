@@ -2127,7 +2127,7 @@
   {
     "id": "SCIENCE_CARD_SECURITY_BLACK",
     "type": "json_flag",
-    "info": "You could probably use this to get into a secured  area."
+    "info": "You could probably use this to get into a secured law enforcement area."
   },
   {
     "id": "SCIENCE_CARD_MUTAGEN_GREEN",

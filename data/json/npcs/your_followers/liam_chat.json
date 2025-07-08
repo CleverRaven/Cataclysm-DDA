@@ -934,8 +934,8 @@
         "&He grins.  \"I'm gonna level with you, this sounds incredibly *cool*.\"  He laughs at his own joke.  \"Seriously though, it's probably going to be a really tricky one",
         {
           "u_has_trait": "CBM_Interface",
-          "yes": ".  It'd be good to maybe try cybernetics to help us with the cold, they won't be as bulky and confining to fight in as winter gear.",
-          "no": ".  We'll need to bundle up extra toasty, that'll make fighting tough."
+          "yes": ".  It'd be good to maybe try cybernetics to help us with the cold, they won't be as bulky and confining to fight in as winter gear.\"",
+          "no": ".  We'll need to bundle up extra toasty, that'll make fighting tough.\""
         }
       ]
     },

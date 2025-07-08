@@ -1007,7 +1007,7 @@
       "hit_field": [ "fd_dust", 2 ],
       "destroyed_field": [ "fd_splinters", 1 ]
     },
-    "prying": { "result": "t_window_boarded_shutters_open_fully", "duration": "30 seconds", "message": "You pry the window open" }
+    "prying": { "result": "t_window_boarded_shutters_open_fully", "duration": "30 seconds", "message": "You pry open the window." }
   },
   {
     "type": "terrain",
