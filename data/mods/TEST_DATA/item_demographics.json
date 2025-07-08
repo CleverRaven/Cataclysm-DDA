@@ -731,7 +731,7 @@
             "sr22": 1,
             "sw617": 1,
             "savage_rascal": 1,
-			"retool_ar15_22": 1
+            "retool_ar15_22": 1
           }
         },
         {
@@ -788,14 +788,7 @@
         {
           "type": "40",
           "weight": 40,
-          "items": {
-            "glock_22": 1,
-            "px4_40": 1,
-            "sig_40": 1,
-            "smg_40": 1,
-            "hi_power_40": 1,
-            "hptjcp": 1
-          }
+          "items": { "glock_22": 1, "px4_40": 1, "sig_40": 1, "smg_40": 1, "hi_power_40": 1, "hptjcp": 1 }
         },
         {
           "type": "762",
@@ -807,14 +800,22 @@
             "mk47": 1,
             "vz58_p": 1,
             "bren2_762": 1,
-			"retool_ar15_762": 1,
-			"retool_cz600_762": 1
+            "retool_ar15_762": 1,
+            "retool_cz600_762": 1
           }
         },
         {
           "type": "357mag",
           "weight": 34,
-          "items": { "sw_619": 1, "rp63": 1, "chiappa_rhino": 1, "uberti_1873": 1, "rossi_r92_357_16": 1, "rossi_r92_357_20": 1, "retool_deagle_357": 1 }
+          "items": {
+            "sw_619": 1,
+            "rp63": 1,
+            "chiappa_rhino": 1,
+            "uberti_1873": 1,
+            "rossi_r92_357_16": 1,
+            "rossi_r92_357_20": 1,
+            "retool_deagle_357": 1
+          }
         },
         {
           "type": "shot",
@@ -881,25 +882,32 @@
         {
           "type": "44",
           "weight": 15,
-          "items": {
-            "retool_deagle_44": 1,
-            "henry_big_boy": 1,
-            "rossi_r92_44_16": 1,
-            "rossi_r92_44_20": 1,
-            "rifle_44": 1,
-            "sw629": 1
-          }
+          "items": { "retool_deagle_44": 1, "henry_big_boy": 1, "rossi_r92_44_16": 1, "rossi_r92_44_20": 1, "rifle_44": 1, "sw629": 1 }
         },
         {
           "type": "3006",
           "weight": 8,
           "items": { "combination_gun": 1, "browning_blr": 1, "garand": 1, "m1903": 1, "m1918": 1, "remington_700": 1, "ruger_m77": 1 }
         },
-        { "type": "45colt", "weight": 8, "items": { "colt_saa": 1, "bond_410": 1, "taurus_judge": 1, "raging_bull": 1 } },
+        {
+          "type": "45colt",
+          "weight": 8,
+          "items": { "colt_saa": 1, "bond_410": 1, "taurus_judge": 1, "raging_bull": 1 }
+        },
         { "type": "762R", "weight": 4, "items": { "mosin44": 1, "mosin91_30": 1, "psl": 1 } },
         { "type": "270win", "weight": 3, "items": { "remington700_270": 1 } },
         { "type": "410shot", "weight": 3, "items": { "shotgun_410": 1 } },
-        { "type": "300blk", "weight": 2, "items": { "sig_mcx_rattler_sbr": 1,"retool_ar15_300blk": 1,"retool_ar15_300blk_short": 1,"retool_ar15_300blk_medium": 1,"retool_mdrx_300blk": 1 } },
+        {
+          "type": "300blk",
+          "weight": 2,
+          "items": {
+            "sig_mcx_rattler_sbr": 1,
+            "retool_ar15_300blk": 1,
+            "retool_ar15_300blk_short": 1,
+            "retool_ar15_300blk_medium": 1,
+            "retool_mdrx_300blk": 1
+          }
+        },
         { "type": "123ln", "weight": 1, "items": { "pamd68": 1, "pamd71z": 1 } },
         {
           "type": "10mm",
