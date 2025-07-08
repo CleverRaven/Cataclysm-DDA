@@ -29,7 +29,7 @@
         "ranges": [ [ 0, 20, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
-        "target_moving_vehicles": true,
+        "target_moving_vehicles": true
       }
     ],
     "death_drops": {  },
