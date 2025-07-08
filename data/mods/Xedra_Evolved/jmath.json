@@ -117,6 +117,24 @@
   },
   {
     "type": "jmath_function",
+    "id": "xe_fey_elemental_magick_base_xp_rate",
+    "num_args": 0,
+    "return": "125 * ( ( ( ( (u_val('intelligence') - 8) / 8) + ( u_skill('deduction') / 10) ) / 5 ) + 1)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_elemental_magick_arvore_exp_per_cast",
+    "num_args": 0,
+    "return": "(u_val('focus_effective') / 100 ) * (xe_fey_elemental_magick_base_xp_rate() ) * (u_arvore_is_in_forest == 1 ? 1.6667 : 1) * (u_arvore_is_in_wilderness == 1 ? 1.6667 : 1)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_elemental_magick_arvore_failure_chance",
+    "num_args": 0,
+    "return": "clamp( ( ( ( (global_what_is_the_season == 4 ? 0.15 : 0 ) + (u_spell_difficulty(_spell_id) * 0.09 ) + xe_fey_magick_mana_penalty() ) + (u_skill('deduction') * -0.03) + (u_spell_level(_spell_id) * -0.06 ) ) * (u_effect_intensity('effect_arvore_is_day_in_the_sun_not_winter') > -1 ? 0.5 : 1 ) ), 0, 1)"
+  },
+  {
+    "type": "jmath_function",
     "id": "xe_fey_magick_mana_penalty",
     "num_args": 0,
     "return": "u_val('mana') < (u_val('mana_max') / 2) ? xe_fey_magick_mana_penalty_secondary() : 0"
