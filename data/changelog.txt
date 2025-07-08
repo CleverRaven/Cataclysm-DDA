@@ -325,15 +325,9 @@ Exodii Ceramics
 Opiate Vitamin
 Add arab and islamic clothes for women
 Adds a few other scavengeable options for anvils
-Organize into a nested group the throwing weapons we have
 Adds an early playtest version of the exodii labyrinth dungeon, accessible by a chargen trait.
-Humanitarian protein ration boxes in boxes
 Build sturdy wooden shutters for your windows
-Adds some gun-name variants for the double barreled shotgun and single barreled shotgun.
-Add XL duffel bags
 Add a sunken helicopter location
-Add 6 sizes of gym bags
-Increase calories per protein ration
 Nuclear Power Plant upgrade
 Add 3 new guns (308 Model 700, .22 Savage Rascal, .32 LWS)
 
@@ -850,17 +844,9 @@ Aftershock: More mundane tools are available in exoplanet
 [MoM] Add Achievements
 [Crazy Cataclysm] Add the immortal snail as second nemesis
 Create a loading screen for Aftershock
-[MoM] Allow Heightened Senses/Night Eyes combo to craft in darkness
-[MoM] Slight weariness adjustments to channeling formula
 [Extra Mutation Scenarios] Add start only mutation glands that gradually permanently mutate you towards a selected category
-[XE] Add new deduction books and their mechanics.
-[MoM] Add Cuāuhpilli trooper profession
 Magiclysm - Implement Enchanted Druid Items
-Aftershock: Augstmoon vendors sell more tools.
-[Magiclysm] Rework Will o' the Wisps
-Aftershock: Create cryosuit UI elements and power warnings.
-More Sky island upgrades
-Innawood recipe product amount fixes
+Aftershock: Create cryosuit UI elements and power warnings
 
 
 ## Balance:
@@ -959,11 +945,8 @@ Milspec searchlights don't explode, now drop broken version
 World sliders rebalanced to offer differing gameplay experiences
 Some recipes have 'hard' proficiency requirements
 Expanded spawns for some proper melee weapons
-Bayonets and removed stock change to-hit of guns
 Adjust Precise Strike melee tech so it also cant stun what other stun-causing techs cant stun.
-Migrate the AR Pistol to use the rifle skill..
 Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
-Embiggen duffel bag pocket
 
 
 ## Bugfixes:
@@ -1327,15 +1310,6 @@ Attempt to increase average autotravel speed when driving on straight roads
 remove landmines from weird places
 Fix special attacks overwriting cooldown values to zero
 Scenario still had adult hobbies applied
-[MoM] Add Heightened Senses to Clairsentient hobbies, adjust skill levels
-Put trash back into relocated dumpsters
-Add more ammo uncrafts, make ammo uncrafts easier
-Item bone_demihuman is active and tracking…
-Furniture without pre_specials can be built in mid air.
-Fix Quadraphract on death errors.
-[MoM] Fix Noetic Resonance Detector placement
-Fix cement powder recipe product
-Fix tool requirements for crystallizing sugar
 Fix drawing items under fields without tiles
 Limit the range of water channels
 
@@ -1508,7 +1482,6 @@ bulk overmap testing debug tools
 Adds a vertical stack of omt scope for mapgen parameters
 Monsters can be forced to flee through an EoC
 Improve mod migration
-Make shooting_at_terrain test less flaky
 
 
 ## Build:
