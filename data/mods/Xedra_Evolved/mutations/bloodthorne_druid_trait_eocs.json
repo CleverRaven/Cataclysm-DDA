@@ -55,6 +55,20 @@
           "and": [
             { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills >= u_bloodthorn_druid_vampires_killed_to_upgrade" ] },
             {
+              "math": [ "u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') < u_bloodthorn_druid_required_arvore_traits" ]
+            },
+            { "not": { "u_has_effect": "effect_bloodthorn_druid_upgrade_ready" } }
+          ]
+        },
+        "then": [
+          { "u_message": "Your heartvines twitch as the vampire dies, but soon grow quiescent.  They need more elemental power in order to catalyzse the vampire blood into new thornwitchery.", "typed": "mixed" }
+        ]
+      }
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills >= u_bloodthorn_druid_vampires_killed_to_upgrade" ] },
+            {
               "math": [ "u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') >= u_bloodthorn_druid_required_arvore_traits" ]
             },
             { "not": { "u_has_effect": "effect_bloodthorn_druid_upgrade_ready" } }
