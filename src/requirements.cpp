@@ -10,6 +10,7 @@
 #include <set>
 #include <sstream>
 #include <stack>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -313,6 +314,9 @@ void item_comp::dump( JsonOut &jsout ) const
     }
     if( requirement ) {
         jsout.write( "LIST" );
+    }
+    if( craftable ) {
+        jsout.write( "CRAFTABLE" );
     }
     jsout.end_array();
 }
@@ -697,7 +701,7 @@ static void inline_requirements( std::vector<std::vector<T>> &list,
     // add a single component to the vector. If component already exists, chooses min count
     const auto add_component = []( const T & comp, std::vector<T> &accum ) {
         auto iter = std::find_if( accum.begin(), accum.end(), [&]( const T & req ) {
-            return !req.requirement && req.type == comp.type;
+            return !req.requirement && req.type == comp.type && req.craftable == comp.craftable;
         } );
         if( iter == accum.end() ) {
             accum.push_back( comp ); // component doesn't exist yet, adding it
@@ -717,12 +721,6 @@ static void inline_requirements( std::vector<std::vector<T>> &list,
         std::function<void( const T &comp )> rec;
         rec = [&]( const T & comp ) {
             // add simple component to the vector
-            if( comp.craftable ) {
-                recipe_id rec = recipe_id( comp.type.c_str() );
-                if( rec.is_valid() ) {
-                    add_msg_debug( debugmode::DF_CRAFTING, "found recipe for component %s", rec.c_str() );
-                }
-            }
             if( !comp.requirement ) {
                 add_component( comp, accum );
                 return;
@@ -927,9 +925,9 @@ bool requirement_data::can_make_with_inventory( const read_only_visitable &craft
     if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
-    // if( craftable_comps.empty() && !learned_recipes.empty() ) {
-    //     cache_craftable_comps( crafting_inv, filter, batch, learned_recipes );
-    // }
+    if( craftable_comps_.empty() && !learned_recipes.empty() ) {
+        cache_craftable_comps( crafting_inv, filter, batch, learned_recipes );
+    }
 
 
     bool retval = true;
@@ -940,7 +938,7 @@ bool requirement_data::can_make_with_inventory( const read_only_visitable &craft
     if( !has_comps( crafting_inv, tools, return_true<item>, batch, flags ) ) {
         retval = false;
     }
-    if( !has_comps( crafting_inv, components, filter, batch, craft_flags::none, learned_recipes ) ) {
+    if( !has_comps( crafting_inv, components, filter, batch, flags, learned_recipes ) ) {
         retval = false;
     }
     if( !check_enough_materials( crafting_inv, filter, batch, restrict_volume ) ) {
@@ -956,7 +954,7 @@ void requirement_data::cache_craftable_comps( const read_only_visitable &craftin
     for( const std::vector<item_comp> &set_of_comps : get_components() ) {
         for( const item_comp &comp : set_of_comps ) {
 
-            if( !craftable_comps[comp].empty() &&
+            if( !craftable_comps_[comp].empty() &&
                 ( comp.available == available_status::a_true ||
                   comp.available == available_status::a_craftable ) ) {
                 // already cached
@@ -991,8 +989,6 @@ bool requirement_data::comp_is_craftable( const read_only_visitable &crafting_in
     if( learned_recipes.empty() ) {
         return false;
     }
-    std::vector<const recipe *> recs;
-
 
     // hackery to convince compiler that comp.type is indeed itype_id
     const itype_id type( comp.type.c_str() ) ;
@@ -1002,7 +998,7 @@ bool requirement_data::comp_is_craftable( const read_only_visitable &crafting_in
         return false;
     }
 
-    recs = learned_recipes.recipes_that_produce( type );
+    std::vector<const recipe *> recs = learned_recipes.recipes_that_produce( type );
 
     if( recs.empty() ) {
         add_msg_debug( debugmode::DF_CRAFTING,  _( "no recipes found for component %s" ),
@@ -1019,8 +1015,8 @@ bool requirement_data::comp_is_craftable( const read_only_visitable &crafting_in
             add_msg_debug( debugmode::DF_CRAFTING, _( "no requirements? recipe result: %i, num needed: %i" ),
                            rec->makes_amount(),
                            comp.count * batch );
-        } else if( rec->simple_requirements().can_make_with_inventory( crafting_inv, filter,
-                   num_recipe_craft, craft_flags::none, true, learned_recipes ) ) {
+        } else if( rec->deduped_requirements().can_make_with_inventory( crafting_inv, filter,
+                   num_recipe_craft, craft_flags::none, learned_recipes ) ) {
             ret = true;
         }
     }
@@ -1038,25 +1034,24 @@ std::vector<const recipe *> requirement_data::craftable_recs_for_comp( item_comp
         debugmsg( "need to craft 0 or less items. %i components, %i batch", comp.count, batch );
         return {};
     }
-    if( craftable_comps[comp].empty() ) {
+    if( craftable_comps_[comp].empty() ) {
         for( const recipe *rec : learned_recipes.recipes_that_produce( comp.type ) ) {
 
 
             const int num_recipe_craft = std::ceil( static_cast<float>( rec->makes_amount() ) /
                                                     num_needed );
             if( num_recipe_craft <= 0 ) {
-                //
                 continue;
-            } else if( rec->simple_requirements().can_make_with_inventory( crafting_inv, filter,
+            } else if( rec->deduped_requirements().can_make_with_inventory( crafting_inv, filter,
                        num_recipe_craft,
-                       craft_flags::none, true, learned_recipes ) ) {
-                craftable_comps[comp].push_back( rec ) ;
+                       craft_flags::none,  learned_recipes ) ) {
+                craftable_comps_[comp].push_back( rec ) ;
                 comp.available = available_status::a_craftable;
             }
         }
     }
 
-    return craftable_comps[comp];
+    return craftable_comps_[comp];
 }
 
 template<typename T>

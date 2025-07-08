@@ -380,10 +380,6 @@ struct requirement_data {
 
         bool requires_comp_craft( ) const;
 
-        std::map<const item_comp, std::vector<const recipe *>> get_craftable_comps() const {
-            return craftable_comps;
-        };
-
         /**
          * Merge similar quality/tool/component lists.
          * This simplifies the requirement but may make the requirement stricter.
@@ -408,6 +404,8 @@ struct requirement_data {
                                     int batch = 1,
                                     const recipe_subset &learned_recipes = recipe_subset() ) const;
 
+        std::map<const item_comp, std::vector<const recipe *>> &craftable_comps();
+
         std::vector<const recipe *> craftable_recs_for_comp( item_comp comp,
                 const read_only_visitable &crafting_inv,
                 const std::function<bool( const item & )> &filter,
@@ -422,7 +420,7 @@ struct requirement_data {
         /**
          * save/cache recipes that can be crafted, so that available_status and recursiveness gets properly saved
         */
-        mutable std::map<const item_comp, std::vector<const recipe *>> craftable_comps;
+        mutable std::map<const item_comp, std::vector<const recipe *>> craftable_comps_;
 
 
 

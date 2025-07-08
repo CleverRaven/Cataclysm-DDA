@@ -84,21 +84,6 @@ int recipe::get_skill_cap() const
     }
 }
 
-// std::vector<std::pair<const recipe *, int>> recipe::to_craft( const read_only_visitable
-//         &crafting_inv, int batch, Character *crafter ) const
-// {
-//     return to_craft( crafting_inv, batch, crafter, &simple_requirements() );
-// }
-
-// std::vector<std::pair<const recipe *, int>> recipe::to_craft( const read_only_visitable
-//         &crafting_inv, int batch, Character *crafter, const requirement_data *reqs ) const
-// {
-//     std::vector<std::pair<const recipe *, int>> ret;
-//     recursive_comp_crafts( ret, crafting_inv, batch, crafter, reqs );
-
-//     return ret;
-// }
-
 ret_val<void> recipe::recursive_comp_crafts( std::vector<craft_step_data> &queue,
         const read_only_visitable
         &crafting_inv, int batch, Character *crafter ) const
@@ -122,7 +107,7 @@ ret_val<void> recipe::recursive_comp_crafts( std::vector<craft_step_data> &queue
     }
     // requirement_data reqs = simple_requirements();
 
-    std::map<const item_comp, std::vector<const recipe *>> craftables = reqs->get_craftable_comps();
+    // std::map<const item_comp, std::vector<const recipe *>> craftables = reqs->craftable_comps();
 
 
     for( const std::vector<item_comp> &comps : reqs->get_components() ) {
@@ -134,9 +119,9 @@ ret_val<void> recipe::recursive_comp_crafts( std::vector<craft_step_data> &queue
         const recipe_subset learned_recipes = crafter->get_learned_recipes();
         // if multiple alternative components are craftable, get which one to craft
         for( item_comp it : comps ) {
+            // add_msg( "%i of %s in inv", crafting_inv.amount_of( it.type ), it.type.c_str() );
             for( const recipe *rec : reqs->craftable_recs_for_comp( it, crafting_inv,
-                    get_component_filter(), learned_recipes,
-                    batch ) ) {
+                    get_component_filter(), learned_recipes, batch ) ) {
                 craft.emplace_back( rec, it );
             }
         }
@@ -147,8 +132,6 @@ ret_val<void> recipe::recursive_comp_crafts( std::vector<craft_step_data> &queue
                                                 ident().c_str() );
         }
 
-
-        // int comp_batch = batch * ();
         craft_selection sel = crafter->select_component_to_craft( this, craft, batch,
                               get_component_filter() );
         if( sel.cancled ) {
@@ -158,7 +141,6 @@ ret_val<void> recipe::recursive_comp_crafts( std::vector<craft_step_data> &queue
         if( !sel.rec->recursive_comp_crafts( queue, crafting_inv, batch, crafter ).success() ) {
             return ret_val<void>::make_failure();
         }
-
     }
 
     return ret_val<void>::make_success();

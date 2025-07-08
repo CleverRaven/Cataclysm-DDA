@@ -151,6 +151,16 @@ void craft_command::execute( bool only_cache_comps )
     }
 
     if( need_selections ) {
+        add_msg( "trying to make %s", to_make.rec->result_name() );
+        for( const std::vector<item_comp> &vcomp : to_make.rec->simple_requirements().get_components() ) {
+            for( item_comp comp : vcomp ) {
+                add_msg( "%s %s", comp.type.c_str(), comp.craftable ? "craftable" : "-" );
+            }
+        }
+
+
+
+
         if( !crafter->can_make( to_make.rec, to_make.batch ) ) {
             if( crafter->can_start_craft( to_make.rec, recipe_filter_flags::none, to_make.batch ) ) {
                 if( !query_yn( _( "You don't have enough charges to complete the %s.\n"
@@ -190,15 +200,13 @@ void craft_command::execute( bool only_cache_comps )
         const auto filter = to_make.rec->get_component_filter( flags );
 
         if( craft_queue.empty() ) {
-            // TODO: after deduped_requirements.select_alternative?
-            // const requirement_data *rneeds = rec->deduped_requirements().select_alternative( *crafter, filter,
-            //                                  current_batch(), craft_flags::start_only );
+            // FIXME:
             if( !to_make.rec->recursive_comp_crafts( craft_queue, map_inv, to_make.batch, crafter ).success() ||
                 craft_queue.empty() ) {
-                add_msg_debug( debugmode::DF_CRAFTING, "crafting %s cancled, couldnt find craftable components" );
+                debugmsg( "failed to find craftable components for %s, aborting craft.",
+                          to_make.rec->result_name() );
                 return;
             }
-            // craft_queue = queue( rec, map_inv, batch_size, crafter, needs );
         }
 
         if( !current_rec().req ) {
