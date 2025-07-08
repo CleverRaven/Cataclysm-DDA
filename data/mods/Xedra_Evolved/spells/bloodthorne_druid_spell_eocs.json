@@ -103,7 +103,14 @@
         "u_map_run_eocs": [
           {
             "id": "EOC_BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD_COUNT",
-            "effect": [ { "math": [ "u_blood_total_healing += 2" ] } ]
+            "effect": [
+              { "math": [ "u_blood_total_healing += 2" ] },
+              {
+                "u_transform_radius": 0,
+                "target_var": { "context_val": "bloody_terrain" },
+                "ter_furn_transform": "ter_bloodthorne_druid_heal_from_spilled_blood"
+              }
+            ]
           }
         ],
         "range": {
@@ -111,17 +118,22 @@
         },
         "store_coordinates_in": { "context_val": "bloody_terrain" },
         "stop_at_first": false,
-        "condition": { "map_field_id": "fd_blood", "loc": { "context_val": "bloody_terrain" } }
+        "condition": {
+          "and": [
+            { "map_field_id": "fd_blood", "loc": { "context_val": "bloody_terrain" } },
+            {
+              "or": [
+                { "map_terrain_with_flag": "PLOWABLE", "loc": { "context_val": "bloody_terrain" } },
+                { "map_terrain_with_flag": "SHRUB", "loc": { "context_val": "bloody_terrain" } },
+                { "map_terrain_with_flag": "YOUNG", "loc": { "context_val": "bloody_terrain" } }
+              ]
+            }
+          ]
+        }
       },
       {
         "u_message": "There are <u_val:blood_total_healing> points worth of healing in nearby blood.",
         "type": "debug"
-      },
-      {
-        "u_transform_radius": {
-          "math": [ "2 + (0.2 * bloodthorn_druid_traits_sum() ) + (0.05 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
-        },
-        "ter_furn_transform": "ter_bloodthorne_druid_heal_from_spilled_blood"
       },
       {
         "if": { "math": [ "u_blood_total_healing > 0" ] },
