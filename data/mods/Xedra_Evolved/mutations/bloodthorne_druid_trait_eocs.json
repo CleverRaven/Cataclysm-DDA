@@ -61,9 +61,12 @@
           ]
         },
         "then": [
-          { "u_message": "Your heartvines twitch as the vampire dies, but soon grow quiescent.  They need more elemental power in order to catalyzse the vampire blood into new thornwitchery.", "typed": "mixed" }
+          {
+            "u_message": "Your heartvines twitch as the vampire dies, but soon grow quiescent.  They need more elemental power in order to catalyzse the vampire blood into new thornwitchery.",
+            "typed": "mixed"
+          }
         ]
-      }
+      },
       {
         "if": {
           "and": [
@@ -170,13 +173,25 @@
     "id": "EOC_BLOODTHORNE_DRUID_VAMPIRE_VIRUS_HEARTVINE_WARNING",
     "eoc_type": "EVENT",
     "required_event": "character_gains_effect",
-    "condition": { "and": [ { "compare_string": [ "vampire_virus", { "context_val": "effect" } ] }, { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" } ] },
+    "condition": {
+      "and": [
+        { "compare_string": [ "vampire_virus", { "context_val": "effect" } ] },
+        { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" }
+      ]
+    },
     "effect": [
       {
         "u_message": "You feel a burning sensation in your veins and your heartvines twitch.  The blood-drinkers have infected you with their foul curse.  Rest within the wilds to allow your heartvines to purge it, before they destroy you in their attempt.",
         "type": "mixed"
       },
-      { "run_eocs": "EOC_BLOODTHORNE_DRUID_VAMPIRE_VIRUS_HEARTVINE_PERIODIC_BLOOD_DRAIN", "time_in_future": { "math": [ "3600 - ( vampire_total_tier_one_traits() * 15 ) - ( vampire_total_tier_two_traits() * 45 ) - ( vampire_total_tier_three_traits() * 135 )" ] } }
+      {
+        "run_eocs": "EOC_BLOODTHORNE_DRUID_VAMPIRE_VIRUS_HEARTVINE_PERIODIC_BLOOD_DRAIN",
+        "time_in_future": {
+          "math": [
+            "3600 - ( vampire_total_tier_one_traits() * 15 ) - ( vampire_total_tier_two_traits() * 45 ) - ( vampire_total_tier_three_traits() * 135 )"
+          ]
+        }
+      }
     ]
   },
   {
@@ -184,32 +199,36 @@
     "id": "EOC_BLOODTHORNE_DRUID_VAMPIRE_VIRUS_HEARTVINE_PERIODIC_BLOOD_DRAIN",
     "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" } ] },
     "effect": [
-      { "if": { "not": { "u_has_effect": "sleep" } },
+      {
+        "if": { "not": { "u_has_effect": "sleep" } },
         "then": [
-          {
-            "u_message": "You feel a burning sensation in your veins and your heartvines writhe.",
-            "type": "mixed"
-          },
+          { "u_message": "You feel a burning sensation in your veins and your heartvines writhe.", "type": "mixed" },
           { "u_add_effect": "bleed", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" },
           { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" },
-          { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" },
-      },
+          { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" }
         ],
         "else": {
-          { "if": { "one_in_chance": 8 },
+          "if": { "one_in_chance": 8 },
           "then": [
             { "u_message": "Your heartvines twitch in your sleep.", "type": "mixed" },
             { "u_add_effect": "bleed", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" }
           ]
-        
         }
       },
-      { "if": { "math": [ "u_vitamin('human_blood_vitamin') >= 1" ] },
-      "then": { "math": [ "u_vitamin('human_blood_vitamin') -= 10" ] }
+      {
+        "if": { "math": [ "u_vitamin('human_blood_vitamin') >= 1" ] },
+        "then": { "math": [ "u_vitamin('human_blood_vitamin') -= 10" ] }
       },
-  { "math": [ "u_vitamin('blood') -= 100" ] },
-  { "math": [ "u_vitamin('redcells') -= 50" ] },
-        { "run_eocs": "EOC_BLOODTHORNE_DRUID_VAMPIRE_VIRUS_HEARTVINE_PERIODIC_BLOOD_DRAIN", "time_in_future": { "math": [ "3600 - ( vampire_total_tier_one_traits() * 15 ) - ( vampire_total_tier_two_traits() * 45 ) - ( vampire_total_tier_three_traits() * 135 )" ] } }
+      { "math": [ "u_vitamin('blood') -= 100" ] },
+      { "math": [ "u_vitamin('redcells') -= 50" ] },
+      {
+        "run_eocs": "EOC_BLOODTHORNE_DRUID_VAMPIRE_VIRUS_HEARTVINE_PERIODIC_BLOOD_DRAIN",
+        "time_in_future": {
+          "math": [
+            "3600 - ( vampire_total_tier_one_traits() * 15 ) - ( vampire_total_tier_two_traits() * 45 ) - ( vampire_total_tier_three_traits() * 135 )"
+          ]
+        }
+      }
     ]
   }
 ]
