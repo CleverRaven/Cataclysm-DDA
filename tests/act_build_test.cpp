@@ -44,8 +44,8 @@ static const construction_str_id
 construction_constr_ov_smreb_cage_thconc_floor( "constr_ov_smreb_cage_thconc_floor" );
 static const construction_str_id construction_constr_pit_shallow( "constr_pit_shallow" );
 static const construction_str_id construction_constr_thconc_floor( "constr_thconc_floor" );
-static const construction_str_id construction_constr_wall_wood( "constr_wall_wood" );
 static const construction_str_id construction_constr_wall_half( "constr_wall_half" );
+static const construction_str_id construction_constr_wall_wood( "constr_wall_wood" );
 static const construction_str_id construction_constr_window_empty( "constr_window_empty" );
 static const construction_str_id
 construction_constr_window_no_curtains( "constr_window_no_curtains" );
