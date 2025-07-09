@@ -3815,5 +3815,22 @@
     "rating": "bad",
     "immune_flags": [ "NO_THIRST" ],
     "blood_analysis_description": "Unknown water-producing pathogen."
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bloodthorn_druid_upgrade_ready",
+    "name": [ "Twitching Heartvines" ],
+    "desc": [
+      "You can occasionally feel your heartvines twitch beneath your skin.  They are ready to grow.  Seek out the unspoiled wilderness and allow them to flourish."
+    ],
+    "apply_message": "As the vampire dies you feel your heartvines stir, invigorated by the creature's blood.  You must seek out the wilderness and meditate there to allow your heartvine to grow.",
+    "remove_message": "Your heartvines cease their movements."
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bloodthorn_druid_upgrade_active",
+    "//": "Hidden effect to make sure you're actually researching",
+    "name": [ "" ],
+    "desc": [ "" ]
   }
 ]

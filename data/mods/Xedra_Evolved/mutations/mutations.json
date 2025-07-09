@@ -2087,5 +2087,16 @@
       { "hit_me_effect": [ { "id": "boann_retaliation_mark", "hit_self": false } ] },
       { "hit_me_effect": [ { "id": "boann_retaliation", "hit_self": true } ] }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID",
+    "name": { "str": "Bloodthorne Druid" },
+    "points": 0,
+    "description": "You are a oath-sworn member of the ancient order of Bloodthorne Druids, dedicated to defending humanity against the vampires that lurk in the shadows.",
+    "purifiable": false,
+    "valid": false,
+    "profession": true,
+    "types": [ "HERITAGE" ]
   }
 ]

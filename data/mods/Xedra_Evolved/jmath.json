@@ -308,5 +308,24 @@
     "//": "For use when the lilit is the beta talker of the spell EoC, such as when it's targeting someone else",
     "num_args": 0,
     "return": "1 - min( ( (n_has_trait('LILIN_RUACH_EFFICIENCY') * 0.15) + (n_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * 0.15) + ( n_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * max( ( (n_vitamin('lilin_ruach_vitamin') - 3500 ) / 12000 ), 0) ) ), 0.33)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "bloodthorn_druid_traits_sum",
+    "num_args": 0,
+    "return": "u_has_trait('BLOODTHORNE_DRUID_SYMBIOTIC_PLANT') + u_has_trait('BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP') + u_has_trait('BLOODTHORNE_DRUID_REGAIN_BLOOD') + u_has_trait('BLOODTHORNE_DRUID_BONUS_MANA_REGEN') + u_has_trait('BLOODTHORNE_DRUID_STOP_BLEEDING') + u_has_trait('BLOODTHORNE_DRUID_WHIP_TARGETS_IN_NATURE') + u_has_trait('BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "bloodthorn_druid_traits_sum_as_npc",
+    "//": "For when the caster is the beta talker",
+    "num_args": 0,
+    "return": "n_has_trait('BLOODTHORNE_DRUID_SYMBIOTIC_PLANT') + n_has_trait('BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP') + n_has_trait('BLOODTHORNE_DRUID_REGAIN_BLOOD')+ n_has_trait('BLOODTHORNE_DRUID_BONUS_MANA_REGEN') + n_has_trait('BLOODTHORNE_DRUID_STOP_BLEEDING') + n_has_trait('BLOODTHORNE_DRUID_WHIP_TARGETS_IN_NATURE') + n_has_trait('BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_bloodthorne_sorcery_failure_chance",
+    "num_args": 0,
+    "return": "(global_what_is_the_season == 4 ? 0.2 : 0 ) + (u_arvore_is_in_wilderness == 0 ? 0.25 : 0) + (u_arvore_is_in_forest == 0 ? 0.1 : 0) + (u_skill('deduction') * -0.03) + (u_pain() / 200 * ( u_has_trait('BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES') ? 0.66666 : 1) )"
   }
 ]
