@@ -609,7 +609,7 @@ class overmap
         */
         Highway_path place_highway_line(
             const tripoint_om_omt &sp1, const tripoint_om_omt &sp2,
-            const om_direction::type &draw_direction, int path_init_z, int base_z );
+            const om_direction::type &draw_direction, int base_z );
         /**
         * sub-function for place_highway_reserved_path
         * draws multiple line segments of highway, connected by bends

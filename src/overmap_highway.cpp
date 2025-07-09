@@ -260,9 +260,7 @@ Highway_path overmap::place_highway_reserved_path( const tripoint_om_omt &p1,
         place_highway_lines_with_bends( highway_path, bend_points, p1, p2, direction1, base_z );
     } else {
         //quick path for no bends
-        Highway_path straight_line = place_highway_line( p1, p2, direction1,
-                                     p1.z(),
-                                     base_z );
+        Highway_path straight_line = place_highway_line( p1, p2, direction1, base_z );
         for( const intrahighway_node &p : straight_line ) {
             highway_path.emplace_back( p );
         }
@@ -304,7 +302,7 @@ Highway_path overmap::place_highway_reserved_path( const tripoint_om_omt &p1,
 
 Highway_path overmap::place_highway_line(
     const tripoint_om_omt &sp1, const tripoint_om_omt &sp2,
-    const om_direction::type &draw_direction, int path_init_z, int base_z )
+    const om_direction::type &draw_direction, int base_z )
 {
     const overmap_highway_settings &highway_settings = settings->overmap_highway;
     const int longest_slant_length = highway_settings.clockwise_slant.obj().longest_side();
@@ -318,74 +316,94 @@ Highway_path overmap::place_highway_line(
     const tripoint_rel_omt abs_diff = diff.abs();
     int minimum_slants = std::min( abs_diff.x(), abs_diff.y() ); //assumes length > slants
 
+    //TODO: minor deviations in highway paths?
     bool slants_optional = minimum_slants == 0;
-    Highway_path slant_path;
+    Highway_path highway_line;
 
-    tripoint_rel_omt slant_direction_vector;
-    const tripoint_rel_omt slant_vector( draw_direction_vector * longest_slant_length, 0 );
+    tripoint_rel_omt slant_clockwise_vector;
+    const tripoint_rel_omt slant_scaled_direction_vector( draw_direction_vector * longest_slant_length,
+            0 );
     bool clockwise = one_in( 2 );
     //TODO: generalize
     if( !slants_optional ) {
         //get mandatory slant direction
         point_rel_omt rotate_slant( draw_direction_vector.x() == 0 ? 1 : 0,
                                     draw_direction_vector.y() == 0 ? 1 : 0 );
-        slant_direction_vector = tripoint_rel_omt(
+        slant_clockwise_vector = tripoint_rel_omt(
                                      ( abs_diff.x() != 0 ? diff.x() / abs_diff.x() : 0 ) * rotate_slant.x(),
                                      ( abs_diff.y() != 0 ? diff.y() / abs_diff.y() : 0 ) * rotate_slant.y(), 0 );
         clockwise = point_rel_omt(
                         four_adjacent_offsets[static_cast<int>(
-                                om_direction::turn_right( draw_direction ) )] ) == slant_direction_vector.xy();
+                                om_direction::turn_right( draw_direction ) )] ) == slant_clockwise_vector.xy();
     }
 
-    // base z for testing terrain
-    tripoint_om_omt slant_current_point = tripoint_om_omt( sp1.xy(), base_z );
-    int previous_z = path_init_z;
+    // always base z for testing terrain
+    tripoint_om_omt current_point = tripoint_om_omt( sp1.xy(), base_z );
+    int new_z = base_z;
     //the first placed node may not be a slant
     bool no_first_slant = true;
     const overmap_special_id &selected_slant =
         clockwise ? highway_settings.clockwise_slant :
         highway_settings.counterclockwise_slant;
-    while( slant_current_point.xy() != sp2.xy() + draw_direction_vector ) {
-        if( !inbounds( slant_current_point ) ) {
+
+    tripoint_rel_omt update_point;
+    overmap_special_id selected_special;
+    tripoint_om_omt place_special_at;
+
+    // this loop check works on the assumption that slants:
+    // 1) are placed first in the path
+    // 2) do not make up the entire path
+    while( current_point.xy() != sp2.xy() + draw_direction_vector ) {
+        if( !inbounds( current_point ) ) {
             debugmsg( "highway slant pathing out of bounds; falling back to onramp" );
-            slant_path.clear();
-            return slant_path;
+            highway_line.clear();
+            return highway_line;
         }
         //leave space for ramps
+        bool next_slant_on_water = special_on_water( this, selected_slant,
+                                   current_point + slant_scaled_direction_vector + slant_clockwise_vector, draw_direction );
         bool z_change =
-            special_on_water( this, selected_slant, slant_current_point, draw_direction ) ^
-            special_on_water( this, selected_slant, slant_current_point + slant_vector + slant_direction_vector,
-                              draw_direction );
-        if( !no_first_slant && ( minimum_slants > 0 && !z_change ) ) {
+            special_on_water( this, selected_slant, current_point, draw_direction ) != next_slant_on_water;
+        place_special_at = tripoint_om_omt( current_point.xy(), base_z );
+
+        //TODO: odds are low, but this could fail if z_change is true for too many potential slant points
+        bool is_slant = !no_first_slant && ( minimum_slants > 0 && !z_change );
+        if( is_slant ) {
+            new_z = next_slant_on_water ? base_z + 1 : base_z;
             if( slants_optional ) {
                 clockwise = !clockwise;
-                slant_direction_vector = tripoint_rel_omt(
+                slant_clockwise_vector = tripoint_rel_omt(
                                              point_rel_omt( four_adjacent_offsets[static_cast<int>( clockwise ?
                                                                        om_direction::turn_right( draw_direction ) :
                                                                        om_direction::turn_left( draw_direction ) )] ), 0 );
             }
-            tripoint_om_omt slant_pos = slant_current_point;
             //because highways are locked to N/E, account for S/W offset
             if( draw_direction == om_direction::type::south ||
                 draw_direction == om_direction::type::west ) {
-                slant_pos += tripoint_rel_omt( point_rel_omt( four_adjacent_offsets[
-                                    static_cast<int>( om_direction::turn_left( draw_direction ) )] ), previous_z );
+                place_special_at += tripoint_rel_omt( point_rel_omt( four_adjacent_offsets[
+                static_cast<int>( om_direction::turn_left( draw_direction ) )] ), 0 );
             }
-            slant_path.emplace_back( slant_pos, draw_direction, selected_slant, false );
-            slant_current_point += slant_vector + slant_direction_vector;
+
+            selected_special = selected_slant;
+            update_point = slant_scaled_direction_vector + slant_clockwise_vector;
+
             minimum_slants--;
         } else {
-            bool is_segment_water = is_water_body( ter( slant_current_point ) );
-            previous_z = is_segment_water ? base_z + 1 : base_z;
-            slant_path.emplace_back(
-                tripoint_om_omt( slant_current_point.xy(), previous_z ), draw_direction,
-                segment_special( highway_settings, is_segment_water ) );
-            slant_current_point += tripoint_rel_omt( draw_direction_vector, 0 );
+            bool is_segment_water = special_on_water( this, highway_settings.segment_flat, current_point,
+                                    draw_direction );
+            new_z = is_segment_water ? base_z + 1 : base_z;
+
+            selected_special = segment_special( highway_settings, is_segment_water );
+            update_point = tripoint_rel_omt( draw_direction_vector, 0 );
         }
+
+        highway_line.emplace_back( tripoint_om_omt( place_special_at.xy(), new_z ), draw_direction,
+                                   selected_special, !is_slant );
+        current_point += update_point;
         no_first_slant = false;
     }
 
-    return slant_path;
+    return highway_line;
 }
 
 void overmap::place_highway_lines_with_bends( Highway_path &highway_path,
@@ -448,7 +466,7 @@ void overmap::place_highway_lines_with_bends( Highway_path &highway_path,
                                     path_points[i].second.z() );
         }
         Highway_path path = place_highway_line( path_points[i].first,
-                                                path_points[i].second, current_direction, path_points[i].first.z(), base_z );
+                                                path_points[i].second, current_direction, base_z );
         if( path.empty() ) {
             place_special_forced( fallback_onramp, path_points[i].first,
                                   om_direction::opposite( current_direction ) );
@@ -522,7 +540,7 @@ void overmap::highway_handle_ramps( Highway_path &path, int base_z )
     const int range = path.size();
 
     int current_z = path[0].path_node.pos.z();
-    int last_z = current_z;
+    int previous_z = current_z;
 
     auto fill_bridge = [&segment_bridge]( intrahighway_node & node ) {
         if( node.is_segment ) {
@@ -534,7 +552,7 @@ void overmap::highway_handle_ramps( Highway_path &path, int base_z )
 
     for( int i = 0; i < range; i++ ) {
         current_z = path[i].path_node.pos.z();
-        if( current_z != last_z ) {
+        if( current_z != previous_z ) {
             if( current_z == base_z + 1 ) {
                 if( i > 0 && path[i - 1].is_segment ) {
                     path[i - 1].is_ramp = true;
@@ -564,7 +582,7 @@ void overmap::highway_handle_ramps( Highway_path &path, int base_z )
                 }
             }
         }
-        last_z = current_z;
+        previous_z = current_z;
     }
 
     //place ramp specials
