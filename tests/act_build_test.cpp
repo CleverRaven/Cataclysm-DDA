@@ -10,6 +10,7 @@
 
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "build_reqs.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"

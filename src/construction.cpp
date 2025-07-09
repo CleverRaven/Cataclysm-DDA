@@ -3,10 +3,12 @@
 #include <algorithm>
 #include <array>
 #include <cstddef>
-#include <initializer_list>
 #include <iterator>
 #include <memory>
 #include <numeric>
+#include <queue>
+#include <unordered_map>
+#include <unordered_set>
 #include <utility>
 
 #include "action.h"
