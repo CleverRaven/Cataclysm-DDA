@@ -27,7 +27,7 @@
     "copy-from": "silver_medal",
     "type": "ITEM",
     "name": { "str": "ancient medal" },
-    "description": "An ancient medal given for exemplary service in Van Maneen's Exploratory Navy.   You have no idea what the Van Maanen Navy was, or how this thing ended up in the display case, but getting rid of it would make you uncomfortable."
+    "description": "An ancient medal given for exemplary service in Van Maneen's Exploratory Navy.  You have no idea what the Van Maanen Navy was, or how this thing ended up in the display case, but getting rid of it would make you uncomfortable."
   },
   {
     "id": "afs_ship_ids",
