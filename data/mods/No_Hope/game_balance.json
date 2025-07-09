@@ -101,12 +101,5 @@
     "//COMMENT": "Note that this is only intended to change the climate. The mod is not set in Russia, even though the geographic coordinates would suggest so. Technically there is no reason to change the longitude. I just felt like it, and since it will have a minute impact on sunrise times it may be a fun detail for some of our players.",
     "stype": "float",
     "value": 30.0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "WEARY_RECOVERY_MULT",
-    "//COMMENT": "Slower weariness recovery than DDA. You sleep for hours and yet you wake up still weary. Languish, and let all hope leave you.",
-    "stype": "float",
-    "value": 0.025
   }
 ]
