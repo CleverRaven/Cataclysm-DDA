@@ -2449,7 +2449,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "cheongsam" },
-    "description": "Also called qipao, it's a long, figure-fitting chinese dress that covers the shoulders and features a standing collar, an asymmetric, left-over-right opening and two side slits.",
+    "description": "Also called qipao, it's a long, figure-fitting traditional chinese dress that covers the shoulders and features a standing collar, an asymmetric, left-over-right opening and two side slits.",
     "weight": "500 g",
     "volume": "3 L",
     "price": "100 USD",
