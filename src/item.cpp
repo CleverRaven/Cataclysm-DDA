@@ -14826,8 +14826,12 @@ bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
         }
     }
 
-    type->tick( carrier, *this, pos );
-    return false;
+    // Complicated safety net in case an item with charges slipped through.
+    const int num_to_destroy = type->tick( carrier, *this, pos );
+    if( num_to_destroy < 0 || num_to_destroy > 1 ) {
+        debugmsg( "Item %s consumes charges via tick_action, but should not", tname() );
+    }
+    return num_to_destroy; // Implicit conversion to bool!
 }
 
 bool item::process_blackpowder_fouling( Character *carrier )
