@@ -564,6 +564,7 @@
       { "prob": 25, "group": "fruit_leather_bag_plastic_full" },
       { "item": "kernels", "prob": 25 },
       { "prob": 20, "group": "pine_nuts_bag_plastic_4" },
+      { "prob": 20, "group": "protein_bar_any_box_12" },
       { "group": "teabag_box", "prob": 10 },
       { "group": "soup_box", "prob": 10 }
     ]
@@ -1015,6 +1016,68 @@
     "subtype": "collection",
     "container-item": "box_small",
     "entries": [ { "item": "protein_bar_evac", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bar_zero_box_12",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "protein_bar_zero", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bar_zero_box_12_opened",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "protein_bar_zero", "count": [ 1, 12 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bar_peanut_box_12",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "protein_bar_peanut", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bar_peanut_box_12_opened",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "protein_bar_peanut", "count": [ 1, 12 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bar_milk_box_12",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "protein_bar_milk", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bar_milk_box_12_opened",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "protein_bar_milk", "count": [ 1, 12 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bar_any_box_12",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "protein_bar_milk_box_12", "prob": 40 },
+      { "group": "protein_bar_peanut_box_12", "prob": 40 },
+      { "group": "protein_bar_zero_box_12", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bar_any_box_12_opened",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "protein_bar_milk_box_12_opened", "prob": 40 },
+      { "group": "protein_bar_peanut_box_12_opened", "prob": 40 },
+      { "group": "protein_bar_zero_box_12_opened", "prob": 20 }
+    ]
   },
   {
     "type": "item_group",
