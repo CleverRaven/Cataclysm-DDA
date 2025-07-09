@@ -121,7 +121,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [ [ [ "copper_scrap_equivalent", 10, "LIST" ] ] ],
-    "byproducts": [ [ "scrap_copper", 2 ], [ "copper", 150 ] ],
+    "byproducts": [ [ "scrap_copper", 2 ], [ "copper", 1 ] ],
     "autolearn": [ [ "fabrication", 4 ] ],
     "book_learn": [
       [ "bronze_book", 1 ],
