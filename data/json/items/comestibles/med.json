@@ -2100,7 +2100,7 @@
       "fields_produced": { "fd_weedsmoke": 2 },
       "charges_needed": { "fire": 1 },
       "tools_needed": { "apparatus": -1 },
-      "moves": 40
+      "moves": 420
     },
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
