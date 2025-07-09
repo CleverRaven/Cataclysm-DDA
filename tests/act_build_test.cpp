@@ -39,6 +39,17 @@
 
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
+
+static const construction_str_id construction_constr_thconc_floor( "constr_thconc_floor" );
+static const construction_str_id
+construction_constr_ov_smreb_cage_thconc_floor( "constr_ov_smreb_cage_thconc_floor" );
+static const construction_str_id construction_constr_pit_shallow( "constr_pit_shallow" );
+static const construction_str_id construction_constr_floor( "constr_floor" );
+static const construction_str_id
+construction_constr_window_no_curtains( "constr_window_no_curtains" );
+static const construction_str_id construction_constr_window_empty( "constr_window_empty" );
+static const construction_str_id construction_constr_wall_wood( "constr_wall_wood" );
+static const construction_str_id construction_constr_wall_half( "constr_wall_half" );
 static const faction_id faction_free_merchants( "free_merchants" );
 
 static const itype_id itype_bow_saw( "bow_saw" );
@@ -53,6 +64,10 @@ static const ter_str_id ter_t_metal_grate_window( "t_metal_grate_window" );
 static const ter_str_id ter_t_railroad_rubble( "t_railroad_rubble" );
 static const ter_str_id ter_t_window_boarded_noglass( "t_window_boarded_noglass" );
 static const ter_str_id ter_t_window_empty( "t_window_empty" );
+static const ter_str_id ter_t_thconc_floor( "t_thconc_floor" );
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
+static const ter_str_id ter_t_wall_wood( "t_wall_wood" );
 
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
@@ -331,23 +346,7 @@ TEST_CASE( "npc_act_multiple_construction", "[npc][zones][activities][constructi
 
 TEST_CASE( "camp_blueprint_autocalc", "[camp][construction]" )
 {
-    static const ter_str_id ter_t_thconc_floor( "t_thconc_floor" );
-    static const construction_str_id construction_constr_thconc_floor( "constr_thconc_floor" );
-    static const construction_str_id
-    construction_constr_ov_smreb_cage_thconc_floor( "constr_ov_smreb_cage_thconc_floor" );
-    static const construction_str_id construction_constr_pit_shallow( "constr_pit_shallow" );
 
-    static const ter_str_id ter_t_floor( "t_floor" );
-    static const construction_str_id construction_constr_floor( "constr_floor" );
-
-    static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
-    static const construction_str_id
-    construction_constr_window_no_curtains( "constr_window_no_curtains" );
-    static const construction_str_id construction_constr_window_empty( "constr_window_empty" );
-
-    static const ter_str_id ter_t_wall_wood( "t_wall_wood" );
-    static const construction_str_id construction_constr_wall_wood( "constr_wall_wood" );
-    static const construction_str_id construction_constr_wall_half( "constr_wall_half" );
 
     build_reqs total_reqs;
     const auto add_build = [&total_reqs]( const construction_str_id & con_id ) {
@@ -358,7 +357,7 @@ TEST_CASE( "camp_blueprint_autocalc", "[camp][construction]" )
 
     WHEN( "ter_t_thconc_floor" ) {
         std::pair<std::map<ter_id, int>, std::map<furn_id, int>> changed_ids = { {{ter_t_thconc_floor.id(), 1}}, {} };
-        auto auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
+        build_reqs auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
         total_reqs.time = 0;
         total_reqs.raw_reqs.clear();
 
@@ -373,7 +372,7 @@ TEST_CASE( "camp_blueprint_autocalc", "[camp][construction]" )
     }
     WHEN( "ter_t_floor" ) {
         std::pair<std::map<ter_id, int>, std::map<furn_id, int>> changed_ids = { { {ter_t_floor.id(), 1}}, {} };
-        auto auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
+        build_reqs auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
         total_reqs.time = 0;
         total_reqs.raw_reqs.clear();
 
@@ -386,7 +385,7 @@ TEST_CASE( "camp_blueprint_autocalc", "[camp][construction]" )
     }
     WHEN( "ter_t_window_no_curtains" ) {
         std::pair<std::map<ter_id, int>, std::map<furn_id, int>> changed_ids = { {{ter_t_window_no_curtains.id(), 1}}, {} };
-        auto auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
+        build_reqs auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
         total_reqs.time = 0;
         total_reqs.raw_reqs.clear();
 
@@ -400,7 +399,7 @@ TEST_CASE( "camp_blueprint_autocalc", "[camp][construction]" )
     }
     WHEN( "ter_t_wall_wood" ) {
         std::pair<std::map<ter_id, int>, std::map<furn_id, int>> changed_ids = { { {ter_t_wall_wood.id(), 1}}, {} };
-        auto auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
+        build_reqs auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
         total_reqs.time = 0;
         total_reqs.raw_reqs.clear();
 

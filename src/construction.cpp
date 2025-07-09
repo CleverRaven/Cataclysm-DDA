@@ -86,7 +86,6 @@ static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" 
 static const construction_category_id construction_category_ALL( "ALL" );
 static const construction_category_id construction_category_APPLIANCE( "APPLIANCE" );
 static const construction_category_id construction_category_DECONSTRUCT( "DECONSTRUCT" );
-static const construction_category_id construction_category_DECORATE( "DECORATE" );
 static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
@@ -2540,13 +2539,13 @@ void finalize_constructions()
 }
 
 // Using BFS to find the shortest route to create target terrain from empty or base terrain,
-std::vector<construction_id> find_build_sequence( std::string target_id,
+std::vector<construction_id> find_build_sequence( const std::string &target_id,
         std::function<bool( construction const & )> const &filter,
         std::function<bool( construction const & )> const &can_build )
 {
     // make a post_terrain->construction multimap for speedy search
     std::unordered_multimap<std::string, const construction *> construction_map;
-    for( const auto &cons : constructions ) {
+    for( construction const &cons : constructions ) {
         if( !filter( cons ) ) {
             continue;
         }
@@ -2578,9 +2577,9 @@ std::vector<construction_id> find_build_sequence( std::string target_id,
         }
 
         for( auto it = range.first; it != range.second; ++it ) {
-            const auto &cons = it->second;
+            const construction *cons = it->second;
             // Does this construction require a pre_terrain or not
-            std::string pre_terrain = cons->pre_terrain.size() == 0 ? "" : *( cons->pre_terrain.begin() );
+            std::string pre_terrain = cons->pre_terrain.empty() ? "" : *cons->pre_terrain.begin();
 
             // skip visited terrain
             if( visited.find( pre_terrain ) != visited.end() ) {
@@ -2644,7 +2643,7 @@ build_reqs get_build_reqs_for_furn_ter_ids(
 
         // count == 0 means we cannot find a valid route to construct this terrain from the ground up
         // thus skip it.
-        if( construction_chain.size() == 0 ) {
+        if( construction_chain.empty() ) {
             return;
         }
         for( const construction_id con_id : construction_chain ) {
