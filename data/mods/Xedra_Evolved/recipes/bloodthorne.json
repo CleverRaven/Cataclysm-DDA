@@ -106,7 +106,11 @@
           {
             "id": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS",
             "effect": [
-              { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade", "+=", "2" ] },
+              {
+                "if": { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade", "<", "16" ] },
+                "then": { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade", "+=", "2" ] },
+                "else": { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade", "=", "16" ] }
+              },
               { "math": [ "u_bloodthorn_druid_required_arvore_traits ++" ] },
               { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills = 0" ] },
               { "u_lose_effect": "effect_bloodthorn_druid_upgrade_ready" },
@@ -138,7 +142,7 @@
     "condition": { "u_has_trait": "BLOODTHORNE_DRUID_AURA_OF_VINES" },
     "effect": [
       {
-        "u_roll_remainder": [ "BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD" ],
+        "u_roll_remainder": [ "BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD", "BLOODTHORNE_DRUID_GAIN_STRENGTH_DEXTERITY_BUFF" ],
         "type": "mutation",
         "true_eocs": [ "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS" ]
       }

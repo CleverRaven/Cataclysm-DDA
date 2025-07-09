@@ -3832,5 +3832,44 @@
     "//": "Hidden effect to make sure you're actually researching",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bloodthorne_druid_gain_strength_dexterity_buff",
+    "name": [ "Verdurous Prowess" ],
+    "desc": [ "Your physical capabilities are increased." ],
+    "apply_message": "You feel a surge of power and a sense of unity with the wild.",
+    "remove_message": "Your wilderness-enhanced prowess fades away.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "STRENGTH",
+            "add": {
+              "math": [
+                "min( ( (1 + (0.3 * bloodthorn_druid_traits_sum() ) + (0.1 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ) * (u_arvore_is_in_wilderness == 1 ? 1.25 : 1) ), 10)"
+              ]
+            }
+          },
+          {
+            "value": "DEXTERITY",
+            "add": {
+              "math": [
+                "min( ( (1 + (0.3 * bloodthorn_druid_traits_sum() ) + (0.1 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ) * (u_arvore_is_in_wilderness == 1 ? 1.25 : 1) ), 10)"
+              ]
+            }
+          },
+          {
+            "value": "MAX_HP",
+            "multiply": {
+              "math": [
+                "min( ( (0.1 + (0.02 * bloodthorn_druid_traits_sum() ) + (0.005 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ) * (u_arvore_is_in_wilderness == 1 ? 1.25 : 1) ), 0.6)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   }
 ]
