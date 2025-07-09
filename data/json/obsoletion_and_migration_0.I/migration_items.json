@@ -2620,6 +2620,6 @@
   {
     "type": "MIGRATION",
     "id": "shot_he",
-    "replace": "shot_slug"
+    "replace": "shot_dragon"
   }
 ]

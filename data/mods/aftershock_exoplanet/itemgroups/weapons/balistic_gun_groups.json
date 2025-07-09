@@ -117,6 +117,7 @@
       [ "shot_00", 40 ],
       [ "shot_slug", 25 ],
       [ "shot_beanbag", 10 ],
+      [ "afs_shot_he", 5 ],
       [ "shot_flechette", 5 ]
     ]
   },

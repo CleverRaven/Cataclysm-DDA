@@ -1,0 +1,7 @@
+[
+  {
+    "type": "MIGRATION",
+    "id": "shot_dragon",
+    "replace": "afs_shot_he"
+  }
+]
