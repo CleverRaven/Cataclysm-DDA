@@ -4129,6 +4129,11 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
         // Didn't find any tent center, wreck the current tile
         if( !tentp ) {
             if( bash ) {
+                if( smash_ter ) {
+                    drop_bash_results( terid, p );
+                } else {
+                    drop_bash_results( furnid, p );
+                }
                 spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
                 furn_set( p, furn_bash.furn_set );
             }
@@ -4199,7 +4204,11 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
     }
 
     if( !tent ) {
-        spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
+        if( smash_ter ) {
+            drop_bash_results( terid, p );
+        } else {
+            drop_bash_results( furnid, p );
+        }
     }
     //regenerates roofs for tiles that should be walkable from above
     if( zlevels && smash_ter && !set_to_air && ter( p )->has_flag( "EMPTY_SPACE" ) &&
@@ -4331,6 +4340,35 @@ void map::bash_field( const tripoint_bub_ms &p, bash_params &params )
     }
     for( field_type_id fd : to_remove ) {
         remove_field( p, fd );
+    }
+}
+
+void map::drop_bash_results( const map_data_common_t &ter_furn, const tripoint_bub_ms &p )
+{
+    map &here = get_map();
+
+    // todo: do the same component recursive loop for generic salvaging
+    if( !ter_furn.base_item.is_null() ) {
+        // if has underlying item, take it's uncraft components as bash result
+        for( const item_comp &comp : ter_furn.get_uncraft_components() ) {
+            const std::vector<item_comp> sub_uncraft_components = item( comp.type ).get_uncraft_components();
+            if( sub_uncraft_components.empty() ) {
+                // if no subcomponents, just straight drop 90% - 100% of item count
+                here.spawn_item( p, comp.type, rng( comp.count * 0.9f, comp.count ) );
+            } else {
+                // if subcomponents, drop a bit of subcomponents and a bit of components
+                const float broken_qty = rng_float( 0.1f, 0.4f );
+                for( const item_comp &sub_comp : sub_uncraft_components ) {
+                    here.spawn_item( p, sub_comp.type, sub_comp.count * broken_qty );
+                }
+                here.spawn_item( p, comp.type, comp.count * ( 1 - broken_qty ) );
+            }
+        }
+    } else {
+        if( ter_furn.bash_info().has_value() ) {
+            here.spawn_items( p, item_group::items_from( ter_furn.bash_info().value().drop_group,
+                              calendar::turn ) );
+        }
     }
 }
 
