@@ -1547,7 +1547,8 @@
       [ "santa_dress_long", 3 ],
       [ "sinister_dress", 3 ],
       [ "sinister_gown", 4 ],
-      [ "witch_dress_long", 2 ]
+      [ "witch_dress_long", 2 ],
+      { "item": "cheongsam", "prob": 5 }
     ]
   },
   {

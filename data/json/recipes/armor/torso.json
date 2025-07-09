@@ -5306,5 +5306,12 @@
       [ [ "sheet_kevlar_layered", 24 ] ],
       [ [ "ballistic_vest_esapi", 1 ] ]
     ]
+  },
+  {
+    "copy-from": "sundress",
+    "result": "cheongsam",
+    "type": "recipe",
+    "time": "5 h",
+    "using": [ [ "tailoring_cotton_patchwork", 7 ] ]
   }
 ]

@@ -1075,6 +1075,8 @@ Chelmsford
 Chelsea
 chemtrails
 Chen
+cheongsam
+cheongsams
 Cherokee
 Cheshire
 Chester
@@ -4947,6 +4949,7 @@ Qatari
 QDSS
 qiang
 qianzhousaurus
+qipao
 QOL
 Qolastā
 QR
