@@ -768,7 +768,7 @@
     "use_action": {
       "target": "pickle",
       "container": "jar_glass_sealed",
-      "target_charges": 2,
+      "target_charges": 8,
       "msg": "You test the batch, and it tastes good, so you seal the jar up for storage.",
       "moves": 50,
       "type": "delayed_transform",
