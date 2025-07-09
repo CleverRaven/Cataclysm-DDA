@@ -327,3 +327,88 @@ TEST_CASE( "npc_act_multiple_construction", "[npc][zones][activities][constructi
     u.set_fac( faction_free_merchants );
     run_test_case( u );
 }
+
+TEST_CASE( "camp_blueprint_autocalc", "[camp][construction]" )
+{
+    static const ter_str_id ter_t_thconc_floor( "t_thconc_floor" );
+    static const construction_str_id construction_constr_thconc_floor( "constr_thconc_floor" );
+    static const construction_str_id
+    construction_constr_ov_smreb_cage_thconc_floor( "constr_ov_smreb_cage_thconc_floor" );
+    static const construction_str_id construction_constr_pit_shallow( "constr_pit_shallow" );
+
+    static const ter_str_id ter_t_floor( "t_floor" );
+    static const construction_str_id construction_constr_floor( "constr_floor" );
+
+    static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
+    static const construction_str_id
+    construction_constr_window_no_curtains( "constr_window_no_curtains" );
+    static const construction_str_id construction_constr_window_empty( "constr_window_empty" );
+
+    static const ter_str_id ter_t_wall_wood( "t_wall_wood" );
+    static const construction_str_id construction_constr_wall_wood( "constr_wall_wood" );
+    static const construction_str_id construction_constr_wall_half( "constr_wall_half" );
+
+    build_reqs total_reqs;
+    const auto add_build = [&total_reqs]( const construction_str_id & con_id ) {
+        const construction &build = con_id.obj();
+        total_reqs.time += build.time;
+        total_reqs.raw_reqs[build.requirements] += 1;
+    };
+
+    WHEN( "ter_t_thconc_floor" ) {
+        std::pair<std::map<ter_id, int>, std::map<furn_id, int>> changed_ids = { {{ter_t_thconc_floor.id(), 1}}, {} };
+        auto auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
+        total_reqs.time = 0;
+        total_reqs.raw_reqs.clear();
+
+        add_build( construction_constr_thconc_floor );
+        add_build( construction_constr_ov_smreb_cage_thconc_floor );
+        add_build( construction_constr_pit_shallow );
+
+        CHECK( total_reqs.time == auto_build_reqs.time );
+        for( const auto &req : total_reqs.raw_reqs ) {
+            CHECK( req.second == auto_build_reqs.raw_reqs[req.first] );
+        }
+    }
+    WHEN( "ter_t_floor" ) {
+        std::pair<std::map<ter_id, int>, std::map<furn_id, int>> changed_ids = { { {ter_t_floor.id(), 1}}, {} };
+        auto auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
+        total_reqs.time = 0;
+        total_reqs.raw_reqs.clear();
+
+        add_build( construction_constr_floor );
+
+        CHECK( total_reqs.time == auto_build_reqs.time );
+        for( const auto &req : total_reqs.raw_reqs ) {
+            CHECK( req.second == auto_build_reqs.raw_reqs[req.first] );
+        }
+    }
+    WHEN( "ter_t_window_no_curtains" ) {
+        std::pair<std::map<ter_id, int>, std::map<furn_id, int>> changed_ids = { {{ter_t_window_no_curtains.id(), 1}}, {} };
+        auto auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
+        total_reqs.time = 0;
+        total_reqs.raw_reqs.clear();
+
+        add_build( construction_constr_window_no_curtains );
+        add_build( construction_constr_window_empty );
+
+        CHECK( total_reqs.time == auto_build_reqs.time );
+        for( const auto &req : total_reqs.raw_reqs ) {
+            CHECK( req.second == auto_build_reqs.raw_reqs[req.first] );
+        }
+    }
+    WHEN( "ter_t_wall_wood" ) {
+        std::pair<std::map<ter_id, int>, std::map<furn_id, int>> changed_ids = { { {ter_t_wall_wood.id(), 1}}, {} };
+        auto auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
+        total_reqs.time = 0;
+        total_reqs.raw_reqs.clear();
+
+        add_build( construction_constr_wall_wood );
+        add_build( construction_constr_wall_half );
+        CHECK( total_reqs.time == auto_build_reqs.time );
+        for( const auto &req : total_reqs.raw_reqs ) {
+            CHECK( req.second == auto_build_reqs.raw_reqs[req.first] );
+        }
+    }
+
+}
