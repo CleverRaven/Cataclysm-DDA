@@ -620,7 +620,7 @@
       [ "woven_anklet", 1 ],
       { "group": "tinware", "prob": 10 },
       { "group": "costume_all_clothing", "prob": 10 },
-      [ "cheongsam", 10 ]
+      [ "cheongsam", 5 ]
     ]
   },
   {

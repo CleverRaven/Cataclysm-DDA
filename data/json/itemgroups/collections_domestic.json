@@ -1027,6 +1027,7 @@
       { "item": "vibrator", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "tux", "prob": 1 },
       { "item": "dress", "variant": "gown", "prob": 1 },
+      { "item": "cheongsam", "prob": 1 },
       { "item": "long_glove_white", "prob": 1 },
       { "item": "veil_wedding", "prob": 1 },
       { "item": "dress_wedding", "prob": 1 },

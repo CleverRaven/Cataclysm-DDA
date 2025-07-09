@@ -161,7 +161,8 @@
       { "item": "kimono", "prob": 5 },
       { "item": "yukata", "prob": 5 },
       { "item": "dress", "variant": "gown", "prob": 5 },
-      { "item": "dress_wedding", "prob": 5 }
+      { "item": "dress_wedding", "prob": 5 },
+      { "item": "cheongsam", "prob": 10 }
     ]
   },
   {
