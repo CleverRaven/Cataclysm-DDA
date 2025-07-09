@@ -520,5 +520,49 @@
         { "point": "terrain", "id": "t_door_metal_c", "x": 9, "y": 10 }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_shuttlepad_salvors_old_pad",
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "                        ",
+        "          ...           ",
+        "   ...    ... ......    ",
+        "  .  ...........  ...   ",
+        "  .  ..     .     ....  ",
+        "  .....     .  . .. ..  ",
+        "   ...      ... .. .    ",
+        "   .            .. .    ",
+        "  ..        ...  ... .  ",
+        "  .   .     .      . .  ",
+        "  .  ..   .        ...  ",
+        "  ...     ..     ....   ",
+        "  .       ....   .. ..  ",
+        "  . ...    ..        .  ",
+        "  ..   .    .       ..  ",
+        "  .         ..      .   ",
+        "  . .               .   ",
+        "  . ... ...  .   ... .  ",
+        "   .. .    ...  .....   ",
+        "  .. ...     ... ...    ",
+        "   ..     ...      ..   ",
+        "   . ..... .. .   ..    ",
+        "          ...           ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "R": "t_bay_rap_up",
+        "+": "t_afs_space_ship_hatch_c",
+        "|": "t_afs_gun_ship_hull_wall",
+        ".": "t_metal_floor",
+        ",": "t_dirt",
+        "<": "t_ship_stairs_up",
+        "#": "t_dirtmound"
+      },
+      "furniture": { "9": "f_landing_skid", "3": "f_landing_hydraulic" }
+    }
   }
 ]

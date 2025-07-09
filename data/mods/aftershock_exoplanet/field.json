@@ -53,6 +53,39 @@
     "display_field": false
   },
   {
+    "id": "fd_deco_mist",
+    "type": "field_type",
+    "looks_like": "fd_fog",
+    "intensity_levels": [
+      { "name": "mist", "sym": "~", "dangerous": false, "transparent": false, "translucency": 5 },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
+    "percent_spread": 30,
+    "priority": 2,
+    "display_items": false,
+    "accelerated_decay": true,
+    "display_field": true,
+    "half_life": "5 seconds",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_deco_mist_e",
+    "type": "field_type",
+    "looks_like": "fd_fog",
+    "intensity_levels": [ { "name": "mist", "sym": "~", "dangerous": false, "transparent": false, "translucency": 5 } ],
+    "wandering_field": "fd_deco_mist",
+    "percent_spread": 30,
+    "priority": 2,
+    "display_items": false,
+    "accelerated_decay": true,
+    "display_field": true,
+    "half_life": "5 seconds",
+    "phase": "gas"
+  },
+  {
     "id": "fd_hot_airAC",
     "type": "field_type",
     "intensity_levels": [ { "name": "air conditioner", "sym": "&", "convection_temperature_mod": 115 } ],
