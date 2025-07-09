@@ -60,14 +60,14 @@ static const itype_id itype_test_multitool( "test_multitool" );
 static const itype_id itype_wearable_atomic_light( "wearable_atomic_light" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_metal_grate_window( "t_metal_grate_window" );
 static const ter_str_id ter_t_railroad_rubble( "t_railroad_rubble" );
+static const ter_str_id ter_t_thconc_floor( "t_thconc_floor" );
+static const ter_str_id ter_t_wall_wood( "t_wall_wood" );
 static const ter_str_id ter_t_window_boarded_noglass( "t_window_boarded_noglass" );
 static const ter_str_id ter_t_window_empty( "t_window_empty" );
-static const ter_str_id ter_t_thconc_floor( "t_thconc_floor" );
-static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
-static const ter_str_id ter_t_wall_wood( "t_wall_wood" );
 
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
