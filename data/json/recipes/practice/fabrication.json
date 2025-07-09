@@ -102,5 +102,240 @@
     "using": [ [ "welding_standard", 60 ] ],
     "autolearn": [ [ "fabrication", 6 ] ],
     "book_learn": [ [ "welding_book", 4 ] ]
+  },
+  {
+    "id": "prac_redsmithing",
+    "type": "practice",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "redsmithing (beginner)",
+    "description": "Practice the basics of redsmithing by working copper into some simple forms and designs.",
+    "skill_used": "fabrication",
+    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 3 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
+      { "proficiency": "prof_redsmithing", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "components": [ [ [ "copper_scrap_equivalent", 10, "LIST" ] ] ],
+    "byproducts": [ [ "scrap_copper", 2 ], [ "copper", 150 ] ],
+    "autolearn": [ [ "fabrication", 4 ] ],
+    "book_learn": [
+      [ "bronze_book", 1 ],
+      [ "bronze_mag", 2 ],
+      [ "alloy_book", 2 ],
+      [ "textbook_armwest", 3 ],
+      [ "textbook_weapwest", 3 ],
+      [ "textbook_armschina", 3 ]
+    ]
+  },
+  {
+    "id": "prac_redsmithing_adv",
+    "type": "practice",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "redsmithing (advanced)",
+    "description": "Practice the more advanced techniques of redsmithing by working bronze into different and complex forms and designs.",
+    "skill_used": "fabrication",
+    "practice_data": { "min_difficulty": 4, "max_difficulty": 5, "skill_limit": 5 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": true },
+      { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_redsmithing_adv", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "tools": [ [ [ "casting_mold", -1 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
+    "components": [ [ [ "scrap_bronze", 16 ] ] ],
+    "byproducts": [ [ "scrap_bronze", 8 ] ],
+    "using": [ [ "forging_standard", 9 ], [ "bronzesmithing_tools", 1 ] ],
+    "autolearn": [ [ "fabrication", 6 ] ],
+    "book_learn": [
+      [ "bronze_book", 3 ],
+      [ "bronze_mag", 4 ],
+      [ "alloy_book", 4 ],
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weapwest", 5 ],
+      [ "textbook_armschina", 5 ]
+    ]
+  },
+  {
+    "id": "prac_blacksmithing",
+    "type": "practice",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "blacksmithing",
+    "description": "Practice working metal into some simple but useful forms and designs.",
+    "skill_used": "fabrication",
+    "practice_data": { "min_difficulty": 3, "max_difficulty": 4, "skill_limit": 4 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
+      { "proficiency": "prof_blacksmithing", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "byproducts": [ [ "scrap", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 11 ], [ "steel_standard", 5 ] ],
+    "autolearn": [ [ "fabrication", 5 ] ],
+    "book_learn": [
+      [ "textbook_fabrication", 3 ],
+      [ "reference_fabrication1", 3 ],
+      [ "alloy_book", 3 ],
+      [ "welding_book", 3 ],
+      [ "textbook_weapeast", 4 ],
+      [ "textbook_armeast", 4 ],
+      [ "textbook_armwest", 4 ],
+      [ "textbook_weapwest", 4 ],
+      [ "textbook_weparabic", 4 ],
+      [ "textbook_armschina", 4 ]
+    ]
+  },
+  {
+    "id": "prac_armorsmithing",
+    "type": "practice",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "armorsmithing",
+    "description": "Practice working metal into the form of various armor pieces, and test their articulation with you using some cotton for padding along with the armor pieces.",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "tailor", 4 ] ],
+    "practice_data": { "min_difficulty": 4, "max_difficulty": 5, "skill_limit": 5 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": true },
+      { "proficiency": "prof_blacksmithing", "required": true },
+      { "proficiency": "prof_armorsmithing", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "sheet", -1 ] ] ],
+    "byproducts": [ [ "scrap", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 14 ], [ "steel_standard", 4 ] ],
+    "autolearn": [ [ "fabrication", 6 ], [ "tailor", 4 ] ],
+    "book_learn": [ [ "textbook_armeast", 4 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ]
+  },
+  {
+    "id": "prac_bladesmith",
+    "type": "practice",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "bladesmithing",
+    "description": "Practice working metal into the form of useful blades of all sizes and designs, grind them until you learn how much is too much.",
+    "skill_used": "fabrication",
+    "practice_data": { "min_difficulty": 4, "max_difficulty": 5, "skill_limit": 5 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": true },
+      { "proficiency": "prof_blacksmithing", "required": true },
+      { "proficiency": "prof_bladesmith", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ],
+    "byproducts": [ [ "scrap", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 17 ], [ "steel_standard", 5 ] ],
+    "autolearn": [ [ "fabrication", 6 ] ],
+    "book_learn": [
+      [ "textbook_weapeast", 4 ],
+      [ "textbook_weapwest", 4 ],
+      [ "textbook_weparabic", 4 ],
+      [ "textbook_fabrication", 5 ],
+      [ "reference_fabrication1", 5 ]
+    ]
+  },
+  {
+    "id": "prac_toolsmithing",
+    "type": "practice",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "manual tooling",
+    "description": "Practice working metal into the complex forms and designs of several tools like hammers and screwdrivers.",
+    "skill_used": "fabrication",
+    "practice_data": { "min_difficulty": 4, "max_difficulty": 5, "skill_limit": 5 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": true },
+      { "proficiency": "prof_blacksmithing", "required": true },
+      { "proficiency": "prof_toolsmithing", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "tools": [ [ [ "drift", -1 ] ] ],
+    "byproducts": [ [ "scrap", 7 ] ],
+    "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 7 ] ],
+    "autolearn": [ [ "fabrication", 6 ] ],
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "reference_fabrication1", 4 ] ]
+  },
+  {
+    "id": "prac_case_hardening",
+    "type": "practice",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "case hardening",
+    "description": "Practice heating steel packed in charcoal at different high temperatures and times, and then comparing the properties of the resulting hard case.",
+    "skill_used": "fabrication",
+    "practice_data": { "min_difficulty": 5, "max_difficulty": 6, "skill_limit": 6 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": true },
+      { "proficiency": "prof_blacksmithing", "time_multiplier": 1, "skill_penalty": 0 },
+      { "proficiency": "prof_case_hardening", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "forge", 100 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
+    "byproducts": [ [ "scrap", 2 ] ],
+    "using": [ [ "carbon", 10 ], [ "lc_steel_standard", 4 ] ],
+    "autolearn": [ [ "fabrication", 7 ] ],
+    "book_learn": [
+      [ "textbook_weapeast", 5 ],
+      [ "textbook_armeast", 5 ],
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weapwest", 5 ],
+      [ "textbook_weparabic", 5 ],
+      [ "textbook_armschina", 5 ],
+      [ "textbook_fabrication", 6 ],
+      [ "welding_book", 6 ]
+    ]
+  },
+  {
+    "id": "prac_quenching",
+    "type": "practice",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "quenching & tempering",
+    "description": "Practice heating chunks of steel and quickly cooling them down with water, and then, to reduce brittleness and restore ductility, heating them again to maximize its properties.",
+    "skill_used": "fabrication",
+    "practice_data": { "min_difficulty": 5, "max_difficulty": 6, "skill_limit": 6 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": true },
+      { "proficiency": "prof_blacksmithing", "time_multiplier": 1, "skill_penalty": 0 },
+      { "proficiency": "prof_quenching", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "tools": [
+      [ [ "forge", 100 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
+    "byproducts": [ [ "scrap", 2 ] ],
+    "using": [ [ "mc_steel_standard", 4 ] ],
+    "autolearn": [ [ "fabrication", 7 ] ],
+    "book_learn": [
+      [ "textbook_weapeast", 5 ],
+      [ "textbook_armeast", 5 ],
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weapwest", 5 ],
+      [ "textbook_weparabic", 5 ],
+      [ "textbook_armschina", 5 ],
+      [ "textbook_fabrication", 6 ],
+      [ "welding_book", 6 ]
+    ]
   }
 ]

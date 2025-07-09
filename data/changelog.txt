@@ -139,6 +139,14 @@ faction camp food supply can expire over time
 Roads cross streams at culverts
 Add Weight Modifying Enchantment
 Query to quick-reveal all nearby wires when revealing wall wires
+Generic tie-down/haul system for furniture on vehicles
+Descriptive recipe names
+Add vehicle enchantments and effects
+Toolmods are removable again, and any tool with screw driving quality can remove them
+Allow pushing/pulling furniture directly onto and off of vehicles that can load them
+NPCs can handle liquids from crafting
+Bashed furniture and terrain produce dust fields
+Highways, JSON portion
 
 
 ## Content:
@@ -316,6 +324,12 @@ Snippetize Tshirt variants
 Exodii Ceramics
 Opiate Vitamin
 Add arab and islamic clothes for women
+Adds a few other scavengeable options for anvils
+Adds an early playtest version of the exodii labyrinth dungeon, accessible by a chargen trait.
+Build sturdy wooden shutters for your windows
+Add a sunken helicopter location
+Nuclear Power Plant upgrade
+Add 3 new guns (308 Model 700, .22 Savage Rascal, .32 LWS)
 
 
 ## Interface:
@@ -829,6 +843,10 @@ Aftershock: More mundane tools are available in exoplanet
 [Magiclysm] Spellcasting always grants proficiency XP
 [MoM] Add Achievements
 [Crazy Cataclysm] Add the immortal snail as second nemesis
+Create a loading screen for Aftershock
+[Extra Mutation Scenarios] Add start only mutation glands that gradually permanently mutate you towards a selected category
+Magiclysm - Implement Enchanted Druid Items
+Aftershock: Create cryosuit UI elements and power warnings
 
 
 ## Balance:
@@ -927,6 +945,8 @@ Milspec searchlights don't explode, now drop broken version
 World sliders rebalanced to offer differing gameplay experiences
 Some recipes have 'hard' proficiency requirements
 Expanded spawns for some proper melee weapons
+Adjust Precise Strike melee tech so it also cant stun what other stun-causing techs cant stun.
+Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
 
 
 ## Bugfixes:
@@ -1290,6 +1310,8 @@ Attempt to increase average autotravel speed when driving on straight roads
 remove landmines from weird places
 Fix special attacks overwriting cooldown values to zero
 Scenario still had adult hobbies applied
+Fix drawing items under fields without tiles
+Limit the range of water channels
 
 
 ## Performance:
@@ -1321,6 +1343,8 @@ vision_transparency_cache isn't rebuilt if transparency_cache_dirty isn't set
 AIM cache filter function once
 Cache item info, reducing time of crafting filter `d:` to ~32%
 Speed up mapgen especially noticeable in Sky Islands
+don’t call std::pow for squaring numbers
+don’t compute the size of far away hordes when drawing the world map
 
 
 ## Infrastructure:
@@ -1457,6 +1481,7 @@ Zstandard compressed save data for disk space savings.
 bulk overmap testing debug tools
 Adds a vertical stack of omt scope for mapgen parameters
 Monsters can be forced to flee through an EoC
+Improve mod migration
 
 
 ## Build:

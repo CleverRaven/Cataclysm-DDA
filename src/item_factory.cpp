@@ -4641,6 +4641,15 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj,
         use_modifier = true;
     }
 
+    if( obj.has_object( "faults" ) ) {
+        JsonObject jo = obj.get_object( "faults" );
+        int chance = jo.get_int( "chance", 100 );
+        for( std::string ids : jo.get_array( "id" ) ) {
+            modifier.faults.emplace_back( fault_id( ids ), chance );
+        }
+        use_modifier = true;
+    }
+
     if( use_modifier ) {
         sptr->modifier.emplace( std::move( modifier ) );
     }

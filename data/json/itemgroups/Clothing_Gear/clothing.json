@@ -3822,7 +3822,7 @@
     "items": [
       { "item": "bondage_mask", "prob": 5 },
       { "item": "mask_dust", "prob": 15 },
-      { "item": "mask_guy_fawkes", "prob": 1 },
+      { "item": "mask_skull", "variant": "guy_fawkes", "prob": 1 },
       { "item": "mask_hockey", "prob": 10 },
       { "item": "mouthpiece", "prob": 5 },
       { "item": "mask_filter", "prob": 5, "charges": [ 0, 100 ] },

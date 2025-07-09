@@ -115,6 +115,10 @@
           ]
         },
         "mutations": [ "ARVORE_TRIFFID_NEUTRALITY" ]
+      },
+      {
+        "condition": { "and": [ "u_is_outside", "is_day", { "math": [ "global_what_is_the_season != 4" ] } ] },
+        "ench_effects": [ { "effect": "effect_arvore_is_day_in_the_sun_not_winter", "intensity": 1 } ]
       }
     ]
   },
