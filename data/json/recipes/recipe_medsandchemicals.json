@@ -397,7 +397,7 @@
       { "proficiency": "prof_inorganic_chemistry" },
       { "proficiency": "prof_intro_chem_synth" }
     ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 1 } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "components": [
       [
         [ "tobacco", 50 ],
