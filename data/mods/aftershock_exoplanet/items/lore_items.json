@@ -17,10 +17,16 @@
   {
     "type": "ITEM",
     "id": "afs_thi_deed",
-    "copy-from": "afs_personal_card",
+    "category": "books",
+    "symbol": ",",
     "name": { "str": "ancient spaceship deed" },
-    "snippet_category": [  ],
-    "description": "An ancient document from before the Discontinuity, detailing the purchase of the Vanishing Arc by your great-great-grandfather, signed and validated by a long nonexistent Earth polity.\n\nA simple legal curiosity of no real value, true ownership of this ship is guaranteed by the self-destruct mechanism you have programmed into its main reactor."
+    "description": "An ancient document from before the Discontinuity, detailing the purchase of the Vanishing Arc by your great-great-grandfather, signed and validated by a long nonexistent Earth polity.\n\nA simple legal curiosity of no real value, true ownership of this ship is guaranteed by the self-destruct mechanism you have programmed into its main reactor.",
+    "color": "red",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "weight": "3 g",
+    "volume": "5 ml"
   },
   {
     "id": "afs_old_ship_medal",
